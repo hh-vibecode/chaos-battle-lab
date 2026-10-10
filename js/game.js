@@ -5229,6 +5229,7 @@ function _wcDrawDrops(){
 const FR_MARK_HP=0.70;   // địch còn ≤70% máu → bị đánh dấu, Friend chuyển hẳn sang tắt đèn cắn
 const FR_CD=Math.round(2*60*GAME_SPEED*TIME_SCALE), FR_NIGHT_CD=Math.round(5*60*GAME_SPEED*TIME_SCALE), FR_DASH_T=18, FR_DASH_DMG=100, FR_SWALLOW_P=0.2;
 // ↑ lướt 2s/lần (chưa đánh dấu); đã đánh dấu thì chỉ tắt đèn cắn, 5s THẬT/lần (tính từ lúc bắt đầu lượt này tới lượt sau)
+const FR_BITE_HEAL=50, FR_BITE_CDR=Math.round(1*60*GAME_SPEED*TIME_SCALE), FR_NIGHT_MIN=Math.round(1*60*GAME_SPEED*TIME_SCALE);   // 🦷 mỗi cú cắn: +50 máu, lần cắn sau sớm hơn 1s (cộng dồn, sàn 1s)
 const FR_NIGHT_T=135, FR_NIGHT_DMG=200, FR_SWALLOW_T=18;   // bóng đêm 2.25s thật (135 frame)
 // 🕐 các pha của bóng đêm tính theo GIÂY THẬT rồi quy ra tỉ lệ p (0→1):
 //    0 → 0.15s tối dần · 0.15 → 0.75s Friend trườn tới sau lưng · 0.75 → 1.75s CHỒM NGOẠM (đúng 1s) · 1.75 → 2.25s lùi vào bóng tối
@@ -5440,6 +5441,9 @@ function _frSeqTick(){
     _frBiteSilent=true;
     try{ if(!q.target.dead) q.target.takeDamage(FR_NIGHT_DMG, q.owner); } finally { _frBiteSilent=false; }
     if(!q.target.dead) _frAddBite(q.target);   // 🦷 khoét 1 miếng vào thân (mép sau lưng)
+    { const o=q.owner, h0=o.hp; o.hp=Math.min(o.maxHp, o.hp+FR_BITE_HEAL); _matchStats[o.team].healed+=Math.max(0,o.hp-h0);   // 🦷 cắn xong hồi 50 máu
+      _healFloat(o.x,o.y,o.size,FR_BITE_HEAL,o);
+      o._frBites=(o._frBites||0)+1; o._frNightCD=Math.max(FR_NIGHT_MIN, FR_NIGHT_CD-o._frBites*FR_BITE_CDR); }   // ⏱️ mỗi cú cắn: lần sau sớm hơn 1s (5s→4s→3s… sàn 1s)
     addShake(14,18);
     // 🥚 ngoạm CHẾT địch (chỉ ở Solo 1vs1) → vào thẳng cảnh chân thân, bóng tối giữ nguyên không tan
     if(q.target.dead && !fanCtx && !tbBattleCtx && !rtBattleCtx && !ffa3Ctx && !duoCtx){
@@ -8173,7 +8177,7 @@ const CHAR_FACTS = {
   trollface:[ "Troll Face has never once chewed. Chewing would be polite.", "Everyone who has been inside Troll Face agrees: it is worse than it looks.", "It walks at the speed of a bad idea arriving slowly.", "Troll Face spits you out eventually. The wall does the rest." ],
   susdog:[ "Sus Dog has been voted out of every village it ever lived in. It keeps moving back.", "It sleeps like a baby every night. Coincidentally, that is exactly when people get eaten.", "Sus Dog and the werewolf have never been awake at the same time. Totally unrelated.", "The Doctor keeps saving Sus Dog. The Doctor is starting to have questions." ],
   berserkcat:[ "Berserk Cat's sword weighs more than Berserk Cat. Nobody has told it.", "It has never taken a nap. Naps are for cats who have not seen things.", "Every scratch only makes it angrier. The vet has stopped taking its appointments.", "The sword is called Dragon Slayer. The cat has never met a dragon. It is still waiting." ],
-  friend:[ "Friend is not your friend. Friend has never been anyone's friend.", "Friend eats bullets for breakfast. Also for lunch. Nobody has seen Friend eat anything else.", "When the lights go out, Friend is already there. Friend was always there.", "Friend says hi. Friend has not blinked since 2014." ],
+  friend:[ "Friend is not your friend. Friend has never been anyone's friend.", "Every bite makes Friend a little healthier and a lot hungrier. The next bite always comes sooner.", "When the lights go out, Friend is already there. Friend was always there.", "Friend says hi. Friend has not blinked since 2014." ],
   chonkydog:[ "Chonky Dog is not fat. Chonky Dog is structurally ambitious.", "Every four seconds Chonky Dog becomes a building. Every four seconds, the building falls down.", "Chonky Dog has flattened more opponents than it has ever chased.", "Chonky Dog's insurance company has a whole department just for it." ],
   arabiccat:[ "Arabic Cat rubs the lamp every 3 seconds. The genie has filed a complaint.", "The genie grants one wish per visit. Yours is not on the list.", "Being turned into a chicken is technically a wish. Just not yours.", "The lamp brings its own entrance music. The genie insists on it.", "Nobody has read the genie's contract. It lasts exactly 2 seconds." ],
   alottadameguy:[ "A Lotta Dame Guy once sawed a boat in half to prove a point. Nobody remembers the point.", "The chainsaw always needs exactly two pulls. He has rehearsed the first one failing.", "Every 250 damage he takes is technically a product demonstration.", "His gloves are yellow so the stains are easier to see.", "He did not bring the knife to fight. He brought it to open the chainsaw box.", "He fixes his own wounds with Flex Seal. The doctor says that is not a thing." ],
@@ -20076,10 +20080,6 @@ function loop(){
         //    nó còn chồng lên mục tiêu là gây dame lại 1 lần (đo thực tế: 1 phát laser Mechanic Cat trúng 8 khung
         //    liên tiếp = 8 lần dame + 8 số nổi rơi rớt thành vệt dài phía sau địch đang chạy). Mỗi mục tiêu 1 lần.
         if(p.sniper){ if(!p._hitSet) p._hitSet=new Set(); if(p._hitSet.has(f)) continue; p._hitSet.add(f); }
-        // 🐈‍⬛ FRIEND: 20% NUỐT viên đạn — đạn mất, Friend hồi đúng số dame viên đó lẽ ra gây ra
-        if(f.type==='friend' && !f.dead && !((f._frDashT||0)>0) && Math.random()<FR_SWALLOW_P){
-          _frSwallow(f, p.dmg); hit=true; break;
-        }
         // ⚔️ SAMURAI CHEEMS: 30% gạt bật đạn — đạn quay ngược về người bắn, đổi sang phe Cheems
         if(f.type==='samuraicheems' && !f.dead && !p._smReflected && _smRoll(f)){ f._smParryOpen=!((f._smParryT||0)>0); if(f._smParryOpen) f._smParryT=Math.round(SM_PARRY_S*_egTps()); _smReflect(f,p); _smRef=true; break; }
         // 💃 mũi tên Damdam Didi Cat bay chậm, có thể có 2+ mũi cùng bay lúc combo đang tăng — phải tính dame
