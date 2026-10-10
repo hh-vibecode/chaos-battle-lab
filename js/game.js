@@ -9869,6 +9869,225 @@ function _flowerSeqTick(){
     flowerZoom=0; flowerSpotlight=0; flowerSeqFC=null;
   }
 }
+// ═══════════════════ 📮 SUS CAT — VFX QUÂN TRIỆU HỒI (vẽ tay bằng code, thay cho ảnh PNG đứng im) ═══════════════════
+// Mỗi con Among Us được vẽ từ các khối: chân (bước luân phiên thật) → ba lô → thân (bóng đổ + ánh sáng) → kính.
+// Crew: kính xanh. Imposter: kính ĐỎ + quầng đỏ âm ỉ + vũ khí riêng (dao / súng / đèn bom nhấp nháy).
+// Imposter chui lên từ ỐNG THÔNG GIÓ (vent) và chui xuống lại khi xong việc; Crew xuất hiện kiểu "pop" rồi tan thành khói.
+// ⚠️ Chỉ là PHẦN VẼ — logic/dame/thời gian của skill giữ nguyên 100%.
+const SUS_LOOK={
+  crew_red:  {c:'#e0302a', d:'#8a1712'},
+  crew_blue: {c:'#2c5fe6', d:'#14308c'},
+  crew_green:{c:'#22a548', d:'#0e5e25'},
+  imp_melee: {c:'#9446c2', d:'#53216f', imp:1, w:'knife'},
+  imp_black: {c:'#40404c', d:'#17171d', imp:1, w:'bomb'},
+  imp_red:   {c:'#c8231e', d:'#6e0f0c', imp:1, w:'gun'},
+};
+let susFx=[];
+function _susFx(o){ susFx.push(Object.assign({t:0},o)); }
+// vẽ 1 con Among Us. (x,y)=tâm thân · h=chiều cao cả con · face=±1 · ph=nhịp bước · mv=đang đi (0..1)
+// o: {aim (góc world, cho súng), recoil, knife (0..1 vung dao), blink (đèn bom), sx, sy}
+function _susCrew(x,y,h,type,face,ph,mv,o){
+  const L=SUS_LOOK[type]||SUS_LOOK.crew_red, u=h/100; o=o||{};
+  const sw=Math.sin(ph)*mv, bob=-Math.abs(Math.sin(ph))*4*u*mv;
+  ctx.save(); ctx.translate(x,y+bob); ctx.scale(face*(o.sx||1),(o.sy||1));
+  ctx.rotate(Math.sin(ph)*0.06*mv);
+  const OL=Math.max(1.2,4.2*u); ctx.lineJoin='round'; ctx.lineCap='round'; ctx.strokeStyle='#0d0d12'; ctx.lineWidth=OL;
+  const RR=(x0,y0,w,hh,r)=>{ ctx.beginPath(); ctx.roundRect(x0,y0,w,hh,r); };
+  // 🦵 2 chân bước luân phiên: chân sau tối màu hơn
+  const leg=(lx,k,col)=>{ const lift=Math.max(0,k)*8*u, fw=k*7*u; RR(lx+fw-10*u, 6*u-lift*0.3, 20*u, 26*u-lift, [3*u,3*u,8*u,8*u]); ctx.fillStyle=col; ctx.fill(); ctx.stroke(); };
+  leg(-12*u, -sw, L.d);
+  // 🎒 ba lô
+  RR(-41*u,-30*u,19*u,38*u,8*u); ctx.fillStyle=L.d; ctx.fill(); ctx.stroke();
+  leg(12*u, sw, L.c);
+  // 🫘 thân
+  RR(-27*u,-50*u,54*u,66*u,[27*u,27*u,12*u,12*u]); ctx.fillStyle=L.c; ctx.fill();
+  ctx.save(); ctx.clip();
+  ctx.fillStyle=L.d; ctx.globalAlpha=0.85; ctx.beginPath(); ctx.ellipse(-20*u,16*u,30*u,24*u,0.3,0,Math.PI*2); ctx.fill();   // bóng lưng-dưới
+  ctx.globalAlpha=0.28; ctx.fillStyle='#fff'; ctx.beginPath(); ctx.ellipse(-8*u,-38*u,9*u,6*u,-0.5,0,Math.PI*2); ctx.fill();   // bóng sáng đỉnh đầu
+  ctx.restore();
+  RR(-27*u,-50*u,54*u,66*u,[27*u,27*u,12*u,12*u]); ctx.stroke();
+  // 🥽 kính
+  const vg=ctx.createLinearGradient(0,-36*u,0,-12*u);
+  if(L.imp){ vg.addColorStop(0,'#ffc2b8'); vg.addColorStop(0.45,'#e0443a'); vg.addColorStop(1,'#5c0b0b'); }
+  else { vg.addColorStop(0,'#e4fbff'); vg.addColorStop(0.45,'#8fd3ea'); vg.addColorStop(1,'#3a7d9c'); }
+  RR(-3*u,-36*u,37*u,21*u,10*u); ctx.fillStyle=vg; ctx.fill(); ctx.stroke();
+  RR(14*u,-32.5*u,14*u,5.5*u,2.7*u); ctx.fillStyle='rgba(255,255,255,0.9)'; ctx.fill();
+  if(L.imp){ ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.globalAlpha=0.35+0.25*Math.sin(performance.now()/160);
+    RR(-3*u,-36*u,37*u,21*u,10*u); ctx.fillStyle='#ff3b30'; ctx.fill(); ctx.restore(); }
+  // 🔪 dao
+  if(L.w==='knife'){ const k=o.knife||0; ctx.save(); ctx.translate(24*u,2*u); ctx.rotate(-0.9+k*1.5);
+    ctx.fillStyle='#4e342e'; RR(-3*u,-3*u,13*u,6*u,2*u); ctx.fill(); ctx.stroke();
+    ctx.fillStyle='#9e9e9e'; RR(9*u,-5*u,3*u,10*u,1*u); ctx.fill();
+    const bg=ctx.createLinearGradient(12*u,-4*u,12*u,4*u); bg.addColorStop(0,'#ffffff'); bg.addColorStop(1,'#9aa3ad');
+    ctx.fillStyle=bg; ctx.beginPath(); ctx.moveTo(12*u,-4*u); ctx.lineTo(40*u,-1*u); ctx.lineTo(12*u,4*u); ctx.closePath(); ctx.fill(); ctx.lineWidth=OL*0.6; ctx.stroke();
+    ctx.restore(); }
+  // 🚨 đèn bom trên đầu (imposter đen) — nhấp nháy nhanh dần khi lại gần mục tiêu
+  if(L.w==='bomb'){ ctx.save(); const on=o.blink?1:0.25;
+    RR(-8*u,-60*u,16*u,11*u,[8*u,8*u,2*u,2*u]); ctx.fillStyle=`rgba(255,${on>0.5?60:20},40,${0.6+0.4*on})`; ctx.fill(); ctx.stroke();
+    if(on>0.5){ ctx.globalCompositeOperation='lighter'; const gg=ctx.createRadialGradient(0,-55*u,0,0,-55*u,30*u); gg.addColorStop(0,'rgba(255,80,60,0.8)'); gg.addColorStop(1,'rgba(255,0,0,0)'); ctx.fillStyle=gg; ctx.beginPath(); ctx.arc(0,-55*u,30*u,0,Math.PI*2); ctx.fill(); }
+    ctx.restore(); }
+  ctx.restore();
+  // 🔫 súng (vẽ ở hệ world để ngắm đúng góc)
+  if(L.w==='gun' && o.aim!=null){ const hx=x+face*20*u, hy=y+bob-2*u;
+    ctx.save(); ctx.translate(hx,hy); ctx.rotate(o.aim); ctx.translate(-(o.recoil||0)*u,0); if(Math.cos(o.aim)<0) ctx.scale(1,-1);
+    ctx.strokeStyle='#0d0d12'; ctx.lineWidth=OL*0.7; ctx.lineJoin='round';
+    ctx.fillStyle='#2b2d33'; ctx.beginPath(); ctx.roundRect(2*u,9*u,9*u,-14*u,2*u); ctx.fill(); ctx.stroke();
+    ctx.fillStyle='#4a4e57'; ctx.beginPath(); ctx.roundRect(0,-6*u,32*u,10*u,2.5*u); ctx.fill(); ctx.stroke();
+    ctx.fillStyle='#8a909b'; ctx.fillRect(4*u,-5*u,22*u,2.5*u);
+    ctx.restore(); }
+}
+// điểm đầu nòng súng (world) — cho chớp lửa + vệt đạn
+function _susMuzzle(ss,aim){ const h=ss.size*2.2, u=h/100, face=Math.cos(aim)>=0?1:-1; return [ss.x+face*20*u+Math.cos(aim)*32*u, ss.y-2*u+Math.sin(aim)*32*u]; }
+// gọi lúc vừa triệu hồi
+function _susSpawnFx(ss){
+  const L=SUS_LOOK[ss.type], h=ss.size*2.2;
+  if(L && L.imp) _susFx({k:'vent', x:ss.x, y:ss.y+h*0.3, w:h*0.7, T:34});
+  else _susFx({k:'pop', x:ss.x, y:ss.y, r:h*0.55, c:(L||SUS_LOOK.crew_red).c, T:18});
+}
+// gọi ngay trước khi summon bị xoá khỏi mảng
+function _susDespawn(ss){
+  if(!ss || ss._gone) return; ss._gone=true;
+  const L=SUS_LOOK[ss.type]||SUS_LOOK.crew_red, h=ss.size*2.2;
+  if(ss._ventPushed) return;                                  // đã chui xuống vent từ trước
+  if(ss.type==='imp_black' && ss._done) return;               // đã nổ tung
+  if(L.imp) _susFx({k:'vent', x:ss.x, y:ss.y+h*0.3, w:h*0.7, T:30, who:{type:ss.type, h, face:ss._face||1}});   // imposter chui xuống vent
+  else _susFx({k:'poof', x:ss.x, y:ss.y, r:h*0.5, c:L.c, T:26, b:Array.from({length:8},()=>[Math.random()*Math.PI*2, 0.3+Math.random()*0.7, 0.5+Math.random()*0.6])});
+}
+// vẽ 1 summon (thay cho drawImage PNG cũ)
+function _susDrawSummon(ss,tg){
+  const L=SUS_LOOK[ss.type]; if(!L) return;
+  const h=ss.size*2.2, u=h/100;
+  ss._spT=(ss._spT||0)+1; const sp=ss._spT;
+  const spd=Math.hypot(ss.vx||0,ss.vy||0), mv=Math.min(1,spd/1.5);
+  ss._ph=(ss._ph||0)+0.12+0.1*spd;
+  const face=tg ? (tg.x>=ss.x?1:-1) : ((ss.vx||0)>=0?1:-1); ss._face=face;
+  // imposter đỏ bắn xong → đứng 8 frame rồi chui xuống vent (life còn 30 lúc bắn viên cuối)
+  if(ss.type==='imp_red' && ss._fired && ss.life<=22){
+    if(!ss._ventPushed){ ss._ventPushed=true; _susFx({k:'vent', x:ss.x, y:ss.y+h*0.3, w:h*0.7, T:30, who:{type:ss.type, h, face}}); }
+    return; }
+  let sc=1, dy=0;
+  if(sp<16){ const k=sp/16; sc=k<0.7 ? 0.35+k/0.7*0.8 : 1.15-(k-0.7)/0.3*0.15; if(L.imp) dy=-Math.sin(Math.PI*k)*h*0.4; }   // bật ra khỏi vent / pop
+  const a=Math.min(1,ss.life/12);
+  ctx.save(); ctx.globalAlpha=a;
+  // bóng đổ
+  ctx.fillStyle='rgba(0,0,0,0.22)'; ctx.beginPath(); ctx.ellipse(ss.x,ss.y+h*0.31,h*0.28*sc,h*0.07*sc,0,0,Math.PI*2); ctx.fill();
+  // quầng đỏ âm ỉ của imposter
+  if(L.imp){ ctx.save(); ctx.globalCompositeOperation='lighter'; const R=h*0.75, g=ctx.createRadialGradient(ss.x,ss.y,h*0.15,ss.x,ss.y,R);
+    g.addColorStop(0,`rgba(255,40,30,${0.16+0.08*Math.sin(performance.now()/200+ss.x)})`); g.addColorStop(1,'rgba(255,0,0,0)'); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(ss.x,ss.y,R,0,Math.PI*2); ctx.fill(); ctx.restore(); }
+  const o={};
+  if(ss.type==='imp_red' && tg){ o.aim=Math.atan2(tg.y-ss.y,tg.x-ss.x); o.recoil=ss._recoil||0; ss._recoil=Math.max(0,(ss._recoil||0)-1.2);
+    if(ss._inRange && !ss._fired){   // 🎯 tia ngắm laser trong lúc khựng lại ngắm
+      const [mx,my]=_susMuzzle(ss,o.aim), k=Math.min(1,(ss._waitTimer||0)/20), fl=ss._waitDone?1:(0.55+0.45*Math.sin(performance.now()/40));
+      ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.strokeStyle=`rgba(255,40,40,${0.55*k*fl})`; ctx.lineWidth=1.6; ctx.setLineDash([6,4]); ctx.lineDashOffset=-performance.now()/30;
+      ctx.beginPath(); ctx.moveTo(mx,my); ctx.lineTo(mx+(tg.x-mx)*k,my+(tg.y-my)*k); ctx.stroke(); ctx.setLineDash([]);
+      ctx.strokeStyle=`rgba(255,60,60,${0.8*k*fl})`; ctx.lineWidth=1.4; const cr=tg.size*0.55*(1.4-0.4*k);   // vòng tâm ngắm trên mục tiêu
+      ctx.beginPath(); ctx.arc(tg.x,tg.y,cr,0,Math.PI*2); ctx.stroke();
+      for(let q=0;q<4;q++){ const aa=q*Math.PI/2; ctx.beginPath(); ctx.moveTo(tg.x+Math.cos(aa)*cr*0.6,tg.y+Math.sin(aa)*cr*0.6); ctx.lineTo(tg.x+Math.cos(aa)*cr*1.3,tg.y+Math.sin(aa)*cr*1.3); ctx.stroke(); }
+      ctx.restore(); } }
+  if(ss.type==='imp_melee' && tg){ const d=Math.hypot(tg.x-ss.x,tg.y-ss.y); o.knife=Math.max(0,Math.min(1,1-(d-(ss.size+tg.size))/70)); }
+  if(ss.type==='imp_black' && tg){ const d=Math.hypot(tg.x-ss.x,tg.y-ss.y), per=Math.max(4,Math.min(30,d/10)); o.blink=Math.floor(sp/per)%2===0;
+    if(o.blink && Math.random()<0.4) spawnParticles(ss.x,ss.y-h*0.55,'#ffab40',1,true,false); }
+  _susCrew(ss.x, ss.y+dy, h*sc, ss.type, face, ss._ph, mv, o);
+  ctx.restore();
+}
+// 💥 hiệu ứng phụ: vent, pop, khói, chớp nòng, vệt đạn, nhát dao, vụ nổ, cú đấm crew
+function _susFxDraw(layer){
+  for(let i=susFx.length-1;i>=0;i--){ const f=susFx[i];
+    const under=(f.k==='vent'||f.k==='poofU');
+    if((layer==='under')!==under) continue;
+    f.t++; if(f.t>f.T){ susFx.splice(i,1); continue; }
+    const t=f.t, p=t/f.T;
+    ctx.save();
+    if(f.k==='vent'){
+      const w=f.w, hh=w*0.42, open=Math.min(1,t/5)*Math.min(1,(f.T-t)/6);
+      if(t===2) spawnParticles(f.x,f.y,'#9e9e9e',6,false,false);
+      // lỗ + viền kim loại
+      ctx.fillStyle='#0c0d10'; ctx.strokeStyle='#5d6470'; ctx.lineWidth=Math.max(1.5,w*0.06);
+      ctx.beginPath(); ctx.roundRect(f.x-w/2,f.y-hh/2,w,hh,hh*0.25); ctx.fill(); ctx.stroke();
+      // con imposter chui xuống (clip phía trên miệng vent)
+      if(f.who && t>=3){ const k=Math.min(1,(t-3)/16), H2=f.who.h;
+        ctx.save(); ctx.beginPath(); ctx.rect(f.x-H2,f.y-H2*2,H2*2,H2*2); ctx.clip();
+        _susCrew(f.x, f.y-H2*0.3+k*H2*1.0, H2, f.who.type, f.who.face, 0, 0, {});
+        ctx.restore(); }
+      // nắp vent: đóng = nằm đè lên lỗ · mở = dựng đứng phía trên mép sau
+      const lh=hh*(1-open)+hh*0.55*open, ly=f.y-hh/2-hh*0.55*open;
+      const lg=ctx.createLinearGradient(0,ly,0,ly+lh); lg.addColorStop(0,'#aeb4bf'); lg.addColorStop(1,'#6e7581');
+      ctx.fillStyle=lg; ctx.strokeStyle='#30343b'; ctx.lineWidth=Math.max(1.2,w*0.045);
+      if(open<0.98){ ctx.beginPath(); ctx.roundRect(f.x-w/2,ly,w,Math.max(2,lh),hh*0.2); ctx.fill(); ctx.stroke();
+        ctx.strokeStyle='rgba(30,33,40,0.85)'; ctx.lineWidth=Math.max(1,w*0.03);
+        for(let s=1;s<5;s++){ const yy=ly+lh*s/5; ctx.beginPath(); ctx.moveTo(f.x-w*0.4,yy); ctx.lineTo(f.x+w*0.4,yy); ctx.stroke(); } }
+    } else if(f.k==='pop'){
+      const e=1-Math.pow(1-p,3);
+      ctx.globalCompositeOperation='lighter';
+      ctx.globalAlpha=Math.max(0,1-p*1.6); ctx.fillStyle='#ffffff'; ctx.beginPath(); ctx.arc(f.x,f.y,f.r*0.6*e,0,Math.PI*2); ctx.fill();
+      ctx.globalAlpha=1-p; ctx.strokeStyle=f.c; ctx.lineWidth=4*(1-p)+1; ctx.beginPath(); ctx.arc(f.x,f.y,f.r*(0.4+e*0.9),0,Math.PI*2); ctx.stroke();
+      ctx.fillStyle='#fff'; for(let s=0;s<6;s++){ const a=s*1.047+0.3, d=f.r*(0.5+e*0.9); _arStar(f.x+Math.cos(a)*d,f.y+Math.sin(a)*d,3*(1-p)+1,'rgba(255,255,255,0.95)'); }
+    } else if(f.k==='poof'){
+      for(const [a,s,r] of f.b){ const d=f.r*(0.2+p*0.9)*s, rr=f.r*r*(0.4+p*0.7);
+        ctx.globalAlpha=(1-p)*0.85; ctx.fillStyle=p<0.25?f.c:'#cfd3da'; ctx.beginPath(); ctx.arc(f.x+Math.cos(a)*d,f.y+Math.sin(a)*d-p*f.r*0.5,rr,0,Math.PI*2); ctx.fill(); }
+    } else if(f.k==='muzzle'){
+      ctx.globalCompositeOperation='lighter'; ctx.translate(f.x,f.y); ctx.rotate(f.a);
+      const s=f.s*(1-p*0.5); ctx.globalAlpha=1-p;
+      const g=ctx.createRadialGradient(0,0,0,0,0,s*1.6); g.addColorStop(0,'rgba(255,250,210,1)'); g.addColorStop(0.4,'rgba(255,170,40,0.8)'); g.addColorStop(1,'rgba(255,60,0,0)');
+      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(0,0,s*1.6,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle='#fff6c8'; ctx.beginPath(); ctx.moveTo(0,-s*0.35); ctx.lineTo(s*2.4,0); ctx.lineTo(0,s*0.35); ctx.closePath(); ctx.fill();
+      ctx.beginPath(); ctx.moveTo(s*0.2,0); ctx.lineTo(s*1.1,-s*0.9); ctx.lineTo(s*0.6,0); ctx.lineTo(s*1.1,s*0.9); ctx.closePath(); ctx.fill();
+    } else if(f.k==='tracer'){
+      const P=f.p; if(!projectiles.includes(P)){ f.t=f.T+1; ctx.restore(); continue; }
+      ctx.globalCompositeOperation='lighter'; const L=4.5, x0=P.x-P.vx*L, y0=P.y-P.vy*L;
+      const g=ctx.createLinearGradient(x0,y0,P.x,P.y); g.addColorStop(0,'rgba(255,40,30,0)'); g.addColorStop(1,'rgba(255,90,60,0.95)');
+      ctx.strokeStyle=g; ctx.lineCap='round'; ctx.lineWidth=7; ctx.beginPath(); ctx.moveTo(x0,y0); ctx.lineTo(P.x,P.y); ctx.stroke();
+      ctx.strokeStyle='rgba(255,240,220,0.95)'; ctx.lineWidth=2.4; ctx.beginPath(); ctx.moveTo(P.x-P.vx*1.6,P.y-P.vy*1.6); ctx.lineTo(P.x,P.y); ctx.stroke();
+    } else if(f.k==='slash'){
+      // 🔪 nhát dao Among Us: 2 vệt chém hình lưỡi liềm quét qua + máu bắn + vòng đỏ loé
+      ctx.translate(f.x,f.y);
+      const sw=Math.min(1,t/6);
+      for(const [off,rot,sc] of [[0,0,1],[1,Math.PI*0.55,0.8]]){ const q=Math.max(0,Math.min(1,(t-off*3)/6)); if(q<=0) continue;
+        const fade=t<10?1:Math.max(0,1-(t-10)/(f.T-10));
+        ctx.save(); ctx.rotate(f.a+rot-0.8); const R=f.s*sc;
+        const a0=-1.25, a1=a0+2.5*q;
+        ctx.globalAlpha=fade; ctx.globalCompositeOperation='lighter';
+        ctx.strokeStyle='rgba(255,40,40,0.75)'; ctx.lineWidth=R*0.16; ctx.lineCap='round'; ctx.beginPath(); ctx.arc(0,0,R,a0,a1); ctx.stroke();
+        ctx.strokeStyle='rgba(255,235,235,0.98)'; ctx.lineWidth=R*0.055; ctx.beginPath(); ctx.arc(0,0,R,a0+0.1,a1); ctx.stroke();
+        ctx.restore(); }
+      if(t<8){ ctx.globalCompositeOperation='lighter'; ctx.globalAlpha=1-t/8; ctx.strokeStyle='#ff2a2a'; ctx.lineWidth=3; ctx.beginPath(); ctx.arc(0,0,f.s*(0.5+t/8*0.9),0,Math.PI*2); ctx.stroke(); }
+      ctx.globalCompositeOperation='source-over'; ctx.globalAlpha=1;
+      for(const d of f.b){ d[0]+=d[2]; d[1]+=d[3]; d[3]+=0.35; d[2]*=0.97;
+        if(t<f.T-4){ ctx.fillStyle=d[5]; ctx.beginPath(); ctx.ellipse(d[0],d[1],d[4]*1.3,d[4]*0.9,Math.atan2(d[3],d[2]),0,Math.PI*2); ctx.fill(); } }
+    } else if(f.k==='boom'){
+      // 💥 imposter đen tự nổ: chớp trắng → cầu lửa nhiều lớp → vòng sóng xung kích → tia lửa → khói đen bốc lên
+      const R=f.R, e=1-Math.pow(1-Math.min(1,t/14),3);
+      if(t<5){ ctx.globalCompositeOperation='lighter'; ctx.globalAlpha=1-t/5; ctx.fillStyle='#fffbe6'; ctx.beginPath(); ctx.arc(f.x,f.y,R*(0.6+t*0.15),0,Math.PI*2); ctx.fill(); ctx.globalAlpha=1; }
+      ctx.globalCompositeOperation='source-over';
+      for(const s of f.sm){ const st=Math.max(0,t-8), k=st/(f.T-8); if(st<=0) continue;   // khói (dưới lửa)
+        ctx.globalAlpha=Math.max(0,0.75*(1-k)); ctx.fillStyle=s[3]; ctx.beginPath(); ctx.arc(f.x+Math.cos(s[0])*R*s[1]*(0.5+k*0.8), f.y+Math.sin(s[0])*R*s[1]*(0.5+k*0.8)-k*R*0.9, R*s[2]*(0.5+k*0.9),0,Math.PI*2); ctx.fill(); }
+      ctx.globalAlpha=1;
+      const fk=Math.max(0,1-Math.max(0,t-10)/(f.T*0.55));
+      if(fk>0){ ctx.globalCompositeOperation='lighter';
+        for(const b of f.fb){ const rr=R*b[2]*(0.35+e*0.75), bx=f.x+Math.cos(b[0])*R*b[1]*e, by=f.y+Math.sin(b[0])*R*b[1]*e-Math.max(0,t-8)*0.6;
+          const g=ctx.createRadialGradient(bx,by,0,bx,by,rr); g.addColorStop(0,`rgba(255,250,200,${fk})`); g.addColorStop(0.35,`rgba(255,190,50,${0.95*fk})`); g.addColorStop(0.7,`rgba(240,80,20,${0.7*fk})`); g.addColorStop(1,'rgba(120,20,0,0)');
+          ctx.fillStyle=g; ctx.beginPath(); ctx.arc(bx,by,rr,0,Math.PI*2); ctx.fill(); } }
+      if(t<22){ const k=t/22; ctx.globalCompositeOperation='lighter'; ctx.globalAlpha=1-k; ctx.strokeStyle='rgba(255,220,150,0.9)'; ctx.lineWidth=R*0.12*(1-k)+1;
+        ctx.beginPath(); ctx.ellipse(f.x,f.y,R*(0.3+k*1.5),R*(0.3+k*1.5)*0.82,0,0,Math.PI*2); ctx.stroke(); }
+      if(t<18){ ctx.globalCompositeOperation='lighter'; ctx.globalAlpha=1-t/18; ctx.strokeStyle='#ffd27a'; ctx.lineCap='round'; ctx.lineWidth=2;
+        for(const s of f.sp){ const d0=R*(0.2+t/18*s[1]*1.3), d1=d0+R*0.25; ctx.beginPath(); ctx.moveTo(f.x+Math.cos(s[0])*d0,f.y+Math.sin(s[0])*d0); ctx.lineTo(f.x+Math.cos(s[0])*d1,f.y+Math.sin(s[0])*d1); ctx.stroke(); } }
+    } else if(f.k==='pow'){
+      // 👊 crew đấm trúng: sao truyện tranh vàng-trắng + viền đen
+      const e=Math.min(1,t/4), s=f.s*(0.6+0.5*e)*(t>8?1-(t-8)/(f.T-8)*0.4:1); ctx.globalAlpha=t>8?Math.max(0,1-(t-8)/(f.T-8)):1;
+      ctx.translate(f.x,f.y); ctx.rotate(f.a);
+      ctx.beginPath(); for(let q=0;q<20;q++){ const rr=q%2?s*0.5:s*(0.95+0.1*((q*7)%3)); const aa=q/20*Math.PI*2; q?ctx.lineTo(Math.cos(aa)*rr,Math.sin(aa)*rr):ctx.moveTo(Math.cos(aa)*rr,Math.sin(aa)*rr); }
+      ctx.closePath(); ctx.fillStyle='#ffe14d'; ctx.fill(); ctx.lineWidth=2.5; ctx.strokeStyle='#1a1a1a'; ctx.stroke();
+      ctx.beginPath(); for(let q=0;q<16;q++){ const rr=q%2?s*0.25:s*0.5; const aa=q/16*Math.PI*2+0.2; q?ctx.lineTo(Math.cos(aa)*rr,Math.sin(aa)*rr):ctx.moveTo(Math.cos(aa)*rr,Math.sin(aa)*rr); }
+      ctx.closePath(); ctx.fillStyle='#ffffff'; ctx.fill();
+    }
+    ctx.restore(); } }
+function _susSlashFx(x,y,a,s){
+  _susFx({k:'slash', x, y, a, s, T:26, b:Array.from({length:16},()=>{ const aa=a+(Math.random()-0.5)*1.8, sp=2+Math.random()*5.5; return [x,y,Math.cos(aa)*sp,Math.sin(aa)*sp-2.5,1.4+Math.random()*2.6,Math.random()<0.5?'#c40d0d':'#8a0505']; })}); }
+function _susBoomFx(x,y,R){
+  _susFx({k:'boom', x, y, R, T:58,
+    fb:Array.from({length:11},(_,i)=>[i/11*Math.PI*2+Math.random()*0.5, i===0?0:0.25+Math.random()*0.45, 0.45+Math.random()*0.35]),
+    sm:Array.from({length:10},()=>[Math.random()*Math.PI*2, 0.3+Math.random()*0.6, 0.25+Math.random()*0.25, Math.random()<0.5?'#2b2b30':'#4a4a52']),
+    sp:Array.from({length:16},()=>[Math.random()*Math.PI*2, 0.6+Math.random()*0.8])}); }
 // ═══════════════════ 📮 SUS CAT — EMERGENCY MEETING + BỎ PHIẾU 50/50 ═══════════════════
 // Địch tụt xuống ≤200 máu → cắt ngang trận bằng 1 chuỗi hoạt cảnh GÓI GỌN TRONG SÀN (vẽ ở world space rồi clip
 // đúng khung sàn, y hệt con mắt địa ngục của Evil Larry — không tràn ra ngoài sàn):
@@ -9986,125 +10205,181 @@ function _susMemeSprite(f,x,y,size,rot,alpha){
   }
   ctx.restore();
 }
-function _susDrawMeeting(){
-  const _p=1-(susVoteT/SUS_MEET_T);
-  // ⚠️ KHÔNG có nền xanh lá: màu xanh trong ảnh gốc chỉ là PHÔNG XANH của tấm ảnh, không phải nội dung.
-  // Ở đây chỉ có VỆT SƠN ĐỎ quét ngang sàn — sàn đấu vẫn nhìn xuyên qua giữa các vệt.
-  // Quét: mở dần từ trái sang trong 0.16 đầu, thu về phía phải trong 0.16 cuối.
-  const _cover=Math.max(0,Math.min(1,Math.min(_p/0.16,(1-_p)/0.16)));
-  if(_cover<=0.002) return;
-  const _y0=0, _bh=H;
-  ctx.save();
-  ctx.beginPath(); ctx.rect(0,0,W*_cover,H); ctx.clip();
-  // 🖌️ NÉT SƠN ĐỎ QUẸT NGANG sàn: mỗi nét là 1 dải chạy từ mép trái sang mép phải, hơi chếch + cong nhẹ, bề dày
-  // phình ở giữa và THON NHỌN dần về 2 đầu — đúng kiểu quẹt cọ, không phải mảng tam giác to bè.
-  // ⚠️ nét phải TRÀN RỘNG hẳn ra ngoài 2 mép sàn: nếu chỉ vừa khít sàn thì 2 đầu thon-về-0 rơi đúng vào mép
-  // nhìn thấy được, cả nét hoá ra mảnh như vết xước. Tràn ra ngoài thì phần DÀY nhất nằm trọn trong sàn.
-  const _N=20, _x0=-W*0.38, _x1=W*1.38, _span=_x1-_x0;
-  for(const s of susVoteSlashes){
-    const _cy=(t)=>s.y*_bh+_y0+s.sk*_bh*(t-0.5)+Math.sin(t*Math.PI)*s.bow*_bh;   // đường tâm: chếch + cong
-    const _hh=(t)=>s.w*_bh*0.5*Math.pow(Math.sin(Math.PI*t),0.75);               // nửa bề dày, nhọn 2 đầu
-    ctx.fillStyle=s.dark?'#8e1b12':'#c42a1d';
-    ctx.beginPath();
-    for(let k=0;k<=_N;k++){ const t=k/_N, _xx=_x0+_span*t; const _yy=_cy(t)-_hh(t); if(k) ctx.lineTo(_xx,_yy); else ctx.moveTo(_xx,_yy); }
-    for(let k=_N;k>=0;k--){ const t=k/_N; ctx.lineTo(_x0+_span*t,_cy(t)+_hh(t)); }
-    ctx.closePath(); ctx.fill();
-  }
-  // dải hồng nhạt + mấy vạch trắng chạy ngang (vệt tốc độ) — nền cho chữ nổi lên trên sàn
-  ctx.fillStyle='rgba(247,190,186,0.92)'; ctx.fillRect(0,_y0+_bh*0.36,W,_bh*0.34);
-  ctx.fillStyle='rgba(255,255,255,0.9)';
-  for(let k=0;k<4;k++){ const _yy=_y0+_bh*(0.39+k*0.075); ctx.fillRect(W*(0.05+0.12*k),_yy,W*(0.5-0.08*k),Math.max(1.5,_bh*0.011)); }
-  // 📮 SUS CAT đập nút họp khẩn (thay con among us trong ảnh gốc): bàn xanh + nút đỏ + meme chồm lên trên
-  const _tw=W*0.30, _th=_bh*0.17, _tx=W/2, _ty=_y0+_bh*0.30;
-  ctx.save();
-  ctx.fillStyle='#4a6fa5'; ctx.strokeStyle='#2b4570'; ctx.lineWidth=Math.max(1.5,W*0.005);
-  ctx.beginPath(); ctx.moveTo(_tx-_tw/2,_ty+_th/2); ctx.lineTo(_tx-_tw*0.38,_ty-_th/2);
-  ctx.lineTo(_tx+_tw*0.38,_ty-_th/2); ctx.lineTo(_tx+_tw/2,_ty+_th/2); ctx.closePath(); ctx.fill(); ctx.stroke();
-  ctx.fillStyle='#e53935'; ctx.strokeStyle='#7f1d17';
-  ctx.beginPath(); ctx.ellipse(_tx,_ty-_th*0.06,_tw*0.17,_th*0.30,0,0,Math.PI*2); ctx.fill(); ctx.stroke();
-  // tia vàng loé lên từ nút lúc đập tay
-  ctx.strokeStyle='#ffd54f'; ctx.lineWidth=Math.max(1.5,W*0.006);
-  for(let k=0;k<6;k++){ const _a=-Math.PI/2+(k-2.5)*0.42; const _r0=_tw*0.19, _r1=_r0+_tw*0.12*(0.6+0.4*Math.sin(Date.now()/60+k));
-    ctx.beginPath(); ctx.moveTo(_tx+Math.cos(_a)*_r0,_ty-_th*0.06+Math.sin(_a)*_r0*0.7);
-    ctx.lineTo(_tx+Math.cos(_a)*_r1,_ty-_th*0.06+Math.sin(_a)*_r1*0.7); ctx.stroke(); }
-  ctx.restore();
-  const _pop=Math.min(1,_p/0.18);
-  _susMemeSprite(susVoteCat, _tx-_tw*0.10, _ty-_th*1.15, _bh*0.30*(0.8+0.2*_pop), -0.18+0.05*Math.sin(Date.now()/90), 1);
-  // chữ EMERGENCY / MEETING — nảy lên rồi đứng yên
-  const _sc=0.86+0.14*Math.min(1,_p/0.22);
-  const _cy=_y0+_bh*0.66;
-  const _px=_susFitPx('EMERGENCY',W*0.86,Math.round(H*0.13));
-  ctx.save(); ctx.translate(W/2,_cy); ctx.scale(_sc,_sc); ctx.rotate(-0.025);
-  _susText('EMERGENCY',0,-_px*0.55,_px,'#ffffff','#1a1a1a');
-  _susText('MEETING',0,_px*0.55,_px,'#ffffff','#1a1a1a');
-  ctx.restore();
-  ctx.restore();
-}
-function _susDrawStars(alpha){
-  ctx.fillStyle='#03030a'; ctx.globalAlpha=alpha; ctx.fillRect(0,0,W,H); ctx.globalAlpha=1;
-  const _now=Date.now();
+// ── 🌌 nền vũ trụ dùng chung cho vòng quay + cảnh đá ra ngoài: tinh vân + sao 3 lớp (scroll>0 = sao trôi ngang thành vệt) ──
+function _susSpace(alpha, scroll){
+  ctx.save(); ctx.globalAlpha=alpha;
+  const g=ctx.createLinearGradient(0,0,0,H); g.addColorStop(0,'#05040f'); g.addColorStop(1,'#0b0820'); ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+  ctx.globalCompositeOperation='lighter';
+  for(const [nx,ny,nr,c] of [[0.22,0.3,0.55,'90,40,160'],[0.82,0.72,0.5,'20,90,150'],[0.6,0.15,0.35,'150,30,90']]){
+    const ng=ctx.createRadialGradient(nx*W,ny*H,0,nx*W,ny*H,nr*W); ng.addColorStop(0,`rgba(${c},0.32)`); ng.addColorStop(1,`rgba(${c},0)`); ctx.fillStyle=ng; ctx.fillRect(0,0,W,H); }
+  const now=performance.now()/1000;
   for(const s of susVoteStars){
-    ctx.globalAlpha=alpha*(0.45+0.55*Math.abs(Math.sin(_now/700+s.ph)));
-    ctx.fillStyle='#ffffff';
-    ctx.beginPath(); ctx.arc(s.x*W,s.y*H,s.r,0,Math.PI*2); ctx.fill();
+    const sp=0.03+s.r*0.06, x=(((s.x-(scroll||0)*sp)%1)+1)%1*W, y=s.y*H, tw=0.45+0.55*Math.abs(Math.sin(now*1.4+s.ph));
+    ctx.globalAlpha=alpha*tw;
+    if(scroll>0){ const len=sp*W*0.09*(s.r/2); const sg=ctx.createLinearGradient(x,y,x+len,y); sg.addColorStop(0,'rgba(255,255,255,0.95)'); sg.addColorStop(1,'rgba(255,255,255,0)');
+      ctx.strokeStyle=sg; ctx.lineWidth=Math.max(0.8,s.r*0.7); ctx.lineCap='round'; ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x+len,y); ctx.stroke(); }
+    else { ctx.fillStyle=s.r>2.6?'#ffe9c4':'#ffffff'; ctx.beginPath(); ctx.arc(x,y,s.r*0.75,0,Math.PI*2); ctx.fill();
+      if(s.r>2.8){ _arStar(x,y,s.r*2.2*tw,'rgba(255,255,255,0.8)'); } }
   }
-  ctx.globalAlpha=1;
-}
-function _susDrawSpin(){
-  const _p=1-(susVoteT/SUS_SPIN_T);
-  _susDrawStars(Math.min(1,_p/0.1));
-  const _nm=_susVoteName();
-  const _q='IS '+_nm+' THE IMPOSTER?';
-  const _qpx=_susFitPx(_q,W*0.9,Math.round(H*0.062),'system-ui,Arial,sans-serif');
-  _susText(_q,W/2,H*0.14,_qpx,'#ffffff','#000','system-ui,Arial,sans-serif');
-  // vòng quay 2 nửa ĐỎ (YES) / XANH (NO) — kim cố định trên đỉnh, đĩa quay chậm dần dừng đúng ô đã chốt
-  const _cx=W/2, _cy=H*0.52, _r=Math.min(W,H)*0.23;
-  ctx.save(); ctx.translate(_cx,_cy); ctx.rotate(susVoteRot);
-  for(let h=0;h<2;h++){
-    ctx.beginPath(); ctx.moveTo(0,0); ctx.arc(0,0,_r,h*Math.PI,(h+1)*Math.PI); ctx.closePath();
-    ctx.fillStyle=h===0?'#e53935':'#1e88e5'; ctx.fill();
-    ctx.strokeStyle='rgba(0,0,0,0.55)'; ctx.lineWidth=Math.max(1.5,_r*0.035); ctx.stroke();
-    // chữ YES/NO đặt ĐÚNG GIỮA nửa của nó (góc tâm = h*π + π/2) và luôn ĐỨNG THẲNG (xoay ngược lại góc đĩa) —
-    // quay theo đĩa thì lúc dừng chữ nằm ngang đọc không ra.
-    const _la=h*Math.PI+Math.PI/2;
-    ctx.save();
-    ctx.translate(Math.cos(_la)*_r*0.55, Math.sin(_la)*_r*0.55); ctx.rotate(-susVoteRot);
-    _susText(h===0?'YES':'NO',0,0,Math.round(_r*0.32),'#ffffff','#00000088','system-ui,Arial,sans-serif');
-    ctx.restore();
-  }
+  ctx.restore(); }
+// chữ có viền + bóng đổ
+function _susTitle(txt,x,y,px,fill,stroke,fam,glow){
+  ctx.save(); if(glow){ ctx.shadowColor=glow; ctx.shadowBlur=px*0.5; }
+  _susText(txt,x,y,px,fill,stroke,fam); ctx.restore(); }
+function _susDrawMeeting(){
+  const p=1-(susVoteT/SUS_MEET_T), now=performance.now()/1000;
+  const cx=W/2, cy=H*0.40, diag=Math.hypot(W,H);
+  const inK=Math.min(1,p/0.12), inE=1-Math.pow(1-inK,3);
+  ctx.save();
+  ctx.beginPath(); ctx.arc(cx,cy,diag*inE+1,0,Math.PI*2); ctx.clip();   // mở ra thành vòng tròn từ chỗ nút họp
+  // 🔴 nền đỏ báo động + tia nắng xoay
+  const g=ctx.createRadialGradient(cx,cy,0,cx,cy,diag*0.62); g.addColorStop(0,'#ff6a45'); g.addColorStop(0.32,'#d8261c'); g.addColorStop(1,'#3d0404');
+  ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+  ctx.save(); ctx.translate(cx,cy); ctx.rotate(now*0.4); ctx.fillStyle='rgba(255,220,180,0.12)';
+  for(let k=0;k<16;k++){ const a=k*Math.PI*2/16; ctx.beginPath(); ctx.moveTo(0,0); ctx.arc(0,0,diag,a,a+Math.PI/16); ctx.closePath(); ctx.fill(); }
   ctx.restore();
-  ctx.strokeStyle='#ffffff'; ctx.lineWidth=Math.max(2,_r*0.06);
-  ctx.beginPath(); ctx.arc(_cx,_cy,_r,0,Math.PI*2); ctx.stroke();
-  ctx.fillStyle='#ffd54f'; ctx.strokeStyle='#000'; ctx.lineWidth=2;
-  ctx.beginPath(); ctx.moveTo(_cx,_cy-_r+_r*0.20); ctx.lineTo(_cx-_r*0.13,_cy-_r-_r*0.16); ctx.lineTo(_cx+_r*0.13,_cy-_r-_r*0.16);
-  ctx.closePath(); ctx.fill(); ctx.stroke();
-  // ảnh 2 bên: kẻ bị nghi (trái) và Sus Cat tố cáo (phải)
-  _susMemeSprite(susVoteTarget, W*0.16, H*0.52, Math.min(W,H)*0.17, 0, 0.95);
-  _susMemeSprite(susVoteCat,    W*0.84, H*0.52, Math.min(W,H)*0.17, 0, 0.95);
-  // đã dừng hẳn → nháy kết quả bên dưới
-  // chỉ nháy chữ khi TRÚNG ô YES; quay vào NO thì im lặng đóng lại, không hiện chữ nào
-  if(_p>0.86 && susVoteResult){
-    const _fl=(Math.floor(Date.now()/110)%2)===0;
-    const _rpx=_susFitPx('IMPOSTER!',W*0.86,Math.round(H*0.085));
-    _susText('IMPOSTER!',W/2,H*0.86,_rpx,_fl?'#ff5252':'#ffffff','#000');
-  }
+  // vệt tốc độ trắng chạy ngang
+  ctx.save(); ctx.globalCompositeOperation='lighter';
+  for(let k=0;k<14;k++){ const yy=((k*0.137+0.05)%1)*H, len=W*(0.12+((k*0.31)%1)*0.25), x=((now*(1.2+(k%4)*0.5)+k*0.27)%1.4-0.2)*W*1.2;
+    ctx.globalAlpha=0.18+0.12*((k*0.7)%1); ctx.fillStyle='#fff'; ctx.fillRect(W-x,yy,len,Math.max(1.2,H*0.006)); }
+  ctx.restore();
+  // 🚨 đèn quay báo động 2 góc trên
+  ctx.save(); ctx.globalCompositeOperation='lighter';
+  for(const [sx,dir] of [[W*0.06,1],[W*0.94,-1]]){ const a=Math.PI/2+Math.sin(now*5)*0.9*dir;
+    const bg=ctx.createRadialGradient(sx,0,0,sx,0,H*0.9); bg.addColorStop(0,'rgba(255,90,60,0.55)'); bg.addColorStop(1,'rgba(255,0,0,0)');
+    ctx.fillStyle=bg; ctx.beginPath(); ctx.moveTo(sx,0); ctx.arc(sx,0,H*0.9,a-0.22,a+0.22); ctx.closePath(); ctx.fill();
+    ctx.fillStyle='#ff3b2f'; ctx.beginPath(); ctx.arc(sx,0,W*0.035,0,Math.PI); ctx.fill(); }
+  ctx.restore();
+  // 🔘 bàn + nút họp khẩn trong vòm kính: bị đập xuống ở p≈0.06–0.13 → sóng xung kích
+  const tx=cx, ty=H*0.47, tw=W*0.34, press=(p>0.06&&p<0.14)?Math.sin((p-0.06)/0.08*Math.PI):0;
+  for(let k=0;k<3;k++){ const q=(p-0.1-k*0.07)/0.35; if(q<=0||q>=1) continue;
+    ctx.strokeStyle=`rgba(255,240,200,${0.7*(1-q)})`; ctx.lineWidth=W*0.012*(1-q)+1; ctx.beginPath(); ctx.ellipse(tx,ty,W*0.9*q,W*0.9*q*0.45,0,0,Math.PI*2); ctx.stroke(); }
+  ctx.save();
+  ctx.fillStyle='rgba(0,0,0,0.3)'; ctx.beginPath(); ctx.ellipse(tx,ty+H*0.075,tw*0.62,H*0.03,0,0,Math.PI*2); ctx.fill();
+  const tg=ctx.createLinearGradient(0,ty-H*0.04,0,ty+H*0.07); tg.addColorStop(0,'#8fa6c9'); tg.addColorStop(1,'#3d5274');
+  ctx.fillStyle=tg; ctx.strokeStyle='#1d2a40'; ctx.lineWidth=Math.max(1.5,W*0.006);
+  ctx.beginPath(); ctx.moveTo(tx-tw/2,ty+H*0.06); ctx.lineTo(tx-tw*0.36,ty-H*0.035); ctx.lineTo(tx+tw*0.36,ty-H*0.035); ctx.lineTo(tx+tw/2,ty+H*0.06); ctx.closePath(); ctx.fill(); ctx.stroke();
+  const by=ty-H*0.035, br=tw*0.17, bh=H*0.05*(1-press*0.55);
+  ctx.fillStyle='#7a1010'; ctx.beginPath(); ctx.ellipse(tx,by,br*1.05,br*0.32,0,0,Math.PI*2); ctx.fill();
+  const rg=ctx.createRadialGradient(tx-br*0.3,by-bh*0.7,1,tx,by-bh*0.3,br*1.1); rg.addColorStop(0,'#ff9a8a'); rg.addColorStop(0.4,'#e52b22'); rg.addColorStop(1,'#7a0c0c');
+  ctx.fillStyle=rg; ctx.beginPath(); ctx.ellipse(tx,by,br,bh,0,Math.PI,0); ctx.ellipse(tx,by,br,br*0.3,0,0,Math.PI); ctx.fill(); ctx.strokeStyle='#3a0505'; ctx.stroke();
+  ctx.fillStyle='rgba(200,230,255,0.18)'; ctx.strokeStyle='rgba(230,245,255,0.6)'; ctx.lineWidth=1.2;   // vòm kính
+  ctx.beginPath(); ctx.ellipse(tx,by,br*1.35,H*0.085,0,Math.PI,0); ctx.fill(); ctx.stroke();
+  ctx.restore();
+  // 😾 Sus Cat đập bàn: rơi từ trên xuống, rung + vạch hét toả ra
+  const drop=Math.min(1,p/0.07), mx=tx-tw*0.05, my=ty-H*0.2+(1-drop)*(-H*0.4)+(p>0.07?Math.sin(now*40)*H*0.004:0), ms=H*0.3;
+  if(p>0.07){ ctx.save(); ctx.strokeStyle='rgba(255,255,255,0.9)'; ctx.lineCap='round'; ctx.lineWidth=Math.max(2,W*0.008);
+    for(let k=0;k<9;k++){ if(((k+Math.floor(now*14))%3)===0) continue; const a=-Math.PI*0.95+k*Math.PI*0.95/8*1.0, r0=ms*0.6, r1=ms*(0.74+0.08*Math.sin(now*30+k));
+      ctx.beginPath(); ctx.moveTo(mx+Math.cos(a)*r0,my+Math.sin(a)*r0); ctx.lineTo(mx+Math.cos(a)*r1,my+Math.sin(a)*r1); ctx.stroke(); }
+    ctx.restore(); }
+  _susMemeSprite(susVoteCat, mx, my, ms, -0.12+0.06*Math.sin(now*22), 1);
+  // 📢 EMERGENCY / MEETING: đập xuống từ to → vừa, nảy nhẹ, lệch màu đỏ/xanh lúc vừa đập
+  const tq=Math.max(0,Math.min(1,(p-0.1)/0.1)), sc=tq<1 ? 2.6-1.75*(1-Math.pow(1-tq,3)) : 0.85+0.03*Math.sin(now*9), ta=tq>0?1:0;
+  if(ta){ const ty2=H*0.76, px=_susFitPx('EMERGENCY',W*0.88,Math.round(H*0.135));
+    ctx.save(); ctx.translate(W/2,ty2); ctx.scale(sc,sc); ctx.rotate(-0.035);
+    const ch=Math.max(0,1-(p-0.2)/0.15);
+    if(ch>0){ ctx.globalAlpha=0.7*ch; const o=px*0.08*ch;
+      _susText('EMERGENCY',-o,-px*0.55,px,'#00e5ff',null); _susText('MEETING',-o,px*0.55,px,'#00e5ff',null);
+      _susText('EMERGENCY',o,-px*0.55,px,'#ff1744',null); _susText('MEETING',o,px*0.55,px,'#ff1744',null); ctx.globalAlpha=1; }
+    ctx.shadowColor='rgba(0,0,0,0.6)'; ctx.shadowOffsetY=px*0.08; ctx.shadowBlur=0;
+    _susText('EMERGENCY',0,-px*0.55,px,'#ffffff','#2a0000');
+    _susText('MEETING',0,px*0.55,px,'#ffe14d','#2a0000');
+    ctx.restore(); }
+  // nháy đỏ báo động phủ toàn cảnh + chớp trắng lúc đập nút
+  ctx.fillStyle=`rgba(255,0,0,${0.10+0.10*Math.sin(now*14)})`; ctx.fillRect(0,0,W,H);
+  if(p>0.08 && p<0.16){ ctx.fillStyle=`rgba(255,255,255,${0.55*(1-(p-0.08)/0.08)})`; ctx.fillRect(0,0,W,H); }
+  // 🌑 cuối cảnh: sập tối dần sang vũ trụ của vòng quay
+  if(p>0.86){ ctx.fillStyle=`rgba(5,4,15,${(p-0.86)/0.14})`; ctx.fillRect(0,0,W,H); }
+  ctx.restore();
+}
+function _susDrawStars(alpha){ _susSpace(alpha,0); }
+function _susDrawSpin(){
+  const p=1-(susVoteT/SUS_SPIN_T), now=performance.now()/1000;
+  _susSpace(1,0);
+  const _q='IS '+_susVoteName()+' THE IMPOSTER?';
+  const _qpx=_susFitPx(_q,W*0.9,Math.round(H*0.062),'system-ui,Arial,sans-serif');
+  _susTitle(_q,W/2,H*0.13,_qpx,'#ffffff','#000','system-ui,Arial,sans-serif','rgba(255,80,80,0.8)');
+  const cx=W/2, cy=H*0.53, r=Math.min(W,H)*0.23;
+  // ✨ quầng sáng sau bánh xe
+  ctx.save(); ctx.globalCompositeOperation='lighter'; const hg=ctx.createRadialGradient(cx,cy,r*0.8,cx,cy,r*1.8); hg.addColorStop(0,'rgba(255,200,90,0.28)'); hg.addColorStop(1,'rgba(255,120,0,0)'); ctx.fillStyle=hg; ctx.beginPath(); ctx.arc(cx,cy,r*1.8,0,Math.PI*2); ctx.fill(); ctx.restore();
+  // vành kim loại vàng
+  ctx.save(); const rg=ctx.createLinearGradient(cx-r*1.2,cy-r*1.2,cx+r*1.2,cy+r*1.2); rg.addColorStop(0,'#fff4c2'); rg.addColorStop(0.35,'#e0a92a'); rg.addColorStop(0.7,'#8a5a06'); rg.addColorStop(1,'#f5d06a');
+  ctx.fillStyle=rg; ctx.beginPath(); ctx.arc(cx,cy,r*1.16,0,Math.PI*2); ctx.fill(); ctx.strokeStyle='#4a2f00'; ctx.lineWidth=2; ctx.stroke(); ctx.restore();
+  // đĩa quay: 2 nửa YES đỏ / NO xanh (hình học GIỮ NGUYÊN như cũ để dừng đúng ô)
+  ctx.save(); ctx.translate(cx,cy); ctx.rotate(susVoteRot);
+  for(let h=0;h<2;h++){
+    const sg=ctx.createRadialGradient(0,0,r*0.1,0,0,r);
+    if(h===0){ sg.addColorStop(0,'#ff7a6b'); sg.addColorStop(0.6,'#d32f2f'); sg.addColorStop(1,'#7f1010'); } else { sg.addColorStop(0,'#7cc4ff'); sg.addColorStop(0.6,'#1e6fd0'); sg.addColorStop(1,'#0b3578'); }
+    ctx.beginPath(); ctx.moveTo(0,0); ctx.arc(0,0,r,h*Math.PI,(h+1)*Math.PI); ctx.closePath(); ctx.fillStyle=sg; ctx.fill();
+    ctx.strokeStyle='rgba(255,255,255,0.12)'; ctx.lineWidth=1; for(let k=1;k<8;k++){ const a=h*Math.PI+k*Math.PI/8; ctx.beginPath(); ctx.moveTo(Math.cos(a)*r*0.25,Math.sin(a)*r*0.25); ctx.lineTo(Math.cos(a)*r,Math.sin(a)*r); ctx.stroke(); }
+    const la=h*Math.PI+Math.PI/2; ctx.save(); ctx.translate(Math.cos(la)*r*0.58,Math.sin(la)*r*0.58); ctx.rotate(-susVoteRot);
+    _susTitle(h===0?'YES':'NO',0,0,Math.round(r*0.3),'#ffffff','#00000099','system-ui,Arial,sans-serif','rgba(0,0,0,0.6)'); ctx.restore(); }
+  ctx.strokeStyle='#fff'; ctx.lineWidth=Math.max(2,r*0.03); ctx.beginPath(); ctx.moveTo(-r,0); ctx.lineTo(r,0); ctx.stroke();
+  // 16 bóng đèn chạy vòng trên vành (cũng là các chốt gõ kim)
+  for(let k=0;k<16;k++){ const a=k*Math.PI/8, on=((k+Math.floor(now*10))%2)===0, bx=Math.cos(a)*r*1.08, by=Math.sin(a)*r*1.08;
+    ctx.fillStyle=on?'#fffbe0':'#8a6a20'; ctx.beginPath(); ctx.arc(bx,by,r*0.045,0,Math.PI*2); ctx.fill();
+    if(on){ ctx.save(); ctx.globalCompositeOperation='lighter'; const lg=ctx.createRadialGradient(bx,by,0,bx,by,r*0.12); lg.addColorStop(0,'rgba(255,240,170,0.9)'); lg.addColorStop(1,'rgba(255,200,60,0)'); ctx.fillStyle=lg; ctx.beginPath(); ctx.arc(bx,by,r*0.12,0,Math.PI*2); ctx.fill(); ctx.restore(); } }
+  ctx.restore();
+  // bóng kính phủ (đứng yên, không quay theo đĩa)
+  ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.clip();
+  const gl=ctx.createLinearGradient(0,cy-r,0,cy); gl.addColorStop(0,'rgba(255,255,255,0.32)'); gl.addColorStop(1,'rgba(255,255,255,0)'); ctx.fillStyle=gl; ctx.beginPath(); ctx.ellipse(cx,cy-r*0.45,r*0.85,r*0.55,0,0,Math.PI*2); ctx.fill();
+  ctx.restore();
+  // trục giữa: đế kim loại + 1 con imposter tí hon
+  ctx.save(); const hb=ctx.createRadialGradient(cx-r*0.05,cy-r*0.05,1,cx,cy,r*0.22); hb.addColorStop(0,'#5a5f6b'); hb.addColorStop(1,'#15171c'); ctx.fillStyle=hb; ctx.beginPath(); ctx.arc(cx,cy,r*0.22,0,Math.PI*2); ctx.fill();
+  ctx.strokeStyle='#e0a92a'; ctx.lineWidth=Math.max(2,r*0.035); ctx.stroke(); ctx.restore();
+  _susCrew(cx,cy+r*0.02,r*0.33,'imp_red',1,now*6,0.6,{});
+  // 📍 kim chỉ: rung bật mỗi lần chốt (bóng đèn) quét qua
+  const seg=Math.PI/8, fr=((susVoteRot%seg)+seg)%seg/seg, flap=p<0.97?-0.45*Math.max(0,1-fr*3):0;
+  ctx.save(); ctx.translate(cx,cy-r*1.2); ctx.rotate(flap);
+  ctx.shadowColor='rgba(0,0,0,0.5)'; ctx.shadowBlur=6; ctx.shadowOffsetY=3;
+  const pg=ctx.createLinearGradient(-r*0.13,0,r*0.13,0); pg.addColorStop(0,'#fff1b0'); pg.addColorStop(0.5,'#f2b51c'); pg.addColorStop(1,'#9a6a00');
+  ctx.fillStyle=pg; ctx.strokeStyle='#3a2500'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(0,r*0.3); ctx.lineTo(-r*0.13,-r*0.02); ctx.arc(0,-r*0.02,r*0.13,Math.PI,0); ctx.closePath(); ctx.fill(); ctx.stroke();
+  ctx.shadowBlur=0; ctx.fillStyle='#ff3b30'; ctx.beginPath(); ctx.arc(0,-r*0.02,r*0.05,0,Math.PI*2); ctx.fill();
+  ctx.restore();
+  // 🪪 thẻ 2 bên: kẻ bị nghi (trái, viền đỏ) — Sus Cat tố cáo (phải, viền xanh)
+  const cw=Math.min(W,H)*0.22, chh=cw*1.32;
+  for(const [who,x,col,lab] of [[susVoteTarget,W*0.14,'#ff5252','SUSPECT'],[susVoteCat,W*0.86,'#40c4ff','ACCUSER']]){
+    ctx.save(); ctx.translate(x,cy); ctx.rotate(Math.sin(now*2+x)*0.03);
+    ctx.shadowColor=col; ctx.shadowBlur=14; ctx.fillStyle='rgba(20,22,40,0.9)'; ctx.strokeStyle=col; ctx.lineWidth=3;
+    ctx.beginPath(); ctx.roundRect(-cw/2,-chh/2,cw,chh,cw*0.12); ctx.fill(); ctx.stroke(); ctx.shadowBlur=0;
+    ctx.restore();
+    _susMemeSprite(who, x, cy-chh*0.08, cw*0.82, 0, 1);
+    _susText(lab, x, cy+chh*0.38, Math.round(cw*0.14), col, '#000', 'system-ui,Arial,sans-serif'); }
+  // 🟥 kết quả: chỉ khi TRÚNG ô YES
+  if(p>0.86 && susVoteResult){
+    const k=(p-0.86)/0.14;
+    ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.globalAlpha=Math.max(0,0.6-k*0.8); ctx.fillStyle='#ff1a1a'; ctx.fillRect(0,0,W,H); ctx.restore();
+    ctx.save(); ctx.translate(W/2,H*0.88); ctx.rotate(now*0.8); ctx.fillStyle='rgba(255,60,40,0.35)';
+    for(let q=0;q<12;q++){ const a=q*Math.PI/6; ctx.beginPath(); ctx.moveTo(0,0); ctx.arc(0,0,W*0.4,a,a+Math.PI/14); ctx.closePath(); ctx.fill(); }
+    ctx.restore();
+    const fl=(Math.floor(now*9)%2)===0, s=1+0.5*Math.max(0,1-k*4);
+    const rpx=_susFitPx('IMPOSTER!',W*0.86,Math.round(H*0.09));
+    ctx.save(); ctx.translate(W/2,H*0.88); ctx.scale(s,s);
+    _susTitle('IMPOSTER!',0,0,rpx,fl?'#ff5252':'#ffffff','#000',null,'#ff1744'); ctx.restore(); }
 }
 function _susDrawEject(){
-  const _p=1-(susVoteT/SUS_EJECT_T);
-  _susDrawStars(Math.min(1,_p/0.08));
-  // meme bị đáp: trôi lơ lửng từ giữa ra mép phải, vừa xoay vừa nhỏ dần
-  const _ex=W*(0.34+0.78*_p), _ey=H*(0.50+0.12*Math.sin(_p*3.1));
-  _susMemeSprite(susVoteTarget, _ex, _ey, Math.min(W,H)*0.21*(1-_p*0.42), _p*5.0, 1);
-  // chữ gõ từng ký tự (2 dòng, tính chung 1 chuỗi để nhịp gõ liền mạch)
-  const _lines=_susVoteLines();
-  let _left=susVoteTypedN;
-  const _px=_susFitPx(_lines[0],W*0.86,Math.round(H*0.058),'system-ui,Arial,sans-serif');
-  for(let i=0;i<_lines.length;i++){
-    const _n=Math.max(0,Math.min(_lines[i].length,_left));
-    _left-=_lines[i].length+1;
-    if(_n<=0) continue;
-    _susText(_lines[i].slice(0,_n),W/2,H*(0.30+i*0.10),_px,'#ffffff','#000','system-ui,Arial,sans-serif');
-  }
+  const p=1-(susVoteT/SUS_EJECT_T), tm=(SUS_EJECT_T-susVoteT)/60;
+  _susSpace(1, tm);   // sao trôi ngang thành vệt = đang bay vút trong không gian
+  // 🪐 hành tinh xa xa
+  ctx.save(); const px=W*(0.86-p*0.08), py=H*0.84, pr=Math.min(W,H)*0.16;
+  const pg=ctx.createRadialGradient(px-pr*0.4,py-pr*0.4,pr*0.1,px,py,pr); pg.addColorStop(0,'#7b6cff'); pg.addColorStop(0.6,'#3a2a8a'); pg.addColorStop(1,'#120a30');
+  ctx.fillStyle=pg; ctx.beginPath(); ctx.arc(px,py,pr,0,Math.PI*2); ctx.fill();
+  ctx.strokeStyle='rgba(180,170,255,0.45)'; ctx.lineWidth=pr*0.06; ctx.beginPath(); ctx.ellipse(px,py,pr*1.6,pr*0.35,-0.3,0,Math.PI*2); ctx.stroke();
+  ctx.restore();
+  // meme bị đáp: trôi từ trái sang phải, xoay lộn vòng, nhỏ dần + vệt bóng mờ phía sau
+  const ex=W*(-0.1+1.2*p), ey=H*(0.55+0.1*Math.sin(p*3.1)), es=Math.min(W,H)*0.22*(1-p*0.4);
+  for(let k=3;k>=1;k--) _susMemeSprite(susVoteTarget, ex-k*W*0.025, ey, es, (p-k*0.012)*7, 0.12*(4-k));
+  _susMemeSprite(susVoteTarget, ex, ey, es, p*7, 1);
+  // chữ gõ từng ký tự + con trỏ nhấp nháy
+  const lines=_susVoteLines(); let left=susVoteTypedN;
+  const fpx=_susFitPx(lines[0],W*0.86,Math.round(H*0.058),'system-ui,Arial,sans-serif');
+  let lastI=0, lastN=0;
+  for(let i=0;i<lines.length;i++){ const n=Math.max(0,Math.min(lines[i].length,left)); left-=lines[i].length+1;
+    if(n<=0) continue; lastI=i; lastN=n;
+    _susTitle(lines[i].slice(0,n),W/2,H*(0.28+i*0.1),fpx,'#ffffff','#000','system-ui,Arial,sans-serif','rgba(120,180,255,0.7)'); }
+  if(Math.floor(performance.now()/260)%2===0){ ctx.font='bold '+fpx+'px system-ui,Arial,sans-serif'; const full=lines[lastI], wN=ctx.measureText(full.slice(0,lastN)).width;
+    ctx.fillStyle='#ffffff'; ctx.fillRect(W/2+wN/2+2, H*(0.28+lastI*0.1)-fpx*0.45, Math.max(2,fpx*0.1), fpx*0.9); }
 }
 // vẽ ở WORLD SPACE nhưng clip đúng khung sàn → cả chuỗi gói gọn trong sàn đấu, không tràn ra ngoài
 function _susVoteDraw(){
@@ -12496,6 +12771,7 @@ class Fighter {
             x:_corners[0][0], y:_corners[0][1],
             vx:0,vy:0,life:(_st==='imp_red'?420:300),_done:false,_fired:false,_walkT:0,
             size:_sz2});
+          _susSpawnFx(susSummons[susSummons.length-1]);   // 🕳️ imposter chui lên từ vent / crew pop ra
           this._susCD = 180;
           const _isImp=_st.startsWith('imp');
           const _clr=_st==='imp_red'?'#f44336':_st==='imp_black'?'#bdbdbd':_st==='imp_melee'?'#ce93d8':'#4fc3f7';
@@ -19489,7 +19765,7 @@ function startGame(skipVsIntro){
   document.getElementById('pauseOverlay').classList.remove('visible');
   stopAllBattleMusic();
   _gameTickAccum=0;
-  fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; mwBits=[]; mwShards=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; wcDrops=[]; wcFx=[]; popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[]; tick=0;
+  fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; mwBits=[]; mwShards=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; wcDrops=[]; wcFx=[]; popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susFx=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[]; tick=0;
   _matchStats=Array.from({length:8},()=>({dmg:0,hits:0,healed:0,attempted:0}));
   screenShake={x:0,y:0,dur:0,str:0}; afterImages=[]; slowMoTimer=0; hitStopFrames=0; hitStopCD=0; koZoom=0; _camReset();
   loop._koTimer=null; loop._resInit=false; loop._resT=null; loop._resClick=false; loop._rtDone=false; loop._statsT=0; loop._lbPrompted=false; loop._ctaText=null; loop._mechShown=false; loop._fanDone=false; loop._wcMeowDone=false;
@@ -19920,7 +20196,7 @@ function resetGame(){
   document.getElementById('pauseOverlay').classList.remove('visible');
   _gameTickAccum=0;
   stopAllBattleMusic();
-  fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; mwBits=[]; mwShards=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; wcDrops=[]; wcFx=[]; popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[];
+  fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; mwBits=[]; mwShards=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; wcDrops=[]; wcFx=[]; popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susFx=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[];
   screenShake={x:0,y:0,dur:0,str:0}; slowMoTimer=0; hitStopFrames=0; hitStopCD=0; koZoom=0;
   showVsWaitScreen();
 }
@@ -24060,15 +24336,16 @@ function loop(){
   }
 
     // ===== SUS SUMMONS =====
+  _susFxDraw('under');   // 🕳️ vent nằm dưới chân quân
   for(let i=susSummons.length-1;i>=0;i--){
     const ss=susSummons[i];
     ss.life--; ss._walkT=(ss._walkT||0)+1;
-    if(ss._done||ss.life<=0){susSummons.splice(i,1);continue;}
+    if(ss._done||ss.life<=0){_susDespawn(ss);susSummons.splice(i,1);continue;}
     // chọn mục tiêu GẦN NHẤT: địch fighter HOẶC lính German
     let _ssTgt=null, _ssBest=Infinity, _ssIsSoldier=false;
     for(const f of fighters){ if(f.team===ss.team||f.dead) continue; const d=Math.sqrt((f.x-ss.x)**2+(f.y-ss.y)**2); if(d<_ssBest){_ssBest=d;_ssTgt=f;_ssIsSoldier=false;} }
     for(const gs of germanSoldiers){ if(gs.team===ss.team||gs.dead||gs.hp<=0) continue; const d=Math.sqrt((gs.x-ss.x)**2+(gs.y-ss.y)**2); if(d<_ssBest){_ssBest=d;_ssTgt=gs;_ssIsSoldier=true;} }
-    if(!_ssTgt){susSummons.splice(i,1);continue;}
+    if(!_ssTgt){_susDespawn(ss);susSummons.splice(i,1);continue;}
     // Red imposter: fire 3 bullets immediately then vanish
     if(ss.type==='imp_red'){
       // 🔫 TẦM BẮN chỉ khoảng NỬA SÂN: đẻ ra ở góc xa thì phải chạy tới cho tới khi vào tầm mới được nổ súng,
@@ -24093,6 +24370,7 @@ function loop(){
           projectiles.push({x:ss.x,y:ss.y,vx:Math.cos(_ra)*11,vy:Math.sin(_ra)*11,
             team:ss.team,owner:ss.owner,dmg:100,life:120,maxLife:120,size:8,color:'#f44336',isEnergy:true,
             _homingTarget:_ssTgt});
+          { const _mz=_susMuzzle(ss,_ra); _susFx({k:'muzzle',x:_mz[0],y:_mz[1],a:_ra,s:ss.size*0.35,T:6}); _susFx({k:'tracer',p:projectiles[projectiles.length-1],T:200}); ss._recoil=7; }   // 🔫 chớp nòng + vệt đạn + giật súng
           playSample('pewpew',0.75);
           spawnParticles(ss.x,ss.y,'#f44336',4);
           ss._burstFired=_bIdx+1;
@@ -24116,7 +24394,7 @@ function loop(){
           fighters.forEach(f=>{ if(f.team===ss.team||f.dead) return; const _bd=Math.sqrt((f.x-ss.x)**2+(f.y-ss.y)**2); if(_bd<_boomR+f.size){ f.takeDamage(150,ss.owner); f.stun=Math.max(f.stun,120); } });
           spawnParticles(ss.x,ss.y,'#616161',16);
           spawnParticles(ss.x,ss.y,'#ffd54f',10);
-          susExplosions.push({x:ss.x,y:ss.y,life:45,maxLife:45,size:ss.size*4.0});
+          _susBoomFx(ss.x,ss.y,_boomR*0.75);   // 💥 cầu lửa + sóng xung kích + khói
           addShake(11,16); playSound('explode');
           ss._done=true; continue;
         }
@@ -24128,7 +24406,7 @@ function loop(){
         if(ss.type==='imp_melee'){
           _hitTgt(180,'#ce93d8','Blood Batch 1_Sprite'); // kiếm SUS imposter → red hit 1
           _hitParticles(_ssTgt.x,_ssTgt.y,'#ce93d8',8);
-          swordSlashes.push({x:_ssTgt.x,y:_ssTgt.y,angle:Math.atan2(ss.vy,ss.vx),life:22,maxLife:22,size:_ssTgt.size*3.0});
+          _susSlashFx(_ssTgt.x,_ssTgt.y,Math.atan2(ss.vy,ss.vx),_ssTgt.size*1.5);   // 🔪 nhát dao + máu bắn
           addShake(9,14); playSample('punch2',0.95);
         } else if(ss.type==='imp_black'){
           if(!_ssIsSoldier){ _ssTgt.takeDamage(150,ss.owner); _ssTgt.stun=120; }
@@ -24142,11 +24420,12 @@ function loop(){
           });
           _hitParticles(_ssTgt.x,_ssTgt.y,'#616161',16);
           _hitParticles(_ssTgt.x,_ssTgt.y,'#ffd54f',10);
-          susExplosions.push({x:_ssTgt.x,y:_ssTgt.y,life:45,maxLife:45,size:_ssTgt.size*3.5});
+          _susBoomFx(_ssTgt.x,_ssTgt.y,_boomR*0.75);   // 💥 cầu lửa + sóng xung kích + khói
           addShake(11,16); playSound('explode');
         } else {
           // crewmate
           _hitTgt(50,'#4fc3f7');
+          _susFx({k:'pow',x:_ssTgt.x,y:_ssTgt.y,s:_ssTgt.size*0.75,a:Math.random(),T:16});   // 👊 sao truyện tranh
           _hitParticles(_ssTgt.x,_ssTgt.y,'#4fc3f7',7);
           // Sus Cat nằm trong CHARS_OWN_SOUND nên takeDamage() không tự phát tiếng hit mặc định, mà punch2 thì
           // đã bị tắt tiếng toàn cục → quân Crew đánh trúng không ra tiếng gì. Phát THẲNG đúng tiếng mặc định
@@ -24156,36 +24435,9 @@ function loop(){
         ss._done=true; continue;
       }
     }
-    // Draw summon — walking animation
-    const _ssAlpha=Math.min(1,ss.life/20);
-    const _ssImgMap={crew_red:SUS_CREW_RED_IMG,crew_blue:SUS_CREW_BLUE_IMG,crew_green:SUS_CREW_GREEN_IMG,imp_melee:SUS_IMP_MELEE_IMG,imp_black:SUS_IMP_BLACK_IMG,imp_red:SUS_IMP_RED_IMG};
-    const _ssImg=_ssImgMap[ss.type];
-    // walk cycle: hop up/down + lean
-    const _wPhase=ss._walkT*0.22;
-    const _wBob=-Math.abs(Math.sin(_wPhase))*7;      // luôn nhảy lên, không xuống dưới đất
-    const _wLean=Math.sin(_wPhase)*0.18;              // lắc trái phải
-    const _wSquishX=1+Math.abs(Math.sin(_wPhase))*0.07; // giãn ngang khi trên không
-    const _wSquishY=1-Math.abs(Math.sin(_wPhase))*0.07; // nén dọc khi tiếp đất
-    // face direction of movement
-    const _wFaceX=ss.vx!==0?Math.sign(ss.vx):1;
-    ctx.save(); ctx.globalAlpha=_ssAlpha;
-    ctx.translate(ss.x, ss.y+_wBob);
-    ctx.rotate(_wLean*_wFaceX);
-    ctx.scale(_wFaceX*_wSquishX, _wSquishY);
-    const _ssDraw=_ssImg&&(_ssImg._proc||(_ssImg.complete&&_ssImg.naturalWidth>0?_ssImg:null));
-    if(_ssDraw){
-      const _ssS=ss.size*2.2;
-      const _ssIW=_ssDraw instanceof HTMLCanvasElement?_ssDraw.width:_ssDraw.naturalWidth;
-      const _ssIH=_ssDraw instanceof HTMLCanvasElement?_ssDraw.height:_ssDraw.naturalHeight;
-      const _ssSc=Math.min(_ssS/(_ssIW||1),_ssS/(_ssIH||1));
-      const _ssDW=_ssIW*_ssSc, _ssDH=_ssIH*_ssSc;
-      ctx.drawImage(_ssDraw,-_ssDW/2,-_ssDH/2,_ssDW,_ssDH);
-    } else {
-      ctx.font=`${Math.round(ss.size*1.4)}px serif`; ctx.textAlign='center'; ctx.textBaseline='middle';
-      ctx.fillText(ss.type.startsWith('crew')?'👾':'⚠️',0,0);
-    }
-    ctx.restore();
+    _susDrawSummon(ss,_ssTgt);   // 🧑‍🚀 vẽ tay con Among Us (bước chân thật, kính, vũ khí) thay cho ảnh PNG
   }
+  _susFxDraw('over');
 
 
   // ===== RAINBOW TRAILS (Nyan Cat) — pixel rainbow style =====
@@ -25825,7 +26077,7 @@ function tbLaunchNextFighter(losingTeam){
     apples=_tbKeepWin(apples); flowers=_tbKeepWin(flowers); loadingArrows=_tbKeepWin(loadingArrows); sdActors=[]; sdProjs=[]; sdZzz=[]; wcDrops=[]; susSummons=_tbKeepWin(susSummons); knifeBoomerangs=_tbKeepWin(knifeBoomerangs);
     heckerBolts=_tbKeepWin(heckerBolts); commanderSoldiers=_tbKeepWin(commanderSoldiers); batSwarm=_tbKeepWin(batSwarm);
     cars=_tbKeepWin(cars); projectiles=_tbKeepWin(projectiles); maxwellTnts=_tbKeepWin(maxwellTnts); dogeKnights=_tbKeepWin(dogeKnights); mewingStatues=_tbKeepWin(mewingStatues); capybaraKnives=_tbKeepWin(capybaraKnives); cryCats=_tbKeepWin(cryCats); dogeClones=_tbKeepWin(dogeClones);
-    bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; mwBits=[]; mwShards=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; wcDrops=[]; wcFx=[]; popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=_tbKeepWin(evilSouls); egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; survivor._egPsn=0; survivor._egPsnSrc=null;   // ☠️ độc linh hồn không mang sang hiệp mới cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; battleFreezeTimer=0; susExplosions=[]; swordSlashes=[]; holyBeams=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; flowerShatters=[]; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; lightningBolts=[]; tick=0;
+    bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; mwBits=[]; mwShards=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; wcDrops=[]; wcFx=[]; popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=_tbKeepWin(evilSouls); egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; survivor._egPsn=0; survivor._egPsnSrc=null;   // ☠️ độc linh hồn không mang sang hiệp mới cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; battleFreezeTimer=0; susExplosions=[]; susFx=[]; swordSlashes=[]; holyBeams=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; flowerShatters=[]; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; lightningBolts=[]; tick=0;
     screenShake={x:0,y:0,dur:0,str:0}; afterImages=[]; slowMoTimer=0; hitStopFrames=0; hitStopCD=0; koZoom=0;
     loop._koTimer=null; loop._resInit=false; loop._resT=null; loop._resClick=false; loop._rtDone=false; loop._statsT=0; loop._lbPrompted=false; loop._ctaText=null; loop._wcMeowDone=false;
     _clearArena();
@@ -26127,7 +26379,7 @@ function closeFan(){
   document.getElementById('mainMenuScreen').classList.add('active');
 }
 function _ffa3ClearArrays(){
-  fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; mwBits=[]; mwShards=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; wcDrops=[]; wcFx=[]; popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[]; tick=0;
+  fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; mwBits=[]; mwShards=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; wcDrops=[]; wcFx=[]; popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susFx=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[]; tick=0;
   screenShake={x:0,y:0,dur:0,str:0}; slowMoTimer=0; hitStopFrames=0; hitStopCD=0; koZoom=0;
 }
 function ffa3Start(){
