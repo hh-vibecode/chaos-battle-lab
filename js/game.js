@@ -50,7 +50,8 @@ async function _loadDefaultSave(){
     if(bundle.parts){ for(const [k,files] of Object.entries(bundle.parts)){
       const txt=await Promise.all(files.map(f=>fetch(f,{cache:'no-cache'}).then(x=>{ if(!x.ok) throw new Error(f); return x.text(); })));
       bundle[k]=txt.join(''); } }
-    for(const k of _STORE_KEYS){ if(bundle[k]==null) continue; _store[k]=bundle[k]; if(_idb) await _idbPutAwait(k,bundle[k]); else { try{ localStorage.setItem(k,bundle[k]); }catch(e){} } }
+    const KEEP=['cbs_char_stats','cbs_rt_season','cbs_rt_blocked'];   // tiến độ RIÊNG của người chơi (thống kê, mùa giải) — chỉ nạp lần đầu, cập nhật sau KHÔNG đè
+    for(const k of _STORE_KEYS){ if(bundle[k]==null) continue; if(KEEP.includes(k) && storeGet(k)!=null) continue; _store[k]=bundle[k]; if(_idb) await _idbPutAwait(k,bundle[k]); else { try{ localStorage.setItem(k,bundle[k]); }catch(e){} } }
     try{ localStorage.setItem('cbs_default_ver',ver); }catch(e){}
   }catch(e){}
 }
@@ -61,6 +62,7 @@ function storeDel(k){ delete _store[k]; if(_idb) _idbDel(k); else { try{ localSt
 // ===== EXPORT/IMPORT: chuyển dữ liệu (roster + ảnh avatar, VFX library, leaderboard, update note...) giữa các nơi lưu trữ khác nhau (VD: Simple Browser trong VS Code <-> mở file trực tiếp bằng Chrome, 2 origin khác nhau nên KHÔNG tự dùng chung storage được) =====
 // Luôn hiện kèm modal có ô text để copy/paste tay — vì tải file bằng <a download> hay bị chặn trong webview hạn chế (Simple Browser), không thể tin tưởng 100%.
 function exportSaveData(){
+  if(window.PLAY_ONLY) return;   // 🔒 bản online chỉ để chơi
   const bundle = {};
   _STORE_KEYS.forEach(k=>{ const v=storeGet(k); if(v!=null) bundle[k]=v; });
   const json = JSON.stringify(bundle);
@@ -100,6 +102,7 @@ function _copyDataTransferText(btn){
   }
 }
 function importSaveData(){
+  if(window.PLAY_ONLY) return;   // 🔒 bản online chỉ để chơi
   document.getElementById('dataTransferTitle').textContent = '📥 Import Save';
   document.getElementById('dataTransferExportView').style.display = 'none';
   document.getElementById('dataTransferImportView').style.display = '';
@@ -154,6 +157,7 @@ async function _applyImportedBundle(json){
   location.reload();
 }
 function _runImportSaveData(){
+  if(window.PLAY_ONLY) return;   // 🔒 bản online chỉ để chơi
   document.getElementById('dataTransferDebug').textContent = '';
   const pasted = document.getElementById('dataTransferPasteBox').value.trim();
   if(pasted){ _dtLog('[nguồn] dán tay, độ dài: '+pasted.length+' ký tự'); _applyImportedBundle(pasted); return; }
@@ -885,6 +889,7 @@ function updatePickBar(slot){
 }
 
 function deleteChar(idx){
+  if(window.PLAY_ONLY) return;   // 🔒 bản online chỉ để chơi
   const _nm=(roster[idx] && roster[idx].name) ? roster[idx].name : 'this character';
   if(!confirm('Xoá "'+_nm+'"? (lần 1/2)')) return;
   if(!confirm('Chắc chắn xoá "'+_nm+'"? Không hoàn tác được đâu. (lần 2/2)')) return;
@@ -1306,6 +1311,7 @@ function onTypeChange(){
 
 
 function openAddModal(group='meme'){
+  if(window.PLAY_ONLY) return;   // 🔒 bản online chỉ để chơi
   editingIdx = null;
   modalAvatarUrl = null;
   modalAvatarTouched = false;
@@ -1332,6 +1338,7 @@ function openAddModal(group='meme'){
 }
 
 function openEditModal(idx){
+  if(window.PLAY_ONLY) return;   // 🔒 bản online chỉ để chơi
   editingIdx = idx;
   const char = roster[idx];
   selectedAnimKey = char.idleAnim || 'bounce';
@@ -1751,6 +1758,7 @@ function loadVfxLib(){
 }
 let _vfxLibReturnScreen='selectScreen';
 function openVfxLib(returnScreen){
+  if(window.PLAY_ONLY) return;   // 🔒 bản online chỉ để chơi
   _vfxLibReturnScreen = returnScreen || 'selectScreen';
   document.getElementById(_vfxLibReturnScreen).classList.remove('active');
   document.getElementById('vfxLibScreen').classList.add('active');
@@ -2236,6 +2244,7 @@ function resetRoster(){
 }
 
 function saveNewChar(){
+  if(window.PLAY_ONLY) return;   // 🔒 bản online chỉ để chơi
   const name = document.getElementById('modalName').value.trim();
   if(!name){ alert('Please enter a name!'); return; }
   const charKey = document.getElementById('modalType').value;
@@ -2308,6 +2317,7 @@ function lbUpdateStepperValues(){
   document.getElementById('lbValDraws').textContent=st.draws||0;
 }
 function lbStep(field, delta){
+  if(window.PLAY_ONLY) return;   // 🔒 bản online chỉ để chơi
   const id=lbSelectedId;
   if(!id) return;
   const st=_csGet(id);
@@ -2421,6 +2431,7 @@ function unRenderCharGrid(){
   });
 }
 function unAddNote(){
+  if(window.PLAY_ONLY) return;   // 🔒 bản online chỉ để chơi
   const input=document.getElementById('unTextInput');
   const text=input.value.trim();
   if(!unSelectedId || !text) return;
@@ -2436,6 +2447,7 @@ function unAddNote(){
   unRenderList();
 }
 function unEditNote(id){
+  if(window.PLAY_ONLY) return;   // 🔒 bản online chỉ để chơi
   const n=updateNotes.find(x=>x.id===id);
   if(!n) return;
   unEditingId=id;
@@ -2456,6 +2468,7 @@ function unCancelEdit(){
   unRenderList();
 }
 function unDeleteNote(id){
+  if(window.PLAY_ONLY) return;   // 🔒 bản online chỉ để chơi
   updateNotes = updateNotes.filter(n=>n.id!==id);
   saveUpdateNotes();
   if(unEditingId===id) unCancelEdit();
@@ -24710,6 +24723,7 @@ function closeRandomTourney(){
   document.getElementById('rtOverlay').classList.remove('open');
 }
 function rtResetTournament(){
+  if(window.PLAY_ONLY) return;   // 🔒 bản online chỉ để chơi
   if(_rtActionDelayId){ clearTimeout(_rtActionDelayId); _rtActionDelayId=null; } // huỷ luôn lệnh play/random đang chờ dở (nếu có) — tránh nó bắn ra sau khi đã reset
   const size=(rtState&&rtState.size)||rtPickSize||8;
   rtState=null;
@@ -25450,6 +25464,7 @@ let _fwRig={ buff:[null,null,null,null], recruit:null, lives:null, foes:[null,nu
 function _fanRigOn(){ return _fwRig.buff.some(x=>x!=null) || _fwRig.recruit!=null || _fwRig.lives!=null || _fwRig.foes.some(x=>x!=null); }
 function _fanRigClear(){ _fwRig={ buff:[null,null,null,null], recruit:null, lives:null, foes:[null,null,null] }; }
 function openFanRig(){
+  if(window.PLAY_ONLY) return;   // 🔒 bản online chỉ để chơi
   let ov=document.getElementById('fanRigOverlay');
   if(!ov){
     ov=document.createElement('div'); ov.id='fanRigOverlay';
@@ -29140,6 +29155,7 @@ function scToggleLoop(){ _scLoop=!_scLoop; const b=document.getElementById('scLo
 
 // ===================== VÀO / RA CHẾ ĐỘ =====================
 function openScene(){
+  if(window.PLAY_ONLY) return;   // 🔒 bản online chỉ để chơi
   if(animId) cancelAnimationFrame(animId);
   animId=null; isPaused=true;
   stopAllBattleMusic();
@@ -30245,6 +30261,7 @@ function _fanAvatar(key){
 }
 // mở hộp chọn file, đọc thành data URI rồi lưu lại cho đúng nhân vật đó
 function fanPickAvatar(key){
+  if(window.PLAY_ONLY) return;   // 🔒 bản online chỉ để chơi
   const inp=document.createElement('input');
   inp.type='file'; inp.accept='image/*';
   inp.onchange=()=>{

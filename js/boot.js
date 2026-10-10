@@ -5,6 +5,10 @@
 //     (ASSETS.loadChar trong constructor Fighter) — chơi tới đâu tải tới đấy.
 //  3. Tải ngầm: vào game xong thì lặng lẽ tải dần các nhóm còn lại (nhân vật nào được chọn thì chen lên đầu hàng).
 // Ảnh: chặn ở setter img.src (đường dẫn thuộc nhóm chưa mở → ghi nhớ, chưa tải). Tiếng: preload 'none' tới khi mở nhóm.
+// 🔒 CHẾ ĐỘ CHỈ CHƠI: bản online (github.io…) ẩn + chặn mọi công cụ chỉnh sửa — nội dung game chỉ sửa ở project rồi đẩy lên.
+//    Chạy ở máy (localhost / 127.0.0.1) thì vẫn đủ công cụ để kiểm tra.
+window.PLAY_ONLY = !/^(localhost|127\.0\.0\.1|\[::1\]|)$/.test(location.hostname);
+if(window.PLAY_ONLY) document.documentElement.classList.add('play-only');
 (function(){
   const GROUP = window.ASSET_GROUP || {};
   const DEPS = { arabiccat:['windguy'] };          // nhân vật mượn đồ của nhân vật khác (Arabic Cat hoá gà bằng gà của Wind Guy)
