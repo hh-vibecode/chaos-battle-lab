@@ -6466,6 +6466,8 @@ function _mwPurpleStart(f){
   battleFreezeTimer=Math.max(battleFreezeTimer,3);
   playSample('ultimate_charge_2',1.0); addShake(4,8);
 }
+function _mwFinger(q){ const f=q.f, L=f._lastSprite; if(!L || L.img!==MEW_GOJO_IMG) return _mwHand(q);
+  const fl=(L.fl!==undefined?L.fl:L.flip); return [f.x+(fl?-1:1)*(0.47-0.5)*L.dw, f.y+(0.63-0.5)*L.dh]; }
 function _mwHand(q){ const f=q.f; return [f.x+Math.cos(q.ang)*f.size*1.15, f.y+Math.sin(q.ang)*f.size*1.15-f.size*0.08]; }
 function _mwDust(x,y,s,n){ for(let i=0;i<n;i++){ const a=Math.random()*Math.PI*2, sp=1+Math.random()*5;
   mwBits.push({k:'dust',x:x+(Math.random()-0.5)*s,y:y+(Math.random()-0.5)*s,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-1,r:1.5+Math.random()*3.5,t:0,T:40+Math.random()*30,c:Math.random()<0.5?'#d48bff':(Math.random()<0.5?'#ffffff':'#7c3aed')}); } }
@@ -6482,6 +6484,7 @@ function _mwPurpleTick(){
   if(!q.merged && ms>=MW_T.merge){ q.merged=true; addShake(5,30); playSample('chidorii',0.8); }
   if(!q.fired && ms>=MW_STOP_MS){   // 💥 BẮN
     q.fired=true; q.fireT=now; q.sx=hx+Math.cos(q.ang)*q.R*1.05; q.sy=hy+Math.sin(q.ang)*q.R*1.05;   // xuất phát trước mặt, không che mèo
+    [q.fx,q.fy]=_mwFinger(q);   // điểm sáng ở đầu ngón tay — nở bung từ đây
     mwTrench={x:q.sx, y:q.sy, ang:q.ang, len:0, R:q.R*1.05, t0:now, seed:Array.from({length:600},()=>Math.random())};
     playSample('king_laser',1.0); addShake(5,60);   // rung ≤5: không kích hoạt chớp trắng hình chữ nhật của khung sân
   }
@@ -6572,6 +6575,37 @@ function _mwBolt(x1,y1,x2,y2,col,w,a){ const pts=_genLightPts(x1,y1,x2,y2,Array.
   ctx.save(); ctx.globalAlpha=a; ctx.globalCompositeOperation='lighter'; ctx.lineJoin='round'; ctx.lineCap='round';
   for(const [lw,c] of [[w*3,`rgba(${col},0.25)`],[w,'rgba(255,255,255,0.95)']]){ ctx.lineWidth=lw; ctx.strokeStyle=c; ctx.beginPath(); pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.stroke(); }
   ctx.restore(); }
+// 🔮 KHỐI PLASMA (giống ảnh mẫu Hollow Purple): thân cầu màu đậm mép sẫm, plasma cuộn xoáy hỗn loạn bên trong, hạt sáng lấm tấm,
+//    lõi loá MÉO MÓ (không tròn đều), mép lởm chởm phát sáng. Cầu XANH / ĐỎ dùng đúng màu của nó (không loá trắng như nhau).
+const MW_PLASMA={ blue:{core:'215,235,255', light:'90,170,255', mid:'25,80,255', dark:'5,15,110', coreK:0.18},
+                  red:{core:'255,220,210', light:'255,110,90', mid:'225,15,35', dark:'100,0,10', coreK:0.18},
+                  purple:{core:'255,248,255', light:'225,160,255', mid:'150,55,255', dark:'35,0,80', coreK:0.42} };
+function _mwPlasma(x,y,r,key,seed,a){
+  const P=MW_PLASMA[key], tm=performance.now()/1000, sd=seed||0;
+  ctx.save(); ctx.globalAlpha=a;
+  ctx.globalCompositeOperation='lighter';
+  let g=ctx.createRadialGradient(x,y,r*0.4,x,y,r*2.3); g.addColorStop(0,`rgba(${P.mid},0.45)`); g.addColorStop(0.5,`rgba(${P.mid},0.14)`); g.addColorStop(1,`rgba(${P.mid},0)`);
+  ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r*2.3,0,Math.PI*2); ctx.fill();   // quầng màu
+  ctx.globalCompositeOperation='source-over';
+  const rim=a2=>r*(1+0.06*Math.sin(a2*5+tm*3+sd)+0.04*Math.sin(a2*11-tm*4));   // mép lởm chởm
+  const blob=()=>{ ctx.beginPath(); for(let i=0;i<=48;i++){ const a2=i/48*Math.PI*2, rr=rim(a2); i?ctx.lineTo(x+Math.cos(a2)*rr,y+Math.sin(a2)*rr):ctx.moveTo(x+Math.cos(a2)*rr,y+Math.sin(a2)*rr); } ctx.closePath(); };
+  g=ctx.createRadialGradient(x,y,0,x,y,r); g.addColorStop(0,`rgba(${P.light},0.95)`); g.addColorStop(0.55,`rgba(${P.mid},0.92)`); g.addColorStop(0.9,`rgba(${P.dark},0.9)`); g.addColorStop(1,`rgba(${P.dark},0.55)`);
+  blob(); ctx.fillStyle=g; ctx.fill();   // thân cầu
+  ctx.save(); blob(); ctx.clip(); ctx.globalCompositeOperation='lighter';
+  for(let i=0;i<16;i++){ const dir=i%2?1:-1, ang=sd+i*2.399+tm*(0.5+(i%5)*0.22)*dir, d=r*(0.12+0.72*((i*0.618)%1)), br=r*(0.2+0.12*Math.sin(tm*2+i));   // plasma cuộn xoáy
+    const bx=x+Math.cos(ang)*d, by=y+Math.sin(ang)*d; const bg=ctx.createRadialGradient(bx,by,0,bx,by,br); bg.addColorStop(0,`rgba(${i%3?P.light:P.core},0.32)`); bg.addColorStop(1,`rgba(${P.light},0)`);
+    ctx.fillStyle=bg; ctx.beginPath(); ctx.arc(bx,by,br,0,Math.PI*2); ctx.fill(); }
+  ctx.lineCap='round';
+  for(let i=0;i<7;i++){ const st=sd+i*0.9+tm*(1.4+i*0.25)*(i%2?1:-1), rr=r*(0.3+i*0.09);   // dải xoáy
+    ctx.strokeStyle=`rgba(${P.light},${0.38-i*0.03})`; ctx.lineWidth=Math.max(1,r*0.05); ctx.beginPath(); ctx.arc(x,y,rr,st,st+1.6+0.6*Math.sin(tm+i)); ctx.stroke(); }
+  for(let i=0;i<34;i++){ const ang=sd*3+i*2.17+tm*(0.25+(i%4)*0.1), d=r*Math.sqrt(((i*0.381)%1))*0.92, tw=0.35+0.65*Math.abs(Math.sin(tm*4+i*1.7));   // hạt sáng lấm tấm
+    ctx.fillStyle=`rgba(255,255,255,${0.85*tw})`; ctx.beginPath(); ctx.arc(x+Math.cos(ang)*d, y+Math.sin(ang)*d, Math.max(0.8,r*0.022*(1+(i%3))), 0, Math.PI*2); ctx.fill(); }
+  for(let k=0;k<4;k++){ const ox=x+Math.sin(tm*3.1+k*1.7+sd)*r*0.1, oy=y+Math.cos(tm*2.7+k*2.3)*r*0.08, cr=r*P.coreK*(0.8+0.3*Math.sin(tm*5+k));   // lõi loá méo mó
+    const cg=ctx.createRadialGradient(ox,oy,0,ox,oy,cr); cg.addColorStop(0,`rgba(${P.core},0.9)`); cg.addColorStop(1,`rgba(${P.core},0)`); ctx.fillStyle=cg; ctx.beginPath(); ctx.arc(ox,oy,cr,0,Math.PI*2); ctx.fill(); }
+  ctx.restore();
+  ctx.globalCompositeOperation='lighter'; ctx.shadowColor=`rgb(${P.light})`; ctx.shadowBlur=r*0.4;   // viền sáng lởm chởm
+  blob(); ctx.strokeStyle=`rgba(${P.light},0.55)`; ctx.lineWidth=Math.max(1.2,r*0.04); ctx.stroke(); ctx.shadowBlur=0;
+  ctx.restore(); }
 const MW_PAL={ blue:['120,200,255','30,90,255','190,230,255'], red:['255,120,110','220,0,30','255,200,190'], purple:['215,140,255','120,30,255','240,210,255'] };
 // 🪨 VỆT CÀY NÁT MẶT SÀN (vẽ sau cùng trong world nên đè cả sân lẫn chữ): lòng rãnh đất đá nâu xám lổn nhổn, mép đất vỡ
 //    lởm chởm có gờ sáng + bóng tối, vết nứt toả ra nền xung quanh, đá tảng to nhỏ nằm ngổn ngang trong & ngoài mép,
@@ -6660,16 +6694,32 @@ function _mwPurpleDraw(){
       const ob=f.size*1.7, conv=Math.max(0,Math.min(1,(ms-MW_T.conv0)/MW_T.conv)), rad=ob*(1-conv*conv*(3-2*conv)), spinA=(ms/1000)*(1.2+conv*conv*7);
       const bA=Math.PI+spinA, rA=spinA;
       const bk=Math.max(0,Math.min(1,(ms-MW_T.blueIn)/MW_T.appear)), rk=Math.max(0,Math.min(1,(ms-MW_T.redIn)/MW_T.appear)), fade=ms>MW_T.merge?Math.max(0,1-(ms-MW_T.merge)/220):1;
-      const bx=hx+Math.cos(bA)*rad, by=hy+Math.sin(bA)*rad*0.6, rx=hx+Math.cos(rA)*rad, ry=hy+Math.sin(rA)*rad*0.6;
-      if(bk>0 && fade>0) _mwOrb(bx,by,f.size*0.62*bk,MW_PAL.blue,0,fade);
-      if(rk>0 && fade>0) _mwOrb(rx,ry,f.size*0.62*rk,MW_PAL.red,1,fade);
+      const [fx,fy]=_mwFinger(q), ocx=hx+(fx-hx)*conv, ocy=hy+(fy-hy)*conv;   // tâm xoáy dời dần về ĐẦU NGÓN TAY
+      const bx=ocx+Math.cos(bA)*rad, by=ocy+Math.sin(bA)*rad*0.6, rx=ocx+Math.cos(rA)*rad, ry=ocy+Math.sin(rA)*rad*0.6;
+      if(bk>0 && fade>0) _mwPlasma(bx,by,f.size*0.58*bk,'blue',1.3,fade);   // 🔵 cầu XANH (Lapse)
+      if(rk>0 && fade>0) _mwPlasma(rx,ry,f.size*0.58*rk,'red',4.1,fade);    // 🔴 cầu ĐỎ (Reversal)
       if(bk>0 && rk>0 && ms<MW_T.merge+40 && Math.random()<0.35+conv*0.6){ _mwBolt(bx,by,rx,ry,'200,140,255',2,0.95); if(Math.random()<0.5) _mwBolt(bx,by,rx,ry,'120,200,255',1.2,0.7); }   // sét nổ giữa 2 cầu
-      if(ms>=MW_T.merge){ const u=Math.min(1,(ms-MW_T.merge)/MW_T.grow);
-        _mwOrb(hx,hy,q.R*(0.3+0.7*u),MW_PAL.purple,0,1);
-        ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.strokeStyle=`rgba(230,190,255,${1-u})`; ctx.lineWidth=6*(1-u)+1; ctx.beginPath(); ctx.arc(hx,hy,q.R*(0.5+u*2.5),0,Math.PI*2); ctx.stroke();   // sóng xung kích lúc hợp nhất
-        ctx.fillStyle=`rgba(255,255,255,${0.5*(1-u)})`; ctx.fillRect(C[0],C[1],C[2],C[3]); ctx.restore(); }
+      if(ms>=MW_T.merge){ const u=Math.min(1,(ms-MW_T.merge)/MW_T.grow), tm=now/1000;
+        // ✴️ ĐIỂM SÁNG NÉN ở đầu ngón tay (kiểu Gojo): lõi nhỏ xíu trắng chói + dải năng lượng XOẮN VẶN vào tâm + vòng tròn mảnh
+        //    rất lớn có kim tuyến + tia chữ thập dài. Tới lúc bắn mới nở bung thành quả cầu to.
+        ctx.save(); ctx.globalCompositeOperation='lighter';
+        let g=ctx.createRadialGradient(fx,fy,0,fx,fy,f.size*1.6); g.addColorStop(0,'rgba(255,255,255,0.95)'); g.addColorStop(0.12,'rgba(230,190,255,0.75)'); g.addColorStop(0.4,'rgba(160,80,255,0.25)'); g.addColorStop(1,'rgba(120,40,255,0)');
+        ctx.fillStyle=g; ctx.beginPath(); ctx.arc(fx,fy,f.size*1.6,0,Math.PI*2); ctx.fill();
+        ctx.lineCap='round';
+        for(let k=0;k<7;k++){ const base=tm*6+k*Math.PI*2/7; ctx.strokeStyle=k%2?'rgba(200,150,255,0.8)':'rgba(255,255,255,0.75)'; ctx.lineWidth=1.6; ctx.beginPath();   // xoắn ốc vặn vào tâm
+          for(let t=0;t<=1.0001;t+=0.05){ const rr=f.size*1.25*Math.pow(1-t,1.6)+1, a=base+t*5.5; const x=fx+Math.cos(a)*rr, y=fy+Math.sin(a)*rr*0.85; t?ctx.lineTo(x,y):ctx.moveTo(x,y); } ctx.stroke(); }
+        const RR=f.size*(1.6+0.9*Math.min(1,u*1.5)), pu=0.75+0.25*Math.sin(tm*8);   // vòng tròn mảnh lớn
+        ctx.shadowColor='#c084fc'; ctx.shadowBlur=10; ctx.strokeStyle=`rgba(225,190,255,${0.85*pu})`; ctx.lineWidth=1.6; ctx.beginPath(); ctx.arc(fx,fy,RR,0,Math.PI*2); ctx.stroke(); ctx.shadowBlur=0;
+        for(let k=0;k<10;k++){ const a=tm*0.8+k*0.628; _arStar(fx+Math.cos(a)*RR, fy+Math.sin(a)*RR, 2+2.5*Math.abs(Math.sin(tm*5+k)), 'rgba(255,255,255,0.95)'); }
+        for(const [dx,dy,L,wd] of [[1,0,f.size*5.5,2.2],[0,1,f.size*4.5,2],[0.71,0.71,f.size*1.8,1.2],[0.71,-0.71,f.size*1.8,1.2]]){   // tia chữ thập dài
+          const gl=ctx.createLinearGradient(fx-dx*L,fy-dy*L,fx+dx*L,fy+dy*L); gl.addColorStop(0,'rgba(200,140,255,0)'); gl.addColorStop(0.5,`rgba(255,255,255,${0.9*pu})`); gl.addColorStop(1,'rgba(200,140,255,0)');
+          ctx.strokeStyle=gl; ctx.lineWidth=wd; ctx.beginPath(); ctx.moveTo(fx-dx*L,fy-dy*L); ctx.lineTo(fx+dx*L,fy+dy*L); ctx.stroke(); }
+        g=ctx.createRadialGradient(fx,fy,0,fx,fy,f.size*0.16); g.addColorStop(0,'#ffffff'); g.addColorStop(1,'rgba(255,255,255,0)'); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(fx,fy,f.size*0.16,0,Math.PI*2); ctx.fill();   // lõi trắng chói
+        if(u<0.35){ ctx.fillStyle=`rgba(255,255,255,${0.55*(1-u/0.35)})`; ctx.fillRect(C[0],C[1],C[2],C[3]); }   // chớp lúc vừa chập
+        ctx.restore(); }
     } else if(!q.done){
-      const cx=Math.cos(q.ang), cy=Math.sin(q.ang), ox=q.sx+cx*q.len, oy=q.sy+cy*q.len, R=q.R, tm=now/1000;
+      const cx=Math.cos(q.ang), cy=Math.sin(q.ang), tm=now/1000, ex=Math.min(1,(now-q.fireT)/380), ee=1-Math.pow(1-ex,3);   // 💥 0.38s đầu: nở bung từ ngón tay
+      const ox=(q.fx??q.sx)+((q.sx+cx*q.len)-(q.fx??q.sx))*ee, oy=(q.fy??q.sy)+((q.sy+cy*q.len)-(q.fy??q.sy))*ee, R=q.R*(0.1+0.9*ee);
       // 🪟 CẮT MẢNH VỠ từ chính khung hình: meme vừa bị chạm (đang còn trên hình) + nền/chữ ngay mép trước của cầu
       for(const u of (q.shatter||[])){ _mwCutShards(u.x,u.y,u.size*1.15,22,ox,oy); u._mwErased=true; } q.shatter=[];
       for(const [x,y,sz] of (q.shatterAt||[])) _mwCutShards(x,y,sz*1.1,8,ox,oy); q.shatterAt=[];
@@ -6679,10 +6729,10 @@ function _mwPurpleDraw(){
       _mwWarp(ox,oy,R*2.6,tm);
       _mwDrawShards();
       // vành khúc xạ + chân trời tối quanh cầu
-      ctx.save(); ctx.globalCompositeOperation='lighter';
-      for(let k=0;k<3;k++){ ctx.strokeStyle=`rgba(${k?'190,140,255':'255,255,255'},${0.35-k*0.08})`; ctx.lineWidth=2+k*3; ctx.beginPath(); ctx.arc(ox,oy,R*(1.7+k*0.18+0.04*Math.sin(tm*3+k)),0,Math.PI*2); ctx.stroke(); }
+      ctx.save(); ctx.lineCap='round';   // 🌪️ xoáy tối vặn quanh mép (không gian bị cuốn vào)
+      for(let k=0;k<14;k++){ const st=tm*(0.9+(k%4)*0.2)+k*0.45, rr=R*(1.08+0.32*((k*0.37)%1));
+        ctx.strokeStyle=k%3?'rgba(20,0,40,0.55)':'rgba(170,110,255,0.35)'; ctx.lineWidth=R*(0.05+0.05*((k*0.61)%1)); ctx.beginPath(); ctx.arc(ox,oy,rr,st,st+0.9+0.5*Math.sin(tm+k)); ctx.stroke(); }
       ctx.restore();
-      ctx.save(); ctx.strokeStyle='rgba(10,0,25,0.75)'; ctx.lineWidth=R*0.16; ctx.beginPath(); ctx.arc(ox,oy,R*1.12,0,Math.PI*2); ctx.stroke(); ctx.restore();
       // ⚡ SẤM SÉT QUANH CẦU: tia phân nhánh toả ra liên tục (chớp tắt) + thỉnh thoảng sét lớn giáng từ trời xuống cạnh cầu
       for(let k=0;k<4;k++){ if(Math.random()<0.35) continue; const a=Math.random()*Math.PI*2, d=R*(1.8+Math.random()*2.4);
         _mwBigBolt(ox+Math.cos(a)*R*0.9, oy+Math.sin(a)*R*0.9, ox+Math.cos(a)*d, oy+Math.sin(a)*d, 1.6, 0.9); }
@@ -6697,7 +6747,8 @@ function _mwPurpleDraw(){
       for(let k=0;k<9;k++){ const a=tm*1.6+k*0.7, rr=R*(1.2+0.25*Math.sin(tm*2.3+k)); ctx.beginPath(); ctx.ellipse(ox+Math.cos(a)*rr,oy+Math.sin(a)*rr,R*0.26,R*0.06,a+1.3,0,Math.PI*2); ctx.fill(); }
       ctx.restore();
       ctx.save(); ctx.globalCompositeOperation='lighter'; { const bg=ctx.createRadialGradient(ox,oy,R*0.5,ox,oy,R*4.2); bg.addColorStop(0,'rgba(180,90,255,0.35)'); bg.addColorStop(0.4,'rgba(120,40,255,0.12)'); bg.addColorStop(1,'rgba(90,20,200,0)'); ctx.fillStyle=bg; ctx.beginPath(); ctx.arc(ox,oy,R*4.2,0,Math.PI*2); ctx.fill(); } ctx.restore();   // quầng bloom lớn
-      _mwOrb(ox,oy,R*(1+0.05*Math.sin(tm*2.2)),MW_PAL.purple,tm*0.6,1);
+      _mwPlasma(ox,oy,R*(1+0.04*Math.sin(tm*2.2)),'purple',2.7,1);   // 🟣 khối plasma tím hỗn loạn
+      for(let k=0;k<3;k++){ const a1=Math.random()*Math.PI*2, a2=a1+1.5+Math.random()*2; _mwBigBolt(ox+Math.cos(a1)*R*0.25,oy+Math.sin(a1)*R*0.25, ox+Math.cos(a2)*R*0.95,oy+Math.sin(a2)*R*0.95, 1.3, 0.85); }   // sét chằng chịt trên mặt cầu
     }
   }
   if(mwBits.length){ ctx.save();
