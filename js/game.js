@@ -8824,7 +8824,7 @@ const CHAR_BLURB_SHORT = {
   infinitydoge: "Splits in two under half HP. Hurts on contact.",
   cryingcat: "Three cats linked by tears. Touch the link, get hurt.",
   rubikcat: "Random face each roll. All six = black hole.",
-  mewingcat: "Poses summon charging statues.",
+  mewingcat: "Pose four ways twice. Then: Hollow Purple.",
   smartguy: "Rolls IQ as damage. Can backfire.",
   aliencat: "Eye lasers that ramp up. UFO abducts.",
   electricguitarcat: "Sound waves on every beat. Below 30%: the guitar is on fire.",
@@ -19017,12 +19017,40 @@ class Fighter {
     if(this.type==='mewingcat'){
       const _mwN=4, _mwh=6, _mwx=bx, _mwy=by+bh+3, _mwGap=3, _mwSegW=(bw-_mwGap*(_mwN-1))/_mwN;
       const _mwColors=['#26c6da','#ffb300','#ab47bc','#66bb6a'];
+      // ☠️ PHASE 2 (đã đủ bộ 1 lần, chưa bắn Hollow Purple): thanh đổi sang CẢNH BÁO — đủ bộ lần nữa là HOLLOW PURPLE
+      const _mwDanger=(this._mewTier||0)===1 && !this._mwPurpleDone, _mwCnt=(this._mewPoses||[]).filter(Boolean).length, _tm=performance.now()/1000;
+      const _mwShk=_mwDanger&&_mwCnt>=3 ? 1.2 : 0, _jx=(Math.random()-0.5)*_mwShk, _jy=(Math.random()-0.5)*_mwShk;   // còn 1 vạch nữa → thanh rung
       for(let k=0;k<_mwN;k++){
-        const _sx=_mwx+k*(_mwSegW+_mwGap);
+        const _sx=_mwx+k*(_mwSegW+_mwGap)+_jx;
         const _filled=!!(this._mewPoses && this._mewPoses[k]);   // ô nào = tư thế nấy, sáng theo đúng tư thế đã bốc trúng
-        ctx.fillStyle=_filled?_mwColors[k]:'#1a1a2a';
-        ctx.strokeStyle=_filled?_mwColors[k]:'#3a3a4a'; ctx.lineWidth=1;
-        ctx.beginPath(); ctx.roundRect(_sx,_mwy,_mwSegW,_mwh,2); ctx.fill(); ctx.stroke();
+        if(!_mwDanger){
+          ctx.fillStyle=_filled?_mwColors[k]:'#1a1a2a';
+          ctx.strokeStyle=_filled?_mwColors[k]:'#3a3a4a'; ctx.lineWidth=1;
+          ctx.beginPath(); ctx.roundRect(_sx,_mwy+_jy,_mwSegW,_mwh,2); ctx.fill(); ctx.stroke();
+        } else {
+          const pu=0.6+0.4*Math.sin(_tm*7+k);
+          ctx.save();
+          if(_filled){ const g=ctx.createLinearGradient(_sx,_mwy,_sx+_mwSegW,_mwy); g.addColorStop(0,'#7c3aed'); g.addColorStop(0.5,'#f5d0fe'); g.addColorStop(1,'#a855f7');
+            ctx.fillStyle=g; ctx.shadowColor='#c084fc'; ctx.shadowBlur=8+6*pu; }
+          else { ctx.fillStyle='#14051f'; ctx.shadowColor='#7c3aed'; ctx.shadowBlur=4*pu; }
+          ctx.strokeStyle=_filled?'#fae8ff':`rgba(192,132,252,${0.5+0.5*pu})`; ctx.lineWidth=1.2;
+          ctx.beginPath(); ctx.roundRect(_sx,_mwy+_jy,_mwSegW,_mwh,2); ctx.fill(); ctx.stroke();
+          ctx.restore();
+        }
+      }
+      if(_mwDanger){
+        ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round';   // ⚡ sét tím chạy dọc thanh — càng nhiều vạch sáng càng dày
+        for(let k=0;k<1+_mwCnt*2;k++){ if(Math.random()<0.45) continue; let x=_mwx+Math.random()*bw, y=_mwy+_mwh/2; ctx.strokeStyle=`rgba(216,180,254,${0.5+Math.random()*0.5})`; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(x,y);
+          for(let s2=0;s2<4;s2++){ x+=(Math.random()-0.5)*10; y+=(Math.random()-0.5)*9; ctx.lineTo(x,y); } ctx.stroke(); }
+        ctx.restore();
+        ctx.save(); ctx.font='7px "Press Start 2P",monospace'; ctx.textAlign='center'; ctx.textBaseline='bottom';   // ⚠ cảnh báo trên đầu thanh
+        const a=0.55+0.45*Math.abs(Math.sin(_tm*(_mwCnt>=3?9:4))), txt='⚠ HOLLOW PURPLE '+_mwCnt+'/4';
+        ctx.lineWidth=3; ctx.strokeStyle='#12001f'; ctx.globalAlpha=a; ctx.strokeText(txt, bx+bw/2, _mwy-bh-7);
+        ctx.fillStyle=_mwCnt>=3?'#ff7ad9':'#d8b4fe'; ctx.shadowColor='#a855f7'; ctx.shadowBlur=8; ctx.fillText(txt, bx+bw/2, _mwy-bh-7);
+        ctx.restore();
+        if(_mwCnt>=3){ ctx.save(); ctx.globalCompositeOperation='lighter'; const r=this.size*1.35, g=ctx.createRadialGradient(this.x,this.y,this.size*0.8,this.x,this.y,r);   // hào quang tím quanh mèo
+          g.addColorStop(0,'rgba(168,85,247,0)'); g.addColorStop(0.6,`rgba(168,85,247,${0.18+0.12*Math.sin(_tm*8)})`); g.addColorStop(1,'rgba(168,85,247,0)');
+          ctx.fillStyle=g; ctx.beginPath(); ctx.arc(this.x,this.y,r,0,Math.PI*2); ctx.fill(); ctx.restore(); }
       }
     }
     // 🎰 SMART GUY: máy xèng 3 ô số kiểu sòng bài, nổi trên đầu — 3 ô dừng lần lượt trái→phải trong lúc quay, giữ sáng khi đã chốt
