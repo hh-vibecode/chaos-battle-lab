@@ -1,5 +1,6 @@
 // Tự sinh bởi tools/split_assets.py — đường dẫn file → nhóm tải ("critical" = tải trước khi vào game; tên nhân vật = tải khi nhân vật đó vào trận / tải ngầm)
 window.ASSET_GROUP={
+"assets/img/mewingcat/MEW_GOJO_IMG.webp": "mewingcat",
 "assets/img/misc/CAT_DREAM_IMG.webp": "misc",
 "assets/img/susdog/SD_CUPID.webp": "susdog",
 "assets/img/susdog/SD_WOLF.webp": "susdog",

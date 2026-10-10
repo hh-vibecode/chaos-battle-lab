@@ -6445,6 +6445,156 @@ function _ldSprayTick(f){
   if(q.t>=LD_SPRAY_N*gap+Math.round(0.25*tps)){ f._ldSpray=null; f._ldSprayCD=Math.round(LD_SPRAY_CD_S*tps); }   // ⏱️ xịt XONG mới đếm 8s
 }
 // ---- vẽ cưa máy (đơn vị px khung ảnh; gốc = tay cầm sau, +x = chĩa ra trước, +y = xuống)
+
+// ===================== 🟣 MEWING CAT — HOLLOW PURPLE (kiểu Gojo) =====================
+// Lần THỨ 2 ra đủ 4 tư thế: DỪNG THỜI GIAN 1.5s (ảnh Gojo Cat) — cầu XANH + cầu ĐỎ hiện 2 bên, xoáy quanh tay, sét nổ,
+// hợp nhất thành cầu TÍM → bắn thẳng về phía địch, bay xuyên khỏi màn hình. ĐI QUA ĐÂU XOÁ SỔ TỚI ĐÓ: mọi meme (cả đồng
+// minh), mọi quân triệu hồi 2 phe, đạn đang bay — và khoét 1 RÃNH HƯ VÔ xuyên qua sân, chữ, mọi thứ (giữ tới hết trận).
+// Chỉ trừ chính Mewing Cat. Meme bị xoá biến mất ngay (bụi tím); chết được chốt lúc cảnh kết thúc để màn KO không chen ngang.
+const MW_STOP_MS=1500, MW_SPEED=2.2, MW_AFTER_MS=650;   // dừng thời gian 1.5s · cầu tím bay 2.2px/ms · dư âm 0.65s
+const MEW_GOJO_IMG=new Image(); MEW_GOJO_IMG.onload=()=>{ MEW_GOJO_IMG._crop={sx:0,sy:0,sw:MEW_GOJO_IMG.naturalWidth,sh:MEW_GOJO_IMG.naturalHeight}; };
+MEW_GOJO_IMG.src='assets/img/mewingcat/MEW_GOJO_IMG.webp';   // 🧿 Gojo Cat (ảnh user gửi) — dáng lúc cast
+let mwPurple=null;   // cảnh đang chạy
+let mwTrench=null;   // rãnh hư vô (giữ tới hết trận)
+let mwBits=[];       // bụi tím / mảnh vỡ / hạt năng lượng
+function _mwPurpleStart(f){
+  const e=_sdFoe(f); if(!e) return;
+  f._mwGojo=true;
+  mwPurple={f, e, t0:performance.now(), ang:Math.atan2(e.y-f.y,e.x-f.x), R:f.size*1.45, fired:false, done:false, kill:[]};
+  battleFreezeTimer=Math.max(battleFreezeTimer,3);
+  playSample('ultimate_charge_2',1.0); addShake(4,8);
+}
+function _mwHand(q){ const f=q.f; return [f.x+Math.cos(q.ang)*f.size*1.15, f.y+Math.sin(q.ang)*f.size*1.15-f.size*0.08]; }
+function _mwDust(x,y,s,n){ for(let i=0;i<n;i++){ const a=Math.random()*Math.PI*2, sp=1+Math.random()*5;
+  mwBits.push({k:'dust',x:x+(Math.random()-0.5)*s,y:y+(Math.random()-0.5)*s,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-1,r:1.5+Math.random()*3.5,t:0,T:40+Math.random()*30,c:Math.random()<0.5?'#d48bff':(Math.random()<0.5?'#ffffff':'#7c3aed')}); } }
+function _mwPurpleTick(){
+  const q=mwPurple; if(!q) return;
+  const now=performance.now(), ms=now-q.t0, f=q.f;
+  if(!f || f.dead){ mwPurple=null; if(f) f._mwGojo=false; battleFreezeTimer=0; return; }
+  battleFreezeTimer=Math.max(battleFreezeTimer,3);   // ⏸️ thời gian đứng yên suốt cảnh
+  const [hx,hy]=_mwHand(q);
+  if(!q.fired && ms<MW_STOP_MS && Math.random()<0.6){ const a=Math.random()*Math.PI*2, d=f.size*(2+Math.random()*3);   // hạt năng lượng lơ lửng bị hút về tay
+    mwBits.push({k:'mote',x:hx+Math.cos(a)*d,y:hy+Math.sin(a)*d,tx:hx,ty:hy,t:0,T:50,c:Math.random()<0.5?'#b388ff':'#e1bee7'}); }
+  if(!q.merged && ms>=1300){ q.merged=true; addShake(10,14); playSample('chidorii',0.8); }
+  if(!q.fired && ms>=MW_STOP_MS){   // 💥 BẮN
+    q.fired=true; q.fireT=now; q.sx=hx+Math.cos(q.ang)*q.R*0.45; q.sy=hy+Math.sin(q.ang)*q.R*0.45;
+    mwTrench={x:q.sx, y:q.sy, ang:q.ang, len:0, R:q.R*1.05, t0:now, seed:Array.from({length:600},()=>Math.random())};
+    playSample('king_laser',1.0); addShake(18,26);
+  }
+  if(q.fired && !q.done){
+    const L=(now-q.fireT)*MW_SPEED; q.len=L; mwTrench.len=L;
+    const cx=Math.cos(q.ang), cy=Math.sin(q.ang), ox=q.sx+cx*L, oy=q.sy+cy*L;
+    const hit=(x,y,r)=>{ const px=x-q.sx, py=y-q.sy, along=Math.max(0,Math.min(L,px*cx+py*cy)); return Math.hypot(px-cx*along, py-cy*along) < q.R*1.05+r; };
+    for(const u of fighters){ if(u===f || u.dead || u._mwErased) continue;          // ☠️ meme (cả đồng minh) trên đường bay → xoá
+      if(hit(u.x,u.y,u.size*0.55)){ u._mwErased=true; q.kill.push(u); _mwDust(u.x,u.y,u.size*1.4,60); addShake(10,14); playSample('death_break',0.9); } }
+    for(const arr of _hpSummonArrays()) for(const u of arr){ if(!u || u.dead || !(u.hp>0)) continue;   // quân triệu hồi 2 phe
+      if(hit(u.x,u.y,(u.size||20)*0.55)){ u.hp=0; u.dead=true; _mwDust(u.x,u.y,(u.size||20)*1.4,24); } }
+    for(let i=projectiles.length-1;i>=0;i--){ const p=projectiles[i]; if(hit(p.x,p.y,p.size||4)) projectiles.splice(i,1); }   // đạn đang bay
+    for(let k=0;k<4;k++){ const side=Math.random()<0.5?-1:1, off=q.R*(0.9+Math.random()*0.3), sp=2+Math.random()*5;   // mảnh vỡ văng khỏi mép rãnh
+      mwBits.push({k:'chunk',x:ox-cy*side*off-cx*q.R*0.3,y:oy+cx*side*off-cy*q.R*0.3,vx:-cy*side*sp+cx*1.5,vy:cx*side*sp+cy*1.5-1,s:2+Math.random()*6,rot:Math.random()*6,vr:(Math.random()-0.5)*0.5,t:0,T:30+Math.random()*25}); }
+    const C=_fxCoverRect(1.25), m=q.R*2;
+    if(ox<C[0]-m || ox>C[0]+C[2]+m || oy<C[1]-m || oy>C[1]+C[3]+m){ q.done=true; q.endT=now; }
+  }
+  if(q.done && now-q.endT>=MW_AFTER_MS){   // ✅ kết thúc: thời gian chạy lại, chốt chết các meme đã bị xoá
+    battleFreezeTimer=0; f._mwGojo=false; mwPurple=null;
+    for(const u of q.kill){ _stopFighterSfx(u); _forceKill(u,f); if(!u.dead){ u.hp=0; u.dead=true; u._deathTick=tick; } }
+  }
+  for(let i=mwBits.length-1;i>=0;i--){ const b=mwBits[i]; b.t++;
+    if(b.k==='mote'){ b.x+=(b.tx-b.x)*0.07; b.y+=(b.ty-b.y)*0.07; }
+    else { b.x+=b.vx; b.y+=b.vy; b.vx*=0.95; b.vy*=0.95; if(b.k==='chunk'){ b.vy+=0.12; b.rot+=b.vr; } }
+    if(b.t>=b.T) mwBits.splice(i,1); }
+}
+// cầu năng lượng (xanh/đỏ/tím): quầng sáng → vòng xoáy → dải tối → lõi trắng loá → tia sao 4 cánh
+function _mwOrb(x,y,r,pal,spin,a){
+  const tm=performance.now()/1000;
+  ctx.save(); ctx.globalAlpha=a; ctx.globalCompositeOperation='lighter';
+  let g=ctx.createRadialGradient(x,y,0,x,y,r*2.8); g.addColorStop(0,`rgba(${pal[0]},0.55)`); g.addColorStop(0.35,`rgba(${pal[1]},0.25)`); g.addColorStop(1,`rgba(${pal[1]},0)`);
+  ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r*2.8,0,Math.PI*2); ctx.fill();
+  ctx.lineCap='round';
+  for(let i=0;i<5;i++){ const st=spin+i*1.26+tm*(2+i*0.4), rr=r*(0.55+i*0.11);   // vòng xoáy năng lượng
+    ctx.strokeStyle=`rgba(${pal[i%2?0:1]},${0.75-i*0.1})`; ctx.lineWidth=Math.max(1.2,r*(0.12-i*0.015)); ctx.beginPath(); ctx.arc(x,y,rr,st,st+Math.PI*(0.9+0.25*Math.sin(tm*3+i))); ctx.stroke(); }
+  ctx.strokeStyle=`rgba(${pal[0]},0.95)`; ctx.lineWidth=Math.max(1.5,r*0.09); ctx.shadowColor=`rgb(${pal[0]})`; ctx.shadowBlur=r*0.6; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.stroke(); ctx.shadowBlur=0;
+  g=ctx.createRadialGradient(x,y,0,x,y,r*0.62); g.addColorStop(0,'rgba(255,255,255,1)'); g.addColorStop(0.45,`rgba(${pal[2]},0.95)`); g.addColorStop(1,`rgba(${pal[0]},0)`);
+  ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r*0.62,0,Math.PI*2); ctx.fill();
+  const fl=r*(1.6+0.25*Math.sin(tm*9)); ctx.fillStyle='rgba(255,255,255,0.85)';   // tia sao 4 cánh
+  for(const [dx,dy] of [[1,0],[0,1]]){ ctx.beginPath(); ctx.moveTo(x-dx*fl,y-dy*fl); ctx.lineTo(x+dy*r*0.08,y+dx*r*0.08); ctx.lineTo(x+dx*fl,y+dy*fl); ctx.lineTo(x-dy*r*0.08,y-dx*r*0.08); ctx.closePath(); ctx.fill(); }
+  ctx.restore(); }
+function _mwBolt(x1,y1,x2,y2,col,w,a){ const pts=_genLightPts(x1,y1,x2,y2,Array.from({length:24},()=>Math.random()),4,0);
+  ctx.save(); ctx.globalAlpha=a; ctx.globalCompositeOperation='lighter'; ctx.lineJoin='round'; ctx.lineCap='round';
+  for(const [lw,c] of [[w*3,`rgba(${col},0.25)`],[w,'rgba(255,255,255,0.95)']]){ ctx.lineWidth=lw; ctx.strokeStyle=c; ctx.beginPath(); pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.stroke(); }
+  ctx.restore(); }
+const MW_PAL={ blue:['120,200,255','30,90,255','190,230,255'], red:['255,120,110','220,0,30','255,200,190'], purple:['215,140,255','120,30,255','240,210,255'] };
+// RÃNH HƯ VÔ: lòng đen sâu thẳm (lấm tấm sao tím), mép lởm chởm rực tím — vẽ SAU CÙNG trong world nên xoá cả sân lẫn chữ
+function _mwDrawTrench(){
+  const T=mwTrench; if(!T || T.len<=0) return;
+  const cx=Math.cos(T.ang), cy=Math.sin(T.ang), nx=-cy, ny=cx, step=7, N=Math.max(2,Math.ceil(T.len/step)), tm=performance.now()/1000;
+  const edge=(i,sd)=>T.R*(1+0.16*(T.seed[(i*2+sd)%T.seed.length]-0.5)+0.05*Math.sin(i*0.7+sd));
+  const L=[], Rr=[];
+  for(let i=0;i<=N;i++){ const d=Math.min(T.len,i*step), bx=T.x+cx*d, by=T.y+cy*d; L.push([bx+nx*edge(i,0),by+ny*edge(i,0)]); Rr.push([bx-nx*edge(i,1),by-ny*edge(i,1)]); }
+  const shape=()=>{ ctx.beginPath(); L.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); for(let i=Rr.length-1;i>=0;i--) ctx.lineTo(Rr[i][0],Rr[i][1]); ctx.closePath(); };
+  ctx.save();
+  shape(); const g=ctx.createLinearGradient(T.x+nx*T.R,T.y+ny*T.R,T.x-nx*T.R,T.y-ny*T.R);
+  g.addColorStop(0,'#2a0a4a'); g.addColorStop(0.12,'#07010f'); g.addColorStop(0.5,'#020006'); g.addColorStop(0.88,'#07010f'); g.addColorStop(1,'#2a0a4a');
+  ctx.fillStyle=g; ctx.fill();
+  ctx.clip();   // lấm tấm sao tím trôi chậm trong lòng rãnh
+  for(let i=0;i<Math.min(140,N*2);i++){ const d=(T.seed[(i*7)%T.seed.length]*T.len), w=(T.seed[(i*7+3)%T.seed.length]-0.5)*T.R*1.7, tw=0.4+0.6*Math.abs(Math.sin(tm*2+i));
+    ctx.fillStyle=`rgba(200,160,255,${0.55*tw})`; ctx.beginPath(); ctx.arc(T.x+cx*d+nx*w, T.y+cy*d+ny*w, 0.8+T.seed[(i*7+5)%T.seed.length]*1.4, 0, Math.PI*2); ctx.fill(); }
+  ctx.restore();
+  ctx.save(); ctx.lineJoin='round'; ctx.lineCap='round'; ctx.globalCompositeOperation='lighter';   // mép rực tím
+  const pu=0.75+0.25*Math.sin(tm*4);
+  for(const side of [L,Rr]) for(const [lw,c,sb] of [[9,`rgba(140,40,255,${0.35*pu})`,18],[3,`rgba(220,160,255,${0.9*pu})`,10],[1.2,'rgba(255,255,255,0.8)',0]]){
+    ctx.lineWidth=lw; ctx.strokeStyle=c; ctx.shadowColor='#a855f7'; ctx.shadowBlur=sb; ctx.beginPath(); side.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.stroke(); }
+  ctx.shadowBlur=0;
+  { const sx=T.x, sy=T.y; ctx.lineWidth=3; ctx.strokeStyle=`rgba(220,160,255,${0.8*pu})`; ctx.beginPath(); ctx.moveTo(L[0][0],L[0][1]); ctx.lineTo(sx-cx*4,sy-cy*4); ctx.lineTo(Rr[0][0],Rr[0][1]); ctx.stroke(); }   // mép đầu rãnh
+  ctx.restore(); }
+function _mwPurpleDraw(){
+  _mwDrawTrench();
+  const q=mwPurple;
+  if(q){
+    const now=performance.now(), ms=now-q.t0, f=q.f, [hx,hy]=_mwHand(q), C=_fxCoverRect(1.3);
+    // 🌑 dừng thời gian: màn tối tím, chừa vùng sáng quanh mèo
+    const dk=q.fired ? Math.max(0.35, 1-(now-q.fireT)/900) : Math.min(1, ms/300);
+    { const g=ctx.createRadialGradient(f.x,f.y,f.size*1.2,f.x,f.y,Math.max(C[2],C[3])*0.7); g.addColorStop(0,'rgba(18,0,40,0)'); g.addColorStop(0.18,`rgba(22,0,48,${0.68*dk})`); g.addColorStop(1,`rgba(6,0,16,${0.88*dk})`);
+      ctx.save(); ctx.fillStyle=g; ctx.fillRect(C[0],C[1],C[2],C[3]); ctx.restore(); }
+    if(!q.fired){
+      // hào quang tím viền quanh mèo (vòng, không che mặt)
+      ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.globalAlpha=Math.min(1,ms/400)*(0.6+0.25*Math.sin(ms/90));
+      const ag=ctx.createRadialGradient(f.x,f.y,f.size*0.9,f.x,f.y,f.size*1.9); ag.addColorStop(0,'rgba(168,85,247,0)'); ag.addColorStop(0.5,'rgba(168,85,247,0.35)'); ag.addColorStop(1,'rgba(168,85,247,0)');
+      ctx.fillStyle=ag; ctx.beginPath(); ctx.arc(f.x,f.y,f.size*1.9,0,Math.PI*2); ctx.fill(); ctx.restore();
+      // 🔵🔴 hai cầu xoáy quanh tay rồi hợp nhất
+      const ob=f.size*1.7, conv=Math.max(0,Math.min(1,(ms-750)/550)), rad=ob*(1-conv*conv), spinA=(ms/1000)*(4+conv*10);
+      const bA=Math.PI+spinA, rA=spinA;
+      const bk=Math.max(0,Math.min(1,(ms-150)/300)), rk=Math.max(0,Math.min(1,(ms-450)/300)), fade=ms>1300?Math.max(0,1-(ms-1300)/120):1;
+      const bx=hx+Math.cos(bA)*rad, by=hy+Math.sin(bA)*rad*0.6, rx=hx+Math.cos(rA)*rad, ry=hy+Math.sin(rA)*rad*0.6;
+      if(bk>0 && fade>0) _mwOrb(bx,by,f.size*0.62*bk,MW_PAL.blue,0,fade);
+      if(rk>0 && fade>0) _mwOrb(rx,ry,f.size*0.62*rk,MW_PAL.red,1,fade);
+      if(bk>0 && rk>0 && ms<1320){ _mwBolt(bx,by,rx,ry,'200,140,255',2,0.95); if(Math.random()<0.5) _mwBolt(bx,by,rx,ry,'120,200,255',1.2,0.7); }   // sét nổ giữa 2 cầu
+      if(ms>=1300){ const u=Math.min(1,(ms-1300)/200);
+        _mwOrb(hx,hy,q.R*(0.3+0.7*u),MW_PAL.purple,0,1);
+        ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.strokeStyle=`rgba(230,190,255,${1-u})`; ctx.lineWidth=6*(1-u)+1; ctx.beginPath(); ctx.arc(hx,hy,q.R*(0.5+u*2.5),0,Math.PI*2); ctx.stroke();   // sóng xung kích lúc hợp nhất
+        ctx.fillStyle=`rgba(255,255,255,${0.5*(1-u)})`; ctx.fillRect(C[0],C[1],C[2],C[3]); ctx.restore(); }
+    } else if(!q.done){
+      const cx=Math.cos(q.ang), cy=Math.sin(q.ang), ox=q.sx+cx*q.len, oy=q.sy+cy*q.len, R=q.R;
+      ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round';   // vệt sáng tím kéo dài phía sau
+      for(let i=0;i<9;i++){ const off=(i-4)/4*R*0.8, len=R*(3+((i*37)%5)), a=0.55-Math.abs(i-4)*0.08;
+        const g=ctx.createLinearGradient(ox-cx*len,oy-cy*len,ox,oy); g.addColorStop(0,'rgba(140,60,255,0)'); g.addColorStop(1,`rgba(225,180,255,${a})`);
+        ctx.strokeStyle=g; ctx.lineWidth=Math.max(1.5,R*(0.18-Math.abs(i-4)*0.03)); ctx.beginPath(); ctx.moveTo(ox-cx*len-cy*off,oy-cy*len+cx*off); ctx.lineTo(ox-cy*off*0.6,oy+cx*off*0.6); ctx.stroke(); }
+      ctx.restore();
+      for(let k=0;k<3;k++) _mwBolt(ox,oy, ox-cx*R*(2.5+Math.random()*2)+(Math.random()-0.5)*R*2, oy-cy*R*(2.5+Math.random()*2)+(Math.random()-0.5)*R*2, '190,120,255',1.8,0.85);   // sét kéo theo
+      for(let k=0;k<4;k++){ const a=Math.random()*Math.PI*2; _mwBolt(ox+Math.cos(a)*R*0.9,oy+Math.sin(a)*R*0.9, ox+Math.cos(a)*R*(1.6+Math.random()*0.8),oy+Math.sin(a)*R*(1.6+Math.random()*0.8),'200,140,255',1.2,0.8); }   // xúc tu sét quanh cầu
+      ctx.save(); ctx.fillStyle='rgba(20,0,35,0.85)'; const tm=now/1000;   // mảnh đen xoáy quanh cầu
+      for(let k=0;k<7;k++){ const a=tm*5+k*0.9, rr=R*(1.15+0.2*Math.sin(tm*7+k)); ctx.beginPath(); ctx.ellipse(ox+Math.cos(a)*rr,oy+Math.sin(a)*rr,R*0.22,R*0.06,a+1.2,0,Math.PI*2); ctx.fill(); }
+      ctx.restore();
+      _mwOrb(ox,oy,R*(1+0.06*Math.sin(now/40)),MW_PAL.purple,now/200,1);
+      ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.strokeStyle='rgba(230,200,255,0.5)'; ctx.lineWidth=3; ctx.beginPath(); ctx.arc(ox+cx*R*0.6,oy+cy*R*0.6,R*1.4,q.ang-1.1,q.ang+1.1); ctx.stroke(); ctx.restore();   // sóng xé phía trước
+    }
+  }
+  if(mwBits.length){ ctx.save();
+    for(const b of mwBits){ const u=b.t/b.T;
+      if(b.k==='chunk'){ ctx.globalAlpha=1-u; ctx.fillStyle=u<0.4?'#3b1d5c':'#1b0d2b'; ctx.save(); ctx.translate(b.x,b.y); ctx.rotate(b.rot); ctx.fillRect(-b.s,-b.s*0.6,b.s*2,b.s*1.2); ctx.restore(); }
+      else { ctx.globalAlpha=(b.k==='mote'?0.9:1)*(1-u); ctx.globalCompositeOperation='lighter'; ctx.fillStyle=b.c; ctx.beginPath(); ctx.arc(b.x,b.y,b.k==='mote'?2:b.r*(1-u*0.5),0,Math.PI*2); ctx.fill(); ctx.globalCompositeOperation='source-over'; } }
+    ctx.restore(); }
+}
 // ===================== 🧞 ARABIC CAT =====================
 // Hết hồi 3s (đếm từ lúc thần đèn BIẾN MẤT) → bật nhạc + gọi thần đèn hiện cạnh mèo trong 2s. Mỗi lần gọi thần đèn tung ĐÚNG 1 chiêu:
 //   20%      → 🐔 biến địch thành GÀ 3s (con gà của Wind Guy): chạy lung tung, không đánh / không dùng skill được
@@ -8302,7 +8452,7 @@ const CHAR_FACTS = {
   infinitydoge:[ "Every time you hit it there is more of it. Nobody has solved this.", "It does not multiply. It divides. Somehow that is worse.", "The little ones remember everything the big one knew.", "Do the math. Then do it again, smaller." ],
   cryingcat:[ "Three cats, one grief. Nobody remembers who started crying first.", "Do not step on the tears. Everyone steps on the tears.", "They bump into each other on purpose. It helps.", "The Crying Cat Team has never once been asked if they are okay." ],
   rubikcat:[ "Rubik Cat solved it once. Never again on purpose.", "Six sides, six grudges. Rubik Cat is in no hurry.", "The last color always shows up right when you stop expecting it.", "Nobody has ever seen what's on the other side of that black hole. Ask around." ],
-  mewingcat:[ "Mewing Cat has three faces. All three are judging you.", "Mewing Cat's jawline is a certified natural disaster.", "Every statue Mewing Cat summons has a better jawline than you.", "Mewing Cat doesn't fight. Mewing Cat just mews and lets the rocks handle it." ],
+  mewingcat:[ "Mewing Cat has three faces. All three are judging you.", "On its second full set of poses, Mewing Cat stops mewing and starts erasing. Throughout heaven and earth, it alone is the jawline.", "Mewing Cat's jawline is a certified natural disaster.", "Every statue Mewing Cat summons has a better jawline than you.", "Mewing Cat doesn't fight. Mewing Cat just mews and lets the rocks handle it." ],
   smartguy:[ "Smart Guy's IQ test results are also his combat log.", "Smart Guy once rolled a 60. Nobody has let him forget it.", "Smart Guy's therapist says the gambling metaphor is 'concerning'.", "Smart Guy studied the blade. Then rolled a 73 and forgot how." ],
   aliencat:[ "Mr. Folk's saucer has better aim than half the roster.", "Abduction is just a really aggressive way of saying hello.", "Mr. Folk never blinks. Blinking would waste a perfectly good laser.", "Nobody asked Mr. Folk to come here. He came anyway, in boots." ],
   electricguitarcat:[ "Electric Guitar Cat has never once played quietly. It does not know the setting.", "Every neighbour filed a complaint. Every complaint was met with a solo.", "The sound waves no longer push you back. Your ears still want to leave.", "Electric Guitar Cat's amp goes to eleven. Nobody has seen the other ten.", "Getting close enough to unplug it is easy. Surviving the solo is not.", "The guitar catching fire is not a malfunction. That is the solo." ],
@@ -10843,6 +10993,7 @@ function updateShake(){
   _frSeqTick();    // 🐈‍⬛ chuỗi bóng đêm Friend — chạy độc lập khỏi battleFreezeTimer
   _smPreTick();    // 💧 màn đứng hình + giọt nước trước khi kết liễu
   _egAwakenTick(); // 😈 Evil Gary đủ 5 cánh sao: đứng hình, quỷ bung cánh, lãnh địa lan ra
+  _mwPurpleTick(); // 🟣 Mewing Cat — Hollow Purple: dừng thời gian + cầu tím xoá sổ mọi thứ trên đường bay
   _smCineTick();   // ⚔️🎬 cảnh kết liễu Samurai Cheems — chạy độc lập khỏi battleFreezeTimer
   _susVoteTick();  // 📮 tick chuỗi họp khẩn + bỏ phiếu Sus Cat — cũng phải chạy độc lập khỏi battleFreezeTimer
 }
@@ -12329,7 +12480,7 @@ class Fighter {
           // Solo & Team Battle: bỏ slow-mo + sound "ko" — vỡ tan là xong, không thêm hiệu ứng gì cho liền mạch (quay Shorts).
           // Chỉ Random Tournament còn giữ (vẫn cần advance bracket đầy đủ).
           if(rtBattleCtx) slowMoTimer = 40;
-          _spawnDeathShards(this.x,this.y,this.size,this.color,this._lastSprite);
+          if(!this._mwErased) _spawnDeathShards(this.x,this.y,this.size,this.color,this._lastSprite);   // bị Hollow Purple xoá thì đã tan thành bụi, không vỡ mảnh nữa
           playSample('death_break',1.2);   // 🧱 tiếng vỡ tan chung (Sad Cat gục vì depression cũng là chết)
           addShake(12,18);
           if(rtBattleCtx) playSound('ko');
@@ -15442,6 +15593,7 @@ class Fighter {
           if(this._mewPoses.every(Boolean)){
             this._mewPoses=[false,false,false,false];
             this._mewTier=(this._mewTier||0)+1;   // 🗿 đủ 4 tư thế → tượng gọi ra từ giờ TO ×2 + MÁU ×2 (thay cho tăng số tượng)
+            if(this._mewTier===2 && !this._mwPurpleDone){ this._mwPurpleDone=true; _mwPurpleStart(this); }   // 🟣 lần thứ 2 đủ bộ → HOLLOW PURPLE
             floatTexts.push({x:this.x,y:this.y-this.size-26,text:'🗿 STATUES ×2',color:'#ffd54f',life:60,big:true});
             spawnParticles(this.x,this.y,'#ffd54f',22,false,true);   // đủ bộ 4 tư thế → nổ vàng + rung
             addShake(6,10);
@@ -16400,6 +16552,7 @@ class Fighter {
   }
 
   draw(){
+    if(this._mwErased) return;   // 🟣 đã bị Hollow Purple xoá sổ — không còn gì để vẽ
     _arPin(this);   // 🗿 đang là tượng: luôn vẽ đúng chỗ bị hoá
     // 😏 đang bị Troll Face NGẬM trong mồm → biến mất hẳn khỏi sàn: không vẽ thân, không vẽ cả thanh máu,
     // coi như đã nằm gọn trong bụng nó (số dame nổi vẫn bay ra bình thường vì nằm ở hệ floatTexts riêng).
@@ -16926,7 +17079,9 @@ class Fighter {
     const castingSkill3 = this.skill3AvatarTimer > 0;
 
     let img;
-    if(_arIsChick(this) && WG_CHICKEN_IMGS[0].naturalWidth){
+    if(this.type==='mewingcat' && this._mwGojo && MEW_GOJO_IMG.complete && MEW_GOJO_IMG.naturalWidth){
+      img = MEW_GOJO_IMG;   // 🧿 dáng Gojo lúc cast Hollow Purple
+    } else if(_arIsChick(this) && WG_CHICKEN_IMGS[0].naturalWidth){
       img = WG_CHICKEN_IMGS[Math.floor(Date.now()/90)%5];   // 🐔 bị Arabic Cat hoá gà: thay hẳn hình bằng con gà chạy của Wind Guy
     } else if(this.type==='rickroll' && this._rrIsRick && (skill1AvatarImgs[i]||skill2AvatarImgs[i]||skill3AvatarImgs[i]||attackAvatarImgs[i]||rageAvatarImgs[i])){
       // 🎁 Rick đang nhảy cùng nạn nhân (đã bị lừa mở hộp) → lật vòng 5 ảnh tư thế nhảy (ô upload riêng) để giả
@@ -19131,7 +19286,7 @@ function startGame(skipVsIntro){
   document.getElementById('pauseOverlay').classList.remove('visible');
   stopAllBattleMusic();
   _gameTickAccum=0;
-  fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; wcDrops=[]; wcFx=[]; popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[]; tick=0;
+  fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwTrench=null; mwBits=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; wcDrops=[]; wcFx=[]; popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[]; tick=0;
   _matchStats=Array.from({length:8},()=>({dmg:0,hits:0,healed:0,attempted:0}));
   screenShake={x:0,y:0,dur:0,str:0}; afterImages=[]; slowMoTimer=0; hitStopFrames=0; hitStopCD=0; koZoom=0; _camReset();
   loop._koTimer=null; loop._resInit=false; loop._resT=null; loop._resClick=false; loop._rtDone=false; loop._statsT=0; loop._lbPrompted=false; loop._ctaText=null; loop._mechShown=false; loop._fanDone=false; loop._wcMeowDone=false;
@@ -19562,7 +19717,7 @@ function resetGame(){
   document.getElementById('pauseOverlay').classList.remove('visible');
   _gameTickAccum=0;
   stopAllBattleMusic();
-  fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; wcDrops=[]; wcFx=[]; popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[];
+  fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwTrench=null; mwBits=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; wcDrops=[]; wcFx=[]; popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[];
   screenShake={x:0,y:0,dur:0,str:0}; slowMoTimer=0; hitStopFrames=0; hitStopCD=0; koZoom=0;
   showVsWaitScreen();
 }
@@ -24466,6 +24621,7 @@ function loop(){
   // không phải hiệu ứng nền.
   _susVoteDraw();
   _frDrawNight();   // 🐈‍⬛ bóng đêm Friend phủ lên TRÊN CÙNG — chỉ còn thấy mặt mèo ngoạm
+  _mwPurpleDraw();  // 🟣 Hollow Purple + RÃNH HƯ VÔ — vẽ sau cùng trong world: khoét xuyên sân, chữ, mọi thứ
   if(_camOn) ctx.restore(); // 🎥
   _frDrawPianoCameo();   // 🎸 Guitar Cat gảy đàn ở góc khung hình — toạ độ màn hình, dính theo góc cam đóng camera — mọi thứ vẽ SAU đây (tint disco, overlay...) là toạ độ màn hình, không bám camera
 
@@ -25465,7 +25621,7 @@ function tbLaunchNextFighter(losingTeam){
     apples=_tbKeepWin(apples); flowers=_tbKeepWin(flowers); loadingArrows=_tbKeepWin(loadingArrows); sdActors=[]; sdProjs=[]; sdZzz=[]; wcDrops=[]; susSummons=_tbKeepWin(susSummons); knifeBoomerangs=_tbKeepWin(knifeBoomerangs);
     heckerBolts=_tbKeepWin(heckerBolts); commanderSoldiers=_tbKeepWin(commanderSoldiers); batSwarm=_tbKeepWin(batSwarm);
     cars=_tbKeepWin(cars); projectiles=_tbKeepWin(projectiles); maxwellTnts=_tbKeepWin(maxwellTnts); dogeKnights=_tbKeepWin(dogeKnights); mewingStatues=_tbKeepWin(mewingStatues); capybaraKnives=_tbKeepWin(capybaraKnives); cryCats=_tbKeepWin(cryCats); dogeClones=_tbKeepWin(dogeClones);
-    bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; wcDrops=[]; wcFx=[]; popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=_tbKeepWin(evilSouls); egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; survivor._egPsn=0; survivor._egPsnSrc=null;   // ☠️ độc linh hồn không mang sang hiệp mới cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; battleFreezeTimer=0; susExplosions=[]; swordSlashes=[]; holyBeams=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; flowerShatters=[]; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; lightningBolts=[]; tick=0;
+    bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwTrench=null; mwBits=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; wcDrops=[]; wcFx=[]; popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=_tbKeepWin(evilSouls); egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; survivor._egPsn=0; survivor._egPsnSrc=null;   // ☠️ độc linh hồn không mang sang hiệp mới cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; battleFreezeTimer=0; susExplosions=[]; swordSlashes=[]; holyBeams=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; flowerShatters=[]; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; lightningBolts=[]; tick=0;
     screenShake={x:0,y:0,dur:0,str:0}; afterImages=[]; slowMoTimer=0; hitStopFrames=0; hitStopCD=0; koZoom=0;
     loop._koTimer=null; loop._resInit=false; loop._resT=null; loop._resClick=false; loop._rtDone=false; loop._statsT=0; loop._lbPrompted=false; loop._ctaText=null; loop._wcMeowDone=false;
     _clearArena();
@@ -25767,7 +25923,7 @@ function closeFan(){
   document.getElementById('mainMenuScreen').classList.add('active');
 }
 function _ffa3ClearArrays(){
-  fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; wcDrops=[]; wcFx=[]; popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[]; tick=0;
+  fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwTrench=null; mwBits=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; wcDrops=[]; wcFx=[]; popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[]; tick=0;
   screenShake={x:0,y:0,dur:0,str:0}; slowMoTimer=0; hitStopFrames=0; hitStopCD=0; koZoom=0;
 }
 function ffa3Start(){
