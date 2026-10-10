@@ -444,6 +444,60 @@ const WG_ITEM_HEALING_IMG = new Image(); WG_ITEM_HEALING_IMG.src='assets/img/win
 const WG_TORNADO_IMG = new Image(); WG_TORNADO_IMG._cols=5; WG_TORNADO_IMG._rows=12;
 WG_TORNADO_IMG.src='assets/img/windguy/WG_TORNADO_IMG.webp';
 const MAXWELL_LIGHTSABER_IMG = new Image(); MAXWELL_LIGHTSABER_IMG.src = 'assets/img/maxwell/MAXWELL_LIGHTSABER_IMG.webp';   // ⚔️ lightsaber xanh (vẽ bằng code: chuôi + lưỡi sáng, phát sáng thêm lúc vẽ)
+const MAXWELL_LEVIATHAN_IMG = new Image(); MAXWELL_LEVIATHAN_IMG.src = 'assets/img/maxwell/MAXWELL_LEVIATHAN_IMG.webp';   // 🪓❄️ rìu Leviathan (God of War)
+// 🪓 RÌU LEVIATHAN: ném bám theo địch → GĂM vào người → 1s sau tự bay ngược về tay (như búa Thor) → ném tiếp.
+//    Trúng lần lẻ: 100 + chậm 2s · lần chẵn: 150 + ĐÓNG BĂNG 1s (dùng khối băng của Mlem Cat). Đếm lại mỗi lần roll ra rìu.
+const LV_SLOW_DMG=100, LV_FREEZE_DMG=150, LV_SLOW_T=120, LV_FREEZE_T=60, LV_STUCK_T=60, LV_SPEED=10;
+function _lvThrow(f,e){
+  const hx=f.x+(e.x>=f.x?1:-1)*f.size*0.8, hy=f.y-f.size*0.2;
+  f._lvAxe={st:'fly', x:hx, y:hy, tgt:e, a:Math.atan2(e.y-hy,e.x-hx), spin:0, t:0, trail:[]};
+  playSample('wg_axe_whoosh',0.7);
+}
+function _lvTick(f){
+  const A=f._lvAxe; if(!A) return;
+  if(f.dead){ f._lvAxe=null; return; }
+  A.t++; A.trail.push([A.x,A.y,A.spin]); if(A.trail.length>6) A.trail.shift();
+  if(A.st==='fly'){
+    const e=A.tgt;
+    if(!e || e.dead || !(e.hp>0) || A.t>90){ A.st='ret'; A.t=0; return; }
+    const dx=e.x-A.x, dy=e.y-A.y, d=Math.hypot(dx,dy)||1;
+    A.a=Math.atan2(dy,dx); A.x+=dx/d*LV_SPEED; A.y+=dy/d*LV_SPEED; A.spin+=0.55;
+    if(d < (e.size||20)*0.85){
+      f._lvHitN=(f._lvHitN||0)+1; const frz=f._lvHitN%2===0;
+      e.takeDamage(frz?LV_FREEZE_DMG:LV_SLOW_DMG, f);
+      if(frz){ e.stun=Math.max(e.stun||0,LV_FREEZE_T); e._mlemFreezeT=LV_FREEZE_T; e._iceSeed=Math.random()*99; playSample('mlem_freeze',1.0); addShake(7,10);
+        spawnParticles(e.x,e.y,'#e1f5fe',18,false,true); spawnParticles(e.x,e.y,'#4fc3f7',12,false,true); }
+      else { e._maxwellSlowTimer=Math.max(e._maxwellSlowTimer||0,LV_SLOW_T); addShake(5,8); spawnParticles(e.x,e.y,'#b3e5fc',10,false,true); }
+      playSample('wg_blade_impact',0.8);
+      A.st='stuck'; A.t=0; A.ox=-Math.cos(A.a)*(e.size||20)*0.45; A.oy=-Math.sin(A.a)*(e.size||20)*0.45; A.frz=frz;
+    }
+  } else if(A.st==='stuck'){
+    const e=A.tgt;
+    if(e && !e.dead){ A.x=e.x+A.ox; A.y=e.y+A.oy; }
+    if(A.t>=LV_STUCK_T || !e || e.dead){ A.st='ret'; A.t=0; playSample('wg_axe_whoosh',0.7); if(e&&!e.dead) spawnParticles(A.x,A.y,'#b3e5fc',6,false,true); }
+  } else {   // 'ret' — bay ngược về tay, càng lúc càng nhanh
+    const hx=f.x, hy=f.y-f.size*0.2, dx=hx-A.x, dy=hy-A.y, d=Math.hypot(dx,dy)||1, sp=Math.min(18,8+A.t*0.6);
+    A.a=Math.atan2(dy,dx); A.x+=dx/d*sp; A.y+=dy/d*sp; A.spin-=0.6;
+    if(d<f.size*0.9 || A.t>120){ f._lvAxe=null; addShake(3,5); playSample('bk_clang',0.6); spawnParticles(hx,hy,'#e1f5fe',8,false,true); }
+  }
+}
+function _lvDraw(f){
+  const A=f._lvAxe, im=MAXWELL_LEVIATHAN_IMG; if(!A || !im.naturalWidth) return;
+  const h=f.size*1.7, w=h*im.naturalWidth/im.naturalHeight;
+  const one=(x,y,rot,al)=>{ ctx.save(); ctx.globalAlpha=al; ctx.translate(x,y); ctx.rotate(rot); ctx.drawImage(im,-w*0.55,-h*0.3,w,h); ctx.restore(); };
+  if(A.st!=='stuck'){
+    ctx.save(); ctx.globalCompositeOperation='lighter';   // ❄️ vệt băng sau rìu
+    A.trail.forEach((q,k)=>{ const g=ctx.createRadialGradient(q[0],q[1],0,q[0],q[1],h*0.5); g.addColorStop(0,`rgba(140,210,255,${0.06*(k+1)})`); g.addColorStop(1,'rgba(100,180,255,0)'); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(q[0],q[1],h*0.5,0,Math.PI*2); ctx.fill(); });
+    ctx.restore();
+    A.trail.forEach((q,k)=>{ if(k<A.trail.length-1) one(q[0],q[1],q[2],0.08*(k+1)); });
+    one(A.x,A.y,A.spin,1);
+  } else {   // găm vào người: lưỡi chém vào phía trước, cán chĩa ra sau, rung nhẹ lúc mới găm
+    const wob=A.t<10?Math.sin(A.t*1.6)*0.25*(1-A.t/10):0;
+    ctx.save(); ctx.translate(A.x,A.y); ctx.rotate(A.a+wob); if(Math.cos(A.a)<0) ctx.scale(1,-1);   // mép lưỡi (bên phải ảnh) bổ vào người, cán thõng xuống
+    if(A.frz){ ctx.globalCompositeOperation='lighter'; const g=ctx.createRadialGradient(0,0,0,0,0,h*0.6); g.addColorStop(0,'rgba(180,230,255,0.5)'); g.addColorStop(1,'rgba(120,200,255,0)'); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(0,0,h*0.6,0,Math.PI*2); ctx.fill(); ctx.globalCompositeOperation='source-over'; }
+    ctx.drawImage(im,-w*0.72,-h*0.23,w,h); ctx.restore();   // đặt mép lưỡi lún sâu vào thân
+  }
+}
 const MAXWELL_BOW_IMG = new Image();
 MAXWELL_BOW_IMG.src = 'assets/img/maxwell/MAXWELL_BOW_IMG.webp';
 MAXWELL_TNT_IMG.src = 'assets/img/maxwell/MAXWELL_TNT_IMG.webp';
@@ -15410,8 +15464,11 @@ class Fighter {
         minigun:       { dmg:10,  melee:false, img:MAXWELL_MINIGUN_IMG,      color:'#b0bec5' },
         // ⚔️ lightsaber: chém cận chiến 75 + gây CHÁY (3s, dùng chung hệ thống burn)
         lightsaber:    { dmg:75,  melee:true,  img:MAXWELL_LIGHTSABER_IMG,   color:'#40c4ff', burn:true },
+        // 🪓 rìu Leviathan: ném/găm/gọi về — xử lý riêng ở _lvThrow/_lvTick (dmg ở đây chỉ để đủ khung)
+        leviathan:     { dmg:LV_SLOW_DMG, melee:false, axe:true, img:MAXWELL_LEVIATHAN_IMG, color:'#81d4fa' },
       };
-      const _mwKeys=['diamond_sword','wooden_sword','lava_bucket','steak','tnt','bow','minigun','lightsaber'];
+      const _mwKeys=['diamond_sword','wooden_sword','lava_bucket','steak','tnt','bow','minigun','lightsaber','leviathan'];
+      _lvTick(this);   // 🪓 rìu Leviathan đang bay/găm/quay về (chạy cả khi đã hết thời gian cầm)
       // 🎵 nhạc quay vòng maxwell_dance (28s): PHÁT khi đang xoay/vừa hiện ra (spin/reveal — cùng lúc GIF đang chạy),
       // TẠM DỪNG (không reset currentTime) khi đang dùng đồ/ăn/chờ — phát TIẾP đúng chỗ cũ khi xoay lại
       const _mwSpinning = (this._mwPhase==='spin' || this._mwPhase==='reveal');
@@ -15455,6 +15512,7 @@ class Fighter {
             this._mwPhase='postuse_wait'; this._mwPostUseTimer=60; // 1s rồi xoay lại
           } else {
             if(this._mwItem==='lightsaber') playSample('lightsaber_on',0.85);   // ⚔️ bật kiếm
+            if(this._mwItem==='leviathan') this._lvHitN=0;                    // 🪓 đếm lại: lần 1 chậm, lần 2 đóng băng…
             this._mwUseTimer=360; // 6s cầm vật phẩm — hết giờ tự vỡ, không cần đánh hết lượt
             this._mwAtkCD=0;
             this._mwPhase='using';
@@ -15472,6 +15530,8 @@ class Fighter {
             _hitParticles(e.x,e.y,'#80d8ff',8,false,true); playSample('lightsaber_whoosh_01',0.7); }
           this._mwAtkCD=20; // AS 3 = 60/3 = 20 frame
           this.actionState='attack'; this.actionTimer=18; this.attackAvatarTimer=18;
+        } else if(def && def.axe){
+          if(!this._lvAxe && this._mwAtkCD<=0 && dist<340 && e && !e.dead){ _lvThrow(this,e); this._mwAtkCD=12; this.actionState='attack'; this.actionTimer=16; this.attackAvatarTimer=16; }
         } else if(def && !def.melee && this._mwAtkCD<=0 && dist<340){
           const ang=Math.atan2(dy,dx);
           const _isBow=this._mwItem==='bow';
@@ -18235,8 +18295,9 @@ class Fighter {
         // thấp hơn mấy món kia cho khớp ảnh mẫu (súng ôm ngang bụng chứ không giơ ngang mặt).
         minigun:       {img:MAXWELL_MINIGUN_IMG, scale:0.65, offMult:0.62, rot:0, centerPivot:true, yOff:0.34, artRight:true},
         lightsaber:    {img:MAXWELL_LIGHTSABER_IMG, scale:1.5, offMult:1.0, rot:0.35, saber:true},
+        leviathan:     {img:MAXWELL_LEVIATHAN_IMG, scale:1.15, offMult:1.0, rot:0.35},
       };
-      if(this._mwPhase==='using' && this._mwItem && _mwItemImgMap[this._mwItem]){
+      if(this._mwPhase==='using' && this._mwItem && _mwItemImgMap[this._mwItem] && !(this._mwItem==='leviathan' && this._lvAxe)){   // rìu đang bay thì tay trống
         const _mwEntry=_mwItemImgMap[this._mwItem];
         const _mImgRaw=_mwEntry.slot;
         const _mImg=(_mImgRaw && _mImgRaw.complete && _mImgRaw.naturalWidth) ? _mImgRaw : _mwEntry.img;
@@ -18291,7 +18352,7 @@ class Fighter {
         ctx.restore();
       }
       if(this._introLock<=0 && (this._mwPhase==='spin' || this._mwPhase==='reveal')){
-        const _mwIconMap = { diamond_sword:MAXWELL_DIAMOND_SWORD_IMG, wooden_sword:MAXWELL_WOODEN_SWORD_IMG, lava_bucket:MAXWELL_LAVA_BUCKET_IMG, steak:MAXWELL_STEAK_IMG, tnt:MAXWELL_TNT_IMG, bow:MAXWELL_BOW_IMG, minigun:MAXWELL_MINIGUN_IMG, lightsaber:MAXWELL_LIGHTSABER_IMG };
+        const _mwIconMap = { diamond_sword:MAXWELL_DIAMOND_SWORD_IMG, wooden_sword:MAXWELL_WOODEN_SWORD_IMG, lava_bucket:MAXWELL_LAVA_BUCKET_IMG, steak:MAXWELL_STEAK_IMG, tnt:MAXWELL_TNT_IMG, bow:MAXWELL_BOW_IMG, minigun:MAXWELL_MINIGUN_IMG, lightsaber:MAXWELL_LIGHTSABER_IMG, leviathan:MAXWELL_LEVIATHAN_IMG };
         const _mIconImg=_mwIconMap[this._mwSpinIcon];
         if(_mIconImg && _mIconImg.complete && _mIconImg.naturalWidth){
           const _isz=this._mwPhase==='reveal' ? s*0.85 : s*0.7;
@@ -25239,6 +25300,7 @@ function loop(){
   // Evil Larry, nhưng vẽ SAU CÙNG trong world để đè lên cả nhân vật/thanh máu — đây là hoạt cảnh cắt ngang trận,
   // không phải hiệu ứng nền.
   _dogeFxDraw();   // 🐕 hiệu ứng biến hình / BONK của Doge
+  for(const _f of fighters) if(_f._lvAxe && !_f.dead) _lvDraw(_f);   // 🪓 rìu Leviathan vẽ ĐÈ lên mọi meme (đang găm thì phải thấy trên người địch)
   _susVoteDraw();
   _frDrawNight();   // 🐈‍⬛ bóng đêm Friend phủ lên TRÊN CÙNG — chỉ còn thấy mặt mèo ngoạm
   _mwPurpleDraw();  // 🟣 Hollow Purple + RÃNH HƯ VÔ — vẽ sau cùng trong world: khoét xuyên sân, chữ, mọi thứ
