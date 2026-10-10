@@ -6551,12 +6551,22 @@ function _arEnd(f,cd){ if(f._arGenie){ f._arGenie=null; if(cd) f._arCD=Math.roun
   if(!cd && f._arMusic){ _stopLoopAudio(f._arMusic); f._arMusic=null; } }   // chết → tắt hẳn nhạc
 // 🐔 hoá gà: meme thường dùng CHUNG this.stun (đã tự chặn di chuyển AI + đánh + skill) + _arChickT riêng để vẽ con gà & cho nó chạy lung tung
 function _arChicken(u){
-  if(u.type==='chonkydog' && u._cdgPhase){ floatTexts.push({x:u.x,y:u.y-u.size-20,text:'IMMUNE',color:'#ffd54f',life:45,isDmg:true}); return; }   // 🐶 Chonky đang phình to: miễn hoá gà
   const T=Math.round(AR_CHICK_S*_egTps());
-  u.stun=Math.max(u.stun||0,T); u._arChickT=T; u._arStoneT=0; u._arChH=Math.random()*Math.PI*2;
+  u.stun=Math.max(u.stun||0,T); u._arChickT=T; u._arStoneT=0; u._arChH=Math.random()*Math.PI*2; _arLockStart(u);
   spawnParticles(u.x,u.y,'#ffffff',16,false,true); spawnParticles(u.x,u.y,'#ffd54f',10,false,true);
   playSample('wg_chicken',1.0); }
 function _arIsChick(u){ return (u._arChickT||0)>0 && (u.stun||0)>0; }
+function _arLocked(u){ return !!u && !u.dead && ((u._arStoneT||0)>0 || (u._arChickT||0)>0); }
+// trúng phép hoá gà / tượng: huỷ ngay chiêu đang làm dở (đang khoá thì khối skill không chạy nên không tự dọn được)
+function _arLockStart(u){
+  if(!u || !fighters.includes(u)) return;
+  try{ if(u._breakChannels) u._breakChannels(); }catch(e){}
+  if(u._ldSawSfx){ _stopLoopAudio(u._ldSawSfx); u._ldSawSfx=null; } u._ldSaw=null; u._ldSpray=null;   // A Lotta Dame Guy
+  u._dcPull=null;                                                                                     // Doorbell Chud
+  if(u._arGenie) _arEnd(u,true);                                                                      // Arabic Cat (gương)
+  u.ricardoDanceTimer=0;                                                                              // Ricardo: dừng nhảy buff
+  if(u._ricardoMusic){ try{ u._ricardoMusic.pause(); }catch(e){} u._ricardoMusic=null; }
+}
 // 🧞🗡️ gọi 2 THẦN ĐÈN NHỎ cầm mã tấu: vật triệu hồi CÓ MÁU (100/con) — dùng chung cơ chế Doge Knight (đi lại / va chạm /
 //    ăn dame / dính hiệu ứng / chém cận chiến 50 khi địch lại gần y như meme thường), chỉ khác hình, máu, dame. Hiện ra 2 bên điểm giữa thần đèn ↔ địch.
 function _arSummonMinis(f,e,P){
@@ -6583,7 +6593,7 @@ function _arKbTick(u){
 // 🗿 hoá tượng đá: đứng im (dùng chung this.stun = không đi/đánh/skill) + _arStoneT; hết giờ thì VỠ ra: mất 100 máu rồi đi lại bình thường
 function _arStone(u,src){
   const T=Math.round(AR_STONE_S*_egTps());
-  u.stun=Math.max(u.stun||0,T); u._arStoneT=T; u._arStoneMax=T; u._arStoneSrc=src; u._arChickT=0; u.vx=0; u.vy=0; u._arPin=[u.x,u.y]; u._arKbT=0;   // khựng NGAY tại chỗ
+  u.stun=Math.max(u.stun||0,T); u._arStoneT=T; u._arStoneMax=T; u._arStoneSrc=src; u._arChickT=0; u.vx=0; u.vy=0; u._arPin=[u.x,u.y]; u._arKbT=0; _arLockStart(u);   // khựng NGAY tại chỗ + huỷ chiêu đang dở
   spawnParticles(u.x,u.y,'#9e9e9e',14,false,true); playSample('ar_stone_on',1.0); }   // 🔊 tiếng hoá đá
 function _arIsStone(u){ return (u._arStoneT||0)>0; }
 // 📌 TƯỢNG ĐỨNG YÊN TUYỆT ĐỐI: ghim cứng toạ độ lúc bị hoá (mọi lực — va chạm, hút, kéo, văng, nuốt… — đều vô hiệu) tới khi VỠ.
@@ -6592,7 +6602,7 @@ function _arPin(u){ if(!u || !_arIsStone(u)) return; if(!u._arPin) u._arPin=[u.x
 function _arPinAll(){ for(const f of fighters) _arPin(f); for(const arr of _hpSummonArrays()) for(const u of arr) _arPin(u); }
 function _arStoneTick(u){
   u.vx=0; u.vy=0;
-  if(--u._arStoneT>0){ _arPin(u); return; }
+  if(--u._arStoneT>0){ _arPin(u); if(!((u.stun||0)>0)) u.stun=u._arStoneT; return; }   // 🔒 tượng xuyên mọi miễn khống chế
   u._arPin=null; u._arCrack=null;   // vỡ → hết ghim, đi tiếp được
   if((u.stun||0)<=2) u.stun=0;   // 💥 vỡ tượng → cử động lại ngay (không xoá choáng của nguồn khác còn dài hơn)
   const _us=u.size||20;
@@ -6700,8 +6710,7 @@ function _arDrawCracks(u,s){
     ctx.strokeStyle='rgba(38,35,32,0.9)'; ctx.lineWidth=lw; ctx.beginPath(); ctx.moveTo(P[0][0],P[0][1]); for(let k=1;k<m;k++) ctx.lineTo(P[k][0],P[k][1]); ctx.stroke(); }
   ctx.restore(); }
 function _arChickTick(u){   // gọi mỗi tick TRƯỚC khối choáng (khối choáng nhân vận tốc 0.85 rồi mới dời → bù lại)
-  if(u.type==='chonkydog' && u._cdgPhase){ u._arChickT=0; return; }   // 🐶 đang là gà mà phình to → hết gà ngay
-  if(!((u.stun||0)>0)){ u._arChickT=0; return; }   // bị giải choáng → hết làm gà luôn
+  if(!((u.stun||0)>0)) u.stun=u._arChickT;   // 🔒 gà xuyên mọi kiểu miễn khống chế: choáng bị ai xoá thì đặt lại tới hết giờ gà
   if(--u._arChickT<=0){ spawnParticles(u.x,u.y,'#ffffff',10,false,true); return; }
   if(Math.hypot(u.vx||0,u.vy||0)>0.3) u._arChH=Math.atan2(u.vy,u.vx);   // dội tường thì quay theo hướng nảy
   if(Math.random()<0.04) u._arChH+=(Math.random()-0.5)*2.4;            // gà chạy loạn: thỉnh thoảng đổi hướng
@@ -11512,7 +11521,15 @@ class Fighter {
     this._prevAtkTimer=this.attackAvatarTimer;
     this._atkPop=Math.max(0,(this._atkPop||0)-0.11);
   }
+  // 🔒 TƯỢNG / GÀ (thần đèn) = KHOÁ TUYỆT ĐỐI: cập nhật như meme KHÔNG có skill — mọi khối skill theo loại (buff Ricardo, thần đèn,
+  //    cưa, chuông…) và mọi luật tự xoá choáng (Chonky to, Grumpy nộ, Berserk <30%) đều bị bỏ qua; phần chung (cháy/độc, đếm giờ,
+  //    đếm ngược vỡ tượng) vẫn chạy. Ăn dame thì tạm trả lại đúng loại thật (takeDamage bên dưới) để hồi sinh/biến hình vẫn đúng.
   update(){
+    if(_arLocked(this)){ const t=this.type; this._realType=t; this.type='__locked__';
+      try{ return this._updateCore(); } finally { this.type=t; this._realType=null; } }
+    return this._updateCore();
+  }
+  _updateCore(){
     // 🧍 CHẾ ĐỘ ĐÔNG NGƯỜI (2vs2 / LAST ONE STANDING): mọi nguồn phình to — Gigachad +3% mỗi đòn ăn được
     // (vốn KHÔNG giới hạn), Doge hoá thân ×1.5, buff... — đều bị chặn ở mốc GẤP ĐÔI cỡ lúc vào sàn. Sàn đã
     // thu về cỡ 1vs1 mà có tới 4 con, để phình vô hạn là 1 đứa che kín sàn. Chặn ở đây (mỗi tick, ngay đầu
@@ -15677,7 +15694,12 @@ class Fighter {
     floatTexts.push({x:this.x,y:this.y-this.size-16,text:'Doge Buff Ended',color:'#f4a460',life:50});
   }
 
-  takeDamage(dmg,attacker,isHuh=false,isBurn=false,dotIcon='',hitFx=null,isDot=false,isTrue=false){
+  takeDamage(...args){
+    if(this._realType){ const rt=this._realType; this._realType=null; this.type=rt;   // 🔒 đang khoá: xử lý dame dưới đúng loại thật
+      try{ return this._takeDamageCore(...args); } finally { this.type='__locked__'; this._realType=rt; } }
+    return this._takeDamageCore(...args);
+  }
+  _takeDamageCore(dmg,attacker,isHuh=false,isBurn=false,dotIcon='',hitFx=null,isDot=false,isTrue=false){
     if(this.dead) return;
     // ⚔️ JONINN CHEEMS ĐỠ ĐÒN không phải đạn bay (cận chiến, AOE, tia...): cùng luật gạt — 30% / đang trong 1s đỡ liên tục, hết 1s nghỉ 4s.
     //    Đỡ được thì KHÔNG mất máu nhưng cũng KHÔNG phản lại. Cháy/độc (DOT) không đỡ; đạn đã tung xúc xắc lúc va chạm thì bỏ qua.
