@@ -7638,6 +7638,14 @@ const SD_ART={
   gun: (()=>{ const i=new Image(); i.src='assets/img/susdog/SD_GUN.webp'; return i; })(),   // gun.png 360×247
 };
 let sdActors=[];   // dân làng / ma sói đang hiện trên sân (chỉ là hình + hẹn giờ hành động)
+let sdFx=[];       // 🎬 hiệu ứng phụ: vết cào sói, lửa nòng súng, khiên loé, lọ vỡ, tim nổ, dấu thập hồi máu…
+let sdBanner=null; // 📜 băng chữ quản trò lúc chuyển ngày/đêm
+// vẽ ảnh theo CHIỀU CAO cố định (mọi dân làng cao bằng nhau, không phụ thuộc ảnh dọc/ngang)
+function _sdDrawArtH(im, em, h){
+  if(im){ const w=h*im.naturalWidth/im.naturalHeight; ctx.drawImage(_stickerMask(im), 0,0,im.naturalWidth,im.naturalHeight, -w/2,-h/2, w,h); }
+  else ctx.drawImage(_emojiSprite(em,200), -h/2,-h/2, h, h); }
+function _sdHeart(x,y,r,col){ ctx.fillStyle=col; ctx.beginPath(); ctx.moveTo(x,y+r*0.35); ctx.bezierCurveTo(x+r*1.1,y-r*0.45,x+r*0.45,y-r*1.25,x,y-r*0.45); ctx.bezierCurveTo(x-r*0.45,y-r*1.25,x-r*1.1,y-r*0.45,x,y+r*0.35); ctx.fill(); }
+function _sdFxPush(o){ sdFx.push(Object.assign({t:0},o)); }
 let sdProjs=[];    // lọ thuốc, khẩu súng, mũi tên thần tình yêu đang bay
 let sdZzz=[];      // chữ Zzz bay lên lúc Sus Dog ngủ — CHỈ LÀ HÌNH, không gây dame (khác Zzz của Snooze Cat)
 function _sdSpawnZzz(f){
@@ -7663,7 +7671,7 @@ function _sdCycle(f){
   if(!f._sdStarted){
     f._sdPreT=(f._sdPreT||0)+1;
     if(f._sdPreT>=SD_FIRST_NIGHT_AT){
-      f._sdStarted=true; f._sdNight=true; f._sdT=0; f._sdEventDone=false; f._sdSkyT=0;
+      f._sdStarted=true; f._sdNight=true; f._sdT=0; f._sdEventDone=false; f._sdSkyT=0; f._sdDay=1; sdBanner={text:'NIGHT FALLS…', sub:'🌙 NIGHT 1', col:'#b3c1ff', t:0, T:110};
       f.vx*=0.3; f.vy*=0.3;
       playSample('snooze', 0.75);   // 😴 tiếng lăn ra ngủ — cùng mẫu với Snooze Cat
       _sdHowl(f);                   // 🐺 trăng lên → sói hú
@@ -7679,6 +7687,8 @@ function _sdCycle(f){
   if(f._sdNight && f._sdT%20===0) _sdSpawnZzz(f);   // 😴 đang ngủ: chữ Zzz bay lên trên đầu (y kiểu Snooze Cat)
   if(f._sdT >= (f._sdNight ? SD_NIGHT_T : SD_DAY_T)){
     f._sdNight=!f._sdNight; f._sdT=0; f._sdEventDone=false; f._sdSkyT=0;
+    if(f._sdNight){ f._sdDay=(f._sdDay||1)+1; sdBanner={text:'NIGHT FALLS…', sub:'🌙 NIGHT '+f._sdDay, col:'#b3c1ff', t:0, T:110}; }
+    else sdBanner={text:'THE VILLAGE WAKES UP', sub:'☀️ DAY '+(f._sdDay||1), col:'#ffe08a', t:0, T:110};
     if(f._sdNight){ f.vx*=0.3; f.vy*=0.3; playSample('snooze', 0.75); _sdHowl(f); }
   }
 }
@@ -7697,7 +7707,8 @@ function _sdDayBuff(f){
   let r=Math.random()*_tong, role=SD_ROLES[SD_ROLES.length-1];
   for(const ro of SD_ROLES){ const _w=f._sdRoleW[ro.k]; if(r<_w){ role=ro; break; } r-=_w; }
   f._sdRoleW[role.k]*=0.9;
-  const side=(f.x<W/2)?1:-1;                                // đứng về phía giữa sàn cho khỏi lọt ra ngoài mép
+  const _e0=_sdFoe(f); let side=_e0 ? (_e0.x>=f.x?-1:1) : ((f.x<W/2)?1:-1);   // đứng SAU LƯNG Sus Dog (không chắn giữa nó với địch)…
+  if(f.x+side*f.size*1.75 < f.size || f.x+side*f.size*1.75 > W-f.size) side=-side;   // …sát mép sàn thì đứng phía bên kia
   sdActors.push({kind:'npc', role, owner:f, side, x:f.x+side*f.size*1.75, y:f.y, t:0, done:false});
   floatTexts.push({x:f.x,y:f.y-f.size-26,text:role.em+' '+role.name,color:role.col,life:60,big:true});
 }
@@ -7710,7 +7721,7 @@ function _sdNpcAct(a){
       sdProjs.push({kind:'healjar', from:{x:a.x,y:a.y}, to:f, t:0, T:28, onHit:(u)=>{
         u.hp=Math.min(u.maxHp, u.hp+100);
         _healFloat(u.x,u.y,u.size,100,u); _healSfx(100);
-        spawnParticles(u.x,u.y,'#69f0ae',14,false,true); }});
+        spawnParticles(u.x,u.y,'#69f0ae',14,false,true); _sdFxPush({k:'cross', o:u, T:40}); }});
       break;
     case 'guard':
       f._sdShield=2;
@@ -7718,9 +7729,9 @@ function _sdNpcAct(a){
       break;
     case 'witch':
       sdProjs.push({kind:'potion', col:'#29b6f6', from:{x:a.x,y:a.y}, to:f, t:0, T:32, onHit:(u)=>{
-        u._sdWitchSave=true; spawnParticles(u.x,u.y,'#29b6f6',16,false,true); }});
+        u._sdWitchSave=true; spawnParticles(u.x,u.y,'#29b6f6',16,false,true); _sdFxPush({k:'splash', x:u.x, y:u.y, s:u.size, col:'41,182,246', T:22}); }});
       if(e) sdProjs.push({kind:'potion', col:'#e53935', hostile:true, src:f, from:{x:a.x,y:a.y}, to:e, t:0, T:32, onHit:(u)=>{
-        u._sdPoison=f; u._sdPoisonCD=60; spawnParticles(u.x,u.y,'#e53935',16,false,true);
+        u._sdPoison=f; u._sdPoisonCD=60; spawnParticles(u.x,u.y,'#e53935',16,false,true); _sdFxPush({k:'splash', x:u.x, y:u.y, s:u.size, col:'118,255,3', T:22});
         floatTexts.push({x:u.x,y:u.y-u.size-22,text:'☠️ POISON',color:'#76ff03',life:50,big:true}); }});
       break;
     case 'hunter':
@@ -7758,9 +7769,11 @@ function _sdTick(){
     }
     a.x+=a.vx; a.y+=a.vy;
     a.fl = a.vx<0;
+    (a.trail||(a.trail=[])).push([a.x,a.y]); if(a.trail.length>5) a.trail.shift();   // bóng mờ khi lao
     if(!a.bites && e && !e.dead && Math.hypot(e.x-a.x, e.y-a.y) < e.size+sz*0.35){
       e.takeDamage(200, a.owner);
       a.bites=1; a.lunge=10;
+      _sdFxPush({k:'claw', x:e.x, y:e.y, s:e.size, T:26, dir:a.vx<0?-1:1}); spawnParticles(e.x,e.y,'#b71c1c',16,false,false); addShake(8,12);   // 🐺 3 vết cào đỏ
     }
     { const ox=(_worldOX||0)+sz*1.5, oy=(_worldOY||0)+sz*1.5;
       if(a.x<-ox || a.x>W+ox || a.y<-oy || a.y>H+oy){ sdActors.splice(i,1); continue; } }
@@ -7776,6 +7789,8 @@ function _sdTick(){
     }
     if(p.t>=p.T){ p.onHit(p.to); sdProjs.splice(i,1); }
   }
+  for(let i=sdFx.length-1;i>=0;i--){ const x=sdFx[i]; if(++x.t>=x.T) sdFx.splice(i,1); }
+  if(sdBanner && ++sdBanner.t>=sdBanner.T) sdBanner=null;
   for(let i=sdZzz.length-1;i>=0;i--){
     const z=sdZzz[i]; z.t++; z.y-=0.9; z.x+=z.drift;
     if(z.t>=z.T || !z.owner || z.owner.dead) sdZzz.splice(i,1);
@@ -7846,31 +7861,49 @@ function _sdDrawSun(cx, cy, r, a){
     ctx.fillStyle=g; ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.fill(); }
   ctx.restore();
 }
-// LỚP TỐI + trăng/mặt trời — vẽ TRƯỚC meme nên meme vẫn sáng rõ trên nền tối
+// LỚP TỐI + trời đêm kiểu GAME MA SÓI (vẽ TRƯỚC meme nên meme vẫn sáng rõ): màn xanh đen + tối góc, sao lấp lánh,
+// sương mù trôi sát sàn, TRĂNG TRÒN vẽ tay mọc ở góc phải trên (không đè thanh máu). Ngày: nắng vàng rạng đông.
+const _SD_STARS=Array.from({length:34},(_,i)=>({x:((i*97)%100)/100, y:((i*53)%38)/100, r:0.6+((i*31)%10)/10, ph:i*1.7}));
+function _sdDrawMoon(cx,cy,r,a){
+  ctx.save(); ctx.globalAlpha=a;
+  { const g=ctx.createRadialGradient(cx,cy,r*0.6,cx,cy,r*3.2); g.addColorStop(0,'rgba(200,215,255,0.35)'); g.addColorStop(0.4,'rgba(150,170,255,0.12)'); g.addColorStop(1,'rgba(120,140,255,0)');
+    ctx.fillStyle=g; ctx.beginPath(); ctx.arc(cx,cy,r*3.2,0,Math.PI*2); ctx.fill(); }   // quầng trăng
+  { const g=ctx.createRadialGradient(cx-r*0.3,cy-r*0.3,r*0.1,cx,cy,r); g.addColorStop(0,'#ffffff'); g.addColorStop(0.55,'#eef1ff'); g.addColorStop(1,'#c5cdf2');
+    ctx.fillStyle=g; ctx.shadowColor='rgba(190,205,255,0.9)'; ctx.shadowBlur=r*0.8; ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.fill(); ctx.shadowBlur=0; }
+  ctx.fillStyle='rgba(150,160,205,0.35)';   // vết lõm trên mặt trăng
+  for(const [dx,dy,rr] of [[-0.3,-0.15,0.22],[0.25,0.2,0.16],[0.05,-0.4,0.1],[-0.1,0.38,0.12],[0.42,-0.18,0.08]]){ ctx.beginPath(); ctx.arc(cx+dx*r,cy+dy*r,rr*r,0,Math.PI*2); ctx.fill(); }
+  ctx.restore(); }
 function _sdDrawSky(){
-  const dk=_sdDarkLevel();
+  const dk=_sdDarkLevel(), tm=Date.now()/1000;
   if(dk>0.001){
-    ctx.save(); ctx.globalAlpha=0.62*dk; ctx.fillStyle='#050a24';
-    ctx.fillRect(-W, -H, W*3, H*3);
+    ctx.save(); ctx.globalAlpha=0.62*dk; ctx.fillStyle='#060b2a'; ctx.fillRect(-W, -H, W*3, H*3); ctx.restore();
+    ctx.save(); const vg=ctx.createRadialGradient(W/2,H/2,Math.min(W,H)*0.35,W/2,H/2,Math.max(W,H)*0.85);   // tối 4 góc
+    vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,`rgba(4,2,18,${0.45*dk})`); ctx.fillStyle=vg; ctx.fillRect(-W,-H,W*3,H*3); ctx.restore();
+    ctx.save();   // ✨ sao lấp lánh
+    for(const st of _SD_STARS){ const tw=0.45+0.55*Math.abs(Math.sin(tm*1.3+st.ph)); ctx.globalAlpha=dk*tw*0.9; ctx.fillStyle='#e8edff';
+      ctx.beginPath(); ctx.arc(st.x*W, st.y*H, st.r, 0, Math.PI*2); ctx.fill(); }
+    ctx.restore();
+    ctx.save();   // 🌫️ sương mù trôi sát sàn
+    for(let k=0;k<4;k++){ const x=((tm*14*(k%2?1:-0.7)+k*170)%(W+300))-150, y=H*(0.78+0.06*k), rx=W*0.38, ry=H*0.07;
+      const g=ctx.createRadialGradient(x,y,0,x,y,rx); g.addColorStop(0,`rgba(170,185,230,${0.16*dk})`); g.addColorStop(1,'rgba(170,185,230,0)');
+      ctx.fillStyle=g; ctx.save(); ctx.translate(x,y); ctx.scale(1,ry/rx); ctx.beginPath(); ctx.arc(0,0,rx,0,Math.PI*2); ctx.restore(); ctx.fill(); }
     ctx.restore();
   }
   for(const f of fighters){
     if(f.type!=='susdog' || f.dead || f._sdSkyT===undefined) continue;
-    const t=f._sdSkyT;
-    let a, y, sz;
+    const t=f._sdSkyT, k=Math.min(1,t/45);
     if(f._sdNight){
-      sz=W*0.20; const k=Math.min(1,t/40); a=Math.max(0,Math.min(1,k)); y=H*0.22-(H*0.09)*k;
-      ctx.save(); ctx.globalAlpha=a;
-      ctx.drawImage(_emojiSprite('🌕',200), W/2-sz/2, y-sz/2, sz, sz);
-      ctx.restore();
-      _sdDrawClouds(W/2, y, sz, a, '205,215,235');            // mây xanh lạnh ban đêm
+      const r=W*0.065, y=H*0.13+(1-k)*H*0.08;   // trăng mọc lên góc phải trên
+      _sdDrawMoon(W*0.84, y, r, k);
+      _sdDrawClouds(W*0.84, y-r*0.6, r*3.2, k*0.8, '120,130,170');
     } else {
-      if(t>100) continue;
-      sz=W*0.14; const k=Math.min(1,t/40); a=Math.max(0,Math.min(1,t>70?(100-t)/30:k)); y=H*0.20-(H*0.09)*k;
-      _sdDrawSun(W/2, y, sz/2, a);                            // ☀️ vẽ tay, không dùng emoji
-      _sdDrawClouds(W/2, y, sz, a, '255,244,225');            // mây trắng ngả vàng nắng
+      if(t>110) continue;
+      const a=Math.max(0,Math.min(1,t>80?(110-t)/30:k));
+      ctx.save(); ctx.globalAlpha=0.22*a; ctx.fillStyle='#ffcf6b'; ctx.fillRect(-W,-H,W*3,H*3); ctx.restore();   // 🌅 nắng rạng đông
+      _sdDrawSun(W*0.84, H*0.14+(1-k)*H*0.08, W*0.06, a);
+      _sdDrawClouds(W*0.84, H*0.14, W*0.18, a, '255,244,225');
     }
-    break;   // 1 vầng trăng/mặt trời là đủ
+    break;
   }
 }
 // ngôi sao quỷ nhỏ (cùng kiểu vẽ của Evil Larry: sao ngược 1 nét 0→2→4→1→3→0 trong vòng tròn, đỏ máu)
@@ -7892,27 +7925,77 @@ function _sdDrawPotion(x,y,s,col,rot){
   ctx.restore();
 }
 // vẽ dân làng / ma sói / đồ bay / dây hồng / sao bất tử / súng cầm tay — vẽ SAU meme (nằm trên)
+// 🎨 PHONG CÁCH GAME MA SÓI: lá bài vai trò lật ra, mắt sói rình trong đêm, vết cào, khiên lục giác, dây tình yêu có tim chạy…
+function _sdDrawCard(cw,ch,front,role,owner){
+  const r=cw*0.1;
+  ctx.save(); ctx.shadowColor='rgba(0,0,0,0.55)'; ctx.shadowBlur=10; ctx.shadowOffsetY=3;
+  ctx.beginPath(); ctx.roundRect(-cw/2,-ch/2,cw,ch,r);
+  if(!front){ const g=ctx.createLinearGradient(0,-ch/2,0,ch/2); g.addColorStop(0,'#3a1d6e'); g.addColorStop(1,'#12082b'); ctx.fillStyle=g; }
+  else { const g=ctx.createLinearGradient(0,-ch/2,0,ch/2); g.addColorStop(0,'#fbf1d9'); g.addColorStop(1,'#e9d3a6'); ctx.fillStyle=g; }
+  ctx.fill(); ctx.shadowBlur=0; ctx.shadowOffsetY=0;
+  ctx.lineWidth=Math.max(2,cw*0.06); ctx.strokeStyle='#d4a63a'; ctx.stroke();
+  ctx.lineWidth=1; ctx.strokeStyle='rgba(212,166,58,0.6)'; ctx.beginPath(); ctx.roundRect(-cw/2+cw*0.08,-ch/2+cw*0.08,cw-cw*0.16,ch-cw*0.16,r*0.6); ctx.stroke();
+  if(!front){   // mặt sau: trăng + sói + sao
+    ctx.fillStyle='#f1f3ff'; ctx.beginPath(); ctx.arc(0,-ch*0.12,cw*0.26,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle='#3a1d6e'; ctx.beginPath(); ctx.arc(cw*0.1,-ch*0.16,cw*0.22,0,Math.PI*2); ctx.fill();
+    ctx.drawImage(_emojiSprite('🐺',120), -cw*0.22, ch*0.02, cw*0.44, cw*0.44);
+    ctx.fillStyle='#ffe082'; for(const [x,y] of [[-0.3,-0.36],[0.32,-0.3],[-0.26,0.3],[0.3,0.36]]){ ctx.beginPath(); ctx.arc(x*cw,y*ch,cw*0.025,0,Math.PI*2); ctx.fill(); }
+  } else {      // mặt trước: chân dung vai + dải tên
+    ctx.save(); ctx.beginPath(); ctx.roundRect(-cw/2+cw*0.1,-ch/2+cw*0.1,cw-cw*0.2,ch*0.66,r*0.5); ctx.clip();
+    ctx.fillStyle='rgba(120,90,40,0.12)'; ctx.fillRect(-cw/2,-ch/2,cw,ch);
+    ctx.translate(0,-ch*0.12); _sdDrawArtH(_sdSlotImg(role.slot(),owner,role.art), role.em, ch*0.6); ctx.restore();
+    ctx.fillStyle=role.col; ctx.fillRect(-cw/2+cw*0.04, ch*0.27, cw-cw*0.08, ch*0.15);
+    ctx.font=`${Math.max(6,Math.round(cw*0.13))}px "Press Start 2P",monospace`; ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillStyle='#1b1030'; ctx.fillText(role.name, 0, ch*0.345);
+  }
+  ctx.restore(); }
 function _sdDraw(){
+  const tm=Date.now()/1000;
   for(const f of fighters){
     if(f.type!=='susdog' || f.dead) continue;
-    // 💘 dây thần tình yêu — y kiểu dây Mosquito Violin, đổi sang hồng
+    // 👀 MẮT SÓI rình ở mép sàn ngay trước lúc ma sói vồ (đêm, ~0.8s trước sự kiện) — chớp mắt thỉnh thoảng
+    if(f._sdNight && !f._sdEventDone && f._sdT>=60 && f._sdT<SD_EVENT_AT){
+      const e=_sdFoe(f);
+      if(e){ const fromLeft=e.x<W/2, ex=fromLeft?16:W-16, ey=e.y-e.size*0.15, a=Math.min(1,(f._sdT-60)/18)*((((f._sdT/14)|0)%6===5)?0.1:1);
+        ctx.save(); ctx.globalCompositeOperation='lighter';
+        for(const dx of [-13,13]){ const g=ctx.createRadialGradient(ex+dx,ey,0,ex+dx,ey,24); g.addColorStop(0,`rgba(255,50,30,${0.95*a})`); g.addColorStop(0.35,`rgba(255,20,0,${0.45*a})`); g.addColorStop(1,'rgba(255,0,0,0)');
+          ctx.fillStyle=g; ctx.beginPath(); ctx.arc(ex+dx,ey,24,0,Math.PI*2); ctx.fill();
+          ctx.fillStyle=`rgba(255,240,210,${a})`; ctx.beginPath(); ctx.ellipse(ex+dx,ey,5,2.8,dx<0?0.3:-0.3,0,Math.PI*2); ctx.fill(); }
+        ctx.restore(); } }
+    // 💘 DÂY TÌNH YÊU: sợi dây hồng võng xuống + đung đưa, phát sáng, tim chạy dọc từ Sus Dog sang con bị nối
     if(f._sdLink && !f._sdLink.dead){
-      ctx.save(); ctx.lineCap='round'; ctx.globalAlpha=0.45; ctx.strokeStyle='#ff4fa3'; ctx.lineWidth=1.3;
-      ctx.beginPath(); ctx.moveTo(f.x,f.y); ctx.lineTo(f._sdLink.x,f._sdLink.y); ctx.stroke(); ctx.restore();
-    }
-    // ⛧ ngôi sao quỷ trên đầu khi đang giữ buff bất tử của phù thuỷ / đang bất tử
-    // nằm ngay TRÊN thanh máu: mép trên thanh máu ở y−size−22 (xem chỗ vẽ thanh máu trong draw()), chừa thêm 6px
-    if(f._sdWitchSave || (f._cgInvT||0)>0){ const _r=f.size*0.32; _sdDrawPentagram(f.x, f.y-f.size-22-6-_r, _r); }
-    // 🔫 súng xạ thủ đưa — cầm bên cạnh, chĩa về phía địch
+      const L=f._sdLink, mx=(f.x+L.x)/2, my=(f.y+L.y)/2+30+Math.sin(tm*3)*8, P=t=>[(1-t)*(1-t)*f.x+2*(1-t)*t*mx+t*t*L.x,(1-t)*(1-t)*f.y+2*(1-t)*t*my+t*t*L.y];
+      ctx.save(); ctx.lineCap='round';
+      for(const [w,c] of [[6,'rgba(255,79,163,0.18)'],[2.4,'rgba(255,120,190,0.85)']]){ ctx.lineWidth=w; ctx.strokeStyle=c; ctx.beginPath(); ctx.moveTo(f.x,f.y); ctx.quadraticCurveTo(mx,my,L.x,L.y); ctx.stroke(); }
+      for(let k=0;k<4;k++){ const t=((tm*0.6+k/4)%1), q=P(t); _sdHeart(q[0],q[1],5,'#ff4fa3'); }
+      ctx.restore(); }
+    // 🛡️ KHIÊN BẢO VỆ: bong bóng lục giác xanh bọc quanh Sus Dog + số lần chặn còn lại
+    if((f._sdShield||0)>0){
+      const R=f.size*1.3, pu=0.75+0.25*Math.sin(tm*4);
+      ctx.save(); ctx.translate(f.x,f.y);
+      const g=ctx.createRadialGradient(0,0,R*0.55,0,0,R); g.addColorStop(0,'rgba(120,190,255,0)'); g.addColorStop(1,`rgba(120,190,255,${0.32*pu})`);
+      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(0,0,R,0,Math.PI*2); ctx.fill();
+      ctx.strokeStyle=`rgba(170,215,255,${0.55*pu})`; ctx.lineWidth=1;
+      const hs=R*0.28; for(let row=-3;row<=3;row++) for(let col=-3;col<=3;col++){ const x=col*hs*1.5, y=row*hs*1.732+(col%2?hs*0.866:0); if(Math.hypot(x,y)>R-hs*0.6) continue;
+        ctx.beginPath(); for(let v=0;v<6;v++){ const a=v*Math.PI/3; ctx.lineTo(x+Math.cos(a)*hs*0.5,y+Math.sin(a)*hs*0.5); } ctx.closePath(); ctx.stroke(); }
+      ctx.lineWidth=2; ctx.strokeStyle=`rgba(200,230,255,${0.9*pu})`; ctx.beginPath(); ctx.arc(0,0,R,0,Math.PI*2); ctx.stroke();
+      for(let k=0;k<f._sdShield;k++) ctx.drawImage(_emojiSprite('🛡️',80), -R*0.95+k*16, -R-6, 14, 14);
+      ctx.restore(); }
+    // ⛧ ngôi sao quỷ trên đầu khi đang giữ buff bất tử của phù thuỷ / đang bất tử (phát sáng nhẹ)
+    if(f._sdWitchSave || (f._cgInvT||0)>0){ const _r=f.size*0.32; ctx.save(); ctx.shadowColor='#ff1744'; ctx.shadowBlur=10+6*Math.sin(tm*5); _sdDrawPentagram(f.x, f.y-f.size-22-6-_r, _r); ctx.restore(); }
+    // 🔫 súng thợ săn đưa — cầm bên cạnh, chĩa về phía địch
     if((f._sdGun||0)>0){
-      const e=_sdFoe(f), ang=e?Math.atan2(e.y-f.y,e.x-f.x):0, gs=f.size*0.9;
-      ctx.save(); ctx.translate(f.x+Math.cos(ang)*f.size*0.9, f.y+Math.sin(ang)*f.size*0.9);
-      ctx.rotate(ang); ctx.scale(-1,1);                     // emoji 🔫 gốc chĩa sang TRÁI → lật cho góc 0 = chĩa phải
-      if(Math.cos(ang)<0) ctx.scale(1,-1);                  // chĩa sang trái thì lật dọc cho khỏi chổng ngược
+      const e=_sdFoe(f), ang=e?Math.atan2(e.y-f.y,e.x-f.x):0, gs=f.size*1.2;
+      ctx.save(); ctx.translate(f.x+Math.cos(ang)*f.size*0.95, f.y+Math.sin(ang)*f.size*0.95);
+      ctx.rotate(ang); ctx.scale(-1,1); if(Math.cos(ang)<0) ctx.scale(1,-1);
       _sdDrawArt(_sdSlotImg(rageAttackAvatarImgs,f,'gun'), '🔫', gs);
-      ctx.restore();
-    }
+      ctx.restore(); }
   }
+  // ☠️ con nào dính độc lọ đỏ: sủi bọt xanh liên tục
+  for(const u of fighters){ if(!u._sdPoison || u.dead) continue;
+    ctx.save(); for(let k=0;k<4;k++){ const ph=(tm*0.9+k/4)%1, x=u.x+Math.sin(k*2.3+tm*1.7)*u.size*0.45, y=u.y-u.size*0.2-ph*u.size*1.2, r=u.size*0.07*(1.2-ph*0.6);
+      ctx.globalAlpha=0.75*(1-ph); ctx.fillStyle='rgba(118,255,3,0.55)'; ctx.strokeStyle='rgba(40,120,0,0.9)'; ctx.lineWidth=1; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); ctx.stroke(); }
+    ctx.restore(); }
   // 😴 chữ Zzz khi ngủ — vẽ y kiểu Zzz của Snooze Cat (viền đen + chữ trắng xanh quầng sáng), mờ dần lúc tan
   for(const z of sdZzz){
     ctx.save();
@@ -7926,14 +8009,27 @@ function _sdDraw(){
   }
   for(const a of sdActors){
     if(a.kind==='npc'){
-      const k=Math.min(1,a.t/10), fade=a.t>100?Math.max(0,(120-a.t)/20):1, s=a.owner.size*1.6*(0.4+0.6*k);
-      ctx.save(); ctx.globalAlpha=fade; ctx.translate(a.x, a.y-(1-k)*10);
-      _sdDrawArt(_sdSlotImg(a.role.slot(),a.owner,a.role.art), a.role.em, s);
-      ctx.restore();
+      // 🃏 LẬT BÀI VAI TRÒ: lá bài hiện ra (mặt sau trăng + sói) → lật → chân dung + tên vai → nổ lấp lánh, dân làng bước ra
+      const own=a.owner, ch=own.size*3.0, cw=ch*0.68, h=own.size*2.1;
+      if(a.t<26){
+        const k=Math.min(1,a.t/6), p=Math.max(0,Math.min(1,(a.t-8)/12)), sx=Math.max(0.04,Math.abs(Math.cos(p*Math.PI)));
+        ctx.save(); ctx.translate(a.x, a.y-own.size*0.15-(1-k)*12); ctx.scale(sx*k, k); _sdDrawCard(cw,ch,p>=0.5,a.role,own); ctx.restore();
+      } else {
+        const k=Math.min(1,(a.t-26)/6), fade=a.t>100?Math.max(0,(120-a.t)/20):1;
+        if(a.t<34){ ctx.save(); ctx.globalAlpha=1-(a.t-26)/8; ctx.globalCompositeOperation='lighter';
+          for(let i=0;i<10;i++){ const an=i/10*Math.PI*2, d=(a.t-26)*4; _arStar(a.x+Math.cos(an)*d, a.y-own.size*0.15+Math.sin(an)*d, 4, '#ffe082'); } ctx.restore(); }
+        ctx.save(); ctx.globalAlpha=fade; ctx.translate(a.x, a.y); ctx.scale(0.4+0.6*k, 0.4+0.6*k);
+        _sdDrawArtH(_sdSlotImg(a.role.slot(),own,a.role.art), a.role.em, h);
+        ctx.restore();
+        ctx.save(); ctx.globalAlpha=fade*k; ctx.font='7px "Press Start 2P",monospace'; ctx.textAlign='center'; ctx.lineWidth=3; ctx.strokeStyle='#120a24';
+        ctx.strokeText(a.role.name, a.x, a.y+h*0.58); ctx.fillStyle=a.role.col; ctx.fillText(a.role.name, a.x, a.y+h*0.58); ctx.restore();
+      }
     } else {
-      const s=(a.target?a.target.size:40)*2.2*(a.lunge>0?1.12:1);
-      ctx.save(); ctx.translate(a.x,a.y); if(!a.fl) ctx.scale(-1,1);   // ảnh sói quay mặt TRÁI → đang chạy sang phải thì lật
-      _sdDrawArt(_sdSlotImg(skill1AvatarImgs,a.owner,'wolf'), '🐺', s);
+      // 🐺 MA SÓI: to, quầng đỏ, bóng mờ phía sau lúc lao
+      const hgt=(a.target?a.target.size:40)*2.6*(a.lunge>0?1.1:1), im=_sdSlotImg(skill1AvatarImgs,a.owner,'wolf');
+      for(let k=0;k<(a.trail?a.trail.length-1:0);k++){ const q=a.trail[k]; ctx.save(); ctx.globalAlpha=0.08+0.06*k; ctx.translate(q[0],q[1]); if(!a.fl) ctx.scale(-1,1); _sdDrawArtH(im,'🐺',hgt); ctx.restore(); }
+      ctx.save(); ctx.translate(a.x,a.y); if(!a.fl) ctx.scale(-1,1);
+      ctx.shadowColor='rgba(255,30,30,0.8)'; ctx.shadowBlur=18; _sdDrawArtH(im,'🐺',hgt);
       ctx.restore();
     }
   }
@@ -7941,30 +8037,40 @@ function _sdDraw(){
     const u=Math.min(1,p.t/p.T), tx=p.to.x, ty=p.to.y;
     const x=p.from.x+(tx-p.from.x)*u, y=p.from.y+(ty-p.from.y)*u;
     if(p.kind==='arrow'){
-      const ang=Math.atan2(ty-p.from.y, tx-p.from.x), L=p.to.size*0.9;
+      // 💘 mũi tên thần tình yêu: thân hồng, đầu tim nhọn, lông đuôi trắng + tim nhỏ bay theo sau
+      const ang=Math.atan2(ty-p.from.y, tx-p.from.x), L=p.to.size*1.5;
+      for(let k=1;k<=3;k++){ const uu=Math.max(0,u-k*0.08); _sdHeart(p.from.x+(tx-p.from.x)*uu, p.from.y+(ty-p.from.y)*uu, 4-k*0.8, `rgba(255,105,180,${0.7-k*0.18})`); }
       ctx.save(); ctx.translate(x,y); ctx.rotate(ang);
-      ctx.strokeStyle='#ff4fa3'; ctx.lineWidth=Math.max(2,L*0.06); ctx.lineCap='round';
-      ctx.beginPath(); ctx.moveTo(-L*0.5,0); ctx.lineTo(L*0.35,0); ctx.stroke();
-      ctx.fillStyle='#ff4fa3'; ctx.beginPath(); ctx.moveTo(L*0.5,0); ctx.lineTo(L*0.3,-L*0.1); ctx.lineTo(L*0.3,L*0.1); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle='#ff4fa3'; ctx.lineWidth=Math.max(2,L*0.06); ctx.lineCap='round'; ctx.shadowColor='#ff80c0'; ctx.shadowBlur=8;
+      ctx.beginPath(); ctx.moveTo(-L*0.5,0); ctx.lineTo(L*0.32,0); ctx.stroke();
+      ctx.fillStyle='#ff1f8f'; ctx.beginPath(); ctx.moveTo(L*0.52,0); ctx.lineTo(L*0.3,-L*0.11); ctx.lineTo(L*0.36,0); ctx.lineTo(L*0.3,L*0.11); ctx.closePath(); ctx.fill();
+      ctx.fillStyle='#ffffff'; for(const sg of [-1,1]){ ctx.beginPath(); ctx.moveTo(-L*0.5,0); ctx.lineTo(-L*0.36,sg*L*0.1); ctx.lineTo(-L*0.3,0); ctx.closePath(); ctx.fill(); }
       ctx.restore();
     } else {
       const arcY=y-Math.sin(u*Math.PI)*p.to.size*2.2;         // bay vòng cung rồi rơi xuống đúng người
-      if(p.kind==='potion') _sdDrawPotion(x, arcY, p.to.size*0.45, p.col, u*Math.PI*3);
+      if(p.kind==='potion'){
+        // 🧪 lọ phù thuỷ to + phát sáng + vệt lấp lánh
+        const rgb=p.col==='#e53935'?'229,57,53':'41,182,246';
+        ctx.save(); ctx.globalCompositeOperation='lighter';
+        for(let k=1;k<=4;k++){ const uu=Math.max(0,u-k*0.05), xx=p.from.x+(tx-p.from.x)*uu, yy=p.from.y+(ty-p.from.y)*uu-Math.sin(uu*Math.PI)*p.to.size*2.2; ctx.fillStyle=`rgba(${rgb},${0.28-k*0.05})`; ctx.beginPath(); ctx.arc(xx,yy,p.to.size*(0.32-k*0.04),0,Math.PI*2); ctx.fill(); }
+        const g=ctx.createRadialGradient(x,arcY,0,x,arcY,p.to.size*0.8); g.addColorStop(0,`rgba(${rgb},0.55)`); g.addColorStop(1,`rgba(${rgb},0)`); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,arcY,p.to.size*0.8,0,Math.PI*2); ctx.fill();
+        ctx.restore();
+        _sdDrawPotion(x, arcY, p.to.size*0.7, p.col, u*Math.PI*3);
+      }
       else if(p.kind==='healjar'){
         const im=WG_ITEM_HEALING_IMG;
         if(im.complete && im.naturalWidth>0){
-          const h=p.to.size*1.0, w=h*im.naturalWidth/im.naturalHeight;
-          ctx.save(); ctx.translate(x,arcY); ctx.rotate(u*Math.PI*2);
+          const h=p.to.size*1.35, w=h*im.naturalWidth/im.naturalHeight;
+          ctx.save(); ctx.translate(x,arcY); ctx.rotate(u*Math.PI*2); ctx.shadowColor='#69f0ae'; ctx.shadowBlur=12;
           ctx.drawImage(im, -w/2,-h/2, w,h); ctx.restore();
-        } else _sdDrawPotion(x, arcY, p.to.size*0.45, '#e53935', u*Math.PI*2);
+        } else _sdDrawPotion(x, arcY, p.to.size*0.6, '#e53935', u*Math.PI*2);
       }
       else {
-        // 🔫 bay tới ĐÚNG chỗ cầm súng (trước mặt Sus Dog, chĩa về địch) chứ không phải tâm người; 30% quãng cuối
-        // thôi xoay, khớp dần vào đúng góc cầm → nhìn như bắt được rồi trang bị luôn
+        // 🔫 bay tới ĐÚNG chỗ cầm súng (trước mặt Sus Dog, chĩa về địch); 30% quãng cuối thôi xoay, khớp vào đúng góc cầm
         const f=p.to, e=_sdFoe(f), ang=e?Math.atan2(e.y-f.y,e.x-f.x):0;
-        const hx=f.x+Math.cos(ang)*f.size*0.9, hy=f.y+Math.sin(ang)*f.size*0.9;
+        const hx=f.x+Math.cos(ang)*f.size*0.95, hy=f.y+Math.sin(ang)*f.size*0.95;
         const gx=p.from.x+(hx-p.from.x)*u, gy=p.from.y+(hy-p.from.y)*u - Math.sin(u*Math.PI)*f.size*3.0;
-        const gs=f.size*(0.8+0.1*u);
+        const gs=f.size*(1.05+0.15*u);
         const spin=u*Math.PI*4, blend=Math.max(0,(u-0.7)/0.3), r=spin*(1-blend)+ang*blend;
         ctx.save(); ctx.translate(gx,gy); ctx.rotate(r); ctx.scale(-1,1);
         if(blend>0.5 && Math.cos(ang)<0) ctx.scale(1,-1);
@@ -7972,6 +8078,40 @@ function _sdDraw(){
       }
     }
   }
+  // 🎬 hiệu ứng phụ
+  for(const x of sdFx){ const u=x.t/x.T;
+    ctx.save();
+    if(x.k==='claw'){   // 🐺 3 vết cào đỏ rạch chéo, hiện lần lượt rồi mờ
+      ctx.translate(x.x,x.y); ctx.scale(x.dir,1); ctx.lineCap='round';
+      for(let i=0;i<3;i++){ const pr=Math.min(1,Math.max(0,(x.t-i*2)/6)); if(pr<=0) continue; const off=(i-1)*x.s*0.32, len=x.s*1.6;
+        ctx.globalAlpha=1-Math.max(0,(u-0.5)/0.5);
+        for(const [w,c] of [[x.s*0.16,'rgba(40,0,0,0.85)'],[x.s*0.08,'#ff2a2a']]){ ctx.lineWidth=w; ctx.strokeStyle=c; ctx.beginPath(); ctx.moveTo(-len/2+off*0.3,-len/2+off); ctx.quadraticCurveTo(off*0.2,off*0.6,(-len/2+len*pr)+off*0.3,(-len/2+len*pr)+off); ctx.stroke(); } }
+    } else if(x.k==='muzzle'){   // 💥 lửa đầu nòng
+      ctx.translate(x.x,x.y); ctx.rotate(x.a); ctx.globalCompositeOperation='lighter'; ctx.globalAlpha=1-u;
+      const g=ctx.createRadialGradient(0,0,0,0,0,x.s*0.6); g.addColorStop(0,'rgba(255,255,220,1)'); g.addColorStop(0.4,'rgba(255,190,60,0.9)'); g.addColorStop(1,'rgba(255,90,0,0)');
+      ctx.fillStyle=g; ctx.beginPath(); ctx.moveTo(0,-x.s*0.2); ctx.lineTo(x.s*0.9*(1-u*0.4),0); ctx.lineTo(0,x.s*0.2); ctx.lineTo(-x.s*0.15,0); ctx.closePath(); ctx.fill();
+      ctx.beginPath(); ctx.arc(0,0,x.s*0.3,0,Math.PI*2); ctx.fill();
+    } else if(x.k==='shieldHit'){   // 🛡️ khiên loé
+      const o=x.o; if(o && !o.dead){ ctx.globalAlpha=1-u; ctx.strokeStyle='#e3f2ff'; ctx.lineWidth=4*(1-u)+1; ctx.shadowColor='#90caf9'; ctx.shadowBlur=14; ctx.beginPath(); ctx.arc(o.x,o.y,o.size*(1.3+u*0.4),0,Math.PI*2); ctx.stroke(); }
+    } else if(x.k==='hearts'){   // 💘 tim nổ
+      for(let i=0;i<7;i++){ const an=i/7*Math.PI*2-Math.PI/2, d=x.s*(0.4+u*1.1); ctx.globalAlpha=1-u; _sdHeart(x.x+Math.cos(an)*d, x.y+Math.sin(an)*d-u*10, 5*(1-u*0.4), '#ff4fa3'); }
+    } else if(x.k==='splash'){   // 🧪 lọ vỡ: giọt bắn tung + vòng loang
+      ctx.globalAlpha=1-u; ctx.strokeStyle=`rgba(${x.col},0.9)`; ctx.lineWidth=3*(1-u)+1; ctx.beginPath(); ctx.ellipse(x.x,x.y+x.s*0.6,x.s*(0.4+u*1.2),x.s*(0.15+u*0.4),0,0,Math.PI*2); ctx.stroke();
+      ctx.fillStyle=`rgba(${x.col},0.85)`; for(let i=0;i<9;i++){ const an=-Math.PI*(0.1+0.8*i/8), d=x.s*(0.3+u*1.2); ctx.beginPath(); ctx.arc(x.x+Math.cos(an)*d, x.y+Math.sin(an)*d+u*u*x.s*1.2, x.s*0.07*(1-u*0.5), 0, Math.PI*2); ctx.fill(); }
+    } else if(x.k==='cross'){   // ➕ hồi máu: dấu thập xanh bay lên
+      const o=x.o; if(o && !o.dead){ for(let i=0;i<4;i++){ const ph=Math.min(1,Math.max(0,u*1.3-i*0.12)); if(ph<=0) continue; const cx=o.x+(i-1.5)*o.size*0.4, cy=o.y-ph*o.size*1.6, s=o.size*0.12;
+        ctx.globalAlpha=1-ph; ctx.fillStyle='#69f0ae'; ctx.strokeStyle='#1b5e20'; ctx.lineWidth=1.2; ctx.beginPath(); ctx.rect(cx-s*0.35,cy-s,s*0.7,s*2); ctx.rect(cx-s,cy-s*0.35,s*2,s*0.7); ctx.fill(); ctx.stroke(); } }
+    }
+    ctx.restore(); }
+  // 📜 băng chữ quản trò lúc chuyển ngày/đêm
+  if(sdBanner){ const b=sdBanner, a=Math.min(1,b.t/12, (b.T-b.t)/20), y=H*0.3;
+    ctx.save(); ctx.globalAlpha=Math.max(0,a);
+    const g=ctx.createLinearGradient(0,0,W,0); g.addColorStop(0,'rgba(10,6,30,0)'); g.addColorStop(0.2,'rgba(10,6,30,0.78)'); g.addColorStop(0.8,'rgba(10,6,30,0.78)'); g.addColorStop(1,'rgba(10,6,30,0)');
+    ctx.fillStyle=g; ctx.fillRect(0,y-30,W,62);
+    ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.font='9px "Press Start 2P",monospace'; ctx.fillStyle='rgba(255,255,255,0.8)'; ctx.fillText(b.sub, W/2, y-14);
+    const sc=1+Math.max(0,(12-b.t))/40; ctx.translate(W/2,y+8); ctx.scale(sc,sc);
+    ctx.font='17px "Press Start 2P",monospace'; ctx.lineWidth=4; ctx.strokeStyle='#120a24'; ctx.strokeText(b.text,0,0); ctx.fillStyle=b.col; ctx.shadowColor=b.col; ctx.shadowBlur=12; ctx.fillText(b.text,0,0);
+    ctx.restore(); }
 }
 let susExplosions=[]; // Black imposter explosion effects
 let swordSlashes=[]; // Imp_melee sword hit effect
@@ -13038,6 +13178,7 @@ class Fighter {
             vx:Math.cos(_a)*12, vy:Math.sin(_a)*12, team:this.team, owner:this, dmg:50, size:4, color:'#fff59d',
             life:70, sniper:false, isMcBullet:true});
           this._sdGun--; this._sdGunCD=18;
+          _sdFxPush({k:'muzzle', x:this.x+Math.cos(_a)*this.size*1.55, y:this.y+Math.sin(_a)*this.size*1.55, a:_a, s:this.size, T:8});   // 💥 lửa đầu nòng
         } else this._sdGunCD=1;
       }
     }
@@ -15795,6 +15936,7 @@ class Fighter {
     if(this.type==='susdog' && (this._sdShield||0)>0 && dmg>0 && !_susEjectKill){
       this._sdShield--;
       floatTexts.push({x:this.x,y:this.y-this.size-14,text:'🛡️',color:'#90caf9',life:30,big:true});
+      _sdFxPush({k:'shieldHit', o:this, T:16});   // 🛡️ khiên loé sáng
       return;
     }
     // 🐕 CALM DOG: mỗi 100 dame nhận vào (cộng dồn) trừ thêm 1s (60 tick) khỏi đồng hồ hẹn giờ (_cdTimer, xem doAbility()).
@@ -16098,6 +16240,7 @@ class Fighter {
     if(this.type==='susdog' && dmg>0 && this._sdLink && !this._sdLink.dead && (this._sdLinkT||0)>0 && !_sdMirrorBusy){
       _sdMirrorBusy=true;
       try{ this._sdLink.takeDamage(dmg, this); } finally { _sdMirrorBusy=false; }
+      _sdFxPush({k:'hearts', x:this._sdLink.x, y:this._sdLink.y, s:this._sdLink.size, T:24});   // 💘 tim nổ ở con bị nối
     }
     // 🎯 CỌC GỖ tập luyện: bất tử — hết máu thì tự đầy lại ngay (không chết/nổ mảnh), mọi thứ TRƯỚC dòng này (số dame,hiệu ứng, hất văng, flash, hit-stop, particle, sound) vẫn chạy bình thường
     if(this.type==='trainingdummy' && this.hp<=0){
@@ -18977,7 +19120,7 @@ function startGame(skipVsIntro){
   document.getElementById('pauseOverlay').classList.remove('visible');
   stopAllBattleMusic();
   _gameTickAccum=0;
-  fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; wcDrops=[]; wcFx=[]; popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[]; tick=0;
+  fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; wcDrops=[]; wcFx=[]; popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[]; tick=0;
   _matchStats=Array.from({length:8},()=>({dmg:0,hits:0,healed:0,attempted:0}));
   screenShake={x:0,y:0,dur:0,str:0}; afterImages=[]; slowMoTimer=0; hitStopFrames=0; hitStopCD=0; koZoom=0; _camReset();
   loop._koTimer=null; loop._resInit=false; loop._resT=null; loop._resClick=false; loop._rtDone=false; loop._statsT=0; loop._lbPrompted=false; loop._ctaText=null; loop._mechShown=false; loop._fanDone=false; loop._wcMeowDone=false;
@@ -19408,7 +19551,7 @@ function resetGame(){
   document.getElementById('pauseOverlay').classList.remove('visible');
   _gameTickAccum=0;
   stopAllBattleMusic();
-  fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; wcDrops=[]; wcFx=[]; popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[];
+  fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; wcDrops=[]; wcFx=[]; popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[];
   screenShake={x:0,y:0,dur:0,str:0}; slowMoTimer=0; hitStopFrames=0; hitStopCD=0; koZoom=0;
   showVsWaitScreen();
 }
@@ -25311,7 +25454,7 @@ function tbLaunchNextFighter(losingTeam){
     apples=_tbKeepWin(apples); flowers=_tbKeepWin(flowers); loadingArrows=_tbKeepWin(loadingArrows); sdActors=[]; sdProjs=[]; sdZzz=[]; wcDrops=[]; susSummons=_tbKeepWin(susSummons); knifeBoomerangs=_tbKeepWin(knifeBoomerangs);
     heckerBolts=_tbKeepWin(heckerBolts); commanderSoldiers=_tbKeepWin(commanderSoldiers); batSwarm=_tbKeepWin(batSwarm);
     cars=_tbKeepWin(cars); projectiles=_tbKeepWin(projectiles); maxwellTnts=_tbKeepWin(maxwellTnts); dogeKnights=_tbKeepWin(dogeKnights); mewingStatues=_tbKeepWin(mewingStatues); capybaraKnives=_tbKeepWin(capybaraKnives); cryCats=_tbKeepWin(cryCats); dogeClones=_tbKeepWin(dogeClones);
-    bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; wcDrops=[]; wcFx=[]; popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=_tbKeepWin(evilSouls); egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; survivor._egPsn=0; survivor._egPsnSrc=null;   // ☠️ độc linh hồn không mang sang hiệp mới cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; battleFreezeTimer=0; susExplosions=[]; swordSlashes=[]; holyBeams=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; flowerShatters=[]; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; lightningBolts=[]; tick=0;
+    bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; wcDrops=[]; wcFx=[]; popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=_tbKeepWin(evilSouls); egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; survivor._egPsn=0; survivor._egPsnSrc=null;   // ☠️ độc linh hồn không mang sang hiệp mới cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; battleFreezeTimer=0; susExplosions=[]; swordSlashes=[]; holyBeams=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; flowerShatters=[]; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; lightningBolts=[]; tick=0;
     screenShake={x:0,y:0,dur:0,str:0}; afterImages=[]; slowMoTimer=0; hitStopFrames=0; hitStopCD=0; koZoom=0;
     loop._koTimer=null; loop._resInit=false; loop._resT=null; loop._resClick=false; loop._rtDone=false; loop._statsT=0; loop._lbPrompted=false; loop._ctaText=null; loop._wcMeowDone=false;
     _clearArena();
@@ -25613,7 +25756,7 @@ function closeFan(){
   document.getElementById('mainMenuScreen').classList.add('active');
 }
 function _ffa3ClearArrays(){
-  fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; wcDrops=[]; wcFx=[]; popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[]; tick=0;
+  fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; wcDrops=[]; wcFx=[]; popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[]; tick=0;
   screenShake={x:0,y:0,dur:0,str:0}; slowMoTimer=0; hitStopFrames=0; hitStopCD=0; koZoom=0;
 }
 function ffa3Start(){
