@@ -6655,18 +6655,19 @@ const AR_MOVES=['bolt','punch','chicken','stone','minis'];   // ⚡ sét · 👊
 const AR_MINI_HP=100, AR_MINI_DMG=50, AR_MINI_HEAL=50, AR_MINI_IMG=new Image(); AR_MINI_IMG.src='assets/img/arabiccat/AR_MINIGENIE_IMG.webp';   // 🧞 thần đèn nhỏ cầm mã tấu (kiếm user gửi, đã bỏ bàn tay người) — quay mặt PHẢI
 const AR_STONE_P=0.2, AR_STONE_S=2, AR_STONE_DMG=100, AR_KB_T=20, AR_KB_DECAY=0.9;   // 🗿 hoá tượng 20% · 2s · vỡ ra mất 100 · 👊 bay văng 20 tick, mỗi tick còn 90% tốc
 const AR_CD_S=3, AR_GENIE_S=2, AR_CHICK_P=0.2, AR_CHICK_S=3, AR_BOLT_DMG=100, AR_PUNCH_DMG=150, AR_PUNCH_KB=24;   // đấm văng 24 > tát Grumpy Cat 18
-const AR_NEAR=150, AR_ACT_S=0.6, AR_CHICK_SPD=2.4, AR_GENIE_H=3.0, AR_EMERGE_S=0.35, AR_RETURN_S=0.3;   // AR_NEAR = khe hở giữa 2 thân (px) dưới mức này là "gần" · AR_GENIE_H = cao dáng thường / size mèo
+const AR_NEAR=150, AR_ACT_S=0.6, AR_CHICK_SPD=2.4, AR_GENIE_H=3.45, AR_EMERGE_S=0.35, AR_RETURN_S=0.3;   // AR_NEAR = khe hở giữa 2 thân (px) dưới mức này là "gần" · AR_GENIE_H = cao dáng thường / size mèo
 // 🧞 3 dáng thần đèn user gửi (đã canh cùng tỉ lệ theo chỏm mũ vàng): 0 thường · 1 bắn sét (duỗi tay) · 2 phù phép (hai tay)
-//    tail = chóp đuôi (nối khói vào vòi đèn), hand = đầu bàn tay phóng chiêu — px trên ảnh; mọi dáng quay mặt PHẢI
+//    ảnh đã CẮT bỏ khúc đuôi cuộn (mép cắt mờ dần): tail = điểm giữa mép cắt (nối dải khói từ vòi đèn vào), tw = bề rộng đuôi ở đó,
+//    td = hướng thân đuôi chạy xuống (để khói đi vào đúng hướng, liền mạch), hand = đầu bàn tay phóng chiêu — px trên ảnh; mọi dáng quay mặt PHẢI
 const AR_GN=[
-  {src:'assets/img/arabiccat/AR_GN_0.webp', tail:[165,413]},
-  {src:'assets/img/arabiccat/AR_GN_1.webp', tail:[136,316], hand:[337,100]},
-  {src:'assets/img/arabiccat/AR_GN_2.webp', tail:[130,296], hand:[211,142]}
+  {src:'assets/img/arabiccat/AR_GN_0.webp', tail:[192,335], tw:30, td:[6,8]},
+  {src:'assets/img/arabiccat/AR_GN_1.webp', tail:[166,272], tw:37, td:[8,8], hand:[337,100]},
+  {src:'assets/img/arabiccat/AR_GN_2.webp', tail:[165,252], tw:31, td:[4,8], hand:[211,142]}
 ].map(d=>{ const im=new Image(); im.src=d.src; d.img=im; return d; });
 const AR_GN_REF_H=415;   // cao ảnh dáng thường (px) — mốc quy đổi tỉ lệ
 // 👊 nắm đấm khổng lồ (cắt từ cánh tay thần đèn + vòng cổ tay vàng kiểu Disney) — mũi bàn tay tip, gốc vòng tay root, quay PHẢI
 const AR_FIST_IMG=new Image(); AR_FIST_IMG.src='assets/img/arabiccat/AR_FIST_IMG.webp';
-const AR_FIST_TIP=[334,85], AR_FIST_L=0.95, AR_FIST_GO=6, AR_FIST_HOLD=8, AR_FIST_OUT=10;   // dài = 0.95×cao thần đèn · bay tới 6 tick · giữ 8 · rút 10
+const AR_FIST_TIP=[334,85], AR_FIST_L=1.157, AR_FIST_GO=6, AR_FIST_HOLD=8, AR_FIST_OUT=10;   // dài = 0.95×cao thần đèn · bay tới 6 tick · giữ 8 · rút 10
 // vòi đèn thần trong khung xoa đèn (px khung 470×450, crop 33,30,430,417)
 const AR_SPOUT=[446,379];
 // 🐱 khung ảnh user gửi (thư mục "abaric cat"), đã tách nền + canh cùng cỡ/cùng chân trên khung 470×450:
@@ -6744,13 +6745,13 @@ function _arGeniePose(f,g){
   const tps=_egTps(), s=g.t/tps, side=f._lastShouldFaceLeft?-1:1, Hn=f.size*AR_GENIE_H, S=_arSpoutXY(f);
   const ease=u=>1-Math.pow(1-Math.max(0,Math.min(1,u)),3);
   const u=Math.min(ease(s/AR_EMERGE_S), ease((AR_GENIE_S-s)/AR_RETURN_S));
-  const hx=S[0]+side*Hn*0.16, hy=S[1]-Hn*0.40+Math.sin(s*6)*Hn*0.02;
+  const hx=S[0]+side*Hn*0.13, hy=S[1]-Hn*0.24+Math.sin(s*6)*Hn*0.015;   // lơ lửng SÁT đèn (đuôi đã cắt ngắn)
   const T=[S[0]+(hx-S[0])*u, S[1]+(hy-S[1])*u], k=0.08+0.92*u;
   const pose = (g.kind==='bolt' && s>=AR_ACT_S-0.12) ? 1 : ((g.kind==='chicken'||g.kind==='stone'||g.kind==='minis') && s>=AR_ACT_S-0.12) ? 2 : 0, D=AR_GN[pose];
   const gs=Hn/AR_GN_REF_H*k, hd=D.hand||[D.tail[0]+60,D.tail[1]-300];
-  return { S, T, side, gs, pose, u, Hn,
+  return { S, T, side, gs, pose, u, Hn, D,
     hand:[T[0]+side*(hd[0]-D.tail[0])*gs, T[1]+(hd[1]-D.tail[1])*gs],
-    cx:T[0]+side*Hn*0.05*k, cy:T[1]-Hn*0.62*k }; }
+    cx:T[0]-side*Hn*0.12*k, cy:T[1]-Hn*0.45*k }; }
 function _arEnd(f,cd){ if(f._arGenie){ f._arGenie=null; if(cd) f._arCD=Math.round(AR_CD_S*_egTps()); }   // ⏱️ thần đèn biến mất MỚI bắt đầu đếm 3s
   if(!cd && f._arMusic){ _stopLoopAudio(f._arMusic); f._arMusic=null; } }   // chết → tắt hẳn nhạc
 // 🐔 hoá gà: meme thường dùng CHUNG this.stun (đã tự chặn di chuyển AI + đánh + skill) + _arChickT riêng để vẽ con gà & cho nó chạy lung tung
@@ -6938,16 +6939,19 @@ function _arDrawGenie(f,g){
     for(let i=0;i<22;i++) ps.push({k:'spiral',a0:Math.random()*Math.PI*2,t:-i*0.8,T:34,r:Hn*(0.08+Math.random()*0.06),gold:i%3!==0}); }
   if(!g.back && s>=AR_GENIE_S-AR_RETURN_S){ g.back=true;   // chui ngược vào đèn: phụt khói nhỏ
     for(let i=0;i<10;i++){ const a=Math.random()*Math.PI*2, v=Hn*(0.004+Math.random()*0.008); ps.push({k:'puff',x:S[0],y:S[1],vx:Math.cos(a)*v,vy:Math.sin(a)*v,r:Hn*0.03,t:0,T:24,c:'124,77,255'}); } }
-  // 💨 dải khói nối vòi đèn → chóp đuôi: ra ngang khỏi vòi rồi uốn lên đuôi, nở dần + gợn sóng
-  const C=[S[0]+side*Hn*0.22*P.u, S[1]-Hn*0.03], N=26, pt=t=>{ const a=(1-t)*(1-t), b=2*(1-t)*t, c=t*t; return [a*S[0]+b*C[0]+c*T[0], a*S[1]+b*C[1]+c*T[1]]; };
-  const wAt=t=>Hn*(0.012+0.05*Math.pow(t,1.4))*(0.3+0.7*P.u);
+  // 💨 dải khói nối vòi đèn → mép cắt đuôi: ra ngang khỏi vòi, uốn lên rồi đi vào ĐÚNG hướng thân đuôi, nở dần tới ĐÚNG bề rộng
+  //    đuôi, cùng màu đuôi → thân thần đèn như mọc liền từ làn khói chứ không phải ảnh dán vào
+  const tdl=Math.hypot(D.td[0],D.td[1])||1, dX=side*D.td[0]/tdl, dY=D.td[1]/tdl, Lk=Math.max(8,Math.hypot(T[0]-S[0],T[1]-S[1]))*0.55;
+  const C1=[S[0]+side*Hn*0.14*P.u, S[1]-Hn*0.01], C2=[T[0]+dX*Lk, T[1]+dY*Lk], N=30;
+  const pt=t=>{ const a=(1-t)**3, b=3*(1-t)**2*t, c=3*(1-t)*t*t, d=t**3; return [a*S[0]+b*C1[0]+c*C2[0]+d*T[0], a*S[1]+b*C1[1]+c*C2[1]+d*T[1]]; };
+  const wEnd=(D.tw||30)*0.5*P.gs*1.12, wAt=t=>Hn*0.01+(wEnd-Hn*0.01)*Math.pow(t,1.15);
   ctx.save(); ctx.globalCompositeOperation='lighter';
-  for(let i=0;i<=N;i++){ const t=i/N, q=pt(t), w=wAt(t)*2.1; ctx.fillStyle='rgba(110,130,255,0.10)'; ctx.beginPath(); ctx.arc(q[0],q[1],w,0,Math.PI*2); ctx.fill(); }
+  for(let i=0;i<=N;i++){ const t=i/N, q=pt(t), w=wAt(t)*1.9; ctx.fillStyle=`rgba(110,130,255,${0.025+0.04*t})`; ctx.beginPath(); ctx.arc(q[0],q[1],w,0,Math.PI*2); ctx.fill(); }   // quầng sáng nhẹ (bớt chói chỗ vòi)
   ctx.restore();
   ctx.save();
-  for(let i=0;i<=N;i++){ const t=i/N, q=pt(t), q2=pt(Math.min(1,t+0.02)), nx=-(q2[1]-q[1]), ny=q2[0]-q[0], nl=Math.hypot(nx,ny)||1, wob=Math.sin(s*9-t*12)*wAt(t)*0.35;
+  for(let i=0;i<=N;i++){ const t=i/N, q=pt(t), q2=pt(Math.min(1,t+0.02)), nx=-(q2[1]-q[1]), ny=q2[0]-q[0], nl=Math.hypot(nx,ny)||1, wob=Math.sin(s*9-t*12)*wAt(t)*0.25*(1-t);
     const x=q[0]+nx/nl*wob, y=q[1]+ny/nl*wob, w=wAt(t);
-    const gr=ctx.createRadialGradient(x-w*0.3,y-w*0.3,0,x,y,w); gr.addColorStop(0,'rgba(214,222,255,0.95)'); gr.addColorStop(0.6,'rgba(140,156,255,0.9)'); gr.addColorStop(1,'rgba(98,110,240,0)');
+    const gr=ctx.createRadialGradient(x-w*0.25,y-w*0.25,0,x,y,w); gr.addColorStop(0,'rgba(196,206,255,0.97)'); gr.addColorStop(0.62,'rgba(142,156,238,0.95)'); gr.addColorStop(1,'rgba(120,134,232,0)');
     ctx.fillStyle=gr; ctx.beginPath(); ctx.arc(x,y,w,0,Math.PI*2); ctx.fill(); }
   ctx.restore();
   // dải lấp lánh chạy dọc khói (từ đèn lên đuôi)
