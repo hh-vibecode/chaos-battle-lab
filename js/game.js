@@ -6649,7 +6649,8 @@ function _ldSprayTick(f){
 //   còn lại  → theo khoảng cách: địch XA → ⚡ bắn tia sét từ tay (100) · địch GẦN → 👊 gọi nắm đấm khổng lồ đấm văng (150)
 // Thần đèn chui ra từ VÒI cây đèn mèo đang xoa, đuôi nối dải khói vào vòi (kiểu Genie Disney), hết lượt chui ngược vào đèn.
 // Mục tiêu = f.enemy (gần nhất, TÍNH CẢ quân triệu hồi có máu) — gà/sét/đấm đều dính lên quân triệu hồi như meme thường.
-const AR_MOVES=['bolt','punch','chicken','stone'];   // ⚡ sét · 👊 nắm đấm · 🐔 hoá gà · 🗿 hoá tượng
+const AR_MOVES=['bolt','punch','chicken','stone','minis'];   // ⚡ sét · 👊 nắm đấm · 🐔 hoá gà · 🗿 hoá tượng · 🧞🗡️ gọi 2 thần đèn nhỏ — chia ĐỀU 20%
+const AR_MINI_HP=100, AR_MINI_DMG=50, AR_MINI_IMG=new Image(); AR_MINI_IMG.src='assets/img/arabiccat/AR_MINIGENIE_IMG.webp';   // 🧞 thần đèn nhỏ cầm mã tấu (kiếm user gửi, đã bỏ bàn tay người) — quay mặt PHẢI
 const AR_STONE_P=0.2, AR_STONE_S=2, AR_STONE_DMG=100, AR_KB_T=20, AR_KB_DECAY=0.9;   // 🗿 hoá tượng 20% · 2s · vỡ ra mất 100 · 👊 bay văng 20 tick, mỗi tick còn 90% tốc
 const AR_CD_S=3, AR_GENIE_S=2, AR_CHICK_P=0.2, AR_CHICK_S=3, AR_BOLT_DMG=100, AR_PUNCH_DMG=150, AR_PUNCH_KB=24;   // đấm văng 24 > tát Grumpy Cat 18
 const AR_NEAR=150, AR_ACT_S=0.6, AR_CHICK_SPD=2.4, AR_GENIE_H=3.0, AR_EMERGE_S=0.35, AR_RETURN_S=0.3;   // AR_NEAR = khe hở giữa 2 thân (px) dưới mức này là "gần" · AR_GENIE_H = cao dáng thường / size mèo
@@ -6700,7 +6701,7 @@ function _arTick(f){
     if(f._arCD===undefined) f._arCD=Math.round(AR_CD_S*tps);
     if(--f._arCD>0) return;
     const e=f.enemy; if(!e || e.dead || !(e.hp>0) || f._isHardCC()){ f._arCD=0; return; }   // đang choáng thì chưa gọi được
-    const kind = AR_MOVES[Math.floor(Math.random()*AR_MOVES.length)];   // 🎲 4 đòn chia ĐỀU 25%, không phụ thuộc khoảng cách nữa
+    const kind = AR_MOVES[Math.floor(Math.random()*AR_MOVES.length)];   // 🎲 các đòn chia ĐỀU, không phụ thuộc khoảng cách
     f._arGenie={t:0,kind,e,act:false,parts:[],burst:false};
     if(f._arMusic) try{ f._arMusic.pause(); }catch(e){}   // 🔇 thò tay xoa đèn → tắt nhạc
     return;
@@ -6718,6 +6719,7 @@ function _arTick(f){
         const x0=P.cx, y0=P.cy, a=Math.atan2(e.y-y0,e.x-x0), es=e.size||20;
         g.fist={t:0,a,x0,y0,x1:e.x-Math.cos(a)*es*0.5,y1:e.y-Math.sin(a)*es*0.5,hit:false}; }
       else if(g.kind==='stone'){ _arStone(e,f); g.spell={t:0,x0:P.hand[0],y0:P.hand[1],x1:e.x,y1:e.y}; }   // 🗿 hoá đá
+      else if(g.kind==='minis'){ const sp=_arSummonMinis(f,e,P); g.spell={t:0,x0:P.hand[0],y0:P.hand[1],x1:sp[0],y1:sp[1]}; }   // 🧞🧞 gọi 2 thần đèn nhỏ
       else { _arChicken(e); g.spell={t:0,x0:P.hand[0],y0:P.hand[1],x1:e.x,y1:e.y}; }   // 🐔 phù phép
     } }
   const q=g.fist;
@@ -6742,7 +6744,7 @@ function _arGeniePose(f,g){
   const u=Math.min(ease(s/AR_EMERGE_S), ease((AR_GENIE_S-s)/AR_RETURN_S));
   const hx=S[0]+side*Hn*0.16, hy=S[1]-Hn*0.40+Math.sin(s*6)*Hn*0.02;
   const T=[S[0]+(hx-S[0])*u, S[1]+(hy-S[1])*u], k=0.08+0.92*u;
-  const pose = (g.kind==='bolt' && s>=AR_ACT_S-0.12) ? 1 : ((g.kind==='chicken'||g.kind==='stone') && s>=AR_ACT_S-0.12) ? 2 : 0, D=AR_GN[pose];
+  const pose = (g.kind==='bolt' && s>=AR_ACT_S-0.12) ? 1 : ((g.kind==='chicken'||g.kind==='stone'||g.kind==='minis') && s>=AR_ACT_S-0.12) ? 2 : 0, D=AR_GN[pose];
   const gs=Hn/AR_GN_REF_H*k, hd=D.hand||[D.tail[0]+60,D.tail[1]-300];
   return { S, T, side, gs, pose, u, Hn,
     hand:[T[0]+side*(hd[0]-D.tail[0])*gs, T[1]+(hd[1]-D.tail[1])*gs],
@@ -6756,6 +6758,19 @@ function _arChicken(u){
   spawnParticles(u.x,u.y,'#ffffff',16,false,true); spawnParticles(u.x,u.y,'#ffd54f',10,false,true);
   playSample('wg_chicken',1.0); }
 function _arIsChick(u){ return (u._arChickT||0)>0 && (u.stun||0)>0; }
+// 🧞🗡️ gọi 2 THẦN ĐÈN NHỎ cầm mã tấu: vật triệu hồi CÓ MÁU (100/con) — dùng chung cơ chế Doge Knight (đi lại / va chạm /
+//    ăn dame / dính hiệu ứng / chém cận chiến 50 khi địch lại gần y như meme thường), chỉ khác hình, máu, dame. Hiện ra 2 bên điểm giữa thần đèn ↔ địch.
+function _arSummonMinis(f,e,P){
+  const mx=P.hand[0]+(e.x-P.hand[0])*0.45, my=P.hand[1]+(e.y-P.hand[1])*0.45, a=Math.atan2(e.y-my,e.x-mx);
+  for(const side of [-1,1]){
+    const x=Math.max(30,Math.min(W-30, mx+Math.cos(a+Math.PI/2)*40*side)), y=Math.max(30,Math.min(H-30, my+Math.sin(a+Math.PI/2)*40*side));
+    dogeKnights.push({ id:'arm_'+Date.now()+'_'+side+'_'+Math.floor(Math.random()*99999), team:f.team, owner:f, arMini:true, dmg:AR_MINI_DMG,
+      x, y, hp:AR_MINI_HP, maxHp:AR_MINI_HP, size:34, vx:0, vy:0, cooldown:30, flash:0, dead:false, animTick:0,
+      _lastAngle:Math.atan2(e.y-y,e.x-x), _atkTimer:0, burn:0, _maxwellSlowTimer:0, _droolSlowTimer:0, stun:0, _slammed:false, _spawnT:20, type:'dogeknight',
+      takeDamage(dmg,attacker,isHuh,isBurn,dotIcon,hitFx){ _summonTakeDamage(this, dmg, attacker, isHuh, isBurn, dotIcon, hitFx); } });
+    kingSummonFx.push({x,y,life:34,maxLife:34}); spawnParticles(x,y,'#7c4dff',10,false,true); spawnParticles(x,y,'#ffd54f',8,false,true); }
+  playSample('lightsaber_on',0.6);
+  return [mx,my]; }
 // 👊 bay văng do nắm đấm: tự dời thân theo vector văng (giảm dần), KHÔNG qua AI di chuyển (AI kẹp tốc về tốc chạy → mất hết lực văng)
 function _arKnock(u,a){
   if((u.type==='gigachad' && u.size>=(u._gcBaseSize||u.size)*GIGACHAD_BIG_MUL) || (u.type==='berserkcat' && u.hp<u.maxHp*BK_UNSTOP_HP)) return;   // miễn đẩy lùi như mọi đòn khác
@@ -20992,7 +21007,7 @@ function loop(){
           if(kdist<kMeleeRange){
             k.vx*=0.8; k.vy*=0.8;
             if(k.cooldown<=0){
-              kEn.takeDamage(75, kOwner||{team:k.team,x:k.x,y:k.y});
+              kEn.takeDamage(k.dmg||75, kOwner||{team:k.team,x:k.x,y:k.y});   // 🧞 thần đèn nhỏ: 50
               k.cooldown=(k._kcRageTimer||0)>0?30:60; k._atkTimer=18; k.flash=6; // rage: x2 tốc đánh (cooldown giảm nửa)
               addShake(3,5); _hitParticles(kEn.x,kEn.y,'#c9a86a',5);
               playSample('king_knight_hit',0.6); // ⚔️ tiếng chém — punch2 (uỵch) đã bị tắt toàn cục, Knight cần tiếng riêng khi đánh trúng
@@ -21032,7 +21047,7 @@ function loop(){
     }
     if(k.flash>0 && !_lowTier(k)){ ctx.filter='brightness(3)'; }
     _drawUnitHpBar(k);
-    const kImgRaw = kOwner ? skill1AvatarImgs[kOwner.slotIdx] : null;
+    const kImgRaw = k.arMini ? AR_MINI_IMG : (kOwner ? skill1AvatarImgs[kOwner.slotIdx] : null);   // 🧞 thần đèn nhỏ: ảnh riêng
     const kImg = (kImgRaw && kImgRaw.complete && kImgRaw.naturalWidth) ? kImgRaw : DOGE_KNIGHT_IMG;
     const ksz=k.size;
     // nghiêng bổ kiếm xuống lúc chém (kiểu Maxwell) — xoay cả người vì kiếm đã vẽ sẵn trong avatar
@@ -21042,7 +21057,7 @@ function loop(){
     // pop-in scale khi vừa triệu hồi (0→1, hơi nảy quá lên rồi ổn định)
     if((k._spawnT||0)>0){ const _kPopT=1-k._spawnT/20; const _kPop=Math.max(0.1,_kPopT<0.7?_kPopT/0.7*1.15:1.15-(_kPopT-0.7)/0.3*0.15); ctx.scale(_kPop,_kPop); }
     // avatar vẽ sẵn kiếm chĩa lên bên TRÁI ở tư thế gốc → lật khi facingRight=true để mũi kiếm hướng về phía địch (địch đang ở bên phải)
-    if(k._facingRight===true) ctx.scale(-1,1);
+    if(k.arMini ? k._facingRight===false : k._facingRight===true) ctx.scale(-1,1);   // 🧞 thần đèn nhỏ vẽ sẵn quay PHẢI → lật khi địch bên trái
     ctx.rotate(_kSwing);
     if(kImg && kImg.complete && kImg.naturalWidth>0){
       const crop=kImg._crop;
