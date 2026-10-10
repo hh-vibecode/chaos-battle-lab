@@ -541,10 +541,10 @@ function _dnDrawText(txt,x,y,px,k,al,flash){
   for(let i=0;i<=30;i++){ const u=i/30, xx=x0-px*0.3+(w+px*0.6)*u, yy=y+px*0.62+Math.sin(u*Math.PI*3)*px*0.12-Math.sin(u*Math.PI)*px*0.1; i?ctx.lineTo(xx,yy):ctx.moveTo(xx,yy); }
   ctx.stroke(); ctx.restore();
   return [x0+w*k, y]; }
-// ✒️ đang viết: chữ hiện dần + ngòi bút lông vũ ở đầu nét + tia lửa đỏ
+// ✒️ đang viết (trên đầu Maxwell): chữ hiện dần + ngòi bút lông vũ ở đầu nét + tia lửa đỏ
 function _dnDrawWriting(f){
   const W2=f._dnW, tg=W2&&W2.tgt; if(!tg || tg.dead) return;
-  const k=Math.min(1,W2.t/(DN_WRITE_T*0.92)), [x,y]=_dnTextPos(tg), name=_dnName(tg), px=Math.max(22,Math.min(40,tg.size*0.85));
+  const k=Math.min(1,W2.t/(DN_WRITE_T*0.92)), [x,y]=_dnTextPos(f), name=_dnName(tg), px=Math.max(22,Math.min(40,f.size*0.85));   // ✒️ chữ hiện trên đầu MAXWELL (người đang viết)
   // vòng phù chú mờ xoay sau chữ
   ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.translate(x,y); ctx.rotate(performance.now()/900); ctx.strokeStyle=`rgba(255,30,60,${0.18+0.1*Math.sin(W2.t*0.2)})`; ctx.lineWidth=1.5;
   ctx.beginPath(); ctx.arc(0,0,px*1.7,0,Math.PI*2); ctx.stroke(); ctx.beginPath(); ctx.arc(0,0,px*1.45,0,Math.PI*2); ctx.stroke();
@@ -564,7 +564,7 @@ function _dnDrawWriting(f){
 // 📓 dấu bị ghi tên: lúc vừa viết xong tên loé trắng rồi bay lên tan · sau đó cuốn sổ đen nhỏ lơ lửng toả quầng đỏ trên đầu
 function _dnDrawMark(u){
   const M=u._dnMark, age=performance.now()-M.t0, [x,y]=_dnTextPos(u), px=Math.max(22,Math.min(40,u.size*0.85));
-  if(age<700){ const q=age/700; _dnDrawText(M.name,x,y-q*px*0.8,px*(1+0.15*Math.sin(q*Math.PI)),1,1-q,q<0.35); }
+  if(age<700 && M.src && !M.src.dead){ const q=age/700, [sx,sy]=_dnTextPos(M.src), spx=Math.max(22,Math.min(40,M.src.size*0.85)); _dnDrawText(M.name,sx,sy-q*spx*0.8,spx*(1+0.15*Math.sin(q*Math.PI)),1,1-q,q<0.35); }   // viết xong: tên trên đầu Maxwell loé trắng rồi tan
   const im=MAXWELL_DEATHNOTE_IMG; if(!im.naturalWidth) return;
   const a=Math.min(1,age/400), bh=Math.max(16,u.size*0.5), bw=bh*im.naturalWidth/im.naturalHeight, by=y+px*0.15+Math.sin(performance.now()/350)*3;
   ctx.save(); ctx.globalAlpha=a;
