@@ -15806,7 +15806,7 @@ class Fighter {
           addShake(4,6); _hitParticles(e.x,e.y,'#90a4ae',6);
           playSample('punch2',0.55);
           if(def.burn){ e.burn=Math.max(e.burn||0,180); e.burnTickCD=0; e._burnSrc=this;   // ⚔️🔥 lightsaber: chém trúng là cháy
-            _hitParticles(e.x,e.y,'#80d8ff',8,false,true); playSample('lightsaber_whoosh_01',0.7); }
+            _hitParticles(e.x,e.y,'#80d8ff',8,false,true); playSample('lightsaber_whoosh_01',0.8); playSample('lightsaber_clash_06',0.55); }   // ⚔️ tiếng vụt + tiếng chém lightsaber
           this._mwAtkCD=20; // AS 3 = 60/3 = 20 frame
           this.actionState='attack'; this.actionTimer=18; this.attackAvatarTimer=18;
         } else if(def && def.note){
