@@ -21,14 +21,14 @@
 #bootTrack{width:min(78vw,440px);height:18px;border:3px solid #fff;border-radius:6px;background:rgba(255,255,255,.08);overflow:hidden;box-shadow:0 0 0 3px #000}
 #bootBar{height:100%;width:0;background:repeating-linear-gradient(45deg,#ffca28 0 12px,#ffb300 12px 24px);transition:width .2s linear}
 #bootPct{font-size:14px;letter-spacing:2px}
-.play-only .tile-delete,.play-only .add-tile,.play-only .un-add-panel,.play-only .un-entry-btns,.play-only .lb-step,
+.play-only .tile-delete,.play-only .add-tile,.play-only 
 .play-only [onclick*="openVfxLib"],.play-only [onclick*="importSaveData"],.play-only [onclick*="exportSaveData"],.play-only [onclick*="openScene"],
-.play-only [onclick*="openFanRig"],.play-only [onclick*="lbStep"],.play-only [onclick*="rtResetTournament"],.play-only [onclick*="rtPreviewPodium"]{display:none!important}
+.play-only [onclick*="openFanRig"],.play-only [onclick*="rtResetTournament"],.play-only [onclick*="rtPreviewPodium"]{display:none!important}
 #bootVer{position:absolute;bottom:18px;font-size:8px;opacity:.6;letter-spacing:1px}
 .mm-version{position:absolute;left:14px;bottom:12px;z-index:5;font:8px 'Press Start 2P',monospace;color:rgba(70,50,30,.6);pointer-events:none;letter-spacing:1px}
 #bootTip{font-size:9px;opacity:.75;min-height:12px;text-align:center;padding:0 16px}
 </style>
-<link rel="stylesheet" href="css/game.css?v=19">
+<link rel="stylesheet" href="css/game.css?v=20">
 
 </head>
 <body>
@@ -44,8 +44,6 @@
 <!-- ===== MAIN MENU (chọn chế độ chơi) ===== -->
 <div id="mainMenuScreen" class="screen active">
   <div class="mm-version" id="mmVersion"></div>
-  <button class="mm-settings-btn" onclick="openUpdateNote()" title="Update Note" style="right:122px;">📝</button>
-  <button class="mm-settings-btn" onclick="openLeaderboard()" title="Leaderboard" style="right:70px;">🏆</button>
   <button class="mm-settings-btn" onclick="toggleSettingsPanel()" title="Settings">⚙️</button>
   <div class="mm-settings-panel" id="mmSettingsPanel">
     <button class="mm-settings-item" onclick="toggleSettingsPanel();rtPreviewPodium()">🔍 Preview Podium</button>
@@ -96,76 +94,6 @@
       <div class="mm-mode-name">Scene Builder</div>
       <div class="mm-mode-desc">Drag scenes and memes onto a timeline to film your own cutscene</div>
     </button>
-  </div>
-</div>
-
-<!-- ===== LEADERBOARD SCREEN ===== -->
-<div id="leaderboardScreen" class="screen">
-  <div class="lb-wrap">
-    <button class="btn btn-back" onclick="closeLeaderboard()" title="Back to menu" style="position:absolute;left:16px;top:16px;">◀</button>
-    <div class="lb-header">
-      <span class="lb-medal">🏅</span>
-      <div class="lb-title">LEADERBOARD</div>
-      <span class="lb-medal">🏅</span>
-    </div>
-    <div class="lb-table-wrap">
-      <div class="lb-table-header">
-        <div class="lb-col-rank">RANK</div>
-        <div class="lb-col-name">NAME</div>
-        <div class="lb-col-num">MATCHES</div>
-        <div class="lb-col-num">WINS</div>
-        <div class="lb-col-num">LOSSES</div>
-        <div class="lb-col-num">DRAWS</div>
-        <div class="lb-col-num">WIN RATE</div>
-        <div class="lb-col-num">PTS</div>
-      </div>
-      <div id="lbTableBody" class="lb-table-body"></div>
-      <div id="lbEmptyMsg" class="lb-empty-msg" style="display:none;">No characters in the roster yet.</div>
-    </div>
-  </div>
-
-  <!-- panel nhập số thắng/thua/hoà — góc dưới màn hình, kiểu +/- giống chọn Season của Tournament -->
-  <div class="lb-stepper-panel">
-    <div class="lb-stepper-selected" id="lbSelectedLabel">— pick a character above —</div>
-    <div class="lb-stepper-row">
-      <span class="lb-stepper-label lb-win">Win</span>
-      <button class="lb-stepper-btn" onclick="lbStep('wins',-1)">◀</button>
-      <span class="lb-stepper-val" id="lbValWins">0</span>
-      <button class="lb-stepper-btn" onclick="lbStep('wins',1)">▶</button>
-    </div>
-    <div class="lb-stepper-row">
-      <span class="lb-stepper-label lb-loss">Loss</span>
-      <button class="lb-stepper-btn" onclick="lbStep('losses',-1)">◀</button>
-      <span class="lb-stepper-val" id="lbValLosses">0</span>
-      <button class="lb-stepper-btn" onclick="lbStep('losses',1)">▶</button>
-    </div>
-    <div class="lb-stepper-row">
-      <span class="lb-stepper-label lb-draw">Draw</span>
-      <button class="lb-stepper-btn" onclick="lbStep('draws',-1)">◀</button>
-      <span class="lb-stepper-val" id="lbValDraws">0</span>
-      <button class="lb-stepper-btn" onclick="lbStep('draws',1)">▶</button>
-    </div>
-  </div>
-</div>
-
-<!-- ===== 📝 UPDATE NOTE SCREEN ===== -->
-<div id="updateNoteScreen" class="screen">
-  <div class="un-wrap">
-    <button class="btn btn-back" onclick="closeUpdateNote()" title="Back to menu" style="position:absolute;left:16px;top:16px;">◀</button>
-    <div class="un-title">📝 UPDATE NOTE</div>
-    <div class="un-subtitle">Weekly changelog — pick who changed, write what changed</div>
-
-    <div class="un-add-panel">
-      <div class="un-char-label" id="unSelectedLabel">— pick a character below —</div>
-      <div class="un-char-grid" id="unCharGrid"></div>
-      <textarea id="unTextInput" class="un-textarea" placeholder="What changed this week?" rows="3"></textarea>
-      <div class="un-add-btn-row">
-        <button class="un-add-btn" id="unSubmitBtn" onclick="unAddNote()">➕ Add Note</button>
-        <button class="un-cancel-btn" id="unCancelBtn" onclick="unCancelEdit()" style="display:none;">✖ Cancel</button>
-      </div>
-    </div>
-
-    <div class="un-list" id="unList"></div>
   </div>
 </div>
 
@@ -674,8 +602,8 @@
   </div>
 </div>
 
-<script>window.GAME_VERSION={build:19,at:"11:20 · 10/10/2026"};   // tools/release.py tự tăng số bản + ghi giờ mỗi lần đẩy lên</script>
-<script src="js/asset-groups.js?v=19"></script>
-<script src="js/boot.js?v=19"></script>
+<script>window.GAME_VERSION={build:20,at:"11:22 · 10/10/2026"};   // tools/release.py tự tăng số bản + ghi giờ mỗi lần đẩy lên</script>
+<script src="js/asset-groups.js?v=20"></script>
+<script src="js/boot.js?v=20"></script>
 </body>
 </html>
