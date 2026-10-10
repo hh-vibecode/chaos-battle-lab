@@ -1,0 +1,1 @@
+{"dur":800,"lanes":1,"nid":2,"bg":"arena","actors":[],"clips":[{"id":1,"type":"garypossess","lane":0,"t0":0,"len":800,"p":{"zoom":250}}]}

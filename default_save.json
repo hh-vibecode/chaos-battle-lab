@@ -1,0 +1,39 @@
+{
+ "_ver": "2026-10-10T09:41",
+ "parts": {
+  "cbs_fan_avatars": [
+   "save/cbs_fan_avatars.0.txt"
+  ],
+  "cbs_scene": [
+   "save/cbs_scene.0.txt"
+  ],
+  "cbs_roster": [
+   "save/cbs_roster.0.txt",
+   "save/cbs_roster.1.txt",
+   "save/cbs_roster.2.txt",
+   "save/cbs_roster.3.txt",
+   "save/cbs_roster.4.txt"
+  ],
+  "cbs_vfx_library": [
+   "save/cbs_vfx_library.0.txt"
+  ],
+  "cbs_debuff_vfx": [
+   "save/cbs_debuff_vfx.0.txt"
+  ],
+  "cbs_rt_season": [
+   "save/cbs_rt_season.0.txt"
+  ],
+  "cbs_rt_blocked": [
+   "save/cbs_rt_blocked.0.txt"
+  ],
+  "cbs_vfx_seed_done": [
+   "save/cbs_vfx_seed_done.0.txt"
+  ],
+  "cbs_char_stats": [
+   "save/cbs_char_stats.0.txt"
+  ],
+  "cbs_update_notes": [
+   "save/cbs_update_notes.0.txt"
+  ]
+ }
+}

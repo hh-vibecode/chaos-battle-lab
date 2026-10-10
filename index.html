@@ -2128,6 +2128,10 @@ async function _loadDefaultSave(){
     const bundle=await r.json(); const ver=String(bundle._ver||'');
     let cur=null; try{ cur=localStorage.getItem('cbs_default_ver'); }catch(e){}
     if(ver && cur===ver && storeGet('cbs_roster')!=null) return;   // đã nạp đúng bản này rồi
+    // save to quá 100MB/file của GitHub → mỗi mục cắt thành nhiều mảnh text (bundle.parts = {key:[đường dẫn mảnh...]}), tải song song rồi ghép lại
+    if(bundle.parts){ for(const [k,files] of Object.entries(bundle.parts)){
+      const txt=await Promise.all(files.map(f=>fetch(f,{cache:'no-cache'}).then(x=>{ if(!x.ok) throw new Error(f); return x.text(); })));
+      bundle[k]=txt.join(''); } }
     for(const k of _STORE_KEYS){ if(bundle[k]==null) continue; _store[k]=bundle[k]; if(_idb) await _idbPutAwait(k,bundle[k]); else { try{ localStorage.setItem(k,bundle[k]); }catch(e){} } }
     try{ localStorage.setItem('cbs_default_ver',ver); }catch(e){}
   }catch(e){}

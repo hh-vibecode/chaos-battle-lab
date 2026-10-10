@@ -1,0 +1,1 @@
+[{"id":"un_1787195229425_36334","charId":"c1785461332122","text":"buff now max at 15th stack instead of no cap","date":"2026-08-20"}]
