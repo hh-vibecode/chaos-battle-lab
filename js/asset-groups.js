@@ -42,6 +42,7 @@ window.ASSET_GROUP={
 "assets/img/calmdog/CALMDOG_FORM_IMGS_2.webp": "calmdog",
 "assets/img/calmdog/CALMDOG_FORM_IMGS_3.webp": "calmdog",
 "assets/img/calmdog/CALMDOG_FORM_IMGS_4.webp": "calmdog",
+"assets/audio/dn_theme.mp3": "maxwell",
 "assets/img/maxwell/MAXWELL_DEATHNOTE_IMG.webp": "maxwell",
 "assets/img/maxwell/MAXWELL_LEVIATHAN_IMG.webp": "maxwell",
 "assets/img/maxwell/MAXWELL_LIGHTSABER_IMG.webp": "maxwell",
