@@ -10066,32 +10066,36 @@ function _dgOnTransform(f){ f._dgMorph=DG_MORPH; _dgFx({k:'morph', f, T:DG_MORPH
 function _dgOnRevert(f){ f._dgDeflate=DG_DEFLATE; _dgFx({k:'poof', x:f.x, y:f.y, r:f.size*1.4, T:30, b:Array.from({length:12},()=>[Math.random()*Math.PI*2,0.4+Math.random()*0.6,0.35+Math.random()*0.4])}); }
 function _dgOnSlam(f,e){ f._dgAtk=28; _dgFx({k:'slam', x:e.x, y:e.y, s:Math.max(e.size,30), a:Math.random()*0.6-0.3, T:34+DG_SLAM_DELAY, d:DG_SLAM_DELAY,
   cr:Array.from({length:9},(_,i)=>{ const a=i/9*Math.PI*2+Math.random()*0.5, pts=[[0,0]]; let x=0,y=0,aa=a; for(let k=0;k<4;k++){ aa+=(Math.random()-0.5)*0.7; const L=0.25+Math.random()*0.25; x+=Math.cos(aa)*L; y+=Math.sin(aa)*L*0.55; pts.push([x,y]); } return pts; })}); }
-// 🎞️ biến đổi thân mỗi frame (cộng vào offX/offY/rotation/scaleX/scaleY của draw())
+const _dgSS=(x)=>{ x=Math.max(0,Math.min(1,x)); return x*x*(3-2*x); };                       // smoothstep: vào/ra êm
+const _dgOut=(x)=>1-Math.pow(1-Math.max(0,Math.min(1,x)),3);                                     // ease-out
+const _dgElastic=(x)=>{ x=Math.max(0,Math.min(1,x)); return 1-Math.exp(-5*x)*Math.cos(x*9); };   // nảy đàn hồi nhẹ rồi êm
+// 🎞️ biến đổi thân mỗi frame (cộng vào offX/offY/rotation/scaleX/scaleY của draw()) — mọi đường cong đều LIỀN, không nhảy cóc
 function _dogeAnim(f){
   const o={ox:0,oy:0,rot:0,sx:1,sy:1}, fc=_dgFace(f), t=performance.now()/1000+(f._dgPh||(f._dgPh=Math.random()*10));
   if(f.dogeBuffed){
-    // 🫁 thở: ngực phồng ngang, hơi lún dọc · cứ ~3.2s gồng cơ 2 nhịp
-    const br=Math.sin(t*2.6); o.sx*=1+0.035*br; o.sy*=1-0.022*br;
-    const fl=(t%3.2); if(fl<0.5){ const p=Math.sin(fl/0.5*Math.PI*2); o.sx*=1+0.06*Math.max(0,p); o.sy*=1-0.03*Math.max(0,p); }
-    // 🦶 bước đi nặng: nhún + lắc, mỗi bước chạm đất tung bụi
-    const spd=Math.hypot(f.vx||0,f.vy||0);
-    if(spd>0.6){ f._dgStep=(f._dgStep||0)+0.13+spd*0.03; const ph=f._dgStep;
-      o.oy-=Math.abs(Math.sin(ph))*f.size*0.07; o.rot+=Math.sin(ph)*0.06;
-      const st=Math.floor(ph/Math.PI); if(st!==f._dgLastStep){ f._dgLastStep=st; spawnParticles(f.x+(Math.random()-0.5)*f.size*0.6, f.y+f.size*0.85, '#d7c4a3', 3, false, false); } }
-    // 🔨 vung búa: lấy đà ngả ra sau → bổ xuống chúi về trước (thân bẹp) → hồi về
+    // 🫁 thở: ngực phồng ngang, hơi lún dọc · cứ ~3.2s gồng cơ 1 nhịp mềm
+    const br=Math.sin(t*2.4); o.sx*=1+0.03*br; o.sy*=1-0.02*br;
+    const fl=(t%3.2)/0.7; if(fl<1){ const p=Math.pow(Math.sin(fl*Math.PI),2); o.sx*=1+0.05*p; o.sy*=1-0.025*p; }
+    // 🦶 bước đi nặng: nhún êm (sin²) + lắc nhẹ, mỗi bước chạm đất tung bụi
+    const spd=Math.hypot(f.vx||0,f.vy||0); f._dgMv=(f._dgMv||0)+((spd>0.6?1:0)-(f._dgMv||0))*0.12;   // vào/ra trạng thái đi từ từ
+    f._dgStep=(f._dgStep||0)+(0.11+spd*0.025)*f._dgMv; const ph=f._dgStep, mv=f._dgMv;
+    o.oy-=Math.pow(Math.sin(ph),2)*f.size*0.06*mv; o.rot+=Math.sin(ph)*0.05*mv;
+    const st=Math.floor(ph/Math.PI); if(st!==f._dgLastStep){ f._dgLastStep=st; if(mv>0.5) spawnParticles(f.x+(Math.random()-0.5)*f.size*0.6, f.y+f.size*0.85, '#d7c4a3', 2, false, false); }
+    // 🔨 vung búa: ngả ra sau (êm) → bổ xuống (nhanh, ra êm) → hồi về (êm)
     if((f._dgAtk||0)>0){ const a=1-f._dgAtk/28;
-      if(a<0.25){ const k=a/0.25; o.rot-=0.2*k*fc; o.sy*=1+0.05*k; o.sx*=1-0.03*k; }
-      else if(a<0.45){ const k=(a-0.25)/0.2; o.rot+=(-0.2+0.55*k)*fc; o.ox+=fc*f.size*0.18*k; o.sx*=1+0.12*k; o.sy*=1-0.1*k; }
-      else { const k=(a-0.45)/0.55, r=1-k; o.rot+=0.35*r*fc; o.ox+=fc*f.size*0.18*r; o.sx*=1+0.12*r; o.sy*=1-0.1*r; } }
+      let lean, push, sq;
+      if(a<0.3){ const k=_dgSS(a/0.3); lean=-0.18*k; push=0; sq=-0.5*k; }
+      else if(a<0.5){ const k=_dgOut((a-0.3)/0.2); lean=-0.18+0.5*k; push=k; sq=-0.5+1.5*k; }
+      else { const k=_dgSS((a-0.5)/0.5), r=1-k; lean=0.32*r; push=r; sq=r; }
+      o.rot+=lean*fc; o.ox+=fc*f.size*0.16*push; o.sx*=1+0.1*Math.max(0,sq)-0.03*Math.max(0,-sq); o.sy*=1-0.08*Math.max(0,sq)+0.05*Math.max(0,-sq); }
   }
-  // 💪 phồng to lúc biến hình: từ cỡ cũ (1/1.5) bơm lên theo 3 nhịp rồi nảy quá đà và ổn định
+  // 💪 phồng to lúc biến hình: từ cỡ cũ (1/1.5) bơm lên 3 nhịp êm rồi nảy đàn hồi về đúng cỡ
   if((f._dgMorph||0)>0){ const p=1-f._dgMorph/DG_MORPH;
-    let s; if(p<0.45){ const k=p/0.45; s=0.667+0.2*k+0.05*Math.sin(k*Math.PI*6); }
-    else { const k=(p-0.45)/0.55; s=0.867+0.133*(1-Math.exp(-6*k)*Math.cos(k*11)); s+= k<0.15?0.18*k/0.15:0; }
-    o.sx*=s; o.sy*=s;
-    if(p<0.45){ const j=f.size*0.05*(p/0.45); o.ox+=(Math.random()-0.5)*j*2; o.oy+=(Math.random()-0.5)*j; } }
-  // 🎈 xì hơi lúc hết buff: từ cỡ to (1.5) xẹp về
-  if((f._dgDeflate||0)>0){ const p=1-f._dgDeflate/DG_DEFLATE, s=1+0.5*Math.pow(1-p,2)*(1+0.15*Math.sin(p*20)); o.sx*=s*(1+0.08*Math.sin(p*25)); o.sy*=s*(1-0.08*Math.sin(p*25)); }
+    const grow=_dgElastic(p/0.85), pump=Math.pow(Math.sin(Math.min(1,p/0.45)*Math.PI*3),2)*0.04*(1-_dgSS(p/0.45));
+    const s=0.667+0.333*grow; o.sx*=s*(1+pump); o.sy*=s*(1-pump*0.6);
+    if(p<0.45){ const w=0.025*_dgSS(p/0.3)*(1-_dgSS((p-0.3)/0.15)); o.rot+=Math.sin(t*38)*w; o.ox+=Math.sin(t*31)*f.size*w*1.2; } }   // run rẩy tụ lực — dao động mượt, không giật ngẫu nhiên
+  // 🎈 xì hơi lúc hết buff: từ cỡ to (1.5) xẹp mềm về
+  if((f._dgDeflate||0)>0){ const p=1-f._dgDeflate/DG_DEFLATE, s=1+0.5*(1-_dgElastic(p)), wob=0.06*Math.sin(p*Math.PI*4)*(1-p); o.sx*=s*(1+wob); o.sy*=s*(1-wob); }
   return o; }
 // đếm lùi các timer hoạt ảnh (gọi trong update — đứng yên lúc đóng băng trận)
 function _dogeTick(f){ for(const k of ['_dgMorph','_dgDeflate','_dgAtk']) if(f[k]>0) f[k]--; }
@@ -10102,71 +10106,88 @@ function _dogeAura(f,s){
   const g=ctx.createRadialGradient(f.x,f.y,s*0.5,f.x,f.y,s*1.45), pu=0.6+0.25*Math.sin(t*4.5);
   g.addColorStop(0,`rgba(255,215,64,${0.08*pu})`); g.addColorStop(0.65,`rgba(255,180,0,${0.3*pu})`); g.addColorStop(1,'rgba(255,140,0,0)');
   ctx.fillStyle=g; ctx.beginPath(); ctx.arc(f.x,f.y,s*1.45,0,Math.PI*2); ctx.fill();
-  for(let k=0;k<9;k++){ const ph=(t*1.3+k*0.37)%1, a=-Math.PI/2+(k-4)*0.28+Math.sin(t*3+k)*0.08, r0=s*0.75, len=s*(0.5+0.5*Math.sin(t*5+k*1.7)*0.5+0.25)*(1-ph*0.3);   // lưỡi lửa vàng liếm lên
-    const x0=f.x+Math.cos(a)*r0, y0=f.y+Math.sin(a)*r0*0.9+s*0.2, x1=x0+Math.cos(a)*len*0.3, y1=y0-len;
-    const lg=ctx.createLinearGradient(x0,y0,x1,y1); lg.addColorStop(0,`rgba(255,200,40,${0.35*(1-ph)})`); lg.addColorStop(1,'rgba(255,240,150,0)');
-    ctx.fillStyle=lg; ctx.beginPath(); ctx.moveTo(x0-s*0.09,y0); ctx.quadraticCurveTo(x0+s*0.06*Math.sin(t*7+k),(y0+y1)/2,x1,y1); ctx.quadraticCurveTo(x0+s*0.12,(y0+y1)/2,x0+s*0.09,y0); ctx.closePath(); ctx.fill(); }
+  for(let k=0;k<8;k++){ const ph=(t*0.8+k*0.125)%1, xo=(((k*0.618)%1)-0.5)*s*1.3+Math.sin(t*2+k)*s*0.06;   // 🔥 luồng sáng mềm bốc lên từ dưới chân, tan dần
+    const yy=f.y+s*0.6-ph*s*1.9, r=s*(0.32+0.18*Math.sin(k*1.7))*(1-ph*0.4), al=0.22*Math.sin(ph*Math.PI);
+    ctx.save(); ctx.translate(f.x+xo,yy); ctx.scale(0.65,1.25); _dgGlow(0,0,r,al,'255,205,70'); ctx.restore(); }
   ctx.restore();
   if(Math.random()<0.25) particles.push({x:f.x+(Math.random()-0.5)*s*1.4, y:f.y+s*0.5, vx:(Math.random()-0.5)*0.4, vy:-(0.8+Math.random()*1.2), color:Math.random()<0.5?'#ffd740':'#fff3b0', gravity:-0.01, life:24+Math.random()*14, maxLife:38, size:1.2+Math.random()*1.6}); }
+// ☁️ cụm bụi/khói mềm (gradient tròn, không viền)
+function _dgPuff(x,y,r,a,c){ if(a<=0.01||r<=0.5) return; const g=ctx.createRadialGradient(x,y,0,x,y,r); g.addColorStop(0,`rgba(${c},${a})`); g.addColorStop(0.6,`rgba(${c},${a*0.45})`); g.addColorStop(1,`rgba(${c},0)`); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); }
+// ✨ đốm sáng mềm
+function _dgGlow(x,y,r,a,c){ _dgPuff(x,y,r,a,c||'255,225,140'); }
+// 💫 vòng sóng mềm: nét mảnh + quầng sáng toả ra hai bên
+function _dgRing(x,y,rx,ry,a,w,c){ if(a<=0.01) return; ctx.save(); ctx.globalCompositeOperation='lighter';
+  for(const [lw,al] of [[w*3.6,0.14],[w*1.8,0.28],[w*0.7,0.5]]){ ctx.strokeStyle=`rgba(${c},${a*al})`; ctx.lineWidth=Math.max(0.6,lw); ctx.beginPath(); ctx.ellipse(x,y,rx,ry,0,0,Math.PI*2); ctx.stroke(); }
+  ctx.restore(); }
 function _dogeFxDraw(){
   for(let i=dogeFx.length-1;i>=0;i--){ const F=dogeFx[i]; F.t++;
     if(F.t>F.T || (F.f && F.f.dead && F.k==='morph')){ dogeFx.splice(i,1); continue; }
     ctx.save();
     if(F.k==='morph'){
-      const f=F.f, x=f.x, y=f.y, s=f.size, t=F.t, B=20;   // B = khoảnh khắc nổ
-      if(t<B){   // ⚡ tụ lực: hạt vàng hút vào + vòng sáng co lại
-        const k=t/B; ctx.globalCompositeOperation='lighter';
-        for(let q=0;q<14;q++){ const a=q*0.449+t*0.08, d=s*(2.4-2*k)*(0.7+0.3*((q*0.37)%1)); _arStar(x+Math.cos(a)*d, y+Math.sin(a)*d, 2.5+2*k, 'rgba(255,225,120,0.95)'); }
-        ctx.strokeStyle=`rgba(255,210,80,${0.4+0.5*k})`; ctx.lineWidth=2+3*k; ctx.beginPath(); ctx.arc(x,y,s*(2.2-1.4*k),0,Math.PI*2); ctx.stroke();
+      const f=F.f, x=f.x, y=f.y, s=f.size, t=F.t, B=20;   // B = khoảnh khắc bung
+      if(t<B){   // ⚡ tụ lực: đốm sáng mềm xoáy vào + quầng vàng lớn dần
+        const k=_dgSS(t/B); ctx.globalCompositeOperation='lighter';
+        _dgGlow(x,y,s*(1.5+0.5*k),0.08+0.14*k,'255,200,90');   // quầng nền nhẹ — không làm trắng bệch thân
+        for(let q=0;q<12;q++){ const a=q*0.524+t*0.09+k*1.5, d=s*(2.3-1.8*k)*(0.75+0.25*((q*0.37)%1)); _dgGlow(x+Math.cos(a)*d, y+Math.sin(a)*d*0.85, s*0.11*(0.7+0.5*k), 0.55, '255,200,90'); }
+        _dgRing(x,y,s*(2.1-1.2*k),s*(2.1-1.2*k),0.2+0.3*k,1.2+1*k,'255,200,100');
       } else {
-        const u=t-B, k=Math.min(1,u/30);
+        const u=t-B, L=F.T-B;
+        if(u===0){ const _hi=getLibVfxImg('Effect_SmallHit_1_516x46'), _bl=getLibVfxImg('blast');   // 💥 sprite VFX thật: bung nổ vàng + bụi tung quanh chân
+          if(_hi) playVFX(_hi,x,y,0,s*5.2,null,{durFrames:30});
+          if(_bl) playVFX(_bl,x,y+s*0.55,0,s*5.5,null,{durFrames:24});
+          F.dust=Array.from({length:10},(_,q)=>[q/10*Math.PI*2+Math.random()*0.4, 0.7+Math.random()*0.5, 0.35+Math.random()*0.25]);
+          F.words=DG_WORDS.slice().sort(()=>Math.random()-0.5).slice(0,5).map((w,q)=>({w, a:-Math.PI/2+(q-2)*0.62+(Math.random()-0.5)*0.3, c:DG_COLS[q%DG_COLS.length], r:(Math.random()-0.5)*0.4, d:q*2}));
+          for(let q=0;q<14;q++) particles.push({x:x+(Math.random()-0.5)*s*1.4, y:y+(Math.random()-0.3)*s, vx:(Math.random()-0.5)*1.2, vy:-(0.6+Math.random()*1.6), color:Math.random()<0.5?'#ffe082':'#fff8e1', gravity:-0.01, life:40+Math.random()*20, maxLife:60, size:1.4+Math.random()*1.8}); }
+        // ☁️ bụi tung ra sát đất (vẽ dưới cùng)
+        for(const [a,sp,r] of (F.dust||[])){ const k=_dgOut(u/40), d=s*(0.6+1.8*k)*sp; _dgPuff(x+Math.cos(a)*d, y+s*0.6+Math.sin(a)*d*0.35-k*s*0.15, s*r*(0.6+1.1*k), 0.55*(1-_dgSS(u/50)), '225,210,185'); }
         ctx.globalCompositeOperation='lighter';
-        if(u<8){ ctx.globalAlpha=1-u/8; const fg=ctx.createRadialGradient(x,y,0,x,y,s*3); fg.addColorStop(0,'rgba(255,255,240,1)'); fg.addColorStop(0.4,'rgba(255,220,100,0.8)'); fg.addColorStop(1,'rgba(255,160,0,0)'); ctx.fillStyle=fg; ctx.beginPath(); ctx.arc(x,y,s*3,0,Math.PI*2); ctx.fill(); ctx.globalAlpha=1; }
-        if(u<40){ const a=1-u/40;   // 🌟 tia sáng xoay + cột sáng
-          ctx.save(); ctx.translate(x,y); ctx.rotate(u*0.03); ctx.fillStyle=`rgba(255,220,110,${0.22*a})`;
-          for(let q=0;q<12;q++){ const aa=q*Math.PI/6; ctx.beginPath(); ctx.moveTo(0,0); ctx.arc(0,0,s*4,aa,aa+0.16); ctx.closePath(); ctx.fill(); } ctx.restore();
-          const pw=s*(1.1-0.6*k), pg=ctx.createLinearGradient(x-pw,0,x+pw,0); pg.addColorStop(0,'rgba(255,200,60,0)'); pg.addColorStop(0.5,`rgba(255,245,200,${0.55*a})`); pg.addColorStop(1,'rgba(255,200,60,0)');
-          ctx.fillStyle=pg; ctx.fillRect(x-pw,y-s*7,pw*2,s*7.8); }
-        for(const [dl,c] of [[0,'255,225,120'],[7,'255,160,40']]){ const v=(u-dl)/26; if(v<=0||v>=1) continue;   // 2 vòng sóng xung kích
-          ctx.strokeStyle=`rgba(${c},${1-v})`; ctx.lineWidth=s*0.18*(1-v)+1; ctx.beginPath(); ctx.ellipse(x,y+s*0.4,s*(0.8+v*3.2),s*(0.8+v*3.2)*0.45,0,0,Math.PI*2); ctx.stroke(); }
+        const env=Math.sin(Math.PI*Math.min(1,u/48));   // bao biên êm: sáng lên rồi tắt dần
+        // 🌟 chớp sáng mềm
+        _dgGlow(x,y,s*(1.6+2.2*_dgOut(u/16)),0.9*Math.pow(1-Math.min(1,u/18),2),'255,248,220');
+        // 🌟 tia sáng: dải tam giác gradient tắt dần ra mép, xoay chậm
+        ctx.save(); ctx.translate(x,y); ctx.rotate(u*0.012);
+        for(let q=0;q<10;q++){ const aa=q*Math.PI/5+((q*0.37)%1)*0.3, len=s*(2.6+1.4*((q*0.61)%1))*(0.6+0.4*_dgOut(u/20)), wd=0.07+0.04*((q*0.53)%1);
+          const g=ctx.createLinearGradient(0,0,Math.cos(aa)*len,Math.sin(aa)*len); g.addColorStop(0,`rgba(255,230,140,${0.32*env})`); g.addColorStop(1,'rgba(255,200,80,0)');
+          ctx.fillStyle=g; ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(Math.cos(aa-wd)*len,Math.sin(aa-wd)*len); ctx.lineTo(Math.cos(aa+wd)*len,Math.sin(aa+wd)*len); ctx.closePath(); ctx.fill(); }
+        ctx.restore();
+        // 🕯️ cột sáng: elip mờ kéo dọc (không còn khối chữ nhật cạnh cứng)
+        ctx.save(); ctx.translate(x,y-s*2.2); ctx.scale(0.28,1); _dgGlow(0,0,s*3.4,0.5*env,'255,240,190'); ctx.restore();
+        // 💫 2 vòng sóng mềm lan ra sát đất
+        for(const [dl,c] of [[0,'255,225,130'],[8,'255,170,60']]){ const v=(u-dl)/30; if(v<=0||v>=1) continue; const R=s*(0.8+3.2*_dgOut(v));
+          _dgRing(x,y+s*0.45,R,R*0.42,Math.pow(1-v,1.5),s*0.07*(1-v)+1,c); }
+        // 🌕 vệt sáng hắt xuống nền (thay cho vết nứt)
+        ctx.save(); ctx.translate(x,y+s*0.6); ctx.scale(1,0.38); _dgGlow(0,0,s*2.4,0.35*env,'255,200,90'); ctx.restore();
         ctx.globalCompositeOperation='source-over';
-        if(u<36){ ctx.globalAlpha=1-u/36; ctx.lineCap='round';   // nứt nền
-          for(const [lw,c,dy] of [[3,'rgba(45,30,15,0.8)',0],[1.2,'rgba(255,240,210,0.35)',1.2]]){ ctx.lineWidth=lw; ctx.strokeStyle=c;
-            for(let q=0;q<10;q++){ const a=q*0.628+0.2, L=s*(0.95+0.4*((q*0.53)%1)); ctx.beginPath(); ctx.moveTo(x+Math.cos(a)*s*0.55,y+s*0.55+Math.sin(a)*s*0.28+dy);
-              ctx.lineTo(x+Math.cos(a+0.15)*L*0.75,y+s*0.55+Math.sin(a+0.15)*L*0.38+dy); ctx.lineTo(x+Math.cos(a-0.05)*L,y+s*0.55+Math.sin(a-0.05)*L*0.5+dy); ctx.stroke(); } }
-          ctx.globalAlpha=1; }
-        if(u===0){ spawnParticles(x,y+s*0.6,'#d7c4a3',18,false,false); spawnParticles(x,y,'#ffd740',22,false,true); F.words=DG_WORDS.slice().sort(()=>Math.random()-0.5).slice(0,5).map((w,q)=>({w, a:-Math.PI/2+(q-2)*0.62+(Math.random()-0.5)*0.3, c:DG_COLS[q%DG_COLS.length], r:(Math.random()-0.5)*0.5})); }
-        if(F.words){ const v=Math.min(1,u/F.T*1.6);   // 🐕 chữ meme Doge bắn ra
-          for(const W2 of F.words){ const d=s*(1.2+2.2*(1-Math.pow(1-Math.min(1,u/18),3))), al=u<40?1:Math.max(0,1-(u-40)/(F.T-B-40));
-            ctx.save(); ctx.globalAlpha=al; ctx.translate(x+Math.cos(W2.a)*d*1.2, y+Math.sin(W2.a)*d*0.8); ctx.rotate(W2.r); const sc=Math.min(1,u/6); ctx.scale(sc,sc);
-            ctx.font=`bold ${Math.round(s*0.42)}px "Comic Sans MS","Comic Sans",cursive`; ctx.textAlign='center'; ctx.textBaseline='middle';
-            ctx.lineWidth=3; ctx.strokeStyle='#000'; ctx.strokeText(W2.w,0,0); ctx.fillStyle=W2.c; ctx.fillText(W2.w,0,0); ctx.restore(); } }
+        // 🐕 chữ meme Doge: bật ra đàn hồi, trôi nhẹ lên, mờ dần êm
+        if(F.words) for(const W2 of F.words){ const uu=u-W2.d; if(uu<=0) continue;
+          const pop=_dgElastic(uu/22), d=s*(1.2+2.0*_dgOut(uu/26)), al=1-_dgSS((uu-(L-30))/26);
+          if(al<=0) continue;
+          ctx.save(); ctx.globalAlpha=al; ctx.translate(x+Math.cos(W2.a)*d*1.2, y+Math.sin(W2.a)*d*0.8-uu*0.25); ctx.rotate(W2.r+Math.sin(uu*0.08)*0.05); ctx.scale(pop,pop);
+          ctx.font=`bold ${Math.round(s*0.42)}px "Comic Sans MS","Comic Sans",cursive`; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.lineJoin='round';
+          ctx.shadowColor='rgba(0,0,0,0.35)'; ctx.shadowBlur=6; ctx.lineWidth=2.4; ctx.strokeStyle='rgba(0,0,0,0.85)'; ctx.strokeText(W2.w,0,0); ctx.shadowBlur=0; ctx.fillStyle=W2.c; ctx.fillText(W2.w,0,0); ctx.restore(); }
       }
     } else if(F.k==='slam'){
       const t=F.t-F.d; if(t<0){ ctx.restore(); continue; }
       const x=F.x, y=F.y, s=F.s;
-      if(t===0){ spawnParticles(x,y+s*0.5,'#d7c4a3',10,false,false); spawnParticles(x,y,'#ffffff',8,false,true); }
+      if(t===0){ F.dust=Array.from({length:8},(_,q)=>[q/8*Math.PI*2+Math.random()*0.5, 0.6+Math.random()*0.6, 0.3+Math.random()*0.2]);
+        const _hi=getLibVfxImg('Effect_SmallHit_1_516x46'), _bl=getLibVfxImg('blast');   // 💥 sprite VFX thật trong kho: chớp nổ tia lửa vàng + bụi tung sát đất
+        if(_hi) playVFX(_hi,x,y,0,s*3.2,null,{durFrames:24});
+        if(_bl) playVFX(_bl,x,y+s*0.4,0,s*3.6,null,{durFrames:20}); }
+      for(const [a,sp,r] of F.dust){ const k=_dgOut(t/26), d=s*(0.4+1.2*k)*sp; _dgPuff(x+Math.cos(a)*d, y+s*0.45+Math.sin(a)*d*0.35-k*s*0.2, s*r*(0.6+0.9*k), 0.5*(1-_dgSS(t/30)), '225,210,185'); }
       ctx.globalCompositeOperation='lighter';
-      if(t<6){ ctx.globalAlpha=1-t/6; ctx.fillStyle='#fffbe8'; ctx.beginPath(); ctx.arc(x,y,s*(0.9+t*0.15),0,Math.PI*2); ctx.fill(); ctx.globalAlpha=1; }
-      { const v=t/20; if(v<1){ ctx.strokeStyle=`rgba(255,220,140,${1-v})`; ctx.lineWidth=s*0.16*(1-v)+1; ctx.beginPath(); ctx.ellipse(x,y+s*0.3,s*(0.6+v*2.2),s*(0.6+v*2.2)*0.5,0,0,Math.PI*2); ctx.stroke(); } }
+      _dgGlow(x,y,s*(1+0.9*_dgOut(t/10)),0.85*Math.pow(1-Math.min(1,t/12),2),'255,250,225');
+      { const v=t/24; if(v<1){ const R=s*(0.6+2.2*_dgOut(v)); _dgRing(x,y+s*0.3,R,R*0.5,0.7*Math.pow(1-v,1.5),s*0.06*(1-v)+1,'255,190,90'); } }
       ctx.globalCompositeOperation='source-over';
-      if(t<28){ ctx.globalAlpha=Math.min(1,(28-t)/10); ctx.lineCap='round';   // nứt đất dưới chân địch
-        for(const [lw,c,dy] of [[3,'rgba(45,30,15,0.85)',0],[1.2,'rgba(255,240,210,0.35)',1.2]]){ ctx.lineWidth=lw; ctx.strokeStyle=c;   // khe nứt tối + gờ sáng
-          for(const P of F.cr){ ctx.beginPath(); P.forEach((q,j)=>{ const px=x+q[0]*s*1.15, py=y+s*0.45+q[1]*s*1.15+dy; j?ctx.lineTo(px,py):ctx.moveTo(px,py); }); ctx.stroke(); } } ctx.globalAlpha=1; }
-      if(t<22){   // 💥 sao truyện tranh + chữ BONK!
-        const pop=t<4?0.5+t/4*0.7:1.2-Math.min(0.2,(t-4)*0.03), al=t<14?1:1-(t-14)/8;
-        ctx.save(); ctx.globalAlpha=al; ctx.translate(x,y-s*0.15); ctx.rotate(F.a); ctx.scale(pop,pop);
-        ctx.beginPath(); for(let q=0;q<24;q++){ const rr=q%2?s*0.55:s*(1.05+0.15*((q*7)%3)); const aa=q/24*Math.PI*2; q?ctx.lineTo(Math.cos(aa)*rr,Math.sin(aa)*rr):ctx.moveTo(Math.cos(aa)*rr,Math.sin(aa)*rr); }
-        ctx.closePath(); ctx.fillStyle='#ffb300'; ctx.fill(); ctx.lineWidth=3; ctx.strokeStyle='#1a1a1a'; ctx.stroke();
-        ctx.beginPath(); for(let q=0;q<18;q++){ const rr=q%2?s*0.35:s*0.7; const aa=q/18*Math.PI*2+0.15; q?ctx.lineTo(Math.cos(aa)*rr,Math.sin(aa)*rr):ctx.moveTo(Math.cos(aa)*rr,Math.sin(aa)*rr); }
-        ctx.closePath(); ctx.fillStyle='#fff3c4'; ctx.fill();
-        ctx.font=`900 ${Math.round(s*0.5)}px Impact,"Arial Black",sans-serif`; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.lineJoin='round';
-        ctx.lineWidth=5; ctx.strokeStyle='#1a1a1a'; ctx.strokeText('BONK!',0,0); ctx.fillStyle='#e53935'; ctx.fillText('BONK!',0,0);
-        ctx.restore(); }
+      if(t<26){   // 💬 chữ BONK! bật ra đàn hồi, có quầng sáng, mờ êm
+        const pop=_dgElastic(t/14)*(1-0.12*_dgSS((t-12)/14)), al=1-_dgSS((t-14)/12);
+        ctx.save(); ctx.globalAlpha=al; ctx.translate(x,y-s*0.95-t*0.4); ctx.rotate(F.a*0.5+Math.sin(t*0.5)*0.05*(1-t/26)); ctx.scale(pop,pop);
+        const px=Math.round(s*0.55); ctx.font=`900 ${px}px Impact,"Arial Black",sans-serif`; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.lineJoin='round';
+        ctx.shadowColor='rgba(255,120,0,0.75)'; ctx.shadowBlur=px*0.5; ctx.lineWidth=px*0.16; ctx.strokeStyle='#3a1500'; ctx.strokeText('BONK!',0,0); ctx.shadowBlur=0;
+        const tg=ctx.createLinearGradient(0,-px*0.5,0,px*0.5); tg.addColorStop(0,'#fff3c4'); tg.addColorStop(0.45,'#ffb300'); tg.addColorStop(1,'#e53935');
+        ctx.fillStyle=tg; ctx.fillText('BONK!',0,0); ctx.restore(); }
     } else if(F.k==='poof'){
-      const p=F.t/F.T;
-      for(const [a,sp,r] of F.b){ const d=F.r*(0.3+p*0.9)*sp; ctx.globalAlpha=(1-p)*0.8; ctx.fillStyle=p<0.2?'#ffe082':'#e8e2d6';
-        ctx.beginPath(); ctx.arc(F.x+Math.cos(a)*d, F.y+Math.sin(a)*d*0.7-p*F.r*0.4, F.r*r*(0.4+p*0.6), 0, Math.PI*2); ctx.fill(); }
+      const p=F.t/F.T, k=_dgOut(p);
+      for(const [a,sp,r] of F.b){ const d=F.r*(0.3+0.9*k)*sp; _dgPuff(F.x+Math.cos(a)*d, F.y+Math.sin(a)*d*0.7-k*F.r*0.4, F.r*r*(0.5+0.8*k), 0.6*(1-_dgSS(p)), p<0.2?'255,224,130':'232,226,214'); }
     }
     ctx.restore(); } }
 // ═══════════════════ 📮 SUS CAT — VFX QUÂN TRIỆU HỒI (vẽ tay bằng code, thay cho ảnh PNG đứng im) ═══════════════════
