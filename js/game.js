@@ -6654,6 +6654,7 @@ function _ldSprayTick(f){
 const AR_MOVES=['bolt','punch','chicken','stone','minis'];   // ⚡ sét · 👊 nắm đấm · 🐔 hoá gà · 🗿 hoá tượng · 🧞🗡️ gọi 2 thần đèn nhỏ — chia ĐỀU 20%
 const AR_MINI_HP=100, AR_MINI_DMG=50, AR_MINI_HEAL=50, AR_MINI_IMG=new Image(); AR_MINI_IMG.src='assets/img/arabiccat/AR_MINIGENIE_IMG.webp';   // 🧞 thần đèn nhỏ cầm mã tấu (kiếm user gửi, đã bỏ bàn tay người) — quay mặt PHẢI
 const AR_STONE_P=0.2, AR_STONE_S=2, AR_STONE_DMG=100, AR_KB_T=20, AR_KB_DECAY=0.9;   // 🗿 hoá tượng 20% · 2s · vỡ ra mất 100 · 👊 bay văng 20 tick, mỗi tick còn 90% tốc
+const AR_AFTER_S=0.55;   // ra đòn xong chỉ nán lại 0.25s rồi chui về đèn (0.3s) — không đứng chờ đủ 2s nữa
 const AR_CD_S=3, AR_GENIE_S=2, AR_CHICK_P=0.2, AR_CHICK_S=3, AR_BOLT_DMG=100, AR_PUNCH_DMG=150, AR_PUNCH_KB=24;   // đấm văng 24 > tát Grumpy Cat 18
 const AR_NEAR=150, AR_ACT_S=0.6, AR_CHICK_SPD=2.4, AR_GENIE_H=3.45, AR_EMERGE_S=0.35, AR_RETURN_S=0.3;   // AR_NEAR = khe hở giữa 2 thân (px) dưới mức này là "gần" · AR_GENIE_H = cao dáng thường / size mèo
 // 🧞 3 dáng thần đèn user gửi (đã canh cùng tỉ lệ theo chỏm mũ vàng): 0 thường · 1 bắn sét (duỗi tay) · 2 phù phép (hai tay)
@@ -6712,7 +6713,7 @@ function _arTick(f){
   g.t++; const s=g.t/tps;
   let e=g.e; if(!e || e.dead || !(e.hp>0)) e=g.e=f.enemy;   // mục tiêu chết giữa chừng → đổi sang địch gần nhất
   const P=_arGeniePose(f,g);
-  if(!g.act && s>=AR_ACT_S){ g.act=true; g.actT=g.t;
+  if(!g.act && s>=AR_ACT_S){ g.act=true; g.actT=g.t; g.endS=s+AR_AFTER_S;
     if(e && !e.dead && e.hp>0){
       if(g.kind==='bolt'){   // ⚡ tia sét từ bàn tay thần đèn thẳng tới địch
         const seed=Array.from({length:48},()=>Math.random());
@@ -6732,7 +6733,7 @@ function _arTick(f){
         t.takeDamage(AR_PUNCH_DMG,f); addShake(9,12); playSample('hit_heavy',1.0);
         _arKnock(t,q.a); } }
     if(q.t>=AR_FIST_GO+AR_FIST_HOLD+AR_FIST_OUT) g.fist=null; }
-  if(s>=AR_GENIE_S) _arEnd(f,true);
+  if(s>=(g.endS||AR_GENIE_S)) _arEnd(f,true);
 }
 // vị trí vòi đèn (thế giới) — tính từ khung xoa đèn đang vẽ (_lastSprite), lật theo hướng mặt
 function _arSpoutXY(f){ const L=f._lastSprite, side=f._lastShouldFaceLeft?-1:1;
@@ -6744,7 +6745,7 @@ function _arSpoutXY(f){ const L=f._lastSprite, side=f._lastShouldFaceLeft?-1:1;
 function _arGeniePose(f,g){
   const tps=_egTps(), s=g.t/tps, side=f._lastShouldFaceLeft?-1:1, Hn=f.size*AR_GENIE_H, S=_arSpoutXY(f);
   const ease=u=>1-Math.pow(1-Math.max(0,Math.min(1,u)),3);
-  const u=Math.min(ease(s/AR_EMERGE_S), ease((AR_GENIE_S-s)/AR_RETURN_S));
+  const u=Math.min(ease(s/AR_EMERGE_S), ease(((g.endS||AR_GENIE_S)-s)/AR_RETURN_S));
   const hx=S[0]+side*Hn*0.13, hy=S[1]-Hn*0.24+Math.sin(s*6)*Hn*0.015;   // lơ lửng SÁT đèn (đuôi đã cắt ngắn)
   const T=[S[0]+(hx-S[0])*u, S[1]+(hy-S[1])*u], k=0.08+0.92*u;
   const pose = (g.kind==='bolt' && s>=AR_ACT_S-0.12) ? 1 : ((g.kind==='chicken'||g.kind==='stone'||g.kind==='minis') && s>=AR_ACT_S-0.12) ? 2 : 0, D=AR_GN[pose];
@@ -6937,7 +6938,7 @@ function _arDrawGenie(f,g){
     for(let i=0;i<16;i++){ const a=-Math.PI/2+(Math.random()-0.5)*2.6, v=Hn*(0.006+Math.random()*0.012);
       ps.push({k:'puff',x:S[0],y:S[1],vx:Math.cos(a)*v,vy:Math.sin(a)*v-Hn*0.004,r:Hn*(0.03+Math.random()*0.04),t:0,T:30+Math.random()*20,c:Math.random()<0.5?'124,77,255':'64,196,255'}); }
     for(let i=0;i<22;i++) ps.push({k:'spiral',a0:Math.random()*Math.PI*2,t:-i*0.8,T:34,r:Hn*(0.08+Math.random()*0.06),gold:i%3!==0}); }
-  if(!g.back && s>=AR_GENIE_S-AR_RETURN_S){ g.back=true;   // chui ngược vào đèn: phụt khói nhỏ
+  if(!g.back && s>=(g.endS||AR_GENIE_S)-AR_RETURN_S){ g.back=true;   // chui ngược vào đèn: phụt khói nhỏ
     for(let i=0;i<10;i++){ const a=Math.random()*Math.PI*2, v=Hn*(0.004+Math.random()*0.008); ps.push({k:'puff',x:S[0],y:S[1],vx:Math.cos(a)*v,vy:Math.sin(a)*v,r:Hn*0.03,t:0,T:24,c:'124,77,255'}); } }
   // 💨 dải khói nối vòi đèn → mép cắt đuôi: ra ngang khỏi vòi, uốn lên rồi đi vào ĐÚNG hướng thân đuôi, nở dần tới ĐÚNG bề rộng
   //    đuôi, cùng màu đuôi → thân thần đèn như mọc liền từ làn khói chứ không phải ảnh dán vào
