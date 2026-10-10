@@ -6606,6 +6606,42 @@ function _mwPlasma(x,y,r,key,seed,a){
   ctx.globalCompositeOperation='lighter'; ctx.shadowColor=`rgb(${P.light})`; ctx.shadowBlur=r*0.4;   // viền sáng lởm chởm
   blob(); ctx.strokeStyle=`rgba(${P.light},0.55)`; ctx.lineWidth=Math.max(1.2,r*0.04); ctx.stroke(); ctx.shadowBlur=0;
   ctx.restore(); }
+// 🪐 CẦU XANH / ĐỎ kiểu HÀNH TINH (theo ảnh mẫu): khối cầu đặc, dải mây xoáy như hành tinh khí trôi chậm, mặt sáng phía
+//    trên-trái + tối dần về mép (limb), viền khí quyển phát sáng. Đỏ hồng (Reversal) bên trái, xanh ngọc (Lapse) bên phải.
+const MW_PLANET={ blue:{light:'214,250,255', base:'111,214,234', mid:'63,170,205', dark:'24,84,128', glow:'130,230,255', bands:['255,255,255','40,130,180','190,245,255','80,190,220']},
+                  red:{light:'255,214,224', base:'232,101,126', mid:'201,64,94', dark:'110,24,50', glow:'255,140,170', bands:['255,235,240','170,40,70','255,170,190','220,90,120']} };
+function _mwPlanet(x,y,r,key,a){
+  const P=MW_PLANET[key], tm=performance.now()/1000;
+  ctx.save(); ctx.globalAlpha=a;
+  ctx.globalCompositeOperation='lighter';
+  let g=ctx.createRadialGradient(x,y,r*0.9,x,y,r*1.6); g.addColorStop(0,`rgba(${P.glow},0.35)`); g.addColorStop(1,`rgba(${P.glow},0)`);
+  ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r*1.6,0,Math.PI*2); ctx.fill();   // quầng khí quyển
+  ctx.globalCompositeOperation='source-over';
+  g=ctx.createRadialGradient(x-r*0.35,y-r*0.35,r*0.1,x,y,r); g.addColorStop(0,`rgb(${P.light})`); g.addColorStop(0.45,`rgb(${P.base})`); g.addColorStop(0.85,`rgb(${P.mid})`); g.addColorStop(1,`rgb(${P.dark})`);
+  ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();   // thân hành tinh
+  ctx.save(); ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.clip();
+  ctx.translate(x,y); ctx.rotate(-0.35); ctx.lineCap='round';
+  for(let i=0;i<11;i++){ const by=(i/10-0.5)*1.9*r, w=r*(0.06+0.1*((i*0.53)%1)), c=P.bands[i%4];   // dải mây xoáy trôi
+    ctx.strokeStyle=`rgba(${c},${0.18+0.14*((i*0.71)%1)})`; ctx.lineWidth=w; ctx.beginPath();
+    for(let k=0;k<=24;k++){ const bx=-r*1.1+k/24*r*2.2, yy=by+Math.sin(bx/r*2.6+tm*0.9+i*1.3)*r*0.07+Math.sin(bx/r*6.1-tm*0.6+i)*r*0.025; k?ctx.lineTo(bx,yy):ctx.moveTo(bx,yy); }
+    ctx.stroke(); }
+  for(let i=0;i<3;i++){ const sx=Math.sin(tm*0.4+i*2.1)*r*0.45, sy=(i-1)*r*0.42;   // xoáy bão nhỏ trên mặt
+    ctx.strokeStyle=`rgba(${P.bands[2]},0.35)`; ctx.lineWidth=r*0.035; ctx.beginPath(); ctx.ellipse(sx,sy,r*0.16,r*0.07,0,tm+i,tm+i+4.2); ctx.stroke(); }
+  ctx.restore();
+  g=ctx.createRadialGradient(x-r*0.3,y-r*0.3,r*0.5,x,y,r); g.addColorStop(0,'rgba(0,0,0,0)'); g.addColorStop(0.75,'rgba(0,0,10,0.12)'); g.addColorStop(1,'rgba(0,0,20,0.45)');
+  ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();   // tối dần về mép
+  ctx.globalCompositeOperation='lighter'; ctx.strokeStyle=`rgba(${P.glow},0.6)`; ctx.lineWidth=Math.max(1,r*0.035); ctx.beginPath(); ctx.arc(x,y,r*0.995,Math.PI*0.75,Math.PI*1.75); ctx.stroke();   // viền sáng phía được chiếu
+  ctx.restore(); }
+// 🌌 phông VŨ TRỤ lúc dừng thời gian: sao lấp lánh + tinh vân hồng (phía cầu đỏ) / xanh (phía cầu xanh), chừa vùng quanh mèo
+const _mwFr=x=>{ const v=Math.sin(x)*43758.5453; return v-Math.floor(v); };
+const _MW_STARS=Array.from({length:90},(_,i)=>({u:_mwFr(i*12.9898+1.1), v:_mwFr(i*78.233+4.7), r:0.6+_mwFr(i*3.7)*1.3, ph:i*1.3}));   // rải ngẫu nhiên đều (không thành hàng)
+function _mwCosmos(f,C,k,bx,by,rx,ry){
+  const tm=performance.now()/1000;
+  ctx.save(); ctx.globalCompositeOperation='lighter';
+  for(const [x,y,c] of [[rx,ry,'230,80,130'],[bx,by,'60,180,255']]){ const R2=f.size*4; const g=ctx.createRadialGradient(x,y,0,x,y,R2); g.addColorStop(0,`rgba(${c},${0.22*k})`); g.addColorStop(0.5,`rgba(${c},${0.08*k})`); g.addColorStop(1,`rgba(${c},0)`); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,R2,0,Math.PI*2); ctx.fill(); }
+  for(const st of _MW_STARS){ const x=C[0]+st.u*C[2], y=C[1]+st.v*C[3]; if(Math.hypot(x-f.x,y-f.y)<f.size*1.4) continue;
+    const tw=0.4+0.6*Math.abs(Math.sin(tm*1.6+st.ph)); ctx.fillStyle=`rgba(235,235,255,${0.8*tw*k})`; ctx.beginPath(); ctx.arc(x,y,st.r,0,Math.PI*2); ctx.fill(); }
+  ctx.restore(); }
 const MW_PAL={ blue:['120,200,255','30,90,255','190,230,255'], red:['255,120,110','220,0,30','255,200,190'], purple:['215,140,255','120,30,255','240,210,255'] };
 // 🪨 VỆT CÀY NÁT MẶT SÀN (vẽ sau cùng trong world nên đè cả sân lẫn chữ): lòng rãnh đất đá nâu xám lổn nhổn, mép đất vỡ
 //    lởm chởm có gờ sáng + bóng tối, vết nứt toả ra nền xung quanh, đá tảng to nhỏ nằm ngổn ngang trong & ngoài mép,
@@ -6691,13 +6727,15 @@ function _mwPurpleDraw(){
       const ag=ctx.createRadialGradient(f.x,f.y,f.size*0.9,f.x,f.y,f.size*1.9); ag.addColorStop(0,'rgba(168,85,247,0)'); ag.addColorStop(0.5,'rgba(168,85,247,0.35)'); ag.addColorStop(1,'rgba(168,85,247,0)');
       ctx.fillStyle=ag; ctx.beginPath(); ctx.arc(f.x,f.y,f.size*1.9,0,Math.PI*2); ctx.fill(); ctx.restore();
       // 🔵🔴 hai cầu xoáy quanh tay rồi hợp nhất
-      const ob=f.size*1.7, conv=Math.max(0,Math.min(1,(ms-MW_T.conv0)/MW_T.conv)), rad=ob*(1-conv*conv*(3-2*conv)), spinA=(ms/1000)*(1.2+conv*conv*7);
-      const bA=Math.PI+spinA, rA=spinA;
+      const ob=f.size*2.3, conv=Math.max(0,Math.min(1,(ms-MW_T.conv0)/MW_T.conv)), rad=ob*(1-conv*conv*(3-2*conv)), spinA=(ms/1000)*(1.2+conv*conv*7);
+      const bA=spinA, rA=Math.PI+spinA;   // 🔴 đỏ bên TRÁI, 🔵 xanh bên PHẢI (như ảnh mẫu)
       const bk=Math.max(0,Math.min(1,(ms-MW_T.blueIn)/MW_T.appear)), rk=Math.max(0,Math.min(1,(ms-MW_T.redIn)/MW_T.appear)), fade=ms>MW_T.merge?Math.max(0,1-(ms-MW_T.merge)/220):1;
       const [fx,fy]=_mwFinger(q), ocx=hx+(fx-hx)*conv, ocy=hy+(fy-hy)*conv;   // tâm xoáy dời dần về ĐẦU NGÓN TAY
       const bx=ocx+Math.cos(bA)*rad, by=ocy+Math.sin(bA)*rad*0.6, rx=ocx+Math.cos(rA)*rad, ry=ocy+Math.sin(rA)*rad*0.6;
-      if(bk>0 && fade>0) _mwPlasma(bx,by,f.size*0.58*bk,'blue',1.3,fade);   // 🔵 cầu XANH (Lapse)
-      if(rk>0 && fade>0) _mwPlasma(rx,ry,f.size*0.58*rk,'red',4.1,fade);    // 🔴 cầu ĐỎ (Reversal)
+      _mwCosmos(f,C,Math.min(1,ms/500)*(ms>MW_T.merge?Math.max(0.4,1-(ms-MW_T.merge)/800):1),bx,by,rx,ry);   // 🌌 phông vũ trụ
+      const pr=f.size*(0.95-0.6*conv);   // hành tinh to, thu nhỏ dần khi dồn vào nhau
+      if(rk>0 && fade>0) _mwPlanet(rx,ry,pr*rk,'red',fade);    // 🔴 cầu ĐỎ (Reversal)
+      if(bk>0 && fade>0) _mwPlanet(bx,by,pr*bk,'blue',fade);   // 🔵 cầu XANH (Lapse)
       if(bk>0 && rk>0 && ms<MW_T.merge+40 && Math.random()<0.35+conv*0.6){ _mwBolt(bx,by,rx,ry,'200,140,255',2,0.95); if(Math.random()<0.5) _mwBolt(bx,by,rx,ry,'120,200,255',1.2,0.7); }   // sét nổ giữa 2 cầu
       if(ms>=MW_T.merge){ const u=Math.min(1,(ms-MW_T.merge)/MW_T.grow), tm=now/1000;
         // ✴️ ĐIỂM SÁNG NÉN ở đầu ngón tay (kiểu Gojo): lõi nhỏ xíu trắng chói + dải năng lượng XOẮN VẶN vào tâm + vòng tròn mảnh
