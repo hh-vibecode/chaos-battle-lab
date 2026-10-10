@@ -498,6 +498,79 @@ function _lvDraw(f){
     ctx.drawImage(im,-w*0.72,-h*0.23,w,h); ctx.restore();   // đặt mép lưỡi lún sâu vào thân
   }
 }
+const MAXWELL_DEATHNOTE_IMG = new Image(); MAXWELL_DEATHNOTE_IMG.src = 'assets/img/maxwell/MAXWELL_DEATHNOTE_IMG.webp';   // 📓 sổ Death Note (bìa đen chữ gothic)
+try{ const _dnFont=new FontFace('DNScript','url(assets/fonts/PinyonScript.ttf)'); _dnFont.load().then(ff=>document.fonts.add(ff)).catch(()=>{}); }catch(e){}   // ✒️ chữ viết tay uốn lượn (Pinyon Script, OFL)
+// 📓 DEATH NOTE: mở sổ → tên meme địch được VIẾT dần trên đầu nó trong 2s (chữ uốn lượn phát sáng đỏ, ngòi bút + tia lửa
+//    chạy theo nét) → viết xong: cười ác + chớp đỏ → địch bị ghi tên VĨNH VIỄN: mất 25 máu mỗi giây tới hết trận,
+//    trên đầu lơ lửng cuốn sổ đen toả quầng đỏ. Mỗi địch chỉ bị ghi 1 lần (ghi hết rồi thì không roll ra sổ nữa).
+const DN_WRITE_T=120, DN_DMG=25;
+function _dnTargets(f){ return fighters.filter(u=>u.team!==f.team && !u.dead && !u._dnMark); }
+function _dnName(u){ return _nameParts(u.name||'').main || (u.name||'???'); }
+function _dnStart(f){
+  const pool=_dnTargets(f); if(!pool.length) return false;
+  const e=f.enemy, tg=(e && pool.includes(e)) ? e : pool.sort((a,b)=>Math.hypot(a.x-f.x,a.y-f.y)-Math.hypot(b.x-f.x,b.y-f.y))[0];
+  f._dnW={tgt:tg, t:0, sp:[]}; playSample('larry_whisper2',0.8); return true; }
+function _dnEnd(f){ f._dnW=null; f._mwItem=null; f._mwPhase='postuse_wait'; f._mwPostUseTimer=30; }
+function _dnTick(f){
+  const W2=f._dnW; if(!W2) return;
+  const tg=W2.tgt; if(!tg || tg.dead){ _dnEnd(f); return; }
+  W2.t++;
+  if(W2.t>=DN_WRITE_T){   // ✒️ viết xong → ghi tên vĩnh viễn
+    tg._dnMark={src:f, t0:performance.now(), name:_dnName(tg)}; tg._dnT=0;
+    playSample('gp_evil_laugh',0.85); addShake(6,12); spawnParticles(tg.x,tg.y,'#b71c1c',16,false,true);
+    floatTexts.push({x:tg.x,y:tg.y-tg.size-30,text:'📓 NAME WRITTEN',color:'#ff1744',life:60,big:true});
+    _dnEnd(f); }
+}
+// toạ độ dòng chữ trên đầu địch
+function _dnTextPos(u){ return [u.x, u.y-u.size*1.1-58]; }
+function _dnDrawText(txt,x,y,px,k,al,flash){
+  ctx.save(); ctx.font=`${px}px DNScript, "Apple Chancery", cursive`; ctx.textAlign='left'; ctx.textBaseline='middle';
+  const w=ctx.measureText(txt).width, x0=x-w/2;
+  ctx.translate(x,y); ctx.rotate(-0.06); ctx.translate(-x,-y);
+  ctx.beginPath(); ctx.rect(x0-px, y-px*1.6, (w+px*1.2)*k+px*0.4, px*3.2); ctx.clip();   // lộ dần từ trái sang phải = đang viết
+  ctx.globalAlpha=al;
+  ctx.shadowColor=flash?'#ffffff':'#ff1744'; ctx.shadowBlur=px*(flash?0.9:0.5);
+  ctx.lineJoin='round'; ctx.lineWidth=Math.max(2,px*0.13); ctx.strokeStyle='#1a0000'; ctx.strokeText(txt,x0,y);
+  const g=ctx.createLinearGradient(0,y-px*0.6,0,y+px*0.6); g.addColorStop(0,flash?'#ffffff':'#ff8a80'); g.addColorStop(0.5,'#ff1744'); g.addColorStop(1,'#7f0000');
+  ctx.fillStyle=g; ctx.fillText(txt,x0,y);
+  // nét gạch dưới uốn lượn (swash) chạy theo chữ
+  ctx.shadowBlur=px*0.35; ctx.strokeStyle='rgba(255,40,60,0.85)'; ctx.lineWidth=Math.max(1.2,px*0.06); ctx.beginPath();
+  for(let i=0;i<=30;i++){ const u=i/30, xx=x0-px*0.3+(w+px*0.6)*u, yy=y+px*0.62+Math.sin(u*Math.PI*3)*px*0.12-Math.sin(u*Math.PI)*px*0.1; i?ctx.lineTo(xx,yy):ctx.moveTo(xx,yy); }
+  ctx.stroke(); ctx.restore();
+  return [x0+w*k, y]; }
+// ✒️ đang viết: chữ hiện dần + ngòi bút lông vũ ở đầu nét + tia lửa đỏ
+function _dnDrawWriting(f){
+  const W2=f._dnW, tg=W2&&W2.tgt; if(!tg || tg.dead) return;
+  const k=Math.min(1,W2.t/(DN_WRITE_T*0.92)), [x,y]=_dnTextPos(tg), name=_dnName(tg), px=Math.max(22,Math.min(40,tg.size*0.85));
+  // vòng phù chú mờ xoay sau chữ
+  ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.translate(x,y); ctx.rotate(performance.now()/900); ctx.strokeStyle=`rgba(255,30,60,${0.18+0.1*Math.sin(W2.t*0.2)})`; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.arc(0,0,px*1.7,0,Math.PI*2); ctx.stroke(); ctx.beginPath(); ctx.arc(0,0,px*1.45,0,Math.PI*2); ctx.stroke();
+  for(let i=0;i<12;i++){ const a=i/12*Math.PI*2; ctx.beginPath(); ctx.moveTo(Math.cos(a)*px*1.45,Math.sin(a)*px*1.45); ctx.lineTo(Math.cos(a+0.2)*px*1.7,Math.sin(a+0.2)*px*1.7); ctx.stroke(); }
+  ctx.restore();
+  const [tx,ty]=_dnDrawText(name,x,y,px,k,1,false);
+  if(k<1){
+    const bob=Math.sin(W2.t*0.9)*px*0.18;
+    if(Math.random()<0.6) particles.push({x:tx,y:ty+bob,vx:(Math.random()-0.5)*1.2,vy:-(0.3+Math.random()*1),color:Math.random()<0.5?'#ff1744':'#ffcdd2',gravity:0.02,life:18,maxLife:18,size:1.2+Math.random()*1.5});
+    ctx.save(); ctx.translate(tx,ty+bob); ctx.rotate(-0.7);   // 🪶 bút lông vũ
+    ctx.fillStyle='#f5f5f5'; ctx.strokeStyle='#212121'; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(0,0); ctx.quadraticCurveTo(px*0.25,-px*0.6,px*0.12,-px*1.5); ctx.quadraticCurveTo(-px*0.3,-px*0.7,0,0); ctx.fill(); ctx.stroke();
+    ctx.strokeStyle='#9e9e9e'; ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(px*0.1,-px*1.4); ctx.stroke();
+    ctx.fillStyle='#ff1744'; ctx.beginPath(); ctx.arc(0,0,2.2,0,Math.PI*2); ctx.fill();
+    ctx.restore(); }
+}
+// 📓 dấu bị ghi tên: lúc vừa viết xong tên loé trắng rồi bay lên tan · sau đó cuốn sổ đen nhỏ lơ lửng toả quầng đỏ trên đầu
+function _dnDrawMark(u){
+  const M=u._dnMark, age=performance.now()-M.t0, [x,y]=_dnTextPos(u), px=Math.max(22,Math.min(40,u.size*0.85));
+  if(age<700){ const q=age/700; _dnDrawText(M.name,x,y-q*px*0.8,px*(1+0.15*Math.sin(q*Math.PI)),1,1-q,q<0.35); }
+  const im=MAXWELL_DEATHNOTE_IMG; if(!im.naturalWidth) return;
+  const a=Math.min(1,age/400), bh=Math.max(16,u.size*0.5), bw=bh*im.naturalWidth/im.naturalHeight, by=y+px*0.15+Math.sin(performance.now()/350)*3;
+  ctx.save(); ctx.globalAlpha=a;
+  ctx.globalCompositeOperation='lighter'; const g=ctx.createRadialGradient(x,by,0,x,by,bh*1.1); g.addColorStop(0,`rgba(255,20,40,${0.45+0.2*Math.sin(performance.now()/200)})`); g.addColorStop(1,'rgba(255,0,0,0)');
+  ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,by,bh*1.1,0,Math.PI*2); ctx.fill(); ctx.globalCompositeOperation='source-over';
+  ctx.translate(x,by); ctx.rotate(Math.sin(performance.now()/500)*0.12); ctx.drawImage(im,-bw/2,-bh/2,bw,bh);
+  ctx.restore();
+  if(Math.random()<0.04) particles.push({x:x+(Math.random()-0.5)*bw*0.6,y:by+bh*0.5,vx:0,vy:0.6,color:'#b71c1c',gravity:0.05,life:26,maxLife:26,size:1.6});   // giọt mực đỏ nhỏ xuống
+}
 const MAXWELL_BOW_IMG = new Image();
 MAXWELL_BOW_IMG.src = 'assets/img/maxwell/MAXWELL_BOW_IMG.webp';
 MAXWELL_TNT_IMG.src = 'assets/img/maxwell/MAXWELL_TNT_IMG.webp';
@@ -12685,6 +12758,10 @@ class Fighter {
           text:'💀',color:'#4ade80',life:38,isDotSkull:true});
       }
     }
+    // 📓 DEATH NOTE: bị ghi tên → mất 25 máu mỗi giây tới hết trận
+    if(this._dnMark && !this.dead && fighters.some(f=>f.team!==this.team&&!f.dead)){
+      if(++this._dnT>=60){ this._dnT=0; this.takeDamage(DN_DMG, this._dnMark.src||null, false, false, '📓', null, true); }
+    }
     // ☭ STALIN CAT — liềm: hiệu ứng CHẢY MÁU, DOT riêng (không dùng chung field với burn/poison) — dame mỗi
     _egTick(this);    // 😈 Evil Gary: độc vĩnh viễn + gọi quỷ/linh hồn
     if(this.type==='samuraicheems') _smTick(this);   // ⚔️ lướt dứt điểm / thu kiếm
@@ -15466,8 +15543,11 @@ class Fighter {
         lightsaber:    { dmg:75,  melee:true,  img:MAXWELL_LIGHTSABER_IMG,   color:'#40c4ff', burn:true },
         // 🪓 rìu Leviathan: ném/găm/gọi về — xử lý riêng ở _lvThrow/_lvTick (dmg ở đây chỉ để đủ khung)
         leviathan:     { dmg:LV_SLOW_DMG, melee:false, axe:true, img:MAXWELL_LEVIATHAN_IMG, color:'#81d4fa' },
+        // 📓 Death Note: viết tên địch 2s → 25/s tới hết trận (xử lý riêng ở _dnStart/_dnTick)
+        deathnote:     { dmg:0, melee:false, note:true, img:MAXWELL_DEATHNOTE_IMG, color:'#212121' },
       };
-      const _mwKeys=['diamond_sword','wooden_sword','lava_bucket','steak','tnt','bow','minigun','lightsaber','leviathan'];
+      const _mwKeys=['diamond_sword','wooden_sword','lava_bucket','steak','tnt','bow','minigun','lightsaber','leviathan','deathnote'];
+      _dnTick(this);   // 📓 đang viết tên vào Death Note
       _lvTick(this);   // 🪓 rìu Leviathan đang bay/găm/quay về (chạy cả khi đã hết thời gian cầm)
       // 🎵 nhạc quay vòng maxwell_dance (28s): PHÁT khi đang xoay/vừa hiện ra (spin/reveal — cùng lúc GIF đang chạy),
       // TẠM DỪNG (không reset currentTime) khi đang dùng đồ/ăn/chờ — phát TIẾP đúng chỗ cũ khi xoay lại
@@ -15486,7 +15566,8 @@ class Fighter {
         if(this._mwSpinTimer%6===0) this._mwSpinIcon=_mwKeys[Math.floor(Math.random()*_mwKeys.length)];
         if(this._mwSpinTimer<=0){
           this._mwPhase='reveal'; this._mwRevealTimer=18; // 0.3s dừng lại chọn
-          this._mwItem=_mwKeys[Math.floor(Math.random()*_mwKeys.length)];
+          const _mwPool=_mwKeys.filter(k=>k!=='deathnote' || _dnTargets(this).length);   // 📓 địch nào cũng đã bị ghi tên → không ra sổ nữa
+          this._mwItem=_mwPool[Math.floor(Math.random()*_mwPool.length)];
           this._mwSpinIcon=this._mwItem;
         }
       } else if(this._mwPhase==='reveal'){
@@ -15513,6 +15594,7 @@ class Fighter {
           } else {
             if(this._mwItem==='lightsaber') playSample('lightsaber_on',0.85);   // ⚔️ bật kiếm
             if(this._mwItem==='leviathan') this._lvHitN=0;                    // 🪓 đếm lại: lần 1 chậm, lần 2 đóng băng…
+            if(this._mwItem==='deathnote'){ this._mwUseTimer=99999; if(!_dnStart(this)) _dnEnd(this); }   // 📓 mở sổ viết tên
             this._mwUseTimer=360; // 6s cầm vật phẩm — hết giờ tự vỡ, không cần đánh hết lượt
             this._mwAtkCD=0;
             this._mwPhase='using';
@@ -15530,6 +15612,8 @@ class Fighter {
             _hitParticles(e.x,e.y,'#80d8ff',8,false,true); playSample('lightsaber_whoosh_01',0.7); }
           this._mwAtkCD=20; // AS 3 = 60/3 = 20 frame
           this.actionState='attack'; this.actionTimer=18; this.attackAvatarTimer=18;
+        } else if(def && def.note){
+          // 📓 đang viết — không đánh gì thêm, xem _dnTick
         } else if(def && def.axe){
           if(!this._lvAxe && this._mwAtkCD<=0 && dist<340 && e && !e.dead){ _lvThrow(this,e); this._mwAtkCD=12; this.actionState='attack'; this.actionTimer=16; this.attackAvatarTimer=16; }
         } else if(def && !def.melee && this._mwAtkCD<=0 && dist<340){
@@ -18296,6 +18380,7 @@ class Fighter {
         minigun:       {img:MAXWELL_MINIGUN_IMG, scale:0.65, offMult:0.62, rot:0, centerPivot:true, yOff:0.34, artRight:true},
         lightsaber:    {img:MAXWELL_LIGHTSABER_IMG, scale:1.5, offMult:1.0, rot:0.35, saber:true},
         leviathan:     {img:MAXWELL_LEVIATHAN_IMG, scale:1.15, offMult:1.0, rot:0.35},
+        deathnote:     {img:MAXWELL_DEATHNOTE_IMG, scale:0.62, offMult:0.85, rot:-0.12, centerPivot:true, noFlip:true, yOff:0.05},
       };
       if(this._mwPhase==='using' && this._mwItem && _mwItemImgMap[this._mwItem] && !(this._mwItem==='leviathan' && this._lvAxe)){   // rìu đang bay thì tay trống
         const _mwEntry=_mwItemImgMap[this._mwItem];
@@ -18316,7 +18401,7 @@ class Fighter {
           // Riêng ảnh cung: mũi tên trong ảnh gốc vốn đã chĩa sang TRÁI sẵn (khác kiếm/gáo lửa vẽ hướng khác) nên chiều lật phải ĐẢO NGƯỢC lại so với các vật phẩm kia.
           // artRight = ảnh gốc đã chĩa sang PHẢI (minigun) → lật theo quy tắc THƯỜNG. Cây cung thì ngược lại
           // (mũi tên trong ảnh vốn chĩa TRÁI) nên mới cần đảo. Để chung 1 quy tắc là súng bắn phải mà nòng quay sau.
-          const _mwNeedFlip = _mwEntry.artRight ? shouldFaceLeft : (_mwEntry.centerPivot ? !shouldFaceLeft : shouldFaceLeft);
+          const _mwNeedFlip = _mwEntry.noFlip ? false : (_mwEntry.artRight ? shouldFaceLeft : (_mwEntry.centerPivot ? !shouldFaceLeft : shouldFaceLeft));   // 📓 sổ có chữ trên bìa → không lật gương
           if(_mwNeedFlip) ctx.scale(-1,1);
           ctx.rotate((_mwEntry.rot!==undefined?_mwEntry.rot:0.35)+_mwSwing);
           if(_mwEntry.centerPivot){
@@ -18352,7 +18437,7 @@ class Fighter {
         ctx.restore();
       }
       if(this._introLock<=0 && (this._mwPhase==='spin' || this._mwPhase==='reveal')){
-        const _mwIconMap = { diamond_sword:MAXWELL_DIAMOND_SWORD_IMG, wooden_sword:MAXWELL_WOODEN_SWORD_IMG, lava_bucket:MAXWELL_LAVA_BUCKET_IMG, steak:MAXWELL_STEAK_IMG, tnt:MAXWELL_TNT_IMG, bow:MAXWELL_BOW_IMG, minigun:MAXWELL_MINIGUN_IMG, lightsaber:MAXWELL_LIGHTSABER_IMG, leviathan:MAXWELL_LEVIATHAN_IMG };
+        const _mwIconMap = { diamond_sword:MAXWELL_DIAMOND_SWORD_IMG, wooden_sword:MAXWELL_WOODEN_SWORD_IMG, lava_bucket:MAXWELL_LAVA_BUCKET_IMG, steak:MAXWELL_STEAK_IMG, tnt:MAXWELL_TNT_IMG, bow:MAXWELL_BOW_IMG, minigun:MAXWELL_MINIGUN_IMG, lightsaber:MAXWELL_LIGHTSABER_IMG, leviathan:MAXWELL_LEVIATHAN_IMG, deathnote:MAXWELL_DEATHNOTE_IMG };
         const _mIconImg=_mwIconMap[this._mwSpinIcon];
         if(_mIconImg && _mIconImg.complete && _mIconImg.naturalWidth){
           const _isz=this._mwPhase==='reveal' ? s*0.85 : s*0.7;
@@ -25300,7 +25385,10 @@ function loop(){
   // Evil Larry, nhưng vẽ SAU CÙNG trong world để đè lên cả nhân vật/thanh máu — đây là hoạt cảnh cắt ngang trận,
   // không phải hiệu ứng nền.
   _dogeFxDraw();   // 🐕 hiệu ứng biến hình / BONK của Doge
-  for(const _f of fighters) if(_f._lvAxe && !_f.dead) _lvDraw(_f);   // 🪓 rìu Leviathan vẽ ĐÈ lên mọi meme (đang găm thì phải thấy trên người địch)
+  for(const _f of fighters){ if(_f.dead) continue;
+    if(_f._lvAxe) _lvDraw(_f);          // 🪓 rìu Leviathan vẽ ĐÈ lên mọi meme (đang găm thì phải thấy trên người địch)
+    if(_f._dnW) _dnDrawWriting(_f);     // 📓 tên đang được viết trên đầu địch
+    if(_f._dnMark) _dnDrawMark(_f); }   // 📓 địch đã bị ghi tên
   _susVoteDraw();
   _frDrawNight();   // 🐈‍⬛ bóng đêm Friend phủ lên TRÊN CÙNG — chỉ còn thấy mặt mèo ngoạm
   _mwPurpleDraw();  // 🟣 Hollow Purple + RÃNH HƯ VÔ — vẽ sau cùng trong world: khoét xuyên sân, chữ, mọi thứ
