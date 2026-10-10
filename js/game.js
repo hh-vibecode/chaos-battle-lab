@@ -509,7 +509,7 @@ function _dnName(u){ return _nameParts(u.name||'').main || (u.name||'???'); }
 function _dnStart(f){
   const pool=_dnTargets(f); if(!pool.length) return false;
   const e=f.enemy, tg=(e && pool.includes(e)) ? e : pool.sort((a,b)=>Math.hypot(a.x-f.x,a.y-f.y)-Math.hypot(b.x-f.x,b.y-f.y))[0];
-  f._dnW={tgt:tg, t:0, sp:[]}; playSample('larry_whisper2',0.8); return true; }
+  f._dnW={tgt:tg, t:0, sp:[]}; return true; }
 function _dnEnd(f){ f._dnW=null; f._mwItem=null; f._mwPhase='postuse_wait'; f._mwPostUseTimer=30; }
 function _dnTick(f){
   const W2=f._dnW; if(!W2) return;
@@ -517,7 +517,7 @@ function _dnTick(f){
   W2.t++;
   if(W2.t>=DN_WRITE_T){   // ✒️ viết xong → ghi tên vĩnh viễn
     tg._dnMark={src:f, t0:performance.now(), name:_dnName(tg)}; tg._dnT=0;
-    playSample('gp_evil_laugh',0.85); addShake(6,12); spawnParticles(tg.x,tg.y,'#b71c1c',16,false,true);
+    addShake(6,12); spawnParticles(tg.x,tg.y,'#b71c1c',16,false,true);
     floatTexts.push({x:tg.x,y:tg.y-tg.size-30,text:'📓 NAME WRITTEN',color:'#ff1744',life:60,big:true});
     _dnEnd(f); }
 }
