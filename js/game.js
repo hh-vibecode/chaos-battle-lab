@@ -6675,9 +6675,11 @@ const AR_FR=[
   'assets/img/arabiccat/AR_FR_4.webp',
   'assets/img/arabiccat/AR_FR_5.webp'
 ].map(src=>{ const im=new Image(); im._noMask=true; im.onload=()=>{ im._crop={sx:33,sy:30,sw:430,sh:417}; }; im.src=src; return im; });   // crop = khung bao chung cả 6 ảnh
-const AR_SWAY=[2,1,3,1,4,1,3,1], AR_SWAY_S=0.4;   // 💃 lắc lư theo nhịp bài (~150 BPM → 0.4s/nhịp)
+const AR_SWAY=[2,1,3,1,4,1,3,1], AR_SWAY_S=0.3077, AR_SWAY_PH=0.26;   // 💃 lắc theo nhịp trống bài (đo: ~98 BPM, mỗi móc đơn 0.308s, phách đầu ở 0.26s)
 function _arFrame(f){ if(f._arGenie) return 5;   // 🪔 đang xoa đèn gọi thần đèn
-  return AR_SWAY[Math.floor((f._arSwayT||0)/(AR_SWAY_S*_egTps()))%AR_SWAY.length]; }
+  const m=f._arMusic;   // bám ĐÚNG thời gian bài đang phát → lắc khớp nhịp, nhạc dừng/phát tiếp vẫn khớp
+  const k = (m && !m.paused && m.currentTime>0) ? Math.floor((m.currentTime-AR_SWAY_PH)/AR_SWAY_S) : Math.floor((f._arSwayT||0)/(AR_SWAY_S*_egTps()));
+  return AR_SWAY[((k%AR_SWAY.length)+AR_SWAY.length)%AR_SWAY.length]; }
 // 🎵 nhạc lắc lư: phát lặp suốt lúc đi lại; xoa đèn gọi thần đèn thì TẠM DỪNG, thần đèn đi rồi phát TIẾP đoạn đang dở
 function _arMusicOn(f){ const m=f._arMusic;
   if(m){ if(m.paused) m.play().catch(()=>{}); return; }
