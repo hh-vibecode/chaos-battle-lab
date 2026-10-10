@@ -15391,7 +15391,7 @@ class Fighter {
         this._mewCD = 60; // 1s/lần đổi giữa dáng thường <-> mewing
         if(this._mewPhase==='normal'){
           this._mewPhase='mewing';
-          // 🎲 mỗi lần bốc TRÚNG LẠI tư thế đã có, cơ hội vào tư thế CHƯA có được cộng thêm 5% cho lần sau.
+          // 🎲 mỗi lần bốc TRÚNG LẠI tư thế đã có, cơ hội vào tư thế CHƯA có được cộng thêm 25% cho lần sau (cộng dồn).
           // Bốc ra tư thế mới thì cộng dồn đó reset về 0.
           if(!this._mewPoses) this._mewPoses=[false,false,false,false];
           { const _need=[0,1,2,3].filter(i=>!this._mewPoses[i]);
@@ -15399,7 +15399,7 @@ class Fighter {
             if(_need.length===0 || _have.length===0){
               this._mewPoseIdx = Math.floor(Math.random()*4);   // chưa có gì / đã đủ bộ → chia đều 25%
             } else {
-              const _pNew = Math.min(1, _need.length/4 + (this._mewStreak||0)*0.05);
+              const _pNew = Math.min(1, _need.length/4 + (this._mewStreak||0)*0.25);
               const _pool = (Math.random() < _pNew) ? _need : _have;
               this._mewPoseIdx = _pool[Math.floor(Math.random()*_pool.length)];
             }
@@ -15425,7 +15425,7 @@ class Fighter {
             mewingStatues.push({
               id:'mew_'+Date.now()+'_'+si+'_'+Math.floor(Math.random()*99999),
               team:this.team, owner:this,
-              x:sx, y:sy, hp:50, maxHp:50, size:26,
+              x:sx, y:sy, hp:50*Math.pow(2,this._mewTier||0), maxHp:50*Math.pow(2,this._mewTier||0), size:26*Math.min(4,Math.pow(2,this._mewTier||0)),   // 🗿 mỗi lần đủ bộ: máu ×2, to ×2 (tối đa ×4 cho khỏi phủ kín sàn)
               vx:0, vy:0, flash:0, dead:false,
               img:_mewStoneImgs[Math.floor(Math.random()*3)], // random cho đa dạng, KHÔNG liên quan tới _mewPoseIdx
               type:'mewingstatue',
@@ -15438,10 +15438,11 @@ class Fighter {
           const _mewNew = !this._mewPoses[this._mewPoseIdx];
           this._mewPoses[this._mewPoseIdx]=true;
           if(_mewNew){ this._mewStreak=0; spawnParticles(this.x,this.y-this.size*0.4,'#26c6da',8,false,true); }  // tư thế MỚI: reset cộng dồn + nháy hạt xanh
-          else this._mewStreak=(this._mewStreak||0)+1;                                                                 // trùng tư thế cũ: +5% cho lần bốc sau
+          else this._mewStreak=(this._mewStreak||0)+1;                                                                 // trùng tư thế cũ: +25% cho lần bốc sau
           if(this._mewPoses.every(Boolean)){
             this._mewPoses=[false,false,false,false];
-            this._mewStatueCount++;
+            this._mewTier=(this._mewTier||0)+1;   // 🗿 đủ 4 tư thế → tượng gọi ra từ giờ TO ×2 + MÁU ×2 (thay cho tăng số tượng)
+            floatTexts.push({x:this.x,y:this.y-this.size-26,text:'🗿 STATUES ×2',color:'#ffd54f',life:60,big:true});
             spawnParticles(this.x,this.y,'#ffd54f',22,false,true);   // đủ bộ 4 tư thế → nổ vàng + rung
             addShake(6,10);
           }
@@ -16614,6 +16615,13 @@ class Fighter {
       offY += Math.cos(st*1.9)*s*0.05*(st/28);
     }
 
+    // 😤 MEWING CAT tạo dáng kiểu CAPCUT: zoom giật vào rồi bật lại + rung lắc từng nhịp ngắt quãng (đầu mỗi tư thế)
+    if(this.type==='mewingcat' && this._mewPhase==='mewing'){
+      const age=60-(this._mewCD||0), step=Math.floor(age/3), rnd=k=>{ const v=Math.sin(step*12.9898+k*78.233)*43758.5453; return v-Math.floor(v)-0.5; };
+      if(age<10){ const z=1+0.3*(1-age/10)*(1-age/10); scaleX*=z; scaleY*=z; }        // zoom giật
+      const jit=age<30 ? 1 : Math.max(0,(60-age)/30)*0.35;                                // nửa giây đầu giật mạnh, sau đó dịu
+      offX += rnd(1)*s*0.14*jit; offY += rnd(2)*s*0.1*jit; rotation += rnd(3)*0.09*jit;
+    }
     // MAXWELL: rung người nhẹ kiểu Minecraft lúc đang ăn steak
     if(this.type==='maxwell' && this._mwPhase==='eating'){
       offX += (Math.random()-0.5)*s*0.09;
