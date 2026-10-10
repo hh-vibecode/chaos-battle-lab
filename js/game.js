@@ -447,16 +447,17 @@ const MAXWELL_LIGHTSABER_IMG = new Image(); MAXWELL_LIGHTSABER_IMG.src = 'assets
 const MAXWELL_LEVIATHAN_IMG = new Image(); MAXWELL_LEVIATHAN_IMG.src = 'assets/img/maxwell/MAXWELL_LEVIATHAN_IMG.webp';   // 🪓❄️ rìu Leviathan (God of War) — ảnh user gửi, đã xoay đứng: đầu rìu trên, lưỡi bên PHẢI, cán chĩa xuống
 // 🪓 RÌU LEVIATHAN: ném bám theo địch → GĂM vào người → 1s sau tự bay ngược về tay (như búa Thor) → ném tiếp.
 //    Trúng lần lẻ: 100 + chậm 2s · lần chẵn: 150 + ĐÓNG BĂNG 1s (dùng khối băng của Mlem Cat). Đếm lại mỗi lần roll ra rìu.
+const LV_CATCH_CD=60;   // rìu về tay → nghỉ 1s rồi mới ném tiếp
 const LV_SLOW_DMG=100, LV_FREEZE_DMG=150, LV_SLOW_T=120, LV_FREEZE_T=60, LV_STUCK_T=60, LV_SPEED=10;
 function _lvThrow(f,e){
   const hx=f.x+(e.x>=f.x?1:-1)*f.size*0.8, hy=f.y-f.size*0.2;
-  f._lvAxe={st:'fly', x:hx, y:hy, tgt:e, a:Math.atan2(e.y-hy,e.x-hx), spin:0, t:0, trail:[]};
+  f._lvAxe={st:'fly', x:hx, y:hy, tgt:e, a:Math.atan2(e.y-hy,e.x-hx), spin:0, t:0, trail:[], c:0};
   playSample('wg_axe_whoosh',0.7);
 }
 function _lvTick(f){
   const A=f._lvAxe; if(!A) return;
   if(f.dead){ f._lvAxe=null; return; }
-  A.t++; A.trail.push([A.x,A.y,A.spin]); if(A.trail.length>6) A.trail.shift();
+  A.t++; A.c++; A.trail.push([A.x,A.y,A.spin]); if(A.trail.length>6) A.trail.shift();
   if(A.st==='fly'){
     const e=A.tgt;
     if(!e || e.dead || !(e.hp>0) || A.t>90){ A.st='ret'; A.t=0; return; }
@@ -478,7 +479,8 @@ function _lvTick(f){
   } else {   // 'ret' — bay ngược về tay, càng lúc càng nhanh
     const hx=f.x, hy=f.y-f.size*0.2, dx=hx-A.x, dy=hy-A.y, d=Math.hypot(dx,dy)||1, sp=Math.min(18,8+A.t*0.6);
     A.a=Math.atan2(dy,dx); A.x+=dx/d*sp; A.y+=dy/d*sp; A.spin-=0.6;
-    if(d<f.size*0.9 || A.t>120){ f._lvAxe=null; addShake(3,5); playSample('bk_clang',0.6); spawnParticles(hx,hy,'#e1f5fe',8,false,true); }
+    if(d<f.size*0.9 || A.t>120){ f._mwAtkCD=LV_CATCH_CD;   // ⏱️ về tới tay phải chờ 1s mới ném tiếp (đỡ spam)
+      f._lvAxe=null; addShake(3,5); playSample('bk_clang',0.6); spawnParticles(hx,hy,'#e1f5fe',8,false,true); }
   }
 }
 function _lvDraw(f){
