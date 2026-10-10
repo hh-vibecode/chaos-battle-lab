@@ -6573,28 +6573,74 @@ function _mwBolt(x1,y1,x2,y2,col,w,a){ const pts=_genLightPts(x1,y1,x2,y2,Array.
   for(const [lw,c] of [[w*3,`rgba(${col},0.25)`],[w,'rgba(255,255,255,0.95)']]){ ctx.lineWidth=lw; ctx.strokeStyle=c; ctx.beginPath(); pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.stroke(); }
   ctx.restore(); }
 const MW_PAL={ blue:['120,200,255','30,90,255','190,230,255'], red:['255,120,110','220,0,30','255,200,190'], purple:['215,140,255','120,30,255','240,210,255'] };
-// RÃNH HƯ VÔ: lòng đen sâu thẳm (lấm tấm sao tím), mép lởm chởm rực tím — vẽ SAU CÙNG trong world nên xoá cả sân lẫn chữ
+// 🪨 VỆT CÀY NÁT MẶT SÀN (vẽ sau cùng trong world nên đè cả sân lẫn chữ): lòng rãnh đất đá nâu xám lổn nhổn, mép đất vỡ
+//    lởm chởm có gờ sáng + bóng tối, vết nứt toả ra nền xung quanh, đá tảng to nhỏ nằm ngổn ngang trong & ngoài mép,
+//    vài đốm năng lượng tím còn âm ỉ. Mọi chi tiết sinh 1 lần theo hạt giống (không nhảy hình), chỉ hiện tới chỗ cầu đã đi qua.
+function _mwRng(seed){ let x=seed||1; return ()=>{ x=(x*16807)%2147483647; return (x-1)/2147483646; }; }
+function _mwBuildScar(T){
+  const r=_mwRng(Math.floor(T.seed[0]*1e6)+7), R=T.R, items={rocks:[],cracks:[],dots:[],embers:[]}, MAX=2600;
+  for(let d=0; d<MAX; d+=12){
+    for(let k=0;k<6;k++) items.dots.push({d:d+r()*12, w:(r()-0.5)*1.8*R, s:0.8+r()*2.2, c:['#4a3b2f','#5b4a3b','#2f251d','#6e5d4b','#3d3128'][(r()*5)|0]});
+    const nIn=1+((r()*2)|0);
+    for(let k=0;k<nIn;k++) items.rocks.push(_mwRock(r, d+r()*12, (r()-0.5)*1.6*R, R*(0.05+r()*0.16)));
+    if(r()<0.55) items.rocks.push(_mwRock(r, d+r()*12, (r()<0.5?-1:1)*R*(1.0+r()*0.55), R*(0.03+r()*0.09)));   // đá văng ra ngoài mép
+    for(const sd of [-1,1]) if(r()<0.4){ const pts=[[0,0]]; let x=0,y=0,a=(r()-0.5)*0.9; const L=R*(0.25+r()*0.6);
+      for(let s2=0;s2<4;s2++){ a+=(r()-0.5)*0.8; x+=Math.cos(a)*L/4; y+=Math.abs(Math.sin(a))*L/4+L/8; pts.push([x,y]); }
+      items.cracks.push({d:d+r()*12, sd, pts, w:0.8+r()*1.6}); }
+    if(r()<0.35) items.embers.push({d:d+r()*12, w:(r()<0.5?-1:1)*R*(0.85+r()*0.2), ph:r()*6});
+  }
+  T.items=items; }
+function _mwRock(r,d,w,s){ const m=5+((r()*3)|0), pts=[]; for(let i=0;i<m;i++){ const a=i/m*Math.PI*2+r()*0.5, rr=0.7+r()*0.45; pts.push([Math.cos(a)*rr,Math.sin(a)*rr]); }
+  const base=[[122,112,103],[96,86,78],[140,128,116],[84,72,62],[110,96,82]][(r()*5)|0]; return {d,w,s,pts,rot:r()*6,base}; }
 function _mwDrawTrench(){
   const T=mwTrench; if(!T || T.len<=0) return;
+  if(!T.items) _mwBuildScar(T);
   const cx=Math.cos(T.ang), cy=Math.sin(T.ang), nx=-cy, ny=cx, step=7, N=Math.max(2,Math.ceil(T.len/step)), tm=performance.now()/1000;
-  const edge=(i,sd)=>T.R*(1+0.16*(T.seed[(i*2+sd)%T.seed.length]-0.5)+0.05*Math.sin(i*0.7+sd));
+  const P=(d,w)=>[T.x+cx*d+nx*w, T.y+cy*d+ny*w];
+  const edge=(i,sd)=>T.R*(1+0.14*(T.seed[(i*2+sd)%T.seed.length]-0.5)+0.05*Math.sin(i*0.9+sd*3));
   const L=[], Rr=[];
-  for(let i=0;i<=N;i++){ const d=Math.min(T.len,i*step), bx=T.x+cx*d, by=T.y+cy*d; L.push([bx+nx*edge(i,0),by+ny*edge(i,0)]); Rr.push([bx-nx*edge(i,1),by-ny*edge(i,1)]); }
+  for(let i=0;i<=N;i++){ const d=Math.min(T.len,i*step); L.push(P(d,edge(i,0))); Rr.push(P(d,-edge(i,1))); }
   const shape=()=>{ ctx.beginPath(); L.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); for(let i=Rr.length-1;i>=0;i--) ctx.lineTo(Rr[i][0],Rr[i][1]); ctx.closePath(); };
+  const I=T.items;
   ctx.save();
-  shape(); const g=ctx.createLinearGradient(T.x+nx*T.R,T.y+ny*T.R,T.x-nx*T.R,T.y-ny*T.R);
-  g.addColorStop(0,'#2a0a4a'); g.addColorStop(0.12,'#07010f'); g.addColorStop(0.5,'#020006'); g.addColorStop(0.88,'#07010f'); g.addColorStop(1,'#2a0a4a');
+  // vết nứt toả ra nền (vẽ trước, nằm dưới mép đất)
+  ctx.lineCap='round'; ctx.lineJoin='round';
+  for(const c of I.cracks){ if(c.d>T.len) continue; const base=P(c.d, c.sd*T.R*0.95);
+    ctx.strokeStyle='rgba(30,20,14,0.75)'; ctx.lineWidth=c.w; ctx.beginPath();
+    c.pts.forEach((p,k)=>{ const x=base[0]+cx*p[0]+nx*c.sd*p[1], y=base[1]+cy*p[0]+ny*c.sd*p[1]; k?ctx.lineTo(x,y):ctx.moveTo(x,y); }); ctx.stroke(); }
+  // lòng rãnh: đất nâu xám, sẫm ở giữa, sáng dần ra mép
+  shape(); const g=ctx.createLinearGradient(...P(0,T.R),...P(0,-T.R));
+  g.addColorStop(0,'#7d6a56'); g.addColorStop(0.18,'#55463a'); g.addColorStop(0.5,'#3a2f27'); g.addColorStop(0.82,'#55463a'); g.addColorStop(1,'#7d6a56');
   ctx.fillStyle=g; ctx.fill();
-  ctx.clip();   // lấm tấm sao tím trôi chậm trong lòng rãnh
-  for(let i=0;i<Math.min(140,N*2);i++){ const d=(T.seed[(i*7)%T.seed.length]*T.len), w=(T.seed[(i*7+3)%T.seed.length]-0.5)*T.R*1.7, tw=0.4+0.6*Math.abs(Math.sin(tm*2+i));
-    ctx.fillStyle=`rgba(200,160,255,${0.55*tw})`; ctx.beginPath(); ctx.arc(T.x+cx*d+nx*w, T.y+cy*d+ny*w, 0.8+T.seed[(i*7+5)%T.seed.length]*1.4, 0, Math.PI*2); ctx.fill(); }
+  ctx.save(); ctx.clip();
+  for(const o of I.dots){ if(o.d>T.len) continue; const q=P(o.d,o.w); ctx.fillStyle=o.c; ctx.fillRect(q[0],q[1],o.s,o.s); }   // đất lổn nhổn
   ctx.restore();
-  ctx.save(); ctx.lineJoin='round'; ctx.lineCap='round'; ctx.globalCompositeOperation='lighter';   // mép rực tím
-  const pu=0.75+0.25*Math.sin(tm*4);
-  for(const side of [L,Rr]) for(const [lw,c,sb] of [[9,`rgba(140,40,255,${0.35*pu})`,18],[3,`rgba(220,160,255,${0.9*pu})`,10],[1.2,'rgba(255,255,255,0.8)',0]]){
-    ctx.lineWidth=lw; ctx.strokeStyle=c; ctx.shadowColor='#a855f7'; ctx.shadowBlur=sb; ctx.beginPath(); side.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.stroke(); }
-  ctx.shadowBlur=0;
-  { const sx=T.x, sy=T.y; ctx.lineWidth=3; ctx.strokeStyle=`rgba(220,160,255,${0.8*pu})`; ctx.beginPath(); ctx.moveTo(L[0][0],L[0][1]); ctx.lineTo(sx-cx*4,sy-cy*4); ctx.lineTo(Rr[0][0],Rr[0][1]); ctx.stroke(); }   // mép đầu rãnh
+  // gờ đất vỡ ở mép: bóng tối phía trong + gờ sáng phía ngoài
+  for(const [side,sg] of [[L,1],[Rr,-1]]){
+    ctx.lineWidth=5; ctx.strokeStyle='rgba(28,20,14,0.6)'; ctx.beginPath(); side.forEach((p,k)=>{ const x=p[0]-nx*sg*3, y=p[1]-ny*sg*3; k?ctx.lineTo(x,y):ctx.moveTo(x,y); }); ctx.stroke();
+    ctx.lineWidth=2.4; ctx.strokeStyle='#a8957c'; ctx.beginPath(); side.forEach((p,k)=>k?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.stroke(); }
+  // 🪨 đá tảng ngổn ngang
+  for(const k of I.rocks){ if(k.d>T.len) continue; const q=P(k.d,k.w), b=k.base;
+    ctx.save(); ctx.translate(q[0],q[1]); ctx.rotate(k.rot); ctx.scale(k.s,k.s);
+    ctx.fillStyle='rgba(20,14,10,0.35)'; ctx.beginPath(); k.pts.forEach((p,i)=>i?ctx.lineTo(p[0]+0.25,p[1]+0.3):ctx.moveTo(p[0]+0.25,p[1]+0.3)); ctx.closePath(); ctx.fill();   // bóng đổ
+    const rg=ctx.createLinearGradient(-1,-1,1,1); rg.addColorStop(0,`rgb(${b[0]+40},${b[1]+38},${b[2]+34})`); rg.addColorStop(0.55,`rgb(${b[0]},${b[1]},${b[2]})`); rg.addColorStop(1,`rgb(${b[0]-40},${b[1]-38},${b[2]-34})`);
+    ctx.fillStyle=rg; ctx.beginPath(); k.pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.closePath(); ctx.fill();
+    ctx.lineWidth=0.08; ctx.strokeStyle='rgba(30,22,16,0.8)'; ctx.stroke();
+    ctx.restore(); }
+  // ✨ đốm năng lượng tím còn âm ỉ dọc mép
+  ctx.globalCompositeOperation='lighter';
+  for(const e of I.embers){ if(e.d>T.len) continue; const q=P(e.d,e.w), a=0.25+0.25*Math.sin(tm*3+e.ph);
+    const eg=ctx.createRadialGradient(q[0],q[1],0,q[0],q[1],7); eg.addColorStop(0,`rgba(210,150,255,${a})`); eg.addColorStop(1,'rgba(150,60,255,0)'); ctx.fillStyle=eg; ctx.beginPath(); ctx.arc(q[0],q[1],7,0,Math.PI*2); ctx.fill(); }
+  ctx.restore(); }
+// ⚡ tia sét phân nhánh (lõi trắng + quầng tím) từ (x1,y1) tới (x2,y2)
+function _mwBigBolt(x1,y1,x2,y2,w,a){
+  const pts=_genLightPts(x1,y1,x2,y2,Array.from({length:48},()=>Math.random()),5,0);
+  const br=[]; for(let b=0;b<3;b++){ const p=pts[Math.floor(pts.length*(0.25+Math.random()*0.5))]; const L=Math.hypot(x2-x1,y2-y1)*(0.2+Math.random()*0.25), ang=Math.atan2(y2-y1,x2-x1)+(Math.random()-0.5)*1.6;
+    br.push(_genLightPts(p[0],p[1],p[0]+Math.cos(ang)*L,p[1]+Math.sin(ang)*L,Array.from({length:24},()=>Math.random()),3,0)); }
+  ctx.save(); ctx.globalAlpha=a; ctx.globalCompositeOperation='lighter'; ctx.lineJoin='round'; ctx.lineCap='round';
+  for(const [lw,c] of [[w*5,'rgba(150,60,255,0.18)'],[w*2.2,'rgba(200,140,255,0.55)'],[w*0.9,'rgba(255,255,255,0.95)']]){
+    ctx.lineWidth=lw; ctx.strokeStyle=c; ctx.beginPath(); pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.stroke();
+    ctx.lineWidth=lw*0.55; for(const B of br){ ctx.beginPath(); B.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.stroke(); } }
   ctx.restore(); }
 function _mwPurpleDraw(){
   _mwDrawTrench();
@@ -6637,10 +6683,20 @@ function _mwPurpleDraw(){
       for(let k=0;k<3;k++){ ctx.strokeStyle=`rgba(${k?'190,140,255':'255,255,255'},${0.35-k*0.08})`; ctx.lineWidth=2+k*3; ctx.beginPath(); ctx.arc(ox,oy,R*(1.7+k*0.18+0.04*Math.sin(tm*3+k)),0,Math.PI*2); ctx.stroke(); }
       ctx.restore();
       ctx.save(); ctx.strokeStyle='rgba(10,0,25,0.75)'; ctx.lineWidth=R*0.16; ctx.beginPath(); ctx.arc(ox,oy,R*1.12,0,Math.PI*2); ctx.stroke(); ctx.restore();
-      for(let k=0;k<5;k++){ const a=tm*1.3+k*1.26; _mwBolt(ox+Math.cos(a)*R*0.85,oy+Math.sin(a)*R*0.85, ox+Math.cos(a+0.4)*R*(1.6+0.4*Math.sin(tm*5+k)),oy+Math.sin(a+0.4)*R*(1.6+0.4*Math.sin(tm*5+k)),'200,140,255',1.4,0.75); }   // xúc tu sét
+      // ⚡ SẤM SÉT QUANH CẦU: tia phân nhánh toả ra liên tục (chớp tắt) + thỉnh thoảng sét lớn giáng từ trời xuống cạnh cầu
+      for(let k=0;k<4;k++){ if(Math.random()<0.35) continue; const a=Math.random()*Math.PI*2, d=R*(1.8+Math.random()*2.4);
+        _mwBigBolt(ox+Math.cos(a)*R*0.9, oy+Math.sin(a)*R*0.9, ox+Math.cos(a)*d, oy+Math.sin(a)*d, 1.6, 0.9); }
+      if(!q.nextStrike || now>=q.nextStrike){ q.nextStrike=now+250+Math.random()*350;
+        const sx=ox+(Math.random()-0.5)*R*3, sy=oy+(Math.random()-0.5)*R*1.5; q.strike={x:sx,y:sy,t0:now,top:C[1]};
+        if(!q.lastThunder || now-q.lastThunder>650){ q.lastThunder=now; playSample('holy_thunder',0.55); } }
+      if(q.strike && now-q.strike.t0<160){ const st=q.strike, u=(now-st.t0)/160;
+        _mwBigBolt(st.x+(Math.random()-0.5)*20, st.top, st.x, st.y, 2.6, 1-u*0.6);
+        ctx.save(); ctx.globalCompositeOperation='lighter'; const fg=ctx.createRadialGradient(st.x,st.y,0,st.x,st.y,R*3); fg.addColorStop(0,`rgba(230,200,255,${0.5*(1-u)})`); fg.addColorStop(1,'rgba(150,60,255,0)');
+        ctx.fillStyle=fg; ctx.beginPath(); ctx.arc(st.x,st.y,R*3,0,Math.PI*2); ctx.fill(); ctx.restore(); }
       ctx.save(); ctx.fillStyle='rgba(20,0,35,0.8)';   // mảnh đen xoáy quanh cầu (chậm)
       for(let k=0;k<9;k++){ const a=tm*1.6+k*0.7, rr=R*(1.2+0.25*Math.sin(tm*2.3+k)); ctx.beginPath(); ctx.ellipse(ox+Math.cos(a)*rr,oy+Math.sin(a)*rr,R*0.26,R*0.06,a+1.3,0,Math.PI*2); ctx.fill(); }
       ctx.restore();
+      ctx.save(); ctx.globalCompositeOperation='lighter'; { const bg=ctx.createRadialGradient(ox,oy,R*0.5,ox,oy,R*4.2); bg.addColorStop(0,'rgba(180,90,255,0.35)'); bg.addColorStop(0.4,'rgba(120,40,255,0.12)'); bg.addColorStop(1,'rgba(90,20,200,0)'); ctx.fillStyle=bg; ctx.beginPath(); ctx.arc(ox,oy,R*4.2,0,Math.PI*2); ctx.fill(); } ctx.restore();   // quầng bloom lớn
       _mwOrb(ox,oy,R*(1+0.05*Math.sin(tm*2.2)),MW_PAL.purple,tm*0.6,1);
     }
   }
