@@ -70,7 +70,10 @@ if(window.PLAY_ONLY) document.documentElement.classList.add('play-only');
     if(screen){ screen.classList.add('done'); setTimeout(() => screen.remove(), 600); }
     setTimeout(background, 800);
   }
-  const s = document.createElement('script'); s.src = 'js/game.js';
+  // 🏷️ số bản + giờ cập nhật (index.html → window.GAME_VERSION, do tools/release.py ghi) — hiện ở màn hình tải + menu chính
+  const V = window.GAME_VERSION;
+  if(V){ const txt = 'Ver ' + V.build + ' · Updated ' + V.at; for(const id of ['bootVer','mmVersion']){ const el = document.getElementById(id); if(el) el.textContent = txt; } }
+  const s = document.createElement('script'); s.src = 'js/game.js' + (V ? '?v=' + V.build : '');   // ?v= → bản mới luôn tải code mới, không lẫn code cũ trong bộ nhớ đệm
   s.onload = async () => {
     codeDone = true;
     try{ await (window._gameBootP || Promise.resolve()); }catch(e){}
