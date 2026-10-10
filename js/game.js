@@ -444,7 +444,7 @@ const WG_ITEM_HEALING_IMG = new Image(); WG_ITEM_HEALING_IMG.src='assets/img/win
 const WG_TORNADO_IMG = new Image(); WG_TORNADO_IMG._cols=5; WG_TORNADO_IMG._rows=12;
 WG_TORNADO_IMG.src='assets/img/windguy/WG_TORNADO_IMG.webp';
 const MAXWELL_LIGHTSABER_IMG = new Image(); MAXWELL_LIGHTSABER_IMG.src = 'assets/img/maxwell/MAXWELL_LIGHTSABER_IMG.webp';   // ⚔️ lightsaber xanh (vẽ bằng code: chuôi + lưỡi sáng, phát sáng thêm lúc vẽ)
-const MAXWELL_LEVIATHAN_IMG = new Image(); MAXWELL_LEVIATHAN_IMG.src = 'assets/img/maxwell/MAXWELL_LEVIATHAN_IMG.webp';   // 🪓❄️ rìu Leviathan (God of War)
+const MAXWELL_LEVIATHAN_IMG = new Image(); MAXWELL_LEVIATHAN_IMG.src = 'assets/img/maxwell/MAXWELL_LEVIATHAN_IMG.webp';   // 🪓❄️ rìu Leviathan (God of War) — ảnh user gửi, đã xoay đứng: đầu rìu trên, lưỡi bên PHẢI, cán chĩa xuống
 // 🪓 RÌU LEVIATHAN: ném bám theo địch → GĂM vào người → 1s sau tự bay ngược về tay (như búa Thor) → ném tiếp.
 //    Trúng lần lẻ: 100 + chậm 2s · lần chẵn: 150 + ĐÓNG BĂNG 1s (dùng khối băng của Mlem Cat). Đếm lại mỗi lần roll ra rìu.
 const LV_SLOW_DMG=100, LV_FREEZE_DMG=150, LV_SLOW_T=120, LV_FREEZE_T=60, LV_STUCK_T=60, LV_SPEED=10;
@@ -495,7 +495,7 @@ function _lvDraw(f){
     const wob=A.t<10?Math.sin(A.t*1.6)*0.25*(1-A.t/10):0;
     ctx.save(); ctx.translate(A.x,A.y); ctx.rotate(A.a+wob); if(Math.cos(A.a)<0) ctx.scale(1,-1);   // mép lưỡi (bên phải ảnh) bổ vào người, cán thõng xuống
     if(A.frz){ ctx.globalCompositeOperation='lighter'; const g=ctx.createRadialGradient(0,0,0,0,0,h*0.6); g.addColorStop(0,'rgba(180,230,255,0.5)'); g.addColorStop(1,'rgba(120,200,255,0)'); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(0,0,h*0.6,0,Math.PI*2); ctx.fill(); ctx.globalCompositeOperation='source-over'; }
-    ctx.drawImage(im,-w*0.72,-h*0.23,w,h); ctx.restore();   // đặt mép lưỡi lún sâu vào thân
+    ctx.drawImage(im,-w*0.8,-h*0.13,w,h); ctx.restore();   // đặt mép lưỡi (≈95% bề ngang, 13% chiều cao ảnh) lún vào thân
   }
 }
 const MAXWELL_DEATHNOTE_IMG = new Image(); MAXWELL_DEATHNOTE_IMG.src = 'assets/img/maxwell/MAXWELL_DEATHNOTE_IMG.webp';   // 📓 sổ Death Note (bìa đen chữ gothic)
