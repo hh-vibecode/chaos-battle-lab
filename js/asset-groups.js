@@ -13,6 +13,8 @@ window.ASSET_GROUP={
 "assets/img/susdog/SD_GUN.webp": "susdog",
 "assets/audio/ar_mini_die.mp3": "arabiccat",
 "assets/audio/ar_clone.mp3": "arabiccat",
+"assets/img/arabiccat/AR_MINI_BODY.webp": "arabiccat",
+"assets/img/arabiccat/AR_MINI_SWORD.webp": "arabiccat",
 "assets/img/arabiccat/AR_MINIGENIE_IMG.webp": "arabiccat",
 "assets/audio/ar_stone_on.mp3": "arabiccat",
 "assets/audio/ar_stone_break.mp3": "arabiccat",

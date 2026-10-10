@@ -6777,6 +6777,52 @@ function _mwPurpleDraw(){
 // Mục tiêu = f.enemy (gần nhất, TÍNH CẢ quân triệu hồi có máu) — gà/sét/đấm đều dính lên quân triệu hồi như meme thường.
 const AR_MOVES=['bolt','punch','chicken','stone','minis'];   // ⚡ sét · 👊 nắm đấm · 🐔 hoá gà · 🗿 hoá tượng · 🧞🗡️ gọi 2 thần đèn nhỏ — chia ĐỀU 20%
 const AR_MINI_HP=100, AR_MINI_DMG=50, AR_MINI_HEAL=50, AR_MINI_IMG=new Image(); AR_MINI_IMG.src='assets/img/arabiccat/AR_MINIGENIE_IMG.webp';   // 🧞 thần đèn nhỏ cầm mã tấu (kiếm user gửi, đã bỏ bàn tay người) — quay mặt PHẢI
+// 🧞 THẦN ĐÈN NHỎ — vẽ "sống": thân (ảnh genie không kiếm) + KIẾM TÁCH RIÊNG cầm ở tay phải.
+//   thân lơ lửng nhấp nhô, đuôi uốn lượn như khói (cắt lát ngang, lệch theo sóng), người nghiêng theo đà lao tới;
+//   chém = giơ kiếm lấy đà → bổ xuống kèm vệt chém sáng → thu về. To hơn bản cũ 15%, kiếm to hơn 20%.
+const AR_MINI_BODY=new Image(); AR_MINI_BODY.src='assets/img/arabiccat/AR_MINI_BODY.webp';
+const AR_MINI_SWORD=new Image(); AR_MINI_SWORD.src='assets/img/arabiccat/AR_MINI_SWORD.webp';
+const AR_MINI_VIS=1.15, AR_MINI_SWORD_VIS=1.2;
+const AR_MINI_PAW=[0.78,0.47], AR_MINI_GRIP=[0.622,0.904];   // tay phải trên ảnh thân · chỗ cầm trên ảnh kiếm (đều theo tỉ lệ)
+function _arDrawMini(k){
+  const B=AR_MINI_BODY, Sw=AR_MINI_SWORD; if(!B.naturalWidth || !Sw.naturalWidth) return false;
+  if(k._arPh==null) k._arPh=Math.random()*10;
+  const t=performance.now()/1000+k._arPh;
+  const bh=k.size*2*AR_MINI_VIS, bw=bh*B.naturalWidth/B.naturalHeight, face=k._facingRight===false?-1:1;
+  const spd=Math.hypot(k.vx||0,k.vy||0), at=k._atkTimer>0 ? 1-k._atkTimer/18 : -1;
+  const E=(x)=>1-Math.pow(1-Math.max(0,Math.min(1,x)),3);
+  ctx.save(); ctx.translate(k.x, k.y+Math.sin(t*3.2)*k.size*0.09);
+  ctx.scale(face,1);
+  if((k._spawnT||0)>0){ const q=1-k._spawnT/20, pop=Math.max(0.1,q<0.7?q/0.7*1.15:1.15-(q-0.7)/0.3*0.15); ctx.scale(pop,pop); }
+  // nghiêng người: lao tới thì chúi về trước, chém thì vặn người theo nhát kiếm
+  let rot=Math.min(0.2,spd*0.045)+Math.sin(t*1.7)*0.04;
+  if(at>=0) rot+= at<0.2 ? -0.16*E(at/0.2) : -0.16+0.42*Math.sin(Math.min(1,(at-0.2)/0.5)*Math.PI*0.5)*(at<0.7?1:1-(at-0.7)/0.3);
+  ctx.rotate(rot);
+  if(at>=0.2 && at<0.45){ const q=(at-0.2)/0.25; ctx.scale(1+0.08*Math.sin(q*Math.PI),1-0.06*Math.sin(q*Math.PI)); }
+  // 🗡️ kiếm (vẽ TRƯỚC thân để chuôi khuất sau nắm tay)
+  const px=(AR_MINI_PAW[0]-0.5)*bw, py=(AR_MINI_PAW[1]-0.5)*bh;
+  const sh=bh/AR_MINI_VIS*0.46*AR_MINI_SWORD_VIS, swd=sh*Sw.naturalWidth/Sw.naturalHeight;
+  let sa=Math.sin(t*2.4)*0.12;   // đung đưa nhẹ lúc bay
+  const WIND=-0.55, TIP0=-1.367;   // góc lấy đà · hướng mũi kiếm gốc (so với tay cầm, sau khi lật)
+  if(at>=0){ if(at<0.2) sa=WIND*E(at/0.2); else if(at<0.5) sa=WIND+(1.6-WIND)*E((at-0.2)/0.3); else sa=1.6*(1-E((at-0.5)/0.5)); }
+  if(at>=0.2 && at<0.75){   // ✨ vệt chém lưỡi liềm bám đường mũi kiếm: mỏng ở đuôi, dày dần về phía mũi
+    const a0=TIP0+WIND, a1=TIP0+Math.min(sa,1.6), R=sh*0.93, fa=at<0.5?1:1-(at-0.5)/0.25, N=18;
+    if(a1-a0>0.05){ ctx.save(); ctx.globalCompositeOperation='lighter';
+      const pts=(r0,k)=>{ const out=[]; for(let i=0;i<=N;i++){ const u=i/N, a=a0+(a1-a0)*u; out.push([px+Math.cos(a)*R*(1-k*u),py+Math.sin(a)*R*(1-k*u)]); } return out; };
+      for(const [k,c,al] of [[0.38,'110,190,255',0.28],[0.12,'235,250,255',0.75]]){   // từng đoạn mờ dần về phía đuôi
+        const o=pts(0,0), inn=pts(0,k);
+        for(let i=0;i<N;i++){ const u=(i+1)/N; ctx.fillStyle=`rgba(${c},${al*fa*u*u})`; ctx.beginPath();
+          ctx.moveTo(o[i][0],o[i][1]); ctx.lineTo(o[i+1][0],o[i+1][1]); ctx.lineTo(inn[i+1][0],inn[i+1][1]); ctx.lineTo(inn[i][0],inn[i][1]); ctx.closePath(); ctx.fill(); } }
+      ctx.restore(); } }
+  ctx.save(); ctx.translate(px,py); ctx.rotate(sa); ctx.scale(-1,1);   // ảnh kiếm gốc chĩa lên-TRÁI → lật cho chĩa lên-PHẢI (về phía trước mặt)
+  ctx.drawImage(Sw, -AR_MINI_GRIP[0]*swd, -AR_MINI_GRIP[1]*sh, swd, sh); ctx.restore();
+  // 🧞 thân: nửa trên đứng yên, nửa dưới (đuôi khói) uốn lượn — cắt lát ngang rồi lệch mỗi lát theo sóng
+  const N=36, iw=B.naturalWidth, ih=B.naturalHeight;
+  for(let i=0;i<N;i++){ const v=i/N, y=-bh/2+v*bh, sy=v*ih;
+    const w=v<0.45?0:Math.pow((v-0.45)/0.55,1.4), off=Math.sin(t*4.2-v*7)*bw*0.09*w+(spd>0.5?-Math.min(1,spd/3)*bw*0.1*w:0);
+    ctx.drawImage(B,0,sy,iw,ih/N+1,-bw/2+off,y,bw,bh/N+0.6); }
+  ctx.restore();
+  return true; }
 const AR_STONE_P=0.2, AR_STONE_S=2, AR_STONE_DMG=100, AR_KB_T=20, AR_KB_DECAY=0.9;   // 🗿 hoá tượng 20% · 2s · vỡ ra mất 100 · 👊 bay văng 20 tick, mỗi tick còn 90% tốc
 const AR_AFTER_S=0.55;   // ra đòn xong chỉ nán lại 0.25s rồi chui về đèn (0.3s) — không đứng chờ đủ 2s nữa
 const AR_CD_S=3, AR_GENIE_S=2, AR_CHICK_P=0.2, AR_CHICK_S=3, AR_BOLT_DMG=100, AR_PUNCH_DMG=150, AR_PUNCH_KB=24;   // đấm văng 24 > tát Grumpy Cat 18
@@ -8025,6 +8071,7 @@ function _sdWerewolf(f){
   sdActors.push({kind:'wolf', owner:f, target:e, x:fromLeft ? -ox : W+ox, y:e.y, t:0, bites:0, vx:0, vy:0, fl:!fromLeft});
   floatTexts.push({x:e.x,y:e.y-e.size-26,text:'🐺 WEREWOLF',color:'#ff5252',life:60,big:true});
 }
+const SD_CARD_HOLD=60;   // 🃏 lật bài xong GIỮ mặt bài thêm 1s cho kịp nhìn hình (user: "lật nhanh quá k kịp xem")
 function _sdDayBuff(f){
   // 🎲 vai nào ĐÃ RA rồi thì tỉ lệ ra lại GIẢM 10% (nhân 0.9) và giữ vậy tới hết trận; ra thêm lần nữa lại
   // giảm tiếp 10%. Trọng số riêng từng trận (gắn trên chính con Sus Dog), hết trận là sạch.
@@ -8081,8 +8128,8 @@ function _sdTick(){
     if(a.kind==='npc'){
       // 🧑‍🌾 dân làng hiện SÁT MÉP Sus Dog (bám theo nó), dùng skill 1 phát rồi biến mất — cả lượt gói trong ~2s
       a.x=a.owner.x+(a.side||1)*a.owner.size*1.75; a.y=a.owner.y;
-      if(a.t===30 && !a.done){ a.done=true; _sdNpcAct(a); }
-      if(a.t>=120) sdActors.splice(i,1);
+      if(a.t===30+SD_CARD_HOLD && !a.done){ a.done=true; _sdNpcAct(a); }
+      if(a.t>=120+SD_CARD_HOLD) sdActors.splice(i,1);
       continue;
     }
     // 🐺 ma sói: VỒ LƯỚT THẲNG QUA địch — chạm là 200 sát thương rồi chạy tuốt ra khỏi màn, KHÔNG dừng lại cắn.
@@ -8337,13 +8384,14 @@ function _sdDraw(){
     if(a.kind==='npc'){
       // 🃏 LẬT BÀI VAI TRÒ: lá bài hiện ra (mặt sau trăng + sói) → lật → chân dung + tên vai → nổ lấp lánh, dân làng bước ra
       const own=a.owner, ch=own.size*3.0, cw=ch*0.68, h=own.size*2.1;
-      if(a.t<26){
+      const T=a.t>=26+SD_CARD_HOLD ? a.t-SD_CARD_HOLD : Math.min(a.t,25);   // thời gian "rút gọn": đứng yên ở mặt bài suốt SD_CARD_HOLD
+      if(a.t<26+SD_CARD_HOLD){
         const k=Math.min(1,a.t/6), p=Math.max(0,Math.min(1,(a.t-8)/12)), sx=Math.max(0.04,Math.abs(Math.cos(p*Math.PI)));
         ctx.save(); ctx.translate(a.x, a.y-own.size*0.15-(1-k)*12); ctx.scale(sx*k, k); _sdDrawCard(cw,ch,p>=0.5,a.role,own); ctx.restore();
       } else {
-        const k=Math.min(1,(a.t-26)/6), fade=a.t>100?Math.max(0,(120-a.t)/20):1;
-        if(a.t<34){ ctx.save(); ctx.globalAlpha=1-(a.t-26)/8; ctx.globalCompositeOperation='lighter';
-          for(let i=0;i<10;i++){ const an=i/10*Math.PI*2, d=(a.t-26)*4; _arStar(a.x+Math.cos(an)*d, a.y-own.size*0.15+Math.sin(an)*d, 4, '#ffe082'); } ctx.restore(); }
+        const k=Math.min(1,(T-26)/6), fade=T>100?Math.max(0,(120-T)/20):1;
+        if(T<34){ ctx.save(); ctx.globalAlpha=1-(T-26)/8; ctx.globalCompositeOperation='lighter';
+          for(let i=0;i<10;i++){ const an=i/10*Math.PI*2, d=(T-26)*4; _arStar(a.x+Math.cos(an)*d, a.y-own.size*0.15+Math.sin(an)*d, 4, '#ffe082'); } ctx.restore(); }
         ctx.save(); ctx.globalAlpha=fade; ctx.translate(a.x, a.y); ctx.scale(0.4+0.6*k, 0.4+0.6*k);
         _sdDrawArtH(_sdSlotImg(a.role.slot(),own,a.role.art), a.role.em, h);
         ctx.restore();
@@ -21724,6 +21772,7 @@ function loop(){
     // nghiêng bổ kiếm xuống lúc chém (kiểu Maxwell) — xoay cả người vì kiếm đã vẽ sẵn trong avatar
     const _kSwingT = k._atkTimer>0 ? 1-k._atkTimer/18 : 0;
     const _kSwing = k._atkTimer>0 ? Math.sin(_kSwingT*Math.PI)*0.5 : 0;
+    if(!(k.arMini && _arDrawMini(k))){   // 🧞 thần đèn nhỏ: vẽ kiểu "sống" riêng (xem _arDrawMini); ảnh chưa tải xong thì rơi về ảnh tĩnh cũ
     ctx.save(); ctx.translate(k.x,k.y);
     // pop-in scale khi vừa triệu hồi (0→1, hơi nảy quá lên rồi ổn định)
     if((k._spawnT||0)>0){ const _kPopT=1-k._spawnT/20; const _kPop=Math.max(0.1,_kPopT<0.7?_kPopT/0.7*1.15:1.15-(_kPopT-0.7)/0.3*0.15); ctx.scale(_kPop,_kPop); }
@@ -21738,6 +21787,7 @@ function loop(){
       ctx.font=`${Math.round(ksz*1.5)}px serif`; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('🐕',0,0);
     }
     ctx.restore();
+    }
     // bong bóng thoại bênh King
     if(k._chatTimer>0 && k._chatText){
       const _kcA=Math.min(1,(90-k._chatTimer+10)/15);
