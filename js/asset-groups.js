@@ -1,5 +1,13 @@
 // Tự sinh bởi tools/split_assets.py — đường dẫn file → nhóm tải ("critical" = tải trước khi vào game; tên nhân vật = tải khi nhân vật đó vào trận / tải ngầm)
 window.ASSET_GROUP={
+"assets/img/misc/CAT_DREAM_IMG.webp": "misc",
+"assets/img/susdog/SD_CUPID.webp": "susdog",
+"assets/img/susdog/SD_WOLF.webp": "susdog",
+"assets/img/susdog/SD_DOCTOR.webp": "susdog",
+"assets/img/susdog/SD_GUARD.webp": "susdog",
+"assets/img/susdog/SD_WITCH.webp": "susdog",
+"assets/img/susdog/SD_HUNTER.webp": "susdog",
+"assets/img/susdog/SD_GUN.webp": "susdog",
 "assets/audio/ar_mini_die.mp3": "arabiccat",
 "assets/audio/ar_clone.mp3": "arabiccat",
 "assets/img/arabiccat/AR_MINIGENIE_IMG.webp": "arabiccat",
@@ -336,7 +344,6 @@ window.ASSET_GROUP={
 "assets/audio/chillguy_kick.mp3": "chillguy",
 "assets/audio/gigachad_roar.mp3": "gigachad",
 "assets/audio/chillguy_uppercut.mp3": "chillguy",
-"assets/img/misc/i.webp": "misc",
 "assets/img/slapcat/SLAPCAT_HAND_IMG.webp": "slapcat",
 "assets/img/berserkcat/BK_SWORD_IMG.webp": "berserkcat",
 "assets/img/epicsaxguy/ESG_SAX_IMG.webp": "epicsaxguy",

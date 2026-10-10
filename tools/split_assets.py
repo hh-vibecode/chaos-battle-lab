@@ -43,7 +43,13 @@ def group_of(name):
 files = {}          # path -> bytes
 groups = {}         # path -> group
 def put(path, data, group):
+    # ⚠️ 2 ảnh khác nhau trùng tên file (vd nhiều IIFE cùng dùng biến tạm `i`) → thêm hậu tố, KHÔNG ghi đè (lỗi 2026-10-10: 8 ảnh Sus Dog đè lên nhau)
+    if path in files and files[path] != data:
+        base, ext = os.path.splitext(path); k = 2
+        while f'{base}_{k}{ext}' in files and files[f'{base}_{k}{ext}'] != data: k += 1
+        path = f'{base}_{k}{ext}'
     files[path] = data; groups[path] = group
+    return path
 def ext_of(mime): return {'image/png':'png','image/jpeg':'jpg','image/webp':'webp','image/gif':'gif','audio/mp3':'mp3','audio/mpeg':'mp3','audio/wav':'wav','font/ttf':'ttf','image/svg+xml':'svg'}[mime]
 def to_webp_lossless(raw):
     try:

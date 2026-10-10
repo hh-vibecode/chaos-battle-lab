@@ -3656,7 +3656,7 @@ let germanSoldiers=[]; // German Cat soldiers
 let battleFreezeTimer=0; // freeze all fighters during uia transformation
 let _gameTickAccum=0;   // accumulator for GAME_SPEED sub-steps
 let blackHoles=[]; // The Void
-const _catDreamImg=(()=>{const i=new Image();i.src='assets/img/misc/i.webp';return i;})();
+const _catDreamImg=(()=>{const i=new Image();i.src='assets/img/misc/CAT_DREAM_IMG.webp';return i;})();
 let bananaPeels=[]; // Banana Cat
 let coughGerms=[]; // Cough Cat: mầm bệnh thả trên sàn khi ho
 let coughBlobs=[]; // Cough Cat: bọc đờm độc bắn ra khi ho xong, bay 1 đoạn rồi VỠ RA thành 3 mầm bệnh (coughGerms)
@@ -7629,13 +7629,13 @@ let _sdMirrorBusy=false;
 // 🖼️ ẢNH MẶC ĐỊNH user gửi (thư mục wolf/): dùng khi ô upload tương ứng còn TRỐNG — upload vào ô thì ảnh upload thắng.
 // Đã cắt sát viền trong suốt + thu về tối đa 360px. Hướng đo bằng pixel: nòng súng chĩa TRÁI, sói quay mặt TRÁI.
 const SD_ART={
-  cupid: (()=>{ const i=new Image(); i.src='assets/img/misc/i.webp'; return i; })(),   // cupid.png 316×360
-  wolf: (()=>{ const i=new Image(); i.src='assets/img/misc/i.webp'; return i; })(),   // wolf.png 360×304
-  doctor: (()=>{ const i=new Image(); i.src='assets/img/misc/i.webp'; return i; })(),   // doctor.png 303×360
-  guard: (()=>{ const i=new Image(); i.src='assets/img/misc/i.webp'; return i; })(),   // protecter.png 360×357
-  witch: (()=>{ const i=new Image(); i.src='assets/img/misc/i.webp'; return i; })(),   // witch.png 319×360
-  hunter: (()=>{ const i=new Image(); i.src='assets/img/misc/i.webp'; return i; })(),   // hunter.png 237×360
-  gun: (()=>{ const i=new Image(); i.src='assets/img/misc/i.webp'; return i; })(),   // gun.png 360×247
+  cupid: (()=>{ const i=new Image(); i.src='assets/img/susdog/SD_CUPID.webp'; return i; })(),   // cupid.png 316×360
+  wolf: (()=>{ const i=new Image(); i.src='assets/img/susdog/SD_WOLF.webp'; return i; })(),   // wolf.png 360×304
+  doctor: (()=>{ const i=new Image(); i.src='assets/img/susdog/SD_DOCTOR.webp'; return i; })(),   // doctor.png 303×360
+  guard: (()=>{ const i=new Image(); i.src='assets/img/susdog/SD_GUARD.webp'; return i; })(),   // protecter.png 360×357
+  witch: (()=>{ const i=new Image(); i.src='assets/img/susdog/SD_WITCH.webp'; return i; })(),   // witch.png 319×360
+  hunter: (()=>{ const i=new Image(); i.src='assets/img/susdog/SD_HUNTER.webp'; return i; })(),   // hunter.png 237×360
+  gun: (()=>{ const i=new Image(); i.src='assets/img/susdog/SD_GUN.webp'; return i; })(),   // gun.png 360×247
 };
 let sdActors=[];   // dân làng / ma sói đang hiện trên sân (chỉ là hình + hẹn giờ hành động)
 let sdProjs=[];    // lọ thuốc, khẩu súng, mũi tên thần tình yêu đang bay
