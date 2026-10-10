@@ -10058,6 +10058,53 @@ function _flowerSeqTick(){
     flowerZoom=0; flowerSpotlight=0; flowerSeqFC=null;
   }
 }
+// ═══════════════════ 🕷️⚡ SPIDER CAT — VFX TỐC ĐỘ KIỂU THE FLASH (chỉ phần vẽ) ═══════════════════
+//   càng nhanh: thôi lắc lư, chúi người theo hướng lao · vệt tốc độ đỏ-cam thon dần · bóng mờ tàn ảnh nhuộm cam
+//   · tia sét vàng nổ lách tách quanh thân và dọc vệt · nảy tường lúc nhanh chỉ loé tia lửa, rung rất nhẹ (đỡ đau mắt)
+function _spK(f){ const v=Math.hypot(f.vx||0,f.vy||0); return Math.max(0,Math.min(1,(v-5)/14)); }
+function _spTint(L){   // bóng thân nhuộm cam (cache theo ảnh)
+  const im=L.img; if(!im) return null; const key=L.sx+'_'+L.sy+'_'+L.sw;
+  if(im._spTintC && im._spTintK===key) return im._spTintC;
+  try{ const c=document.createElement('canvas'), w=Math.max(1,Math.round(Math.min(256,L.sw))), h=Math.max(1,Math.round(w*L.sh/L.sw)); c.width=w; c.height=h;
+    const g=c.getContext('2d'); g.drawImage(im,L.sx,L.sy,L.sw,L.sh,0,0,w,h); g.globalCompositeOperation='source-in';
+    const gr=g.createLinearGradient(0,0,w,0); gr.addColorStop(0,'#ff3d00'); gr.addColorStop(1,'#ffc400'); g.fillStyle=gr; g.fillRect(0,0,w,h);
+    im._spTintC=c; im._spTintK=key; return c; }catch(e){ return null; } }
+function _spBolt(x1,y1,x2,y2,w,a){ const pts=[[x1,y1]], n=6, dx=x2-x1, dy=y2-y1, L=Math.hypot(dx,dy)||1, nx=-dy/L, ny=dx/L;
+  for(let i=1;i<n;i++){ const u=i/n, j=(Math.random()-0.5)*L*0.35; pts.push([x1+dx*u+nx*j, y1+dy*u+ny*j]); } pts.push([x2,y2]);
+  for(const [lw,c] of [[w*3.2,`rgba(255,140,0,${0.35*a})`],[w*1.4,`rgba(255,220,60,${0.8*a})`],[w*0.6,`rgba(255,255,230,${a})`]]){
+    ctx.strokeStyle=c; ctx.lineWidth=lw; ctx.beginPath(); pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.stroke(); } }
+function _spSpeedFx(f,s){
+  const k=_spK(f), T=f._spTrail||(f._spTrail=[]);
+  T.push([f.x,f.y]); if(T.length>12) T.shift();
+  if(k<=0.02) return;
+  ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round'; ctx.lineJoin='round';
+  // 🔥 vệt tốc độ: 1 dải LIỀN thon dần về đuôi (không còn chuỗi chấm tròn), đỏ ở đuôi → vàng ở đầu
+  { let seg=[T[T.length-1]]; for(let i=T.length-2;i>=0;i--){ const a=T[i], b=seg[seg.length-1]; if(Math.hypot(b[0]-a[0],b[1]-a[1])>s*7) break; seg.push(a); }
+    if(seg.length>=3){ const L=[],R=[], n=seg.length;
+      for(let i=0;i<n;i++){ const p0=seg[Math.max(0,i-1)], p1=seg[Math.min(n-1,i+1)], dx=p1[0]-p0[0], dy=p1[1]-p0[1], d=Math.hypot(dx,dy)||1, w=s*0.75*k*(1-i/(n-1));
+        L.push([seg[i][0]-dy/d*w, seg[i][1]+dx/d*w]); R.push([seg[i][0]+dy/d*w, seg[i][1]-dx/d*w]); }
+      const tail=seg[n-1], gr=ctx.createLinearGradient(f.x,f.y,tail[0],tail[1]); gr.addColorStop(0,`rgba(255,210,60,${0.55*k})`); gr.addColorStop(0.45,`rgba(255,90,20,${0.4*k})`); gr.addColorStop(1,'rgba(200,0,40,0)');
+      ctx.fillStyle=gr; ctx.beginPath(); L.forEach((q,i)=>i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1])); for(let i=n-1;i>=0;i--) ctx.lineTo(R[i][0],R[i][1]); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle=`rgba(255,240,180,${0.5*k})`; ctx.lineWidth=1.4; ctx.beginPath(); seg.forEach((q,i)=>i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1])); ctx.stroke(); } }   // lõi sáng mảnh
+  ctx.restore();
+  // 👻 bóng mờ tàn ảnh nhuộm cam
+  const L=f._lastSprite, tc=L&&_spTint(L);
+  if(tc){ ctx.save(); const fl=(L.fl!==undefined?L.fl:L.flip);
+    for(let i=T.length-9;i<T.length-1;i+=2){ if(i<0) continue; const u=(i-(T.length-9))/8, q=T[i];
+      if(Math.hypot(q[0]-f.x,q[1]-f.y)>s*7) continue; ctx.globalAlpha=0.38*k*u; ctx.save(); ctx.translate(q[0],q[1]); if(fl) ctx.scale(-1,1); ctx.drawImage(tc,-L.dw/2,-L.dh/2,L.dw,L.dh); ctx.restore(); }
+    ctx.restore(); }
+  // ⚡ tia sét vàng quanh thân + dọc vệt (đổi hình mỗi 3 frame cho lách tách mà không nhấp nháy loạn)
+  if(!f._spBolts || (f._spBoltT=(f._spBoltT||0)+1)%3===0){ f._spBolts=[];
+    const n=1+Math.round(2*k);
+    for(let i=0;i<n;i++){ const a=Math.random()*Math.PI*2, r0=s*0.55, r1=s*(0.9+Math.random()*0.5); f._spBolts.push([Math.cos(a)*r0,Math.sin(a)*r0,Math.cos(a+0.6)*r1,Math.sin(a+0.6)*r1,1]); }
+    if(T.length>6){ const q=T[Math.floor(Math.random()*(T.length-3))]; f._spBolts.push([q[0]-f.x,q[1]-f.y,q[0]-f.x+(Math.random()-0.5)*s*1.6,q[1]-f.y+(Math.random()-0.5)*s*1.6,0.8]); } }
+  ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round'; ctx.lineJoin='round';
+  for(const b of f._spBolts) _spBolt(f.x+b[0],f.y+b[1],f.x+b[2],f.y+b[3],1.4*b[4],0.85*k);
+  const hg=ctx.createRadialGradient(f.x,f.y,s*0.4,f.x,f.y,s*1.3); hg.addColorStop(0,'rgba(255,170,40,0)'); hg.addColorStop(0.7,`rgba(255,150,30,${0.18*k})`); hg.addColorStop(1,'rgba(255,90,0,0)');
+  ctx.fillStyle=hg; ctx.beginPath(); ctx.arc(f.x,f.y,s*1.3,0,Math.PI*2); ctx.fill();
+  ctx.restore();
+  if(Math.random()<0.3*k) particles.push({x:f.x+(Math.random()-0.5)*s, y:f.y+(Math.random()-0.5)*s, vx:-(f.vx||0)*0.08+(Math.random()-0.5), vy:-(f.vy||0)*0.08+(Math.random()-0.5), color:Math.random()<0.5?'#ffd740':'#ff9100', gravity:0, life:12, maxLife:12, size:1.2+Math.random()*1.4});
+}
 // ═══════════════════ 🌸 FLOWER CAT — VFX (chỉ phần vẽ, thời gian/dame giữ nguyên) ═══════════════════
 //   • bông hoa: vẽ thật (2 lớp cánh anh đào trắng→hồng + nhuỵ vàng + quầng sáng), "thở" nhẹ, rơi cánh khi bay
 //   • Siêu Việt: cánh hoa xoáy vào → mốc nứt vỡ: MẠN-ĐÀ-LA hoa sen nhiều lớp nở bung sau lưng + hào quang vàng
@@ -14142,7 +14189,9 @@ class Fighter {
       const _spNow=performance.now();
       if(!this._spWallFxT || _spNow-this._spWallFxT>90){ // tối đa ~11 lần/giây, thay vì 60
         this._spWallFxT=_spNow;
-        addShake(5,8); spawnParticles(this.x,this.y,'#4a148c',8,false,true); playSample('spidercat_hit',0.28);
+        const _spk=_spK(this); addShake(5*(1-_spk)+1,8*(1-_spk)+3);   // nhanh thì gần như không rung màn hình
+        if(_spk>0.3) spawnParticles(this.x,this.y,'#ffd740',5,false,true); else spawnParticles(this.x,this.y,'#4a148c',8,false,true);
+        playSample('spidercat_hit',0.28);
       }
     } };
     if(this.x-s<0){ this.x=s; this.vx=Math.abs(this.vx)*D; this.vy*=D; this._vertBounceCount=0; this._meleeBounceStreak=(this._meleeBounceStreak||0)+1; if(this.type==='flyingcat') this.topSpeed*=1.05; _spiderWall(); _spkWallHit(this,3);
@@ -17796,8 +17845,9 @@ class Fighter {
     // SPIDER CAT: lắc qua lắc lại liên tục khi di chuyển — CHỈ xoay (rotation), KHÔNG scale/distort avatar, luôn nhìn rõ dù speed cao
     if(this.type==='spidercat'){
       const _spSpd=Math.sqrt(this.vx*this.vx+this.vy*this.vy);
-      const _spWobbleFreq=0.25+Math.min(0.35,_spSpd*0.03);
-      rotation += Math.sin(this.animTick*_spWobbleFreq)*0.32;
+      const _spWobbleFreq=0.25+Math.min(0.35,_spSpd*0.03), _spk=_spK(this);
+      rotation += Math.sin(this.animTick*_spWobbleFreq)*0.32*(1-_spk);   // ⚡ càng nhanh càng thôi lắc (đỡ đau mắt)…
+      rotation += Math.max(-1,Math.min(1,(this.vx||0)/Math.max(1,_spSpd)))*0.22*_spk;   // …thay bằng chúi người theo hướng lao
     }
 
     // 🛸 ALIEN CAT UFO: bất kỳ ai đang bị đĩa bay hút (mọi nhân vật, không riêng aliencat) — lơ lửng nhấc lên + xoay tròn tại chỗ
@@ -17946,6 +17996,7 @@ class Fighter {
     }
     if(this.type==='doorbellchud' && (this._dcShoutT||0)>0){ const _j=this.size*0.045; offX+=(Math.random()-0.5)*_j*2; offY+=(Math.random()-0.5)*_j; }   // 😡 hét: run bần bật
     if(this.type==='doorbellchud' || this.type==='scootercat') this._dcW0=ctx.getTransform().inverse();   // 🔔 ma trận màn hình → toạ độ sân (cho chuông/dây vẽ trong hệ riêng của thân)
+    if(this.type==='spidercat' && !this.dead) _spSpeedFx(this,s);   // 🕷️⚡ vệt tốc độ kiểu The Flash (vẽ SAU lưng thân)
     if(this.type==='doge' && !this.dead){   // 🐕 hoạt ảnh Doge: phồng cơ lúc biến hình, thở/gồng/bước nặng, vung búa, xì hơi
       if(this.dogeBuffed) _dogeAura(this,s);
       const _dg=_dogeAnim(this); offX+=_dg.ox; offY+=_dg.oy; rotation+=_dg.rot; scaleX*=_dg.sx; scaleY*=_dg.sy; }
@@ -20736,7 +20787,7 @@ function _bounceFighters(){
           sp.vx=dx0*_kb; sp.vy=dy0*_kb;
           sp._spiderHitCD=12;
           if(sp.actionState!==undefined){ sp.actionState='attack'; sp.attackAvatarTimer=14; }
-          addShake(6,9); spawnParticles(sp.x,sp.y,'#4a148c',10,false,true);
+          { const _spk=_spK(sp); addShake(6-3*_spk,9-3*_spk); spawnParticles(sp.x,sp.y,_spk>0.3?'#ffd740':'#4a148c',10,false,true); }
           playSample('spidercat_hit',0.28);
           if(other.team!==sp.team && !other.dead && (other.hp===undefined||other.hp>0) && typeof other.takeDamage==='function'){
             const _spDmg=Math.round(20+(sp.topSpeed-(sp._spiderBaseSpeed||1)));
