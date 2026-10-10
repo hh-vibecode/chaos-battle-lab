@@ -574,6 +574,12 @@ function _dnDrawMark(u){
   ctx.restore();
   if(Math.random()<0.04) particles.push({x:x+(Math.random()-0.5)*bw*0.6,y:by+bh*0.5,vx:0,vy:0.6,color:'#b71c1c',gravity:0.05,life:26,maxLife:26,size:1.6});   // giọt mực đỏ nhỏ xuống
 }
+// 🔫 tiếng minigun Maxwell: file mc_sfx_machinegun vốn đã là 1 TRÀNG liên thanh 1.5s — phát chồng 1 bản mỗi viên (0.15s/viên)
+//    làm ~10 bản đè nhau, to gấp mấy lần tiếng thường. Giờ chỉ giữ ĐÚNG 1 bản lặp suốt lúc đang bắn, ngừng bắn 0.25s là tắt.
+function _mgSfxKeep(f){ f._mgLast=performance.now(); f._mgLastTick=tick;
+  if(!f._mgSfx){ const a=AUDIO_SAMPLES['mc_sfx_machinegun']; if(a){ try{ const c=a.cloneNode(); c.loop=true; c.volume=0.6; _mixRoute(c); c.play().catch(()=>{}); f._mgSfx=c; }catch(e){} } } }
+// ngừng bắn >16 nhịp game (hoặc trận đứng yên >0.7s) → tắt
+function _mgSfxCheck(f){ if(f._mgSfx && (f.dead || tick-(f._mgLastTick||0)>16 || performance.now()-(f._mgLast||0)>700)){ _stopLoopAudio(f._mgSfx); f._mgSfx=null; } }
 const MAXWELL_BOW_IMG = new Image();
 MAXWELL_BOW_IMG.src = 'assets/img/maxwell/MAXWELL_BOW_IMG.webp';
 MAXWELL_TNT_IMG.src = 'assets/img/maxwell/MAXWELL_TNT_IMG.webp';
@@ -15661,7 +15667,7 @@ class Fighter {
           }
           this._mwAtkCD=_isMinigun?9:(_isBow?60:90); // minigun: 9 frame/viên y hệt ụ súng máy | cung: AS 1 = 60 frame
           this.actionState='attack'; this.actionTimer=_isMinigun?10:22; this.attackAvatarTimer=_isMinigun?10:22;
-          if(_isMinigun){ playSample('mc_sfx_machinegun',0.5); addShake(2,3); }
+          if(_isMinigun){ _mgSfxKeep(this); addShake(2,3); }
           else if(_isBow) playSample('bow_shoot',0.7); else playSample('punch2',0.4);
         }
         if(def && this._mwUseTimer<=0){
@@ -18392,6 +18398,7 @@ class Fighter {
     // (👽 khẩu súng laze cầm tay của Alien Cat đã BỎ — Mr. Folk bắn laze thẳng từ 2 mắt, xem this._mfEyes)
 
     // ===== MAXWELL - THE CAT: vật phẩm đang cầm (lúc 'using') + icon vật phẩm xoay/hiện trên đầu (lúc 'spin'/'reveal') =====
+    if(this.type==='maxwell') _mgSfxCheck(this);   // 🔫 tắt tiếng minigun khi ngừng bắn (kiểm theo từng frame vẽ — cả lúc trận đóng băng)
     if(this.type==='maxwell' && !this.dead){
       const _mwItemImgMap = {
         diamond_sword: {img:MAXWELL_DIAMOND_SWORD_IMG, slot:attackAvatarImgs[i], scale:1.8, offMult:1.0, rot:0.35},
@@ -19982,6 +19989,7 @@ function togglePause(){
     fighters.forEach(f=>{ if(f._esgMusic){ try{ f._esgMusic.pause(); }catch(e){} } }); // 🔇 bài sax cũng dừng theo pause // 🔇 nhạc cough_meme cũng tạm dừng theo pause game (không reset currentTime)
     fighters.forEach(f=>{ if(f._loadMusic){ try{ f._loadMusic.pause(); }catch(e){} } }); // 🔇 nhạc loading_sound cũng tạm dừng theo pause game (không reset currentTime)
     fighters.forEach(f=>{ if(f._dnSfx){ try{ f._dnSfx.pause(); }catch(e){} } });   // 📓 nhạc Death Note dừng theo pause
+    fighters.forEach(f=>{ if(f._mgSfx){ _stopLoopAudio(f._mgSfx); f._mgSfx=null; } });   // 🔫 tràng minigun tắt hẳn khi pause (bắn tiếp là tự bật lại)
     fighters.forEach(f=>{ if(f._mewMusic){ try{ f._mewMusic.pause(); }catch(e){} } }); // 🔇 nhạc mewing_song cũng tạm dừng theo pause game (không reset currentTime)
     loadingArrows.forEach(ar=>{ if(ar._flyMusic){ try{ ar._flyMusic.pause(); }catch(e){} } }); // 🔇 tiếng rít mũi tên cũng tạm dừng theo pause game
   } else {
@@ -20035,6 +20043,7 @@ function _stopFighterSfx(f){
                   '_ldSawSfx',                // 🪚 tiếng cưa máy A Lotta Dame Guy
                   '_arMusic',                 // 🧞 nhạc gọi thần đèn Arabic Cat
                   '_dnSfx',                   // 📓 nhạc Death Note của Maxwell
+                  '_mgSfx',                   // 🔫 tràng minigun của Maxwell
                   '_esgMusic']){              // 🎷 bài sax của Epic Sax Guy
     if(f[k]){ _stopLoopAudio(f[k]); f[k]=null; }
   }
