@@ -6649,6 +6649,7 @@ function _ldSprayTick(f){
 //   còn lại  → theo khoảng cách: địch XA → ⚡ bắn tia sét từ tay (100) · địch GẦN → 👊 gọi nắm đấm khổng lồ đấm văng (150)
 // Thần đèn chui ra từ VÒI cây đèn mèo đang xoa, đuôi nối dải khói vào vòi (kiểu Genie Disney), hết lượt chui ngược vào đèn.
 // Mục tiêu = f.enemy (gần nhất, TÍNH CẢ quân triệu hồi có máu) — gà/sét/đấm đều dính lên quân triệu hồi như meme thường.
+const AR_MOVES=['bolt','punch','chicken','stone'];   // ⚡ sét · 👊 nắm đấm · 🐔 hoá gà · 🗿 hoá tượng
 const AR_STONE_P=0.2, AR_STONE_S=2, AR_STONE_DMG=100, AR_KB_T=20, AR_KB_DECAY=0.9;   // 🗿 hoá tượng 20% · 2s · vỡ ra mất 100 · 👊 bay văng 20 tick, mỗi tick còn 90% tốc
 const AR_CD_S=3, AR_GENIE_S=2, AR_CHICK_P=0.2, AR_CHICK_S=3, AR_BOLT_DMG=100, AR_PUNCH_DMG=150, AR_PUNCH_KB=24;   // đấm văng 24 > tát Grumpy Cat 18
 const AR_NEAR=150, AR_ACT_S=0.6, AR_CHICK_SPD=2.4, AR_GENIE_H=3.0, AR_EMERGE_S=0.35, AR_RETURN_S=0.3;   // AR_NEAR = khe hở giữa 2 thân (px) dưới mức này là "gần" · AR_GENIE_H = cao dáng thường / size mèo
@@ -6699,8 +6700,7 @@ function _arTick(f){
     if(f._arCD===undefined) f._arCD=Math.round(AR_CD_S*tps);
     if(--f._arCD>0) return;
     const e=f.enemy; if(!e || e.dead || !(e.hp>0) || f._isHardCC()){ f._arCD=0; return; }   // đang choáng thì chưa gọi được
-    const gap=Math.hypot(e.x-f.x,e.y-f.y)-(f.size+(e.size||20));
-    const r=Math.random(), kind = r<AR_CHICK_P ? 'chicken' : r<AR_CHICK_P+AR_STONE_P ? 'stone' : (gap>AR_NEAR ? 'bolt' : 'punch');
+    const kind = AR_MOVES[Math.floor(Math.random()*AR_MOVES.length)];   // 🎲 4 đòn chia ĐỀU 25%, không phụ thuộc khoảng cách nữa
     f._arGenie={t:0,kind,e,act:false,parts:[],burst:false};
     if(f._arMusic) try{ f._arMusic.pause(); }catch(e){}   // 🔇 thò tay xoa đèn → tắt nhạc
     return;
