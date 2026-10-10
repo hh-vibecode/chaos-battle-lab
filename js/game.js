@@ -443,6 +443,7 @@ const WG_JOCKEY5_IMG = new Image(); WG_JOCKEY5_IMG.src='assets/img/windguy/WG_JO
 const WG_ITEM_HEALING_IMG = new Image(); WG_ITEM_HEALING_IMG.src='assets/img/windguy/WG_ITEM_HEALING_IMG.webp';
 const WG_TORNADO_IMG = new Image(); WG_TORNADO_IMG._cols=5; WG_TORNADO_IMG._rows=12;
 WG_TORNADO_IMG.src='assets/img/windguy/WG_TORNADO_IMG.webp';
+const MAXWELL_LIGHTSABER_IMG = new Image(); MAXWELL_LIGHTSABER_IMG.src = 'assets/img/maxwell/MAXWELL_LIGHTSABER_IMG.webp';   // ⚔️ lightsaber xanh (vẽ bằng code: chuôi + lưỡi sáng, phát sáng thêm lúc vẽ)
 const MAXWELL_BOW_IMG = new Image();
 MAXWELL_BOW_IMG.src = 'assets/img/maxwell/MAXWELL_BOW_IMG.webp';
 MAXWELL_TNT_IMG.src = 'assets/img/maxwell/MAXWELL_TNT_IMG.webp';
@@ -11759,6 +11760,16 @@ function _applyImgGrid(img, gridStr){
   const m=g.match(/^(\d+)(?:x(\d+))?$/);
   if(!m) return false;
   img._cols=+m[1]; img._rows=m[2]?+m[2]:1; img._frames=img._cols*img._rows;
+  // ✂️ bỏ các ô TRỐNG ở cuối lưới: GIF ít khung hơn số ô (vd Maxwell 46 khung trong lưới 7×7) → mấy ô thừa trong suốt
+  //    làm nhân vật BIẾN MẤT 1 nhịp mỗi vòng lặp
+  try{ const iw=img.naturalWidth, ih=img.naturalHeight, cv=document.createElement('canvas'); cv.width=iw; cv.height=ih;
+    const g2=cv.getContext('2d'); g2.drawImage(img,0,0); const d=g2.getImageData(0,0,iw,ih).data, fw=Math.floor(iw/img._cols), fh=Math.floor(ih/img._rows);
+    let last=-1;
+    for(let idx=0; idx<img._cols*img._rows; idx++){ const cc=idx%img._cols, rr=(idx/img._cols)|0; let has=false;
+      for(let y=rr*fh; y<(rr+1)*fh && !has; y+=4){ const row=y*iw; for(let x=cc*fw; x<(cc+1)*fw; x+=4){ if(d[(row+x)*4+3]>20){ has=true; break; } } }
+      if(has) last=idx; }
+    if(last>=0) img._frames=last+1;
+  }catch(e){}
   return true;
 }
 // 🚫 Char có CHI TIẾT MẢNH (chân muỗi, cần đàn...) → bỏ qua bước mask sticker cho MỌI ảnh của nó.
@@ -15397,8 +15408,10 @@ class Fighter {
         // 🔫 minigun: bắn liên thanh y hệt ụ SÚNG MÁY của Mechanic Cat (dmg 10, hồi 9 tick, đạn nhỏ vàng nhạt,
         //    lệch nòng nhẹ, tiếng mc_sfx_machinegun) — xem nhánh _isMinigun ở phần 'using' bên dưới.
         minigun:       { dmg:10,  melee:false, img:MAXWELL_MINIGUN_IMG,      color:'#b0bec5' },
+        // ⚔️ lightsaber: chém cận chiến 75 + gây CHÁY (3s, dùng chung hệ thống burn)
+        lightsaber:    { dmg:75,  melee:true,  img:MAXWELL_LIGHTSABER_IMG,   color:'#40c4ff', burn:true },
       };
-      const _mwKeys=['diamond_sword','wooden_sword','lava_bucket','steak','tnt','bow','minigun'];
+      const _mwKeys=['diamond_sword','wooden_sword','lava_bucket','steak','tnt','bow','minigun','lightsaber'];
       // 🎵 nhạc quay vòng maxwell_dance (28s): PHÁT khi đang xoay/vừa hiện ra (spin/reveal — cùng lúc GIF đang chạy),
       // TẠM DỪNG (không reset currentTime) khi đang dùng đồ/ăn/chờ — phát TIẾP đúng chỗ cũ khi xoay lại
       const _mwSpinning = (this._mwPhase==='spin' || this._mwPhase==='reveal');
@@ -15441,6 +15454,7 @@ class Fighter {
             spawnParticles(this.x,this.y,'#616161',6);
             this._mwPhase='postuse_wait'; this._mwPostUseTimer=60; // 1s rồi xoay lại
           } else {
+            if(this._mwItem==='lightsaber') playSample('lightsaber_on',0.85);   // ⚔️ bật kiếm
             this._mwUseTimer=360; // 6s cầm vật phẩm — hết giờ tự vỡ, không cần đánh hết lượt
             this._mwAtkCD=0;
             this._mwPhase='using';
@@ -15454,6 +15468,8 @@ class Fighter {
           e.takeDamage(def.dmg, this);
           addShake(4,6); _hitParticles(e.x,e.y,'#90a4ae',6);
           playSample('punch2',0.55);
+          if(def.burn){ e.burn=Math.max(e.burn||0,180); e.burnTickCD=0; e._burnSrc=this;   // ⚔️🔥 lightsaber: chém trúng là cháy
+            _hitParticles(e.x,e.y,'#80d8ff',8,false,true); playSample('lightsaber_whoosh_01',0.7); }
           this._mwAtkCD=20; // AS 3 = 60/3 = 20 frame
           this.actionState='attack'; this.actionTimer=18; this.attackAvatarTimer=18;
         } else if(def && !def.melee && this._mwAtkCD<=0 && dist<340){
@@ -18218,6 +18234,7 @@ class Fighter {
         // 🔫 minigun: ảnh NGANG, nòng đã chĩa phải sẵn → pivot tâm, không xoay thêm. yOff hạ tay cầm xuống
         // thấp hơn mấy món kia cho khớp ảnh mẫu (súng ôm ngang bụng chứ không giơ ngang mặt).
         minigun:       {img:MAXWELL_MINIGUN_IMG, scale:0.65, offMult:0.62, rot:0, centerPivot:true, yOff:0.34, artRight:true},
+        lightsaber:    {img:MAXWELL_LIGHTSABER_IMG, scale:1.5, offMult:1.0, rot:0.35, saber:true},
       };
       if(this._mwPhase==='using' && this._mwItem && _mwItemImgMap[this._mwItem]){
         const _mwEntry=_mwItemImgMap[this._mwItem];
@@ -18250,6 +18267,12 @@ class Fighter {
             ctx.drawImage(_mImg,0,0,_mImg.naturalWidth,_mImg.naturalHeight,-_cw/2,-_ch/2,_cw,_ch);
           } else {
             // pivot ở CHUÔI kiếm (đáy ảnh) — lưỡi kiếm chĩa lên từ tay, giống đang cầm thật chứ không đè giữa người
+            if(_mwEntry.saber){   // ⚔️ quầng sáng xanh rung rinh quanh lưỡi + vệt sáng lúc vung
+              const _bl=_mh*0.66, _pu=0.8+0.2*Math.sin(Date.now()/40);
+              ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round';
+              for(const [lw,a] of [[_mw*3.2,0.16],[_mw*1.9,0.28],[_mw*1.1,0.45]]){ ctx.strokeStyle=`rgba(64,170,255,${a*_pu})`; ctx.lineWidth=lw; ctx.beginPath(); ctx.moveTo(0,-_mh+_bl+_mw*0.2); ctx.lineTo(0,-_mh+_mw*0.6); ctx.stroke(); }
+              if(_mwSwing>0.05){ ctx.strokeStyle=`rgba(140,210,255,${0.5*_mwSwing})`; ctx.lineWidth=_mw*2.4; ctx.beginPath(); ctx.arc(0,0,_mh*0.78,-Math.PI/2-_mwSwing*1.4,-Math.PI/2); ctx.stroke(); }
+              ctx.restore(); }
             ctx.drawImage(_mImg,0,0,_mImg.naturalWidth,_mImg.naturalHeight,-_mw/2,-_mh,_mw,_mh);
           }
           ctx.restore();
@@ -18268,7 +18291,7 @@ class Fighter {
         ctx.restore();
       }
       if(this._introLock<=0 && (this._mwPhase==='spin' || this._mwPhase==='reveal')){
-        const _mwIconMap = { diamond_sword:MAXWELL_DIAMOND_SWORD_IMG, wooden_sword:MAXWELL_WOODEN_SWORD_IMG, lava_bucket:MAXWELL_LAVA_BUCKET_IMG, steak:MAXWELL_STEAK_IMG, tnt:MAXWELL_TNT_IMG, bow:MAXWELL_BOW_IMG, minigun:MAXWELL_MINIGUN_IMG };
+        const _mwIconMap = { diamond_sword:MAXWELL_DIAMOND_SWORD_IMG, wooden_sword:MAXWELL_WOODEN_SWORD_IMG, lava_bucket:MAXWELL_LAVA_BUCKET_IMG, steak:MAXWELL_STEAK_IMG, tnt:MAXWELL_TNT_IMG, bow:MAXWELL_BOW_IMG, minigun:MAXWELL_MINIGUN_IMG, lightsaber:MAXWELL_LIGHTSABER_IMG };
         const _mIconImg=_mwIconMap[this._mwSpinIcon];
         if(_mIconImg && _mIconImg.complete && _mIconImg.naturalWidth){
           const _isz=this._mwPhase==='reveal' ? s*0.85 : s*0.7;
