@@ -5226,7 +5226,8 @@ function _wcDrawDrops(){
 // • ĐÁNH DẤU địch còn ≤70% máu (hiện mắt + bật nhạc theme) → bỏ lướt, chỉ còn BÓNG ĐÊM mỗi 5s: cả sàn tối đen 1.5s
 //   (trận đóng băng), chỉ thấy khuôn mặt mèo hiện ra ngoạm địch, 200 sát thương. Sáng lại thì mọi thứ đi tiếp
 //   từ ĐÚNG vị trí trước lúc tối (vì cả trận đứng yên trong lúc đó).
-const FR_MARK_HP=0.70;   // địch còn ≤70% máu → bị đánh dấu, Friend chuyển hẳn sang tắt đèn cắn
+const FR_MARK_HP=0.70;   // (cũ — không dùng nữa)
+const FR_MARK_DMG=400;   // Friend gây ĐỦ 400 dame (cộng dồn) → đánh dấu địch gần nhất, chuyển hẳn sang tắt đèn cắn
 const FR_CD=Math.round(2*60*GAME_SPEED*TIME_SCALE), FR_NIGHT_CD=Math.round(5*60*GAME_SPEED*TIME_SCALE), FR_DASH_T=18, FR_DASH_DMG=100, FR_SWALLOW_P=0.2;
 // ↑ lướt 2s/lần (chưa đánh dấu); đã đánh dấu thì chỉ tắt đèn cắn, 5s THẬT/lần (tính từ lúc bắt đầu lượt này tới lượt sau)
 const FR_BITE_HEAL=50, FR_BITE_CDR=Math.round(1*60*GAME_SPEED*TIME_SCALE), FR_NIGHT_MIN=Math.round(1*60*GAME_SPEED*TIME_SCALE);   // 🦷 mỗi cú cắn: +50 máu, lần cắn sau sớm hơn 1s (cộng dồn, sàn 1s)
@@ -5340,7 +5341,8 @@ function _frTick(f){
   }
   if(f._introLock>0) return;
   // ── đánh dấu địch dưới 50% máu ──
-  for(const o of fighters){ if(o.team!==f.team && !o.dead && o.hp<=o.maxHp*FR_MARK_HP && !o._frMarked){ o._frMarked=f;
+  // 👁️ gây đủ 400 dame → đánh dấu địch gần nhất (con bị dấu chết thì tự dấu con kế tiếp) — không còn xét máu đối thủ
+  if((f._frDealt||0)>=FR_MARK_DMG && !fighters.some(o=>o._frMarked===f && !o.dead)){ const o=_sdFoe(f); if(o){ o._frMarked=f;
       f._frNightCD=Math.min(f._frNightCD??30, 30);   // vừa đánh dấu → ~0.5s sau là tắt đèn cắn luôn
       // 🎵 địch vừa bị đánh dấu → bật nhạc theme Friend (lặp, chạy tới hết trận). Nằm trong danh sách tắt chung.
       if(!f._frMusic){
@@ -10423,7 +10425,7 @@ function _summonTakeDamage(u, dmg, attacker, isHuh, isBurn, dotIcon, hitFx){
   // ⛔ KHÔNG cộng vào _matchStats[].attempted (= cột TAKEN): đó là dame QUÂN TRIỆU HỒI hứng, không phải
   //    chủ tướng mất máu. Cộng vào sẽ khiến TAKEN vọt cao hơn cả thanh máu (đo thực tế Mewing Cat: hiện
   //    2185 trong khi bản thân chỉ mất 1065). Bên GÂY dame vẫn được ghi công đủ ở .dmg phía trên.
-  u.hp=Math.max(0,u.hp-dmg); u.flash=12;
+  { const _h0=u.hp; u.hp=Math.max(0,u.hp-dmg); if(attacker && attacker.type==='friend') attacker._frDealt=(attacker._frDealt||0)+(_h0-u.hp); } u.flash=12;
   if(!isBurn){
     const _strong = dmg>=150;
     if(!_geSilentDmg && !_killSilent)
@@ -16234,7 +16236,8 @@ class Fighter {
       _healFloat(this.x,this.y,this.size,this.maxHp,this); _healSfx(this.maxHp);   // hồi sinh: chỉ tiếng hồi máu (bỏ tiếng sét)
       return;
     }
-    { const _h0=this.hp; this.hp=Math.max(0,this.hp-dmg); if(this.type==='alottadameguy') this._ldTaken=(this._ldTaken||0)+(_h0-this.hp); }   // 🪚 đếm máu THỰC mất → đủ 250 thì rút cưa
+    { const _h0=this.hp; this.hp=Math.max(0,this.hp-dmg); if(this.type==='alottadameguy') this._ldTaken=(this._ldTaken||0)+(_h0-this.hp);
+      if(attacker && attacker.type==='friend') attacker._frDealt=(attacker._frDealt||0)+(_h0-this.hp); }   // 🐈‍⬛ đếm dame THỰC Friend gây ra   // 🪚 đếm máu THỰC mất → đủ 250 thì rút cưa
     // 💘 SUS DOG — THẦN TÌNH YÊU: đang nối dây thì địch bị nối ăn Y HỆT số dame Sus Dog vừa thực nhận
     // (_sdMirrorBusy chặn vòng lặp vô tận khi 2 Sus Dog nối dây với nhau)
     if(this.type==='susdog' && dmg>0 && this._sdLink && !this._sdLink.dead && (this._sdLinkT||0)>0 && !_sdMirrorBusy){
