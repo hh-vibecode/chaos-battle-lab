@@ -1,5 +1,6 @@
 // Tự sinh bởi tools/split_assets.py — đường dẫn file → nhóm tải ("critical" = tải trước khi vào game; tên nhân vật = tải khi nhân vật đó vào trận / tải ngầm)
 window.ASSET_GROUP={
+"assets/audio/ar_clone.mp3": "arabiccat",
 "assets/img/arabiccat/AR_MINIGENIE_IMG.webp": "arabiccat",
 "assets/audio/ar_stone_on.mp3": "arabiccat",
 "assets/audio/ar_stone_break.mp3": "arabiccat",
