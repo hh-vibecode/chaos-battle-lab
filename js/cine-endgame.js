@@ -130,10 +130,7 @@
     const mk=(src,a,b,vol,o)=>Object.assign({el:Object.assign(new Audio(src),{preload:'auto'}),a,b,vol},o||{});
     MUS=[ mk('assets/audio/cine_heart.mp3',0.4,SUM0,0.9,{loop:true,fi:0.6,fo:0.4}),
       mk('assets/audio/cine_heart.mp3',SUM0+SUM_D,T_HOLD+SUM_D,0.9,{loop:true,fi:0.3,fo:0.15}),
-      mk('assets/audio/cine_heart_fast.mp3',T_HOLD+SUM_D,TB,1.0,{loop:true,fo:0.05}),
-      mk('assets/audio/cine_portal.mp3',UIA_T+SUM_D+0.6,UIA_T+SUM_D+3.8,0.9),
-      mk('assets/audio/cine_horns.mp3',UIA_T+SUM_D-0.2,EP+1.2,0.95,{fi:1.2,fo:1.2}),   // kèn dồn lên → nhường cho dàn nhạc
-      mk('assets/audio/cine_epic.mp3',EP,TE,1.0,{fi:0.25,fo:1.2}) ];   // dàn nhạc epic chạy XUYÊN tới hết phim (qua cả dừng hình + TO BE CONTINUED)
+      mk('assets/audio/cine_heart_fast.mp3',T_HOLD+SUM_D,TB,1.0,{loop:true,fo:0.05}) ];   // (nhạc nền + tiếng mở cổng: user tự thêm sau)
     for(const m of MUS) m.el.loop=!!m.loop; }
   function musTick(tR){ for(const m of MUS){ const on=!paused && tR>=m.a && tR<m.b;
       if(!on){ if(!m.el.paused) m.el.pause(); continue; }
@@ -211,7 +208,6 @@
     if(t>=E+4.9) sfx('thunder','holy_thunder',1.0);
     if(tR>=SUM0+0.3) sfx('s_necro','eg_necro',1.0);
     if(tR>=SUM0+1.9) sfx('s_thunder','holy_thunder',0.9);
-    if(tR>=SUM0+2.5) sfx('s_roar','gary_titan_roar',0.9,2.2);
     if(tR>=SUM0+3.7) sfx('s_wing','sc_wing',1.0);
     if(tR>=SUM0+4.5) sfx('s_laugh','gp_evil_laugh',0.95);
     if(t>=T_FREEZE) sfx('freeze','vine_boom',1.0);
