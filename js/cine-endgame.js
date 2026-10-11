@@ -109,7 +109,7 @@
   }
   // 🌀 UIA CAT: lao vút từ ngoài khung vào đúng cổng (bóng tàn ảnh + vệt tốc độ) → xoay tít kiểu OIIA chậm dần → đứng nhìn
   function uiaDraw(H,tf,chargeK,run,D){ const P=H.P, dash=seg(tf,H.t,H.t+0.22), spin=seg(tf,H.t+0.22,H.t+0.22+UIA_SPIN); if(dash<=0) return;
-    const x0=P[3]-520, x=lerp(x0,P[3],eout(dash))+run(230), y=P[4], hh=P[5];
+    const x0=P[3]-520, x=(tf>=T_CUT2_G)?armyX(P[3],FXG,0.38):lerp(x0,P[3],eout(dash))+run(230), y=P[4], hh=P[5];
     D.push({y, f:()=>{
       if(dash<1){ for(let k=1;k<=5;k++){ const gx=lerp(x0,P[3],Math.max(0,eout(dash)-k*0.07)); actor(H.im,gx,y,hh,{a:0.35-k*0.06,sx:Math.cos(tf*60+k)}); }
         g.save(); g.globalCompositeOperation='lighter'; g.strokeStyle='rgba(255,255,255,0.8)'; g.lineWidth=3; for(let k=0;k<6;k++){ const yy=y-hh*(0.15+k*0.14); g.beginPath(); g.moveTo(x-30,yy); g.lineTo(x-220,yy); g.stroke(); } g.restore(); }
@@ -125,14 +125,14 @@
   //   tim đập chậm (Stalin nằm) → tim đập nhanh (quỷ gồng tay) → kèn chiến trận dồn dần (UIA tới, cổng mở, meme bước ra)
   //   → dàn nhạc chiến trận (Memes… assemble → lao vào) → cắt phụt lúc DỪNG HÌNH
   let MUS=[];
-  function musSetup(){ musStop(); const E=tE()+SUM_D, TB=T_BLOCK+SUM_D, TF=E+10.0, EP=E+3.3;
+  function musSetup(){ musStop(); const E=tE()+SUM_D, TB=T_BLOCK+SUM_D, TE=E+13.5, EP=E+3.3;
     const mk=(src,a,b,vol,o)=>Object.assign({el:Object.assign(new Audio(src),{preload:'auto'}),a,b,vol},o||{});
     MUS=[ mk('assets/audio/cine_heart.mp3',0.4,SUM0,0.9,{loop:true,fi:0.6,fo:0.4}),
       mk('assets/audio/cine_heart.mp3',SUM0+SUM_D,T_HOLD+SUM_D,0.9,{loop:true,fi:0.3,fo:0.15}),
       mk('assets/audio/cine_heart_fast.mp3',T_HOLD+SUM_D,TB,1.0,{loop:true,fo:0.05}),
       mk('assets/audio/cine_portal.mp3',UIA_T+SUM_D+0.6,UIA_T+SUM_D+3.8,0.9),
-      mk('assets/audio/cine_horns.mp3',UIA_T+SUM_D-0.2,TF,0.95,{fi:1.2,duckA:EP,duckB:EP+1.0,duckTo:0.3}),
-      mk('assets/audio/cine_epic.mp3',EP,TF,1.0,{fi:0.25}) ];
+      mk('assets/audio/cine_horns.mp3',UIA_T+SUM_D-0.2,EP+1.2,0.95,{fi:1.2,fo:1.2}),   // kèn dồn lên → nhường cho dàn nhạc
+      mk('assets/audio/cine_epic.mp3',EP,TE,1.0,{fi:0.25,fo:1.2}) ];   // dàn nhạc epic chạy XUYÊN tới hết phim (qua cả dừng hình + TO BE CONTINUED)
     for(const m of MUS) m.el.loop=!!m.loop; }
   function musTick(tR){ for(const m of MUS){ const on=!paused && tR>=m.a && tR<m.b;
       if(!on){ if(!m.el.paused) m.el.pause(); continue; }
@@ -143,6 +143,8 @@
       let v=m.vol; if(m.fi) v*=seg(tR,m.a,m.a+m.fi); if(m.fo) v*=1-seg(tR,m.b-m.fo,m.b); if(m.duckA) v*=lerp(1,m.duckTo,seg(tR,m.duckA,m.duckB));
       m.el.volume=clamp(v,0,1); } }
   function musStop(){ for(const m of MUS){ try{ m.el.pause(); }catch(e){} } }
+  const armyX=(x0,fx,sc)=>fx-140-(560-x0)*sc;   // cảnh cuối: cả đội (x gốc -330..600) dồn sát sau lưng Stalin, vẫn giữ đội hình
+  let T_CUT2_G=1e9, FXG=0;   // (cho uiaDraw — nằm ngoài frame)
   let C=null;   // điểm bàn tay mèo chụp móng linh hồn (chốt lúc chặn)
   // góc tay phải của linh hồn để móng chĩa đúng điểm NGAY TRÊN ĐẦU Stalin (nơi bàn tay Catler sẽ chặn)
   function attGeo(){ const im=IMG.soulT; if(!im.naturalWidth) return null; const h=ATT_H, w=h*im.naturalWidth/im.naturalHeight, top=-h*0.55, yc=ATT.y-h*0.45;
@@ -210,7 +212,6 @@
     if(tR>=SUM0+2.5) sfx('s_roar','gary_titan_roar',0.9,2.2);
     if(tR>=SUM0+3.7) sfx('s_wing','sc_wing',1.0);
     if(tR>=SUM0+4.5) sfx('s_laugh','gp_evil_laugh',0.95);
-    if(t>=T_CUT2+0.66*(T_FREEZE-T_CUT2)) sfx('sun','stalin_domain',1.0,2.0);
     if(t>=T_FREEZE) sfx('freeze','vine_boom',1.0);
     // ── máy quay ──
     let [cx,cy,cz]=inSum?sumCam(su):camAt(tf); if(t>=T_FREEZE) cz*=1+0.07*eout(seg(t,T_FREEZE,T_FREEZE+0.4));
@@ -220,6 +221,7 @@
     g.setTransform(SC*cz,0,0,SC*cz,SC*(VW/2-cx*cz+ox),SC*(VH/2-cy*cz+oy));
     const red=eio(seg(tR,SUM0+1.8,SUM0+3.0));
     const fin=tf>=T_CUT2, finU=seg(tf,T_CUT2,T_FREEZE), FX=lerp(GARY.x-480,GARY.x-235,eio(finU)), FY=GARY.y+52;   // cảnh cuối: Stalin dẫn đầu lao tới…
+    T_CUT2_G=T_CUT2; FXG=FX;
     const jump=eout(seg(finU,0.32,0.85)), JY=FY-280*jump, sunK=seg(finU,0.66,0.8);   // …nhảy vọt lên, búa + liềm chạm nhau loé sáng như MẶT TRỜI   // trời hoá đỏ từ lúc triệu hồi và giữ tới cuối
     // ── nền: trời bão / thành phố đổ nát / mặt đất cháy sém (js/cine-bg.js) — tự chuyển sang Upside Down đỏ theo `red` ──
     if(window._cineBG) window._cineBG.draw(g,tf,red);
@@ -239,12 +241,12 @@
     BACKP.forEach((p,i)=>{ const k=seg(tf,UIA_T+1.0+i*0.2,UIA_T+1.5+i*0.2)*(1-seg(tf,E+0.6,E+1.2)); portal(p[0],p[1],p[2],k,tf,i+20); });
     // ── vẽ theo chiều sâu (y nhỏ = xa = vẽ trước) ──
     const D=[];
-    for(const c of crowd){ if(fin) break; const u=seg(tf,c.t,c.t+1.0); if(u<=0) continue; const y=lerp(c.p[1]-4,c.ty,eout(u));
-      D.push({y, f:()=>{ const x=lerp(c.p[0],c.tx,eout(u))+run(220), mv=u<1||chargeK>0, bob=Math.abs(Math.sin((tf+c.ph)*(mv?9:2.5)))*(mv?4:1);
+    for(const c of crowd){ const u=seg(tf,c.t,c.t+1.0); if(u<=0) continue; const y=lerp(c.p[1]-4,c.ty,eout(u));
+      D.push({y, f:()=>{ const x=fin?armyX(c.tx,FX,0.42):lerp(c.p[0],c.tx,eout(u))+run(220), mv=u<1||chargeK>0, bob=Math.abs(Math.sin((tf+c.ph)*(mv?9:2.5)))*(mv?4:1);
         shadow(x,y,c.h*0.33,0.35); actor(c.im,x,y-bob,c.h*(0.4+0.6*eout(u)),{a:Math.min(1,u*3),rot:chargeK>0?0.12:Math.sin(tf*1.5+c.ph)*0.03}); }}); }
-    for(const H of heroes){ if(fin) break; if(H.k==='uiacat'){ uiaDraw(H,tf,chargeK,run,D); continue; }
+    for(const H of heroes){ if(H.k==='uiacat'){ uiaDraw(H,tf,chargeK,run,D); continue; }
       const u=seg(tf,H.t,H.t+0.8); if(u<=0) continue; const P=H.P, y=lerp(P[1]-6,P[4],eout(u));
-      D.push({y, f:()=>{ const x=lerp(P[0],P[3],eout(u))+run(230), mv=u<1||chargeK>0, bob=Math.abs(Math.sin(tf*9+H.t))*(mv?6:1.2), hh=lerp(P[5]*0.45,P[5],eout(u));
+      D.push({y, f:()=>{ const x=fin?armyX(P[3],FX,0.38):lerp(P[0],P[3],eout(u))+run(230), mv=u<1||chargeK>0, bob=Math.abs(Math.sin(tf*9+H.t))*(mv?6:1.2), hh=lerp(P[5]*0.45,P[5],eout(u));
         shadow(x,y,hh*0.3,0.4); actor(H.im,x,y-bob,hh,{a:Math.min(1,u*4),rot:chargeK>0?0.13:Math.sin(tf*2+H.t)*0.025}); }}); }
     // Stalin
     const stand=eout(seg(tf,E+2.5,E+3.2)), raise=eout(seg(tf,E+3.0,E+3.5));
