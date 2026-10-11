@@ -20312,6 +20312,12 @@ function _stopFighterSfx(f){
   }
   f._mvWaiting=false;
 }
+// 🎬 Cinematic "Memes Assemble" (Stalin vs Evil Gary kiểu Avengers: Endgame) — file riêng js/cine-endgame.js, chỉ tải khi bấm
+function playCineEndgame(){
+  if(window._cineEG) return window._cineEG();
+  const v=window.GAME_VERSION?'?v='+GAME_VERSION.build:'', load=src=>new Promise(r=>{ const s=document.createElement('script'); s.src=src+v; s.onload=r; s.onerror=r; document.body.appendChild(s); });
+  load('js/cine-bg.js').then(()=>load('js/cine-endgame.js')).then(()=>window._cineEG&&window._cineEG());   // nền chi tiết trước, rồi kịch bản
+}
 function stopAllBattleMusic(keepFr){
   setTimeout(()=>_auSweep(true), 120);   // 🧹 hết trận / ra menu: gỡ nút của mọi tiếng đã dừng (sau khi các lệnh tắt bên dưới chạy xong)
   // 🎵 nhạc theme Friend: CHỈ tắt khi thoát ra menu / vào trận mới. Lệnh tắt do HẾT TRẬN truyền keepFr=true để giữ lại.
