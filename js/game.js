@@ -9559,7 +9559,7 @@ function _clapFxDraw(){
 function _brTickStart(r){ const a=AUDIO_SAMPLES['br_tick']; if(!a) return; try{ const c=a.cloneNode(); c.volume=1; _mixRoute(c); c.play().catch(()=>{}); _trackLongSfx(c,'br_tick'); r._tick=c; }catch(e){} }   // phát đúng tốc gốc cho khớp nhịp ngòi 3s
 function _brTickStop(r){ const c=r&&r._tick; if(!c) return; try{ c.pause(); c.currentTime=0; }catch(e){} _longSfx.delete(c); r._tick=null; }
 const BAT_DASH_CD=Math.round(5*60*GAME_SPEED*TIME_SCALE);   // 🦇 lướt về góc xa địch nhất: 5s thật giữa 2 lần (tính từ lúc lướt xong)
-const BR_SPD=7.5*0.75, BR_DMG=40, BR_BOOM_DMG=150, BR_NORMAL_SPD=0.9;   // 40 dame mỗi phi tiêu thường · phi tiêu thường bay chậm thêm 10% (phi tiêu nổ giữ tốc)
+const BR_SPD=7.5*0.75, BR_DMG=30, BR_BOOM_DMG=150, BR_NORMAL_SPD=0.9;   // 30 dame mỗi phi tiêu thường · phi tiêu thường bay chậm thêm 10% (phi tiêu nổ giữ tốc)
 function _batThrowBoom(f){
   const e=f.enemy; if(!e || e.dead) return;
   batRangs.push({ owner:f, team:f.team, x:f.x, y:f.y, ang:Math.atan2(e.y-f.y,e.x-f.x)+(Math.random()<0.5?-0.6:0.6), side:0, target:e, t:0, rot:0, boom:true });
