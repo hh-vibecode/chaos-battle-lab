@@ -208,7 +208,7 @@
     if(t>=E+4.9) sfx('thunder','holy_thunder',1.0);
     if(tR>=SUM0+0.3) sfx('s_necro','eg_necro',1.0);
     if(tR>=SUM0+1.9) sfx('s_thunder','holy_thunder',0.9);
-    if(tR>=SUM0+3.7) sfx('s_wing','sc_wing',1.0);
+    { const w0=SUM0+3.6, wd=1.4; if(tR>=w0+wd/3) sfx('s_wing1','sc_wing',1.8); if(tR>=w0+wd*2/3) sfx('s_wing2','sc_wing',2.0); }   // 🦇 vỗ cánh đúng lúc cánh hé mở (khung 6) và dang hết (khung 7)
     if(tR>=SUM0+4.5) sfx('s_laugh','gp_evil_laugh',0.95);
     if(t>=T_FREEZE) sfx('freeze','vine_boom',1.0);
     // ── máy quay ──
