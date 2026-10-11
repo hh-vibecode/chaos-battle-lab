@@ -16,6 +16,7 @@
     catler:av('feuerkatze'), cross:A('assets/img/stalincat/STALIN_CROSS_IMG.webp'), catlerUp:A('assets/avatars/feuerkatze/attackAvatarUrl.webp'), hammer:A('assets/img/stalincat/STALIN_HAMMER_IMG.webp'),
     soulT:A('assets/img/evilgary/EG_SOUL_TORSO.webp'), soulL:A('assets/img/evilgary/EG_SOUL_LARM.webp'), soulR:A('assets/img/evilgary/EG_SOUL_RARM.webp') };
   IMG.catlerUp._feather=0.06;
+  IMG.uiaSpin=A('assets/avatars/uiacat/attackAvatarUrl.webp');   // 🌀 ảnh động xoay OIIA của UIA (lưới 8×8, khung 0 = đứng, 1–59 = xoay)
   const SOUL_PIV={L:[0.10,0.50], R:[0.893,0.581]};
   const HERO_KEYS=['uiacat','chillguy','electricguitarcat','doge','cheems','ricardo','maxwell','gigachad'];
   // 🔊 tiếng đặc trưng của từng meme lúc bước ra (bản nhạc dài chỉ phát ~1.3s): [key, âm lượng, thời lượng]
@@ -108,17 +109,80 @@
     const pool=RO().filter(r=>r && r.charKey && !USED.has(r.charKey) && r.avatarUrl).map(r=>r.avatarUrl).sort(()=>Math.random()-0.5).slice(0,34);
     crowd=pool.map((u,i)=>{ const p=BACKP[i%BACKP.length]; return {im:A(u), p, t:13.6+i*0.27, tx:p[0]+(Math.random()-0.5)*110, ty:p[1]+6+Math.random()*34, h:40+Math.random()*16, ph:Math.random()*6}; });
   }
-  // 🌀 UIA CAT: lao vút từ ngoài khung vào đúng cổng (bóng tàn ảnh + vệt tốc độ) → xoay tít kiểu OIIA chậm dần → đứng nhìn
-  function uiaDraw(H,tf,chargeK,run,D){ const P=H.P, dash=seg(tf,H.t,H.t+0.22), spin=seg(tf,H.t+0.22,H.t+0.22+UIA_SPIN); if(dash<=0) return;
-    const x0=P[3]-520, x=(tf>=T_CUT2_G)?armyX(P[3],FXG,0.38):lerp(x0,P[3],eout(dash))+run(230), y=P[4], hh=P[5];
+  // 🌀 UIA CAT: ⚡ lao tới kiểu speedster/The Flash (vệt sét vàng xé phía sau) → 🌀 xoay tít liên tục bằng chính ảnh động OIIA,
+  //   quả cầu năng lượng bao quanh, sét toé ra tứ phía, hạt năng lượng bị hút vào → ⚡ tụ đủ lực: phóng sét tới từng chỗ → cổng mở
+  const UIA_DASH=0.42, UIA_GATHER=1.25, UIA_END=2.75;   // (tính từ UIA_T) lao tới · tụ lực xong, bắt đầu phóng sét mở cổng · thôi xoay
+  const PO=i=>UIA_T+UIA_GATHER+(i-1)*0.17, BO=i=>UIA_T+UIA_GATHER+0.08+i*0.14;   // lúc sét đánh trúng → cổng của meme i / cổng phía sau i mở
+  const frac=v=>v-Math.floor(v);
+  // sét uốn theo mặt cầu
+  function arcBolt(cx,cy,R,a0,span,w,al){ const n=9, pts=[]; for(let i=0;i<=n;i++){ const a=a0+span*i/n, r=R*(1+(Math.random()-0.5)*0.16); pts.push([cx+Math.cos(a)*r,cy+Math.sin(a)*r]); }
+    g.save(); g.globalCompositeOperation='lighter'; g.lineCap='round'; g.lineJoin='round';
+    for(const [lw,a,c] of [[w*3.5,0.25,'255,170,40'],[w*1.6,0.6,'255,200,70'],[w*0.6,1,'255,255,225']]){ g.strokeStyle=`rgba(${c},${al*a})`; g.lineWidth=lw; g.beginPath(); pts.forEach((p,i)=>i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1])); g.stroke(); }
+    g.restore(); }
+  // khung ảnh động xoay (đặt chân đúng chỗ đứng)
+  function uiaSpinFrame(x,y,hh,fr){ const im=IMG.uiaSpin; if(!im.naturalWidth) return false; const s=hh/123, c=im.naturalWidth/8;
+    g.drawImage(im,(fr%8)*c,Math.floor(fr/8)*c,c,c,x-62*s,y-95*s,128*s,128*s); return true; }
+  // vòng phép dưới chân (cam vàng như viền cổng)
+  function spellCircle(x,y,r,a,tm){ if(a<=0.01) return; g.save(); g.translate(x,y); g.scale(1,0.32); g.globalCompositeOperation='lighter';
+    glow(0,0,r*1.25,0.35*a,'255,150,30');
+    for(const [rr,lw,al] of [[r,3,0.95],[r*0.9,1.5,0.7],[r*0.55,2,0.85]]){ g.strokeStyle=`rgba(255,190,70,${al*a})`; g.lineWidth=lw; g.beginPath(); g.arc(0,0,rr,0,Math.PI*2); g.stroke(); }
+    g.save(); g.rotate(tm*2.2); g.strokeStyle=`rgba(255,215,120,${0.9*a})`; g.lineWidth=2.5;
+    for(let q=0;q<16;q++){ const a0=q/16*Math.PI*2; g.beginPath(); g.arc(0,0,r*0.95,a0,a0+0.22); g.stroke(); } g.restore();
+    g.save(); g.rotate(-tm*3); g.strokeStyle=`rgba(255,170,50,${0.8*a})`; g.lineWidth=1.6;
+    for(let q=0;q<2;q++){ g.beginPath(); for(let v=0;v<=3;v++){ const aa=q*Math.PI/3+v*Math.PI*2/3; v?g.lineTo(Math.cos(aa)*r*0.55,Math.sin(aa)*r*0.55):g.moveTo(Math.cos(aa)*r*0.55,Math.sin(aa)*r*0.55); } g.stroke(); }
+    for(let q=0;q<6;q++){ const aa=q/6*Math.PI*2; g.beginPath(); g.arc(Math.cos(aa)*r*0.73,Math.sin(aa)*r*0.73,r*0.07,0,Math.PI*2); g.stroke(); } g.restore();
+    g.restore(); }
+  function uiaDraw(H,tf,chargeK,run,D){ const P=H.P, T=H.t, el=tf-T; if(el<=0) return;
+    const dash=seg(tf,T,T+UIA_DASH), spinOn=el>=UIA_DASH && el<UIA_END, x0=P[3]-430, y=P[4], hh=P[5];
+    const x=(tf>=T_CUT2_G)?armyX(P[3],FXG,0.38):lerp(x0,P[3],1-Math.pow(1-dash,2))+run(230);
+    const gath=seg(el,UIA_DASH,UIA_GATHER), rel=seg(el,UIA_GATHER,UIA_END-0.1), burst=seg(el,UIA_END,UIA_END+0.5);
     D.push({y, f:()=>{
-      if(dash<1){ for(let k=1;k<=5;k++){ const gx=lerp(x0,P[3],Math.max(0,eout(dash)-k*0.07)); actor(H.im,gx,y,hh,{a:0.35-k*0.06,sx:Math.cos(tf*60+k)}); }
-        g.save(); g.globalCompositeOperation='lighter'; g.strokeStyle='rgba(255,255,255,0.8)'; g.lineWidth=3; for(let k=0;k<6;k++){ const yy=y-hh*(0.15+k*0.14); g.beginPath(); g.moveTo(x-30,yy); g.lineTo(x-220,yy); g.stroke(); } g.restore(); }
-      const sp=dash<1?60:lerp(55,0,eout(spin)), ph=(tf-H.t)*sp, sx=spin<1?Math.cos(ph):1;   // xoay quanh trục dọc (lật mặt) nhanh → chậm dần
-      shadow(x,y,hh*0.3,0.4); actor(H.im,x,y-(chargeK>0?Math.abs(Math.sin(tf*9))*6:0),hh,{sx:Math.abs(sx)<0.08?0.08:sx,rot:chargeK>0?0.13:0});
-      if(spin>0 && spin<1){ g.save(); g.globalCompositeOperation='lighter';   // 🌀 vòng năng lượng cam toả ra theo vòng xoay → mở các cổng
-        for(let q=0;q<3;q++){ const v=((tf-H.t-0.22)*1.4+q/3)%1; g.strokeStyle=`rgba(255,170,40,${0.7*(1-v)*(1-spin*0.5)})`; g.lineWidth=3*(1-v)+1; g.beginPath(); g.ellipse(x,y-hh*0.3,40+v*520,(40+v*520)*0.32,0,0,Math.PI*2); g.stroke(); }
-        g.restore(); g.save(); g.globalCompositeOperation='lighter'; for(let k=0;k<2;k++){ g.strokeStyle=`rgba(200,230,255,${0.6*(1-spin)})`; g.lineWidth=2; g.beginPath(); g.ellipse(x,y-hh*(0.35+k*0.3),hh*0.55,hh*0.12,0,0,Math.PI*2); g.stroke(); } g.restore(); }   // vòng gió xoáy
+      // ⚡ vệt sét kiểu The Flash: đuôi bám theo sau, tới nơi thì đuôi rút lại + tắt dần
+      const trailA=1-seg(el,UIA_DASH,UIA_DASH+0.45);
+      if(trailA>0){ const head=x-hh*0.25, tail=lerp(x0-80,head,eout(seg(el,UIA_DASH*0.6,UIA_DASH+0.45)));
+        if(head-tail>4){ g.save(); g.globalCompositeOperation='lighter';
+          const gr=g.createLinearGradient(tail,0,head,0); gr.addColorStop(0,'rgba(255,170,30,0)'); gr.addColorStop(0.75,`rgba(255,200,80,${0.32*trailA})`); gr.addColorStop(1,`rgba(255,250,220,${0.55*trailA})`);
+          g.fillStyle=gr; g.beginPath(); g.moveTo(tail,y-hh*0.45); g.quadraticCurveTo(head,y-hh*0.95,head+hh*0.2,y-hh*0.5); g.quadraticCurveTo(head,y-hh*0.05,tail,y-hh*0.45); g.fill(); g.restore();
+          for(let k=0;k<6;k++){ const yy=y-hh*(0.12+k*0.15), tl=lerp(tail,head,Math.random()*0.3); bolt(tl,yy+(Math.random()-0.5)*hh*0.35,head,yy+(Math.random()-0.5)*hh*0.15,3-k*0.3,trailA*(0.6+0.4*Math.random()),'255,180,30','255,250,210'); } }
+        if(dash<1){ for(let k=1;k<=4;k++){ const gx=lerp(x0,P[3],Math.max(0,1-Math.pow(1-dash,2)-k*0.08)); actor(H.im,gx,y,hh,{a:0.5-k*0.09,rot:0.22}); }
+          for(let k=0;k<2;k++) bolt(x-hh*0.3,y-hh*(0.3+Math.random()*0.5),x+hh*(0.1+Math.random()*0.3),y-hh*(0.2+Math.random()*0.6),1.4,0.9,'255,190,40','255,255,230'); } }
+      // 💥 tới nơi: chớp + sóng bụi sát đất
+      { const ar=seg(el,UIA_DASH,UIA_DASH+0.4); if(ar>0 && ar<1){ g.save(); g.globalCompositeOperation='lighter'; glow(x,y-hh*0.35,hh*(0.8+1.2*ar),0.8*(1-ar),'255,230,160');
+        g.strokeStyle=`rgba(255,200,90,${0.8*(1-ar)})`; g.lineWidth=3*(1-ar)+1; g.beginPath(); g.ellipse(x,y,hh*(0.4+1.6*eout(ar)),hh*(0.4+1.6*eout(ar))*0.28,0,0,Math.PI*2); g.stroke(); g.restore(); } }
+      // 🔮 vòng phép dưới chân + quả cầu năng lượng
+      const cx=x, cy=y-hh*0.3, en=spinOn?Math.max(gath,0.001):0, pulse=1+0.06*Math.sin(tf*31)+0.04*Math.sin(tf*13);
+      const R=hh*(0.35+0.45*eout(gath)+0.15*rel)*pulse;
+      if(el>=UIA_DASH && (spinOn || burst<1)) spellCircle(x,y,hh*(0.6+0.9*eout(gath))*(1+0.25*burst),(spinOn?Math.min(1,gath*1.6):1-burst),tf);
+      if(spinOn){ g.save(); g.globalCompositeOperation='lighter';
+        glow(cx,cy,R*2.6,0.22+0.25*en+0.15*rel,'255,140,20');   // quầng ngoài
+        // ✨ hạt năng lượng xoáy hút vào tâm cầu
+        for(let q=0;q<34;q++){ const l=frac(tf*(1.3+0.4*((q*0.37)%1))+q*0.137), d=R*(1.05+3.4*(1-l)), a=q*2.399+l*2.6, px=cx+Math.cos(a)*d, py=cy+Math.sin(a)*d*0.8, al=Math.sin(Math.PI*l)*(0.5+0.5*gath);
+          const tx=cx+Math.cos(a-0.25)*(d+R*0.5), ty=cy+Math.sin(a-0.25)*(d+R*0.5)*0.8; g.strokeStyle=`rgba(255,${200+((q*29)%55)},${110+((q*41)%100)},${al})`; g.lineWidth=1.8; g.beginPath(); g.moveTo(tx,ty); g.lineTo(px,py); g.stroke(); }
+        g.restore();
+      }
+      // 🌀 UIA: tới nơi → xoay tít LIÊN TỤC bằng ảnh động OIIA · thôi xoay → đứng nhìn
+      shadow(x,y,hh*0.32,0.4);
+      if(dash<1){ g.save(); g.globalCompositeOperation='lighter'; glow(x,y-hh*0.45,hh*0.75,0.55,'255,200,60'); g.restore(); actor(H.im,x,y,hh,{rot:0.22}); }
+      else if(spinOn && uiaSpinFrame(x,y,hh,1+Math.floor(el*46)%59)){}
+      else actor(H.im,x,y-(chargeK>0?Math.abs(Math.sin(tf*9))*6:0),hh,{rot:chargeK>0?0.13:0});
+      if(spinOn){ g.save(); g.globalCompositeOperation='lighter';
+        // thân cầu: lõi trắng vàng → cam → viền sáng (UIA vẫn thấy rõ bên trong)
+        const sg=g.createRadialGradient(cx,cy,0,cx,cy,R); sg.addColorStop(0,'rgba(255,250,220,0)'); sg.addColorStop(0.62,`rgba(255,170,50,${0.03+0.04*en})`); sg.addColorStop(0.93,`rgba(255,200,90,${0.35+0.3*en})`); sg.addColorStop(1,'rgba(255,170,40,0)');
+        g.fillStyle=sg; g.beginPath(); g.arc(cx,cy,R,0,Math.PI*2); g.fill(); g.restore();
+        // ⚡ sét chạy quanh mặt cầu
+        for(let k=0;k<3+Math.round(3*en);k++) arcBolt(cx,cy,R,Math.random()*Math.PI*2,0.6+Math.random()*0.9,1.2+en,0.6+0.4*Math.random());
+        // ⚡ sét toé ra tứ phía (càng tụ lực càng dài, càng nhiều)
+        for(let k=0;k<2+Math.round(4*en+3*rel);k++){ const a=Math.random()*Math.PI*2, L=R*(1.4+Math.random()*(1.2+1.6*en+1.5*rel));
+          bolt(cx+Math.cos(a)*R*0.95,cy+Math.sin(a)*R*0.95,cx+Math.cos(a)*L,cy+Math.sin(a)*L*0.85,1.3+0.8*en,0.55+0.45*Math.random(),'255,175,40','255,250,215'); }
+        // ⚡ tụ đủ lực: sét PHÓNG thẳng tới từng chỗ → cổng mở đúng nơi sét đánh
+        const hit=(tx,ty,o,w)=>{ const u=(tf-o+0.07)/0.32; if(u<=0||u>=1) return; const pr=eout(Math.min(1,u*3)), ex=lerp(cx,tx,pr), ey=lerp(cy,ty,pr);
+          bolt(cx,cy,ex,ey,w,1-u*0.8,'255,175,40','255,255,230'); g.save(); g.globalCompositeOperation='lighter'; glow(ex,ey,w*14*(1-u*0.5),0.75*(1-u),'255,220,140'); g.restore(); };
+        heroes.forEach((Q,i)=>{ if(i) hit(Q.P[0],Q.P[1]-Q.P[2],PO(i),3.2); });
+        BACKP.forEach((p,i)=>hit(p[0],p[1]-p[2],BO(i),2.2));
+      }
+      // 💥 xả hết năng lượng: chớp sáng + sóng tròn, thôi xoay
+      if(burst>0 && burst<1){ g.save(); g.globalCompositeOperation='lighter'; glow(cx,cy,hh*(1+2.5*eout(burst)),0.85*(1-burst),'255,235,180');
+        g.strokeStyle=`rgba(255,200,90,${0.9*(1-burst)})`; g.lineWidth=4*(1-burst)+1; const rr=hh*(0.5+2.8*eout(burst)); g.beginPath(); g.ellipse(cx,cy,rr,rr*0.85,0,0,Math.PI*2); g.stroke(); g.restore(); }
     }}); }
   const SUM0=2.6, SUM_D=6.0;   // 😈 đoạn chèn: Evil Gary thắp ngôi sao quỷ, gọi Evil Larry khổng lồ + quỷ có cánh trên trời
   const T_UP=3.0, T_HOLD=3.7, T_STRIKE=4.12, T_BLOCK=4.35;   // giơ tay → gồng giữ trên cao → bổ xuống → bị chặn
@@ -162,9 +226,25 @@
     if(k>=1){ const pg=g.createLinearGradient(x-RX,0,x+RX,0); pg.addColorStop(0,'rgba(255,0,0,0)'); pg.addColorStop(0.5,`rgba(255,40,30,${0.22*pul})`); pg.addColorStop(1,'rgba(255,0,0,0)'); g.fillStyle=pg; g.fillRect(x-RX,y-900,RX*2,900); }
     g.restore(); }
   // 🦇 quỷ có cánh (sprite bung cánh của Evil Gary): khung 5 choàng áo → 6 cánh đang mở → 7 dang hết cánh
-  function wingDemon(x,yB,w,a,wing,tm){ const im=IMG.wdemon; if(!im.naturalWidth) return; const FW=494, FH=320, h=w*FH/FW, fr=5+Math.min(2,Math.floor(wing*3));
-    g.save(); g.globalAlpha=a*0.95; g.shadowColor='rgba(255,0,0,0.85)'; g.shadowBlur=40; g.drawImage(im,fr*FW,0,FW,FH,x-w/2,yB-h,w,h); g.restore();
-    g.save(); g.globalCompositeOperation='lighter'; const ex=x-w/2+w*0.553, ey=yB-h+h*0.55, ep=0.6+0.4*Math.sin(tm*5); glow(ex,ey,w*0.07,0.7*a*ep,'255,40,30'); g.restore(); }
+  // 🦇 quỷ có cánh khổng lồ kiểu CELESTIAL: to choán cả trời, lờ mờ sau lớp mây gần, thân kéo dài mờ dần xuống tận mặt đất
+  //   (mỗi khung cắt riêng ra canvas: thân dưới được kéo giãn + làm mờ dần → không còn mép cắt ngang, không lem viền khung bên cạnh)
+  const DEM_EXT=150, demC={};
+  function demFrame(fr){ if(demC[fr]) return demC[fr]; const im=IMG.wdemon, FW=494, FH=320;
+    const c=document.createElement('canvas'); c.width=FW; c.height=FH+DEM_EXT; const x=c.getContext('2d');
+    const d=(()=>{ const t=document.createElement('canvas'); t.width=FW; t.height=FH; const tx=t.getContext('2d'); tx.drawImage(im,fr*FW,0,FW,FH,0,0,FW,FH); return t; })();
+    let last=FH-1; { const a=d.getContext('2d').getImageData(0,0,FW,FH).data; for(let y=FH-1;y>0;y--){ let n=0; for(let xx=0;xx<FW;xx+=3) if(a[(y*FW+xx)*4+3]>60) n++; if(n>20){ last=y; break; } } }
+    const b0=last-26;   // dải thân ngay trên mép cắt → kéo giãn xuống làm thân nối dài
+    x.drawImage(d,0,b0,FW,14,0,b0+6,FW,FH+DEM_EXT-b0-6);
+    x.drawImage(d,0,0,FW,b0+12,0,0,FW,b0+12);
+    x.globalCompositeOperation='destination-in'; const gr=x.createLinearGradient(0,0,0,FH+DEM_EXT);
+    gr.addColorStop(0,'rgba(0,0,0,1)'); gr.addColorStop((b0-30)/(FH+DEM_EXT),'rgba(0,0,0,1)'); gr.addColorStop((b0+DEM_EXT*0.45)/(FH+DEM_EXT),'rgba(0,0,0,0.55)'); gr.addColorStop(1,'rgba(0,0,0,0)');
+    x.fillStyle=gr; x.fillRect(0,0,FW,FH+DEM_EXT);
+    const PD=40, o=document.createElement('canvas'); o.width=FW+PD*2; o.height=FH+DEM_EXT+PD*2; const ox=o.getContext('2d');   // quầng đỏ nướng sẵn (shadowBlur khi vẽ to → lộ khung chữ nhật)
+    ox.shadowColor='rgba(255,0,0,0.75)'; ox.shadowBlur=16; ox.drawImage(c,PD,PD);
+    return demC[fr]={c:o, last, PD}; }
+  function wingDemon(x,yB,w,a,wing,tm){ const im=IMG.wdemon; if(!im.naturalWidth) return; const FW=494, FH=320, fr=5+Math.min(2,Math.floor(wing*3)), F=demFrame(fr), k=w/FW, h=(FH+DEM_EXT)*k, top=yB-F.last*k;
+    g.save(); g.globalAlpha=a*0.62; g.drawImage(F.c,x-w/2-F.PD*k,top-F.PD*k,F.c.width*k,F.c.height*k); g.restore();
+    g.save(); g.globalCompositeOperation='lighter'; const ex=x-w/2+w*0.553, ey=top+FH*k*0.55, ep=0.6+0.4*Math.sin(tm*5); glow(ex,ey,w*0.06,0.6*a*ep,'255,40,30'); g.restore(); }
   // máy quay đoạn triệu hồi: Gary + ngôi sao → Larry trồi lên → ngửa lên trời thấy quỷ có cánh
   function sumCam(u){ const K=[[0,GARY.x-10,640,0.95],[2.2,GARY.x-10,630,0.85],[2.6,GARY.x,540,0.62],[3.4,GARY.x,470,0.55],[4.0,GARY.x-20,280,0.42],[6.0,GARY.x-20,250,0.42]];
     for(let i=0;i<K.length-1;i++){ const a=K[i], b=K[i+1]; if(u>=a[0] && u<=b[0]){ const k=eio((u-a[0])/(b[0]-a[0])); return [lerp(a[1],b[1],k),lerp(a[2],b[2],k),lerp(a[3],b[3],k)]; } } return [K[5][1],K[5][2],K[5][3]]; }
@@ -184,7 +264,7 @@
       [T_BLOCK,cx-15,cy+40,1.95],[5.5,cx-15,cy+38,2.0],                   // cảnh 3 (CẮT): khung chặn đòn
       [5.5,ST.x+60,700,1.75],[6.75,ST.x+70,695,1.8],                      // cảnh 4 (CẮT): toàn cảnh Catler che chở Stalin
       [6.85,ST.x+80,680,1.85],[7.7,ST.x+60,700,1.6],[9.6,170,700,1.35],
-      [UIA_T,170,700,1.15],[UIA_T,HP[0][3],HP[0][4]-70,1.75],[UIA_T+1.0,HP[0][3],HP[0][4]-75,1.85],[UIA_T+2.3,140,680,0.7],[HERO_T0,140,680,0.7],
+      [UIA_T,170,700,1.15],[UIA_T,235,HP[0][4]-60,1.3],[UIA_T+0.55,HP[0][3],HP[0][4]-70,1.75],[UIA_T+1.2,HP[0][3],HP[0][4]-75,1.9],[UIA_T+2.6,140,680,0.7],[HERO_T0,140,680,0.7],
       [E,140,690,0.56],[E+1.2,150,690,0.52],[E+1.7,ST.x-20,730,1.55],[E+3.3,ST.x,715,1.6],[E+4.2,ST.x+20,700,1.4],
       [E+4.8,GARY.x,470,0.6],[E+6.8,GARY.x-10,480,0.55],[E+7.0,450,645,0.62],[E+8.0,500,640,0.6],[999,500,640,0.6]];
     for(let i=0;i<K.length-1;i++){ const a=K[i], b=K[i+1]; if(t>=a[0] && t<=b[0]){ const k=(b[0]-a[0]<0.2)?1:eio((t-a[0])/(b[0]-a[0])); return [lerp(a[1],b[1],k),lerp(a[2],b[2],k),lerp(a[3],b[3],k)]; } }
@@ -204,6 +284,7 @@
     if(t>=7.3) sfx('blast','ultimate_charge_2',0.8);
     for(let i=0;i<5;i++) if(t>=7.55+i*0.2) sfx('die'+i,'death_break',0.45);
     for(let i=0;i<heroes.length;i++) if(t>=heroes[i].t+0.05) (HERO_SFX[heroes[i].k]||[]).forEach((q,j)=>sfx('h'+i+'_'+j,q[0],q[1],q[2]));
+    if(t>=UIA_T+1.5) sfx('uia_spin2','uiacat_spin',0.8);   // 🌀 vòng xoay dài ~2.5s → nối tiếng xoay
     if(t>=E+3.0) sfx('ham','holy_thunder',0.85);
     if(t>=E+4.9) sfx('thunder','holy_thunder',1.0);
     if(tR>=SUM0+0.3) sfx('s_necro','eg_necro',1.0);
@@ -222,12 +303,11 @@
     T_CUT2_G=T_CUT2; FXG=FX;
     const jump=eout(seg(finU,0.32,0.85)), JY=FY-280*jump, sunK=seg(finU,0.66,0.8);   // …nhảy vọt lên, búa + liềm chạm nhau loé sáng như MẶT TRỜI   // trời hoá đỏ từ lúc triệu hồi và giữ tới cuối
     // ── nền: trời bão / thành phố đổ nát / mặt đất cháy sém (js/cine-bg.js) — tự chuyển sang Upside Down đỏ theo `red` ──
-    if(window._cineBG) window._cineBG.draw(g,tf,red);
+    const rise=eout(seg(tR,SUM0+2.4,SUM0+3.8)), demA=eout(seg(tR,SUM0+3.3,SUM0+4.1)), wing=seg(tR,SUM0+3.6,SUM0+5.0), starK=seg(tR,SUM0+0.3,SUM0+2.0);
+    if(window._cineBG) window._cineBG.draw(g,tf,red,()=>{ if(demA>0) wingDemon(GARY.x-20,GROUND-330+Math.sin(tR*1.3)*12,2300,demA,wing,tR); });   // 🦇 quỷ celestial nằm SAU mây gần + thành phố
     if(red>0){ if(Math.sin(tf*19)>0.86 || Math.random()<0.025){ g.fillStyle=`rgba(255,40,40,${0.16*red})`; g.fillRect(-1400,-1400,3000,GROUND+1400);
         bolt(GARY.x-260+Math.random()*520,-700,GARY.x-150+Math.random()*300,GROUND-180,4,red,'255,30,30','255,210,210'); } }
     // ── phe ác: bóng quỷ → Evil Larry khổng lồ → Evil Gary ──
-    const rise=eout(seg(tR,SUM0+2.4,SUM0+3.8)), demA=eout(seg(tR,SUM0+3.3,SUM0+4.1)), wing=seg(tR,SUM0+3.6,SUM0+5.0), starK=seg(tR,SUM0+0.3,SUM0+2.0);
-    if(demA>0) wingDemon(GARY.x-20,GROUND-240+Math.sin(tR*1.3)*12,1300,demA,wing,tR);   // 🦇 quỷ có cánh khổng lồ trên trời
     if(starK>0) pentagram(GARY.x,GARY.y+6,starK,tR);                                      // ⛧ ngôi sao quỷ dưới chân Gary
     const turn=eio(seg(tf,E+5.0,E+5.9)), tsx=(v=>Math.sign(v||1)*Math.max(0.06,Math.abs(v)))(lerp(-1,1,turn));   // Larry + Gary đang quay lưng → QUAY MẶT LẠI phía đội meme
     const finK=fin?eio(finU):0;
@@ -235,8 +315,8 @@
     { const lb=1+0.04*Math.abs(Math.sin(tf*7)); glow(GARY.x,GARY.y-50,130+60*(inSum?1:0),0.25+0.25*red+(inSum?0.25*Math.sin(tR*8)*0.5+0.2:0),'255,40,40'); const gx=GARY.x-finK*90, gy=GARY.y-Math.sin(Math.PI*finK)*18; shadow(gx,GARY.y,60); actor(IMG.gary,gx,gy,125,{sx:tsx,sy:lb,rot:-0.12*finK,glow:'rgba(255,30,30,0.95)',gb:22}); }
     // ── cổng không gian (đóng lại sau khi meme bước ra) ──
     const chargeK=seg(tf,T_CHARGE,T_FREEZE), run=d=>eio(chargeK)*d;
-    heroes.forEach((H,i)=>{ if(i===0) return; const P=H.P, o=UIA_T+0.6+(i-1)*0.22; const k=seg(tf,o,o+0.5)*(1-seg(tf,H.t+1.0,H.t+1.5)); portal(P[0],P[1],P[2],k,tf,i); });
-    BACKP.forEach((p,i)=>{ const k=seg(tf,UIA_T+1.0+i*0.2,UIA_T+1.5+i*0.2)*(1-seg(tf,E+0.6,E+1.2)); portal(p[0],p[1],p[2],k,tf,i+20); });
+    heroes.forEach((H,i)=>{ if(i===0) return; const P=H.P, o=PO(i); const k=seg(tf,o,o+0.5)*(1-seg(tf,H.t+1.0,H.t+1.5)); portal(P[0],P[1],P[2],k,tf,i); });
+    BACKP.forEach((p,i)=>{ const k=seg(tf,BO(i),BO(i)+0.5)*(1-seg(tf,E+0.6,E+1.2)); portal(p[0],p[1],p[2],k,tf,i+20); });
     // ── vẽ theo chiều sâu (y nhỏ = xa = vẽ trước) ──
     const D=[];
     for(const c of crowd){ const u=seg(tf,c.t,c.t+1.0); if(u<=0) continue; const y=lerp(c.p[1]-4,c.ty,eout(u));

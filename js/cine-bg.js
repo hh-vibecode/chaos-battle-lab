@@ -496,7 +496,7 @@
   const api={
     parallax:1,
     prepare: build,
-    draw(g,t,red){
+    draw(g,t,red,behind){   // behind(g): vẽ thứ gì đó NẰM SAU mây gần + thành phố (vd quỷ khổng lồ trên trời)
       build(); red=clamp01(+red||0); t=+t||0;
       const V=view(g), camX=(V.x0+V.x1)/2; api._V=V;
       g.save(); g.globalAlpha=1; g.globalCompositeOperation='source-over';
@@ -506,6 +506,7 @@
       if(V.y0<GROUND){
         if(red<1) stars(g,V,t,1-red);
         cloudLayer(g,0,V,t,red,camX); lightning(g,V,t,red); cloudLayer(g,1,V,t,red,camX);
+        if(behind){ g.save(); behind(g); g.restore(); }
         if(red<1){ g.globalAlpha=1-red; blit(g,L.halo,V); blit(g,L.moon,V); g.globalAlpha=1; }
         cloudLayer(g,2,V,t,red,camX); }
       if(V.y1>GROUND) pair(g,L.gndN,L.gndR,V,red);
