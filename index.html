@@ -28,7 +28,7 @@
 .mm-version{position:absolute;left:14px;bottom:12px;z-index:5;font:8px 'Press Start 2P',monospace;color:rgba(70,50,30,.6);pointer-events:none;letter-spacing:1px}
 #bootTip{font-size:9px;opacity:.75;min-height:12px;text-align:center;padding:0 16px}
 </style>
-<link rel="stylesheet" href="css/game.css?v=68">
+<link rel="stylesheet" href="css/game.css?v=69">
 
 </head>
 <body>
@@ -93,6 +93,11 @@
       <div class="mm-mode-icon">🍿</div>
       <div class="mm-mode-name">Meme Cinema</div>
       <div class="mm-mode-desc">Watch every cutscene: Memes Assemble, Gary Gets Possessed, Chill Guy Goes to Hell…</div>
+    </button>
+    <button class="mm-mode-card" onclick="openTierList()">
+      <div class="mm-mode-icon">🏅</div>
+      <div class="mm-mode-name">Tier List</div>
+      <div class="mm-mode-desc">Drag meme avatars into S, A, B, C, D tiers</div>
     </button>
     <button class="mm-mode-card" onclick="openScene()">
       <div class="mm-mode-icon">🎬</div>
@@ -527,6 +532,18 @@
 
 
 <!-- ===== 🎬 SCENE BUILDER: dựng hoạt cảnh bằng cách kéo thả cảnh mẫu + meme vào timeline nhiều lớp ===== -->
+<!-- ===== 🏅 TIER LIST ===== -->
+<div id="tierScreen" class="screen">
+  <div class="tl-top">
+    <button class="btn btn-back" onclick="closeTierList()" title="Back to menu">◀</button>
+    <div class="tl-title">🏅 Tier List</div>
+    <button class="btn btn-back" onclick="tlReset()" title="Move every meme back to the pool">↺ Reset</button>
+  </div>
+  <div class="tl-board" id="tlBoard"></div>
+  <div class="tl-pool-label">Drag a meme into a tier · drag it back here to remove</div>
+  <div class="tl-pool tl-drop" id="tlPool" data-tier=""></div>
+</div>
+
 <div id="sceneScreen" class="screen">
  <div class="sc-wrap">
   <div class="sc-top">
@@ -607,8 +624,8 @@
   </div>
 </div>
 
-<script>window.GAME_VERSION={build:68,at:"20:56 · 11/10/2026"};   // tools/release.py tự tăng số bản + ghi giờ mỗi lần đẩy lên</script>
-<script src="js/asset-groups.js?v=68"></script>
-<script src="js/boot.js?v=68"></script>
+<script>window.GAME_VERSION={build:69,at:"21:29 · 11/10/2026"};   // tools/release.py tự tăng số bản + ghi giờ mỗi lần đẩy lên</script>
+<script src="js/asset-groups.js?v=69"></script>
+<script src="js/boot.js?v=69"></script>
 </body>
 </html>

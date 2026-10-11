@@ -1,7 +1,7 @@
 // ===================== 💾 STORAGE (IndexedDB + cache đồng bộ, tự migrate từ localStorage) =====================
 // Lý do: localStorage chỉ ~5MB → ảnh base64 (roster/VFX) dễ tràn. IndexedDB chứa vài trăm MB.
 // _store = cache RAM để mọi code load/save cũ vẫn đọc/ghi ĐỒNG BỘ như trước; ghi xuống IndexedDB nền.
-const _STORE_KEYS = ['cbs_fan_avatars','cbs_scene','cbs_roster','cbs_vfx_library','cbs_debuff_vfx','cbs_rt_season','cbs_rt_blocked','cbs_vfx_seed_done','cbs_char_stats','cbs_update_notes'];
+const _STORE_KEYS = ['cbs_fan_avatars','cbs_scene','cbs_roster','cbs_vfx_library','cbs_debuff_vfx','cbs_rt_season','cbs_rt_blocked','cbs_vfx_seed_done','cbs_char_stats','cbs_update_notes','cbs_tierlist'];
 let _store = {};   // cache RAM
 let _idb = null;   // kết nối IndexedDB (null nếu trình duyệt chặn → fallback localStorage)
 function _idbOpen(){
@@ -50,7 +50,7 @@ async function _loadDefaultSave(){
     if(bundle.parts){ for(const [k,files] of Object.entries(bundle.parts)){
       const txt=await Promise.all(files.map(f=>fetch(f,{cache:'no-cache'}).then(x=>{ if(!x.ok) throw new Error(f); return x.text(); })));
       bundle[k]=txt.join(''); } }
-    const KEEP=['cbs_char_stats','cbs_rt_season','cbs_rt_blocked'];   // tiến độ RIÊNG của người chơi (thống kê, mùa giải) — chỉ nạp lần đầu, cập nhật sau KHÔNG đè
+    const KEEP=['cbs_char_stats','cbs_rt_season','cbs_rt_blocked','cbs_tierlist'];   // tiến độ RIÊNG của người chơi (thống kê, mùa giải) — chỉ nạp lần đầu, cập nhật sau KHÔNG đè
     for(const k of _STORE_KEYS){ if(bundle[k]==null) continue; if(KEEP.includes(k) && storeGet(k)!=null) continue; _store[k]=bundle[k]; if(_idb) await _idbPutAwait(k,bundle[k]); else { try{ localStorage.setItem(k,bundle[k]); }catch(e){} } }
     try{ localStorage.setItem('cbs_default_ver',ver); }catch(e){}
   }catch(e){}
@@ -30622,6 +30622,87 @@ function scToggleLoop(){ _scLoop=!_scLoop; const b=document.getElementById('scLo
 
 
 // ===================== VÀO / RA CHẾ ĐỘ =====================
+// ===================== 🏅 TIER LIST: kéo avatar meme vào các hàng S/A/B/C/D (lưu bền qua storage) =====================
+const TL_TIERS=[['S','#ff7f7f'],['A','#ffbf7f'],['B','#ffdf7f'],['C','#ffff7f'],['D','#bfff7f']];
+let tierList={};   // tier -> [roster id...] theo đúng thứ tự trong hàng; meme không nằm trong hàng nào = ở kho bên dưới
+function _tlLoad(){ try{ const raw=storeGet('cbs_tierlist'); tierList=raw?JSON.parse(raw):{}; }catch(e){ tierList={}; } }
+function _tlSave(){ try{ storeSet('cbs_tierlist', JSON.stringify(tierList)); }catch(e){} }
+function _tlMemes(){ return roster.filter(r=>r && r.charKey && r.charKey!=='trainingdummy' && r.charKey!=='fanchar'); }
+function openTierList(){
+  if(animId) cancelAnimationFrame(animId);
+  animId=null; isPaused=true; stopAllBattleMusic();
+  document.querySelectorAll('.screen').forEach(el=>el.classList.remove('active'));
+  document.getElementById('tierScreen').classList.add('active');
+  _tlLoad(); _tlRender();
+}
+function closeTierList(){
+  document.getElementById('tierScreen').classList.remove('active');
+  document.getElementById('mainMenuScreen').classList.add('active');
+}
+function tlReset(){ if(!confirm('Move every meme back to the pool?')) return; tierList={}; _tlSave(); _tlRender(); }
+function _tlItem(r){
+  const d=document.createElement('div'); d.className='tl-item'; d.dataset.id=r.id; d.title=r.name||r.charKey;
+  if(r.avatarUrl){ const im=document.createElement('img'); im.src=(window.ASSETS?ASSETS.thumb(r.avatarUrl):r.avatarUrl); im.draggable=false; d.appendChild(im); }
+  else { const e=document.createElement('span'); e.className='tl-emo'; e.textContent=(CHAR_DEFS[r.charKey]&&CHAR_DEFS[r.charKey].emoji)||'❓'; d.appendChild(e); }
+  const nm=document.createElement('div'); nm.className='tl-nm'; nm.textContent=r.name||r.charKey; d.appendChild(nm);
+  d.addEventListener('pointerdown',_tlDragStart);
+  return d;
+}
+function _tlRender(){
+  const memes=_tlMemes(), byId=new Map(memes.map(r=>[String(r.id),r])), placed=new Set();
+  const board=document.getElementById('tlBoard'); board.innerHTML='';
+  for(const [t,col] of TL_TIERS){
+    const row=document.createElement('div'); row.className='tl-row';
+    const lb=document.createElement('div'); lb.className='tl-label'; lb.style.background=col; lb.textContent=t; row.appendChild(lb);
+    const box=document.createElement('div'); box.className='tl-items tl-drop'; box.dataset.tier=t;
+    for(const id of (tierList[t]||[])){ const r=byId.get(String(id)); if(!r || placed.has(String(id))) continue; placed.add(String(id)); box.appendChild(_tlItem(r)); }
+    row.appendChild(box); board.appendChild(row);
+  }
+  const pool=document.getElementById('tlPool'); pool.innerHTML='';
+  for(const r of memes) if(!placed.has(String(r.id))) pool.appendChild(_tlItem(r));
+}
+// 🖱️ kéo thả bằng pointer (chuột + cảm ứng): ô gốc mờ đi làm chỗ giữ, bản sao bay theo tay, thả xuống thì chèn đúng vị trí
+let _tlDrag=null;
+function _tlDragStart(ev){
+  if(ev.button!==undefined && ev.button!==0) return;
+  ev.preventDefault();
+  const el=ev.currentTarget, rc=el.getBoundingClientRect();
+  const fl=el.cloneNode(true); fl.classList.add('tl-float'); fl.style.left=rc.left+'px'; fl.style.top=rc.top+'px'; fl.style.width=rc.width+'px'; fl.style.height=rc.height+'px';
+  document.body.appendChild(fl); el.classList.add('tl-ghost');
+  _tlDrag={el, fl, dx:ev.clientX-rc.left, dy:ev.clientY-rc.top, over:null, x:ev.clientX, y:ev.clientY};
+  _tlDrag.raf=requestAnimationFrame(_tlAutoScroll);
+  window.addEventListener('pointermove',_tlDragMove); window.addEventListener('pointerup',_tlDragEnd); window.addEventListener('pointercancel',_tlDragEnd);
+}
+// 📜 kéo sát mép trên/dưới màn hình → trang tự cuộn (kho meme dài hơn màn hình, kéo từ dưới kho lên hàng S vẫn tới)
+function _tlAutoScroll(){
+  const D=_tlDrag; if(!D) return;
+  const E=70, h=window.innerHeight, v = D.y<E ? -Math.ceil((E-D.y)/4) : D.y>h-E ? Math.ceil((D.y-(h-E))/4) : 0;
+  if(v){ const y0=window.scrollY; window.scrollBy(0,v); if(window.scrollY!==y0) _tlDragMove({clientX:D.x, clientY:D.y}); }
+  D.raf=requestAnimationFrame(_tlAutoScroll);
+}
+function _tlDragMove(ev){
+  const D=_tlDrag; if(!D) return;
+  D.x=ev.clientX; D.y=ev.clientY;
+  D.fl.style.left=(ev.clientX-D.dx)+'px'; D.fl.style.top=(ev.clientY-D.dy)+'px';
+  const zone=document.elementFromPoint(ev.clientX,ev.clientY)?.closest('.tl-drop')||null;
+  if(D.over!==zone){ if(D.over) D.over.classList.remove('tl-over'); if(zone) zone.classList.add('tl-over'); D.over=zone; }
+  if(!zone) return;
+  // chèn ô gốc ngay trước ô đầu tiên nằm sau con trỏ (theo hàng rồi theo cột)
+  let before=null;
+  for(const c of zone.children){ if(c===D.el) continue; const r=c.getBoundingClientRect();
+    if(ev.clientY<r.top || (ev.clientY<=r.bottom && ev.clientX<r.left+r.width/2)){ before=c; break; } }
+  if(before) { if(D.el.nextSibling!==before) zone.insertBefore(D.el,before); }
+  else if(zone.lastChild!==D.el) zone.appendChild(D.el);
+}
+function _tlDragEnd(){
+  const D=_tlDrag; if(!D) return; _tlDrag=null; cancelAnimationFrame(D.raf);
+  window.removeEventListener('pointermove',_tlDragMove); window.removeEventListener('pointerup',_tlDragEnd); window.removeEventListener('pointercancel',_tlDragEnd);
+  D.fl.remove(); D.el.classList.remove('tl-ghost'); if(D.over) D.over.classList.remove('tl-over');
+  tierList={};
+  document.querySelectorAll('#tlBoard .tl-items').forEach(z=>{ const ids=[...z.children].map(c=>c.dataset.id); if(ids.length) tierList[z.dataset.tier]=ids; });
+  _tlSave();
+}
+
 function openScene(){
   if(window.PLAY_ONLY) return;   // 🔒 bản online chỉ để chơi (Scene Builder = công cụ chỉnh sửa)
   _openSceneScreen();
