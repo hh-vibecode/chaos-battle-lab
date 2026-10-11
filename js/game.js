@@ -15847,8 +15847,12 @@ class Fighter {
         if(this._mwSpinTimer%6===0) this._mwSpinIcon=_mwKeys[Math.floor(Math.random()*_mwKeys.length)];
         if(this._mwSpinTimer<=0){
           this._mwPhase='reveal'; this._mwRevealTimer=18; // 0.3s dừng lại chọn
-          const _mwPool=_mwKeys.filter(k=>k!=='deathnote' || _dnTargets(this).length);   // 📓 địch nào cũng đã bị ghi tên → không ra sổ nữa
-          this._mwItem=_mwPool[Math.floor(Math.random()*_mwPool.length)];
+          this._mwRollN=(this._mwRollN||0)+1;
+          const _dnOK=!this._mwDnUsed && _dnTargets(this).length;   // 📓 sổ Death Note: ĐÚNG 1 LẦN MỖI TRẬN (và còn địch chưa bị ghi tên)
+          const _mwPool=_mwKeys.filter(k=>k!=='deathnote' || _dnOK);
+          if(_dnOK && this._mwRollN<=2) this._mwItem = Math.random()<0.5 ? 'deathnote' : _mwKeys.filter(k=>k!=='deathnote')[Math.floor(Math.random()*(_mwKeys.length-1))];   // 📓 lượt roll 1 và 2: 50% ra sổ
+          else this._mwItem=_mwPool[Math.floor(Math.random()*_mwPool.length)];
+          if(this._mwItem==='deathnote') this._mwDnUsed=true;
           this._mwSpinIcon=this._mwItem;
         }
       } else if(this._mwPhase==='reveal'){
@@ -18340,6 +18344,7 @@ class Fighter {
                    : (this.type==='ricardo' && RC_RG.includes(img)) ? RC_VIS_MUL*RC_RG_MUL/1.5   // 🪩 tư thế rage: cùng cỡ người với nhảy ngắn
                    : (this.type==='doorbellchud' && DC_ALL.includes(img)) ? DC_VIS_MUL*(DC_RG.includes(img)?DC_RG_MUL:1)   // 🔔 hình to thêm 25%; khung phẫn nộ rộng hơn → phóng bù để người cùng cỡ
                    : (this.type==='alottadameguy' && LD_FR.includes(img)) ? LD_VIS_MUL
+                   : (this.type==='maxwell' && img===rageAttackAvatarImgs[i]) ? 1.1   // 🐈‍⬛ GIF xoay vật phẩm Maxwell to thêm 10%
                    : (this.type==='electricguitarcat') ? 1.15  // 🎸 ảnh to hơn 15% (chỉ phần HÌNH, hitbox giữ nguyên cho cân bằng)
                    : (this.type==='pianocat' && img===attackAvatarImgs[i]) ? 1.1  // 🎹 khung 3 (Đánh đàn) nhìn bé hơn khung 1/2 → bù thêm 10%
                    : 1.0;
