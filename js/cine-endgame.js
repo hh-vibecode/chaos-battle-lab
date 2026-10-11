@@ -12,8 +12,8 @@
   const VW=540, VH=960, GROUND=560;
   const A=p=>{ const im=new Image(); im.src=p; return im; };
   const av=k=>A('assets/avatars/'+k+'/avatarUrl.webp');
-  const IMG={ stalin:av('stalincat'), gary:av('evilgary'), larry:av('evillarry'), demon:A('assets/avatars/evillarry/skill1AvatarUrl.webp'),
-    catler:av('feuerkatze'), catlerUp:A('assets/avatars/feuerkatze/attackAvatarUrl.webp'), hammer:A('assets/img/stalincat/STALIN_HAMMER_IMG.webp'),
+  const IMG={ stalin:av('stalincat'), gary:av('evilgary'), larry:av('evillarry'), wdemon:A('assets/img/screamcat/SC_DEMON_IMG.webp'),
+    catler:av('feuerkatze'), cross:A('assets/img/stalincat/STALIN_CROSS_IMG.webp'), catlerUp:A('assets/avatars/feuerkatze/attackAvatarUrl.webp'), hammer:A('assets/img/stalincat/STALIN_HAMMER_IMG.webp'),
     soulT:A('assets/img/evilgary/EG_SOUL_TORSO.webp'), soulL:A('assets/img/evilgary/EG_SOUL_LARM.webp'), soulR:A('assets/img/evilgary/EG_SOUL_RARM.webp') };
   const SOUL_PIV={L:[0.10,0.50], R:[0.893,0.581]};
   const HERO_KEYS=['uiacat','chillguy','electricguitarcat','doge','cheems','ricardo','maxwell','gigachad'];
@@ -52,10 +52,10 @@
   function text(s,x,y,px,fill,stroke,font,al){ g.save(); g.globalAlpha*=(al==null?1:al); g.font=font||`900 ${px}px Impact,"Arial Black",sans-serif`; g.textAlign='center'; g.textBaseline='middle'; g.lineJoin='round';
     if(stroke){ g.lineWidth=px*0.16; g.strokeStyle=stroke; g.strokeText(s,x,y); } g.fillStyle=fill; g.fillText(s,x,y); g.restore(); }
   // ── linh hồn xanh: thân + 2 tay tách rời; trả về vị trí MÓNG tay phải (world) ──
-  function soul(x,y,h,flip,aR,aL,a){ const im=IMG.soulT; if(!im.naturalWidth) return null;
+  function soul(x,y,h,flip,aR,aL,a,lean){ const im=IMG.soulT; if(!im.naturalWidth) return null;
     const w=h*im.naturalWidth/im.naturalHeight, top=-h*0.55;
-    y-=h*0.45;   // y truyền vào = chân
-    g.save(); g.globalAlpha*=a; g.translate(x,y); g.scale(flip?-1:1,1);
+    g.save(); g.globalAlpha*=a; g.translate(x,y); if(lean) g.rotate(lean); g.translate(0,-h*0.45); y-=h*0.45;   // y truyền vào = chân; lean = chúi người (xoay quanh chân)
+    g.scale(flip?-1:1,1);
     const arm=(L,pv,an)=>{ const pX=-w/2+w*pv[0], pY=top+h*pv[1]; g.save(); g.translate(pX,pY); g.rotate(an); g.translate(-pX,-pY); g.drawImage(L,-w/2,top,w,h); g.restore(); };
     g.shadowColor='rgba(80,255,190,0.5)'; g.shadowBlur=12;
     arm(IMG.soulL,SOUL_PIV.L,aL); arm(IMG.soulR,SOUL_PIV.R,aR); g.drawImage(IMG.soulT,-w/2,top,w,h);
@@ -79,9 +79,11 @@
   function portal(x,y,r,k,t,seed){ if(k<=0.01) return; const R=r*eout(k), cy=y-R*1.02;
     g.save(); g.translate(x,cy);
     g.save(); g.beginPath(); g.ellipse(0,0,R*0.8,R,0,0,Math.PI*2); g.clip();
-    const sk=g.createLinearGradient(0,-R,0,R); sk.addColorStop(0,'#7ec8ff'); sk.addColorStop(0.62,'#cfe9ff'); sk.addColorStop(0.63,'#6d9b5a'); sk.addColorStop(1,'#3e6a34');   // trời xanh + đồng cỏ phía bên kia
-    g.fillStyle=sk; g.fillRect(-R,-R,R*2,R*2);
-    g.globalAlpha=0.7; g.fillStyle='#fff'; for(let i=0;i<3;i++){ const cx=((seed*37+i*29+t*8)%(R*2))-R, yy=-R*0.4+i*R*0.18; g.beginPath(); g.ellipse(cx,yy,R*0.25,R*0.08,0,0,Math.PI*2); g.fill(); }
+    g.fillStyle='#4574c6'; g.fillRect(-R,-R,R*2,R*2);   // phía bên kia cổng là SÀN ĐẤU xanh của game → meme chui ra từ sàn đấu
+    g.save(); g.translate(0,R*0.12); g.scale(1,0.55);   // viền sàn đấu (3 vòng #333 → #888 → #333), nhìn chếch phối cảnh
+    for(const [lw,c] of [[R*0.12,'#2b2b2b'],[R*0.065,'#8a8a8a'],[R*0.03,'#2b2b2b']]){ g.strokeStyle=c; g.lineWidth=lw; g.beginPath(); g.roundRect(-R*0.6,-R*0.6,R*1.2,R*1.2,R*0.08); g.stroke(); }
+    g.restore();
+    const lg=g.createRadialGradient(0,R*0.1,0,0,0,R); lg.addColorStop(0,'rgba(255,255,255,0.28)'); lg.addColorStop(1,'rgba(255,255,255,0)'); g.fillStyle=lg; g.fillRect(-R,-R,R*2,R*2);
     g.restore();
     g.globalCompositeOperation='lighter';
     g.strokeStyle='rgba(255,170,40,0.95)'; g.lineWidth=3.5; g.shadowColor='#ff9100'; g.shadowBlur=18; g.beginPath(); g.ellipse(0,0,R*0.8,R,0,0,Math.PI*2); g.stroke(); g.shadowBlur=0;
@@ -96,137 +98,201 @@
     [330,820,60, 330,850,120],[-175,800,58,-175,840,118],[440,720,52, 440,752,104],[-310,700,50,-310,735,100],
     [250,680,46, 250,710, 94],[-160,690,48,-160,722, 96],[540,650,44, 540,680, 88],[580,790,62, 580,830,132]];
   const BACKP=[[-260,640,30],[-90,612,28],[60,602,26],[210,606,28],[360,616,30],[480,600,24],[-200,600,24],[600,612,26]];
-  const HERO_T0=13.4, HERO_DT=1.3;
-  const SOULS=[{a:3.6},{a:2.5},{a:0.75},{a:5.6},{a:1.75}].map((s,i)=>({...s,ph:i*1.3}));
+  const HERO_T0=13.4, HERO_DT=1.3, UIA_T=10.2, UIA_SPIN=2.2;   // UIA lao tới trước, xoay 2.2s mở các cổng; meme khác bước ra từ HERO_T0
+  const SOULS=[{a:3.3},{a:2.85},{a:0.2},{a:5.75},{a:4.5}].map((s,i)=>({...s,ph:i*1.3}));
   const ATT={x:ST.x+112, y:ST.y+14}, ATT_H=232;   // linh hồn vung nhát kết liễu: to, lừng lững bên phải Stalin
   function setup(){
     parts=[]; played={};
-    heroes=HERO_KEYS.map((k,i)=>({k, name:nameOf(k).toUpperCase(), im:av(k), P:HP[i], t:HERO_T0+i*HERO_DT}));
+    heroes=HERO_KEYS.map((k,i)=>({k, name:nameOf(k).toUpperCase(), im:av(k), P:HP[i], t:i===0?UIA_T:HERO_T0+(i-1)*HERO_DT}));
     const pool=RO().filter(r=>r && r.charKey && !USED.has(r.charKey) && r.avatarUrl).map(r=>r.avatarUrl).sort(()=>Math.random()-0.5).slice(0,34);
     crowd=pool.map((u,i)=>{ const p=BACKP[i%BACKP.length]; return {im:A(u), p, t:13.6+i*0.27, tx:p[0]+(Math.random()-0.5)*110, ty:p[1]+6+Math.random()*34, h:40+Math.random()*16, ph:Math.random()*6}; });
   }
   // 🌀 UIA CAT: lao vút từ ngoài khung vào đúng cổng (bóng tàn ảnh + vệt tốc độ) → xoay tít kiểu OIIA chậm dần → đứng nhìn
-  function uiaDraw(H,tf,chargeK,run,D){ const P=H.P, dash=seg(tf,H.t,H.t+0.22), spin=seg(tf,H.t+0.22,H.t+0.9); if(dash<=0) return;
+  function uiaDraw(H,tf,chargeK,run,D){ const P=H.P, dash=seg(tf,H.t,H.t+0.22), spin=seg(tf,H.t+0.22,H.t+0.22+UIA_SPIN); if(dash<=0) return;
     const x0=P[3]-520, x=lerp(x0,P[3],eout(dash))+run(230), y=P[4], hh=P[5];
     D.push({y, f:()=>{
       if(dash<1){ for(let k=1;k<=5;k++){ const gx=lerp(x0,P[3],Math.max(0,eout(dash)-k*0.07)); actor(H.im,gx,y,hh,{a:0.35-k*0.06,sx:Math.cos(tf*60+k)}); }
         g.save(); g.globalCompositeOperation='lighter'; g.strokeStyle='rgba(255,255,255,0.8)'; g.lineWidth=3; for(let k=0;k<6;k++){ const yy=y-hh*(0.15+k*0.14); g.beginPath(); g.moveTo(x-30,yy); g.lineTo(x-220,yy); g.stroke(); } g.restore(); }
       const sp=dash<1?60:lerp(55,0,eout(spin)), ph=(tf-H.t)*sp, sx=spin<1?Math.cos(ph):1;   // xoay quanh trục dọc (lật mặt) nhanh → chậm dần
       shadow(x,y,hh*0.3,0.4); actor(H.im,x,y-(chargeK>0?Math.abs(Math.sin(tf*9))*6:0),hh,{sx:Math.abs(sx)<0.08?0.08:sx,rot:chargeK>0?0.13:0});
-      if(spin>0 && spin<1){ g.save(); g.globalCompositeOperation='lighter'; for(let k=0;k<2;k++){ g.strokeStyle=`rgba(200,230,255,${0.6*(1-spin)})`; g.lineWidth=2; g.beginPath(); g.ellipse(x,y-hh*(0.35+k*0.3),hh*0.55,hh*0.12,0,0,Math.PI*2); g.stroke(); } g.restore(); }   // vòng gió xoáy
+      if(spin>0 && spin<1){ g.save(); g.globalCompositeOperation='lighter';   // 🌀 vòng năng lượng cam toả ra theo vòng xoay → mở các cổng
+        for(let q=0;q<3;q++){ const v=((tf-H.t-0.22)*1.4+q/3)%1; g.strokeStyle=`rgba(255,170,40,${0.7*(1-v)*(1-spin*0.5)})`; g.lineWidth=3*(1-v)+1; g.beginPath(); g.ellipse(x,y-hh*0.3,40+v*520,(40+v*520)*0.32,0,0,Math.PI*2); g.stroke(); }
+        g.restore(); g.save(); g.globalCompositeOperation='lighter'; for(let k=0;k<2;k++){ g.strokeStyle=`rgba(200,230,255,${0.6*(1-spin)})`; g.lineWidth=2; g.beginPath(); g.ellipse(x,y-hh*(0.35+k*0.3),hh*0.55,hh*0.12,0,0,Math.PI*2); g.stroke(); } g.restore(); }   // vòng gió xoáy
     }}); }
+  const SUM0=2.6, SUM_D=6.0;   // 😈 đoạn chèn: Evil Gary thắp ngôi sao quỷ, gọi Evil Larry khổng lồ + quỷ có cánh trên trời
+  const T_UP=3.0, T_HOLD=3.7, T_STRIKE=4.12, T_BLOCK=4.35;   // giơ tay → gồng giữ trên cao → bổ xuống → bị chặn
+  // 🎵 nhạc/tiếng nền chạy theo THỜI GIAN THẬT của phim (tR): tự bám đúng chỗ khi tua, dừng khi tạm dừng/đóng
+  //   tim đập chậm (Stalin nằm) → tim đập nhanh (quỷ gồng tay) → kèn chiến trận dồn dần (UIA tới, cổng mở, meme bước ra)
+  //   → dàn nhạc chiến trận (Memes… assemble → lao vào) → cắt phụt lúc DỪNG HÌNH
+  let MUS=[];
+  function musSetup(){ musStop(); const E=tE()+SUM_D, TB=T_BLOCK+SUM_D, TF=E+10.0, EP=E+3.3;
+    const mk=(src,a,b,vol,o)=>Object.assign({el:Object.assign(new Audio(src),{preload:'auto'}),a,b,vol},o||{});
+    MUS=[ mk('assets/audio/cine_heart.mp3',0.4,SUM0,0.9,{loop:true,fi:0.6,fo:0.4}),
+      mk('assets/audio/cine_heart.mp3',SUM0+SUM_D,T_HOLD+SUM_D,0.9,{loop:true,fi:0.3,fo:0.15}),
+      mk('assets/audio/cine_heart_fast.mp3',T_HOLD+SUM_D,TB,1.0,{loop:true,fo:0.05}),
+      mk('assets/audio/cine_portal.mp3',UIA_T+SUM_D+0.6,UIA_T+SUM_D+3.8,0.9),
+      mk('assets/audio/cine_horns.mp3',UIA_T+SUM_D-0.2,TF,0.95,{fi:1.2,duckA:EP,duckB:EP+1.0,duckTo:0.3}),
+      mk('assets/audio/cine_epic.mp3',EP,TF,1.0,{fi:0.25}) ];
+    for(const m of MUS) m.el.loop=!!m.loop; }
+  function musTick(tR){ for(const m of MUS){ const on=!paused && tR>=m.a && tR<m.b;
+      if(!on){ if(!m.el.paused) m.el.pause(); continue; }
+      const pos=tR-m.a, d=m.el.duration||1e9;
+      if(!m.loop && pos>=d){ if(!m.el.paused) m.el.pause(); continue; }
+      if(m.el.paused){ try{ m.el.currentTime=m.loop?pos%d:pos; }catch(e){} m.el.play().catch(()=>{}); }
+      else if(!m.loop && Math.abs(m.el.currentTime-pos)>0.35){ try{ m.el.currentTime=pos; }catch(e){} }   // lệch nhịp (sau khi tua) → bám lại
+      let v=m.vol; if(m.fi) v*=seg(tR,m.a,m.a+m.fi); if(m.fo) v*=1-seg(tR,m.b-m.fo,m.b); if(m.duckA) v*=lerp(1,m.duckTo,seg(tR,m.duckA,m.duckB));
+      m.el.volume=clamp(v,0,1); } }
+  function musStop(){ for(const m of MUS){ try{ m.el.pause(); }catch(e){} } }
   let C=null;   // điểm bàn tay mèo chụp móng linh hồn (chốt lúc chặn)
   // góc tay phải của linh hồn để móng chĩa đúng điểm NGAY TRÊN ĐẦU Stalin (nơi bàn tay Catler sẽ chặn)
-  function attEndAngle(){ const im=IMG.soulT; if(!im.naturalWidth) return -2.4; const h=ATT_H, w=h*im.naturalWidth/im.naturalHeight, top=-h*0.55, yc=ATT.y-h*0.45;
-    const pX=-w/2+w*SOUL_PIV.R[0], pY=top+h*SOUL_PIV.R[1], vx=(0.76-SOUL_PIV.R[0])*w, vy=(0.97-SOUL_PIV.R[1])*h;
-    const lx=-(ST.x+28-ATT.x), ly=(ST.y-200)-yc; let a=Math.atan2(ly-pY,lx-pX)-Math.atan2(vy,vx);
-    while(a>0.5) a-=Math.PI*2; while(a<-Math.PI*1.6) a+=Math.PI*2; return a; }
+  function attGeo(){ const im=IMG.soulT; if(!im.naturalWidth) return null; const h=ATT_H, w=h*im.naturalWidth/im.naturalHeight, top=-h*0.55, yc=ATT.y-h*0.45;
+    return { yc, pX:-w/2+w*SOUL_PIV.R[0], pY:top+h*SOUL_PIV.R[1], vx:(0.76-SOUL_PIV.R[0])*w, vy:(0.97-SOUL_PIV.R[1])*h }; }
+  const norm=a=>{ while(a>0.5) a-=Math.PI*2; while(a<-Math.PI*1.6) a+=Math.PI*2; return a; };
+  function attEndAngle(){ const G=attGeo(); if(!G) return -2.4;   // móng chĩa xuống điểm NGAY TRÊN NGƯỜI Stalin đang nằm (chỗ bàn tay Catler chặn)
+    const lx=-(ST.x+20-ATT.x), ly=(ST.y-150)-G.yc; return norm(Math.atan2(ly-G.pY,lx-G.pX)-Math.atan2(G.vy,G.vx)); }
+  function attUpAngle(){ const G=attGeo(); if(!G) return -3.3; return norm(-Math.PI/2-Math.atan2(G.vy,G.vx))-0.28; }   // tay giơ THẲNG lên trời, hơi ngả ra sau
+  // ⛧ ngôi sao quỷ vẽ dần từng nét trên mặt đất quanh Evil Gary + cột sáng đỏ
+  function pentagram(x,y,k,tm){ const RX=175, RY=46, P=[0,1,2,3,4].map(i=>{ const a=-Math.PI/2+i*Math.PI*2/5; return [x+Math.cos(a)*RX, y+Math.sin(a)*RY]; }), ord=[0,2,4,1,3,0];
+    const pul=0.75+0.25*Math.sin(tm*6);
+    g.save(); g.globalCompositeOperation='lighter'; g.lineCap='round'; g.lineJoin='round';
+    const segs=5, drawn=k*(segs+1);
+    for(const [lw,c,al] of [[12,'255,30,30',0.25],[5,'255,60,40',0.6],[2,'255,220,200',0.95]]){ g.strokeStyle=`rgba(${c},${al*pul})`; g.lineWidth=lw;
+      g.beginPath(); for(let i=0;i<segs && i<drawn;i++){ const a=P[ord[i]], b=P[ord[i+1]], u=Math.min(1,drawn-i); if(i===0) g.moveTo(a[0],a[1]); g.lineTo(a[0]+(b[0]-a[0])*u, a[1]+(b[1]-a[1])*u); } g.stroke();
+      if(drawn>segs){ g.beginPath(); g.ellipse(x,y,RX*1.08,RY*1.08,0,-Math.PI/2,-Math.PI/2+Math.PI*2*Math.min(1,drawn-segs)); g.stroke(); } }
+    if(k>=1){ const pg=g.createLinearGradient(x-RX,0,x+RX,0); pg.addColorStop(0,'rgba(255,0,0,0)'); pg.addColorStop(0.5,`rgba(255,40,30,${0.22*pul})`); pg.addColorStop(1,'rgba(255,0,0,0)'); g.fillStyle=pg; g.fillRect(x-RX,y-900,RX*2,900); }
+    g.restore(); }
+  // 🦇 quỷ có cánh (sprite bung cánh của Evil Gary): khung 5 choàng áo → 6 cánh đang mở → 7 dang hết cánh
+  function wingDemon(x,yB,w,a,wing,tm){ const im=IMG.wdemon; if(!im.naturalWidth) return; const FW=494, FH=320, h=w*FH/FW, fr=5+Math.min(2,Math.floor(wing*3));
+    g.save(); g.globalAlpha=a*0.95; g.shadowColor='rgba(255,0,0,0.85)'; g.shadowBlur=40; g.drawImage(im,fr*FW,0,FW,FH,x-w/2,yB-h,w,h); g.restore();
+    g.save(); g.globalCompositeOperation='lighter'; const ex=x-w/2+w*0.553, ey=yB-h+h*0.55, ep=0.6+0.4*Math.sin(tm*5); glow(ex,ey,w*0.07,0.7*a*ep,'255,40,30'); g.restore(); }
+  // máy quay đoạn triệu hồi: Gary + ngôi sao → Larry trồi lên → ngửa lên trời thấy quỷ có cánh
+  function sumCam(u){ const K=[[0,GARY.x-10,640,0.95],[2.2,GARY.x-10,630,0.85],[2.6,GARY.x,540,0.62],[3.4,GARY.x,470,0.55],[4.0,GARY.x-20,280,0.42],[6.0,GARY.x-20,250,0.42]];
+    for(let i=0;i<K.length-1;i++){ const a=K[i], b=K[i+1]; if(u>=a[0] && u<=b[0]){ const k=eio((u-a[0])/(b[0]-a[0])); return [lerp(a[1],b[1],k),lerp(a[2],b[2],k),lerp(a[3],b[3],k)]; } } return [K[5][1],K[5][2],K[5][3]]; }
   const PAW=[0.11,0.075];   // bàn tay giơ lên trong ảnh Catler giơ tay (tỉ lệ theo khung bao hình)
-  function catBlockPos(){ const c=prep(IMG.catlerUp), fy=ST.y-6; if(!C||!c) return {x:ST.x-20,y:fy,h:150};
-    const h=clamp((fy-C[1])/(1-PAW[1]),105,180), w=h*c.sw/c.sh; return {x:C[0]-(0.5-PAW[0])*w, y:fy, h}; }
-  const tE=()=>HERO_T0+HERO_DT*heroes.length;   // ≈23.8
+  function catBlockPos(){ const c=prep(IMG.catlerUp), fy=ST.y-4; if(!C||!c) return {x:ST.x-20,y:fy,h:150};
+    const h=clamp((fy-C[1])/(1-PAW[1]),120,200), w=h*c.sw/c.sh; return {x:C[0]-(0.5-PAW[0])*w, y:fy, h}; }
+  const tE=()=>HERO_T0+HERO_DT*(heroes.length-1);   // ≈22.5 (UIA đã ra trước)
   function camAt(t){
     const E=tE();
-    if(t>=HERO_T0 && t<E){ const i=Math.floor((t-HERO_T0)/HERO_DT), P=heroes[i].P, u=(t-HERO_T0-i*HERO_DT)/HERO_DT;
+    if(t>=E+8.0){ const u=seg(t,E+8.0,E+10.0), k=eio(seg(u,0.3,0.85)); return [GARY.x-250+lerp(0,25,k), lerp(612,470,k), lerp(0.95,0.7,k)]; }   // cảnh cuối (CẮT): lao vào → ngửa máy theo cú nhảy
+    if(t>=HERO_T0 && t<E){ const i=1+Math.floor((t-HERO_T0)/HERO_DT), P=heroes[i].P, u=(t-HERO_T0-(i-1)*HERO_DT)/HERO_DT;
       return [P[3], P[4]-P[5]*0.55, lerp(1.85,2.05,u)]; }
     const cx=C?C[0]:ST.x+80, cy=C?C[1]:ST.y-150;
-    const K=[[0,170,700,1.05],[3,160,700,1.45],[4.45,190,690,1.85],[4.62,cx,cy,3.4],[5.6,cx,cy,3.4],[6.6,ST.x+10,700,1.55],[7.0,ST.x-10,680,1.7],[7.7,170,700,1.25],[9.6,170,700,1.15],
-      [10.4,140,680,0.7],[HERO_T0,140,680,0.7],
+    const K=[[0,170,720,1.0],[T_UP,162,716,1.2],                       // cảnh 1: toàn cảnh, đẩy máy rất chậm
+      [T_UP,ST.x+70,655,1.5],[T_BLOCK,ST.x+70,645,1.65],                  // cảnh 2 (CẮT): góc thấp — quỷ giơ tay gồng lên rồi bổ xuống
+      [T_BLOCK,cx-15,cy+40,2.25],[5.5,cx-15,cy+38,2.4],                   // cảnh 3 (CẮT): khung chặn đòn
+      [5.5,ST.x+20,705,1.3],[6.75,ST.x+10,695,1.38],                      // cảnh 4 (CẮT): toàn cảnh Catler che chở Stalin
+      [6.85,ST.x-10,680,1.6],[7.7,170,700,1.25],[9.6,170,700,1.15],
+      [UIA_T,170,700,1.15],[UIA_T,HP[0][3],HP[0][4]-70,1.75],[UIA_T+1.0,HP[0][3],HP[0][4]-75,1.85],[UIA_T+2.3,140,680,0.7],[HERO_T0,140,680,0.7],
       [E,140,690,0.56],[E+1.2,150,690,0.52],[E+1.7,ST.x-20,730,1.55],[E+3.3,ST.x,715,1.6],[E+4.2,ST.x+20,700,1.4],
-      [E+4.8,GARY.x,470,0.6],[E+6.8,GARY.x-10,480,0.55],[E+7.2,470,640,0.62],[E+9.0,560,630,0.58],[999,560,630,0.58]];
+      [E+4.8,GARY.x,470,0.6],[E+6.8,GARY.x-10,480,0.55],[E+7.0,450,645,0.62],[E+8.0,500,640,0.6],[999,500,640,0.6]];
     for(let i=0;i<K.length-1;i++){ const a=K[i], b=K[i+1]; if(t>=a[0] && t<=b[0]){ const k=(b[0]-a[0]<0.2)?1:eio((t-a[0])/(b[0]-a[0])); return [lerp(a[1],b[1],k),lerp(a[2],b[2],k),lerp(a[3],b[3],k)]; } }
     return [560,630,0.58];
   }
   function frame(now){
     raf=requestAnimationFrame(frame);
-    const t=paused?pauseT:(now-t0)/1000;
-    const E=tE(), T_CHARGE=E+7.0, T_FREEZE=E+8.9, T_END=E+12.4;
+    const tR=paused?pauseT:(now-t0)/1000;                        // thời gian THẬT của phim
+    const inSum=tR>=SUM0 && tR<SUM0+SUM_D, su=tR-SUM0;           // đang ở đoạn Evil Gary triệu hồi?
+    const t=tR<SUM0?tR:(inSum?SUM0:tR-SUM_D);                    // thời gian của kịch bản cũ (đứng yên trong lúc triệu hồi)
+    const E=tE(), T_CHARGE=E+7.0, T_CUT2=E+8.0, T_FREEZE=E+10.0, T_END=E+13.5;
     const tf=Math.min(t,T_FREEZE);
     // ── âm thanh ──
-    if(t>=3.85) sfx('whoosh','wg_axe_whoosh',0.9);
-    if(t>=4.62){ sfx('block','vine_boom',1.0); sfx('clang','bk_clang',0.7); }
+    if(t>=T_STRIKE) sfx('whoosh','wg_axe_whoosh',1.0);
+    if(t>=T_BLOCK){ sfx('block','vine_boom',1.0); sfx('clang','bk_clang',0.75); }
     if(t>=6.85) sfx('nein','nein',1.0);
     if(t>=7.3) sfx('blast','ultimate_charge_2',0.8);
     for(let i=0;i<5;i++) if(t>=7.55+i*0.2) sfx('die'+i,'death_break',0.45);
-    if(t>=10.2) sfx('uia','uiacat_spin',1.0);
-    if(t>=10.9) sfx('p1','uia_teleport',0.5);
     for(let i=0;i<heroes.length;i++) if(t>=heroes[i].t+0.05) (HERO_SFX[heroes[i].k]||[]).forEach((q,j)=>sfx('h'+i+'_'+j,q[0],q[1],q[2]));
     if(t>=E+3.0) sfx('ham','holy_thunder',0.85);
     if(t>=E+4.9) sfx('thunder','holy_thunder',1.0);
-    if(t>=E+5.3) sfx('laugh','gp_evil_laugh',0.9);
+    if(tR>=SUM0+0.3) sfx('s_necro','eg_necro',1.0);
+    if(tR>=SUM0+1.9) sfx('s_thunder','holy_thunder',0.9);
+    if(tR>=SUM0+2.5) sfx('s_roar','gary_titan_roar',0.9,2.2);
+    if(tR>=SUM0+3.7) sfx('s_wing','sc_wing',1.0);
+    if(tR>=SUM0+4.5) sfx('s_laugh','gp_evil_laugh',0.95);
+    if(t>=T_CUT2+0.66*(T_FREEZE-T_CUT2)) sfx('sun','stalin_domain',1.0,2.0);
     if(t>=T_FREEZE) sfx('freeze','vine_boom',1.0);
     // ── máy quay ──
-    let [cx,cy,cz]=camAt(tf); if(t>=T_FREEZE) cz*=1+0.07*eout(seg(t,T_FREEZE,T_FREEZE+0.4));
-    shake*=0.88; if(Math.abs(t-4.66)<0.05) shake=10; if(Math.abs(t-7.33)<0.05) shake=8; if(Math.abs(t-(E+4.95))<0.05) shake=8; if(Math.abs(t-(E+3.05))<0.05) shake=7; if(t>=T_FREEZE&&t<T_FREEZE+0.06) shake=12;
+    let [cx,cy,cz]=inSum?sumCam(su):camAt(tf); if(t>=T_FREEZE) cz*=1+0.07*eout(seg(t,T_FREEZE,T_FREEZE+0.4));
+    shake*=0.88; if(Math.abs(t-(T_BLOCK+0.03))<0.05) shake=12; if(t>T_HOLD && t<T_STRIKE) shake=Math.max(shake,1.5); if(Math.abs(t-7.33)<0.05) shake=8; if(Math.abs(t-(E+4.95))<0.05) shake=8; if(Math.abs(t-(E+3.05))<0.05) shake=7; if(t>=T_FREEZE&&t<T_FREEZE+0.06) shake=12;
     const ox=(Math.random()-0.5)*shake, oy=(Math.random()-0.5)*shake;
     g.setTransform(1,0,0,1,0,0); g.fillStyle='#000'; g.fillRect(0,0,cv.width,cv.height);
     g.setTransform(SC*cz,0,0,SC*cz,SC*(VW/2-cx*cz+ox),SC*(VH/2-cy*cz+oy));
-    const red=eio(seg(tf,E+4.7,E+5.6));
+    const red=eio(seg(tR,SUM0+1.8,SUM0+3.0));
+    const fin=tf>=T_CUT2, finU=seg(tf,T_CUT2,T_FREEZE), FX=lerp(GARY.x-480,GARY.x-235,eio(finU)), FY=GARY.y+52;   // cảnh cuối: Stalin dẫn đầu lao tới…
+    const jump=eout(seg(finU,0.32,0.85)), JY=FY-280*jump, sunK=seg(finU,0.66,0.8);   // …nhảy vọt lên, búa + liềm chạm nhau loé sáng như MẶT TRỜI   // trời hoá đỏ từ lúc triệu hồi và giữ tới cuối
     // ── nền: trời bão / thành phố đổ nát / mặt đất cháy sém (js/cine-bg.js) — tự chuyển sang Upside Down đỏ theo `red` ──
     if(window._cineBG) window._cineBG.draw(g,tf,red);
     if(red>0){ if(Math.sin(tf*19)>0.86 || Math.random()<0.025){ g.fillStyle=`rgba(255,40,40,${0.16*red})`; g.fillRect(-1400,-1400,3000,GROUND+1400);
         bolt(GARY.x-260+Math.random()*520,-700,GARY.x-150+Math.random()*300,GROUND-180,4,red,'255,30,30','255,210,210'); } }
     // ── phe ác: bóng quỷ → Evil Larry khổng lồ → Evil Gary ──
-    const rise=eout(seg(tf,E+5.0,E+6.2)), riseD=eout(seg(tf,E+5.6,E+6.8));
-    if(riseD>0){ g.save(); g.globalAlpha=0.85*riseD; actor(IMG.demon,GARY.x+20,GROUND+120+(1-riseD)*560,1080,{glow:'rgba(255,0,0,0.9)',gb:50}); g.restore(); glow(GARY.x+20,GROUND-700,300,0.3*riseD,'255,30,30'); }
-    if(rise>0){ actor(IMG.larry,GARY.x+20,GROUND+40+(1-rise)*420,600,{flip:true,glow:'rgba(170,0,255,0.75)',gb:34,sy:1+0.012*Math.sin(tf*2)}); }
-    { const lb=1+0.04*Math.abs(Math.sin(tf*7)); glow(GARY.x,GARY.y-50,130,0.25+0.25*red,'255,40,40'); shadow(GARY.x,GARY.y,60); actor(IMG.gary,GARY.x,GARY.y,125,{flip:true,sy:lb,glow:'rgba(255,30,30,0.95)',gb:22}); }
+    const rise=eout(seg(tR,SUM0+2.4,SUM0+3.8)), demA=eout(seg(tR,SUM0+3.3,SUM0+4.1)), wing=seg(tR,SUM0+3.6,SUM0+5.0), starK=seg(tR,SUM0+0.3,SUM0+2.0);
+    if(demA>0) wingDemon(GARY.x-20,GROUND-240+Math.sin(tR*1.3)*12,1300,demA,wing,tR);   // 🦇 quỷ có cánh khổng lồ trên trời
+    if(starK>0) pentagram(GARY.x,GARY.y+6,starK,tR);                                      // ⛧ ngôi sao quỷ dưới chân Gary
+    const turn=eio(seg(tf,E+5.0,E+5.9)), tsx=(v=>Math.sign(v||1)*Math.max(0.06,Math.abs(v)))(lerp(-1,1,turn));   // Larry + Gary đang quay lưng → QUAY MẶT LẠI phía đội meme
+    const finK=fin?eio(finU):0;
+    if(rise>0){ actor(IMG.larry,GARY.x+20-finK*30,GROUND+40+(1-rise)*420,600,{sx:tsx,rot:-0.07*finK,glow:'rgba(170,0,255,0.75)',gb:34,sy:1+0.012*Math.sin(tf*2)}); }
+    { const lb=1+0.04*Math.abs(Math.sin(tf*7)); glow(GARY.x,GARY.y-50,130+60*(inSum?1:0),0.25+0.25*red+(inSum?0.25*Math.sin(tR*8)*0.5+0.2:0),'255,40,40'); const gx=GARY.x-finK*90, gy=GARY.y-Math.sin(Math.PI*finK)*18; shadow(gx,GARY.y,60); actor(IMG.gary,gx,gy,125,{sx:tsx,sy:lb,rot:-0.12*finK,glow:'rgba(255,30,30,0.95)',gb:22}); }
     // ── cổng không gian (đóng lại sau khi meme bước ra) ──
     const chargeK=seg(tf,T_CHARGE,T_FREEZE), run=d=>eio(chargeK)*d;
-    heroes.forEach((H,i)=>{ const P=H.P; const k=seg(tf,10.6+i*0.3,11.1+i*0.3)*(1-seg(tf,H.t+1.0,H.t+1.5)); portal(P[0],P[1],P[2],k,tf,i); });
-    BACKP.forEach((p,i)=>{ const k=seg(tf,11.4+i*0.25,11.9+i*0.25)*(1-seg(tf,E+0.6,E+1.2)); portal(p[0],p[1],p[2],k,tf,i+20); });
+    heroes.forEach((H,i)=>{ if(i===0) return; const P=H.P, o=UIA_T+0.6+(i-1)*0.22; const k=seg(tf,o,o+0.5)*(1-seg(tf,H.t+1.0,H.t+1.5)); portal(P[0],P[1],P[2],k,tf,i); });
+    BACKP.forEach((p,i)=>{ const k=seg(tf,UIA_T+1.0+i*0.2,UIA_T+1.5+i*0.2)*(1-seg(tf,E+0.6,E+1.2)); portal(p[0],p[1],p[2],k,tf,i+20); });
     // ── vẽ theo chiều sâu (y nhỏ = xa = vẽ trước) ──
     const D=[];
-    for(const c of crowd){ const u=seg(tf,c.t,c.t+1.0); if(u<=0) continue; const y=lerp(c.p[1]-4,c.ty,eout(u));
+    for(const c of crowd){ if(fin) break; const u=seg(tf,c.t,c.t+1.0); if(u<=0) continue; const y=lerp(c.p[1]-4,c.ty,eout(u));
       D.push({y, f:()=>{ const x=lerp(c.p[0],c.tx,eout(u))+run(220), mv=u<1||chargeK>0, bob=Math.abs(Math.sin((tf+c.ph)*(mv?9:2.5)))*(mv?4:1);
         shadow(x,y,c.h*0.33,0.35); actor(c.im,x,y-bob,c.h*(0.4+0.6*eout(u)),{a:Math.min(1,u*3),rot:chargeK>0?0.12:Math.sin(tf*1.5+c.ph)*0.03}); }}); }
-    for(const H of heroes){ if(H.k==='uiacat'){ uiaDraw(H,tf,chargeK,run,D); continue; }
+    for(const H of heroes){ if(fin) break; if(H.k==='uiacat'){ uiaDraw(H,tf,chargeK,run,D); continue; }
       const u=seg(tf,H.t,H.t+0.8); if(u<=0) continue; const P=H.P, y=lerp(P[1]-6,P[4],eout(u));
       D.push({y, f:()=>{ const x=lerp(P[0],P[3],eout(u))+run(230), mv=u<1||chargeK>0, bob=Math.abs(Math.sin(tf*9+H.t))*(mv?6:1.2), hh=lerp(P[5]*0.45,P[5],eout(u));
         shadow(x,y,hh*0.3,0.4); actor(H.im,x,y-bob,hh,{a:Math.min(1,u*4),rot:chargeK>0?0.13:Math.sin(tf*2+H.t)*0.025}); }}); }
     // Stalin
     const stand=eout(seg(tf,E+2.5,E+3.2)), raise=eout(seg(tf,E+3.0,E+3.5));
-    D.push({y:ST.y, f:()=>{ const x=ST.x+run(240), bob=chargeK>0?Math.abs(Math.sin(tf*9))*7:0;
-      shadow(x,ST.y,62); actor(IMG.stalin,x,ST.y-bob,170,{sy:lerp(0.8,1,stand),rot:chargeK>0?0.12:lerp(-0.1,0,stand)}); }});
+    D.push({y:fin?FY:ST.y, f:()=>{ if(fin){ const b=jump>0?0:Math.abs(Math.sin(tf*10))*8; shadow(FX,FY,58*(1-jump*0.5)); actor(IMG.stalin,FX,JY-b,170,{rot:0.16-0.2*jump}); return; }
+      const x=lerp(ST.x+62,ST.x,stand)+run(240), bob=chargeK>0?Math.abs(Math.sin(tf*9))*7:0, br=stand<1?0.02*Math.sin(tf*2.2):0;   // thở thoi thóp
+      shadow(lerp(ST.x-8,ST.x,stand)+run(240),ST.y,lerp(85,62,stand)); actor(IMG.stalin,x,ST.y-bob,lerp(150,170,stand),{sy:1+br,rot:chargeK>0?0.12:lerp(-1.48,0,stand)}); }});
     // Catler: đứng NGAY SAU LƯNG Stalin, dùng đúng ảnh Catler GIƠ TAY (ảnh lật để tay giơ về phía linh hồn) — bàn tay chặn
     //   đúng móng linh hồn ngay trên đầu Stalin · sau cú nổ thì về ảnh thường và bước sang trái Stalin (chỗ nhặt búa)
     const BP=catBlockPos(), mv=eio(seg(tf,9.0,10.0)), catX=lerp(BP.x,CATP.x,mv), catY=lerp(BP.y,CATP.y,mv);
-    if(tf>=4.5) D.push({y:catY, f:()=>{ const nein=seg(tf,6.85,7.5), nb=nein>0&&nein<1?1+0.04*Math.sin(tf*60):1, x=catX+run(240), y=catY-(chargeK>0?Math.abs(Math.sin(tf*9))*7:0), a=eout(seg(tf,4.5,4.62));
+    if(tf>=T_BLOCK-0.02) D.push({y:fin?FY+20:(tf<9.5?99999:catY), f:()=>{ if(fin){ const b=Math.abs(Math.sin(tf*10+1))*8; shadow(FX-85,FY+20,50); actor(IMG.catler,FX-85,FY+20-b,155,{rot:0.16}); return; } const nein=seg(tf,6.85,7.5), nb=nein>0&&nein<1?1+0.04*Math.sin(tf*60):1, x=catX+run(240), y=catY-(chargeK>0?Math.abs(Math.sin(tf*9))*7:0), a=1;
       shadow(x,catY,48);
       if(tf<9.5) actor(IMG.catlerUp,x,y,BP.h*nb,{a:a*(1-seg(tf,9.3,9.5)),flip:true});
       if(tf>=9.3) actor(IMG.catler,x,y,155,{a:seg(tf,9.3,9.5),rot:chargeK>0?0.12:0}); }});
     // linh hồn vây quanh
-    SOULS.forEach((S,i)=>{ const die=seg(tf,7.5+i*0.2,8.3+i*0.2); if(die>=1) return; const orb=Math.sin(tf*0.7+S.ph)*0.08, x=ST.x+Math.cos(S.a+orb)*175, y=ST.y+Math.sin(S.a+orb)*44+4;
-      D.push({y, f:()=>{ shadow(x,y,40,0.3*(1-die)); soul(x,y-Math.sin(tf*2+S.ph)*3,118*(1-die*0.25),x>ST.x,0.25*Math.sin(tf*2+S.ph),0.2*Math.sin(tf*2.3+S.ph+1),1-die);
+    SOULS.forEach((S,i)=>{ const die=seg(tf,7.5+i*0.2,8.3+i*0.2); if(die>=1) return; const R=lerp(190,138,eio(seg(tf,0,4.3))), orb=Math.sin(tf*0.5+S.ph)*0.05, x=ST.x+Math.cos(S.a+orb)*R, y=ST.y+Math.sin(S.a+orb)*40+4;
+      const lean=(x>ST.x?-1:1)*(0.2+0.06*Math.sin(tf*1.6+S.ph))*(1-seg(tf,7.3,7.5));   // khom người chúi VỀ PHÍA Stalin (không đứng quay mặt ra)
+      D.push({y, f:()=>{ shadow(x,y,40,0.3*(1-die)); soul(x,y,118*(1-die*0.25),x>ST.x,-0.5+0.25*Math.sin(tf*2+S.ph),0.35+0.2*Math.sin(tf*2.3+S.ph+1),1-die,lean);
         if(die>0 && t<T_FREEZE) for(let k=0;k<2;k++) parts.push({k:'ash',x:x+(Math.random()-0.5)*50,y:y-Math.random()*110,vx:(Math.random()-0.5)*1.2,vy:-(0.8+Math.random()*1.8),l:50,L:50,c:Math.random()<0.5?'80,255,190':'30,60,50'}); }}); });
     // linh hồn vung nhát kết liễu
     { const die=seg(tf,7.45,8.2); if(die<1) D.push({y:ATT.y, f:()=>{ let aR=0.25*Math.sin(tf*2);
-        const aEnd=attEndAngle(), wind=eio(seg(tf,3.0,3.85)), strike=eout(seg(tf,3.85,4.62)); aR=lerp(aR,aEnd-1.1,wind); if(strike>0) aR=lerp(aEnd-1.1,aEnd,strike);   // giơ vòng ra sau đầu → bổ xuống ngay trên đầu Stalin
-        if(tf>=4.62) aR=aEnd+0.04*Math.sin(tf*40)*(1-seg(tf,4.62,6));   // bị giữ chặt, giằng co
+        const aEnd=attEndAngle(), aUp=attUpAngle(), up=eout(seg(tf,T_UP,T_HOLD)), strike=Math.pow(seg(tf,T_STRIKE,T_BLOCK),2);   // bổ xuống NHANH DẦN (ease-in)
+        aR=lerp(aR,aUp,up); if(tf>=T_HOLD && tf<T_STRIKE) aR=aUp+0.05*Math.sin(tf*35);   // gồng run trên cao
+        if(strike>0) aR=lerp(aUp,aEnd,strike);
+        if(tf>=T_BLOCK) aR=aEnd+0.04*Math.sin(tf*40)*(1-seg(tf,T_BLOCK,6));   // bị giữ chặt, giằng co
         shadow(ATT.x,ATT.y,42,0.3*(1-die));
         const cl=soul(ATT.x,ATT.y,ATT_H*(1-die*0.25),true,aR,0.2*Math.sin(tf*2.3),1-die);
         if(cl) C=cl;   // điểm móng tay (lúc chặn = đúng chỗ bàn tay Catler)
         if(die>0 && t<T_FREEZE) for(let k=0;k<3;k++) parts.push({k:'ash',x:ATT.x+(Math.random()-0.5)*50,y:ATT.y-Math.random()*110,vx:(Math.random()-0.5)*1.2,vy:-(0.8+Math.random()*1.8),l:50,L:50,c:Math.random()<0.5?'80,255,190':'30,60,50'}); }}); }
     D.sort((a,b)=>a.y-b.y); for(const d of D) d.f();
-    // ✋ bàn tay Catler phải nằm TRÊN móng linh hồn: vẽ lại phần ảnh phía trên đầu Stalin (đầu + tay giơ) sau khi đã vẽ linh hồn
-    if(C && tf>=4.5 && tf<9.5){ const BP=catBlockPos(); g.save(); g.beginPath(); g.rect(BP.x-200,BP.y-BP.h-60,400,(C[1]+28)-(BP.y-BP.h-60)); g.clip();
-      actor(IMG.catlerUp,BP.x,BP.y,BP.h,{a:eout(seg(tf,4.5,4.62))*(1-seg(tf,9.3,9.5)),flip:true}); g.restore(); }
     // ── búa: nằm đất → Catler nhặt → đưa Stalin → giơ lên trời, sét giáng ──
-    { const pick=eio(seg(tf,E+1.6,E+2.1)), give=eio(seg(tf,E+2.1,E+2.8)), stx=ST.x+run(240);
-      let hx=ST.x-30, hy=ST.y+12, hr=-1.35, hs=60;
+    { const pick=eio(seg(tf,E+1.6,E+2.1)), give=eio(seg(tf,E+2.1,E+2.8)), stx=fin?FX:ST.x+run(240), sty=fin?FY:ST.y;
+      let hx=ST.x-175, hy=ST.y+46, hr=-0.5, hs=60;   // búa văng nằm 1 góc xa
       const paw=[CATP.x+30,CATP.y-108];
       if(pick>0){ hx=lerp(hx,paw[0],pick); hy=lerp(hy,paw[1],pick); hr=lerp(hr,-0.3,pick); }
       if(give>0){ hx=lerp(paw[0],stx+34,give); hy=lerp(paw[1],ST.y-125,give); }
       if(raise>0){ hx=stx+34; hy=lerp(ST.y-125,ST.y-215,raise); hr=lerp(-0.3,-0.8,raise); hs=66; }
-      if(chargeK>0) hy=ST.y-215-Math.abs(Math.sin(tf*9))*7;
-      const c=prep(IMG.hammer); if(c){ g.save(); g.translate(hx,hy); g.rotate(hr); g.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,-hs/2,-hs/2,hs,hs*c.sh/c.sw); g.restore(); }
+      if(chargeK>0) hy=sty-215-Math.abs(Math.sin(tf*(fin?10:9)))*(fin?8:7);
+      if(fin){ hx=stx+30; hy=JY-215; hr=-0.55; hs=70; if(finU>0.55) hs=0; }   // lúc nhảy: búa nhập với liềm (vẽ ở dưới)
+      const c=prep(IMG.hammer); if(c && hs>0){ g.save(); g.translate(hx,hy); g.rotate(hr); g.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,-hs/2,-hs/2,hs,hs*c.sh/c.sw); g.restore(); }
       if(raise>0.3 && t<T_FREEZE){ for(let i=0;i<2;i++) bolt(hx,hy-10,hx+(Math.random()-0.5)*100,hy-60-Math.random()*100,1.6,0.9*raise,'140,200,255'); }
       if(raise>0.3) glow(hx,hy-10,70,0.5*raise,'150,210,255');
       if(raise>0 && tf<E+4.0){ const k=seg(tf,E+3.05,E+3.6); bolt(hx,-800,hx,hy-12,5,1-k*0.7,'150,210,255'); } }
     // ── bàn tay mèo chặn nhát chém ──
-    if(C && tf>=4.5 && tf<7.45){
-      if(tf>=4.62 && tf<4.95){ const k=1-seg(tf,4.62,4.95); g.save(); g.globalCompositeOperation='lighter'; glow(C[0],C[1],70,0.9*k,'255,255,230'); g.strokeStyle=`rgba(255,240,200,${k})`; g.lineWidth=2.5; g.beginPath(); g.arc(C[0],C[1],14+50*(1-k),0,Math.PI*2); g.stroke(); g.restore(); }
-      if(tf>=4.62 && tf<4.67) for(let k=0;k<18;k++){ const a=Math.random()*Math.PI*2; parts.push({k:'spark',x:C[0],y:C[1],vx:Math.cos(a)*4,vy:Math.sin(a)*4,l:22,L:22,c:'255,230,150'}); } }
+    if(C && tf>=T_BLOCK && tf<7.45){
+      if(tf<T_BLOCK+0.3){ const k=1-seg(tf,T_BLOCK,T_BLOCK+0.3); g.save(); g.strokeStyle=`rgba(0,0,0,${0.75*k})`; g.lineWidth=2;   // vệt tốc độ toả ra kiểu "impact frame" anime
+        for(let q=0;q<26;q++){ const a=q/26*Math.PI*2+q*0.37, r0=40+((q*37)%30), r1=r0+90+((q*53)%80); g.beginPath(); g.moveTo(C[0]+Math.cos(a)*r0,C[1]+Math.sin(a)*r0); g.lineTo(C[0]+Math.cos(a)*r1,C[1]+Math.sin(a)*r1); g.stroke(); } g.restore(); }
+      if(tf<T_BLOCK+0.33){ const k=1-seg(tf,T_BLOCK,T_BLOCK+0.33); g.save(); g.globalCompositeOperation='lighter'; glow(C[0],C[1],70,0.9*k,'255,255,230'); g.strokeStyle=`rgba(255,240,200,${k})`; g.lineWidth=2.5; g.beginPath(); g.arc(C[0],C[1],14+50*(1-k),0,Math.PI*2); g.stroke(); g.restore(); }
+      if(tf<T_BLOCK+0.05) for(let k=0;k<18;k++){ const a=Math.random()*Math.PI*2; parts.push({k:'spark',x:C[0],y:C[1],vx:Math.cos(a)*4,vy:Math.sin(a)*4,l:22,L:22,c:'255,230,150'}); } }
     if(tf<9) glow(ST.x,ST.y-40,250,0.16,'80,255,170');
     // ── NEIN + sóng nổ ──
     if(tf>=6.85 && tf<8.2){ const k=seg(tf,6.85,7.05), out=1-seg(tf,7.8,8.2); const BPn=catBlockPos(); g.save(); g.translate(BPn.x-70,BPn.y-BPn.h-50); g.rotate(0.06); g.scale(back(k)*0.9,back(k)*0.9);
@@ -236,6 +302,22 @@
     if(tf>=7.3 && tf<8.7){ const k=seg(tf,7.3,8.7), BPb=catBlockPos(); g.save(); g.globalCompositeOperation='lighter';
       for(const [dl,c] of [[0,'255,240,220'],[0.12,'255,90,60']]){ const v=clamp((k-dl)/0.8,0,1); if(v<=0||v>=1) continue; const R=40+560*eout(v); g.strokeStyle=`rgba(${c},${1-v})`; g.lineWidth=10*(1-v)+1; g.shadowColor=`rgb(${c})`; g.shadowBlur=20; g.beginPath(); g.ellipse(BPb.x,BPb.y-60,R,R*0.45,0,0,Math.PI*2); g.stroke(); }
       glow(BPb.x,BPb.y-70,170,0.7*(1-k),'255,230,200'); g.restore(); }
+    // ☭🌞 búa + liềm chạm nhau trên đầu Stalin đang bay → loé sáng như MẶT TRỜI · thế giới chia đôi: phe meme sáng rực / phe ác đỏ đen
+    if(fin && finU>0.5){ const cx2=FX+12, cy2=JY-235, cr=prep(IMG.cross), ck=seg(finU,0.5,0.68), sk=sunK;
+      if(sk>0){ const bx=cx2, tilt=0.18;   // ranh giới hơi nghiêng xuyên qua mặt trời
+        g.save(); g.beginPath(); g.moveTo(bx+2000*tilt,-2000); g.lineTo(bx-2000*tilt,2400); g.lineTo(bx+3000,2400); g.lineTo(bx+3000,-2000); g.closePath();
+        g.fillStyle=`rgba(25,0,0,${0.55*sk})`; g.fill(); g.restore();   // nửa phải: phe ác chìm trong đỏ đen
+        g.save(); g.beginPath(); g.moveTo(bx+2000*tilt,-2000); g.lineTo(bx-2000*tilt,2400); g.lineTo(bx-3000,2400); g.lineTo(bx-3000,-2000); g.closePath(); g.clip();
+        g.globalCompositeOperation='lighter'; const lg=g.createRadialGradient(cx2,cy2,0,cx2,cy2,1400); lg.addColorStop(0,`rgba(255,240,190,${0.55*sk})`); lg.addColorStop(1,`rgba(255,180,60,${0.12*sk})`);
+        g.fillStyle=lg; g.fillRect(cx2-3000,-2000,6000,4400); g.restore();   // nửa trái: phe meme bừng sáng
+        g.save(); g.globalCompositeOperation='lighter'; g.strokeStyle=`rgba(255,250,220,${0.9*sk})`; g.lineWidth=5; g.shadowColor='#fff3c4'; g.shadowBlur=30;
+        g.beginPath(); g.moveTo(bx+2000*tilt,-2000); g.lineTo(bx-2000*tilt,2400); g.stroke(); g.restore();   // vệt ranh giới sáng
+        g.save(); g.globalCompositeOperation='lighter'; g.translate(cx2,cy2); g.rotate(tf*0.5);   // tia nắng xoay
+        for(let q=0;q<16;q++){ const a=q*Math.PI/8, L=520+120*((q*0.37)%1); const rg=g.createLinearGradient(0,0,Math.cos(a)*L,Math.sin(a)*L); rg.addColorStop(0,`rgba(255,245,200,${0.55*sk})`); rg.addColorStop(1,'rgba(255,200,80,0)');
+          g.fillStyle=rg; g.beginPath(); g.moveTo(0,0); g.lineTo(Math.cos(a-0.05)*L,Math.sin(a-0.05)*L); g.lineTo(Math.cos(a+0.05)*L,Math.sin(a+0.05)*L); g.closePath(); g.fill(); }
+        g.restore(); g.save(); g.globalCompositeOperation='lighter'; glow(cx2,cy2,300,0.9*sk,'255,250,225'); glow(cx2,cy2,110,1*sk,'255,255,255'); g.restore(); }
+      if(cr){ const sz=lerp(70,120,ck); g.save(); g.globalAlpha=Math.min(1,ck*3); g.shadowColor='rgba(255,230,150,0.95)'; g.shadowBlur=30*ck; g.translate(cx2,cy2); g.rotate(Math.sin(tf*3)*0.05);
+        g.drawImage(cr.src,cr.sx,cr.sy,cr.sw,cr.sh,-sz/2,-sz/2*cr.sh/cr.sw,sz,sz*cr.sh/cr.sw); g.restore(); } }
     // ── hạt ──
     for(let i=parts.length-1;i>=0;i--){ const p=parts[i]; if(t<T_FREEZE){ p.x+=p.vx; p.y+=p.vy; p.vx*=0.97; p.vy=p.vy*0.97+(p.k==='spark'?0.12:-0.01); p.l--; } if(p.l<=0){ parts.splice(i,1); continue; }
       g.fillStyle=`rgba(${p.c},${p.l/p.L})`; g.fillRect(p.x,p.y,2.4,2.4); }
@@ -246,11 +328,15 @@
     // ═════ lớp phủ màn hình ═════
     g.setTransform(SC,0,0,SC,0,0);
     if(t<1.2){ g.fillStyle=`rgba(0,0,0,${1-seg(t,0,1.2)})`; g.fillRect(0,0,VW,VH); }
+    if(t<10.4){ const k=1-seg(t,9.6,10.4), vg=g.createRadialGradient(VW/2,VH/2,VH*0.22,VW/2,VH/2,VH*0.62);   // 🎞️ viền tối + nhịp đỏ thoi thóp (đoạn mở đầu nặng nề)
+      const pr=t<T_BLOCK?0.5+0.5*Math.sin(t*4.4):0; vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,`rgba(${Math.round(60*pr)},0,0,${0.72*k})`);
+      g.fillStyle=vg; g.fillRect(0,0,VW,VH); }
+    if(t>=T_BLOCK && t<T_BLOCK+0.16){ g.fillStyle=`rgba(255,255,255,${0.85*(1-seg(t,T_BLOCK,T_BLOCK+0.16))})`; g.fillRect(0,0,VW,VH); }   // ⚡ chớp trắng đúng lúc chặn
     if(t>=T_FREEZE){ const k=seg(t,T_FREEZE,T_FREEZE+0.25); g.fillStyle=`rgba(255,255,255,${0.7*(1-k)})`; g.fillRect(0,0,VW,VH);
       g.fillStyle=`rgba(20,8,8,${0.4*seg(t,T_FREEZE+0.3,T_FREEZE+1.2)})`; g.fillRect(0,0,VW,VH); }
     const bar=lerp(64,108,seg(t,T_FREEZE,T_FREEZE+0.8)); g.fillStyle='#000'; g.fillRect(0,0,VW,bar); g.fillRect(0,VH-bar,VW,bar);
     // thanh máu Stalin 10/1000
-    if(t>1){ const a=1-seg(t,9.6,10.4); if(a>0){ const fl=0.6+0.4*Math.sin(t*10); g.save(); g.globalAlpha=a; g.fillStyle='rgba(0,0,0,0.55)'; g.fillRect(18,bar+14,170,36);
+    if(t>1 && !inSum){ const a=1-seg(t,9.6,10.4); if(a>0){ const fl=0.6+0.4*Math.sin(t*10); g.save(); g.globalAlpha=a; g.fillStyle='rgba(0,0,0,0.55)'; g.fillRect(18,bar+14,170,36);
       text('STALIN CAT',62,bar+24,11,'#fff',null,'700 11px system-ui,sans-serif'); g.fillStyle='#222'; g.fillRect(26,bar+35,154,8); g.fillStyle=`rgba(255,40,40,${fl})`; g.fillRect(26,bar+35,Math.max(2,154*0.01),8);
       text('10 / 1000',150,bar+24,10,'#ff5252',null,'700 10px system-ui,sans-serif'); g.restore(); } }
     for(const H of heroes){ const u=seg(t,H.t+0.15,H.t+HERO_DT); if(u<=0||u>=1) continue; const inK=eout(seg(u,0,0.18)), outK=1-seg(u,0.85,1);
@@ -262,14 +348,15 @@
     if(t>=T_FREEZE+0.9){ const k=eout(seg(t,T_FREEZE+0.9,T_FREEZE+1.6)); g.save(); g.globalAlpha=k; g.translate(VW/2,VH/2+lerp(30,0,k));
       text('TO BE CONTINUED…',0,0,46,'#ffffff','#000'); g.fillStyle='rgba(255,255,255,0.8)'; g.fillRect(-180*k,30,360*k,3);
       text('MEMES ASSEMBLE',0,58,22,'#ffcc80','#000',undefined,0.9); g.restore(); }
+    musTick(tR);
     markOnly=false;
     if(panel) panel.update();
   }
-  const DUR=()=>tE()+12.4, curT=()=>paused?pauseT:(performance.now()-t0)/1000;
+  const DUR=()=>tE()+13.5+SUM_D, curT=()=>paused?pauseT:(performance.now()-t0)/1000;
   function seek(sec){ sec=clamp(sec,0,DUR()); try{ stopAllLongSfx(); }catch(e){} parts=[]; played={}; markOnly=true; C=null;
     if(paused) pauseT=sec; else t0=performance.now()-sec*1000; }
   function toggle(){ if(paused){ if(pauseT>=DUR()-0.05) pauseT=0; t0=performance.now()-pauseT*1000; paused=false; } else { pauseT=curT(); paused=true; } }
-  function stop(){ if(raf) cancelAnimationFrame(raf); raf=null; try{ stopAllLongSfx(); }catch(e){} if(window._cinePanelRemove) _cinePanelRemove(); panel=null; if(overlay) overlay.remove(); overlay=null; }
+  function stop(){ if(raf) cancelAnimationFrame(raf); raf=null; musStop(); try{ stopAllLongSfx(); }catch(e){} if(window._cinePanelRemove) _cinePanelRemove(); panel=null; if(overlay) overlay.remove(); overlay=null; }
   window._cineEG=function(){
     if(overlay) return;
     overlay=document.createElement('div');
@@ -282,7 +369,7 @@
       toggle:()=>{ if(!paused && curT()>=DUR()) seek(0); else toggle(); }, seek, replay:()=>{ paused=false; setup(); seek(0); markOnly=false; }, close:()=>{ stop(); if(window.openCinema) openCinema(); } });
     try{ stopAllBattleMusic(); }catch(e){}
     try{ window._cineBG && window._cineBG.prepare && window._cineBG.prepare(); }catch(e){}   // dựng sẵn các lớp nền (tránh giật khung đầu)
-    paused=false; C=null; setup(); t0=performance.now(); raf=requestAnimationFrame(frame);
+    paused=false; C=null; setup(); musSetup(); t0=performance.now(); raf=requestAnimationFrame(frame);
   };
   window._cineEGStop=stop;
   window._cineEGSeek=t=>{ t0=performance.now()-t*1000; };   // (kiểm tra) nhảy tới giây t
