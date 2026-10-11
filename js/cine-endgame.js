@@ -15,6 +15,7 @@
   const IMG={ stalin:av('stalincat'), gary:av('evilgary'), larry:av('evillarry'), wdemon:A('assets/img/screamcat/SC_DEMON_IMG.webp'),
     catler:av('feuerkatze'), cross:A('assets/img/stalincat/STALIN_CROSS_IMG.webp'), catlerUp:A('assets/avatars/feuerkatze/attackAvatarUrl.webp'), hammer:A('assets/img/stalincat/STALIN_HAMMER_IMG.webp'),
     soulT:A('assets/img/evilgary/EG_SOUL_TORSO.webp'), soulL:A('assets/img/evilgary/EG_SOUL_LARM.webp'), soulR:A('assets/img/evilgary/EG_SOUL_RARM.webp') };
+  IMG.catlerUp._feather=0.06;
   const SOUL_PIV={L:[0.10,0.50], R:[0.893,0.581]};
   const HERO_KEYS=['uiacat','chillguy','electricguitarcat','doge','cheems','ricardo','maxwell','gigachad'];
   // 🔊 tiếng đặc trưng của từng meme lúc bước ra (bản nhạc dài chỉ phát ~1.3s): [key, âm lượng, thời lượng]
@@ -30,7 +31,7 @@
       for(let yy=0;yy<h;yy+=2) for(let xx=0;xx<w;xx+=2) if(px[(yy*w+xx)*4+3]>40){ if(xx<x0)x0=xx; if(xx>x1)x1=xx; if(yy<y0)y0=yy; if(yy>y1)y1=yy; }
       if(x1<x0){ x0=0;y0=0;x1=w-1;y1=h-1; }
       for(let xx=x0;xx<=x1;xx++) if(px[(y1*w+xx)*4+3]>120) cut++;
-      if(cut>(x1-x0)*0.25){ const F=Math.round((y1-y0)*0.22); for(let yy=y1-F;yy<=y1;yy++){ const k=(y1-yy)/F; for(let xx=x0;xx<=x1;xx++){ const i=(yy*w+xx)*4+3; px[i]=px[i]*k; } } x.putImageData(d,0,0); }
+      if(cut>(x1-x0)*0.25){ const F=Math.round((y1-y0)*(im._feather==null?0.22:im._feather)); for(let yy=y1-F;yy<=y1;yy++){ const k=(y1-yy)/F; for(let xx=x0;xx<=x1;xx++){ const i=(yy*w+xx)*4+3; px[i]=px[i]*k; } } x.putImageData(d,0,0); }
       im._cp={src:c, sx:x0, sy:y0, sw:x1-x0+1, sh:y1-y0+1}; }catch(e){ im._cp={src:im, sx:0, sy:0, sw:im.naturalWidth, sh:im.naturalHeight}; }
     return im._cp; };
   const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)), seg=(t,a,b)=>clamp((t-a)/(b-a),0,1);
@@ -100,7 +101,7 @@
   const BACKP=[[-260,640,30],[-90,612,28],[60,602,26],[210,606,28],[360,616,30],[480,600,24],[-200,600,24],[600,612,26]];
   const HERO_T0=13.4, HERO_DT=1.3, UIA_T=10.2, UIA_SPIN=2.2;   // UIA lao tới trước, xoay 2.2s mở các cổng; meme khác bước ra từ HERO_T0
   const SOULS=[{a:3.3},{a:2.85},{a:0.2},{a:5.75},{a:4.5}].map((s,i)=>({...s,ph:i*1.3}));
-  const ATT={x:ST.x+112, y:ST.y+14}, ATT_H=232;   // linh hồn vung nhát kết liễu: to, lừng lững bên phải Stalin
+  const ATT={x:ST.x+238, y:ST.y+16}, ATT_H=232;   // linh hồn vung nhát kết liễu: to, lừng lững bên phải Stalin
   function setup(){
     parts=[]; played={};
     heroes=HERO_KEYS.map((k,i)=>({k, name:nameOf(k).toUpperCase(), im:av(k), P:HP[i], t:i===0?UIA_T:HERO_T0+(i-1)*HERO_DT}));
@@ -151,7 +152,7 @@
     return { yc, pX:-w/2+w*SOUL_PIV.R[0], pY:top+h*SOUL_PIV.R[1], vx:(0.76-SOUL_PIV.R[0])*w, vy:(0.97-SOUL_PIV.R[1])*h }; }
   const norm=a=>{ while(a>0.5) a-=Math.PI*2; while(a<-Math.PI*1.6) a+=Math.PI*2; return a; };
   function attEndAngle(){ const G=attGeo(); if(!G) return -2.4;   // móng chĩa xuống điểm NGAY TRÊN NGƯỜI Stalin đang nằm (chỗ bàn tay Catler chặn)
-    const lx=-(ST.x+20-ATT.x), ly=(ST.y-150)-G.yc; return norm(Math.atan2(ly-G.pY,lx-G.pX)-Math.atan2(G.vy,G.vx)); }
+    const P=catPaw(), lx=-(P[0]-ATT.x), ly=P[1]-G.yc; return norm(Math.atan2(ly-G.pY,lx-G.pX)-Math.atan2(G.vy,G.vx)); }   // móng bổ thẳng vào bàn tay Catler
   function attUpAngle(){ const G=attGeo(); if(!G) return -3.3; return norm(-Math.PI/2-Math.atan2(G.vy,G.vx))-0.28; }   // tay giơ THẲNG lên trời, hơi ngả ra sau
   // ⛧ ngôi sao quỷ vẽ dần từng nét trên mặt đất quanh Evil Gary + cột sáng đỏ
   function pentagram(x,y,k,tm){ const RX=175, RY=46, P=[0,1,2,3,4].map(i=>{ const a=-Math.PI/2+i*Math.PI*2/5; return [x+Math.cos(a)*RX, y+Math.sin(a)*RY]; }), ord=[0,2,4,1,3,0];
@@ -171,8 +172,9 @@
   function sumCam(u){ const K=[[0,GARY.x-10,640,0.95],[2.2,GARY.x-10,630,0.85],[2.6,GARY.x,540,0.62],[3.4,GARY.x,470,0.55],[4.0,GARY.x-20,280,0.42],[6.0,GARY.x-20,250,0.42]];
     for(let i=0;i<K.length-1;i++){ const a=K[i], b=K[i+1]; if(u>=a[0] && u<=b[0]){ const k=eio((u-a[0])/(b[0]-a[0])); return [lerp(a[1],b[1],k),lerp(a[2],b[2],k),lerp(a[3],b[3],k)]; } } return [K[5][1],K[5][2],K[5][3]]; }
   const PAW=[0.11,0.075];   // bàn tay giơ lên trong ảnh Catler giơ tay (tỉ lệ theo khung bao hình)
-  function catBlockPos(){ const c=prep(IMG.catlerUp), fy=ST.y-4; if(!C||!c) return {x:ST.x-20,y:fy,h:150};
-    const h=clamp((fy-C[1])/(1-PAW[1]),120,200), w=h*c.sw/c.sh; return {x:C[0]-(0.5-PAW[0])*w, y:fy, h}; }
+  const CB={x:ST.x+128, y:ST.y+10, h:178}, CAT_NORM_H=100;   // ảnh Catler thường là cận MẶT → cao 100 thì đầu bằng cỡ đầu trong ảnh giơ tay 178   // Catler lúc chặn: đứng CHẮN trước-bên phải Stalin (giữa Stalin và con quỷ)
+  function catBlockPos(){ return CB; }
+  function catPaw(){ const c=prep(IMG.catlerUp); const w=c?CB.h*c.sw/c.sh:CB.h*0.65; return [CB.x+(0.5-PAW[0])*w, CB.y-(1-PAW[1])*CB.h]; }   // bàn tay giơ lên (ảnh lật → tay bên phải)
   const tE=()=>HERO_T0+HERO_DT*(heroes.length-1);   // ≈22.5 (UIA đã ra trước)
   function camAt(t){
     const E=tE();
@@ -182,9 +184,9 @@
     const cx=C?C[0]:ST.x+80, cy=C?C[1]:ST.y-150;
     const K=[[0,170,720,1.0],[T_UP,162,716,1.2],                       // cảnh 1: toàn cảnh, đẩy máy rất chậm
       [T_UP,ST.x+70,655,1.5],[T_BLOCK,ST.x+70,645,1.65],                  // cảnh 2 (CẮT): góc thấp — quỷ giơ tay gồng lên rồi bổ xuống
-      [T_BLOCK,cx-15,cy+40,2.25],[5.5,cx-15,cy+38,2.4],                   // cảnh 3 (CẮT): khung chặn đòn
-      [5.5,ST.x+20,705,1.3],[6.75,ST.x+10,695,1.38],                      // cảnh 4 (CẮT): toàn cảnh Catler che chở Stalin
-      [6.85,ST.x-10,680,1.6],[7.7,170,700,1.25],[9.6,170,700,1.15],
+      [T_BLOCK,cx-15,cy+40,1.95],[5.5,cx-15,cy+38,2.0],                   // cảnh 3 (CẮT): khung chặn đòn
+      [5.5,ST.x+60,700,1.75],[6.75,ST.x+70,695,1.8],                      // cảnh 4 (CẮT): toàn cảnh Catler che chở Stalin
+      [6.85,ST.x+80,680,1.85],[7.7,ST.x+60,700,1.6],[9.6,170,700,1.35],
       [UIA_T,170,700,1.15],[UIA_T,HP[0][3],HP[0][4]-70,1.75],[UIA_T+1.0,HP[0][3],HP[0][4]-75,1.85],[UIA_T+2.3,140,680,0.7],[HERO_T0,140,680,0.7],
       [E,140,690,0.56],[E+1.2,150,690,0.52],[E+1.7,ST.x-20,730,1.55],[E+3.3,ST.x,715,1.6],[E+4.2,ST.x+20,700,1.4],
       [E+4.8,GARY.x,470,0.6],[E+6.8,GARY.x-10,480,0.55],[E+7.0,450,645,0.62],[E+8.0,500,640,0.6],[999,500,640,0.6]];
@@ -249,19 +251,18 @@
       D.push({y, f:()=>{ const x=fin?armyX(P[3],FX,0.38):lerp(P[0],P[3],eout(u))+run(230), mv=u<1||chargeK>0, bob=Math.abs(Math.sin(tf*9+H.t))*(mv?6:1.2), hh=lerp(P[5]*0.45,P[5],eout(u));
         shadow(x,y,hh*0.3,0.4); actor(H.im,x,y-bob,hh,{a:Math.min(1,u*4),rot:chargeK>0?0.13:Math.sin(tf*2+H.t)*0.025}); }}); }
     // Stalin
-    const stand=eout(seg(tf,E+2.5,E+3.2)), raise=eout(seg(tf,E+3.0,E+3.5));
+    const stand=eout(seg(tf,E+2.5,E+3.2)), raise=eout(seg(tf,E+3.0,E+3.5));   // Stalin chống dậy lúc nhận búa
     D.push({y:fin?FY:ST.y, f:()=>{ if(fin){ const b=jump>0?0:Math.abs(Math.sin(tf*10))*8; shadow(FX,FY,58*(1-jump*0.5)); actor(IMG.stalin,FX,JY-b,170,{rot:0.16-0.2*jump}); return; }
       const x=lerp(ST.x+62,ST.x,stand)+run(240), bob=chargeK>0?Math.abs(Math.sin(tf*9))*7:0, br=stand<1?0.02*Math.sin(tf*2.2):0;   // thở thoi thóp
       shadow(lerp(ST.x-8,ST.x,stand)+run(240),ST.y,lerp(85,62,stand)); actor(IMG.stalin,x,ST.y-bob,lerp(150,170,stand),{sy:1+br,rot:chargeK>0?0.12:lerp(-1.48,0,stand)}); }});
     // Catler: đứng NGAY SAU LƯNG Stalin, dùng đúng ảnh Catler GIƠ TAY (ảnh lật để tay giơ về phía linh hồn) — bàn tay chặn
     //   đúng móng linh hồn ngay trên đầu Stalin · sau cú nổ thì về ảnh thường và bước sang trái Stalin (chỗ nhặt búa)
     const BP=catBlockPos(), mv=eio(seg(tf,9.0,10.0)), catX=lerp(BP.x,CATP.x,mv), catY=lerp(BP.y,CATP.y,mv);
-    if(tf>=T_BLOCK-0.02) D.push({y:fin?FY+20:(tf<9.5?99999:catY), f:()=>{ if(fin){ const b=Math.abs(Math.sin(tf*10+1))*8; shadow(FX-85,FY+20,50); actor(IMG.catler,FX-85,FY+20-b,155,{rot:0.16}); return; } const nein=seg(tf,6.85,7.5), nb=nein>0&&nein<1?1+0.04*Math.sin(tf*60):1, x=catX+run(240), y=catY-(chargeK>0?Math.abs(Math.sin(tf*9))*7:0), a=1;
+    if(tf>=T_BLOCK-0.02) D.push({y:fin?FY+20:(tf<9.5?99999:catY), f:()=>{ if(fin){ const b=Math.abs(Math.sin(tf*10+1))*8; shadow(FX-85,FY+20,50); actor(IMG.catler,FX-85,FY+20-b,CAT_NORM_H,{rot:0.16}); return; } const nein=seg(tf,6.85,7.5), nb=nein>0&&nein<1?1+0.04*Math.sin(tf*60):1, x=catX+run(240), y=catY-(chargeK>0?Math.abs(Math.sin(tf*9))*7:0), a=1;
       shadow(x,catY,48);
-      if(tf<9.5) actor(IMG.catlerUp,x,y,BP.h*nb,{a:a*(1-seg(tf,9.3,9.5)),flip:true});
-      if(tf>=9.3) actor(IMG.catler,x,y,155,{a:seg(tf,9.3,9.5),rot:chargeK>0?0.12:0}); }});
+      actor(IMG.catlerUp,x,y,CB.h*nb,{flip:true,rot:chargeK>0?0.1:0}); }});
     // linh hồn vây quanh
-    SOULS.forEach((S,i)=>{ const die=seg(tf,7.5+i*0.2,8.3+i*0.2); if(die>=1) return; const R=lerp(190,138,eio(seg(tf,0,4.3))), orb=Math.sin(tf*0.5+S.ph)*0.05, x=ST.x+Math.cos(S.a+orb)*R, y=ST.y+Math.sin(S.a+orb)*40+4;
+    SOULS.forEach((S,i)=>{ const die=seg(tf,7.5+i*0.2,8.3+i*0.2); if(die>=1) return; const R=lerp(205,172,eio(seg(tf,0,4.3))), orb=Math.sin(tf*0.5+S.ph)*0.05, x=ST.x+Math.cos(S.a+orb)*R, y=ST.y+Math.sin(S.a+orb)*40+4;
       const lean=(x>ST.x?-1:1)*(0.2+0.06*Math.sin(tf*1.6+S.ph))*(1-seg(tf,7.3,7.5));   // khom người chúi VỀ PHÍA Stalin (không đứng quay mặt ra)
       D.push({y, f:()=>{ shadow(x,y,40,0.3*(1-die)); soul(x,y,118*(1-die*0.25),x>ST.x,-0.5+0.25*Math.sin(tf*2+S.ph),0.35+0.2*Math.sin(tf*2.3+S.ph+1),1-die,lean);
         if(die>0 && t<T_FREEZE) for(let k=0;k<2;k++) parts.push({k:'ash',x:x+(Math.random()-0.5)*50,y:y-Math.random()*110,vx:(Math.random()-0.5)*1.2,vy:-(0.8+Math.random()*1.8),l:50,L:50,c:Math.random()<0.5?'80,255,190':'30,60,50'}); }}); });
@@ -279,7 +280,7 @@
     // ── búa: nằm đất → Catler nhặt → đưa Stalin → giơ lên trời, sét giáng ──
     { const pick=eio(seg(tf,E+1.6,E+2.1)), give=eio(seg(tf,E+2.1,E+2.8)), stx=fin?FX:ST.x+run(240), sty=fin?FY:ST.y;
       let hx=ST.x-175, hy=ST.y+46, hr=-0.5, hs=60;   // búa văng nằm 1 góc xa
-      const paw=[CATP.x+30,CATP.y-108];
+      const pw=catPaw(), paw=[CATP.x+(pw[0]-CB.x), CATP.y+(pw[1]-CB.y)];   // bàn tay giơ lên của Catler (cùng ảnh, cùng cỡ)
       if(pick>0){ hx=lerp(hx,paw[0],pick); hy=lerp(hy,paw[1],pick); hr=lerp(hr,-0.3,pick); }
       if(give>0){ hx=lerp(paw[0],stx+34,give); hy=lerp(paw[1],ST.y-125,give); }
       if(raise>0){ hx=stx+34; hy=lerp(ST.y-125,ST.y-215,raise); hr=lerp(-0.3,-0.8,raise); hs=66; }
