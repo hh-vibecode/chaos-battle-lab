@@ -291,6 +291,7 @@ window.ASSET_GROUP={
 "assets/audio/sm_drip.mp3": "samuraicheems",
 "assets/audio/sm_slash.mp3": "samuraicheems",
 "assets/audio/eg_necro.mp3": "evilgary",
+"assets/audio/eg_bgm.mp3": "evilgary",
 "assets/audio/br_tick.mp3": "batcat",
 "assets/audio/br_boom.mp3": "batcat",
 "assets/audio/hl_choir.mp3": "holycat",
