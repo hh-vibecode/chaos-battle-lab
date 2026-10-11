@@ -1428,3 +1428,17 @@ canvas { display:block; }
   padding:11px 26px; cursor:pointer; font-family:"Press Start 2P",monospace; font-size:0.72rem; }
 .fw-btn:disabled{ opacity:0.35; cursor:default; }
 .fw-btn.go{ border-color:#66bb6a; color:#66bb6a; }
+
+/* 🎬 MEME CINEMA — bảng điều khiển phim (nằm ở khoảng trống bên phải khung phim dọc 9:16; màn hẹp thì xuống đáy) */
+.cine-panel{position:fixed;top:50%;transform:translateY(-50%);right:max(14px,calc(((100vw - 56.25vh)/2 - 270px)/2));width:270px;z-index:100000;
+  background:rgba(14,9,24,0.88);border:1px solid rgba(255,255,255,0.18);border-radius:16px;padding:16px;color:#fff;font-family:system-ui,Arial,sans-serif;
+  display:flex;flex-direction:column;gap:10px;box-shadow:0 10px 30px rgba(0,0,0,0.5)}
+.cine-panel .cp-title{font-weight:900;font-size:17px;letter-spacing:.5px}
+.cine-panel .cp-range{width:100%;accent-color:#ffb74d;cursor:pointer}
+.cine-panel .cp-time{font-size:13px;opacity:.75;font-variant-numeric:tabular-nums}
+.cine-panel .cp-btns{display:flex;gap:8px}
+.cine-panel button{flex:1;font-size:14px;font-weight:700;color:#fff;background:rgba(255,255,255,0.10);border:1px solid rgba(255,255,255,0.22);border-radius:10px;padding:9px 6px;cursor:pointer}
+.cine-panel button:hover{background:rgba(255,255,255,0.2)}
+.cine-panel button.cp-main{background:#c62828;border-color:#c62828;font-size:18px}
+@media (max-aspect-ratio: 1/1){ .cine-panel{top:auto;bottom:10px;transform:none;left:10px;right:10px;width:auto;padding:10px} }
+#sceneScreen.player .sc-stage{pointer-events:none}

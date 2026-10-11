@@ -20312,6 +20312,79 @@ function _stopFighterSfx(f){
   }
   f._mvWaiting=false;
 }
+// ===================== 🎬 MEME CINEMA — RẠP PHIM (xem lại mọi cảnh đã dựng, kể cả bản online) =====================
+// Mỗi phim bấm vào là phát TRỌN từ đầu tới cuối, ẩn hết công cụ chỉnh sửa. Bảng điều khiển ở khoảng trống bên cạnh khung phim:
+// ⏯ phát/tạm dừng · ⏪/⏩ tua 5s · thanh thời gian kéo được · ↻ xem lại · ✕ đóng.
+const CINEMA_EN={   // tên/mô tả tiếng Anh cho các cảnh mẫu của Scene Builder (game text = English)
+  title:['Opening Title','Flash, the hero zooms in, the title drops'],
+  garypossess:['Gary Gets Possessed','A hell gate opens, a demon turns to smoke and possesses Gary — Evil Gary is born'],
+  larryrise:['The Demon Rises','The pentagram swallows the fallen, a demon rises, spreads its wings and flies off'],
+  ritual:['Summoning Ritual','A demonic star is drawn, purple lightning, a giant eye wakes up'],
+  duel:['The Duel','Two fighters clash in a white flash — one shatters. K.O.'],
+  chillhell:['Chill Guy Goes to Hell','A 33-second trip: black hole, fire gate, the soul bridge… and a party at the end'],
+  void:['Swallowed by the Void','Sucked into a black hole, spun around and shattered'],
+};
+let _scPlayer=null;   // đang ở chế độ XEM PHIM: {bak:cảnh đang dựng, loop}
+function openCinema(){
+  _cineGalleryClose();
+  const ov=document.createElement('div'); ov.id='cinemaGallery';
+  ov.style.cssText='position:fixed;inset:0;z-index:9000;background:radial-gradient(ellipse at top,#2a1b3d,#0b0712 70%);overflow:auto;padding:28px 16px 40px;font-family:system-ui,Arial,sans-serif;color:#fff;';
+  const items=[{id:'__endgame', ic:'🦸', name:'Memes Assemble', desc:"Stalin's last stand against Evil Gary — Avengers: Endgame style", dur:37}]
+    .concat(SC_PRESETS.map(P=>({id:P.id, ic:P.ic, name:(CINEMA_EN[P.id]||[P.name])[0], desc:(CINEMA_EN[P.id]||[0,P.desc])[1], dur:Math.round(P.dur/SC_FPS)})));
+  ov.innerHTML=`<div style="max-width:980px;margin:0 auto"><div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
+    <button onclick="_cineGalleryClose()" style="font-size:20px;background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.25);border-radius:10px;padding:6px 14px;cursor:pointer">◀</button>
+    <div style="font-size:28px;font-weight:900;letter-spacing:1px">🎬 MEME CINEMA</div></div>
+    <div id="cinemaGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px"></div></div>`;
+  document.body.appendChild(ov);
+  const grid=ov.querySelector('#cinemaGrid');
+  for(const it of items){ const c=document.createElement('button');
+    c.style.cssText='text-align:left;background:linear-gradient(160deg,rgba(255,255,255,0.10),rgba(255,255,255,0.03));border:1px solid rgba(255,255,255,0.18);border-radius:16px;padding:16px;color:#fff;cursor:pointer;display:flex;flex-direction:column;gap:8px;min-height:150px;transition:transform .12s,border-color .12s';
+    c.onmouseenter=()=>{ c.style.transform='translateY(-3px)'; c.style.borderColor='#ffcc80'; }; c.onmouseleave=()=>{ c.style.transform=''; c.style.borderColor='rgba(255,255,255,0.18)'; };
+    c.innerHTML=`<div style="font-size:38px">${it.ic}</div><div style="font-size:18px;font-weight:800">${it.name}</div><div style="font-size:13px;opacity:.75;line-height:1.35;flex:1">${it.desc}</div><div style="font-size:12px;opacity:.6">▶ ${it.dur}s</div>`;
+    c.onclick=()=>{ _cineGalleryClose(); if(it.id==='__endgame') playCineEndgame(); else playScenePreset(it.id); };
+    grid.appendChild(c); }
+}
+function _cineGalleryClose(){ const g=document.getElementById('cinemaGallery'); if(g) g.remove(); }
+function playScenePreset(id){
+  const P=SC_PRESETS.find(x=>x.id===id); if(!P) return;
+  _openSceneScreen();
+  _scPlayer={bak:SCENE, loop:_scLoop};
+  let n=1; const N=()=>n++; const built=P.build(N);
+  SCENE={ dur:P.dur, lanes:P.lanes, nid:n, actors:built.actors, clips:built.clips, bg:P.bg };
+  _scSel=null; _scLoop=false; _scSyncBgBtn();
+  const ss=document.getElementById('sceneScreen'); ss.classList.add('recmode','player');
+  const seek=sec=>{ _scStopWhisper(); _scStopLaugh(); _scStopTerror(); _scT=Math.max(0,Math.min(SCENE.dur-1,Math.round(sec*SC_FPS))); for(const c of SCENE.clips){ c._E=null; c._last=-9; } };
+  _cinePanelMake(ss,{ title:(CINEMA_EN[id]||[P.name])[0], dur:()=>SCENE.dur/SC_FPS, t:()=>_scT/SC_FPS, playing:()=>_scPlaying,
+    toggle:()=>{ if(!_scPlaying && _scT>=SCENE.dur-1) seek(0); _scPlaying=!_scPlaying; }, seek,
+    replay:()=>{ seek(0); _scPlaying=true; }, close:()=>closeScene() });
+  seek(0); _scPlaying=true;
+}
+// 🎛️ bảng điều khiển phim dùng chung (Rạp phim + phim Memes Assemble)
+let _cinePanelCur=null;
+function _cinePanelRemove(){ if(_cinePanelCur){ _cinePanelCur.el.remove(); _cinePanelCur=null; } }
+function _cinePanelMake(host,api){
+  _cinePanelRemove();
+  const el=document.createElement('div'); el.className='cine-panel';
+  el.innerHTML=`<div class="cp-title"></div>
+    <input class="cp-range" type="range" min="0" max="1000" value="0">
+    <div class="cp-time">0.0s / 0.0s</div>
+    <div class="cp-btns"><button data-a="back">⏪ 5s</button><button data-a="play" class="cp-main">⏸</button><button data-a="fwd">5s ⏩</button></div>
+    <div class="cp-btns"><button data-a="replay">↻ Replay</button><button data-a="close">✕ Close</button></div>`;
+  el.querySelector('.cp-title').textContent=api.title||'';
+  host.appendChild(el);
+  const rg=el.querySelector('.cp-range'), tm=el.querySelector('.cp-time'), pb=el.querySelector('[data-a=play]');
+  let drag=false;
+  rg.addEventListener('input',()=>{ drag=true; api.seek(rg.value/1000*api.dur()); });
+  rg.addEventListener('change',()=>{ drag=false; });
+  el.querySelector('[data-a=back]').onclick=()=>api.seek(Math.max(0,api.t()-5));
+  el.querySelector('[data-a=fwd]').onclick=()=>api.seek(Math.min(api.dur()-0.05,api.t()+5));
+  pb.onclick=()=>api.toggle();
+  el.querySelector('[data-a=replay]').onclick=()=>api.replay();
+  el.querySelector('[data-a=close]').onclick=()=>api.close();
+  const P={ el, update(){ const d=api.dur(), t=Math.min(api.t(),d); if(!drag) rg.value=Math.round(t/d*1000); tm.textContent=t.toFixed(1)+'s / '+d.toFixed(1)+'s'; pb.textContent=api.playing()?'⏸':'▶'; } };
+  _cinePanelCur=P; P.update(); return P;
+}
+window._cinePanelMake=_cinePanelMake; window._cinePanelRemove=_cinePanelRemove;
 // 🎬 Cinematic "Memes Assemble" (Stalin vs Evil Gary kiểu Avengers: Endgame) — file riêng js/cine-endgame.js, chỉ tải khi bấm
 function playCineEndgame(){
   if(window._cineEG) return window._cineEG();
@@ -30057,6 +30130,7 @@ function _scLoopFn(){
   }
   _scRenderFrame();
   _scMovePlayhead();
+  if(_scPlayer && _cinePanelCur) _cinePanelCur.update();
   _scRaf=requestAnimationFrame(_scLoopFn);
 }
 
@@ -30552,7 +30626,10 @@ function scToggleLoop(){ _scLoop=!_scLoop; const b=document.getElementById('scLo
 
 // ===================== VÀO / RA CHẾ ĐỘ =====================
 function openScene(){
-  if(window.PLAY_ONLY) return;   // 🔒 bản online chỉ để chơi
+  if(window.PLAY_ONLY) return;   // 🔒 bản online chỉ để chơi (Scene Builder = công cụ chỉnh sửa)
+  _openSceneScreen();
+}
+function _openSceneScreen(){
   if(animId) cancelAnimationFrame(animId);
   animId=null; isPaused=true;
   stopAllBattleMusic();
@@ -30576,7 +30653,9 @@ function openScene(){
 }
 function closeScene(){
   _scStopWhisper(); _scStopLaugh(); _scStopTerror();
-  _scSaveScene();
+  const _wasPlayer=!!_scPlayer;
+  if(_scPlayer){ SCENE=_scPlayer.bak; _scLoop=_scPlayer.loop; _scPlayer=null; _cinePanelRemove(); document.getElementById('sceneScreen').classList.remove('player'); }
+  else _scSaveScene();
   _scPlaying=false; _scRec=false;
   document.getElementById('sceneScreen').classList.remove('recmode');
   if(_scRaf) cancelAnimationFrame(_scRaf); _scRaf=null;
@@ -30589,6 +30668,7 @@ function closeScene(){
   _setArenaSize(ARENA_NORMAL.w, ARENA_NORMAL.h, ARENA_NORMAL.ss);
   document.getElementById('sceneScreen').classList.remove('active');
   document.getElementById('mainMenuScreen').classList.add('active');
+  if(_wasPlayer) openCinema();   // xem xong → về lại Rạp phim
 }
 // thả MEME vào khung → thành diễn viên đứng đúng chỗ vừa thả; kéo diễn viên trong khung để dời chỗ
 function _scWireStage(){

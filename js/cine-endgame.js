@@ -36,8 +36,8 @@
   const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)), seg=(t,a,b)=>clamp((t-a)/(b-a),0,1);
   const eio=x=>x*x*(3-2*x), eout=x=>1-Math.pow(1-x,3), lerp=(a,b,k)=>a+(b-a)*k;
   const back=x=>{ const c=1.70158; return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2); };
-  let cv, g, SC, raf=null, t0=0, parts=[], played={}, overlay, endUI, endShown=false, crowd=[], heroes=[], shake=0;
-  const sfx=(id,k,v,dur)=>{ if(played[id]) return; played[id]=1; try{ playSample(k,v==null?1:v,dur||null); }catch(e){} };
+  let cv, g, SC, raf=null, t0=0, parts=[], played={}, overlay, crowd=[], heroes=[], shake=0, paused=false, pauseT=0, markOnly=false, panel=null;
+  const sfx=(id,k,v,dur)=>{ if(played[id]) return; played[id]=1; if(markOnly) return; try{ playSample(k,v==null?1:v,dur||null); }catch(e){} };   // markOnly: ngay sau khi tua → chỉ đánh dấu, không phát dồn
   function actor(im,x,y,h,o){ o=o||{}; const c=prep(im); if(!c) return 0; const w=h*c.sw/c.sh;
     g.save(); g.globalAlpha*=(o.a==null?1:o.a); g.translate(x,y); if(o.rot) g.rotate(o.rot); g.scale((o.flip?-1:1)*(o.sx||1),o.sy||1);
     if(o.glow){ g.shadowColor=o.glow; g.shadowBlur=o.gb||18; }
@@ -139,7 +139,7 @@
   }
   function frame(now){
     raf=requestAnimationFrame(frame);
-    const t=(now-t0)/1000;
+    const t=paused?pauseT:(now-t0)/1000;
     const E=tE(), T_CHARGE=E+7.0, T_FREEZE=E+8.9, T_END=E+12.4;
     const tf=Math.min(t,T_FREEZE);
     // ── âm thanh ──
@@ -262,9 +262,14 @@
     if(t>=T_FREEZE+0.9){ const k=eout(seg(t,T_FREEZE+0.9,T_FREEZE+1.6)); g.save(); g.globalAlpha=k; g.translate(VW/2,VH/2+lerp(30,0,k));
       text('TO BE CONTINUED…',0,0,46,'#ffffff','#000'); g.fillStyle='rgba(255,255,255,0.8)'; g.fillRect(-180*k,30,360*k,3);
       text('MEMES ASSEMBLE',0,58,22,'#ffcc80','#000',undefined,0.9); g.restore(); }
-    if(t>=T_END && !endShown){ endShown=true; endUI.style.display='flex'; }
+    markOnly=false;
+    if(panel) panel.update();
   }
-  function stop(){ if(raf) cancelAnimationFrame(raf); raf=null; try{ stopAllLongSfx(); }catch(e){} if(overlay) overlay.remove(); overlay=null; }
+  const DUR=()=>tE()+12.4, curT=()=>paused?pauseT:(performance.now()-t0)/1000;
+  function seek(sec){ sec=clamp(sec,0,DUR()); try{ stopAllLongSfx(); }catch(e){} parts=[]; played={}; markOnly=true; C=null;
+    if(paused) pauseT=sec; else t0=performance.now()-sec*1000; }
+  function toggle(){ if(paused){ if(pauseT>=DUR()-0.05) pauseT=0; t0=performance.now()-pauseT*1000; paused=false; } else { pauseT=curT(); paused=true; } }
+  function stop(){ if(raf) cancelAnimationFrame(raf); raf=null; try{ stopAllLongSfx(); }catch(e){} if(window._cinePanelRemove) _cinePanelRemove(); panel=null; if(overlay) overlay.remove(); overlay=null; }
   window._cineEG=function(){
     if(overlay) return;
     overlay=document.createElement('div');
@@ -272,17 +277,12 @@
     cv=document.createElement('canvas'); cv.width=1080; cv.height=1920; SC=cv.width/VW;
     cv.style.cssText='height:100vh;max-width:100vw;aspect-ratio:9/16;object-fit:contain;';
     g=cv.getContext('2d');
-    const close=document.createElement('button'); close.textContent='✕'; close.title='Close';
-    close.style.cssText='position:absolute;top:14px;right:18px;z-index:2;font-size:22px;background:rgba(255,255,255,0.12);color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:10px;padding:6px 12px;cursor:pointer;';
-    close.onclick=stop;
-    endUI=document.createElement('div'); endUI.style.cssText='position:absolute;bottom:8vh;left:0;right:0;display:none;justify-content:center;gap:14px;z-index:2;';
-    const mk=(txt,fn)=>{ const b=document.createElement('button'); b.textContent=txt; b.style.cssText='font-size:18px;font-weight:700;background:#c62828;color:#fff;border:0;border-radius:12px;padding:10px 22px;cursor:pointer;'; b.onclick=fn; return b; };
-    endUI.appendChild(mk('↻ Replay',()=>{ endUI.style.display='none'; endShown=false; C=null; setup(); t0=performance.now(); }));
-    endUI.appendChild(mk('✕ Close',stop));
-    overlay.appendChild(cv); overlay.appendChild(close); overlay.appendChild(endUI); document.body.appendChild(overlay);
+    overlay.appendChild(cv); document.body.appendChild(overlay);
+    if(window._cinePanelMake) panel=_cinePanelMake(overlay,{ title:'Memes Assemble', dur:DUR, t:()=>Math.min(curT(),DUR()), playing:()=>!paused && curT()<DUR(),
+      toggle:()=>{ if(!paused && curT()>=DUR()) seek(0); else toggle(); }, seek, replay:()=>{ paused=false; setup(); seek(0); markOnly=false; }, close:()=>{ stop(); if(window.openCinema) openCinema(); } });
     try{ stopAllBattleMusic(); }catch(e){}
     try{ window._cineBG && window._cineBG.prepare && window._cineBG.prepare(); }catch(e){}   // dựng sẵn các lớp nền (tránh giật khung đầu)
-    endShown=false; C=null; setup(); t0=performance.now(); raf=requestAnimationFrame(frame);
+    paused=false; C=null; setup(); t0=performance.now(); raf=requestAnimationFrame(frame);
   };
   window._cineEGStop=stop;
   window._cineEGSeek=t=>{ t0=performance.now()-t*1000; };   // (kiểm tra) nhảy tới giây t
