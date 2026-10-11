@@ -338,10 +338,6 @@
     if(t>=T_FREEZE){ const k=seg(t,T_FREEZE,T_FREEZE+0.25); g.fillStyle=`rgba(255,255,255,${0.7*(1-k)})`; g.fillRect(0,0,VW,VH);
       g.fillStyle=`rgba(20,8,8,${0.4*seg(t,T_FREEZE+0.3,T_FREEZE+1.2)})`; g.fillRect(0,0,VW,VH); }
     const bar=lerp(64,108,seg(t,T_FREEZE,T_FREEZE+0.8)); g.fillStyle='#000'; g.fillRect(0,0,VW,bar); g.fillRect(0,VH-bar,VW,bar);
-    // thanh máu Stalin 10/1000
-    if(t>1 && !inSum){ const a=1-seg(t,9.6,10.4); if(a>0){ const fl=0.6+0.4*Math.sin(t*10); g.save(); g.globalAlpha=a; g.fillStyle='rgba(0,0,0,0.55)'; g.fillRect(18,bar+14,170,36);
-      text('STALIN CAT',62,bar+24,11,'#fff',null,'700 11px system-ui,sans-serif'); g.fillStyle='#222'; g.fillRect(26,bar+35,154,8); g.fillStyle=`rgba(255,40,40,${fl})`; g.fillRect(26,bar+35,Math.max(2,154*0.01),8);
-      text('10 / 1000',150,bar+24,10,'#ff5252',null,'700 10px system-ui,sans-serif'); g.restore(); } }
     for(const H of heroes){ const u=seg(t,H.t+0.15,H.t+HERO_DT); if(u<=0||u>=1) continue; const inK=eout(seg(u,0,0.18)), outK=1-seg(u,0.85,1);
       g.save(); g.globalAlpha=outK; const x=lerp(-280,24,inK); g.fillStyle='rgba(190,20,20,0.95)'; g.fillRect(x,VH-bar-94,6,60);
       g.font='900 34px Impact,"Arial Black",sans-serif'; g.textAlign='left'; g.textBaseline='alphabetic'; g.lineJoin='round'; g.lineWidth=5; g.strokeStyle='#000'; g.strokeText(H.name,x+16,VH-bar-52); g.fillStyle='#fff'; g.fillText(H.name,x+16,VH-bar-52);
