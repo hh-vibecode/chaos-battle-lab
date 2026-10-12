@@ -1468,3 +1468,46 @@ canvas { display:block; }
   .tl-item { width:56px; height:56px; }
   .tl-row, .tl-items { min-height:68px; }
 }
+
+/* ===================== 📱 CHẾ ĐỘ ĐIỆN THOẠI (html.is-mobile — gắn tự động trong <head> của index.html) ===================== */
+#mbMenuBtn { display:none; }
+html.is-mobile #mainMenuScreen { padding:72px 12px 28px; }
+html.is-mobile .mm-title { font-size:1.05rem; }
+html.is-mobile .mm-subtitle { margin:8px 0 18px; font-size:0.55rem; }
+html.is-mobile .mm-settings-btn { top:12px; right:12px; width:38px; height:38px; }
+html.is-mobile .mm-modes { display:grid; grid-template-columns:1fr 1fr; gap:10px; width:100%; max-width:480px; }
+html.is-mobile .mm-mode-card { width:auto; padding:14px 8px; gap:6px; }
+html.is-mobile .mm-mode-icon { font-size:1.8rem; }
+html.is-mobile .mm-mode-name { font-size:0.6rem; text-align:center; line-height:1.4; }
+html.is-mobile .mm-mode-desc { font-size:0.42rem; line-height:1.5; }
+html.is-mobile .select-header { padding:14px 12px 8px; }
+html.is-mobile .select-title { font-size:1rem; letter-spacing:2px; padding-left:40px; }
+html.is-mobile .pick-bars { padding:6px 10px; gap:8px; }
+html.is-mobile .pick-bar { min-width:0; padding:6px 8px; gap:6px; }
+html.is-mobile .pick-avatar { width:34px; height:34px; }
+html.is-mobile .pick-name { font-size:0.72rem; }
+html.is-mobile .pick-label { font-size:0.5rem; letter-spacing:1px; }
+/* 📊 bỏ đồng hồ FPS trên điện thoại */
+html.is-mobile #fpsMeter, html.is-mobile #btnFps { display:none !important; }
+/* ☰ trong trận: mọi nút điều khiển (Back / Pause / Reset / START) ẩn hết, gom vào 1 nút ☰ nhỏ — bấm mới thả xuống */
+html.is-mobile body.mb-battle #mbMenuBtn {
+  display:flex; position:fixed; top:10px; right:10px; z-index:70; width:38px; height:38px; border-radius:10px;
+  align-items:center; justify-content:center; font-size:1.2rem; color:#3b2b1a; cursor:pointer;
+  background:rgba(255,250,240,0.55); border:2px solid rgba(59,43,26,0.55);
+}
+html.is-mobile body.mb-battle.mb-open #mbMenuBtn { background:#fffaf0; border-color:#3b2b1a; }
+html.is-mobile body.mb-battle .battle-settings,
+html.is-mobile body.mb-battle .btn-battle-start-corner { display:none !important; }
+html.is-mobile body.mb-battle.mb-open .battle-settings {
+  display:flex !important; position:fixed !important; top:54px !important; right:10px !important; left:auto !important;
+  width:auto !important; flex-direction:column; align-items:stretch; gap:6px; padding:8px !important;
+  background:#fffaf0 !important; border:2px solid #3b2b1a !important; border-radius:12px; z-index:70; opacity:1 !important;
+  box-shadow:0 6px 18px rgba(0,0,0,0.25);
+}
+html.is-mobile body.mb-battle.mb-open .battle-settings .btn-battle-start-corner { display:block !important; opacity:1; }
+html.is-mobile body.mb-battle.mb-open .battle-settings .btn-util-group { display:flex; }
+html.is-mobile body.mb-battle.mb-open .battle-settings .btn { font-size:0.7rem; padding:7px 12px; color:#3b2b1a; border-color:#3b2b1a; opacity:1; }
+html.is-mobile body.mb-battle.mb-open .battle-settings .btn-battle-start-corner { color:#fff; }
+.mob-only { display:none; }
+html.is-mobile .mob-only { display:inline; }
+html.is-mobile .desk-only { display:none; }

@@ -21506,6 +21506,27 @@ const SOLO_END_CTAS = [
 // 📊 ĐỒNG HỒ FPS (chỉ để chẩn đoán trên máy thật — headless/Playwright không đo thay được).
 // Chỉ số quan trọng nhất KHÔNG phải FPS trung bình mà là "1% low": frame tệ nhất chính là cái mắt thấy giật.
 let _fpsOn=true, _fpsSamples=[], _fpsLastT=0, _fpsPaintAt=0;
+// 📱 ĐIỆN THOẠI: tắt hẳn đồng hồ FPS; trong trận gom nút điều khiển vào 1 nút ☰ thả xuống
+function _isMobile(){ return document.documentElement.classList.contains('is-mobile'); }
+if(_isMobile()){ _fpsOn=false; const _fe=document.getElementById('fpsMeter'); if(_fe) _fe.classList.remove('open'); }
+function mbToggleMenu(force){
+  const open = force!==undefined ? force : !document.body.classList.contains('mb-open');
+  if(open){   // nhét nút START vào chung khối thả xuống (ở chế độ thường nó nổi ở góc màn hình)
+    const bs=document.querySelector('.battle-settings'), st=document.querySelector('.btn-battle-start-corner');
+    if(bs && st && st.parentNode!==bs) bs.appendChild(st);
+  }
+  document.body.classList.toggle('mb-open', open);
+}
+(function(){
+  const BATTLE=['battleScreen','duoScreen','ffa3Screen'];
+  const sync=()=>{ const on=BATTLE.some(id=>{ const e=document.getElementById(id); return e && e.classList.contains('active'); });
+    document.body.classList.toggle('mb-battle', on); if(!on) document.body.classList.remove('mb-open'); };
+  const mo=new MutationObserver(sync);
+  const hook=()=>{ document.querySelectorAll('.screen').forEach(el=>mo.observe(el,{attributes:true,attributeFilter:['class']})); sync(); };
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',hook); else hook();
+  // bấm 1 nút trong khối thả xuống xong thì tự gập lại
+  document.addEventListener('click',e=>{ if(!_isMobile()) return; const b=e.target.closest && e.target.closest('.battle-settings button'); if(b) setTimeout(()=>mbToggleMenu(false),0); });
+})();
 function toggleFpsMeter(){
   _fpsOn=!_fpsOn;
   const el=document.getElementById('fpsMeter');

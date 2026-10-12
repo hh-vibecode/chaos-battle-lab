@@ -9,6 +9,14 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#1a1a2e">
 <title>⚔️ Chaos Battle Lab</title>
+<script>
+// 📱 TỰ NHẬN THIẾT BỊ: máy cảm ứng có màn nhỏ (điện thoại / tablet dọc) → gắn class 'is-mobile' lên <html>, CSS + JS tự đổi
+//    sang bố cục điện thoại. Xoay máy / đổi cỡ cửa sổ thì tính lại.
+(function(){ var d=document.documentElement;
+  function u(){ var touch=(window.matchMedia&&matchMedia('(pointer:coarse)').matches)||/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+    d.classList.toggle('is-mobile', !!touch && Math.min(innerWidth,innerHeight)<900); }
+  u(); addEventListener('resize',u); addEventListener('orientationchange',u); })();
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
 <style>
@@ -28,7 +36,7 @@
 .mm-version{position:absolute;left:14px;bottom:12px;z-index:5;font:8px 'Press Start 2P',monospace;color:rgba(70,50,30,.6);pointer-events:none;letter-spacing:1px}
 #bootTip{font-size:9px;opacity:.75;min-height:12px;text-align:center;padding:0 16px}
 </style>
-<link rel="stylesheet" href="css/game.css?v=90">
+<link rel="stylesheet" href="css/game.css?v=91">
 
 </head>
 <body>
@@ -137,7 +145,7 @@
   </div>
 
   <div class="roster-wrap">
-    <div class="roster-label">Click to select · P1 first then P2 · Hover to delete/edit</div>
+    <div class="roster-label"><span class="desk-only">Click to select · P1 first then P2 · Hover to delete/edit</span><span class="mob-only">Tap to select · P1 first then P2</span></div>
 
     <!-- 😹 Meme row -->
     <div class="roster-section-header">
@@ -625,8 +633,9 @@
   </div>
 </div>
 
-<script>window.GAME_VERSION={build:90,at:"14:57 · 12/10/2026"};   // tools/release.py tự tăng số bản + ghi giờ mỗi lần đẩy lên</script>
-<script src="js/asset-groups.js?v=90"></script>
-<script src="js/boot.js?v=90"></script>
+<script>window.GAME_VERSION={build:91,at:"15:04 · 12/10/2026"};   // tools/release.py tự tăng số bản + ghi giờ mỗi lần đẩy lên</script>
+<script src="js/asset-groups.js?v=91"></script>
+<script src="js/boot.js?v=91"></script>
+<button id="mbMenuBtn" onclick="mbToggleMenu()" title="Menu">☰</button>
 </body>
 </html>
