@@ -3206,6 +3206,7 @@ function _setArenaSize(w,h,ss,forceCam){
     // (u=W/480) → lề 0 là viền 2 bên bị khuất mất. Chừa đúng 13u + 2u thở mỗi bên = 30u tổng → 1+30/480.
     const _SOLO_CAM_MARGIN = 1 + 30/480;   // = 1.0625 → viền trái/phải vừa khít mép khung 9:16
     try{ if(!(ffa3Ctx||duoCtx||fanCtx)) _camMargin=_SOLO_CAM_MARGIN; }catch(_e){ _camMargin=_SOLO_CAM_MARGIN; }
+    try{ if(duoCtx) _camMargin=1.12/1.05; }catch(_e){}   // 👥 2vs2: sàn chiếm rộng hơn 5% trong khung (≈1.067, vẫn ≥ lề tối thiểu 1.0625 nên viền không bị khuất)
     _viewW = w*_camMargin;
     _viewH = _viewW*CAM_VIEW_RATIO;
     canvas.width  = _viewW*ss;
@@ -3698,7 +3699,7 @@ function _shardCellHasInk(cv,cx,cy,cw,ch){
   return tot>0 && ink/tot>0.12;
 }
 // 🍫 MEWING CAT THUA = ĐỨT LÀM ĐÔI (meme "Kitkat Gojo"): vệt chém loé ngang eo → nửa trên trượt theo đường cắt rồi đổ
-//    xuống nằm cạnh, nửa dưới vẫn đứng lắc lư rồi khựng lại · máu bắn nhẹ ở vết cắt · 2 nửa nằm lại tới hết trận.
+//    xuống nằm cạnh (2 nửa tách hẳn nhau), nửa dưới lắc lư rồi khựng lại · máu bắn nhẹ ở vết cắt · nằm 3s rồi mỗi nửa vỡ mảnh.
 //    Các meme khác vẫn vỡ mảnh như cũ (xem _fighterDeathFx).
 let mwKitkat=[];
 function _fighterDeathFx(f){
@@ -3709,7 +3710,7 @@ function _fighterDeathFx(f){
 function _mwKitKat(f,L){
   const e=f.enemy, side=e ? (e.x>=f.x?-1:1) : (Math.random()<0.5?-1:1);   // nửa trên đổ VỀ PHÍA xa kẻ vừa chém
   mwKitkat.push({L:{img:L.img,sx:L.sx,sy:L.sy,sw:L.sw,sh:L.sh,dw:L.dw,dh:L.dh,fl:(L.fl!==undefined?L.fl:L.flip)}, x:f.x, y:f.y, side,
-    cut:0.06, tilt:-0.1*side, t:0, dx:0, dy:0, vy:0, rot:0, landed:false, wob:0});
+    cut:0.06, tilt:-0.1*side, t:0, dx:0, dy:0, vy:0, rot:0, landed:false, wob:0, bx:0, size:f.size, color:f.color});
   playSample('sm_slash',0.9);
 }
 function _mwKitkatDraw(){
@@ -3725,13 +3726,26 @@ function _mwKitkatDraw(){
       else { K.vy+=0.55; K.dy+=K.vy; K.dx+=K.side*0.9; K.rot+=(K.side*1.45-K.rot)*0.12;
         if(y+K.dy+py >= y+dh/2-dw*0.3){ K.landed=true; K.dy=dh/2-dw*0.3-py; K.rot=K.side*1.45; K.wob=10; spawnParticles(x+K.dx,y+dh/2-4,'#bdbdbd',10,false,false); addShake(3,6); } } }
     if(K.wob>0) K.wob--;
-    const half=(poly,ox,oy,rot,pivY)=>{ ctx.save(); ctx.translate(x+ox,y+oy); ctx.translate(0,pivY); ctx.rotate(rot); ctx.translate(0,-pivY);
-      ctx.beginPath(); poly.forEach((q,i)=>i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1])); ctx.closePath(); ctx.clip();
-      if(fl) ctx.scale(-1,1); ctx.drawImage(img,sx,sy,sw,sh,-dw/2,-dh/2,dw,dh); ctx.restore(); };
+    // ↔️ 2 nửa TÁCH HẲN nhau, không đè lên nhau: nửa dưới lùi nhẹ về phía ngược lại, nửa trên trượt tiếp cho đủ khoảng hở
+    if(t>6){ K.bx+=(-K.side*dw*0.3-K.bx)*0.12; if(K.landed){ const need=K.side*dw*0.9; if(Math.abs(K.dx)<Math.abs(need)) K.dx+=(need-K.dx)*0.15; } }
+    const half=(c,poly,ox,oy,rot,pivY)=>{ c.save(); c.translate(ox,oy); c.translate(0,pivY); c.rotate(rot); c.translate(0,-pivY);
+      c.beginPath(); poly.forEach((q,i)=>i?c.lineTo(q[0],q[1]):c.moveTo(q[0],q[1])); c.closePath(); c.clip();
+      if(fl) c.scale(-1,1); c.drawImage(img,sx,sy,sw,sh,-dw/2,-dh/2,dw,dh); c.restore(); };
     // nửa dưới: đứng yên, lắc nhẹ lúc vừa bị cắt
     const bw=t<40 ? Math.sin(t*0.6)*0.05*(1-t/40) : 0;
-    half(botPoly,0,0,bw,dh/2);
-    half(topPoly,K.dx,K.dy+(K.landed?Math.sin(K.wob*0.9)*K.wob*0.25:0),K.rot,py);
+    const topOY=K.dy+(K.landed?Math.sin(K.wob*0.9)*K.wob*0.25:0);
+    // 💥 nằm đủ 3s → MỖI NỬA vỡ mảnh như cái chết thường
+    if(K.landed && (K.landT=(K.landT||0)+1)>=180){
+      const S=Math.ceil(Math.max(dw,dh)*1.6);
+      const shatter=(poly,ox,oy,rot,pivY)=>{ const cv=document.createElement('canvas'); cv.width=cv.height=S; cv._noMask=true;
+        half(cv.getContext('2d'),poly,S/2,S/2,rot,pivY);
+        _spawnDeathShards(x+ox,y+oy,K.size,K.color,{img:cv,sx:0,sy:0,sw:S,sh:S,dw:S,dh:S}); };
+      shatter(botPoly,K.bx,0,bw,dh/2); shatter(topPoly,K.dx,topOY,K.rot,py);
+      playSample('death_break',0.6); K.gone=true; continue; }
+    ctx.save(); ctx.translate(x,y);
+    half(ctx,botPoly,K.bx,0,bw,dh/2);
+    half(ctx,topPoly,K.dx,topOY,K.rot,py);
+    ctx.restore();
     // vệt chém loé ngang (8 frame đầu) + máu bắn ở vết cắt
     if(t<=10){ const a=1-t/10, ext=dw*1.3; ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round';
       for(const [lw,c] of [[10,`rgba(120,220,255,${0.35*a})`],[4,`rgba(200,240,255,${0.8*a})`],[1.6,`rgba(255,255,255,${a})`]]){
@@ -3739,7 +3753,8 @@ function _mwKitkatDraw(){
       ctx.restore(); }
     if(t===6){ for(let i=0;i<14;i++){ const a=(Math.random()<0.5?0:Math.PI)+(Math.random()-0.5)*0.9, v=2+Math.random()*4;
       particles.push({x:x+(Math.random()-0.5)*dw*0.5, y:y+yc, vx:Math.cos(a)*v, vy:Math.sin(a)*v-1.5, color:Math.random()<0.5?'#c62828':'#8e0000', gravity:0.18, life:28, maxLife:28, size:1.5+Math.random()*2}); } }
-  } }
+  }
+  if(mwKitkat.some(K=>K.gone)) mwKitkat=mwKitkat.filter(K=>!K.gone); }
 function _spawnDeathShards(x,y,size,color,sprite){
   // 1) MẢNH TỪ CHÍNH ẢNH MEME: cắt lưới, mỗi ô bay ra từ đúng chỗ của nó trên người → nhìn như bị xé nát
   const sheet=_buildShardSheet(sprite);
@@ -9151,6 +9166,24 @@ function _clpBallTick(){
   }
   for(const f of fighters) if((f._ballCD||0)>0) f._ballCD--;
 }
+// 👏 BẪY ĂN LUÔN QUÂN TRIỆU HỒI: bóng chông + chông tường dưới tác động lên mọi quân triệu hồi có máu (2 phe) y như meme
+function _clpSummonTraps(){
+  const b=_clpBall(), src=_spkHolder(), r=b ? b.R*CLP_BALL_HIT : 0, spk=_spkExt(2)>=0.5, cd=Math.round(0.6*_clpTps());
+  for(const _arr of _hpSummonArrays()) for(const u of _arr){ if(!u || u.dead || !(u.hp>0)) continue;
+    if((u._clpTrapCD||0)>0) u._clpTrapCD--;
+    const us=(u.size||20)*0.5;
+    if(b){ const dx=u.x-b.x, dy=u.y-b.y, d=Math.hypot(dx,dy)||1;
+      if(d<r+us){ const nx=dx/d, ny=dy/d;
+        u.x=b.x+nx*(r+us+1); u.y=b.y+ny*(r+us+1);                  // không cho xuyên vào bóng
+        { const vn=b.vx*nx+b.vy*ny; if(vn>0){ b.vx-=2*vn*nx; b.vy-=2*vn*ny; } }
+        if(!((u._clpTrapCD||0)>0)){ u._clpTrapCD=cd; _summonTakeDamage(u, CLP_BALL_DMG, (src && src.team!==u.team) ? src : null, false, false, null, true); u.vx=nx*9; u.vy=ny*9; }
+        continue; } }
+    if(spk && u.y+us >= H-CLP_SPK_H){                               // đâm vào chông tường dưới
+      u.y=H-CLP_SPK_H-us; if(u.vy!==undefined) u.vy=-Math.abs(u.vy||4);
+      if(!((u._clpTrapCD||0)>0)){ u._clpTrapCD=cd; _summonTakeDamage(u, CLP_SPIKE_DMG, (src && src.team!==u.team) ? src : null, false, false, null, true); spawnParticles(u.x,u.y,'#c62828',8,false,true); }
+    }
+  }
+}
 function _clpBallDraw(){
   if(!_spkActive()) return; const b=_clpBall(); if(!b) return;
   ctx.save(); ctx.globalAlpha=0.25; ctx.fillStyle='#000'; ctx.beginPath(); ctx.ellipse(b.x,b.y+b.R*0.8,b.R*0.75,b.R*0.2,0,0,Math.PI*2); ctx.fill(); ctx.restore();
@@ -9189,7 +9222,7 @@ function _clpTick(f){
   else if((f._tpGlowA||0)>0 && !fighters.some(c=>c.type==='clappingcat' && !c.dead && c._tpPend && (c===f || c._tpPend.e===f))) f._tpGlowA=0;   // Clapping Cat chết giữa lúc loé → tắt luôn
   if(f.type!=='clappingcat') return;
   _clpTpTick(f);
-  if(f===_spkHolder()){ _clpBallTick(); _spkState(); }   // (chông chỉ ở tường dưới — không đổi tường nữa)
+  if(f===_spkHolder()){ _clpBallTick(); _clpSummonTraps(); _spkState(); }   // (chông chỉ ở tường dưới — không đổi tường nữa)
   if(f.dead) return;
   // 🏃 KHÔNG chạm tường thì cứ mỗi 1s THẬT +1% tốc chạy (cộng dồn theo tốc gốc); chạm tường là về lại tốc gốc (xem _spkWallHit)
   if(f._clpBase===undefined) f._clpBase=f.topSpeed;
@@ -27975,7 +28008,8 @@ function duoActuallyStart(){
     f._entryTimer=0;
     // 👥 2vs2: nhân vật + VFX liên quan (đều lấy theo this.size, tự co theo) — sân vừa thu về đúng cỡ Solo
     // 1vs1 (480×460, từ 741×710) mà vẫn đông gấp đôi (4 người), nên giảm thêm 20% cho vừa chỗ theo yêu cầu.
-    f.size*=0.8;
+    // → sau đó TĂNG LẠI 15% theo yêu cầu (0.8 × 1.15 = 0.92).
+    f.size*=0.92;
     f.hp=2000; f.maxHp=2000; // 👥 2vs2: đồng loạt 2000 máu (như 3-Way Battle), không đụng tới máu gốc CHAR_DEFS dùng ở Solo/Tournament/Team Battle
     f._duoDealt=0; f._duoTaken=0; // 📊 thống kê riêng từng người, Commenter Battle đọc lại ở fanShowResult()
     fighters.push(f);
