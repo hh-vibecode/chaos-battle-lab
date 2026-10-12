@@ -3755,6 +3755,39 @@ function _mwKitkatDraw(){
       particles.push({x:x+(Math.random()-0.5)*dw*0.5, y:y+yc, vx:Math.cos(a)*v, vy:Math.sin(a)*v-1.5, color:Math.random()<0.5?'#c62828':'#8e0000', gravity:0.18, life:28, maxLife:28, size:1.5+Math.random()*2}); } }
   }
   if(mwKitkat.some(K=>K.gone)) mwKitkat=mwKitkat.filter(K=>!K.gone); }
+// 🌈 NYAN CAT — ĐUÔI CẦU VỒNG SỐNG: dải 6 màu bám theo đường mèo vừa bay qua (≈22 tick gần nhất), gợn sóng chạy
+//    ngược về sau, thon dần + mờ dần về cuối, kèm vài đốm sao lấp lánh rơi rớt. Thay cho cầu vồng in cứng trong ảnh PNG cũ.
+const _NY_CLR=['#ff2a2a','#ff9a1a','#ffee22','#33dd33','#2a9dff','#8a3dff'];
+function _nyTailDraw(f){
+  const T=f._nyTail; if(!T || T.length<3) return;
+  const n=T.length, W0=f.size*0.62, band=W0/6;
+  // pháp tuyến tại từng điểm (trung bình 2 đoạn kề) — đứng yên thì dải vẫn nằm ngang sau mông
+  const N=T.map((p,i)=>{ const a=T[Math.max(0,i-1)], b=T[Math.min(n-1,i+1)]; let dx=b.x-a.x, dy=b.y-a.y, l=Math.hypot(dx,dy);
+    if(l<0.5){ dx=-(f._nyFx||1); dy=0; l=1; } return {x:-dy/l, y:dx/l}; });
+  // dải đứng yên (mèo không chạy) vẫn phải có độ dài → kéo các điểm trùng nhau giãn ra phía sau
+  const P=T.map((p,i)=>({x:p.x, y:p.y}));
+  let len=0; for(let i=1;i<n;i++) len+=Math.hypot(P[i].x-P[i-1].x,P[i].y-P[i-1].y);
+  if(len<f.size*1.2){ const k=f.size*1.2/(n-1); for(let i=0;i<n;i++){ P[i].x=T[0].x-(f._nyFx||1)*k*i; P[i].y=T[0].y; } }
+  ctx.save(); ctx.lineCap='round'; ctx.lineJoin='round';
+  for(let b=-1;b<_NY_CLR.length;b++){   // b=-1: lớp quầng sáng mờ bên dưới
+    ctx.beginPath();
+    for(let i=0;i<n;i++){
+      const t=i/(n-1), w=W0*(1-0.55*t), wave=Math.sin(i*0.55 - tick*0.35)*f.size*0.07*t;
+      const off=(b<0?0:(b-2.5)*(w/6))+wave;
+      const x=P[i].x+N[i].x*off, y=P[i].y+N[i].y*off;
+      i?ctx.lineTo(x,y):ctx.moveTo(x,y);
+    }
+    if(b<0){ ctx.globalCompositeOperation='lighter'; ctx.strokeStyle='rgba(255,200,255,0.18)'; ctx.lineWidth=W0*1.5; ctx.globalAlpha=1; }
+    else { ctx.globalCompositeOperation='source-over'; ctx.strokeStyle=_NY_CLR[b]; ctx.lineWidth=band+0.8; ctx.globalAlpha=0.95; }
+    ctx.stroke();
+  }
+  // fade cuối đuôi: phủ dần bằng destination-out không làm được trên canvas chung → vẽ mấy chấm sao thay cho cảm giác tan
+  ctx.globalCompositeOperation='lighter';
+  for(let i=3;i<n;i+=4){ const tw=Math.sin(tick*0.3+i*1.3+(f.slotIdx||0)); if(tw<0.4) continue;
+    const q=P[i], o=((i*31)%9-4)*band; ctx.fillStyle=`rgba(255,255,255,${(tw-0.4)*1.4})`;
+    ctx.beginPath(); ctx.arc(q.x+N[i].x*o, q.y+N[i].y*o, 1+band*0.35*(tw-0.4), 0, Math.PI*2); ctx.fill(); }
+  ctx.restore();
+}
 function _spawnDeathShards(x,y,size,color,sprite){
   // 1) MẢNH TỪ CHÍNH ẢNH MEME: cắt lưới, mỗi ô bay ra từ đúng chỗ của nó trên người → nhìn như bị xé nát
   const sheet=_buildShardSheet(sprite);
@@ -13426,6 +13459,10 @@ class Fighter {
         try{ this._nyanMusic.pause(); }catch(e){}
       }
       this.nyanWallCD = Math.max(0, this.nyanWallCD - 1);
+      // 🌈 đuôi cầu vồng sống (thay cho cầu vồng in sẵn trong ảnh cũ): ghi vị trí MÔNG mèo mỗi tick, _nyTailDraw vẽ dải lượn theo
+      { const _fx=(this.vx||0)<-0.05?-1:(this.vx||0)>0.05?1:(this._nyFx||1); this._nyFx=_fx;
+        (this._nyTail||(this._nyTail=[])).unshift({x:this.x-_fx*this.size*0.72, y:this.y+this.size*0.08});
+        if(this._nyTail.length>22) this._nyTail.length=22; }
       const onWall = (this.x-this.size<=1||this.x+this.size>=W-1||this.y-this.size<=1||this.y+this.size>=H-1);
       if(onWall && this.nyanWallCD <= 0){
         this.nyanWallCD = 30;
@@ -17657,6 +17694,7 @@ class Fighter {
     // coi như đã nằm gọn trong bụng nó (số dame nổi vẫn bay ra bình thường vì nằm ở hệ floatTexts riêng).
     if(this._tfSwallowed) return;
     if(this.type==='evilgary' && this._egExit) return;   // 🏆 đang xoay–chìm vào ngôi sao: thân do _egDrawExit vẽ
+    if(this.type==='nyancat' && !this.dead) _nyTailDraw(this);   // 🌈 đuôi cầu vồng vẽ TRƯỚC (nằm dưới thân mèo)
     // Commander Cat: đứng sát mép arena quan sát (vô hình hitbox, chỉ vẽ ở mép) — mép ĐÚNG PHE của nó (team 0 = trái, team 1 = phải), không cố định trái
     if(this.type==='commandercat'){
       if(this.dead) return;
@@ -25262,7 +25300,8 @@ function loop(){
   // active path (đang kéo) — fully bright + collision with hit cooldown
   for(const f2 of fighters){
     if(f2.type!=='nyancat'||f2.dead||!f2.nyanTracking||f2.nyanPath.length<2) continue;
-    _drawPixelRainbow(f2.nyanPath,1.0);
+    // vẽ đầu dải đang kéo nối vào MÔNG mèo (điểm đầu đuôi cầu vồng sống) thay vì giữa thân → không đè lên người mèo
+    _drawPixelRainbow((f2._nyTail&&f2._nyTail.length)?[...f2.nyanPath.slice(0,-1),f2._nyTail[0]]:f2.nyanPath,1.0);
     // địch đi qua active trail → dame + xóa trail ngay (không để hit nhiều lần)
     let _rbActiveHit=false;
     for(const f of fighters){
