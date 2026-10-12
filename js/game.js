@@ -3869,6 +3869,97 @@ function _scEchoSlam(f,dmg,targets){
   addShake(full?9:6, full?14:10);
   if(dmg>300){ addShake(24,20); }   // (dur ≤ str-2 để KHÔNG kích lớp chớp trắng toàn màn của addShake lớn)   // 💥 rung lắc dữ dội (thêm 3 đợt dư chấn trong _scEchoDrawOver)
 }
+function _scRocksStep(R){ for(const r of R){ if(r.bounced>=2){ r.vx*=0.85; r.vy*=0.85; } r.x+=r.vx; r.y+=r.vy; r.rot+=r.vr;
+  r.vz-=0.45; r.z+=r.vz; if(r.z<=0){ r.z=0; if(r.bounced<2){ r.vz=-r.vz*0.35; r.bounced++; r.vx*=0.6; r.vy*=0.6; } else r.vz=0; } } }
+function _scRocksDraw(R,a){ for(const r of R){
+  ctx.globalAlpha=a*0.35; ctx.fillStyle='#000'; ctx.beginPath(); ctx.ellipse(r.x,r.y+r.r*0.6,r.r,r.r*0.4,0,0,Math.PI*2); ctx.fill();
+  ctx.globalAlpha=a; ctx.fillStyle=r.c; ctx.save(); ctx.translate(r.x,r.y-r.z); ctx.rotate(r.rot); ctx.beginPath();
+  ctx.moveTo(r.r*r.k[0],0); ctx.lineTo(0,r.r*r.k[1]); ctx.lineTo(-r.r*r.k[2],0); ctx.lineTo(0,-r.r*r.k[3]); ctx.closePath(); ctx.fill(); ctx.restore(); } ctx.globalAlpha=1; }
+function _scCracksDraw(cracks,grow,a,glow,w){
+  ctx.lineCap='round'; ctx.lineJoin='round';
+  for(const c of cracks){ const L=c.len*grow;
+    for(let pass=0;pass<2;pass++){ if(pass===1 && glow<=0.01) break;
+      for(let i=1;i<c.pts.length;i++){ const p0=c.pts[i-1], p1=c.pts[i]; if(p0.d>L) break;
+        const k=Math.min(1,(L-p0.d)/Math.max(1,p1.d-p0.d)), x1=p0.x+(p1.x-p0.x)*k, y1=p0.y+(p1.y-p0.y)*k, taper=1-p0.d/c.len;
+        ctx.beginPath(); ctx.moveTo(p0.x,p0.y); ctx.lineTo(x1,y1);
+        if(pass===0){ ctx.strokeStyle=`rgba(25,8,18,${a*0.85})`; ctx.lineWidth=(1+w*taper); }
+        else { ctx.strokeStyle=`rgba(255,110,180,${glow*taper})`; ctx.lineWidth=Math.max(0.6,w*0.45*taper); }
+        ctx.stroke(); } } } }
+// 🌊 1 GỢN SÓNG MÉO (kiểu Echo Slam): KHÚC XẠ THẬT — chụp lại khung hình hiện tại rồi vẽ đè dải vành khuyên
+//    (viền méo theo 3 sóng sin trôi) bằng chính ảnh đó phóng/co nhẹ quanh tâm → sàn, meme, mọi thứ bên dưới bị
+//    bẻ cong như nhìn qua sóng chấn động. Chỉ thêm 1 lớp bụi rất mờ + mép sáng mảnh ở đầu sóng.
+let _scEcSnap=null, _scEcSnapOk=false;
+function _scGrab(){
+  if(_scEcSnapOk) return _scEcSnap;
+  const cv=ctx.canvas;
+  if(!_scEcSnap || _scEcSnap.width!==cv.width || _scEcSnap.height!==cv.height){ _scEcSnap=document.createElement('canvas'); _scEcSnap.width=cv.width; _scEcSnap.height=cv.height; }
+  const c=_scEcSnap.getContext('2d'); c.setTransform(1,0,0,1,0,0); c.clearRect(0,0,cv.width,cv.height); c.drawImage(cv,0,0);
+  _scEcSnapOk=true; return _scEcSnap;
+}
+function _scRingPath(cx,cy,r0,r1,seed,t){   // vành khuyên viền méo
+  const N=72, pt=(j,r)=>{ const th=j/N*Math.PI*2, k=1+0.06*Math.sin(3*th+seed+t*0.09)+0.035*Math.sin(7*th-t*0.13+seed*2.3)+0.02*Math.sin(13*th+seed*4.1+t*0.2);
+    return [cx+Math.cos(th)*r*k, cy+Math.sin(th)*r*k]; };
+  ctx.beginPath();
+  for(let j=0;j<=N;j++){ const q=pt(j,r1); j?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1]); } ctx.closePath();
+  for(let j=N;j>=0;j--){ const q=pt(j,Math.max(0,r0)); j===N?ctx.moveTo(q[0],q[1]):ctx.lineTo(q[0],q[1]); } ctx.closePath();
+}
+function _scLens(cx,cy,r0,r1,seed,t,k){   // vẽ ảnh chụp phóng k quanh tâm, cắt theo vành khuyên
+  const snap=_scGrab(); if(!snap) return;
+  ctx.save(); _scRingPath(cx,cy,r0,r1,seed,t); ctx.clip();
+  const M=ctx.getTransform(), d=M.transformPoint(new DOMPoint(cx,cy));
+  ctx.setTransform(k,0,0,k,d.x*(1-k),d.y*(1-k)); ctx.globalAlpha=1; ctx.drawImage(snap,0,0);
+  ctx.restore();
+}
+function _scRipple(cx,cy,R,w,a,seed,t){
+  if(R<3 || a<=0.01) return;
+  const amp=0.045*a*Math.min(1.6,w/18);
+  _scLens(cx,cy,R,R+w*0.6,seed,t,1+amp);          // khúc xạ: nửa ngoài phồng ra
+  _scLens(cx,cy,R-w*0.6,R,seed,t,1-amp*0.6);      //          nửa trong hút vào
+  // 🟫 GỜ BỤI MỀM: 8 nét chồng nhau dọc bề ngang dải, màu chuyển tối (sau) → nâu cát → sáng kem (đầu sóng), không viền cứng
+  const N=72, K=[]; for(let j=0;j<=N;j++){ const th=j/N*Math.PI*2; K.push([Math.cos(th),Math.sin(th),1+0.06*Math.sin(3*th+seed+t*0.09)+0.035*Math.sin(7*th-t*0.13+seed*2.3)+0.02*Math.sin(13*th+seed*4.1+t*0.2)]); }
+  const C=[[70,45,35,0.10],[95,65,48,0.16],[130,95,70,0.22],[165,125,92,0.26],[195,160,125,0.28],[225,195,165,0.26],[245,225,205,0.2],[255,245,235,0.12]];
+  ctx.save(); ctx.lineJoin='round';
+  for(let i=0;i<C.length;i++){ const off=-w*0.6+i*(w*1.2/(C.length-1)), rr=R+off; if(rr<1) continue;
+    ctx.beginPath(); for(let j=0;j<=N;j++){ const q=K[j], x=cx+q[0]*rr*q[2], y=cy+q[1]*rr*q[2]; j?ctx.lineTo(x,y):ctx.moveTo(x,y); }
+    ctx.strokeStyle=`rgba(${C[i][0]},${C[i][1]},${C[i][2]},${C[i][3]*a})`; ctx.lineWidth=w*0.32; ctx.stroke(); }
+  // 🌪️ vệt bụi xoáy: vài cung sáng ngắn chạy vòng theo dải
+  ctx.lineCap='round';
+  for(let i=0;i<10;i++){ const th0=seed*1.7+i*0.63+t*0.035*(i%2?1:-1), span=0.18+0.12*((i*7)%5)/5, rr=R+(((i*13)%7)/7-0.5)*w*0.8;
+    const j=Math.round(((th0%(Math.PI*2))+Math.PI*2)%(Math.PI*2)/(Math.PI*2)*N), kk=K[j][2];
+    ctx.strokeStyle=`rgba(255,240,225,${0.35*a})`; ctx.lineWidth=Math.max(1,w*0.08);
+    ctx.beginPath(); ctx.arc(cx,cy,rr*kk,th0,th0+span); ctx.stroke(); }
+  ctx.restore();
+}
+// 🌀 GỢN XOÁY KHÚC XẠ (kiểu Echo Slam Dota): chụp khung hình rồi vẽ lại TỪNG DẢI vành khuyên mỏng với ảnh
+//    phóng/co + XOAY nhẹ quanh tâm, dải kề nhau lệch chiều nhau → sàn + meme bên dưới bị vặn xoắn gợn sóng như mặt nước.
+//    Mỗi dải phủ thêm 1 lớp ánh vàng / bóng tối rất mờ cho ra vân gợn, mép đầu sóng sáng vàng.
+function _scSwirlLens(cx,cy,r0,r1,k,rot,wob,seed,t){
+  const snap=_scGrab(); if(!snap) return;
+  ctx.save(); _scRingPathW(cx,cy,r0,r1,wob,seed,t); ctx.clip();
+  const M=ctx.getTransform(), d=M.transformPoint(new DOMPoint(cx,cy)), c=Math.cos(rot)*k, sn=Math.sin(rot)*k;
+  ctx.setTransform(c,sn,-sn,c, d.x-(c*d.x-sn*d.y), d.y-(sn*d.x+c*d.y)); ctx.drawImage(snap,0,0);
+  ctx.restore();
+}
+function _scRingPathW(cx,cy,r0,r1,wob,seed,t){
+  const N=64, pt=(j,r)=>{ const th=j/N*Math.PI*2, k=1+wob*(Math.sin(5*th+seed+t*0.15)*0.6+Math.sin(11*th-t*0.2+seed*2.1)*0.4);
+    return [cx+Math.cos(th)*r*k, cy+Math.sin(th)*r*k]; };
+  ctx.beginPath();
+  for(let j=0;j<=N;j++){ const q=pt(j,r1); j?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1]); } ctx.closePath();
+  for(let j=N;j>=0;j--){ const q=pt(j,Math.max(0,r0)); j===N?ctx.moveTo(q[0],q[1]):ctx.lineTo(q[0],q[1]); } ctx.closePath();
+}
+// 1 cụm gợn: các dải mỏng từ mép đầu R lùi vào trong 1 khoảng `zone`
+function _scSwirl(cx,cy,R,zone,bw,a,seed,t,str){
+  if(R<4 || a<=0.01) return;
+  const n=Math.max(1,Math.floor(Math.min(zone,R)/bw));
+  for(let i=0;i<n;i++){ const r1=R-i*bw, r0=r1-bw; if(r0<0) break;
+    const fall=a*(1-i/n), sg=(i%2?-1:1);
+    _scSwirlLens(cx,cy,r0,r1, 1+sg*0.035*fall*str, sg*0.03*fall*str+0.02*fall*str, 0.012, seed+i*0.7, t);
+    ctx.save(); _scRingPathW(cx,cy,r0,r1,0.012,seed+i*0.7,t);
+    ctx.fillStyle= sg>0 ? `rgba(255,214,110,${0.16*fall})` : `rgba(60,40,10,${0.10*fall})`; ctx.fill(); ctx.restore();
+  }
+  ctx.save(); ctx.globalCompositeOperation='lighter';   // mép đầu sóng vàng sáng
+  _scRingPathW(cx,cy,R-2.5,R,0.012,seed,t); ctx.fillStyle=`rgba(255,230,140,${0.6*a})`; ctx.fill(); ctx.restore();
+}
 function _scEchoDrawOver(){
   _scEcSnapOk=false;   // mỗi khung chụp lại 1 lần (lười: chỉ khi có gợn sóng cần vẽ)
   for(let i=scEcho.length-1;i>=0;i--){ const E=scEcho[i]; E.t++; const t=E.t;
