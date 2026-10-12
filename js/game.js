@@ -4316,9 +4316,9 @@ function _wcTick(){
     d.x+=d.vx; d.y+=d.vy;
     // chạm địch: 30 dame, hạt mất luôn (không tới được vũng). 🤤 Giọt rỉ của Wet Cat (suck) thì XUYÊN qua địch, không bị chặn.
     let _hit=false;
-    if(!d.suck) for(const o of fighters){
+    if(!d.suck) for(const o of [...fighters, ..._summonFoes(d.team)]){   // giọt trúng cả quân triệu hồi
       if(o.team===d.team || o.dead) continue;
-      if(Math.hypot(o.x-d.x,o.y-d.y) < o.size+d.r){ o.takeDamage(WC_HIT_DMG, d.owner); _hit=true; break; }
+      if(Math.hypot(o.x-d.x,o.y-d.y) < (o.size||20)+d.r){ o.takeDamage(WC_HIT_DMG, d.owner); _hit=true; break; }
     }
     if(_hit){ _wcSplash(d.x,d.y,d.r,false); wcDrops.splice(i,1); continue; }
     // tới tâm sàn → nhập vào vũng (cộng DIỆN TÍCH nên vũng to dần chậm lại, không phình tuyến tính)
@@ -11667,6 +11667,13 @@ function _dmgSoldier(s,dmg,clr,ox,oy,isBurn,isPoison,attackerTeam){
   // 🚫 ĐÃ BỎ hạt văng ra lúc trúng đòn (theo yêu cầu). Số dame nổi + rung màn hình + hit VFX vẫn giữ nguyên.
   if(ox!==undefined){const _n=Math.sqrt((s.x-ox)**2+(s.y-oy)**2)||1;s.vx+=(s.x-ox)/_n*3;s.vy+=(s.y-oy)/_n*3;}
 }
+// 🧩 mọi quân triệu hồi CÓ MÁU còn sống không cùng phe `team` — để skill vùng/va chạm coi chúng như meme thường
+function _summonFoes(team){ const out=[]; for(const a of _hpSummonArrays()) for(const u of a) if(u && !u.dead && u.hp>0 && u.team!==team) out.push(u); return out; }
+// 💥 nổ vùng lên quân triệu hồi y như lên meme (dame + choáng nếu có) — skip: mục tiêu đã ăn dame trực tiếp rồi
+function _hitSummonsArea(team,cx,cy,r,dmg,owner,skip,stun){
+  for(const u of _summonFoes(team)){ if(u===skip) continue;
+    if(Math.hypot(u.x-cx,u.y-cy)<r+(u.size||20)){ u.takeDamage(dmg,owner); if(stun && u.stun!==undefined) u.stun=Math.max(u.stun||0,stun); } }
+}
 function _hitSoldiersArea(srcTeam,cx,cy,r,dmg,clr){
   for(const s of germanSoldiers){if(s.dead||s.hp<=0||s.team===srcTeam)continue;if(Math.sqrt((s.x-cx)**2+(s.y-cy)**2)<r+38)_dmgSoldier(s,dmg,clr,cx,cy,undefined,undefined,srcTeam);}
 }
@@ -14270,10 +14277,10 @@ class Fighter {
   _ykContact(){
     this._ykHitCD=Math.max(0,this._ykHitCD-1);
     if(this._ykHitCD>0) return;
-    for(const _f of fighters){
+    for(const _f of [...fighters, ..._summonFoes(this.team)]){   // va đập trúng cả quân triệu hồi
       if(_f===this || _f.dead || _f.team===this.team) continue;
       const _dx=_f.x-this.x, _dy=_f.y-this.y, _d=Math.hypot(_dx,_dy);
-      if(_d >= this.size+_f.size+MELEE_REACH) continue;
+      if(_d >= this.size+(_f.size||20)+MELEE_REACH) continue;
       this._ykHitCD=24;
       _f.takeDamage(50, this);
       // 🎯 giao cục dame phản đang mang theo — chỉ khi ĐANG BAY, tức đúng cú nảy sinh ra nó
@@ -21530,7 +21537,7 @@ function loop(){
       floatTexts.push({x:b.x,y:b.y,text:'💥',color:'#e65100',life:28,big:true});
       spawnParticles(b.x,b.y,'#ff8a00',18);
       fighters.forEach(f=>{ if(f.team!==b.team&&!f.dead){ const dx=f.x-b.x,dy=f.y-b.y; if(Math.sqrt(dx*dx+dy*dy)<b.radius+f.size) f.takeDamage(b.dmg,{team:b.team,x:b.x,y:b.y}); } });
-      _hitSoldiersArea(b.team,b.x,b.y,b.radius,b.dmg,'#ff8a00');
+      _hitSummonsArea(b.team,b.x,b.y,b.radius,b.dmg,{team:b.team,x:b.x,y:b.y});   // 💣 nổ trúng mọi quân triệu hồi, không riêng lính German
       bombs.splice(i,1);
     }
   }
@@ -22620,9 +22627,9 @@ function loop(){
         spawnParticles(_dx,_dy,'#c9bfa3',3,false,true);
         spawnParticles(_dx,_dy,'#8d8471',2,false,true);
       }
-      if(u.dist>0) for(const f of fighters){
+      if(u.dist>0) for(const f of [...fighters, ..._summonFoes(u.team)]){   // đám đông tông trúng cả quân triệu hồi
         if(f.dead || f.team===u.team) continue;
-        if(Math.hypot(f.x-u.x,f.y-u.y) < u.size+f.size+MELEE_REACH){
+        if(Math.hypot(f.x-u.x,f.y-u.y) < u.size+(f.size||20)+MELEE_REACH){
           // 💥 VA CHẠM LẦN ĐẦU: 150 dame TỨC THỜI — tách riêng khỏi dame rỉ máu lúc mắc tường (25/0.5s, xem
           // Phase 2 bên dưới). Có hồi chiêu RIÊNG (_dawaeHitCD) để không bắn dồn mỗi tick suốt lúc bị lôi đi
           // (đám đông chạm liên tục nhiều tick liền), nhưng vẫn nổ lại nếu thoát ra rồi lại chạm tiếp.
@@ -25107,7 +25114,7 @@ function loop(){
         const _sNear=germanSoldiers.find(gs=>!gs.dead&&gs.hp>0&&gs.team!==ss.team&&Math.sqrt((gs.x-ss.x)**2+(gs.y-ss.y)**2)<ss.size+gs.size+6);
         if(_sNear){
           const _boomR=100;
-          _hitSoldiersArea(ss.team,ss.x,ss.y,_boomR,150,'#ffd54f');
+          _hitSummonsArea(ss.team,ss.x,ss.y,_boomR,150,ss.owner,null,120);
           fighters.forEach(f=>{ if(f.team===ss.team||f.dead) return; const _bd=Math.sqrt((f.x-ss.x)**2+(f.y-ss.y)**2); if(_bd<_boomR+f.size){ f.takeDamage(150,ss.owner); f.stun=Math.max(f.stun,120); } });
           spawnParticles(ss.x,ss.y,'#616161',16);
           spawnParticles(ss.x,ss.y,'#ffd54f',10);
@@ -25133,7 +25140,7 @@ function loop(){
           if(!_ssIsSoldier){ _ssTgt.takeDamage(150,ss.owner); _ssTgt.stun=120; }
           // 💥 dame lan: nổ vùng quanh điểm chạm — trúng cả lính German + địch xung quanh
           const _boomR=100;
-          _hitSoldiersArea(ss.team,_ssTgt.x,_ssTgt.y,_boomR,150,'#ffd54f');
+          _hitSummonsArea(ss.team,_ssTgt.x,_ssTgt.y,_boomR,150,ss.owner,_ssIsSoldier?null:_ssTgt,120);
           fighters.forEach(f=>{
             if(f.team===ss.team||f.dead||f===_ssTgt) return;
             const _bd=Math.sqrt((f.x-_ssTgt.x)**2+(f.y-_ssTgt.y)**2);
@@ -25244,9 +25251,9 @@ function loop(){
       }
     }
     if(!spliced){
-      for(const s of germanSoldiers){
-        if(s.team===trail.team||s.dead||s.hp<=0||spliced) continue;
-        if(_trailHit(s,trail.path)){ _dmgSoldier(s,180,'#e040fb',undefined,undefined,undefined,undefined,trail.team); addShake(6,8); rainbowTrails.splice(ti,1); spliced=true; }
+      for(const s of _summonFoes(trail.team)){   // 🌈 mọi quân triệu hồi có máu, không riêng lính German
+        if(spliced) break;
+        if(_trailHit(s,trail.path)){ s.takeDamage(180,trail.owner); addShake(6,8); rainbowTrails.splice(ti,1); spliced=true; }
       }
     }
   }
@@ -25266,9 +25273,8 @@ function loop(){
       }
     }
     if(!_rbActiveHit){
-      for(const s of germanSoldiers){
-        if(s.team===f2.team||s.dead||s.hp<=0) continue;
-        if(_trailHit(s,f2.nyanPath)){ _dmgSoldier(s,180,'#e040fb',undefined,undefined,undefined,undefined,f2.team); _rbActiveHit=true; break; }
+      for(const s of _summonFoes(f2.team)){
+        if(_trailHit(s,f2.nyanPath)){ s.takeDamage(180,f2); _rbActiveHit=true; break; }
       }
     }
     if(_rbActiveHit){
@@ -31611,9 +31617,9 @@ const FAN_SKILLS = {
         const b=f._fsBalls[_bi];
         b.x+=b.vx; b.y+=b.vy; b.life--;
         let _hit=false;
-        for(const other of fighters){
+        for(const other of [...fighters, ..._summonFoes(f.team)]){   // bóng tuyết trúng cả quân triệu hồi
           if(other.dead || other.team===f.team) continue;
-          if(Math.hypot(other.x-b.x, other.y-b.y) < b.size+other.size){
+          if(Math.hypot(other.x-b.x, other.y-b.y) < b.size+(other.size||20)){
             other.takeDamage(12, f);
             _hit=true;
             // ❄️ trúng bóng tuyết: bung 1 chùm bông tuyết li ti (cùng kiểu bông tuyết của VFX slow mới) rồi tắt
@@ -31631,9 +31637,9 @@ const FAN_SKILLS = {
         f.x=Math.max(f.size, Math.min(W-f.size, f.x));
         f.y=Math.max(f.size, Math.min(H-f.size, f.y));
         if((f._fsDashing%3)===0) f._fsTrail.push({x:f.x,y:f.y,t:tick});
-        for(const other of fighters){
+        for(const other of [...fighters, ..._summonFoes(f.team)]){
           if(other===f || other.dead || other.team===f.team || f._fsDashHitSet.has(other)) continue;
-          if(Math.hypot(other.x-f.x, other.y-f.y) < f.size+other.size+MELEE_REACH){
+          if(Math.hypot(other.x-f.x, other.y-f.y) < f.size+(other.size||20)+MELEE_REACH){
             const ka=Math.atan2(other.y-f.y, other.x-f.x);
             other.vx=Math.cos(ka)*12; other.vy=Math.sin(ka)*12;
             f._fsDashHitSet.add(other);
