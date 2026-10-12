@@ -5215,13 +5215,15 @@ const FK_CAT_IMG=new Image(); FK_CAT_IMG.src='assets/img/feuerkatze/FK_CAT_IMG.w
 let _fkGasSfx=null, _fkAnthemSfx=null, _fkSalute=0, _fkExtend=0, _fkCatA=0;
 const FK_EXTEND_T=150;   // 2.5s = 150 tick: thời gian 2 cái vòi nhô hẳn ra khỏi tường
 let fkPuffs=[], fkWisps=[], fkSkulls=[], _fkDmgT=0, _fkSecT=0, _fkCoughSfxCD=0, _fkGasA=0;
-// 🔫 CATLER TỰ SÁT: đòn lẽ ra giết nó KHÔNG giết được — nó khựng lại, về tư thế giơ tay, khẩu Glock (ảnh súng của
+// 🔫 CATLER TỰ SÁT: đòn lẽ ra giết nó KHÔNG giết được — nó khựng lại, về tư thế giơ tay, khẩu Luger P08 (trước là ảnh súng của
 // Sus Dog) đưa lên chĩa thẳng vào thái dương, "ĐOÀNG", rồi vỡ vụn thành từng mảnh như chết thường. Cả màn gói gọn
 // 1.5s, camera zoom sát vào nó; vỡ xong camera tự quay về con thắng (luồng kết trận bình thường).
-// Ảnh súng: nòng chĩa sang TRÁI, đầu nòng ≈ (1,25), khung ảnh 360×247.
+// Ảnh súng (Luger): nòng chĩa sang TRÁI, đầu nòng ≈ (2,40), khung ảnh 538×339.
 // ⏱️ game chạy nhanh hơn giờ thật 1.2× (GAME_SPEED×TIME_SCALE) → 1.5s thật = 108 tick
 const FK_SUI_T=108, FK_SUI_RAISE=30, FK_SUI_SHOT=100, FK_SUI_DIE=108;
-const FK_GUN_MUZZLE={x:1,y:25}, FK_GUN_W=360, FK_GUN_H=247;
+// 🔫 súng = khẩu LUGER P08 (ảnh user gửi, đã tách nền + lật cho nòng chĩa sang TRÁI): khung 538×339, đầu nòng ≈ (2,40)
+const FK_GUN_IMG=new Image(); FK_GUN_IMG.src='assets/img/feuerkatze/FK_LUGER_IMG.webp';
+const FK_GUN_MUZZLE={x:2,y:40}, FK_GUN_W=538, FK_GUN_H=339;
 let _fkSuicideF=null;
 // Catler đã ăn đòn chí mạng, đang tự sát = trận coi như đã phân thắng bại → phe kia thôi ra đòn/tung chiêu
 function _fkDoomedFoe(u){ return !!(_fkSuicideF && !_fkSuicideF.dead && u!==_fkSuicideF && u.team!==_fkSuicideF.team); }
@@ -5251,13 +5253,13 @@ function _fkSuicideTick(){
 //    toạ độ ghi theo lúc ảnh ĐANG LẬT ngang: tay giơ ở phía PHẢI-trên, đầu ở giữa lệch trái; ảnh gốc thì ngược lại):
 //      • THÁI DƯƠNG  (0.13, −0.50)·s  ← nòng súng chĩa thẳng vào đây
 //      • TAY ĐANG GIƠ (0.50, −0.78)·s  ← báng súng nằm đè lên đây (tay cầm súng)
-//    Trên ảnh súng: đầu nòng (1,25), giữa báng (305,170). Báng đặt đúng tay, góc súng xoay cho nòng chĩa đúng thái
+//    Trên ảnh súng Luger: đầu nòng (2,40), giữa báng (400,180). Báng đặt đúng tay, góc súng xoay cho nòng chĩa đúng thái
 //    dương, cỡ súng cố định FK_GUN_SIZE. Ảnh đang lật ngang thì lật luôn cả bộ neo.
-const FK_GUN_GRIP={x:305,y:170}, FK_GUN_SIZE=0.6;   // FK_GUN_SIZE: bề ngang súng = 0.6 × size con meme
+const FK_GUN_GRIP={x:400,y:180}, FK_GUN_SIZE=0.75;   // FK_GUN_SIZE: bề ngang súng = 0.75 × size con meme (Luger nòng dài hơn Glock cũ)
 const FK_ANCHOR_TEMPLE={x:0.03,y:-0.48}, FK_ANCHOR_HAND={x:0.45,y:-0.85};   // đo lại trên 2 ảnh chụp user gửi
 function _fkDrawSuicide(){
   const f=_fkSuicideF; if(!f || f.dead) return;
-  const im=SD_ART.gun; if(!(im && im.complete && im.naturalWidth)) return;
+  const im=FK_GUN_IMG; if(!(im && im.complete && im.naturalWidth)) return;
   const s=f.size*1.1;                                              // tư thế giơ tay đang to thêm 10%
   const flip = f._lastFacingLeft ? 1 : -1;                         // bộ neo đo lúc ảnh ĐANG LẬT (tay giơ bên phải); ảnh không lật → tay giơ bên trái
   const tx=FK_ANCHOR_TEMPLE.x*s, ty=FK_ANCHOR_TEMPLE.y*s, hx=FK_ANCHOR_HAND.x*s, hy=FK_ANCHOR_HAND.y*s;

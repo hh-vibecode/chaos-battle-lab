@@ -361,6 +361,7 @@ window.ASSET_GROUP={
 "assets/img/cornelius/CN_WOK_IMG.webp": "cornelius",
 "assets/img/cornelius/CN_PAN_IMG.webp": "cornelius",
 "assets/img/feuerkatze/FK_CAT_IMG.webp": "feuerkatze",
+"assets/img/feuerkatze/FK_LUGER_IMG.webp": "feuerkatze",
 "assets/img/friend/FR_TRUE_IMG.webp": "friend",
 "assets/img/doorbellchud/DC_FR_0.webp": "doorbellchud",
 "assets/img/doorbellchud/DC_FR_1.webp": "doorbellchud",
