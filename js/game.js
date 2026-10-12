@@ -20942,6 +20942,9 @@ const _MELEE_TYPES = new Set(['ricardo','feuerkatze','uiacat','screamcat','banan
   'grumpycat','doge','bibilabu','cheems','maxwell']);
 // 📋 nguồn DUY NHẤT liệt kê mọi đơn vị TRIỆU HỒI CÓ MÁU đang sống trên sân.
 // Dùng chung cho ngắm bắn + va chạm đạn để sau này thêm loại triệu hồi mới thì chỉ phải sửa 1 chỗ.
+// ⚠️ QUY TẮC BẮT BUỘC (xem CLAUDE.md): quân triệu hồi CÓ MÁU = 1 MEME — mọi skill (đánh đơn, vùng, va chạm, vệt, bẫy, DOT)
+//    và mọi hiệu ứng (choáng, chậm, đẩy, hút...) đều phải tác động lên chúng. Thêm loại mới → thêm vào đây + get enemy().
+//    Skill lặp `fighters` thì lặp kèm _summonFoes(team) / _hitSummonsArea(...).
 function _hpSummonArrays(){ return [commanderSoldiers, germanSoldiers, dogeKnights, mewingStatues, capybaraKnives, cryCats, dogeClones, mspClones, evilSouls]; }
 // ghì 1 thân về trong lòng sàn; thân to hơn nửa sàn thì kẹp về giữa thay vì dán cứng vào 1 mép
 function _bfClamp(u){
@@ -25173,49 +25176,56 @@ function loop(){
   const _RBBAND=3; // px per color band (half original)
   const _RBTOTAL=_RBBAND*_RBCLR.length; // 18px total trail width
 
+  // 🌈 cầu vồng kiểu Nyan gốc: 6 dải màu GỢN BẬC THANG (từng khúc nhô lên/xuống so le, nhịp chạy theo thời gian)
+  //    + viền tối + quầng sáng mờ + vệt bóng trắng + sao lấp lánh. 2 đầu nằm trên tường được kéo dài ra ngoài rồi
+  //    CẮT KHÍT theo mép sàn → đầu cầu vồng dán phẳng vào tường (trước đây đầu cắt vuông góc với đường bay nên
+  //    chạm tường xiên: chỗ thò ra ngoài, chỗ hở 1 tam giác). Mỗi điểm bám tường có thêm 1 vệt loang nửa vòng.
+  //    (chỉ là phần VẼ — vùng va chạm vẫn theo đúng đường thẳng gốc, xem _trailHit)
   function _drawPixelRainbow(path, alpha){
     if(path.length<2) return;
-
-    // Averaged normal at each point so corners are smooth
-    const normals=[];
-    for(let i=0;i<path.length;i++){
-      let nx=0,ny=0,cnt=0;
-      if(i<path.length-1){
-        const dx=path[i+1].x-path[i].x,dy=path[i+1].y-path[i].y,l=Math.sqrt(dx*dx+dy*dy)||1;
-        nx+=-dy/l; ny+=dx/l; cnt++;
-      }
-      if(i>0){
-        const dx=path[i].x-path[i-1].x,dy=path[i].y-path[i-1].y,l=Math.sqrt(dx*dx+dy*dy)||1;
-        nx+=-dy/l; ny+=dx/l; cnt++;
-      }
-      if(cnt>1){ const nm=Math.sqrt(nx*nx+ny*ny)||1; nx/=nm; ny/=nm; }
-      normals.push({x:nx,y:ny});
+    const onWall=q=>q.x<=0.5||q.x>=W-0.5||q.y<=0.5||q.y>=H-0.5;
+    // kéo 2 đầu bám tường ra ngoài sàn — phần thừa sẽ bị clip đúng theo mép tường
+    const P=path.map(q=>({x:q.x,y:q.y})), ext=_RBTOTAL*2;
+    { const a=P[0], b=P[1], l=Math.hypot(a.x-b.x,a.y-b.y)||1; if(onWall(path[0])){ a.x+=(a.x-b.x)/l*ext; a.y+=(a.y-b.y)/l*ext; } }
+    { const n=P.length, a=P[n-1], b=P[n-2], l=Math.hypot(a.x-b.x,a.y-b.y)||1; if(onWall(path[n-1])){ a.x+=(a.x-b.x)/l*ext; a.y+=(a.y-b.y)/l*ext; } }
+    // chia thành từng KHÚC ~10px, mỗi khúc lệch ±1.5px theo pháp tuyến, so le & chạy theo thời gian → gợn bậc thang
+    const CH=10, AMP=1.5, ph=Math.floor(tick/8), chunks=[];
+    let k=0;
+    for(let i=0;i<P.length-1;i++){
+      const a=P[i], b=P[i+1], dx=b.x-a.x, dy=b.y-a.y, l=Math.hypot(dx,dy)||1, nx=-dy/l, ny=dx/l, n=Math.max(1,Math.ceil(l/CH));
+      for(let j=0;j<n;j++,k++){ const t0=j/n, t1=(j+1)/n, w=((k+ph)&1)?AMP:-AMP;
+        chunks.push({x0:a.x+dx*t0,y0:a.y+dy*t0,x1:a.x+dx*t1,y1:a.y+dy*t1,nx,ny,w}); }
     }
-
-    const stroke=(off,lw,col)=>{
-      ctx.strokeStyle=col; ctx.lineWidth=lw;
-      ctx.beginPath();
-      for(let i=0;i<path.length;i++){
-        const ox=normals[i].x*off, oy=normals[i].y*off;
-        if(i===0) ctx.moveTo(path[i].x+ox,path[i].y+oy);
-        else ctx.lineTo(path[i].x+ox,path[i].y+oy);
-      }
-      ctx.stroke();
-    };
-
+    const stroke=(off,lw,col,wave)=>{
+      ctx.strokeStyle=col; ctx.lineWidth=lw; ctx.beginPath();
+      for(const c of chunks){ const o=off+(wave?c.w:0); ctx.moveTo(c.x0+c.nx*o,c.y0+c.ny*o); ctx.lineTo(c.x1+c.nx*o,c.y1+c.ny*o); }
+      ctx.stroke(); };
     ctx.save();
-    ctx.globalAlpha=alpha;
-    ctx.lineCap='butt'; ctx.lineJoin='miter';
-
-    // Black border (centered on path, contains all bands)
-    stroke(0, _RBTOTAL+4, '#111');
-
-    // 6 color bands centered on the path
-    for(let b=0;b<_RBCLR.length;b++){
-      const off=(b-(_RBCLR.length-1)/2)*_RBBAND;
-      stroke(off, _RBBAND, _RBCLR[b]);
-    }
-
+    ctx.beginPath(); ctx.rect(0,0,W,H); ctx.clip();   // ✂️ cắt khít theo mép sàn
+    ctx.globalAlpha=alpha; ctx.lineCap='butt'; ctx.lineJoin='miter';
+    // quầng sáng mờ quanh dải (rẻ hơn shadowBlur)
+    const pulse=0.5+0.5*Math.sin(tick*0.12);
+    ctx.globalCompositeOperation='lighter';
+    stroke(0,_RBTOTAL+16,`rgba(255,120,255,${0.05+0.04*pulse})`,false);
+    stroke(0,_RBTOTAL+9,`rgba(255,255,255,${0.06+0.05*pulse})`,false);
+    ctx.globalCompositeOperation='source-over';
+    // viền tối + 6 dải màu
+    stroke(0,_RBTOTAL+4,'#111',true);
+    for(let b=0;b<_RBCLR.length;b++) stroke((b-(_RBCLR.length-1)/2)*_RBBAND,_RBBAND+0.6,_RBCLR[b],true);   // +0.6 để 2 dải liền không hở khe
+    // vệt bóng trắng chạy dọc mép trên
+    stroke(-_RBTOTAL/2+1,1,`rgba(255,255,255,${0.35+0.3*pulse})`,true);
+    // ✨ sao lấp lánh dọc dải (vị trí cố định theo khúc, nhấp nháy lệch nhịp)
+    for(let i=0;i<chunks.length;i+=4){ const c=chunks[i], tw=Math.sin(tick*0.18+i*1.7); if(tw<0.55) continue;
+      const r=1.5+3*(tw-0.55), sx=(c.x0+c.x1)/2+c.nx*(((i*37)%13)-6), sy=(c.y0+c.y1)/2+c.ny*(((i*37)%13)-6);
+      ctx.fillStyle=`rgba(255,255,255,${Math.min(1,(tw-0.55)*2.5)})`;
+      ctx.beginPath(); ctx.moveTo(sx,sy-r*2); ctx.lineTo(sx+r*0.45,sy-r*0.45); ctx.lineTo(sx+r*2,sy); ctx.lineTo(sx+r*0.45,sy+r*0.45);
+      ctx.lineTo(sx,sy+r*2); ctx.lineTo(sx-r*0.45,sy+r*0.45); ctx.lineTo(sx-r*2,sy); ctx.lineTo(sx-r*0.45,sy-r*0.45); ctx.closePath(); ctx.fill(); }
+    // 🎨 vệt loang bám tường ở mỗi đầu chạm tường (nửa ngoài bị clip → nhìn như dán vào tường)
+    for(const q of [path[0],path[path.length-1]]){ if(!onWall(q)) continue;
+      const R=_RBTOTAL*0.9;
+      for(let b=_RBCLR.length-1;b>=0;b--){ ctx.fillStyle=_RBCLR[b]; ctx.globalAlpha=alpha*0.85;
+        ctx.beginPath(); ctx.arc(q.x,q.y,R*(b+1)/_RBCLR.length+2,0,Math.PI*2); ctx.fill(); }
+      ctx.globalAlpha=alpha*(0.25+0.25*pulse); ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(q.x,q.y,R*0.35,0,Math.PI*2); ctx.fill(); }
     ctx.restore();
   }
 
