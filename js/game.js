@@ -4100,45 +4100,42 @@ function _hmTick(){
     }
   }
 }
-// ── VẼ kiểu QUÁI BÓNG DON'T STARVE: nét mực vẽ tay, đen trong mờ ánh tím, viền run "sôi nét" (đổi hình mỗi 4 khung),
-//    mắt trắng nhợt, khói đen tím bốc lên ──
-function _hmJ(seed,k){ const v=Math.sin(seed*127.1+k*311.7)*43758.5453; return v-Math.floor(v)-0.5; }   // nhiễu cố định theo (seed,k)
-function _hmInk(pts,boil,fill,alpha){   // tô 1 hình kín + 2 lượt viền mực run run
-  const draw=(js)=>{ ctx.beginPath(); pts.forEach((q,i)=>{ const x=q[0]+_hmJ(boil+js,i)*2.6, y=q[1]+_hmJ(boil+js+5,i)*2.6; i?ctx.lineTo(x,y):ctx.moveTo(x,y); }); ctx.closePath(); };
-  ctx.globalAlpha=alpha;
-  draw(0); ctx.fillStyle=fill; ctx.fill();
-  ctx.lineJoin='round'; ctx.strokeStyle='rgba(0,0,0,0.9)'; ctx.lineWidth=2.4; ctx.stroke();
-  draw(9); ctx.strokeStyle='rgba(30,10,45,0.55)'; ctx.lineWidth=1.2; ctx.stroke();
-  ctx.globalAlpha=1;
-}
-function _hmWisps(x,y,r,t,seed,a){   // khói mực bốc lên
-  ctx.lineCap='round';
-  for(let k=0;k<5;k++){ const ph=((t*0.012+k/5+seed)%1), wx=x+_hmJ(seed,k)*r*1.6, wy=y-ph*r*1.4;
-    ctx.strokeStyle=`rgba(25,8,40,${0.45*a*(1-ph)})`; ctx.lineWidth=4*(1-ph)+1;
-    ctx.beginPath(); ctx.moveTo(wx,wy); ctx.quadraticCurveTo(wx+Math.sin(t*0.1+k)*8,wy-10,wx+Math.sin(t*0.07+k*2)*5,wy-20); ctx.stroke(); }
-}
-const _HM_FILL='rgba(14,6,24,0.78)';
-function _hmDrawHand(h,a,t,seed){
+// ✋ BÀN TAY BÓNG kiểu Don't Starve (ảnh user gửi): BÓNG ĐỔ PHẲNG đen kịt trên mặt sàn, mép gọn sắc (chỉ nhoè rất nhẹ),
+//    cánh tay MẢNH và rất dài uốn nhẹ, bàn tay TO với 5 ngón dài khẳng khiu có đốt gập, xoè rộng như đang bò/vồ.
+function _hmDrawHand(h,a,t,seed,S0){
   const dx=h.tx-h.ax, dy=h.ty-h.ay, L=Math.hypot(dx,dy); if(L<2) return;
-  const ux=dx/L, uy=dy/L, nx=-uy, ny=ux, N=Math.max(6,Math.ceil(L/14)), boil=Math.floor(t/4);
-  // cánh tay gầy uốn lượn, thon dần về cổ tay
-  const P=[]; for(let i=0;i<=N;i++){ const s=i/N, w=Math.sin(s*Math.PI*1.5+t*0.06+h.ph+seed)*9*s*(1-s)*2;
-    P.push({x:h.ax+dx*s+nx*w, y:h.ay+dy*s+ny*w, wd:(30-18*s)}); }
-  const arm=[]; for(let i=0;i<=N;i++){ const p=P[i]; arm.push([p.x+nx*p.wd/2,p.y+ny*p.wd/2]); }
-  for(let i=N;i>=0;i--){ const p=P[i]; arm.push([p.x-nx*p.wd/2,p.y-ny*p.wd/2]); }
-  _hmInk(arm,boil,_HM_FILL,a);
-  // bàn tay: lòng bàn tay + 5 ngón dài khẳng khiu, đốt ngón gập, móng nhọn
-  const hx=h.tx, hy=h.ty, ang=Math.atan2(uy,ux), c=Math.cos(ang), sn=Math.sin(ang);
-  const T=(x,y)=>[hx+x*c-y*sn, hy+x*sn+y*c];
-  const palm=[]; for(let j=0;j<12;j++){ const th=j/12*Math.PI*2; palm.push(T(Math.cos(th)*14,Math.sin(th)*12)); }
-  _hmInk(palm,boil+3,_HM_FILL,a);
-  const cl=h.close||0;   // 0 = xoè móng · 1 = nắm chặt (ngón cụp quặp vào)
-  for(let k=-2;k<=2;k++){ const spr=k*0.38*(1-cl*0.55)+Math.sin(t*0.09+k+seed)*0.08*(1-cl), len=(34+(2-Math.abs(k))*7)*(1-cl*0.25), bend=(0.35+0.15*Math.sin(t*0.07+k))*(1-cl)+cl*1.9;
-    const b0=[10,k*4.5], j1=[b0[0]+Math.cos(spr)*len*0.55, b0[1]+Math.sin(spr)*len*0.55], tip=[j1[0]+Math.cos(spr+bend*Math.sign(k||1))*len*0.5, j1[1]+Math.sin(spr+bend*Math.sign(k||1))*len*0.5];
-    const w0=3.2, w1=2.2;
-    const fing=[T(b0[0],b0[1]-w0),T(j1[0],j1[1]-w1),T(tip[0],tip[1]),T(j1[0],j1[1]+w1),T(b0[0],b0[1]+w0)];   // (bend lớn = ngón quặp ngược lại ôm con mồi)
-    _hmInk(fing,boil+7+k,_HM_FILL,a); }
-  _hmWisps(hx,hy,18,t,seed,a);
+  const ux=dx/L, uy=dy/L, nx=-uy, ny=ux, N=Math.max(8,Math.ceil(L/12));
+  const S=S0||44;                                  // cỡ tay theo cỡ con hamster
+  ctx.save(); ctx.globalAlpha=a; ctx.strokeStyle='#050505'; ctx.fillStyle='#050505';
+  ctx.lineCap='round'; ctx.lineJoin='round'; ctx.shadowColor='rgba(0,0,0,0.6)'; ctx.shadowBlur=3;
+  // cánh tay: 1 nét mảnh dài, lượn sóng nhẹ, dày lên chút ở cổ tay
+  ctx.beginPath();
+  for(let i=0;i<=N;i++){ const s=i/N, w=Math.sin(s*Math.PI*2.2+t*0.05+h.ph+seed)*S*0.12*Math.sin(s*Math.PI);
+    const x=h.ax+dx*s+nx*w, y=h.ay+dy*s+ny*w; i?ctx.lineTo(x,y):ctx.moveTo(x,y); }
+  ctx.lineWidth=S*0.13; ctx.stroke();
+  // cổ tay + lòng bàn tay
+  const ang=Math.atan2(uy,ux), c=Math.cos(ang), sn=Math.sin(ang), T=(x,y)=>[h.tx+x*c-y*sn, h.ty+x*sn+y*c];
+  ctx.beginPath(); { const p0=T(-S*0.35,0), p1=T(S*0.05,0); ctx.moveTo(p0[0],p0[1]); ctx.lineTo(p1[0],p1[1]); } ctx.lineWidth=S*0.2; ctx.stroke();
+  ctx.beginPath(); { const q=T(S*0.12,0); ctx.ellipse(q[0],q[1],S*0.24,S*0.2,ang,0,Math.PI*2); } ctx.fill();
+  // 5 ngón: xoè rộng (ngón cái lệch hẳn sang 1 bên), mỗi ngón 3 đốt gập dần, thon dần về đầu móng nhọn
+  const cl=h.close||0, wig=t*0.09+seed;
+  const base=[[-1.15,0.62],[-0.55,1.0],[-0.12,1.1],[0.3,1.0],[0.75,0.82]];   // [góc lệch, độ dài] — phần tử đầu = ngón cái
+  for(let k=0;k<5;k++){
+    let a0=base[k][0]*(1-cl*0.6)+Math.sin(wig+k*1.3)*0.06*(1-cl), len=S*base[k][1]*(1-cl*0.3);
+    const bend=(0.28+0.1*Math.sin(wig*0.7+k))*(1-cl)+cl*1.15;   // gập đốt (nắm lại thì quặp mạnh)
+    let p=T(S*0.2+Math.cos(a0)*S*0.12, Math.sin(a0)*S*0.16), dirA=ang+a0;
+    const seg=[0.42,0.34,0.24], wd=[S*0.085,S*0.065,S*0.04];
+    for(let j=0;j<3;j++){
+      const q=[p[0]+Math.cos(dirA)*len*seg[j], p[1]+Math.sin(dirA)*len*seg[j]];
+      ctx.beginPath(); ctx.moveTo(p[0],p[1]); ctx.lineTo(q[0],q[1]); ctx.lineWidth=wd[j]; ctx.stroke();
+      p=q; dirA+=bend*(k===0?-1:1)*(j?1:0.6);
+    }
+    // móng nhọn ở đầu ngón
+    const tip=[p[0]+Math.cos(dirA)*S*0.12, p[1]+Math.sin(dirA)*S*0.12];
+    ctx.beginPath(); ctx.moveTo(p[0]+Math.cos(dirA+1.57)*wd[2]*0.5, p[1]+Math.sin(dirA+1.57)*wd[2]*0.5); ctx.lineTo(tip[0],tip[1]);
+    ctx.lineTo(p[0]-Math.cos(dirA+1.57)*wd[2]*0.5, p[1]-Math.sin(dirA+1.57)*wd[2]*0.5); ctx.closePath(); ctx.fill();
+  }
+  ctx.restore();
 }
 function _hmSmokeBlob(x,y,r,a){ const g=ctx.createRadialGradient(x,y,0,x,y,r); g.addColorStop(0,`rgba(0,0,0,${0.85*a})`); g.addColorStop(0.6,`rgba(5,0,10,${0.55*a})`); g.addColorStop(1,'rgba(0,0,0,0)');
   ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); }
@@ -4147,9 +4144,7 @@ function _hmDraw(){
     ctx.save();
     if(S.act && S.act.kind==='clap' && S.act.flash>0){ const u=S.act.u; ctx.globalCompositeOperation='lighter'; ctx.fillStyle=`rgba(200,160,255,${0.06*S.act.flash})`; ctx.beginPath(); ctx.arc(u.x,u.y,(u.size||20)*2,0,Math.PI*2); ctx.fill(); ctx.globalCompositeOperation='source-over'; }
     if(S.hands) for(const h of S.hands){
-      // bóng loang trên bức tường nơi tay mọc ra
-      _hmSmokeBlob(h.ax,h.ay,34*Math.min(1,em*1.5),0.7*a);
-      _hmDrawHand(h,a*Math.min(1,em*2),S.t,S.seed); }
+      _hmDrawHand(h,a*Math.min(1,em*2),S.t,S.seed,(f?f.size:40)*1.6); }
     ctx.restore();
   }
   // 🌑 bị nuốt chửng: bóng tối trùm kín con hamster rồi tan dần
