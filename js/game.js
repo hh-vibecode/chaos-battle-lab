@@ -734,7 +734,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     germancat:  { key:'germancat',  defaultName:'German Cat',   emoji:'🐈', color:'#bdbdbd', hp:1000, speed:5, size:38, skill:'Phát biểu 4s, nghỉ 2s (chu kỳ ~6s) rồi triệu hồi 2 Lính (30HP, 40 dmg, bắn xa). Giảm 25% dame khi đang phát biểu. German Cat chết thì lính cũng biến mất theo.' },
     uiacat:     { key:'uiacat',     defaultName:'U I A Cat',    emoji:'😼', color:'#ce93d8', hp:1000, speed:5, size:43, skill:'Sau 2s không xoay, OIIA spin 2s: tốc độ x4 (+300%), -25% dame nhận, va chạm 60 dmg + hất văng địch. Xuống dưới 25% HP: ngưng thời gian 1.5s, dịch chuyển ra góc xa nhất so với đối thủ, chuyển dạng Hiphop VĨNH VIỄN — đứng yên tại chỗ, -25% sát thương nhận, thả ĐÚNG 3 UIA nhỏ qua cổng ở rìa sàn (size 70%, xoay theo nhịp nhạc remix, tốc chạy ngang con bố lúc xoay, nảy khắp sàn gây 25 dmg mỗi va chạm, không biến mất tới khi 1 trong 2 bên chết).' },
     beluga:     { key:'beluga',     defaultName:'Beluga',       emoji:'🐳', color:'#80deea', hp:1000, speed:5, size:45, skill:'Chat Spam: nhắn 1.4s, chu kỳ ~3.45s → bắn bong bóng chat (40–300 dmg). 15% toxic = 300 dmg tức thì, mỗi lần trượt +5% tỉ lệ (cộng dồn tới khi ra thì reset).' },
-    screamcat:  { key:'screamcat',  defaultName:'Scream Cat',   emoji:'😱', color:'#f48fb1', hp:1000, speed:5, size:42, skill:'Mỗi khi nhận dame: hét đẩy văng tất cả địch + phản 50% dame. Địch va tường nhận thêm dame theo lực.' },
+    screamcat:  { key:'screamcat',  defaultName:'Scream Cat',   emoji:'😱', color:'#f48fb1', hp:1000, speed:5, size:42, skill:'Không hét khi bị đánh nữa: ghi nhớ DAME LỚN NHẤT từng nhận trong 1 đòn (vào trận = 10), hiện số trên đầu. Mỗi 2s hét 1 lần gây đúng số dame đó + đẩy văng mọi địch. Số càng to hiệu ứng càng dữ: >120 Echo Slam, >200 sóng âm dội tường (30% dame) làm nứt tường, >300 rung lắc dữ dội.' },
     thevoid:    { key:'thevoid',    defaultName:'The Void',     emoji:'🖤', color:'#212121', hp:1000, speed:5, size:45, skill:'Black Hole: ~6.5s/chu kỳ (tích lực 0.5s, hố đen tồn tại 2s, hồi chiêu 4s), hút TẤT CẢ địch trong bán kính toàn map, dame giảm dần theo khoảng cách (gần tâm nhất 30 dame, xa chỉ còn 2 dame).' },
     bananacat:  { key:'bananacat',  defaultName:'Banana Cat',   emoji:'🍌', color:'#fff176', hp:1000, speed:5, size:43, skill:'Mỗi 2s dừng khóc 1.7s → để vỏ chuối. Địch giẫm: lao theo hướng đang đi, dame va tường tỉ lệ nghịch với thời gian. Vỏ tồn tại 12s rồi tự biến mất (mất ngay khi có người giẫm trúng), có thể chồng nhiều vỏ.' },
     suscat:     { key:'suscat',     defaultName:'SUS Cat',      emoji:'📮', color:'#f44336', hp:1000, speed:5, size:38, skill:'Mỗi 3s triệu hồi ngẫu nhiên 1 quân bài ở góc xa nhất sân: Imposter đỏ bắn 3 phát bám mục tiêu (100 dmg/phát), Imposter cận chiến va trúng 180 dmg, Imposter đen tự nổ 150 dmg + choáng 2s cho MỌI người trong bán kính (cũng tự kích nổ khi chạm lính Đức), Imposter cam đứng cách ~140 há đầu phóng LƯỠI đâm 140 dmg + kéo địch lại gần, Imposter vàng TẮT ĐÈN cả sân (địch chậm 25% tối đa 3s) rồi lao vào đâm 120 dmg, Crew va trúng 50 dmg. ĐÚNG 1 LẦN MỖI TRẬN: địch tụt xuống ≤200 máu là nó triệu tập HỌP KHẨN cắt ngang trận — cả sàn đóng băng, vòng quay 50/50 phán xem địch có phải IMPOSTER không. Trúng thì địch bị đáp thẳng ra ngoài vũ trụ, chết ngay lập tức bất kể còn bao nhiêu máu — mà bảng chữ hiện ra lại ghi rõ nó KHÔNG phải imposter, "all imposters remain", tức vote trượt sạch và thằng còn đứng lại trên sàn mới là imposter thật. Trật thì cuộc họp tan ngay, đánh tiếp bình thường.' },
@@ -3806,9 +3806,58 @@ function _scRocks(x,y,n,spd){ const R=[]; for(let i=0;i<n;i++){ const a=Math.ran
 //    <50      → hét nhẹ: chỉ 1 VÒNG ĐẨY mềm, không nứt/đá/vọng
 //    50–120   → ~65% hiệu ứng (ít nứt hơn, ngắn hơn, ít đá)
 //    >120     → 100% Echo Slam
-//    >200     → thêm SÓNG ÂM DỘI TƯỜNG: 8 làn sóng bay ra, đập tường nảy qua lại, mỗi làn gây 30% dame phản
+//    >200     → thêm SÓNG ÂM DỘI TƯỜNG: 8 làn sóng bay ra, đập tường nảy qua lại, mỗi làn gây 30% dame cú hét
 //               (giảm 70%), đi hết 1 quãng thì tan; chỗ đập tường thì NỨT tường + sàn
 //    >300     → thêm RUNG LẮC DỮ DỘI (nhiều đợt)
+// 😱 CÚ HÉT mỗi 2s: dame D = dame lớn nhất Scream Cat từng nhận (vào trận = 10). Đẩy văng + gây D lên MỌI địch
+//    (meme + quân triệu hồi), VFX/lực đẩy chia mức theo D như _scEchoSlam bên dưới.
+const SC_SCREAM_EVERY=120;
+function _scScream(f){
+  const D=Math.max(1,Math.round(f._scMax||10));
+  const foes=[...fighters.filter(o=>o.team!==f.team&&!o.dead), ..._summonFoes(f.team)];
+  const targets=foes.map(u=>({x:u.x,y:u.y,s:u.size||20}));   // chốt vị trí TRƯỚC khi bị đẩy văng
+  const push=D*(D<50?0.18:D<=120?0.3:0.35);   // 📶 <50 đẩy nhẹ · 50-120 mạnh hơn · >120 mạnh nhất
+  for(const u of foes){ const dx=u.x-f.x, dy=u.y-f.y, d=Math.hypot(dx,dy)||1;
+    u.vx=(u.vx||0)+dx/d*push; u.vy=(u.vy||0)+dy/d*push; if(fighters.includes(u)) u._screamPushed=true;
+    u.takeDamage(D, f); }
+  playSample('scream_attack', D<50?0.55:0.9);
+  _scEchoSlam(f, D, targets);   // 🌋 VFX kiểu Echo Slam theo mức D
+  f.attackAvatarTimer=51; f.screamCooldown=51; f._screamWaveT=102;
+}
+// 🔢 SỐ DAME trên đầu Scream Cat — càng to càng NGUY HIỂM: to dần, đổi màu trắng→vàng→cam→đỏ→đỏ tím, rung giật,
+//    quầng đỏ đập quanh người, 💀 + tia lửa bốc lên, sét đỏ loé quanh thân ở mức cao nhất; vòng nhỏ dưới số = tiến độ tới cú hét.
+function _scHeadDraw(){
+  for(const f of fighters){ if(f.type!=='screamcat' || f.dead) continue;
+    const v=Math.round(f._scMax||10), L=v<50?0:v<=120?1:v<=200?2:v<=300?3:4, tt=tick;
+    const col=['#ffffff','#ffe14d','#ff8a1f','#ff2a2a','#ff1757'][L];
+    ctx.save();
+    // quầng nguy hiểm quanh thân (mức ≥2)
+    if(L>=2){ const pul=0.5+0.5*Math.sin(tt*(0.12+L*0.04)), R=f.size*(1.25+0.15*pul+L*0.08);
+      const g=ctx.createRadialGradient(f.x,f.y,f.size*0.6,f.x,f.y,R); g.addColorStop(0,'rgba(255,40,40,0)'); g.addColorStop(0.7,`rgba(255,${L>=4?20:60},40,${0.12+0.1*pul+L*0.04})`); g.addColorStop(1,'rgba(255,0,0,0)');
+      ctx.globalCompositeOperation='lighter'; ctx.fillStyle=g; ctx.beginPath(); ctx.arc(f.x,f.y,R,0,Math.PI*2); ctx.fill(); ctx.globalCompositeOperation='source-over'; }
+    // sét đỏ loé quanh thân (mức 4)
+    if(L>=4 && (tt%9)<3){ ctx.strokeStyle='rgba(255,60,90,0.85)'; ctx.lineWidth=1.6; ctx.beginPath();
+      let a=Math.random()*Math.PI*2, r=f.size*1.1; ctx.moveTo(f.x+Math.cos(a)*r,f.y+Math.sin(a)*r);
+      for(let k=0;k<5;k++){ a+=0.25+Math.random()*0.2; r=f.size*(1.05+Math.random()*0.35); ctx.lineTo(f.x+Math.cos(a)*r,f.y+Math.sin(a)*r); } ctx.stroke(); }
+    // con số
+    const pop=f._scPop>0 ? 1+0.45*Math.sin(f._scPop/18*Math.PI) : 1;
+    const fs=Math.round((13+Math.min(20,v/14))*pop), jit=L>=2?(L-1)*0.9:0;
+    const nx=f.x+(Math.random()-0.5)*jit*2, ny=f.y-f.size-30+(Math.random()-0.5)*jit*2;
+    ctx.font=`900 ${fs}px "Press Start 2P", monospace`; ctx.textAlign='center'; ctx.textBaseline='middle';
+    const txt=(L>=3?'💀':'')+v;
+    ctx.shadowColor=col; ctx.shadowBlur=4+L*4+(L>=2?4*Math.sin(tt*0.3):0);
+    ctx.lineWidth=Math.max(3,fs*0.22); ctx.strokeStyle=L>=3?'#2a0008':'#1a1a1a'; ctx.strokeText(txt,nx,ny);
+    ctx.fillStyle=(L>=4 && (tt%10)<5)?'#ffffff':col; ctx.fillText(txt,nx,ny);
+    ctx.shadowBlur=0;
+    // tia lửa bốc lên từ con số (mức ≥3)
+    if(L>=3 && Math.random()<0.5) particles.push({x:nx+(Math.random()-0.5)*fs*1.5,y:ny-fs*0.4,vx:(Math.random()-0.5)*0.6,vy:-1-Math.random()*1.2,color:Math.random()<0.5?'#ff3d00':'#ffab00',gravity:0,life:20,maxLife:20,size:1.5+Math.random()*1.5,isFire:true});
+    // vòng tiến độ tới cú hét
+    const pr=Math.min(1,(f._scTick||0)/SC_SCREAM_EVERY), cy2=ny+fs*0.5+8;
+    ctx.lineWidth=2.5; ctx.strokeStyle='rgba(0,0,0,0.45)'; ctx.beginPath(); ctx.arc(f.x,cy2,4.5,0,Math.PI*2); ctx.stroke();
+    ctx.strokeStyle=col; ctx.beginPath(); ctx.arc(f.x,cy2,4.5,-Math.PI/2,-Math.PI/2+pr*Math.PI*2); ctx.stroke();
+    ctx.restore();
+  }
+}
 let scWaves=[], scWallCracks=[];
 const SC_WAVE_SPD=8, SC_WAVE_DIST=760, SC_WAVE_R=24;
 function _scEchoSlam(f,dmg,targets){
@@ -3823,7 +3872,7 @@ function _scEchoSlam(f,dmg,targets){
   if(scEcho.length>3) scEcho.shift();
   addShake(full?9:6, full?14:10);
   if(dmg>200){   // 🔊 sóng âm dội tường
-    const wd=Math.max(1,Math.round(dmg*0.5*0.3)), a0=Math.random()*Math.PI*2;
+    const wd=Math.max(1,Math.round(dmg*0.3)), a0=Math.random()*Math.PI*2;
     for(let i=0;i<8;i++){ const a=a0+i/8*Math.PI*2;
       scWaves.push({x:f.x,y:f.y,vx:Math.cos(a)*SC_WAVE_SPD,vy:Math.sin(a)*SC_WAVE_SPD,d:0,team:f.team,owner:f,dmg:wd,hit:new Set()}); }
     if(scWaves.length>32) scWaves.splice(0,scWaves.length-32);
@@ -9114,7 +9163,7 @@ const CHAR_BLURB = {
   germancat: "Stops to give a speech while its soldiers do the fighting, taking reduced damage throughout.",
   uiacat: "Stands still to wind up, then spins out at high speed with reduced damage taken. Below 25% HP it teleports away, goes Hiphop for good, and floods the floor with spinning clones.",
   beluga: "Floods the screen with chat messages, each one hitting anything in its path.",
-  screamcat: "Screams back when hurt, reflecting damage and knocking attackers away.",
+  screamcat: "Remembers the biggest hit it ever took and screams it back at everyone every 2 seconds.",
   thevoid: "Opens a black hole that drags the enemy in and damages them while they are held.",
   bananacat: "Drops banana peels and dashes off — stepping on one sends you sliding out of control.",
   suscat: "Summons imposters to gang up on the enemy. Once a match, when the enemy drops to 200 HP, it calls a real emergency meeting: the whole floor freezes for a 50/50 vote on whether they are the Imposter. Win the roll and they get ejected into space on the spot — no matter how much HP they had left — and the report cheerfully confirms they were not the Imposter and that all imposters remain, leaving SUS Cat alone on the floor.",
@@ -9199,7 +9248,7 @@ const CHAR_BLURB_SHORT = {
   germancat: "Its soldiers do the fighting.",
   uiacat: "Winds up, then spins fast. Below 25% HP: Hiphop clone swarm.",
   beluga: "Floods the screen with chat.",
-  screamcat: "Screams damage back at attackers.",
+  screamcat: "Screams its biggest hit back every 2s.",
   thevoid: "Black hole drags enemies in.",
   bananacat: "Banana peels send you sliding.",
   suscat: "Summons imposters. Can vote you into space.",
@@ -12953,6 +13002,9 @@ class Fighter {
     this.belugaPity      = 0;   // "pity": mỗi lần KHÔNG ra tin nhắn đỏ (toxic) thì +5% tỉ lệ lần sau, ra đỏ thì reset về 0
     // ── Scream Cat ──
     this.screamCooldown  = 0;   // CD giữa các lần hét (tránh spam)
+    this._scMax          = 10;  // 😱 dame LỚN NHẤT từng nhận 1 đòn — chính là dame cú hét (vào trận = 10)
+    this._scTick         = 0;   // đếm tới cú hét kế (mỗi 2s)
+    this._scPop          = 0;   // nảy số khi vừa lập kỷ lục mới
     this._screamWaveT    = 0;   // wave visual timer (tách khỏi CD)
     // ── The Void ──
     this.voidBlackHoleCD  = 240;  // 4s CD
@@ -13505,6 +13557,10 @@ class Fighter {
     if(this.type==='screamcat' && !this.dead){
       this.screamCooldown = Math.max(0, this.screamCooldown - 1);
       this._screamWaveT = Math.max(0, (this._screamWaveT||0) - 1);
+      if(this._scPop>0) this._scPop--;
+      // ⏱️ mỗi 2s hét 1 lần (đang bị khống chế cứng thì giữ nhịp, thoát ra là hét ngay)
+      if(this._scTick<SC_SCREAM_EVERY) this._scTick++;
+      if(this._scTick>=SC_SCREAM_EVERY && !(this._isHardCC && this._isHardCC())){ this._scTick=0; _scScream(this); }
     }
     // ───── KERMIT (Darkside pull wave visual) ─────
     if(this.type==='kermit' && (this._kmPullWaveT||0)>0){ this._kmPullWaveT--; }
@@ -17455,37 +17511,9 @@ class Fighter {
       const _spReduce=Math.min(50,(this.topSpeed||1)*3);
       dmg = Math.round(dmg * (1-_spReduce/100));
     }
-    // Scream Cat: mỗi khi nhận dame → hét đẩy văng địch + phản 50% dame
-    if(this.type==='screamcat' && dmg>0 && this.screamCooldown<=0){
-      const _scEchoTargets=[...fighters.filter(f=>f.team!==this.team&&!f.dead), ..._summonFoes(this.team)].map(u=>({x:u.x,y:u.y,s:u.size||20}));   // chốt vị trí TRƯỚC khi bị đẩy văng
-      const _scPushK = dmg<50 ? 0.18 : dmg<=120 ? 0.3 : 0.35;   // 📶 <50 đẩy nhẹ · 50-120 đẩy mạnh hơn · >120 mạnh nhất
-      const pushForce = dmg * _scPushK; // tỉ lệ thuận với dame nhận
-      fighters.forEach(f=>{
-        if(f.team===this.team||f.dead) return;
-        const dx=f.x-this.x, dy=f.y-this.y, dist=Math.sqrt(dx*dx+dy*dy)||1;
-        f.vx+=dx/dist*pushForce; f.vy+=dy/dist*pushForce;
-        f._screamPushed = true;
-        const reflect=Math.round(dmg*0.5);
-        f.takeDamage(reflect, this);
-      });
-      playSample('scream_attack', dmg<50?0.55:0.9);   // (rung màn theo mức dame: xem _scEchoSlam)
-      const _sReflect=Math.round(dmg*0.5),_sPush=dmg*_scPushK;
-      germanSoldiers.forEach(s=>{ if(s.team===this.team||s.dead||s.hp<=0) return; const sdx=s.x-this.x,sdy=s.y-this.y,sd=Math.sqrt(sdx*sdx+sdy*sdy)||1; s.vx+=sdx/sd*_sPush; s.vy+=sdy/sd*_sPush; _dmgSoldier(s,_sReflect,'#f48fb1',undefined,undefined,undefined,undefined,this.team); });
-      commanderSoldiers.forEach(s=>{ if(s.team===this.team||s.dead||s.hp<=0) return; const sdx=s.x-this.x,sdy=s.y-this.y,sd=Math.sqrt(sdx*sdx+sdy*sdy)||1; s.vx+=sdx/sd*_sPush; s.vy+=sdy/sd*_sPush; _summonTakeDamage(s,_sReflect,this); });
-      // đẩy + phản dame lên MỌI đơn vị triệu hồi khác (tượng Mewing, hiệp sĩ Doge, dao Capybara...) — trước đây bị bỏ sót, hét ra chỉ né được các tượng này
-      for(const _arr of [dogeKnights, mewingStatues, capybaraKnives, cryCats, dogeClones, mspClones, evilSouls]){
-        for(const s of _arr){
-          if(s.team===this.team||s.dead||s.hp<=0) continue;
-          const sdx=s.x-this.x,sdy=s.y-this.y,sd=Math.sqrt(sdx*sdx+sdy*sdy)||1;
-          s.vx+=sdx/sd*_sPush; s.vy+=sdy/sd*_sPush;
-          s.takeDamage(_sReflect,this);
-        }
-      }
-      _scEchoSlam(this, dmg, _scEchoTargets);   // 🌋 VFX kiểu Echo Slam (Earthshaker)
-      this.attackAvatarTimer = 51; // hiện ảnh tấn công trong suốt animation vòng tròn
-      this.screamCooldown = 51; // chậm hơn 50% so với 34f cũ
-      this._screamWaveT = 102; // wave 50% chậm hơn, phủ toàn màn hình
-    }
+    // 😱 Scream Cat: KHÔNG hét khi bị đánh nữa — chỉ GHI NHỚ dame lớn nhất từng nhận trong 1 đòn (hiện số trên đầu).
+    //    Cứ mỗi 2s nó hét 1 lần với đúng con số đó (xem _scScream).
+    if(this.type==='screamcat' && dmg>0 && !this.dead && dmg>(this._scMax||10)){ this._scMax=dmg; this._scPop=18; }
     // Hecker Cat: nhận dame KHÔNG phản ngay — chỉ CỘNG DỒN vào tổng của chu kỳ 3s hiện tại (xem _heckerCycleCD ở update()),
     // hết chu kỳ mới thật sự tính phép tính nhân/chia trên TỔNG đó rồi gõ 2s → bắn kết quả về địch.
     if(this.type==='hecker' && dmg>0 && !this.dead){
@@ -22327,6 +22355,7 @@ function loop(){
     fighters.forEach(f=>f.draw());
   }
   _scEchoDrawOver();   // 🌋 Scream Cat: sóng chấn động + đá văng + tiếng vọng (trên meme)
+  _scHeadDraw();       // 😱 số dame lớn nhất + hiệu ứng nguy hiểm trên đầu Scream Cat
 
   // ===== GERMAN SOLDIERS update + draw =====
   for(let si=germanSoldiers.length-1; si>=0; si--){
