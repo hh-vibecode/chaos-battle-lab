@@ -1451,6 +1451,7 @@ canvas { display:block; }
 .tl-row { display:flex; min-height:82px; border-top:2px solid #3b2b1a; }
 .tl-row:first-child { border-top:none; }
 .tl-label { flex:0 0 82px; display:flex; align-items:center; justify-content:center; font-family:'Press Start 2P',monospace; font-size:1.5rem; color:#2b1d0f; border-right:2px solid #3b2b1a; }
+.tl-label.tl-label-word { font-size:0.6rem; }
 .tl-items { flex:1; display:flex; flex-wrap:wrap; align-content:flex-start; gap:6px; padding:6px; min-height:82px; }
 .tl-pool-label { font-family:'Press Start 2P',monospace; font-size:0.5rem; color:#8a7a5f; margin:18px 0 8px; text-align:center; line-height:1.6; }
 .tl-pool { width:100%; max-width:980px; min-height:90px; display:flex; flex-wrap:wrap; gap:6px; padding:8px; border:2.5px dashed #b9a684; border-radius:12px; background:rgba(255,250,240,0.6); }
@@ -1463,6 +1464,7 @@ canvas { display:block; }
 .tl-item.tl-float { position:fixed; z-index:9999; pointer-events:none; transform:scale(1.08); box-shadow:0 8px 18px rgba(0,0,0,0.3); }
 @media (max-width:600px){
   .tl-label { flex-basis:52px; font-size:1rem; }
+  .tl-label.tl-label-word { font-size:0.42rem; }
   .tl-item { width:56px; height:56px; }
   .tl-row, .tl-items { min-height:68px; }
 }
