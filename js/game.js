@@ -903,7 +903,7 @@ function loadRoster(){
   // bổ sung ngay những charKey còn thiếu, không đụng gì tới các nhân vật/avatar đã lưu trước đó
   // ⚠️ Gigachad CHƯA có ảnh mặc định (chưa có nguồn ảnh phù hợp) — dùng emoji 🗿 tạm thời, người dùng tự upload
   // qua màn Add Character khi có ảnh (avatar chính + ảnh "Gigachad To" ở ô Khung 1, xem POSE_SLOT_DEFS.gigachad).
-  const _mcDefaultAvatars={ evilgary: GP_EVIL_IMG.src, doorbellchud: DC_FR[0].src, alottadameguy: LD_FR[0].src, arabiccat: AR_FR[0].src, rickroll: RICKROLL_AVATAR_IMG.src, aliencat: ALIENCAT_AVATAR_IMG.src, chillguy: CHILLGUY_AVATAR_IMG.src, uiacat: UIACAT_AVATAR_IMG.src };
+  const _mcDefaultAvatars={ scaredhamster: 'assets/avatars/scaredhamster/avatarUrl.webp', evilgary: GP_EVIL_IMG.src, doorbellchud: DC_FR[0].src, alottadameguy: LD_FR[0].src, arabiccat: AR_FR[0].src, rickroll: RICKROLL_AVATAR_IMG.src, aliencat: ALIENCAT_AVATAR_IMG.src, chillguy: CHILLGUY_AVATAR_IMG.src, uiacat: UIACAT_AVATAR_IMG.src };
   // ⚙️ QUÉT TỰ ĐỘNG toàn bộ CHAR_DEFS thay vì liệt kê tay từng charKey — trước đây danh sách này hardcode
   // (['aliencat','wetcat','chillguy','gary','electricguitarcat']) nên MỖI LẦN thêm nhân vật mới mà quên cập nhật
   // là người đã có roster lưu sẵn sẽ KHÔNG thấy nhân vật đó xuất hiện. Giờ chỉ cần khai báo trong CHAR_DEFS là
@@ -1059,7 +1059,7 @@ let modalVfxGrid = '';      // lưới sprite-sheet VFX, vd "4x4" (trống = d�
 // field = tên thuộc tính lưu trên roster (cũng là khóa ảnh dùng trong trận)
 const POSE_SLOT_DEFS = {
   fanchar: [],  // ⭐ nhân vật fan: chỉ 1 ảnh đại diện, không có khung hoạt ảnh
-  scaredhamster: [ { field:'skill1AvatarUrl', label:'Sợ hãi dựa tường', emoji:'😨', color:'#c8a27a' } ],   // 🐹 tư thế dựa tường run rẩy (chưa có ảnh thì dùng avatar chính)
+  scaredhamster: [],   // 🐹 dùng bộ ảnh dựng sẵn HM_IMG (sợ hãi + 4 dáng chạy), không qua slot upload
   finedog: [   // 🐶 avatar ngồi + ĐÚNG 1 khung uống nước — 2 cái nối lại thành vòng lặp 2 khung, chạy mỗi lần nó nói THIS IS FINE (lúc lửa mạnh thêm)
     { field:'skill1AvatarUrl', label:'Uống nước', emoji:'☕', color:'#ff8a3d' },
   ],
@@ -4015,6 +4015,20 @@ const HM_LEAN_T=72, HM_CD=180, HM_SHADOW_LIFE=360, HM_REACH_T=300, HM_EMERGE=75,
 const HM_SQUEEZE_DMG=80, HM_SLAM_DMG=200, HM_CLAP_DMG=200;   // squeeze: 3 nhịp × 80
 const HM_ACT_T={squeeze:66, slam:52, clap:56};
 let hmShadows=[];
+// 🖼️ bộ ảnh Scared Hamster (user gửi, đã tách nền xanh): sợ hãi cầm thánh giá (lúc nép góc / bị nuốt) + 4 dáng chạy
+const HM_IMG={}; for(const k of ['SCARED','FRONT','SIDE1','SIDE2','BACK']){ HM_IMG[k]=new Image(); HM_IMG[k].src='assets/img/scaredhamster/HM_'+k+'.webp'; }
+// chọn dáng theo hướng đang chạy: ngang → 2 khung chạy ngang luân phiên (lật theo hướng, ảnh gốc quay PHẢI),
+// đi xuống → mặt trước, đi lên → sau lưng; nép góc / bị nuốt → dáng sợ hãi
+function _hmPose(f){
+  if(f._hmPoseT===tick && f._hmPoseC) return f._hmPoseC;
+  let img, flip=false;
+  const vx=f.vx||0, vy=f.vy||0;
+  if((f._hmLeanT||0)>0 || (f._hmSwallowT||0)>0) img=HM_IMG.SCARED;
+  else if(Math.abs(vx)>=Math.abs(vy)*0.8){ img=(Math.floor(tick/7)%2)?HM_IMG.SIDE2:HM_IMG.SIDE1; flip=vx<0; }
+  else img = vy>0 ? HM_IMG.FRONT : HM_IMG.BACK;
+  f._hmPoseT=tick; f._hmPoseC={img:(img.complete&&img.naturalWidth)?img:null, flip};
+  return f._hmPoseC;
+}
 function _hmNearCorner(f){ const m=f.size*2.2; return (f.x<m||f.x>W-m) && (f.y<m||f.y>H-m); }
 function _hmSpawnShadow(f){
   // 2 tay mọc ra từ GÓC XA NHẤT so với hamster (1 tay bám tường dọc, 1 tay bám tường ngang ngay sát góc)
@@ -18203,6 +18217,7 @@ class Fighter {
     if(this.type==='doorbellchud' && DC_FR[0].naturalWidth) facingLeft=shouldFaceLeft;
     if(this.type==='alottadameguy' && LD_FR[0].naturalWidth) facingLeft=shouldFaceLeft;
     if(this.type==='arabiccat' && AR_FR[0].naturalWidth) facingLeft=shouldFaceLeft;   // 🐱 tay xoa đèn thò về bên PHẢI ảnh → lật về phía địch
+    if(this.type==='scaredhamster' && _hmPose(this).img) facingLeft=_hmPose(this).flip;   // 🐹 khung chạy ngang quay mặt PHẢI → lật theo hướng chạy
     if(_arIsChick(this)) facingLeft = (this.vx||0)<0;   // 🐔 con gà Wind Guy quay đầu PHẢI → lật theo hướng đang chạy   // 🪚 khung dựng sẵn quay mặt PHẢI   // 🔔 khung hoạt ảnh dựng sẵn quay mặt PHẢI
     this._lastShouldFaceLeft=shouldFaceLeft; this._lastFacingLeft=facingLeft;   // (Friend cắn sau lưng cần biết)
 
@@ -18627,8 +18642,8 @@ class Fighter {
       img = (_ccB===1 ? skill1AvatarImgs[i]
            : _ccB===2 ? skill2AvatarImgs[i]
            : (rageAvatarImgs[i]||avatarImgs[i])) || avatarImgs[i];
-    } else if(this.type==='scaredhamster' && (this._hmLeanT||0)>0 && skill1AvatarImgs[i]){
-      img=skill1AvatarImgs[i];   // 🐹 tư thế dựa tường sợ hãi
+    } else if(this.type==='scaredhamster' && _hmPose(this).img){
+      img=_hmPose(this).img;   // 🐹 dáng chạy theo hướng / sợ hãi nép góc (bộ ảnh dựng sẵn, không qua slot upload)
     } else if(this.type==='finedog' && (this._fdSipT||0)>0 && skill1AvatarImgs[i]){
       // 🐶 vừa lên nấc lửa → nhấp ĐÚNG 2 HỚP: uống → hạ ly → uống → hạ ly.
       // Chia theo TIẾN ĐỘ của _fdSipT (không theo Date.now()) nên lần nào cũng đúng 2 hớp, không lệ thuộc lúc bắt đầu.
