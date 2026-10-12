@@ -25176,56 +25176,48 @@ function loop(){
   const _RBBAND=3; // px per color band (half original)
   const _RBTOTAL=_RBBAND*_RBCLR.length; // 18px total trail width
 
-  // 🌈 cầu vồng kiểu Nyan gốc: 6 dải màu GỢN BẬC THANG (từng khúc nhô lên/xuống so le, nhịp chạy theo thời gian)
-  //    + viền tối + quầng sáng mờ + vệt bóng trắng + sao lấp lánh. 2 đầu nằm trên tường được kéo dài ra ngoài rồi
-  //    CẮT KHÍT theo mép sàn → đầu cầu vồng dán phẳng vào tường (trước đây đầu cắt vuông góc với đường bay nên
-  //    chạm tường xiên: chỗ thò ra ngoài, chỗ hở 1 tam giác). Mỗi điểm bám tường có thêm 1 vệt loang nửa vòng.
+  // 🌈 cầu vồng Nyan: DẢI LỤA MỀM — 6 dải màu uốn lượn nhẹ theo sóng sin chạy dọc (biên độ nhỏ dần về 2 đầu nên
+  //    đầu bám tường vẫn đứng yên đúng chỗ chạm), viền tối mảnh + quầng sáng mờ + vài đốm lấp lánh nhỏ.
+  //    2 đầu nằm trên tường được kéo dài ra ngoài rồi CẮT KHÍT theo mép sàn → đầu cầu vồng dán phẳng vào tường
+  //    (trước đây đầu cắt vuông góc với đường bay nên chạm tường xiên: chỗ thò ra ngoài, chỗ hở 1 tam giác).
   //    (chỉ là phần VẼ — vùng va chạm vẫn theo đúng đường thẳng gốc, xem _trailHit)
   function _drawPixelRainbow(path, alpha){
     if(path.length<2) return;
     const onWall=q=>q.x<=0.5||q.x>=W-0.5||q.y<=0.5||q.y>=H-0.5;
-    // kéo 2 đầu bám tường ra ngoài sàn — phần thừa sẽ bị clip đúng theo mép tường
     const P=path.map(q=>({x:q.x,y:q.y})), ext=_RBTOTAL*2;
     { const a=P[0], b=P[1], l=Math.hypot(a.x-b.x,a.y-b.y)||1; if(onWall(path[0])){ a.x+=(a.x-b.x)/l*ext; a.y+=(a.y-b.y)/l*ext; } }
     { const n=P.length, a=P[n-1], b=P[n-2], l=Math.hypot(a.x-b.x,a.y-b.y)||1; if(onWall(path[n-1])){ a.x+=(a.x-b.x)/l*ext; a.y+=(a.y-b.y)/l*ext; } }
-    // chia thành từng KHÚC ~10px, mỗi khúc lệch ±1.5px theo pháp tuyến, so le & chạy theo thời gian → gợn bậc thang
-    const CH=10, AMP=1.5, ph=Math.floor(tick/8), chunks=[];
-    let k=0;
+    // lấy mẫu dày dọc đường (mỗi ~6px) kèm pháp tuyến + quãng đường đã đi
+    const pts=[]; let total=0;
+    for(let i=0;i<P.length-1;i++) total+=Math.hypot(P[i+1].x-P[i].x,P[i+1].y-P[i].y);
+    let acc=0;
     for(let i=0;i<P.length-1;i++){
-      const a=P[i], b=P[i+1], dx=b.x-a.x, dy=b.y-a.y, l=Math.hypot(dx,dy)||1, nx=-dy/l, ny=dx/l, n=Math.max(1,Math.ceil(l/CH));
-      for(let j=0;j<n;j++,k++){ const t0=j/n, t1=(j+1)/n, w=((k+ph)&1)?AMP:-AMP;
-        chunks.push({x0:a.x+dx*t0,y0:a.y+dy*t0,x1:a.x+dx*t1,y1:a.y+dy*t1,nx,ny,w}); }
+      const a=P[i], b=P[i+1], dx=b.x-a.x, dy=b.y-a.y, l=Math.hypot(dx,dy)||1, nx=-dy/l, ny=dx/l, n=Math.max(1,Math.ceil(l/6));
+      for(let j=(i?1:0);j<=n;j++){ const t=j/n, d=acc+l*t;
+        const taper=Math.min(1, d/40, (total-d)/40);   // 2 đầu không lượn
+        const w=Math.sin(d*0.06 - tick*0.12)*2.2*Math.max(0,taper);
+        pts.push({x:a.x+dx*t+nx*w, y:a.y+dy*t+ny*w, nx, ny}); }
+      acc+=l;
     }
-    const stroke=(off,lw,col,wave)=>{
-      ctx.strokeStyle=col; ctx.lineWidth=lw; ctx.beginPath();
-      for(const c of chunks){ const o=off+(wave?c.w:0); ctx.moveTo(c.x0+c.nx*o,c.y0+c.ny*o); ctx.lineTo(c.x1+c.nx*o,c.y1+c.ny*o); }
-      ctx.stroke(); };
+    const stroke=(off,lw,col)=>{ ctx.strokeStyle=col; ctx.lineWidth=lw; ctx.beginPath();
+      pts.forEach((q,i)=>{ const x=q.x+q.nx*off, y=q.y+q.ny*off; i?ctx.lineTo(x,y):ctx.moveTo(x,y); }); ctx.stroke(); };
     ctx.save();
     ctx.beginPath(); ctx.rect(0,0,W,H); ctx.clip();   // ✂️ cắt khít theo mép sàn
-    ctx.globalAlpha=alpha; ctx.lineCap='butt'; ctx.lineJoin='miter';
-    // quầng sáng mờ quanh dải (rẻ hơn shadowBlur)
-    const pulse=0.5+0.5*Math.sin(tick*0.12);
+    ctx.globalAlpha=alpha; ctx.lineCap='butt'; ctx.lineJoin='round';
+    const pulse=0.5+0.5*Math.sin(tick*0.1);
+    // quầng sáng mờ (rẻ hơn shadowBlur)
     ctx.globalCompositeOperation='lighter';
-    stroke(0,_RBTOTAL+16,`rgba(255,120,255,${0.05+0.04*pulse})`,false);
-    stroke(0,_RBTOTAL+9,`rgba(255,255,255,${0.06+0.05*pulse})`,false);
+    stroke(0,_RBTOTAL+14,`rgba(255,180,255,${0.05+0.04*pulse})`);
+    stroke(0,_RBTOTAL+7,`rgba(255,255,255,${0.07+0.05*pulse})`);
     ctx.globalCompositeOperation='source-over';
-    // viền tối + 6 dải màu
-    stroke(0,_RBTOTAL+4,'#111',true);
-    for(let b=0;b<_RBCLR.length;b++) stroke((b-(_RBCLR.length-1)/2)*_RBBAND,_RBBAND+0.6,_RBCLR[b],true);   // +0.6 để 2 dải liền không hở khe
-    // vệt bóng trắng chạy dọc mép trên
-    stroke(-_RBTOTAL/2+1,1,`rgba(255,255,255,${0.35+0.3*pulse})`,true);
-    // ✨ sao lấp lánh dọc dải (vị trí cố định theo khúc, nhấp nháy lệch nhịp)
-    for(let i=0;i<chunks.length;i+=4){ const c=chunks[i], tw=Math.sin(tick*0.18+i*1.7); if(tw<0.55) continue;
-      const r=1.5+3*(tw-0.55), sx=(c.x0+c.x1)/2+c.nx*(((i*37)%13)-6), sy=(c.y0+c.y1)/2+c.ny*(((i*37)%13)-6);
-      ctx.fillStyle=`rgba(255,255,255,${Math.min(1,(tw-0.55)*2.5)})`;
-      ctx.beginPath(); ctx.moveTo(sx,sy-r*2); ctx.lineTo(sx+r*0.45,sy-r*0.45); ctx.lineTo(sx+r*2,sy); ctx.lineTo(sx+r*0.45,sy+r*0.45);
-      ctx.lineTo(sx,sy+r*2); ctx.lineTo(sx-r*0.45,sy+r*0.45); ctx.lineTo(sx-r*2,sy); ctx.lineTo(sx-r*0.45,sy-r*0.45); ctx.closePath(); ctx.fill(); }
-    // 🎨 vệt loang bám tường ở mỗi đầu chạm tường (nửa ngoài bị clip → nhìn như dán vào tường)
-    for(const q of [path[0],path[path.length-1]]){ if(!onWall(q)) continue;
-      const R=_RBTOTAL*0.9;
-      for(let b=_RBCLR.length-1;b>=0;b--){ ctx.fillStyle=_RBCLR[b]; ctx.globalAlpha=alpha*0.85;
-        ctx.beginPath(); ctx.arc(q.x,q.y,R*(b+1)/_RBCLR.length+2,0,Math.PI*2); ctx.fill(); }
-      ctx.globalAlpha=alpha*(0.25+0.25*pulse); ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(q.x,q.y,R*0.35,0,Math.PI*2); ctx.fill(); }
+    stroke(0,_RBTOTAL+2.5,'rgba(20,10,40,0.85)');   // viền tối mảnh
+    for(let b=0;b<_RBCLR.length;b++) stroke((b-(_RBCLR.length-1)/2)*_RBBAND,_RBBAND+0.6,_RBCLR[b]);   // +0.6 để 2 dải liền không hở khe
+    stroke(-_RBTOTAL/2+1.2,1,`rgba(255,255,255,${0.25+0.25*pulse})`);   // vệt bóng mép trên
+    // ✨ đốm lấp lánh nhỏ trôi dọc dải
+    for(let i=0;i<pts.length;i+=9){ const tw=Math.sin(tick*0.15+i*0.9); if(tw<0.7) continue;
+      const q=pts[i], o=((i*29)%11)-5, r=1+2*(tw-0.7)/0.3;
+      ctx.fillStyle=`rgba(255,255,255,${(tw-0.7)/0.3})`;
+      ctx.beginPath(); ctx.arc(q.x+q.nx*o,q.y+q.ny*o,r,0,Math.PI*2); ctx.fill(); }
     ctx.restore();
   }
 
