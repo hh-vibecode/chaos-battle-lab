@@ -3883,6 +3883,24 @@ function _scCracksDraw(cracks,grow,a,glow,w){
         if(pass===0){ ctx.strokeStyle=`rgba(25,8,18,${a*0.85})`; ctx.lineWidth=(1+w*taper); }
         else { ctx.strokeStyle=`rgba(255,110,180,${glow*taper})`; ctx.lineWidth=Math.max(0.6,w*0.45*taper); }
         ctx.stroke(); } } } }
+// 🌊 1 GỢN SÓNG ĐẤT méo mó (kiểu Echo Slam): viền tròn bị bóp méo bởi 3 sóng sin trôi theo thời gian →
+//    dải bụi đất mờ + mép ngoài tối (bóng) + mép trong sáng (ánh) → nhìn như 1 gờ đất đang cuộn lan ra.
+function _scRipple(cx,cy,R,w,a,seed,t){
+  if(R<3 || a<=0.01) return;
+  const N=72, ro=[], ri=[];
+  for(let j=0;j<=N;j++){ const th=j/N*Math.PI*2;
+    const k=1+0.055*Math.sin(3*th+seed+t*0.09)+0.035*Math.sin(7*th-t*0.13+seed*2.3)+0.02*Math.sin(13*th+seed*4.1+t*0.2);
+    const c=Math.cos(th), s2=Math.sin(th);
+    ro.push([cx+c*(R*k+w/2), cy+s2*(R*k+w/2)]); ri.push([cx+c*Math.max(0,R*k-w/2), cy+s2*Math.max(0,R*k-w/2)]); }
+  ctx.beginPath(); ro.forEach((q,j)=>j?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1])); ctx.closePath();
+  for(let j=ri.length-1;j>=0;j--) j===ri.length-1?ctx.moveTo(ri[j][0],ri[j][1]):ctx.lineTo(ri[j][0],ri[j][1]); ctx.closePath();
+  ctx.fillStyle=`rgba(168,124,92,${0.48*a})`; ctx.fill();   // bụi đất
+  ctx.lineJoin='round';
+  ctx.beginPath(); ro.forEach((q,j)=>j?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1])); ctx.closePath();
+  ctx.strokeStyle=`rgba(62,34,28,${0.6*a})`; ctx.lineWidth=Math.max(1.4,w*0.26); ctx.stroke();   // bóng mép ngoài
+  ctx.beginPath(); ri.forEach((q,j)=>j?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1])); ctx.closePath();
+  ctx.strokeStyle=`rgba(255,226,214,${0.65*a})`; ctx.lineWidth=Math.max(1,w*0.16); ctx.stroke();   // ánh sáng mép trong
+}
 function _scEchoDrawUnder(){
   ctx.save(); _scWallCracksDraw(); ctx.restore();
   for(const E of scEcho){ if(E.simple) continue; const t=E.t, a=Math.max(0,1-t/SC_EC_LIFE);
@@ -3901,8 +3919,8 @@ function _scEchoDrawOver(){
     if(E.simple){   // 🔈 hét nhẹ: 1 vòng đẩy mềm
       if(t>32){ scEcho.splice(i,1); continue; }
       const q=t/32, R=E.maxR*0.6*(1-(1-q)*(1-q)), al=1-q;
-      ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.strokeStyle=`rgba(255,120,190,${0.3*al})`; ctx.lineWidth=12*(1-q)+3; ctx.beginPath(); ctx.arc(E.x,E.y,R,0,Math.PI*2); ctx.stroke();
-      ctx.globalCompositeOperation='source-over'; ctx.strokeStyle=`rgba(255,245,250,${0.75*al})`; ctx.lineWidth=4*(1-q)+1; ctx.beginPath(); ctx.arc(E.x,E.y,R,0,Math.PI*2); ctx.stroke(); ctx.restore();
+      if(E.seed===undefined) E.seed=Math.random()*9;
+      ctx.save(); _scRipple(E.x,E.y,R,10*(1-q)+4,al*0.9,E.seed,t); _scRipple(E.x,E.y,R*0.78,6*(1-q)+3,al*0.6,E.seed+3,t); ctx.restore();
       continue; }
     if(t>SC_EC_LIFE){ scEcho.splice(i,1); continue; }
     if(E.quake && (t===12||t===24||t===38)){ addShake(16,18); E.quake--; }   // 💥 >300: dư chấn rung lắc dữ dội
@@ -3914,17 +3932,9 @@ function _scEchoDrawOver(){
     // 🌊 sóng chấn động chính: mép lởm chởm, dày → mảnh dần, kèm 1 vòng dư chấn theo sau
     const q=Math.min(1,t/SC_EC_WAVE);
     if(q<1){ const ease=1-(1-q)*(1-q), wa=Math.pow(1-q,1.2);
-      for(const [rk,lw0,al] of [[1,16,1],[0.8,7,0.55]]){ const R=E.maxR*ease*rk; if(R<2) continue;
-        ctx.beginPath();
-        for(let j=0;j<=48;j++){ const an=j/48*Math.PI*2, rr=R*(1+E.jag[j%48]*0.035*(1-q*0.5)); const x=E.x+Math.cos(an)*rr, y=E.y+Math.sin(an)*rr; j?ctx.lineTo(x,y):ctx.moveTo(x,y); }
-        ctx.closePath();
-        const lw=Math.max(2,lw0*(1-q*0.75))*E.pw;
-        ctx.globalCompositeOperation='lighter';
-        ctx.strokeStyle=`rgba(255,90,170,${0.35*wa*al})`; ctx.lineWidth=lw*2.4; ctx.stroke();
-        ctx.globalCompositeOperation='source-over';
-        ctx.strokeStyle=`rgba(255,235,245,${0.9*wa*al})`; ctx.lineWidth=lw; ctx.stroke();
-        if(rk===1){ ctx.strokeStyle=`rgba(120,40,80,${0.35*wa})`; ctx.lineWidth=lw*0.35; ctx.stroke(); }
-      }
+      // 3 gờ sóng đất méo mó nối đuôi nhau (gờ đầu to nhất), kèm 1 vệt sáng hồng mảnh ở gờ đầu cho chất "âm thanh"
+      for(const [rk,w0,al] of [[1,26,1],[0.86,17,0.7],[0.72,11,0.45]]){
+        _scRipple(E.x,E.y,E.maxR*ease*rk,w0*(1-q*0.6)*E.pw,wa*al,(E.jag[0]+5)*rk*3,t); }
       if(t%2===0) for(let j=0;j<6;j++){ const an=Math.random()*Math.PI*2, R=E.maxR*ease;   // bụi cuộn theo mép sóng
         particles.push({x:E.x+Math.cos(an)*R,y:E.y+Math.sin(an)*R,vx:Math.cos(an)*1.2,vy:Math.sin(an)*1.2-0.4,color:Math.random()<0.5?'#d7ccc8':'#f8bbd0',gravity:0,life:18,maxLife:18,size:2+Math.random()*2.5}); }
     }
@@ -3935,9 +3945,9 @@ function _scEchoDrawOver(){
       if(!e.on) continue;
       const tt=t-e.at;
       if(tt<24){ const k=tt/24, R=e.s*(0.6+2.6*(1-(1-k)*(1-k)));
-        ctx.globalCompositeOperation='lighter'; ctx.strokeStyle=`rgba(255,110,190,${0.55*(1-k)})`; ctx.lineWidth=10*(1-k)+2; ctx.beginPath(); ctx.arc(e.x,e.y,R,0,Math.PI*2); ctx.stroke();
-        ctx.globalCompositeOperation='source-over'; ctx.strokeStyle=`rgba(255,240,250,${0.85*(1-k)})`; ctx.lineWidth=3.5*(1-k)+1; ctx.beginPath(); ctx.arc(e.x,e.y,R,0,Math.PI*2); ctx.stroke();
-        if(tt<6){ ctx.globalCompositeOperation='lighter'; ctx.fillStyle=`rgba(255,255,255,${0.6*(1-tt/6)})`; ctx.beginPath(); ctx.arc(e.x,e.y,e.s*0.9,0,Math.PI*2); ctx.fill(); ctx.globalCompositeOperation='source-over'; } }
+        if(e.seed===undefined) e.seed=Math.random()*9;
+        _scRipple(e.x,e.y,R,14*(1-k)+4,(1-k),e.seed,tt); _scRipple(e.x,e.y,R*0.7,8*(1-k)+3,(1-k)*0.6,e.seed+2,tt);
+        if(tt<5){ ctx.globalCompositeOperation='lighter'; ctx.fillStyle=`rgba(255,170,210,${0.3*(1-tt/5)})`; ctx.beginPath(); ctx.arc(e.x,e.y,e.s*0.55,0,Math.PI*2); ctx.fill(); ctx.globalCompositeOperation='source-over'; } }
       if(e.rocks){ _scRocksStep(e.rocks); _scRocksDraw(e.rocks,a); }
     }
     _scRocksStep(E.rocks); _scRocksDraw(E.rocks,a);   // 🪨 đá vụn văng từ tâm
