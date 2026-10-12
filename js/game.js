@@ -30623,7 +30623,7 @@ function scToggleLoop(){ _scLoop=!_scLoop; const b=document.getElementById('scLo
 
 // ===================== VÀO / RA CHẾ ĐỘ =====================
 // ===================== 🏅 TIER LIST: kéo avatar meme vào các hàng S/A/B/C/D (lưu bền qua storage) =====================
-const TL_TIERS=[['Broken','#d58cff'],['S','#ff7f7f'],['A','#ffbf7f'],['B','#ffdf7f'],['C','#ffff7f'],['D','#bfff7f'],['Fixing','#c9c9c9']];   // Broken = mạnh quá mức (trên S), Fixing = đang sửa (dưới D)
+const TL_TIERS=[['Broken','#d58cff','Broken\nOP\nLore'],['S','#ff7f7f'],['A','#ffbf7f'],['B','#ffdf7f'],['C','#ffff7f'],['D','#bfff7f'],['Fixing','#c9c9c9']];   // Broken = mạnh quá mức (trên S), Fixing = đang sửa (dưới D)
 let tierList={};   // tier -> [roster id...] theo đúng thứ tự trong hàng; meme không nằm trong hàng nào = ở kho bên dưới
 function _tlLoad(){ try{ const raw=storeGet('cbs_tierlist'); tierList=raw?JSON.parse(raw):{}; }catch(e){ tierList={}; } }
 function _tlSave(){ try{ storeSet('cbs_tierlist', JSON.stringify(tierList)); }catch(e){} }
@@ -30651,9 +30651,9 @@ function _tlItem(r){
 function _tlRender(){
   const memes=_tlMemes(), byId=new Map(memes.map(r=>[String(r.id),r])), placed=new Set();
   const board=document.getElementById('tlBoard'); board.innerHTML='';
-  for(const [t,col] of TL_TIERS){
+  for(const [t,col,label] of TL_TIERS){   // label: tên hiển thị (khác key lưu trữ để không mất meme đã xếp)
     const row=document.createElement('div'); row.className='tl-row';
-    const lb=document.createElement('div'); lb.className='tl-label'+(t.length>1?' tl-label-word':''); lb.style.background=col; lb.textContent=t; row.appendChild(lb);
+    const lb=document.createElement('div'); lb.className='tl-label'+(t.length>1?' tl-label-word':''); lb.style.background=col; lb.textContent=label||t; row.appendChild(lb);
     const box=document.createElement('div'); box.className='tl-items tl-drop'; box.dataset.tier=t;
     for(const id of (tierList[t]||[])){ const r=byId.get(String(id)); if(!r || placed.has(String(id))) continue; placed.add(String(id)); box.appendChild(_tlItem(r)); }
     row.appendChild(box); board.appendChild(row);
