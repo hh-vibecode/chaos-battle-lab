@@ -9846,7 +9846,7 @@ const CHAR_BLURB_SHORT = {
   popcat: "Clicks itself like popcat.click. Rings get faster.",
   ricardo: "Ricardo Milos dodges your hits. With his hips.",
   doge: "Throws 'much wow' at you. Then gets swole.",
-  feuerkatze: "Cats That Look Like Hitler: the boss fight.",
+  feuerkatze: "Art school rejected him. The arena pays.",
   germancat: "Gives a long speech. The soldiers do the rest.",
   uiacat: "OIIAOIIA. Spin harder. Then spin with friends.",
   beluga: "Beluga's Discord chat, but every message hurts.",
