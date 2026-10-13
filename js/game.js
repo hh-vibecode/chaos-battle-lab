@@ -8905,27 +8905,45 @@ function _sdCycle(f){
       f.vx*=0.3; f.vy*=0.3;
       playSample('snooze', 0.75);   // 😴 tiếng lăn ra ngủ — cùng mẫu với Snooze Cat
       _sdHowl(f);                   // 🐺 trăng lên → sói hú
+      _sdHideStart(f);              // 🌑 lùi vào bóng tối (rồi hoá sói lao ra)
     }
     return;
   }
+  _sdHideTick(f);
   f._sdT=(f._sdT||0)+1;
   if(f._sdSkyT!==undefined) f._sdSkyT++;
   if(f._sdT===SD_EVENT_AT && !f._sdEventDone){
     f._sdEventDone=true;
     if(f._sdNight) _sdWerewolf(f); else _sdDayBuff(f);
   }
-  if(f._sdNight && f._sdT%20===0) _sdSpawnZzz(f);   // 😴 đang ngủ: chữ Zzz bay lên trên đầu (y kiểu Snooze Cat)
+  if(f._sdNight && f._sdT%20===0 && _sdHideK(f)<0.5) _sdSpawnZzz(f);   // 😴 đang ngủ: chữ Zzz bay lên trên đầu (y kiểu Snooze Cat) — đã chìm vào bóng tối thì thôi
   if(f._sdT >= (f._sdNight ? SD_NIGHT_T : SD_DAY_T)){
     f._sdNight=!f._sdNight; f._sdT=0; f._sdEventDone=false; f._sdSkyT=0;
     if(f._sdNight){ f._sdDay=(f._sdDay||1)+1; sdBanner={text:'NIGHT FALLS…', sub:'🌙 NIGHT '+f._sdDay, col:'#b3c1ff', t:0, T:110}; }
     else sdBanner={text:'THE VILLAGE WAKES UP', sub:'☀️ DAY '+(f._sdDay||1), col:'#ffe08a', t:0, T:110};
-    if(f._sdNight){ f.vx*=0.3; f.vy*=0.3; playSample('snooze', 0.75); _sdHowl(f); }
+    if(f._sdNight){ f.vx*=0.3; f.vy*=0.3; playSample('snooze', 0.75); _sdHowl(f); _sdHideStart(f); }
+    else if(f._sdHide){ f._sdHide.out=true; f._sdHide.t2=0; }   // ☀️ trời sáng: từ bóng tối hiện ra lại
   }
+}
+// 🌑 ĐÊM XUỐNG: Sus Dog lùi dần về mép sàn gần nhất rồi chìm vào bóng tối (thành bóng đen, mờ đi) — con sói lao ra từ
+//    đúng phía đó (nó hoá sói). Trời sáng thì bóng đen tan, Sus Dog hiện ra lại tại chỗ. CHỈ là hoạt ảnh: vẫn trúng đòn như cũ.
+const SD_HIDE_T=50, SD_SHOW_T=30;
+function _sdHideStart(f){ f._sdHide={t:0, t2:0, out:false, x0:f.x, side:(f.x<W/2?-1:1)}; }
+function _sdHideTick(f){
+  const h=f._sdHide; if(!h) return;
+  if(h.out){ if(++h.t2>=SD_SHOW_T) f._sdHide=null; return; }
+  if(h.t<SD_HIDE_T){ h.t++; const p=h.t/SD_HIDE_T, e=p<0.5?2*p*p:1-Math.pow(-2*p+2,2)/2, hx=h.side<0?f.size*0.9:W-f.size*0.9;
+    f.x=h.x0+(hx-h.x0)*e; f.vx=0; f.vy=0; }
+}
+function _sdHideK(f){   // 0 = bình thường → 1 = chìm hẳn trong bóng tối
+  const h=f && f._sdHide; if(!h) return 0;
+  if(h.out) return Math.max(0,1-h.t2/SD_SHOW_T);
+  const p=Math.max(0,(h.t/SD_HIDE_T-0.35)/0.65); return p*p*(3-2*p);   // lùi được 1 đoạn mới bắt đầu chìm
 }
 function _sdWerewolf(f){
   const e=_sdFoe(f); if(!e) return;
-  const ox=(_worldOX||0)+e.size*2.5;                       // xuất phát NGOÀI khung nhìn, phía cạnh gần địch nhất
-  const fromLeft = e.x < W/2;
+  const ox=(_worldOX||0)+e.size*2.5;                       // xuất phát NGOÀI khung nhìn
+  const fromLeft = f._sdHide ? f._sdHide.side<0 : e.x < W/2;   // lao ra từ đúng phía bóng tối Sus Dog vừa lùi vào (nó hoá sói)
   sdActors.push({kind:'wolf', owner:f, target:e, x:fromLeft ? -ox : W+ox, y:e.y, t:0, bites:0, vx:0, vy:0, fl:!fromLeft});
   floatTexts.push({x:e.x,y:e.y-e.size-26,text:'🐺 WEREWOLF',color:'#ff5252',life:60,big:true});
 }
@@ -18823,6 +18841,7 @@ class Fighter {
       if(this.dogeBuffed) _dogeAura(this,s);
       const _dg=_dogeAnim(this); offX+=_dg.ox; offY+=_dg.oy; rotation+=_dg.rot; scaleX*=_dg.sx; scaleY*=_dg.sy; }
     ctx.translate(this.x+offX,this.y+offY-_bounce);
+    if(this.type==='susdog' && this._sdHide) ctx.globalAlpha*=1-0.6*_sdHideK(this);   // 🌑 chìm vào bóng tối: mờ dần
     if(this._soulT>0 && this._soulFrom){   // 👻 bị Giám Ngục hút hồn: GIỮ NGUYÊN tư thế (không xoay/méo), chỉ tái nhợt mờ đi — phần nhoè kéo về phía ma vẽ riêng
       const k=Math.min(1,this._soulT/8);
       ctx.globalAlpha*=1-0.3*k;   // màu tái nhợt: phủ ảnh _soulPale lên sprite (xem dưới), không dùng ctx.filter cho đỡ lag
@@ -19191,6 +19210,9 @@ class Fighter {
         ctx.restore();
       }
       else if(!_lcRibbon) ctx.drawImage((this._biteHoles&&this._biteHoles.length&&!((img._frames||1)>1)) ? _biteMask(this,img) : _stickerMask(img), _sx,_sy,_sw,_sh, -dw/2,-dh/2, dw,dh);   // 🦷 có vết Friend gặm thì vẽ bản đã khuyết
+      if(this.type==='susdog' && this._sdHide && !_lcRibbon && !_fanBall){   // 🌑 chìm vào bóng tối: phủ bóng đen lên người
+        const _hk=_sdHideK(this); if(_hk>0.01){ ctx.save(); ctx.globalAlpha*=0.92*_hk; ctx.drawImage(_frDarkMask(img), _sx,_sy,_sw,_sh, -dw/2,-dh/2, dw,dh); ctx.restore(); }
+      }
       if(this._soulT>0 && this._soulFrom && !_lcRibbon && !_fanBall){   // 👻 bị hút hồn: tái nhợt mất màu
         ctx.save(); ctx.globalAlpha*=Math.min(1,this._soulT/8); ctx.drawImage(_soulPale(img), _sx,_sy,_sw,_sh, -dw/2,-dh/2, dw,dh); ctx.restore();
       }
