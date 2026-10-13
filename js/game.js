@@ -18848,9 +18848,9 @@ class Fighter {
       if(this.dogeBuffed) _dogeAura(this,s);
       const _dg=_dogeAnim(this); offX+=_dg.ox; offY+=_dg.oy; rotation+=_dg.rot; scaleX*=_dg.sx; scaleY*=_dg.sy; }
     ctx.translate(this.x+offX,this.y+offY-_bounce);
-    if(this._soulT>0 && this._soulFrom){   // 👻 bị Giám Ngục hút hồn: mờ dần + méo vặn, kéo giãn về phía ma
-      const k=Math.min(1,this._soulT/8), a=Math.atan2(this._soulFrom.y-this.y,this._soulFrom.x-this.x), w=Math.sin(tick*0.35);
-      ctx.globalAlpha*=1-0.45*k; ctx.filter=`grayscale(${Math.round(75*k)}%) brightness(${(1+0.15*k).toFixed(2)})`; ctx.rotate(a);   // tái nhợt mất màu ctx.scale(1+0.16*k+0.05*w*k,1-0.08*k); ctx.transform(1,0.18*w*k,0,1,0,0); ctx.rotate(-a);
+    if(this._soulT>0 && this._soulFrom){   // 👻 bị Giám Ngục hút hồn: GIỮ NGUYÊN tư thế (không xoay/méo), chỉ tái nhợt mờ đi — phần nhoè kéo về phía ma vẽ riêng
+      const k=Math.min(1,this._soulT/8);
+      ctx.globalAlpha*=1-0.3*k; ctx.filter=`grayscale(${Math.round(60*k)}%) brightness(${(1+0.1*k).toFixed(2)})`;
     }
     if(this._hmGrab && this._hmGrab.ax!==undefined && (this._hmGrab.c!==1 || this._hmGrab.e!==1)){ const g=this._hmGrab; ctx.rotate(g.ax); ctx.scale(g.c,g.e); ctx.rotate(-g.ax); }   // 🐹 bị bóp: dẹp ĐÚNG theo chiều tay siết
     const _slipTilt = this._slipTimer>0 ? -0.82*Math.sign(Math.cos(this._slipDir||0)||1) : 0;
@@ -23308,11 +23308,11 @@ function loop(){
     //    mờ của nạn nhân bị KÉO GIÃN + XOẮN dần về phía mặt ma, nhoè như chuyển động nhanh, càng xa càng mờ & dài ra
     if(g.color==='black' && g._suck && !g._suck.dead && g._suck._lastSprite && g._suck._lastSprite.img){
       const u=g._suck, L=u._lastSprite, _b=Math.sin((g.animTick||0)/18)*g.size*0.08, _sw=Math.sin((g.animTick||0)/40)*0.12, _px=g.size*2.6*1.15;
-      const sx=u.x, sy=u.y-(u.size||20)*0.45, ex=g.x+0.34*_px*Math.sin(_sw), ey=g.y+_b-0.34*_px*Math.cos(_sw), dirA=Math.atan2(ey-sy,ex-sx);
+      const sx=u.x, sy=u.y-(u.size||20)*0.45, ex=g.x+0.34*_px*Math.sin(_sw), ey=g.y+_b-0.34*_px*Math.cos(_sw);
       ctx.save();
-      for(let j=8;j>=1;j--){ const k=(j/8)*0.5+0.03*Math.sin(tick*0.3+j), Px=sx+(ex-sx)*k, Py=sy+(ey-sy)*k;
-        ctx.save(); ctx.globalAlpha=0.2*(1-j/9); ctx.filter=`blur(${(0.6+j*0.35).toFixed(1)}px) grayscale(70%) brightness(1.25)`;
-        ctx.translate(Px,Py); ctx.rotate(dirA); ctx.scale(1+0.12*j,1-0.035*j); ctx.rotate(-dirA+0.07*j*Math.sin(tick*0.18+j*0.6));
+      for(let j=8;j>=1;j--){ const k=(j/8)*0.35+0.015*Math.sin(tick*0.3+j), Px=u.x+(ex-sx)*k, Py=u.y+(ey-sy)*k;
+        ctx.save(); ctx.globalAlpha=0.22*(1-j/9); ctx.filter=`blur(${(0.6+j*0.35).toFixed(1)}px) grayscale(70%) brightness(1.25)`;
+        ctx.translate(Px,Py);   // bản sao giữ NGUYÊN tư thế của nạn nhân, chỉ trượt nhoè dần về phía ma
         if(L.fl||L.flip) ctx.scale(-1,1);
         try{ ctx.drawImage(L.img,L.sx,L.sy,L.sw,L.sh,-L.dw/2,-L.dh/2,L.dw,L.dh); }catch(e){} ctx.restore(); }
       ctx.restore();
@@ -23359,9 +23359,9 @@ function loop(){
       const L=u._lastSprite;
       ctx.lineCap='round';
       for(let j=0;j<3;j++){ ctx.beginPath(); for(let i=0;i<=14;i++){ const k=i/14, P=B(k), o=Math.sin(k*9-tick*0.25+j*2.1)*(1-k)*7; i?ctx.lineTo(P.x+o,P.y-o*0.5):ctx.moveTo(P.x+o,P.y-o*0.5); }
-        ctx.strokeStyle=`rgba(190,225,255,${0.22-j*0.05})`; ctx.lineWidth=6-j*1.6; ctx.stroke(); }
-      for(let j=0;j<7;j++){ const k=((tick*0.025+j/7)%1), P=B(k), r=(1-k)*5+1.5, o=Math.sin(k*9-tick*0.25+j)*(1-k)*6;
-        const sg=ctx.createRadialGradient(P.x+o,P.y,0,P.x+o,P.y,r*2.2); sg.addColorStop(0,`rgba(235,248,255,${0.75*(1-k*0.6)})`); sg.addColorStop(1,'rgba(170,210,255,0)');
+        ctx.strokeStyle=`rgba(190,225,255,${0.12-j*0.03})`; ctx.lineWidth=3.2-j*0.9; ctx.stroke(); }   // tia hút mảnh & nhạt
+      for(let j=0;j<5;j++){ const k=((tick*0.025+j/5)%1), P=B(k), r=(1-k)*3+1, o=Math.sin(k*9-tick*0.25+j)*(1-k)*5;
+        const sg=ctx.createRadialGradient(P.x+o,P.y,0,P.x+o,P.y,r*2.2); sg.addColorStop(0,`rgba(235,248,255,${0.4*(1-k*0.6)})`); sg.addColorStop(1,'rgba(170,210,255,0)');
         ctx.fillStyle=sg; ctx.beginPath(); ctx.arc(P.x+o,P.y,r*2.2,0,Math.PI*2); ctx.fill(); }
       ctx.restore();
     }
