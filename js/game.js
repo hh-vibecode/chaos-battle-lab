@@ -4324,9 +4324,10 @@ function _hmSmokeBlob(x,y,r,a){ const g=ctx.createRadialGradient(x,y,0,x,y,r); g
   ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); }
 // ── VẼ DƯỚI MEME: cánh tay + bàn tay nằm sát mặt sàn; tay đang CẦM thì chỉ vẽ lòng bàn tay (nằm SAU con mồi) + bóng con mồi bị nhấc
 // 🖐️ BỘ ẢNH TAY BÓNG TỐI (user gửi, ChatGPT vẽ — đã tách nền xanh): 10 tư thế, cổ tay luôn vào từ mép TRÁI ảnh, tay chĩa PHẢI.
-//    grip/squeeze tách 2 lớp: _back (lòng bàn tay + phần ngón nằm SAU con mồi) & _front (đầu móng quặp ĐÈ lên trước con mồi).
-//    meta: w,h = cỡ ảnh · wy = độ cao tâm cổ tay · ww = bề dày cổ tay · bx,by,brx,bry = tâm & bán kính quả bóng (= chỗ đặt con mồi)
-const HM_HAND_META={"crawlA": {"w": 387, "h": 189, "wy": 72.5, "ww": 91.0}, "crawlB": {"w": 343, "h": 193, "wy": 86.0, "ww": 86.0}, "lunge": {"w": 366, "h": 294, "wy": 150.5, "ww": 89.0}, "closing": {"w": 344, "h": 229, "wy": 108.0, "ww": 90.0}, "grip": {"w": 366, "h": 250, "wy": 130.5, "ww": 91.0, "bx": 253.5, "by": 132.5, "brx": 87.5, "bry": 96.5}, "squeeze": {"w": 319, "h": 255, "wy": 125.5, "ww": 91.0, "bx": 235.5, "by": 139.0, "brx": 48.5, "bry": 109.0}, "fist": {"w": 296, "h": 187, "wy": 103.0, "ww": 92.0}, "throw": {"w": 356, "h": 307, "wy": 158.0, "ww": 88.0}, "slap": {"w": 368, "h": 214, "wy": 130.0, "ww": 88.0}, "retreat": {"w": 345, "h": 211, "wy": 80.5, "ww": 83.0}};
+//    grip/squeeze (bản vẽ lại KHÔNG có vật thể: ngón khép thành vòng) tách 2 lớp: _back (cả bàn tay, nằm SAU con mồi) &
+//    _front (phần ngón vòng phía đầu móng, mờ dần về phía cổ tay → ngón như luồn ra sau lưng rồi quặp ra trước).
+//    meta: w,h = cỡ ảnh · wy = độ cao tâm cổ tay · ww = bề dày cổ tay · bx,by,brx,bry = tâm & bán kính LỖ VÒNG NGÓN (= chỗ đặt con mồi)
+const HM_HAND_META={"crawlA": {"w": 391, "h": 204, "wy": 74.0, "ww": 90.0}, "crawlB": {"w": 333, "h": 203, "wy": 85.0, "ww": 86.0}, "lunge": {"w": 382, "h": 315, "wy": 167.0, "ww": 90.0}, "closing": {"w": 333, "h": 238, "wy": 107.5, "ww": 91.0}, "fist": {"w": 321, "h": 192, "wy": 103.5, "ww": 91.0}, "throw": {"w": 385, "h": 320, "wy": 145.0, "ww": 88.0}, "slap": {"w": 372, "h": 178, "wy": 92.0, "ww": 92.0}, "retreat": {"w": 339, "h": 230, "wy": 90.0, "ww": 84.0}, "grip": {"w": 333, "h": 238, "wy": 107.5, "ww": 91.0, "bx": 189.5, "by": 148.0, "brx": 65.5, "bry": 56.0}, "squeeze": {"w": 308, "h": 225, "wy": 106.0, "ww": 90.0, "bx": 201.5, "by": 145.5, "brx": 42.5, "bry": 45.5}};
 const HM_HAND_IMG={};
 for(const k of ['crawlA','crawlB','lunge','closing','fist','throw','slap','retreat']){ HM_HAND_IMG[k]=new Image(); HM_HAND_IMG[k].src='assets/img/scaredhamster/HAND_'+k+'.webp'; }
 for(const k of ['grip','squeeze']) for(const L of ['back','front']){ HM_HAND_IMG[k+'_'+L]=new Image(); HM_HAND_IMG[k+'_'+L].src='assets/img/scaredhamster/HAND_'+k+'_'+L+'.webp'; }
@@ -4370,7 +4371,7 @@ function _hmDrawUnder(){
     S.hands.forEach((h,hi)=>{ const ha=a*Math.min(1,em*2);
       const wrap=_hmWrapInfo(S,hi);
       let W0, pose;
-      if(wrap){ pose=(A && (A.tight||0)>0.3)?'squeeze':'grip'; const kk=Math.max(k0, (wrap.R/HM_HAND_META.grip.brx)); h._kS=(h._kS??kk)+(kk-(h._kS??kk))*0.3;
+      if(wrap){ pose=(A && (A.tight||0)>0.3)?'squeeze':'grip'; const kk=Math.max(k0, wrap.R/(HM_HAND_META.grip.brx*1.15));   // lỗ vòng ngón ôm vừa khít ~87% thân con mồi h._kS=(h._kS??kk)+(kk-(h._kS??kk))*0.3;
         W0=_hmWristGrip(wrap,pose,h._kS); h._wx=W0.x; h._wy=W0.y; }
       else { pose=_hmPoseFor(S,h); h._kS=(h._kS??k0)+(k0-(h._kS??k0))*0.2; W0=_hmWristFree(h,pose,h._kS); }
       // cánh tay nối tới đúng cổ tay của ảnh
