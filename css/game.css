@@ -1511,3 +1511,6 @@ html.is-mobile body.mb-battle.mb-open .battle-settings .btn-battle-start-corner 
 .mob-only { display:none; }
 html.is-mobile .mob-only { display:inline; }
 html.is-mobile .desk-only { display:none; }
+/* 🐹 trận có Scared Hamster: nền màn trận (ngoài sàn) tối đen — class do game.js tự bật/tắt mỗi khung (_hmDarkSet) */
+body.hm-dark #battleScreen, body.hm-dark #battleScreen.cam-mode, body.hm-dark #duoScreen, body.hm-dark #ffa3Screen,
+body.hm-dark #battleScreen.cam-mode .battle-settings { background:#000 !important; }
