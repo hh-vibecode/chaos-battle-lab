@@ -781,7 +781,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     aliencat: { key:'aliencat', defaultName:'Mr. Folk', emoji:'🥾', color:'#ffc400', hp:1000, speed:5, size:49.5, skill:'Chiếu 2 tia laze VÀNG thẳng từ 2 con mắt vào mục tiêu ở CỰ LY TẦM TRUNG — xa nhất gần gấp đôi tầm cận chiến, quá gần hoặc quá xa là mất khoá và phải gây lại từ đầu. Giữ được đúng cự ly càng lâu thì mỗi nhịp bắn càng đau: bắt đầu 10 dmg, cứ mỗi giây giữ được tia lại cộng thêm 20. Mỗi 8s triệu hồi 1 đĩa bay từ ngoài sân bay vào, dừng trên đầu địch gần nhất, dùng tia sóng âm hút địch lên xoay vòng tại chỗ trong 2s rồi bay đi mất.' },
     wetcat: { key:'wetcat', defaultName:'Wet Cat', emoji:'🤤', color:'#4fc3f7', hp:1000, speed:2.0125, size:45, skill:'Đi rất chậm, người cứ rỉ ra giọt nước dãi đen liên tục — giọt bị hút cong vào giữa sàn, dồn lại thành vũng đầm lầy, càng lúc rỉ càng nhanh. Địch chạm vũng bị sa lầy và mất máu đều đều; Wet Cat đứng trong vũng thì hồi máu và chạy nhanh hơn.' },
     electricguitarcat: { key:'electricguitarcat', defaultName:'Electric Guitar Cat', emoji:'🎸', color:'#ec407a', hp:1000, speed:5, size:43, skill:'Chơi guitar điện — bắn ra SÓNG ÂM theo đúng NHỊP & CAO ĐỘ thật của bài (màu theo nốt), y hệt cơ chế của Piano Cat. Mỗi luồng sóng 20 dame, đánh tới đâu nốt nhạc nảy tới đó. Tự đổi bài mỗi 8s. Bị đánh còn 30% máu là chơi tới mức đàn bốc cháy — sóng đàn đốt địch thêm 20 dame/s.' },
-    scareddog: { key:'scareddog', defaultName:'Scared Dog', emoji:'🐶', color:'#795548', hp:1000, speed:5, size:44, skill:'Không tự tấn công — chỉ di chuyển né tránh bình thường. Sau 1s vào trận, triệu hồi 1 ma đen + 1 ma trắng bay lượn quanh (không có HP, không thể bị tiêu diệt, chỉ biến mất khi Scared Dog chết): mỗi ma di chuyển bằng 40% tốc của 1 meme thường, nảy tường y hệt meme, húc trúng địch (hoặc lính/tượng địch có HP) lại gần thì gây dame — ma trắng 20 dmg, ma đen 20 dmg kèm đốt cháy (như Adolf Catler). Ma trắng có hào quang hồi máu bán kính gấp đôi thân nó, Scared Dog đứng trong đó được hồi 20 HP/s.' },
+    scareddog: { key:'scareddog', defaultName:'Scared Dog', emoji:'🐶', color:'#795548', hp:1000, speed:5, size:44, skill:'Không tự tấn công — chỉ di chuyển né tránh bình thường. Sau 1s vào trận, triệu hồi 1 ma đen + 1 ma trắng bay lượn quanh (không có HP, không thể bị tiêu diệt, chỉ biến mất khi Scared Dog chết): mỗi ma di chuyển bằng 40% tốc của 1 meme thường, nảy tường y hệt meme, húc trúng địch (hoặc lính/tượng địch có HP) lại gần thì gây dame — ma trắng 20 dmg, ma đen 20 dmg kèm nhiễm khí đen hắc ám (mất máu liên tục 20 dmg/0.5s trong 4s). Ma trắng có hào quang hồi máu bán kính gấp đôi thân nó, Scared Dog đứng trong đó được hồi 20 HP/s.' },
     slapcat: { key:'slapcat', defaultName:'Slap Cat', emoji:'🐈', color:'#7c4dff', hp:1000, speed:5, size:44, skill:'Vừa chạy vừa tích lực, cứ 2s lại đứng khựng lại VẢ một phát. Cú vả mở 2 cổng không gian: một cổng ngay cạnh Slap Cat và một cổng SAU LƯNG đối thủ — tay thò qua cổng vả trúng địch dù nó đứng bất kỳ đâu trên sàn. Sát thương gốc 120, ĐỨNG CÀNG XA ĐÁNH CÀNG ĐAU (xa tối đa +100%). 30% tỉ lệ gây choáng.' },
     clappingcat: { key:'clappingcat', defaultName:'Clapping Cat', emoji:'👏', color:'#ffb74d', hp:1000, speed:5, size:48.4, skill:'Có nó trong trận thì tường dưới mọc chông và có 1 quả bóng chông lăn qua lại — đâm vào chông hay bóng chông đều mất máu. Sắp lao vào chông thì nó vỗ tay đổi chỗ với địch, để địch lãnh thay. Càng lâu không chạm tường càng chạy nhanh.' },
     evilgary: { key:'evilgary', defaultName:'Evil Gary', emoji:'😈', color:'#b71c1c', hp:1000, speed:5, size:44, skill:'Đầu trận chỉ là con mèo xám ngồi im HÚT LINH HỒN: cứ mỗi giây 1 linh hồn khói đen từ góc xa nhất ngoài sân bay thẳng vào người nó (ai đứng chắn đường ăn 50 dame), mỗi linh hồn hút được vạch thêm 1 cánh ngôi sao ác quỷ trên đầu. Đủ 5 cánh: con quỷ đã nhập hiện lên sau lưng, sàn hoá CÕI LINH HỒN — khói ma lướt ngang sân, và cứ 5s một bầy linh hồn bò từ 4 góc tới bám địch (mỗi đợt đông hơn), bám được là gây dame và gieo độc vĩnh viễn, cộng dồn không giới hạn.' },
@@ -8638,6 +8638,49 @@ function _scTick(f){
 // 🔥 NHỊP CHÁY CHUNG cho quân triệu hồi có máu (lính, Doge Knight, tượng Mewing, dao Capybara, bản sao Doge, linh hồn...):
 //    lính / Doge Knight / mèo phụ Crying Cat / bản sao Magicspeller đã tự trừ máu trong vòng riêng; mấy loại dưới đây thì chưa.
 //    Cùng nhịp với meme thường: mỗi 0.5s trừ _burnDmg (mặc định 20).
+// 🌑 HẮC ÁM (debuff của các thế lực bóng tối): khí đen bao quanh nạn nhân + mất máu liên tục (DOT) — áp được cho MỌI
+//    meme và quân triệu hồi có máu. Mặc định = đúng mức đốt cháy cũ của ma đen: 20 dame mỗi 0.5s trong 4s.
+function _applyDark(u, src, T, dmg){
+  if(!u || u.dead) return;
+  if(!(u._darkT>0)){ u._darkCD=0; u._darkAge=0; }
+  u._darkT=Math.max(u._darkT||0, T||240); u._darkSrc=src||null; u._darkDmg=dmg||20;
+}
+function _darkUnits(){ const out=fighters.filter(f=>!f.dead && f._darkT>0); for(const a of _hpSummonArrays()) for(const u of a) if(u && !u.dead && u.hp>0 && u._darkT>0) out.push(u); return out; }
+function _darkTick(){
+  for(const u of _darkUnits()){
+    u._darkT--; u._darkAge=(u._darkAge||0)+1;
+    if(fighters.includes(u) && !fighters.some(f=>f.team!==u.team && !f.dead)){ u._darkT=0; continue; }   // hết địch thì thôi (như đốt cháy)
+    if((u._darkCD=(u._darkCD||0)-1)>0) continue;
+    u._darkCD=30;
+    if(fighters.includes(u)) u.takeDamage(u._darkDmg||20, u._darkSrc||null, false, true, '🌑', null, true);
+    else _summonTakeDamage(u, u._darkDmg||20, u._darkSrc||null, false, true, '🌑', null);
+    for(let i=0;i<6;i++){ const a=Math.random()*Math.PI*2, r=(u.size||20)*(0.4+Math.random()*0.5);   // khí đen phụt ra mỗi nhịp mất máu
+      particles.push({x:u.x+Math.cos(a)*r, y:u.y+Math.sin(a)*r, vx:Math.cos(a)*0.6, vy:-0.8-Math.random()*1.2, color:Math.random()<0.5?'#140818':'#3b1d4a', gravity:-0.02, life:30, maxLife:30, size:3+Math.random()*3}); }
+  }
+}
+// VFX: quầng tối ôm quanh thân + các cuộn khói đen-tím xoáy vòng quanh người, bốc dần lên rồi tan
+function _darkDraw(){
+  const us=_darkUnits(); if(!us.length) return;
+  ctx.save();
+  for(const u of us){
+    const R=(u.size||20), a=Math.min(1,(u._darkAge||0)/12,u._darkT/30), t=tick+(u.x|0);
+    // quầng tối (rỗng ở giữa để vẫn thấy mặt nạn nhân)
+    const g=ctx.createRadialGradient(u.x,u.y,R*0.45,u.x,u.y,R*1.55);
+    g.addColorStop(0,'rgba(10,0,16,0)'); g.addColorStop(0.45,`rgba(14,2,22,${0.5*a})`); g.addColorStop(1,'rgba(10,0,16,0)');
+    ctx.fillStyle=g; ctx.beginPath(); ctx.arc(u.x,u.y,R*1.55,0,Math.PI*2); ctx.fill();
+    // cuộn khói xoáy quanh người: mỗi cuộn đi vòng + bốc lên, to dần rồi mờ
+    for(let k=0;k<8;k++){ const ph=((t*0.012+k/8)%1), an=k*0.785+t*0.05*(k%2?1:-1), rr=R*(0.95+0.25*Math.sin(t*0.07+k));
+      const x=u.x+Math.cos(an)*rr, y=u.y+Math.sin(an)*rr*0.75-ph*R*1.1, r=R*(0.22+0.3*ph), al=a*0.75*Math.sin(Math.PI*ph);
+      const sg=ctx.createRadialGradient(x,y,0,x,y,r); sg.addColorStop(0,`rgba(30,8,44,${al})`); sg.addColorStop(0.6,`rgba(16,4,24,${al*0.6})`); sg.addColorStop(1,'rgba(10,0,16,0)');
+      ctx.fillStyle=sg; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); }
+    // 2 sợi xúc tu khói mảnh quấn xoắn ốc quanh thân
+    ctx.lineCap='round';
+    for(let k=0;k<2;k++){ ctx.beginPath();
+      for(let i=0;i<=16;i++){ const s=i/16, an=t*0.06*(k?1:-1)+k*Math.PI+s*Math.PI*1.6, rr=R*(1.05-0.35*s); const x=u.x+Math.cos(an)*rr, y=u.y+Math.sin(an)*rr*0.8-s*R*0.5; i?ctx.lineTo(x,y):ctx.moveTo(x,y); }
+      ctx.strokeStyle=`rgba(40,12,58,${0.55*a})`; ctx.lineWidth=R*0.09; ctx.stroke(); }
+  }
+  ctx.restore();
+}
 function _summonBurnTick(){
   for(const _arr of [mewingStatues, capybaraKnives, dogeClones, evilSouls]) for(const u of _arr){   // (lính German/Commander + Doge Knight tự đốt trong vòng riêng)
     if(!u || u.dead || !(u.hp>0) || !(u.burn>0)) continue;
@@ -22695,6 +22738,7 @@ function loop(){
       fighters.forEach(f=>f.update());
       _scFireTick();     // 🛵🔥 lửa vệt drift Scooter Cat
       _summonBurnTick(); // 🔥 quân triệu hồi bị đốt mất máu như meme thường
+      _darkTick();       // 🌑 khí đen hắc ám: mất máu liên tục (meme + quân triệu hồi)
       _holyTick();       // 👼 cột laze + lửa trắng của Holy Cat thiên thần
       _ldBloodTick();    // 🩸 máu văng từ cưa A Lotta Dame Guy
       _arWorldTick();    // 🐔 quân triệu hồi bị Arabic Cat hoá gà
@@ -22712,6 +22756,7 @@ function loop(){
   _scEchoDrawOver();   // 🌋 Scream Cat: sóng chấn động + đá văng + tiếng vọng (trên meme)
   _scHeadDraw();       // 😱 số dame lớn nhất + hiệu ứng nguy hiểm trên đầu Scream Cat
   _hmDrawOver();       // 🐹 vuốt tay bóng tối quặp ĐÈ lên con mồi đang bị cầm (cảm giác 3D) + bị nuốt chửng
+  _darkDraw();         // 🌑 khí đen hắc ám bao quanh nạn nhân
 
   // ===== GERMAN SOLDIERS update + draw =====
   for(let si=germanSoldiers.length-1; si>=0; si--){
@@ -23115,7 +23160,7 @@ function loop(){
         if(d<g.size+(target.size||0)){
           const _gAtk=g.owner||{team:g.team,x:g.x,y:g.y};
           target.takeDamage(_gDmg, _gAtk, false, true); // isBurn=true: dame theo thời gian, không tính là "1 đòn" riêng
-          if(g.color==='black'){ target.burn=240; target.burnTickCD=0; target._burnSrc=_gAtk; }
+          if(g.color==='black') _applyDark(target, _gAtk);   // 🌑 ma đen: nhiễm KHÍ ĐEN HẮC ÁM (thay cho đốt cháy)
           target._sdGhostDmgCD=30; // 0.5s — DÙNG CHUNG cho cả 2 màu ma, y hệt quy ước 1 field/nạn nhân của Wet Cat
           target.flash=12;
           if(isRealFighter){ target.actionState='hurt'; target.actionTimer=16; }
