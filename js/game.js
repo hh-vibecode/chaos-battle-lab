@@ -4051,21 +4051,45 @@ function _saSteer(f, top){
   f.vx+=(dx/d*sp-f.vx)*0.14; f.vy+=(dy/d*sp-f.vy)*0.14;
   const v=Math.hypot(f.vx,f.vy); if(v>0.05) f._lastAngle=Math.atan2(f.vy,f.vx);
 }
-// 🌌 TRỌNG LỰC ÁP LỰC kiểu anime: sàn sẫm lại, vệt áp lực đổ dồn thẳng xuống (càng tự mãn càng dày, càng nhanh);
-//    dưới chân MỖI địch (cả quân triệu hồi): hố lõm tối loang rộng + vết nứt toả ra + vòng sóng áp lực dội ra từ chân + bụi đá
-//    bắn lên. Thân địch bị ép bẹp dần xuống đất (xem hook scaleX/scaleY trong Fighter.draw).
+// 🌌 ÁP LỰC kiểu "nhân vật mạnh" trong anime (Haki / JoJo "ゴゴゴ"): sàn sẫm + tối dần mép; quanh Arbiter: hào quang tím
+//    đen bốc như lửa, sóng áp lực dội ra khắp sàn, sàn nứt toác dưới chân, đá vụn bay lơ lửng lên; tự mãn cao thì thêm đường
+//    tập trung (集中線) chĩa vào nó. Dưới chân MỖI địch (cả quân triệu hồi): hố lõm + nứt + vòng áp lực + bụi; thân bị ép bẹp
+//    xuống đất (hook scaleX/scaleY trong Fighter.draw). Chữ "ゴゴゴ" vẽ ĐÈ lên trên ở _saDrawOver.
 function _saDrawGravity(){
   let g=0; for(const f of fighters) if(f.type==='supremearbiter' && !f.dead) g=Math.max(g,_saG(f));
   if(g<0.03) return;
   ctx.save(); ctx.beginPath(); ctx.rect(0,0,W,H); ctx.clip();   // chỉ trong lòng sàn
-  ctx.fillStyle=`rgba(22,6,34,${0.26*g})`; ctx.fillRect(0,0,W,H);
-  ctx.lineCap='round';
-  const n=Math.round(14+46*g), sp=12+22*g;
-  for(let i=0;i<n;i++){ const hx=_hmHash(i,3.3), hy=_hmHash(i,7.7), x=hx*W, len=18+50*g*_hmHash(i,1.9), y=((hy*H+tick*sp*(0.7+0.6*_hmHash(i,5.1)))%(H+len))-len, w=1.5+4*g*_hmHash(i,2.2);
-    ctx.lineWidth=w; ctx.strokeStyle=`rgba(14,0,24,${0.28+0.32*g})`; ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x,y+len); ctx.stroke();
-    ctx.lineWidth=Math.max(0.8,w*0.3); ctx.strokeStyle=`rgba(215,180,255,${0.22*g})`; ctx.beginPath(); ctx.moveTo(x+w*0.5,y+len*0.2); ctx.lineTo(x+w*0.5,y+len); ctx.stroke(); }
-  for(const f of fighters){ if(f.type!=='supremearbiter' || f.dead) continue;
-    for(const u of _saFoes(f)) _saDrawPressed(u,_saG(f)); }
+  ctx.fillStyle=`rgba(22,6,34,${0.24*g})`; ctx.fillRect(0,0,W,H);
+  { const vg=ctx.createRadialGradient(W/2,H/2,Math.min(W,H)*0.3,W/2,H/2,Math.max(W,H)*0.75);   // tối dần mép
+    vg.addColorStop(0,'rgba(8,0,16,0)'); vg.addColorStop(1,`rgba(8,0,16,${0.5*g})`); ctx.fillStyle=vg; ctx.fillRect(0,0,W,H); }
+  for(const f of fighters){ if(f.type!=='supremearbiter' || f.dead) continue; const gf=_saG(f); if(gf<0.03) continue;
+    const R=f.size, cx=f.x, fy=f.y+R*0.9;
+    // 集中線: nêm đen mảnh từ ngoài mép chĩa vào Arbiter (đổi mỗi 3 tick cho có cảm giác giật)
+    if(gf>0.45){ const fa=(gf-0.45)/0.55, seed=Math.floor(tick/3), far=Math.max(W,H)*1.2;
+      ctx.fillStyle=`rgba(6,0,12,${0.35*fa})`;
+      for(let k=0;k<44;k++){ const a=k/44*Math.PI*2+(_hmHash(k,seed)-0.5)*0.12, near=R*(3.2+2.5*_hmHash(k+50,seed)), w=0.012+0.02*_hmHash(k+90,seed);
+        ctx.beginPath(); ctx.moveTo(cx+Math.cos(a)*near, f.y+Math.sin(a)*near); ctx.lineTo(cx+Math.cos(a-w)*far, f.y+Math.sin(a-w)*far); ctx.lineTo(cx+Math.cos(a+w)*far, f.y+Math.sin(a+w)*far); ctx.closePath(); ctx.fill(); } }
+    // sóng áp lực dội ra khắp sàn
+    for(let k=0;k<3;k++){ const ph=((tick+k*22)%66)/66, rr=R*(0.8+11*ph);
+      ctx.strokeStyle=`rgba(225,195,255,${(1-ph)*0.55*gf})`; ctx.lineWidth=3.2*(1-ph)+0.8;
+      ctx.beginPath(); ctx.ellipse(cx,fy,rr,rr*0.42,0,0,Math.PI*2); ctx.stroke();
+      ctx.strokeStyle=`rgba(40,0,70,${(1-ph)*0.35*gf})`; ctx.lineWidth=6*(1-ph)+1;
+      ctx.beginPath(); ctx.ellipse(cx,fy,rr*0.96,rr*0.4,0,0,Math.PI*2); ctx.stroke(); }
+    // sàn nứt toác dưới chân nó
+    ctx.strokeStyle=`rgba(10,2,18,${0.8*gf})`; ctx.lineWidth=1.8;
+    for(let k=0;k<11;k++){ const a=k/11*Math.PI*2+_hmHash(k,7.3)*0.5, L=R*(1+4.5*gf)*(0.55+0.45*_hmHash(k+20,7.3));
+      ctx.beginPath(); ctx.moveTo(cx,fy); for(let q=1;q<=5;q++){ const t=q/5, jj=(_hmHash(k*9+q,7.3)-0.5)*0.55; ctx.lineTo(cx+Math.cos(a+jj)*L*t, fy+Math.sin(a+jj)*L*t*0.4); } ctx.stroke(); }
+    // hào quang tím đen bốc lên như lửa (sau lưng nó)
+    { const gl=ctx.createRadialGradient(cx,f.y,0,cx,f.y,R*(1.6+1.2*gf)); gl.addColorStop(0,`rgba(140,60,230,${0.28*gf})`); gl.addColorStop(1,'rgba(60,0,110,0)');
+      ctx.fillStyle=gl; ctx.beginPath(); ctx.arc(cx,f.y,R*(1.6+1.2*gf),0,Math.PI*2); ctx.fill(); }
+    for(let k=0;k<11;k++){ const ox=(k/10-0.5)*R*1.7, h=R*(1.3+1.8*gf)*(0.55+0.45*Math.sin(tick*0.32+k*1.9)), w=R*(0.2+0.12*_hmHash(k,4.4)), sway=Math.sin(tick*0.12+k)*R*0.25;
+      const x0=cx+ox, y0=fy, gr=ctx.createLinearGradient(x0,y0,x0,y0-h); gr.addColorStop(0,`rgba(30,0,50,${0.6*gf})`); gr.addColorStop(0.6,`rgba(110,40,200,${0.35*gf})`); gr.addColorStop(1,'rgba(160,90,255,0)');
+      ctx.fillStyle=gr; ctx.beginPath(); ctx.moveTo(x0-w,y0); ctx.quadraticCurveTo(x0-w*0.6+sway*0.4,y0-h*0.55,x0+sway,y0-h); ctx.quadraticCurveTo(x0+w*0.6+sway*0.4,y0-h*0.55,x0+w,y0); ctx.closePath(); ctx.fill(); }
+    // đá vụn bay lơ lửng lên quanh nó
+    for(let k=0;k<Math.round(4+10*gf);k++){ const ph=((tick*0.008+_hmHash(k,2.7))%1), x=cx+(_hmHash(k+5,2.7)-0.5)*R*4.2, y=fy-ph*R*(2.5+1.5*gf)+Math.sin(tick*0.05+k)*2, sz=1.6+3.4*_hmHash(k+11,2.7);
+      ctx.save(); ctx.translate(x,y); ctx.rotate(tick*0.03+k); ctx.globalAlpha=Math.min(1,(1-ph)*1.6)*gf; ctx.fillStyle='#2a1f2e';
+      ctx.beginPath(); ctx.moveTo(-sz,-sz*0.5); ctx.lineTo(sz*0.3,-sz); ctx.lineTo(sz,sz*0.2); ctx.lineTo(-sz*0.2,sz*0.8); ctx.closePath(); ctx.fill(); ctx.restore(); }
+    for(const u of _saFoes(f)) _saDrawPressed(u,gf); }
   ctx.restore();
 }
 function _saDrawPressed(u,g){
@@ -4094,6 +4118,17 @@ function _saDrawPressed(u,g){
 function _saDrawOver(){
   for(const f of fighters){ if(f.type!=='supremearbiter' || f.dead || saWin) continue;
     const g=_saG(f), w=f.size*1.7, h=5, x=f.x-w/2, y=f.y+f.size*1.12;
+    // 「ゴゴゴゴ」 kiểu JoJo trôi quanh người (tự mãn từ 25% trở lên mới hiện, càng cao càng nhiều)
+    if(g>0.25){ const n=Math.min(4,1+Math.floor((g-0.25)/0.19)), P=[[-1.5,-0.9],[1.45,-0.4],[-1.35,0.55],[1.5,0.95]];
+      ctx.save(); ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.lineJoin='round';
+      for(let k=0;k<n;k++){ const ph=tick*0.05+k*1.7, sc=1+0.08*Math.sin(ph*2), fs=Math.round(f.size*0.42*sc);
+        const gx=f.x+P[k][0]*f.size+Math.sin(ph)*3, gy=f.y+P[k][1]*f.size+Math.cos(ph*0.8)*2;
+        ctx.globalAlpha=Math.min(1,(g-0.25)*3)*(0.75+0.25*Math.sin(ph*3));
+        ctx.font=`900 ${fs}px "Hiragino Kaku Gothic Pro","Yu Gothic","Noto Sans JP","Meiryo",sans-serif`;
+        ctx.save(); ctx.translate(gx,gy); ctx.rotate((k%2?0.18:-0.18)); ctx.transform(1,0,-0.2,1,0,0);
+        ctx.lineWidth=fs*0.22; ctx.strokeStyle='#14001f'; ctx.strokeText('ゴゴゴ',0,0);
+        ctx.fillStyle='#b26bff'; ctx.fillText('ゴゴゴ',0,0); ctx.restore(); }
+      ctx.restore(); }
     ctx.save(); ctx.globalAlpha=0.92;
     ctx.fillStyle='rgba(10,8,20,0.75)'; ctx.fillRect(x-1,y-1,w+2,h+2);
     const gr=ctx.createLinearGradient(x,0,x+w,0); gr.addColorStop(0,'#ffd36b'); gr.addColorStop(1,'#ff8f3a');
