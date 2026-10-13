@@ -4032,17 +4032,23 @@ const HM_POUNCE_DMG=200, HM_WIND_T=22, HM_STRIKE_T=7, HM_DRAG_T=48, HM_STUN_T=60
 const HM_SQZ_DMG=80, HM_SQZ_T=12+30*3, HM_FIST_DMG=180, HM_FIST_STRIKE_T=5, HM_FIST_STUN_T=90, HM_FIST_HOLD_T=16;
 const HM_KINDS=['pounce','squeeze','fist'];
 let hmShadows=[];
-// 🖼️ bộ ảnh Scared Hamster (user gửi, đã tách nền xanh): sợ hãi cầm thánh giá (lúc nép góc / bị nuốt) + 4 dáng chạy
-const HM_IMG={}; for(const k of ['SCARED','FRONT','SIDE1','SIDE2','BACK']){ HM_IMG[k]=new Image(); HM_IMG[k].src='assets/img/scaredhamster/HM_'+k+'.webp'; }
-// chọn dáng theo hướng đang chạy: ngang → 2 khung chạy ngang luân phiên (lật theo hướng, ảnh gốc quay PHẢI),
-// đi xuống → mặt trước, đi lên → sau lưng; nép góc / bị nuốt → dáng sợ hãi
+// 🖼️ bộ ảnh Scared Hamster (user gửi, đã tách nền xanh): sợ hãi cầm thánh giá (lúc nép góc / bị nuốt)
+//    + 10 khung CHẠY nhìn ngang (quay PHẢI; đã căn cùng khổ, cùng trọng tâm để chạy không giật)
+const HM_IMG={}; for(const k of ['SCARED']){ HM_IMG[k]=new Image(); HM_IMG[k].src='assets/img/scaredhamster/HM_'+k+'.webp'; }
+const HM_RUN=[]; for(let i=0;i<10;i++){ const im=new Image(); im.src='assets/img/scaredhamster/HM_RUN'+i+'.webp'; HM_RUN.push(im); }
+// chọn dáng: nép góc / bị nuốt / còn bóng tối → sợ hãi; còn lại → chu kỳ chạy 10 khung, nhịp theo QUÃNG ĐƯỜNG
+// đi được (chạy nhanh thì chân guồng nhanh), lật theo hướng ngang (đi dọc thì giữ hướng mặt cũ)
 function _hmPose(f){
   if(f._hmPoseT===tick && f._hmPoseC) return f._hmPoseC;
-  let img, flip=false;
+  let img;
   const vx=f.vx||0, vy=f.vy||0;
   if((f._hmLeanT||0)>0 || (f._hmSwallowT||0)>0 || hmShadows.some(sh=>sh.owner===f)) img=HM_IMG.SCARED;
-  else if(Math.abs(vx)>=Math.abs(vy)*0.8){ img=(Math.floor(tick/7)%2)?HM_IMG.SIDE2:HM_IMG.SIDE1; flip=vx<0; }
-  else img = vy>0 ? HM_IMG.FRONT : HM_IMG.BACK;
+  else {
+    if(f._hmPoseT!==undefined && tick>f._hmPoseT) f._hmRunPh=((f._hmRunPh||0)+Math.max(0.12,Math.hypot(vx,vy)*0.09)*(tick-f._hmPoseT))%10;
+    if(Math.abs(vx)>0.05) f._hmFaceL=vx<0;
+    img=HM_RUN[Math.floor(f._hmRunPh||0)%10];
+  }
+  const flip=img===HM_IMG.SCARED?false:!!f._hmFaceL;
   f._hmPoseT=tick; f._hmPoseC={img:(img.complete&&img.naturalWidth)?img:null, flip};
   return f._hmPoseC;
 }
