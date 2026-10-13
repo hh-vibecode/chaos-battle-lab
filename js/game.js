@@ -4059,8 +4059,9 @@ function _hmSpawnShadow(f){
   const S={owner:f, t:0, hit:new Set(), dying:0, seed:Math.random()*9, act:null};
   const X=f.x<W/2?W:0, Y=f.y<H/2?H:0, jx=(Math.random()-0.5)*0.2, jy=(Math.random()-0.5)*0.2;
   const A=[{ax:X, ay:H*(0.5+jy), nx:X?-1:1, ny:0, ph:0}, {ax:W*(0.5+jx), ay:Y, nx:0, ny:Y?-1:1, ph:1.7}];
-  S.hands=A.map((h,i)=>{ const d=Math.hypot(f.x-h.ax,f.y-h.ay);
-    return {...h, mir:i?-1:1, tx:h.ax, ty:h.ay, hx:h.nx, hy:h.ny, trail:[{x:h.ax,y:h.ay}], close:0, spd:d*1.15/(HM_REACH_T-37)}; });
+  // lòng bàn tay (phía ngón quặp vào) hướng VÀO TRONG — về phía hamster/bên trong đường cong tay bò; 2 tay ra 2 hướng nên tự thành 1 trái 1 phải
+  S.hands=A.map((h,i)=>{ const d=Math.hypot(f.x-h.ax,f.y-h.ay), side=(-h.ny)*(f.x-h.ax)+h.nx*(f.y-h.ay);
+    return {...h, mir:side>=0?1:-1, tx:h.ax, ty:h.ay, hx:h.nx, hy:h.ny, trail:[{x:h.ax,y:h.ay}], close:0, spd:d*1.15/(HM_REACH_T-37)}; });
   hmShadows.push(S);
 }
 function _hmHold(u,x,y){ u.x=x; u.y=y; u.vx=0; u.vy=0; if(u.stun!==undefined) u.stun=Math.max(u.stun||0,2); }
@@ -4247,7 +4248,7 @@ function _hmSmokeBlob(x,y,r,a){ const g=ctx.createRadialGradient(x,y,0,x,y,r); g
 const HM_HAND_META={"crawlA": {"w": 391, "h": 204, "wy": 74.0, "ww": 90.0}, "crawlB": {"w": 333, "h": 203, "wy": 85.0, "ww": 86.0}, "lunge": {"w": 382, "h": 315, "wy": 167.0, "ww": 90.0}, "closing": {"w": 333, "h": 238, "wy": 107.5, "ww": 91.0}, "fist": {"w": 321, "h": 192, "wy": 103.5, "ww": 91.0, "fo": 205}, "throw": {"w": 385, "h": 320, "wy": 145.0, "ww": 88.0}, "slap": {"w": 372, "h": 178, "wy": 92.0, "ww": 92.0}, "retreat": {"w": 339, "h": 230, "wy": 90.0, "ww": 84.0}, "grip": {"w": 333, "h": 238, "wy": 107.5, "ww": 91.0, "bx": 189.5, "by": 148.0, "brx": 65.5, "bry": 56.0}, "squeeze": {"w": 308, "h": 225, "wy": 106.0, "ww": 90.0, "bx": 201.5, "by": 145.5, "brx": 42.5, "bry": 45.5}};
 const HM_HAND_IMG={};
 for(const k of ['crawlA','crawlB','lunge','closing','grip','squeeze','fist','throw','slap','retreat']){ HM_HAND_IMG[k]=new Image(); HM_HAND_IMG[k].src='assets/img/scaredhamster/HAND_'+k+'.webp'; }
-function _hmHandK(S){ return 0.45*((S.owner?S.owner.size:40)/40); }   // tỉ lệ ảnh → sân (tay dài ~4.4× size hamster)
+function _hmHandK(S){ return 0.495*((S.owner?S.owner.size:40)/40); }   // tỉ lệ ảnh → sân (tay dài ~4.4× size hamster)
 // tư thế tay: theo pha đòn vồ (h.pose) / rụt về / sắp chạm địch thì xoè vuốt / còn lại bò 2 khung luân phiên
 function _hmPoseFor(S,h){
   if(S.retract) return 'retreat';
