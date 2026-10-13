@@ -23341,28 +23341,28 @@ function loop(){
     ctx.restore();
     // mặt ma (trong mũ trùm, ~0.34 chiều cao phía trên tâm) — luồng hồn PHÁT RA/HÚT VỀ đúng chỗ này, vẽ SAU thân ma để thấy rõ từ mặt
     const _gFaceX=g.x+0.34*_gPx*Math.sin(_gSway), _gFaceY=g.y+_gBob-0.34*_gPx*Math.cos(_gSway);
-    // 👻 LUỒNG HỒN bị hút: các làn hồn trắng xanh trôi theo đường cong lượn từ ngực nạn nhân vào mũ trùm của ma
-    //    + 1 bóng mờ của chính nạn nhân bị kéo giãn ra khỏi thân về phía ma (hồn đang lìa xác)
-    if(g.color==='black' && (g._frost||0)>0.01 && g._frostX!==undefined){   // ❄️ băng giá loang trên sàn quanh nạn nhân (như lúc Giám Ngục tới gần)
-      const fr=g._frost, cx=g._frostX, cy=g._frostY, Rr=60*fr;
-      ctx.save(); ctx.globalAlpha=0.55*fr; ctx.strokeStyle='rgba(225,240,255,0.9)'; ctx.lineCap='round';
-      for(let k=0;k<14;k++){ const an=k/14*Math.PI*2+_hmN(k,3)*0.3, L=Rr*(0.6+0.4*Math.abs(_hmN(k,7))*2);
-        const x1=cx+Math.cos(an)*L, y1=cy+Math.sin(an)*L*0.6;
-        ctx.lineWidth=1.6; ctx.beginPath(); ctx.moveTo(cx+Math.cos(an)*L*0.25,cy+Math.sin(an)*L*0.15); ctx.lineTo(x1,y1); ctx.stroke();
-        ctx.lineWidth=1; for(const sd of [-1,1]){ ctx.beginPath(); ctx.moveTo(cx+Math.cos(an)*L*0.65,cy+Math.sin(an)*L*0.39); ctx.lineTo(cx+Math.cos(an)*L*0.65+Math.cos(an+sd*0.7)*L*0.22, cy+Math.sin(an)*L*0.39+Math.sin(an+sd*0.7)*L*0.13); ctx.stroke(); } }
-      const fg=ctx.createRadialGradient(cx,cy,0,cx,cy,Rr); fg.addColorStop(0,'rgba(210,235,255,0.35)'); fg.addColorStop(1,'rgba(210,235,255,0)');
-      ctx.fillStyle=fg; ctx.beginPath(); ctx.ellipse(cx,cy,Rr,Rr*0.6,0,0,Math.PI*2); ctx.fill(); ctx.restore(); }
     if(g.color==='black' && g._suck && !g._suck.dead){
-      const u=g._suck, sx=u.x, sy=u.y-(u.size||20)*0.45, ex=_gFaceX, ey=_gFaceY, mx=(sx+ex)/2+(ey-sy)*0.18*Math.sin(tick*0.07), my=(sy+ey)/2-(ex-sx)*0.18*Math.sin(tick*0.07);
-      const B=(k)=>({x:(1-k)*(1-k)*sx+2*(1-k)*k*mx+k*k*ex, y:(1-k)*(1-k)*sy+2*(1-k)*k*my+k*k*ey});
-      ctx.save(); ctx.globalCompositeOperation='lighter';
-      const L=u._lastSprite;
-      ctx.lineCap='round';
-      for(let j=0;j<3;j++){ ctx.beginPath(); for(let i=0;i<=14;i++){ const k=i/14, P=B(k), o=Math.sin(k*9-tick*0.25+j*2.1)*(1-k)*7; i?ctx.lineTo(P.x+o,P.y-o*0.5):ctx.moveTo(P.x+o,P.y-o*0.5); }
-        ctx.strokeStyle=`rgba(190,225,255,${0.12-j*0.03})`; ctx.lineWidth=3.2-j*0.9; ctx.stroke(); }   // tia hút mảnh & nhạt
-      for(let j=0;j<5;j++){ const k=((tick*0.025+j/5)%1), P=B(k), r=(1-k)*3+1, o=Math.sin(k*9-tick*0.25+j)*(1-k)*5;
-        const sg=ctx.createRadialGradient(P.x+o,P.y,0,P.x+o,P.y,r*2.2); sg.addColorStop(0,`rgba(235,248,255,${0.4*(1-k*0.6)})`); sg.addColorStop(1,'rgba(170,210,255,0)');
-        ctx.fillStyle=sg; ctx.beginPath(); ctx.arc(P.x+o,P.y,r*2.2,0,Math.PI*2); ctx.fill(); }
+      // 🌫️ LUỒNG HỒN bị hút (theo cảnh Giám Ngục hút Harry): làn KHÓI mỏng trắng xám mờ ảo thoát ra từ MIỆNG nạn nhân,
+      //    xoè rộng ở phía nạn nhân rồi lượn sóng, chụm dần vào mũ trùm của ma — mềm, nhạt, không phải tia sáng rực.
+      const u=g._suck, R=(u.size||20), sx=u.x+(g.x>=u.x?1:-1)*R*0.12, sy=u.y-R*0.12, ex=_gFaceX, ey=_gFaceY;
+      const dx=ex-sx, dy=ey-sy, dl=Math.hypot(dx,dy)||1, nx=-dy/dl, ny=dx/dl, bend=Math.sin(tick*0.045)*dl*0.12;
+      const B=(q)=>{ const b=Math.sin(Math.PI*q)*bend; return {x:sx+dx*q+nx*b, y:sy+dy*q+ny*b}; };
+      ctx.save(); ctx.lineCap='round';
+      for(let w=0;w<5;w++){ const fan=(w-2)/2, ph=w*1.7;
+        let prev=null;
+        for(let i=0;i<=22;i++){ const q=i/22, P=B(q), sp=(1-q);
+          const o=fan*R*0.45*Math.pow(sp,1.3) + Math.sin(q*7.5-tick*0.16+ph)*R*0.22*sp*(0.4+0.6*q*4*sp);
+          const pt={x:P.x+nx*o, y:P.y+ny*o};
+          if(prev){ const fade=Math.sin(Math.PI*Math.min(1,q*1.15))*(1-0.5*q);
+            for(const [lw,al] of [[R*0.42,0.045],[R*0.2,0.075],[R*0.06,0.17]]){
+              ctx.strokeStyle=`rgba(214,224,236,${(al*fade).toFixed(3)})`; ctx.lineWidth=lw*(0.45+0.55*sp);
+              ctx.beginPath(); ctx.moveTo(prev.x,prev.y); ctx.lineTo(pt.x,pt.y); ctx.stroke(); } }
+          prev=pt; } }
+      // vài cụm khói nhỏ trôi theo luồng vào mũ trùm
+      for(let j=0;j<6;j++){ const q=((tick*0.012+j/6)%1), P=B(q), r=R*(0.32*(1-q)+0.08), o=Math.sin(q*7.5-tick*0.16+j*1.3)*R*0.18*(1-q);
+        const X=P.x+nx*o, Y=P.y+ny*o, sg=ctx.createRadialGradient(X,Y,0,X,Y,r);
+        sg.addColorStop(0,`rgba(225,232,242,${(0.12*Math.sin(Math.PI*q)).toFixed(3)})`); sg.addColorStop(1,'rgba(225,232,242,0)');
+        ctx.fillStyle=sg; ctx.beginPath(); ctx.arc(X,Y,r,0,Math.PI*2); ctx.fill(); }
       ctx.restore();
     }
   }
