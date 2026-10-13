@@ -786,7 +786,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     clappingcat: { key:'clappingcat', defaultName:'Clapping Cat', emoji:'👏', color:'#ffb74d', hp:1000, speed:5, size:48.4, skill:'Có nó trong trận thì tường dưới mọc chông và có 1 quả bóng chông lăn qua lại — đâm vào chông hay bóng chông đều mất máu. Sắp lao vào chông thì nó vỗ tay đổi chỗ với địch, để địch lãnh thay. Càng lâu không chạm tường càng chạy nhanh.' },
     evilgary: { key:'evilgary', defaultName:'Evil Gary', emoji:'😈', color:'#b71c1c', hp:1000, speed:5, size:44, skill:'Đầu trận chỉ là con mèo xám ngồi im HÚT LINH HỒN: cứ mỗi giây 1 linh hồn khói đen từ góc xa nhất ngoài sân bay thẳng vào người nó (ai đứng chắn đường ăn 50 dame), mỗi linh hồn hút được vạch thêm 1 cánh ngôi sao ác quỷ trên đầu. Đủ 5 cánh: con quỷ đã nhập hiện lên sau lưng, sàn hoá CÕI LINH HỒN — khói ma lướt ngang sân, và cứ 5s một bầy linh hồn bò từ 4 góc tới bám địch (mỗi đợt đông hơn), bám được là gây dame và gieo độc vĩnh viễn, cộng dồn không giới hạn.' },
     mosquitoviolin: { key:'mosquitoviolin', defaultName:'Mosquito Violin', emoji:'🦟', color:'#ff5252', hp:1000, speed:5, size:34, skill:'Vào trận chưa nối được dây thì +20% tốc chạy và vo ve liên tục. LẦN ĐẦU chạm vào một kẻ địch, nó cắm một sợi dây mảnh vào con đó SUỐT TRẬN (chạm được bao nhiêu con thì nối bấy nhiêu dây). Nối được dây đầu tiên là bắt đầu kéo violin: mỗi nhịp của bài nhạc, một xung âm hình nhịp tim chạy dọc dây và nổ vào kẻ địch gây sát thương. Tần suất sát thương chính là nhịp của bài hát.' },
-    scaredhamster: { key:'scaredhamster', defaultName:'Scared Hamster', emoji:'🐹', color:'#c8a27a', hp:1000, speed:5, size:40, skill:'Không tự đánh — chỉ bò khắp sàn. Bò vào gần góc sàn thì dựa sát góc tường run rẩy sợ hãi, đứng yên tới khi bóng tối đi mất hẳn rồi bò tiếp (mỗi lần nép góc chỉ 1 lượt tay); từ góc xa nhất 2 bàn tay bóng tối móng dài từ từ vươn ra lần theo nó (không ai cản thì ~5s tới nơi, bóng tồn tại 6s). Tay vớ được địch chắn đường thì ngẫu nhiên: tung ngang qua tay kia rồi bóp ngang giữ méo móp 1.5s (80 dmg mỗi 0.5s), tóm nhấc bổng rồi vung quăng vào góc sàn xa nhất (trừ góc hamster đang nép, 200 dmg) hoặc giữ lại cho 2 tay đập vào nhau (200 dmg), xong thì 2 tay rụt về tường. Tay chạm được hamster thì nó cũng bị xử y như vậy (cùng mức dame).' },
+    scaredhamster: { key:'scaredhamster', defaultName:'Scared Hamster', emoji:'🐹', color:'#c8a27a', hp:1000, speed:5, size:40, skill:'Không tự đánh — chỉ bò khắp sàn. Bò vào gần góc sàn thì dựa sát góc tường run rẩy sợ hãi, đứng yên tới khi bóng tối đi mất hẳn rồi bò tiếp (mỗi lần nép góc chỉ 1 lượt tay); từ góc xa nhất 2 bàn tay bóng tối móng dài từ từ vươn ra lần theo nó (không ai cản thì ~5s tới nơi, bóng tồn tại 6s). Tay vớ được địch chắn đường thì ngẫu nhiên: bóp chặt ngang người giữ méo móp 1.5s (80 dmg mỗi 0.5s), tóm nhấc bổng rồi vung đập mạnh vào tường ở góc sàn xa nhất (trừ góc hamster đang nép, 200 dmg) hoặc tung ngang qua tay kia rồi tay kia bóp mạnh tiếp (80 dmg mỗi 0.5s trong 1.5s), xong thì 2 tay rụt về tường. Tay chạm được hamster thì nó cũng bị xử y như vậy (cùng mức dame).' },
     infinitydoge: { key:'infinitydoge', defaultName:'Infinity Doge', emoji:'🐕', color:'#ffb74d', hp:1000, speed:5, size:46, skill:'Bắt đầu 1 thân 1000 máu. Cứ mỗi lần một thân tụt xuống dưới 50% máu, thân đó PHÂN ĐÔI thành 2 thân nhỏ hơn 30% với máu tối đa bằng một nửa — các mốc 1000 → 500 → 250 → 125 → 50 (nấc cuối chốt 50 chứ không chia đôi tiếp). Thân 50 máu là mốc cuối, chết là chết luôn. Không có đòn đánh riêng: mọi thân gây 60 dame mỗi khi VA vào địch. Các thân tách ra tính như meme bình thường (di chuyển, nhận dame, dính hiệu ứng). Cả đàn chết sạch thì mới thua.' },
     cryingcat: { key:'cryingcat', defaultName:'Crying Cat Team', emoji:'😿', color:'#4fc3f7', hp:350, speed:5, size:32.5, skill:'Một đội 3 con mèo khóc, tính chung là 1 meme. Mỗi con 350 máu, di chuyển và đánh như meme thường. Mỗi con chạm vào địch gây 40 sát thương (mỗi con hồi chiêu riêng 0.8s). Giữa 3 con luôn có LIÊN KẾT NƯỚC MẮT nối với nhau: địch chạm/đi qua sợi liên kết mất 50 máu mỗi 0.5s và bị làm chậm. Mỗi lần 2 con trong đội va vào nhau, cả hai được hồi 25 máu. Mỗi con gục thì mấy con còn lại +20% size và +300 máu tối đa. Con cuối cùng còn 1 mình chuyển hẳn sang chiêu NỐI NƯỚC MẮT: cứ 2s nối 1 sợi với địch gần nhất, dính 3s, gây 25 sát thương mỗi 0.5s. Cả đội chỉ chết khi cả 3 con đều gục.' },
     calmdog: { key:'calmdog', defaultName:'Calm Dog', emoji:'🐕', color:'#546e7a', hp:1000, speed:5, size:40, skill:'Là quả bom hẹn giờ — vào trận có đồng hồ đếm ngược 13s, thể hiện qua 5 tấm hình NGẨNG ĐẦU tăng dần (mỗi ~2.6s đổi 1 hình, hình cuối là lúc há mồm chuẩn bị hú) thay vì số đếm. Mỗi 100 dame nhận vào, đồng hồ trôi nhanh thêm 1s. Về 0: hú vang gây 500 dame CHUẨN cho mọi địch trong tầm nổ — chỉ dùng được đúng 1 LẦN CẢ TRẬN. Ngoài ra không có đòn đánh nào khác, chỉ di chuyển né tránh bình thường.' },
@@ -4006,7 +4006,7 @@ function _scEchoDrawOver(){
 // Bò khắp sàn (đi thẳng, dội tường như The Unknown Guy — không tự đánh ai). Bò vào GẦN GÓC SÀN → dựa sát vào góc tường
 // run rẩy sợ hãi (HM_LEAN_T), đồng thời từ GÓC XA NHẤT 2 BÀN TAY BÓNG TỐI móng dài (vẽ kiểu bóng Don't Starve) vươn
 // TỪ TỪ ra rồi lần theo con hamster (không ai cản thì ~5s là tới). Tay vớ được meme/quân triệu hồi ĐỊCH chắn đường thì
-// xử nó theo 1 trong 3 kiểu (bóp nát / quật vào tường / 2 tay đập vào nhau) rồi RỤT về tường luôn. Bóng sống 6s; chạm được
+// xử nó theo 1 trong 3 kiểu (bóp chặt ngang người / đập mạnh vào tường / chuyền qua tay kia bóp tiếp) rồi RỤT về tường luôn. Bóng sống 6s; chạm được
 // hamster thì nó cũng bị xử y như meme khác (cùng mức dame).
 const HM_LEAN_T=72, HM_CD=180, HM_SHADOW_LIFE=360, HM_REACH_T=300, HM_EMERGE=75, HM_SWALLOW_DMG=300, HM_SWALLOW_T=50;
 // ⏱️ bóng sống 6s (HM_SHADOW_LIFE); không ai cản đường thì tay mất ĐÚNG ~5s (HM_REACH_T) để chạm tới hamster:
@@ -4014,7 +4014,7 @@ const HM_LEAN_T=72, HM_CD=180, HM_SHADOW_LIFE=360, HM_REACH_T=300, HM_EMERGE=75,
 // 🤜 3 kiểu TƯƠNG TÁC khi tay bắt được meme/quân triệu hồi địch chắn đường (ngẫu nhiên, mỗi con 1 lần/bóng):
 //    'squeeze' tóm rồi TUNG qua tay kia như quả bóng, tay kia siết chặt bóp 3 nhịp · 'slam' tóm nhấc bổng rồi vung tay QUĂNG con mồi bay vào góc sàn xa nhất · 'clap' 1 tay giữ, tay kia lao tới đập 2 tay vào nhau
 const HM_SQUEEZE_DMG=80, HM_SLAM_DMG=200, HM_CLAP_DMG=200;   // squeeze: 3 nhịp × 80
-const HM_ACT_T={squeeze:152, slam:60, clap:56};   // slam: thời lượng thật tính theo quãng bay (A.T)
+const HM_ACT_T={crush:130, squeeze:152, slam:60, clap:56};   // slam: thời lượng thật tính theo quãng bay (A.T)
 let hmShadows=[];
 // 🖼️ bộ ảnh Scared Hamster (user gửi, đã tách nền xanh): sợ hãi cầm thánh giá (lúc nép góc / bị nuốt) + 4 dáng chạy
 const HM_IMG={}; for(const k of ['SCARED','FRONT','SIDE1','SIDE2','BACK']){ HM_IMG[k]=new Image(); HM_IMG[k].src='assets/img/scaredhamster/HM_'+k+'.webp'; }
@@ -4052,7 +4052,20 @@ function _hmActTick(S,f){
   if(!u || u.dead || (u.hp!==undefined && u.hp<=0)){ _hmEndAct(S); return; }
   const G=u._hmGrab||(u._hmGrab={sx:1,sy:1,lift:0});
   const ease=(a,b,k)=>a+(b-a)*k;
-  if(A.kind==='squeeze'){
+  if(A.kind==='crush'){
+    // ✊ BÓP CHẶT NGANG NGƯỜI: tay vòng ra bên hông con mồi, ôm ngang thân rồi siết — ép dẹp chiều ngang, phình dọc,
+    //    GIỮ méo móp 1.5s (run bần bật), mỗi 0.5s mất 80 máu; buông ra thì bật lại kiểu thạch
+    if(!A.side){ A.side={x:(h.tx<=u.x?1:-1), y:0}; A.dir=A.side; }   // nắm theo phương NGANG (lòng bàn tay ở hông bên phía tay tới)
+    _hmHold(u,A.gx,A.gy); h.grab=A;
+    const P=_hmPalmAt(A,u); h.tx+=(P.x-h.tx)*0.35; h.ty+=(P.y-h.ty)*0.35; h.hx=A.dir.x; h.hy=0;
+    let p=0;
+    if(A.t<=10){ h.close=A.t/10; }
+    else if(A.t<=20){ h.close=1; p=Math.pow((A.t-10)/10,2); }
+    else if(A.t<=110){ h.close=1; p=1+0.05*Math.sin(A.t*1.3);
+      if((A.t-20)%30===0 && A.t>20){ u.takeDamage(HM_SQUEEZE_DMG,u===f?null:f); addShake(7,6); spawnParticles(u.x,u.y,'#2a0a3a',10,false,true); } }
+    else { const q=(A.t-110)/18; h.close=Math.max(0,1-q*1.6); p=(1-q)*Math.cos(q*Math.PI*3)*0.55; }
+    G.ax=0; G.c=1-0.45*p; G.e=1+0.6*p; A.tight=Math.max(0,p);
+  } else if(A.kind==='squeeze'){
     // 🏐 TUNG NGANG qua tay kia rồi BÓP: tay 1 tóm → lấy đà → TUNG con mồi bay vòng cung (có trọng lực) NGANG sang tay 2 →
     //    tay 2 chụp lấy từ bên hông, BÓP NGANG thật mạnh: con mồi bị ép dẹp chiều ngang, phình dọc (giữ ~thể tích),
     //    GIỮ méo móp suốt 1.5s (run bần bật dưới lực bóp), mỗi 0.5s mất 80 máu; buông ra thì thân bật lại kiểu thạch.
@@ -4173,7 +4186,7 @@ function _hmTick(){
       const hi=S.hands.findIndex(h=>Math.hypot(u.x-h.tx,u.y-h.ty)<16+(u.size||20));
       if(hi<0) continue;
       S.hit.add(u);
-      const kind=['squeeze','slam','clap'][Math.floor(Math.random()*3)], h=S.hands[hi];
+      const kind=['crush','slam','squeeze'][Math.floor(Math.random()*3)], h=S.hands[hi];
       const A={kind,u,hi,t:0,gx:u.x,gy:u.y,dir:{x:h.hx,y:h.hy}};
       if(kind==='slam'){ const r=u.size||20, opts=[[r,u.y,u.x],[W-r,u.y,W-u.x],[u.x,r,u.y],[u.x,H-r,H-u.y]].sort((a,b)=>a[2]-b[2]);
         if(opts[0][2]<r*3.5){ A.wx=opts[0][0]; A.wy=opts[0][1]; }   // tường ở sát → đập vào tường
@@ -4183,7 +4196,7 @@ function _hmTick(){
     if(caught) continue;
     // 🐹 chạm tới CHÍNH hamster → bị xử y như meme khác (1 trong 3 kiểu tương tác, cùng mức dame) — không còn nuốt 300
     if(em>=0.6){ const hi=S.hands.findIndex(h=>Math.hypot(f.x-h.tx,f.y-h.ty)<16+f.size*0.7);
-      if(hi>=0){ const kind=['squeeze','slam','clap'][Math.floor(Math.random()*3)], h=S.hands[hi];
+      if(hi>=0){ const kind=['crush','slam','squeeze'][Math.floor(Math.random()*3)], h=S.hands[hi];
         S.act={kind,u:f,hi,t:0,gx:f.x,gy:f.y,dir:{x:h.hx,y:h.hy}}; f._hmLeanT=0; } }
   }
 }
@@ -9566,7 +9579,7 @@ const CHAR_BLURB = {
   clappingcat: "Spike walls and a rolling spike ball. Claps to swap places with you right before it hits them.",
   evilgary: "Sucks in five souls to complete the demon star over its head, then opens the soul realm: ghosts sweep the floor and ever-bigger swarms crawl out to poison you forever.",
   mosquitoviolin: "Touch it once and it strings you for the whole match, then plays violin damage down the wire on every beat.",
-  scaredhamster: "Never attacks — just wanders. Cornered, it cowers while two shadow hands crawl out of the far corner after it, crushing, slamming or clapping the first one in the way before pulling back. If they reach it, it gets the same treatment.",
+  scaredhamster: "Never attacks — just wanders. Cornered, it cowers while two shadow hands crawl out of the far corner after it, crushing, slamming or passing-and-squeezing the first one in the way before pulling back. If they reach it, it gets the same treatment.",
   infinitydoge: "Splits in two every time it drops below half health, down to 50 HP. Damages anything it bumps into.",
   cryingcat: "Three linked cats. The tear link between them burns and slows anything that touches it.",
   rubikcat: "Rolls a random cube face on a timer, each with a different effect. Collect all six and a black hole ends the match outright.",
