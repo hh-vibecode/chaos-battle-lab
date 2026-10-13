@@ -4435,33 +4435,33 @@ function _sdGhostReaper(px,t){
   for(let k=0;k<6;k++){ const ph=(t*0.014+k/6)%1, hx=-0.22+k*0.09, x=P(hx-0.08*ph+0.02*Math.sin(t*0.07+k)), y=P(0.4+0.28*ph), r=P(0.03+0.05*ph);
     const g=ctx.createRadialGradient(x,y,0,x,y,r); g.addColorStop(0,`rgba(20,16,16,${0.55*(1-ph)})`); g.addColorStop(1,'rgba(20,16,16,0)');
     ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); }
-  const cloak=()=>{ ctx.beginPath();
-    ctx.moveTo(0,P(-0.47));                                                                   // chóp mũ
-    ctx.quadraticCurveTo(P(0.1),P(-0.4),P(0.13),P(-0.29));                                    // mũ → vai phải (loe dần)
-    ctx.quadraticCurveTo(P(0.24),P(-0.33+(arm[1]+0.27)*0.5),P(arm[0]),P(arm[1]));             // cánh tay phải giơ lên — vẫy vẫy
-    ctx.quadraticCurveTo(P(0.38),P(0.04),P(0.31),P(0.34));                                    // sườn phải PHỒNG ra
-    [[0.24,0.41],[0.19,0.33],[0.1,0.52],[0.03,0.36],[-0.06,0.44],[-0.11,0.35],[-0.2,0.56],[-0.26,0.37]].forEach(([x,y],k)=>   // đáy rách: mũi dài đung đưa
-      ctx.lineTo(P(x+Math.sin(t*0.11+k)*0.015), P(y+(k%2===0?1:0.4)*Math.sin(t*0.17+k*1.3)*0.035)));
-    // bên trái: dải lửa cong, dài ngắn khác nhau, chếch lên-trái, phất phơ
-    const S=[[-0.28,0.28,-0.5,0.16],[-0.26,0.12,-0.6,-0.04],[-0.21,-0.02,-0.44,-0.18],[-0.15,-0.14,-0.3,-0.3]];
-    S.forEach(([bx,by,tx0,ty0],i)=>{
-      const st=1+0.14*Math.sin(t*0.09+i*1.1), tx=bx+(tx0-bx)*st, ty=by+(ty0-by)*st;   // dải áo co duỗi
-      const dx=tx-bx, dy=ty-by, L=Math.hypot(dx,dy), nx=-dy/L, ny=dx/L, A=0.06, f0=fl(i);
-      const Q=(u,o)=>[P(bx+dx*u+nx*o), P(by+dy*u+ny*o)+f0*u];                 // điểm dọc dải, lệch pháp tuyến o
-      const b2x=bx+0.03, b2y=by-0.1;
-      // mép dưới: uốn S rõ (lệch +A rồi −A) → mũi
-      { const c1=Q(0.33,A), c2=Q(0.66,-A); ctx.bezierCurveTo(c1[0],c1[1],c2[0],c2[1],P(tx)+f0*0.6,P(ty)+f0); }
-      // mép trên quay về: cùng nhịp S, giữa đường 1 vết khía TRÒN lõm vào
-      { const c1=Q(0.8,-A+0.03), n0=Q(0.55,-A*0.2+0.035), nk=Q(0.5,-A*0.2+0.005), n1=Q(0.45,-A*0.2+0.04);
-        ctx.quadraticCurveTo(c1[0],c1[1],n0[0],n0[1]); ctx.quadraticCurveTo(nk[0],nk[1],n1[0],n1[1]);
-        const c2=Q(0.2,A+0.05); ctx.quadraticCurveTo(c2[0],c2[1],P(b2x),P(b2y)); } });
-    ctx.quadraticCurveTo(P(-0.1),P(-0.3),P(-0.1),P(-0.35));
-    ctx.quadraticCurveTo(P(-0.07),P(-0.44),0,P(-0.47)); ctx.closePath(); };
-  ctx.save(); ctx.translate(P(0.016),P(0.016)); cloak(); ctx.fillStyle='#4e4e4e'; ctx.fill(); ctx.restore();   // viền xám lệch
-  cloak(); ctx.fillStyle='#0e0c0c'; ctx.fill();
+  // 🧥 ÁO CHOÀNG MỀM: viền là đường cong TRƠN (Catmull-Rom) đi qua các điểm mốc, cả áo bị "gió" uốn bằng sóng chạy dọc
+  //    thân — càng xuống dưới lệch càng nhiều và trễ pha hơn (vải phần dưới bay theo sau), gấu rách gợn sóng chạy ngang.
+  const wind=(x,y)=>{ const k=Math.max(0,Math.min(1,(y+0.3)/0.85));
+    return [x+k*(0.04*Math.sin(t*0.09-y*6)+0.022*Math.sin(t*0.155-y*11+x*3)),
+            y+(y>0.28?(0.035*Math.sin(t*0.12+x*10)+0.015*Math.sin(t*0.21-x*17)):0)]; };
+  const smooth=(pts)=>{ ctx.beginPath(); const n=pts.length;
+    for(let i=0;i<n;i++){ const p0=pts[(i-1+n)%n], p1=pts[i], p2=pts[(i+1)%n], p3=pts[(i+2)%n];
+      if(i===0) ctx.moveTo(P(p1[0]),P(p1[1]));
+      ctx.bezierCurveTo(P(p1[0]+(p2[0]-p0[0])/6),P(p1[1]+(p2[1]-p0[1])/6),P(p2[0]-(p3[0]-p1[0])/6),P(p2[1]-(p3[1]-p1[1])/6),P(p2[0]),P(p2[1])); }
+    ctx.closePath(); };
+  const KEY=[[0,-0.47],[0.09,-0.41],[0.13,-0.3],[0.21,-0.29+(arm[1]+0.27)*0.4],[arm[0],arm[1]],[0.36,-0.08],[0.34,0.14],[0.31,0.33],
+    [0.25,0.42],[0.2,0.35],[0.12,0.52],[0.05,0.38],[-0.04,0.47],[-0.1,0.37],[-0.19,0.57],[-0.25,0.39],
+    [-0.29,0.27],[-0.25,0.06],[-0.17,-0.15],[-0.11,-0.33],[-0.06,-0.44]];
+  const body=KEY.map(([x,y])=>wind(x,y));
+  // 🎐 dải áo phất phơ bên trái: dải lụa thon, sóng chạy dọc từ gốc ra mũi (đuôi lắc mạnh hơn gốc)
+  const ribbons=()=>{ [[-0.28,0.24,-0.5,0.14,0.11],[-0.26,0.1,-0.6,-0.05,0.1],[-0.21,-0.03,-0.45,-0.19,0.085],[-0.15,-0.15,-0.31,-0.31,0.07]].forEach(([bx,by,tx,ty,w0],i)=>{
+      const st=1+0.12*Math.sin(t*0.08+i*1.1), dx=(tx-bx)*st, dy=(ty-by)*st, L=Math.hypot(dx,dy), nx=-dy/L, ny=dx/L, N=12, Lp=[], Rp=[];
+      for(let j=0;j<=N;j++){ const u=j/N, wave=u*(0.06*Math.sin(t*0.14-u*4.5+i*1.7)+0.025*Math.sin(t*0.27-u*8+i)), w=w0*Math.pow(1-u,0.75)*0.5+0.002;
+        const [cx,cy]=wind(bx+dx*u+nx*wave, by+dy*u+ny*wave); Lp.push([cx+nx*w,cy+ny*w]); Rp.unshift([cx-nx*w,cy-ny*w]); }
+      smooth(Lp.concat(Rp)); ctx.fill(); }); };
+  const cloak=()=>{ smooth(body); };
+  ctx.save(); ctx.translate(P(0.016),P(0.016)); ctx.fillStyle='#4e4e4e'; ribbons(); cloak(); ctx.fill(); ctx.restore();   // viền xám lệch
+  ctx.fillStyle='#0e0c0c'; ribbons(); cloak(); ctx.fill();
   ctx.save(); cloak(); ctx.clip(); ctx.lineCap='round';
   for(const [x0,y0,x1,y1,w] of [[0.03,-0.2,0.07,0.36,0.009],[0.15,-0.14,0.2,0.28,0.007],[-0.08,-0.16,-0.12,0.32,0.008],[-0.2,0.02,-0.27,0.3,0.006]]){
-    ctx.strokeStyle='rgba(72,72,72,0.75)'; ctx.lineWidth=P(w); ctx.beginPath(); ctx.moveTo(P(x0),P(y0)); ctx.quadraticCurveTo(P((x0+x1)/2+0.025),P((y0+y1)/2),P(x1),P(y1)); ctx.stroke(); }
+    const A0=wind(x0,y0), A1=wind(x1,y1), M=wind((x0+x1)/2+0.025,(y0+y1)/2);
+    ctx.strokeStyle='rgba(72,72,72,0.75)'; ctx.lineWidth=P(w); ctx.beginPath(); ctx.moveTo(P(A0[0]),P(A0[1])); ctx.quadraticCurveTo(P(M[0]),P(M[1]),P(A1[0]),P(A1[1])); ctx.stroke(); }
   ctx.restore();
   const hx=Math.sin(t*0.05)*P(0.012), blink=(t%170)<7 ? 0.15 : 1;   // đầu nghiêng qua lại, mắt chớp
   ctx.fillStyle='#000'; ctx.beginPath(); ctx.ellipse(hx,P(-0.33),P(0.065),P(0.075),0,0,Math.PI*2); ctx.fill();
