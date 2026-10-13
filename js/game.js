@@ -786,7 +786,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     clappingcat: { key:'clappingcat', defaultName:'Clapping Cat', emoji:'👏', color:'#ffb74d', hp:1000, speed:5, size:48.4, skill:'Có nó trong trận thì tường dưới mọc chông và có 1 quả bóng chông lăn qua lại — đâm vào chông hay bóng chông đều mất máu. Sắp lao vào chông thì nó vỗ tay đổi chỗ với địch, để địch lãnh thay. Càng lâu không chạm tường càng chạy nhanh.' },
     evilgary: { key:'evilgary', defaultName:'Evil Gary', emoji:'😈', color:'#b71c1c', hp:1000, speed:5, size:44, skill:'Đầu trận chỉ là con mèo xám ngồi im HÚT LINH HỒN: cứ mỗi giây 1 linh hồn khói đen từ góc xa nhất ngoài sân bay thẳng vào người nó (ai đứng chắn đường ăn 50 dame), mỗi linh hồn hút được vạch thêm 1 cánh ngôi sao ác quỷ trên đầu. Đủ 5 cánh: con quỷ đã nhập hiện lên sau lưng, sàn hoá CÕI LINH HỒN — khói ma lướt ngang sân, và cứ 5s một bầy linh hồn bò từ 4 góc tới bám địch (mỗi đợt đông hơn), bám được là gây dame và gieo độc vĩnh viễn, cộng dồn không giới hạn.' },
     mosquitoviolin: { key:'mosquitoviolin', defaultName:'Mosquito Violin', emoji:'🦟', color:'#ff5252', hp:1000, speed:5, size:34, skill:'Vào trận chưa nối được dây thì +20% tốc chạy và vo ve liên tục. LẦN ĐẦU chạm vào một kẻ địch, nó cắm một sợi dây mảnh vào con đó SUỐT TRẬN (chạm được bao nhiêu con thì nối bấy nhiêu dây). Nối được dây đầu tiên là bắt đầu kéo violin: mỗi nhịp của bài nhạc, một xung âm hình nhịp tim chạy dọc dây và nổ vào kẻ địch gây sát thương. Tần suất sát thương chính là nhịp của bài hát.' },
-    scaredhamster: { key:'scaredhamster', defaultName:'Scared Hamster', emoji:'🐹', color:'#c8a27a', hp:1000, speed:5, size:40, skill:'Không tự đánh — chỉ bò khắp sàn. Bò vào gần góc sàn thì dựa sát góc tường run rẩy sợ hãi, đứng yên tới khi bóng tối đi mất hẳn; từ góc xa nhất 2 bàn tay bóng tối móng dài từ từ vươn ra lần theo nó (không ai cản thì ~5s tới nơi, bóng tồn tại 6s). Tay vớ được địch chắn đường thì ngẫu nhiên: tung qua tay kia rồi bóp chặt (3×80 dmg), tóm nhấc bổng rồi vung quăng vào góc sàn xa nhất (200 dmg) hoặc giữ lại cho 2 tay đập vào nhau (200 dmg), xong thì 2 tay rụt về tường. Tay chạm được hamster thì nó bị bóng tối nuốt chửng, nhận 300 dmg.' },
+    scaredhamster: { key:'scaredhamster', defaultName:'Scared Hamster', emoji:'🐹', color:'#c8a27a', hp:1000, speed:5, size:40, skill:'Không tự đánh — chỉ bò khắp sàn. Bò vào gần góc sàn thì dựa sát góc tường run rẩy sợ hãi, đứng yên tới khi bóng tối đi mất hẳn; từ góc xa nhất 2 bàn tay bóng tối móng dài từ từ vươn ra lần theo nó (không ai cản thì ~5s tới nơi, bóng tồn tại 6s). Tay vớ được địch chắn đường thì ngẫu nhiên: tung qua tay kia rồi bóp chặt (3×80 dmg), tóm nhấc bổng rồi vung quăng vào góc sàn xa nhất (trừ góc hamster đang nép, 200 dmg) hoặc giữ lại cho 2 tay đập vào nhau (200 dmg), xong thì 2 tay rụt về tường. Tay chạm được hamster thì nó cũng bị xử y như vậy (cùng mức dame).' },
     infinitydoge: { key:'infinitydoge', defaultName:'Infinity Doge', emoji:'🐕', color:'#ffb74d', hp:1000, speed:5, size:46, skill:'Bắt đầu 1 thân 1000 máu. Cứ mỗi lần một thân tụt xuống dưới 50% máu, thân đó PHÂN ĐÔI thành 2 thân nhỏ hơn 30% với máu tối đa bằng một nửa — các mốc 1000 → 500 → 250 → 125 → 50 (nấc cuối chốt 50 chứ không chia đôi tiếp). Thân 50 máu là mốc cuối, chết là chết luôn. Không có đòn đánh riêng: mọi thân gây 60 dame mỗi khi VA vào địch. Các thân tách ra tính như meme bình thường (di chuyển, nhận dame, dính hiệu ứng). Cả đàn chết sạch thì mới thua.' },
     cryingcat: { key:'cryingcat', defaultName:'Crying Cat Team', emoji:'😿', color:'#4fc3f7', hp:350, speed:5, size:32.5, skill:'Một đội 3 con mèo khóc, tính chung là 1 meme. Mỗi con 350 máu, di chuyển và đánh như meme thường. Mỗi con chạm vào địch gây 40 sát thương (mỗi con hồi chiêu riêng 0.8s). Giữa 3 con luôn có LIÊN KẾT NƯỚC MẮT nối với nhau: địch chạm/đi qua sợi liên kết mất 50 máu mỗi 0.5s và bị làm chậm. Mỗi lần 2 con trong đội va vào nhau, cả hai được hồi 25 máu. Mỗi con gục thì mấy con còn lại +20% size và +300 máu tối đa. Con cuối cùng còn 1 mình chuyển hẳn sang chiêu NỐI NƯỚC MẮT: cứ 2s nối 1 sợi với địch gần nhất, dính 3s, gây 25 sát thương mỗi 0.5s. Cả đội chỉ chết khi cả 3 con đều gục.' },
     calmdog: { key:'calmdog', defaultName:'Calm Dog', emoji:'🐕', color:'#546e7a', hp:1000, speed:5, size:40, skill:'Là quả bom hẹn giờ — vào trận có đồng hồ đếm ngược 13s, thể hiện qua 5 tấm hình NGẨNG ĐẦU tăng dần (mỗi ~2.6s đổi 1 hình, hình cuối là lúc há mồm chuẩn bị hú) thay vì số đếm. Mỗi 100 dame nhận vào, đồng hồ trôi nhanh thêm 1s. Về 0: hú vang gây 500 dame CHUẨN cho mọi địch trong tầm nổ — chỉ dùng được đúng 1 LẦN CẢ TRẬN. Ngoài ra không có đòn đánh nào khác, chỉ di chuyển né tránh bình thường.' },
@@ -4006,7 +4006,7 @@ function _scEchoDrawOver(){
 // run rẩy sợ hãi (HM_LEAN_T), đồng thời từ GÓC XA NHẤT 2 BÀN TAY BÓNG TỐI móng dài (vẽ kiểu bóng Don't Starve) vươn
 // TỪ TỪ ra rồi lần theo con hamster (không ai cản thì ~5s là tới). Tay vớ được meme/quân triệu hồi ĐỊCH chắn đường thì
 // xử nó theo 1 trong 3 kiểu (bóp nát / quật vào tường / 2 tay đập vào nhau) rồi RỤT về tường luôn. Bóng sống 6s; chạm được
-// hamster thì nó bị bóng tối NUỐT CHỬNG, nhận HM_SWALLOW_DMG (300).
+// hamster thì nó cũng bị xử y như meme khác (cùng mức dame).
 const HM_LEAN_T=72, HM_CD=180, HM_SHADOW_LIFE=360, HM_REACH_T=300, HM_EMERGE=75, HM_SWALLOW_DMG=300, HM_SWALLOW_T=50;
 // ⏱️ bóng sống 6s (HM_SHADOW_LIFE); không ai cản đường thì tay mất ĐÚNG ~5s (HM_REACH_T) để chạm tới hamster:
 //    tốc tay tính lúc mọc ra theo khoảng cách tới hamster (trừ phần chậm lúc mới vươn ra ~37 tick)
@@ -4066,14 +4066,16 @@ function _hmActTick(S,f){
       _hmHold(u, ease(sx0,C.x,e), ease(sy0,C.y,e)); G.lift=R*0.4*(1-k)+R*2.4*Math.sin(Math.PI*k); G.sx=G.sy=1+0.15*Math.sin(Math.PI*k);
       h.close=Math.max(0,1-(A.t-16)/4); h.grab=null; }                                              // buông tay 1
     else { _hmHold(u,C.x,C.y); G.lift=0; o.press={x:-td.x,y:-td.y}; o.close=Math.min(1,(A.t-34)/5);  // tay 2 chụp lấy
-      if(A.t===46||A.t===60||A.t===74){ u.takeDamage(HM_SQUEEZE_DMG,f); addShake(8,6); spawnParticles(u.x,u.y,'#2a0a3a',10,false,true); A.sq=12; }
+      if(A.t===46||A.t===60||A.t===74){ u.takeDamage(HM_SQUEEZE_DMG,u===f?null:f); addShake(8,6); spawnParticles(u.x,u.y,'#2a0a3a',10,false,true); A.sq=12; }
       if(A.t>80) o.close=Math.max(0,1-(A.t-80)/8); }
-    if(A.sq>0){ const p=(A.sq--)/12; G.sx=1+0.55*p; G.sy=1-0.5*p; A.tight=p; } else A.tight=0;   // bóp méo bẹp dí + vuốt thít chặt
+    { const p=A.sq>0 ? (A.sq--)/12 : 0, d=(A.t>34 && o.press) ? o.press : A.dir;   // bóp méo DẸP THEO CHIỀU TAY SIẾT (lòng bàn tay → đầu móng)
+      G.ax=Math.atan2(d.y,d.x); G.c=1-0.5*p; G.e=1+0.35*p; G.sx=G.sy=1; A.tight=p; }
     if(A.t<=16){ const P=_hmPalmAt(A,{x:u.x,y:u.y-G.lift,size:R}); h.tx=P.x; h.ty=P.y; }
     A.T=HM_ACT_T.squeeze;
   } else if(A.kind==='slam'){
     // 💥 VUNG TAY QUĂNG: tóm → nhấc bổng lấy đà → vung → BUÔNG cho con mồi bay vòng cung tới GÓC SÀN XA NHẤT, đập bẹp ở đó
-    if(!A.K){ const c=[[R,R],[W-R,R],[R,H-R],[W-R,H-R]].sort((a,b)=>Math.hypot(b[0]-A.gx,b[1]-A.gy)-Math.hypot(a[0]-A.gx,a[1]-A.gy))[0];
+    if(!A.K){ const hc=[[R,R],[W-R,R],[R,H-R],[W-R,H-R]].sort((a,b)=>Math.hypot(a[0]-f.x,a[1]-f.y)-Math.hypot(b[0]-f.x,b[1]-f.y))[0];   // góc hamster đang nép → loại
+      const c=[[R,R],[W-R,R],[R,H-R],[W-R,H-R]].filter(q=>q!==hc && !(q[0]===hc[0]&&q[1]===hc[1])).sort((a,b)=>Math.hypot(b[0]-A.gx,b[1]-A.gy)-Math.hypot(a[0]-A.gx,a[1]-A.gy))[0];
       A.K={x:c[0],y:c[1]}; }
     const back={x:A.gx-A.dir.x*R*0.6, y:A.gy-A.dir.y*R*0.6}, rel={x:A.gx+A.dir.x*R*1.2, y:A.gy+A.dir.y*R*1.2};
     if(A.t<=10){ _hmHold(u,A.gx,A.gy); h.close=A.t/10; h.grab=A; }
@@ -4083,7 +4085,7 @@ function _hmActTick(S,f){
       h.close=Math.max(0,1-(A.t-28)/5); h.grab=null;                                                // buông tay
       const k=Math.min(1,(A.t-28)/A.F);
       _hmHold(u, ease(rel.x,A.K.x,k), ease(rel.y,A.K.y,k)); if(k<1){ G.lift=R*1.8*(1-k)+R*1.4*Math.sin(Math.PI*k); G.sx=G.sy=1+0.2*(1-k); }
-      if(A.t===28+A.F){ u.takeDamage(HM_SLAM_DMG,f); addShake(12,9); A.sq=14; G.lift=0;
+      if(A.t===28+A.F){ u.takeDamage(HM_SLAM_DMG,u===f?null:f); addShake(12,9); A.sq=14; G.lift=0;
         spawnParticles(u.x,u.y,'#bdbdbd',16,false,true); spawnParticles(u.x,u.y,'#2a0a3a',10,false,true); } }
     if(A.sq>0){ const p=(A.sq--)/14; G.sx=1+0.5*p; G.sy=1-0.45*p; G.lift=0; }   // bẹp dí vào góc tường
     if(A.t<=28){ const P=_hmPalmAt(A,{x:u.x,y:u.y-G.lift,size:R}); h.tx=P.x; h.ty=P.y; }
@@ -4093,9 +4095,9 @@ function _hmActTick(S,f){
     const side=A.dir, far={x:u.x+side.x*R*3.2, y:u.y+side.y*R*3.2}, hit={x:u.x+side.x*R*1.05, y:u.y+side.y*R*1.05};
     if(A.t<=30){ o.tx+=(far.x-o.tx)*0.14; o.ty+=(far.y-o.ty)*0.14; o.close=0; o.press=null; }       // tay kia vòng ra phía ĐỐI DIỆN, xoè sẵn
     else if(A.t<=38){ const k=(A.t-30)/8, e=k*k; o.tx=ease(far.x,hit.x,e); o.ty=ease(far.y,hit.y,e); o.press={x:-side.x,y:-side.y}; o.close=e;   // ĐẬP vào, vuốt ôm từ phía bên kia
-      if(A.t===38){ u.takeDamage(HM_CLAP_DMG,f); addShake(12,9); A.flash=10; A.sq=12; spawnParticles(u.x,u.y,'#2a0a3a',14,false,true); } }
+      if(A.t===38){ u.takeDamage(HM_CLAP_DMG,u===f?null:f); addShake(12,9); A.flash=10; A.sq=12; spawnParticles(u.x,u.y,'#2a0a3a',14,false,true); } }
     else { o.press={x:-side.x,y:-side.y}; o.close=Math.max(0,1-(A.t-46)/10); }
-    if(A.sq>0){ const p=(A.sq--)/12; G.sx=1-0.38*p; G.sy=1+0.25*p; }   // bị ép dẹp giữa 2 lòng bàn tay
+    { const p=A.sq>0 ? (A.sq--)/12 : 0; G.ax=Math.atan2(side.y,side.x); G.c=1-0.45*p; G.e=1+0.3*p; }   // bị ép dẹp giữa 2 lòng bàn tay — theo đúng trục 2 tay đập vào nhau
     if(A.flash>0) A.flash--;
   }
   if(A.t>=(A.T||HM_ACT_T[A.kind])){ for(const hh of S.hands) hh.press=null; _hmEndAct(S); S.retract=true; }   // 🔙 xử xong 1 con → 2 tay RỤT về tường luôn
@@ -4174,12 +4176,10 @@ function _hmTick(){
       S.act=A; caught=true; break;
     }
     if(caught) continue;
-    // 🌑 chạm tới hamster → nuốt chửng
-    if(em>=0.6 && S.hands.some(h=>Math.hypot(f.x-h.tx,f.y-h.ty)<16+f.size*0.7)){
-      f._hmSwallowT=HM_SWALLOW_T; f._hmLeanT=0;
-      f.takeDamage(HM_SWALLOW_DMG, null);
-      addShake(8,12); S.dying=1;
-    }
+    // 🐹 chạm tới CHÍNH hamster → bị xử y như meme khác (1 trong 3 kiểu tương tác, cùng mức dame) — không còn nuốt 300
+    if(em>=0.6){ const hi=S.hands.findIndex(h=>Math.hypot(f.x-h.tx,f.y-h.ty)<16+f.size*0.7);
+      if(hi>=0){ const kind=['squeeze','slam','clap'][Math.floor(Math.random()*3)], h=S.hands[hi];
+        S.act={kind,u:f,hi,t:0,gx:f.x,gy:f.y,dir:{x:h.hx,y:h.hy}}; f._hmLeanT=0; } }
   }
 }
 // ✋ BÀN TAY BÓNG — vẽ y kiểu sprite tay Don't Starve (ảnh user gửi): nét BÚT DẠ vẽ tay đen kịt, lòng bàn tay khối VUÔNG
@@ -4250,19 +4250,21 @@ function _hmTalonPoly(pts,w0,boil,k){
     const w=w0*Math.pow(1-i/(n-1),0.8)*0.5+0.5, j=_hmN(k*17+i,boil)*1.2; L.push([pts[i].x+nx*(w+j),pts[i].y+ny*(w+j)]); Rr.push([pts[i].x-nx*(w-j),pts[i].y-ny*(w-j)]); }
   return L.concat(Rr.reverse());
 }
-function _hmWrap(C,R,dir,cl,S,boil,layer,a){
+function _hmWrap(C,R,dir,cl,S,boil,layer,a,def){
+  // vuốt + lòng bàn tay bám ĐÚNG viền đã bị bóp méo (cùng phép dẹp với hình con mồi) → bóp tới đâu méo tới đấy
+  const D=(x,y)=>{ if(!def) return [x,y]; const ux=Math.cos(def.ax), uy=Math.sin(def.ax), dx=x-C.x, dy=y-C.y; let p=dx*ux+dy*uy, q=-dx*uy+dy*ux; p*=def.c; q*=def.e; return [C.x+p*ux-q*uy, C.y+p*uy+q*ux]; };
   const back=Math.atan2(-dir.y,-dir.x), T=[[1,1.06,2.15,0.34],[1,1.2,1.75,0.3],[-1,1.1,2.05,0.32],[-1,0.98,1.25,0.26]];   // [phía, bán kính, góc quét tối đa, độ dày]
   ctx.save(); ctx.globalAlpha=a; ctx.fillStyle='#070707';
   if(layer==='under'){   // lòng bàn tay khối vuông phía sau con mồi
     const P={x:C.x-dir.x*R*1.05, y:C.y-dir.y*R*1.05}, ang=Math.atan2(dir.y,dir.x), c=Math.cos(ang), sn=Math.sin(ang);
-    _hmFill([[-0.32,-0.36],[0.3,-0.4],[0.34,0.36],[-0.3,0.4]].map((q,i)=>[P.x+(q[0]*c-q[1]*sn)*S+_hmN(i,boil)*2, P.y+(q[0]*sn+q[1]*c)*S+_hmN(i+9,boil)*2]));
+    _hmFill([[-0.32,-0.36],[0.3,-0.4],[0.34,0.36],[-0.3,0.4]].map((q,i)=>D(P.x+(q[0]*c-q[1]*sn)*S+_hmN(i,boil)*2, P.y+(q[0]*sn+q[1]*c)*S+_hmN(i+9,boil)*2)));
   }
   T.forEach((t,k)=>{
     const sw=t[2]*Math.max(0.15,cl), r=R*t[1], N=12, pts=[];
-    for(let i=0;i<=N;i++){ const s=i/N, an=back+t[0]*(0.3+sw*s), rr=r*(1-0.04*s); pts.push({x:C.x+Math.cos(an)*rr, y:C.y+Math.sin(an)*rr}); }
+    for(let i=0;i<=N;i++){ const s=i/N, an=back+t[0]*(0.3+sw*s), rr=r*(1-0.04*s); const q=D(C.x+Math.cos(an)*rr, C.y+Math.sin(an)*rr); pts.push({x:q[0], y:q[1]}); }
     const endA=back+t[0]*(0.3+sw);   // đầu móng quặp VÀO trong, chỉ chạm mép trước
-    pts.push({x:C.x+Math.cos(endA+t[0]*0.18)*r*0.82, y:C.y+Math.sin(endA+t[0]*0.18)*r*0.82});
-    pts.push({x:C.x+Math.cos(endA+t[0]*0.3)*r*0.66, y:C.y+Math.sin(endA+t[0]*0.3)*r*0.66});
+    { const q1=D(C.x+Math.cos(endA+t[0]*0.18)*r*0.82, C.y+Math.sin(endA+t[0]*0.18)*r*0.82), q2=D(C.x+Math.cos(endA+t[0]*0.3)*r*0.66, C.y+Math.sin(endA+t[0]*0.3)*r*0.66);
+      pts.push({x:q1[0],y:q1[1]}); pts.push({x:q2[0],y:q2[1]}); }
     const cut=Math.floor(pts.length*0.72);
     if(layer==='under') _hmFill(_hmTalonPoly(pts.slice(0,cut+1),t[3]*S,boil,k));
     else { const tip=pts.slice(cut-1), w=t[3]*S*Math.pow(1-(cut-1)/(pts.length-1),0.8); _hmFill(_hmTalonPoly(tip,w,boil,k+5)); }
@@ -4279,7 +4281,7 @@ function _hmWrapInfo(S,hi){
   const cl=Math.max(0,Math.min(1.15,h.clS??h.close));   // độ nắm LÒ XO (siết lố nhẹ rồi bật về)
   if(hi===A.hi){ if(!(cl>0.05)) return null; dir=A.dir; }
   else { if(!h.press || !(cl>0.05)) return null; dir=h.press; }
-  return {C:{x:u.x, y:u.y-(G.lift||0)}, R:(u.size||20)*Math.max(G.sx||1,G.sy||1)*0.95*(1-0.22*(A.tight||0)), dir, cl:Math.min(1.15,cl+0.15*(A.tight||0))};
+  return {C:{x:u.x, y:u.y-(G.lift||0)}, R:(u.size||20)*Math.max(G.sx||1,G.sy||1)*0.95, dir, cl:Math.min(1.15,cl+0.15*(A.tight||0)), def:(G.ax!==undefined?{ax:G.ax,c:G.c??1,e:G.e??1}:null)};
 }
 function _hmDrawUnder(){
   for(const S of hmShadows){ const f=S.owner, a=(S.dying?Math.max(0,1-S.dying/30):1), em=Math.min(1,S.t/HM_EMERGE), sz=(f?f.size:40)*1.6, boil=0;
@@ -4289,7 +4291,7 @@ function _hmDrawUnder(){
     S.hands.forEach((h,hi)=>{ const ha=a*Math.min(1,em*2);
       _hmArm(h,sz,boil,ha,S.t,S.seed);
       const wrap=_hmWrapInfo(S,hi);
-      if(wrap){ _hmWrap(wrap.C,wrap.R,wrap.dir,wrap.cl,sz,boil+hi*31,'under',ha); return; }   // đang CẦM: lòng bàn tay + thân vuốt luồn sau con mồi
+      if(wrap){ _hmWrap(wrap.C,wrap.R,wrap.dir,wrap.cl,sz,boil+hi*31,'under',ha,wrap.def); return; }   // đang CẦM: lòng bàn tay + thân vuốt luồn sau con mồi
       _hmHandShape(h.rx??h.tx,h.ry??h.ty,(h.angS??_hmHandAng(h)),sz,(h.clS??h.close)||0,boil+hi*31,'all',ha,h.cph||0); });
   }
 }
@@ -4298,7 +4300,7 @@ function _hmDrawOver(){
   for(const S of hmShadows){ const f=S.owner, a=(S.dying?Math.max(0,1-S.dying/30):1), sz=(f?f.size:40)*1.6, boil=0, A=S.act;
     if(!A) continue;
     const u=A.u;
-    for(let hi=0;hi<2;hi++){ const w=_hmWrapInfo(S,hi); if(w) _hmWrap(w.C,w.R,w.dir,w.cl,sz,boil+hi*31,'over',a); }   // chỉ ĐẦU MÓNG quặp đè lên mép trước
+    for(let hi=0;hi<2;hi++){ const w=_hmWrapInfo(S,hi); if(w) _hmWrap(w.C,w.R,w.dir,w.cl,sz,boil+hi*31,'over',a,w.def); }   // chỉ ĐẦU MÓNG quặp đè lên mép trước
     if(A.kind==='clap' && A.flash>0){ ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.fillStyle=`rgba(200,160,255,${0.05*A.flash})`; ctx.beginPath(); ctx.arc(u.x,u.y,(u.size||20)*2,0,Math.PI*2); ctx.fill(); ctx.restore(); }
   }
   // 🌑 bị nuốt chửng: bóng tối trùm kín con hamster rồi tan dần
@@ -9514,7 +9516,7 @@ const CHAR_BLURB = {
   clappingcat: "Spike walls and a rolling spike ball. Claps to swap places with you right before it hits them.",
   evilgary: "Sucks in five souls to complete the demon star over its head, then opens the soul realm: ghosts sweep the floor and ever-bigger swarms crawl out to poison you forever.",
   mosquitoviolin: "Touch it once and it strings you for the whole match, then plays violin damage down the wire on every beat.",
-  scaredhamster: "Never attacks — just wanders. Cornered, it cowers while two shadow hands crawl out of the far corner after it, crushing, slamming or clapping the first one in the way before pulling back. If they reach it, it gets swallowed for 300.",
+  scaredhamster: "Never attacks — just wanders. Cornered, it cowers while two shadow hands crawl out of the far corner after it, crushing, slamming or clapping the first one in the way before pulling back. If they reach it, it gets the same treatment.",
   infinitydoge: "Splits in two every time it drops below half health, down to 50 HP. Damages anything it bumps into.",
   cryingcat: "Three linked cats. The tear link between them burns and slows anything that touches it.",
   rubikcat: "Rolls a random cube face on a timer, each with a different effect. Collect all six and a black hole ends the match outright.",
@@ -14408,6 +14410,7 @@ class Fighter {
     // 🐹 SCARED HAMSTER: bị nuốt / đang dựa góc tường run rẩy → đứng im (bám sát góc + rung), còn lại bò khắp sàn y như The Unknown Guy
     if(this.type==='scaredhamster'){
       if(this._hmSwallowT>0){ this.vx=0; this.vy=0; return; }
+      if(this._hmGrab){ this.vx=0; this.vy=0; return; }   // đang bị chính tay bóng tối tóm → để tay điều khiển vị trí
       if(this._hmLeanT>0 || hmShadows.some(sh=>sh.owner===this)){ if(this._hmLeanT>0) this._hmLeanT--; this.vx=0; this.vy=0;   // 😨 nép góc run lẩy bẩy tới khi bóng tối đi mất hẳn
         this.x+=(this._hmCornerX-this.x)*0.3+(Math.random()-0.5)*1.6; this.y+=(this._hmCornerY-this.y)*0.3+(Math.random()-0.5)*1.2; return; }
       if(this._hmDirA===undefined){ this._hmDirA=Math.random()*Math.PI*2; this.vx=Math.cos(this._hmDirA)*this.topSpeed*0.5; this.vy=Math.sin(this._hmDirA)*this.topSpeed*0.5; }
@@ -18717,6 +18720,7 @@ class Fighter {
       if(this.dogeBuffed) _dogeAura(this,s);
       const _dg=_dogeAnim(this); offX+=_dg.ox; offY+=_dg.oy; rotation+=_dg.rot; scaleX*=_dg.sx; scaleY*=_dg.sy; }
     ctx.translate(this.x+offX,this.y+offY-_bounce);
+    if(this._hmGrab && this._hmGrab.ax!==undefined && (this._hmGrab.c!==1 || this._hmGrab.e!==1)){ const g=this._hmGrab; ctx.rotate(g.ax); ctx.scale(g.c,g.e); ctx.rotate(-g.ax); }   // 🐹 bị bóp: dẹp ĐÚNG theo chiều tay siết
     const _slipTilt = this._slipTimer>0 ? -0.82*Math.sign(Math.cos(this._slipDir||0)||1) : 0;
     ctx.rotate(rotation + _slipTilt);
     // flip to face enemy
