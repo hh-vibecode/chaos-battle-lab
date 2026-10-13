@@ -899,7 +899,15 @@ function loadRoster(){
   // giữ nguyên avatar/id đã tải lên, chỉ đổi đúng charKey+tên mặc định, tránh vừa mất avatar cũ vừa bị nhân đôi nhân vật
   roster = roster.filter(c=>c.charKey!=='droolcat' && c.charKey!=='williamdafoe');   // 😱 William Dafoe đã bị xoá khỏi game   // 💦 Drooling Cat đã GỘP vào Pop Cat → xoá ô cũ khỏi kho
   roster.forEach(c=>{ if(c.charKey==='droolingcat'){ c.charKey='wetcat'; if(c.name==='Drooling Cat') c.name='Wet Cat'; } });
-  roster.forEach(c=>{ if(c.charKey==='samuraicheems' && c.name==='Samurai Cheems') c.name='Joninn Cheems'; });   // ⚔️ đổi tên Samurai Cheems → Joninn Cheems (roster đã lưu vẫn giữ tên cũ)
+  roster.forEach(c=>{ if(c.charKey==='samuraicheems' && c.name==='Samurai Cheems') c.name='Joninn Cheems'; });
+  // 🐈‍⬛ Loading Cat đổi ẢNH MỚI (mèo đen trắng, user gửi): ép MỌI roster đã lưu dùng ảnh mới + xoá ảnh cũ (kể cả ảnh tự upload,
+  //    ảnh pose "Đang Loading") — chạy 1 lần (cờ cbs_lc_av2), sau đó user tự đổi ảnh thì giữ nguyên
+  { let _lcDone=null; try{ _lcDone=localStorage.getItem('cbs_lc_av2'); }catch(e){}
+    if(!_lcDone){ let _ch=false;
+      roster.forEach(c=>{ if(c.charKey==='loadingcat'){ c.avatarUrl='assets/avatars/loadingcat/avatar_v2.webp';
+        for(const _k of ['attackAvatarUrl','attackAvatarUrlGrid','introAvatarUrl','introAvatarUrlGrid']) c[_k]=null; _ch=true; } });
+      if(_ch){ try{ storeSet('cbs_roster', JSON.stringify(roster)); }catch(e){} }
+      try{ localStorage.setItem('cbs_lc_av2','1'); }catch(e){} } }   // ⚔️ đổi tên Samurai Cheems → Joninn Cheems (roster đã lưu vẫn giữ tên cũ)
   // 🆕 roster đã lưu từ TRƯỚC khi thêm nhân vật mới (đoạn seed ở trên chỉ chạy nếu roster CHƯA từng lưu) —
   // bổ sung ngay những charKey còn thiếu, không đụng gì tới các nhân vật/avatar đã lưu trước đó
   // ⚠️ Gigachad CHƯA có ảnh mặc định (chưa có nguồn ảnh phù hợp) — dùng emoji 🗿 tạm thời, người dùng tự upload
