@@ -16,6 +16,11 @@ Khi làm việc với code:
   - Đừng dùng `_hitSoldiersArea` / vòng `germanSoldiers` riêng — đó là kiểu cũ chỉ trúng lính German.
 - Đánh đơn qua `this.enemy` thì đã tự tính quân triệu hồi (get enemy() quét cả 9 loại).
 
+## Info / mô tả meme
+- Dòng info hiện trong trận (`CHAR_BLURB_SHORT` trong js/game.js) là **1 câu đùa ngắn (≤8 từ)**, KHÔNG mô tả kỹ năng.
+- **Ưu tiên bám sát câu chuyện / nguồn gốc của meme trên internet** (câu thoại gốc, nguồn, sự tích meme) — vd Grumpy Cat "No.", Chill Guy "Just a chill guy who lowkey doesn't care.". Thêm meme mới thì viết info theo đúng quy tắc này.
+- CTA "❤️ Like and Subscribe / to support your meme-bros" CHỈ hiện khi trận kết thúc có người thắng; trong trận luôn hiện info.
+
 ## Phát hành
 - **Làm xong là TỰ ĐẨY LÊN `main` luôn** (người dùng đã dặn, không cần hỏi lại): commit trên nhánh làm việc rồi `git push origin HEAD:main` (fast-forward).
 - Đừng tự thêm tính năng/hiệu ứng người dùng không yêu cầu; muốn thêm thì hỏi trước.
