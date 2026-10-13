@@ -781,7 +781,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     aliencat: { key:'aliencat', defaultName:'Mr. Folk', emoji:'🥾', color:'#ffc400', hp:1000, speed:5, size:49.5, skill:'Chiếu 2 tia laze VÀNG thẳng từ 2 con mắt vào mục tiêu ở CỰ LY TẦM TRUNG — xa nhất gần gấp đôi tầm cận chiến, quá gần hoặc quá xa là mất khoá và phải gây lại từ đầu. Giữ được đúng cự ly càng lâu thì mỗi nhịp bắn càng đau: bắt đầu 10 dmg, cứ mỗi giây giữ được tia lại cộng thêm 20. Mỗi 8s triệu hồi 1 đĩa bay từ ngoài sân bay vào, dừng trên đầu địch gần nhất, dùng tia sóng âm hút địch lên xoay vòng tại chỗ trong 2s rồi bay đi mất.' },
     wetcat: { key:'wetcat', defaultName:'Wet Cat', emoji:'🤤', color:'#4fc3f7', hp:1000, speed:2.0125, size:45, skill:'Đi rất chậm, người cứ rỉ ra giọt nước dãi đen liên tục — giọt bị hút cong vào giữa sàn, dồn lại thành vũng đầm lầy, càng lúc rỉ càng nhanh. Địch chạm vũng bị sa lầy và mất máu đều đều; Wet Cat đứng trong vũng thì hồi máu và chạy nhanh hơn.' },
     electricguitarcat: { key:'electricguitarcat', defaultName:'Electric Guitar Cat', emoji:'🎸', color:'#ec407a', hp:1000, speed:5, size:43, skill:'Chơi guitar điện — bắn ra SÓNG ÂM theo đúng NHỊP & CAO ĐỘ thật của bài (màu theo nốt), y hệt cơ chế của Piano Cat. Mỗi luồng sóng 20 dame, đánh tới đâu nốt nhạc nảy tới đó. Tự đổi bài mỗi 8s. Bị đánh còn 30% máu là chơi tới mức đàn bốc cháy — sóng đàn đốt địch thêm 20 dame/s.' },
-    scareddog: { key:'scareddog', defaultName:'Scared Dog', emoji:'🐶', color:'#795548', hp:1000, speed:5, size:44, skill:'Không tự tấn công — chỉ di chuyển né tránh bình thường. Sau 1s vào trận, triệu hồi 1 ma đen + 1 ma trắng bay lượn quanh (không có HP, không thể bị tiêu diệt, chỉ biến mất khi Scared Dog chết): mỗi ma di chuyển bằng 40% tốc của 1 meme thường, nảy tường y hệt meme, húc trúng địch (hoặc lính/tượng địch có HP) lại gần thì gây dame — ma trắng 20 dmg, ma đen là Giám Ngục: không lướt xuyên địch, địch lọt vào tầm hút nhỏ (≈1.5× tầm cận chiến, +10%) thì đứng chắn trước mặt HÚT LINH HỒN (nạn nhân tái nhợt, nhoè kéo về phía ma): mỗi 0.3s 1 nhịp, nhịp đầu 10 dmg + chậm 10%, rồi mỗi nhịp +5 dmg và +3% chậm (tối đa 90%), ra khỏi tầm thì reset. Ma trắng có hào quang hồi máu bán kính gấp đôi thân nó, Scared Dog đứng trong đó được hồi 20 HP/s.' },
+    scareddog: { key:'scareddog', defaultName:'Scared Dog', emoji:'🐶', color:'#795548', hp:1000, speed:5, size:44, skill:'Không tự tấn công — chỉ di chuyển né tránh bình thường. Sau 1s vào trận, triệu hồi 1 ma đen + 1 ma trắng bay lượn quanh (không có HP, không thể bị tiêu diệt, chỉ biến mất khi Scared Dog chết): mỗi ma di chuyển bằng 40% tốc của 1 meme thường, nảy tường y hệt meme, húc trúng địch (hoặc lính/tượng địch có HP) lại gần thì gây dame — ma trắng 20 dmg, ma đen là Giám Ngục: không lướt xuyên địch, địch lọt vào tầm hút nhỏ (≈1.5× tầm cận chiến, +10%) thì đứng chắn trước mặt HÚT LINH HỒN (nạn nhân tái nhợt, nhoè kéo về phía ma): mỗi 0.3s 1 nhịp, nhịp đầu 10 dmg + chậm 10%, rồi mỗi nhịp +5 dmg và +5% chậm (tối đa 90%), ra khỏi tầm thì reset. Ma trắng có hào quang hồi máu bán kính gấp đôi thân nó, Scared Dog đứng trong đó được hồi 20 HP/s.' },
     slapcat: { key:'slapcat', defaultName:'Slap Cat', emoji:'🐈', color:'#7c4dff', hp:1000, speed:5, size:44, skill:'Vừa chạy vừa tích lực, cứ 2s lại đứng khựng lại VẢ một phát. Cú vả mở 2 cổng không gian: một cổng ngay cạnh Slap Cat và một cổng SAU LƯNG đối thủ — tay thò qua cổng vả trúng địch dù nó đứng bất kỳ đâu trên sàn. Sát thương gốc 120, ĐỨNG CÀNG XA ĐÁNH CÀNG ĐAU (xa tối đa +100%). 30% tỉ lệ gây choáng.' },
     clappingcat: { key:'clappingcat', defaultName:'Clapping Cat', emoji:'👏', color:'#ffb74d', hp:1000, speed:5, size:48.4, skill:'Có nó trong trận thì tường dưới mọc chông và có 1 quả bóng chông lăn qua lại — đâm vào chông hay bóng chông đều mất máu. Sắp lao vào chông thì nó vỗ tay đổi chỗ với địch, để địch lãnh thay. Càng lâu không chạm tường càng chạy nhanh.' },
     evilgary: { key:'evilgary', defaultName:'Evil Gary', emoji:'😈', color:'#b71c1c', hp:1000, speed:5, size:44, skill:'Đầu trận chỉ là con mèo xám ngồi im HÚT LINH HỒN: cứ mỗi giây 1 linh hồn khói đen từ góc xa nhất ngoài sân bay thẳng vào người nó (ai đứng chắn đường ăn 50 dame), mỗi linh hồn hút được vạch thêm 1 cánh ngôi sao ác quỷ trên đầu. Đủ 5 cánh: con quỷ đã nhập hiện lên sau lưng, sàn hoá CÕI LINH HỒN — khói ma lướt ngang sân, và cứ 5s một bầy linh hồn bò từ 4 góc tới bám địch (mỗi đợt đông hơn), bám được là gây dame và gieo độc vĩnh viễn, cộng dồn không giới hạn.' },
@@ -10415,7 +10415,7 @@ function spawnHitImpact(x, y, sz, vfxName){
 // trừ thẳng thì quá 20 nấc là âm/0; nhân dồn thì tiệm cận 0 nhưng không bao giờ âm, đúng ý "càng liếm càng ì
 // nhưng không đứng hình tuyệt đối"). Sàn 0.02 (2% tốc gốc) chỉ để tránh số học/vật lý gặp trị quá nhỏ.
 const MLEM_FREEZE_P=0.10, MLEM_FREEZE_T=60;   // 🧊 Mlem Cat: 10% đóng băng địch 1s mỗi cú liếm trúng
-// 👻 đang bị Giám Ngục (ma đen Scared Dog) hút: chậm dồn theo nhịp dame (10%, 13%, 16%... tối đa 90%) — KHÔNG hiện VFX làm chậm
+// 👻 đang bị Giám Ngục (ma đen Scared Dog) hút: chậm dồn theo nhịp dame (10%, 15%, 20%... tối đa 90%) — KHÔNG hiện VFX làm chậm
 function _soulSlowMul(u){ return (u && u._soulT>0) ? 1-Math.min(0.9,u._soulSlow||0) : 1; }
 function _mlemSlowMul(f){ const n=f._mlemStacks||0; return n>0 ? Math.max(0.02, Math.pow(0.95,n)) : 1; }
 // ===== 🎹 PIANO CAT: chơi Rush E + phân tích cao độ (FFT) để bắn nốt =====
@@ -23179,7 +23179,7 @@ function loop(){
       } else {
         // 🖤 MA ĐEN = GIÁM NGỤC (Dementor): KHÔNG lướt xuyên nạn nhân nữa. Địch nào lọt vào tầm hút NHỎ (≈1.5× tầm cận chiến)
         //    thì ma dừng lơ lửng ngay trước mặt, HÚT LINH HỒN nó: luồng hồn trắng xanh bị rút từ người nạn nhân vào mũ trùm,
-        //    nạn nhân mờ dần + méo vặn về phía ma; dame + làm chậm tăng dần mỗi 0.3s (10, 15, 20... / 10%, 13%, 16%...), ra khỏi tầm thì reset.
+        //    nạn nhân mờ dần + méo vặn về phía ma; dame + làm chậm tăng dần mỗi 0.3s (10, 15, 20... / 10%, 15%, 20%...), ra khỏi tầm thì reset.
         let tg=null, best=1e9;
         for(const u of [...fighters.filter(f=>f.team!==g.team && !f.dead), ..._summonFoes(g.team)]){
           const d=Math.hypot(u.x-g.x,u.y-g.y), R=(g.size+(u.size||20)+MELEE_REACH*1.5)*1.1; if(d<R && d<best){ best=d; tg=u; } }
@@ -23196,7 +23196,7 @@ function loop(){
           if(g._suckTgt!==tg){ g._suckTgt=tg; g._suckN=0; g._suckCD=0; }
           if(--g._suckCD<=0){
             const _gAtk=g.owner||{team:g.team,x:g.x,y:g.y}, dmg=10+5*g._suckN;   // 10, 15, 20, 25...
-            tg._soulSlow=0.10+0.03*g._suckN; g._suckN++;   // 🐌 chậm dồn cùng nhịp: 10%, 13%, 16%... (xem _soulSlowMul)
+            tg._soulSlow=0.10+0.05*g._suckN; g._suckN++;   // 🐌 chậm dồn cùng nhịp: 10%, 15%, 20%... (xem _soulSlowMul)
             if(fighters.includes(tg)) tg.takeDamage(dmg, _gAtk, false, true, '👻', null, true); else _summonTakeDamage(tg, dmg, _gAtk, false, true, '👻', null);
             g._suckCD=18;   // 0.3s/nhịp
           }
