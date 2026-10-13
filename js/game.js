@@ -4016,16 +4016,16 @@ function _scEchoDrawOver(){
 // ==================== 🐹 SCARED HAMSTER ====================
 // Bò khắp sàn (đi thẳng, dội tường như The Unknown Guy — không tự đánh ai). Bò vào GẦN GÓC SÀN → dựa sát vào góc tường
 // run rẩy sợ hãi (HM_LEAN_T), đồng thời từ GÓC XA NHẤT 2 BÀN TAY BÓNG TỐI móng dài (vẽ kiểu bóng Don't Starve) vươn
-// TỪ TỪ ra rồi lần theo con hamster (không ai cản thì ~5s là tới). Tay vớ được meme/quân triệu hồi ĐỊCH chắn đường thì
-// xử nó theo 1 trong 3 kiểu (bóp chặt ngang người / đập mạnh vào tường / chuyền qua tay kia bóp tiếp) rồi RỤT về tường luôn. Bóng sống 6s; chạm được
-// hamster thì nó cũng bị xử y như meme khác (cùng mức dame).
+// TỪ TỪ ra rồi lần theo con hamster (không ai cản thì ~5s là tới). Tay chạm meme/quân triệu hồi ĐỊCH chắn đường (hoặc chạm
+// tới chính hamster) thì tung ĐÒN VỒ (xem _hmActTick) rồi cả 2 tay RỤT về tường. Bóng sống 6s.
 const HM_LEAN_T=72, HM_CD=180, HM_SHADOW_LIFE=360, HM_REACH_T=300, HM_EMERGE=75, HM_SWALLOW_DMG=300, HM_SWALLOW_T=50;
 // ⏱️ bóng sống 6s (HM_SHADOW_LIFE); không ai cản đường thì tay mất ĐÚNG ~5s (HM_REACH_T) để chạm tới hamster:
 //    tốc tay tính lúc mọc ra theo khoảng cách tới hamster (trừ phần chậm lúc mới vươn ra ~37 tick)
-// 🤜 3 kiểu TƯƠNG TÁC khi tay bắt được meme/quân triệu hồi địch chắn đường (ngẫu nhiên, mỗi con 1 lần/bóng):
-//    'squeeze' tóm rồi TUNG qua tay kia như quả bóng, tay kia siết chặt bóp 3 nhịp · 'slam' tóm nhấc bổng rồi vung tay QUĂNG con mồi bay vào góc sàn xa nhất · 'clap' 1 tay giữ, tay kia lao tới đập 2 tay vào nhau
-const HM_SQUEEZE_DMG=80, HM_SLAM_DMG=200, HM_CLAP_DMG=200;   // squeeze: 3 nhịp × 80
-const HM_ACT_T={crush:130, squeeze:152, slam:60, clap:56};   // slam: thời lượng thật tính theo quãng bay (A.T)
+// 🖐️ ĐÒN VỒ — 1 đòn duy nhất, gọn & mượt (user cho tự thiết kế): ① LẤY ĐÀ khựng lại, rụt nhẹ về sau theo đúng đường cánh
+//    tay + nhấc bổng lên (bóng in dưới sàn), xoè vuốt nhắm con mồi · ② VỒ lao xuống chụp trúng (bám theo vị trí hiện tại của
+//    nó) → mất HM_POUNCE_DMG máu + choáng · ③ LÔI: ngón khép vòng quanh người nó, kéo lê nó lùi theo đúng đường tay đã bò
+//    về phía tường · ④ BUÔNG, cả 2 tay rụt về. Đầu tay luôn chạy DỌC vệt cũ → cánh tay co duỗi liền mạch, không gãy khúc.
+const HM_POUNCE_DMG=200, HM_WIND_T=22, HM_STRIKE_T=7, HM_DRAG_T=48, HM_STUN_T=60;
 let hmShadows=[];
 // 🖼️ bộ ảnh Scared Hamster (user gửi, đã tách nền xanh): sợ hãi cầm thánh giá (lúc nép góc / bị nuốt) + 4 dáng chạy
 const HM_IMG={}; for(const k of ['SCARED','FRONT','SIDE1','SIDE2','BACK']){ HM_IMG[k]=new Image(); HM_IMG[k].src='assets/img/scaredhamster/HM_'+k+'.webp'; }
@@ -4054,86 +4054,48 @@ function _hmSpawnShadow(f){
 }
 function _hmHold(u,x,y){ u.x=x; u.y=y; u.vx=0; u.vy=0; if(u.stun!==undefined) u.stun=Math.max(u.stun||0,2); }
 function _hmTrail(h){ const L=h.trail[h.trail.length-1]; if(Math.hypot(h.tx-L.x,h.ty-L.y)>8){ h.trail.push({x:h.tx,y:h.ty}); if(h.trail.length>160) h.trail.splice(1,1); } }
-// lòng bàn tay nằm SAU con mồi (phía tay vươn tới), các ngón vòng qua người nó — vị trí lòng bàn tay theo hướng cầm A.dir
-function _hmPalmAt(A,u){ const R=(u.size||20); return {x:u.x-A.dir.x*R*1.05, y:u.y-A.dir.y*R*1.05}; }
-function _hmEndAct(S){ const A=S.act; if(A && A.u) delete A.u._hmGrab; for(const h of S.hands){ h.close=0; h.grab=null; h.ready=false; } S.act=null; }
-function _hmActTick(S,f){
-  const A=S.act, u=A.u, h=S.hands[A.hi], o=S.hands[1-A.hi], R=(u&&u.size)||20;
-  A.t++;
-  if(!u || u.dead || (u.hp!==undefined && u.hp<=0)){ _hmEndAct(S); return; }
-  const G=u._hmGrab||(u._hmGrab={sx:1,sy:1,lift:0});
-  const ease=(a,b,k)=>a+(b-a)*k;
-  if(A.kind==='crush'){
-    // ✊ BÓP CHẶT NGANG NGƯỜI: tay vòng ra bên hông con mồi, ôm ngang thân rồi siết — ép dẹp chiều ngang, phình dọc,
-    //    GIỮ méo móp 1.5s (run bần bật), mỗi 0.5s mất 80 máu; buông ra thì bật lại kiểu thạch
-    if(!A.side){ A.side={x:(h.tx<=u.x?1:-1), y:0}; A.dir=A.side; }   // nắm theo phương NGANG (lòng bàn tay ở hông bên phía tay tới)
-    _hmHold(u,A.gx,A.gy); h.grab=A;
-    const P=_hmPalmAt(A,u); h.tx+=(P.x-h.tx)*0.35; h.ty+=(P.y-h.ty)*0.35; h.hx=A.dir.x; h.hy=0;
-    let p=0;
-    if(A.t<=10){ h.close=A.t/10; }
-    else if(A.t<=20){ h.close=1; p=Math.pow((A.t-10)/10,2); }
-    else if(A.t<=110){ h.close=1; p=1+0.05*Math.sin(A.t*1.3);
-      if((A.t-20)%30===0 && A.t>20){ u.takeDamage(HM_SQUEEZE_DMG,u===f?null:f); addShake(7,6); spawnParticles(u.x,u.y,'#2a0a3a',10,false,true); } }
-    else { const q=(A.t-110)/18; h.close=Math.max(0,1-q*1.6); p=(1-q)*Math.cos(q*Math.PI*3)*0.55; }
-    G.ax=0; G.c=1-0.45*p; G.e=1+0.6*p; A.tight=Math.max(0,p);
-  } else if(A.kind==='squeeze'){
-    // 🏐 TUNG NGANG qua tay kia rồi BÓP: tay 1 tóm → lấy đà → TUNG con mồi bay vòng cung (có trọng lực) NGANG sang tay 2 →
-    //    tay 2 chụp lấy từ bên hông, BÓP NGANG thật mạnh: con mồi bị ép dẹp chiều ngang, phình dọc (giữ ~thể tích),
-    //    GIỮ méo móp suốt 1.5s (run bần bật dưới lực bóp), mỗi 0.5s mất 80 máu; buông ra thì thân bật lại kiểu thạch.
-    if(!A.C){ const sd=(A.gx<W/2?1:-1), cx=Math.max(R*1.6,Math.min(W-R*1.6,A.gx+sd*R*4.4));
-      A.C={x:cx, y:Math.max(R*1.6,Math.min(H-R*1.6,A.gy))}; A.td={x:Math.sign(cx-A.gx)||1, y:0}; }
-    const C=A.C, td=A.td, palmB={x:C.x+td.x*R*1.05, y:C.y};
-    o.tx+=(palmB.x-o.tx)*0.16; o.ty+=(palmB.y-o.ty)*0.16; o.hx=-td.x; o.hy=0; o.ready=A.t<=34;   // tay 2 chạy sẵn tới bên hông chỗ đón, xoè chờ
-    let p=0;   // độ bóp 0→1
-    if(A.t<=10){ _hmHold(u,A.gx,A.gy); h.close=A.t/10; h.grab=A; }
-    else if(A.t<=16){ const k=(A.t-10)/6; _hmHold(u,A.gx-td.x*R*0.4*k,A.gy); G.lift=R*0.4*k; }   // lấy đà
-    else if(A.t<=34){ const k=(A.t-16)/18, sx0=A.gx-td.x*R*0.4;                                  // bay: ngang đều, cao theo parabol (trọng lực)
-      _hmHold(u, ease(sx0,C.x,k), ease(A.gy,C.y,k)); G.lift=R*0.4*(1-k)+R*2.6*4*k*(1-k); G.sx=G.sy=1+0.15*4*k*(1-k);
-      h.close=Math.max(0,1-(A.t-16)/4); h.grab=null; if(A.t===17) h.relT=S.t; }
-    else { _hmHold(u,C.x,C.y); G.lift=0; G.sx=G.sy=1; o.press={x:-td.x,y:0};
-      if(A.t<=44){ o.close=Math.min(1,(A.t-34)/5); p=Math.pow((A.t-34)/10,2); }                    // chụp + siết dần
-      else if(A.t<=134){ o.close=1; p=1+0.05*Math.sin(A.t*1.3);                                    // GIỮ bóp 1.5s, run bần bật
-        if((A.t-44)%30===0){ u.takeDamage(HM_SQUEEZE_DMG,u===f?null:f); addShake(7,6); spawnParticles(u.x,u.y,'#2a0a3a',10,false,true); } }
-      else { const q=(A.t-134)/18; o.close=Math.max(0,1-q*1.6); p=(1-q)*Math.cos(q*Math.PI*3)*0.55; } }   // buông → bật lại kiểu thạch
-    G.ax=0; G.c=1-0.45*p; G.e=1+0.6*p; A.tight=Math.max(0,p);                                   // ép NGANG, phình dọc
-    if(A.t<=16){ const P=_hmPalmAt(A,{x:u.x,y:u.y-G.lift,size:R}); h.tx=P.x; h.ty=P.y; }
-    A.T=HM_ACT_T.squeeze;
-  } else if(A.kind==='slam'){
-    // 💥 VUNG TAY QUĂNG: tóm → nhấc bổng lấy đà → vung → BUÔNG cho con mồi bay vòng cung tới GÓC SÀN XA NHẤT, đập bẹp ở đó
-    if(!A.K){ const hc=[[R,R],[W-R,R],[R,H-R],[W-R,H-R]].sort((a,b)=>Math.hypot(a[0]-f.x,a[1]-f.y)-Math.hypot(b[0]-f.x,b[1]-f.y))[0];   // góc hamster đang nép → loại
-      const c=[[R,R],[W-R,R],[R,H-R],[W-R,H-R]].filter(q=>q!==hc && !(q[0]===hc[0]&&q[1]===hc[1])).sort((a,b)=>Math.hypot(b[0]-A.gx,b[1]-A.gy)-Math.hypot(a[0]-A.gx,a[1]-A.gy))[0];
-      A.K={x:c[0],y:c[1]}; }
-    const back={x:A.gx-A.dir.x*R*0.6, y:A.gy-A.dir.y*R*0.6}, rel={x:A.gx+A.dir.x*R*1.2, y:A.gy+A.dir.y*R*1.2};
-    if(A.t<=10){ _hmHold(u,A.gx,A.gy); h.close=A.t/10; h.grab=A; }
-    else if(A.t<=22){ const k=(A.t-10)/12, e=1-Math.pow(1-k,3); _hmHold(u, ease(A.gx,back.x,e), ease(A.gy,back.y,e)); G.lift=R*1.8*e; G.sx=G.sy=1+0.2*e; }
-    else if(A.t<=28){ const k=(A.t-22)/6, e=k*k; _hmHold(u, ease(back.x,rel.x,e), ease(back.y,rel.y,e)); G.lift=R*1.8; }     // vung
-    else { if(!A.F){ A.F=Math.max(10,Math.min(30,Math.round(Math.hypot(A.K.x-rel.x,A.K.y-rel.y)/20))); A.T=28+A.F+18; }
-      h.close=Math.max(0,1-(A.t-28)/5); h.grab=null; if(A.t===29) h.relT=S.t;                       // buông tay
-      const k=Math.min(1,(A.t-28)/A.F);
-      _hmHold(u, ease(rel.x,A.K.x,k), ease(rel.y,A.K.y,k)); if(k<1){ G.lift=R*1.8*(1-k)+R*1.4*Math.sin(Math.PI*k); G.sx=G.sy=1+0.2*(1-k); }
-      if(A.t===28+A.F){ u.takeDamage(HM_SLAM_DMG,u===f?null:f); addShake(12,9); A.sq=14; G.lift=0;
-        spawnParticles(u.x,u.y,'#bdbdbd',16,false,true); spawnParticles(u.x,u.y,'#2a0a3a',10,false,true); } }
-    if(A.sq>0){ const p=(A.sq--)/14; G.sx=1+0.5*p; G.sy=1-0.45*p; G.lift=0; }   // bẹp dí vào góc tường
-    if(A.t<=28){ const P=_hmPalmAt(A,{x:u.x,y:u.y-G.lift,size:R}); h.tx=P.x; h.ty=P.y; }
-  } else if(A.kind==='clap'){
-    _hmHold(u,A.gx,A.gy); h.grab=A; h.close=Math.min(1,A.t/8);
-    const P=_hmPalmAt(A,u); h.tx+=(P.x-h.tx)*0.45; h.ty+=(P.y-h.ty)*0.45;
-    const side=A.dir, far={x:u.x+side.x*R*3.2, y:u.y+side.y*R*3.2}, hit={x:u.x+side.x*R*1.05, y:u.y+side.y*R*1.05};
-    if(A.t<=30){ o.tx+=(far.x-o.tx)*0.14; o.ty+=(far.y-o.ty)*0.14; o.close=0; o.press=null; }       // tay kia vòng ra phía ĐỐI DIỆN, xoè sẵn
-    else if(A.t<=38){ const k=(A.t-30)/8, e=k*k; o.tx=ease(far.x,hit.x,e); o.ty=ease(far.y,hit.y,e); o.press={x:-side.x,y:-side.y}; o.close=e;   // ĐẬP vào, vuốt ôm từ phía bên kia
-      if(A.t===38){ u.takeDamage(HM_CLAP_DMG,u===f?null:f); addShake(12,9); A.flash=10; A.sq=12; spawnParticles(u.x,u.y,'#2a0a3a',14,false,true); } }
-    else { o.press={x:-side.x,y:-side.y}; o.close=Math.max(0,1-(A.t-46)/10); }
-    { const p=A.sq>0 ? (A.sq--)/12 : 0; G.ax=Math.atan2(side.y,side.x); G.c=1-0.45*p; G.e=1+0.3*p; }   // bị ép dẹp giữa 2 lòng bàn tay — theo đúng trục 2 tay đập vào nhau
-    if(A.flash>0) A.flash--;
-  }
-  if(A.t>=(A.T||HM_ACT_T[A.kind])){ for(const hh of S.hands) hh.press=null; _hmEndAct(S); S.retract=true; }   // 🔙 xử xong 1 con → 2 tay RỤT về tường luôn
+// lùi đầu tay NGƯỢC theo vệt đã bò (cánh tay co lại đúng đường cũ); tay vẫn chĩa ra ngoài theo thân cánh tay
+function _hmBack(h,step){
+  while(step>0){ const tg=h.trail.length>1 ? h.trail[h.trail.length-1] : {x:h.ax,y:h.ay};
+    const dx=tg.x-h.tx, dy=tg.y-h.ty, d=Math.hypot(dx,dy);
+    if(d>0.5){ h.hx=-dx/d; h.hy=-dy/d; }
+    if(d<=step){ h.tx=tg.x; h.ty=tg.y; step-=d; if(h.trail.length>1) h.trail.pop(); else break; }
+    else { h.tx+=dx/d*step; h.ty+=dy/d*step; step=0; } }
 }
-// 🎞️ LỚP CHUYỂN ĐỘNG MƯỢT (chạy mỗi tick, tách khỏi logic): mọi thứ VẼ ra đều đi qua đây nên bàn tay chuyển động như
-//    1 khối thống nhất thay vì từng khớp giật riêng:
-//    • vị trí vẽ (rx,ry) & góc (angS) BÁM THEO vị trí thật bằng nội suy — không bao giờ nhảy cóc
-//    • độ nắm (clS) là LÒ XO có quán tính → khép lại dứt khoát, hơi lố rồi bật về (như tay thật siết lại)
-//    • nhịp BÒ (ph) chạy theo quãng đường tay đi được → các vuốt cào nối tiếp nhau thành 1 làn sóng + lòng bàn tay co giãn
-//    • sắp vồ trúng ai → vuốt XOÈ RỘNG lấy đà (anticipation) trước khi chụp
+function _hmEndAct(S){ const A=S.act;
+  if(A && A.u){ delete A.u._hmGrab; if(A.hold && A.u.stun!==undefined) A.u.stun=Math.max(A.u.stun||0,20); }
+  for(const h of S.hands){ h.lift=0; h.pose=null; } S.act=null; }
+function _hmActTick(S,f){
+  const A=S.act, u=A.u, h=S.hands[A.hi], R=(u&&u.size)||20;
+  A.t++;
+  const gone=!u || u.dead || (u.hp!==undefined && u.hp<=0);
+  const aim=()=>{ const dx=u.x-h.tx, dy=u.y-h.ty, d=Math.hypot(dx,dy); if(d>1){ h.hx=dx/d; h.hy=dy/d; } };
+  if(A.t<=HM_WIND_T){   // ① lấy đà: rụt về sau (ease-out) + nhấc lên, vẫn nhắm con mồi
+    if(gone){ _hmEndAct(S); S.retract=true; return; }
+    const p=A.t/HM_WIND_T, e=1-Math.pow(1-p,3), want=R*1.3*e;
+    _hmBack(h, Math.max(0,want-(A.back||0))); A.back=want; aim();
+    h.lift=e; h.pose='lunge';
+    if(A.t===HM_WIND_T){ A.fx=h.tx; A.fy=h.ty; }
+  } else if(A.t<=HM_WIND_T+HM_STRIKE_T){   // ② vồ: lao xuống (ease-in) chụp đúng chỗ con mồi đang đứng
+    if(gone){ _hmEndAct(S); S.retract=true; return; }
+    const p=(A.t-HM_WIND_T)/HM_STRIKE_T, e=p*p;
+    h.tx=A.fx+(u.x-A.fx)*e; h.ty=A.fy+(u.y-A.fy)*e; _hmTrail(h); aim();
+    h.lift=1-e; h.pose='closing';
+    if(A.t===HM_WIND_T+HM_STRIKE_T){
+      h.lift=0; A.hold=true;
+      u.takeDamage(HM_POUNCE_DMG, u===f?null:f);
+      if(u.stun!==undefined) u.stun=Math.max(u.stun||0,HM_STUN_T);
+      addShake(9,7); spawnParticles(u.x,u.y,'#1a0826',14,false,true);
+    }
+  } else {   // ③ lôi con mồi lùi theo đường tay về phía tường: nhanh dần rồi chậm lại trước khi buông
+    const q=A.t-HM_WIND_T-HM_STRIKE_T;
+    if(gone || q>HM_DRAG_T){ _hmEndAct(S); S.retract=true; return; }
+    const sp=Math.min(3.2,0.4+q*0.12)*Math.min(1,(HM_DRAG_T-q)/10+0.15);
+    _hmBack(h,sp); h.pose='grip';
+    _hmHold(u, Math.max(R,Math.min(W-R,h.tx)), Math.max(R,Math.min(H-R,h.ty)));
+    if(!u._hmGrab) u._hmGrab={sx:1,sy:1,lift:0};   // hamster bị tóm: moveLogic nhường vị trí cho tay
+  }
+}
 function _hmAnim(S){
   const f=S.owner;
   for(const h of S.hands){
@@ -4141,9 +4103,9 @@ function _hmAnim(S){
     const ox=h.rx, oy=h.ry;
     h.rx+=(h.tx-h.rx)*0.45; h.ry+=(h.ty-h.ry)*0.45;
     const moved=Math.hypot(h.rx-ox,h.ry-oy);
-    const want=(h.press?Math.atan2(h.press.y,h.press.x):Math.atan2(h.hy,h.hx)), dA=Math.atan2(Math.sin(want-h.angS),Math.cos(want-h.angS));
+    const want=Math.atan2(h.hy,h.hx), dA=Math.atan2(Math.sin(want-h.angS),Math.cos(want-h.angS));
     h.angS+=dA*0.18;
-    let tgt=h.close||0;
+    let tgt=0;
     if(!S.act && !S.retract && f){   // sắp chạm địch → xoè vuốt lấy đà
       for(const u of [...fighters.filter(o=>o.team!==f.team && !o.dead), ..._summonFoes(f.team)]){
         const d=Math.hypot(u.x-h.tx,u.y-h.ty); if(d<(u.size||20)*3.2 && !S.hit.has(u)){ tgt=Math.min(tgt,-0.45*(1-d/((u.size||20)*3.2))); } } }
@@ -4173,12 +4135,7 @@ function _hmTick(){
     if(S.act){ _hmActTick(S,f); continue; }   // đang xử con mồi → tay thôi đuổi hamster
     if(S.retract){   // 🔙 rụt về: đầu tay lùi ngược theo đúng đường đã bò, về tới tường thì biến mất
       let done=true;
-      for(const h of S.hands){ let step=16;
-        while(step>0){ const tg=h.trail.length>1 ? h.trail[h.trail.length-1] : {x:h.ax,y:h.ay};
-          const dx=tg.x-h.tx, dy=tg.y-h.ty, d=Math.hypot(dx,dy);
-          if(d<=step){ h.tx=tg.x; h.ty=tg.y; step-=d; if(h.trail.length>1) h.trail.pop(); else break; }
-          else { h.tx+=dx/d*step; h.ty+=dy/d*step; h.hx=-dx/d; h.hy=-dy/d; step=0; } }
-        if(h.trail.length>1 || Math.hypot(h.tx-h.ax,h.ty-h.ay)>1) done=false; }
+      for(const h of S.hands){ _hmBack(h,16); if(h.trail.length>1 || Math.hypot(h.tx-h.ax,h.ty-h.ay)>1) done=false; }
       if(done){ hmShadows.splice(i,1); _hmFlee(f); }
       continue; }
     const em=Math.min(1,S.t/HM_EMERGE);
@@ -4190,70 +4147,21 @@ function _hmTick(){
       const sp=Math.min(d, h.spd*(0.25+0.75*em*em));   // vươn ra TỪ TỪ rồi mới nhanh dần
       h.tx+=h.hx*sp; h.ty+=h.hy*sp; h.tx=Math.max(4,Math.min(W-4,h.tx)); h.ty=Math.max(4,Math.min(H-4,h.ty));
       _hmTrail(h); }
-    // 🤜 tay vớ được địch chắn đường (meme + quân triệu hồi có máu) → 1 trong 3 kiểu tương tác
+    // 🖐️ tay chạm địch chắn đường (meme + quân triệu hồi có máu) → ĐÒN VỒ
     let caught=false;
     for(const u of [...fighters.filter(o=>o.team!==f.team && !o.dead), ..._summonFoes(f.team)]){
       if(S.hit.has(u)) continue;
       const hi=S.hands.findIndex(h=>Math.hypot(u.x-h.tx,u.y-h.ty)<16+(u.size||20));
       if(hi<0) continue;
-      S.hit.add(u);
-      const kind=['crush','slam','squeeze'][Math.floor(Math.random()*3)], h=S.hands[hi];
-      const A={kind,u,hi,t:0,gx:u.x,gy:u.y,dir:{x:h.hx,y:h.hy}};
-      if(kind==='slam'){ const r=u.size||20, opts=[[r,u.y,u.x],[W-r,u.y,W-u.x],[u.x,r,u.y],[u.x,H-r,H-u.y]].sort((a,b)=>a[2]-b[2]);
-        if(opts[0][2]<r*3.5){ A.wx=opts[0][0]; A.wy=opts[0][1]; }   // tường ở sát → đập vào tường
-        else { A.wx=Math.max(r,Math.min(W-r,u.x+h.hx*r*1.6)); A.wy=Math.max(r,Math.min(H-r,u.y+h.hy*r*1.6)); } }   // không thì đập thẳng xuống đất ngay trước mặt
-      S.act=A; caught=true; break;
+      S.hit.add(u); S.act={u,hi,t:0}; caught=true; break;
     }
     if(caught) continue;
-    // 🐹 chạm tới CHÍNH hamster → bị xử y như meme khác (1 trong 3 kiểu tương tác, cùng mức dame) — không còn nuốt 300
+    // 🐹 chạm tới CHÍNH hamster → nó cũng ăn đúng đòn vồ như meme khác
     if(em>=0.6){ const hi=S.hands.findIndex(h=>Math.hypot(f.x-h.tx,f.y-h.ty)<16+f.size*0.7);
-      if(hi>=0){ const kind=['crush','slam','squeeze'][Math.floor(Math.random()*3)], h=S.hands[hi];
-        S.act={kind,u:f,hi,t:0,gx:f.x,gy:f.y,dir:{x:h.hx,y:h.hy}}; f._hmLeanT=0; } }
+      if(hi>=0){ S.act={u:f,hi,t:0}; f._hmLeanT=0; } }
   }
 }
-// ✋ BÀN TAY BÓNG — vẽ y kiểu sprite tay Don't Starve (ảnh user gửi): nét BÚT DẠ vẽ tay đen kịt, lòng bàn tay khối VUÔNG
-//    to, 3 MÓNG VUỐT hình lưỡi liềm dày ở gốc thon nhọn ở đầu + 1 NGÓN CÁI móc ngược, cổ tay/cánh tay dày; mép hơi run
-//    ("sôi nét" đổi mỗi 4 khung) và vài vệt xám lướt dọc thân như vết bút dạ.
 function _hmN(k,b){ const v=Math.sin(k*127.1+b*311.7)*43758.5453; return v-Math.floor(v)-0.5; }
-// 1 vuốt lưỡi liềm: gốc (bx,by) hướng a0, dài len, cong thêm `bend` rad, gốc rộng w0 → đa giác kín
-function _hmClaw(bx,by,a0,len,bend,w0,boil,k){
-  const N=10, L=[], Rr=[]; let x=bx, y=by, a=a0;
-  for(let i=0;i<=N;i++){ const s=i/N, w=w0*Math.pow(1-s,0.85)*0.5+0.4, nx=-Math.sin(a), ny=Math.cos(a), j=_hmN(k*13+i,boil)*1.4;
-    L.push([x+nx*(w+j), y+ny*(w+j)]); Rr.push([x-nx*(w-j), y-ny*(w-j)]);
-    x+=Math.cos(a)*len/N; y+=Math.sin(a)*len/N; a+=bend/N; }
-  return {poly:L.concat(Rr.reverse()), spine:{bx,by,a0,len,bend}};
-}
-function _hmFill(poly){ ctx.beginPath(); poly.forEach((q,i)=>i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1])); ctx.closePath(); ctx.fill(); }
-function _hmStreaks(sp,w0,boil,k){   // vệt bút dạ xám lướt dọc thân vuốt
-  ctx.strokeStyle='rgba(78,78,78,0.55)'; ctx.lineWidth=1.1;
-  for(let m=0;m<3;m++){ const off=(m-1)*w0*0.22+_hmN(k+m,boil)*1.5; let x=sp.bx, y=sp.by, a=sp.a0; ctx.beginPath();
-    for(let i=0;i<=7;i++){ const nx=-Math.sin(a), ny=Math.cos(a), f=1-i/7; const px=x+nx*off*f, py=y+ny*off*f; i?ctx.lineTo(px,py):ctx.moveTo(px,py);
-      x+=Math.cos(a)*sp.len*0.8/7; y+=Math.sin(a)*sp.len*0.8/7; a+=sp.bend*0.8/7; } ctx.stroke(); }
-}
-// part: 'all' | 'palm' (cổ tay + lòng bàn tay + ngón cái) | 'claws' (3 vuốt) — để vẽ kiểu CẦM 3D (lòng bàn tay sau con mồi, vuốt quặp đè lên trước)
-function _hmHandShape(x,y,ang,S,cl,boil,part,a,ph){
-  ph=ph||0; const spread=Math.max(0,-cl); cl=Math.max(0,cl);   // cl<0 = xoè rộng lấy đà
-  ctx.save(); ctx.globalAlpha=a; ctx.translate(x,y); ctx.rotate(ang); ctx.fillStyle='#070707';
-  { const pul=1+0.06*Math.sin(ph*2)*(1-cl); ctx.scale(pul,2-pul); }   // lòng bàn tay co giãn theo nhịp bò
-  if(part!=='claws'){
-    // lòng bàn tay khối vuông hơi xéo
-    const P=[[-0.3,-0.3],[0.28,-0.36],[0.34,0.26],[-0.26,0.34]].map((q,i)=>[q[0]*S+_hmN(i,boil)*2, q[1]*S+_hmN(i+9,boil)*2]);
-    _hmFill(P);
-    // ngón cái móc ngược xuống-ra sau
-    const th=_hmClaw(-0.12*S,0.26*S,1.75+cl*0.3+spread*0.35+0.14*Math.sin(ph*2+2.4)*(1-cl),0.95*S,-1.15-cl*0.4+spread*0.4,0.3*S,boil,7); _hmFill(th.poly); _hmStreaks(th.spine,0.3*S,boil,7);
-    ctx.strokeStyle='rgba(78,78,78,0.5)'; ctx.lineWidth=1.1;
-    for(let m=0;m<3;m++){ ctx.beginPath(); ctx.moveTo(-0.22*S,(-0.18+m*0.16)*S+_hmN(m,boil)*2); ctx.lineTo(0.24*S,(-0.24+m*0.17)*S+_hmN(m+3,boil)*2); ctx.stroke(); }
-  }
-  if(part!=='palm'){
-    // 3 vuốt lưỡi liềm xoè ra trước (nắm lại → cụp & quặp mạnh)
-    const C=[[-0.95,1.25,0.85],[-0.3,1.4,0.7],[0.4,1.05,0.65]];
-    C.forEach((c,k)=>{ const walk=Math.sin(ph*2-k*0.9)*(1-cl);   // vuốt cào nối tiếp nhau thành 1 làn sóng
-      const a0=c[0]*(1-cl*0.55)*(1+spread*0.45)+walk*0.16, bend=c[2]+cl*1.6-spread*0.45+walk*0.22, len=c[1]*S*(1-cl*0.15)*(1+spread*0.12)*(1+walk*0.06);
-      const cw=_hmClaw(0.24*S, (-0.24+k*0.24)*S, a0, len, bend, 0.32*S, boil, k); _hmFill(cw.poly); _hmStreaks(cw.spine,0.32*S,boil,k); });
-  }
-  ctx.restore();
-}
-// cánh tay dày bám theo đúng đường tay đã bò (trail), mép run nhẹ + vệt bút dạ
 // 🦾 CÁNH TAY vẽ tay CÙNG NÉT với bộ ảnh bàn tay: đen bóng, mép run nhẹ kiểu hand-draw, vệt sáng ngắn chạy dọc thớ tay
 //    (y như cẳng tay sẵn trong ảnh). Đường tay = spline mượt qua vệt bò; đoạn cuối luôn THẲNG theo hướng cổ tay của ảnh
 //    và bề ngang khớp đúng bề ngang cổ tay → nối liền không thấy mối, uốn lượn dẻo theo bàn tay. Gốc tan vào vũng bóng ở tường.
@@ -4300,37 +4208,6 @@ function _hmArmSprite(h,W0,wd,a,seed){
     ctx.beginPath(); for(let i=i0;i<=i1;i++){ const o=rows[r]*Wd[i]; const x=C[i].x+N[i].x*o, y=C[i].y+N[i].y*o; i>i0?ctx.lineTo(x,y):ctx.moveTo(x,y); } ctx.stroke(); } }
   ctx.restore();
 }
-function _hmHandAng(h){ return Math.atan2(h.hy,h.hx); }
-// 🤲 CẦM 3D: lòng bàn tay nằm SAU con mồi; mỗi vuốt chạy VÒNG QUANH viền người nó (phần thân vuốt vẽ DƯỚI sprite → như
-//    luồn ra sau lưng) rồi chỉ có ĐẦU MÓNG quặp vào đè lên mép trước (vẽ TRÊN sprite). Không vuốt nào cắt ngang qua mặt.
-//    C = tâm con mồi (đã tính độ nhấc), R = bán kính hình, dir = hướng từ lòng bàn tay vào tâm, cl = độ nắm 0→1.
-function _hmTalonPoly(pts,w0,boil,k){
-  const n=pts.length, L=[], Rr=[];
-  for(let i=0;i<n;i++){ const a=pts[Math.max(0,i-1)], b=pts[Math.min(n-1,i+1)], dx=b.x-a.x, dy=b.y-a.y, l=Math.hypot(dx,dy)||1, nx=-dy/l, ny=dx/l;
-    const w=w0*Math.pow(1-i/(n-1),0.8)*0.5+0.5, j=_hmN(k*17+i,boil)*1.2; L.push([pts[i].x+nx*(w+j),pts[i].y+ny*(w+j)]); Rr.push([pts[i].x-nx*(w-j),pts[i].y-ny*(w-j)]); }
-  return L.concat(Rr.reverse());
-}
-function _hmWrap(C,R,dir,cl,S,boil,layer,a,def){
-  // vuốt + lòng bàn tay bám ĐÚNG viền đã bị bóp méo (cùng phép dẹp với hình con mồi) → bóp tới đâu méo tới đấy
-  const D=(x,y)=>{ if(!def) return [x,y]; const ux=Math.cos(def.ax), uy=Math.sin(def.ax), dx=x-C.x, dy=y-C.y; let p=dx*ux+dy*uy, q=-dx*uy+dy*ux; p*=def.c; q*=def.e; return [C.x+p*ux-q*uy, C.y+p*uy+q*ux]; };
-  const back=Math.atan2(-dir.y,-dir.x), T=[[1,1.06,2.15,0.34],[1,1.2,1.75,0.3],[-1,1.1,2.05,0.32],[-1,0.98,1.25,0.26]];   // [phía, bán kính, góc quét tối đa, độ dày]
-  ctx.save(); ctx.globalAlpha=a; ctx.fillStyle='#070707';
-  if(layer==='under'){   // lòng bàn tay khối vuông phía sau con mồi
-    const P={x:C.x-dir.x*R*1.05, y:C.y-dir.y*R*1.05}, ang=Math.atan2(dir.y,dir.x), c=Math.cos(ang), sn=Math.sin(ang);
-    _hmFill([[-0.32,-0.36],[0.3,-0.4],[0.34,0.36],[-0.3,0.4]].map((q,i)=>D(P.x+(q[0]*c-q[1]*sn)*S+_hmN(i,boil)*2, P.y+(q[0]*sn+q[1]*c)*S+_hmN(i+9,boil)*2)));
-  }
-  T.forEach((t,k)=>{
-    const sw=t[2]*Math.max(0.15,cl), r=R*t[1], N=12, pts=[];
-    for(let i=0;i<=N;i++){ const s=i/N, an=back+t[0]*(0.3+sw*s), rr=r*(1-0.04*s); const q=D(C.x+Math.cos(an)*rr, C.y+Math.sin(an)*rr); pts.push({x:q[0], y:q[1]}); }
-    const endA=back+t[0]*(0.3+sw);   // đầu móng quặp VÀO trong, chỉ chạm mép trước
-    { const q1=D(C.x+Math.cos(endA+t[0]*0.18)*r*0.82, C.y+Math.sin(endA+t[0]*0.18)*r*0.82), q2=D(C.x+Math.cos(endA+t[0]*0.3)*r*0.66, C.y+Math.sin(endA+t[0]*0.3)*r*0.66);
-      pts.push({x:q1[0],y:q1[1]}); pts.push({x:q2[0],y:q2[1]}); }
-    const cut=Math.floor(pts.length*0.72);
-    if(layer==='under') _hmFill(_hmTalonPoly(pts.slice(0,cut+1),t[3]*S,boil,k));
-    else { const tip=pts.slice(cut-1), w=t[3]*S*Math.pow(1-(cut-1)/(pts.length-1),0.8); _hmFill(_hmTalonPoly(tip,w,boil,k+5)); }
-  });
-  ctx.restore();
-}
 function _hmSmokeBlob(x,y,r,a){ const g=ctx.createRadialGradient(x,y,0,x,y,r); g.addColorStop(0,`rgba(0,0,0,${0.85*a})`); g.addColorStop(0.6,`rgba(5,0,10,${0.55*a})`); g.addColorStop(1,'rgba(0,0,0,0)');
   ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); }
 // ── VẼ DƯỚI MEME: cánh tay + bàn tay đang bò sát mặt sàn + bóng con mồi bị nhấc
@@ -4342,17 +4219,13 @@ const HM_HAND_META={"crawlA": {"w": 391, "h": 204, "wy": 74.0, "ww": 90.0}, "cra
 const HM_HAND_IMG={};
 for(const k of ['crawlA','crawlB','lunge','closing','grip','squeeze','fist','throw','slap','retreat']){ HM_HAND_IMG[k]=new Image(); HM_HAND_IMG[k].src='assets/img/scaredhamster/HAND_'+k+'.webp'; }
 function _hmHandK(S){ return 0.45*((S.owner?S.owner.size:40)/40); }   // tỉ lệ ảnh → sân (tay dài ~4.4× size hamster)
-// chọn tư thế cho tay KHÔNG đang cầm: bò (2 khung luân phiên) / vồ / khép / vừa buông (ném) / rụt về
+// tư thế tay: theo pha đòn vồ (h.pose) / rụt về / sắp chạm địch thì xoè vuốt / còn lại bò 2 khung luân phiên
 function _hmPoseFor(S,h){
   if(S.retract) return 'retreat';
-  if(h.relT!==undefined && S.t-h.relT<12) return 'throw';
-  if(h.ready) return 'lunge';
-  const cl=h.clS??0;
-  if(cl<-0.15) return 'lunge';
-  if(cl>0.25) return 'closing';
+  if(h.pose) return h.pose;
+  if((h.clS??0)<-0.15) return 'lunge';
   return Math.sin((h.cph||0)*2)>0 ? 'crawlA' : 'crawlB';
 }
-// vẽ 1 ảnh tay: gốc toạ độ = TÂM CỔ TAY (wx,wy), xoay theo ang, phóng k
 function _hmBlit(img,meta,wx,wy,ang,k,a){
   if(!img || !img.complete || !img.naturalWidth) return;
   ctx.save(); ctx.globalAlpha=a; ctx.translate(wx,wy); ctx.rotate(ang); ctx.scale(k,k);
@@ -4364,33 +4237,26 @@ function _hmWristFree(h,pose,k){ const m=HM_HAND_META[pose], a=h.angS??Math.atan
 // cổ tay của tay đang CẦM: đặt sao cho tâm quả bóng trong ảnh trùng tâm con mồi
 function _hmWristGrip(w,pose,k){ const m=HM_HAND_META[pose], a=Math.atan2(w.dir.y,w.dir.x), lx=m.bx*k, ly=(m.by-m.wy)*k;
   return {x:w.C.x-(lx*Math.cos(a)-ly*Math.sin(a)), y:w.C.y-(lx*Math.sin(a)+ly*Math.cos(a)), a}; }
-// tay hi đang ôm con mồi? → tâm/bán kính hình con mồi (đã tính độ nhấc + bóp bẹp) + hướng cầm
-function _hmWrapInfo(S,hi){
-  const A=S.act; if(!A || !A.u) return null; const h=S.hands[hi], u=A.u, G=u._hmGrab||{sx:1,sy:1,lift:0};
-  let dir;
-  const cl=Math.max(0,Math.min(1.15,h.clS??h.close));   // độ nắm LÒ XO (siết lố nhẹ rồi bật về)
-  if(hi===A.hi){ if(!(cl>0.05)) return null; dir=A.dir; }
-  else { if(!h.press || !(cl>0.05)) return null; dir=h.press; }
-  return {C:{x:u.x, y:u.y-(G.lift||0)}, R:(u.size||20)*Math.max(G.sx||1,G.sy||1)*0.95, dir, cl:Math.min(1.15,cl+0.15*(A.tight||0)), def:(G.ax!==undefined?{ax:G.ax,c:G.c??1,e:G.e??1}:null)};
-}
 function _hmDrawUnder(){
-  for(const S of hmShadows){ const f=S.owner, a=(S.dying?Math.max(0,1-S.dying/30):1), em=Math.min(1,S.t/HM_EMERGE), sz=(f?f.size:40)*1.6, boil=0, k0=_hmHandK(S);
-    const A=S.act;
-    if(A && A.u && A.u._hmGrab && A.u._hmGrab.lift>1){ const u=A.u, R=u.size||20, l=A.u._hmGrab.lift;   // bóng con mồi in dưới sàn lúc bị nhấc bổng
-      ctx.save(); ctx.globalAlpha=0.35*a; ctx.fillStyle='#000'; ctx.beginPath(); ctx.ellipse(u.x,u.y+R*0.7,R*(0.9-l/(R*6)),R*0.28,0,0,Math.PI*2); ctx.fill(); ctx.restore(); }
-    S.hands.forEach((h,hi)=>{ const ha=a*Math.min(1,em*2);
-      const wrap=_hmWrapInfo(S,hi);
-      let W0, pose;
-      if(wrap){ pose=(A && (A.tight||0)>0.3)?'squeeze':'grip'; h._kS=(h._kS??k0)+(k0-(h._kS??k0))*0.3;   // giữ nguyên cỡ tay lúc cầm (không phình to che mất con mồi)
-        W0=_hmWristGrip(wrap,pose,h._kS); h._wx=W0.x; h._wy=W0.y; }
-      else { pose=_hmPoseFor(S,h); h._kS=(h._kS??k0)+(k0-(h._kS??k0))*0.2; W0=_hmWristFree(h,pose,h._kS); }
-      h._pose=pose; h._W0=W0; h._ha=ha; h._seedA=S.seed+hi*3.1; h._over=!!wrap;
-      _hmArmSprite(h,W0,HM_HAND_META[pose].ww*h._kS*0.97,ha,h._seedA);   // cánh tay luôn nằm dưới
-      if(!wrap) _hmBlit(HM_HAND_IMG[pose],HM_HAND_META[pose],W0.x,W0.y,W0.a,h._kS,ha);   // tay đang cầm thì vẽ ở _hmDrawOver (đè lên con mồi)
+  for(const S of hmShadows){ const a=(S.dying?Math.max(0,1-S.dying/30):1), em=Math.min(1,S.t/HM_EMERGE), k0=_hmHandK(S), A=S.act;
+    S.hands.forEach((h,hi)=>{ const ha=a*Math.min(1,em*2), lift=h.lift||0;
+      const hold=!!(A && A.hold && A.hi===hi && A.u && !A.u.dead);
+      const kT=k0*(1+0.22*lift); h._kS=(h._kS??kT)+(kT-(h._kS??kT))*0.35;   // nhấc lên → to ra chút (gần mắt hơn)
+      let pose, W0;
+      if(hold){ pose='grip'; const ang=h.angS??Math.atan2(h.hy,h.hx); W0=_hmWristGrip({C:{x:A.u.x,y:A.u.y},dir:{x:Math.cos(ang),y:Math.sin(ang)}},pose,h._kS); }
+      else { pose=_hmPoseFor(S,h); W0=_hmWristFree(h,pose,h._kS); }
+      const up=lift*k0*90;   // độ cao khi nhấc bổng
+      if(up>0.5){ ctx.save(); ctx.globalAlpha=0.3*lift*ha; ctx.fillStyle='#000'; ctx.beginPath(); ctx.ellipse(h.rx??h.tx,h.ry??h.ty,k0*130*(1-0.25*lift),k0*45*(1-0.25*lift),0,0,Math.PI*2); ctx.fill(); ctx.restore(); }
+      // cổ tay trượt mượt khi đổi tư thế (mỗi ảnh có cổ tay lệch nhau chút) → cánh tay không giật
+      const tx=W0.x, ty=W0.y-up; if(h._Wx===undefined){ h._Wx=tx; h._Wy=ty; } h._Wx+=(tx-h._Wx)*0.5; h._Wy+=(ty-h._Wy)*0.5;
+      W0={x:h._Wx, y:h._Wy, a:W0.a};
+      h._pose=pose; h._W0=W0; h._ha=ha; h._over=hold;
+      _hmArmSprite(h,W0,HM_HAND_META[pose].ww*h._kS*0.97,ha,S.seed+hi*3.1);   // cánh tay luôn nằm dưới
+      if(!hold) _hmBlit(HM_HAND_IMG[pose],HM_HAND_META[pose],W0.x,W0.y,W0.a,h._kS,ha);   // tay đang tóm thì vẽ ở _hmDrawOver (đè lên con mồi)
     });
   }
 }
-// ── VẼ TRÊN MEME: tay đang CẦM con mồi vẽ đè hẳn lên nó (không bị che khuất)
+// ── VẼ TRÊN MEME: tay đang TÓM con mồi vẽ đè hẳn lên nó (ngón vòng quanh người, không bị che khuất)
 function _hmDrawOver(){
   for(const S of hmShadows) for(const h of S.hands) if(h._over && h._W0) _hmBlit(HM_HAND_IMG[h._pose],HM_HAND_META[h._pose],h._W0.x,h._W0.y,h._W0.a,h._kS,h._ha);
   // 🌑 bị nuốt chửng: bóng tối trùm kín con hamster rồi tan dần
