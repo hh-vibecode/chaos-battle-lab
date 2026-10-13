@@ -786,7 +786,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     clappingcat: { key:'clappingcat', defaultName:'Clapping Cat', emoji:'👏', color:'#ffb74d', hp:1000, speed:5, size:48.4, skill:'Có nó trong trận thì tường dưới mọc chông và có 1 quả bóng chông lăn qua lại — đâm vào chông hay bóng chông đều mất máu. Sắp lao vào chông thì nó vỗ tay đổi chỗ với địch, để địch lãnh thay. Càng lâu không chạm tường càng chạy nhanh.' },
     evilgary: { key:'evilgary', defaultName:'Evil Gary', emoji:'😈', color:'#b71c1c', hp:1000, speed:5, size:44, skill:'Đầu trận chỉ là con mèo xám ngồi im HÚT LINH HỒN: cứ mỗi giây 1 linh hồn khói đen từ góc xa nhất ngoài sân bay thẳng vào người nó (ai đứng chắn đường ăn 50 dame), mỗi linh hồn hút được vạch thêm 1 cánh ngôi sao ác quỷ trên đầu. Đủ 5 cánh: con quỷ đã nhập hiện lên sau lưng, sàn hoá CÕI LINH HỒN — khói ma lướt ngang sân, và cứ 5s một bầy linh hồn bò từ 4 góc tới bám địch (mỗi đợt đông hơn), bám được là gây dame và gieo độc vĩnh viễn, cộng dồn không giới hạn.' },
     mosquitoviolin: { key:'mosquitoviolin', defaultName:'Mosquito Violin', emoji:'🦟', color:'#ff5252', hp:1000, speed:5, size:34, skill:'Vào trận chưa nối được dây thì +20% tốc chạy và vo ve liên tục. LẦN ĐẦU chạm vào một kẻ địch, nó cắm một sợi dây mảnh vào con đó SUỐT TRẬN (chạm được bao nhiêu con thì nối bấy nhiêu dây). Nối được dây đầu tiên là bắt đầu kéo violin: mỗi nhịp của bài nhạc, một xung âm hình nhịp tim chạy dọc dây và nổ vào kẻ địch gây sát thương. Tần suất sát thương chính là nhịp của bài hát.' },
-    scaredhamster: { key:'scaredhamster', defaultName:'Scared Hamster', emoji:'🐹', color:'#c8a27a', hp:1000, speed:5, size:40, skill:'Không tự đánh — chỉ bò khắp sàn. Bò vào gần góc sàn thì dựa sát góc tường run rẩy sợ hãi, đứng yên tới khi bóng tối đi mất hẳn; từ góc xa nhất 2 bàn tay bóng tối móng dài từ từ vươn ra lần theo nó (không ai cản thì ~5s tới nơi, bóng tồn tại 6s). Tay vớ được địch chắn đường thì ngẫu nhiên: nắm bóp chặt (3×80 dmg), tóm nhấc bổng rồi vung đập xuống đất / vào tường (200 dmg) hoặc giữ lại cho 2 tay đập vào nhau (200 dmg), xong thì 2 tay rụt về tường. Tay chạm được hamster thì nó bị bóng tối nuốt chửng, nhận 300 dmg.' },
+    scaredhamster: { key:'scaredhamster', defaultName:'Scared Hamster', emoji:'🐹', color:'#c8a27a', hp:1000, speed:5, size:40, skill:'Không tự đánh — chỉ bò khắp sàn. Bò vào gần góc sàn thì dựa sát góc tường run rẩy sợ hãi, đứng yên tới khi bóng tối đi mất hẳn; từ góc xa nhất 2 bàn tay bóng tối móng dài từ từ vươn ra lần theo nó (không ai cản thì ~5s tới nơi, bóng tồn tại 6s). Tay vớ được địch chắn đường thì ngẫu nhiên: tung qua tay kia rồi bóp chặt (3×80 dmg), tóm nhấc bổng rồi vung quăng vào góc sàn xa nhất (200 dmg) hoặc giữ lại cho 2 tay đập vào nhau (200 dmg), xong thì 2 tay rụt về tường. Tay chạm được hamster thì nó bị bóng tối nuốt chửng, nhận 300 dmg.' },
     infinitydoge: { key:'infinitydoge', defaultName:'Infinity Doge', emoji:'🐕', color:'#ffb74d', hp:1000, speed:5, size:46, skill:'Bắt đầu 1 thân 1000 máu. Cứ mỗi lần một thân tụt xuống dưới 50% máu, thân đó PHÂN ĐÔI thành 2 thân nhỏ hơn 30% với máu tối đa bằng một nửa — các mốc 1000 → 500 → 250 → 125 → 50 (nấc cuối chốt 50 chứ không chia đôi tiếp). Thân 50 máu là mốc cuối, chết là chết luôn. Không có đòn đánh riêng: mọi thân gây 60 dame mỗi khi VA vào địch. Các thân tách ra tính như meme bình thường (di chuyển, nhận dame, dính hiệu ứng). Cả đàn chết sạch thì mới thua.' },
     cryingcat: { key:'cryingcat', defaultName:'Crying Cat Team', emoji:'😿', color:'#4fc3f7', hp:350, speed:5, size:32.5, skill:'Một đội 3 con mèo khóc, tính chung là 1 meme. Mỗi con 350 máu, di chuyển và đánh như meme thường. Mỗi con chạm vào địch gây 40 sát thương (mỗi con hồi chiêu riêng 0.8s). Giữa 3 con luôn có LIÊN KẾT NƯỚC MẮT nối với nhau: địch chạm/đi qua sợi liên kết mất 50 máu mỗi 0.5s và bị làm chậm. Mỗi lần 2 con trong đội va vào nhau, cả hai được hồi 25 máu. Mỗi con gục thì mấy con còn lại +20% size và +300 máu tối đa. Con cuối cùng còn 1 mình chuyển hẳn sang chiêu NỐI NƯỚC MẮT: cứ 2s nối 1 sợi với địch gần nhất, dính 3s, gây 25 sát thương mỗi 0.5s. Cả đội chỉ chết khi cả 3 con đều gục.' },
     calmdog: { key:'calmdog', defaultName:'Calm Dog', emoji:'🐕', color:'#546e7a', hp:1000, speed:5, size:40, skill:'Là quả bom hẹn giờ — vào trận có đồng hồ đếm ngược 13s, thể hiện qua 5 tấm hình NGẨNG ĐẦU tăng dần (mỗi ~2.6s đổi 1 hình, hình cuối là lúc há mồm chuẩn bị hú) thay vì số đếm. Mỗi 100 dame nhận vào, đồng hồ trôi nhanh thêm 1s. Về 0: hú vang gây 500 dame CHUẨN cho mọi địch trong tầm nổ — chỉ dùng được đúng 1 LẦN CẢ TRẬN. Ngoài ra không có đòn đánh nào khác, chỉ di chuyển né tránh bình thường.' },
@@ -4011,9 +4011,9 @@ const HM_LEAN_T=72, HM_CD=180, HM_SHADOW_LIFE=360, HM_REACH_T=300, HM_EMERGE=75,
 // ⏱️ bóng sống 6s (HM_SHADOW_LIFE); không ai cản đường thì tay mất ĐÚNG ~5s (HM_REACH_T) để chạm tới hamster:
 //    tốc tay tính lúc mọc ra theo khoảng cách tới hamster (trừ phần chậm lúc mới vươn ra ~37 tick)
 // 🤜 3 kiểu TƯƠNG TÁC khi tay bắt được meme/quân triệu hồi địch chắn đường (ngẫu nhiên, mỗi con 1 lần/bóng):
-//    'squeeze' nắm chặt bóp 3 nhịp · 'slam' tóm lấy nhấc bổng rồi vung tay đập xuống đất (tường ở sát thì đập vào tường) · 'clap' 1 tay giữ, tay kia lao tới đập 2 tay vào nhau
+//    'squeeze' tóm rồi TUNG qua tay kia như quả bóng, tay kia siết chặt bóp 3 nhịp · 'slam' tóm nhấc bổng rồi vung tay QUĂNG con mồi bay vào góc sàn xa nhất · 'clap' 1 tay giữ, tay kia lao tới đập 2 tay vào nhau
 const HM_SQUEEZE_DMG=80, HM_SLAM_DMG=200, HM_CLAP_DMG=200;   // squeeze: 3 nhịp × 80
-const HM_ACT_T={squeeze:66, slam:52, clap:56};
+const HM_ACT_T={squeeze:88, slam:60, clap:56};   // slam: thời lượng thật tính theo quãng bay (A.T)
 let hmShadows=[];
 // 🖼️ bộ ảnh Scared Hamster (user gửi, đã tách nền xanh): sợ hãi cầm thánh giá (lúc nép góc / bị nuốt) + 4 dáng chạy
 const HM_IMG={}; for(const k of ['SCARED','FRONT','SIDE1','SIDE2','BACK']){ HM_IMG[k]=new Image(); HM_IMG[k].src='assets/img/scaredhamster/HM_'+k+'.webp'; }
@@ -4046,33 +4046,47 @@ function _hmTrail(h){ const L=h.trail[h.trail.length-1]; if(Math.hypot(h.tx-L.x,
 function _hmPalmAt(A,u){ const R=(u.size||20); return {x:u.x-A.dir.x*R*1.05, y:u.y-A.dir.y*R*1.05}; }
 function _hmEndAct(S){ const A=S.act; if(A && A.u) delete A.u._hmGrab; for(const h of S.hands){ h.close=0; h.grab=null; } S.act=null; }
 function _hmActTick(S,f){
-  const A=S.act, u=A.u, h=S.hands[A.hi], o=S.hands[1-A.hi], T=HM_ACT_T[A.kind], R=(u&&u.size)||20;
+  const A=S.act, u=A.u, h=S.hands[A.hi], o=S.hands[1-A.hi], R=(u&&u.size)||20;
   A.t++;
   if(!u || u.dead || (u.hp!==undefined && u.hp<=0)){ _hmEndAct(S); return; }
   const G=u._hmGrab||(u._hmGrab={sx:1,sy:1,lift:0});
   const ease=(a,b,k)=>a+(b-a)*k;
   if(A.kind==='squeeze'){
-    _hmHold(u,A.gx,A.gy);
-    const P=_hmPalmAt(A,u); h.tx+=(P.x-h.tx)*0.45; h.ty+=(P.y-h.ty)*0.45;
-    h.close=Math.min(1,A.t/10); h.grab=A;
-    if(A.t===22||A.t===38||A.t===54){ u.takeDamage(HM_SQUEEZE_DMG,f); addShake(5,7); spawnParticles(u.x,u.y,'#2a0a3a',8,false,true); A.sq=10; }
-    const p=A.sq>0 ? (A.sq--)/10 : 0;   // bóp: người con mồi bẹp lại rồi phồng ra
-    G.sx=1+0.2*p; G.sy=1-0.26*p; G.lift=0; h.squeeze=p;
+    // 🏐 TUNG QUA TAY KIA RỒI BÓP: tay 1 tóm → lấy đà → TUNG con mồi bay vòng cung như quả bóng sang tay 2 → tay 2 chụp
+    //    lấy, SIẾT CHẶT 3 nhịp (mỗi nhịp con mồi bị bóp méo bẹp dí như cú đập, vuốt thít sát vào người nó)
+    if(!A.C){ const R0=R, px=-A.dir.y, py=A.dir.x;
+      const cand=[1,-1].map(sg=>({x:Math.max(R0*1.5,Math.min(W-R0*1.5,A.gx+px*sg*R0*4.4)), y:Math.max(R0*1.5,Math.min(H-R0*1.5,A.gy+py*sg*R0*4.4))}))
+        .sort((a,b)=>Math.hypot(b.x-A.gx,b.y-A.gy)-Math.hypot(a.x-A.gx,a.y-A.gy));
+      A.C=cand[0]; const dx=A.C.x-A.gx, dy=A.C.y-A.gy, l=Math.hypot(dx,dy)||1; A.td={x:dx/l,y:dy/l}; }
+    const C=A.C, td=A.td, palmB={x:C.x+td.x*R*1.05, y:C.y+td.y*R*1.05};
+    o.tx+=(palmB.x-o.tx)*0.16; o.ty+=(palmB.y-o.ty)*0.16; o.hx=-td.x; o.hy=-td.y;   // tay 2 chạy sẵn tới chỗ đón, ngửa vuốt chờ
+    if(A.t<=10){ _hmHold(u,A.gx,A.gy); h.close=A.t/10; h.grab=A; }
+    else if(A.t<=16){ const k=(A.t-10)/6; _hmHold(u,A.gx-td.x*R*0.4*k,A.gy-td.y*R*0.4*k); G.lift=R*0.4*k; }   // lấy đà
+    else if(A.t<=34){ const k=(A.t-16)/18, e=k<0.5?2*k*k:1-Math.pow(-2*k+2,2)/2, sx0=A.gx-td.x*R*0.4, sy0=A.gy-td.y*R*0.4;
+      _hmHold(u, ease(sx0,C.x,e), ease(sy0,C.y,e)); G.lift=R*0.4*(1-k)+R*2.4*Math.sin(Math.PI*k); G.sx=G.sy=1+0.15*Math.sin(Math.PI*k);
+      h.close=Math.max(0,1-(A.t-16)/4); h.grab=null; }                                              // buông tay 1
+    else { _hmHold(u,C.x,C.y); G.lift=0; o.press={x:-td.x,y:-td.y}; o.close=Math.min(1,(A.t-34)/5);  // tay 2 chụp lấy
+      if(A.t===46||A.t===60||A.t===74){ u.takeDamage(HM_SQUEEZE_DMG,f); addShake(8,6); spawnParticles(u.x,u.y,'#2a0a3a',10,false,true); A.sq=12; }
+      if(A.t>80) o.close=Math.max(0,1-(A.t-80)/8); }
+    if(A.sq>0){ const p=(A.sq--)/12; G.sx=1+0.55*p; G.sy=1-0.5*p; A.tight=p; } else A.tight=0;   // bóp méo bẹp dí + vuốt thít chặt
+    if(A.t<=16){ const P=_hmPalmAt(A,{x:u.x,y:u.y-G.lift,size:R}); h.tx=P.x; h.ty=P.y; }
+    A.T=HM_ACT_T.squeeze;
   } else if(A.kind==='slam'){
-    // 💥 VUNG TAY: tóm → nhấc bổng lên cao (lấy đà lùi nhẹ) → vung thật mạnh ĐẬP xuống đất (hoặc vào tường nếu tường ở sát)
-    //    Cánh tay KHÔNG bò lại theo con mồi — chỉ cổ tay vung, đoạn tay cuối duỗi thẳng theo cú vung.
-    h.grab=A;
-    const back={x:A.gx-A.dir.x*R*0.6, y:A.gy-A.dir.y*R*0.6};
-    if(A.t<=10){ _hmHold(u,A.gx,A.gy); h.close=A.t/10; }
-    else if(A.t<=24){ const k=(A.t-10)/14, e=1-Math.pow(1-k,3);
-      _hmHold(u, ease(A.gx,back.x,e), ease(A.gy,back.y,e)); G.lift=R*2.2*e; G.sx=G.sy=1+0.22*e; }
-    else if(A.t<=32){ const k=(A.t-24)/8, e=Math.pow(k,2.5);
-      _hmHold(u, ease(back.x,A.wx,e), ease(back.y,A.wy,e)); G.lift=R*2.2*(1-e); G.sx=G.sy=1+0.22*(1-e);
-      if(A.t===32){ u.takeDamage(HM_SLAM_DMG,f); addShake(12,9); A.sq=14;
+    // 💥 VUNG TAY QUĂNG: tóm → nhấc bổng lấy đà → vung → BUÔNG cho con mồi bay vòng cung tới GÓC SÀN XA NHẤT, đập bẹp ở đó
+    if(!A.K){ const c=[[R,R],[W-R,R],[R,H-R],[W-R,H-R]].sort((a,b)=>Math.hypot(b[0]-A.gx,b[1]-A.gy)-Math.hypot(a[0]-A.gx,a[1]-A.gy))[0];
+      A.K={x:c[0],y:c[1]}; }
+    const back={x:A.gx-A.dir.x*R*0.6, y:A.gy-A.dir.y*R*0.6}, rel={x:A.gx+A.dir.x*R*1.2, y:A.gy+A.dir.y*R*1.2};
+    if(A.t<=10){ _hmHold(u,A.gx,A.gy); h.close=A.t/10; h.grab=A; }
+    else if(A.t<=22){ const k=(A.t-10)/12, e=1-Math.pow(1-k,3); _hmHold(u, ease(A.gx,back.x,e), ease(A.gy,back.y,e)); G.lift=R*1.8*e; G.sx=G.sy=1+0.2*e; }
+    else if(A.t<=28){ const k=(A.t-22)/6, e=k*k; _hmHold(u, ease(back.x,rel.x,e), ease(back.y,rel.y,e)); G.lift=R*1.8; }     // vung
+    else { if(!A.F){ A.F=Math.max(10,Math.min(30,Math.round(Math.hypot(A.K.x-rel.x,A.K.y-rel.y)/20))); A.T=28+A.F+18; }
+      h.close=Math.max(0,1-(A.t-28)/5); h.grab=null;                                                // buông tay
+      const k=Math.min(1,(A.t-28)/A.F);
+      _hmHold(u, ease(rel.x,A.K.x,k), ease(rel.y,A.K.y,k)); if(k<1){ G.lift=R*1.8*(1-k)+R*1.4*Math.sin(Math.PI*k); G.sx=G.sy=1+0.2*(1-k); }
+      if(A.t===28+A.F){ u.takeDamage(HM_SLAM_DMG,f); addShake(12,9); A.sq=14; G.lift=0;
         spawnParticles(u.x,u.y,'#bdbdbd',16,false,true); spawnParticles(u.x,u.y,'#2a0a3a',10,false,true); } }
-    else { _hmHold(u,A.wx,A.wy); h.close=Math.max(0,1-(A.t-40)/8); }
-    if(A.sq>0){ const p=(A.sq--)/14; G.sx=1+0.5*p; G.sy=1-0.45*p; G.lift=0; }   // bẹp dí xuống đất / vào tường
-    const P=_hmPalmAt(A,{x:u.x,y:u.y-G.lift,size:R}); h.tx=P.x; h.ty=P.y;
+    if(A.sq>0){ const p=(A.sq--)/14; G.sx=1+0.5*p; G.sy=1-0.45*p; G.lift=0; }   // bẹp dí vào góc tường
+    if(A.t<=28){ const P=_hmPalmAt(A,{x:u.x,y:u.y-G.lift,size:R}); h.tx=P.x; h.ty=P.y; }
   } else if(A.kind==='clap'){
     _hmHold(u,A.gx,A.gy); h.grab=A; h.close=Math.min(1,A.t/8);
     const P=_hmPalmAt(A,u); h.tx+=(P.x-h.tx)*0.45; h.ty+=(P.y-h.ty)*0.45;
@@ -4084,7 +4098,7 @@ function _hmActTick(S,f){
     if(A.sq>0){ const p=(A.sq--)/12; G.sx=1-0.38*p; G.sy=1+0.25*p; }   // bị ép dẹp giữa 2 lòng bàn tay
     if(A.flash>0) A.flash--;
   }
-  if(A.t>=T){ for(const hh of S.hands) hh.press=null; _hmEndAct(S); S.retract=true; }   // 🔙 xử xong 1 con → 2 tay RỤT về tường luôn
+  if(A.t>=(A.T||HM_ACT_T[A.kind])){ for(const hh of S.hands) hh.press=null; _hmEndAct(S); S.retract=true; }   // 🔙 xử xong 1 con → 2 tay RỤT về tường luôn
 }
 // 🎞️ LỚP CHUYỂN ĐỘNG MƯỢT (chạy mỗi tick, tách khỏi logic): mọi thứ VẼ ra đều đi qua đây nên bàn tay chuyển động như
 //    1 khối thống nhất thay vì từng khớp giật riêng:
@@ -4265,7 +4279,7 @@ function _hmWrapInfo(S,hi){
   const cl=Math.max(0,Math.min(1.15,h.clS??h.close));   // độ nắm LÒ XO (siết lố nhẹ rồi bật về)
   if(hi===A.hi){ if(!(cl>0.05)) return null; dir=A.dir; }
   else { if(!h.press || !(cl>0.05)) return null; dir=h.press; }
-  return {C:{x:u.x, y:u.y-(G.lift||0)}, R:(u.size||20)*Math.max(G.sx||1,G.sy||1)*0.95, dir, cl};
+  return {C:{x:u.x, y:u.y-(G.lift||0)}, R:(u.size||20)*Math.max(G.sx||1,G.sy||1)*0.95*(1-0.22*(A.tight||0)), dir, cl:Math.min(1.15,cl+0.15*(A.tight||0))};
 }
 function _hmDrawUnder(){
   for(const S of hmShadows){ const f=S.owner, a=(S.dying?Math.max(0,1-S.dying/30):1), em=Math.min(1,S.t/HM_EMERGE), sz=(f?f.size:40)*1.6, boil=0;
