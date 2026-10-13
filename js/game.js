@@ -15143,7 +15143,7 @@ class Fighter {
           id:'sg_'+Date.now()+'_'+color+'_'+Math.floor(Math.random()*99999),
           team:this.team, owner:this, color,
           x:Math.max(30,Math.min(W-30,this.x+ox)), y:Math.max(30,Math.min(H-30,this.y)),
-          vx:0, vy:0, size:this.size*0.624, // 0.72 → 0.612 (-15%) → 0.52 (-15% nữa) → 0.624 (+20% theo yêu cầu)
+          vx:0, vy:0, size:this.size*0.624*(color==='white'?1.1:1), // 0.72 → 0.612 (-15%) → 0.52 (-15% nữa) → 0.624 (+20% theo yêu cầu); ma trắng to thêm 10% (cả hình, va chạm lẫn vùng hồi máu 2×size)
           animTick:0, flash:0, cooldown:0, stun:0, _atkTimer:0,
           _lastAngle:Math.random()*Math.PI*2, _vertBounceCount:0, _meleeBounceStreak:0,
           _spawnT:20, // ma trận triệu hồi + "pop-in" khi vừa xuất hiện, y hệt Doge Knight
@@ -23234,11 +23234,11 @@ function loop(){
     // + rune ở giữa. Phát định kỳ để thành hào quang liên tục thay vì 1 phát rồi tắt.
     if(g.color==='white' && battleFreezeTimer<=0){
       g._auraCD=(g._auraCD||0)-1;
-      if(g._auraCD<=0){ g._auraCD=34; kingHealRings.push({x:g.x,y:g.y,life:40,maxLife:40}); }
+      if(g._auraCD<=0){ g._auraCD=34; kingHealRings.push({x:g.x,y:g.y,life:40,maxLife:40,k:1.1}); }   // vòng hào quang cũng to theo ma (+10%)
     }
     const _gBob=Math.sin((g.animTick||0)/18)*g.size*0.08; // lơ lửng nhẹ nhàng kiểu ma
     const _gSway=Math.sin((g.animTick||0)/40)*0.12; // 🎐 đung đưa nhẹ qua lại như con lắc — thay cho hoạt ảnh rung lúc húc cũ (ma giờ không húc nữa)
-    const _gPx=Math.round(g.size*2.6*1.15*(g.color==='white'?1.1:1)*_gPop);   // hình ma to thêm 15% (ma trắng thêm 10% nữa) — va chạm giữ nguyên
+    const _gPx=Math.round(g.size*2.6*1.15*_gPop);   // hình ma to thêm 15% (va chạm giữ nguyên)
     // 👻 hơi trong suốt cho ra chất MA — nhìn xuyên qua được một chút, lại còn thở nhè nhẹ theo nhịp lơ lửng.
     // Ma đen để đục hơn ma trắng một chút vì nó tối, mờ quá là mất hút trên nền xanh.
     const _gGhostA = (g.color==='black' ? 0.8 : 0.9) + Math.sin((g.animTick||0)/26)*0.05;   // ma trắng đục hơn để không chìm vào nền xanh
@@ -24121,9 +24121,9 @@ function loop(){
     ctx.save();
     ctx.globalAlpha=(1-_hrT)*0.7;
     ctx.strokeStyle='#69f0ae'; ctx.lineWidth=3; ctx.shadowColor='#69f0ae'; ctx.shadowBlur=12;
-    ctx.beginPath(); ctx.arc(hr.x,hr.y,10+_hrT*90,0,Math.PI*2); ctx.stroke();
+    ctx.beginPath(); ctx.arc(hr.x,hr.y,(10+_hrT*90)*(hr.k||1),0,Math.PI*2); ctx.stroke();
     ctx.globalAlpha=(1-_hrT)*0.45; ctx.lineWidth=1.6;
-    ctx.beginPath(); ctx.arc(hr.x,hr.y,20+_hrT*66,0,Math.PI*2); ctx.stroke();
+    ctx.beginPath(); ctx.arc(hr.x,hr.y,(20+_hrT*66)*(hr.k||1),0,Math.PI*2); ctx.stroke();
     // ký hiệu rune nhỏ ở tâm (kim cương lồng chữ thập) — hiện rõ nửa đầu rồi mờ dần
     const _runeA=Math.max(0,1-_hrT*1.6);
     if(_runeA>0.01){
