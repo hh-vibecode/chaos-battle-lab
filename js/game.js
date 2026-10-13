@@ -10415,6 +10415,8 @@ function spawnHitImpact(x, y, sz, vfxName){
 // trừ thẳng thì quá 20 nấc là âm/0; nhân dồn thì tiệm cận 0 nhưng không bao giờ âm, đúng ý "càng liếm càng ì
 // nhưng không đứng hình tuyệt đối"). Sàn 0.02 (2% tốc gốc) chỉ để tránh số học/vật lý gặp trị quá nhỏ.
 const MLEM_FREEZE_P=0.10, MLEM_FREEZE_T=60;   // 🧊 Mlem Cat: 10% đóng băng địch 1s mỗi cú liếm trúng
+// 👻 đang bị Giám Ngục (ma đen Scared Dog) hút: chậm dồn theo nhịp dame (10%, 15%, 20%... tối đa 90%) — KHÔNG hiện VFX làm chậm
+function _soulSlowMul(u){ return (u && u._soulT>0) ? 1-Math.min(0.9,u._soulSlow||0) : 1; }
 function _mlemSlowMul(f){ const n=f._mlemStacks||0; return n>0 ? Math.max(0.02, Math.pow(0.95,n)) : 1; }
 // ===== 🎹 PIANO CAT: chơi Rush E + phân tích cao độ (FFT) để bắn nốt =====
 // 🎸 Electric Guitar Cat dùng CHUNG engine phân tích nhạc của Piano Cat (FFT bắt onset + cao độ), chỉ khác
@@ -14800,7 +14802,7 @@ class Fighter {
     const _bkSpd = (this.type==='berserkcat') ? Math.max(0, 1-_bkStacks(this)/100) : 1.0;
     // 💦 vũng nước đen Drooling Cat: địch đứng trong vũng sa lầy còn 20% tốc, chính chủ đứng trong thì +80% tốc
     const _wcSpd = ((this._wcMired||0)>0 ? 0.2 : 1) * ((this._wcInPool||0)>0 ? 1.8 : 1) * (this.type==='scootercat' ? SC_SPD*(this._scRage?SC_RAGE_SPD:1) : 1);   // 🛵 Scooter Cat +20% tốc (dưới 50% máu thêm ×1.5)
-    const slowMult = ((this._slowTimer>0) ? 0.75 : 1.0) * (((this._ldSawSlowT||0)>0) ? LD_SLOW : 1) * _depressSlow * _iceSlow * _mwSlow * _drSlow * _cvSlow * _pgSlow * _sgSlow * _esgSlow * _mwSteakBuff * _rbHasteBuff * _slDomSpd * _ffa3SpdBuff * _mlemSlowMul(this) * _vampBatSpd * _tfNightSpd * _tfHoldSpd * _bkSpd * _wcSpd;
+    const slowMult = ((this._slowTimer>0) ? 0.75 : 1.0) * (((this._ldSawSlowT||0)>0) ? LD_SLOW : 1) * _depressSlow * _iceSlow * _mwSlow * _drSlow * _cvSlow * _pgSlow * _sgSlow * _esgSlow * _mwSteakBuff * _rbHasteBuff * _slDomSpd * _ffa3SpdBuff * _mlemSlowMul(this) * _soulSlowMul(this) * _vampBatSpd * _tfNightSpd * _tfHoldSpd * _bkSpd * _wcSpd;
     // 🎵 mấy con nhạc sĩ (Piano/Guitar/Violin/Bongo dùng chung _pianoAudio, Damdam Didi dùng _dddMusic): dính
     // slow thì bài hát cũng CHƠI CHẬM LẠI theo đúng tỉ lệ — chỉ chậm đi, không tăng tốc dù đang haste (min(1,...)).
     // Một số bài có tốc phát GỐC riêng nhanh/chậm hơn bình thường (vd piano_giorno +15%, xem PIANO_CFG.rate) —
@@ -18972,6 +18974,8 @@ class Fighter {
       // slot 1: normal
       img = avatarImgs[i];
     }
+    // 🧊 bị đóng băng (hard CC): giữ NGUYÊN ảnh lúc bị đóng — không đổi dáng/ảnh tấn công, ảnh động cũng đứng ở 1 khung (xem _frzIdx)
+    if((this._mlemFreezeT||0)>0){ if(!this._frzSel) this._frzSel=img; else img=this._frzSel; } else this._frzSel=null;
     if(img){
       // Ricardo: thu nhỏ avatar lúc tấn công 15% | Screaming Marmot: GIF hét phóng to thêm 95% (1.5x rồi +30% nữa)
       const _avMul = (this.type==='ricardo' && isAttacking && !RC_FR.includes(img) && !RC_RG.includes(img)) ? 0.85   // (tư thế nhảy giữ nguyên cỡ, không co lúc đánh)
@@ -19001,9 +19005,14 @@ class Fighter {
           : (this.type==='smartguy' && img===SMARTGUY_THINK_IMG)
           ? Math.min(img._frames-1, Math.floor(Math.max(0,Math.min(1,1-this._sgSpinTimer/(this._sgIntervalCur||96)))*img._frames)) // GIF suy nghĩ chạy vừa đủ 1 vòng trong đúng lúc đang quay 3 ô số
           : Math.floor(Date.now()/90)%img._frames;
+        // 🧊 bị Mlem Cat đóng băng → ĐỨNG HÌNH ở đúng khung lúc bị đóng (ảnh động không chạy tiếp; không thì lớp tuyết
+        //    dựng theo cả tấm sheet đổi theo từng khung → nháy liên tục như tia sét)
+        let _gI=_gIdx;
+        if((this._mlemFreezeT||0)>0){ if(this._frzImg!==img){ this._frzImg=img; this._frzIdx=_gIdx; } _gI=this._frzIdx%img._frames; }
+        else this._frzImg=null;
         const asp=_gFw/_gFh;
         if(asp>=1){ dw=_d; dh=_d/asp; } else { dh=_d; dw=_d*asp; }
-        _sx=(_gIdx%_gCols)*_gFw; _sy=Math.floor(_gIdx/_gCols)*_gFh; _sw=_gFw; _sh=_gFh;
+        _sx=(_gI%_gCols)*_gFw; _sy=Math.floor(_gI/_gCols)*_gFh; _sw=_gFw; _sh=_gFh;
       } else if(crop){
         const asp=crop.sw/crop.sh;
         if(asp>=1){ dw=_d; dh=_d/asp; } else { dh=_d; dw=_d*asp; }
@@ -23186,7 +23195,8 @@ function loop(){
           //    Nạn nhân ra khỏi tầm (hoặc ma đổi mục tiêu) → về lại 10.
           if(g._suckTgt!==tg){ g._suckTgt=tg; g._suckN=0; g._suckCD=0; }
           if(--g._suckCD<=0){
-            const _gAtk=g.owner||{team:g.team,x:g.x,y:g.y}, dmg=10+5*(g._suckN++);   // 10, 15, 20, 25...
+            const _gAtk=g.owner||{team:g.team,x:g.x,y:g.y}, dmg=10+5*g._suckN;   // 10, 15, 20, 25...
+            tg._soulSlow=0.10+0.05*g._suckN; g._suckN++;   // 🐌 chậm dồn cùng nhịp: 10%, 15%, 20%... (xem _soulSlowMul)
             if(fighters.includes(tg)) tg.takeDamage(dmg, _gAtk, false, true, '👻', null, true); else _summonTakeDamage(tg, dmg, _gAtk, false, true, '👻', null);
             g._suckCD=12;
           }
@@ -23228,7 +23238,7 @@ function loop(){
     }
     const _gBob=Math.sin((g.animTick||0)/18)*g.size*0.08; // lơ lửng nhẹ nhàng kiểu ma
     const _gSway=Math.sin((g.animTick||0)/40)*0.12; // 🎐 đung đưa nhẹ qua lại như con lắc — thay cho hoạt ảnh rung lúc húc cũ (ma giờ không húc nữa)
-    const _gPx=Math.round(g.size*2.6*1.15*_gPop);   // hình ma to thêm 15% (va chạm giữ nguyên)
+    const _gPx=Math.round(g.size*2.6*1.15*(g.color==='white'?1.1:1)*_gPop);   // hình ma to thêm 15% (ma trắng thêm 10% nữa) — va chạm giữ nguyên
     // 👻 hơi trong suốt cho ra chất MA — nhìn xuyên qua được một chút, lại còn thở nhè nhẹ theo nhịp lơ lửng.
     // Ma đen để đục hơn ma trắng một chút vì nó tối, mờ quá là mất hút trên nền xanh.
     const _gGhostA = (g.color==='black' ? 0.8 : 0.9) + Math.sin((g.animTick||0)/26)*0.05;   // ma trắng đục hơn để không chìm vào nền xanh
@@ -23550,7 +23560,7 @@ function loop(){
       for(const _t of ['_slowTimer','_iceSlowTimer','_maxwellSlowTimer','_droolSlowTimer','_cvSlowTimer','_pakistanSlowTimer','_sgSlowTimer','_depressDebuffTimer','_ldSawSlowT']) mc[_t]=Math.max(0,(mc[_t]||0)-1);
       const _slow = ((mc._slowTimer>0)?0.75:1) * ((mc._depressDebuffTimer>0)?0.5:1) * ((mc._iceSlowTimer>0)?0.75:1)
         * ((mc._maxwellSlowTimer>0)?0.75:1) * ((mc._droolSlowTimer>0)?0.75:1) * ((mc._cvSlowTimer>0)?0.75:1) * ((mc._ldSawSlowT>0)?LD_SLOW:1)
-        * ((mc._pakistanSlowTimer>0)?0.75:1) * ((mc._sgSlowTimer>0)?0.75:1);
+        * ((mc._pakistanSlowTimer>0)?0.75:1) * ((mc._sgSlowTimer>0)?0.75:1) * _soulSlowMul(mc);
       mc.flash=Math.max(0,mc.flash-1);
       const top=((mc.owner&&mc.owner.topSpeed)||5*MOVE_MULT)*_soloMoveMul()*_slow;   // cùng tốc chạy với thân chính (kể cả hệ số tốc của chế độ)
       if((mc._vertBounceCount||0)>2){
@@ -23628,7 +23638,7 @@ function loop(){
       for(const _t of ['_slowTimer','_iceSlowTimer','_maxwellSlowTimer','_droolSlowTimer','_cvSlowTimer','_pakistanSlowTimer','_sgSlowTimer','_depressDebuffTimer','_ldSawSlowT']) cc[_t]=Math.max(0,(cc[_t]||0)-1);
       const _ccSlowMult = ((cc._slowTimer>0)?0.75:1) * ((cc._depressDebuffTimer>0)?0.5:1) * ((cc._iceSlowTimer>0)?0.75:1)
         * ((cc._maxwellSlowTimer>0)?0.75:1) * ((cc._droolSlowTimer>0)?0.75:1) * ((cc._cvSlowTimer>0)?0.75:1) * ((cc._ldSawSlowT>0)?LD_SLOW:1)
-        * ((cc._pakistanSlowTimer>0)?0.75:1) * ((cc._sgSlowTimer>0)?0.75:1);
+        * ((cc._pakistanSlowTimer>0)?0.75:1) * ((cc._sgSlowTimer>0)?0.75:1) * _soulSlowMul(cc);
       cc.flash=Math.max(0,cc.flash-1); cc._atkCD=Math.max(0,(cc._atkCD||0)-1);
       const ccTop=(CHAR_DEFS.cryingcat.speed)*MOVE_MULT*_ccSlowMult;
       if((cc._vertBounceCount||0)>2){
