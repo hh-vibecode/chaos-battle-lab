@@ -4048,8 +4048,8 @@ function _hmSpawnShadow(f){
   const S={owner:f, t:0, hit:new Set(), dying:0, seed:Math.random()*9, act:null};
   const X=f.x<W/2?W:0, Y=f.y<H/2?H:0, jx=(Math.random()-0.5)*0.2, jy=(Math.random()-0.5)*0.2;
   const A=[{ax:X, ay:H*(0.5+jy), nx:X?-1:1, ny:0, ph:0}, {ax:W*(0.5+jx), ay:Y, nx:0, ny:Y?-1:1, ph:1.7}];
-  S.hands=A.map(h=>{ const d=Math.hypot(f.x-h.ax,f.y-h.ay);
-    return {...h, tx:h.ax, ty:h.ay, hx:h.nx, hy:h.ny, trail:[{x:h.ax,y:h.ay}], close:0, spd:d*1.15/(HM_REACH_T-37)}; });
+  S.hands=A.map((h,i)=>{ const d=Math.hypot(f.x-h.ax,f.y-h.ay);
+    return {...h, mir:i?-1:1, tx:h.ax, ty:h.ay, hx:h.nx, hy:h.ny, trail:[{x:h.ax,y:h.ay}], close:0, spd:d*1.15/(HM_REACH_T-37)}; });
   hmShadows.push(S);
 }
 function _hmHold(u,x,y){ u.x=x; u.y=y; u.vx=0; u.vy=0; if(u.stun!==undefined) u.stun=Math.max(u.stun||0,2); }
@@ -4226,16 +4226,16 @@ function _hmPoseFor(S,h){
   if((h.clS??0)<-0.15) return 'lunge';
   return Math.sin((h.cph||0)*2)>0 ? 'crawlA' : 'crawlB';
 }
-function _hmBlit(img,meta,wx,wy,ang,k,a){
+function _hmBlit(img,meta,wx,wy,ang,k,a,mir){   // mir=-1: lật gương qua trục cổ tay → thành tay bên kia
   if(!img || !img.complete || !img.naturalWidth) return;
-  ctx.save(); ctx.globalAlpha=a; ctx.translate(wx,wy); ctx.rotate(ang); ctx.scale(k,k);
+  ctx.save(); ctx.globalAlpha=a; ctx.translate(wx,wy); ctx.rotate(ang); ctx.scale(k,k*(mir||1));
   ctx.drawImage(img,0,-meta.wy,meta.w,meta.h); ctx.restore();
 }
 // cổ tay của tay đang bò: lùi từ điểm tay (rx,ry) về sau 35% chiều dài ảnh
 function _hmWristFree(h,pose,k){ const m=HM_HAND_META[pose], a=h.angS??Math.atan2(h.hy,h.hx), off=m.w*0.35*k;
   return {x:(h.rx??h.tx)-Math.cos(a)*off, y:(h.ry??h.ty)-Math.sin(a)*off, a}; }
 // cổ tay của tay đang CẦM: đặt sao cho tâm quả bóng trong ảnh trùng tâm con mồi
-function _hmWristGrip(w,pose,k){ const m=HM_HAND_META[pose], a=Math.atan2(w.dir.y,w.dir.x), lx=m.bx*k, ly=(m.by-m.wy)*k;
+function _hmWristGrip(w,pose,k,mir){ const m=HM_HAND_META[pose], a=Math.atan2(w.dir.y,w.dir.x), lx=m.bx*k, ly=(m.by-m.wy)*k*(mir||1);
   return {x:w.C.x-(lx*Math.cos(a)-ly*Math.sin(a)), y:w.C.y-(lx*Math.sin(a)+ly*Math.cos(a)), a}; }
 function _hmDrawUnder(){
   for(const S of hmShadows){ const a=(S.dying?Math.max(0,1-S.dying/30):1), em=Math.min(1,S.t/HM_EMERGE), k0=_hmHandK(S), A=S.act;
@@ -4243,7 +4243,7 @@ function _hmDrawUnder(){
       const hold=!!(A && A.hold && A.hi===hi && A.u && !A.u.dead);
       const kT=k0*(1+0.22*lift); h._kS=(h._kS??kT)+(kT-(h._kS??kT))*0.35;   // nhấc lên → to ra chút (gần mắt hơn)
       let pose, W0;
-      if(hold){ pose='grip'; const ang=h.angS??Math.atan2(h.hy,h.hx); W0=_hmWristGrip({C:{x:A.u.x,y:A.u.y},dir:{x:Math.cos(ang),y:Math.sin(ang)}},pose,h._kS); }
+      if(hold){ pose='grip'; const ang=h.angS??Math.atan2(h.hy,h.hx); W0=_hmWristGrip({C:{x:A.u.x,y:A.u.y},dir:{x:Math.cos(ang),y:Math.sin(ang)}},pose,h._kS,h.mir); }
       else { pose=_hmPoseFor(S,h); W0=_hmWristFree(h,pose,h._kS); }
       const up=lift*k0*90;   // độ cao khi nhấc bổng
       if(up>0.5){ ctx.save(); ctx.globalAlpha=0.3*lift*ha; ctx.fillStyle='#000'; ctx.beginPath(); ctx.ellipse(h.rx??h.tx,h.ry??h.ty,k0*130*(1-0.25*lift),k0*45*(1-0.25*lift),0,0,Math.PI*2); ctx.fill(); ctx.restore(); }
@@ -4252,13 +4252,13 @@ function _hmDrawUnder(){
       W0={x:h._Wx, y:h._Wy, a:W0.a};
       h._pose=pose; h._W0=W0; h._ha=ha; h._over=hold;
       _hmArmSprite(h,W0,HM_HAND_META[pose].ww*h._kS*0.97,ha,S.seed+hi*3.1);   // cánh tay luôn nằm dưới
-      if(!hold) _hmBlit(HM_HAND_IMG[pose],HM_HAND_META[pose],W0.x,W0.y,W0.a,h._kS,ha);   // tay đang tóm thì vẽ ở _hmDrawOver (đè lên con mồi)
+      if(!hold) _hmBlit(HM_HAND_IMG[pose],HM_HAND_META[pose],W0.x,W0.y,W0.a,h._kS,ha,h.mir);   // tay đang tóm thì vẽ ở _hmDrawOver (đè lên con mồi)
     });
   }
 }
 // ── VẼ TRÊN MEME: tay đang TÓM con mồi vẽ đè hẳn lên nó (ngón vòng quanh người, không bị che khuất)
 function _hmDrawOver(){
-  for(const S of hmShadows) for(const h of S.hands) if(h._over && h._W0) _hmBlit(HM_HAND_IMG[h._pose],HM_HAND_META[h._pose],h._W0.x,h._W0.y,h._W0.a,h._kS,h._ha);
+  for(const S of hmShadows) for(const h of S.hands) if(h._over && h._W0) _hmBlit(HM_HAND_IMG[h._pose],HM_HAND_META[h._pose],h._W0.x,h._W0.y,h._W0.a,h._kS,h._ha,h.mir);
   // 🌑 bị nuốt chửng: bóng tối trùm kín con hamster rồi tan dần
   for(const f of fighters){ if(f.type!=='scaredhamster' || !(f._hmSwallowT>0)) continue;
     const k=f._hmSwallowT/HM_SWALLOW_T, grow=Math.min(1,(1-k)*3);
