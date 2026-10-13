@@ -4322,15 +4322,14 @@ function _hmWrap(C,R,dir,cl,S,boil,layer,a,def){
 }
 function _hmSmokeBlob(x,y,r,a){ const g=ctx.createRadialGradient(x,y,0,x,y,r); g.addColorStop(0,`rgba(0,0,0,${0.85*a})`); g.addColorStop(0.6,`rgba(5,0,10,${0.55*a})`); g.addColorStop(1,'rgba(0,0,0,0)');
   ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); }
-// ── VẼ DƯỚI MEME: cánh tay + bàn tay nằm sát mặt sàn; tay đang CẦM thì chỉ vẽ lòng bàn tay (nằm SAU con mồi) + bóng con mồi bị nhấc
+// ── VẼ DƯỚI MEME: cánh tay + bàn tay đang bò sát mặt sàn + bóng con mồi bị nhấc
 // 🖐️ BỘ ẢNH TAY BÓNG TỐI (user gửi, ChatGPT vẽ — đã tách nền xanh): 10 tư thế, cổ tay luôn vào từ mép TRÁI ảnh, tay chĩa PHẢI.
-//    grip/squeeze (bản vẽ lại KHÔNG có vật thể: ngón khép thành vòng) tách 2 lớp: _back (cả bàn tay, nằm SAU con mồi) &
-//    _front (phần ngón vòng phía đầu móng, mờ dần về phía cổ tay → ngón như luồn ra sau lưng rồi quặp ra trước).
+//    grip/squeeze (bản vẽ lại KHÔNG có vật thể: ngón khép thành vòng): lúc cầm, CẢ bàn tay vẽ ĐÈ LÊN con mồi
+//    (không bị meme che khuất — tay "đấm xuyên" qua meme), lỗ vòng ngón đặt đúng tâm con mồi.
 //    meta: w,h = cỡ ảnh · wy = độ cao tâm cổ tay · ww = bề dày cổ tay · bx,by,brx,bry = tâm & bán kính LỖ VÒNG NGÓN (= chỗ đặt con mồi)
 const HM_HAND_META={"crawlA": {"w": 391, "h": 204, "wy": 74.0, "ww": 90.0}, "crawlB": {"w": 333, "h": 203, "wy": 85.0, "ww": 86.0}, "lunge": {"w": 382, "h": 315, "wy": 167.0, "ww": 90.0}, "closing": {"w": 333, "h": 238, "wy": 107.5, "ww": 91.0}, "fist": {"w": 321, "h": 192, "wy": 103.5, "ww": 91.0}, "throw": {"w": 385, "h": 320, "wy": 145.0, "ww": 88.0}, "slap": {"w": 372, "h": 178, "wy": 92.0, "ww": 92.0}, "retreat": {"w": 339, "h": 230, "wy": 90.0, "ww": 84.0}, "grip": {"w": 333, "h": 238, "wy": 107.5, "ww": 91.0, "bx": 189.5, "by": 148.0, "brx": 65.5, "bry": 56.0}, "squeeze": {"w": 308, "h": 225, "wy": 106.0, "ww": 90.0, "bx": 201.5, "by": 145.5, "brx": 42.5, "bry": 45.5}};
 const HM_HAND_IMG={};
-for(const k of ['crawlA','crawlB','lunge','closing','fist','throw','slap','retreat']){ HM_HAND_IMG[k]=new Image(); HM_HAND_IMG[k].src='assets/img/scaredhamster/HAND_'+k+'.webp'; }
-for(const k of ['grip','squeeze']) for(const L of ['back','front']){ HM_HAND_IMG[k+'_'+L]=new Image(); HM_HAND_IMG[k+'_'+L].src='assets/img/scaredhamster/HAND_'+k+'_'+L+'.webp'; }
+for(const k of ['crawlA','crawlB','lunge','closing','grip','squeeze','fist','throw','slap','retreat']){ HM_HAND_IMG[k]=new Image(); HM_HAND_IMG[k].src='assets/img/scaredhamster/HAND_'+k+'.webp'; }
 function _hmHandK(S){ return 0.45*((S.owner?S.owner.size:40)/40); }   // tỉ lệ ảnh → sân (tay dài ~4.4× size hamster)
 // chọn tư thế cho tay KHÔNG đang cầm: bò (2 khung luân phiên) / vồ / khép / vừa buông (ném) / rụt về
 function _hmPoseFor(S,h){
@@ -4371,22 +4370,18 @@ function _hmDrawUnder(){
     S.hands.forEach((h,hi)=>{ const ha=a*Math.min(1,em*2);
       const wrap=_hmWrapInfo(S,hi);
       let W0, pose;
-      if(wrap){ pose=(A && (A.tight||0)>0.3)?'squeeze':'grip'; const kk=Math.max(k0, wrap.R/(HM_HAND_META.grip.brx*1.15));   // lỗ vòng ngón ôm vừa khít ~87% thân con mồi h._kS=(h._kS??kk)+(kk-(h._kS??kk))*0.3;
+      if(wrap){ pose=(A && (A.tight||0)>0.3)?'squeeze':'grip'; h._kS=(h._kS??k0)+(k0-(h._kS??k0))*0.3;   // giữ nguyên cỡ tay lúc cầm (không phình to che mất con mồi)
         W0=_hmWristGrip(wrap,pose,h._kS); h._wx=W0.x; h._wy=W0.y; }
       else { pose=_hmPoseFor(S,h); h._kS=(h._kS??k0)+(k0-(h._kS??k0))*0.2; W0=_hmWristFree(h,pose,h._kS); }
-      // cánh tay nối tới đúng cổ tay của ảnh
-      _hmArmSprite(h,W0,HM_HAND_META[pose].ww*h._kS*0.97,ha,S.seed+hi*3.1);
-      if(wrap) _hmBlit(HM_HAND_IMG[pose+'_back'],HM_HAND_META[pose],W0.x,W0.y,W0.a,h._kS,ha);   // lòng bàn tay SAU con mồi
-      else _hmBlit(HM_HAND_IMG[pose],HM_HAND_META[pose],W0.x,W0.y,W0.a,h._kS,ha);
-      h._pose=pose; h._W0=W0; });
+      h._pose=pose; h._W0=W0; h._ha=ha; h._seedA=S.seed+hi*3.1; h._over=!!wrap;
+      _hmArmSprite(h,W0,HM_HAND_META[pose].ww*h._kS*0.97,ha,h._seedA);   // cánh tay luôn nằm dưới
+      if(!wrap) _hmBlit(HM_HAND_IMG[pose],HM_HAND_META[pose],W0.x,W0.y,W0.a,h._kS,ha);   // tay đang cầm thì vẽ ở _hmDrawOver (đè lên con mồi)
+    });
   }
 }
-// ── VẼ TRÊN MEME: lớp ĐẦU MÓNG quặp đè lên trước con mồi đang bị cầm (cảm giác cầm nắm 3D)
+// ── VẼ TRÊN MEME: tay đang CẦM con mồi vẽ đè hẳn lên nó (không bị che khuất)
 function _hmDrawOver(){
-  for(const S of hmShadows){ const a=(S.dying?Math.max(0,1-S.dying/30):1);
-    if(!S.act) continue;
-    S.hands.forEach(h=>{ if((h._pose==='grip'||h._pose==='squeeze') && h._W0) _hmBlit(HM_HAND_IMG[h._pose+'_front'],HM_HAND_META[h._pose],h._W0.x,h._W0.y,h._W0.a,h._kS,a); });
-  }
+  for(const S of hmShadows) for(const h of S.hands) if(h._over && h._W0) _hmBlit(HM_HAND_IMG[h._pose],HM_HAND_META[h._pose],h._W0.x,h._W0.y,h._W0.a,h._kS,h._ha);
   // 🌑 bị nuốt chửng: bóng tối trùm kín con hamster rồi tan dần
   for(const f of fighters){ if(f.type!=='scaredhamster' || !(f._hmSwallowT>0)) continue;
     const k=f._hmSwallowT/HM_SWALLOW_T, grow=Math.min(1,(1-k)*3);
@@ -8725,6 +8720,7 @@ function _scTick(f){
 //    Cùng nhịp với meme thường: mỗi 0.5s trừ _burnDmg (mặc định 20).
 // 🌑 HẮC ÁM (debuff của các thế lực bóng tối): khí đen bao quanh nạn nhân + mất máu liên tục (DOT) — áp được cho MỌI
 //    meme và quân triệu hồi có máu. Mặc định = đúng mức đốt cháy cũ của ma đen: 20 dame mỗi 0.5s trong 4s.
+// (hiện CHƯA dùng ở đâu — user bảo tạm bỏ khí đen khỏi ma đen; giữ lại hệ thống để dùng sau)
 function _applyDark(u, src, T, dmg){
   if(!u || u.dead) return;
   if(!(u._darkT>0)){ u._darkCD=0; u._darkAge=0; }
@@ -23258,7 +23254,6 @@ function loop(){
         if(d<g.size+(target.size||0)){
           const _gAtk=g.owner||{team:g.team,x:g.x,y:g.y};
           target.takeDamage(_gDmg, _gAtk, false, true); // isBurn=true: dame theo thời gian, không tính là "1 đòn" riêng
-          if(g.color==='black') _applyDark(target, _gAtk);   // 🌑 ma đen: nhiễm KHÍ ĐEN HẮC ÁM (thay cho đốt cháy)
           target._sdGhostDmgCD=30; // 0.5s — DÙNG CHUNG cho cả 2 màu ma, y hệt quy ước 1 field/nạn nhân của Wet Cat
           target.flash=12;
           if(isRealFighter){ target.actionState='hurt'; target.actionTimer=16; }
@@ -23283,7 +23278,6 @@ function loop(){
           if(d<keep){ g.x=tg.x+dx/d*keep; g.y=tg.y+dy/d*keep; }   // không cho lướt xuyên qua: đứng chắn trước mặt
           g.vx*=0.5; g.vy*=0.5;
           tg._soulT=8; tg._soulFrom={x:g.x,y:g.y-g.size*0.6};
-          if(!(tg._darkT>0)){ tg._darkAge=0; } tg._darkT=Math.max(tg._darkT||0,14); tg._darkDmg=0;   // khí đen chỉ để HIỆN (ra khỏi tầm là tan dần, KHÔNG còn DOT kéo dài)
           g._frost=Math.min(1,(g._frost||0)+0.04); g._frostX=tg.x; g._frostY=tg.y;
           // 📈 dame TĂNG DẦN theo thời gian hút liên tục: mỗi 0.2s 1 nhịp, nhịp đầu 10 rồi +5 mỗi nhịp (10,15,20...).
           //    Nạn nhân ra khỏi tầm (hoặc ma đổi mục tiêu) → về lại 10.
