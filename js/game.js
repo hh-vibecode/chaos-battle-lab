@@ -1672,6 +1672,17 @@ function _drawTearMeter(u){
   ctx.restore();
 }
 // 🌫️ người đang trầm cảm: ám một lớp xám xanh u ám nhẹ (cache 1 lần/ảnh)
+// 👻 bị Giám Ngục hút hồn: bản TÁI NHỢT (mất 60% màu + sáng lên chút) dựng sẵn 1 lần — phủ lên sprite thay cho ctx.filter (nặng)
+function _soulPale(img){
+  if(img._soulPale) return img._soulPale;
+  const src=_stickerMask(img);
+  const c=document.createElement('canvas'); c.width=src.width; c.height=src.height;
+  const g=c.getContext('2d'); g.drawImage(src,0,0);
+  g.globalCompositeOperation='saturation'; g.fillStyle='rgba(128,128,128,0.6)'; g.fillRect(0,0,c.width,c.height);
+  g.globalCompositeOperation='screen'; g.fillStyle='rgb(22,22,22)'; g.fillRect(0,0,c.width,c.height);
+  g.globalCompositeOperation='destination-in'; g.drawImage(src,0,0);
+  img._soulPale=c; return c;
+}
 function _gloomTint(img){
   if(img._gloomTint) return img._gloomTint;
   const src=_stickerMask(img);
@@ -4501,6 +4512,29 @@ let dogeKnights=[]; // King Cheems: 2 Doge Knight triệu hồi lúc ≤50% HP
 // 👻 MA VẼ TAY của Scared Dog (thay emoji): đầu trùm vải tròn, vạt áo RÁCH tua rua gợn sóng nhạt dần về đuôi, 2 vệt khói như
 //    tay buông thõng; mặt: 2 HỐC MẮT dài lệch xếch + MIỆNG HÁ DÀI như đang gào. Ma trắng: thân trắng ngà lạnh, hốc đen sâu,
 //    vệt nước mắt đen. Ma đen: thân đen tím, đồng tử tím nhạt phát sáng trong hốc. px = khung vẽ, t = nhịp thời gian.
+// 🌫️ ảnh nạn nhân XÁM + SÁNG + MỜ dựng sẵn 1 lần rồi cache (thay cho ctx.filter blur/grayscale chạy lại mỗi khung — rất nặng).
+//    Mờ = thu nhỏ rồi phóng to lại (càng nhỏ càng nhoè): 3 mức 96px / 40px / 20px.
+const _soulTexCache=new WeakMap();
+function _soulTex(L,lv){
+  if(!L || !L.img || !(L.sw>0) || !(L.sh>0)) return null;
+  let M=_soulTexCache.get(L.img); if(!M){ M=new Map(); _soulTexCache.set(L.img,M); }
+  const key=L.sx+'|'+L.sy+'|'+L.sw+'|'+L.sh; let e=M.get(key);
+  if(!e){
+    try{
+      const mk=(S)=>{ const r=Math.min(1,S/Math.max(L.sw,L.sh)), w=Math.max(2,Math.round(L.sw*r)), h=Math.max(2,Math.round(L.sh*r));
+        const c=document.createElement('canvas'); c.width=w; c.height=h; const x=c.getContext('2d');
+        x.drawImage(L.img,L.sx,L.sy,L.sw,L.sh,0,0,w,h);
+        x.globalCompositeOperation='saturation'; x.fillStyle='rgba(128,128,128,0.7)'; x.fillRect(0,0,w,h);   // ≈ grayscale 70%
+        x.globalCompositeOperation='screen'; x.fillStyle='rgb(48,48,48)'; x.fillRect(0,0,w,h);                // ≈ brightness 1.25
+        x.globalCompositeOperation='destination-in'; x.drawImage(L.img,L.sx,L.sy,L.sw,L.sh,0,0,w,h);          // giữ đúng viền trong suốt
+        return c; };
+      e=[mk(96),mk(40),mk(20)];
+    }catch(err){ e=[null,null,null]; }
+    if(M.size>24) M.delete(M.keys().next().value);
+    M.set(key,e);
+  }
+  return e[lv];
+}
 function _sdDrawGhost(px,black,t){
   if(black) _sdGhostReaper(px,t); else _sdGhostSheet(px,t);
 }
@@ -18847,7 +18881,7 @@ class Fighter {
     ctx.translate(this.x+offX,this.y+offY-_bounce);
     if(this._soulT>0 && this._soulFrom){   // 👻 bị Giám Ngục hút hồn: GIỮ NGUYÊN tư thế (không xoay/méo), chỉ tái nhợt mờ đi — phần nhoè kéo về phía ma vẽ riêng
       const k=Math.min(1,this._soulT/8);
-      ctx.globalAlpha*=1-0.3*k; ctx.filter=`grayscale(${Math.round(60*k)}%) brightness(${(1+0.1*k).toFixed(2)})`;
+      ctx.globalAlpha*=1-0.3*k;   // màu tái nhợt: phủ ảnh _soulPale lên sprite (xem dưới), không dùng ctx.filter cho đỡ lag
     }
     if(this._hmGrab && this._hmGrab.ax!==undefined && (this._hmGrab.c!==1 || this._hmGrab.e!==1)){ const g=this._hmGrab; ctx.rotate(g.ax); ctx.scale(g.c,g.e); ctx.rotate(-g.ax); }   // 🐹 bị bóp: dẹp ĐÚNG theo chiều tay siết
     const _slipTilt = this._slipTimer>0 ? -0.82*Math.sign(Math.cos(this._slipDir||0)||1) : 0;
@@ -19206,6 +19240,9 @@ class Fighter {
         ctx.restore();
       }
       else if(!_lcRibbon) ctx.drawImage((this._biteHoles&&this._biteHoles.length&&!((img._frames||1)>1)) ? _biteMask(this,img) : _stickerMask(img), _sx,_sy,_sw,_sh, -dw/2,-dh/2, dw,dh);   // 🦷 có vết Friend gặm thì vẽ bản đã khuyết
+      if(this._soulT>0 && this._soulFrom && !_lcRibbon && !_fanBall){   // 👻 bị hút hồn: tái nhợt mất màu
+        ctx.save(); ctx.globalAlpha*=Math.min(1,this._soulT/8); ctx.drawImage(_soulPale(img), _sx,_sy,_sw,_sh, -dw/2,-dh/2, dw,dh); ctx.restore();
+      }
       // 🌫️ đang bị Depressed Cat than khóc: người ám xám u ám
       if((this._depressDebuffTimer||0)>0 && !_lcRibbon && !_fanBall){
         ctx.save(); ctx.globalAlpha=0.32*Math.min(1,this._depressDebuffTimer/20); ctx.drawImage(_gloomTint(img), _sx,_sy,_sw,_sh, -dw/2,-dh/2, dw,dh); ctx.restore();
@@ -23306,10 +23343,11 @@ function loop(){
       const sx=u.x, sy=u.y-(u.size||20)*0.45, ex=g.x+0.34*_px*Math.sin(_sw), ey=g.y+_b-0.34*_px*Math.cos(_sw);
       ctx.save();
       for(let j=8;j>=1;j--){ const k=(j/8)*0.35+0.015*Math.sin(tick*0.3+j), Px=u.x+(ex-sx)*k, Py=u.y+(ey-sy)*k;
-        ctx.save(); ctx.globalAlpha=0.22*(1-j/9); ctx.filter=`blur(${(0.6+j*0.35).toFixed(1)}px) grayscale(70%) brightness(1.25)`;
+        const T=_soulTex(L, j<=2?0:(j<=5?1:2)); if(!T) continue;   // ảnh xám-sáng-mờ dựng sẵn (KHÔNG dùng ctx.filter mỗi khung → hết lag)
+        ctx.save(); ctx.globalAlpha=0.22*(1-j/9); ctx.imageSmoothingEnabled=true;
         ctx.translate(Px,Py);   // bản sao giữ NGUYÊN tư thế của nạn nhân, chỉ trượt nhoè dần về phía ma
         if(L.fl||L.flip) ctx.scale(-1,1);
-        try{ ctx.drawImage(L.img,L.sx,L.sy,L.sw,L.sh,-L.dw/2,-L.dh/2,L.dw,L.dh); }catch(e){} ctx.restore(); }
+        ctx.drawImage(T,-L.dw/2,-L.dh/2,L.dw,L.dh); ctx.restore(); }
       ctx.restore();
     }
     // vẽ
@@ -23343,16 +23381,21 @@ function loop(){
       const dx=ex-sx, dy=ey-sy, dl=Math.hypot(dx,dy)||1, nx=-dy/dl, ny=dx/dl, bend=Math.sin(tick*0.045)*dl*0.12;
       const B=(q)=>{ const b=Math.sin(Math.PI*q)*bend; return {x:sx+dx*q+nx*b, y:sy+dy*q+ny*b}; };
       ctx.save(); ctx.lineCap='round';
-      for(let w=0;w<5;w++){ const fan=(w-2)/2, ph=w*1.7;
-        let prev=null;
+      // mỗi làn = 3 dải (rộng mờ → hẹp đậm) vẽ thành 1 hình thuôn tô gradient dọc luồng (gộp nét → nhẹ máy)
+      const fadeG=(al)=>{ const G=ctx.createLinearGradient(sx,sy,ex,ey);
+        for(const q of [0,0.1,0.3,0.55,0.8,1]){ const f=Math.sin(Math.PI*Math.min(1,q*1.15))*(1-0.5*q); G.addColorStop(q,`rgba(214,224,236,${(al*f).toFixed(3)})`); }
+        return G; };
+      const G3=[[R*0.21,fadeG(0.045)],[R*0.1,fadeG(0.075)],[R*0.03,fadeG(0.17)]];
+      for(let w=0;w<5;w++){ const fan=(w-2)/2, ph=w*1.7, C=[];
         for(let i=0;i<=22;i++){ const q=i/22, P=B(q), sp=(1-q);
           const o=fan*R*0.45*Math.pow(sp,1.3) + Math.sin(q*7.5-tick*0.16+ph)*R*0.22*sp*(0.4+0.6*q*4*sp);
-          const pt={x:P.x+nx*o, y:P.y+ny*o};
-          if(prev){ const fade=Math.sin(Math.PI*Math.min(1,q*1.15))*(1-0.5*q);
-            for(const [lw,al] of [[R*0.42,0.045],[R*0.2,0.075],[R*0.06,0.17]]){
-              ctx.strokeStyle=`rgba(214,224,236,${(al*fade).toFixed(3)})`; ctx.lineWidth=lw*(0.45+0.55*sp);
-              ctx.beginPath(); ctx.moveTo(prev.x,prev.y); ctx.lineTo(pt.x,pt.y); ctx.stroke(); } }
-          prev=pt; } }
+          C.push({x:P.x+nx*o, y:P.y+ny*o, t:0.45+0.55*sp}); }
+        for(const [hw,G] of G3){ ctx.beginPath();
+          for(let i=0;i<C.length;i++){ const a=C[Math.max(0,i-1)], b=C[Math.min(C.length-1,i+1)], tx=b.x-a.x, ty=b.y-a.y, l=Math.hypot(tx,ty)||1, w2=hw*C[i].t;
+            const X=C[i].x-ty/l*w2, Y=C[i].y+tx/l*w2; i?ctx.lineTo(X,Y):ctx.moveTo(X,Y); }
+          for(let i=C.length-1;i>=0;i--){ const a=C[Math.max(0,i-1)], b=C[Math.min(C.length-1,i+1)], tx=b.x-a.x, ty=b.y-a.y, l=Math.hypot(tx,ty)||1, w2=hw*C[i].t;
+            ctx.lineTo(C[i].x+ty/l*w2, C[i].y-tx/l*w2); }
+          ctx.closePath(); ctx.fillStyle=G; ctx.fill(); } }
       // vài cụm khói nhỏ trôi theo luồng vào mũ trùm
       for(let j=0;j<6;j++){ const q=((tick*0.012+j/6)%1), P=B(q), r=R*(0.32*(1-q)+0.08), o=Math.sin(q*7.5-tick*0.16+j*1.3)*R*0.18*(1-q);
         const X=P.x+nx*o, Y=P.y+ny*o, sg=ctx.createRadialGradient(X,Y,0,X,Y,r);
