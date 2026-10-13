@@ -781,7 +781,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     aliencat: { key:'aliencat', defaultName:'Mr. Folk', emoji:'🥾', color:'#ffc400', hp:1000, speed:5, size:49.5, skill:'Chiếu 2 tia laze VÀNG thẳng từ 2 con mắt vào mục tiêu ở CỰ LY TẦM TRUNG — xa nhất gần gấp đôi tầm cận chiến, quá gần hoặc quá xa là mất khoá và phải gây lại từ đầu. Giữ được đúng cự ly càng lâu thì mỗi nhịp bắn càng đau: bắt đầu 10 dmg, cứ mỗi giây giữ được tia lại cộng thêm 20. Mỗi 8s triệu hồi 1 đĩa bay từ ngoài sân bay vào, dừng trên đầu địch gần nhất, dùng tia sóng âm hút địch lên xoay vòng tại chỗ trong 2s rồi bay đi mất.' },
     wetcat: { key:'wetcat', defaultName:'Wet Cat', emoji:'🤤', color:'#4fc3f7', hp:1000, speed:2.0125, size:45, skill:'Đi rất chậm, người cứ rỉ ra giọt nước dãi đen liên tục — giọt bị hút cong vào giữa sàn, dồn lại thành vũng đầm lầy, càng lúc rỉ càng nhanh. Địch chạm vũng bị sa lầy và mất máu đều đều; Wet Cat đứng trong vũng thì hồi máu và chạy nhanh hơn.' },
     electricguitarcat: { key:'electricguitarcat', defaultName:'Electric Guitar Cat', emoji:'🎸', color:'#ec407a', hp:1000, speed:5, size:43, skill:'Chơi guitar điện — bắn ra SÓNG ÂM theo đúng NHỊP & CAO ĐỘ thật của bài (màu theo nốt), y hệt cơ chế của Piano Cat. Mỗi luồng sóng 20 dame, đánh tới đâu nốt nhạc nảy tới đó. Tự đổi bài mỗi 8s. Bị đánh còn 30% máu là chơi tới mức đàn bốc cháy — sóng đàn đốt địch thêm 20 dame/s.' },
-    scareddog: { key:'scareddog', defaultName:'Scared Dog', emoji:'🐶', color:'#795548', hp:1000, speed:5, size:44, skill:'Không tự tấn công — chỉ di chuyển né tránh bình thường. Sau 1s vào trận, triệu hồi 1 ma đen + 1 ma trắng bay lượn quanh (không có HP, không thể bị tiêu diệt, chỉ biến mất khi Scared Dog chết): mỗi ma di chuyển bằng 40% tốc của 1 meme thường, nảy tường y hệt meme, húc trúng địch (hoặc lính/tượng địch có HP) lại gần thì gây dame — ma trắng 20 dmg, ma đen 20 dmg kèm nhiễm khí đen hắc ám (mất máu liên tục 20 dmg/0.5s trong 4s). Ma trắng có hào quang hồi máu bán kính gấp đôi thân nó, Scared Dog đứng trong đó được hồi 20 HP/s.' },
+    scareddog: { key:'scareddog', defaultName:'Scared Dog', emoji:'🐶', color:'#795548', hp:1000, speed:5, size:44, skill:'Không tự tấn công — chỉ di chuyển né tránh bình thường. Sau 1s vào trận, triệu hồi 1 ma đen + 1 ma trắng bay lượn quanh (không có HP, không thể bị tiêu diệt, chỉ biến mất khi Scared Dog chết): mỗi ma di chuyển bằng 40% tốc của 1 meme thường, nảy tường y hệt meme, húc trúng địch (hoặc lính/tượng địch có HP) lại gần thì gây dame — ma trắng 20 dmg, ma đen là Giám Ngục: không lướt xuyên địch, địch lọt vào tầm hút nhỏ (≈1.5× tầm cận chiến) thì đứng chắn trước mặt HÚT LINH HỒN (nạn nhân mờ đi, méo vặn về phía ma) 20 dmg/0.5s, kèm nhiễm khí đen hắc ám. Ma trắng có hào quang hồi máu bán kính gấp đôi thân nó, Scared Dog đứng trong đó được hồi 20 HP/s.' },
     slapcat: { key:'slapcat', defaultName:'Slap Cat', emoji:'🐈', color:'#7c4dff', hp:1000, speed:5, size:44, skill:'Vừa chạy vừa tích lực, cứ 2s lại đứng khựng lại VẢ một phát. Cú vả mở 2 cổng không gian: một cổng ngay cạnh Slap Cat và một cổng SAU LƯNG đối thủ — tay thò qua cổng vả trúng địch dù nó đứng bất kỳ đâu trên sàn. Sát thương gốc 120, ĐỨNG CÀNG XA ĐÁNH CÀNG ĐAU (xa tối đa +100%). 30% tỉ lệ gây choáng.' },
     clappingcat: { key:'clappingcat', defaultName:'Clapping Cat', emoji:'👏', color:'#ffb74d', hp:1000, speed:5, size:48.4, skill:'Có nó trong trận thì tường dưới mọc chông và có 1 quả bóng chông lăn qua lại — đâm vào chông hay bóng chông đều mất máu. Sắp lao vào chông thì nó vỗ tay đổi chỗ với địch, để địch lãnh thay. Càng lâu không chạm tường càng chạy nhanh.' },
     evilgary: { key:'evilgary', defaultName:'Evil Gary', emoji:'😈', color:'#b71c1c', hp:1000, speed:5, size:44, skill:'Đầu trận chỉ là con mèo xám ngồi im HÚT LINH HỒN: cứ mỗi giây 1 linh hồn khói đen từ góc xa nhất ngoài sân bay thẳng vào người nó (ai đứng chắn đường ăn 50 dame), mỗi linh hồn hút được vạch thêm 1 cánh ngôi sao ác quỷ trên đầu. Đủ 5 cánh: con quỷ đã nhập hiện lên sau lưng, sàn hoá CÕI LINH HỒN — khói ma lướt ngang sân, và cứ 5s một bầy linh hồn bò từ 4 góc tới bám địch (mỗi đợt đông hơn), bám được là gây dame và gieo độc vĩnh viễn, cộng dồn không giới hạn.' },
@@ -8650,6 +8650,7 @@ function _darkTick(){
   for(const u of _darkUnits()){
     u._darkT--; u._darkAge=(u._darkAge||0)+1;
     if(fighters.includes(u) && !fighters.some(f=>f.team!==u.team && !f.dead)){ u._darkT=0; continue; }   // hết địch thì thôi (như đốt cháy)
+    if(!u._darkDmg) continue;   // chỉ là khí đen hiển thị (vd đang bị Giám Ngục hút) → không trừ máu riêng
     if((u._darkCD=(u._darkCD||0)-1)>0) continue;
     u._darkCD=30;
     if(fighters.includes(u)) u.takeDamage(u._darkDmg||20, u._darkSrc||null, false, true, '🌑', null, true);
@@ -18763,6 +18764,10 @@ class Fighter {
       if(this.dogeBuffed) _dogeAura(this,s);
       const _dg=_dogeAnim(this); offX+=_dg.ox; offY+=_dg.oy; rotation+=_dg.rot; scaleX*=_dg.sx; scaleY*=_dg.sy; }
     ctx.translate(this.x+offX,this.y+offY-_bounce);
+    if(this._soulT>0 && this._soulFrom){   // 👻 bị Giám Ngục hút hồn: mờ dần + méo vặn, kéo giãn về phía ma
+      const k=Math.min(1,this._soulT/8), a=Math.atan2(this._soulFrom.y-this.y,this._soulFrom.x-this.x), w=Math.sin(tick*0.35);
+      ctx.globalAlpha*=1-0.45*k; ctx.filter=`grayscale(${Math.round(75*k)}%) brightness(${(1+0.15*k).toFixed(2)})`; ctx.rotate(a);   // tái nhợt mất màu ctx.scale(1+0.16*k+0.05*w*k,1-0.08*k); ctx.transform(1,0.18*w*k,0,1,0,0); ctx.rotate(-a);
+    }
     if(this._hmGrab && this._hmGrab.ax!==undefined && (this._hmGrab.c!==1 || this._hmGrab.e!==1)){ const g=this._hmGrab; ctx.rotate(g.ax); ctx.scale(g.c,g.e); ctx.rotate(-g.ax); }   // 🐹 bị bóp: dẹp ĐÚNG theo chiều tay siết
     const _slipTilt = this._slipTimer>0 ? -0.82*Math.sign(Math.cos(this._slipDir||0)||1) : 0;
     ctx.rotate(rotation + _slipTilt);
@@ -23106,6 +23111,7 @@ function loop(){
   // xem chỗ dọn trong takeDamage()). Di chuyển/nảy tường copy Y HỆT khối Doge Knight phía trên (lang thang + ma sát +
   // chống kẹt), chỉ khác tốc độ (40% 1 meme thường) và không có HP-bar/flash-khi-trúng-đòn (vì bản thân KHÔNG bao giờ
   // bị đánh trúng — không đăng ký vào bất kỳ mảng summon-có-HP nào).
+  if(battleFreezeTimer<=0){ for(const u of [...fighters, ..._hpSummonArrays().flat()]) if(u && u._soulT>0) u._soulT--; }   // 👻 hết bị hút thì nạn nhân hiện rõ lại dần
   for(const g of scaredGhosts){
     const gEn=fighters.find(f=>f.team!==g.team && !f.dead);
     if(battleFreezeTimer<=0){
@@ -23168,8 +23174,32 @@ function loop(){
           playSample('hit_light',0.15); // isBurn=true tắt tiếng mặc định cho MỌI DOT trong game — gọi riêng để vẫn có cảm giác trúng đòn
         }
       };
-      for(const arr of _hpSummonArrays()){ for(const s of arr){ if(s.team!==g.team && !s.dead && s.hp>0) _gTickTarget(s,false); } }
-      for(const f of fighters){ if(f.team!==g.team && !f.dead) _gTickTarget(f,true); }   // ⚠️ summon trước, fighter sau
+      if(g.color==='white'){
+        for(const arr of _hpSummonArrays()){ for(const s of arr){ if(s.team!==g.team && !s.dead && s.hp>0) _gTickTarget(s,false); } }
+        for(const f of fighters){ if(f.team!==g.team && !f.dead) _gTickTarget(f,true); }   // ⚠️ summon trước, fighter sau
+      } else {
+        // 🖤 MA ĐEN = GIÁM NGỤC (Dementor): KHÔNG lướt xuyên nạn nhân nữa. Địch nào lọt vào tầm hút NHỎ (≈1.5× tầm cận chiến)
+        //    thì ma dừng lơ lửng ngay trước mặt, HÚT LINH HỒN nó: luồng hồn trắng xanh bị rút từ người nạn nhân vào mũ trùm,
+        //    nạn nhân mờ dần + méo vặn về phía ma; mỗi 0.5s mất 20 máu (+ vẫn nhiễm khí đen hắc ám).
+        let tg=null, best=1e9;
+        for(const u of [...fighters.filter(f=>f.team!==g.team && !f.dead), ..._summonFoes(g.team)]){
+          const d=Math.hypot(u.x-g.x,u.y-g.y), R=g.size+(u.size||20)+MELEE_REACH*1.5; if(d<R && d<best){ best=d; tg=u; } }
+        g._suck=tg;
+        if(!tg) g._frost=Math.max(0,(g._frost||0)-0.02);
+        if(tg){
+          const dx=g.x-tg.x, dy=g.y-tg.y, d=Math.hypot(dx,dy)||1, keep=g.size+(tg.size||20)*0.85;
+          if(d<keep){ g.x=tg.x+dx/d*keep; g.y=tg.y+dy/d*keep; }   // không cho lướt xuyên qua: đứng chắn trước mặt
+          g.vx*=0.5; g.vy*=0.5;
+          tg._soulT=8; tg._soulFrom={x:g.x,y:g.y-g.size*0.6};
+          if(!(tg._darkT>0)){ tg._darkAge=0; } tg._darkT=Math.max(tg._darkT||0,14); tg._darkDmg=0;   // khí đen chỉ để HIỆN (ra khỏi tầm là tan dần, KHÔNG còn DOT kéo dài)
+          g._frost=Math.min(1,(g._frost||0)+0.04); g._frostX=tg.x; g._frostY=tg.y;
+          if(!((tg._sdGhostDmgCD||0)>0)){   // DOT 20/0.5s y như đốt cháy, CHỈ khi còn trong tầm hút
+            const _gAtk=g.owner||{team:g.team,x:g.x,y:g.y};
+            if(fighters.includes(tg)) tg.takeDamage(_gDmg, _gAtk, false, true, '👻', null, true); else _summonTakeDamage(tg, _gDmg, _gAtk, false, true, '👻', null);
+            tg._sdGhostDmgCD=30;
+          } else tg._sdGhostDmgCD--;
+        }
+      }
       // 💚 MA TRẮNG: hào quang hồi máu bán kính 2×size — Scared Dog đứng TRONG phạm vi mới được hồi 20 HP/s
       if(g.color==='white' && g.owner && !g.owner.dead){
         const _hd=Math.sqrt((g.owner.x-g.x)**2+(g.owner.y-g.y)**2);
@@ -23179,6 +23209,33 @@ function loop(){
           if(g._healPulseT>=30){ g._healPulseT=0; _healFloat(g.owner.x,g.owner.y,g.owner.size,10,g.owner); }
         }
       }
+    }
+    // 👻 LUỒNG HỒN bị hút: các làn hồn trắng xanh trôi theo đường cong lượn từ ngực nạn nhân vào mũ trùm của ma
+    //    + 1 bóng mờ của chính nạn nhân bị kéo giãn ra khỏi thân về phía ma (hồn đang lìa xác)
+    if(g.color==='black' && (g._frost||0)>0.01 && g._frostX!==undefined){   // ❄️ băng giá loang trên sàn quanh nạn nhân (như lúc Giám Ngục tới gần)
+      const fr=g._frost, cx=g._frostX, cy=g._frostY, Rr=60*fr;
+      ctx.save(); ctx.globalAlpha=0.55*fr; ctx.strokeStyle='rgba(225,240,255,0.9)'; ctx.lineCap='round';
+      for(let k=0;k<14;k++){ const an=k/14*Math.PI*2+_hmN(k,3)*0.3, L=Rr*(0.6+0.4*Math.abs(_hmN(k,7))*2);
+        const x1=cx+Math.cos(an)*L, y1=cy+Math.sin(an)*L*0.6;
+        ctx.lineWidth=1.6; ctx.beginPath(); ctx.moveTo(cx+Math.cos(an)*L*0.25,cy+Math.sin(an)*L*0.15); ctx.lineTo(x1,y1); ctx.stroke();
+        ctx.lineWidth=1; for(const sd of [-1,1]){ ctx.beginPath(); ctx.moveTo(cx+Math.cos(an)*L*0.65,cy+Math.sin(an)*L*0.39); ctx.lineTo(cx+Math.cos(an)*L*0.65+Math.cos(an+sd*0.7)*L*0.22, cy+Math.sin(an)*L*0.39+Math.sin(an+sd*0.7)*L*0.13); ctx.stroke(); } }
+      const fg=ctx.createRadialGradient(cx,cy,0,cx,cy,Rr); fg.addColorStop(0,'rgba(210,235,255,0.35)'); fg.addColorStop(1,'rgba(210,235,255,0)');
+      ctx.fillStyle=fg; ctx.beginPath(); ctx.ellipse(cx,cy,Rr,Rr*0.6,0,0,Math.PI*2); ctx.fill(); ctx.restore(); }
+    if(g.color==='black' && g._suck && !g._suck.dead){
+      const u=g._suck, sx=u.x, sy=u.y-(u.size||20)*0.45, ex=g.x, ey=g.y-g.size*0.75, mx=(sx+ex)/2+(ey-sy)*0.18*Math.sin(tick*0.07), my=(sy+ey)/2-(ex-sx)*0.18*Math.sin(tick*0.07);
+      const B=(k)=>({x:(1-k)*(1-k)*sx+2*(1-k)*k*mx+k*k*ex, y:(1-k)*(1-k)*sy+2*(1-k)*k*my+k*k*ey});
+      ctx.save(); ctx.globalCompositeOperation='lighter';
+      const L=u._lastSprite;
+      if(L && L.img){ for(let j=1;j<=2;j++){ const k=0.18*j+0.06*Math.sin(tick*0.2+j), P=B(k);   // bóng hồn mờ bị kéo khỏi thân
+          ctx.save(); ctx.globalAlpha=0.16/j; ctx.translate(P.x,P.y); ctx.scale(1-0.15*j,1-0.15*j); if(L.fl||L.flip) ctx.scale(-1,1);
+          try{ ctx.drawImage(L.img,L.sx,L.sy,L.sw,L.sh,-L.dw/2,-L.dh/2,L.dw,L.dh); }catch(e){} ctx.restore(); } }
+      ctx.lineCap='round';
+      for(let j=0;j<3;j++){ ctx.beginPath(); for(let i=0;i<=14;i++){ const k=i/14, P=B(k), o=Math.sin(k*9-tick*0.25+j*2.1)*(1-k)*7; i?ctx.lineTo(P.x+o,P.y-o*0.5):ctx.moveTo(P.x+o,P.y-o*0.5); }
+        ctx.strokeStyle=`rgba(190,225,255,${0.22-j*0.05})`; ctx.lineWidth=6-j*1.6; ctx.stroke(); }
+      for(let j=0;j<7;j++){ const k=((tick*0.025+j/7)%1), P=B(k), r=(1-k)*5+1.5, o=Math.sin(k*9-tick*0.25+j)*(1-k)*6;
+        const sg=ctx.createRadialGradient(P.x+o,P.y,0,P.x+o,P.y,r*2.2); sg.addColorStop(0,`rgba(235,248,255,${0.75*(1-k*0.6)})`); sg.addColorStop(1,'rgba(170,210,255,0)');
+        ctx.fillStyle=sg; ctx.beginPath(); ctx.arc(P.x+o,P.y,r*2.2,0,Math.PI*2); ctx.fill(); }
+      ctx.restore();
     }
     // vẽ
     ctx.save();
