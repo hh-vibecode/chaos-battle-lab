@@ -8925,8 +8925,9 @@ function _sdCycle(f){
     else if(f._sdHide){ f._sdHide.out=true; f._sdHide.t2=0; }   // ☀️ trời sáng: từ bóng tối hiện ra lại
   }
 }
-// 🌑 ĐÊM XUỐNG: Sus Dog lùi dần về mép sàn gần nhất rồi chìm vào bóng tối (thành bóng đen, mờ đi) — con sói lao ra từ
-//    đúng phía đó (nó hoá sói). Trời sáng thì bóng đen tan, Sus Dog hiện ra lại tại chỗ. CHỈ là hoạt ảnh: vẫn trúng đòn như cũ.
+// 🌑 ĐÊM XUỐNG: Sus Dog lùi dần về mép sàn gần nhất rồi LẨN HẲN vào bóng tối (hoá bóng đen rồi biến mất) — con sói lao ra từ
+//    đúng phía đó (nó hoá sói). Trời sáng thì từ bóng tối hiện ra lại tại chỗ. CHỈ là hoạt ảnh: vẫn trúng đòn như cũ
+//    (giống con bị Troll Face nuốt — không thấy nhưng vẫn ăn dame).
 const SD_HIDE_T=50, SD_SHOW_T=30;
 function _sdHideStart(f){ f._sdHide={t:0, t2:0, out:false, x0:f.x, side:(f.x<W/2?-1:1)}; }
 function _sdHideTick(f){
@@ -18338,6 +18339,7 @@ class Fighter {
     // 😏 đang bị Troll Face NGẬM trong mồm → biến mất hẳn khỏi sàn: không vẽ thân, không vẽ cả thanh máu,
     // coi như đã nằm gọn trong bụng nó (số dame nổi vẫn bay ra bình thường vì nằm ở hệ floatTexts riêng).
     if(this._tfSwallowed) return;
+    if(this.type==='susdog' && this._sdHide && _sdHideK(this)>=0.999) return;   // 🌑 đã lẩn HẲN vào bóng tối ban đêm: biến mất (cả thân lẫn thanh máu)
     if(this.type==='evilgary' && this._egExit) return;   // 🏆 đang xoay–chìm vào ngôi sao: thân do _egDrawExit vẽ
     if(this.type==='nyancat' && !this.dead) _nyTailDraw(this);   // 🌈 đuôi cầu vồng vẽ TRƯỚC (nằm dưới thân mèo)
     // Commander Cat: đứng sát mép arena quan sát (vô hình hitbox, chỉ vẽ ở mép) — mép ĐÚNG PHE của nó (team 0 = trái, team 1 = phải), không cố định trái
@@ -18841,7 +18843,7 @@ class Fighter {
       if(this.dogeBuffed) _dogeAura(this,s);
       const _dg=_dogeAnim(this); offX+=_dg.ox; offY+=_dg.oy; rotation+=_dg.rot; scaleX*=_dg.sx; scaleY*=_dg.sy; }
     ctx.translate(this.x+offX,this.y+offY-_bounce);
-    if(this.type==='susdog' && this._sdHide) ctx.globalAlpha*=1-0.6*_sdHideK(this);   // 🌑 chìm vào bóng tối: mờ dần
+    if(this.type==='susdog' && this._sdHide) ctx.globalAlpha*=1-_sdHideK(this);   // 🌑 lẩn vào bóng tối: tan dần rồi biến mất hẳn
     if(this._soulT>0 && this._soulFrom){   // 👻 bị Giám Ngục hút hồn: GIỮ NGUYÊN tư thế (không xoay/méo), chỉ tái nhợt mờ đi — phần nhoè kéo về phía ma vẽ riêng
       const k=Math.min(1,this._soulT/8);
       ctx.globalAlpha*=1-0.3*k;   // màu tái nhợt: phủ ảnh _soulPale lên sprite (xem dưới), không dùng ctx.filter cho đỡ lag
