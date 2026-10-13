@@ -766,7 +766,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     coughcat: { key:'coughcat', defaultName:'Cough Cat', emoji:'🤧', color:'#8bc34a', hp:1000, speed:5, size:49, skill:'Không cận chiến. Mỗi 1.5s ho trong 2s, nhổ ra 1 bọc đờm độc bay về phía địch gần nhất, bay giữa chừng thì vỡ ra thành 3 con virus văng tung toé rồi rơi xuống đất. Địch dẫm phải dính độc VĨNH VIỄN tới chết: lần 1 mất 10 HP/s, lần 2 20, lần 3 30... tăng dần không giới hạn.' },
     spidercat: { key:'spidercat', defaultName:'Spider Cat', emoji:'🕷️', color:'#4a148c', hp:1000, speed:1, size:43, skill:'Di chuyển rất chậm. Va chạm bất kỳ ai/tường đều bị bật lại rất xa, tăng vĩnh viễn 0.4 tốc di chuyển (không giới hạn). Va trúng ĐỊCH gây 20+ dame (tăng theo đúng tốc đã cộng dồn) và hồi 10 HP. Giảm dame nhận theo tốc độ hiện tại (tối đa 50%).' },
     flowercat: { key:'flowercat', defaultName:'Flower Cat - The Transcendent One', emoji:'🌸', color:'#f8bbd0', hp:1000, speed:5, size:43, skill:'2s sau khi vào trận, 1 bông hoa xuất hiện ở góc xa nhất, nảy khắp sàn (không máu, không hại ai) tới khi chạm ĐÚNG Flower Cat. Khi chạm: hồi 69 máu rồi vào chuỗi Siêu Việt 2s (không gian bóp méo → nứt vỡ → sét), cuối cùng gây 350 dame. 3s sau bông hoa mới xuất hiện.' },
-    loadingcat: { key:'loadingcat', defaultName:'Loading Cat', emoji:'⏳', color:'#90a4ae', hp:1000, speed:5, size:47, skill:'Có 1 mũi tên phép vĩnh viễn. Xen kẽ ngẫu nhiên: Loading 3-7s (đứng yên, mũi tên bay xuyên phá liên tục tốc 24, xuyên qua địch gây dame) rồi Di chuyển 3-5s (mũi tên cắm im vào tường, đi lang thang bình thường).' },
+    loadingcat: { key:'loadingcat', defaultName:'Loading Cat', emoji:'⏳', color:'#90a4ae', hp:1000, speed:5, size:47, skill:'Có 1 mũi tên Yaka (kiểu Yondu) vĩnh viễn. Xen kẽ ngẫu nhiên: Loading 3-7s (đứng yên, vòng loading xoay giữa trán, điều khiển mũi tên bay theo quán tính lượn vòng đâm xuyên địch — mỗi lượt xuyên qua 80 dame + thủng 1 lỗ nhỏ, phải lượn vòng lại mới đâm tiếp) rồi Di chuyển 3-5s (mũi tên cắm im vào tường, đi lang thang bình thường).' },
     capybara: { key:'capybara', emoji:'🐹', color:'#8d6e63', hp:1000, speed:5, size:52, defaultName:'Capybara', skill:'Vào trận đã ở DẠNG DUNG HỢP (2 con cưỡi nhau) 1000 máu, CHỈ có đúng 1 chiêu: cứ 2.5s lại đứng yên tích lực 1s rồi lao húc về phía địch — trúng thì 150 dmg và đẩy văng rất mạnh (chỉ đẩy văng, không có dame đập tường). Không có đòn cận chiến nào ở dạng này. Khi ăn đòn chí mạng, thay vì chết thì BẬT VĂNG ra làm 2 con — con dùng AVATAR CHÍNH 300 máu (không đánh, chỉ lạch bạch đi qua đi lại), con CẦM DAO (ô ảnh phụ) 200 máu và còn đánh cận chiến 45 dmg. Sống sót qua 5s ở dạng tách thì 2 con hợp lại làm 1 với 500 máu (rồi lại tụt xuống 0 là tách tiếp, lặp vô hạn); mất 1 con trong 5s đó thì không hợp lại được nữa.' },
     fanchar: { key:'fanchar', defaultName:'Fan', emoji:'🧑', color:'#8ab4ff', hp:1000, speed:5, size:48, skill:'Nhân vật của người bình luận — skill riêng do chính họ nghĩ ra (xem FAN_SKILLS).' },
     yuki: { key:'yuki', defaultName:'Yuki - The Round One', emoji:'🦭', color:'#90caf9', hp:1000, speed:5, size:48, skill:'Hải cẩu tròn béo, KHÔNG có đòn đánh nào. Có đúng 2 chiêu. (1) VA ĐẬP: chạm vào ai là gây 50 sát thương, lúc nào cũng vậy. (2) PHẢN ĐÒN: mọi đòn đánh trúng nó gom thành 40% sát thương PHẢN, nhưng dame đó không nổ ngay mà bay theo nó — húc trúng ai mới giao tận nơi, bay hết đà không chạm được ai thì mất trắng. Trong lúc đang bay nó cứng người hơn, chịu ít hơn 25% sát thương. Cú đánh đồng thời hất chính nó bay VĂNG RA XA kẻ vừa đánh như quả bóng bi-a — đòn càng nặng bay càng nhanh và càng lâu — rồi nó cứ thế nảy tưng tưng dội hết tường này sang tường khác, đường bay hoàn toàn tuỳ vào góc dội chứ nó KHÔNG tự lái về phía ai. Ai xui nằm đúng đường nảy thì ăn trọn. Cú va đập SAU KHI đã dội tường mới hất văng được đối thủ, và mỗi lần hất văng thì từ chính con địch đó BẮN RA 1 con cá bay vòng cung rồi nằm lại — Yuki nhặt cá thì hồi 50 máu. Đòn càng nặng thì nó bay càng xa và rung như thạch càng dữ.' },
@@ -4832,6 +4832,52 @@ let stalinBlasts=[]; // ☭ Stalin Cat: sóng chớp sáng lúc búa + liềm ch
 let stalinCharges=[]; // ☭ Stalin Cat: nạp sáng 2s (búa+liềm chạm nhau, đóng băng trận) trước khi nổ — tick riêng ở loop(), KHÔNG trong Fighter.update() vì battleFreezeTimer đóng băng hết fighters.forEach(update)
 let apples=[]; // Apple Cat — táo nảy trong sân, va trúng địch gây dame
 let flowers=[]; // Flower Cat — bông hoa vật lý, không máu, chỉ kích hoạt khi chạm ĐÚNG chủ nhân
+// 🏹 LOADING CAT = mũi tên YAKA của Yondu: thân dài mảnh, vây/đốt đỏ phát sáng, vệt sáng đỏ dài theo đường bay
+const LA_SPD=21, LA_TURN=0.085, LA_COMMIT=14, LA_TRAIL=28, LA_LEN=46, LA_SCALE=1.6;   // LA_SCALE: phóng to cả mũi tên
+const LA_HEAD={x:0.634, y:0.30};   // giữa trán trong ảnh đại diện mới (tỉ lệ khung ảnh)
+function _laAddHole(u,x,y){   // lỗ thủng nhỏ trên người (toạ độ tương đối so với tâm con mồi), mờ dần sau ~4s
+  if(!u) return; const R=(u.size||20)*0.55, dx=x-u.x, dy=y-u.y, d=Math.hypot(dx,dy)||1, k=Math.min(1,R/d);
+  (u._laHoles||(u._laHoles=[])).push({dx:dx*k*0.8, dy:dy*k*0.8, t:240, r:2.2+Math.random()*1.2});
+  if(u._laHoles.length>6) u._laHoles.shift();
+}
+function _laDrawHoles(){
+  for(const u of [...fighters, ..._hpSummonArrays().flat()]){ if(!u || !u._laHoles || !u._laHoles.length) continue;
+    if(u.dead){ u._laHoles.length=0; continue; }
+    for(let i=u._laHoles.length-1;i>=0;i--){ const h=u._laHoles[i]; if(--h.t<=0){ u._laHoles.splice(i,1); continue; }
+      const a=Math.min(1,h.t/40), x=u.x+h.dx, y=u.y+h.dy;
+      ctx.save(); ctx.globalAlpha=a;
+      ctx.fillStyle='rgba(150,0,0,0.75)'; ctx.beginPath(); ctx.arc(x,y,h.r*1.7,0,Math.PI*2); ctx.fill();   // viền máu
+      ctx.fillStyle='#0b0204'; ctx.beginPath(); ctx.arc(x,y,h.r,0,Math.PI*2); ctx.fill();                  // lỗ thủng
+      ctx.fillStyle='rgba(255,90,70,0.8)'; ctx.beginPath(); ctx.arc(x-h.r*0.35,y-h.r*0.35,h.r*0.35,0,Math.PI*2); ctx.fill();
+      ctx.restore(); } }
+}
+function _laDrawArrow(ar, flying){
+  const P=ar.trail;
+  if(flying && P.length>2){   // vệt sáng đỏ dài: lõi trắng-hồng + quầng đỏ, mảnh dần về đuôi
+    ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round'; ctx.lineJoin='round';
+    for(let i=1;i<P.length;i++){ const k=i/P.length;
+      ctx.strokeStyle=`rgba(255,30,20,${0.22*k})`; ctx.lineWidth=14*k; ctx.beginPath(); ctx.moveTo(P[i-1].x,P[i-1].y); ctx.lineTo(P[i].x,P[i].y); ctx.stroke();
+      ctx.strokeStyle=`rgba(255,70,50,${0.7*k})`; ctx.lineWidth=4.6*k; ctx.beginPath(); ctx.moveTo(P[i-1].x,P[i-1].y); ctx.lineTo(P[i].x,P[i].y); ctx.stroke();
+      ctx.strokeStyle=`rgba(255,220,210,${0.8*k*k})`; ctx.lineWidth=1.8*k; ctx.beginPath(); ctx.moveTo(P[i-1].x,P[i-1].y); ctx.lineTo(P[i].x,P[i].y); ctx.stroke(); }
+    ctx.restore(); }
+  const L=LA_LEN, pulse=flying?0.75+0.25*Math.sin(tick*0.5):0.45;
+  ctx.save(); ctx.translate(ar.x,ar.y); ctx.rotate(ar.angle||0); ctx.scale(LA_SCALE,LA_SCALE);   // mũi nhọn ở (0,0), thân kéo về phía sau (-x)
+  ctx.lineCap='round';
+  ctx.strokeStyle='#3a2a18'; ctx.lineWidth=2.6; ctx.beginPath(); ctx.moveTo(-L,0); ctx.lineTo(-3,0); ctx.stroke();       // thân (viền tối)
+  ctx.strokeStyle='#b08a4e'; ctx.lineWidth=1.4; ctx.beginPath(); ctx.moveTo(-L,0); ctx.lineTo(-3,0); ctx.stroke();       // thân vàng đồng
+  ctx.fillStyle='#4a4038'; ctx.beginPath(); ctx.moveTo(4,0); ctx.lineTo(-6,-2.6); ctx.lineTo(-4.5,0); ctx.lineTo(-6,2.6); ctx.closePath(); ctx.fill();   // mũi giáo
+  ctx.fillStyle='#d9d2c8'; ctx.beginPath(); ctx.moveTo(4,0); ctx.lineTo(-4,-1); ctx.lineTo(-4,0); ctx.closePath(); ctx.fill();
+  // đốt đỏ phát sáng: ngay sau mũi + cụm vây đuôi
+  ctx.save(); ctx.globalCompositeOperation='lighter';
+  for(const [x0,x1,r] of [[-9,-6,2.6],[-L+6,-L+16,3.2]]){
+    const g=ctx.createRadialGradient((x0+x1)/2,0,0,(x0+x1)/2,0,r*3.2); g.addColorStop(0,`rgba(255,60,40,${0.75*pulse})`); g.addColorStop(1,'rgba(255,0,0,0)');
+    ctx.fillStyle=g; ctx.beginPath(); ctx.arc((x0+x1)/2,0,r*3.2,0,Math.PI*2); ctx.fill(); }
+  ctx.restore();
+  ctx.fillStyle=`rgba(255,${Math.round(70+60*pulse)},60,1)`;
+  ctx.fillRect(-9,-1.6,3,3.2);
+  ctx.beginPath(); ctx.moveTo(-L+16,0); ctx.lineTo(-L+6,-3.4); ctx.lineTo(-L+4,0); ctx.lineTo(-L+6,3.4); ctx.closePath(); ctx.fill();   // vây đuôi
+  ctx.restore();
+}
 let loadingArrows=[]; // Loading Cat — mũi tên phép vĩnh viễn, xuyên qua địch lúc chủ đang "loading", cắm im vào tường lúc chủ đang di chuyển
 let flowerShatters=[]; // Flower Cat: hiệu ứng không gian nứt vỡ toàn màn hình khi kích hoạt Siêu Việt
 let flowerZoom=0, flowerZoomX=0, flowerZoomY=0; // zoom-punch bóp méo không gian quanh điểm kích hoạt
@@ -9791,7 +9837,7 @@ const CHAR_BLURB = {
   coughcat: "Coughs out toxic germs that scatter across the floor; stepping on one poisons you permanently, worse each time.",
   spidercat: "Starts very slow, but every collision launches it further and permanently raises its speed.",
   flowercat: "A harmless flower drifts around the arena — the moment it reaches its owner, reality tears open.",
-  loadingcat: "Alternates between standing still while its arrow tears through everything, and moving with the arrow parked in a wall.",
+  loadingcat: "While loading, it whistles a Yondu-style Yaka arrow that swoops around and pierces through enemies, looping back for every new hit. Then it walks around with the arrow stuck in a wall.",
   capybara: "Fused from the start, ramming every 2.5s. A lethal hit blasts it apart into a 300 HP half and a 200 HP knife half that fuse back after 5s.",
   mechaniccat: "Wanders normally while crates drop into the corners; an enemy straying near one turns it into an auto-firing turret.",
   finedog: "Never moves and never attacks. The whole arena catches fire instead, burning everyone harder every few seconds.",
@@ -9880,7 +9926,7 @@ const CHAR_BLURB_SHORT = {
   coughcat: "Never covers its mouth. Floor is poison now.",
   spidercat: "With great speed comes great damage.",
   flowercat: "The flower comes home. Reality doesn't.",
-  loadingcat: "Loading… the arrow already left.",
+  loadingcat: "Loading… Yondu's arrow already left.",
   capybara: "Ok I pull up. Then I ram you.",
   mechaniccat: "Fixes crates into turrets. You're the bug.",
   finedog: "This is fine. (The whole arena is on fire.)",
@@ -17220,7 +17266,7 @@ class Fighter {
       // spawn mũi tên NẾU chưa có (chỉ 1 mũi/chủ, tồn tại vĩnh viễn tới khi chủ chết)
       if(!loadingArrows.some(a=>a.owner===this)){
         const _laAng=Math.random()*Math.PI*2;
-        loadingArrows.push({x:this.x,y:this.y,vx:Math.cos(_laAng)*24,vy:Math.sin(_laAng)*24,angle:_laAng,
+        loadingArrows.push({x:this.x,y:this.y,vx:Math.cos(_laAng)*LA_SPD,vy:Math.sin(_laAng)*LA_SPD,angle:_laAng,
           owner:this,team:this.team,trail:[],_planted:false,_wallBounces:0});
       }
       if(this._loadPhase==='loading'){
@@ -23044,6 +23090,7 @@ function loop(){
   _hmDrawOver();       // 🐹 vuốt tay bóng tối quặp ĐÈ lên con mồi đang bị cầm (cảm giác 3D) + bị nuốt chửng
   _darkDraw();         // 🌑 khí đen hắc ám bao quanh nạn nhân
   _saDrawOver();       // 😏 thanh SMUG của Arbiter
+  _laDrawHoles();      // 🕳️ lỗ thủng do mũi tên Yaka của Loading Cat
 
   // ===== GERMAN SOLDIERS update + draw =====
   for(let si=germanSoldiers.length-1; si>=0; si--){
@@ -25180,35 +25227,27 @@ function loop(){
       }
       if(ar._flyMusic && ar._flyMusic.paused){ ar._flyMusic.play().catch(()=>{}); }
       if(ar._planted){
-        // vừa hết pha di chuyển, mũi tên đang cắm im vào tường → bắn nó bật trở lại vào sân (đảo ngược hướng cắm + lệch ngẫu nhiên nhẹ)
+        // vừa hết pha di chuyển, mũi tên đang cắm im vào tường → giật ra, bay ngược vào sân
         const _reAng=(ar.angle||0)+Math.PI+(Math.random()-0.5)*0.8;
-        ar.vx=Math.cos(_reAng)*24; ar.vy=Math.sin(_reAng)*24;
-        ar._planted=false;
+        ar.vx=Math.cos(_reAng)*LA_SPD; ar.vy=Math.sin(_reAng)*LA_SPD; ar.angle=_reAng;
+        ar._planted=false; ar.trail=[]; ar._commit=8;
       }
+      // 🏹 MŨI TÊN YAKA (Yondu): bay theo QUÁN TÍNH, chỉ bẻ lái được từ từ về phía địch gần nhất (LA_TURN rad/tick) →
+      //    lao xuyên qua người rồi còn trượt đi 1 đoạn (LA_COMMIT tick không bẻ lái), phải lượn 1 vòng mới quay lại đâm tiếp
+      //    → KHÔNG thể đứng trong người địch mà đâm liên tục.
+      { let a=Math.atan2(ar.vy,ar.vx);
+        if((ar._commit||0)>0) ar._commit--;
+        else { const _t=_findClosestEnemy(ar.team, ar.x, ar.y);
+          if(_t){ const want=Math.atan2(_t.y-ar.y,_t.x-ar.x), d=Math.atan2(Math.sin(want-a),Math.cos(want-a)); a+=Math.max(-LA_TURN,Math.min(LA_TURN,d)); } }
+        ar.vx=Math.cos(a)*LA_SPD; ar.vy=Math.sin(a)*LA_SPD; }
       ar.x+=ar.vx; ar.y+=ar.vy;
-      let _bounced=false;
-      if(ar.x-_arS<0){ ar.x=_arS; ar.vx=Math.abs(ar.vx); _bounced=true; }
-      if(ar.x+_arS>W){ ar.x=W-_arS; ar.vx=-Math.abs(ar.vx); _bounced=true; }
-      if(ar.y-_arS<0){ ar.y=_arS; ar.vy=Math.abs(ar.vy); _bounced=true; }
-      if(ar.y+_arS>H){ ar.y=H-_arS; ar.vy=-Math.abs(ar.vy); _bounced=true; }
-      if(_bounced){
-        ar.trail=[]; // đổi hướng đột ngột (va tường) → xoá vệt cũ ngay, tránh vệt của hướng bay TRƯỚC ĐÓ còn sót lại trông như chạy song song/tách rời khỏi mũi tên
-        ar._wallBounces=(ar._wallBounces||0)+1;
-        // cứ 2 lần va tường → lao thẳng về phía địch gần nhất để đảm bảo xuyên qua, thay vì chỉ trông chờ bay ngẫu nhiên gặp nhau
-        if(ar._wallBounces>=2){
-          ar._wallBounces=0;
-          const _laTgt=_findClosestEnemy(ar.team, ar.x, ar.y);
-          if(_laTgt){
-            const _laHomeAng=Math.atan2(_laTgt.y-ar.y, _laTgt.x-ar.x);
-            ar.vx=Math.cos(_laHomeAng)*24; ar.vy=Math.sin(_laHomeAng)*24;
-          }
-        }
-      }
-      const _laSp=Math.sqrt(ar.vx*ar.vx+ar.vy*ar.vy)||24;
-      ar.vx=ar.vx/_laSp*24; ar.vy=ar.vy/_laSp*24; // luôn giữ đúng tốc 24 (x3), không suy giảm theo thời gian
+      if(ar.x-_arS<0){ ar.x=_arS; ar.vx=Math.abs(ar.vx); }
+      if(ar.x+_arS>W){ ar.x=W-_arS; ar.vx=-Math.abs(ar.vx); }
+      if(ar.y-_arS<0){ ar.y=_arS; ar.vy=Math.abs(ar.vy); }
+      if(ar.y+_arS>H){ ar.y=H-_arS; ar.vy=-Math.abs(ar.vy); }
       ar.angle=Math.atan2(ar.vy,ar.vx);
       ar.trail.push({x:ar.x,y:ar.y});
-      if(ar.trail.length>16) ar.trail.shift(); // vệt dài hơn (x2 so với trước) — kiểu vệt sáng dài mượt như mũi tên Yondu, vẫn tự xoá khi đổi hướng đột ngột nên không bị ngoằn ngoèo
+      if(ar.trail.length>LA_TRAIL) ar.trail.shift();   // vệt sáng đỏ dài phía sau (đi theo đúng đường cong đã bay)
       // xuyên qua địch gây dame (piercing — không bật lại/không biến mất khi trúng).
       // ⚠️ KHÔNG dùng cooldown theo thời gian: mỗi LẦN CHẠM chỉ gây dame ĐÚNG 1 lần, tính từ frame
       // đầu tiên mũi tên chồng lấn hitbox mục tiêu; phải bay HẲN RA KHỎI hitbox đó thì mới reset và
@@ -25226,7 +25265,9 @@ function loop(){
             }
             t.takeDamage(80, ar._smRefl?ar._smRefl.by:_laOwner, false, false, '', 'Blood Batch 1_Sprite');
             if(ar._smRefl){ ar.team=ar._smRefl.team0; ar._smRefl=null; }
-            _hitParticles(t.x,t.y,'#40c4ff',6,false,true);
+            _hitParticles(t.x,t.y,'#ff3b30',6,false,true);
+            ar._commit=LA_COMMIT;   // xuyên qua rồi trượt tiếp theo quán tính, chưa bẻ lái ngay
+            _laAddHole(t, ar.x, ar.y);   // 🕳️ thủng 1 lỗ nhỏ trên người
           }
         } else if(ar._inside.has(t)) ar._inside.delete(t); // đã xuyên ra khỏi meme → reset, lần chạm sau lại ăn dame
       };
@@ -25254,51 +25295,17 @@ function loop(){
         ar._planted=true;
       }
     }
-    // vệt TÍM đằng sau khi bay (nối các vị trí gần nhất → luôn nằm đúng phía SAU hướng bay, không phải vệt ngang) — chỉ khi đang bay
-    if(ar.trail.length>1){
-      ctx.save(); ctx.lineCap='round'; ctx.globalCompositeOperation='lighter';
-      for(let ti=1;ti<ar.trail.length;ti++){
-        const t0=ar.trail[ti-1], t1=ar.trail[ti];
-        const _ta=(ti/ar.trail.length);
-        ctx.strokeStyle=`rgba(186,64,255,${_ta*0.75})`;
-        ctx.lineWidth=6*_ta;
-        ctx.beginPath(); ctx.moveTo(t0.x,t0.y); ctx.lineTo(t1.x,t1.y); ctx.stroke();
-      }
-      ctx.restore();
-    }
-    // vẽ mũi tên — dùng VFX Voltaic Needle (kho), xoay theo hướng bay
-    const _vnImg=getLibVfxImg('Voltaic Needle');
-    ctx.save();
-    ctx.translate(ar.x,ar.y);
-    ctx.rotate(ar.angle||0); // sprite Voltaic Needle vẽ sẵn mũi nhọn CHĨA PHẢI trong khung gốc (đo lại trực tiếp từ ảnh, kiểm tra cả 16 frame) → KHÔNG cộng thêm 180° nữa, bản cũ bị ngược hướng bay
-    if(_vnImg && _vnImg.complete && _vnImg._cols){
-      const _vnCols=_vnImg._cols, _vnRows=_vnImg._rows, _vnFrames=_vnImg._frames||(_vnCols*_vnRows);
-      const _vnFw=Math.round(_vnImg.naturalWidth/_vnCols), _vnFh=Math.round(_vnImg.naturalHeight/_vnRows);
-      const _vnFrame = _laOwner._loadPhase==='loading' ? Math.floor(Date.now()/55)%_vnFrames : 0;
-      const _vnSx=(_vnFrame%_vnCols)*_vnFw, _vnSy=Math.floor(_vnFrame/_vnCols)*_vnFh;
-      const _vnSz=66;
-      if(_vnImg._additive) ctx.globalCompositeOperation='lighter';
-      // ⚠️ hình mũi tên KHÔNG nằm giữa khung gốc (đo trực tiếp từ ảnh: nội dung thật chỉ chiếm hàng ~4-29/64 và cột ~0-119/128,
-      // lệch hẳn lên trên trong khung) → nếu vẽ "-sz/2,-sz/2" (căn giữa khung) thì hình mũi tên bị lệch sang 1 bên so với tâm xoay
-      // thật (ar.x,ar.y), khiến vệt tím phía sau trông như nằm CẠNH mũi tên thay vì nối liền — bù lại lệch tâm nội dung ở đây.
-      ctx.drawImage(_vnImg,_vnSx,_vnSy,_vnFw,_vnFh,-_vnSz/2+2,-_vnSz/2+17,_vnSz,_vnSz);
-    } else {
-      ctx.font='22px serif'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('🏹',0,0);
-    }
-    ctx.restore();
+    _laDrawArrow(ar, _laOwner._loadPhase==='loading');   // 🏹 mũi tên Yaka + vệt sáng đỏ
     // ⏳ hiệu ứng loading spinner (cánh quạt xoay, cạnh dài) ở phần ĐẦU chủ nhân — chỉ hiện lúc đang loading
     if(_laOwner._loadPhase==='loading'){
       // avatar lật theo hướng quay mặt về phía địch (y hệt logic facingLeft trong draw() chính) → offset đầu phải lật CÙNG CHIỀU,
       // không thì lúc con mèo quay hướng khác, spinner đứng yên 1 chỗ sẽ lộ ra đang nằm ở đuôi thay vì đầu
-      const _lsE2=_laOwner.enemy;
-      const _lsShouldFaceLeft2 = _lsE2 ? (_lsE2.x<_laOwner.x) : (_laOwner.vx<0);
-      const _lsFacingLeft2 = _laOwner.facingDefault==='right' ? _lsShouldFaceLeft2 : !_lsShouldFaceLeft2;
-      // đo trực tiếp từ ảnh avatar thật (loading cat.png): đầu nằm ở khoảng 35%,45% trong khung nội dung → lệch tâm khoảng -0.30×size (trái) và -0.09×size (lên)
-      // ở TƯ THẾ GỐC (chưa lật). facingLeft=true → cả ảnh bị lật ngang → đầu đảo sang phải, nên đổi dấu theo facingLeft.
-      const _lsFx2 = _lsFacingLeft2 ? 1 : -1;
-      const _lsCx=_laOwner.x+_lsFx2*_laOwner.size*0.30, _lsCy=_laOwner.y-_laOwner.size*0.09;
-      const _lsN=10, _lsR=_laOwner.size*0.11, _lsRayLen=_laOwner.size*0.15, _lsRayW=_laOwner.size*0.028;
-      const _lsRot=(Date.now()/80)%(Math.PI*2);
+      // ⏳ vòng xoay loading nằm GIỮA TRÁN (đo trên ảnh đại diện mới: LA_HEAD theo tỉ lệ khung ảnh), lật theo hướng ảnh đang vẽ
+      const _lsL=_laOwner._lastSprite, _lsFl=(_lsL && (_lsL.fl||_lsL.flip))?-1:1;
+      const _lsCx=_lsL ? _laOwner.x+_lsFl*(LA_HEAD.x-0.5)*_lsL.dw : _laOwner.x;
+      const _lsCy=_lsL ? _laOwner.y+(LA_HEAD.y-0.5)*_lsL.dh : _laOwner.y-_laOwner.size*0.4;
+      const _lsN=12, _lsR=_laOwner.size*0.13, _lsRayLen=_laOwner.size*0.16, _lsRayW=_laOwner.size*0.034;
+      const _lsRot=(Math.floor(Date.now()/70)%12)*(Math.PI*2/12);   // nhảy từng nấc như vòng loading thật (⚠️ phải %12: góc hàng tỉ radian bị GPU làm tròn float32 → 12 vạch chồng lên nhau còn 1)
       ctx.save();
       for(let si=0;si<_lsN;si++){
         const _lsAng=_lsRot+si/_lsN*Math.PI*2;
