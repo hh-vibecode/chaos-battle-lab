@@ -4059,9 +4059,8 @@ function _hmSpawnShadow(f){
   const S={owner:f, t:0, hit:new Set(), dying:0, seed:Math.random()*9, act:null};
   const X=f.x<W/2?W:0, Y=f.y<H/2?H:0, jx=(Math.random()-0.5)*0.2, jy=(Math.random()-0.5)*0.2;
   const A=[{ax:X, ay:H*(0.5+jy), nx:X?-1:1, ny:0, ph:0}, {ax:W*(0.5+jx), ay:Y, nx:0, ny:Y?-1:1, ph:1.7}];
-  // lòng bàn tay (phía ngón quặp vào) hướng VÀO TRONG — về phía hamster/bên trong đường cong tay bò; 2 tay ra 2 hướng nên tự thành 1 trái 1 phải
-  S.hands=A.map((h,i)=>{ const d=Math.hypot(f.x-h.ax,f.y-h.ay), side=(-h.ny)*(f.x-h.ax)+h.nx*(f.y-h.ay);
-    return {...h, mir:side>=0?1:-1, tx:h.ax, ty:h.ay, hx:h.nx, hy:h.ny, trail:[{x:h.ax,y:h.ay}], close:0, spd:d*1.15/(HM_REACH_T-37)}; });
+  S.hands=A.map((h,i)=>{ const d=Math.hypot(f.x-h.ax,f.y-h.ay);
+    return {...h, mir:i?-1:1, mirT:i?-1:1, tx:h.ax, ty:h.ay, hx:h.nx, hy:h.ny, trail:[{x:h.ax,y:h.ay}], close:0, spd:d*1.15/(HM_REACH_T-37)}; });
   hmShadows.push(S);
 }
 function _hmHold(u,x,y){ u.x=x; u.y=y; u.vx=0; u.vy=0; if(u.stun!==undefined) u.stun=Math.max(u.stun||0,2); }
@@ -4130,6 +4129,12 @@ function _hmAnim(S){
   for(const h of S.hands){
     if(h.rx===undefined){ h.rx=h.tx; h.ry=h.ty; h.angS=Math.atan2(h.hy,h.hx); h.clS=0; h.clV=0; h.cph=0; }
     const ox=h.rx, oy=h.ry;
+    // 🤲 2 tay như 1 ĐÔI TAY THẬT: lòng bàn tay (phía ngón quặp) luôn quay VỀ PHÍA TAY KIA. Cần đổi phía thì XOAY cổ tay
+    //    sang (mir chạy mượt qua 0 → bàn tay nghiêng cạnh rồi lật), không lật bụp. Tay kia gần như thẳng trước/sau thì giữ nguyên.
+    { const o=S.hands[S.hands.indexOf(h)^1];
+      if(o){ const vx=(o.rx??o.tx)-(h.rx??h.tx), vy=(o.ry??o.ty)-(h.ry??h.ty), vl=Math.hypot(vx,vy)||1, ag=h.angS??Math.atan2(h.hy,h.hx), c=(Math.cos(ag)*vy-Math.sin(ag)*vx)/vl;
+        if(Math.abs(c)>0.2) h.mirT=c>0?1:-1; }
+      h.mir=(h.mir??h.mirT)+((h.mirT??1)-(h.mir??h.mirT))*0.2; if(Math.abs(h.mir-h.mirT)<0.02) h.mir=h.mirT; }
     const fast=!!h.pose;   // đang ra đòn → bám sát vị trí thật (không trễ lúc nện/chụp trúng)
     h.rx+=(h.tx-h.rx)*(fast?1:0.45); h.ry+=(h.ty-h.ry)*(fast?1:0.45);
     const moved=Math.hypot(h.rx-ox,h.ry-oy);
