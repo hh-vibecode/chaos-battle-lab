@@ -217,6 +217,7 @@ window.ASSET_GROUP={
 "assets/audio/larry_hit.mp3": "evillarry",
 "assets/audio/larry_horn.mp3": "evillarry",
 "assets/audio/scareddog_ghost.mp3": "scareddog",
+"assets/audio/soul_steal.mp3": "scareddog",
 "assets/audio/larry_whisper2.mp3": "evillarry",
 "assets/audio/larry_whisper.mp3": "evillarry",
 "assets/audio/mosquito_violin.mp3": "mosquitoviolin",
