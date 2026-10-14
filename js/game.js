@@ -7576,8 +7576,8 @@ function _mwTravelStart(){ _mwTravelStop(); const a=AUDIO_SAMPLES['mw_gojo_trave
 //  ④ chớp trắng loá + quả cầu lực đẩy nở ra từ tâm: sàn, viền, chữ tên vỡ thành từng tảng văng ngổn ngang, địch bị ép nát vụn ·
 //  ⑤ bụi lắng xuống: giữa sàn là HỐ SÂU (tâm chấn đổ nát, mép đất lởm chởm toả tia), chỉ còn Depressed Cat ở tâm hố.
 //  Sàn đã bị càn + hố + đống đổ nát giữ nguyên tới hết trận.
-const PS_T={rise:1000, eye:1000, voice:2650, st:2750, pull:2600, blast:4600, waveDur:1100, settle:5900, end:7050};   // blast = voice + 1.95s (đúng lúc tiếng nổ trong file vang lên)
-const PS_WT=[1150,1450,1750,2050,2400];   // ms: 5 chữ "This / world / shall / know / pain." hiện lần lượt, mỗi chữ 1 tiếng vine boom nhỏ   // ms — tổng 7.05s = đúng thời lượng Hollow Purple của Mewing Cat (chuẩn cho mọi cảnh kết liễu)
+const PS_T={rise:1000, eye:1000, voice:2400, st:2500, pull:2350, blast:4350, waveDur:1750, settle:6100, end:7050};   // ms — tổng 7.05s (chuẩn Hollow Purple) · blast = voice + 1.95s (tiếng nổ trong file) · vòng sóng quét 1.75s = tới nhịp nổ thứ 2 của tiếng
+const PS_WT=[1100,1380,1660,1940,2230];   // ms: 5 chữ "This / world / shall / know / pain." hiện lần lượt, mỗi chữ 1 tiếng vine boom nhỏ
 const PS_LINES=['This world','shall know','pain.'];
 const PS_WORDS=[['This','world'],['shall','know'],['pain.']];
 let _psWordCv=null;
@@ -7623,6 +7623,7 @@ function _psDrawInkBlock(cv,cx,cy,Hh,t0s,ms){   // quét cọ lộ dần từng 
     const sx=(cv.width-r.tw)/2, sw=r.tw*prog;
     ctx.drawImage(cv, sx, i*cv._rowH, sw, cv._rowH, cx-Wd/2+sx*k, cy-Hh/2+i*cv._rowH*k, sw*k, cv._rowH*k); }
 }
+function _psFillScreen(col){ ctx.save(); ctx.setTransform(1,0,0,1,0,0); ctx.fillStyle=col; ctx.fillRect(0,0,ctx.canvas.width,ctx.canvas.height); ctx.restore(); }   // phủ CẢ màn (không theo khung thế giới → không lộ cạnh vuông lúc camera đang zoom)
 function _psMaxR(){ const C=_fxCoverRect(1.15); let m=0; for(const [x,y] of [[C[0],C[1]],[C[0]+C[2],C[1]],[C[0],C[1]+C[3]],[C[0]+C[2],C[1]+C[3]]]) m=Math.max(m,Math.hypot(x-W/2,y-H/2)); return m; }
 const _psSS=t=>t<=0?0:t>=1?1:t*t*(3-2*t);
 // 🎥 camera: bay lên → cận mặt → kéo ra toàn cảnh
@@ -7647,9 +7648,12 @@ function _psTick(){
   if(ms>=PS_T.blast){
     if(!q.blast){ q.blast=true; q.maxR=_psMaxR(); psWipe={cx:q.cx, cy:q.cy, R:0};
       addShake(5,80);   // (tiếng nổ nằm sẵn trong ps_shinra)
-      for(let k=0;k<40;k++){ const a=Math.random()*Math.PI*2, sp=3+Math.random()*7;   // 🌪️ bụi đất cuộn ra từ tâm
-        psDust.push({x:q.cx+Math.cos(a)*10, y:q.cy+Math.sin(a)*10, vx:Math.cos(a)*sp, vy:Math.sin(a)*sp, r:18+Math.random()*30, t:0, T:110+Math.random()*80}); } }
-    const u=Math.min(1,(ms-PS_T.blast)/PS_T.waveDur), e=1-Math.pow(1-u,2.4);
+    }
+    const u=Math.min(1,(ms-PS_T.blast)/PS_T.waveDur), e=1-Math.pow(1-u,1.7);   // bụi tuôn ra đều dần (không bung 1 phát)
+    if(!q.jets){ q.jets=Array.from({length:130},(_,i)=>({a:i/130*Math.PI*2+(Math.random()-0.5)*0.05, s:0.72+Math.random()*0.5, w:0.7+Math.random()*0.6, sh:Math.random()<0.4}));   // 🌪️ các luồng bụi toả tròn
+      q.specks=Array.from({length:170},()=>({a:Math.random()*Math.PI*2, v:0.5+Math.random()*0.9, r:0.8+Math.random()*2})); }
+    if(!q.hit2 && ms>=PS_T.blast+PS_T.waveDur){ q.hit2=true; addShake(4,30); }   // nhịp nổ thứ 2 của tiếng
+
     q.R=q.maxR*e; psWipe.R=Math.max(psWipe.R,q.R);
     for(let i=projectiles.length-1;i>=0;i--){ const p=projectiles[i]; if(Math.hypot(p.x-q.cx,p.y-q.cy)<q.R) projectiles.splice(i,1); }
     if(!psCrater && u>0.15) psCrater=_psMakeCrater(Math.min(W,H)*0.47);
@@ -7707,9 +7711,9 @@ function _psCut(x,y,sz,cx,cy,sp0,fr,keep){
 function _psDrawUnder(){
   const q=psCine, C=_fxCoverRect(1.3);
   if(q){ const ms=performance.now()-q.t0, f=q.f;
-    const dk=ms<PS_T.blast ? _psSS(ms/900)*0.82 : 0;
-    if(dk>0.01){ ctx.save(); ctx.fillStyle=`rgba(6,4,14,${dk})`; ctx.fillRect(C[0],C[1],C[2],C[3]); ctx.restore(); }
-    if(ms>=PS_T.pull-200 && ms<PS_T.blast+200){   // ☀️ hào quang TRẮNG bừng lên sau lưng bóng đen (như ảnh mẫu Pain dang tay)
+    const dk=ms<PS_T.blast ? _psSS(ms/900)*0.82 : 0.82*(1-_psSS((ms-PS_T.blast)/700));
+    if(dk>0.01) _psFillScreen(`rgba(6,4,14,${dk})`);
+    if(ms>=PS_T.pull-200 && ms<PS_T.blast){   // ☀️ hào quang TRẮNG bừng lên sau lưng bóng đen (như ảnh mẫu Pain dang tay)
       const u=_psSS((ms-PS_T.pull+200)/(PS_T.blast-PS_T.pull)), R=f.size*(1.5+5*u);
       ctx.save(); ctx.globalCompositeOperation='lighter';
       const g=ctx.createRadialGradient(f.x,f.y,0,f.x,f.y,R); g.addColorStop(0,`rgba(255,255,255,${0.95*u})`); g.addColorStop(0.35,`rgba(235,230,255,${0.6*u})`); g.addColorStop(1,'rgba(200,190,255,0)');
@@ -7736,7 +7740,7 @@ function _psDraw(){
   if(!q){ _psDrawDust(); return; }
   const ms=performance.now()-q.t0, f=q.f, C=_fxCoverRect(1.3);
   if(q.blast && q.R<q.maxR){
-    if(q.R>Math.min(W,H)*0.34) for(let k=0;k<26;k++){ const a=Math.random()*Math.PI*2, rr=q.R+6+Math.random()*22,   // (chỉ từ lúc sóng ra tới vùng viền/chữ — giữa sàn để lộ hố)
+    if(q.R>Math.min(W,H)*0.34 && ms>PS_T.blast+250) for(let k=0;k<26;k++){ const a=Math.random()*Math.PI*2, rr=q.R+6+Math.random()*22,   // (chỉ từ lúc sóng ra tới vùng viền/chữ — giữa sàn để lộ hố)
       x=q.cx+Math.cos(a)*rr, y=q.cy+Math.sin(a)*rr;   // 🧱 tảng sàn/viền/chữ vỡ ra
       if(x<C[0]||x>C[0]+C[2]||y<C[1]||y>C[1]+C[3]) continue;
       if(Math.hypot(x-f.x,y-f.y)<f.size*1.3) continue;
@@ -7772,20 +7776,33 @@ function _psDraw(){
     ctx.restore(); }
   if(q.blast){ const bt=ms-PS_T.blast, R=q.R, u=Math.min(1,bt/PS_T.waveDur);
     ctx.save();
-    if(R<q.maxR*1.02){   // 🫧 quả cầu lực đẩy: lòng trong suốt hơi trắng, vành sáng loá, quầng mờ ngoài
-      ctx.globalCompositeOperation='lighter';
-      const g=ctx.createRadialGradient(q.cx,q.cy,R*0.55,q.cx,q.cy,R+14);
-      g.addColorStop(0,'rgba(255,255,255,0)'); g.addColorStop(0.8,`rgba(225,225,255,${0.25*(1-u*0.5)})`); g.addColorStop(0.97,`rgba(255,255,255,${0.9*(1-u*0.4)})`); g.addColorStop(1,'rgba(255,255,255,0)');
-      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(q.cx,q.cy,R+14,0,Math.PI*2); ctx.fill();
-      ctx.lineCap='round';   // 💨 tia tốc độ toả ra từ tâm (kiểu anime)
-      for(let k=0;k<46;k++){ const a=Math.random()*Math.PI*2, r0=R*(0.3+Math.random()*0.5), r1=r0+30+Math.random()*90;
-        ctx.strokeStyle=`rgba(255,255,255,${0.35*(1-u)})`; ctx.lineWidth=0.8+Math.random()*1.8;
-        ctx.beginPath(); ctx.moveTo(q.cx+Math.cos(a)*r0,q.cy+Math.sin(a)*r0); ctx.lineTo(q.cx+Math.cos(a)*r1,q.cy+Math.sin(a)*r1); ctx.stroke(); }
-      ctx.globalCompositeOperation='source-over'; }
-    const wa=bt<220?1:Math.max(0,1-(bt-220)/650);   // ⚪ chớp TRẮNG loá cả màn rồi tan
-    if(wa>0){ ctx.fillStyle=`rgba(255,255,255,${wa})`; ctx.fillRect(C[0],C[1],C[2],C[3]); }
+    if(bt<260){ const k=1-bt/260; ctx.globalCompositeOperation='lighter';   // ✴️ loé ở TÂM chấn lúc bung (không chớp cả màn)
+      const g0=ctx.createRadialGradient(q.cx,q.cy,0,q.cx,q.cy,90+bt*0.5); g0.addColorStop(0,`rgba(255,255,255,${0.9*k})`); g0.addColorStop(1,'rgba(220,210,255,0)');
+      ctx.fillStyle=g0; ctx.beginPath(); ctx.arc(q.cx,q.cy,90+bt*0.5,0,Math.PI*2); ctx.fill(); ctx.globalCompositeOperation='source-over'; }
+    _psDrawDustJets(q,bt,u);   // 🌪️ BỤI ĐẤT tuôn ra thành luồng toả tròn từ tâm, càn phẳng mọi thứ (như ảnh mẫu), lắng dần để lộ hố
     ctx.restore(); }
   _psDrawDust();
+}
+// sprite bụi (vệt mềm dài) vẽ sẵn 1 lần: bản sáng + bản phía tối
+let _psDustSpr=null;
+function _psDustSprites(){ if(_psDustSpr) return _psDustSpr; _psDustSpr=[['244,233,208','226,206,168'],['200,180,146','160,138,104']].map(([c1,c2])=>{
+  const c=document.createElement('canvas'); c.width=160; c.height=64; const x=c.getContext('2d'); x.translate(80,32); x.scale(1,0.4);
+  const g=x.createRadialGradient(0,0,0,0,0,80); g.addColorStop(0,`rgba(${c1},0.95)`); g.addColorStop(0.5,`rgba(${c2},0.6)`); g.addColorStop(1,`rgba(${c2},0)`);
+  x.fillStyle=g; x.beginPath(); x.arc(0,0,80,0,Math.PI*2); x.fill(); return c; }); return _psDustSpr; }
+function _psDrawDustJets(q,bt,u){
+  const S=_psDustSprites(), D=q.R, settle=Math.max(0,(bt-PS_T.waveDur)/700);   // settle: sau khi tuôn hết thì bụi tan dần (từ trong ra)
+  if(settle>=1.4) return;
+  ctx.save();
+  const core=Math.max(0,1-u*1.4)*0.85;   // 💥 cột bụi dày ở tâm lúc mới bùng (tan nhanh để lộ hố)
+  if(core>0.02){ const g=ctx.createRadialGradient(q.cx,q.cy,0,q.cx,q.cy,D*0.6+30); g.addColorStop(0,`rgba(236,222,192,${core})`); g.addColorStop(1,'rgba(220,200,160,0)'); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(q.cx,q.cy,D*0.6+30,0,Math.PI*2); ctx.fill(); }
+  for(const j of q.jets){ const df=D*j.s, ca=Math.cos(j.a), sa=Math.sin(j.a);
+    for(const fr of [0.42,0.6,0.76,0.9,1.0]){ const al=Math.max(0, Math.min(1,(1.15-fr)*1.4) - Math.max(0,settle-(fr-0.4)*0.6)) * (fr>0.95?0.85:1);   // luồng ngoài đậm, trong tan trước
+      if(al<=0.02) continue; const d=df*fr, L=Math.max(10,df*0.42*fr), Wd=Math.max(8,df*0.2*fr*j.w);
+      ctx.save(); ctx.globalAlpha=al; ctx.translate(q.cx+ca*d, q.cy+sa*d); ctx.rotate(j.a); ctx.drawImage(S[(j.sh&&fr<0.9)?1:0], -L*0.6, -Wd/2, L, Wd); ctx.restore(); } }
+  const sp=Math.min(1,bt/1400);   // 🪨 đá vụn li ti bắn tung ra xa
+  ctx.fillStyle='rgba(60,45,30,0.85)';
+  for(const k of q.specks){ const d=D*(0.3+k.v*0.9)*(0.4+0.6*sp), a=Math.max(0,1-settle); if(a<=0) break; ctx.globalAlpha=a; ctx.beginPath(); ctx.arc(q.cx+Math.cos(k.a)*d, q.cy+Math.sin(k.a)*d, k.r, 0, Math.PI*2); ctx.fill(); }
+  ctx.restore();
 }
 function _psDrawDust(){
   if(!psDust.length) return;
@@ -18864,7 +18881,7 @@ class Fighter {
       }
       if(!this._mwErased) _fighterDeathFx(this);   // 🍫 Mewing Cat đứt làm đôi, còn lại vỡ mảnh (bị xoá sổ thì thôi)
       playSample('death_break',1.2);   // 🧱 tiếng vỡ tan chung cho MỌI meme bị kết liễu (+20% so với gốc)
-      addShake(10,18);
+      if(!this._mwErased) addShake(10,18);   // (bị Hollow Purple / Shinra Tensei xoá sổ: không rung mạnh — rung >5 bật chớp trắng HÌNH VUÔNG cỡ sàn)
       if(rtBattleCtx) playSound('ko');
     }
   }
