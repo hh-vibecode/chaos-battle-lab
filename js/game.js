@@ -21584,7 +21584,8 @@ function openCinema(){
   _cineGalleryClose();
   const ov=document.createElement('div'); ov.id='cinemaGallery';
   ov.style.cssText='position:fixed;inset:0;z-index:9000;background:radial-gradient(ellipse at top,#2a1b3d,#0b0712 70%);overflow:auto;padding:28px 16px 40px;font-family:system-ui,Arial,sans-serif;color:#fff;';
-  const items=[{id:'__endgame', ic:'🦸', name:'Memes Assemble', desc:"Stalin's last stand against Evil Gary — Avengers: Endgame style", dur:37}]
+  const items=[{id:'__endgame', ic:'🦸', name:'Memes Assemble', desc:"Stalin's last stand against Evil Gary — Avengers: Endgame style", dur:37},
+               {id:'__dpwindow', ic:'🪟', name:'Depressed Cat Comes Home', desc:"He looks up at the window… This world shall know pain.", dur:14}]
     .concat(SC_PRESETS.map(P=>({id:P.id, ic:P.ic, name:(CINEMA_EN[P.id]||[P.name])[0], desc:(CINEMA_EN[P.id]||[0,P.desc])[1], dur:Math.round(P.dur/SC_FPS)})));
   ov.innerHTML=`<div style="max-width:980px;margin:0 auto"><div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
     <button onclick="_cineGalleryClose()" style="font-size:20px;background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.25);border-radius:10px;padding:6px 14px;cursor:pointer">◀</button>
@@ -21596,7 +21597,7 @@ function openCinema(){
     c.style.cssText='text-align:left;background:linear-gradient(160deg,rgba(255,255,255,0.10),rgba(255,255,255,0.03));border:1px solid rgba(255,255,255,0.18);border-radius:16px;padding:16px;color:#fff;cursor:pointer;display:flex;flex-direction:column;gap:8px;min-height:150px;transition:transform .12s,border-color .12s';
     c.onmouseenter=()=>{ c.style.transform='translateY(-3px)'; c.style.borderColor='#ffcc80'; }; c.onmouseleave=()=>{ c.style.transform=''; c.style.borderColor='rgba(255,255,255,0.18)'; };
     c.innerHTML=`<div style="font-size:38px">${it.ic}</div><div style="font-size:18px;font-weight:800">${it.name}</div><div style="font-size:13px;opacity:.75;line-height:1.35;flex:1">${it.desc}</div><div style="font-size:12px;opacity:.6">▶ ${it.dur}s</div>`;
-    c.onclick=()=>{ _cineGalleryClose(); if(it.id==='__endgame') playCineEndgame(); else playScenePreset(it.id); };
+    c.onclick=()=>{ _cineGalleryClose(); if(it.id==='__endgame') playCineEndgame(); else if(it.id==='__dpwindow') playCineDpWindow(); else playScenePreset(it.id); };
     grid.appendChild(c); }
 }
 function _cineGalleryClose(){ const g=document.getElementById('cinemaGallery'); if(g) g.remove(); }
@@ -21641,6 +21642,10 @@ function _cinePanelMake(host,api){
 }
 window._cinePanelMake=_cinePanelMake; window._cinePanelRemove=_cinePanelRemove;
 // 🎬 Cinematic "Memes Assemble" (Stalin vs Evil Gary kiểu Avengers: Endgame) — file riêng js/cine-endgame.js, chỉ tải khi bấm
+function playCineDpWindow(){   // 🪟 phim ngắn Depressed Cat về nhà (js/cine-dpwindow.js, chỉ tải khi bấm)
+  if(window._cineDW) return window._cineDW();
+  const v=window.GAME_VERSION?'?v='+GAME_VERSION.build:'', s=document.createElement('script'); s.src='js/cine-dpwindow.js'+v; s.onload=()=>window._cineDW&&window._cineDW(); document.body.appendChild(s);
+}
 function playCineEndgame(){
   if(window._cineEG) return window._cineEG();
   const v=window.GAME_VERSION?'?v='+GAME_VERSION.build:'', load=src=>new Promise(r=>{ const s=document.createElement('script'); s.src=src+v; s.onload=r; s.onerror=r; document.body.appendChild(s); });
