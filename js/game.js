@@ -209,6 +209,10 @@ CHILLGUY_AVATAR_IMG.src = 'assets/img/chillguy/CHILLGUY_AVATAR_IMG.webp';
 // Cắt theo bbox HỢP NHẤT của mọi khung (không cắt riêng từng khung) nên hình không bị giật/nhảy giữa các khung.
 const SCAREDDOG_IMG = new Image(); SCAREDDOG_IMG._cols=8; SCAREDDOG_IMG._rows=7; SCAREDDOG_IMG._frames=51;
 SCAREDDOG_IMG.src = 'assets/img/scareddog/SCAREDDOG_IMG.webp';
+// 😿 Depressed Cat KÊU THAN: GIF tách từ video phông xanh user gửi (đã tách nền) — đúng đoạn 3.04s khớp với tiếng sad_cat_cry, 15 khung/s
+const DEPRESSED_CRY_IMG = new Image(); DEPRESSED_CRY_IMG._cols=8; DEPRESSED_CRY_IMG._rows=6; DEPRESSED_CRY_IMG._frames=46;
+DEPRESSED_CRY_IMG.src = 'assets/img/depressedcat/DEPRESSED_CRY_IMG.webp';
+const DP_CRY_MS=3037;
 const CALMDOG_FORM_IMGS = [1,2,3,4,5].map(()=>new Image());
 CALMDOG_FORM_IMGS.forEach(im=>{ im.onload=()=>{ im._crop=computeCropBox(im); }; });
 const DAMDAMDIDI_AVATAR_IMG = new Image();
@@ -2879,7 +2883,7 @@ function stopAllLongSfx(){
 function pauseAllLongSfx(on){
   for(const c of _longSfx){ try{ on ? c.pause() : c.play().catch(()=>{}); }catch(e){} }
 }
-const SND_NO_PITCH=new Set(['hm_stalker','mw_gojo','mw_gojo_travel','ar_clone','dc_rage','sm_omae','sm_nani','ld_stab','ld_shout','ld_heal1','ld_heal2']);   // phát ĐÚNG tốc gốc, không biến điệu ±6%
+const SND_NO_PITCH=new Set(['sad_cat_cry','hm_stalker','mw_gojo','mw_gojo_travel','ar_clone','dc_rage','sm_omae','sm_nani','ld_stab','ld_shout','ld_heal1','ld_heal2']);   // phát ĐÚNG tốc gốc, không biến điệu ±6%
 function playSample(key, volume=1.0, duration=null, rateMul=1){
   if(key==='punch2') return; // 🔇 tắt hết tiếng "uỵch" (đòn đánh/va chạm) theo yêu cầu — xoá dòng này để bật lại
   const a = AUDIO_SAMPLES[key];
@@ -14648,7 +14652,7 @@ class Fighter {
       } else if(this.sadLamentCD <= 0 && !this._isHardCC()){   // ⚠️ đang bị khống chế cứng thì không bắt đầu màn kêu than mới
         this.sadLamentTimer = 180; // kêu than 3s
         this._shakeTimer = 28; // rung khi bắt đầu kêu
-        playSample('sad_cat_cry', 0.9, 3000);
+        playSample('sad_cat_cry', 0.9, 3000); this._dpCryT0=performance.now();   // 😿 GIF kêu than chạy cùng lúc với tiếng
       }
     }
 
@@ -19335,6 +19339,8 @@ class Fighter {
       const _fdTien=1-(this._fdSipT/FD_SIP_TICKS);          // 0 → 1 suốt màn uống
       const _fdDoan=Math.min(3, Math.floor(_fdTien*4));     // 4 đoạn: uống, hạ, uống, hạ
       img = (_fdDoan%2===0) ? skill1AvatarImgs[i] : avatarImgs[i];
+    } else if(this.type==='depressedcat' && this._dpCryT0 && performance.now()-this._dpCryT0<DP_CRY_MS && DEPRESSED_CRY_IMG.complete && DEPRESSED_CRY_IMG.naturalWidth>0){
+      img = DEPRESSED_CRY_IMG;   // 😿 đang kêu than: phát GIF khớp tiếng kêu
     } else if(this.type==='scareddog' && SCAREDDOG_IMG.complete && SCAREDDOG_IMG.naturalWidth>0){
       // 🐶 SCARED DOG: dùng GIF riêng (sprite-sheet 51 khung), KHÔNG qua hệ slot upload
       img = SCAREDDOG_IMG;
@@ -19511,6 +19517,8 @@ class Fighter {
           ? Math.floor((this._esgBeat||0)/(ESG_BEAT*ESG_SAX_BEATS/img._frames))%img._frames
           : (this.type==='uiacat' && this.oiiaSpinTimer>0)
           ? Math.min(img._frames-1, Math.floor((1-this.oiiaSpinTimer/(this._oiiaSpinMax||120))*img._frames))
+          : (img===DEPRESSED_CRY_IMG)
+          ? Math.min(img._frames-1, Math.floor((performance.now()-(this._dpCryT0||0))/DP_CRY_MS*img._frames))   // 😿 khung chạy theo đúng thời gian tiếng kêu
           : (this.type==='smartguy' && img===SMARTGUY_THINK_IMG)
           ? Math.min(img._frames-1, Math.floor(Math.max(0,Math.min(1,1-this._sgSpinTimer/(this._sgIntervalCur||96)))*img._frames)) // GIF suy nghĩ chạy vừa đủ 1 vòng trong đúng lúc đang quay 3 ô số
           : Math.floor(Date.now()/90)%img._frames;
@@ -33565,6 +33573,6 @@ function _wgDrawTornado(){
 // _noMask=true ở đây để bỏ qua hẳn bước erosion tốn kém, viền vẫn ra đúng vì y hệt cách windguy/rickroll/
 // mosquitoviolin đã dùng cho ảnh chi tiết mảnh.
 (function _prewarmNoMask(){
-  const _sheets=[DAMDAMDIDI_DANCE_IMG, SCAREDDOG_IMG, SMARTGUY_THINK_IMG, SCREAMING_MARMOT_SCREAM_IMG, ...CALMDOG_FORM_IMGS];
+  const _sheets=[DAMDAMDIDI_DANCE_IMG, DEPRESSED_CRY_IMG, SCAREDDOG_IMG, SMARTGUY_THINK_IMG, SCREAMING_MARMOT_SCREAM_IMG, ...CALMDOG_FORM_IMGS];
   for(const im of _sheets){ try{ if(im) im._noMask=true; }catch(e){} }
 })();
