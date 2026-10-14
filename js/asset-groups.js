@@ -365,6 +365,8 @@ window.ASSET_GROUP={
 "assets/img/feuerkatze/FK_LUGER_IMG.webp": "feuerkatze",
 "assets/img/scaredhamster/HM_SCARED.webp": "scaredhamster",
 "assets/audio/hm_stalker.mp3": "scaredhamster",
+"assets/audio/hm_crawl.mp3": "scaredhamster",
+"assets/audio/hm_musicbox.mp3": "scaredhamster",
 "assets/img/scaredhamster/HM_RUN0.webp": "scaredhamster",
 "assets/img/scaredhamster/HM_RUN1.webp": "scaredhamster",
 "assets/img/scaredhamster/HM_RUN2.webp": "scaredhamster",
