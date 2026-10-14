@@ -4957,7 +4957,10 @@ let susSummons=[]; // Sus Cat summons
 //    lọ đỏ = địch trúng độc 20/s tới hết trận) · Xạ thủ (ném súng, Sus Dog bắn 3 viên × 50) · Thần tình yêu
 //    (2 mũi tên nối Sus Dog với địch 5s — Sus Dog ăn bao nhiêu dame, địch ăn y bấy nhiêu).
 // Chu kỳ đếm trong update() (_sdCycle) — chạy CẢ LÚC CHOÁNG, đúng luật "choáng chỉ khoá con meme".
-const SD_DAY_T=300, SD_NIGHT_T=180, SD_EVENT_AT=120;
+const SD_DAY_T=300, SD_EVENT_AT=120;
+// 🌙 ĐÊM chạy theo sự kiện: ngủ SD_SLEEP_T → lùi vào bóng tối SD_HIDE_T (ngủ→biến mất ~2s) → chìm hẳn SD_WOLF_DELAY thì sói lao ra →
+//    sói chạy khỏi màn SD_DAWN_DELAY thì trời sáng, Sus Dog hiện lại. SD_NIGHT_MAX: chốt an toàn.
+const SD_SLEEP_TO_GONE_S=2, SD_WOLF_DELAY_S=0.5, SD_DAWN_DELAY_S=0.5, SD_NIGHT_MAX=900;   // giây THẬT (quy theo _egTps)
 const SD_ROLES=[   // w = trọng số random: phù thuỷ 10%, 4 vai còn lại chia đều 90%. slot = ô ảnh upload (trống → emoji)
   {k:'doctor', art:'doctor', em:'🧑‍⚕️', name:'DOCTOR', col:'#69f0ae', w:22.5, slot:()=>skill2AvatarImgs},
   {k:'guard', art:'guard',  em:'💂',   name:'GUARD',  col:'#90caf9', w:22.5, slot:()=>skill3AvatarImgs},
@@ -9180,29 +9183,35 @@ function _sdCycle(f){
       f.vx*=0.3; f.vy*=0.3;
       playSample('snooze', 0.75);   // 😴 tiếng lăn ra ngủ — cùng mẫu với Snooze Cat
       _sdHowl(f);                   // 🐺 trăng lên → sói hú
-      _sdHideStart(f);              // 🌑 lùi vào bóng tối (rồi hoá sói lao ra)
+      f._sdWaitT=0;                 // (ngủ một lúc rồi mới lùi vào bóng tối — xem dưới)
     }
     return;
   }
   _sdHideTick(f);
   f._sdT=(f._sdT||0)+1;
   if(f._sdSkyT!==undefined) f._sdSkyT++;
-  if(f._sdT===SD_EVENT_AT && !f._sdEventDone){
-    f._sdEventDone=true;
-    if(f._sdNight) _sdWerewolf(f); else _sdDayBuff(f);
+  let _flip=false;
+  if(f._sdNight){
+    if(!f._sdHide && f._sdT>=Math.round(SD_SLEEP_TO_GONE_S*_egTps())-SD_HIDE_T) _sdHideStart(f);   // 🌑 ngủ xong → lùi vào bóng tối (chìm hẳn đúng mốc 2s)
+    if(!f._sdEventDone){ if(_sdGone(f) && ++f._sdWaitT>=Math.round(SD_WOLF_DELAY_S*_egTps())){ f._sdEventDone=true; f._sdWaitT=0; _sdWerewolf(f); } }   // 🐺 chìm hẳn 0.5s → sói lao ra
+    else if(!sdActors.some(a=>a.kind==='wolf' && a.owner===f) && ++f._sdWaitT>=Math.round(SD_DAWN_DELAY_S*_egTps())) _flip=true;   // ☀️ sói chạy mất 0.5s → trời sáng
+    if(f._sdT>=SD_NIGHT_MAX) _flip=true;
+  } else {
+    if(f._sdT===SD_EVENT_AT && !f._sdEventDone){ f._sdEventDone=true; _sdDayBuff(f); }
+    if(f._sdT>=SD_DAY_T) _flip=true;
   }
   if(f._sdNight && f._sdT%20===0 && _sdHideK(f)<0.5) _sdSpawnZzz(f);   // 😴 đang ngủ: chữ Zzz bay lên trên đầu (y kiểu Snooze Cat) — đã chìm vào bóng tối thì thôi
-  if(f._sdT >= (f._sdNight ? SD_NIGHT_T : SD_DAY_T)){
-    f._sdNight=!f._sdNight; f._sdT=0; f._sdEventDone=false; f._sdSkyT=0;
+  if(_flip){
+    f._sdNight=!f._sdNight; f._sdT=0; f._sdEventDone=false; f._sdSkyT=0; f._sdWaitT=0;
     if(f._sdNight){ f._sdDay=(f._sdDay||1)+1; sdBanner={text:'NIGHT FALLS…', sub:'🌙 NIGHT '+f._sdDay, col:'#b3c1ff', t:0, T:110}; }
     else sdBanner={text:'THE VILLAGE WAKES UP', sub:'☀️ DAY '+(f._sdDay||1), col:'#ffe08a', t:0, T:110};
-    if(f._sdNight){ f.vx*=0.3; f.vy*=0.3; playSample('snooze', 0.75); _sdHowl(f); _sdHideStart(f); }
+    if(f._sdNight){ f.vx*=0.3; f.vy*=0.3; playSample('snooze', 0.75); _sdHowl(f); }
     else if(f._sdHide){ f._sdHide.out=true; f._sdHide.t2=0; }   // ☀️ trời sáng: từ bóng tối hiện ra lại
   }
 }
 // 🌑 ĐÊM XUỐNG: Sus Dog lùi dần về mép sàn gần nhất rồi LẨN HẲN vào bóng tối (hoá bóng đen rồi biến mất) — con sói lao ra từ
-//    đúng phía đó (nó hoá sói). Trời sáng thì từ bóng tối hiện ra lại tại chỗ. CHỈ là hoạt ảnh: vẫn trúng đòn như cũ
-//    (giống con bị Troll Face nuốt — không thấy nhưng vẫn ăn dame).
+//    đúng phía đó (nó hoá sói). Trời sáng thì từ bóng tối hiện ra lại tại chỗ. Lúc đã chìm hẳn thì RỜI SÀN thật (_sdGone):
+//    không nhận dame, không bị nhắm, không va chạm.
 const SD_HIDE_T=50, SD_SHOW_T=30;
 function _sdHideStart(f){ f._sdHide={t:0, t2:0, out:false, x0:f.x, side:(f.x<W/2?-1:1)}; }
 function _sdHideTick(f){
@@ -9211,6 +9220,8 @@ function _sdHideTick(f){
   if(h.t<SD_HIDE_T){ h.t++; const p=h.t/SD_HIDE_T, e=p<0.5?2*p*p:1-Math.pow(-2*p+2,2)/2, hx=h.side<0?f.size*0.9:W-f.size*0.9;
     f.x=h.x0+(hx-h.x0)*e; f.vx=0; f.vy=0; }
 }
+// 🌑 đã lẩn HẲN vào bóng tối ban đêm = rời khỏi sàn: không nhận dame, không bị nhắm, không va chạm thân với ai
+function _sdGone(f){ return !!(f && f.type==='susdog' && f._sdHide && _sdHideK(f)>=0.999); }
 function _sdHideK(f){   // 0 = bình thường → 1 = chìm hẳn trong bóng tối
   const h=f && f._sdHide; if(!h) return 0;
   if(h.out) return Math.max(0,1-h.t2/SD_SHOW_T);
@@ -9479,9 +9490,9 @@ function _sdDraw(){
   for(const f of fighters){
     if(f.type!=='susdog' || f.dead) continue;
     // 👀 MẮT SÓI rình ở mép sàn ngay trước lúc ma sói vồ (đêm, ~0.8s trước sự kiện) — chớp mắt thỉnh thoảng
-    if(f._sdNight && !f._sdEventDone && f._sdT>=60 && f._sdT<SD_EVENT_AT){
+    if(f._sdNight && !f._sdEventDone && _sdGone(f)){   // (0.5s chờ sau khi Sus Dog chìm hẳn, ngay trước lúc sói lao ra)
       const e=_sdFoe(f);
-      if(e){ const fromLeft=e.x<W/2, ex=fromLeft?16:W-16, ey=e.y-e.size*0.15, a=Math.min(1,(f._sdT-60)/18)*((((f._sdT/14)|0)%6===5)?0.1:1);
+      if(e){ const fromLeft=f._sdHide?f._sdHide.side<0:e.x<W/2, ex=fromLeft?16:W-16, ey=e.y-e.size*0.15, a=Math.min(1,(f._sdWaitT||0)/12);
         ctx.save(); ctx.globalCompositeOperation='lighter';
         for(const dx of [-13,13]){ const g=ctx.createRadialGradient(ex+dx,ey,0,ex+dx,ey,24); g.addColorStop(0,`rgba(255,50,30,${0.95*a})`); g.addColorStop(0.35,`rgba(255,20,0,${0.45*a})`); g.addColorStop(1,'rgba(255,0,0,0)');
           ctx.fillStyle=g; ctx.beginPath(); ctx.arc(ex+dx,ey,24,0,Math.PI*2); ctx.fill();
@@ -13804,7 +13815,7 @@ class Fighter {
     // (quét đúng NGHĨA "gần nhất" trong toàn bộ fighters — trước đây chỉ lấy fighter khác team ĐẦU TIÊN tìm thấy trong mảng,
     // vô hại với 2 team nhưng SAI khi có từ 3 team trở lên như chế độ 3-Way Battle, vì "đầu tiên" chưa chắc là gần nhất)
     let best=null, bestD=Infinity;
-    for(const f of fighters){ if(f.team===this.team||f.dead) continue; const d=Math.sqrt((f.x-this.x)**2+(f.y-this.y)**2); if(d<bestD){best=f;bestD=d;} }
+    for(const f of fighters){ if(f.team===this.team||f.dead||_sdGone(f)) continue; const d=Math.sqrt((f.x-this.x)**2+(f.y-this.y)**2); if(d<bestD){best=f;bestD=d;} }   // (🌑 Sus Dog đã lẩn vào bóng tối: không nhắm được)
     for(const s of commanderSoldiers){ if(s.team===this.team||s.dead||s.hp<=0) continue; const d=Math.sqrt((s.x-this.x)**2+(s.y-this.y)**2); if(d<bestD){best=s;bestD=d;} }
     for(const s of germanSoldiers){ if(s.team===this.team||s.dead||s.hp<=0) continue; const d=Math.sqrt((s.x-this.x)**2+(s.y-this.y)**2); if(d<bestD){best=s;bestD=d;} }
     for(const k of dogeKnights){ if(k.team===this.team||k.dead||k.hp<=0) continue; const d=Math.sqrt((k.x-this.x)**2+(k.y-this.y)**2); if(d<bestD){best=k;bestD=d;} }
@@ -18092,6 +18103,7 @@ class Fighter {
   }
   _takeDamageCore(dmg,attacker,isHuh=false,isBurn=false,dotIcon='',hitFx=null,isDot=false,isTrue=false){
     if(this.dead) return;
+    if(_sdGone(this)) return;   // 🌑 Sus Dog đang ở trong bóng tối (rời sàn): không dính đòn nào
     // ⚔️ JONINN CHEEMS ĐỠ ĐÒN không phải đạn bay (cận chiến, AOE, tia...): cùng luật gạt — 30% / đang trong 1s đỡ liên tục, hết 1s nghỉ 4s.
     //    Đỡ được thì KHÔNG mất máu nhưng cũng KHÔNG phản lại. Cháy/độc (DOT) không đỡ; đạn đã tung xúc xắc lúc va chạm thì bỏ qua.
     if(this.type==='samuraicheems' && dmg>0 && !isBurn && !isDot && !_smExecKill && attacker!==this && this._smRollTick!==tick
@@ -21961,7 +21973,7 @@ function _bounceFighters(){
   const _bodies=[];
   // 😏 nạn nhân đang bị Troll Face NGẬM nằm ĐÚNG trong thân nó → để vào hệ va chạm thì 2 thân trùng nhau,
   // bộ tách-thân sẽ hẩy nhau văng cả chục pixel mỗi frame. Loại hẳn ra, vị trí nó đã bị ghim theo chủ rồi.
-  for(const f of fighters){ if(!f.dead && !_NO_BOUNCE.has(f.type) && !f._tfSwallowed && !(f.type==='scootercat' && f._scDrift) && !f._smDash && !f._smPre && !(_smPin && _smPin.e===f)){ f._bfReal=true; _bodies.push(f); } }   // 🛵 đang lia vòng cung: xuyên qua (tông là hất văng) → đường cua luôn tròn đều, không bị thân địch đẩy méo
+  for(const f of fighters){ if(!f.dead && !_NO_BOUNCE.has(f.type) && !f._tfSwallowed && !_sdGone(f) && !(f.type==='scootercat' && f._scDrift) && !f._smDash && !f._smPre && !(_smPin && _smPin.e===f)){ f._bfReal=true; _bodies.push(f); } }   // 🛵 đang lia vòng cung: xuyên qua (tông là hất văng) → đường cua luôn tròn đều, không bị thân địch đẩy méo
   for(const s of commanderSoldiers){ if(!s.dead && s.hp>0) _bodies.push(s); }
   for(const s of germanSoldiers){ if(!s.dead && s.hp>0) _bodies.push(s); }
   for(const s of dogeKnights){ if(!s.dead && s.hp>0) _bodies.push(s); }
