@@ -3244,7 +3244,7 @@ function _setArenaSize(w,h,ss,forceCam){
     // (u=W/480) → lề 0 là viền 2 bên bị khuất mất. Chừa đúng 13u + 2u thở mỗi bên = 30u tổng → 1+30/480.
     const _SOLO_CAM_MARGIN = 1 + 30/480;   // = 1.0625 → viền trái/phải vừa khít mép khung 9:16
     try{ if(!(ffa3Ctx||duoCtx||fanCtx)) _camMargin=_SOLO_CAM_MARGIN; }catch(_e){ _camMargin=_SOLO_CAM_MARGIN; }
-    try{ if(duoCtx) _camMargin=1.12/1.05; }catch(_e){}   // 👥 2vs2: sàn chiếm rộng hơn 5% trong khung (≈1.067, vẫn ≥ lề tối thiểu 1.0625 nên viền không bị khuất)
+    try{ if(duoCtx||ffa3Ctx) _camMargin=1.12/1.05; }catch(_e){}   // 👥 2vs2 + 🏆 LOS: sàn chiếm rộng hơn 5% trong khung (≈1.067, vẫn ≥ lề tối thiểu 1.0625 nên viền không bị khuất)
     _viewW = w*_camMargin;
     _viewH = _viewW*CAM_VIEW_RATIO;
     canvas.width  = _viewW*ss;
@@ -28491,8 +28491,8 @@ function ffa3ActuallyStart(){
     const f=new Fighter(i,i,cx+Math.cos(ang)*rx,cy+Math.sin(ang)*ry);
     f._entryTimer=0; f.hp=2000; f.maxHp=2000;
     // 🖥️ 2026-09-12: sàn thu về đúng cỡ Solo 1vs1 (480×460, từ 741×710) mà vẫn đông (4 người) — giảm 20%
-    // cho vừa chỗ, y hệt 2vs2 (xem duoActuallyStart).
-    f.size*=0.8;
+    // cho vừa chỗ, y hệt 2vs2 (xem duoActuallyStart). → TĂNG LẠI 15% y như 2vs2 (0.8 × 1.15 = 0.92).
+    f.size*=0.92;
     fighters.push(f);
   }
   loop();
