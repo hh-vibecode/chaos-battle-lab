@@ -9954,7 +9954,7 @@ const CHAR_BLURB_SHORT = {
   infinitydoge: "Hit one Doge. Get two Doges.",
   cryingcat: "Three crying cats. Their tears burn.",
   rubikcat: "Solve all six faces. Black hole ending.",
-  mewingcat: "Mewing so hard it summons statues.",
+  mewingcat: "Mewing so hard it summons statues. Never skip mewing day.",
   smartguy: "IQ check. Sometimes his own fails.",
   aliencat: "Mr. Folk keeps eye contact. Lasers included.",
   electricguitarcat: "Shreds so hard the guitar catches fire.",
