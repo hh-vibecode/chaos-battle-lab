@@ -11303,7 +11303,7 @@ function _flowerSeqTick(){
     for(const _arr of [commanderSoldiers, germanSoldiers, dogeKnights, mewingStatues, capybaraKnives, cryCats, dogeClones, mspClones, evilSouls]){
       for(const s of _arr){ if(s.team!==fc.team && !s.dead && s.hp>0){ if(flCos) flCos.hits.push({x:s.x, y:s.y, s:(s.size||20), ph:Math.random()*6}); s.takeDamage(350, fc); } }
     }
-    fighters.forEach(f=>{ if(f.team!==fc.team && !f.dead){ if(flCos) flCos.hits.push({x:f.x, y:f.y, s:f.size, ph:Math.random()*6}); f.takeDamage(350, fc); } });   // ☄️ mỗi kẻ địch bị cột sáng vũ trụ giáng xuống
+    fighters.forEach(f=>{ if(f.team!==fc.team && !f.dead){ if(flCos) flCos.hits.push({x:f.x, y:f.y, s:f.size, ph:Math.random()*6}); f.takeDamage(350, fc); } });   // ☄️ mỗi kẻ địch loé quầng sáng + sao bung
     if(flCos) flCos.endT=flCos.t;   // vũ trụ bắt đầu tan dần
     fc.actionState='attack'; fc.attackAvatarTimer=20;
     fc._flowerCD=180; // 3s tới hoa mới
@@ -11462,13 +11462,11 @@ function _flCosFG(){
   }
   if(st>=40 && st<46){ ctx.globalAlpha=1-(st-40)/6; ctx.fillStyle='rgba(235,225,255,0.25)'; ctx.fillRect(cv[0],cv[1],cv[2],cv[3]); ctx.globalAlpha=1; }   // chớp lúc thực tại nứt
   if(st>=106 && st<=120){ const k=(st-106)/14; _flGlow(f.x,f.y,s*(3-2.2*k),0.7*k,'255,255,255'); }   // 🌀 mọi thứ bị hút về tâm
-  if(st>=120){   // 💥 NỔ khai sáng + cột sáng vũ trụ giáng xuống từng kẻ địch
+  if(st>=120){   // 💥 NỔ khai sáng + quầng sáng bung trên từng kẻ địch (dame AOE toàn sân — không còn cột sáng giáng xuống)
     const u=st-120;
     if(u<14){ ctx.globalAlpha=Math.pow(1-u/14,2); ctx.fillStyle='rgba(255,255,255,0.85)'; ctx.fillRect(cv[0],cv[1],cv[2],cv[3]); ctx.globalAlpha=1; }
     { const v=Math.min(1,u/28); ctx.strokeStyle=`rgba(200,230,255,${0.8*(1-v)})`; ctx.lineWidth=6*(1-v)+1; ctx.shadowColor='#b3e5fc'; ctx.shadowBlur=16; ctx.beginPath(); ctx.ellipse(f.x,f.y,diag*0.7*v,diag*0.7*v*0.8,0,0,Math.PI*2); ctx.stroke(); ctx.shadowBlur=0; }
-    for(const h of C.hits){ const a=Math.max(0,1-u/36), w=h.s*(1.4-0.8*Math.min(1,u/36));
-      const g=ctx.createLinearGradient(h.x-w,0,h.x+w,0); g.addColorStop(0,'rgba(140,200,255,0)'); g.addColorStop(0.5,`rgba(250,252,255,${0.9*a})`); g.addColorStop(1,'rgba(140,200,255,0)');
-      ctx.fillStyle=g; ctx.fillRect(h.x-w, cv[1], w*2, h.y-cv[1]+h.s*0.6);
+    for(const h of C.hits){ const a=Math.max(0,1-u/36);
       _flGlow(h.x,h.y,h.s*(1.5+2*Math.min(1,u/20)),0.85*a,'230,240,255');
       for(let k=0;k<10;k++){ const aa=k/10*Math.PI*2+h.ph, d=h.s*(0.6+3*Math.min(1,u/22)); _arStar(h.x+Math.cos(aa)*d, h.y+Math.sin(aa)*d*0.8, 3.5*a+0.5, `rgba(255,255,255,${a})`); } }   // 🤯 sao bung ra — mind blown
   }
