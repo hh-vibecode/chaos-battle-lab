@@ -4957,10 +4957,10 @@ let susSummons=[]; // Sus Cat summons
 //    lọ đỏ = địch trúng độc 20/s tới hết trận) · Xạ thủ (ném súng, Sus Dog bắn 3 viên × 50) · Thần tình yêu
 //    (2 mũi tên nối Sus Dog với địch 5s — Sus Dog ăn bao nhiêu dame, địch ăn y bấy nhiêu).
 // Chu kỳ đếm trong update() (_sdCycle) — chạy CẢ LÚC CHOÁNG, đúng luật "choáng chỉ khoá con meme".
-const SD_DAY_T=300, SD_EVENT_AT=120;
-// 🌙 ĐÊM chạy theo sự kiện: ngủ SD_SLEEP_T → lùi vào bóng tối SD_HIDE_T (ngủ→biến mất ~2s) → chìm hẳn SD_WOLF_DELAY thì sói lao ra →
+const SD_DAY_S=4, SD_EVENT_AT=120;   // ☀️ ban ngày 4s THẬT
+// 🌙 ĐÊM (~3s) chạy theo sự kiện: ngủ → lùi vào bóng tối (ngủ→biến mất 1.25s) → chìm hẳn SD_WOLF_DELAY thì sói lao ra →
 //    sói chạy khỏi màn SD_DAWN_DELAY thì trời sáng, Sus Dog hiện lại. SD_NIGHT_MAX: chốt an toàn.
-const SD_SLEEP_TO_GONE_S=2, SD_WOLF_DELAY_S=0.5, SD_DAWN_DELAY_S=0.5, SD_NIGHT_MAX=900;   // giây THẬT (quy theo _egTps)
+const SD_SLEEP_TO_GONE_S=1.25, SD_WOLF_DELAY_S=0.5, SD_DAWN_DELAY_S=0.5, SD_NIGHT_MAX=900;   // giây THẬT (quy theo _egTps)
 const SD_ROLES=[   // w = trọng số random: phù thuỷ 10%, 4 vai còn lại chia đều 90%. slot = ô ảnh upload (trống → emoji)
   {k:'doctor', art:'doctor', em:'🧑‍⚕️', name:'DOCTOR', col:'#69f0ae', w:22.5, slot:()=>skill2AvatarImgs},
   {k:'guard', art:'guard',  em:'💂',   name:'GUARD',  col:'#90caf9', w:22.5, slot:()=>skill3AvatarImgs},
@@ -9192,13 +9192,13 @@ function _sdCycle(f){
   if(f._sdSkyT!==undefined) f._sdSkyT++;
   let _flip=false;
   if(f._sdNight){
-    if(!f._sdHide && f._sdT>=Math.round(SD_SLEEP_TO_GONE_S*_egTps())-SD_HIDE_T) _sdHideStart(f);   // 🌑 ngủ xong → lùi vào bóng tối (chìm hẳn đúng mốc 2s)
+    if(!f._sdHide && f._sdT>=Math.round(SD_SLEEP_TO_GONE_S*_egTps())-SD_HIDE_T) _sdHideStart(f);   // 🌑 ngủ xong → lùi vào bóng tối (chìm hẳn đúng mốc SD_SLEEP_TO_GONE_S)
     if(!f._sdEventDone){ if(_sdGone(f) && ++f._sdWaitT>=Math.round(SD_WOLF_DELAY_S*_egTps())){ f._sdEventDone=true; f._sdWaitT=0; _sdWerewolf(f); } }   // 🐺 chìm hẳn 0.5s → sói lao ra
     else if(!sdActors.some(a=>a.kind==='wolf' && a.owner===f) && ++f._sdWaitT>=Math.round(SD_DAWN_DELAY_S*_egTps())) _flip=true;   // ☀️ sói chạy mất 0.5s → trời sáng
     if(f._sdT>=SD_NIGHT_MAX) _flip=true;
   } else {
     if(f._sdT===SD_EVENT_AT && !f._sdEventDone){ f._sdEventDone=true; _sdDayBuff(f); }
-    if(f._sdT>=SD_DAY_T) _flip=true;
+    if(f._sdT>=Math.round(SD_DAY_S*_egTps())) _flip=true;
   }
   if(f._sdNight && f._sdT%20===0 && _sdHideK(f)<0.5) _sdSpawnZzz(f);   // 😴 đang ngủ: chữ Zzz bay lên trên đầu (y kiểu Snooze Cat) — đã chìm vào bóng tối thì thôi
   if(_flip){
