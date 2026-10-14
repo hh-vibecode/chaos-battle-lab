@@ -165,9 +165,9 @@
     const s=catState(t), H=180, bob=s.walk?Math.abs(Math.sin(t*7))*5:0;
     g.save(); g.globalAlpha=0.4; g.fillStyle='#000'; g.beginPath(); g.ellipse(s.x,GROUND+4,48,9,0,0,Math.PI*2); g.fill(); g.restore();
     // 💐 vứt bó hoa: bay vòng cung xuống đất, rơi vài cánh, nằm lại trên vỉa hè
-    const hx0=170+30, hy0=GROUND-42, lx=258, ly=GROUND-6;
+    const hx0=170+48, hy0=GROUND-34, lx=262, ly=GROUND-6;
     if(t>=T.throw){ const u=seg(t,T.throw,T.throw+0.45), x=lerp(hx0,lx,u), y=lerp(hy0,ly,u)-Math.sin(Math.PI*u)*70;
-      bouquet(x,y,1.05,1,-0.25+u*2.1);
+      bouquet(x,y,1.0,1,0.55+u*1.6);
       for(let i=0;i<7;i++){ const pu=seg(t,T.throw+0.4,T.throw+1.2); if(pu<=0) break; const a=-0.4-hash(i)*2.4, d=pu*(18+hash(i+9)*26);
         g.fillStyle=['#e53950','#ff7aa8','#ffd54f'][i%3]; g.beginPath(); g.ellipse(lx+Math.cos(a)*d, ly+2-Math.sin(a)*d*0.35, 3,1.6,a,0,Math.PI*2); g.fill(); } }
     const cry=(typeof DEPRESSED_CRY_IMG!=='undefined') && DEPRESSED_CRY_IMG.naturalWidth && t>=T.cry && t<T.cryEnd;
@@ -175,7 +175,7 @@
       const h=H*1.05, w=h*fw/fh; g.save(); g.translate(s.x,GROUND+2); g.scale(s.flip?-1:1,1);
       g.drawImage(I,(k%I._cols)*fw,Math.floor(k/I._cols)*fh,fw,fh,-w/2,-h,w,h); g.restore(); }
     else actor(prep(IMG.dp), s.x, GROUND+2-bob, H, {flip:s.flip, rot:s.walk?Math.sin(t*7)*0.03:0});
-    if(t<T.throw){ const dir=s.flip?1:-1; bouquet(s.x+dir*30, GROUND-48-bob+(cry?6:0), 1.05, dir); }   // tay ôm bó hoa
+    if(t<T.throw){ const dir=s.flip?1:-1; bouquet(s.x+dir*48, GROUND-34-bob+(cry?6:0), 1.0, dir, 0.55); }   // tay ôm bó hoa — chìa chéo ra phía trước, không che mặt
   }
   // 👁️ mắt Rinnegan khổng lồ trên nền trời (toạ độ màn hình)
   function rinne(x,y,r,a,slant){
@@ -228,6 +228,8 @@
   function frame(now){
     raf=requestAnimationFrame(frame);
     const t=paused?pauseT:(now-t0)/1000, tf=Math.min(t,T.freeze);
+    if(t>=0.3 && t<T.walkEnd) sfx('happy1','dp_happy',0.9);   // 😸 happy happy happy — vừa ôm hoa vừa đi trên phố (lặp lại, tắt đúng lúc tới nhà)
+    if(t>=2.84 && t<T.walkEnd) sfx('happy2','dp_happy',0.9,Math.max(0.1,T.walkEnd-2.84));
     if(t>=T.cry) sfx('cry','sad_cat_cry',1.0,3000);
     if(t>=T.freeze) sfx('freeze','vine_boom',0.9);
     if(t>=T.eyes) sfx('eyes','ultimate_charge_2',0.6);
