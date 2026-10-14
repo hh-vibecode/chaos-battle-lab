@@ -776,7 +776,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     windguy: { key:'windguy', defaultName:'The Unknown Guy', emoji:'🌬️', color:'#b0bec5', hp:1000, speed:5, size:50.82, skill:'Không tự đánh — chỉ đi lại tự do trên sàn, mỗi lần có sự kiện thì lẩm bẩm \'must\'ve been the wind\'. Cứ 2.8s xảy ra 1 sự kiện ngẫu nhiên: 20% RỒNG bay ngang thiêu sàn (200 dmg trực tiếp + burn 20 dame/giây trong 3s cho địch, riêng The Guy chỉ dính phần burn); 55% VẬT LẠ rơi trúng mặt địch (130-195 dmg ngẫu nhiên, random nhiều loại vật — xoay tròn nhẹ lúc đáp xuống); 20% GÀ chạy vào nảy khắp sàn (45 dmg mỗi lần đụng phải, 30% là Chicken Jockey nhanh + mạnh hơn, đụng trúng The Guy thì chỉ đẩy lùi nhẹ chứ không mất máu); 5% LỐC XOÁY tích tụ giữa sàn rồi hút TOÀN BỘ meme (kể cả chính The Guy) vào tâm, xoay liên tục mất 100 dame/giây cho tới khi có người chết mới tan — nếu chính The Guy bị hút vào, hiện chữ \'It\'s actually the wind\' treo tới hết trận.' },
     mechaniccat: { key:'mechaniccat', defaultName:'Mechanic Cat', emoji:'🔧', color:'#607d8b', hp:1000, speed:5, size:46, skill:'Chỉ di chuyển bình thường, không tự đi lắp súng. Hòm đồ thả dù rơi vào 1 trong 4 góc sàn, cứ 5s có hòm mới (không giới hạn 1 ụ súng). Địch (hoặc vật triệu hồi của địch) đi vào đúng vùng rada quanh hòm là hòm tự động lắp thành ụ súng (random 1 trong 4 loại: railgun/súng máy/tên lửa/laser), tự động bắn địch, tồn tại 8s. Không có đòn đánh thường, chỉ trông cậy vào ụ súng.' },
     rubikcat: { key:'rubikcat', defaultName:'Rubik Cat', emoji:'🟨', color:'#fbc02d', hp:1000, speed:5, size:43, skill:'Cứ 2.5s xoay ngẫu nhiên 1 trong 6 mặt rubik, mỗi mặt 1 hiệu ứng riêng, vòng sóng lan ra trúng TẤT CẢ địch trong bán kính (trắng nổ dame lớn 150 không hồi máu, vàng gây choáng + dame không tăng tốc, đỏ nổ dame kèm cháy, lam làm chậm địch, lục đầu độc, tím hất văng + bắn liên tiếp 3 vòng sóng). Xoay trúng mặt ĐÃ có rồi thì tăng 15% tỉ lệ ra mặt CÒN THIẾU (cộng dồn, reset khi ra mặt mới). Đủ cả 6 mặt → hố đen rubik hút địch, thắng ngay lập tức.' },
-    mewingcat: { key:'mewingcat', defaultName:'Mewing Cat', emoji:'😤', color:'#8d6e63', hp:1000, speed:5, size:45, skill:'Không cận chiến. Mỗi 1s đổi giữa dáng thường và 1 trong 4 tư thế mewing ngẫu nhiên. Mỗi lần mewing triệu hồi tượng đá (50HP) lao từ mép sàn vào tấn công địch gần nhất, va trúng vỡ tan gây 60 dmg. Bốc trúng tư thế nào thì sáng ô đó; sáng đủ CẢ 4 tư thế khác nhau mới reset thanh và số tượng mỗi lần triệu hồi +1.' },
+    mewingcat: { key:'mewingcat', defaultName:'Mewing Cat - Never Skip Mewing Day', emoji:'😤', color:'#8d6e63', hp:1000, speed:5, size:45, skill:'Không cận chiến. Mỗi 1s đổi giữa dáng thường và 1 trong 4 tư thế mewing ngẫu nhiên. Mỗi lần mewing triệu hồi tượng đá (50HP) lao từ mép sàn vào tấn công địch gần nhất, va trúng vỡ tan gây 60 dmg. Bốc trúng tư thế nào thì sáng ô đó; sáng đủ CẢ 4 tư thế khác nhau mới reset thanh và số tượng mỗi lần triệu hồi +1.' },
     smartguy: { key:'smartguy', defaultName:'Smart Guy', emoji:'🤓', color:'#5c6bc0', hp:1000, speed:5, size:44, skill:'Không cận chiến. Chốt ngay 1 chỉ số IQ ngẫu nhiên (60-200) làm dame bắn thẳng vào địch, chỉ hiệu ứng quay số trên đầu kéo dài ~1.6s (rút ngắn dần theo tốc suy nghĩ) trước khi bắn. <80 (LOW IQ): tự làm chậm bản thân 3s. 80-150 (AVERAGE IQ): không hiệu ứng. >150 (HIGH IQ): bản thân +20% tốc suy nghĩ (roll nhanh hơn) + tỉ lệ roll ra đúng 200 lần sau +3%, cả 2 cộng dồn không giới hạn tới khi ra đúng 200 thì reset. Roll đúng 200: dame x2 = 400 + pháo hoa jackpot. Roll đúng 60: tự dame 60 + tự choáng 3s.' },
     aliencat: { key:'aliencat', defaultName:'Mr. Folk', emoji:'🥾', color:'#ffc400', hp:1000, speed:5, size:49.5, skill:'Chiếu 2 tia laze VÀNG thẳng từ 2 con mắt vào mục tiêu ở CỰ LY TẦM TRUNG — xa nhất gần gấp đôi tầm cận chiến, quá gần hoặc quá xa là mất khoá và phải gây lại từ đầu. Giữ được đúng cự ly càng lâu thì mỗi nhịp bắn càng đau: bắt đầu 10 dmg, cứ mỗi giây giữ được tia lại cộng thêm 20. Mỗi 8s triệu hồi 1 đĩa bay từ ngoài sân bay vào, dừng trên đầu địch gần nhất, dùng tia sóng âm hút địch lên xoay vòng tại chỗ trong 2s rồi bay đi mất.' },
     wetcat: { key:'wetcat', defaultName:'Wet Cat', emoji:'🤤', color:'#4fc3f7', hp:1000, speed:2.0125, size:45, skill:'Đi rất chậm, người cứ rỉ ra giọt nước dãi đen liên tục — giọt bị hút cong vào giữa sàn, dồn lại thành vũng đầm lầy, càng lúc rỉ càng nhanh. Địch chạm vũng bị sa lầy và mất máu đều đều; Wet Cat đứng trong vũng thì hồi máu và chạy nhanh hơn.' },
@@ -879,7 +879,7 @@ function loadRoster(){
       { id:'c48', name:'Capybara',     charKey:'capybara',    avatarUrl:null, idleAnim:'bounce' },
       { id:'c49', name:'Mechanic Cat', charKey:'mechaniccat', avatarUrl:null, idleAnim:'bounce' },
       { id:'c50', name:'Rubik Cat',    charKey:'rubikcat',    avatarUrl:null, idleAnim:'bounce' },
-      { id:'c51', name:'Mewing Cat',   charKey:'mewingcat',   avatarUrl:null, idleAnim:'bounce' },
+      { id:'c51', name:'Mewing Cat - Never Skip Mewing Day',   charKey:'mewingcat',   avatarUrl:null, idleAnim:'bounce' },
       { id:'c52', name:'Smart Guy',    charKey:'smartguy',    avatarUrl:null, idleAnim:'bounce' },
       { id:'c53', name:'Mr. Folk', charKey:'aliencat', avatarUrl:ALIENCAT_AVATAR_IMG.src, idleAnim:'bounce' },
       { id:'c54', name:'Wet Cat',   charKey:'wetcat',   avatarUrl:null, idleAnim:'bounce' },
@@ -900,6 +900,7 @@ function loadRoster(){
   roster = roster.filter(c=>c.charKey!=='droolcat' && c.charKey!=='williamdafoe');   // 😱 William Dafoe đã bị xoá khỏi game   // 💦 Drooling Cat đã GỘP vào Pop Cat → xoá ô cũ khỏi kho
   roster.forEach(c=>{ if(c.charKey==='droolingcat'){ c.charKey='wetcat'; if(c.name==='Drooling Cat') c.name='Wet Cat'; } });
   roster.forEach(c=>{ if(c.charKey==='samuraicheems' && c.name==='Samurai Cheems') c.name='Joninn Cheems'; });
+  roster.forEach(c=>{ if(c.charKey==='mewingcat' && c.name==='Mewing Cat') c.name='Mewing Cat - Never Skip Mewing Day'; });   // 😤 thêm hậu tố vào tên Mewing Cat (roster đã lưu vẫn giữ tên cũ)
   // 🐈‍⬛ Loading Cat đổi ẢNH MỚI (mèo đen trắng, user gửi): ép MỌI roster đã lưu dùng ảnh mới + xoá ảnh cũ (kể cả ảnh tự upload,
   //    ảnh pose "Đang Loading") — chạy 1 lần (cờ cbs_lc_av2), sau đó user tự đổi ảnh thì giữ nguyên
   { let _lcDone=null; try{ _lcDone=localStorage.getItem('cbs_lc_av2'); }catch(e){}
@@ -9954,7 +9955,7 @@ const CHAR_BLURB_SHORT = {
   infinitydoge: "Hit one Doge. Get two Doges.",
   cryingcat: "Three crying cats. Their tears burn.",
   rubikcat: "Solve all six faces. Black hole ending.",
-  mewingcat: "Mewing so hard it summons statues. Never skip mewing day.",
+  mewingcat: "KitKat Cat.",
   smartguy: "IQ check. Sometimes his own fails.",
   aliencat: "Mr. Folk keeps eye contact. Lasers included.",
   electricguitarcat: "Shreds so hard the guitar catches fire.",
