@@ -4958,7 +4958,7 @@ let susSummons=[]; // Sus Cat summons
 //    lọ đỏ = địch trúng độc 20/s tới hết trận) · Xạ thủ (ném súng, Sus Dog bắn 3 viên × 50) · Thần tình yêu
 //    (2 mũi tên nối Sus Dog với địch 5s — Sus Dog ăn bao nhiêu dame, địch ăn y bấy nhiêu).
 // Chu kỳ đếm trong update() (_sdCycle) — chạy CẢ LÚC CHOÁNG, đúng luật "choáng chỉ khoá con meme".
-const SD_DAY_S=4, SD_EVENT_AT=120;   // ☀️ ban ngày 4s THẬT
+const SD_DAY_T=300, SD_EVENT_AT=120;   // ☀️ ban ngày 300 tick (như cũ)
 // 🌙 ĐÊM (~3s) chạy theo sự kiện: ngủ → lùi vào bóng tối (ngủ→biến mất 1.25s) → chìm hẳn SD_WOLF_DELAY thì sói lao ra →
 //    sói chạy khỏi màn SD_DAWN_DELAY thì trời sáng, Sus Dog hiện lại. SD_NIGHT_MAX: chốt an toàn.
 const SD_SLEEP_TO_GONE_S=1.25, SD_WOLF_DELAY_S=0.5, SD_DAWN_DELAY_S=0.5, SD_NIGHT_MAX=900;   // giây THẬT (quy theo _egTps)
@@ -9316,7 +9316,7 @@ function _sdCycle(f){
     if(f._sdT>=SD_NIGHT_MAX) _flip=true;
   } else {
     if(f._sdT===SD_EVENT_AT && !f._sdEventDone){ f._sdEventDone=true; _sdDayBuff(f); }
-    if(f._sdT>=Math.round(SD_DAY_S*_egTps())) _flip=true;
+    if(f._sdT>=SD_DAY_T) _flip=true;
   }
   if(f._sdNight && f._sdT%20===0 && _sdHideK(f)<0.5) _sdSpawnZzz(f);   // 😴 đang ngủ: chữ Zzz bay lên trên đầu (y kiểu Snooze Cat) — đã chìm vào bóng tối thì thôi
   if(_flip){
@@ -9413,7 +9413,7 @@ function _sdTick(){
       if(a.t>=120+SD_CARD_HOLD) sdActors.splice(i,1);
       continue;
     }
-    // 🐺 ma sói: VỒ LƯỚT THẲNG QUA địch — chạm là 250 sát thương rồi chạy tuốt ra khỏi màn, KHÔNG dừng lại cắn.
+    // 🐺 ma sói: VỒ LƯỚT THẲNG QUA địch — chạm là 200 sát thương rồi chạy tuốt ra khỏi màn, KHÔNG dừng lại cắn.
     // Hướng lao được chốt 1 lần lúc xuất hiện (nhắm vị trí địch khi đó) nên nó lướt theo đường thẳng, không bẻ lái bám đuôi.
     const e=a.target, sz=(e?e.size:40)*2.2;
     if(!a.vx){
@@ -9425,7 +9425,7 @@ function _sdTick(){
     a.fl = a.vx<0;
     (a.trail||(a.trail=[])).push([a.x,a.y]); if(a.trail.length>5) a.trail.shift();   // bóng mờ khi lao
     if(!a.bites && e && !e.dead && Math.hypot(e.x-a.x, e.y-a.y) < e.size+sz*0.35){
-      e.takeDamage(250, a.owner);
+      e.takeDamage(200, a.owner);
       a.bites=1; a.lunge=10;
       _sdFxPush({k:'claw', x:e.x, y:e.y, s:e.size, T:26, dir:a.vx<0?-1:1}); spawnParticles(e.x,e.y,'#b71c1c',16,false,false); addShake(8,12);   // 🐺 3 vết cào đỏ
     }
