@@ -4886,32 +4886,21 @@ let flowers=[]; // Flower Cat — bông hoa vật lý, không máu, chỉ kích 
 // 🏹 LOADING CAT = mũi tên YAKA của Yondu: thân dài mảnh, vây/đốt đỏ phát sáng, vệt sáng đỏ dài theo đường bay
 const LA_SPD=21, LA_TURN=0.085, LA_COMMIT=14, LA_TRAIL=28, LA_LEN=46, LA_SCALE=1.6;   // LA_SCALE: phóng to cả mũi tên
 const LA_HEAD={x:0.634, y:0.30};   // giữa trán trong ảnh đại diện mới (tỉ lệ khung ảnh)
-// ✨ trúng địch: 1 nhát sáng đỏ xuyên qua người theo hướng mũi tên + vòng sáng mảnh nở ra + vài tia lửa văng về phía trước.
-// Bám theo con mồi (toạ độ tương đối), tắt sau ~0.3s. Thuần hình ảnh.
+// ✨ trúng địch: dư âm đỏ nhẹ toả ra ở đúng điểm va chạm rồi tan (không vạch, không tia). Bám theo con mồi, ~0.35s. Thuần hình ảnh.
 let laHits=[];
-function _laHitFx(u,x,y,a){
+function _laHitFx(u,x,y){
   if(!u) return;
-  laHits.push({u, dx:x-u.x, dy:y-u.y, a, t:0, T:18, L:(u.size||20)*2.4,
-    sp:Array.from({length:5},()=>({a:a+(Math.random()-0.5)*0.9, v:2.2+Math.random()*2.2}))});
+  laHits.push({u, dx:x-u.x, dy:y-u.y, t:0, T:21});
 }
 function _laDrawHits(){
   if(!laHits.length) return;
-  ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round';
+  ctx.save(); ctx.globalCompositeOperation='lighter';
   for(let i=laHits.length-1;i>=0;i--){ const h=laHits[i];
     if(++h.t>h.T || !h.u || h.u.dead){ laHits.splice(i,1); continue; }
-    const k=h.t/h.T, fade=1-k, x=h.u.x+h.dx, y=h.u.y+h.dy, ca=Math.cos(h.a), sa=Math.sin(h.a);
-    // nhát xuyên: vạch dài mảnh, loé ra nhanh rồi co về mũi
-    const L=h.L*Math.min(1,h.t/4)*(1-0.4*k), x0=x-ca*L*0.55, y0=y-sa*L*0.55, x1=x+ca*L*0.45, y1=y+sa*L*0.45;
-    for(const [w,c] of [[7,`rgba(255,30,20,${0.25*fade})`],[2.6,`rgba(255,80,60,${0.8*fade})`],[1,`rgba(255,235,225,${fade})`]]){
-      ctx.strokeStyle=c; ctx.lineWidth=w*(1-0.5*k); ctx.beginPath(); ctx.moveTo(x0,y0); ctx.lineTo(x1,y1); ctx.stroke(); }
-    // vòng sáng mảnh, dẹt theo hướng bay
-    const R=(h.u.size||20)*(0.25+0.75*(1-Math.pow(1-k,3)));
-    ctx.strokeStyle=`rgba(255,70,50,${0.7*fade})`; ctx.lineWidth=1.6;
-    ctx.beginPath(); ctx.ellipse(x,y,R*0.45,R,h.a,0,Math.PI*2); ctx.stroke();
-    // tia lửa đỏ văng về phía trước
-    ctx.strokeStyle=`rgba(255,120,90,${0.9*fade})`; ctx.lineWidth=1.3;
-    for(const q of h.sp){ const d=q.v*h.t, d0=Math.max(0,d-6); ctx.beginPath();
-      ctx.moveTo(x+Math.cos(q.a)*d0, y+Math.sin(q.a)*d0); ctx.lineTo(x+Math.cos(q.a)*d, y+Math.sin(q.a)*d); ctx.stroke(); }
+    const k=h.t/h.T, a=Math.min(1,h.t/3)*(1-k)*(1-k), x=h.u.x+h.dx, y=h.u.y+h.dy, R=(h.u.size||20)*(0.35+0.65*(1-Math.pow(1-k,2)));
+    const g=ctx.createRadialGradient(x,y,0,x,y,R);
+    g.addColorStop(0,`rgba(255,90,70,${0.55*a})`); g.addColorStop(0.45,`rgba(255,30,20,${0.3*a})`); g.addColorStop(1,'rgba(255,0,0,0)');
+    ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,R,0,Math.PI*2); ctx.fill();
   }
   ctx.restore();
 }
@@ -13144,7 +13133,7 @@ const CHAR_VFX = {
 // 💥 Char TỰ CÓ hiệu ứng riêng lúc gây dame (playVFX riêng ngay tại chỗ đánh) HOẶC gây hiệu ứng lên địch
 // (thiêu đốt / độc) → KHÔNG vẽ thêm impact mặc định nữa, tránh 2 hiệu ứng chồng lên nhau che mất đòn riêng.
 // Cùng khuôn mẫu với CHARS_OWN_SOUND ngay bên dưới.
-const CHARS_OWN_HIT_VFX = new Set(['epicsaxguy', 'loadingcat',   // 🏹 Loading Cat: nhát sáng đỏ riêng (_laHitFx)
+const CHARS_OWN_HIT_VFX = new Set(['epicsaxguy', 'loadingcat',   // 🏹 Loading Cat: dư âm đỏ riêng (_laHitFx)
 
   'bibilabu','drivercat','grumpycat','loooongcat','catvader','chillguy','capybara','holycat','evillarry','infinitydoge',
   'feuerkatze','coughcat','rubikcat','mosquitoviolin','pianocat','electricguitarcat','damdamdidi','bongocat',
@@ -25346,7 +25335,7 @@ function loop(){
             t.takeDamage(80, ar._smRefl?ar._smRefl.by:_laOwner, false, false, '', null);
             if(ar._smRefl){ ar.team=ar._smRefl.team0; ar._smRefl=null; }
             ar._commit=LA_COMMIT;   // xuyên qua rồi trượt tiếp theo quán tính, chưa bẻ lái ngay
-            _laHitFx(t, ar.x, ar.y, Math.atan2(ar.vy,ar.vx));   // ✨ nhát sáng đỏ xuyên qua người
+            _laHitFx(t, ar.x, ar.y);   // ✨ dư âm đỏ nhẹ ở điểm va chạm
           }
         } else if(ar._inside.has(t)) ar._inside.delete(t); // đã xuyên ra khỏi meme → reset, lần chạm sau lại ăn dame
       };
