@@ -787,7 +787,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     evilgary: { key:'evilgary', defaultName:'Evil Gary', emoji:'😈', color:'#b71c1c', hp:1000, speed:5, size:44, skill:'Đầu trận chỉ là con mèo xám ngồi im HÚT LINH HỒN: cứ mỗi giây 1 linh hồn khói đen từ góc xa nhất ngoài sân bay thẳng vào người nó (ai đứng chắn đường ăn 50 dame), mỗi linh hồn hút được vạch thêm 1 cánh ngôi sao ác quỷ trên đầu. Đủ 5 cánh: con quỷ đã nhập hiện lên sau lưng, sàn hoá CÕI LINH HỒN — khói ma lướt ngang sân, và cứ 5s một bầy linh hồn bò từ 4 góc tới bám địch (mỗi đợt đông hơn), bám được là gây dame và gieo độc vĩnh viễn, cộng dồn không giới hạn.' },
     mosquitoviolin: { key:'mosquitoviolin', defaultName:'Mosquito Violin', emoji:'🦟', color:'#ff5252', hp:1000, speed:5, size:34, skill:'Vào trận chưa nối được dây thì +20% tốc chạy và vo ve liên tục. LẦN ĐẦU chạm vào một kẻ địch, nó cắm một sợi dây mảnh vào con đó SUỐT TRẬN (chạm được bao nhiêu con thì nối bấy nhiêu dây). Nối được dây đầu tiên là bắt đầu kéo violin: mỗi nhịp của bài nhạc, một xung âm hình nhịp tim chạy dọc dây và nổ vào kẻ địch gây sát thương. Tần suất sát thương chính là nhịp của bài hát.' },
     scaredhamster: { key:'scaredhamster', defaultName:'Scared Hamster', emoji:'🐹', color:'#c8a27a', hp:1000, speed:5, size:40, skill:'Không tự đánh — chỉ bò khắp sàn. Bò vào gần góc sàn thì dựa sát góc tường run rẩy sợ hãi, đứng yên tới khi bóng tối đi mất hẳn rồi bò tiếp (mỗi lần nép góc chỉ 1 lượt tay); từ góc xa nhất 2 bàn tay bóng tối móng dài từ từ vươn ra lần theo nó (không ai cản thì ~5s tới nơi, bóng tồn tại 6s). Tay vớ được địch chắn đường thì ngẫu nhiên: bóp chặt ngang người giữ méo móp 1.5s (80 dmg mỗi 0.5s), tóm nhấc bổng rồi vung đập mạnh vào tường ở góc sàn xa nhất (trừ góc hamster đang nép, 200 dmg) hoặc tung ngang qua tay kia rồi tay kia bóp mạnh tiếp (80 dmg mỗi 0.5s trong 1.5s), xong thì 2 tay rụt về tường. Tay chạm được hamster thì nó cũng bị xử y như vậy (cùng mức dame).' },
-    supremearbiter: { key:'supremearbiter', defaultName:'The Supreme Arbiter', emoji:'😼', color:'#e0a050', hp:1000, speed:5, size:44, skill:'Kneel before my paw. Không tự đánh — chỉ tìm chỗ đứng CAO HƠN địch trên sàn. Đứng trên địch càng lâu thì độ TỰ MÃN càng tăng (đứng thấp hơn thì tụt dần); tự mãn càng cao, TRỌNG LỰC cả sàn càng nặng: mọi địch (cả quân triệu hồi) bị đè chậm lại tới 50% và mất máu mỗi 0.5s (4 → 20 theo độ tự mãn). Thắng thì sét đánh dọc sau lưng, camera áp sát khuôn mặt khinh khỉnh: "Pathetic."' },
+    supremearbiter: { key:'supremearbiter', defaultName:'The Supreme Arbiter', emoji:'😼', color:'#e0a050', hp:1000, speed:5, size:44, skill:'Kneel before my paw. Không tự đánh, di chuyển như meme bình thường. Lúc đang ở CAO HƠN địch thì độ TỰ MÃN tăng (thấp hơn thì tụt dần), và mỗi giây ở trên đầu con nào là con đó dính thêm 3% làm chậm, cộng dồn giữ nguyên tới hết trận (tối đa 50%). Tự mãn càng cao, TRỌNG LỰC cả sàn càng nặng: mọi địch (cả quân triệu hồi) mất máu mỗi 0.5s (4 → 20 theo độ tự mãn). Thắng thì sét đánh dọc sau lưng, camera áp sát khuôn mặt khinh khỉnh: "Pathetic."' },
     infinitydoge: { key:'infinitydoge', defaultName:'Infinity Doge', emoji:'🐕', color:'#ffb74d', hp:1000, speed:5, size:46, skill:'Bắt đầu 1 thân 1000 máu. Cứ mỗi lần một thân tụt xuống dưới 50% máu, thân đó PHÂN ĐÔI thành 2 thân nhỏ hơn 30% với máu tối đa bằng một nửa — các mốc 1000 → 500 → 250 → 125 → 50 (nấc cuối chốt 50 chứ không chia đôi tiếp). Thân 50 máu là mốc cuối, chết là chết luôn. Không có đòn đánh riêng: mọi thân gây 60 dame mỗi khi VA vào địch. Các thân tách ra tính như meme bình thường (di chuyển, nhận dame, dính hiệu ứng). Cả đàn chết sạch thì mới thua.' },
     cryingcat: { key:'cryingcat', defaultName:'Crying Cat Team', emoji:'😿', color:'#4fc3f7', hp:350, speed:5, size:32.5, skill:'Một đội 3 con mèo khóc, tính chung là 1 meme. Mỗi con 350 máu, di chuyển và đánh như meme thường. Mỗi con chạm vào địch gây 40 sát thương (mỗi con hồi chiêu riêng 0.8s). Giữa 3 con luôn có LIÊN KẾT NƯỚC MẮT nối với nhau: địch chạm/đi qua sợi liên kết mất 50 máu mỗi 0.5s và bị làm chậm. Mỗi lần 2 con trong đội va vào nhau, cả hai được hồi 25 máu. Mỗi con gục thì mấy con còn lại +20% size và +300 máu tối đa. Con cuối cùng còn 1 mình chuyển hẳn sang chiêu NỐI NƯỚC MẮT: cứ 2s nối 1 sợi với địch gần nhất, dính 3s, gây 25 sát thương mỗi 0.5s. Cả đội chỉ chết khi cả 3 con đều gục.' },
     calmdog: { key:'calmdog', defaultName:'Calm Dog', emoji:'🐕', color:'#546e7a', hp:1000, speed:5, size:40, skill:'Là quả bom hẹn giờ — vào trận có đồng hồ đếm ngược 13s, thể hiện qua 5 tấm hình NGẨNG ĐẦU tăng dần (mỗi ~2.6s đổi 1 hình, hình cuối là lúc há mồm chuẩn bị hú) thay vì số đếm. Mỗi 100 dame nhận vào, đồng hồ trôi nhanh thêm 1s. Về 0: hú vang gây 500 dame CHUẨN cho mọi địch trong tầm nổ — chỉ dùng được đúng 1 LẦN CẢ TRẬN. Ngoài ra không có đòn đánh nào khác, chỉ di chuyển né tránh bình thường.' },
@@ -4024,21 +4024,23 @@ function _scEchoDrawOver(){
     ctx.restore();
   } }
 // ==================== 😼 THE SUPREME ARBITER — "Kneel before my paw." ====================
-// Không tự đánh. Luôn tìm chỗ đứng CAO HƠN (y nhỏ hơn) địch gần nhất trên sàn. Đứng trên ≥1 địch → ĐỘ TỰ MÃN tăng dần
+// Không tự đánh, di chuyển như meme bình thường. Đang ở CAO HƠN (y nhỏ hơn) ≥1 địch → ĐỘ TỰ MÃN tăng dần
 // (0→100 trong SA_SMUG_UP tick), đứng thấp hơn mọi địch → tụt dần. Tự mãn càng cao → TRỌNG LỰC cả sàn càng nặng:
-// mọi địch (meme + quân triệu hồi có máu) bị đè chậm lại tới SA_SLOW_MAX và mất máu mỗi 0.5s (SA_DMG_MIN → SA_DMG_MAX).
+// mọi địch (meme + quân triệu hồi có máu) mất máu mỗi 0.5s (SA_DMG_MIN → SA_DMG_MAX). Làm chậm tính riêng: +3%/giây trên đầu (xem _saSlowMul).
 // Thắng (Solo 1vs1): sét đánh dọc sau lưng, camera áp sát khuôn mặt khinh khỉnh, xung quanh tối chỉ mặt nó sáng, "Pathetic."
-const SA_SMUG_UP=600, SA_SMUG_DOWN=420, SA_SLOW_MAX=0.5, SA_DMG_MIN=4, SA_DMG_MAX=20, SA_DMG_EVERY=30;
+const SA_SMUG_UP=600, SA_SMUG_DOWN=420, SA_SLOW_MAX=0.5, SA_SLOW_STEP=0.03, SA_DMG_MIN=4, SA_DMG_MAX=20, SA_DMG_EVERY=30;
 const SA_FACE={x:0.647, y:0.146};   // tâm mặt trong ảnh đại diện (tỉ lệ theo khung ảnh)
 let saWin=null, saBolts=[]; const SA_WIN_Z=5;
 function _saFoes(f){ return [...fighters.filter(o=>o.team!==f.team && !o.dead), ..._summonFoes(f.team)]; }
 function _saG(f){ return Math.max(0,Math.min(1,(f._saSmug||0)/100)); }
 // độ nặng trọng lực đang đè lên u = mức tự mãn cao nhất của các Arbiter KHÁC phe còn sống
 function _saGravOn(u){ let g=0; if(!u) return 0; for(const f of fighters){ if(f.type==='supremearbiter' && !f.dead && f.team!==u.team) g=Math.max(g,_saG(f)); } return g; }
-function _saSlowMul(u){ const g=_saGravOn(u); return g>0 ? 1-SA_SLOW_MAX*g : 1; }
+// 🐢 làm chậm: mỗi giây Arbiter đứng trên đầu con nào là con đó +SA_SLOW_STEP chậm, cộng dồn giữ nguyên (không tụt), tối đa SA_SLOW_MAX
+function _saSlowMul(u){ if(!u || !(u._saSlw>0)) return 1; for(const f of fighters){ if(f.type==='supremearbiter' && !f.dead && f.team!==u.team) return 1-u._saSlw; } return 1; }
 function _saTick(){
   for(const f of fighters){ if(f.type!=='supremearbiter' || f.dead) continue;
-    const foes=_saFoes(f), above=foes.some(u=>f.y < u.y-f.size*0.5);
+    const foes=_saFoes(f); let above=false;
+    for(const u of foes) if(f.y < u.y-f.size*0.5){ above=true; u._saSlw=Math.min(SA_SLOW_MAX,(u._saSlw||0)+SA_SLOW_STEP/_egTps()); }
     f._saAbove=above;
     f._saSmug=Math.max(0,Math.min(100,(f._saSmug||0)+(above?100/SA_SMUG_UP:-100/SA_SMUG_DOWN)));
     const g=_saG(f);
@@ -4047,17 +4049,6 @@ function _saTick(){
     const dmg=Math.round(SA_DMG_MIN+(SA_DMG_MAX-SA_DMG_MIN)*g);
     for(const u of foes){ if(fighters.includes(u)) u.takeDamage(dmg, f, false, true, '⬇️', null, true); else _summonTakeDamage(u, dmg, f, false, true, '⬇️', null); }
   }
-}
-// di chuyển: lượn tới điểm NGAY PHÍA TRÊN chếch sang 1 bên địch gần nhất (không áp sát), sát tường thì đổi bên
-function _saSteer(f, top){
-  let e=null, bd=1e9; for(const u of _saFoes(f)){ const d=Math.hypot(u.x-f.x,u.y-f.y); if(d<bd){ bd=d; e=u; } }
-  if(!e){ f.vx*=0.9; f.vy*=0.9; return; }
-  if(f._saSide===undefined) f._saSide=(f.x>=e.x?1:-1);
-  let tx=e.x+f._saSide*f.size*1.6; if(tx<f.size*1.2 || tx>W-f.size*1.2){ f._saSide=-f._saSide; tx=e.x+f._saSide*f.size*1.6; }
-  tx=Math.max(f.size,Math.min(W-f.size,tx)); const ty=Math.max(f.size,Math.min(H-f.size,e.y-f.size*2.8));
-  const dx=tx-f.x, dy=ty-f.y, d=Math.hypot(dx,dy)||1, sp=top*Math.min(1,d/(f.size*1.2));
-  f.vx+=(dx/d*sp-f.vx)*0.14; f.vy+=(dy/d*sp-f.vy)*0.14;
-  const v=Math.hypot(f.vx,f.vy); if(v>0.05) f._lastAngle=Math.atan2(f.vy,f.vx);
 }
 // 🌌 ÁP LỰC kiểu "nhân vật mạnh" trong anime (Haki / JoJo "ゴゴゴ"): sàn sẫm + tối dần mép; quanh Arbiter: hào quang tím
 //    đen bốc như lửa, sóng áp lực dội ra khắp sàn, sàn nứt toác dưới chân, đá vụn bay lơ lửng lên; tự mãn cao thì thêm đường
@@ -9856,7 +9847,7 @@ const CHAR_BLURB = {
   clappingcat: "Spike walls and a rolling spike ball. Claps to swap places with you right before it hits them.",
   evilgary: "Sucks in five souls to complete the demon star over its head, then opens the soul realm: ghosts sweep the floor and ever-bigger swarms crawl out to poison you forever.",
   mosquitoviolin: "Touch it once and it strings you for the whole match, then plays violin damage down the wire on every beat.",
-  supremearbiter: "Never attacks. Stays above its enemies: the longer it looks down on you, the smugger it gets — and the heavier the whole arena's gravity, slowing and crushing every enemy. Wins end with lightning and a single word.",
+  supremearbiter: "Never attacks and moves like any meme. While it is above you, it gets smugger and slows you 3% more every second; the smugger it gets, the heavier the whole arena's gravity crushes every enemy. Wins end with lightning and a single word.",
   scaredhamster: "Never attacks — just wanders. Cornered, it cowers while two shadow hands crawl out of the far corner after it, crushing, slamming or passing-and-squeezing the first one in the way before pulling back. If they reach it, it gets the same treatment.",
   infinitydoge: "Splits in two every time it drops below half health, down to 50 HP. Damages anything it bumps into.",
   cryingcat: "Three linked cats. The tear link between them burns and slows anything that touches it.",
@@ -15138,7 +15129,6 @@ class Fighter {
       ? this.topSpeed * 4.0
       : this._screamPushed ? this.topSpeed * 8  // giữ nguyên vận tốc scream push, không cap
       : this.topSpeed) * slowMult * _soloMoveMul();
-    if(this.type==='supremearbiter' && !this.dead){ _saSteer(this, effectiveTop); this.x+=this.vx; this.y+=this.vy; return; }   // 😼 lượn lên đứng CAO HƠN địch
     if(spd<effectiveTop*0.55){
       const angle = (this._lastAngle !== undefined) ? this._lastAngle : Math.random()*Math.PI*2;
       this.vx=Math.cos(angle)*effectiveTop*0.5; this.vy=Math.sin(angle)*effectiveTop*0.5;
