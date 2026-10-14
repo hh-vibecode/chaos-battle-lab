@@ -4834,21 +4834,34 @@ let flowers=[]; // Flower Cat — bông hoa vật lý, không máu, chỉ kích 
 // 🏹 LOADING CAT = mũi tên YAKA của Yondu: thân dài mảnh, vây/đốt đỏ phát sáng, vệt sáng đỏ dài theo đường bay
 const LA_SPD=21, LA_TURN=0.085, LA_COMMIT=14, LA_TRAIL=28, LA_LEN=46, LA_SCALE=1.6;   // LA_SCALE: phóng to cả mũi tên
 const LA_HEAD={x:0.634, y:0.30};   // giữa trán trong ảnh đại diện mới (tỉ lệ khung ảnh)
-function _laAddHole(u,x,y){   // lỗ thủng nhỏ trên người (toạ độ tương đối so với tâm con mồi), mờ dần sau ~4s
-  if(!u) return; const R=(u.size||20)*0.55, dx=x-u.x, dy=y-u.y, d=Math.hypot(dx,dy)||1, k=Math.min(1,R/d);
-  (u._laHoles||(u._laHoles=[])).push({dx:dx*k*0.8, dy:dy*k*0.8, t:240, r:2.2+Math.random()*1.2});
-  if(u._laHoles.length>6) u._laHoles.shift();
+// ✨ trúng địch: 1 nhát sáng đỏ xuyên qua người theo hướng mũi tên + vòng sáng mảnh nở ra + vài tia lửa văng về phía trước.
+// Bám theo con mồi (toạ độ tương đối), tắt sau ~0.3s. Thuần hình ảnh.
+let laHits=[];
+function _laHitFx(u,x,y,a){
+  if(!u) return;
+  laHits.push({u, dx:x-u.x, dy:y-u.y, a, t:0, T:18, L:(u.size||20)*2.4,
+    sp:Array.from({length:5},()=>({a:a+(Math.random()-0.5)*0.9, v:2.2+Math.random()*2.2}))});
 }
-function _laDrawHoles(){
-  for(const u of [...fighters, ..._hpSummonArrays().flat()]){ if(!u || !u._laHoles || !u._laHoles.length) continue;
-    if(u.dead){ u._laHoles.length=0; continue; }
-    for(let i=u._laHoles.length-1;i>=0;i--){ const h=u._laHoles[i]; if(--h.t<=0){ u._laHoles.splice(i,1); continue; }
-      const a=Math.min(1,h.t/40), x=u.x+h.dx, y=u.y+h.dy;
-      ctx.save(); ctx.globalAlpha=a;
-      ctx.fillStyle='rgba(150,0,0,0.75)'; ctx.beginPath(); ctx.arc(x,y,h.r*1.7,0,Math.PI*2); ctx.fill();   // viền máu
-      ctx.fillStyle='#0b0204'; ctx.beginPath(); ctx.arc(x,y,h.r,0,Math.PI*2); ctx.fill();                  // lỗ thủng
-      ctx.fillStyle='rgba(255,90,70,0.8)'; ctx.beginPath(); ctx.arc(x-h.r*0.35,y-h.r*0.35,h.r*0.35,0,Math.PI*2); ctx.fill();
-      ctx.restore(); } }
+function _laDrawHits(){
+  if(!laHits.length) return;
+  ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round';
+  for(let i=laHits.length-1;i>=0;i--){ const h=laHits[i];
+    if(++h.t>h.T || !h.u || h.u.dead){ laHits.splice(i,1); continue; }
+    const k=h.t/h.T, fade=1-k, x=h.u.x+h.dx, y=h.u.y+h.dy, ca=Math.cos(h.a), sa=Math.sin(h.a);
+    // nhát xuyên: vạch dài mảnh, loé ra nhanh rồi co về mũi
+    const L=h.L*Math.min(1,h.t/4)*(1-0.4*k), x0=x-ca*L*0.55, y0=y-sa*L*0.55, x1=x+ca*L*0.45, y1=y+sa*L*0.45;
+    for(const [w,c] of [[7,`rgba(255,30,20,${0.25*fade})`],[2.6,`rgba(255,80,60,${0.8*fade})`],[1,`rgba(255,235,225,${fade})`]]){
+      ctx.strokeStyle=c; ctx.lineWidth=w*(1-0.5*k); ctx.beginPath(); ctx.moveTo(x0,y0); ctx.lineTo(x1,y1); ctx.stroke(); }
+    // vòng sáng mảnh, dẹt theo hướng bay
+    const R=(h.u.size||20)*(0.25+0.75*(1-Math.pow(1-k,3)));
+    ctx.strokeStyle=`rgba(255,70,50,${0.7*fade})`; ctx.lineWidth=1.6;
+    ctx.beginPath(); ctx.ellipse(x,y,R*0.45,R,h.a,0,Math.PI*2); ctx.stroke();
+    // tia lửa đỏ văng về phía trước
+    ctx.strokeStyle=`rgba(255,120,90,${0.9*fade})`; ctx.lineWidth=1.3;
+    for(const q of h.sp){ const d=q.v*h.t, d0=Math.max(0,d-6); ctx.beginPath();
+      ctx.moveTo(x+Math.cos(q.a)*d0, y+Math.sin(q.a)*d0); ctx.lineTo(x+Math.cos(q.a)*d, y+Math.sin(q.a)*d); ctx.stroke(); }
+  }
+  ctx.restore();
 }
 function _laDrawArrow(ar, flying){
   const P=ar.trail;
@@ -13067,7 +13080,8 @@ const CHAR_VFX = {
 // 💥 Char TỰ CÓ hiệu ứng riêng lúc gây dame (playVFX riêng ngay tại chỗ đánh) HOẶC gây hiệu ứng lên địch
 // (thiêu đốt / độc) → KHÔNG vẽ thêm impact mặc định nữa, tránh 2 hiệu ứng chồng lên nhau che mất đòn riêng.
 // Cùng khuôn mẫu với CHARS_OWN_SOUND ngay bên dưới.
-const CHARS_OWN_HIT_VFX = new Set(['epicsaxguy',
+const CHARS_OWN_HIT_VFX = new Set(['epicsaxguy', 'loadingcat',   // 🏹 Loading Cat: nhát sáng đỏ riêng (_laHitFx)
+
   'bibilabu','drivercat','grumpycat','loooongcat','catvader','chillguy','capybara','holycat','evillarry','infinitydoge',
   'feuerkatze','coughcat','rubikcat','mosquitoviolin','pianocat','electricguitarcat','damdamdidi','bongocat',
   'vampirecat','mlemcat']);
@@ -23088,7 +23102,7 @@ function loop(){
   _hmDrawOver();       // 🐹 vuốt tay bóng tối quặp ĐÈ lên con mồi đang bị cầm (cảm giác 3D) + bị nuốt chửng
   _darkDraw();         // 🌑 khí đen hắc ám bao quanh nạn nhân
   _saDrawOver();       // 😏 thanh SMUG của Arbiter
-  _laDrawHoles();      // 🕳️ lỗ thủng do mũi tên Yaka của Loading Cat
+  _laDrawHits();       // ✨ nhát sáng lúc mũi tên Yaka của Loading Cat trúng địch
 
   // ===== GERMAN SOLDIERS update + draw =====
   for(let si=germanSoldiers.length-1; si>=0; si--){
@@ -25261,11 +25275,10 @@ function loop(){
               const _b=_smAimBack(t,_laOwner,ar.x,ar.y,24); ar.vx=_b.vx; ar.vy=_b.vy; ar.angle=_b.a; ar.trail=[];
               ar._smRefl={by:t,team0:ar.team,t:90}; ar.team=t.team; _smParryFx(t,ar.x,ar.y); return;
             }
-            t.takeDamage(80, ar._smRefl?ar._smRefl.by:_laOwner, false, false, '', 'Blood Batch 1_Sprite');
+            t.takeDamage(80, ar._smRefl?ar._smRefl.by:_laOwner, false, false, '', null);
             if(ar._smRefl){ ar.team=ar._smRefl.team0; ar._smRefl=null; }
-            _hitParticles(t.x,t.y,'#ff3b30',6,false,true);
             ar._commit=LA_COMMIT;   // xuyên qua rồi trượt tiếp theo quán tính, chưa bẻ lái ngay
-            _laAddHole(t, ar.x, ar.y);   // 🕳️ thủng 1 lỗ nhỏ trên người
+            _laHitFx(t, ar.x, ar.y, Math.atan2(ar.vy,ar.vx));   // ✨ nhát sáng đỏ xuyên qua người
           }
         } else if(ar._inside.has(t)) ar._inside.delete(t); // đã xuyên ra khỏi meme → reset, lần chạm sau lại ăn dame
       };
