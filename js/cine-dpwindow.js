@@ -229,12 +229,10 @@
     return flash;
   }
   // chữ mực quét cọ (dùng chung khối chữ "This world / shall know / pain." của cảnh Shinra Tensei)
+  const WT=[0,0.3,0.6,0.9,1.25].map(d=>T.l1+d);   // 5 chữ hiện lần lượt
   function ink(t){
-    try{ _psInkCanvases(); }catch(e){ return; } const c=_psInkCv; if(!c) return;
-    const Hh=200, k=Hh/c.height, cx=VW/2, cy=VH-215, t0s=[T.l1,T.l2,T.l3];
-    for(let i=0;i<c._rows.length;i++){ const ti=t-t0s[i]; if(ti<=0) break; const r=c._rows[i], prog=Math.min(1,ti/0.32);
-      const sx=(c.width-r.tw)/2, sw=r.tw*prog;
-      g.drawImage(c, sx, i*c._rowH, sw, c._rowH, cx-c.width*k/2+sx*k, cy-Hh/2+i*c._rowH*k, sw*k, c._rowH*k); }
+    try{ _psDrawWords(g, VW/2, VH-315, 200, WT.map(x=>x*1000), t*1000); }catch(e){}
+    WT.forEach((w,i)=>{ if(t>=w) sfx('w'+i,'vine_boom',0.32); });   // 💥 mỗi chữ 1 tiếng vine boom nhỏ
   }
   // 🎥 máy quay: đi theo nó dọc phố → toàn cảnh nhà → ngước lên cửa sổ tầng 2 → cận mặt lúc khóc → lùi ra toàn cảnh (trời phía sau)
   function cam(t){
