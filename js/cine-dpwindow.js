@@ -2,26 +2,27 @@
 // Đêm, Depressed Cat ôm bó hoa đi bộ dọc phố về nhà → ngước lên cửa sổ tầng 2 sáng đèn: in bóng VỢ nó (cô mèo trắng
 // trong giấc mơ của Snooze Cat) chụm đầu bên CHILL GUY → nó đứng khóc meow meow (GIF kêu than + tiếng) → VỨT bó hoa,
 // quay lưng bỏ đi → khung hình DỪNG LẠI, ngả xám; sau lưng nó trời nổi sét, 2 con mắt RINNEGAN khổng lồ hiện trên nền
-// trời + chữ mực "This world / shall know / pain."
+// trời + chữ mực "This world / shall know / pain." · Mosquito Violin đứng dưới nhà diễn rong, kéo bài buồn đúng lúc nó nhìn thấy.
 // Chạy trên lớp phủ riêng (canvas 1080×1920, khung dọc Shorts) giống phim Memes Assemble; mở từ Meme Cinema.
 // Nền tĩnh (trời, phố, nhà, cây, hàng rào...) vẽ SẴN 1 lần ra ảnh phụ độ phân giải cao; phần động vẽ mỗi khung.
 (function(){
   if(window._cineDW) return;
   const VW=540, VH=960, GROUND=800, DUR=14.4;
   const A=p=>{ const im=new Image(); im.src=p; return im; };
-  const IMG={ dp:Object.assign(A('assets/avatars/depressedcat/avatarUrl.webp'),{_feather:0.12}), wife:A('assets/img/misc/CAT_DREAM_IMG.webp'), chill:A('assets/img/chillguy/CHILLGUY_AVATAR_IMG.webp') };
+  const IMG={ dp:Object.assign(A('assets/avatars/depressedcat/avatarUrl.webp'),{_feather:0.12}), wife:A('assets/img/misc/CAT_DREAM_IMG.webp'), chill:A('assets/img/chillguy/CHILLGUY_AVATAR_IMG.webp'),
+    mq:['avatarUrl','attackAvatarUrl','skill1AvatarUrl','skill2AvatarUrl','skill3AvatarUrl'].map(n=>A('assets/avatars/mosquitoviolin/'+n+'.webp')) };
   const T={ walkEnd:4.1, win:4.2, winEnd:5.7, cry:5.8, cryEnd:8.85, throw:9.0, turn:9.5, freeze:10.9, eyes:11.2, l1:11.9, l2:12.4, l3:12.9 };
   const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)), seg=(t,a,b)=>clamp((t-a)/(b-a),0,1), eio=x=>x*x*(3-2*x), lerp=(a,b,k)=>a+(b-a)*k;
   let cv, g, W2, w2, SC, raf=null, t0=0, paused=false, pauseT=0, played={}, markOnly=false, panel=null, overlay=null, BG=null;
   const sfx=(id,k,v,dur)=>{ if(played[id]) return; played[id]=1; if(markOnly) return; try{ playSample(k,v==null?1:v,dur||null); }catch(e){} };
   const hash=n=>{ const s=Math.sin(n*127.1+311.7)*43758.5453; return s-Math.floor(s); };
   // ảnh cắt sát nội dung (bỏ viền trong suốt); _feather: làm mờ mép dưới bị cắt thẳng
-  const prep=(im,crop)=>{ const key=crop?'_cpc':'_cp'; if(im[key]) return im[key]; if(!im.naturalWidth) return null;
+  const prep=(im,crop)=>{ const key=crop?'_cpc':'_cp'; if(im[key]) return im[key]; if(!im.complete || !im.naturalWidth) return null;   // ảnh chưa giải mã xong → chưa cắt (không lưu bản trống)
     let sx=0,sy=0,sw=im.naturalWidth,sh=im.naturalHeight; if(crop){ [sx,sy,sw,sh]=crop; }
     try{ const c=document.createElement('canvas'); c.width=sw; c.height=sh; const x=c.getContext('2d'); x.drawImage(im,sx,sy,sw,sh,0,0,sw,sh);
       const d=x.getImageData(0,0,sw,sh).data; let x0=sw,y0=sh,x1=0,y1=0;
       for(let yy=0;yy<sh;yy+=2) for(let xx=0;xx<sw;xx+=2) if(d[(yy*sw+xx)*4+3]>40){ if(xx<x0)x0=xx; if(xx>x1)x1=xx; if(yy<y0)y0=yy; if(yy>y1)y1=yy; }
-      if(x1<x0){ x0=0;y0=0;x1=sw-1;y1=sh-1; }
+      if(x1<x0) return null;   // chưa có điểm ảnh nào (đang giải mã) → lần sau thử lại
       if(im._feather){ const id=x.getImageData(0,0,sw,sh), px=id.data, F=Math.round((y1-y0)*im._feather);
         for(let yy=y1-F;yy<=y1;yy++){ const k=(y1-yy)/F; for(let xx=x0;xx<=x1;xx++){ const i=(yy*sw+xx)*4+3; px[i]=px[i]*k; } } x.putImageData(id,0,0); }
       im[key]={src:c, sx:x0, sy:y0, sw:x1-x0+1, sh:y1-y0+1}; }catch(e){ im[key]={src:im,sx,sy,sw,sh}; }
@@ -161,14 +162,34 @@
     g.fillStyle='rgba(255,255,255,0.35)'; g.beginPath(); g.moveTo(-24,-18); g.lineTo(-4,-18); g.lineTo(-1,30); g.closePath(); g.fill();
     g.fillStyle='#d81b60'; g.fillRect(-6,6,12,6);
     g.restore(); }
+  // 🦟🎻 Mosquito Violin đứng dưới nhà diễn rong kiếm tiền: hộp đàn mở trước mặt có xu + tiền giấy. Thấy cảnh trong cửa sổ
+  //    là lúc nó bắt đầu kéo bài buồn (4 khung kéo đàn lật vòng), dừng hình thì đứng im luôn.
+  const MQX=455;
+  function violinCase(x,y){
+    g.save(); g.translate(x,y);
+    g.fillStyle='rgba(0,0,0,0.35)'; g.beginPath(); g.ellipse(0,4,46,8,0,0,Math.PI*2); g.fill();
+    const body=()=>{ g.beginPath(); g.moveTo(-42,0); g.quadraticCurveTo(-44,-14,-26,-15); g.quadraticCurveTo(-12,-11,-2,-12); g.quadraticCurveTo(14,-18,30,-13); g.quadraticCurveTo(44,-8,42,0); g.closePath(); };
+    g.fillStyle='#3a2416'; body(); g.fill();
+    g.save(); g.scale(0.86,0.72); g.translate(0,-1); g.fillStyle='#9b1c2c'; body(); g.fill(); g.restore();   // lót nhung đỏ
+    g.fillStyle='#4a2e1c'; g.beginPath(); g.moveTo(-42,-13); g.lineTo(42,-11); g.lineTo(40,-34); g.quadraticCurveTo(0,-40,-40,-34); g.closePath(); g.fill();   // nắp mở dựng lên
+    g.strokeStyle='#2a180d'; g.lineWidth=1.5; g.stroke();
+    g.fillStyle='#6bbf59'; for(const [bx,by,ba] of [[-16,-8,0.3],[6,-7,-0.25]]){ g.save(); g.translate(bx,by); g.rotate(ba); g.fillRect(-9,-4,18,8); g.fillStyle='#4f9c42'; g.fillRect(-3,-2,6,4); g.fillStyle='#6bbf59'; g.restore(); }   // tiền giấy
+    for(const [cx,cy] of [[-26,-6],[-4,-4],[18,-6],[26,-3],[-30,-3],[10,-3]]){ g.fillStyle='#f4c542'; g.beginPath(); g.ellipse(cx,cy,4,2.6,0,0,Math.PI*2); g.fill(); g.fillStyle='#c9952a'; g.fillRect(cx-1.5,cy-0.6,3,1.2); }   // xu
+    g.restore(); }
+  function drawMosquito(t){
+    violinCase(MQX-58,GROUND-2);
+    const P0=T.winEnd-0.2, play=t>=P0, fr=play ? IMG.mq[1+Math.floor((t-P0)/0.17)%4] : IMG.mq[0];   // thấy 2 cái bóng xong mới bắt đầu kéo
+    g.save(); g.globalAlpha=0.35; g.fillStyle='#000'; g.beginPath(); g.ellipse(MQX,GROUND+2,40,7,0,0,Math.PI*2); g.fill(); g.restore();
+    actor(prep(fr), MQX, GROUND+4+(play?Math.sin(t*6)*1.5:0), 165, {flip:true, rot:play?Math.sin(t*3)*0.04:0});
+  }
   function drawCat(t){
     const s=catState(t), H=180, bob=s.walk?Math.abs(Math.sin(t*7))*5:0;
     g.save(); g.globalAlpha=0.4; g.fillStyle='#000'; g.beginPath(); g.ellipse(s.x,GROUND+4,48,9,0,0,Math.PI*2); g.fill(); g.restore();
     // 💐 vứt bó hoa: bay vòng cung xuống đất, rơi vài cánh, nằm lại trên vỉa hè
-    const hx0=170+48, hy0=GROUND-34, lx=262, ly=GROUND-6;
-    if(t>=T.throw){ const u=seg(t,T.throw,T.throw+0.45), x=lerp(hx0,lx,u), y=lerp(hy0,ly,u)-Math.sin(Math.PI*u)*70;
+    const hx0=170+48, hy0=GROUND-34, lx=MQX-110, ly=GROUND-4;   // 💐 rơi ngay cạnh hộp đàn của muỗi
+    if(t>=T.throw){ const u=seg(t,T.throw,T.throw+0.5), x=lerp(hx0,lx,u), y=lerp(hy0,ly,u)-Math.sin(Math.PI*u)*90;
       bouquet(x,y,1.0,1,0.55+u*1.6);
-      for(let i=0;i<7;i++){ const pu=seg(t,T.throw+0.4,T.throw+1.2); if(pu<=0) break; const a=-0.4-hash(i)*2.4, d=pu*(18+hash(i+9)*26);
+      for(let i=0;i<7;i++){ const pu=seg(t,T.throw+0.45,T.throw+1.25); if(pu<=0) break; const a=-0.4-hash(i)*2.4, d=pu*(18+hash(i+9)*26);
         g.fillStyle=['#e53950','#ff7aa8','#ffd54f'][i%3]; g.beginPath(); g.ellipse(lx+Math.cos(a)*d, ly+2-Math.sin(a)*d*0.35, 3,1.6,a,0,Math.PI*2); g.fill(); } }
     const cry=(typeof DEPRESSED_CRY_IMG!=='undefined') && DEPRESSED_CRY_IMG.naturalWidth && t>=T.cry && t<T.cryEnd;
     if(cry){ const I=DEPRESSED_CRY_IMG, fw=I.naturalWidth/I._cols, fh=I.naturalHeight/I._rows, k=Math.min(I._frames-1, Math.floor((t-T.cry)/(T.cryEnd-T.cry)*I._frames));
@@ -220,7 +241,7 @@
     if(t<T.walkEnd-0.6){ const s=catState(t); return [Math.min(VW/2,s.x+60), VH/2+40, 1.12]; }
     const K=[[T.walkEnd-0.6,Math.min(VW/2,catState(T.walkEnd-0.6).x+60),VH/2+40,1.12],[T.walkEnd,VW/2,VH/2,1],
       [T.win+0.45,WIN.x+WIN.w/2,WIN.y+WIN.h/2+10,2.5],[T.winEnd,WIN.x+WIN.w/2,WIN.y+WIN.h/2+10,2.7],
-      [T.cry+0.25,175,GROUND-95,2.1],[T.cryEnd,175,GROUND-95,2.2],[T.turn,210,GROUND-200,1.5],[T.freeze,VW/2,VH/2,1]];
+      [T.cry+0.25,175,GROUND-95,2.1],[T.cryEnd,175,GROUND-95,2.2],[T.throw+0.35,300,GROUND-150,1.28],[T.turn+0.4,300,GROUND-150,1.28],[T.freeze,VW/2,VH/2,1]];   // vứt hoa: khung ôm cả nó + muỗi đang kéo đàn
     if(t>=K[K.length-1][0]) return K[K.length-1].slice(1);
     for(let i=1;i<K.length;i++) if(t<K[i][0]){ const a=K[i-1], b=K[i], u=eio(seg(t,a[0],b[0])); return [lerp(a[1],b[1],u),lerp(a[2],b[2],u),lerp(a[3],b[3],u)]; }
     return K[0].slice(1);
@@ -230,6 +251,7 @@
     const t=paused?pauseT:(now-t0)/1000, tf=Math.min(t,T.freeze);
     if(t>=0.3 && t<T.walkEnd) sfx('happy1','dp_happy',0.9);   // 😸 happy happy happy — vừa ôm hoa vừa đi trên phố (lặp lại, tắt đúng lúc tới nhà)
     if(t>=2.84 && t<T.walkEnd) sfx('happy2','dp_happy',0.9,Math.max(0.1,T.walkEnd-2.84));
+    if(t>=T.winEnd-0.2 && t<T.freeze) sfx('violin','violin_sad',0.75,Math.max(0.1,T.freeze-Math.max(t,T.winEnd-0.2)));   // 🎻 bài buồn có sẵn của muỗi — nó thấy 2 cái bóng xong mới kéo, tắt cụt lúc dừng hình
     if(t>=T.cry) sfx('cry','sad_cat_cry',1.0,3000);
     if(t>=T.freeze) sfx('freeze','vine_boom',0.9);
     if(t>=T.eyes) sfx('eyes','ultimate_charge_2',0.6);
@@ -237,7 +259,7 @@
     const [cx,cy,z]=cam(tf);
     w2.setTransform(1,0,0,1,0,0); w2.clearRect(0,0,W2.width,W2.height);
     w2.setTransform(SC*z,0,0,SC*z,SC*(VW/2-cx*z),SC*(VH/2-cy*z));
-    g=w2; sceneLive(tf); drawCat(tf);
+    g=w2; sceneLive(tf); drawMosquito(tf); drawCat(tf);
     g=cv.getContext('2d'); g.setTransform(1,0,0,1,0,0);
     const fz=seg(t,T.freeze,T.freeze+0.5);
     g.filter=fz>0?`grayscale(${fz}) brightness(${1-0.45*fz}) contrast(${1+0.2*fz})`:'none';
