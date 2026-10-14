@@ -212,12 +212,12 @@
     g.strokeStyle='#0c0618'; g.lineWidth=r*0.12; g.beginPath(); g.moveTo(-r*1.7,-r*0.05); g.quadraticCurveTo(0,-r*1.12,r*1.7,-r*0.22); g.stroke();
     g.restore(); }
   // ⚡ sét trên nền trời sau khi dừng hình (mỗi tia có hình dạng cố định theo số thứ tự → tua lại vẫn y vậy)
-  const BOLT_DT=0.62, BOLT_LIFE=0.24;
+  const BOLT_DT=0.62, BOLT_LIFE=0.4;
   function boltsSky(t){
     if(t<T.freeze+0.1) return 0;
     let flash=0; const n0=Math.floor((t-T.freeze-0.1)/BOLT_DT);
-    for(let n=Math.max(0,n0-1);n<=n0;n++){ const ts=T.freeze+0.1+n*BOLT_DT+hash(n)*0.2, u=(t-ts)/BOLT_LIFE; if(u<0||u>1) continue;
-      sfx('th'+n,'holy_thunder',0.45);
+    for(let n=Math.max(0,n0-1);n<=Math.min(n0,0);n++){ const ts=T.freeze+0.1+n*BOLT_DT+hash(n)*0.2, u=(t-ts)/BOLT_LIFE; if(u<0||u>1) continue;   // ⚡ đúng 1 tia sét
+      sfx('th'+n,'thunder_big',0.8);
       const a=Math.pow(1-u,1.4)*(u<0.15?1:(0.6+0.4*Math.sin(u*40))), x0=40+hash(n+3)*460, y1=260+hash(n+5)*200;
       const pts=[[x0,-10]]; let x=x0; for(let y=-10;y<y1;y+=18+hash(n*9+y)*16){ x+=(hash(n*13+y)-0.5)*42; pts.push([x,y]); }
       const br=[]; for(let k=0;k<3;k++){ const s=pts[2+Math.floor(hash(n*5+k)*(pts.length-4))]; if(!s) continue; let bx=s[0], by=s[1]; const B=[[bx,by]], d=hash(n+k*7)<0.5?-1:1;
