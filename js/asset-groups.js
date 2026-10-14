@@ -366,6 +366,7 @@ window.ASSET_GROUP={
 "assets/img/scaredhamster/HM_SCARED.webp": "scaredhamster",
 "assets/audio/hm_stalker.mp3": "scaredhamster",
 "assets/audio/hm_crawl.mp3": "scaredhamster",
+"assets/audio/hm_scared.mp3": "scaredhamster",
 "assets/audio/hm_claw1.mp3": "scaredhamster",
 "assets/audio/hm_claw2.mp3": "scaredhamster",
 "assets/audio/hm_musicbox.mp3": "scaredhamster",
