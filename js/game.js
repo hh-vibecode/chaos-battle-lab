@@ -4423,6 +4423,10 @@ function _hmTick(){
   for(const f of fighters){ if(f.type!=='scaredhamster' || f.dead) continue;
     if(f._hmCD>0) f._hmCD--;
     if(f._hmSwallowT>0) f._hmSwallowT--;
+    if(_hmNearCorner(f) && f.hp<f.maxHp){   // 💚 đứng ở góc: hồi 10 máu mỗi 0.5s
+      f._hmHealT=(f._hmHealT||0)+1;
+      if(f._hmHealT>=Math.round(0.5*_egTps())){ f._hmHealT=0; const _h=Math.min(10,f.maxHp-f.hp); f.hp+=_h; _healFloat(f.x,f.y,f.size,_h,f); }
+    } else f._hmHealT=0;
     if(!_hmNearCorner(f) && !hmShadows.some(s=>s.owner===f)) f._hmArmed=true;   // phải RỜI khỏi góc mới được kích hoạt lần nữa
     if(f._hmArmed!==false && !(f._hmLeanT>0) && !hmShadows.some(s=>s.owner===f) && _hmNearCorner(f)){
       f._hmLeanT=HM_LEAN_T; f._hmCD=HM_CD; f._hmArmed=false;   // mỗi lần nép góc chỉ 1 lượt tay
