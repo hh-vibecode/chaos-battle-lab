@@ -747,7 +747,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     loooongcat: { key:'loooongcat', defaultName:'Loooong Cat',  emoji:'🐱', color:'#eeeeee', hp:1000, speed:5, size:52, skill:'Cơ chế RẮN SĂN MỒI. Vào trận chỉ có mỗi cái đầu ở góc sàn, rồi bò theo từng hàng ngang lấp dần cả sân — thân KHÔNG BAO GIỜ ngắn lại, cứ dài ra mãi. Cả thân là vật cản thật: địch đâm vào bị chặn và ăn 25 dmg mỗi 0.5s. Khoảng trống hẹp dần cho tới khi không còn chỗ nào — lúc đó mọi kẻ địch còn sống bị ÉP TAN ngay lập tức. Không có đòn đánh nào khác, và chỉ ĐẦU mới ăn sát thương.' },
     flyingcat:  { key:'flyingcat',  defaultName:'Flying Cat',   emoji:'🦅', color:'#ffcc80', hp:1000, speed:5, size:43, skill:'Vẫn bay lượn đuổi theo địch và càng dội tường càng nhanh, nhưng giờ có ba bản sao tí hon của chính nó bay vòng quanh như vệ tinh. Quỹ đạo nở dần ra rồi thu lại, càng ra xa quay càng nhanh, vệ tinh nào sượt qua địch là cắt một nhát.' },
     snoozecat:  { key:'snoozecat',  defaultName:'Snooze Cat',   emoji:'😴', color:'#90caf9', hp:1000, speed:5, size:45, skill:'Ngủ 2s mỗi 2s: bắn Zzz (10+10/s ngủ), hồi 20 HP. Drowsy: mỗi 10% máu mất → +5% mọi buff.' },
-    depressedcat:{ key:'depressedcat',defaultName:'Depressed Cat',emoji:'😿',color:'#78909c',hp:1000, speed:5, size:43, skill:'Kêu than 2s mỗi 5s: địch -50% tốc di chuyển & tấn công, nhận 1 Depression. Đủ 5 stack thì...' },
+    depressedcat:{ key:'depressedcat',defaultName:'Depressed Cat',emoji:'😿',color:'#78909c',hp:1000, speed:5, size:43, skill:'Kêu than 3s (nghỉ 1.5s giữa 2 lần): địch -50% tốc di chuyển & tấn công, nhận 1 Depression. Đủ 5 stack: kết liễu Shinra Tensei.' },
     drivercat:  { key:'drivercat',  defaultName:'Driver Cat',   emoji:'🚗', color:'#ff8f00', hp:1000, speed:5, size:45, skill:'Mỗi ~3s đèn giao thông trên đầu chuyển xanh → vàng → đỏ rồi gọi xe từ mép bản đồ lao tới. Đèn đỏ là xe tới, ngẫu nhiên: ô tô (70%, 150 dame + hất văng), xe bus (25%, 250 dame + hất văng) hoặc tàu hoả 1 đầu máy 4 toa (5%, mỗi lần ra ô tô thì lượt sau tàu +5% tới khi có tàu) cuốn phăng địch theo, va mỗi lần 100 dame, còn bị cuốn là còn ăn tiếp.' },
     // ── New warriors ──
     knifecat:   { key:'knifecat',   defaultName:'Knife Cat',     emoji:'🔪', color:'#78909c', hp:1000, speed:5, size:46.2, skill:'Ném dao boomerang cong lượn ra rồi bay vòng về: 30 dame mỗi 0.2s khi còn dính địch. Ném đợt mới sau khi dao bay về tay.' },
@@ -14753,7 +14753,7 @@ class Fighter {
           e5._depressDebuffTimer = 90; // 1.5s debuff duy trì
         }
         if(this.sadLamentTimer === 0){
-          this.sadLamentCD = 120; // 2s CD (giảm 0.5s)
+          this.sadLamentCD = 90; // 1.5s CD (giảm thêm 0.5s) — đếm từ lúc kêu than XONG
           // +1 emotional damage stack lên địch
           const _eStack = this.enemy;
           if(_eStack && !_eStack.dead){
