@@ -748,7 +748,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     loooongcat: { key:'loooongcat', defaultName:'Loooong Cat',  emoji:'🐱', color:'#eeeeee', hp:1000, speed:5, size:52, skill:'Cơ chế RẮN SĂN MỒI. Vào trận chỉ có mỗi cái đầu ở góc sàn, rồi bò theo từng hàng ngang lấp dần cả sân — thân KHÔNG BAO GIỜ ngắn lại, cứ dài ra mãi. Cả thân là vật cản thật: địch đâm vào bị chặn và ăn 25 dmg mỗi 0.5s. Khoảng trống hẹp dần cho tới khi không còn chỗ nào — lúc đó mọi kẻ địch còn sống bị ÉP TAN ngay lập tức. Không có đòn đánh nào khác, và chỉ ĐẦU mới ăn sát thương.' },
     flyingcat:  { key:'flyingcat',  defaultName:'Flying Cat',   emoji:'🦅', color:'#ffcc80', hp:1000, speed:5, size:43, skill:'Vẫn bay lượn đuổi theo địch và càng dội tường càng nhanh, nhưng giờ có ba bản sao tí hon của chính nó bay vòng quanh như vệ tinh. Quỹ đạo nở dần ra rồi thu lại, càng ra xa quay càng nhanh, vệ tinh nào sượt qua địch là cắt một nhát.' },
     snoozecat:  { key:'snoozecat',  defaultName:'Snooze Cat',   emoji:'😴', color:'#90caf9', hp:1000, speed:5, size:45, skill:'Ngủ 2s mỗi 2s: bắn Zzz (10+10/s ngủ), hồi 20 HP. Drowsy: mỗi 10% máu mất → +5% mọi buff.' },
-    depressedcat:{ key:'depressedcat',defaultName:'Depressed Cat',emoji:'😿',color:'#78909c',hp:1000, speed:5, size:43, skill:'Kêu than 3s (nghỉ 1.5s giữa 2 lần): địch -50% tốc di chuyển & tấn công, nhận 1 Depression. Đủ 5 stack: kết liễu Shinra Tensei.' },
+    depressedcat:{ key:'depressedcat',defaultName:'Depressed Cat',emoji:'😿',color:'#78909c',hp:1000, speed:5, size:43, skill:'Kẻ tan nát cõi lòng — giờ cả thế giới phải trả giá. Còn sống trên sân là mọi kẻ địch chậm 20% (tốc chạy + tốc đánh) suốt trận. Kêu than 3s (nghỉ 1.5s): mọi kẻ địch +1 nấc Depression (cục pin dưới chân nó tụt 1 vạch), trời theo nấc: mây đen kéo đến → mưa nhỏ → mưa to + sét → bão. Đủ 5 nấc: dạng Pain, Shinra Tensei xoá sổ cả sân.' },
     drivercat:  { key:'drivercat',  defaultName:'Driver Cat',   emoji:'🚗', color:'#ff8f00', hp:1000, speed:5, size:45, skill:'Mỗi ~3s đèn giao thông trên đầu chuyển xanh → vàng → đỏ rồi gọi xe từ mép bản đồ lao tới. Đèn đỏ là xe tới, ngẫu nhiên: ô tô (70%, 150 dame + hất văng), xe bus (25%, 250 dame + hất văng) hoặc tàu hoả 1 đầu máy 4 toa (5%, mỗi lần ra ô tô thì lượt sau tàu +5% tới khi có tàu) cuốn phăng địch theo, va mỗi lần 100 dame, còn bị cuốn là còn ăn tiếp.' },
     // ── New warriors ──
     knifecat:   { key:'knifecat',   defaultName:'Knife Cat',     emoji:'🔪', color:'#78909c', hp:1000, speed:5, size:46.2, skill:'Ném dao boomerang cong lượn ra rồi bay vòng về: 30 dame mỗi 0.2s khi còn dính địch. Ném đợt mới sau khi dao bay về tay.' },
@@ -1604,7 +1604,7 @@ function _snowSprite(){
   _snowSpriteCv=c; return c;
 }
 // ai đang dính BẤT KỲ kiểu làm chậm nào (dùng chung cho bông tuyết + lớp xanh lam nhẹ trên người)
-function _isSlowedU(u){ return (u._iceSlowTimer||0)>0 || (u._slowTimer||0)>0 || (u._maxwellSlowTimer||0)>0 || (u._droolSlowTimer||0)>0 || (u._cvSlowTimer||0)>0 || (u._depressDebuffTimer||0)>0 || (u._pakistanSlowTimer||0)>0 || (u._sgSlowTimer||0)>0 || (u._mlemStacks||0)>0; }
+function _isSlowedU(u){ return (u._iceSlowTimer||0)>0 || (u._slowTimer||0)>0 || (u._maxwellSlowTimer||0)>0 || (u._droolSlowTimer||0)>0 || (u._cvSlowTimer||0)>0 || (u._pakistanSlowTimer||0)>0 || (u._sgSlowTimer||0)>0 || (u._mlemStacks||0)>0; }
 // 🧊 bản tô xanh lam của avatar (cache 1 lần/ảnh) — phủ RẤT NHẸ lên người lúc bị làm chậm
 function _slowTint(img){
   if(img._slowTint) return img._slowTint;
@@ -7627,7 +7627,7 @@ function _psDrawInkBlock(cv,cx,cy,Hh,t0s,ms){   // quét cọ lộ dần từng 
 }
 // 🌧️ THỜI TIẾT THEO NẤC KÊU THAN CỦA DEPRESSED CAT (nấc = stack trầm cảm cao nhất trên kẻ địch, giữ nguyên tới khi đổi):
 //    nấc 1 → MÂY ĐEN kéo đến phủ phần trên sàn, chớp loé bên trong mây · nấc 2 → mưa nhỏ · nấc 3 → mưa to ·
-//    nấc 4 → mưa rất to + SÉT đánh từ mây xuống sàn kèm tiếng sét. Sàn ướt ánh như mặt hồ, giọt rơi nở gợn sóng. Thuần hình ảnh.
+//    nấc 3 → mưa to + SÉT đánh từ mây xuống sàn (tiếng sét kêu hết mới đánh tia tiếp) · nấc 4 → mưa rất to. Sàn ướt ánh như mặt hồ, giọt rơi nở gợn sóng. Thuần hình ảnh.
 let dpRainK=0, dpRipples=[], dpWx={cloud:0, rain:0, storm:0, nextBolt:0, bolt:null, nextFlash:0, flash:null};
 function _dpWxLevel(){ let lv=0;
   for(const d of fighters){ if(d.type!=='depressedcat' || d.dead) continue;
@@ -7640,13 +7640,13 @@ function _dpRainUnder(){
   const now=performance.now(), dt=Math.min(0.1,(now-(W0.lastT||now))/1000); W0.lastT=now;
   const go=(cur,tg,rate)=>cur+Math.sign(tg-cur)*Math.min(Math.abs(tg-cur),rate*dt);   // tiến CHẬM, đều theo thời gian thật
   const rc=psCine?0.5:0.1;   // mây kéo vào ~0.1/s (mỗi nấc ≈ 1 nhịp kêu than 4–5s); Shinra Tensei nổ thì tan nhanh hơn
-  W0.cloud=go(W0.cloud,[0,0.45,0.65,0.85,1][lv],rc); W0.rain=go(W0.rain,[0,0,0.35,0.7,1][lv],psCine?0.6:0.12); W0.storm=(lv>=4 && W0.cloud>0.9)?1:0;
+  W0.cloud=go(W0.cloud,[0,0.45,0.65,0.85,1][lv],rc); W0.rain=go(W0.rain,[0,0,0.35,0.7,1][lv],psCine?0.6:0.12); W0.storm=(lv>=3 && W0.cloud>0.8)?1:0;   // sét từ nấc 3
   dpRainK=W0.rain;
   if(W0.cloud<0.01 && !dpRipples.length) return;
   const C=_fxCoverRect(1.1);
   if(dpRainK>0.01){ ctx.save(); ctx.fillStyle=`rgba(30,60,110,${0.18*dpRainK})`; ctx.fillRect(C[0],C[1],C[2],C[3]); ctx.restore(); }   // sàn ướt ánh xanh mặt hồ
   if(W0.cloud>0.01){ ctx.save(); ctx.fillStyle=`rgba(10,12,24,${0.18*W0.cloud})`; ctx.fillRect(C[0],C[1],C[2],C[3]); ctx.restore(); }   // trời tối sầm lại
-  for(let k=0;k<6;k++) if(Math.random()<dpRainK*0.9) dpRipples.push({x:C[0]+Math.random()*C[2], y:Math.max(C[1],0)+Math.random()*(C[1]+C[3]-Math.max(C[1],0)), t:0, T:40+Math.random()*25, r:8+Math.random()*14});
+  for(let k=0;k<6;k++) if(Math.random()<dpRainK*0.9) dpRipples.push({x:-W*0.3+Math.random()*W*1.6, y:Math.random()*H*1.3, t:0, T:40+Math.random()*25, r:8+Math.random()*14});
   ctx.save(); ctx.lineWidth=1.2;
   for(let i=dpRipples.length-1;i>=0;i--){ const q=dpRipples[i]; if(++q.t>q.T){ dpRipples.splice(i,1); continue; }
     const u=q.t/q.T, a=(1-u)*0.55;
@@ -7666,16 +7666,16 @@ function _dpRainSound(){   // 🌧️ tiếng mưa: mưa nhỏ → chậm + nh�
 function _dpRainOver(){
   _dpRainSound();
   const W0=dpWx; if(W0.cloud<0.01 && dpRainK<0.01) return;
-  const C=_fxCoverRect(1.1), tm=performance.now()/1000, cloudBot=(C[1]+40)+(-28-(C[1]+40))*Math.min(1,W0.cloud);   // đáy mây trôi xuống dần theo độ phủ, dừng cách mép trên sàn ~28
+  const C=[-W*0.8,-1150,W*2.6,H+1550], tm=performance.now()/1000, cloudBot=-560+(560-28)*Math.min(1,W0.cloud);   // 📌 CỐ ĐỊNH theo sân (không theo camera): đáy mây trôi xuống dần, dừng cách mép trên sàn ~28
   if(dpRainK>0.01){   // 💧 mưa: rơi từ đáy mây xuống — càng nặng hạt càng dày, dài, xiên
-    const N=Math.round(260*dpRainK), L=10+18*dpRainK, sl=0.12+0.2*dpRainK, top=Math.max(C[1],cloudBot-30), hh=C[1]+C[3]-top;
+    const N=Math.round(620*dpRainK), L=10+18*dpRainK, sl=0.12+0.2*dpRainK, top=Math.max(C[1],cloudBot-30), hh=C[1]+C[3]-top;
     ctx.save(); ctx.strokeStyle=`rgba(190,215,250,${0.35+0.3*dpRainK})`; ctx.lineWidth=0.8+0.6*dpRainK; ctx.lineCap='round'; ctx.beginPath();
     for(let i=0;i<N;i++){ const h1=Math.abs((Math.sin(i*127.1)*43758.5)%1), h2=Math.abs((Math.sin(i*311.7)*24634.6)%1), sp=1+h2*0.6;
       const x=C[0]+h1*C[2], y=top+((tm*sp*(1.4+dpRainK)+h2)%1)*hh; ctx.moveTo(x,y); ctx.lineTo(x-L*sl,y+L); }
     ctx.stroke(); ctx.restore(); }
   // ☁️ dải mây đen phủ phần trên sàn đấu, trôi chậm
   if(W0.cloud>0.01 && DP_CLOUD_A.naturalWidth && DP_CLOUD_B.naturalWidth){   // ☁️ MÂY GIÔNG: khối mây đen như khói đặc treo kín phía trên sàn, mép dưới trĩu thành cụm có viền sáng + sương xám bên dưới
-    const bw=C[2]*1.6, ih=bw*DP_CLOUD_A.naturalHeight/DP_CLOUD_A.naturalWidth, cb=cloudBot, top=C[1]-80;
+    const bw=C[2], ih=bw*0.5*DP_CLOUD_A.naturalHeight/DP_CLOUD_A.naturalWidth*2, cb=cloudBot, top=C[1];
     ctx.save(); ctx.globalAlpha=Math.min(1,0.35+W0.cloud);
     const lay=(im,y,spd)=>{ const off=((tm*spd)%bw+bw)%bw; for(let k=-1;k<=1;k++) ctx.drawImage(im, C[0]-off+k*bw, y, bw, ih); };
     const yB=cb-ih*0.42, yA=cb-ih*0.5;   // ảnh mây: mép dưới lồi lõm nằm ~47% chiều cao ảnh → đặt sao cho mép đó trùng đáy mây
@@ -7683,7 +7683,7 @@ function _dpRainOver(){
     lay(DP_CLOUD_B, yB, 7);   // lớp sau (xám hơn) trôi chậm, trĩu thấp hơn chút
     // ⚡ THỈNH THOẢNG chớp loé bên trong mây: cứ 1.5–4s một lần, mỗi lần nháy đúp nhanh (~0.35s) ở chỗ ngẫu nhiên
     { const now=performance.now(); if(!W0.nextFlash) W0.nextFlash=now+800+Math.random()*1500;
-      if(now>=W0.nextFlash){ W0.flash={t0:now, x:C[0]+C[2]*(0.1+Math.random()*0.8)}; W0.nextFlash=now+1500+Math.random()*2500; } }
+      if(now>=W0.nextFlash){ W0.flash={t0:now, x:W*(0.05+Math.random()*0.9)}; W0.nextFlash=now+1500+Math.random()*2500; } }
     const ft=W0.flash?(performance.now()-W0.flash.t0)/1000:9, fk=ft<0.35 ? (ft<0.08?1:ft<0.14?0.35:ft<0.24?0.9:Math.max(0,1-(ft-0.24)/0.11)) : 0;
     if(fk>0.02){ const a=fk, fx=W0.flash.x, fy=cb-60;
       ctx.globalCompositeOperation='lighter'; const lg=ctx.createRadialGradient(fx,fy,0,fx,fy,170); lg.addColorStop(0,`rgba(210,210,255,${0.6*a})`); lg.addColorStop(0.5,`rgba(160,160,255,${0.22*a})`); lg.addColorStop(1,'rgba(150,150,255,0)');
@@ -7691,13 +7691,13 @@ function _dpRainOver(){
     lay(DP_CLOUD_A, yA, 12);   // lớp trước (đen) trôi nhanh hơn
     if(fk>0.02){ ctx.globalAlpha=0.35*fk; ctx.globalCompositeOperation='lighter'; lay(DP_CLOUD_A, yA, 12); ctx.globalCompositeOperation='source-over'; }
     ctx.restore(); }
-  // 🌩️ nấc 4: sét đánh từ mây xuống sàn + tiếng sét
+  // 🌩️ từ nấc 3: sét đánh từ mây xuống sàn + tiếng sét (đánh tia mới khi tiếng sét trước đã kêu hết)
   if(W0.storm>0.5){ const now=performance.now();
     if(!W0.nextBolt) W0.nextBolt=now+600;
-    if(now>=W0.nextBolt){ W0.nextBolt=now+1800+Math.random()*1500;
-      const x0=C[0]+C[2]*(0.15+Math.random()*0.7), x1=x0+(Math.random()-0.5)*80, y1=H*(0.35+Math.random()*0.55), pts=[[x0,cloudBot*0.6]];
-      let x=x0; for(let y=cloudBot*0.6;y<y1;y+=14+Math.random()*16){ x+=(Math.random()-0.5)*26+(x1-x0)*0.08; pts.push([x,y]); } pts.push([x1,y1]);
-      W0.bolt={pts, t0:now}; playSample('holy_thunder',0.55); addShake(3,10); }
+    if(now>=W0.nextBolt){ W0.nextBolt=now+6600+Math.random()*1200;   // tiếng sét (6.5s) kêu HẾT mới đánh tia tiếp
+      const x0=W*(0.1+Math.random()*0.8), x1=x0+(Math.random()-0.5)*80, y1=H*(0.35+Math.random()*0.55), pts=[[x0,cloudBot-10]];
+      let x=x0; for(let y=cloudBot-10;y<y1;y+=14+Math.random()*16){ x+=(Math.random()-0.5)*26+(x1-x0)*0.08; pts.push([x,y]); } pts.push([x1,y1]);
+      W0.bolt={pts, t0:now}; playSample('thunder_big',0.7); addShake(3,10); }
     if(W0.bolt && now-W0.bolt.t0<260){ const u=(now-W0.bolt.t0)/260, a=1-u, P=W0.bolt.pts;
       ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineJoin='round'; ctx.lineCap='round';
       for(const [lw,c] of [[9,`rgba(150,170,255,${0.3*a})`],[3.5,`rgba(200,215,255,${0.75*a})`],[1.5,`rgba(255,255,255,${a})`]]){ ctx.lineWidth=lw; ctx.strokeStyle=c; ctx.beginPath(); P.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.stroke(); }
@@ -10229,7 +10229,7 @@ const CHAR_BLURB = {
   loooongcat: "Plays Snake. Starts as a head in the corner and crawls row by row until the arena is full, then crushes whatever is left alive.",
   flyingcat: "Speeds up off every wall while three tiny copies of itself orbit it, slicing anything they pass.",
   snoozecat: "Alternates between napping and waking, sniping and healing itself through the cycle.",
-  depressedcat: "Repeats its lament to stack a debuff on the enemy; enough stacks trigger a finisher.",
+  depressedcat: "A heartbroken cat, and now the whole world pays: every enemy is slowed while it lives, each lament darkens the sky into a storm, and the fifth one ends in Shinra Tensei.",
   drivercat: "Every red light sends something your way: usually a car, sometimes a bus, and once in a while a whole train that drags you along.",
   knifecat: "Throws a knife that curves through the air and loops back like a boomerang.",
   holycat: "Calls down judgement from the sky on a timer and sometimes strikes back when hit. Kill it once and it comes back as an angel with a giant sky laser that leaves the floor burning white.",
@@ -10318,7 +10318,7 @@ const CHAR_BLURB_SHORT = {
   loooongcat: "Longcat is long. Longer than the arena.",
   flyingcat: "Bounces off walls with three tiny wingmen.",
   snoozecat: "Sleeps through the fight. Wakes up to snipe.",
-  depressedcat: "Its sadness is contagious. Lethally contagious.",
+  depressedcat: "Heartbroken once. Now the whole world pays.",
   drivercat: "Every red light: car, bus, or train.",
   knifecat: "Throws the knife. The knife comes back.",
   holycat: "Kill it once. It returns with a sky laser.",
@@ -14248,10 +14248,10 @@ class Fighter {
     if(this._cgSay && !this._cgSay.perm && --this._cgSay.life<=0) this._cgSay=null; // 😎 Chill Guy: đếm ngược bong bóng thoại (perm=true thì không bao giờ tự tắt)
     if(this._wgAnimT>0) this._wgAnimT--; // 🌬️ The Unknown Guy: đếm ngược 1s chạy hoạt ảnh lúc có sự kiện
     this.reflectFlash=Math.max(0,this.reflectFlash-1);
-    // Depressed Cat debuff: -30% speed & attack/skill speed
+    // Depressed Cat (còn sống trên sân): -20% tốc chạy & tốc đánh cho MỌI kẻ địch, suốt trận
     if((this._depressDebuffTimer||0)>0){
       this._depressDebuffTimer--;
-      this.cooldown=Math.min(9999,(this.cooldown||0)+0.3); // attack 30% slower (net -0.7/f)
+      this.cooldown=Math.min(9999,(this.cooldown||0)+0.2); // tốc đánh chậm 20% (net -0.8/f)
     }
     // ❄️ SLOW chung (mystery box / băng / sao băng Maxwell / đạn Drooling / Catvader Dark Force): chuẩn hoá -25% tốc di chuyển VÀ -25% tốc đánh cho MỌI nguồn slow
     if((this._maxwellSlowTimer||0)>0){
@@ -15472,7 +15472,7 @@ class Fighter {
       }
     }
     if(this._sgSlowTimer>0) this._sgSlowTimer--;
-    const _depressSlow = (this._depressDebuffTimer||0)>0 ? 0.5 : 1.0;
+    const _depressSlow = (this._depressDebuffTimer||0)>0 ? 0.8 : 1.0;
     // ❄️ SLOW chung: chuẩn hoá MỌI nguồn (mystery box/ice/Maxwell/Drooling/Catvader/Pakistan Guy/Smart Guy) còn -25% tốc di chuyển
     const _iceSlow = (this._iceSlowTimer>0) ? 0.75 : 1.0;
     const _mwSlow = ((this._maxwellSlowTimer||0)>0) ? 0.75 : 1.0;
@@ -15567,13 +15567,13 @@ class Fighter {
   // 😿 DEPRESSED CAT — nhịp kêu than: 3s kêu (địch chậm 50% + 1 stack), nghỉ 1.5s. Đủ 5 stack → Shinra Tensei.
   //    Gọi từ update(), VÀ từ loop() lúc Friend tắt đèn đóng băng cả trận (_frSeqTick) → chiêu không bị kéo dài ra vì những lần đứng hình đó.
   _dpLamentTick(){
+    for(const e5 of [...fighters.filter(o=>o.team!==this.team && !o.dead), ..._summonFoes(this.team)]) e5._depressDebuffTimer=Math.max(e5._depressDebuffTimer||0,6);   // 🌧️ cả sân, cả trận: mọi kẻ địch chậm 20%
     if(this._psPending && !frSeq && !psCine){ this._psPending=false; _psStart(this); return; }
       this.sadLamentCD = Math.max(0, this.sadLamentCD - 1);
       if(this.sadLamentTimer > 0){
         this.sadLamentTimer--;
         this.vx *= 0.7; this.vy *= 0.7; // đứng yên khi kêu than
         // apply debuff 30% lên địch mỗi frame (timer 90f = 1.5s, refresh mỗi frame)
-        for(const e5 of [...fighters.filter(o=>o.team!==this.team && !o.dead), ..._summonFoes(this.team)]) e5._depressDebuffTimer = 90;   // 🌧️ mưa phủ TOÀN BỘ kẻ địch trên sàn (cả quân triệu hồi)
         if(this.sadLamentTimer === 0){
           this.sadLamentCD = 90; // 1.5s CD (giảm thêm 0.5s) — đếm từ lúc kêu than XONG
           // +1 emotional damage stack lên địch
@@ -24331,7 +24331,7 @@ function loop(){
       mc.stun=Math.max(0,(mc.stun||0)-1);
       if(mc.hp<=0) continue;
       for(const _t of ['_slowTimer','_iceSlowTimer','_maxwellSlowTimer','_droolSlowTimer','_cvSlowTimer','_pakistanSlowTimer','_sgSlowTimer','_depressDebuffTimer','_ldSawSlowT']) mc[_t]=Math.max(0,(mc[_t]||0)-1);
-      const _slow = ((mc._slowTimer>0)?0.75:1) * ((mc._depressDebuffTimer>0)?0.5:1) * ((mc._iceSlowTimer>0)?0.75:1)
+      const _slow = ((mc._slowTimer>0)?0.75:1) * ((mc._depressDebuffTimer>0)?0.8:1) * ((mc._iceSlowTimer>0)?0.75:1)
         * ((mc._maxwellSlowTimer>0)?0.75:1) * ((mc._droolSlowTimer>0)?0.75:1) * ((mc._cvSlowTimer>0)?0.75:1) * ((mc._ldSawSlowT>0)?LD_SLOW:1)
         * ((mc._pakistanSlowTimer>0)?0.75:1) * ((mc._sgSlowTimer>0)?0.75:1) * _soulSlowMul(mc) * _saSlowMul(mc);
       mc.flash=Math.max(0,mc.flash-1);
@@ -24409,7 +24409,7 @@ function loop(){
       if(cc.hp<=0){ continue; } // vừa chết vì DOT — dọn xác ở đầu vòng lặp lần tới, khỏi vẽ/di chuyển thân đã chết
       // ❄️ SLOW chung — chuẩn hoá y hệt Fighter (mystery box/ice/Maxwell/Drooling/Catvader/Pakistan Guy/Smart Guy)
       for(const _t of ['_slowTimer','_iceSlowTimer','_maxwellSlowTimer','_droolSlowTimer','_cvSlowTimer','_pakistanSlowTimer','_sgSlowTimer','_depressDebuffTimer','_ldSawSlowT']) cc[_t]=Math.max(0,(cc[_t]||0)-1);
-      const _ccSlowMult = ((cc._slowTimer>0)?0.75:1) * ((cc._depressDebuffTimer>0)?0.5:1) * ((cc._iceSlowTimer>0)?0.75:1)
+      const _ccSlowMult = ((cc._slowTimer>0)?0.75:1) * ((cc._depressDebuffTimer>0)?0.8:1) * ((cc._iceSlowTimer>0)?0.75:1)
         * ((cc._maxwellSlowTimer>0)?0.75:1) * ((cc._droolSlowTimer>0)?0.75:1) * ((cc._cvSlowTimer>0)?0.75:1) * ((cc._ldSawSlowT>0)?LD_SLOW:1)
         * ((cc._pakistanSlowTimer>0)?0.75:1) * ((cc._sgSlowTimer>0)?0.75:1) * _soulSlowMul(cc) * _saSlowMul(cc);
       cc.flash=Math.max(0,cc.flash-1); cc._atkCD=Math.max(0,(cc._atkCD||0)-1);
