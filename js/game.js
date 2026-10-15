@@ -11598,9 +11598,9 @@ function _flowerSeqTick(){
 //   càng nhanh càng nhiều tia (tối đa 12). Đổi hình mỗi 2 khung cho lách tách.
 function _spK(f){ const v=Math.hypot(f.vx||0,f.vy||0); return Math.max(0,Math.min(1,(v-5)/14)); }   // (dùng cho dáng chúi người)
 function _spRatio(f){ return (f.topSpeed||0)/(5*MOVE_MULT); }   // tốc độ so với 1 meme thường
-function _spBoltN(f){ const r=_spRatio(f); return r<1.2 ? 0 : Math.min(12, 1+Math.floor((r-1.2)*4)); }
+function _spBoltN(f){ const r=_spRatio(f); return r<1.2 ? 0 : Math.min(6, 1+Math.floor((r-1.2)*3.5)); }   // tối đa 6 tia (nhiều quá rối + lag)
 function _spDrawBolt(P,w,a){
-  for(const [lw,c] of [[w*3.6,`rgba(40,120,255,${0.3*a})`],[w*1.7,`rgba(130,195,255,${0.8*a})`],[w*0.6,`rgba(240,250,255,${a})`]]){
+  for(const [lw,c] of [[w*2.4,`rgba(40,120,255,${0.28*a})`],[w*1.1,`rgba(130,195,255,${0.8*a})`],[w*0.45,`rgba(240,250,255,${a})`]]){   // nét mảnh
     ctx.strokeStyle=c; ctx.lineWidth=lw; ctx.beginPath(); P.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.stroke(); } }
 function _spSpeedFx(f,s){
   const T=f._spTrail||(f._spTrail=[]);
@@ -11609,25 +11609,26 @@ function _spSpeedFx(f,s){
   const k=Math.min(1,0.45+n*0.07);
   if(!f._spBolts || (f._spBoltT=(f._spBoltT||0)+1)%2===0){ f._spBolts=[];
     const v=Math.hypot(f.vx||0,f.vy||0)||1, bx=-(f.vx||0)/v, by=-(f.vy||0)/v;   // hướng ra SAU lưng
-    for(let i=0;i<n;i++){
-      const back=i%3!==2 || n<3;   // phần lớn quất dài về sau dọc đường chạy, số còn lại lách tách quanh thân
-      if(back && T.length>4){
-        const a0=Math.atan2(by,bx)+(Math.random()-0.5)*2.2, r0=s*(0.35+Math.random()*0.35);
-        const P=[[f.x+Math.cos(a0)*r0, f.y+Math.sin(a0)*r0]], len=Math.min(T.length-1, 5+Math.floor(Math.random()*(6+n)));
-        const side=(Math.random()-0.5)*s*1.4;
+    // ⚡ đủ loại tia: NGẮN (lách tách bám thân) / VỪA / DÀI (quất về sau dọc đường chạy) — gốc tia rải khắp trên thân
+    const kinds=['long','short','mid','short','long','mid'];
+    for(let i=0;i<n;i++){ const kd=kinds[i];
+      const a0=Math.random()*Math.PI*2, r0=s*(0.15+Math.random()*0.45), sx=f.x+Math.cos(a0)*r0, sy=f.y+Math.sin(a0)*r0*0.9;
+      if(kd!=='short' && T.length>4){
+        const P=[[sx,sy]], len=Math.min(T.length-1, kd==='long' ? 8+Math.floor(Math.random()*5) : 3+Math.floor(Math.random()*3));
+        const side=sy-f.y+(Math.random()-0.5)*s*0.5;
         for(let j=1;j<=len;j++){ const q=T[T.length-1-j], q2=T[Math.max(0,T.length-2-j)], dx=q[0]-q2[0], dy=q[1]-q2[1], d=Math.hypot(dx,dy)||1, nx=-dy/d, ny=dx/d;
-          const off=side*(1-j/len*0.4)+(Math.random()-0.5)*s*0.9; P.push([q[0]+nx*off, q[1]+ny*off]); }
-        const br=[]; if(P.length>4 && Math.random()<0.7){ const st=P[2+Math.floor(Math.random()*(P.length-3))]; let x=st[0], y=st[1]; const B=[[x,y]]; const ang=Math.random()*Math.PI*2;
-          for(let q=0;q<3;q++){ x+=Math.cos(ang)*s*0.35+(Math.random()-0.5)*s*0.3; y+=Math.sin(ang)*s*0.35+(Math.random()-0.5)*s*0.3; B.push([x,y]); } br.push(B); }
-        f._spBolts.push({P,br,w:1+Math.random()*0.8});
-      } else {
-        const a=Math.random()*Math.PI*2, r0=s*0.5, r1=s*(0.95+Math.random()*0.5), P=[[f.x+Math.cos(a)*r0,f.y+Math.sin(a)*r0]];
-        for(let q=1;q<=3;q++){ const aa=a+q*0.25, rr=r0+(r1-r0)*q/3; P.push([f.x+Math.cos(aa)*rr+(Math.random()-0.5)*s*0.2, f.y+Math.sin(aa)*rr+(Math.random()-0.5)*s*0.2]); }
-        f._spBolts.push({P,br:[],w:0.8}); } } }
+          const off=side*(1-j/len*0.5)+(Math.random()-0.5)*s*0.55; P.push([q[0]+(sx-f.x)*0.5+nx*off*0.6, q[1]+ny*off*0.6]); }
+        const br=[]; if(kd==='long' && P.length>4 && Math.random()<0.6){ const st=P[2+Math.floor(Math.random()*(P.length-3))]; let x=st[0], y=st[1]; const B=[[x,y]]; const ang=Math.random()*Math.PI*2;
+          for(let q=0;q<2;q++){ x+=Math.cos(ang)*s*0.28+(Math.random()-0.5)*s*0.2; y+=Math.sin(ang)*s*0.28+(Math.random()-0.5)*s*0.2; B.push([x,y]); } br.push(B); }
+        f._spBolts.push({P,br,w:kd==='long'?0.9:0.7});
+      } else {   // tia ngắn lách tách sát thân
+        const a=Math.random()*Math.PI*2, P=[[sx,sy]]; let x=sx, y=sy;
+        for(let q=1;q<=3;q++){ x+=Math.cos(a+q*0.5)*s*0.18+(Math.random()-0.5)*s*0.15; y+=Math.sin(a+q*0.5)*s*0.18+(Math.random()-0.5)*s*0.15; P.push([x,y]); }
+        f._spBolts.push({P,br:[],w:0.6}); } } }
   ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round'; ctx.lineJoin='round';
   const hg=ctx.createRadialGradient(f.x,f.y,s*0.4,f.x,f.y,s*1.35); hg.addColorStop(0,'rgba(120,190,255,0)'); hg.addColorStop(0.7,`rgba(90,160,255,${0.16*k})`); hg.addColorStop(1,'rgba(60,120,255,0)');
   ctx.fillStyle=hg; ctx.beginPath(); ctx.arc(f.x,f.y,s*1.35,0,Math.PI*2); ctx.fill();
-  for(const b of f._spBolts){ _spDrawBolt(b.P,b.w*1.3,k); for(const B of b.br) _spDrawBolt(B,b.w*0.8,k*0.8); }
+  for(const b of f._spBolts){ _spDrawBolt(b.P,b.w,k); for(const B of b.br) _spDrawBolt(B,b.w*0.7,k*0.8); }
   ctx.restore();
 }
 // ═══════════════════ 🌸 FLOWER CAT — KHAI SÁNG VŨ TRỤ (chỉ phần vẽ, thời gian/dame giữ nguyên) ═══════════════════
