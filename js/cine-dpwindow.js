@@ -232,7 +232,7 @@
   const WT=[0,0.3,0.6,0.9,1.25].map(d=>T.l1+d);   // 5 chữ hiện lần lượt
   function ink(t){
     try{ _psDrawWords(g, VW/2, VH-315, 200, WT.map(x=>x*1000), t*1000); }catch(e){}
-    WT.forEach((w,i)=>{ if(t>=w) sfx('w'+i,'vine_boom',0.32); });   // 💥 mỗi chữ 1 tiếng vine boom nhỏ
+    WT.forEach((w,i)=>{ if(t>=w && !played['w'+i]){ played['w'+i]=1; if(!markOnly) try{ playPrioritySample('vine_boom',1.3,1,0.35); }catch(e){} } });   // 💥 mỗi chữ 1 tiếng vine boom TO, át hết tiếng khác
   }
   // 🎥 máy quay: đi theo nó dọc phố → toàn cảnh nhà → ngước lên cửa sổ tầng 2 → cận mặt lúc khóc → lùi ra toàn cảnh (trời phía sau)
   function cam(t){

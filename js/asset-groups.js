@@ -367,6 +367,7 @@ window.ASSET_GROUP={
 "assets/audio/hm_stalker.mp3": "scaredhamster",
 "assets/img/depressedcat/DEPRESSED_CRY_IMG.webp": "depressedcat",
 "assets/audio/ps_shinra.mp3": "depressedcat",
+"assets/img/depressedcat/DP_PAIN_IMG.webp": "depressedcat",
 "assets/audio/thunder_big.mp3": "critical",
 "assets/audio/sa_phase1.mp3": "supremearbiter",
 "assets/audio/hm_crawl.mp3": "scaredhamster",
