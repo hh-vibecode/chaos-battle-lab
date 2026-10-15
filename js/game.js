@@ -21923,7 +21923,7 @@ function openCinema(){
   const ov=document.createElement('div'); ov.id='cinemaGallery';
   ov.style.cssText='position:fixed;inset:0;z-index:9000;background:radial-gradient(ellipse at top,#2a1b3d,#0b0712 70%);overflow:auto;padding:28px 16px 40px;font-family:system-ui,Arial,sans-serif;color:#fff;';
   const items=[{id:'__endgame', ic:'🦸', name:'Memes Assemble', desc:"Stalin's last stand against Evil Gary — Avengers: Endgame style", dur:37},
-               {id:'__war', ic:'⚔️', name:'Memes Assemble II', desc:"The War of Evil Gary — the final battle, the musical seal… and something in the dark", dur:97},
+               {id:'__war', ic:'⚔️', name:'Memes Assemble II', desc:"The War of Evil Gary — the last battle… and something in the dark", dur:70},
                {id:'__dpwindow', ic:'🪟', name:'Depressed Cat Comes Home', desc:"He looks up at the window… This world shall know pain.", dur:14}]
     .concat(SC_PRESETS.map(P=>({id:P.id, ic:P.ic, name:(CINEMA_EN[P.id]||[P.name])[0], desc:(CINEMA_EN[P.id]||[0,P.desc])[1], dur:Math.round(P.dur/SC_FPS)})));
   ov.innerHTML=`<div style="max-width:980px;margin:0 auto"><div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
