@@ -36,7 +36,7 @@
     return im[key]={src:s,sx:0,sy:0,sw:c.sw,sh:c.sh}; };
   function actor(c,x,y,h,o){ o=o||{}; if(!c) return; const w=h*c.sw/c.sh;
     g.save(); g.globalAlpha*=(o.a==null?1:o.a); g.translate(x,y); if(o.rot) g.rotate(o.rot); g.scale((o.flip?-1:1)*(o.sx||1),o.sy||1);
-    g.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,-w/2,-h,w,h); g.restore(); }
+    g.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,-w/2,-h,w,h); if(o.after) o.after(w,h); g.restore(); }
   function glow(x,y,r,a,c){ if(a<=0.01||r<=0) return; const gr=g.createRadialGradient(x,y,0,x,y,r); gr.addColorStop(0,`rgba(${c},${a})`); gr.addColorStop(0.5,`rgba(${c},${a*0.4})`); gr.addColorStop(1,`rgba(${c},0)`);
     g.fillStyle=gr; g.beginPath(); g.arc(x,y,r,0,Math.PI*2); g.fill(); }
 
@@ -188,6 +188,20 @@
     g.save(); g.globalAlpha=0.28; g.fillStyle='#000'; g.beginPath(); g.ellipse(MQX2,GROUND+3,22,4,0,0,Math.PI*2); g.fill(); g.restore();
     actor(prep(fr), MQX2, fy, 82, {flip:false, rot:Math.sin(t*3)*0.05});   // nhỏ còn 1/2, bay lơ lửng
   }
+  // 🩹 phố mưa: trông như vừa bị ăn đòn — mắt phải (của nó) hơi sưng tím + miếng gạc dán băng chéo trên trán (vẽ nhẹ, theo khung ảnh mèo)
+  function hurt(w,h){
+    const P=(fx,fy)=>[-w/2+fx*w, -h+fy*h], [ex,ey]=P(0.323,0.398), r=w*0.085;
+    g.save(); g.globalCompositeOperation='multiply';
+    const gr=g.createRadialGradient(ex,ey+r*0.15,r*0.2,ex,ey+r*0.15,r*1.25); gr.addColorStop(0,'rgba(120,60,150,0.55)'); gr.addColorStop(0.6,'rgba(110,55,140,0.32)'); gr.addColorStop(1,'rgba(110,55,140,0)');
+    g.fillStyle=gr; g.beginPath(); g.ellipse(ex,ey+r*0.15,r*1.3,r*1.1,0.25,0,Math.PI*2); g.fill(); g.restore();
+    g.save(); g.globalAlpha=0.16; g.fillStyle='#fff'; g.beginPath(); g.ellipse(ex-r*0.15,ey-r*0.62,r*0.6,r*0.18,0.3,0,Math.PI*2); g.fill(); g.restore();   // mí trên căng bóng — sưng nhẹ
+    const [bx,by]=P(0.64,0.2), s=w*0.13;
+    g.save(); g.translate(bx,by); g.rotate(0.35);
+    g.fillStyle='rgba(0,0,0,0.18)'; g.fillRect(-s*0.5+1.5,-s*0.42+2,s,s*0.84);
+    g.fillStyle='#f4f1ea'; g.fillRect(-s*0.5,-s*0.42,s,s*0.84);   // miếng gạc trắng
+    g.strokeStyle='rgba(150,140,125,0.35)'; g.lineWidth=0.8; for(let k=-0.3;k<=0.31;k+=0.15){ g.beginPath(); g.moveTo(-s*0.5,s*k); g.lineTo(s*0.5,s*k); g.stroke(); }
+    g.fillStyle='rgba(225,205,175,0.95)'; for(const a of [0.6,-0.6]){ g.save(); g.rotate(a); g.fillRect(-s*0.85,-s*0.11,s*1.7,s*0.22); g.restore(); }   // 2 dải băng dính chéo
+    g.restore(); }
   function drawCat(t){
     const s=catState(t), H=180, bob=s.walk?Math.abs(Math.sin(t*7))*5:0;
     g.save(); g.globalAlpha=0.4; g.fillStyle='#000'; g.beginPath(); g.ellipse(s.x,GROUND+4,48,9,0,0,Math.PI*2); g.fill(); g.restore();
@@ -201,7 +215,7 @@
     if(cry){ const I=DEPRESSED_CRY_IMG, fw=I.naturalWidth/I._cols, fh=I.naturalHeight/I._rows, k=Math.min(I._frames-1, Math.floor((t-T.cry)/(T.cryEnd-T.cry)*I._frames));
       const h=H*1.05, w=h*fw/fh; g.save(); g.translate(s.x,GROUND+2); g.scale(s.flip?-1:1,1);
       g.drawImage(I,(k%I._cols)*fw,Math.floor(k/I._cols)*fh,fw,fh,-w/2,-h,w,h); g.restore(); }
-    else actor(prep(IMG.dp), s.x, GROUND+2-bob, H, {flip:s.flip, rot:s.walk?Math.sin(t*7)*0.03:0});
+    else actor(prep(IMG.dp), s.x, GROUND+2-bob, H, {flip:s.flip, rot:s.walk?Math.sin(t*7)*0.03:0, after:s.street?hurt:null});
     if(t<T.throw){ const dir=s.flip?1:-1; bouquet(s.x+dir*48, GROUND-34-bob+(cry?6:0), 1.0, dir, 0.55); }   // tay ôm bó hoa — chìa chéo ra phía trước, không che mặt
   }
   // 👁️ mắt Rinnegan khổng lồ trên nền trời (toạ độ màn hình)
