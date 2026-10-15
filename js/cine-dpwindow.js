@@ -180,7 +180,7 @@
     g.fillStyle='#6bbf59'; for(const [bx,by,ba] of [[-16,-8,0.3],[6,-7,-0.25]]){ g.save(); g.translate(bx,by); g.rotate(ba); g.fillRect(-9,-4,18,8); g.fillStyle='#4f9c42'; g.fillRect(-3,-2,6,4); g.fillStyle='#6bbf59'; g.restore(); }   // tiền giấy
     for(const [cx,cy] of [[-26,-6],[-4,-4],[18,-6],[26,-3],[-30,-3],[10,-3]]){ g.fillStyle='#f4c542'; g.beginPath(); g.ellipse(cx,cy,4,2.6,0,0,Math.PI*2); g.fill(); g.fillStyle='#c9952a'; g.fillRect(cx-1.5,cy-0.6,3,1.2); }   // xu
     g.restore(); }
-  const ST_X0=-80, ST_X1=-720, MQX2=-395;   // phố mưa: nó đi từ ST_X0 → ST_X1, ngang qua muỗi ở MQX2 khoảng giây thứ 2.5
+  const ST_X0=-80, ST_X1=-600, MQX2=-340;   // phố mưa: nó đi từ ST_X0 → ST_X1, ngang qua muỗi ở MQX2 khoảng giây thứ 2.5
   function drawMosquito(t){
     if(t<T.cut) return;
     violinCase(MQX2,GROUND-2);   // 💰 hộp đàn để riêng trên vỉa hè, muỗi lơ lửng PHÍA TRÊN — không che mất hộp
@@ -289,7 +289,8 @@
       [T.win+0.45,WIN.x+WIN.w/2,WIN.y+WIN.h/2+10,2.5],[T.winEnd,WIN.x+WIN.w/2,WIN.y+WIN.h/2+10,2.7],
       [T.cry+0.25,175,GROUND-95,2.1],[T.cryEnd,175,GROUND-95,2.2],[T.throw+0.35,240,GROUND-140,1.55],[T.cut,170,GROUND-140,1.55]];
     if(t>=T.cut){ const s=catState(t), e=eio(seg(t,T.freeze-1.2,T.freeze));   // 🌧️ phố mưa: máy quay đi theo nó, cuối cảnh lùi ra cho thấy bầu trời
-      return [s.x-40, lerp(GROUND-175,GROUND-300,e), lerp(1.5,1.12,e)]; }
+      const z=lerp(1.5,1.12,e), hw=VW/2/z+6;   // không cho khung hình vượt mép trái nền vẽ sẵn (lòi vùng trống)
+      return [clamp(s.x-40,BX0+hw,BX1-hw), lerp(GROUND-175,GROUND-300,e), z]; }
     if(t>=K[K.length-1][0]) return K[K.length-1].slice(1);   // (giữ khung cuối tới lúc chuyển cảnh)
     for(let i=1;i<K.length;i++) if(t<K[i][0]){ const a=K[i-1], b=K[i], u=eio(seg(t,a[0],b[0])); return [lerp(a[1],b[1],u),lerp(a[2],b[2],u),lerp(a[3],b[3],u)]; }
     return K[0].slice(1);
