@@ -190,17 +190,27 @@
   }
   // 🩹 phố mưa: trông như vừa bị ăn đòn — mắt phải (của nó) hơi sưng tím + miếng gạc dán băng chéo trên trán (vẽ nhẹ, theo khung ảnh mèo)
   function hurt(w,h){
-    const P=(fx,fy)=>[-w/2+fx*w, -h+fy*h], [ex,ey]=P(0.323,0.398), r=w*0.085;
+    const P=(fx,fy)=>[-w/2+fx*w, -h+fy*h], [ex,ey]=P(0.323,0.405), r=w*0.09;
+    const blob=(x,y,rx,ry,rot,stops)=>{ const gr=g.createRadialGradient(x,y,0,x,y,Math.max(rx,ry)); for(const [k,c] of stops) gr.addColorStop(k,c);
+      g.save(); g.translate(x,y); g.rotate(rot); g.scale(rx/Math.max(rx,ry),ry/Math.max(rx,ry)); g.translate(-x,-y); g.fillStyle=gr; g.beginPath(); g.arc(x,y,Math.max(rx,ry),0,Math.PI*2); g.fill(); g.restore(); };
     g.save(); g.globalCompositeOperation='multiply';
-    const gr=g.createRadialGradient(ex,ey+r*0.15,r*0.2,ex,ey+r*0.15,r*1.25); gr.addColorStop(0,'rgba(120,60,150,0.55)'); gr.addColorStop(0.6,'rgba(110,55,140,0.32)'); gr.addColorStop(1,'rgba(110,55,140,0)');
-    g.fillStyle=gr; g.beginPath(); g.ellipse(ex,ey+r*0.15,r*1.3,r*1.1,0.25,0,Math.PI*2); g.fill(); g.restore();
-    g.save(); g.globalAlpha=0.16; g.fillStyle='#fff'; g.beginPath(); g.ellipse(ex-r*0.15,ey-r*0.62,r*0.6,r*0.18,0.3,0,Math.PI*2); g.fill(); g.restore();   // mí trên căng bóng — sưng nhẹ
-    const [bx,by]=P(0.64,0.2), s=w*0.13;
-    g.save(); g.translate(bx,by); g.rotate(0.35);
-    g.fillStyle='rgba(0,0,0,0.18)'; g.fillRect(-s*0.5+1.5,-s*0.42+2,s,s*0.84);
-    g.fillStyle='#f4f1ea'; g.fillRect(-s*0.5,-s*0.42,s,s*0.84);   // miếng gạc trắng
-    g.strokeStyle='rgba(150,140,125,0.35)'; g.lineWidth=0.8; for(let k=-0.3;k<=0.31;k+=0.15){ g.beginPath(); g.moveTo(-s*0.5,s*k); g.lineTo(s*0.5,s*k); g.stroke(); }
-    g.fillStyle='rgba(225,205,175,0.95)'; for(const a of [0.6,-0.6]){ g.save(); g.rotate(a); g.fillRect(-s*0.85,-s*0.11,s*1.7,s*0.22); g.restore(); }   // 2 dải băng dính chéo
+    blob(ex+r*0.1,ey+r*0.35,r*2.1,r*1.6,0.3,[[0,'rgba(190,50,70,0.8)'],[0.55,'rgba(205,80,95,0.5)'],[1,'rgba(220,110,110,0)']]);   // quầng đỏ bầm lan ra má
+    blob(ex,ey+r*0.15,r*1.45,r*1.2,0.2,[[0,'rgba(110,60,130,0.2)'],[0.4,'rgba(70,20,90,0.7)'],[0.75,'rgba(110,40,120,0.45)'],[1,'rgba(120,50,130,0)']]);   // hốc mắt tím đen
+    g.strokeStyle='rgba(170,25,35,0.7)'; g.lineCap='round';
+    for(let k=0;k<5;k++){ const sx=ex-r*1.55+k*r*0.16, sy=ey+r*0.55+k*r*0.12; g.lineWidth=r*(0.07+0.03*(k%2)); g.beginPath(); g.moveTo(sx,sy); g.lineTo(sx+r*0.55,sy+r*0.5); g.stroke(); }   // vết trầy xước
+    g.restore();
+    blob(ex-r*0.1,ey-r*0.68,r*0.8,r*0.28,0.25,[[0,'rgba(255,220,235,0.22)'],[1,'rgba(255,220,235,0)']]);   // mí sưng phồng căng bóng
+    blob(ex+r*0.05,ey+r*0.78,r*0.75,r*0.26,0.2,[[0,'rgba(255,220,235,0.16)'],[1,'rgba(255,220,235,0)']]);
+    g.save(); g.strokeStyle='rgba(50,10,40,0.45)'; g.lineWidth=r*0.08; g.beginPath(); g.ellipse(ex+r*0.05,ey+r*0.5,r*0.75,r*0.35,0.2,0.15*Math.PI,0.85*Math.PI); g.stroke(); g.restore();   // nếp sưng dưới mắt
+    // 🩹 băng cá nhân dán dọc má bên kia (cạnh mắt trái của nó)
+    const [bx,by]=P(0.77,0.5), bl=w*0.24, bw=w*0.085;
+    g.save(); g.translate(bx,by); g.rotate(0.28);
+    const pill=(x,y,ww,hh,rr)=>{ g.beginPath(); g.moveTo(x+rr,y); g.lineTo(x+ww-rr,y); g.arcTo(x+ww,y,x+ww,y+rr,rr); g.lineTo(x+ww,y+hh-rr); g.arcTo(x+ww,y+hh,x+ww-rr,y+hh,rr); g.lineTo(x+rr,y+hh); g.arcTo(x,y+hh,x,y+hh-rr,rr); g.lineTo(x,y+rr); g.arcTo(x,y,x+rr,y,rr); g.closePath(); };
+    g.fillStyle='rgba(0,0,0,0.2)'; pill(-bw/2+1.2,-bl/2+1.8,bw,bl,bw/2); g.fill();
+    g.fillStyle='#e8c4a0'; pill(-bw/2,-bl/2,bw,bl,bw/2); g.fill();
+    g.strokeStyle='rgba(120,80,50,0.55)'; g.lineWidth=0.9; g.stroke();
+    g.fillStyle='#f6e6d2'; g.fillRect(-bw*0.36,-bl*0.17,bw*0.72,bl*0.34); g.strokeRect(-bw*0.36,-bl*0.17,bw*0.72,bl*0.34);   // miếng gạc giữa
+    g.fillStyle='rgba(120,80,50,0.45)'; for(const yy of [-0.36,-0.28,0.28,0.36]) for(const xx of [-0.18,0.18]){ g.beginPath(); g.arc(bw*xx,bl*yy,0.8,0,Math.PI*2); g.fill(); }   // lỗ thoáng
     g.restore(); }
   function drawCat(t){
     const s=catState(t), H=180, bob=s.walk?Math.abs(Math.sin(t*7))*5:0;
