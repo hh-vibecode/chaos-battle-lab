@@ -7571,7 +7571,7 @@ function _mwTravelStart(){ _mwTravelStop(); const a=AUDIO_SAMPLES['mw_gojo_trave
     c.play().catch(()=>{}); _mwTravelSfx=c; }catch(e){} }
 // ==================== 😿 DEPRESSED CAT — KẾT LIỄU "SHINRA TENSEI" (kiểu Pain, Naruto Shippuden tập 162) ====================
 // Đủ 5 stack Depression → cảnh ~7s (bằng Hollow Purple), cả trận đứng hình:
-//  ① Depressed Cat bay lên, trôi về GIỮA SÀN, màn tối dần · ② cận mặt: thân hoá BÓNG ĐEN, đôi mắt RINNEGAN tím sáng, chữ mực
+//  ① Depressed Cat ĐỨNG YÊN tại chỗ, màn tối dần (tâm chấn = chỗ nó đứng) · ② cận mặt: thân hoá BÓNG ĐEN, đôi mắt RINNEGAN tím sáng, chữ mực
 //  "This world / shall know / pain." · ③ kéo ra toàn cảnh, hào quang TRẮNG bừng sau lưng bóng đen, "Shinra Tensei" ·
 //  ④ chớp trắng loá + quả cầu lực đẩy nở ra từ tâm: sàn, viền, chữ tên vỡ thành từng tảng văng ngổn ngang, địch bị ép nát vụn ·
 //  ⑤ bụi lắng xuống: giữa sàn là HỐ SÂU (tâm chấn đổ nát, mép đất lởm chởm toả tia), chỉ còn Depressed Cat ở tâm hố.
@@ -7598,7 +7598,7 @@ const DP_EYES=[[0.323,0.389],[0.607,0.456]];   // 2 mắt trên ảnh đại di�
 let psCine=null, psWipe=null, psShards=[], psDust=[], psCrater=null;
 function _psStart(f){
   if(psCine) return;
-  psCine={f, t0:performance.now(), x0:f.x, y0:f.y, cx:W/2, cy:H/2, R:0, hitSet:new Set(), sil:0};
+  psCine={f, t0:performance.now(), x0:f.x, y0:f.y, cx:f.x, cy:f.y, R:0, hitSet:new Set(), sil:0};   // tâm chấn = đúng chỗ nó đang đứng
   battleFreezeTimer=Math.max(battleFreezeTimer,3);
   playSample('ultimate_charge_2',1.0);
 }
@@ -7624,14 +7624,14 @@ function _psDrawInkBlock(cv,cx,cy,Hh,t0s,ms){   // quét cọ lộ dần từng 
     ctx.drawImage(cv, sx, i*cv._rowH, sw, cv._rowH, cx-Wd/2+sx*k, cy-Hh/2+i*cv._rowH*k, sw*k, cv._rowH*k); }
 }
 function _psFillScreen(col){ ctx.save(); ctx.setTransform(1,0,0,1,0,0); ctx.fillStyle=col; ctx.fillRect(0,0,ctx.canvas.width,ctx.canvas.height); ctx.restore(); }   // phủ CẢ màn (không theo khung thế giới → không lộ cạnh vuông lúc camera đang zoom)
-function _psMaxR(){ const C=_fxCoverRect(1.15); let m=0; for(const [x,y] of [[C[0],C[1]],[C[0]+C[2],C[1]],[C[0],C[1]+C[3]],[C[0]+C[2],C[1]+C[3]]]) m=Math.max(m,Math.hypot(x-W/2,y-H/2)); return m; }
+function _psMaxR(cx,cy){ const C=_fxCoverRect(1.15); let m=0; for(const [x,y] of [[C[0],C[1]],[C[0]+C[2],C[1]],[C[0],C[1]+C[3]],[C[0]+C[2],C[1]+C[3]]]) m=Math.max(m,Math.hypot(x-cx,y-cy)); return m; }
 const _psSS=t=>t<=0?0:t>=1?1:t*t*(3-2*t);
 // 🎥 camera: bay lên → cận mặt → kéo ra toàn cảnh
 function _psCam(){
   const q=psCine, ms=performance.now()-q.t0, f=q.f;
   if(ms<PS_T.pull){ const E=_psEyesW(f), ex=E?(E[0][0]+E[1][0])/2:f.x, ey=E?(E[0][1]+E[1][1])/2:f.y-f.size*0.2, z=ms<PS_T.eye?1.6:3.4;
     return {x:ex, y:ey, z, k:ms<PS_T.eye?0.06:0.09}; }
-  return {x:W/2, y:H/2, z:1, k:0.07};
+  return {x:W/2, y:H/2, z:0.9, k:0.07};   // kéo ra toàn cảnh, lùi thêm chút cho thấy trọn bụi + hố
 }
 function _psEyesW(f){ const L=f && f._lastSprite; if(!L || !L.dw) return null; const fl=(L.fl||L.flip)?-1:1;
   return DP_EYES.map(([u,v])=>[f.x+fl*(u-0.5)*L.dw, f.y+(v-0.5)*L.dh]); }
@@ -7640,13 +7640,13 @@ function _psTick(){
   const now=performance.now(), ms=now-q.t0, f=q.f;
   if(!f || f.dead){ psCine=null; battleFreezeTimer=0; return; }
   battleFreezeTimer=Math.max(battleFreezeTimer,3);
-  { const u=_psSS(ms/PS_T.rise); f.x=q.x0+(q.cx-q.x0)*u; f.y=q.y0+(q.cy-q.y0)*u; f.vx=0; f.vy=0; }   // 🕊️ bay về tâm sàn
+  f.x=q.x0; f.y=q.y0; f.vx=0; f.vy=0;   // 🧍 đứng yên tại chỗ tung chiêu
   q.sil = ms<PS_T.eye ? _psSS((ms-400)/800) : ms<PS_T.settle ? 1 : 1-_psSS((ms-PS_T.settle)/900);   // độ "bóng đen"
   q.wd=q.wd||0; while(q.wd<PS_WT.length && ms>=PS_WT[q.wd]){ q.wd++; playSample('vine_boom',0.32); }   // 💥 mỗi chữ hiện 1 tiếng vine boom nhỏ (tiếng bom imposter đen)
   if(!q.sndV && ms>=PS_T.voice){ q.sndV=true; playPrioritySample('ps_shinra',1.15,1,4.2); }   // 🗣️ "Shinra Tensei!" → tiếng nổ tự vang đúng lúc sóng bung (voice + 1.95s)
   if(!q.sndSt && ms>=PS_T.st){ q.sndSt=true; addShake(3,20); }
   if(ms>=PS_T.blast){
-    if(!q.blast){ q.blast=true; q.maxR=_psMaxR(); psWipe={cx:q.cx, cy:q.cy, R:0};
+    if(!q.blast){ q.blast=true; q.maxR=_psMaxR(q.cx,q.cy); psWipe={cx:q.cx, cy:q.cy, R:0};
       addShake(5,80);   // (tiếng nổ nằm sẵn trong ps_shinra)
     }
     const u=Math.min(1,(ms-PS_T.blast)/PS_T.waveDur), e=1-Math.pow(1-u,1.7);   // bụi tuôn ra đều dần (không bung 1 phát)
