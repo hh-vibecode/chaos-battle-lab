@@ -3756,7 +3756,6 @@ function _fighterDeathFx(f){
 // Solo 1vs1: cảnh thắng của bên kia xong → camera zoom vào đống mảnh, cổng đen xoáy mở cạnh đó, cánh tay bóng tối (bộ tay của
 // Scared Hamster) bò ra chụp lấy, kéo hết mảnh vào cổng rồi cổng đóng lại.
 let frRem=null;
-const FR_PORTAL_R=1.5, FR_PORTAL_SX=0.6, FR_PORTAL_SY=0.95;   // cổng hắc ám: to hơn 20% (1.25→1.5) + DỰNG ĐỨNG (bầu dục cao thay vì nằm bẹp trên sàn)
 const FR_REC={open:600, reach:1500, gather:2300, grab:2550, pull:3700, close0:3850, end:4600};   // ms: mở cổng → 2 tay bò ra 2 bên đống mảnh → GOM vào giữa → tóm → kéo về cổng → đóng
 function _frShatter(f,L,bx,by,pow){   // bx,by,pow: (tuỳ chọn) tâm vụ nổ đẩy mảnh văng ra xa (Shinra Tensei)
   const S2=2, dw=L.dw, dh=L.dh, c=document.createElement('canvas'); c.width=Math.max(4,Math.round(dw*S2)); c.height=Math.max(4,Math.round(dh*S2));
@@ -3817,15 +3816,8 @@ function _frRecHand(ms,j){
 function _frRemDraw(){
   const R=frRem; if(!R || R.done) return;
   const ms=R.rec?performance.now()-R.rec.t0:-1;
-  // 🌀 cổng hắc ám (dưới mảnh)
-  if(R.rec){ const P=R.rec.P, open=Math.min(1,ms/FR_REC.open)*(ms<FR_REC.close0?1:Math.max(0,1-(ms-FR_REC.close0)/(FR_REC.end-FR_REC.close0-200))), Rr=R.size*FR_PORTAL_R*(open<1?open*open*(3-2*open):1);
-    if(Rr>0.5){ const tm=ms/1000;
-      ctx.save(); ctx.translate(P.x,P.y); ctx.scale(FR_PORTAL_SX,FR_PORTAL_SY);   // cổng DỰNG ĐỨNG (bầu dục cao)
-      let g=ctx.createRadialGradient(0,0,0,0,0,Rr*1.6); g.addColorStop(0,'rgba(120,40,200,0.35)'); g.addColorStop(1,'rgba(60,0,120,0)'); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(0,0,Rr*1.6,0,Math.PI*2); ctx.fill();   // quầng tím
-      g=ctx.createRadialGradient(0,0,0,0,0,Rr); g.addColorStop(0,'#000'); g.addColorStop(0.7,'#07010d'); g.addColorStop(1,'rgba(40,0,70,0.9)'); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(0,0,Rr,0,Math.PI*2); ctx.fill();
-      ctx.lineCap='round'; for(let k=0;k<6;k++){ const st=tm*(2.2+k*0.3)+k*1.05, rr=Rr*(0.35+k*0.11); ctx.strokeStyle=`rgba(${150+k*12},${60+k*8},255,${0.55-k*0.06})`; ctx.lineWidth=Math.max(1,Rr*0.05); ctx.beginPath(); ctx.arc(0,0,rr,st,st+2.2); ctx.stroke(); }   // xoáy
-      ctx.strokeStyle='rgba(200,140,255,0.8)'; ctx.lineWidth=Math.max(1.2,Rr*0.06); ctx.beginPath(); ctx.arc(0,0,Rr,0,Math.PI*2); ctx.stroke();
-      ctx.restore(); } }
+  // 🌑 dải bóng tối đặc (dưới mảnh): vươn từ ngoài mép sàn tới sát đống mảnh, cuối cảnh rút về
+  if(R.rec) _frDarkDraw(R,ms);
   const _drawPieces=()=>{
   for(const p of R.pieces){ if(p.s<=0.06) continue; const S2=R.S2;
     ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.scale(p.s/S2,p.s/S2);
@@ -3837,7 +3829,7 @@ function _frRemDraw(){
   if(!(R.rec && ms>=FR_REC.grab)) _drawPieces();   // 🧩 mảnh vỡ nằm trên sàn (lúc bị 2 tay kẹp thì vẽ đè lên tay cho thấy rõ)
   // 🖐️ 2 cánh tay bóng tối (tay phải lật gương) — gốc tay chìm trong lòng cổng
   if(R.rec && ms>=FR_REC.open && ms<FR_REC.pull+50){ const P=R.rec.P, k=0.495*(R.size/40)*0.85*0.8; let drawn=false;   // tay nhỏ lại 20%
-    const HH=[_frRecHand(ms,0),_frRecHand(ms,1)], bw=R.size*FR_PORTAL_R*FR_PORTAL_SX*0.35;
+    const HH=[_frRecHand(ms,0),_frRecHand(ms,1)], bw=R.size*0.3;
     for(let j=0;j<2;j++){ const H=HH[j], O=HH[1-j], m=HM_HAND_META[H.pose]; if(!m || H.a<=0.02) continue;
       const base={x:P.x+R.rec.v.x*bw*(j?-1:1), y:P.y+R.rec.v.y*bw*(j?-1:1)}, ang=Math.atan2(H.y-base.y,H.x-base.x)||0, off=(m.fo??m.w*0.35)*k;
       const mir=(Math.cos(ang)*(O.y-H.y)-Math.sin(ang)*(O.x-H.x))>=0?1:-1;   // 🤲 lòng bàn tay (phía ngón quặp) QUAY VÀO tay kia
@@ -3845,30 +3837,46 @@ function _frRemDraw(){
       const hh={ax:base.x, ay:base.y, trail:[{x:base.x,y:base.y}], cph:ms/300+j*2};
       if(Math.hypot(W0.x-base.x,W0.y-base.y)>m.ww*k*0.8) _hmArmSprite(hh,W0,m.ww*k*0.97,H.a,4.2+j*3);
       _hmBlit(HM_HAND_IMG[H.pose],m,W0.x,W0.y,W0.a,k,H.a,mir); drawn=true; }
-    if(drawn){   // 🌀 lòng cổng phủ lên gốc 2 cánh tay + mép trước cổng đè lên → tay và cổng liền 1 khối
-      const Rr=R.size*FR_PORTAL_R; ctx.save(); ctx.translate(P.x,P.y); ctx.scale(FR_PORTAL_SX,FR_PORTAL_SY);
-      const g=ctx.createRadialGradient(0,0,0,0,0,Rr*0.6); g.addColorStop(0,'rgba(0,0,0,0.95)'); g.addColorStop(0.6,'rgba(4,0,10,0.7)'); g.addColorStop(1,'rgba(20,0,40,0)');   // chỉ phủ GỐC tay ở lòng cổng
-      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(0,0,Rr*0.6,0,Math.PI*2); ctx.fill();
-      const tm=ms/1000; ctx.lineCap='round';
-      for(let q=0;q<3;q++){ const st=tm*(2.4+q*0.4)+q*2.1; ctx.strokeStyle=`rgba(${150+q*20},${60+q*10},255,${0.5-q*0.1})`; ctx.lineWidth=Math.max(1,Rr*0.05); ctx.beginPath(); ctx.arc(0,0,Rr*(0.55+q*0.14),st,st+1.6); ctx.stroke(); }
-      ctx.strokeStyle='rgba(200,140,255,0.9)'; ctx.lineWidth=Math.max(1.4,Rr*0.07); ctx.beginPath(); ctx.arc(0,0,Rr,0,Math.PI*2); ctx.stroke();   // viền cổng đè lên gốc tay → tay chui ra TỪ TRONG cổng
-      ctx.restore(); } }
+    if(drawn) _frDarkDraw(R,ms,true); }   // 🌑 mũi bóng tối phủ lên gốc 2 cánh tay → tay mọc ra TỪ bóng tối
   if(R.rec && ms>=FR_REC.grab) _drawPieces();
 }
 // bắt đầu cảnh cổng sau khi cảnh thắng của bên kia xong (chỉ Solo 1vs1 có camera)
+// 🌑 dải bóng tối đặc: chuỗi khối khói đen dày từ gốc O (ngoài mép sàn) tới mũi P (sát đống mảnh), mép gợn sóng cuộn
+//    tip=true: chỉ vẽ cụm đậm ở MŨI (phủ lên gốc tay)
+function _frDarkDraw(R,ms,tip){
+  const P=R.rec.P, O=R.rec.O, S=R.size;
+  const grow=Math.min(1,ms/FR_REC.open), back=ms<FR_REC.close0?0:Math.min(1,(ms-FR_REC.close0)/(FR_REC.end-FR_REC.close0-150));
+  const e=x=>x*x*(3-2*x), reach=e(grow)*(1-e(back));   // vươn tới → rút về
+  if(reach<=0.01) return;
+  const L=Math.hypot(P.x-O.x,P.y-O.y)||1, ux=(P.x-O.x)/L, uy=(P.y-O.y)/L, nx=-uy, ny=ux, len=L*reach, tm=ms/1000;
+  ctx.save();
+  if(tip){ const X=O.x+ux*len, Y=O.y+uy*len, r=S*1.0;
+    const g=ctx.createRadialGradient(X,Y,0,X,Y,r); g.addColorStop(0,'rgba(0,0,0,0.97)'); g.addColorStop(0.6,'rgba(2,0,6,0.85)'); g.addColorStop(1,'rgba(4,0,10,0)');
+    ctx.fillStyle=g; ctx.beginPath(); ctx.arc(X,Y,r,0,Math.PI*2); ctx.fill(); ctx.restore(); return; }
+  const N=Math.max(6,Math.ceil(len/(S*0.35)));
+  for(let k=0;k<=N;k++){ const q=k/N, d=len*q, wv=Math.sin(tm*2.2+q*9)*S*0.18, w=S*(1.7-0.75*q)*(0.85+0.15*Math.sin(tm*3+k*1.7));   // gốc to, mũi thon
+    const X=O.x+ux*d+nx*wv, Y=O.y+uy*d+ny*wv, g=ctx.createRadialGradient(X,Y,0,X,Y,w);
+    g.addColorStop(0,'rgba(0,0,0,1)'); g.addColorStop(0.72,'rgba(2,0,6,0.97)'); g.addColorStop(1,'rgba(8,0,18,0)');   // đặc, mép mềm ngắn
+    ctx.fillStyle=g; ctx.beginPath(); ctx.arc(X,Y,w,0,Math.PI*2); ctx.fill(); }
+  ctx.globalCompositeOperation='lighter'; ctx.strokeStyle='rgba(110,40,190,0.16)'; ctx.lineWidth=2; ctx.lineCap='round';   // ánh tím mờ trên mép cuộn
+  for(const sd of [-1,1]){ ctx.beginPath(); for(let k=0;k<=24;k++){ const q=k/24, d=len*q, w=S*(1.7-0.75*q)*0.62+Math.sin(tm*3.1+q*12+sd)*S*0.12;
+    const X=O.x+ux*d+nx*w*sd, Y=O.y+uy*d+ny*w*sd; k?ctx.lineTo(X,Y):ctx.moveTo(X,Y); } ctx.stroke(); }
+  ctx.restore();
+}
 function _frSegDist(px,py,ax,ay,bx,by){ const dx=bx-ax, dy=by-ay, l2=dx*dx+dy*dy||1, t=Math.max(0,Math.min(1,((px-ax)*dx+(py-ay)*dy)/l2)); return Math.hypot(px-ax-dx*t,py-ay-dy*t); }   // khoảng cách điểm → đoạn thẳng
 function _frRecStart(){
   const R=frRem; if(!R || R.rec || R.done || !R.pieces.length) return;
   let cx=0,cy=0; for(const p of R.pieces){ cx+=p.x; cy+=p.y; } cx/=R.pieces.length; cy/=R.pieces.length;
-  // 🌀 cổng mở GẦN đống mảnh nhưng ở phía XA meme thắng (không đè lên nó, tay không vươn ngang qua nó): thử 16 hướng quanh đống mảnh
-  const foes=fighters.filter(o=>!o.dead), dist=R.size*2.6; let P=null, best=-1e9;
-  for(let k=0;k<16;k++){ const a=k/16*Math.PI*2, x=Math.max(R.size*1.4,Math.min(W-R.size*1.4,cx+Math.cos(a)*dist)), y=Math.max(R.size,Math.min(H-R.size,cy+Math.sin(a)*dist*0.8));
-    let sc=0; for(const o of foes){ const d=Math.hypot(x-o.x,y-o.y), dl=_frSegDist(o.x,o.y,x,y,cx,cy); sc+=Math.min(d,o.size*8)*2+Math.min(dl,o.size*3)*2-(d<o.size*3?2000:0)-(dl<o.size*1.2?800:0); }
-    sc-=Math.hypot(x-(cx+Math.cos(a)*dist),y-(cy+Math.sin(a)*dist*0.8))*2;   // bị ép vào mép sàn thì trừ điểm
-    if(sc>best){ best=sc; P={x,y}; } }
+  // 🌑 BÓNG TỐI ĐẶC kéo dài từ mép sàn tới sát đống mảnh, LUÔN nằm ở phía NGƯỢC với meme thắng (không phủ lên nó)
+  const wn=fighters.filter(o=>!o.dead); let dx=0, dy=0;
+  for(const o of wn){ const ddx=cx-o.x, ddy=cy-o.y, dd=Math.hypot(ddx,ddy)||1; dx+=ddx/dd; dy+=ddy/dd; }
+  if(!wn.length || Math.hypot(dx,dy)<0.01){ dx=cx-W/2; dy=cy-H/2; } const dl=Math.hypot(dx,dy)||1; dx/=dl; dy/=dl;
+  const P={x:cx+dx*R.size*1.5, y:cy+dy*R.size*1.5};   // mũi bóng tối: sát sau đống mảnh (2 tay mọc ra từ đây)
+  let tE=1e9; if(dx>0.01) tE=Math.min(tE,(W-cx)/dx); if(dx<-0.01) tE=Math.min(tE,-cx/dx); if(dy>0.01) tE=Math.min(tE,(H-cy)/dy); if(dy<-0.01) tE=Math.min(tE,-cy/dy);
+  const O={x:cx+dx*(tE+R.size*1.5), y:cy+dy*(tE+R.size*1.5)};   // gốc bóng tối: tràn ra tận ngoài mép sàn
   const ux=cx-P.x, uy=cy-P.y, ul=Math.hypot(ux,uy)||1, v={x:-uy/ul, y:ux/ul};   // v: hướng vuông góc với đường cổng → đống mảnh
   let sp=0; for(const p of R.pieces) sp=Math.max(sp,Math.abs((p.x-cx)*v.x+(p.y-cy)*v.y));
-  R.rec={t0:performance.now(), P, C:{x:cx,y:cy}, v, spread:sp+R.size*1.0, prev:[null,null]};
+  R.rec={t0:performance.now(), P, O, C:{x:cx,y:cy}, v, spread:sp+R.size*1.0, prev:[null,null]};
 }
 function _mwKitKat(f,L){
   const e=f.enemy, side=e ? (e.x>=f.x?-1:1) : (Math.random()<0.5?-1:1);   // nửa trên đổ VỀ PHÍA xa kẻ vừa chém
