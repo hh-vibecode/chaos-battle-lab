@@ -3876,6 +3876,9 @@ function _frDarkDraw(R,ms,tip){
   _shadowCloud(O.x,O.y,X-ux*S*0.6,Y-uy*S*0.6,S*4.6,S*2.4,0.9,tm*1.15+3,7,false);   // lớp trong đậm hơn
 }
 function _frSegDist(px,py,ax,ay,bx,by){ const dx=bx-ax, dy=by-ay, l2=dx*dx+dy*dy||1, t=Math.max(0,Math.min(1,((px-ax)*dx+(py-ay)*dy)/l2)); return Math.hypot(px-ax-dx*t,py-ay-dy*t); }   // khoảng cách điểm → đoạn thẳng
+function _frKoPin(){   // chốt chỗ đứng mọi con còn sống từ tick 102 (zoom bắt đầu ở 42 + 1s đi lại) cho tới hết cảnh vơ mảnh
+  if(!frRem || frRem.done || !((loop._koTimer||0)>=102)) return;
+  for(const f of fighters){ if(f.dead) continue; if(!f._koPin) f._koPin=[f.x,f.y]; f.x=f._koPin[0]; f.y=f._koPin[1]; f.vx=0; f.vy=0; } }
 function _frRecStart(){
   const R=frRem; if(!R || R.rec || R.done || !R.pieces.length) return;
   let cx=0,cy=0; for(const p of R.pieces){ cx+=p.x; cy+=p.y; } cx/=R.pieces.length; cy/=R.pieces.length;
@@ -23702,6 +23705,7 @@ function loop(){
     _gameTickAccum += GAME_SPEED * TIME_SCALE;
     while(_gameTickAccum >= 1){
       fighters.forEach(f=>f.update());
+      _frKoPin();        // 🐈‍⬛ Friend gục: con thắng chỉ đi thêm 1s lúc zoom rồi đứng yên hẳn → bóng tối vơ mảnh chọn đúng hướng, không đè lên nó
       _scFireTick();     // 🛵🔥 lửa vệt drift Scooter Cat
       _summonBurnTick(); // 🔥 quân triệu hồi bị đốt mất máu như meme thường
       _darkTick();       // 🌑 khí đen hắc ám: mất máu liên tục (meme + quân triệu hồi)
