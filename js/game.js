@@ -7624,6 +7624,37 @@ function _psDrawInkBlock(cv,cx,cy,Hh,t0s,ms){   // quét cọ lộ dần từng 
     ctx.drawImage(cv, sx, i*cv._rowH, sw, cv._rowH, cx-Wd/2+sx*k, cy-Hh/2+i*cv._rowH*k, sw*k, cv._rowH*k); }
 }
 function _psFillScreen(col){ ctx.save(); ctx.setTransform(1,0,0,1,0,0); ctx.fillStyle=col; ctx.fillRect(0,0,ctx.canvas.width,ctx.canvas.height); ctx.restore(); }   // phủ CẢ màn (không theo khung thế giới → không lộ cạnh vuông lúc camera đang zoom)
+// 🧥 ÁO CHOÀNG AKATSUKI lúc hoá bóng đen: vạt sau bay phấp phới theo gió + cổ áo dựng cao che nửa dưới mặt (kiểu Pain).
+//    Đen tuyền như bóng, chỉ vài đám mây đỏ viền trắng nổi mờ để nhận ra Akatsuki. Toạ độ theo khung hình (đã lật/xoay sẵn).
+function _psAkaCloud(x,y,s,a){   // đám mây Akatsuki: 3 bướu tròn trên + đế bầu, đỏ viền trắng
+  ctx.save(); ctx.globalAlpha*=a; ctx.translate(x,y); ctx.scale(s,s);
+  const shape=()=>{ ctx.beginPath(); ctx.arc(-0.55,0.05,0.42,Math.PI*0.6,Math.PI*1.75); ctx.arc(-0.05,-0.32,0.48,Math.PI*1.1,Math.PI*1.95); ctx.arc(0.55,-0.02,0.44,Math.PI*1.3,Math.PI*0.35);
+    ctx.quadraticCurveTo(0.3,0.62,-0.05,0.5); ctx.quadraticCurveTo(-0.5,0.62,-0.85,0.32); ctx.closePath(); };
+  shape(); ctx.fillStyle='#f3efe6'; ctx.fill(); ctx.save(); ctx.translate(0,0.02); ctx.scale(0.8,0.78); shape(); ctx.fillStyle='#b3192c'; ctx.fill(); ctx.restore();
+  ctx.restore(); }
+function _psCloak(f,dw,dh,front){
+  const q=psCine; if(!q) return; const a=q.sil, t=performance.now()/1000, k=Math.min(1,a*1.2), BLK='#07030d';
+  ctx.save(); ctx.globalAlpha*=k;
+  if(!front){
+    const y0=-dh*0.02, y1=dh*0.78, W0=dw*0.34, W1=dw*0.92;   // vạt áo: từ vai xoè rộng xuống dưới, mép dưới gợn sóng, 1 bên bị gió hất tung
+    const fl=Math.sin(t*5.2)*dw*0.06, fl2=Math.sin(t*3.7+1)*dw*0.05;
+    ctx.fillStyle=BLK; ctx.beginPath(); ctx.moveTo(-W0,y0);
+    ctx.quadraticCurveTo(-W1*0.9-fl, dh*0.25, -W1-fl*1.6, y1-dh*0.08);
+    const N=8; for(let i=0;i<=N;i++){ const u=i/N, x=-W1-fl*1.6+(W1*2+fl*1.6+fl2*2.2)*u, y=y1+Math.sin(t*6.5+i*1.3)*dh*0.045+(i%2?dh*0.05:0)-Math.sin(u*Math.PI)*dh*0.02; ctx.lineTo(x,y); }
+    ctx.quadraticCurveTo(W1*0.95+fl2*2, dh*0.2, W0,y0); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle='rgba(150,20,40,0.35)'; ctx.lineWidth=Math.max(1,dw*0.012); ctx.stroke();   // viền lót đỏ mờ
+    _psAkaCloud(-dw*0.52-fl*0.8, dh*0.52, dw*0.17, 0.45);   // ☁️ mây đỏ nổi mờ trên vạt áo
+    _psAkaCloud(dw*0.5+fl2, dh*0.46, dw*0.16, 0.45);
+    _psAkaCloud(-dw*0.02, dh*0.7, dw*0.14, 0.38);
+  } else {
+    const cy=dh*0.06, cw=dw*0.36;   // cổ áo dựng: che từ cằm xuống, mép trên lót đỏ
+    ctx.fillStyle=BLK; ctx.beginPath(); ctx.moveTo(-cw,dh*0.5); ctx.lineTo(-cw*0.92,cy+dh*0.02); ctx.quadraticCurveTo(0,cy-dh*0.05,cw*0.92,cy+dh*0.02); ctx.lineTo(cw,dh*0.5); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle='rgba(170,25,45,0.55)'; ctx.lineWidth=Math.max(1.2,dw*0.02); ctx.beginPath(); ctx.moveTo(-cw*0.92,cy+dh*0.02); ctx.quadraticCurveTo(0,cy-dh*0.05,cw*0.92,cy+dh*0.02); ctx.stroke();
+    ctx.strokeStyle='rgba(150,20,40,0.4)'; ctx.lineWidth=Math.max(1,dw*0.012); ctx.beginPath(); ctx.moveTo(dw*0.04,cy); ctx.lineTo(dw*0.07,dh*0.5); ctx.stroke();   // đường viền khoá áo
+    _psAkaCloud(-dw*0.17, dh*0.3, dw*0.13, 0.42);
+  }
+  ctx.restore();
+}
 function _psMaxR(cx,cy){ const C=_fxCoverRect(1.15); let m=0; for(const [x,y] of [[C[0],C[1]],[C[0]+C[2],C[1]],[C[0],C[1]+C[3]],[C[0]+C[2],C[1]+C[3]]]) m=Math.max(m,Math.hypot(x-cx,y-cy)); return m; }
 const _psSS=t=>t<=0?0:t>=1?1:t*t*(3-2*t);
 // 🎥 camera: bay lên → cận mặt → kéo ra toàn cảnh
@@ -19742,6 +19773,7 @@ class Fighter {
       // bên trong là ảnh đại diện của họ (cắt tròn, phủ kín), viền màu đội + chút ánh sáng cho ra khối cầu.
       // Không dùng _stickerMask ở đây: ảnh đại diện là ảnh vuông bình thường, cắt nền sẽ ăn mất mặt người.
       const _fanBall = (fanCtx && this.slotIdx===0);
+      if(psCine && psCine.f===this && psCine.sil>0.01 && !_lcRibbon && !_fanBall) _psCloak(this,dw,dh,false);   // 🧥 áo choàng Akatsuki — vạt sau lưng (vẽ TRƯỚC thân)
       if(_fanBall){
         const _R=s;   // = this.size → mép bóng trùng đúng mép vùng va chạm, như mọi meme khác
         ctx.save();
@@ -19778,7 +19810,8 @@ class Fighter {
       }
       else if(!_lcRibbon) ctx.drawImage((this._biteHoles&&this._biteHoles.length&&!((img._frames||1)>1)) ? _biteMask(this,img) : _stickerMask(img), _sx,_sy,_sw,_sh, -dw/2,-dh/2, dw,dh);   // 🦷 có vết Friend gặm thì vẽ bản đã khuyết
       const _silImg=(this._biteHoles&&this._biteHoles.length&&!((img._frames||1)>1)) ? _biteMask(this,img) : img;   // 🦷 đã bị Friend gặm khuyết → bóng đen cũng khuyết
-      if(psCine && psCine.f===this && psCine.sil>0.01 && !_lcRibbon && !_fanBall){ ctx.save(); ctx.globalAlpha*=0.96*psCine.sil; ctx.drawImage(_frDarkMask(_silImg), _sx,_sy,_sw,_sh, -dw/2,-dh/2, dw,dh); ctx.restore(); }   // 🌀 Shinra Tensei: hoá BÓNG ĐEN
+      if(psCine && psCine.f===this && psCine.sil>0.01 && !_lcRibbon && !_fanBall){ ctx.save(); ctx.globalAlpha*=0.96*psCine.sil; ctx.drawImage(_frDarkMask(_silImg), _sx,_sy,_sw,_sh, -dw/2,-dh/2, dw,dh); ctx.restore(); }
+      if(psCine && psCine.f===this && psCine.sil>0.01 && !_lcRibbon && !_fanBall) _psCloak(this,dw,dh,true);   // 🧥 cổ áo dựng cao (vẽ SAU thân)   // 🌀 Shinra Tensei: hoá BÓNG ĐEN
       if(this.type==='susdog' && this._sdHide && !_lcRibbon && !_fanBall){   // 🌑 chìm vào bóng tối: phủ bóng đen lên người
         const _hk=_sdHideK(this); if(_hk>0.01){ ctx.save(); ctx.globalAlpha*=0.92*_hk; ctx.drawImage(_frDarkMask(_silImg), _sx,_sy,_sw,_sh, -dw/2,-dh/2, dw,dh); ctx.restore(); }
       }
