@@ -188,9 +188,13 @@
     g.save(); g.globalAlpha=0.28; g.fillStyle='#000'; g.beginPath(); g.ellipse(MQX2,GROUND+3,22,4,0,0,Math.PI*2); g.fill(); g.restore();
     actor(prep(fr), MQX2, fy, 82, {flip:false, rot:Math.sin(t*3)*0.05});   // nhỏ còn 1/2, bay lơ lửng
   }
-  // 🩹 phố mưa: trông như vừa bị ăn đòn — mắt phải (của nó) hơi sưng tím + miếng gạc dán băng chéo trên trán (vẽ nhẹ, theo khung ảnh mèo)
-  function hurt(w,h){
-    const P=(fx,fy)=>[-w/2+fx*w, -h+fy*h], [ex,ey]=P(0.323,0.405), r=w*0.09;
+  // 🩹 cả phim: trông như vừa bị ăn đòn — mắt phải (của nó) sưng tím bầm + băng cá nhân dán má bên kia (vẽ theo khung ảnh mèo)
+  //    E = vị trí theo tỉ lệ khung ảnh: mắt (ex,ey,r) + băng (bx,by,bl,bw); mặc định cho ảnh đứng, GIF khóc có bảng lệch theo từng khung
+  const HURT_DP={ex:0.323,ey:0.405,r:0.09,bx:0.77,by:0.5,bl:0.24,bw:0.085};
+  const CRY_EYE_OFF=[[0,0],[-1,-1],[-1,-3],[-1,-3],[-1,-5],[-1,-4],[-3,-4],[-4,-3],[-5,-3],[-6,-3],[-7,-2],[-7,-2],[-6,-2],[-4,-2],[-3,-1],[-2,-2],[-2,-2],[-3,-2],[-3,-2],[-3,-2],[-3,-2],[-3,-2],[-2,-3],[-2,-3],[-2,-3],[-2,-2],[-2,-2],[5,2],[6,0],[7,-2],[8,-3],[8,-3],[7,-3],[6,-3],[6,-4],[4,-4],[3,-5],[1,-5],[-1,-6],[-4,-6],[-4,-5],[-5,-5],[-5,-4],[-3,-5],[-1,-5],[0,-4]];   // lệch mắt (px khung 210×340) từng khung GIF khóc
+  function hurtCry(k){ const [dx,dy]=CRY_EYE_OFF[k]||[0,0]; return {ex:(62+dx)/210, ey:(133+dy)/340, r:0.102, bx:(164+dx)/210, by:(172+dy)/340, bl:0.27, bw:0.097}; }
+  function hurt(w,h,E){ E=E||HURT_DP;
+    const P=(fx,fy)=>[-w/2+fx*w, -h+fy*h], [ex,ey]=P(E.ex,E.ey), r=w*E.r;
     const blob=(x,y,rx,ry,rot,stops)=>{ const gr=g.createRadialGradient(x,y,0,x,y,Math.max(rx,ry)); for(const [k,c] of stops) gr.addColorStop(k,c);
       g.save(); g.translate(x,y); g.rotate(rot); g.scale(rx/Math.max(rx,ry),ry/Math.max(rx,ry)); g.translate(-x,-y); g.fillStyle=gr; g.beginPath(); g.arc(x,y,Math.max(rx,ry),0,Math.PI*2); g.fill(); g.restore(); };
     g.save(); g.globalCompositeOperation='multiply';
@@ -203,7 +207,7 @@
     blob(ex+r*0.05,ey+r*0.78,r*0.75,r*0.26,0.2,[[0,'rgba(255,220,235,0.16)'],[1,'rgba(255,220,235,0)']]);
     g.save(); g.strokeStyle='rgba(50,10,40,0.45)'; g.lineWidth=r*0.08; g.beginPath(); g.ellipse(ex+r*0.05,ey+r*0.5,r*0.75,r*0.35,0.2,0.15*Math.PI,0.85*Math.PI); g.stroke(); g.restore();   // nếp sưng dưới mắt
     // 🩹 băng cá nhân dán dọc má bên kia (cạnh mắt trái của nó)
-    const [bx,by]=P(0.77,0.5), bl=w*0.24, bw=w*0.085;
+    const [bx,by]=P(E.bx,E.by), bl=w*E.bl, bw=w*E.bw;
     g.save(); g.translate(bx,by); g.rotate(0.28);
     const pill=(x,y,ww,hh,rr)=>{ g.beginPath(); g.moveTo(x+rr,y); g.lineTo(x+ww-rr,y); g.arcTo(x+ww,y,x+ww,y+rr,rr); g.lineTo(x+ww,y+hh-rr); g.arcTo(x+ww,y+hh,x+ww-rr,y+hh,rr); g.lineTo(x+rr,y+hh); g.arcTo(x,y+hh,x,y+hh-rr,rr); g.lineTo(x,y+rr); g.arcTo(x,y,x+rr,y,rr); g.closePath(); };
     g.fillStyle='rgba(0,0,0,0.2)'; pill(-bw/2+1.2,-bl/2+1.8,bw,bl,bw/2); g.fill();
@@ -224,8 +228,8 @@
     const cry=(typeof DEPRESSED_CRY_IMG!=='undefined') && DEPRESSED_CRY_IMG.naturalWidth && t>=T.cry && t<T.cryEnd;
     if(cry){ const I=DEPRESSED_CRY_IMG, fw=I.naturalWidth/I._cols, fh=I.naturalHeight/I._rows, k=Math.min(I._frames-1, Math.floor((t-T.cry)/(T.cryEnd-T.cry)*I._frames));
       const h=H*1.05, w=h*fw/fh; g.save(); g.translate(s.x,GROUND+2); g.scale(s.flip?-1:1,1);
-      g.drawImage(I,(k%I._cols)*fw,Math.floor(k/I._cols)*fh,fw,fh,-w/2,-h,w,h); g.restore(); }
-    else actor(prep(IMG.dp), s.x, GROUND+2-bob, H, {flip:s.flip, rot:s.walk?Math.sin(t*7)*0.03:0, after:s.street?hurt:null});
+      g.drawImage(I,(k%I._cols)*fw,Math.floor(k/I._cols)*fh,fw,fh,-w/2,-h,w,h); hurt(w,h,hurtCry(k)); g.restore(); }
+    else actor(prep(IMG.dp), s.x, GROUND+2-bob, H, {flip:s.flip, rot:s.walk?Math.sin(t*7)*0.03:0, after:hurt});
     if(t<T.throw){ const dir=s.flip?1:-1; bouquet(s.x+dir*48, GROUND-34-bob+(cry?6:0), 1.0, dir, 0.55); }   // tay ôm bó hoa — chìa chéo ra phía trước, không che mặt
   }
   // 👁️ mắt Rinnegan khổng lồ trên nền trời (toạ độ màn hình)
