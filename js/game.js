@@ -3757,7 +3757,7 @@ function _fighterDeathFx(f){
 // Scared Hamster) bò ra chụp lấy, kéo hết mảnh vào cổng rồi cổng đóng lại.
 let frRem=null;
 const FR_REC={open:600, reach:1500, grab:1900, pull:3000, close0:3200, end:4100};   // ms
-function _frShatter(f,L){
+function _frShatter(f,L,bx,by,pow){   // bx,by,pow: (tuỳ chọn) tâm vụ nổ đẩy mảnh văng ra xa (Shinra Tensei)
   const S2=2, dw=L.dw, dh=L.dh, c=document.createElement('canvas'); c.width=Math.max(4,Math.round(dw*S2)); c.height=Math.max(4,Math.round(dh*S2));
   const x=c.getContext('2d'); x.save(); if(L.fl||L.flip){ x.translate(c.width,0); x.scale(-1,1); }
   try{ x.drawImage(L.img,L.sx,L.sy,L.sw,L.sh,0,0,c.width,c.height); }catch(e){} x.restore();
@@ -3769,7 +3769,9 @@ function _frShatter(f,L){
     const poly=[V[j][i],V[j][i+1],V[j+1][i+1],V[j+1][i]], ox=poly.reduce((a,p)=>a+p[0],0)/4, oy=poly.reduce((a,p)=>a+p[1],0)/4;
     if(alpha){ let n=0,tot=0; for(let yy=Math.floor(j*ch);yy<(j+1)*ch;yy+=4) for(let xx=Math.floor(i*cw);xx<(i+1)*cw;xx+=4){ tot++; if(alpha[(yy*c.width+xx)*4+3]>60) n++; } if(n<tot*0.12) continue; }   // ô gần như trong suốt → bỏ
     const lx=(ox-c.width/2)/S2, ly=(oy-c.height/2)/S2, d=Math.hypot(lx,ly)||1, sp=1.4+Math.random()*1.8;
-    pieces.push({poly, ox, oy, x:f.x+lx, y:f.y+ly, vx:lx/d*sp+(Math.random()-0.5), vy:ly/d*sp+(Math.random()-0.5), rot:0, vr:(Math.random()-0.5)*0.25, s:1, a:1}); }
+    let vx=lx/d*sp+(Math.random()-0.5), vy=ly/d*sp+(Math.random()-0.5);
+    if(pow){ const ax=f.x+lx-bx, ay=f.y+ly-by, ad=Math.hypot(ax,ay)||1, bp=pow*(0.7+Math.random()*0.6); vx+=ax/ad*bp; vy+=ay/ad*bp; }   // bị sóng nổ thổi văng
+    pieces.push({poly, ox, oy, x:f.x+lx, y:f.y+ly, vx, vy, rot:0, vr:(Math.random()-0.5)*(pow?0.5:0.25), s:1, a:1}); }
   frRem={cv:c, S2, pieces, x:f.x, y:f.y, size:f.size, rec:null, done:false};
 }
 function _frRemTick(){
@@ -3821,10 +3823,16 @@ function _frRemDraw(){
       _hmBlit(HM_HAND_IMG[H.pose],m,W0.x,W0.y,W0.a,k,H.a,1); } }
 }
 // bắt đầu cảnh cổng sau khi cảnh thắng của bên kia xong (chỉ Solo 1vs1 có camera)
+function _frSegDist(px,py,ax,ay,bx,by){ const dx=bx-ax, dy=by-ay, l2=dx*dx+dy*dy||1, t=Math.max(0,Math.min(1,((px-ax)*dx+(py-ay)*dy)/l2)); return Math.hypot(px-ax-dx*t,py-ay-dy*t); }   // khoảng cách điểm → đoạn thẳng
 function _frRecStart(){
   const R=frRem; if(!R || R.rec || R.done || !R.pieces.length) return;
   let cx=0,cy=0; for(const p of R.pieces){ cx+=p.x; cy+=p.y; } cx/=R.pieces.length; cy/=R.pieces.length;
-  const side=cx<W/2?1:-1, P={x:Math.max(R.size*1.5,Math.min(W-R.size*1.5,cx+side*R.size*2.6)), y:Math.max(R.size,Math.min(H-R.size,cy-R.size*0.4))};
+  // 🌀 cổng mở GẦN đống mảnh nhưng ở phía XA meme thắng (không đè lên nó, tay không vươn ngang qua nó): thử 16 hướng quanh đống mảnh
+  const foes=fighters.filter(o=>!o.dead), dist=R.size*2.6; let P=null, best=-1e9;
+  for(let k=0;k<16;k++){ const a=k/16*Math.PI*2, x=Math.max(R.size*1.4,Math.min(W-R.size*1.4,cx+Math.cos(a)*dist)), y=Math.max(R.size,Math.min(H-R.size,cy+Math.sin(a)*dist*0.8));
+    let sc=0; for(const o of foes){ const d=Math.hypot(x-o.x,y-o.y), dl=_frSegDist(o.x,o.y,x,y,cx,cy); sc+=Math.min(d,o.size*6)+Math.min(dl,o.size*3)*1.5-(d<o.size*2.4?1000:0); }
+    sc-=Math.hypot(x-(cx+Math.cos(a)*dist),y-(cy+Math.sin(a)*dist*0.8))*2;   // bị ép vào mép sàn thì trừ điểm
+    if(sc>best){ best=sc; P={x,y}; } }
   R.rec={t0:performance.now(), P, C:{x:cx,y:cy}};
 }
 function _mwKitKat(f,L){
@@ -7708,6 +7716,7 @@ function _psDrawInkBlock(cv,cx,cy,Hh,t0s,ms){   // quét cọ lộ dần từng 
 let dpRainK=0, dpRipples=[], dpWx={cloud:0, rain:0, storm:0, nextBolt:0, bolt:null, nextFlash:0, flash:null};
 function _dpWxLevel(){ let lv=0;
   for(const d of fighters){ if(d.type!=='depressedcat' || d.dead) continue;
+    lv=Math.max(lv,1);   // mây bắt đầu kéo đến ngay khi meme xuất hiện = ~1s TRƯỚC tiếng kêu đầu tiên
     for(const o of fighters) if(o.team!==d.team && !o.dead) lv=Math.max(lv, Math.min(4,o._emotionalStacks||0)); }
   return lv; }
 const DP_CLOUD_A=new Image(); DP_CLOUD_A.src='assets/img/depressedcat/DP_CLOUD_A.webp';   // ☁️ khối mây giông treo (lớp trước, đen) — tự sinh bằng nhiễu fractal, nối liền 2 đầu
@@ -7904,9 +7913,11 @@ function _psDraw(){
       x=q.cx+Math.cos(a)*rr, y=q.cy+Math.sin(a)*rr;   // 🧱 tảng sàn/viền/chữ vỡ ra
       if(x<C[0]||x>C[0]+C[2]||y<C[1]||y>C[1]+C[3]) continue;
       if(Math.hypot(x-f.x,y-f.y)<f.size*1.3) continue;
+      if(fighters.some(o=>o!==f && !o.dead && !o._mwErased && Math.hypot(x-o.x,y-o.y)<o.size*1.2)) continue;   // không cắt dính người địch (địch có kiểu vỡ riêng)
       _psCut(x,y,14+Math.random()*24,q.cx,q.cy,3+Math.random()*4,0.88); }
     for(const u of fighters){ if(u===f || u.team===f.team || u.dead || u._mwErased || q.hitSet.has(u)) continue;   // ☠️ địch bị ép nát vụn tại chỗ
       if(Math.hypot(u.x-q.cx,u.y-q.cy) < q.R+u.size*0.5){ q.hitSet.add(u);
+        if(u.type==='friend' && u._lastSprite && u._lastSprite.img){ _frShatter(u,u._lastSprite,q.cx,q.cy,7); u._mwErased=true; playSample('death_break',1.1); continue; }   // 🐈‍⬛ Friend: vỡ thành mảnh to nằm lại (để cổng hắc ám vơ về sau cảnh thắng)
         for(let k=0;k<26;k++) _psCut(u.x+(Math.random()-0.5)*u.size*1.4, u.y+(Math.random()-0.5)*u.size*1.4, u.size*(0.22+Math.random()*0.22), q.cx, q.cy, 1.2+Math.random()*2, 0.85, true);
         u._mwErased=true; playSample('death_break',1.1); } }
     for(const arr of _hpSummonArrays()) for(const s2 of arr){ if(!s2 || s2.dead || q.hitSet.has(s2)) continue;
@@ -15653,6 +15664,7 @@ class Fighter {
         this.vx *= 0.7; this.vy *= 0.7; // đứng yên khi kêu than
         // apply debuff 30% lên địch mỗi frame (timer 90f = 1.5s, refresh mỗi frame)
         if(this.sadLamentTimer === 0){
+          if(!this._dpThunder1){ this._dpThunder1=true; playSample('thunder_big',0.7); dpWx.nextBolt=performance.now()+6600; }   // ⛈️ kêu xong lần đầu: tiếng sấm báo mây kéo tới
           this.sadLamentCD = 90; // 1.5s CD (giảm thêm 0.5s) — đếm từ lúc kêu than XONG
           // +1 emotional damage stack lên địch
           let _full=false;
@@ -19947,9 +19959,6 @@ class Fighter {
         ctx.save(); ctx.globalAlpha*=Math.min(1,this._soulT/8); ctx.drawImage(_soulPale(img), _sx,_sy,_sw,_sh, -dw/2,-dh/2, dw,dh); ctx.restore();
       }
       // 🌫️ đang bị Depressed Cat than khóc: người ám xám u ám
-      if((this._depressDebuffTimer||0)>0 && !_lcRibbon && !_fanBall){
-        ctx.save(); ctx.globalAlpha=0.32*Math.min(1,this._depressDebuffTimer/20); ctx.drawImage(_gloomTint(img), _sx,_sy,_sw,_sh, -dw/2,-dh/2, dw,dh); ctx.restore();
-      }
       // ❄️ đang bị làm chậm: người ửng xanh lam RẤT NHẸ (đang đóng băng thì lớp băng bên dưới đã xanh rồi, bỏ qua)
       else if(!((this._mlemFreezeT||0)>0) && _isSlowedU(this) && !_lcRibbon && !_fanBall){
         ctx.save(); ctx.globalAlpha=0.2; ctx.drawImage(_slowTint(img), _sx,_sy,_sw,_sh, -dw/2,-dh/2, dw,dh); ctx.restore();
@@ -22683,8 +22692,8 @@ function loop(){
   }
   _mwDrawHole();    // 🕳️ Hollow Purple khoét xuyên sàn + chữ (trước nhân vật)
   _dpRainUnder();   // 🌧️ Depressed Cat kêu than: sàn hoá mặt hồ, gợn sóng mưa rơi (trước nhân vật)
-  _frRemTick(); _frRemDraw();   // 🐈‍⬛ mảnh vỡ Friend nằm trên sàn + cổng hắc ám vơ mảnh
   _psDrawUnder();   // 🌀 Shinra Tensei: chữ mực + sàn bị càn + mảnh vụn (trước nhân vật)
+  _frRemTick(); _frRemDraw();   // 🐈‍⬛ mảnh vỡ Friend nằm trên sàn + cổng hắc ám vơ mảnh (vẽ SAU lớp Shinra để không bị san phẳng che mất)
   _flCosBG();       // 🌌 Flower Cat khai sáng: sân hoá vũ trụ (trước nhân vật)
   _egRealmDraw();   // 😈 trận có Evil Gary: sàn hoá CÕI LINH HỒN (u ám xanh lạnh, sương ma, đốm hồn bay)
   // 🐶 THIS IS FINE DOG: lửa phủ sàn vẽ NGAY SAU nền, TRƯỚC nhân vật — để nhân vật đứng TRÊN lửa, không bị lửa đè lên người
