@@ -11632,41 +11632,42 @@ function _flowerSeqTick(){
   }
 }
 // ═══════════════════ 🕷️⚡ SPIDER CAT — SÉT TỐC ĐỘ KIỂU SAVITAR (chỉ phần vẽ) ═══════════════════
-//   Không còn dải vệt dài bám theo. Thay bằng các TIA SÉT trắng-xanh điện (kiểu Savitar, The Flash) quất dài về phía sau dọc
+//   Không còn dải vệt dài bám theo. Thay bằng các TIA SÉT ĐEN (cùng màu nó; dáng kiểu Savitar, The Flash) quất dài về phía sau dọc
 //   đường chạy + lách tách quanh thân. Chậm như meme thường thì KHÔNG có tia nào; nhanh hơn meme thường ~20% mới có 1–2 tia,
-//   càng nhanh càng nhiều tia (tối đa 12). Đổi hình mỗi 2 khung cho lách tách.
+//   càng nhanh càng nhiều tia (tối đa 6, mọc từ 2 tay, 2 chân, đầu, khuỷu). Đổi hình mỗi 2 khung cho lách tách.
 function _spK(f){ const v=Math.hypot(f.vx||0,f.vy||0); return Math.max(0,Math.min(1,(v-5)/14)); }   // (dùng cho dáng chúi người)
 function _spRatio(f){ return (f.topSpeed||0)/(5*MOVE_MULT); }   // tốc độ so với 1 meme thường
 function _spBoltN(f){ const r=_spRatio(f); return r<1.2 ? 0 : Math.min(6, 1+Math.floor((r-1.2)*3.5)); }   // tối đa 6 tia (nhiều quá rối + lag)
-function _spDrawBolt(P,w,a){
-  for(const [lw,c] of [[w*2.4,`rgba(40,120,255,${0.28*a})`],[w*1.1,`rgba(130,195,255,${0.8*a})`],[w*0.45,`rgba(240,250,255,${a})`]]){   // nét mảnh
+function _spDrawBolt(P,w,a){   // ⚡ SÉT ĐEN (cùng màu Spider Cat): quầng tím than mờ → lõi đen đặc → gân sáng mảnh ở giữa cho ra chất điện
+  for(const [lw,c] of [[w*2.6,`rgba(40,15,60,${0.3*a})`],[w*1.0,`rgba(0,0,0,${0.92*a})`],[w*0.3,`rgba(185,175,215,${0.6*a})`]]){
     ctx.strokeStyle=c; ctx.lineWidth=lw; ctx.beginPath(); P.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.stroke(); } }
-function _spSpeedFx(f,s){
+// gốc tia bám khắp thân (toạ độ theo ảnh, đơn vị = s): 2 tay giơ, 2 chân, đầu, bụng — tia rải rộng thay vì tụ 1 chỗ
+const SP_ROOTS=[[0.76,-0.62,'long'],[-0.7,-0.95,'long'],[-0.79,0.92,'mid'],[0.31,0.92,'mid'],[0.18,-0.7,'short'],[-0.75,-0.44,'short']];
+function _spSpeedFx(f,s,rot,flip){
   const T=f._spTrail||(f._spTrail=[]);
   T.push([f.x,f.y]); if(T.length>18) T.shift();
   const n=_spBoltN(f); if(!n) { f._spBolts=null; return; }
-  const k=Math.min(1,0.45+n*0.07);
-  if(!f._spBolts || (f._spBoltT=(f._spBoltT||0)+1)%2===0){ f._spBolts=[];
-    const v=Math.hypot(f.vx||0,f.vy||0)||1, bx=-(f.vx||0)/v, by=-(f.vy||0)/v;   // hướng ra SAU lưng
-    // ⚡ đủ loại tia: NGẮN (lách tách bám thân) / VỪA / DÀI (quất về sau dọc đường chạy) — gốc tia rải khắp trên thân
-    const kinds=['long','short','mid','short','long','mid'];
-    for(let i=0;i<n;i++){ const kd=kinds[i];
-      const a0=Math.random()*Math.PI*2, r0=s*(0.15+Math.random()*0.45), sx=f.x+Math.cos(a0)*r0, sy=f.y+Math.sin(a0)*r0*0.9;
+  const k=Math.min(1,0.45+n*0.07), W=s*0.055;   // độ dày tia theo tỉ lệ thân (mẫu Savitar: tia mảnh ~1/40 chiều cao)
+  if(!f._spBolts || (f._spBoltT=(f._spBoltT||0)+1)%2===0){ f._spBolts=[]; f._spB0=[f.x,f.y];
+    const cr=Math.cos(rot||0), sr=Math.sin(rot||0), fx=flip?-1:1;
+    for(let i=0;i<n;i++){ const [lx,ly,kd]=SP_ROOTS[i], jx=lx*fx*s+(Math.random()-0.5)*s*0.12, jy=ly*s+(Math.random()-0.5)*s*0.12;
+      const ox=jx*cr-jy*sr, oy=jx*sr+jy*cr, sx=f.x+ox, sy=f.y+oy;   // gốc tia trên thân (đã xoay + lật theo ảnh)
       if(kd!=='short' && T.length>4){
-        const P=[[sx,sy]], len=Math.min(T.length-1, kd==='long' ? 8+Math.floor(Math.random()*5) : 3+Math.floor(Math.random()*3));
-        const side=sy-f.y+(Math.random()-0.5)*s*0.5;
+        const P=[[sx,sy]], len=Math.min(T.length-1, kd==='long' ? 8+Math.floor(Math.random()*5) : 4+Math.floor(Math.random()*3));
         for(let j=1;j<=len;j++){ const q=T[T.length-1-j], q2=T[Math.max(0,T.length-2-j)], dx=q[0]-q2[0], dy=q[1]-q2[1], d=Math.hypot(dx,dy)||1, nx=-dy/d, ny=dx/d;
-          const off=side*(1-j/len*0.5)+(Math.random()-0.5)*s*0.55; P.push([q[0]+(sx-f.x)*0.5+nx*off*0.6, q[1]+ny*off*0.6]); }
+          const sp=1+0.35*j/len, jit=(Math.random()-0.5)*s*0.45;   // quất về sau theo đường chạy, giữ nguyên thế xoè quanh thân rồi toả dần
+          P.push([q[0]+ox*sp+nx*jit, q[1]+oy*sp+ny*jit]); }
         const br=[]; if(kd==='long' && P.length>4 && Math.random()<0.6){ const st=P[2+Math.floor(Math.random()*(P.length-3))]; let x=st[0], y=st[1]; const B=[[x,y]]; const ang=Math.random()*Math.PI*2;
           for(let q=0;q<2;q++){ x+=Math.cos(ang)*s*0.28+(Math.random()-0.5)*s*0.2; y+=Math.sin(ang)*s*0.28+(Math.random()-0.5)*s*0.2; B.push([x,y]); } br.push(B); }
-        f._spBolts.push({P,br,w:kd==='long'?0.9:0.7});
-      } else {   // tia ngắn lách tách sát thân
-        const a=Math.random()*Math.PI*2, P=[[sx,sy]]; let x=sx, y=sy;
-        for(let q=1;q<=3;q++){ x+=Math.cos(a+q*0.5)*s*0.18+(Math.random()-0.5)*s*0.15; y+=Math.sin(a+q*0.5)*s*0.18+(Math.random()-0.5)*s*0.15; P.push([x,y]); }
-        f._spBolts.push({P,br:[],w:0.6}); } } }
-  ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round'; ctx.lineJoin='round';
-  const hg=ctx.createRadialGradient(f.x,f.y,s*0.4,f.x,f.y,s*1.35); hg.addColorStop(0,'rgba(120,190,255,0)'); hg.addColorStop(0.7,`rgba(90,160,255,${0.16*k})`); hg.addColorStop(1,'rgba(60,120,255,0)');
+        f._spBolts.push({P,br,w:kd==='long'?W:W*0.8});
+      } else {   // tia ngắn lách tách toả ra từ đầu / khuỷu tay
+        const a=Math.atan2(oy,ox)+(Math.random()-0.5)*1.2, P=[[sx,sy]]; let x=sx, y=sy;
+        for(let q=1;q<=3;q++){ x+=Math.cos(a+(Math.random()-0.5)*1.4)*s*0.2; y+=Math.sin(a+(Math.random()-0.5)*1.4)*s*0.2; P.push([x,y]); }
+        f._spBolts.push({P,br:[],w:W*0.7}); } } }
+  ctx.save(); ctx.lineCap='round'; ctx.lineJoin='round';
+  const hg=ctx.createRadialGradient(f.x,f.y,s*0.4,f.x,f.y,s*1.35); hg.addColorStop(0,'rgba(30,10,45,0)'); hg.addColorStop(0.7,`rgba(30,10,45,${0.14*k})`); hg.addColorStop(1,'rgba(30,10,45,0)');
   ctx.fillStyle=hg; ctx.beginPath(); ctx.arc(f.x,f.y,s*1.35,0,Math.PI*2); ctx.fill();
+  ctx.translate(f.x-f._spB0[0], f.y-f._spB0[1]);   // khung giữ tia cũ: dời theo thân → gốc tia luôn dính vào người
   for(const b of f._spBolts){ _spDrawBolt(b.P,b.w,k); for(const B of b.br) _spDrawBolt(B,b.w*0.7,k*0.8); }
   ctx.restore();
 }
@@ -19672,7 +19673,7 @@ class Fighter {
     }
     if(this.type==='doorbellchud' && (this._dcShoutT||0)>0){ const _j=this.size*0.045; offX+=(Math.random()-0.5)*_j*2; offY+=(Math.random()-0.5)*_j; }   // 😡 hét: run bần bật
     if(this.type==='doorbellchud' || this.type==='scootercat') this._dcW0=ctx.getTransform().inverse();   // 🔔 ma trận màn hình → toạ độ sân (cho chuông/dây vẽ trong hệ riêng của thân)
-    if(this.type==='spidercat' && !this.dead) _spSpeedFx(this,s);   // 🕷️⚡ vệt tốc độ kiểu The Flash (vẽ SAU lưng thân)
+    if(this.type==='spidercat' && !this.dead) _spSpeedFx(this,s,rotation,facingLeft);   // 🕷️⚡ vệt tốc độ kiểu The Flash (vẽ SAU lưng thân)
     if(this.type==='doge' && !this.dead){   // 🐕 hoạt ảnh Doge: phồng cơ lúc biến hình, thở/gồng/bước nặng, vung búa, xì hơi
       if(this.dogeBuffed) _dogeAura(this,s);
       const _dg=_dogeAnim(this); offX+=_dg.ox; offY+=_dg.oy; rotation+=_dg.rot; scaleX*=_dg.sx; scaleY*=_dg.sy; }
