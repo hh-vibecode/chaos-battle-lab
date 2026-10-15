@@ -3756,7 +3756,7 @@ function _fighterDeathFx(f){
 // Solo 1vs1: cảnh thắng của bên kia xong → camera zoom vào đống mảnh, cổng đen xoáy mở cạnh đó, cánh tay bóng tối (bộ tay của
 // Scared Hamster) bò ra chụp lấy, kéo hết mảnh vào cổng rồi cổng đóng lại.
 let frRem=null;
-const FR_REC={open:600, reach:1500, grab:1900, pull:3000, close0:3200, end:4100};   // ms
+const FR_REC={open:600, reach:1500, gather:2300, grab:2550, pull:3700, close0:3850, end:4600};   // ms: mở cổng → 2 tay bò ra 2 bên đống mảnh → GOM vào giữa → tóm → kéo về cổng → đóng
 function _frShatter(f,L,bx,by,pow){   // bx,by,pow: (tuỳ chọn) tâm vụ nổ đẩy mảnh văng ra xa (Shinra Tensei)
   const S2=2, dw=L.dw, dh=L.dh, c=document.createElement('canvas'); c.width=Math.max(4,Math.round(dw*S2)); c.height=Math.max(4,Math.round(dh*S2));
   const x=c.getContext('2d'); x.save(); if(L.fl||L.flip){ x.translate(c.width,0); x.scale(-1,1); }
@@ -3768,7 +3768,7 @@ function _frShatter(f,L,bx,by,pow){   // bx,by,pow: (tuỳ chọn) tâm vụ n�
   for(let j=0;j<rows;j++) for(let i=0;i<cols;i++){
     const poly=[V[j][i],V[j][i+1],V[j+1][i+1],V[j+1][i]], ox=poly.reduce((a,p)=>a+p[0],0)/4, oy=poly.reduce((a,p)=>a+p[1],0)/4;
     if(alpha){ let n=0,tot=0; for(let yy=Math.floor(j*ch);yy<(j+1)*ch;yy+=4) for(let xx=Math.floor(i*cw);xx<(i+1)*cw;xx+=4){ tot++; if(alpha[(yy*c.width+xx)*4+3]>60) n++; } if(n<tot*0.12) continue; }   // ô gần như trong suốt → bỏ
-    const lx=(ox-c.width/2)/S2, ly=(oy-c.height/2)/S2, d=Math.hypot(lx,ly)||1, sp=1.4+Math.random()*1.8;
+    const lx=(ox-c.width/2)/S2, ly=(oy-c.height/2)/S2, d=Math.hypot(lx,ly)||1, sp=0.5+Math.random()*0.9;   // văng NHẸ → sụp xuống chồng lên nhau thành 1 đống
     let vx=lx/d*sp+(Math.random()-0.5), vy=ly/d*sp+(Math.random()-0.5);
     if(pow){ const ax=f.x+lx-bx, ay=f.y+ly-by, ad=Math.hypot(ax,ay)||1, bp=pow*(0.7+Math.random()*0.6); vx+=ax/ad*bp; vy+=ay/ad*bp; }   // bị sóng nổ thổi văng
     pieces.push({poly, ox, oy, x:f.x+lx, y:f.y+ly, vx, vy, rot:0, vr:(Math.random()-0.5)*(pow?0.5:0.25), s:1, a:1}); }
@@ -3776,25 +3776,42 @@ function _frShatter(f,L,bx,by,pow){   // bx,by,pow: (tuỳ chọn) tâm vụ n�
 }
 function _frRemTick(){
   const R=frRem; if(!R) return;
-  if(!R.rec){ for(const p of R.pieces){ p.x+=p.vx; p.y+=p.vy; p.vx*=0.86; p.vy*=0.86; p.rot+=p.vr; p.vr*=0.88; } return; }   // văng nhẹ rồi nằm yên
+  for(const p of R.pieces){ p.x+=p.vx; p.y+=p.vy; p.vx*=0.84; p.vy*=0.84; p.rot+=p.vr; p.vr*=0.86; }   // quán tính + ma sát sàn
+  if(!R.rec) return;
   const ms=performance.now()-R.rec.t0, P=R.rec.P;
-  if(!R.rec.s1 && ms>=0){ R.rec.s1=true; playSample('blackhole',0.5); }
-  if(!R.rec.s2 && ms>=FR_REC.open){ R.rec.s2=true; playSample('hm_crawl',0.8,1.4); }
-  if(!R.rec.s3 && ms>=FR_REC.reach+150){ R.rec.s3=true; playSample('hm_claw1',1.0); addShake(3,10); }
-  if(ms>=FR_REC.grab){   // 🖐️ chụp xong: mảnh bị kéo theo bàn tay về cổng, nhỏ dần rồi biến vào trong
-    const H=_frRecHand(ms);
-    for(const p of R.pieces){ const tx=H.x+(p.ox/R.S2-R.cv.width/R.S2/2)*0.25*p.s, ty=H.y+(p.oy/R.S2-R.cv.height/R.S2/2)*0.25*p.s;
-      p.x+=(tx-p.x)*0.22; p.y+=(ty-p.y)*0.22; p.rot+=0.05;
-      const dP=Math.hypot(p.x-P.x,p.y-P.y); if(ms>FR_REC.pull-500) p.s=Math.max(0.05,Math.min(p.s,dP/(R.size*2))); p.s=Math.min(p.s, ms<FR_REC.pull?1:0.05); } }
+  if(!R.rec.s1){ R.rec.s1=true; playSample('blackhole',0.5); }
+  if(!R.rec.s2 && ms>=FR_REC.open){ R.rec.s2=true; playSample('hm_crawl',0.8,1.6); }
+  if(!R.rec.s3 && ms>=FR_REC.gather-300){ R.rec.s3=true; playSample('hm_claw2',0.8); }
+  if(!R.rec.s4 && ms>=FR_REC.grab){ R.rec.s4=true; playSample('hm_claw1',1.0); addShake(3,10); }
+  const Hs=[0,1].map(j=>_frRecHand(ms,j));
+  for(const [j,H] of Hs.entries()){ const pv=R.rec.prev[j]||H; H.vx=H.x-pv.x; H.vy=H.y-pv.y; R.rec.prev[j]={x:H.x,y:H.y}; }
+  if(ms<FR_REC.grab){   // 🖐️ 2 bàn tay xoè như cái xẻng: chạm mảnh nào là ĐẨY mảnh đó đi theo tay (va chạm thật) → dồn cả đống vào giữa
+    for(const H of Hs){ if(ms<FR_REC.reach-150) continue; const hr=R.size*0.95;
+      for(const p of R.pieces){ const dx=p.x-H.x, dy=p.y-H.y, d=Math.hypot(dx,dy)||1;
+        if(d<hr){ const push=(hr-d); p.x+=dx/d*push*0.5+H.vx*0.85; p.y+=dy/d*push*0.5+H.vy*0.85; p.vx+=H.vx*0.25; p.vy+=H.vy*0.25; p.vr+=(Math.random()-0.5)*0.08; } } }
+    if(ms>=FR_REC.gather-200){ const M={x:(Hs[0].x+Hs[1].x)/2,y:(Hs[0].y+Hs[1].y)/2};   // gom chặt dần về giữa 2 tay
+      for(const p of R.pieces){ p.x+=(M.x-p.x)*0.02; p.y+=(M.y-p.y)*0.02; } }
+  } else {   // ✊ tóm xong: cả đống mảnh bị kẹp giữa 2 bàn tay, kéo lê về cổng, nhỏ dần lúc chui vào
+    const M={x:(Hs[0].x+Hs[1].x)/2,y:(Hs[0].y+Hs[1].y)/2};
+    if(!R.rec.held){ R.rec.held=true; for(const p of R.pieces){ const k=0.32; p.hx=(p.x-M.x)*k; p.hy=(p.y-M.y)*k; } }
+    const dP=Math.hypot(M.x-P.x,M.y-P.y);
+    for(const p of R.pieces){ p.x+=(M.x+p.hx-p.x)*0.3; p.y+=(M.y+p.hy-p.y)*0.3; p.vx=0; p.vy=0; p.rot+=0.01;
+      p.s=Math.max(0.05,Math.min(1,dP/(R.size*1.4))); }
+  }
   if(ms>=FR_REC.end){ frRem.done=true; frRem.pieces.length=0; }
 }
-function _frRecHand(ms){   // vị trí bàn tay: từ cổng vươn tới đống mảnh → chụp → kéo về cổng
-  const R=frRem, P=R.rec.P, C=R.rec.C;
-  if(ms<FR_REC.open) return {x:P.x,y:P.y,pose:'crawlA',a:0};
-  if(ms<FR_REC.reach){ const u=(ms-FR_REC.open)/(FR_REC.reach-FR_REC.open), e=u*u*(3-2*u); return {x:P.x+(C.x-P.x)*e, y:P.y+(C.y-P.y)*e, pose:u>0.75?'lunge':(Math.sin(ms/90)>0?'crawlA':'crawlB'), a:Math.min(1,u*3)}; }
-  if(ms<FR_REC.grab) return {x:C.x,y:C.y,pose:'closing',a:1};
-  if(ms<FR_REC.pull){ const u=(ms-FR_REC.grab)/(FR_REC.pull-FR_REC.grab), e=u*u; return {x:C.x+(P.x-C.x)*e, y:C.y+(P.y-C.y)*e, pose:'retreat', a:1-Math.max(0,(u-0.8)/0.2)}; }
-  return {x:P.x,y:P.y,pose:'retreat',a:0};
+// vị trí MŨI bàn tay j (0: bên trái, 1: bên phải đống mảnh) theo thời gian
+function _frRecHand(ms,j){
+  const R=frRem, P=R.rec.P, C=R.rec.C, v=R.rec.v, sg=j?-1:1, S=R.rec.spread;
+  const L={x:C.x+v.x*S*sg, y:C.y+v.y*S*sg}, G={x:C.x+v.x*R.size*0.5*sg, y:C.y+v.y*R.size*0.5*sg}, B={x:P.x+v.x*R.size*0.35*sg, y:P.y+v.y*R.size*0.35*sg};
+  const E=t=>t*t*(3-2*t);
+  if(ms<FR_REC.open) return {x:B.x,y:B.y,pose:'crawlA',a:0};
+  if(ms<FR_REC.reach){ const u=(ms-FR_REC.open)/(FR_REC.reach-FR_REC.open), e=E(u), bow=Math.sin(Math.PI*u)*R.size*0.8*sg;   // bò cong ra 2 bên
+    return {x:B.x+(L.x-B.x)*e+v.x*bow, y:B.y+(L.y-B.y)*e+v.y*bow, pose:Math.sin(ms/90+j*1.7)>0?'crawlA':'crawlB', a:Math.min(1,u*3)}; }
+  if(ms<FR_REC.gather){ const u=(ms-FR_REC.reach)/(FR_REC.gather-FR_REC.reach), e=E(u); return {x:L.x+(G.x-L.x)*e, y:L.y+(G.y-L.y)*e, pose:'lunge', a:1}; }   // quét vào giữa
+  if(ms<FR_REC.grab) return {x:G.x,y:G.y,pose:'closing',a:1};
+  if(ms<FR_REC.pull){ const u=(ms-FR_REC.grab)/(FR_REC.pull-FR_REC.grab), e=u*u; return {x:G.x+(B.x-G.x)*e, y:G.y+(B.y-G.y)*e, pose:'closing', a:1-Math.max(0,(u-0.85)/0.15)}; }
+  return {x:B.x,y:B.y,pose:'closing',a:0};
 }
 function _frRemDraw(){
   const R=frRem; if(!R || R.done) return;
@@ -3808,19 +3825,32 @@ function _frRemDraw(){
       ctx.lineCap='round'; for(let k=0;k<6;k++){ const st=tm*(2.2+k*0.3)+k*1.05, rr=Rr*(0.35+k*0.11); ctx.strokeStyle=`rgba(${150+k*12},${60+k*8},255,${0.55-k*0.06})`; ctx.lineWidth=Math.max(1,Rr*0.05); ctx.beginPath(); ctx.arc(0,0,rr,st,st+2.2); ctx.stroke(); }   // xoáy
       ctx.strokeStyle='rgba(200,140,255,0.8)'; ctx.lineWidth=Math.max(1.2,Rr*0.06); ctx.beginPath(); ctx.arc(0,0,Rr,0,Math.PI*2); ctx.stroke();
       ctx.restore(); } }
-  // 🧩 mảnh vỡ nằm trên sàn
+  const _drawPieces=()=>{
   for(const p of R.pieces){ if(p.s<=0.06) continue; const S2=R.S2;
     ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.scale(p.s/S2,p.s/S2);
     ctx.beginPath(); p.poly.forEach((q,i)=>i?ctx.lineTo(q[0]-p.ox,q[1]-p.oy):ctx.moveTo(q[0]-p.ox,q[1]-p.oy)); ctx.closePath();
     ctx.save(); ctx.translate(4,6); ctx.fillStyle='rgba(0,0,0,0.25)'; ctx.fill(); ctx.restore();   // bóng đổ
     ctx.save(); ctx.clip(); ctx.drawImage(R.cv,-p.ox,-p.oy); ctx.restore();
     ctx.lineWidth=2; ctx.strokeStyle='rgba(20,10,25,0.55)'; ctx.stroke(); ctx.restore(); }
-  // 🖐️ cánh tay bóng tối
-  if(R.rec && ms>=FR_REC.open && ms<FR_REC.pull+50){ const H=_frRecHand(ms), P=R.rec.P, k=0.495*(R.size/40)*1.15, m=HM_HAND_META[H.pose];
-    if(m && H.a>0.02){ const ang=Math.atan2(H.y-P.y,H.x-P.x)||0, off=(m.fo??m.w*0.35)*k, W0={x:H.x-Math.cos(ang)*off, y:H.y-Math.sin(ang)*off, a:ang};
-      const hh={ax:P.x, ay:P.y, trail:[{x:P.x,y:P.y}], cph:ms/300};
-      if(Math.hypot(W0.x-P.x,W0.y-P.y)>m.ww*k*0.8) _hmArmSprite(hh,W0,m.ww*k*0.97,H.a,4.2);
-      _hmBlit(HM_HAND_IMG[H.pose],m,W0.x,W0.y,W0.a,k,H.a,1); } }
+  };
+  if(!(R.rec && ms>=FR_REC.grab)) _drawPieces();   // 🧩 mảnh vỡ nằm trên sàn (lúc bị 2 tay kẹp thì vẽ đè lên tay cho thấy rõ)
+  // 🖐️ 2 cánh tay bóng tối (tay phải lật gương) — gốc tay chìm trong lòng cổng
+  if(R.rec && ms>=FR_REC.open && ms<FR_REC.pull+50){ const P=R.rec.P, k=0.495*(R.size/40)*0.85; let drawn=false;
+    for(let j=0;j<2;j++){ const H=_frRecHand(ms,j), m=HM_HAND_META[H.pose]; if(!m || H.a<=0.02) continue;
+      const base={x:P.x+R.rec.v.x*R.size*0.3*(j?-1:1), y:P.y+R.rec.v.y*R.size*0.3*(j?-1:1)}, ang=Math.atan2(H.y-base.y,H.x-base.x)||0, off=(m.fo??m.w*0.35)*k;
+      const W0={x:H.x-Math.cos(ang)*off, y:H.y-Math.sin(ang)*off, a:ang};
+      const hh={ax:base.x, ay:base.y, trail:[{x:base.x,y:base.y}], cph:ms/300+j*2};
+      if(Math.hypot(W0.x-base.x,W0.y-base.y)>m.ww*k*0.8) _hmArmSprite(hh,W0,m.ww*k*0.97,H.a,4.2+j*3);
+      _hmBlit(HM_HAND_IMG[H.pose],m,W0.x,W0.y,W0.a,k,H.a,j?-1:1); drawn=true; }
+    if(drawn){   // 🌀 lòng cổng phủ lên gốc 2 cánh tay + mép trước cổng đè lên → tay và cổng liền 1 khối
+      const Rr=R.size*1.25; ctx.save(); ctx.translate(P.x,P.y); ctx.scale(1,0.55);
+      const g=ctx.createRadialGradient(0,0,0,0,0,Rr); g.addColorStop(0,'rgba(0,0,0,0.95)'); g.addColorStop(0.55,'rgba(4,0,10,0.75)'); g.addColorStop(1,'rgba(20,0,40,0)');
+      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(0,0,Rr,0,Math.PI*2); ctx.fill();
+      const tm=ms/1000; ctx.lineCap='round';
+      for(let q=0;q<3;q++){ const st=tm*(2.4+q*0.4)+q*2.1; ctx.strokeStyle=`rgba(${150+q*20},${60+q*10},255,${0.5-q*0.1})`; ctx.lineWidth=Math.max(1,Rr*0.05); ctx.beginPath(); ctx.arc(0,0,Rr*(0.55+q*0.14),st,st+1.6); ctx.stroke(); }
+      ctx.strokeStyle='rgba(200,140,255,0.9)'; ctx.lineWidth=Math.max(1.4,Rr*0.07); ctx.beginPath(); ctx.arc(0,0,Rr,0.05*Math.PI,0.95*Math.PI); ctx.stroke();
+      ctx.restore(); } }
+  if(R.rec && ms>=FR_REC.grab) _drawPieces();
 }
 // bắt đầu cảnh cổng sau khi cảnh thắng của bên kia xong (chỉ Solo 1vs1 có camera)
 function _frSegDist(px,py,ax,ay,bx,by){ const dx=bx-ax, dy=by-ay, l2=dx*dx+dy*dy||1, t=Math.max(0,Math.min(1,((px-ax)*dx+(py-ay)*dy)/l2)); return Math.hypot(px-ax-dx*t,py-ay-dy*t); }   // khoảng cách điểm → đoạn thẳng
@@ -3830,10 +3860,12 @@ function _frRecStart(){
   // 🌀 cổng mở GẦN đống mảnh nhưng ở phía XA meme thắng (không đè lên nó, tay không vươn ngang qua nó): thử 16 hướng quanh đống mảnh
   const foes=fighters.filter(o=>!o.dead), dist=R.size*2.6; let P=null, best=-1e9;
   for(let k=0;k<16;k++){ const a=k/16*Math.PI*2, x=Math.max(R.size*1.4,Math.min(W-R.size*1.4,cx+Math.cos(a)*dist)), y=Math.max(R.size,Math.min(H-R.size,cy+Math.sin(a)*dist*0.8));
-    let sc=0; for(const o of foes){ const d=Math.hypot(x-o.x,y-o.y), dl=_frSegDist(o.x,o.y,x,y,cx,cy); sc+=Math.min(d,o.size*6)+Math.min(dl,o.size*3)*1.5-(d<o.size*2.4?1000:0); }
+    let sc=0; for(const o of foes){ const d=Math.hypot(x-o.x,y-o.y), dl=_frSegDist(o.x,o.y,x,y,cx,cy); sc+=Math.min(d,o.size*8)*2+Math.min(dl,o.size*3)*2-(d<o.size*3?2000:0)-(dl<o.size*1.2?800:0); }
     sc-=Math.hypot(x-(cx+Math.cos(a)*dist),y-(cy+Math.sin(a)*dist*0.8))*2;   // bị ép vào mép sàn thì trừ điểm
     if(sc>best){ best=sc; P={x,y}; } }
-  R.rec={t0:performance.now(), P, C:{x:cx,y:cy}};
+  const ux=cx-P.x, uy=cy-P.y, ul=Math.hypot(ux,uy)||1, v={x:-uy/ul, y:ux/ul};   // v: hướng vuông góc với đường cổng → đống mảnh
+  let sp=0; for(const p of R.pieces) sp=Math.max(sp,Math.abs((p.x-cx)*v.x+(p.y-cy)*v.y));
+  R.rec={t0:performance.now(), P, C:{x:cx,y:cy}, v, spread:sp+R.size*1.0, prev:[null,null]};
 }
 function _mwKitKat(f,L){
   const e=f.enemy, side=e ? (e.x>=f.x?-1:1) : (Math.random()<0.5?-1:1);   // nửa trên đổ VỀ PHÍA xa kẻ vừa chém
@@ -6567,6 +6599,45 @@ function _frTick(f){
 // 🦷 VẾT GẶM (kiểu meme con cá mặt trăng bị gặm): mỗi cú ngoạm trong bóng tối khoét 1 miếng tròn KHUYẾT vào mép thân
 // phía sau lưng, mép răng lởm chởm, viền đỏ thẫm như thịt. Cắn nhiều phát thì các miếng lấn dần vào trong, 4-5 phát
 // là mất cỡ nửa người. Toạ độ lưu theo KHUNG ẢNH (0..1 trong hộp crop) nên quay mặt kiểu gì vết vẫn dính đúng chỗ.
+// 🩸 RĂNG FRIEND DÍNH MÁU: sau mỗi cú cắn, mọi ảnh của Friend (dáng thường + dáng cắn) có răng loang máu, máu nhỏ giọt từ chân
+//    răng xuống, vài mảnh thịt nhỏ dính kẽ răng — càng cắn nhiều càng đẫm (lv 1..6). Răng = điểm ảnh TRẮNG nằm SÂU trong thân
+//    (không phải viền sticker trắng ở mép). Dựng 1 lần cho mỗi ảnh × mỗi mức, rồi dùng lại.
+function _frBloody(img,lv){
+  if(!img || !img.complete || !(img.naturalWidth||img.width)) return img;
+  const key='_frBl'+lv; if(img[key]) return img[key];
+  const w=img.naturalWidth||img.width, h=img.naturalHeight||img.height, c=document.createElement('canvas'); c.width=w; c.height=h;
+  const x=c.getContext('2d'); x.drawImage(img,0,0);
+  let D; try{ D=x.getImageData(0,0,w,h); }catch(e){ return img; }
+  const px=D.data, rr=Math.max(5,Math.round(w*0.04)), A=(xx,yy)=>(xx<0||yy<0||xx>=w||yy>=h)?0:px[(yy*w+xx)*4+3];
+  const teeth=new Uint8Array(w*h); let z=lv*7919+w; const rnd=()=>{ z=(z*16807)%2147483647; return z/2147483647; };
+  for(let yy=Math.round(h*0.35);yy<h;yy++) for(let xx=0;xx<w;xx++){ const i=(yy*w+xx)*4;   // răng chỉ ở nửa dưới mặt
+    if(px[i+3]<200 || px[i]<190 || px[i+1]<190 || px[i+2]<190) continue;
+    let deep=true; for(let k=0;k<8;k++){ const a=k*Math.PI/4; if(A(Math.round(xx+Math.cos(a)*rr),Math.round(yy+Math.sin(a)*rr))<200){ deep=false; break; } }
+    if(deep) teeth[yy*w+xx]=1; }
+  // loang máu trên răng: nhiễu đốm, độ phủ tăng theo lv; chân răng (phía dưới) đậm hơn
+  const cell=Math.max(4,Math.round(w*0.03)), gw=Math.ceil(w/cell)+2, gh=Math.ceil(h/cell)+2, G=new Float32Array(gw*gh).map(()=>rnd());
+  const nz=(xx,yy)=>{ const fx=xx/cell, fy=yy/cell, ix=fx|0, iy=fy|0, tx=fx-ix, ty=fy-iy, a=G[iy*gw+ix], b=G[iy*gw+ix+1], cc=G[(iy+1)*gw+ix], d=G[(iy+1)*gw+ix+1];
+    return (a+(b-a)*tx)*(1-ty)+(cc+(d-cc)*tx)*ty; };
+  const cov=0.1+0.1*lv, edges=[];
+  for(let yy=0;yy<h;yy++) for(let xx=0;xx<w;xx++){ if(!teeth[yy*w+xx]) continue; const i=(yy*w+xx)*4;
+    const below=yy+1<h && teeth[(yy+1)*w+xx], nearTip=!below || (yy+3<h && !teeth[(yy+3)*w+xx]);
+    if(!below) edges.push([xx,yy]);
+    const n=nz(xx,yy)+(nearTip?0.18:0);
+    if(n>1-cov){ const k=Math.min(1,(n-(1-cov))*4)*0.9; px[i]=px[i]*(1-k)+150*k; px[i+1]=px[i+1]*(1-k)+8*k; px[i+2]=px[i+2]*(1-k)+20*k; } }
+  x.putImageData(D,0,0);
+  // giọt máu chảy từ chân răng xuống
+  x.lineCap='round';
+  for(const [ex,ey] of edges){ if(rnd()>0.035*lv) continue; const L=(4+rnd()*8)*lv*(w/700)*2, lw=Math.max(1.5,w*(0.006+rnd()*0.006));
+    x.strokeStyle='rgba(135,6,16,0.95)'; x.lineWidth=lw; x.beginPath(); x.moveTo(ex,ey); x.lineTo(ex+(rnd()-0.5)*2,ey+L); x.stroke();
+    x.fillStyle='rgba(150,10,22,1)'; x.beginPath(); x.arc(ex,ey+L,lw*0.95,0,Math.PI*2); x.fill(); }
+  // vụn thịt dính kẽ răng (từ lần cắn thứ 2)
+  if(lv>=2){ const T=[]; for(let k=0;k<4000 && T.length<lv*2;k++){ const xx=(rnd()*w)|0, yy=(rnd()*h)|0; if(teeth[yy*w+xx]) T.push([xx,yy]); }
+    for(const [mx,my] of T){ const r=w*(0.008+rnd()*0.01);
+      x.fillStyle='#7a0f1a'; x.beginPath(); x.ellipse(mx,my,r*1.3,r,rnd()*3,0,Math.PI*2); x.fill();
+      x.fillStyle='#c4485a'; x.beginPath(); x.ellipse(mx-r*0.3,my-r*0.25,r*0.6,r*0.4,rnd()*3,0,Math.PI*2); x.fill(); } }
+  if(img._crop) c._crop=img._crop; if(img._noMask) c._noMask=img._noMask;
+  return img[key]=c;
+}
 function _frAddBite(u){
   if(!u || u.dead) return;
   const n=(u._biteHoles||(u._biteHoles=[])).length;
@@ -6596,7 +6667,9 @@ function _biteMask(u,img){
   const cv=document.createElement('canvas'); cv.width=src.width; cv.height=src.height;
   const g=cv.getContext('2d'); g.drawImage(src,0,0);
   const cr=img._crop||{sx:0,sy:0,sw:src.width,sh:src.height};
-  for(const h of u._biteHoles){
+  // 🎞️ ảnh động dạng sprite-sheet (vd GIF kêu than Depressed Cat): khoét đúng vết đó vào TỪNG khung → phát GIF vẫn còn vết cắn
+  const cells=((img._frames||1)>1) ? Array.from({length:img._frames},(_,k)=>{ const fw=src.width/img._cols, fh=src.height/img._rows; return {sx:(k%img._cols)*fw, sy:Math.floor(k/img._cols)*fh, sw:fw, sh:fh}; }) : [cr];
+  for(const h of u._biteHoles) for(const cr of cells){
     const cx=cr.sx+h.x*cr.sw, cy=cr.sy+h.y*cr.sh, R=h.r*cr.sw;
     g.globalCompositeOperation='destination-out'; _bitePath(g,cx,cy,R,h.sd); g.fill();       // khoét miếng
     g.globalCompositeOperation='source-atop';                                                 // viền thịt đỏ thẫm quanh vết
@@ -6664,7 +6737,7 @@ function _frDraw(){
   }
   // 👁️ dấu đánh dấu: 2 con mắt mèo tím sáng lơ lửng trên đầu địch
   for(const o of fighters){
-    if(!o._frMarked || o.dead) continue;
+    if(!o._frMarked || o.dead || o._frMarked.dead) continue;   // Friend chết rồi thì thôi đánh dấu
     const cx=o.x, cy=o.y-o.size-22-20, r=o.size*0.18, tm=Date.now()/1000, bl=0.75+0.25*Math.sin(tm*4);
     // 👀 con ngươi ĐẢO QUA LẠI: liếc sang 1 bên, đứng lại một nhịp rồi liếc sang bên kia (không lắc đều như con lắc)
     const _ph=(tm*0.55)%1, _lk=_ph<0.3 ? -1 : _ph<0.5 ? -1+2*((_ph-0.3)/0.2) : _ph<0.8 ? 1 : 1-2*((_ph-0.8)/0.2);
@@ -6836,7 +6909,7 @@ function _frDrawNight(){
       ctx.translate(fx+jit, fy+jit);
       const faceLeft = (t.x < fx);                                         // luôn quay mặt về phía con mồi
       if(faceLeft !== (f.facingDefault!=='right')) ctx.scale(-1,1);
-      ctx.drawImage(_stickerMask(im), -w/2, -h/2, w, h); }
+      ctx.drawImage(_stickerMask((f._frBites||0)>0?_frBloody(im,Math.min(6,f._frBites)):im), -w/2, -h/2, w, h); }   // 🩸 răng dính máu theo số lần đã cắn
     else ctx.drawImage(_emojiSprite('🐈‍⬛',200), fx-sz/2, fy-sz/2, sz, sz);
     ctx.restore();
   };
@@ -7917,7 +7990,7 @@ function _psDraw(){
       _psCut(x,y,14+Math.random()*24,q.cx,q.cy,3+Math.random()*4,0.88); }
     for(const u of fighters){ if(u===f || u.team===f.team || u.dead || u._mwErased || q.hitSet.has(u)) continue;   // ☠️ địch bị ép nát vụn tại chỗ
       if(Math.hypot(u.x-q.cx,u.y-q.cy) < q.R+u.size*0.5){ q.hitSet.add(u);
-        if(u.type==='friend' && u._lastSprite && u._lastSprite.img){ _frShatter(u,u._lastSprite,q.cx,q.cy,7); u._mwErased=true; playSample('death_break',1.1); continue; }   // 🐈‍⬛ Friend: vỡ thành mảnh to nằm lại (để cổng hắc ám vơ về sau cảnh thắng)
+        if(u.type==='friend' && u._lastSprite && u._lastSprite.img){ _frShatter(u,u._lastSprite,q.cx,q.cy,2.5); u._mwErased=true; playSample('death_break',1.1); continue; }   // 🐈‍⬛ Friend: vỡ thành mảnh to nằm lại (để cổng hắc ám vơ về sau cảnh thắng)
         for(let k=0;k<26;k++) _psCut(u.x+(Math.random()-0.5)*u.size*1.4, u.y+(Math.random()-0.5)*u.size*1.4, u.size*(0.22+Math.random()*0.22), q.cx, q.cy, 1.2+Math.random()*2, 0.85, true);
         u._mwErased=true; playSample('death_break',1.1); } }
     for(const arr of _hpSummonArrays()) for(const s2 of arr){ if(!s2 || s2.dead || q.hitSet.has(s2)) continue;
@@ -19809,6 +19882,7 @@ class Fighter {
     if((this._mlemFreezeT||0)>0){ if(!this._frzSel) this._frzSel=img; else img=this._frzSel; } else this._frzSel=null;
     if(img){
       // Ricardo: thu nhỏ avatar lúc tấn công 15% | Screaming Marmot: GIF hét phóng to thêm 95% (1.5x rồi +30% nữa)
+      if(this.type==='friend' && (this._frBites||0)>0 && !((img._frames||1)>1)) img=_frBloody(img,Math.min(6,this._frBites));   // 🩸 răng Friend dính máu + vụn thịt, càng cắn nhiều càng đẫm
       const _avMul = (this.type==='ricardo' && isAttacking && !RC_FR.includes(img) && !RC_RG.includes(img)) ? 0.85   // (tư thế nhảy giữ nguyên cỡ, không co lúc đánh)
                    : (this.type==='smartguy' && (this._sgDisplayVal||0)>0) ? 1.5
                    : (this.type==='ricardo' && RC_FR.includes(img)) ? RC_VIS_MUL   // 🕺 tư thế nhảy: phóng cho bằng cỡ avatar
@@ -19901,7 +19975,7 @@ class Fighter {
         // răng cưa. Dựng viền ĐÚNG ở cỡ đã phình (bù ngược lại phần scale) cho sắc nét.
         const _olK=(this.type==='chonkydog' && (this._cdgK||1)>1.05) ? Math.round(this._cdgK*10)/10 : 1;
         if(_olK>1) ctx.scale(1/_olK,1/_olK);
-        const _olImg=(this._biteHoles&&this._biteHoles.length&&!((img._frames||1)>1)) ? _biteMask(this,img) : img;   // 🦷 bị Friend gặm: viền ôm theo vết khuyết, lỗ cắn trong suốt hẳn
+        const _olImg=(this._biteHoles&&this._biteHoles.length) ? _biteMask(this,img) : img;   // 🦷 bị Friend gặm: viền ôm theo vết khuyết, lỗ cắn trong suốt hẳn
         _drawStickerOutline(_olImg,_sx,_sy,_sw,_sh, dw*_olK,dh*_olK, Math.max(1.2, s*0.036) * ((duoCtx||ffa3Ctx)?2.4:1)*_olK, _tc);
         ctx.restore();
       }
@@ -19948,8 +20022,8 @@ class Fighter {
         ctx.beginPath(); ctx.arc(0,0,_R*0.90,-2.5,-0.9); ctx.stroke();
         ctx.restore();
       }
-      else if(!_lcRibbon) ctx.drawImage((this._biteHoles&&this._biteHoles.length&&!((img._frames||1)>1)) ? _biteMask(this,img) : _stickerMask(img), _sx,_sy,_sw,_sh, -dw/2,-dh/2, dw,dh);   // 🦷 có vết Friend gặm thì vẽ bản đã khuyết
-      const _silImg=(this._biteHoles&&this._biteHoles.length&&!((img._frames||1)>1)) ? _biteMask(this,img) : img;   // 🦷 đã bị Friend gặm khuyết → bóng đen cũng khuyết
+      else if(!_lcRibbon) ctx.drawImage((this._biteHoles&&this._biteHoles.length) ? _biteMask(this,img) : _stickerMask(img), _sx,_sy,_sw,_sh, -dw/2,-dh/2, dw,dh);   // 🦷 có vết Friend gặm thì vẽ bản đã khuyết
+      const _silImg=(this._biteHoles&&this._biteHoles.length) ? _biteMask(this,img) : img;   // 🦷 đã bị Friend gặm khuyết → bóng đen cũng khuyết
       if(psCine && psCine.f===this && psCine.sil>0.01 && !_lcRibbon && !_fanBall){ ctx.save(); ctx.globalAlpha*=0.96*psCine.sil; ctx.drawImage(_frDarkMask(_silImg), _sx,_sy,_sw,_sh, -dw/2,-dh/2, dw,dh); ctx.restore(); }
    // 🌀 Shinra Tensei: hoá BÓNG ĐEN
       if(this.type==='susdog' && this._sdHide && !_lcRibbon && !_fanBall){   // 🌑 chìm vào bóng tối: phủ bóng đen lên người
@@ -22693,7 +22767,7 @@ function loop(){
   _mwDrawHole();    // 🕳️ Hollow Purple khoét xuyên sàn + chữ (trước nhân vật)
   _dpRainUnder();   // 🌧️ Depressed Cat kêu than: sàn hoá mặt hồ, gợn sóng mưa rơi (trước nhân vật)
   _psDrawUnder();   // 🌀 Shinra Tensei: chữ mực + sàn bị càn + mảnh vụn (trước nhân vật)
-  _frRemTick(); _frRemDraw();   // 🐈‍⬛ mảnh vỡ Friend nằm trên sàn + cổng hắc ám vơ mảnh (vẽ SAU lớp Shinra để không bị san phẳng che mất)
+  _frRemTick(); if(!(frRem && frRem.rec)) _frRemDraw();   // 🐈‍⬛ mảnh vỡ Friend nằm trên sàn (vẽ SAU lớp Shinra để không bị san phẳng che mất)
   _flCosBG();       // 🌌 Flower Cat khai sáng: sân hoá vũ trụ (trước nhân vật)
   _egRealmDraw();   // 😈 trận có Evil Gary: sàn hoá CÕI LINH HỒN (u ám xanh lạnh, sương ma, đốm hồn bay)
   // 🐶 THIS IS FINE DOG: lửa phủ sàn vẽ NGAY SAU nền, TRƯỚC nhân vật — để nhân vật đứng TRÊN lửa, không bị lửa đè lên người
@@ -23619,6 +23693,7 @@ function loop(){
   }
   _scEchoDrawOver();   // 🌋 Scream Cat: sóng chấn động + đá văng + tiếng vọng (trên meme)
   _scHeadDraw();       // 😱 số dame lớn nhất + hiệu ứng nguy hiểm trên đầu Scream Cat
+  if(frRem && frRem.rec) _frRemDraw();   // 🐈‍⬛ cảnh cổng hắc ám vơ mảnh Friend: vẽ NỔI trên meme (meme thắng không che mất)
   _hmDrawOver();       // 🐹 vuốt tay bóng tối quặp ĐÈ lên con mồi đang bị cầm (cảm giác 3D) + bị nuốt chửng
   _darkDraw();         // 🌑 khí đen hắc ám bao quanh nạn nhân
   _saDrawOver();       // 😏 thanh SMUG của Arbiter
