@@ -4428,14 +4428,14 @@ function _hmEyesTick(){
   hmEyes.push({x:P.x,y:P.y,side,t:0,T:150+Math.random()*80,s:s0,look:Math.random()*Math.PI*2,blink:60+Math.random()*50});
 }
 function _hmEyesDraw(){
-  // dùng ĐÚNG đôi mắt mèo tím sáng của Friend, phóng to: hé mở → liếc về phía hamster → chớp 1 cái → nhắm lại
+  // đôi mắt 2 màu (vàng/hồng) y như mắt Friend, phóng to: hé mở → liếc về phía hamster → chớp 1 cái → nhắm lại
   const hm=fighters.find(f=>f.type==='scaredhamster' && !f.dead);
   for(const e of hmEyes){
     const tt=e.t, T=e.T, open=Math.min(1,tt/16)*Math.min(1,(T-tt)/16)*((Math.abs(tt-e.blink)<4)?0.1:1);
     if(open<=0.02) continue;
     const r=HM_EYE_R*e.s, la=hm?Math.atan2(hm.y-e.y,hm.x-e.x):e.look+Math.sin(tt*0.05);
     const bl=0.8+0.2*Math.sin(tt*0.15);
-    _frEyePair(e.x,e.y,r,open,Math.cos(la)*r*0.38,Math.sin(la)*r*0.15,bl,0.9*Math.min(1,open*1.5));
+    _frEyePair(e.x,e.y,r,open,Math.cos(la)*r*0.32,Math.sin(la)*r*0.2,bl,0.9*Math.min(1,open*1.5),true);   // 2 màu vàng/hồng như mắt Friend
   }
 }
 // 🖼️ bộ ảnh Scared Hamster (user gửi, đã tách nền xanh): sợ hãi cầm thánh giá (lúc nép góc / bị nuốt)
@@ -6793,8 +6793,14 @@ function _frDraw(){
 }
 // 👁️ đôi mắt mèo tím sáng của Friend (dùng chung: dấu đánh dấu của Friend + mắt nhòm trong bóng tối trận Scared Hamster)
 //    open = độ mở mí (0..1), lx/ly = con ngươi liếc, bl = độ sáng, bgA = độ đậm mảng tối sau mắt
-function _frEyePair(cx,cy,r,open,lx,ly,bl,bgA){
+function _frEyePair(cx,cy,r,open,lx,ly,bl,bgA,two){
   ctx.save();
+  if(two){   // 👀 đúng kiểu mắt Friend: mắt trái VÀNG, mắt phải HỒNG, tròng tròn + con ngươi đen tròn
+    ctx.fillStyle=`rgba(10,4,18,${bgA})`; ctx.beginPath(); ctx.ellipse(cx,cy,r*3,r*1.5,0,0,Math.PI*2); ctx.fill();
+    for(const [s,c,gc] of [[-1,'255,224,0','#ffe000'],[1,'255,122,200','#ff7ac8']]){ const ex=cx+s*r*1.3, ry=Math.max(0.01,r*0.8*open);
+      ctx.shadowColor=gc; ctx.shadowBlur=12; ctx.fillStyle=`rgba(${c},${bl})`; ctx.beginPath(); ctx.ellipse(ex,cy,r*0.8,ry,0,0,Math.PI*2); ctx.fill(); ctx.shadowBlur=0;
+      if(open>0.35){ ctx.save(); ctx.beginPath(); ctx.ellipse(ex,cy,r*0.8,ry,0,0,Math.PI*2); ctx.clip(); ctx.fillStyle='#07030d'; ctx.beginPath(); ctx.arc(ex+lx,cy+ly,r*0.38,0,Math.PI*2); ctx.fill(); ctx.restore(); } }
+    ctx.restore(); return; }
   ctx.fillStyle=`rgba(10,4,18,${bgA})`; ctx.beginPath(); ctx.ellipse(cx,cy,r*3,r*1.5,0,0,Math.PI*2); ctx.fill();
   ctx.fillStyle=`rgba(200,140,255,${bl})`; ctx.shadowColor='#b388ff'; ctx.shadowBlur=10;
   for(const s of [-1,1]){ ctx.beginPath(); ctx.ellipse(cx+s*r*1.3,cy,r*0.7,Math.max(0.01,r*0.95*open),0,0,Math.PI*2); ctx.fill(); }
