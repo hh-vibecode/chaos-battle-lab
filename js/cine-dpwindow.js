@@ -409,12 +409,14 @@
     const t=paused?pauseT:(now-t0)/1000, tf=Math.min(t,T.freeze);
     if(t>=0.3 && t<T.walkEnd) sfx('happy1','dp_happy',0.9);   // 😸 happy happy happy — vừa ôm hoa vừa đi trên phố (lặp lại, tắt đúng lúc tới nhà)
     if(t>=2.84 && t<T.walkEnd) sfx('happy2','dp_happy',0.9,Math.max(0.1,T.walkEnd-2.84));
-    if(t>=T.cut && t<T.freeze) sfx('violin','violin_sad',0.75,Math.max(0.1,T.freeze-Math.max(t,T.cut)));   // 🎻 nhạc buồn bắt đầu ĐÚNG lúc chuyển sang phố mưa, tắt cụt lúc dừng hình
+    if(t>=T.cut && t<T.out) sfx('violin','violin_sad',0.75,Math.max(0.1,T.out-Math.max(t,T.cut)));   // 🎻 nhạc buồn bắt đầu ĐÚNG lúc chuyển sang phố mưa, tắt cụt lúc dừng hình
     if(t>=T.strike1) sfx('strike1','thunder_big',1.0);   // ⚡ sét lần 1
     if(t>=T.toss && t<T.coatOn+0.4) sfx('cloak','dp_cloak',1.0);   // 🧥 tung áo vụt lên → khoác vào phạch (tiếng phạch rơi đúng lúc áo chụp xuống)
     if(t>=T.tpGo && t<T.s2+0.4) sfx('tele','clap_tele',1.0);   // 🌀 tiếng dịch chuyển y như Clapping Cat
     if(t>=T.strike2) sfx('strike2','thunder_big',1.0);   // ⚡ sét lần 2
-    if(t>=T.cut && t<T.freeze) sfx('rain','dp_rain',0.8,Math.max(0.1,T.freeze-Math.max(t,T.cut)));   // 🌧️ tiếng mưa
+    if(t>=T.cut && t<DUR) sfx('rain','dp_rain',0.8,Math.max(0.1,DUR-Math.max(t,T.cut)));   // 🌧️ tiếng mưa — giữ tới hết phim
+    if(t>=T.out && t<DUR) sfx('aka','dp_akatsuki',0.9,Math.max(0.1,DUR-Math.max(t,T.out)));   // 🎵 mất điện là cắt nhạc violin, nổ theme Akatsuki tới hết phim
+    for(const [k,ts,v] of [[0,T.toss+0.37,0.6],[1,T.s2+0.35,0.45],[2,T.l1+1.4,0.5]]) if(t>=ts && t<DUR) sfx('rumble'+k,'thunder_big',v);   // ⛈️ sấm xen kẽ suốt đoạn Akatsuki
     for(const [k,ts] of RAIN_FL.entries()) if(t>=ts+0.25 && t<T.freeze) sfx('rth'+k,'thunder_big',0.55);   // ⛈️ sấm sau mỗi lần chớp
     if(t>=T.cry) sfx('cry','sad_cat_cry',1.0,3000);
     if(t>=T.freeze) sfx('freeze','vine_boom',0.9);

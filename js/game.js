@@ -2722,6 +2722,7 @@ const AUDIO_SAMPLES = {};
       dc_rage: 'assets/audio/dc_rage.mp3',   // 😡 Doorbell Chud hét phẫn nộ sau khi chuông vỡ (rage.mp3, ĐỦ 2.6s, phát đúng tốc gốc)
       clap_tele: 'assets/audio/clap_tele.mp3',
       clap_cat: 'assets/audio/clap_cat.mp3',
+      dp_akatsuki: 'assets/audio/dp_akatsuki.mp3',   // 🎵 theme Akatsuki (user gửi) — phim Depressed Cat từ lúc mất điện tới hết
       dp_cloak: 'assets/audio/dp_cloak.mp3',   // 🧥 Depressed Cat (phim): tung áo Akatsuki vụt lên + khoác vào phạch 1 cái
       gp_break: 'assets/audio/gp_break.mp3',
       gp_souls: 'assets/audio/gp_souls.mp3',
@@ -2890,7 +2891,7 @@ function stopAllLongSfx(){
 function pauseAllLongSfx(on){
   for(const c of _longSfx){ try{ on ? c.pause() : c.play().catch(()=>{}); }catch(e){} }
 }
-const SND_NO_PITCH=new Set(['ps_shinra','dp_happy','sad_cat_cry','hm_stalker','mw_gojo','mw_gojo_travel','ar_clone','dc_rage','sm_omae','sm_nani','ld_stab','ld_shout','ld_heal1','ld_heal2']);   // phát ĐÚNG tốc gốc, không biến điệu ±6%
+const SND_NO_PITCH=new Set(['dp_akatsuki','ps_shinra','dp_happy','sad_cat_cry','hm_stalker','mw_gojo','mw_gojo_travel','ar_clone','dc_rage','sm_omae','sm_nani','ld_stab','ld_shout','ld_heal1','ld_heal2']);   // phát ĐÚNG tốc gốc, không biến điệu ±6%
 function playSample(key, volume=1.0, duration=null, rateMul=1){
   if(key==='punch2') return; // 🔇 tắt hết tiếng "uỵch" (đòn đánh/va chạm) theo yêu cầu — xoá dòng này để bật lại
   const a = AUDIO_SAMPLES[key];
