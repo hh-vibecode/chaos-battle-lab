@@ -7,7 +7,7 @@ msg = sys.argv[1] if len(sys.argv) > 1 else 'Update'
 s = open('index.html', encoding='utf-8').read()
 m = re.search(r'window\.GAME_VERSION=\{build:(\d+),at:"[^"]*"\}', s); assert m, 'không thấy GAME_VERSION trong index.html'
 n = int(m.group(1)) + 1
-at = datetime.datetime.now().strftime('%H:%M · %d/%m/%Y')
+at = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=7))).strftime('%H:%M · %d/%m/%Y')
 s = s[:m.start()] + f'window.GAME_VERSION={{build:{n},at:"{at}"}}' + s[m.end():]
 s = re.sub(r'(\.(?:css|js))\?v=\d+', rf'\1?v={n}', s)
 open('index.html', 'w', encoding='utf-8').write(s)
