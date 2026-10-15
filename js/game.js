@@ -13285,6 +13285,7 @@ function updateShake(){
   _flowerSeqTick(); // tick chuỗi Siêu Việt Flower Cat — chạy độc lập khỏi battleFreezeTimer (xem định nghĩa hàm)
   _slChargeTick(); // ☭ tick nạp sáng 2s Stalin Cat — chạy độc lập khỏi battleFreezeTimer (xem định nghĩa hàm)
   _frSeqTick();    // 🐈‍⬛ chuỗi bóng đêm Friend — chạy độc lập khỏi battleFreezeTimer
+  if(frSeq) for(const _f of fighters) if(_f.type==='depressedcat' && !_f.dead && _f!==frSeq.owner) _f._dpLamentTick();   // 😿 trận đứng hình vì Friend tắt đèn: kêu than vẫn chạy tiếp
   _smPreTick();    // 💧 màn đứng hình + giọt nước trước khi kết liễu
   _egAwakenTick(); // 😈 Evil Gary đủ 5 cánh sao: đứng hình, quỷ bung cánh, lãnh địa lan ra
   _psTick();       // 🌀 Depressed Cat — Shinra Tensei
@@ -14759,35 +14760,7 @@ class Fighter {
     }
 
     // ───── SAD CAT (Depressed Cat) ─────
-    if(this.type==='depressedcat' && !this.dead){
-      this.sadLamentCD = Math.max(0, this.sadLamentCD - 1);
-      if(this.sadLamentTimer > 0){
-        this.sadLamentTimer--;
-        this.vx *= 0.7; this.vy *= 0.7; // đứng yên khi kêu than
-        // apply debuff 30% lên địch mỗi frame (timer 90f = 1.5s, refresh mỗi frame)
-        const e5 = this.enemy;
-        if(e5 && !e5.dead){
-          e5._depressDebuffTimer = 90; // 1.5s debuff duy trì
-        }
-        if(this.sadLamentTimer === 0){
-          this.sadLamentCD = 90; // 1.5s CD (giảm thêm 0.5s) — đếm từ lúc kêu than XONG
-          // +1 emotional damage stack lên địch
-          const _eStack = this.enemy;
-          if(_eStack && !_eStack.dead){
-            _eStack._emotionalStacks = (_eStack._emotionalStacks||0) + 1;
-            if(_eStack._emotionalStacks >= 5){
-              // EMOTIONAL DAMAGE: 1000 dame + reset — chữ nổ to ngay giữa người địch, như từ trong chui ra, đúng lúc nó vỡ tan (không còn bảng kết quả để hiện chữ này nữa)
-              _eStack._emotionalStacks = 0;
-              _psStart(this);   // 🌀 kết liễu "Shinra Tensei": càn quét cả sàn, xoá sổ địch
-            }
-          }
-        }
-      } else if(this.sadLamentCD <= 0 && !this._isHardCC()){   // ⚠️ đang bị khống chế cứng thì không bắt đầu màn kêu than mới
-        this.sadLamentTimer = 180; // kêu than 3s
-        this._shakeTimer = 28; // rung khi bắt đầu kêu
-        playSample('sad_cat_cry', 0.9, 3000); this._dpCryT0=performance.now();   // 😿 GIF kêu than chạy cùng lúc với tiếng
-      }
-    }
+    if(this.type==='depressedcat' && !this.dead) this._dpLamentTick();   // 😿 kêu than (tách thành hàm để chạy tiếp cả lúc Friend tắt đèn đóng băng trận)
 
     // Depression KO timer (mọi fighter)
     if(this.depressionKOTimer > 0 && !this.dead){
@@ -15508,6 +15481,38 @@ class Fighter {
   // bịt nốt 2 tick cuối của vũ điệu (đo thực tế: Beluga bắt đầu gõ tin mới đúng lúc còn 2 tick nhảy).
   _isHardCC(){ return this.stun>2 || (this._rrDanceT||0)>0; }
 
+  // 😿 DEPRESSED CAT — nhịp kêu than: 3s kêu (địch chậm 50% + 1 stack), nghỉ 1.5s. Đủ 5 stack → Shinra Tensei.
+  //    Gọi từ update(), VÀ từ loop() lúc Friend tắt đèn đóng băng cả trận (_frSeqTick) → chiêu không bị kéo dài ra vì những lần đứng hình đó.
+  _dpLamentTick(){
+    if(this._psPending && !frSeq && !psCine){ this._psPending=false; _psStart(this); return; }
+      this.sadLamentCD = Math.max(0, this.sadLamentCD - 1);
+      if(this.sadLamentTimer > 0){
+        this.sadLamentTimer--;
+        this.vx *= 0.7; this.vy *= 0.7; // đứng yên khi kêu than
+        // apply debuff 30% lên địch mỗi frame (timer 90f = 1.5s, refresh mỗi frame)
+        const e5 = this.enemy;
+        if(e5 && !e5.dead){
+          e5._depressDebuffTimer = 90; // 1.5s debuff duy trì
+        }
+        if(this.sadLamentTimer === 0){
+          this.sadLamentCD = 90; // 1.5s CD (giảm thêm 0.5s) — đếm từ lúc kêu than XONG
+          // +1 emotional damage stack lên địch
+          const _eStack = this.enemy;
+          if(_eStack && !_eStack.dead){
+            _eStack._emotionalStacks = (_eStack._emotionalStacks||0) + 1;
+            if(_eStack._emotionalStacks >= 5){
+              // EMOTIONAL DAMAGE: 1000 dame + reset — chữ nổ to ngay giữa người địch, như từ trong chui ra, đúng lúc nó vỡ tan (không còn bảng kết quả để hiện chữ này nữa)
+              _eStack._emotionalStacks = 0;
+              if(frSeq) this._psPending=true; else _psStart(this);   // 🌀 kết liễu "Shinra Tensei" (đang trong bóng đêm Friend thì chờ đêm tan mới tung)
+            }
+          }
+        }
+      } else if(this.sadLamentCD <= 0 && !this._isHardCC()){   // ⚠️ đang bị khống chế cứng thì không bắt đầu màn kêu than mới
+        this.sadLamentTimer = 180; // kêu than 3s
+        this._shakeTimer = 28; // rung khi bắt đầu kêu
+        playSample('sad_cat_cry', 0.9, 3000); this._dpCryT0=performance.now();   // 😿 GIF kêu than chạy cùng lúc với tiếng
+      }
+  }
   _breakChannels(){
     if(this.huhCharging){ this.huhCharging=false; this.huhChargeTimer=0; this.skill1AvatarTimer=0; }
     if(this.charging){ this.charging=false; this.chargeTimer=0; }
@@ -19772,9 +19777,10 @@ class Fighter {
         ctx.restore();
       }
       else if(!_lcRibbon) ctx.drawImage((this._biteHoles&&this._biteHoles.length&&!((img._frames||1)>1)) ? _biteMask(this,img) : _stickerMask(img), _sx,_sy,_sw,_sh, -dw/2,-dh/2, dw,dh);   // 🦷 có vết Friend gặm thì vẽ bản đã khuyết
-      if(psCine && psCine.f===this && psCine.sil>0.01 && !_lcRibbon && !_fanBall){ ctx.save(); ctx.globalAlpha*=0.96*psCine.sil; ctx.drawImage(_frDarkMask(img), _sx,_sy,_sw,_sh, -dw/2,-dh/2, dw,dh); ctx.restore(); }   // 🌀 Shinra Tensei: hoá BÓNG ĐEN
+      const _silImg=(this._biteHoles&&this._biteHoles.length&&!((img._frames||1)>1)) ? _biteMask(this,img) : img;   // 🦷 đã bị Friend gặm khuyết → bóng đen cũng khuyết
+      if(psCine && psCine.f===this && psCine.sil>0.01 && !_lcRibbon && !_fanBall){ ctx.save(); ctx.globalAlpha*=0.96*psCine.sil; ctx.drawImage(_frDarkMask(_silImg), _sx,_sy,_sw,_sh, -dw/2,-dh/2, dw,dh); ctx.restore(); }   // 🌀 Shinra Tensei: hoá BÓNG ĐEN
       if(this.type==='susdog' && this._sdHide && !_lcRibbon && !_fanBall){   // 🌑 chìm vào bóng tối: phủ bóng đen lên người
-        const _hk=_sdHideK(this); if(_hk>0.01){ ctx.save(); ctx.globalAlpha*=0.92*_hk; ctx.drawImage(_frDarkMask(img), _sx,_sy,_sw,_sh, -dw/2,-dh/2, dw,dh); ctx.restore(); }
+        const _hk=_sdHideK(this); if(_hk>0.01){ ctx.save(); ctx.globalAlpha*=0.92*_hk; ctx.drawImage(_frDarkMask(_silImg), _sx,_sy,_sw,_sh, -dw/2,-dh/2, dw,dh); ctx.restore(); }
       }
       if(this._soulT>0 && this._soulFrom && !_lcRibbon && !_fanBall){   // 👻 bị hút hồn: tái nhợt mất màu
         ctx.save(); ctx.globalAlpha*=Math.min(1,this._soulT/8); ctx.drawImage(_soulPale(img), _sx,_sy,_sw,_sh, -dw/2,-dh/2, dw,dh); ctx.restore();
