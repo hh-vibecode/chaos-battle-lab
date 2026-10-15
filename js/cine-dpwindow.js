@@ -2,16 +2,19 @@
 // Đêm, Depressed Cat ôm bó hoa đi bộ dọc phố về nhà → ngước lên cửa sổ tầng 2 sáng đèn: in bóng VỢ nó (cô mèo trắng
 // trong giấc mơ của Snooze Cat) chụm đầu bên CHILL GUY → nó đứng khóc meow meow (GIF kêu than + tiếng) → VỨT bó hoa,
 // quay lưng bỏ đi → khung hình DỪNG LẠI, ngả xám; sau lưng nó trời nổi sét, 2 con mắt RINNEGAN khổng lồ hiện trên nền
-// trời + chữ mực "This world / shall know / pain." · Mosquito Violin đứng dưới nhà diễn rong, kéo bài buồn đúng lúc nó nhìn thấy.
+// trời + chữ mực "This world / shall know / pain." · Vứt hoa xong chuyển cảnh: nó đi trên phố dưới mưa tầm tã, ngang qua Mosquito Violin
+// đang lơ lửng kéo bài buồn (nhạc buồn bắt đầu lúc chuyển cảnh), đi qua rồi mới dừng hình.
 // Chạy trên lớp phủ riêng (canvas 1080×1920, khung dọc Shorts) giống phim Memes Assemble; mở từ Meme Cinema.
 // Nền tĩnh (trời, phố, nhà, cây, hàng rào...) vẽ SẴN 1 lần ra ảnh phụ độ phân giải cao; phần động vẽ mỗi khung.
 (function(){
   if(window._cineDW) return;
-  const VW=540, VH=960, GROUND=800, DUR=14.4;
+  const VW=540, VH=960, GROUND=800, DUR=18.9;
   const A=p=>{ const im=new Image(); im.src=p; return im; };
   const IMG={ dp:Object.assign(A('assets/avatars/depressedcat/avatarUrl.webp'),{_feather:0.12}), wife:A('assets/img/misc/CAT_DREAM_IMG.webp'), chill:A('assets/img/chillguy/CHILLGUY_AVATAR_IMG.webp'),
     mq:['avatarUrl','attackAvatarUrl','skill1AvatarUrl','skill2AvatarUrl','skill3AvatarUrl'].map(n=>A('assets/avatars/mosquitoviolin/'+n+'.webp')) };
-  const T={ walkEnd:4.1, win:4.2, winEnd:5.7, cry:5.8, cryEnd:8.85, throw:9.0, turn:9.5, freeze:10.9, eyes:11.2, l1:11.9, l2:12.4, l3:12.9 };
+  const T={ walkEnd:4.1, win:4.2, winEnd:5.7, cry:5.8, cryEnd:8.85, throw:9.0, turn:9.5, cut:10.4, freeze:15.4, eyes:15.7, l1:16.4, l2:16.9, l3:17.4 };
+  // 🌧️ cut→freeze: CẢNH PHỐ MƯA 5s — nó lủi thủi đi dưới mưa tầm tã (chớp + sấm), nhạc buồn bắt đầu đúng lúc chuyển cảnh;
+  //    đi được ~2.5s thì ngang qua Mosquito Violin đang lơ lửng kéo bài buồn trên hộp đàn, đi qua rồi mới dừng hình
   const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)), seg=(t,a,b)=>clamp((t-a)/(b-a),0,1), eio=x=>x*x*(3-2*x), lerp=(a,b,k)=>a+(b-a)*k;
   let cv, g, W2, w2, SC, raf=null, t0=0, paused=false, pauseT=0, played={}, markOnly=false, panel=null, overlay=null, BG=null;
   const sfx=(id,k,v,dur)=>{ if(played[id]) return; played[id]=1; if(markOnly) return; try{ playSample(k,v==null?1:v,dur||null); }catch(e){} };
@@ -149,7 +152,8 @@
   function catState(t){
     if(t<T.walkEnd){ const u=t/T.walkEnd; return {x:lerp(-700,170,u<0.85?u/0.85*0.92:0.92+0.08*eio((u-0.85)/0.15)), flip:true, walk:true}; }
     if(t<T.turn) return {x:170, flip:true, walk:false};
-    const u=seg(t,T.turn,T.freeze); return {x:lerp(170,95,u), flip:false, walk:true};
+    if(t<T.cut){ const u=seg(t,T.turn,T.cut); return {x:lerp(170,110,u), flip:false, walk:true}; }
+    return {x:lerp(ST_X0,ST_X1,seg(t,T.cut,T.freeze)), flip:false, walk:true, street:true};   // 🌧️ phố mưa: đi về bên trái
   }
   // 💐 bó hoa (giấy gói hồng + bông đỏ/hồng/vàng + lá)
   function bouquet(x,y,sc,dir,rot){
@@ -176,18 +180,20 @@
     g.fillStyle='#6bbf59'; for(const [bx,by,ba] of [[-16,-8,0.3],[6,-7,-0.25]]){ g.save(); g.translate(bx,by); g.rotate(ba); g.fillRect(-9,-4,18,8); g.fillStyle='#4f9c42'; g.fillRect(-3,-2,6,4); g.fillStyle='#6bbf59'; g.restore(); }   // tiền giấy
     for(const [cx,cy] of [[-26,-6],[-4,-4],[18,-6],[26,-3],[-30,-3],[10,-3]]){ g.fillStyle='#f4c542'; g.beginPath(); g.ellipse(cx,cy,4,2.6,0,0,Math.PI*2); g.fill(); g.fillStyle='#c9952a'; g.fillRect(cx-1.5,cy-0.6,3,1.2); }   // xu
     g.restore(); }
+  const ST_X0=-80, ST_X1=-720, MQX2=-395;   // phố mưa: nó đi từ ST_X0 → ST_X1, ngang qua muỗi ở MQX2 khoảng giây thứ 2.5
   function drawMosquito(t){
-    violinCase(MQX-58,GROUND-2);
-    const P0=T.winEnd-0.2, play=t>=P0, fr=play ? IMG.mq[1+Math.floor((t-P0)/0.17)%4] : IMG.mq[0];   // thấy 2 cái bóng xong mới bắt đầu kéo
-    g.save(); g.globalAlpha=0.35; g.fillStyle='#000'; g.beginPath(); g.ellipse(MQX,GROUND+2,40,7,0,0,Math.PI*2); g.fill(); g.restore();
-    actor(prep(fr), MQX, GROUND+4+(play?Math.sin(t*6)*1.5:0), 165, {flip:true, rot:play?Math.sin(t*3)*0.04:0});
+    if(t<T.cut) return;
+    violinCase(MQX2,GROUND-2);   // 💰 hộp đàn để riêng trên vỉa hè, muỗi lơ lửng PHÍA TRÊN — không che mất hộp
+    const fr=IMG.mq[1+Math.floor((t-T.cut)/0.17)%4], fy=GROUND-58+Math.sin(t*2.4)*6;   // kéo đàn suốt cảnh
+    g.save(); g.globalAlpha=0.28; g.fillStyle='#000'; g.beginPath(); g.ellipse(MQX2,GROUND+3,22,4,0,0,Math.PI*2); g.fill(); g.restore();
+    actor(prep(fr), MQX2, fy, 82, {flip:false, rot:Math.sin(t*3)*0.05});   // nhỏ còn 1/2, bay lơ lửng
   }
   function drawCat(t){
     const s=catState(t), H=180, bob=s.walk?Math.abs(Math.sin(t*7))*5:0;
     g.save(); g.globalAlpha=0.4; g.fillStyle='#000'; g.beginPath(); g.ellipse(s.x,GROUND+4,48,9,0,0,Math.PI*2); g.fill(); g.restore();
     // 💐 vứt bó hoa: bay vòng cung xuống đất, rơi vài cánh, nằm lại trên vỉa hè
-    const hx0=170+48, hy0=GROUND-34, lx=MQX-110, ly=GROUND-4;   // 💐 rơi ngay cạnh hộp đàn của muỗi
-    if(t>=T.throw){ const u=seg(t,T.throw,T.throw+0.5), x=lerp(hx0,lx,u), y=lerp(hy0,ly,u)-Math.sin(Math.PI*u)*90;
+    const hx0=170+48, hy0=GROUND-34, lx=330, ly=GROUND-4;   // 💐 rơi xuống vỉa hè trước nhà
+    if(t>=T.throw && t<T.cut){ const u=seg(t,T.throw,T.throw+0.5), x=lerp(hx0,lx,u), y=lerp(hy0,ly,u)-Math.sin(Math.PI*u)*90;
       bouquet(x,y,1.0,1,0.55+u*1.6);
       for(let i=0;i<7;i++){ const pu=seg(t,T.throw+0.45,T.throw+1.25); if(pu<=0) break; const a=-0.4-hash(i)*2.4, d=pu*(18+hash(i+9)*26);
         g.fillStyle=['#e53950','#ff7aa8','#ffd54f'][i%3]; g.beginPath(); g.ellipse(lx+Math.cos(a)*d, ly+2-Math.sin(a)*d*0.35, 3,1.6,a,0,Math.PI*2); g.fill(); } }
@@ -234,13 +240,29 @@
     try{ _psDrawWords(g, VW/2, VH-315, 200, WT.map(x=>x*1000), t*1000); }catch(e){}
     WT.forEach((w,i)=>{ if(t>=w && !played['w'+i]){ played['w'+i]=1; if(!markOnly) try{ playPrioritySample('vine_boom',1.3,1,0.35); }catch(e){} } });   // 💥 mỗi chữ 1 tiếng vine boom TO, át hết tiếng khác
   }
+  // 🌧️ mưa tầm tã (toạ độ màn hình, vẽ lên lớp thế giới nên dừng hình cũng ngả xám theo) + trời tối ướt + chớp sáng trên trời
+  const RAIN_FL=[0.7,2.6,4.1].map(d=>T.cut+d);
+  function rainFx(t){
+    g.save(); g.setTransform(SC,0,0,SC,0,0);
+    g.fillStyle='rgba(8,12,30,0.32)'; g.fillRect(0,0,VW,VH);   // trời mưa tối + ướt
+    let fl=0; for(const ts of RAIN_FL){ const u=(t-ts)/0.32; if(u>=0&&u<=1) fl=Math.max(fl,(1-u)*(u<0.25||u>0.45?1:0.35)); }   // chớp 2 nhịp
+    if(fl>0){ const gr=g.createLinearGradient(0,0,0,VH*0.7); gr.addColorStop(0,`rgba(215,225,255,${0.55*fl})`); gr.addColorStop(1,'rgba(215,225,255,0)'); g.fillStyle=gr; g.fillRect(0,0,VW,VH); }
+    g.strokeStyle='rgba(190,205,235,0.42)'; g.lineWidth=1.2; g.lineCap='round';
+    for(let i=0;i<170;i++){ const sp=900+hash(i+3)*500, L=16+hash(i+7)*16, x=(hash(i)*(VW+120)-60+t*-90)%(VW+120), xx=x<-60?x+VW+120:x, y=((hash(i+11)*VH+t*sp)%(VH+40))-20;
+      g.beginPath(); g.moveTo(xx,y); g.lineTo(xx-L*0.18,y+L); g.stroke(); }
+    g.strokeStyle='rgba(200,215,240,0.35)'; g.lineWidth=1;   // tia nước bắn lên trên vỉa hè
+    for(let i=0;i<26;i++){ const ph=(t*2.2+hash(i+40))%1, x=hash(i+60)*VW, y=VH*0.86+hash(i+80)*VH*0.1, r=2+ph*7; g.globalAlpha=1-ph; g.beginPath(); g.ellipse(x,y,r,r*0.3,0,0,Math.PI*2); g.stroke(); }
+    g.restore();
+  }
   // 🎥 máy quay: đi theo nó dọc phố → toàn cảnh nhà → ngước lên cửa sổ tầng 2 → cận mặt lúc khóc → lùi ra toàn cảnh (trời phía sau)
   function cam(t){
     if(t<T.walkEnd-0.6){ const s=catState(t); return [Math.min(VW/2,s.x+60), VH/2+40, 1.12]; }
     const K=[[T.walkEnd-0.6,Math.min(VW/2,catState(T.walkEnd-0.6).x+60),VH/2+40,1.12],[T.walkEnd,VW/2,VH/2,1],
       [T.win+0.45,WIN.x+WIN.w/2,WIN.y+WIN.h/2+10,2.5],[T.winEnd,WIN.x+WIN.w/2,WIN.y+WIN.h/2+10,2.7],
-      [T.cry+0.25,175,GROUND-95,2.1],[T.cryEnd,175,GROUND-95,2.2],[T.throw+0.35,300,GROUND-150,1.28],[T.turn+0.4,300,GROUND-150,1.28],[T.freeze,VW/2,VH/2,1]];   // vứt hoa: khung ôm cả nó + muỗi đang kéo đàn
-    if(t>=K[K.length-1][0]) return K[K.length-1].slice(1);
+      [T.cry+0.25,175,GROUND-95,2.1],[T.cryEnd,175,GROUND-95,2.2],[T.throw+0.35,240,GROUND-140,1.55],[T.cut,170,GROUND-140,1.55]];
+    if(t>=T.cut){ const s=catState(t), e=eio(seg(t,T.freeze-1.2,T.freeze));   // 🌧️ phố mưa: máy quay đi theo nó, cuối cảnh lùi ra cho thấy bầu trời
+      return [s.x-40, lerp(GROUND-175,GROUND-300,e), lerp(1.5,1.12,e)]; }
+    if(t>=K[K.length-1][0]) return K[K.length-1].slice(1);   // (giữ khung cuối tới lúc chuyển cảnh)
     for(let i=1;i<K.length;i++) if(t<K[i][0]){ const a=K[i-1], b=K[i], u=eio(seg(t,a[0],b[0])); return [lerp(a[1],b[1],u),lerp(a[2],b[2],u),lerp(a[3],b[3],u)]; }
     return K[0].slice(1);
   }
@@ -249,7 +271,9 @@
     const t=paused?pauseT:(now-t0)/1000, tf=Math.min(t,T.freeze);
     if(t>=0.3 && t<T.walkEnd) sfx('happy1','dp_happy',0.9);   // 😸 happy happy happy — vừa ôm hoa vừa đi trên phố (lặp lại, tắt đúng lúc tới nhà)
     if(t>=2.84 && t<T.walkEnd) sfx('happy2','dp_happy',0.9,Math.max(0.1,T.walkEnd-2.84));
-    if(t>=T.winEnd-0.2 && t<T.freeze) sfx('violin','violin_sad',0.75,Math.max(0.1,T.freeze-Math.max(t,T.winEnd-0.2)));   // 🎻 bài buồn có sẵn của muỗi — nó thấy 2 cái bóng xong mới kéo, tắt cụt lúc dừng hình
+    if(t>=T.cut && t<T.freeze) sfx('violin','violin_sad',0.75,Math.max(0.1,T.freeze-Math.max(t,T.cut)));   // 🎻 nhạc buồn bắt đầu ĐÚNG lúc chuyển sang phố mưa, tắt cụt lúc dừng hình
+    if(t>=T.cut && t<T.freeze) sfx('rain','dp_rain',0.8,Math.max(0.1,T.freeze-Math.max(t,T.cut)));   // 🌧️ tiếng mưa
+    for(const [k,ts] of RAIN_FL.entries()) if(t>=ts+0.25 && t<T.freeze) sfx('rth'+k,'thunder_big',0.55);   // ⛈️ sấm sau mỗi lần chớp
     if(t>=T.cry) sfx('cry','sad_cat_cry',1.0,3000);
     if(t>=T.freeze) sfx('freeze','vine_boom',0.9);
     if(t>=T.eyes) sfx('eyes','ultimate_charge_2',0.6);
@@ -258,6 +282,7 @@
     w2.setTransform(1,0,0,1,0,0); w2.clearRect(0,0,W2.width,W2.height);
     w2.setTransform(SC*z,0,0,SC*z,SC*(VW/2-cx*z),SC*(VH/2-cy*z));
     g=w2; sceneLive(tf); drawMosquito(tf); drawCat(tf);
+    if(tf>=T.cut) rainFx(tf);
     g=cv.getContext('2d'); g.setTransform(1,0,0,1,0,0);
     const fz=seg(t,T.freeze,T.freeze+0.5);
     g.filter=fz>0?`grayscale(${fz}) brightness(${1-0.45*fz}) contrast(${1+0.2*fz})`:'none';
@@ -265,6 +290,7 @@
     g.setTransform(SC,0,0,SC,0,0);
     if(t>=T.freeze && t<T.freeze+0.18){ g.fillStyle=`rgba(255,255,255,${0.7*(1-(t-T.freeze)/0.18)})`; g.fillRect(0,0,VW,VH); }   // chớp nhẹ lúc dừng hình
     if(t<0.5){ g.fillStyle=`rgba(0,0,0,${1-t/0.5})`; g.fillRect(0,0,VW,VH); }
+    { const d=Math.abs(t-T.cut); if(d<0.35){ g.fillStyle=`rgba(0,0,0,${1-d/0.35})`; g.fillRect(0,0,VW,VH); } }   // chuyển cảnh: tối sập rồi mở ra phố mưa
     // 👁️⚡ sau lưng nó: trời tím tối, sét giật, 2 mắt Rinnegan + chữ
     const ea=eio(seg(t,T.eyes,T.eyes+1.0)), sk=seg(t,T.freeze,T.freeze+0.6);
     if(sk>0){ const gr=g.createLinearGradient(0,0,0,VH*0.6); gr.addColorStop(0,`rgba(40,10,70,${0.6*sk})`); gr.addColorStop(1,'rgba(40,10,70,0)'); g.fillStyle=gr; g.fillRect(0,0,VW,VH*0.6); }
