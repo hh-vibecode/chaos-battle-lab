@@ -11641,16 +11641,25 @@ function _flowerSeqTick(){
 function _spK(f){ const v=Math.hypot(f.vx||0,f.vy||0); return Math.max(0,Math.min(1,(v-5)/14)); }   // (dùng cho dáng chúi người)
 function _spRatio(f){ return (f.topSpeed||0)/(5*MOVE_MULT); }   // tốc độ so với 1 meme thường
 function _spBoltN(f){ const r=_spRatio(f); return r<1.2 ? 0 : Math.min(6, 1+Math.floor((r-1.2)*3.5)); }   // tối đa 6 tia (nhiều quá rối + lag)
-function _spDrawBolt(P,w,a){   // ⚡ SÉT ĐEN (cùng màu Spider Cat): quầng tím than mờ → lõi đen đặc → gân sáng mảnh ở giữa cho ra chất điện
-  for(const [lw,c] of [[w*2.6,`rgba(40,15,60,${0.3*a})`],[w*1.0,`rgba(0,0,0,${0.92*a})`],[w*0.3,`rgba(185,175,215,${0.6*a})`]]){
-    ctx.strokeStyle=c; ctx.lineWidth=lw; ctx.beginPath(); P.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.stroke(); } }
+function _spDrawBolt(P,w,a){   // ⚡ SÉT ĐEN NEON: quầng tím neon cộng sáng (lighter) → viền neon sáng gắt → lõi ĐEN sắc cạnh đè giữa
+  const path=()=>{ ctx.beginPath(); P.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); };
+  ctx.globalCompositeOperation='lighter'; ctx.lineJoin='round'; ctx.lineCap='round';
+  path(); ctx.strokeStyle=`rgba(150,60,255,${0.16*a})`; ctx.lineWidth=w*6; ctx.stroke();
+  path(); ctx.strokeStyle=`rgba(175,90,255,${0.35*a})`; ctx.lineWidth=w*3; ctx.stroke();
+  path(); ctx.strokeStyle=`rgba(225,175,255,${0.95*a})`; ctx.lineWidth=w*1.7; ctx.stroke();   // viền neon
+  ctx.globalCompositeOperation='source-over'; ctx.lineJoin='miter'; ctx.lineCap='butt';
+  path(); ctx.strokeStyle=`rgba(4,0,10,${a})`; ctx.lineWidth=w*0.85; ctx.stroke(); }   // lõi đen sắc nét
+// răng cưa thật: chia đôi từng đoạn, đẩy điểm giữa lệch ngang ngẫu nhiên theo độ dài đoạn (midpoint displacement), lặp 2 lần
+function _spJag(P){ for(let it=0;it<2;it++){ const Q=[P[0]];
+  for(let i=1;i<P.length;i++){ const [x0,y0]=P[i-1], [x1,y1]=P[i], dx=x1-x0, dy=y1-y0, L=Math.hypot(dx,dy)||1, o=(Math.random()-0.5)*L*0.45;
+    Q.push([(x0+x1)/2-dy/L*o, (y0+y1)/2+dx/L*o], P[i]); } P=Q; } return P; }
 // gốc tia bám khắp thân (toạ độ theo ảnh, đơn vị = s): 2 tay giơ, 2 chân, đầu, bụng — tia rải rộng thay vì tụ 1 chỗ
 const SP_ROOTS=[[0.76,-0.62,'long'],[-0.7,-0.95,'long'],[-0.79,0.92,'mid'],[0.31,0.92,'mid'],[0.18,-0.7,'short'],[-0.75,-0.44,'short']];
 function _spSpeedFx(f,s,rot,flip){
   const T=f._spTrail||(f._spTrail=[]);
   T.push([f.x,f.y]); if(T.length>18) T.shift();
   const n=_spBoltN(f); if(!n) { f._spBolts=null; return; }
-  const k=Math.min(1,0.45+n*0.07), W=s*0.055;   // độ dày tia theo tỉ lệ thân (mẫu Savitar: tia mảnh ~1/40 chiều cao)
+  const k=Math.min(1,0.6+n*0.07), W=s*0.05;   // độ dày tia theo tỉ lệ thân (mẫu Savitar: tia mảnh ~1/40 chiều cao)
   if(!f._spBolts || (f._spBoltT=(f._spBoltT||0)+1)%2===0){ f._spBolts=[]; f._spB0=[f.x,f.y];
     const cr=Math.cos(rot||0), sr=Math.sin(rot||0), fx=flip?-1:1;
     for(let i=0;i<n;i++){ const [lx,ly,kd]=SP_ROOTS[i], jx=lx*fx*s+(Math.random()-0.5)*s*0.12, jy=ly*s+(Math.random()-0.5)*s*0.12;
@@ -11662,16 +11671,16 @@ function _spSpeedFx(f,s,rot,flip){
           P.push([q[0]+ox*sp+nx*jit, q[1]+oy*sp+ny*jit]); }
         const br=[]; if(kd==='long' && P.length>4 && Math.random()<0.6){ const st=P[2+Math.floor(Math.random()*(P.length-3))]; let x=st[0], y=st[1]; const B=[[x,y]]; const ang=Math.random()*Math.PI*2;
           for(let q=0;q<2;q++){ x+=Math.cos(ang)*s*0.28+(Math.random()-0.5)*s*0.2; y+=Math.sin(ang)*s*0.28+(Math.random()-0.5)*s*0.2; B.push([x,y]); } br.push(B); }
-        f._spBolts.push({P,br,w:kd==='long'?W:W*0.8});
+        f._spBolts.push({P:_spJag(P),br:br.map(_spJag),w:kd==='long'?W:W*0.8,fl:0.75+Math.random()*0.25});
       } else {   // tia ngắn lách tách toả ra từ đầu / khuỷu tay
         const a=Math.atan2(oy,ox)+(Math.random()-0.5)*1.2, P=[[sx,sy]]; let x=sx, y=sy;
         for(let q=1;q<=3;q++){ x+=Math.cos(a+(Math.random()-0.5)*1.4)*s*0.2; y+=Math.sin(a+(Math.random()-0.5)*1.4)*s*0.2; P.push([x,y]); }
-        f._spBolts.push({P,br:[],w:W*0.7}); } } }
+        f._spBolts.push({P:_spJag(P),br:[],w:W*0.7,fl:0.75+Math.random()*0.25}); } } }
   ctx.save(); ctx.lineCap='round'; ctx.lineJoin='round';
   const hg=ctx.createRadialGradient(f.x,f.y,s*0.4,f.x,f.y,s*1.35); hg.addColorStop(0,'rgba(30,10,45,0)'); hg.addColorStop(0.7,`rgba(30,10,45,${0.14*k})`); hg.addColorStop(1,'rgba(30,10,45,0)');
   ctx.fillStyle=hg; ctx.beginPath(); ctx.arc(f.x,f.y,s*1.35,0,Math.PI*2); ctx.fill();
   ctx.translate(f.x-f._spB0[0], f.y-f._spB0[1]);   // khung giữ tia cũ: dời theo thân → gốc tia luôn dính vào người
-  for(const b of f._spBolts){ _spDrawBolt(b.P,b.w,k); for(const B of b.br) _spDrawBolt(B,b.w*0.7,k*0.8); }
+  for(const b of f._spBolts){ const fk=k*b.fl*(0.8+Math.random()*0.2); _spDrawBolt(b.P,b.w,fk); for(const B of b.br) _spDrawBolt(B,b.w*0.7,fk*0.8); }   // nhấp nháy từng khung
   ctx.restore();
 }
 // ═══════════════════ 🌸 FLOWER CAT — KHAI SÁNG VŨ TRỤ (chỉ phần vẽ, thời gian/dame giữ nguyên) ═══════════════════
