@@ -7633,31 +7633,20 @@ function _dpWxLevel(){ let lv=0;
   for(const d of fighters){ if(d.type!=='depressedcat' || d.dead) continue;
     for(const o of fighters) if(o.team!==d.team && !o.dead) lv=Math.max(lv, Math.min(4,o._emotionalStacks||0)); }
   return lv; }
-let _dpCloudSpr=null, _dpBanks=null;
-// dải mây khối vẽ sẵn: nhiều cụm tròn chồng lớp, mỗi cụm sáng ở đỉnh-trái, tối ở đáy → có khối; đáy cả dải tối sẫm
-function _dpCloudBank(seed,W,Hh,pal){
-  const c=document.createElement('canvas'); c.width=W; c.height=Hh; const x=c.getContext('2d'); let z=seed; const rnd=()=>{ z=(z*16807)%2147483647; return z/2147483647; };
-  const puff=(px,py,r,l)=>{ const g=x.createRadialGradient(px-r*0.3,py-r*0.4,r*0.1,px,py,r); g.addColorStop(0,l?pal[3]:pal[0]); g.addColorStop(0.6,l?pal[0]:pal[1]); g.addColorStop(1,pal[2]); x.fillStyle=g; x.beginPath(); x.arc(px,py,r,0,Math.PI*2); x.fill(); };
-  for(let pass=0;pass<3;pass++) for(let i=0;i<46;i++){ const px=rnd()*W, r=Hh*(0.16+rnd()*0.2)*(1-pass*0.18), py=Hh*(0.62-pass*0.12)+(rnd()-0.5)*Hh*0.18;
-    for(const dx of [0,W,-W]) if(px+dx>-r && px+dx<W+r) puff(px+dx,py,r,pass===2?1:0); }   // lặp mép trái/phải → ghép nối liền khi trôi
-  x.globalCompositeOperation='source-atop';
-  let g=x.createLinearGradient(0,Hh*0.45,0,Hh); g.addColorStop(0,'rgba(10,10,20,0)'); g.addColorStop(1,'rgba(10,10,20,0.75)'); x.fillStyle=g; x.fillRect(0,0,W,Hh);   // đáy mây sẫm
-  g=x.createLinearGradient(0,0,0,Hh*0.45); g.addColorStop(0,'rgba(150,160,200,0.25)'); g.addColorStop(1,'rgba(150,160,200,0)'); x.fillStyle=g; x.fillRect(0,0,W,Hh*0.45);   // đỉnh mây hắt sáng
-  return c; }
-function _dpCloudBanks(){ if(!_dpBanks) _dpBanks={ back:_dpCloudBank(11,1400,300,['#3a3e52','#2a2d3d','rgba(28,30,42,0)','#4a4f68']),
-  front:_dpCloudBank(29,1400,300,['#5a5f78','#3b3f53','rgba(40,43,58,0)','#6c7290']) }; return _dpBanks; }
-function _dpCloudSprite(){ if(_dpCloudSpr) return _dpCloudSpr; const c=document.createElement('canvas'); c.width=c.height=128; const x=c.getContext('2d');
-  const g=x.createRadialGradient(64,64,0,64,64,64); g.addColorStop(0,'rgba(48,50,64,1)'); g.addColorStop(0.55,'rgba(40,42,56,0.85)'); g.addColorStop(1,'rgba(36,38,50,0)');
-  x.fillStyle=g; x.fillRect(0,0,128,128); return _dpCloudSpr=c; }
+const DP_CLOUD_A=new Image(); DP_CLOUD_A.src='assets/img/depressedcat/DP_CLOUD_A.webp';   // ☁️ khối mây giông treo (lớp trước, đen) — tự sinh bằng nhiễu fractal, nối liền 2 đầu
+const DP_CLOUD_B=new Image(); DP_CLOUD_B.src='assets/img/depressedcat/DP_CLOUD_B.webp';   // ☁️ lớp sau (xám hơn)
 function _dpRainUnder(){
   const lv=psCine?0:_dpWxLevel(), W0=dpWx;
-  W0.cloud+=((lv>=1?1:0)-W0.cloud)*0.03; W0.rain+=(([0,0,0.35,0.7,1][lv])-W0.rain)*0.03; W0.storm+=((lv>=4?1:0)-W0.storm)*0.05;
+  const now=performance.now(), dt=Math.min(0.1,(now-(W0.lastT||now))/1000); W0.lastT=now;
+  const go=(cur,tg,rate)=>cur+Math.sign(tg-cur)*Math.min(Math.abs(tg-cur),rate*dt);   // tiến CHẬM, đều theo thời gian thật
+  const rc=psCine?0.5:0.1;   // mây kéo vào ~0.1/s (mỗi nấc ≈ 1 nhịp kêu than 4–5s); Shinra Tensei nổ thì tan nhanh hơn
+  W0.cloud=go(W0.cloud,[0,0.45,0.65,0.85,1][lv],rc); W0.rain=go(W0.rain,[0,0,0.35,0.7,1][lv],psCine?0.6:0.12); W0.storm=(lv>=4 && W0.cloud>0.9)?1:0;
   dpRainK=W0.rain;
   if(W0.cloud<0.01 && !dpRipples.length) return;
   const C=_fxCoverRect(1.1);
   if(dpRainK>0.01){ ctx.save(); ctx.fillStyle=`rgba(30,60,110,${0.18*dpRainK})`; ctx.fillRect(C[0],C[1],C[2],C[3]); ctx.restore(); }   // sàn ướt ánh xanh mặt hồ
   if(W0.cloud>0.01){ ctx.save(); ctx.fillStyle=`rgba(10,12,24,${0.18*W0.cloud})`; ctx.fillRect(C[0],C[1],C[2],C[3]); ctx.restore(); }   // trời tối sầm lại
-  for(let k=0;k<6;k++) if(Math.random()<dpRainK*0.9) dpRipples.push({x:C[0]+Math.random()*C[2], y:Math.max(C[1],H*0.14)+Math.random()*(C[1]+C[3]-Math.max(C[1],H*0.14)), t:0, T:40+Math.random()*25, r:8+Math.random()*14});
+  for(let k=0;k<6;k++) if(Math.random()<dpRainK*0.9) dpRipples.push({x:C[0]+Math.random()*C[2], y:Math.max(C[1],0)+Math.random()*(C[1]+C[3]-Math.max(C[1],0)), t:0, T:40+Math.random()*25, r:8+Math.random()*14});
   ctx.save(); ctx.lineWidth=1.2;
   for(let i=dpRipples.length-1;i>=0;i--){ const q=dpRipples[i]; if(++q.t>q.T){ dpRipples.splice(i,1); continue; }
     const u=q.t/q.T, a=(1-u)*0.55;
@@ -7677,7 +7666,7 @@ function _dpRainSound(){   // 🌧️ tiếng mưa: mưa nhỏ → chậm + nh�
 function _dpRainOver(){
   _dpRainSound();
   const W0=dpWx; if(W0.cloud<0.01 && dpRainK<0.01) return;
-  const C=_fxCoverRect(1.1), tm=performance.now()/1000, cloudBot=H*0.12;
+  const C=_fxCoverRect(1.1), tm=performance.now()/1000, cloudBot=(C[1]+40)+(-28-(C[1]+40))*Math.min(1,W0.cloud);   // đáy mây trôi xuống dần theo độ phủ, dừng cách mép trên sàn ~28
   if(dpRainK>0.01){   // 💧 mưa: rơi từ đáy mây xuống — càng nặng hạt càng dày, dài, xiên
     const N=Math.round(260*dpRainK), L=10+18*dpRainK, sl=0.12+0.2*dpRainK, top=Math.max(C[1],cloudBot-30), hh=C[1]+C[3]-top;
     ctx.save(); ctx.strokeStyle=`rgba(190,215,250,${0.35+0.3*dpRainK})`; ctx.lineWidth=0.8+0.6*dpRainK; ctx.lineCap='round'; ctx.beginPath();
@@ -7685,19 +7674,19 @@ function _dpRainOver(){
       const x=C[0]+h1*C[2], y=top+((tm*sp*(1.4+dpRainK)+h2)%1)*hh; ctx.moveTo(x,y); ctx.lineTo(x-L*sl,y+L); }
     ctx.stroke(); ctx.restore(); }
   // ☁️ dải mây đen phủ phần trên sàn đấu, trôi chậm
-  if(W0.cloud>0.01){   // ☁️ dải MÂY GIÔNG to ngay trên sàn, trùm che 1 phần tên: 2 lớp mây khối (đỉnh sáng, đáy tối) trôi lệch tốc độ
-    const bw=C[2]*1.6, B=_dpCloudBanks();
-    ctx.save(); ctx.globalAlpha=W0.cloud;
-    const g=ctx.createLinearGradient(0,-90,0,cloudBot+10); g.addColorStop(0,'rgba(22,24,36,0)'); g.addColorStop(0.45,'rgba(22,24,36,0.55)'); g.addColorStop(1,'rgba(22,24,36,0)');
-    ctx.fillStyle=g; ctx.fillRect(C[0],-90,C[2],cloudBot+100);
-    const lay=(cv,y,h,spd)=>{ const off=((tm*spd)%bw+bw)%bw; for(let k=-1;k<=1;k++) ctx.drawImage(cv, C[0]-off+k*bw, y, bw, h); };
-    lay(B.back,-135,190,6);   // lớp sau: to, tối, trôi chậm
-    const fk=Math.max(0,Math.sin(tm*3.1)*Math.sin(tm*7.7+1.3));   // ⚡ chớp loé bên trong mây (từ nấc 1)
-    if(fk>0.5){ const a=(fk-0.5)/0.5, fx=C[0]+((Math.floor(tm*1.3)*0.618)%1)*C[2], fy=-25;
-      ctx.globalCompositeOperation='lighter'; const lg=ctx.createRadialGradient(fx,fy,0,fx,fy,150); lg.addColorStop(0,`rgba(210,210,255,${0.75*a})`); lg.addColorStop(0.5,`rgba(160,160,255,${0.3*a})`); lg.addColorStop(1,'rgba(150,150,255,0)');
-      ctx.fillStyle=lg; ctx.beginPath(); ctx.arc(fx,fy,150,0,Math.PI*2); ctx.fill(); ctx.globalCompositeOperation='source-over'; }
-    lay(B.front,-95,cloudBot+95,11);   // lớp trước: sáng hơn chút, trôi nhanh hơn, đáy chạm mép trên sàn
-    if(fk>0.5){ ctx.globalAlpha=W0.cloud*0.35*(fk-0.5)/0.5; ctx.globalCompositeOperation='lighter'; lay(B.front,-95,cloudBot+95,11); ctx.globalCompositeOperation='source-over'; }   // mây loé sáng theo chớp
+  if(W0.cloud>0.01 && DP_CLOUD_A.naturalWidth && DP_CLOUD_B.naturalWidth){   // ☁️ MÂY GIÔNG: khối mây đen như khói đặc treo kín phía trên sàn, mép dưới trĩu thành cụm có viền sáng + sương xám bên dưới
+    const bw=C[2]*1.6, ih=bw*DP_CLOUD_A.naturalHeight/DP_CLOUD_A.naturalWidth, cb=cloudBot, top=C[1]-80;
+    ctx.save(); ctx.globalAlpha=Math.min(1,0.35+W0.cloud);
+    const lay=(im,y,spd)=>{ const off=((tm*spd)%bw+bw)%bw; for(let k=-1;k<=1;k++) ctx.drawImage(im, C[0]-off+k*bw, y, bw, ih); };
+    const yB=cb-ih*0.42, yA=cb-ih*0.5;   // ảnh mây: mép dưới lồi lõm nằm ~47% chiều cao ảnh → đặt sao cho mép đó trùng đáy mây
+    ctx.fillStyle='rgb(12,12,17)'; ctx.fillRect(C[0],top,C[2],Math.max(0,yA+ih*0.2-top));   // phần trời phía trên ảnh: đen đặc
+    lay(DP_CLOUD_B, yB, 7);   // lớp sau (xám hơn) trôi chậm, trĩu thấp hơn chút
+    const fk=Math.max(0,Math.sin(tm*3.1)*Math.sin(tm*7.7+1.3));   // ⚡ chớp loé bên trong mây
+    if(fk>0.5){ const a=(fk-0.5)/0.5, fx=C[0]+((Math.floor(tm*1.3)*0.618)%1)*C[2], fy=cb-60;
+      ctx.globalCompositeOperation='lighter'; const lg=ctx.createRadialGradient(fx,fy,0,fx,fy,170); lg.addColorStop(0,`rgba(210,210,255,${0.6*a})`); lg.addColorStop(0.5,`rgba(160,160,255,${0.22*a})`); lg.addColorStop(1,'rgba(150,150,255,0)');
+      ctx.fillStyle=lg; ctx.beginPath(); ctx.arc(fx,fy,170,0,Math.PI*2); ctx.fill(); ctx.globalCompositeOperation='source-over'; }
+    lay(DP_CLOUD_A, yA, 12);   // lớp trước (đen) trôi nhanh hơn
+    if(fk>0.5){ ctx.globalAlpha=0.35*(fk-0.5)/0.5; ctx.globalCompositeOperation='lighter'; lay(DP_CLOUD_A, yA, 12); ctx.globalCompositeOperation='source-over'; }
     ctx.restore(); }
   // 🌩️ nấc 4: sét đánh từ mây xuống sàn + tiếng sét
   if(W0.storm>0.5){ const now=performance.now();

@@ -368,6 +368,8 @@ window.ASSET_GROUP={
 "assets/img/depressedcat/DEPRESSED_CRY_IMG.webp": "depressedcat",
 "assets/audio/ps_shinra.mp3": "depressedcat",
 "assets/audio/dp_rain.mp3": "depressedcat",
+"assets/img/depressedcat/DP_CLOUD_A.webp": "depressedcat",
+"assets/img/depressedcat/DP_CLOUD_B.webp": "depressedcat",
 "assets/img/depressedcat/DP_PAIN_IMG.webp": "depressedcat",
 "assets/audio/thunder_big.mp3": "critical",
 "assets/audio/sa_phase1.mp3": "supremearbiter",
