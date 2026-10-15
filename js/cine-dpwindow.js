@@ -411,6 +411,7 @@
     if(t>=2.84 && t<T.walkEnd) sfx('happy2','dp_happy',0.9,Math.max(0.1,T.walkEnd-2.84));
     if(t>=T.cut && t<T.freeze) sfx('violin','violin_sad',0.75,Math.max(0.1,T.freeze-Math.max(t,T.cut)));   // 🎻 nhạc buồn bắt đầu ĐÚNG lúc chuyển sang phố mưa, tắt cụt lúc dừng hình
     if(t>=T.strike1) sfx('strike1','thunder_big',1.0);   // ⚡ sét lần 1
+    if(t>=T.toss && t<T.coatOn+0.4) sfx('cloak','dp_cloak',1.0);   // 🧥 tung áo vụt lên → khoác vào phạch (tiếng phạch rơi đúng lúc áo chụp xuống)
     if(t>=T.tpGo && t<T.s2+0.4) sfx('tele','clap_tele',1.0);   // 🌀 tiếng dịch chuyển y như Clapping Cat
     if(t>=T.strike2) sfx('strike2','thunder_big',1.0);   // ⚡ sét lần 2
     if(t>=T.cut && t<T.freeze) sfx('rain','dp_rain',0.8,Math.max(0.1,T.freeze-Math.max(t,T.cut)));   // 🌧️ tiếng mưa

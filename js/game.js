@@ -2722,6 +2722,7 @@ const AUDIO_SAMPLES = {};
       dc_rage: 'assets/audio/dc_rage.mp3',   // 😡 Doorbell Chud hét phẫn nộ sau khi chuông vỡ (rage.mp3, ĐỦ 2.6s, phát đúng tốc gốc)
       clap_tele: 'assets/audio/clap_tele.mp3',
       clap_cat: 'assets/audio/clap_cat.mp3',
+      dp_cloak: 'assets/audio/dp_cloak.mp3',   // 🧥 Depressed Cat (phim): tung áo Akatsuki vụt lên + khoác vào phạch 1 cái
       gp_break: 'assets/audio/gp_break.mp3',
       gp_souls: 'assets/audio/gp_souls.mp3',
       gp_meow: 'assets/audio/gp_meow.mp3',
