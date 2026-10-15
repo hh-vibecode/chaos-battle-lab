@@ -7572,7 +7572,7 @@ function _mwTravelStart(){ _mwTravelStop(); const a=AUDIO_SAMPLES['mw_gojo_trave
     c.play().catch(()=>{}); _mwTravelSfx=c; }catch(e){} }
 // ==================== 😿 DEPRESSED CAT — KẾT LIỄU "SHINRA TENSEI" (kiểu Pain, Naruto Shippuden tập 162) ====================
 // Đủ 5 stack Depression → cảnh ~7s (bằng Hollow Purple), cả trận đứng hình:
-//  ① Depressed Cat ĐỨNG YÊN tại chỗ, màn tối dần (tâm chấn = chỗ nó đứng) · ② cận mặt: thân hoá BÓNG ĐEN, đôi mắt RINNEGAN tím sáng, chữ mực
+//  ① Depressed Cat ĐỨNG YÊN tại chỗ, màn tối dần (tâm vụ nổ = giữa sàn) · ② cận mặt: thân hoá BÓNG ĐEN, đôi mắt RINNEGAN tím sáng, chữ mực
 //  "This world / shall know / pain." · ③ kéo ra toàn cảnh, hào quang TRẮNG bừng sau lưng bóng đen, "Shinra Tensei" ·
 //  ④ chớp trắng loá + quả cầu lực đẩy nở ra từ tâm: sàn, viền, chữ tên vỡ thành từng tảng văng ngổn ngang, địch bị ép nát vụn ·
 //  ⑤ bụi lắng xuống: giữa sàn là HỐ SÂU (tâm chấn đổ nát, mép đất lởm chởm toả tia), chỉ còn Depressed Cat ở tâm hố.
@@ -7599,7 +7599,7 @@ const DP_EYES=[[0.323,0.389],[0.607,0.456]];   // 2 mắt trên ảnh đại di�
 let psCine=null, psWipe=null, psShards=[], psDust=[], psCrater=null;
 function _psStart(f){
   if(psCine) return;
-  psCine={f, t0:performance.now(), x0:f.x, y0:f.y, cx:f.x, cy:f.y, R:0, hitSet:new Set(), sil:0};   // tâm chấn = đúng chỗ nó đang đứng
+  psCine={f, t0:performance.now(), x0:f.x, y0:f.y, cx:W/2, cy:H/2, R:0, hitSet:new Set(), sil:0};   // tâm vụ nổ = GIỮA sàn (nó vẫn đứng yên tại chỗ tung chiêu)
   battleFreezeTimer=Math.max(battleFreezeTimer,3);
   playSample('ultimate_charge_2',1.0);
 }
