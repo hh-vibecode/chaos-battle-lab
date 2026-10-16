@@ -7851,7 +7851,7 @@ function _dpRainUnder(){
   const lv=psCine?0:_dpWxLevel(), W0=dpWx;
   const now=performance.now(), dt=Math.min(0.1,(now-(W0.lastT||now))/1000); W0.lastT=now;
   const go=(cur,tg,rate)=>cur+Math.sign(tg-cur)*Math.min(Math.abs(tg-cur),rate*dt);   // tiến CHẬM, đều theo thời gian thật
-  const rc=psCine?0.5:(W0.cloud<0.45?0.6:0.1);   // nấc đầu: mây đậm lên nhanh trong lúc kéo vào từ 2 bên; sau đó ~0.1/s (mỗi nấc ≈ 1 nhịp kêu than 4–5s); Shinra Tensei nổ thì tan nhanh hơn
+  const rc=psCine?0.5:0.1;   // mây kéo vào ~0.1/s (mỗi nấc ≈ 1 nhịp kêu than 4–5s); Shinra Tensei nổ thì tan nhanh hơn
   W0.cloud=go(W0.cloud,[0,0.45,0.65,0.85,1][lv],rc); W0.rain=go(W0.rain,[0,0,0.35,0.7,1][lv],psCine?0.6:0.12); W0.storm=(lv>=3 && W0.cloud>0.8)?1:0;   // sét từ nấc 3
   dpRainK=W0.rain;
   if(W0.cloud<0.01 && !dpRipples.length) return;
@@ -7877,9 +7877,8 @@ function _dpRainSound(){   // 🌧️ tiếng mưa: mưa nhỏ → chậm + nh�
 }
 function _dpRainOver(){
   _dpRainSound();
-  const W0=dpWx; if(W0.cloud<0.01 && dpRainK<0.01){ W0.inK=0; return; }
-  const _nIn=performance.now(), dtIn=Math.min(0.1,(_nIn-(W0.inT||_nIn))/1000); W0.inT=_nIn;
-  const C=[-W*0.8,-1150,W*2.6,H+1550], tm=performance.now()/1000, cloudBot=-28;   // 📌 CỐ ĐỊNH theo sân (không theo camera): đáy mây nằm sẵn ngay phần tên, cách mép trên sàn ~28
+  const W0=dpWx; if(W0.cloud<0.01 && dpRainK<0.01) return;
+  const C=[-W*0.8,-1150,W*2.6,H+1550], tm=performance.now()/1000, cloudBot=-560+(560-28)*Math.min(1,W0.cloud);   // 📌 CỐ ĐỊNH theo sân (không theo camera): đáy mây trôi xuống dần, dừng cách mép trên sàn ~28
   if(dpRainK>0.01){   // 💧 mưa: rơi từ đáy mây xuống — càng nặng hạt càng dày, dài, xiên
     const N=Math.round(620*dpRainK), L=10+18*dpRainK, sl=0.12+0.2*dpRainK, top=Math.max(C[1],cloudBot-30), hh=C[1]+C[3]-top;
     ctx.save(); ctx.strokeStyle=`rgba(190,215,250,${0.35+0.3*dpRainK})`; ctx.lineWidth=0.8+0.6*dpRainK; ctx.lineCap='round'; ctx.beginPath();
@@ -7889,12 +7888,6 @@ function _dpRainOver(){
   // ☁️ dải mây đen phủ phần trên sàn đấu, trôi chậm
   if(W0.cloud>0.01 && DP_CLOUD_A.naturalWidth && DP_CLOUD_B.naturalWidth){   // ☁️ MÂY GIÔNG: khối mây đen như khói đặc treo kín phía trên sàn, mép dưới trĩu thành cụm có viền sáng + sương xám bên dưới
     const bw=C[2], ih=bw*0.5*DP_CLOUD_A.naturalHeight/DP_CLOUD_A.naturalWidth*2, cb=cloudBot, top=C[1];
-    W0.inK=Math.min(1,(W0.inK||0)+dtIn/0.9); const ink=_psSS(W0.inK), mid=W/2;   // ↔️ mây kéo vào từ 2 bên trái + phải (~0.9s), khép lại giữa sân
-    for(const sd of (ink>=1?[0]:[-1,1])){ ctx.save();
-    if(sd){ ctx.translate(sd*(1-ink)*(W/2+90),0);   // nửa mây trượt vào cùng khung cắt của nó; mép đầu lồi lõm như cụm mây (không thẳng tắp)
-      const R=46, ex=mid+sd*R; ctx.beginPath(); if(sd<0) ctx.rect(C[0]-10,top-10,ex-C[0]+10,C[3]+20); else ctx.rect(ex,top-10,C[0]+C[2]-ex+10,C[3]+20);
-      for(let yy=top, i=0; yy<cb+60; yy+=R*1.1, i++){ const rr=R*(0.75+0.45*Math.abs(Math.sin(i*12.9898)*0.9)); ctx.moveTo(ex+rr,yy); ctx.arc(ex,yy,rr,0,Math.PI*2); }
-      ctx.clip(); }
     ctx.save(); ctx.globalAlpha=Math.min(1,0.35+W0.cloud);
     const lay=(im,y,spd)=>{ const off=((tm*spd)%bw+bw)%bw; for(let k=-1;k<=1;k++) ctx.drawImage(im, C[0]-off+k*bw, y, bw, ih); };
     const yB=cb-ih*0.42, yA=cb-ih*0.5;   // ảnh mây: mép dưới lồi lõm nằm ~47% chiều cao ảnh → đặt sao cho mép đó trùng đáy mây
@@ -7909,8 +7902,7 @@ function _dpRainOver(){
       ctx.fillStyle=lg; ctx.beginPath(); ctx.arc(fx,fy,170,0,Math.PI*2); ctx.fill(); ctx.globalCompositeOperation='source-over'; }
     lay(DP_CLOUD_A, yA, 12);   // lớp trước (đen) trôi nhanh hơn
     if(fk>0.02){ ctx.globalAlpha=0.35*fk; ctx.globalCompositeOperation='lighter'; lay(DP_CLOUD_A, yA, 12); ctx.globalCompositeOperation='source-over'; }
-    ctx.restore(); ctx.restore(); } }
-  else if(W0.cloud<=0.01) W0.inK=0;
+    ctx.restore(); }
   // 🌩️ từ nấc 3: sét đánh từ mây xuống sàn + tiếng sét (đánh tia mới khi tiếng sét trước đã kêu hết)
   if(W0.storm>0.5){ const now=performance.now();
     if(!W0.nextBolt) W0.nextBolt=now+600;
