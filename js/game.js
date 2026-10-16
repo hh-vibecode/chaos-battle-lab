@@ -6713,11 +6713,13 @@ function _biteMask(u,img){
   // 🎞️ ảnh động dạng sprite-sheet (vd GIF kêu than Depressed Cat): khoét đúng vết đó vào TỪNG khung → phát GIF vẫn còn vết cắn
   const cells=((img._frames||1)>1) ? Array.from({length:img._frames},(_,k)=>{ const fw=src.width/img._cols, fh=src.height/img._rows; return {sx:(k%img._cols)*fw, sy:Math.floor(k/img._cols)*fh, sw:fw, sh:fh}; }) : [cr];
   for(const h of u._biteHoles) for(const cr of cells){
+    g.save(); g.beginPath(); g.rect(cr.sx,cr.sy,cr.sw,cr.sh); g.clip();   // chỉ khoét TRONG khung đó — không lấn sang mép khung bên cạnh của sprite-sheet (gây vết cắn nhảy 2 bên khi GIF chạy)
     const cx=cr.sx+h.x*cr.sw, cy=cr.sy+h.y*cr.sh, R=h.r*cr.sw;
     g.globalCompositeOperation='destination-out'; _bitePath(g,cx,cy,R,h.sd); g.fill();       // khoét miếng
     g.globalCompositeOperation='source-atop';                                                 // viền thịt đỏ thẫm quanh vết
     g.lineWidth=R*0.2; g.strokeStyle='rgba(110,10,14,0.85)'; _bitePath(g,cx,cy,R*1.04,h.sd); g.stroke();
     g.lineWidth=R*0.07; g.strokeStyle='rgba(200,40,40,0.7)'; _bitePath(g,cx,cy,R*1.01,h.sd); g.stroke();
+    g.restore();
   }
   cv._noMask=true; cv._frames=img._frames; cv._cols=img._cols; cv._rows=img._rows;   // viền team cũng dựng theo hình ĐÃ KHUYẾT
   u._biteCache.set(img,{n:u._biteHoles.length, cv});
