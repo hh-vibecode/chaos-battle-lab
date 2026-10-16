@@ -14,7 +14,7 @@
     cheems:av('cheems'), mallet:A('assets/img/cheems/CHEEMS_MALLET_IMG.webp'), guitar:av('electricguitarcat'), piano:av('pianocat'), bongo:av('bongocat'), mosq:av('mosquitoviolin','attackAvatarUrl'),
     maxwell:av('maxwell'), dsword:A('assets/img/maxwell/MAXWELL_DIAMOND_SWORD_IMG.webp'), uia:av('uiacat'), uiaSpin:av('uiacat','attackAvatarUrl'),
     king:av('kingcheems'), knight:A('assets/img/kingcheems/DOGE_KNIGHT_IMG.webp'), joninn:av('samuraicheems'), joninnR:av('samuraicheems','rageAvatarUrl'),
-    angel:av('holycat','rageAvatarUrl'), friend:av('friend','skill4AvatarUrl'), berserk:av('berserkcat'), berserkAtk:av('berserkcat','attackAvatarUrl'),
+    angel:av('holycat','rageAvatarUrl'), friend:av('friend','skill4AvatarUrl'), grin:A('assets/img/friend/FR_GRIN_IMG.webp'),   // 👀😁 grin = chỉ đôi mắt + hàm răng của Friend (đã gỡ viền mặt) berserk:av('berserkcat'), berserkAtk:av('berserkcat','attackAvatarUrl'),
     clapIdle:av('clappingcat'), clapUp:av('clappingcat','rageAvatarUrl'), clap:['skill1AvatarUrl','skill2AvatarUrl','skill3AvatarUrl'].map(f=>av('clappingcat',f)),
     hand:{} };
   for(const k of ['crawlA','crawlB','slap','grip','lunge']) IMG.hand[k]=A('assets/img/scaredhamster/HAND_'+k+'.webp');
@@ -805,10 +805,10 @@
       for(const [i,q] of textDripPts('BUT NOT MY…',F,11,7).entries()){ const t0=0.15+hash(i+5)*0.7, L=flow(w-t0,0.9+hash(i)*0.8)*(16+hash(i+9)*110), ww=2.4+hash(i+2)*3.2;
         bloodDrip(VW/2+q[0], VH*0.6+q[1]-3, L, ww, k);
         const dt=w-t0-1.2-hash(i+11)*1.5; if(dt>0 && hash(i+13)<0.5){ const yy=VH*0.6+q[1]+L+dt*dt*260; if(yy<VH) bloodDrip(VW/2+q[0], yy-ww*2.2, ww*1.6, ww*0.7, k); } } }   // giọt rời ra rơi xuống
-    if(v>3.6){ const w=v-3.6, open=eio(seg(w,0.3,1.4)), c=prep(IMG.friend); if(c){ const W=240, H=W*c.sh/c.sw, x=VW/2-W/2, y=VH*0.47-H-30;
-        g.save(); g.globalAlpha=seg(w,0,0.6); g.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,x,y,W,H);
-        g.fillStyle='#000'; const ey=y+H*0.44; g.fillRect(x,ey-H*0.14,W,H*0.14*(1-open)+0.5); g.fillRect(x,ey+H*0.14-H*0.14*(1-open),W,H*0.14*(1-open)+0.5);
-        for(let i=0;i<9;i++){ const bx=x+W*(0.3+hash(i+30)*0.45), L=flow(w-0.7-hash(i)*0.5,0.8+hash(i)*0.7)*(14+hash(i+3)*60); bloodDrip(bx,y+H*0.8,L,2.6+hash(i+4)*3,1); }   // máu chảy từ răng
+    if(v>3.6){ const w=v-3.6, open=eio(seg(w,0.3,1.4)), c=prep(IMG.grin); if(c){ const W=200, H=W*c.sh/c.sw, x=VW/2-W/2, y=VH*0.47-H-34, em=H*0.22;   // chỉ mắt + miệng, không hiện khuôn mặt
+        g.save(); g.imageSmoothingEnabled=false; g.globalAlpha=seg(w,0,0.6); g.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,x,y,W,H);
+        g.fillStyle='#000'; g.fillRect(x-4,y-4,W+8,em*(1-open)+4); g.fillRect(x-4,y+em+em*1.05*open,W+8,em*1.05*(1-open)+1);   // mí mắt mở dần từ giữa ra
+        for(let i=0;i<9;i++){ const bx=x+W*(0.22+hash(i+30)*0.56), L=flow(w-0.7-hash(i)*0.5,0.8+hash(i)*0.7)*(14+hash(i+3)*60); bloodDrip(bx,y+H*0.9,L,2.6+hash(i+4)*3,1); }   // máu chảy từ răng
         g.restore(); } } }
 
   const SCN=[[scA,camA],[scC,camC],[scD,camD],[scG,camG],[scH,camH],[scP,camP],[scQ,camQ],[scJ1,camJ1],[scJ2,camJ2],[scJ3,camJ3],[scJ4,camJ4],[scJ5,camJ5],[scK,camK],[scL,camL],[scM,camM],[scN,camN]];
