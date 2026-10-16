@@ -4719,7 +4719,9 @@ function _hmDrawUnder(){
       const tx=W0.x, ty=W0.y-up, wl=h.pose?0.85:0.5; if(h._Wx===undefined){ h._Wx=tx; h._Wy=ty; } h._Wx+=(tx-h._Wx)*wl; h._Wy+=(ty-h._Wy)*wl;
       W0={x:h._Wx, y:h._Wy, a:W0.a};
       h._pose=pose; h._W0=W0; h._ha=ha; h._over=hold;
+      ctx.save(); ctx.beginPath(); ctx.rect(0,0,W,H); ctx.clip();   // cánh tay mọc ra từ ĐÚNG mép sàn — không lấn ra ngoài khung đè lên chữ
       _hmArmSprite(h,W0,HM_HAND_META[pose].ww*h._kS*0.97,ha,S.seed+hi*3.1);   // cánh tay luôn nằm dưới
+      ctx.restore();
       if(!hold) _hmBlit(HM_HAND_IMG[pose],HM_HAND_META[pose],W0.x,W0.y,W0.a,h._kS,ha,h.mir);   // tay đang tóm thì vẽ ở _hmDrawOver (đè lên con mồi)
     });
   }
