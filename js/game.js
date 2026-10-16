@@ -6652,7 +6652,7 @@ function _frBloody(img,lv){
   const w=img.naturalWidth||img.width, h=img.naturalHeight||img.height, c=document.createElement('canvas'); c.width=w; c.height=h;
   const x=c.getContext('2d'); x.drawImage(img,0,0);
   let D; try{ D=x.getImageData(0,0,w,h); }catch(e){ return img; }
-  const px=D.data, rr=Math.max(5,Math.round(w*0.04)), A=(xx,yy)=>(xx<0||yy<0||xx>=w||yy>=h)?0:px[(yy*w+xx)*4+3];
+  const px=D.data, rr=Math.max(5,Math.round(w*0.055)), A=(xx,yy)=>(xx<0||yy<0||xx>=w||yy>=h)?0:px[(yy*w+xx)*4+3];
   const teeth=new Uint8Array(w*h); let z=lv*7919+w; const rnd=()=>{ z=(z*16807)%2147483647; return z/2147483647; };
   for(let yy=Math.round(h*0.35);yy<h;yy++) for(let xx=0;xx<w;xx++){ const i=(yy*w+xx)*4;   // răng chỉ ở nửa dưới mặt
     if(px[i+3]<200 || px[i]<190 || px[i+1]<190 || px[i+2]<190) continue;
@@ -6671,9 +6671,11 @@ function _frBloody(img,lv){
   x.putImageData(D,0,0);
   // giọt máu chảy từ chân răng xuống
   x.lineCap='round';
-  for(const [ex,ey] of edges){ if(rnd()>0.035*lv) continue; const L=(4+rnd()*8)*lv*(w/700)*2, lw=Math.max(1.5,w*(0.006+rnd()*0.006));
-    x.strokeStyle='rgba(135,6,16,0.95)'; x.lineWidth=lw; x.beginPath(); x.moveTo(ex,ey); x.lineTo(ex+(rnd()-0.5)*2,ey+L); x.stroke();
-    x.fillStyle='rgba(150,10,22,1)'; x.beginPath(); x.arc(ex,ey+L,lw*0.95,0,Math.PI*2); x.fill(); }
+  for(const [ex,ey] of edges){ if(rnd()>0.035*lv) continue; const L=(4+rnd()*8)*lv*(w/700)*2, ww=Math.max(1.2,w*(0.004+rnd()*0.005)), r=ww*0.95, yb=ey+L;   // dòng máu thật: gốc phình, thân thon, đuôi giọt tròn có ánh bóng
+    const gr=x.createLinearGradient(ex-ww*1.6,0,ex+ww*1.6,0); gr.addColorStop(0,'#4a0000'); gr.addColorStop(0.45,'#b01010'); gr.addColorStop(1,'#3d0000');
+    x.fillStyle=gr; x.beginPath(); x.moveTo(ex-ww*1.9,ey); x.quadraticCurveTo(ex-ww*0.6,ey+Math.min(L,ww*1.6)*0.35,ex-ww*0.55,ey+Math.min(L,ww*3));
+    x.lineTo(ex-ww*0.42,yb-r*0.6); x.arc(ex,yb,r,Math.PI*1.12,Math.PI*1.88,true); x.lineTo(ex+ww*0.55,ey+Math.min(L,ww*3)); x.quadraticCurveTo(ex+ww*0.6,ey+Math.min(L,ww*1.6)*0.35,ex+ww*1.9,ey); x.closePath(); x.fill();
+    x.fillStyle='rgba(255,170,170,0.35)'; x.beginPath(); x.ellipse(ex-r*0.35,yb-r*0.3,r*0.28,r*0.42,-0.3,0,Math.PI*2); x.fill(); }
   // vụn thịt dính kẽ răng (từ lần cắn thứ 2)
   if(lv>=2){ const T=[]; for(let k=0;k<4000 && T.length<lv*2;k++){ const xx=(rnd()*w)|0, yy=(rnd()*h)|0; if(teeth[yy*w+xx]) T.push([xx,yy]); }
     for(const [mx,my] of T){ const r=w*(0.008+rnd()*0.01);

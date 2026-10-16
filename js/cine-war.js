@@ -378,15 +378,39 @@
     const hc=prep(IMG.hammer); if(hc){ g.save(); g.translate(sx+64,sy-lerp(8,70,up)); g.rotate(lerp(-1.55,0.05,up)); g.drawImage(hc.src,hc.sx,hc.sy,hc.sw,hc.sh,-32,-32,64,64*hc.sh/hc.sw); g.restore(); }
     const dx=lerp(620,sx+105,eout(seg(u,0,0.7))); shadow(dx,sy,40); actor(IMG.doge,dx,sy-(u<0.7?Math.abs(Math.sin(u*14))*6:0),118,{flip:true,rot:-0.12*Math.sin(Math.PI*seg(u,0.7,2.4))}); }
   const camN=u=>keys(u,[[0,320,770,1.2],[2.4,320,740,1.0],[3.5,320,640,0.7]]);
+  // 🩸 DÒNG MÁU THẬT: gốc phình liền mép (máu ứ), thân thon dần có viền sẫm + vệt bóng, đuôi là giọt căng tròn; chảy nhanh rồi chậm dần
+  function bloodDrip(x,y0,L,w,a){ if(L<=0.5 || a<=0.01) return; const r=w*0.95, yb=y0+L;
+    g.save(); g.globalAlpha*=a;
+    const gr=g.createLinearGradient(x-w*1.6,0,x+w*1.6,0); gr.addColorStop(0,'#4a0000'); gr.addColorStop(0.35,'#a40b0b'); gr.addColorStop(0.55,'#b81414'); gr.addColorStop(1,'#3d0000');
+    g.fillStyle=gr; g.beginPath();
+    g.moveTo(x-w*1.9,y0); g.quadraticCurveTo(x-w*0.6,y0+Math.min(L,w*1.6)*0.35,x-w*0.55,y0+Math.min(L,w*3));   // gốc phình liền mép
+    g.lineTo(x-w*0.42,yb-r*0.6); g.arc(x,yb,r,Math.PI*1.12,Math.PI*1.88,true);   // giọt tròn ở đuôi
+    g.lineTo(x+w*0.55,y0+Math.min(L,w*3)); g.quadraticCurveTo(x+w*0.6,y0+Math.min(L,w*1.6)*0.35,x+w*1.9,y0); g.closePath(); g.fill();
+    g.fillStyle='rgba(255,170,170,0.35)'; g.beginPath(); g.ellipse(x-r*0.35,yb-r*0.3,r*0.28,r*0.42,-0.3,0,Math.PI*2); g.fill();   // ánh bóng trên giọt
+    g.strokeStyle='rgba(255,150,150,0.22)'; g.lineWidth=Math.max(0.6,w*0.25); g.beginPath(); g.moveTo(x-w*0.25,y0+w); g.lineTo(x-w*0.22,yb-r*1.1); g.stroke();   // vệt bóng dọc thân
+    g.restore(); }
+  // mép dưới thật của chữ (quét điểm ảnh) → các điểm để máu chảy ra
+  const _dripCache={};
+  function textDripPts(str,font,n,seed){ const key=str+font; if(_dripCache[key]) return _dripCache[key];
+    const c=document.createElement('canvas'); c.width=600; c.height=120; const x=c.getContext('2d'); x.font=font; x.textAlign='center'; x.textBaseline='middle'; x.fillStyle='#fff'; x.fillText(str,300,60);
+    const d=x.getImageData(0,0,600,120).data, cols=[]; for(let xx=0;xx<600;xx++){ let yb=-1; for(let yy=119;yy>=0;yy--) if(d[(yy*600+xx)*4+3]>128){ yb=yy; break; } if(yb>=0) cols.push([xx-300,yb-60]); }
+    const pts=[]; for(let i=0;i<n;i++){ const q=cols[Math.floor((i+0.2+hash(seed+i)*0.6)/n*cols.length)]; if(q) pts.push(q); }
+    return _dripCache[key]=pts; }
+  const flow=(t,T)=>t<=0?0:1-Math.exp(-t/T);   // chảy nhanh lúc đầu, chậm dần
   // ═════════ O — màn đen kết ═════════
   function endCard(u){ g.fillStyle=`rgba(0,0,0,${seg(u,0,0.7)})`; g.fillRect(0,0,VW,VH); const v=u-0.8; if(v<=0) return;
     text('THAT IS THE END OF THE LORE',VW/2,VH*0.52,28,'#ffffff',null,'700 28px Georgia,serif',seg(v,0,0.7));
-    if(v>3.0){ const w=v-3.0, k=seg(w,0,0.5); g.save(); g.font='900 38px Georgia,serif'; g.textAlign='center'; g.textBaseline='middle'; g.globalAlpha=k; g.fillStyle='#a30000'; g.fillText('BUT NOT MY…',VW/2,VH*0.6); g.restore();
-      g.save(); g.fillStyle='#8f0000'; for(let i=0;i<18;i++){ const x=VW/2-115+hash(i)*230, L=seg(w,0.15+hash(i+5)*0.6,1.3+hash(i+5)*1.4)*(25+hash(i+9)*85); if(L<=0) continue; g.fillRect(x-1.1,VH*0.6+12,2.2,L); g.beginPath(); g.arc(x,VH*0.6+13+L,2.8,0,Math.PI*2); g.fill(); } g.restore(); }
+    if(v>3.0){ const w=v-3.0, k=seg(w,0,0.5), F='900 38px Georgia,serif';
+      g.save(); g.font=F; g.textAlign='center'; g.textBaseline='middle'; g.globalAlpha=k;
+      const tg=g.createLinearGradient(0,VH*0.6-20,0,VH*0.6+20); tg.addColorStop(0,'#c21818'); tg.addColorStop(0.6,'#9a0a0a'); tg.addColorStop(1,'#5e0000'); g.fillStyle=tg; g.fillText('BUT NOT MY…',VW/2,VH*0.6);
+      g.fillStyle='rgba(255,170,170,0.18)'; g.fillText('BUT NOT MY…',VW/2-0.8,VH*0.6-1.2); g.restore();   // ánh ướt trên mặt chữ
+      for(const [i,q] of textDripPts('BUT NOT MY…',F,11,7).entries()){ const t0=0.15+hash(i+5)*0.7, L=flow(w-t0,0.9+hash(i)*0.8)*(16+hash(i+9)*110), ww=2.4+hash(i+2)*3.2;
+        bloodDrip(VW/2+q[0], VH*0.6+q[1]-3, L, ww, k);
+        const dt=w-t0-1.2-hash(i+11)*1.5; if(dt>0 && hash(i+13)<0.5){ const yy=VH*0.6+q[1]+L+dt*dt*260; if(yy<VH) bloodDrip(VW/2+q[0], yy-ww*2.2, ww*1.6, ww*0.7, k); } } }   // giọt rời ra rơi xuống
     if(v>3.6){ const w=v-3.6, open=eio(seg(w,0.3,1.4)), c=prep(IMG.friend); if(c){ const W=240, H=W*c.sh/c.sw, x=VW/2-W/2, y=VH*0.47-H-30;
         g.save(); g.globalAlpha=seg(w,0,0.6); g.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,x,y,W,H);
         g.fillStyle='#000'; const ey=y+H*0.44; g.fillRect(x,ey-H*0.14,W,H*0.14*(1-open)+0.5); g.fillRect(x,ey+H*0.14-H*0.14*(1-open),W,H*0.14*(1-open)+0.5);
-        g.fillStyle='rgba(165,0,0,0.9)'; for(let i=0;i<9;i++){ const bx=x+W*(0.3+hash(i+30)*0.45), L=seg(w,0.7+hash(i)*0.5,1.9+hash(i)*1.2)*(18+hash(i+3)*55); g.fillRect(bx-1.5,y+H*0.82,3,L); g.beginPath(); g.arc(bx,y+H*0.82+L,3.4,0,Math.PI*2); g.fill(); }
+        for(let i=0;i<9;i++){ const bx=x+W*(0.3+hash(i+30)*0.45), L=flow(w-0.7-hash(i)*0.5,0.8+hash(i)*0.7)*(14+hash(i+3)*60); bloodDrip(bx,y+H*0.8,L,2.6+hash(i+4)*3,1); }   // máu chảy từ răng
         g.restore(); } } }
 
   const SCN=[[scA,camA],[scB,camB],[scC,camC],[scD,camD],[scE,camE],[scF,camF],[scG,camG],[scH,camH],[scI,camI],[scJ,camJ],[scK,camK],[scL,camL],[scM,camM],[scN,camN]];
