@@ -132,11 +132,11 @@
   //          quỷ chìm xuống địa ngục · L Evil Gary bị xé làm đôi, Gary gốc văng ra, UIA lướt như Flash đón đi
   //          · M Stalin vung búa → bàn tay bóng tối hất văng, bóng tối + vô số bàn tay, 2 tay lôi 2 kẻ ác đi · N Doge đỡ Stalin, nắng
   //          · O THAT IS THE END OF THE LORE → (3s) BUT NOT MY… máu chảy + mắt và nụ cười đầy máu của Friend
-  const SC=[0,4.5,8.5,11.5,16,22.5,27.5,31,38,44,50.5,58,63.5,72,77,84,87.5,94];
+  const SC=[0,4.5,8.5,11.5,16,22.5,27.5,31,38,44,50.5,58,68,76.5,81.5,88.5,92,98.5];
   const SI={H:4,P:5,J1:7,K:12,L:13,M:14,N:15,END:16};
   const DUR=SC[SC.length-1];
   // 🎞️ SLOW-MOTION kiểu anime ở các cú đánh: [bắt đầu, kết thúc (thời gian phim), tốc độ] — đoạn đó chạy chậm lại, phim dài ra tương ứng
-  const SLOW=[[8.38,8.62,0.3],[13.72,14.0,0.3],[18.98,19.3,0.3],[29.48,29.7,0.35],[32.98,33.25,0.25],[35.83,36.1,0.25],[43.4,43.6,0.4],[46.38,46.7,0.25],[52.8,53.1,0.22],[54.7,54.95,0.35],[61.18,61.5,0.25],[68.28,68.5,0.3],[74.68,74.9,0.3],[79.38,79.6,0.3]];
+  const SLOW=[[8.38,8.62,0.3],[13.72,14.0,0.3],[18.98,19.3,0.3],[29.48,29.7,0.35],[32.98,33.25,0.25],[35.83,36.1,0.25],[43.4,43.6,0.4],[46.38,46.7,0.25],[52.8,53.1,0.22],[54.7,54.95,0.35],[62.98,63.12,0.35],[65.48,65.8,0.25],[72.78,73.0,0.3],[79.18,79.4,0.3],[83.88,84.1,0.3]];
   const c2r=c=>{ let r=c; for(const [a,b,f] of SLOW){ if(c<=a) break; r+=(Math.min(c,b)-a)*(1/f-1); } return r; };   // thời gian phim → thời gian thật
   const r2c=r=>{ let off=0; for(const [a,b,f] of SLOW){ const ra=a+off; if(r<=ra) return r-off; const rb=ra+(b-a)/f; if(r<rb) return a+(r-ra)*f; off+=(b-a)*(1/f-1); } return r-off; };
   const DURR=c2r(DUR);
@@ -618,33 +618,48 @@
 
   // ── J5: Holy Cat hiện ra CHẶN TRƯỚC MẶT quỷ · Clapping Cat lẳng lặng sau lưng → bật ra vỗ tay → đổi chỗ với CHONKY siêu to → Chonky đè quỷ rơi thẳng xuống đất · chấn động quét sạch xung quanh ──
   function scJ5(u,t){
-    const ap=eout(seg(u,0.05,0.6)), cp=eout(seg(u,0.7,1.1)), jp=seg(u,1.2,1.8), clap=seg(u,1.8,2.2), swap=u>=2.2, fall=ein(seg(u,2.3,3.2)), imp=seg(u,3.2,5.5), roll=eout(seg(u,3.6,4.8));
+    const ap=eout(seg(u,0.1,1.3)), jp=seg(u,2.5,3.25), clap=seg(u,4.25,4.8), glw=seg(u,4.8,5.0), swap=u>=5.0, arr=1-seg(u,5.0,5.3), fall=ein(seg(u,6.55,7.5)), imp=seg(u,7.5,9.8), roll=eout(seg(u,8.0,9.2));
     skyHigh(); mountains(t); skyline(t,0,true);
-    cloudSea(-650,t,0.8,{hole:{x:QH.x,y:-650,r:750},blow:u>=3.2?{x:SE.x,y:-650,r:2500*eout(imp)}:null});
-    sealGround(0.25+0.75*seg(u,3.2,4.2),t);
-    // 😈 quỷ: lơ lửng → bị Chonky đè rơi thẳng xuống, cắm xuống giữa phong ấn
-    const qx=lerp(QH.x,SE.x,fall), qyC=lerp(QH.y,SE.y-500,fall), w=lerp(QH.w,1600,fall);
-    if(u<3.2){ addGlow(qx,qyC,1100,0.4,'255,40,40'); demonFly(8,qx,qyC+Math.sin(t*3)*25*(1-fall),w,{flip:true,lit:1.6,rot:fall*0.5,sy:1-0.2*fall}); }
-    else { demon2(0,SE.x,SE.y+60,1500,{flip:true,lit:1.25,rot:-0.05}); }
-    // 😇 Holy Cat chặn trước mặt
-    if(ap>0 && u<3.4){ const hx=QH.x-470, hy=QH.y-220+Math.sin(t*2)*10; g.save(); g.globalCompositeOperation='lighter'; glow(hx,hy-140,360*ap,0.7*ap*(1-fall),'255,248,220'); g.restore(); actor(IMG.angel,hx,hy,lerp(80,300,ap),{a:ap*(1-seg(u,2.6,3.2))}); }
-    // 👏 Clapping Cat: hiện sau lưng → bật lên trên đầu quỷ → vỗ tay → ĐỔI CHỖ
-    const CX0=QH.x+420, CY0=QH.y-200, CX1=QH.x+40, CY1=QH.y-1050;
-    if(cp>0 && !swap){ const q=eout(jp), x=lerp(CX0,CX1,q), y=lerp(CY0,CY1,q)-Math.sin(Math.PI*jp)*180, im=clap>0?IMG.clap[Math.floor(clap*9)%3]:(jp>0?IMG.clapUp:IMG.clapIdle);
-      g.save(); g.globalCompositeOperation='lighter'; glow(x,y-120,220,0.45*cp,'255,190,120'); g.restore(); actor(im,x,y,230,{a:cp});
-      if(clap>0) for(const q0 of [0.15,0.5,0.85]){ const k=seg(clap,q0,q0+0.3); if(k>0&&k<1) softShock(x,y-130,lerp(30,260,eout(k)),0.6*(1-k),'255,240,210',1); } }
-    // 🐕 CHONKY siêu to xuất hiện chỗ Clapping Cat → đè xuống
-    if(swap && u<5.4){ const sw=seg(u,2.2,2.45), x=u<3.2?lerp(CX1,SE.x,fall):lerp(SE.x,380,roll), y=u<3.2?lerp(CY1+900,SE.y-350,fall):lerp(SE.y-350,GY,roll)-Math.sin(Math.PI*roll)*600, h=lerp(300,1700,eout(sw))*(1-roll*0.55);
-      if(sw<1){ g.save(); g.globalCompositeOperation='lighter'; glow(CX1,CY1,700*(1-sw)+200,1-sw,'255,240,210'); g.restore(); }   // loé đổi chỗ
-      actor(IMG.chonky,x,y,h,{flip:true,rot:u<3.2?fall*0.2:-0.4*Math.sin(Math.PI*roll),a:1-seg(u,4.9,5.4)});
-      if(fall>0&&fall<1) for(let k=1;k<5;k++) actor(IMG.chonky,x,y-k*170*fall,h,{flip:true,a:0.18-k*0.035,rot:fall*0.2}); }
+    cloudSea(-650,t,0.8,{hole:{x:QH.x,y:-650,r:750},blow:u>=7.5?{x:SE.x,y:-650,r:2500*eout(imp)}:null});
+    sealGround(0.25+0.75*seg(u,7.5,8.5),t);
+    const white={filter:'brightness(0) invert(1)'};   // bản trắng tinh của ảnh → loé sáng đúng hình nhân vật (y như lúc vỗ tay đổi chỗ trong game)
+    // 🐕 CHONKY siêu to đứng dưới đất (trước khi bị đổi chỗ)
+    const GCX=-250;
+    if(!swap){ actor(IMG.chonky,GCX,GY,1200,{flip:flipTo('chonkydog',true)}); if(glw>0) actor(IMG.chonky,GCX,GY,1200,{...white,a:glw*0.9,flip:flipTo('chonkydog',true)}); }
+    // 😈 quỷ lơ lửng → bị Chonky đè rơi thẳng xuống phong ấn
+    const cb=lerp(-1760,250,fall), qyC=u<6.55?QH.y:cb+600;
+    if(u<7.5){ addGlow(QH.x,qyC,1100,0.4,'255,40,40'); demonFly(8,lerp(QH.x,SE.x,fall),qyC+Math.sin(t*3)*25*(1-fall),lerp(QH.w,1600,fall),{flip:true,lit:1.6,rot:fall*0.45,sy:1-0.2*fall}); }
+    else demon2(0,SE.x,SE.y+60,1500,{flip:true,lit:1.25,rot:-0.05});
+    // 😇 Holy Cat CHỞ Clapping Cat trên lưng bay tới chặn trước mặt quỷ
+    const hx=lerp(-300,QH.x-570,ap), hy=QH.y-200+Math.sin(t*2)*12-(1-ap)*150, ha=1-seg(u,6.4,7.0);
+    if(ap>0 && ha>0){ g.save(); g.globalCompositeOperation='lighter'; glow(hx,hy-150,380,0.6*ap*ha,'255,248,220'); g.restore(); actor(IMG.angel,hx,hy,300,{a:ha}); }
+    // 👏 Clapping Cat: ngồi trên lưng Holy Cat → bật nhảy ra lên trên đầu quỷ → VỖ TAY → loé trắng → ĐỔI CHỖ với Chonky
+    const RX=hx-30, RY=hy-255, CX1=QH.x+40, CY1=QH.y-1050;
+    if(!swap){ let x=RX, y=RY, im=IMG.clapIdle, h=170;
+      if(u>=2.5){ const q=eout(jp); x=lerp(RX,CX1,q); y=lerp(RY,CY1,q)-Math.sin(Math.PI*jp)*260; h=lerp(170,240,jp); im=jp<1?IMG.clapUp:IMG.clapIdle; }
+      if(clap>0) im=IMG.clap[Math.min(2,Math.floor(clap*3))];
+      if(u>=2.5){ g.save(); g.globalCompositeOperation='lighter'; glow(x,y-h*0.5,h*1.3,0.4,'255,190,120'); g.restore(); }
+      actor(im,x,y,h,{}); if(glw>0){ actor(im,x,y,h,{...white,a:glw}); addGlow(x,y-h*0.5,h*1.5*glw,0.8*glw,'255,255,255'); } }
+    // 🌀 ĐỔI CHỖ: vệt nhoè + vạch tốc độ ở cả 2 chỗ
+    if(u>=5.0&&u<5.35){ const k=seg(u,5.0,5.35);
+      for(const [px,py,c] of [[CX1,CY1-120,'255,255,255'],[GCX,GY-500,'255,255,255']]){ g.save(); g.globalCompositeOperation='lighter'; g.lineCap='round';
+        for(let i=0;i<16;i++){ const yy=py+(hash(i+800)-0.5)*500, L=200+hash(i+801)*500; g.strokeStyle=`rgba(${c},${0.55*(1-k)})`; g.lineWidth=2+hash(i+802)*4; g.beginPath(); g.moveTo(px-L*0.5-k*200,yy); g.lineTo(px+L*0.5-k*200,yy); g.stroke(); }
+        glow(px,py,500*(1-k)+150,0.8*(1-k),c); g.restore(); } }
+    // 🐕 CHONKY hiện ra trên trời ngay trên đầu quỷ → đè xuống → hất văng ra lăn sang bên
+    if(swap && u<9.6){ const x=u<7.5?lerp(CX1,SE.x,fall):lerp(SE.x,380,roll), y=u<7.5?(u<6.55?-1760+Math.sin(t*2)*10:cb):lerp(250,GY,roll)-Math.sin(Math.PI*roll)*600, h=u<7.5?1700:lerp(1700,1100,roll), o={flip:flipTo('chonkydog',true),rot:u<7.5?fall*0.15:-0.4*Math.sin(Math.PI*roll),a:1-seg(u,9.1,9.6)};
+      actor(IMG.chonky,x,y,h,o); if(arr>0) actor(IMG.chonky,x,y,h,{...o,...white,a:arr});
+      if(fall>0&&fall<1) for(let k=1;k<5;k++) actor(IMG.chonky,x,y-k*170*fall,h,{...o,a:0.18-k*0.035}); }
+    // 👏 Clapping Cat rơi xuống đúng chỗ Chonky vừa đứng — vỗ tay khoái chí
+    if(swap){ g.save(); g.globalCompositeOperation='lighter'; glow(GCX,GY-120,260,0.45,'255,190,120'); g.restore(); }   // ánh ấm để thấy rõ con mèo đen trên nền tối
+    if(swap){ const ci=u<6.0?0:Math.floor(t*8)%3; actor(u<6.0?IMG.clapUp:IMG.clap[ci],GCX,GY,230,{}); if(arr>0) actor(IMG.clapUp,GCX,GY,230,{...white,a:arr}); }
     // 💥 CHẤN ĐỘNG khổng lồ
-    if(u>=3.2&&u<3.28){ shake=60; sparks(SE.x,SE.y-100,90,'255,220,180',20); rocks(SE.x,SE.y,40,0); }
+    if(u>=7.5&&u<7.58){ shake=60; sparks(SE.x,SE.y-100,90,'255,220,180',20); rocks(SE.x,SE.y,40,0); }
     if(imp>0&&imp<1){ g.save(); g.globalCompositeOperation='lighter'; glow(SE.x,SE.y-150,lerp(300,1400,eout(imp)),0.9*(1-imp),'255,235,210'); g.restore();
       dustWall(SE.x,SE.y,lerp(250,3600,eout(imp)),0.95*(1-seg(imp,0.5,1))); cracks(SE.x,SE.y,imp,1500,13); }
-    skyline(t,u>=3.2&&u<3.8?16:0,false);
+    if(u>=6.55&&u<7.5) dust(lerp(CX1,SE.x,fall),cb,1,200);
+    skyline(t,u>=7.5&&u<8.1?16:0,false);
   }
-  const camJ5=u=>keys(u,[[0,750,-1300,0.6,0.05],[0.6,650,-1360,0.72,0.06],[0.72,650,-1360,0.75,0.06],[0.82,1350,-1360,0.85,-0.08],[1.2,1250,-1600,0.5,-0.05],[1.8,1100,-2100,0.62,0],[2.25,1080,-1950,0.5,0.05],[2.45,1120,-1300,0.3,0],[3.15,1080,300,0.3,0.03],[3.25,1120,420,0.38,-0.06],[4.0,1050,350,0.32,0],[5.5,1100,450,0.4,0]]);
+  const camJ5=u=>{ const hx=QH.x-570, hy=QH.y-200; return keys(u,[[0,300,-1250,0.55,0.04],[1.3,hx+250,hy-120,0.62,0.05],[1.7,hx+200,hy-120,0.66,0.05],[1.75,hx-20,hy-260,1.15,-0.06],[2.45,hx-20,hy-260,1.25,-0.07],[2.55,hx+250,hy-450,0.6,-0.03],[3.25,QH.x+40,QH.y-1000,0.62,0],[3.3,-250,380,0.42,0.04],[4.2,-250,320,0.46,0.04],[4.25,QH.x+40,QH.y-1180,0.95,-0.05],[4.95,QH.x+40,QH.y-1180,1.05,-0.06],[5.0,QH.x+40,QH.y-1300,0.75,0],[5.9,QH.x,QH.y-950,0.32,0.03],[6.0,-250,780,0.9,0],[6.5,-250,780,0.95,0],[6.55,QH.x+50,-1500,0.32,0],[7.45,1080,300,0.3,0.03],[7.55,1120,420,0.38,-0.06],[8.5,1050,350,0.32,0],[10,1100,450,0.4,0]]); };
 
   // ═════════ K — PHONG ẤN ÂM NHẠC 4 GÓC + HOLY ANGEL · quỷ chìm xuống địa ngục ═════════
   const SE={x:QX+160,y:860,rx:380,ry:105};
@@ -806,21 +821,21 @@
     [16.1,'sm_form',0.6],[19,'sm_schwing',1.0],[19.1,'ninja_slash',0.9],[19.9,'sm_fin',1.0],[20.1,'sm_drip',0.6],[20.1,'death_break',0.8],
     [22.6,'titan_roar',0.7,3],[23.3,'larry_horn',0.6,2],[23.5,'gp_souls',0.7,3],[24.6,'punch1',0.5],[25.2,'fd_roar',0.5,2],[25.8,'punch1',0.5],[26.6,'hit_mid',0.5],
     [28,'vine_boom',0.7],[29.5,'ultimate_charge_2',0.9],[29.9,'gigachad_roar',1.0,2],[29.95,'hit_heavy',1.0],
-    [31.0,'wg_axe_whoosh',0.6],[31.45,'br_boom',1.0],[31.45,'hit_heavy',1.0],[31.5,'creeper_explosion',0.6],[32.45,'titan_roar',0.7,2],[32.72,'gigachad_roar',0.8,1.5],[33.0,'wg_dragon_impact',1.0],[33.0,'vine_boom',0.9],[33.05,'creeper_explosion',0.6],[34.2,'wg_axe_whoosh',0.8],[34.45,'hit_heavy',1.0],[34.5,'br_boom',0.7],[35.85,'wg_dragon_impact',1.0],[35.85,'vine_boom',1.0],[35.9,'hit_heavy',1.0],[36.4,'fd_roar',0.9,2.5],
-    [38.1,'sc_wing',0.9],[38.6,'sc_wing',0.9],[39.0,'titan_roar',0.7,2],[39.2,'sc_wing',0.7],[40.6,'gp_souls',0.7,3],[41.0,'ultimate_charge_2',0.9],[42.6,'holy_thunder',0.4],[43.0,'vine_boom',0.8],[43.4,'br_boom',0.9],[43.45,'fd_roar',0.7,2],
+    [31,'wg_axe_whoosh',0.6],[31.45,'br_boom',1.0],[31.45,'hit_heavy',1.0],[31.5,'creeper_explosion',0.6],[32.45,'titan_roar',0.7,2],[32.72,'gigachad_roar',0.8,1.5],[33,'wg_dragon_impact',1.0],[33,'vine_boom',0.9],[33.05,'creeper_explosion',0.6],[34.2,'wg_axe_whoosh',0.8],[34.45,'hit_heavy',1.0],[34.5,'br_boom',0.7],[35.85,'wg_dragon_impact',1.0],[35.85,'vine_boom',1.0],[35.9,'hit_heavy',1.0],[36.4,'fd_roar',0.9,2.5],
+    [38.1,'sc_wing',0.9],[38.6,'sc_wing',0.9],[39,'titan_roar',0.7,2],[39.2,'sc_wing',0.7],[40.6,'gp_souls',0.7,3],[41,'ultimate_charge_2',0.9],[42.6,'holy_thunder',0.4],[43,'vine_boom',0.8],[43.4,'br_boom',0.9],[43.45,'fd_roar',0.7,2],
     [44.1,'thunder_big',0.5,4],[45.6,'gigachad_roar',1.0,2],[46.4,'wg_dragon_impact',1.0],[46.4,'creeper_explosion',1.0],[46.45,'hit_heavy',1.0],[46.5,'br_boom',0.8],[47.8,'titan_roar',0.5,2],
     [51.1,'sm_form',0.7],[51.4,'wg_axe_whoosh',0.8],[52.6,'lightsaber_whoosh_01',0.6],[52.8,'sm_schwing',1.0],[52.8,'sm_slash',1.0],[52.85,'ninja_slash',0.8],[53.9,'sm_fin',0.9],[54.7,'creeper_explosion',1.0],[54.7,'br_boom',1.0],[54.75,'wg_dragon_impact',1.0],[54.8,'thunder_big',0.6,3],
-    [58.1,'hl_choir',0.6,2],[58.85,'clap_tele',0.6],[59.8,'clap_cat',1.0],[60.2,'clap_tele',1.0],[60.3,'cdg_grow',0.9],[60.5,'titan_roar',0.7,2],[61.2,'creeper_explosion',1.0],[61.2,'wg_dragon_impact',1.0],[61.2,'vine_boom',1.0],[61.25,'br_boom',1.0],[61.4,'thunder_big',0.5,3],
-    [63.6,'titan_roar',0.5,2],
-    [65,'piano_giorno',0.55,4],[65.2,'guitar_jojo',0.5,4],[65.4,'tribe_1',0.6,4],[65.6,'mosquito_violin',0.55,4],[66.8,'hl_choir',1.0,5],[68,'hl_laser',1.0],[68.5,'titan_roar',0.8,3],[71.5,'holy_thunder',1.0],
-    [72.3,'sc_terror',0.6],[73,'ultimate_charge_2',0.8],[74.7,'vine_boom',1.0],[74.7,'holy_thunder',0.8],[75.5,'uia_tele_dbz',1.0],
-    [77.9,'holy_thunder',0.6],[78.6,'stalin_hammer_return',0.7],[79.15,'hm_claw1',1.0],[79.4,'vine_boom',1.0],[79.6,'hm_stalker',0.9],[80.1,'hm_crawl',0.8],[81.2,'hm_claw2',0.9],[81.4,'sc_terror',0.7],[82,'gp_souls',0.5],
-    [91.2,'fr_thunder',0.8],[92.8,'fr_bite',0.7],];
+    [58.2,'hl_choir',0.6,2],[60.5,'wg_axe_whoosh',0.6],[61.35,'cdg_grow',0.5],[62.8,'clap_cat',1.0],[63.0,'clap_tele',1.0],[63.4,'titan_roar',0.6,2],[64.05,'clap_cat',0.7],[64.3,'clap_cat',0.7],[64.6,'wg_axe_whoosh',0.8],[65.5,'creeper_explosion',1.0],[65.5,'wg_dragon_impact',1.0],[65.5,'vine_boom',1.0],[65.55,'br_boom',1.0],[65.7,'thunder_big',0.5,3],
+    [68.1,'titan_roar',0.5,2],
+    [69.5,'piano_giorno',0.55,4],[69.7,'guitar_jojo',0.5,4],[69.9,'tribe_1',0.6,4],[70.1,'mosquito_violin',0.55,4],[71.3,'hl_choir',1.0,5],[72.5,'hl_laser',1.0],[73,'titan_roar',0.8,3],[76,'holy_thunder',1.0],
+    [76.8,'sc_terror',0.6],[77.5,'ultimate_charge_2',0.8],[79.2,'vine_boom',1.0],[79.2,'holy_thunder',0.8],[80,'uia_tele_dbz',1.0],
+    [82.4,'holy_thunder',0.6],[83.1,'stalin_hammer_return',0.7],[83.65,'hm_claw1',1.0],[83.9,'vine_boom',1.0],[84.1,'hm_stalker',0.9],[84.6,'hm_crawl',0.8],[85.7,'hm_claw2',0.9],[85.9,'sc_terror',0.7],[86.5,'gp_souls',0.5],
+    [95.7,'fr_thunder',0.8],[97.3,'fr_bite',0.7],];
   // 🎵 nhạc nền (Audio riêng, bám thời gian thật của phim)
   let MUS=[];
   function musSetup(){ musStop(); const mk=(src,a,b,vol,o)=>Object.assign({el:Object.assign(new Audio(src),{preload:'auto'}),a,b,vol},o||{});
-    MUS=[ mk('assets/audio/cine_horns.mp3',0,16.5,0.8,{fi:0.6,fo:0.8}), mk('assets/audio/cine_epic.mp3',16,72,0.8,{loop:true,fi:0.5,fo:1.0}),
-      mk('assets/audio/cine_heart_fast.mp3',72,77,0.7,{loop:true,fo:0.3}), mk('assets/audio/cine_horns.mp3',84,88.2,0.45,{fi:1.2,fo:1.0}), mk('assets/audio/fr_song.mp3',91.3,DUR,0.8,{fi:0.3}) ];
+    MUS=[ mk('assets/audio/cine_horns.mp3',0,16.5,0.8,{fi:0.6,fo:0.8}), mk('assets/audio/cine_epic.mp3',16,76.5,0.8,{loop:true,fi:0.5,fo:1.0}),
+      mk('assets/audio/cine_heart_fast.mp3',76.5,81.5,0.7,{loop:true,fo:0.3}), mk('assets/audio/cine_horns.mp3',88.5,92.7,0.45,{fi:1.2,fo:1.0}), mk('assets/audio/fr_song.mp3',95.8,DUR,0.8,{fi:0.3}) ];
     for(const m of MUS) m.el.loop=!!m.loop; }
   function musTick(rR,tR){ for(const m of MUS){ const on=!paused && tR>=m.a && tR<m.b;
       if(!on){ if(!m.el.paused) m.el.pause(); continue; }
