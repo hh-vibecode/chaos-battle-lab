@@ -4706,11 +4706,7 @@ function _hmWispsDraw(){
     _shadowCloud(B[0]-N[0]*w.w, B[1]-N[1]*w.w, B[0]+N[0]*w.len*reach, B[1]+N[1]*w.len*reach, w.w*1.6, w.w*0.7, 0.85*Math.min(1,reach*2), tick/60, w.seed, false); }
 }
 function _hmDrawUnder(){
-  _hmWispsDraw();
   for(const S of hmShadows){ const a=(S.dying?Math.max(0,1-S.dying/30):1), em=Math.min(1,S.t/HM_EMERGE), k0=_hmHandK(S), A=S.act;
-    const aw=90*k0, tmS=(S.t+(S.seed||0)*50)/60;   // bề ngang cánh tay → cỡ khối mây
-    for(const h of S.hands){ const g0=a*Math.min(1,em*1.5); if(g0<=0.01) continue;   // ☁️ khối MÂY ĐEN cuộn ở chân tường — tay mọc ra từ trong đó
-      _shadowCloud(h.ax-h.nx*aw*2.6, h.ay-h.ny*aw*2.6, h.ax+h.nx*aw*1.9*em, h.ay+h.ny*aw*1.9*em, aw*5.4, aw*3.0, g0, tmS, 2+(h.mir>0?0:3), false); }   // vùng bao phủ RỘNG
     S.hands.forEach((h,hi)=>{ const ha=a*Math.min(1,em*2), lift=h.lift||0;
       const hold=!!(A && A.hold && A.hi===hi && A.u && !A.u.dead);
       const kT=k0*(1+0.18*lift); h._kS=(h._kS??kT)+(kT-(h._kS??kT))*0.35;   // nhấc lên → to ra chút (gần mắt hơn)
@@ -4726,8 +4722,6 @@ function _hmDrawUnder(){
       _hmArmSprite(h,W0,HM_HAND_META[pose].ww*h._kS*0.97,ha,S.seed+hi*3.1);   // cánh tay luôn nằm dưới
       if(!hold) _hmBlit(HM_HAND_IMG[pose],HM_HAND_META[pose],W0.x,W0.y,W0.a,h._kS,ha,h.mir);   // tay đang tóm thì vẽ ở _hmDrawOver (đè lên con mồi)
     });
-    for(const h of S.hands){ const g0=a*Math.min(1,em*1.5); if(g0<=0.01) continue;   // lõi đen đặc phủ lên GỐC cánh tay → tay liền vào bóng tối
-      _shadowCloud(h.ax-h.nx*aw*1.4, h.ay-h.ny*aw*1.4, h.ax+h.nx*aw*0.55, h.ay+h.ny*aw*0.55, aw*2.4, aw*1.7, g0, tmS*1.2+5, 6, true); }
   }
 }
 // ── VẼ TRÊN MEME: tay đang TÓM con mồi vẽ đè hẳn lên nó (ngón vòng quanh người, không bị che khuất)
