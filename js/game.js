@@ -6688,8 +6688,9 @@ function _frAddBite(u){
   if(!u || u.dead) return;
   const n=(u._biteHoles||(u._biteHoles=[])).length;
   if(n>=7) return;
-  const scrBehind = u._lastShouldFaceLeft ? 1 : -1;                    // sau lưng trên màn hình
-  const side = u._lastFacingLeft ? -scrBehind : scrBehind;             // đổi sang phía trong KHUNG ẢNH (ảnh có thể đang bị lật)
+  // phía LƯNG trong khung ảnh = phía ngược hướng mặt GỐC của ảnh — không đổi dù sprite đang lật hay không, nên mọi vết cắn luôn
+  // nằm cùng 1 phía (trước đây tính theo hướng đang quay lúc bị cắn → vết lúc ở trước mặt lúc ở sau lưng, nhảy qua lại khi phát GIF)
+  const side = (u.facingDefault==='left') ? 1 : -1;
   u._biteHoles.push({ x:0.5+side*(0.5-0.09*n)+(Math.random()-0.5)*0.04, y:0.3+Math.random()*0.42,
                       r:0.23+Math.random()*0.06, sd:Math.random()*99 });
 }
