@@ -756,7 +756,7 @@
     A.forEach(([sx,sy,im,im2,k,c,o],j)=>{ const off=o*70, lx=-650+j*130;
       if(sketch){   // góc ngước chéo: 2 kiếm sĩ lơ lửng góc dưới-trái → vung kiếm → phóng KIẾM KHÍ khổng lồ bay xuyên quả bom, xén đỉnh núi phía sau
         const o2=j?60:-60, P=QA(-1010+j*230), x=P.x+QN.x*o2, y=P.y+QN.y*o2+60, h=170, sw=seg(u,1.84,1.95), ang=Math.atan2(QD.y,QD.x);
-        if(j===0) actor(IMG.smSlash,x,y+h*0.45,h*1.35,{flip:true,rot:ang*0.3,center:true});   // ⚔️ Joninn: tư thế chém trên không (ảnh mới)
+        if(j===0) actor(IMG.smSlash,x,y+h*0.45,h*1.35,{flip:false,rot:ang*0.3,center:true});   // ⚔️ Joninn: tư thế chém trên không (ảnh mới)
         else actor(sw>0?im2:im,x,y+h*0.45,h,{flip:flipTo(k,true),rot:ang*0.35+(sw>0?0.35*(1-sw):-0.25),center:true});
         if(sw>0) bladeSlash(x-h*0.35,y+h*0.25,x+h*0.45,y-h*0.55,0,Math.min(1,sw*1.2),j?-90:90,c,1-seg(u,1.95,2.2),j*50+11);   // nhát vung tại chỗ
         if(qf>0&&qf<1){ const d=lerp(-1010+j*230,QE,qf)-(j?40:0), Q=QA(d); qiWave(Q.x+QN.x*o2,Q.y+QN.y*o2,ang,560,c,1-seg(qf,0.85,1),j*31+7); }
@@ -807,9 +807,9 @@
       const atk=!cut;
       [[A0,IMG.smSlash,'110,200,255',128,0],[B0,IMG.berserkAtk,'255,60,60',122,1]].forEach(([P,im,c,h,j])=>{ let x=P.x-(1-lp)*30, y=lerp(VH+160,P.y,lp)-Math.sin(t*5+j)*3*(lp>=1&&atk?1:0);
         if(!atk){ x=VW*(0.7+j*0.14); y=VH*(0.16+j*0.05); }
-        if(lp<1) for(let k=1;k<5;k++) actor(im,x,y+k*45*(1-lp),h,{a:0.25-k*0.05,flip:j?flipTo('berserkcat',true):true});
+        if(lp<1) for(let k=1;k<5;k++) actor(im,x,y+k*45*(1-lp),h,{a:0.25-k*0.05,flip:j?flipTo('berserkcat',true):false});
         if(cm>0&&atk){ g.save(); g.globalCompositeOperation='lighter'; glow(x,y-h*0.5,h*(1+cm),0.5,c); g.restore(); }
-        actor(im,x,y,h*(atk?1:0.8),{flip:j?flipTo('berserkcat',true):true,rot:atk?0:-0.5}); });
+        actor(im,x,y,h*(atk?1:0.8),{flip:j?flipTo('berserkcat',true):false,rot:atk?0:-0.5}); });
       // ⚡ 1 VỆT KIẾM vụt qua cả khung (chỉ ~0.08s) rồi tắt ngấm
       if(fl>0&&fl<1){ g.fillStyle='rgba(255,252,245,0.85)'; g.fillRect(0,0,VW,VH); g.save(); g.globalCompositeOperation='source-over'; g.strokeStyle='#000'; g.lineWidth=10; g.beginPath(); g.moveTo(O.x-dx*200,O.y-dy*200); g.lineTo(O.x+dx*VH*2,O.y+dy*VH*2); g.stroke(); g.restore(); }   // khung trắng loá + 1 nét đen sắc lẹm
       if(u>=2.08&&u<2.2){ const k=seg(u,2.08,2.2); g.save(); g.globalCompositeOperation='lighter'; g.strokeStyle=`rgba(255,255,255,${1-k})`; g.lineWidth=3; g.beginPath(); g.moveTo(O.x-dx*200,O.y-dy*200); g.lineTo(O.x+dx*VH*2,O.y+dy*VH*2); g.stroke(); g.restore(); } });
