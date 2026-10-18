@@ -318,7 +318,7 @@
     // 👿 Evil Larry (pháp sư tím) + Evil Gary
     const lShake=bf1>0&&bf1<0.5?Math.sin(t*70)*8:0;
     cursedAura(LX,Y,260,'170,60,255',true,t,1); cursedAura(GX,Y,140,'255,30,30',true,t,1);
-    if(pen>0){ pentagram(SX-kb1*120,Y+20,eio(pen),t,170,44); }
+    if(pen>0&&u<4.4){ g.save(); g.globalAlpha=1-seg(u,4.0,4.4); pentagram(SX-kb1*120,Y+20,eio(pen),t,170,44); g.restore(); }   // ngũ giác (phép của phe ác) chỉ hiện lúc phun cột tím, rồi tắt
     shadow(LX,Y,90,0.5); actor(IMG.larryMage,LX+kb1*60+lShake,Y,280,{flip:flipTo('evillarry',false),rot:0.05*Math.sin(Math.PI*bf1)});
     shadow(GX,Y,55,0.5); actor(IMG.egary,GX+(boom>0?eout(boom)*120:0),Y,135,{glow:'rgba(255,0,0,0.85)',gb:22,rot:Math.sin(t*14)*0.02});
     // 👻 bầy linh hồn của Gary chặn Catler
@@ -361,8 +361,17 @@
       cursedAura(VW*0.45,VH*0.97,VH*0.36,'255,30,30',true,t,1); actor(IMG.egary,VW*0.45,VH*0.97,VH*0.32*lerp(1,1.04,k),{glow:'rgba(255,0,0,0.9)',gb:30}); g.restore();
       g.save(); g.strokeStyle='#000'; g.lineWidth=10; g.beginPath(); g.moveTo(0,VH*0.58); g.lineTo(VW,VH*0.4); g.stroke(); g.restore(); });
     // 🎬 cận Catler đỡ Stalin, bùng lửa
-    if(u>=4.3&&u<5.0) ins(()=>{ const k=seg(u,4.3,5.0); bgFocus(t,'#ff9a40','#3a0a02',true,VW/2,VH*0.55); cursedAura(VW/2,VH*0.92,VH*0.42,'255,140,40',false,t,1);
-      actor(IMG.catlerAtk,VW*0.4,VH*0.88,VH*0.34*lerp(1,1.04,k),{}); actor(IMG.stalin,VW*0.68,VH*0.9,VH*0.26,{rot:-0.15});
+    if(u>=4.3&&u<5.0) ins(()=>{ const k=seg(u,4.3,5.0); bgFocus(t,'#5a2408','#140402',true,VW/2,VH*0.55); cursedAura(VW*0.4,VH*0.92,VH*0.36,'255,140,40',false,t,0.6);
+      const ch=VH*0.34*lerp(1,1.04,k); actor(IMG.catlerAtk,VW*0.4,VH*0.88,ch,{}); actor(IMG.stalin,VW*0.68,VH*0.9,VH*0.26,{rot:-0.15});
+      // 🔥 lửa tụ dần vào bàn tay giơ cao của Catler → dòng lửa chuyền sang cây búa của Stalin → búa bốc cháy
+      const PX=VW*0.4-ch*0.3, PY=VH*0.88-ch*0.93, HX=VW*0.8, HY=VH*0.6, gat=seg(k,0,0.5), pass=seg(k,0.45,0.8), lit=seg(k,0.75,1);
+      { const hc=prep(IMG.hammer); if(hc){ g.save(); g.translate(HX,HY); g.rotate(-0.5); g.drawImage(hc.src,hc.sx,hc.sy,hc.sw,hc.sh,-VH*0.07,-VH*0.07,VH*0.14,VH*0.14*hc.sh/hc.sw); g.restore(); } }
+      g.save(); g.globalCompositeOperation='lighter';
+      for(let i=0;i<26;i++){ const f=((k*1.6+hash(i+2100))%1), a=hash(i+2101)*6.28+f*4, d=lerp(VW*0.5,8,ein(f))*(1-pass); if(gat<=0) break; glow(PX+Math.cos(a)*d,PY+Math.sin(a)*d*0.7,lerp(14,6,f),0.85*gat*(1-pass*0.7),i%2?'255,160,50':'255,90,30'); }   // đốm lửa xoáy hút vào tay
+      glow(PX,PY,lerp(20,90,gat)*(1-pass*0.6),0.95,'255,200,110'); glow(PX,PY,lerp(10,40,gat),1,'255,245,210');
+      if(pass>0){ const e=eout(pass); g.lineCap='round'; for(const [lw,al,c] of [[34,0.25,'255,110,40'],[14,0.6,'255,170,70'],[5,1,'255,240,200']]){ g.strokeStyle=`rgba(${c},${al})`; g.lineWidth=lw; g.beginPath(); for(let i=0;i<=30;i++){ const f=i/30*e, x=lerp(PX,HX,f), y=lerp(PY,HY,f)-Math.sin(Math.PI*f)*VH*0.12+Math.sin(f*14-t*20)*6; i?g.lineTo(x,y):g.moveTo(x,y); } g.stroke(); } }   // dòng lửa chuyền sang búa
+      if(lit>0){ glow(HX,HY,VH*0.12*lit+20,0.9,'255,140,40'); for(let i=0;i<8;i++){ const f=((t*2+i/8)%1); glow(HX+Math.sin(i*1.7+t*6)*VH*0.03,HY-f*VH*0.12,VH*0.03*(1-f)+4,lit*(1-f),'255,'+(150-i*8)+',40'); } }   // búa bốc lửa
+      g.restore();
       if(k<0.1){ g.fillStyle=`rgba(255,240,220,${0.6*(1-k/0.1)})`; g.fillRect(0,0,VW,VH); } });
     // 🎬 chèn HẮC THIỂM: khung âm bản đen đỏ với bóng 2 nhân vật
     for(const [t0,a,b] of [[2.0,IMG.stalin,IMG.larryMage],[5.7,IMG.catlerAtk,IMG.egary]]) if(u>=t0&&u<t0+0.18) ins(()=>{ g.fillStyle='#d01020'; g.fillRect(0,0,VW,VH); g.fillStyle='#000'; for(let i=0;i<7;i++){ const an=hash(i+t0*100)*Math.PI*2; blackBolt(VW/2,VH/2,VW/2+Math.cos(an)*VH,VH/2+Math.sin(an)*VH,6,1); }
