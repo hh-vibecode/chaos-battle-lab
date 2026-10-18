@@ -318,7 +318,7 @@
     // 👿 Evil Larry (pháp sư tím) + Evil Gary
     const lShake=bf1>0&&bf1<0.5?Math.sin(t*70)*8:0;
     cursedAura(LX,Y,260,'170,60,255',true,t,1); cursedAura(GX,Y,140,'255,30,30',true,t,1);
-    if(pen>0&&u<4.4){ g.save(); g.globalAlpha=1-seg(u,4.0,4.4); pentagram(SX-kb1*120,Y+20,eio(pen),t,170,44); g.restore(); }   // ngũ giác (phép của phe ác) chỉ hiện lúc phun cột tím, rồi tắt
+    if(pen>0&&u<4.4){ const px=SX-kb1*120, k=1-seg(u,4.0,4.4); g.save(); g.globalCompositeOperation='lighter'; glow(px,Y+10,150*eio(pen),0.6*k,'190,90,255'); g.restore(); cracks(px,Y+10,eio(pen)*k,260,61); }   // chỗ cột tím sắp phun: đất nứt + ánh tím (bỏ ngôi sao)
     shadow(LX,Y,90,0.5); actor(IMG.larryMage,LX+kb1*60+lShake,Y,280,{flip:flipTo('evillarry',false),rot:0.05*Math.sin(Math.PI*bf1)});
     shadow(GX,Y,55,0.5); actor(IMG.egary,GX+(boom>0?eout(boom)*120:0),Y,135,{glow:'rgba(255,0,0,0.85)',gb:22,rot:Math.sin(t*14)*0.02});
     // 👻 bầy linh hồn của Gary chặn Catler
