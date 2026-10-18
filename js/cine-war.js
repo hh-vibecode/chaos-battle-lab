@@ -1161,13 +1161,19 @@
         if(u<9.0) shake=40; softShock(KX,KY,lerp(400,KRX*2.4,eout(k)),0.6*(1-k),'255,235,170',KRY/KRX); if(u<8.97){ sparks(KX,KY-300,60,'255,230,160',40); dust(KX,KY,40,3500); } } }
     if(u>=12.6&&u<12.68) shake=20; if(u>=12.6) { g.save(); g.globalCompositeOperation='lighter'; glow(KX,KY,lerp(800,6000,seg(u,12.6,13.3)),1-seg(u,12.6,13.3),'255,255,255'); g.restore(); }
     // 🎬 cận lần lượt 4 meme âm nhạc (kiểu cận mặt Gigachad): nền vạch tập trung theo màu, nhân vật to choán khung, nốt nhạc + sóng âm toả ra
-    const CU=[[1.8,'pianocat'],[2.5,'electricguitarcat'],[3.2,'bongocat'],[3.9,'mosquitoviolin']];
-    for(const [t0,k] of CU){ if(u<t0||u>=t0+0.7) continue; const c=K4.find(e=>e[2]===k)[3], q=seg(u,t0,t0+0.7), im=kIm(k);
-      ins(()=>{ const col=`rgb(${c})`; bgFocus(t,'#2a0a12','#050103',false,VW/2,VH*0.42); g.save(); g.globalCompositeOperation='lighter'; glow(VW/2,VH*0.5,VW*0.8,0.55,c); g.restore();
-        for(let r=0;r<3;r++){ const f=(q*1.6+r/3)%1; ring(VW/2,VH*0.55,lerp(60,VW*0.9,f),0.6*(1-f),c,5,1); }
-        const z=lerp(1.0,1.06,q), hh=VH*0.4*z; actor(im,VW/2+Math.sin(t*30)*2*(1-q),VH*0.82,hh,{flip:k==='mosquitoviolin'});
-        g.save(); g.font='900 64px serif'; g.textAlign='center'; for(let i=0;i<8;i++){ const f=(q+i/8)%1, an=hash(i+t0*10)*Math.PI*2, d=lerp(80,VW*0.6,f); g.fillStyle=`rgba(${c},${1-f})`; g.fillText(['♪','♫','♩','♬'][i%4],VW/2+Math.cos(an)*d,VH*0.5+Math.sin(an)*d*0.8); } g.restore();
-        if(q<0.12){ g.fillStyle=`rgba(255,255,255,${0.6*(1-q/0.12)})`; g.fillRect(0,0,VW,VH); } }); }
+    // 🎬 4 meme âm nhạc CÙNG LÚC: màn hình chia 4 cột, từng cột lần lượt trượt vào xen kẽ (trên xuống / dưới lên) như slideshow, rồi giữ cả 4 · cuối cùng 4 cột trượt ra ngược lại
+    if(u>=1.8&&u<4.6) ins(()=>{ const ORD=['pianocat','electricguitarcat','bongocat','mosquitoviolin'], n=4, cw=VW/n, out=seg(u,4.25,4.6);
+      g.fillStyle='#050103'; g.fillRect(0,0,VW,VH);
+      ORD.forEach((k,i)=>{ const c=K4.find(e=>e[2]===k)[3], im=kIm(k), dir=i%2?1:-1, inK=eout(seg(u,1.8+i*0.28,2.25+i*0.28)), oy=dir*VH*(1-inK)+(-dir)*VH*ein(out), x0=i*cw, cx=x0+cw/2, q=seg(u,1.8+i*0.28,4.6);
+        if(inK<=0) return;
+        g.save(); g.beginPath(); g.rect(x0+2,0,cw-4,VH); g.clip(); g.translate(0,oy);
+        const gr=g.createLinearGradient(0,0,0,VH); gr.addColorStop(0,'#14040c'); gr.addColorStop(0.55,`rgba(${c},0.35)`); gr.addColorStop(1,'#0a0206'); g.fillStyle=gr; g.fillRect(x0,0,cw,VH);
+        g.save(); g.globalCompositeOperation='lighter'; for(let r=0;r<3;r++){ const f=(q*1.4+r/3)%1; ring(cx,VH*0.62,lerp(20,cw*0.9,f),0.6*(1-f),c,4,1); } glow(cx,VH*0.6,cw*0.7,0.5,c); g.restore();
+        const hh=Math.min(VH*0.34,cw*1.15); actor(im,cx,VH*0.8,hh*lerp(1,1.04,q),{flip:k==='mosquitoviolin'});
+        g.font='900 40px serif'; g.textAlign='center'; for(let j=0;j<4;j++){ const f=(q*1.2+j/4)%1; g.fillStyle=`rgba(${c},${1-f})`; g.fillText(['♪','♫','♩','♬'][j],cx+Math.sin(j*2+t*2)*cw*0.3,VH*0.55-f*VH*0.4); }
+        g.restore(); });
+      g.fillStyle='#000'; for(let i=1;i<n;i++) g.fillRect(i*cw-3,0,6,VH);   // vạch chia khung
+    });
     // 🎬 cận Holy Cat NIỆM CHÚ: vòng hào quang + phù văn vàng xoay, tia sáng toả
     if(u>=6.4&&u<7.4) ins(()=>{ const q=seg(u,6.4,7.4); bgFocus(t,'#fff3d8','#4a2a10',true,VW/2,VH*0.42); g.save(); g.globalCompositeOperation='lighter';
       for(let i=0;i<20;i++){ const an=i/20*Math.PI*2+t*0.3; g.strokeStyle='rgba(255,230,160,0.18)'; g.lineWidth=14; g.beginPath(); g.moveTo(VW/2,VH*0.38); g.lineTo(VW/2+Math.cos(an)*VH,VH*0.38+Math.sin(an)*VH); g.stroke(); }
