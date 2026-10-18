@@ -159,11 +159,11 @@
   //          quỷ chìm xuống địa ngục · L Evil Gary bị xé làm đôi, Gary gốc văng ra, UIA lướt như Flash đón đi
   //          · M Stalin vung búa → bàn tay bóng tối hất văng, bóng tối + vô số bàn tay, 2 tay lôi 2 kẻ ác đi · N Doge đỡ Stalin, nắng
   //          · O THAT IS THE END OF THE LORE → (3s) BUT NOT MY… máu chảy + mắt và nụ cười đầy máu của Friend
-  const SC=[0,12.5,30.7,36.2,41.5,48.8,53.8,57.3,64.3,70.3,76.8,84.3,97.3,111.8,121.8,126.8,133.8,137.3,143.8];
-  const SI={H:4,P:5,J1:7,K:12,Z:13,L:14,M:15,N:16,END:17};
+  const SC=[0,12.5,30.7,36.2,41.5,48.8,53.8,57.3,64.3,70.3,76.8,84.3,97.3,111.8,116.8,126.8,133.8,137.3,143.8];
+  const SI={H:4,P:5,J1:7,K:12,L:13,Z:14,M:15,N:16,END:17};
   const DUR=SC[SC.length-1];
   // 🎞️ SLOW-MOTION kiểu anime ở các cú đánh: [bắt đầu, kết thúc (thời gian phim), tốc độ] — đoạn đó chạy chậm lại, phim dài ra tương ứng
-  const SLOW=[[117,117.4,0.3],[31.95,32.45,0.35],[33.9,34.3,0.4],[5.2,5.6,0.3],[18.46,18.91,0.3],[25.12,25.57,0.3],[28.9,29.53,0.35],[39.22,39.5,0.3],[45.28,45.6,0.3],[55.78,56,0.35],[58.75,59.25,0.5],[59.28,59.55,0.25],[61.75,62.13,0.45],[62.13,62.4,0.25],[69.7,69.9,0.4],[72.68,73,0.25],[73.2,73.9,0.6],[76.85,77.65,0.6],[78.8,79.3,0.5],[80.4,80.65,0.35],[87.78,87.92,0.35],[91.3,91.7,0.22],[102.08,102.3,0.3],[124.48,124.7,0.3],[129.18,129.4,0.3]];
+  const SLOW=[[122,122.4,0.3],[31.95,32.45,0.35],[33.9,34.3,0.4],[5.2,5.6,0.3],[18.46,18.91,0.3],[25.12,25.57,0.3],[28.9,29.53,0.35],[39.22,39.5,0.3],[45.28,45.6,0.3],[55.78,56,0.35],[58.75,59.25,0.5],[59.28,59.55,0.25],[61.75,62.13,0.45],[62.13,62.4,0.25],[69.7,69.9,0.4],[72.68,73,0.25],[73.2,73.9,0.6],[76.85,77.65,0.6],[78.8,79.3,0.5],[80.4,80.65,0.35],[87.78,87.92,0.35],[91.3,91.7,0.22],[102.08,102.3,0.3],[114.48,114.7,0.3],[129.18,129.4,0.3]];
   const c2r=c=>{ let r=c; for(const [a,b,f] of SLOW){ if(c<=a) break; r+=(Math.min(c,b)-a)*(1/f-1); } return r; };   // thời gian phim → thời gian thật
   const r2c=r=>{ let off=0; for(const [a,b,f] of SLOW){ const ra=a+off; if(r<=ra) return r-off; const rb=ra+(b-a)/f; if(r<rb) return a+(r-ra)*f; off+=(b-a)*(1/f-1); } return r-off; };
   const DURR=c2r(DUR);
@@ -978,7 +978,7 @@
     g.fillStyle='#070103'; g.fillRect(-6000,-12000,16000,8650);   // trời cao (khung rất rộng lúc Chonky hoá khổng lồ)
     skyHigh(); mountains(t); skyline(t,0,true);
     cloudSea(-650,t,0.8,{hole:{x:QH.x,y:-650,r:lerp(750,1300,fall)},blow:u>=7?{x:QH.x,y:-650,r:2600*eout(seg(u,7,9))}:null});
-    sealGround(0.25+0.75*seg(u,7.85,8.8),t);
+    sealGround(0.22,t);
     const white={filter:'brightness(0) invert(1)'};   // bản trắng tinh của ảnh → loé sáng đúng hình nhân vật (y như lúc vỗ tay đổi chỗ trong game)
     const GCX=-250, [mx,my]=qMouth(), CCx=mx-620, CCy=my+330, CX1=QH.x+40, CY1=QH.y-1050;
     // 🐕 CHONKY khổng lồ đứng dưới đất → nghe tiếng vỗ tay thì NGỬA MẶT lên trời → loé trắng
@@ -1315,11 +1315,11 @@
         g.fillStyle='#000'; g.fillRect(x-4,y-4,W+8,em*(1-open)+4); g.fillRect(x-4,y+em+em*1.05*open,W+8,em*1.05*(1-open)+1);   // mí mắt mở dần từ giữa ra
         g.restore(); } } }
 
-  const SCN=[[scA,camA],[scC,camC],[scD,camD],[scG,camG],[scH,camH],[scP,camP],[scQ,camQ],[scJ1,camJ1],[scJ2,camJ2],[scJ3,camJ3],[scJ4,camJ4],[scJ5,camJ5],[scK,camK],[scZ,camZ],[scL,camL],[scM,camM],[scN,camN]];
+  const SCN=[[scA,camA],[scC,camC],[scD,camD],[scG,camG],[scH,camH],[scP,camP],[scQ,camQ],[scJ1,camJ1],[scJ2,camJ2],[scJ3,camJ3],[scJ4,camJ4],[scJ5,camJ5],[scK,camK],[scL,camL],[scZ,camZ],[scM,camM],[scN,camN]];
   function keys(u,K){ for(let i=0;i<K.length-1;i++){ const a=K[i], b=K[i+1]; if(u>=a[0] && u<b[0]){ const k=(b[0]-a[0]<0.05)?1:eio((u-a[0])/(b[0]-a[0])); return [lerp(a[1],b[1],k),lerp(a[2],b[2],k),lerp(a[3],b[3],k),lerp(a[4]||0,b[4]||0,k)]; } } const L=K[K.length-1]; return [L[1],L[2],L[3],L[4]||0]; }   // [t, x, y, zoom, nghiêng]
   // 🔊 tiếng (thời điểm tuyệt đối)
-  const SFX=[[12.6,'stalin_domain',0.4,2],[57.3,'cine_drop',0.8,0.5],[70.7,'cine_drop',1.0],[89.35,'cine_drop',1.0],[91.45,'cine_drop',1.0],[104.25,'cine_drop',0.8],[38,'cine_drop',0.7],[5.2,'cine_impact',0.8],[18.1,'cine_impact',0.9],[24.76,'cine_impact',0.9],[28.9,'cine_impact',1.0],[39.25,'cine_impact',1.0],[57.75,'cine_impact',0.9],[59.3,'cine_impact',1.0],[62.15,'cine_impact',1.0],[72.7,'cine_impact',1.0],[80.4,'cine_impact',1.0],[91.3,'cine_impact',1.0],[93.4,'cine_impact',1.0],[106.2,'cine_impact',1.0],[117,'cine_impact',1.0],
-    [111.9,'flyingcat_laser',0.6,3],[111.9,'king_laser',0.6],[113.4,'wg_axe_whoosh',0.6],[113.7,'dawae_run',0.6,1.5],[114.8,'ultimate_charge_2',0.8],[116,'hl_laser',0.8],[117,'creeper_explosion',1.0],[117,'wg_dragon_impact',1.0],[117.02,'vine_boom',1.0],[118.2,'larry_horn',0.6,2],[118.7,'gp_souls',0.6,2],[118.8,'fd_roar',0.4,2],[120.4,'stalin_hammer_return',0.7],[120.6,'holy_thunder',0.6],[31.1,'uia_tele_dbz',0.9],[31.25,'uiacat_spin',0.6],[31.6,'spidercat_hit',0.6],[31.95,'ninja_slash',0.7],[32.3,'spidercat_hit',0.6],[32.7,'ninja_slash',0.6],[33.3,'uia_tele_dbz',0.6],[33.9,'death_break',1.0],[33.92,'vine_boom',1.0],[34,'death_break',0.8],[34.1,'death_break',0.7],[36.3,'cdg_grow',0.6],[41.6,'lightsaber_on',0.5],[41.9,'sm_form',0.5],[0.2,'titan_roar',0.5,3],[1,'thunder_big',0.35,3],[2.5,'wg_axe_whoosh',0.6],[2.8,'wg_axe_whoosh',0.6],[3.1,'wg_axe_whoosh',0.6],[3.4,'fd_roar',0.6,2],[3.5,'gigachad_roar',0.5,1.5],[5.2,'vine_boom',1.0],[5.2,'hit_heavy',1.0],[5.22,'creeper_explosion',0.6],[6.26,'infdoge_bonk',1.0],[7.06,'bonk',1.0],[7.86,'sm_slash',0.9],[8.3,'uiacat_spin',0.7,0.8],[8.66,'hit_mid',0.8],[9.1,'guitar_s1',0.6,0.8],[9.46,'hit_heavy',0.8],[10.5,'hit_mid',0.5],[11.2,'hit_heavy',0.5],
+  const SFX=[[12.6,'stalin_domain',0.4,2],[57.3,'cine_drop',0.8,0.5],[70.7,'cine_drop',1.0],[89.35,'cine_drop',1.0],[91.45,'cine_drop',1.0],[104.25,'cine_drop',0.8],[38,'cine_drop',0.7],[5.2,'cine_impact',0.8],[18.1,'cine_impact',0.9],[24.76,'cine_impact',0.9],[28.9,'cine_impact',1.0],[39.25,'cine_impact',1.0],[57.75,'cine_impact',0.9],[59.3,'cine_impact',1.0],[62.15,'cine_impact',1.0],[72.7,'cine_impact',1.0],[80.4,'cine_impact',1.0],[91.3,'cine_impact',1.0],[93.4,'cine_impact',1.0],[106.2,'cine_impact',1.0],[122,'cine_impact',1.0],
+    [116.9,'flyingcat_laser',0.6,3],[116.9,'king_laser',0.6],[118.4,'wg_axe_whoosh',0.6],[118.7,'dawae_run',0.6,1.5],[119.8,'ultimate_charge_2',0.8],[121,'hl_laser',0.8],[122,'creeper_explosion',1.0],[122,'wg_dragon_impact',1.0],[122.02,'vine_boom',1.0],[123.2,'larry_horn',0.6,2],[123.7,'gp_souls',0.6,2],[123.8,'fd_roar',0.4,2],[125.4,'stalin_hammer_return',0.7],[125.6,'holy_thunder',0.6],[31.1,'uia_tele_dbz',0.9],[31.25,'uiacat_spin',0.6],[31.6,'spidercat_hit',0.6],[31.95,'ninja_slash',0.7],[32.3,'spidercat_hit',0.6],[32.7,'ninja_slash',0.6],[33.3,'uia_tele_dbz',0.6],[33.9,'death_break',1.0],[33.92,'vine_boom',1.0],[34,'death_break',0.8],[34.1,'death_break',0.7],[36.3,'cdg_grow',0.6],[41.6,'lightsaber_on',0.5],[41.9,'sm_form',0.5],[0.2,'titan_roar',0.5,3],[1,'thunder_big',0.35,3],[2.5,'wg_axe_whoosh',0.6],[2.8,'wg_axe_whoosh',0.6],[3.1,'wg_axe_whoosh',0.6],[3.4,'fd_roar',0.6,2],[3.5,'gigachad_roar',0.5,1.5],[5.2,'vine_boom',1.0],[5.2,'hit_heavy',1.0],[5.22,'creeper_explosion',0.6],[6.26,'infdoge_bonk',1.0],[7.06,'bonk',1.0],[7.86,'sm_slash',0.9],[8.3,'uiacat_spin',0.7,0.8],[8.66,'hit_mid',0.8],[9.1,'guitar_s1',0.6,0.8],[9.46,'hit_heavy',0.8],[10.5,'hit_mid',0.5],[11.2,'hit_heavy',0.5],
     
     [14.59,'stalin_domain',0.5,2],[16.12,'sm_form',0.6],[17.2,'wg_axe_whoosh',0.8],[18.1,'stalin_hammer_hit',1.0],[18.1,'holy_thunder',0.9],[18.14,'vine_boom',1.0],[18.82,'burn_loop',0.6,1],[19,'gp_souls',0.7,1.5],[19.54,'hit_heavy',0.8],[20.44,'larry_horn',0.6,2],[21.16,'fd_roar',0.7,2],[21.25,'hit_heavy',1.0],[22.24,'burn_loop',0.6,1],[23.5,'stalin_hammer_return',0.8],[24.76,'stalin_hammer_hit',1.0],[24.76,'holy_thunder',1.0],[24.8,'vine_boom',1.0],[26.38,'flyingcat_laser',0.7,1.4],[26.38,'king_laser',0.7],[28.9,'creeper_explosion',1.0],[28.9,'wg_dragon_impact',1.0],[28.99,'br_boom',0.9],
     
@@ -1334,13 +1334,13 @@
     [84.6,'ultimate_charge_2',0.6],[85.9,'uia_tele_dbz',1.0],[87.1,'cdg_grow',0.6],[86.72,'clap_cat',1.0],[87.8,'clap_tele',1.0],[88.2,'burn_loop',0.7,2.4],[90.4,'cdg_grow',0.9],[91.3,'vine_boom',1.0],[91.3,'hit_heavy',1.0],
     [91.75,'wg_axe_whoosh',0.9],[91.8,'fd_roar',0.8,2],[92.35,'wg_axe_whoosh',0.7],[92.4,'thunder_big',0.5,3],[93.05,'lightsaber_whoosh_01',0.8],[93.4,'creeper_explosion',1.0],[93.4,'wg_dragon_impact',1.0],[93.4,'vine_boom',1.0],[93.45,'br_boom',1.0],[93.5,'thunder_big',0.7,4],[93.9,'mewing_statue_break',0.8],
     [97.4,'titan_roar',0.7,3],[98.3,'wg_dragon_impact',0.7],[98.5,'hl_choir',0.5,3],[99.1,'piano_giorno',0.6,1.6],[99.8,'guitar_jojo',0.6,1.6],[100.5,'tribe_1',0.7,1.6],[101.2,'mosquito_violin',0.6,1.6],[102,'ultimate_charge_2',0.9],[102.1,'hl_laser',0.8],[103.7,'hl_choir',1.0,4],[104.9,'holy_thunder',0.7],[105.8,'wg_axe_whoosh',0.8],[106.2,'holy_thunder',1.0],[106.2,'wg_dragon_impact',1.0],[106.2,'vine_boom',1.0],[106.9,'titan_roar',0.9,3],[109.9,'holy_thunder',0.8],
-    [122.1,'sc_terror',0.6],[122.8,'ultimate_charge_2',0.8],[124.5,'vine_boom',1.0],[124.5,'holy_thunder',0.8],[125.3,'uia_tele_dbz',1.0],
+    [112.1,'sc_terror',0.6],[112.8,'ultimate_charge_2',0.8],[114.5,'vine_boom',1.0],[114.5,'holy_thunder',0.8],[115.3,'uia_tele_dbz',1.0],
     [127.7,'holy_thunder',0.6],[128.4,'stalin_hammer_return',0.7],[128.95,'hm_claw1',1.0],[129.2,'vine_boom',1.0],[129.4,'hm_stalker',0.9],[129.9,'hm_crawl',0.8],[131,'hm_claw2',0.9],[131.2,'sc_terror',0.7],[131.8,'gp_souls',0.5],
     [141,'fr_thunder',0.8],[142.6,'fr_bite',0.7],];
   // 🎵 nhạc nền (Audio riêng, bám thời gian thật của phim)
   let MUS=[];
-  const MUS_DEF=[ {src:'assets/audio/cine_horns.mp3',a:0,b:42.8,vol:0.8,fi:0.6,fo:0.8}, {src:'assets/audio/cine_epic.mp3',a:42.3,b:121.8,vol:0.8,loop:true,fi:0.5,fo:1.0},
-      {src:'assets/audio/cine_heart_fast.mp3',a:121.8,b:126.8,vol:0.7,loop:true,fo:0.3}, {src:'assets/audio/cine_horns.mp3',a:133.8,b:138,vol:0.45,fi:1.2,fo:1.0}, {src:'assets/audio/fr_song.mp3',a:141.1,b:1e9,vol:0.8,fi:0.3} ];
+  const MUS_DEF=[ {src:'assets/audio/cine_horns.mp3',a:0,b:42.8,vol:0.8,fi:0.6,fo:0.8}, {src:'assets/audio/cine_epic.mp3',a:42.3,b:111.8,vol:0.8,loop:true,fi:0.5,fo:1.0},
+      {src:'assets/audio/cine_heart_fast.mp3',a:111.8,b:116.8,vol:0.7,loop:true,fo:0.3}, {src:'assets/audio/cine_epic.mp3',a:116.8,b:126.8,vol:0.8,loop:true,fi:0.4,fo:0.8}, {src:'assets/audio/cine_horns.mp3',a:133.8,b:138,vol:0.45,fi:1.2,fo:1.0}, {src:'assets/audio/fr_song.mp3',a:141.1,b:1e9,vol:0.8,fi:0.3} ];
   function musSetup(){ musStop(); MUS=MUS_DEF.map(d=>Object.assign({el:Object.assign(new Audio(d.src),{preload:'auto'})},d,{b:Math.min(d.b,DUR)}));
     for(const m of MUS) m.el.loop=!!m.loop; }
   function musTick(rR,tR){ for(const m of MUS){ const on=!paused && tR>=m.a && tR<m.b;
