@@ -159,11 +159,11 @@
   //          quỷ chìm xuống địa ngục · L Evil Gary bị xé làm đôi, Gary gốc văng ra, UIA lướt như Flash đón đi
   //          · M Stalin vung búa → bàn tay bóng tối hất văng, bóng tối + vô số bàn tay, 2 tay lôi 2 kẻ ác đi · N Doge đỡ Stalin, nắng
   //          · O THAT IS THE END OF THE LORE → (3s) BUT NOT MY… máu chảy + mắt và nụ cười đầy máu của Friend
-  const SC=[0,12.5,28,33.5,38.8,46.1,51.1,54.6,61.6,67.6,74.1,81.6,94.6,109.1,114.1,128.6,135.6,139.1,151.5];
+  const SC=[0,12.5,28,33.5,38.8,46.1,51.1,54.6,61.6,67.6,74.1,81.6,94.6,109.1,114.1,127.8,134.8,138.3,150.7];
   const SI={H:4,P:5,J1:7,K:12,L:13,Z:14,M:15,N:16,END:17};
   const DUR=SC[SC.length-1];
   // 🎞️ SLOW-MOTION kiểu anime ở các cú đánh: [bắt đầu, kết thúc (thời gian phim), tốc độ] — đoạn đó chạy chậm lại, phim dài ra tương ứng
-  const SLOW_RAW=[[120.8,121,0.3],[121.38,121.9,0.4],[76.4,78.1,0.55],[29.25,29.75,0.35],[31.2,31.6,0.4],[5.2,5.6,0.3],[15.76,16.21,0.3],[22.42,22.87,0.3],[26.2,26.83,0.35],[36.52,36.8,0.3],[42.58,42.9,0.3],[53.08,53.3,0.35],[56.05,56.55,0.5],[56.58,56.85,0.25],[59.05,59.43,0.45],[59.43,59.7,0.25],[67,67.2,0.4],[69.98,70.3,0.25],[70.5,71.2,0.6],[74.15,74.95,0.6],[76.1,76.6,0.5],[77.7,77.95,0.35],[85.08,85.22,0.35],[88.6,89,0.22],[99.38,99.6,0.3],[111.78,112,0.3],[130.98,131.2,0.3]];
+  const SLOW_RAW=[[120.3,120.5,0.3],[120.88,121.4,0.4],[76.4,78.1,0.55],[29.25,29.75,0.35],[31.2,31.6,0.4],[5.2,5.6,0.3],[15.76,16.21,0.3],[22.42,22.87,0.3],[26.2,26.83,0.35],[36.52,36.8,0.3],[42.58,42.9,0.3],[53.08,53.3,0.35],[56.05,56.55,0.5],[56.58,56.85,0.25],[59.05,59.43,0.45],[59.43,59.7,0.25],[67,67.2,0.4],[69.98,70.3,0.25],[70.5,71.2,0.6],[74.15,74.95,0.6],[76.1,76.6,0.5],[77.7,77.95,0.35],[85.08,85.22,0.35],[88.6,89,0.22],[99.38,99.6,0.3],[111.78,112,0.3],[130.18,130.4,0.3]];
   // 🛠️ chuẩn hoá: c2r/r2c cần các đoạn slow-mo SẮP XẾP tăng dần và KHÔNG chồng nhau (trước đây lẫn thứ tự → bộ đếm thời gian nhảy lùi, phát lặp lại cảnh)
   const SLOW=(()=>{ const L=SLOW_RAW.map(x=>x.slice()).sort((x,y)=>x[0]-y[0]), out=[]; for(const s of L){ const p=out[out.length-1]; if(p&&s[0]<p[1]){ if(s[1]<=p[1]) continue; s[0]=p[1]; } if(s[1]-s[0]>0.01) out.push(s); } return out; })();
   const c2r=c=>{ let r=c; for(const [a,b,f] of SLOW){ if(c<=a) break; r+=(Math.min(c,b)-a)*(1/f-1); } return r; };   // thời gian phim → thời gian thật
@@ -1373,7 +1373,58 @@
     // 🔵 quả cầu (nhỏ dần theo chiều sâu)
     if(hit<0.3){ const R=lerp(VH*0.3,VH*0.025,Math.pow(d,0.55)); genki(VPx,depthY(zb)-R*0.7,R,t,1-hit/0.3); for(let i=0;i<4;i++) if(Math.random()<0.8) parts.push({k:'rock',x:VPx+(Math.random()-0.5)*R*2,y:depthY(zb),vx:(Math.random()-0.5)*6,vy:-4-Math.random()*6,l:40,L:40,c:'110,70,50',r:2+Math.random()*6*(1-d)}); }
     if(hit>0&&hit<0.12){ g.fillStyle=`rgba(255,250,240,${0.7*(1-hit/0.12)})`; g.fillRect(0,0,VW,VH); } }
-  function scZ(u,t){ const {sx:SX,cx:CX,gx:GX,lx:LX,y:Y}=ZG;
+  // 🏙️ TOÀN CẢNH THÀNH PHỐ ĐỔ NÁT nhìn dọc đại lộ ra chân trời (phối cảnh thật) — quả cầu lao thẳng ra xa, đi tới đâu TOÀN BỘ PHẦN GIỮA bị san phẳng tới đó
+  //    (nhà giữa nổ tung + mảnh vỡ văng, bụi cuộn), 2 bên còn nguyên → cuối cùng 1 dải đất trống thẳng tắp xuyên thành phố tới tận chân trời
+  const CITY=(()=>{ const B=[]; for(let i=0;i<340;i++){ const mid=i<150, d=(mid?4:1.6)+Math.pow(hash(i+3100),1.6)*68, X=mid?(hash(i+3101)-0.5)*2.6:(hash(i+3102)<0.5?-1:1)*(1.7+hash(i+3103)*5.5);
+      B.push({X,d,w:0.35+hash(i+3104)*0.9,h:(0.6+hash(i+3105)*3.2)*(mid?0.9:1.1),seed:i,mid,tone:hash(i+3106)}); } return B.sort((a,b)=>b.d-a.d); })();
+  const _bsp={};
+  function bSprite(b){ if(_bsp[b.seed]) return _bsp[b.seed]; const W=Math.round(60*b.w)+8, H=Math.round(60*b.h)+8, c=document.createElement('canvas'); c.width=W; c.height=H; const x=c.getContext('2d');
+    const P=[[0,H]]; const n=6; for(let i=0;i<=n;i++){ const fx=i/n*W, top=H*(0.02+0.35*hash(b.seed*7+i)*(hash(b.seed+i*3)<0.6?1:0.2)); P.push([fx,top]); } P.push([W,H]);   // mái gãy lởm chởm
+    const path=()=>{ x.beginPath(); P.forEach((p,i)=>i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1])); x.closePath(); };
+    const v=Math.round(70+b.tone*50); path(); const gr=x.createLinearGradient(0,0,W,0); gr.addColorStop(0,`rgb(${v+20},${v+24},${v+34})`); gr.addColorStop(0.7,`rgb(${v},${v+4},${v+14})`); gr.addColorStop(1,`rgb(${v-30},${v-28},${v-20})`); x.fillStyle=gr; x.fill();
+    x.save(); path(); x.clip(); x.fillStyle='rgba(15,18,26,0.85)'; for(let yy=H*0.12;yy<H-6;yy+=9) for(let xx=4;xx<W-6;xx+=8) if(hash(b.seed*31+xx*3+yy)<0.75) x.fillRect(xx,yy,4,5);   // ô cửa sổ vỡ tối om
+      for(let k=0;k<3;k++){ const cx=W*hash(b.seed+k*11), cy=H*(0.2+0.6*hash(b.seed+k*13)), r=W*0.18*hash(b.seed+k*17)+3; x.fillStyle='rgba(10,12,18,0.9)'; x.beginPath(); x.arc(cx,cy,r,0,Math.PI*2); x.fill(); } x.restore();   // mảng tường vỡ thủng
+    const hz=document.createElement('canvas'); hz.width=W; hz.height=H; const hx=hz.getContext('2d'); hx.drawImage(c,0,0); hx.globalCompositeOperation='source-in'; hx.fillStyle='#a8bede'; hx.fillRect(0,0,W,H);   // bản "sương xa" cùng hình
+    return _bsp[b.seed]={c,hz,W,H}; }
+  function cityPlough(q,t){ const VPx=VW*0.5, VPy=VH*0.42, F=VH*0.9, HC=0.5, sx=(X,d)=>VPx+X*F/d, gy=d=>VPy+HC*F/d;
+    const QS=0.14, QE=0.84, TL=2.9, BV=(80-0.4)/((QE-QS)*TL);   // quả cầu bay với VẬN TỐC KHÔNG ĐỔI theo chiều sâu (BV đơn vị/giây) · TL = thời lượng cảnh (giây)
+    const bd=0.4+BV*Math.max(0,q-QS)*TL, done=seg(q,QE,1), tq=d=>QS+(d-0.4)/BV/TL;   // tq(d): thời điểm quả cầu đi qua độ sâu d
+    const sky=g.createLinearGradient(0,0,0,VPy); sky.addColorStop(0,'#0c2a7a'); sky.addColorStop(0.75,'#3a6ac0'); sky.addColorStop(1,'#a8c4e8'); g.fillStyle=sky; g.fillRect(0,0,VW,VH);
+    for(let i=0;i<16;i++){ const y=VPy*(0.1+hash(i+3200)*0.75), x=((hash(i+3201)*VW*1.4+t*6)%(VW*1.4))-VW*0.2, w=VW*(0.06+hash(i+3202)*0.14); for(let j=0;j<4;j++){ g.fillStyle=`rgba(255,255,255,${0.55-j*0.1})`; g.beginPath(); g.ellipse(x+j*w*0.3,y-j*4,w*(1-j*0.18),VH*(0.014+0.006*j),0,0,Math.PI*2); g.fill(); } }
+    const gr=g.createLinearGradient(0,VPy,0,VH); gr.addColorStop(0,'#9aa2ae'); gr.addColorStop(1,'#5a5248'); g.fillStyle=gr; g.fillRect(0,VPy,VW,VH-VPy);   // mặt đất đầy gạch vụn
+    for(let i=0;i<220;i++){ const d=1.2+Math.pow(hash(i+3300),1.5)*70, X=(hash(i+3301)-0.5)*14, r=(0.05+0.12*hash(i+3302))*F/d; if(Math.abs(X)<1.35&&d<bd) continue; g.fillStyle=hash(i+3303)<0.5?'rgba(60,58,62,0.8)':'rgba(120,110,100,0.7)'; g.beginPath(); g.ellipse(sx(X,d),gy(d),r*1.4,r*0.5,0,0,Math.PI*2); g.fill(); }   // đống gạch đá
+    // dải đất SAN PHẲNG phía sau quả cầu (từ sát máy tới chỗ quả cầu): mặt đất trơn, sáng màu bụi
+    if(bd>1.05){ const d1=bd; g.beginPath(); g.moveTo(sx(-1.35,1),gy(1)); g.lineTo(sx(-1.35,d1),gy(d1)); g.lineTo(sx(1.35,d1),gy(d1)); g.lineTo(sx(1.35,1),gy(1)); g.closePath();
+      const pg=g.createLinearGradient(0,gy(d1),0,VH); pg.addColorStop(0,'#c8bca8'); pg.addColorStop(1,'#9a8e7c'); g.fillStyle=pg; g.fill();
+      g.strokeStyle='rgba(60,50,40,0.35)'; g.lineWidth=1; for(let i=0;i<30;i++){ const d=1.1+hash(i+3400)*(d1-1.1); g.beginPath(); g.moveTo(sx(-1.3,d),gy(d)); g.lineTo(sx(1.3,d),gy(d)); g.stroke(); } }   // vân đất bị cày
+    // 🏚️ nhà cửa (xa → gần): nhà ở phần GIỮA mà quả cầu đã đi qua thì mất, nhà ngay sát quả cầu đang bị thổi tung
+    // 💥 VẬT LÝ: nhà giữa bị quả cầu đâm qua vỡ thành khối đá — văng tới trước (đà quả cầu), toả ra 2 bên, bay lên rồi rơi theo trọng lực, chạm đất thì trượt + dừng
+    const GRV=9.8*0.55, frag=[];
+    for(const b of CITY){ if(!b.mid) continue; const th=(q-tq(b.d))*TL; if(th<=0) continue; const S=bSprite(b);
+      for(let k=0;k<14;k++){ const r=hash(b.seed*13+k), r2=hash(b.seed*17+k), r3=hash(b.seed*19+k);
+        const vz=4+r*9, vx=(b.X>=0?1:-1)*(0.6+r2*2.4)+(r3-0.5)*1.2, vy=1.5+r3*4.5, x00=b.X+(r2-0.5)*b.w, y00=b.h*(0.15+0.75*r), sz=Math.max(b.w,b.h)*(0.05+0.1*r3);
+        const tg=(vy+Math.sqrt(vy*vy+2*GRV*y00))/GRV, tt=Math.min(th,tg), slide=Math.max(0,th-tg), fr=Math.min(slide,0.6);   // tg: lúc chạm đất
+        const X=x00+vx*tt+vx*0.35*(fr-fr*fr/1.2), Z=b.d+vz*tt+vz*0.35*(fr-fr*fr/1.2), Y=Math.max(0,y00+vy*tt-0.5*GRV*tt*tt);
+        if(Z<0.4) continue; frag.push({X,Y,Z,sz,rot:(r-0.5)*8*tt,c:S,tone:b.tone}); } }
+    frag.sort((a,b)=>b.Z-a.Z);
+    for(const b of CITY){ const s=F/b.d, x0=sx(b.X,b.d), y0=gy(b.d), w=b.w*s, h=b.h*s; if(x0+w<-20||x0-w>VW+20) continue;
+      if(b.mid&&b.d<bd) continue;
+      let kk=0; if(b.mid&&b.d<bd+3) kk=seg(bd,b.d-3,b.d)*0.25;   // sắp bị đâm: rung + nứt (sóng áp lực đi trước quả cầu)
+      const S=bSprite(b), haze=Math.min(0.85,b.d/70);
+      g.save(); if(kk>0){ g.translate(Math.sin(t*60+b.seed)*kk*6,0); }
+      g.drawImage(S.c,x0-w/2,y0-h,w,h); g.globalAlpha=haze; g.drawImage(S.hz,x0-w/2,y0-h,w,h); g.restore(); }
+    for(const f of frag){ const s=F/f.Z, x=sx(f.X,f.Z), y=gy(f.Z)-f.Y*s, r=f.sz*s; if(r<0.6||x<-50||x>VW+50) continue; const v=Math.round(70+f.tone*50), hz=Math.min(0.8,f.Z/70);
+      g.save(); g.translate(x,y); g.rotate(f.rot); g.fillStyle=`rgb(${lerp(v,168,hz)|0},${lerp(v+4,190,hz)|0},${lerp(v+14,222,hz)|0})`; g.beginPath(); g.moveTo(-r,-r*0.4); g.lineTo(-r*0.2,-r); g.lineTo(r,-r*0.3); g.lineTo(r*0.6,r*0.7); g.lineTo(-r*0.7,r*0.6); g.closePath(); g.fill();
+      g.fillStyle='rgba(15,18,26,0.6)'; g.fillRect(-r*0.3,-r*0.3,r*0.25,r*0.3); g.restore();
+      if(f.Y>0.05&&Math.random()<0.02) puff(x,y,r*1.5,0.3,'180,170,160'); }
+    // 🌫️ bụi cuộn dọc dải đất vừa bị cày (tung lên liên tục, loang ra hai bên)
+    for(let i=0;i<70;i++){ const d=1.2+hash(i+3500)*Math.max(0,bd-1.2); if(d>=bd) continue; const age=Math.min(2.2,(q-tq(d))*TL*0.9)+((t*0.5+hash(i+3501))%1)*0.4, s=F/d, X=(hash(i+3502)-0.5)*3;
+      puff(sx(X,d),gy(d)-age*0.6*s,(0.35+age*0.5)*s,Math.max(0,0.45*(1-age/2.6))*(1-done*0.6),'190,180,165'); }
+    // 🔵 quả cầu cày đi (nhỏ dần theo chiều sâu)
+    if(q>=QS&&done<0.6){ const s=F/bd, R=0.42*s; genki(VPx,gy(bd)-R*0.8,R,t,1-done/0.6); if(Math.random()<0.8) for(let k=0;k<3;k++) parts.push({k:'rock',x:VPx+(Math.random()-0.5)*R*2,y:gy(bd),vx:(Math.random()-0.5)*10,vy:-4-Math.random()*6,l:40,L:40,c:'110,100,90',r:Math.max(1.5,R*0.08*Math.random())}); }
+    if(done>0){ g.save(); g.globalCompositeOperation='lighter'; glow(VPx,VPy,VW*0.25*(1-done*0.5),0.6*(1-done),'255,240,220'); g.restore(); }   // loé sáng ở chân trời khi quả cầu biến mất
+  }
+  function scZ0(u,t){ const {sx:SX,cx:CX,gx:GX,lx:LX,y:Y}=ZG;
     const join=seg(u,1.6,3.6), gath=seg(u,3.0,6.0), run=eio(seg(u,6.0,6.5)), hop=seg(u,6.5,6.75), kick=u>=6.75, fly=seg(u,6.8,7.3),
       shield=eout(seg(u,6.9,7.25)), crack=seg(u,7.3,7.7), shat=seg(u,7.7,8.3), blow=seg(u,7.7,8.9), kb=eout(seg(u,7.7,8.4)), jump=seg(u,11.0,12.0), ring=eio(seg(u,11.6,13.2)), raise=eout(seg(u,13.2,14.0));
     chaosSouls(t,10,GX,Y-200,300,120);
@@ -1388,10 +1439,11 @@
     actor(IMG.egary,gx+(weak>0?Math.sin(t*30)*3:0),Y,lerp(135,105,weak),{glow:'rgba(255,0,0,0.85)',gb:22,sy:1-0.15*weak,rot:-0.2*Math.sin(Math.PI*blow)+0.15*weak,filter:weak>0?`brightness(${1-0.35*weak})`:''});
     // 🔵 cả dàn meme ùa tới phía sau, giơ tay lên trời truyền năng lượng
     const crew=army.filter(m=>m.k!=='stalincat'&&m.k!=='feuerkatze'&&m.k!=='chillguy').slice(0,18), PAL=['120,190,255','255,200,90','255,120,200','140,255,170','255,150,60','200,140,255'];
-    const B0={x:CX-200,y:Y-560}, BR=lerp(6,190,eio(gath));
+    const B0={x:CX-150,y:Y-760}, BR=lerp(6,330,eio(gath));   // quả cầu KHỔNG LỒ trên trời (kiểu Genki Dama đánh Ma Bư)
     crew.forEach((T,i)=>{ const row=i%3, col=Math.floor(i/3), tx=CX-90-col*70-row*24, ty=Y-row*28+20, k=eout(seg(join,i*0.035,i*0.035+0.45)), x=lerp(tx-700,tx,k), y=ty;
       const ang=Math.PI*(0.15+1.7*(i/crew.length)), rx=gx+Math.cos(ang)*(240+row*40), ry=Y+Math.sin(ang)*60+20, qx=lerp(x,rx,ring), qy=lerp(y,ry,ring);
-      shadow(qx,qy,24,0.3); actor(T.im,qx,qy-(k<1?Math.abs(Math.sin(t*13+i))*10:0),T.wolf?100:78,{flip:T.wolf?Math.cos(ang)<0&&ring>0.5:flipTo(T.k,ring>0.5?Math.cos(ang)<0:true)});
+      const pw=k>=1&&gath>0&&u<6.8; if(pw){ g.save(); g.globalCompositeOperation='lighter'; glow(qx,qy-40,46,0.35+0.2*Math.sin(t*8+i),PAL[i%PAL.length]); g.restore(); }   // hào quang khi truyền năng lượng
+      shadow(qx,qy,24,0.3); actor(T.im,qx,qy-(k<1?Math.abs(Math.sin(t*13+i))*10:(pw?6+Math.sin(t*6+i)*4:0)),T.wolf?100:78,{flip:T.wolf?Math.cos(ang)<0&&ring>0.5:flipTo(T.k,ring>0.5?Math.cos(ang)<0:true)});
       if(k>=1&&gath>0&&u<6.8){ const c=PAL[i%PAL.length]; g.save(); g.globalCompositeOperation='lighter'; glow(x,y-60,22,0.6,c);
         for(let p=0;p<5;p++){ const f=((t*0.9+p/5+hash(i)*0.7)%1), px=lerp(x,B0.x,f)+Math.sin(f*Math.PI)*(i%2?40:-40), py=lerp(y-60,B0.y,ein(f))-Math.sin(f*Math.PI)*120; glow(px,py,6+4*(1-f),0.9,c); } g.restore(); } });   // tia sáng li ti bay về quả cầu
     // ✨ tia sáng li ti từ khắp nơi (trời, mặt đất xa) tụ về quả cầu
@@ -1403,12 +1455,6 @@
     shadow(stx,Y,50); actor(IMG.stalin,stx,Y,150,{rot:ring>0?0:-0.08});
     { const hc=prep(IMG.hammer); if(hc){ const hx=stx+45, hy=lerp(Y-120,Y-260,raise); g.save(); g.translate(hx,hy); g.rotate(lerp(-0.6,-1.0,raise)); g.drawImage(hc.src,hc.sx,hc.sy,hc.sw,hc.sh,-36,-36,72,72*hc.sh/hc.sw); g.restore();
       if(raise>0){ g.save(); g.globalCompositeOperation='lighter'; glow(hx,hy,140*raise,0.7,'150,210,255'); g.restore(); if(Math.random()<0.6) bolt(hx,hy,hx+(Math.random()-0.5)*200,hy-150-Math.random()*250,2,0.9,'150,210,255'); } } }
-    // 💥 ĐỐI CHƯỞNG giữ thế giằng co (phe meme bị dồn) tới lúc Chill Guy đá quả cầu
-    if(u<6.85){ const mid=lerp(SX+250,SX+150,seg(u,0,1.6))+Math.sin(t*7)*20, my=Y-150;
-      g.save(); g.globalCompositeOperation='lighter'; g.lineCap='round';
-      for(const [x0,y0,c1,c2,w] of [[CX+60,Y-100,'150,210,255','255,150,60',1],[gx-40,Y-100,'255,40,40','190,90,255',1.4]]) for(const [lw,al] of [[70,0.2],[30,0.55],[10,1]]) for(const [c,o] of [[c1,-6],[c2,6]]){ g.strokeStyle=`rgba(${c},${al})`; g.lineWidth=lw*0.6*w; g.beginPath(); g.moveTo(x0,y0+o); g.quadraticCurveTo((x0+mid)/2,my+o+Math.sin(t*20)*14,mid,my); g.stroke(); }
-      glow(mid,my,140+30*Math.sin(t*30),1,'255,240,240'); g.restore();
-      if(Math.random()<0.9) sparks(mid,my,6,Math.random()<0.5?'150,210,255':'255,60,80',10); shake=Math.max(shake,4); if(Math.random()<0.5) dust(mid+(Math.random()-0.5)*300,Y,2,200); }
     // 🔵 quả cầu năng lượng: lơ lửng trên đầu cả dàn meme, lớn dần → bị đá bay về phía 2 kẻ ác → ép vào kết giới
     const SHX=gx-170, SHY=Y-190;
     let bx=B0.x, by=B0.y; if(u>=6.8){ const f=ein(fly); bx=lerp(B0.x,SHX-BR*0.7,f); by=lerp(B0.y,SHY,f); } if(u>=7.3){ bx=SHX-BR*0.7+Math.sin(t*50)*6*(1-shat); by=SHY; } if(u>=7.7){ bx=lerp(SHX-BR*0.7,1900,ein(seg(u,7.7,8.1))); }
@@ -1426,16 +1472,26 @@
       if(u<6.75) for(let k=1;k<5;k++) actor(IMG.chill,x-k*50,y,140,{a:0.25-k*0.05,flip:true});
       shadow(x,Y,40,0.3); actor(im,x,y,u>=6.75?170:140,{flip:true,rot});
       if(u>=6.75&&u<6.83){ shake=34; impact(B0.x-BR*0.6,B0.y+BR*0.3,seg(u,6.75,7.1),400); } }
+    // 🎬 toàn cảnh: từ khắp mặt đất xa tít (thành phố, rừng, núi) vô số tia sáng bay vút lên trời về phía quả cầu (như cả thế giới góp sức cho Goku)
+    if(u>=3.2&&u<4.3) ins(()=>{ const q=seg(u,3.2,4.3), HY=VH*0.62; const sk=g.createLinearGradient(0,0,0,HY); sk.addColorStop(0,'#0a0c22'); sk.addColorStop(1,'#4a2a3a'); g.fillStyle=sk; g.fillRect(0,0,VW,VH);
+      for(let i=0;i<5;i++) peak(VW*(0.1+i*0.22),HY+VH*0.02,VW*0.4,VH*(0.12+hash(i+3600)*0.08),3600+i,['#2a1a2a','#34202e','#1c1018','#120a10'],0.9);
+      g.fillStyle='#120a10'; g.fillRect(0,HY,VW,VH); for(let i=0;i<40;i++){ const x=hash(i+3610)*VW, w=VW*0.01+hash(i+3611)*VW*0.02, h=VH*(0.02+0.06*hash(i+3612)); g.fillStyle='#1c121a'; g.fillRect(x,HY-h,w,h); }
+      genki(VW/2,VH*0.12,VH*lerp(0.1,0.14,q),t,1);
+      g.save(); g.globalCompositeOperation='lighter'; for(let i=0;i<120;i++){ const f=((t*0.45+hash(i+3620))%1), x0=hash(i+3621)*VW, y0=HY+hash(i+3622)*VH*0.3, x=lerp(x0,VW/2,ein(f)), y=lerp(y0,VH*0.12,f);
+        const f0=Math.max(0,f-0.12), px=lerp(x0,VW/2,ein(f0)), py=lerp(y0,VH*0.12,f0), lg=g.createLinearGradient(px,py,x,y); lg.addColorStop(0,'rgba(200,230,255,0)'); lg.addColorStop(1,`rgba(${i%3?'210,235,255':'255,240,200'},0.9)`); g.strokeStyle=lg; g.lineWidth=2.2; g.beginPath(); g.moveTo(px,py); g.lineTo(x,y); g.stroke(); glow(x,y,5,0.9,'220,240,255'); } g.restore(); });
     // 🎬 cận: tia sáng li ti từ khắp trời tụ thành quả cầu khổng lồ (góc ngước lên, dàn meme giơ tay ở dưới)
     if(u>=4.3&&u<5.6) ins(()=>{ const q=seg(u,4.3,5.6); const sk=g.createLinearGradient(0,0,0,VH); sk.addColorStop(0,'#0a1028'); sk.addColorStop(1,'#3a2a50'); g.fillStyle=sk; g.fillRect(0,0,VW,VH);
       g.save(); g.globalCompositeOperation='lighter'; for(let i=0;i<140;i++){ const f=((t*0.6+hash(i+2950))%1), an=hash(i+2951)*Math.PI*2, d=lerp(VW*1.1,VH*0.2,ein(f)); glow(VW/2+Math.cos(an)*d,VH*0.35+Math.sin(an)*d*0.8,3+3*f,0.95,i%3?'200,230,255':'255,240,200'); } g.restore();
-      genki(VW/2,VH*0.35,VH*lerp(0.16,0.24,q),t,1);
+      genki(VW/2,VH*0.33,VH*lerp(0.2,0.3,q),t,1);
       crew.slice(0,8).forEach((T,i)=>{ actor(T.im,VW*(0.06+i*0.125),VH*1.0,VH*0.2,{filter:'brightness(0.35)',flip:T.wolf?true:flipTo(T.k,true)}); }); });
     // 🎬 toàn cảnh từ trên cao: quả cầu cày nát thung lũng, khoét thủng vách núi
-    if(u>=8.1&&u<11.0) ins(()=>canyonPlough(seg(u,8.1,11.0),t));
+    if(u>=8.1&&u<11.0) ins(()=>cityPlough(seg(u,8.1,11.0),t));   // 🏙️ quả cầu san phẳng 1 đường thẳng xuyên thành phố tới tận chân trời
   }
-  const camZ=u=>keys(u,[[0,650,720,0.5,0],[1.5,620,720,0.55,0.02],[1.6,300,740,0.48,0],[3.6,300,700,0.46,0],[4.3,220,560,0.42,0],[6.0,300,640,0.4,0],[6.5,300,640,0.42,0.03],[6.8,420,620,0.5,0.05],[7.3,620,700,0.55,0.04],[7.7,700,700,0.5,0],[8.1,800,700,0.45,0],
+  const zMap=u=>u<5.5?1.6+u*(4.4/5.5):u+0.5;   // u mới → u cũ của bản dựng gốc
+  function scZ(u,t){ scZ0(zMap(u),t); }
+  const camZ0=u=>keys(u,[[0,650,720,0.5,0],[1.5,620,720,0.55,0.02],[1.6,300,740,0.48,0],[3.6,300,700,0.46,0],[4.3,220,560,0.42,0],[6.0,300,640,0.4,0],[6.5,300,640,0.42,0.03],[6.8,420,620,0.5,0.05],[7.3,620,700,0.55,0.04],[7.7,700,700,0.5,0],[8.1,800,700,0.45,0],
     [11.0,900,500,0.38,0],[12.0,1000,200,0.3,0],[12.2,950,740,0.48,0],[13.2,1000,760,0.52,0],[14.2,980,760,0.58,0.02]]);
+  const camZ=u=>{ const o=zMap(u); return o<6?keys(o,[[1.6,380,560,0.42,0],[3.0,360,470,0.38,0],[4.3,330,360,0.34,0.02],[6.0,330,400,0.34,0]]):camZ0(o); };
 
   // ═════════ L — Evil Gary bị xé làm đôi (kiểu Voldemort/Harry) → Gary gốc văng ra, UIA lướt như Flash đón đi ═════════
   function scL(u,t){ const x=600, y=870, wr=seg(u,0,0.9), tear=eio(seg(u,0.8,2.7)), snap=u>=2.7, fly=eout(seg(u,2.7,3.3)), streak=seg(u,3.5,3.95), took=u>=3.72;
@@ -1545,7 +1601,7 @@
   const SCN=[[scA,camA],[scC,camC],[scD,camD],[scG,camG],[scH,camH],[scP,camP],[scQ,camQ],[scJ1,camJ1],[scJ2,camJ2],[scJ3,camJ3],[scJ4,camJ4],[scJ5,camJ5],[scK,camK],[scL,camL],[scZ,camZ],[scM,camM],[scN,camN]];
   function keys(u,K){ for(let i=0;i<K.length-1;i++){ const a=K[i], b=K[i+1]; if(u>=a[0] && u<b[0]){ const k=(b[0]-a[0]<0.05)?1:eio((u-a[0])/(b[0]-a[0])); return [lerp(a[1],b[1],k),lerp(a[2],b[2],k),lerp(a[3],b[3],k),lerp(a[4]||0,b[4]||0,k)]; } } const L=K[K.length-1]; return [L[1],L[2],L[3],L[4]||0]; }   // [t, x, y, zoom, nghiêng]
   // 🔊 tiếng (thời điểm tuyệt đối)
-  const SFX=[[114.2,'flyingcat_laser',0.6,3],[114.2,'king_laser',0.6],[115.7,'wg_axe_whoosh',0.6],[117.1,'ultimate_charge_2',0.9],[117.1,'hl_choir',0.6,3],[118.4,'ultimate_charge_2',0.7],[120.1,'wg_axe_whoosh',0.7],[120.6,'wg_axe_whoosh',0.8],[120.85,'chillguy_kick',1.0],[120.86,'cine_impact',0.9],[120.9,'hl_laser',0.8],[121.1,'larry_horn',0.6,2],[121.4,'cine_impact',1.0],[121.4,'stalin_hammer_hit',0.8],[121.8,'mewing_statue_break',1.0],[121.8,'creeper_explosion',1.0],[121.82,'vine_boom',1.0],[122.2,'thunder_big',0.5,3],[122.3,'cine_impact_jr1',1.0],[124.2,'creeper_explosion',1.0],[124.22,'wg_dragon_impact',1.0],[125.1,'larry_horn',0.6,2],[125.6,'gp_souls',0.6,2],[125.7,'fd_roar',0.4,2],[127.3,'stalin_hammer_return',0.7],[127.5,'holy_thunder',0.6],[89.0,'cine_drop',1.7],[90.3,'cine_drop',1.8],[77.35,'mewing_statue_break',0.9],[77.4,'cine_impact_jr1',0.8],[31.2,'cine_impact',0.9],[42.6,'cine_impact',0.9],[130.98,'cine_impact',0.9],[12.54,'sc_terror',0.4,2],[5.2,'cine_impact',0.8],[15.4,'cine_impact',0.9],[22.06,'cine_impact',0.9],[26.2,'cine_impact',1.0],[36.55,'cine_impact_jr1',1.0],[55.05,'cine_impact',0.9],[56.6,'cine_impact',0.9],[59.45,'cine_impact',0.9],[70,'cine_impact_jr1',1.0],[77.85,'cine_impact',1.0],[88.6,'cine_impact',1.0],[90.7,'cine_impact_jr1',1.0],[103.5,'cine_impact_jr1',1.0],
+  const SFX=[[114.1,'wg_axe_whoosh',0.6],[115.85,'ultimate_charge_2',0.9],[115.85,'hl_choir',0.6,3],[117.48,'ultimate_charge_2',0.7],[119.6,'wg_axe_whoosh',0.7],[120.1,'wg_axe_whoosh',0.8],[120.35,'chillguy_kick',1.0],[120.36,'cine_impact',0.9],[120.4,'hl_laser',0.8],[120.6,'larry_horn',0.6,2],[120.9,'cine_impact',1.0],[120.9,'stalin_hammer_hit',0.8],[121.3,'mewing_statue_break',1.0],[121.3,'creeper_explosion',1.0],[121.32,'vine_boom',1.0],[121.7,'thunder_big',0.5,3],[121.8,'cine_impact_jr1',1.0],[123.7,'creeper_explosion',1.0],[123.72,'wg_dragon_impact',1.0],[124.6,'larry_horn',0.6,2],[125.1,'gp_souls',0.6,2],[125.2,'fd_roar',0.4,2],[126.8,'stalin_hammer_return',0.7],[127,'holy_thunder',0.6],[89.0,'cine_drop',1.7],[90.3,'cine_drop',1.8],[77.35,'mewing_statue_break',0.9],[77.4,'cine_impact_jr1',0.8],[31.2,'cine_impact',0.9],[42.6,'cine_impact',0.9],[130.18,'cine_impact',0.9],[12.54,'sc_terror',0.4,2],[5.2,'cine_impact',0.8],[15.4,'cine_impact',0.9],[22.06,'cine_impact',0.9],[26.2,'cine_impact',1.0],[36.55,'cine_impact_jr1',1.0],[55.05,'cine_impact',0.9],[56.6,'cine_impact',0.9],[59.45,'cine_impact',0.9],[70,'cine_impact_jr1',1.0],[77.85,'cine_impact',1.0],[88.6,'cine_impact',1.0],[90.7,'cine_impact_jr1',1.0],[103.5,'cine_impact_jr1',1.0],
     [28.4,'uia_tele_dbz',0.9],[28.55,'uiacat_spin',0.6],[28.9,'spidercat_hit',0.6],[29.25,'ninja_slash',0.7],[29.6,'spidercat_hit',0.6],[30,'ninja_slash',0.6],[30.6,'uia_tele_dbz',0.6],[31.2,'death_break',1.0],[31.22,'vine_boom',1.0],[31.3,'death_break',0.8],[31.4,'death_break',0.7],[33.6,'cdg_grow',0.6],[38.9,'lightsaber_on',0.5],[39.2,'lightsaber_on',0.45],[0.2,'demon_roar1',0.85,3.5],[1,'thunder_big',0.35,3],[2.5,'wg_axe_whoosh',0.6],[2.8,'wg_axe_whoosh',0.6],[3.1,'wg_axe_whoosh',0.6],[3.4,'fd_roar',0.6,2],[3.5,'gigachad_roar',0.5,1.5],[5.2,'vine_boom',1.0],[5.2,'hit_heavy',1.0],[5.22,'creeper_explosion',0.6],[6.26,'infdoge_bonk',1.0],[7.06,'bonk',1.0],[7.86,'sm_slash',0.9],[8.3,'uiacat_spin',0.7,0.8],[8.66,'hit_mid',0.8],[9.1,'guitar_s1',0.6,0.8],[9.46,'hit_heavy',0.8],[10.5,'hit_mid',0.5],[11.2,'hit_heavy',0.5],
     
     [13.34,'sc_terror',0.4,2],[14.02,'lightsaber_on',0.45],[14.5,'wg_axe_whoosh',0.8],[15.4,'stalin_hammer_hit',1.0],[15.4,'holy_thunder',0.9],[15.44,'vine_boom',1.0],[16.12,'burn_loop',0.6,1],[16.3,'gp_souls',0.7,1.5],[16.84,'hit_heavy',0.8],[17.74,'larry_horn',0.6,2],[18.46,'fd_roar',0.7,2],[18.55,'hit_heavy',1.0],[19.54,'burn_loop',0.6,1],[20.8,'stalin_hammer_return',0.8],[22.06,'stalin_hammer_hit',1.0],[22.06,'holy_thunder',1.0],[22.1,'vine_boom',1.0],[23.68,'flyingcat_laser',0.7,1.4],[23.68,'king_laser',0.7],[26.2,'creeper_explosion',1.0],[26.2,'wg_dragon_impact',1.0],[26.29,'br_boom',0.9],
@@ -1562,8 +1618,8 @@
     [89.05,'wg_axe_whoosh',0.9],[89.1,'demon_roar2',0.85,3.5],[89.65,'wg_axe_whoosh',0.7],[89.7,'thunder_big',0.5,3],[90.35,'lightsaber_whoosh_01',0.8],[90.7,'creeper_explosion',1.0],[90.7,'wg_dragon_impact',1.0],[90.7,'vine_boom',1.0],[90.75,'br_boom',1.0],[90.8,'thunder_big',0.7,4],[91.2,'mewing_statue_break',0.8],
     [94.7,'demon_roar3',0.85,3.5],[95.6,'wg_dragon_impact',0.7],[95.8,'hl_choir',0.5,3],[96.4,'piano_giorno',0.6,1.6],[97.1,'guitar_jojo',0.6,1.6],[97.8,'tribe_1',0.7,1.6],[98.5,'mosquito_violin',0.6,1.6],[99.3,'ultimate_charge_2',0.9],[99.4,'hl_laser',0.8],[101,'hl_choir',1.0,4],[102.2,'holy_thunder',0.7],[103.1,'wg_axe_whoosh',0.8],[103.5,'holy_thunder',1.0],[103.5,'wg_dragon_impact',1.0],[103.5,'vine_boom',1.0],[104.2,'demon_roar1',0.85,3.5],[107.2,'holy_thunder',0.8],
     [109.4,'sc_terror',0.6],[110.1,'ultimate_charge_2',0.8],[111.8,'vine_boom',1.0],[111.8,'holy_thunder',0.8],[112.6,'uia_tele_dbz',1.0],
-    [129.5,'holy_thunder',0.6],[130.2,'stalin_hammer_return',0.7],[130.75,'hm_claw1',1.0],[131,'vine_boom',1.0],[131.2,'hm_stalker',0.9],[131.7,'hm_crawl',0.8],[132.8,'hm_claw2',0.9],[133,'sc_terror',0.7],[133.6,'gp_souls',0.5],
-    [142.8,'fr_thunder',0.8],[144.4,'fr_bite',0.7],];
+    [128.7,'holy_thunder',0.6],[129.4,'stalin_hammer_return',0.7],[129.95,'hm_claw1',1.0],[130.2,'vine_boom',1.0],[130.4,'hm_stalker',0.9],[130.9,'hm_crawl',0.8],[132,'hm_claw2',0.9],[132.2,'sc_terror',0.7],[132.8,'gp_souls',0.5],
+    [142,'fr_thunder',0.8],[143.6,'fr_bite',0.7],];
   // 🎵 nhạc nền (Audio riêng, bám thời gian thật của phim)
   let MUS=[];
   // 🎵 nhạc nền theo từng phần phim (không lặp 1 đoạn ngắn nữa) · vol đã cân theo độ to (LUFS) của từng bài · off = bắt đầu từ giây thứ mấy của bài
@@ -1571,8 +1627,8 @@
       {src:'assets/audio/cine_horns.mp3',a:46.1,b:54.6,vol:0.7,fi:0.8,fo:1.0},                            // kèn u ám: quỷ giật dây · Giga quyết định
       {src:'assets/audio/cine_aylex.mp3',a:54.6,b:109.1,vol:0.44,fi:0.6,fo:2.0},                          // Aylex – Cinematic: trận khổng lồ Giga vs quỷ → bom vĩ thú → Chonky thiên thạch → phong ấn
       {src:'assets/audio/cine_heart_fast.mp3',a:109.1,b:114.1,vol:0.7,loop:true,fo:0.3},                  // tim đập: Evil Gary bị xé đôi
-      {src:'assets/audio/cine_pufino.mp3',a:114.1,b:128.6,vol:0.5,off:75,fi:0.6,fo:1.0},                  // Pufino (đoạn cao trào): đọ chưởng cuối, cả dàn meme hợp sức
-      {src:'assets/audio/cine_horns.mp3',a:135.6,b:139.8,vol:0.45,fi:1.2,fo:1.0}, {src:'assets/audio/dp_akatsuki.mp3',a:142.9,b:1e9,vol:0.7,fi:0.2} ];
+      {src:'assets/audio/cine_pufino.mp3',a:114.1,b:127.8,vol:0.5,off:75,fi:0.6,fo:1.0},                  // Pufino (đoạn cao trào): đọ chưởng cuối, cả dàn meme hợp sức
+      {src:'assets/audio/cine_horns.mp3',a:134.8,b:139,vol:0.45,fi:1.2,fo:1.0}, {src:'assets/audio/dp_akatsuki.mp3',a:142.1,b:1e9,vol:0.7,fi:0.2} ];
   function musSetup(){ musStop(); MUS=MUS_DEF.map(d=>Object.assign({el:Object.assign(new Audio(d.src),{preload:'auto'})},d,{b:Math.min(d.b,DUR)}));
     for(const m of MUS) m.el.loop=!!m.loop; }
   function musTick(rR,tR){ for(const m of MUS){ const on=!paused && tR>=m.a && tR<m.b;
