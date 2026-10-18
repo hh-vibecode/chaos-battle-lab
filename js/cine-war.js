@@ -794,6 +794,24 @@
     if(sl>=1&&fly<=0){ g.save(); g.globalCompositeOperation='lighter'; g.strokeStyle=`rgba(255,250,240,${0.5*(1-seg(u0,o.s1,o.f0))+0.15})`; g.lineWidth=1.5; g.beginPath(); g.moveTo(0,CY); g.lineTo(VW,CY); g.stroke(); g.restore(); }   // vết chém mảnh còn đọng lại — lặng như chưa có gì xảy ra
     if(boom>0){ g.save(); g.translate(bx,by); g.scale(0.85,0.85); skyBlast(0,0,boom); g.restore(); ring(bx,by+R*0.9,lerp(R,VW*1.3,eout(boom)),0.75*(1-boom),'255,220,190',7,0.22);
       if(boom<0.1){ g.fillStyle=`rgba(255,250,240,${0.8*(1-boom/0.1)})`; g.fillRect(0,0,VW,VH); } } }
+  // 🎨 NỀN RIÊNG TỪNG PHẦN (vẽ đè lên nền chung, toạ độ thế giới — mặt đất ở y≈560)
+  function partBG(si,u,t){
+    if(si===0){   // ⚔️ mở màn: chiến trường — cột khói đen bốc từ các đám cháy, cờ rách phấp phới, ánh lửa chân trời
+      for(let i=0;i<7;i++){ const x=-1100+i*420+hash(i+3000)*160, by=540+hash(i+3001)*30; g.save(); g.globalCompositeOperation='lighter'; glow(x,by,90,0.5,'255,120,40'); g.restore();
+        for(let j=0;j<10;j++){ const f=((t*0.08+j/10+hash(i)*0.3)%1); puff(x+Math.sin(f*6+i)*40+f*120,by-f*900,40+f*160,0.45*(1-f),'20,10,12'); } }
+      for(let i=0;i<9;i++){ const x=-900+i*330+hash(i+3010)*90, y=560-hash(i+3011)*20, H=150+hash(i+3012)*90, wv=Math.sin(t*4+i)*0.15;
+        g.strokeStyle='#1a0c08'; g.lineWidth=4; g.beginPath(); g.moveTo(x,y); g.lineTo(x+(hash(i+3013)-0.5)*20,y-H); g.stroke();
+        g.fillStyle=i%2?'rgba(120,20,20,0.85)':'rgba(40,40,60,0.85)'; g.beginPath(); g.moveTo(x,y-H); for(let k=0;k<=6;k++){ const fx=k/6*70; g.lineTo(x+fx,y-H+12*Math.sin(fx*0.08+t*5+i)+fx*wv); } for(let k=6;k>=0;k--){ const fx=k/6*70; g.lineTo(x+fx-(k%2?6:0),y-H+40+12*Math.sin(fx*0.08+t*5+i)+fx*wv); } g.closePath(); g.fill(); } }   // cờ rách
+    if(si===SI.P||si===SI.P+1){   // 🌑 quỷ giật dây / Giga quyết định: tàn tích về đêm — trời tối sầm, mây đỏ XOÁY quanh con quỷ
+      g.save(); g.fillStyle='rgba(0,0,10,0.35)'; g.fillRect(-3000,-3000,7000,3560); g.restore();
+      const cx=si===SI.P?PD.x:1350, cy=si===SI.P?-200:-150;
+      for(let r=0;r<4;r++) for(let i=0;i<18;i++){ const a=i/18*Math.PI*2+t*(0.15+r*0.05)*(r%2?-1:1), R=500+r*320; puff(cx+Math.cos(a)*R,cy+Math.sin(a)*R*0.35,140+r*40,0.22,r%2?'90,10,20':'40,4,12'); }
+      g.save(); g.globalCompositeOperation='lighter'; glow(cx,cy,700,0.25,'255,30,30'); g.restore(); }
+    if(si===SI.N){   // 🌅 kết: bình minh — đĩa mặt trời mọc ở chân trời, trời ấm dần, khói tàn mỏng
+      const k=seg(u,0.4,3.5); g.save(); g.globalCompositeOperation='lighter'; glow(-150,520,900,0.45*k,'255,200,120'); g.restore();
+      g.save(); g.globalAlpha=k; const sg=g.createRadialGradient(-150,520,0,-150,520,120); sg.addColorStop(0,'#fff8e0'); sg.addColorStop(1,'rgba(255,210,140,0)'); g.fillStyle=sg; g.beginPath(); g.arc(-150,520,120,0,Math.PI*2); g.fill(); g.restore();
+      for(let i=0;i<6;i++){ const f=((t*0.05+i/6)%1); puff(200+i*250,540-f*500,60+f*120,0.18*(1-f),'90,80,80'); } }
+  }
   function jCity(t,shk,co){ skyHigh(); mountains(t); skyline(t,0,true); if(co!==false) cloudSea(-1000,t,0.55,co); sealGround(0.22,t); }
 
   // ── J1: TAY ĐÔI — Giga đáp xuống thành phố, 2 bên lao vào nhau, va chạm, vật lộn, quỷ vả văng Giga, Giga phản đòn đấm thẳng mặt, quỷ gầm ──
@@ -1192,6 +1210,7 @@
     const sk=g.createLinearGradient(0,KY-9000,0,KY); sk.addColorStop(0,'#050103'); sk.addColorStop(0.55,'#1c0408'); sk.addColorStop(0.85,'#4a0e0c'); sk.addColorStop(1,'#6a1a10');
     g.fillStyle=sk; g.fillRect(KX-30000,KY-30000,60000,30000);
     g.save(); g.globalCompositeOperation='lighter'; glow(KX,KY-600,9000,0.35,'255,90,40'); g.restore();
+    { const mx=KX+2700, my=KY-3000, mg=g.createRadialGradient(mx,my,0,mx,my,450); mg.addColorStop(0,'rgba(230,240,255,0.95)'); mg.addColorStop(0.5,'rgba(200,220,255,0.9)'); mg.addColorStop(1,'rgba(200,220,255,0)'); g.fillStyle=mg; g.beginPath(); g.arc(mx,my,450,0,Math.PI*2); g.fill(); g.save(); g.globalCompositeOperation="lighter"; glow(mx,my,2500,0.2,'170,200,255'); g.restore(); }   // 🌕 trăng tròn lạnh
     g.fillStyle='#120406'; g.beginPath(); g.moveTo(KX-30000,KY); for(let i=0;i<=60;i++){ const x=KX-15000+i*500, h=900+1400*Math.abs(Math.sin(i*0.7+1))*hash(i+70)+600*hash(i+71); g.lineTo(x,KY-h); } g.lineTo(KX+30000,KY); g.closePath(); g.fill();   // núi xa
     const gr=g.createLinearGradient(0,KY,0,KY+6000); gr.addColorStop(0,'#2a0d0b'); gr.addColorStop(0.3,'#160606'); gr.addColorStop(1,'#060202'); g.fillStyle=gr; g.fillRect(KX-30000,KY,60000,30000);
     g.save(); g.lineCap='round'; for(let i=0;i<34;i++){ const a=hash(i+80)*Math.PI, d0=KRX*(1.1+hash(i+81)*0.3), d1=d0+2000+hash(i+82)*6000, sx=Math.cos(a)*(hash(i+83)<0.5?1:-1);
@@ -1431,7 +1450,16 @@
       shadow(x+130,y,50); actor(IMG.egary,x+130,y,lerp(125,100,seg(u,2.8,3.2)),{sy:0.86,glow:'rgba(255,0,0,0.85)',gb:20,rot:Math.sin(t*18)*0.04});
       if(streak>0 && streak<1){ const hx=lerp(980,-300,streak); flashStreak(Math.min(1100,hx+500),hx,y,110,1); actor(took?IMG.uia:IMG.uia,hx,y,104,{rot:-0.22,flip:true});
         if(took){ actor(IMG.gary,hx+20,y-50,70,{rot:0.4}); } } }
-    if(u>=3.72 && u<3.8) addGlow(230,y-40,160,1,'255,230,160'); }
+    if(u>=3.72 && u<3.8) addGlow(230,y-40,160,1,'255,230,160'); 
+    // 🎬 cận: Gary gốc (sáng trắng) bị kéo giãy ra khỏi cái bóng đỏ của Evil Gary — sợi hắc lực đỏ níu lại, căng ra rồi đứt
+    if(u>=1.3&&u<2.75) ins(()=>{ const q=seg(u,1.3,2.75), sep=eio(q)*VW*0.16, j=Math.sin(t*40)*4*(1-q);
+      bgFocus(t,'#2a0408','#050002',true,VW/2,VH*0.55);
+      g.save(); g.globalCompositeOperation='lighter'; glow(VW/2-sep,VH*0.55,VH*0.4,0.6,'255,250,235'); glow(VW/2+sep,VH*0.55,VH*0.4,0.5,'255,30,30'); g.restore();
+      for(let i=0;i<9;i++){ const yy=VH*(0.42+i*0.03), c=i%2?'255,40,40':'140,40,200'; const tension=q<0.85?1:1-seg(q,0.85,1); if(tension>0) bolt(VW/2-sep+20,yy+Math.sin(t*9+i)*10,VW/2+sep-20,yy-Math.sin(t*7+i)*10,2.4,0.8*tension,c); }   // sợi hắc lực níu
+      actor(IMG.egary,VW/2+sep+j,VH*0.86,VH*0.42,{glow:'rgba(255,0,0,0.9)',gb:30,rot:0.15*q});
+      actor(IMG.gary,VW/2-sep-j,VH*0.86,VH*0.4,{glow:'rgba(255,255,240,0.9)',gb:30,rot:-0.15*q});
+      if(q>0.85){ const k=seg(q,0.85,1); g.fillStyle=`rgba(255,250,240,${0.8*(1-k)})`; g.fillRect(0,0,VW,VH); } });
+  }
   const camL=u=>keys(u,[[0,600,780,1.5],[2.6,600,770,1.75],[2.75,520,760,1.05],[3.4,470,760,1.0],[4,450,760,1.0],[5,540,750,0.95]]);
 
   // ═════════ M — Stalin vung búa kết liễu → bàn tay bóng tối hất văng · bóng tối + vô số bàn tay · 2 kẻ ác bị lôi đi ═════════
@@ -1575,6 +1603,7 @@
       const red=si===SI.N?1-seg(u,0.6,3.5):1;
       g.fillStyle='#0d0709'; g.fillRect(-9000,-9000,18000,18000);   // 16:9: phần vượt ra ngoài nền vẽ sẵn → tối, không đen kịt
       if(window._cineBG) window._cineBG.draw(g,t,red);
+      partBG(si,u,t);
       for(const [x0,x1] of [[1250,1650],[-1050,-1450]]){ const gr=g.createLinearGradient(x0,0,x1,0); gr.addColorStop(0,'rgba(13,7,9,0)'); gr.addColorStop(1,'rgba(13,7,9,1)'); g.fillStyle=gr; g.fillRect(Math.min(x0,x1),-9000,Math.abs(x1-x0),18000); }   // 16:9: mép nền vẽ sẵn mờ dần vào bóng tối (không lộ vết cắt)
       if(red>0.5 && si<SI.M && (Math.sin(t*17)>0.94 || Math.random()<0.01)){ g.fillStyle=`rgba(255,40,40,${0.1*red})`; g.fillRect(-1500,-1500,3500,GROUND+1500); bolt(cx-300+Math.random()*600,-800,cx-200+Math.random()*400,GROUND-160,4,0.8,'255,40,40','255,210,210'); }
       scf(u,t);
