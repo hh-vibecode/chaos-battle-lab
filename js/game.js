@@ -2481,6 +2481,7 @@ function goToSelect(){
   // ⭐ Fan Battle mượn chung #battleScreen với 1vs1 → nút Back phải trả về MENU CHÍNH và dọn cờ fanCtx,
   // chứ về màn chọn nhân vật 1vs1 thì picks đang có 4 slot sẽ lệch hẳn.
   if(fanCtx){ closeFan(); return; }
+  if(bossCtx){ closeBoss(); return; }
   stopAllBattleMusic();
   if(animId) cancelAnimationFrame(animId);
   animId=null;
@@ -3096,6 +3097,10 @@ const ARENA_NORMAL = {w:528, h:506, ss:1.5};   // 480×460 +10% (giữ nguyên t
 // 🏆 LAST ONE STANDING dùng ĐÚNG khung của 2vs2 (xem ARENA_DUO): cùng tỉ lệ 1.0435, cùng cỡ, cùng cách bố trí
 // (bỏ hàng tên trên sàn + bỏ CTA dưới sàn, thông tin nhân vật dời hết ra 2 panel bên).
 const ARENA_FFA3 = {w:815, h:781, ss:1.5}; // 🏆 LOS dùng ĐÚNG cỡ sàn của 2vs2 (xem ARENA_DUO) — 741×710 +10%
+let bossCtx = null; // 👹 BOSS RAID: 16 meme (team 0) cùng phe đánh 1 EVIL GARY khổng lồ (team 1) đứng giữa sân 16:9 — máu/cơ chế mỗi meme y như đấu thật
+const BOSS_HP = 10000, BOSS_DMG_MUL = 1.5, BOSS_SIZE_MUL = 3;
+const ARENA_BOSS = {w:1280, h:720, ss:1.0};   // sàn 16:9 to (quay video offline thì vẽ ss 1.5 = 1920×1080)
+const BOSS_KEYS = ['pianocat','electricguitarcat','bongocat','mosquitoviolin','samuraicheems','berserkcat','bibilabu','stalincat','feuerkatze','spidercat','uiacat','holycat','cheems','clappingcat','doge','chillguy'];   // các meme xuất hiện nhiều nhất trong Memes Assemble II
 let fanCtx = null;  // ⭐ FAN BATTLE: 1 meme (team 0) đấu 3 meme (team 1), khung dọc y hệt 1vs1
 let ffa3Ctx = null; // truthy khi đang ở trận 3-Way Battle — tự xử lý thắng/thua riêng (không phải dead0/dead1 2 team như bình thường)
 // 👥 2vs2: GIỮ NGUYÊN tỉ lệ sàn 1vs1 (480×460), chỉ phóng to đều 20%
@@ -6759,7 +6764,7 @@ function _frSeqTick(){
       o._frBites=(o._frBites||0)+1; o._frNightCD=Math.max(FR_NIGHT_MIN, FR_NIGHT_CD-o._frBites*FR_BITE_CDR); }   // ⏱️ mỗi cú cắn: lần sau sớm hơn 1s (5s→4s→3s… sàn 1s)
     addShake(14,18);
     // 🥚 ngoạm CHẾT địch (chỉ ở Solo 1vs1) → vào thẳng cảnh chân thân, bóng tối giữ nguyên không tan
-    if(q.target.dead && !fanCtx && !tbBattleCtx && !rtBattleCtx && !ffa3Ctx && !duoCtx){
+    if(q.target.dead && !fanCtx && !bossCtx && !tbBattleCtx && !rtBattleCtx && !ffa3Ctx && !duoCtx){
       frEgg={owner:q.owner, t:0}; frSeq=null;
       stopAllBattleMusic(true);        // tắt nhạc trận khác nhưng GIỮ nhạc theme Friend chạy tiếp
       return;
@@ -12552,7 +12557,7 @@ function _camModeSolo(){
   // ⭐ 2vs2 VÀ 3-Way/4-Way (LAST ONE STANDING) NGƯỢC LẠI — user yêu cầu thu về ĐÚNG khung dọc 9:16 y hệt
   //    Solo 1vs1 (bỏ info panel, chỉ còn CTA), nên duoCtx/ffa3Ctx được PHÉP dùng camera dọc này
   //    (xem duoStart()/ffa3Start()/_camPaintWorldUI() cho phần riêng của mỗi chế độ).
-  return !rtBattleCtx && !tbBattleCtx && !fanCtx;
+  return !rtBattleCtx && !tbBattleCtx && !fanCtx && !bossCtx;   // 👹 Boss Raid: sàn 16:9, không khung dọc
 }
 // ⭐ Fan Battle (1 đấu 3) dùng CHUNG khung dọc + sàn của 1vs1, chỉ khác là có 4 người trên sàn; 2vs2 cũng vậy
 // (4 người, xem trên) → điều kiện phải nới từ "đúng 2" thành "từ 2 trở lên". Các chế độ đông người khác
@@ -12591,10 +12596,10 @@ const SOLO_MOVE_MUL = 5.8/5;   // chốt 5.8 (thử 5.5 rồi 6 trước đó)
 // ⭐ COMMENTER BATTLE: sàn rộng 815 (gấp ~1.54 sàn 1vs1) mà tốc chạy lại ×1 → đi hết sân mất gần gấp đôi, nhìn lờ đờ
 //    như lag. Nhân ×1.5 (nhanh hơn 1vs1 ~30%) cho vừa cỡ sân. Chỉ tốc CHẠY — tốc đạn/thời gian skill giữ nguyên.
 const FAN_MOVE_MUL = 1.5;
-function _soloMoveMul(){ return fanCtx ? FAN_MOVE_MUL : (ffa3Ctx||duoCtx) ? 1 : SOLO_MOVE_MUL; }
+function _soloMoveMul(){ return (fanCtx||bossCtx) ? FAN_MOVE_MUL : (ffa3Ctx||duoCtx) ? 1 : SOLO_MOVE_MUL; }
 function _memeScale(){
-  const _mul = (ffa3Ctx||duoCtx||fanCtx) ? MEME_SIZE_MUL_OTHER : MEME_SIZE_MUL;
-  return (fanCtx ? 1.2 : 1) * _mul;
+  const _mul = (ffa3Ctx||duoCtx||fanCtx||bossCtx) ? MEME_SIZE_MUL_OTHER : MEME_SIZE_MUL;
+  return (fanCtx ? 1.2 : bossCtx ? 0.8 : 1) * _mul;
 }
 // Cỡ nhân vật commenter: vẫn thu theo tỉ lệ chung của chế độ, nhưng nhân thêm 2.5 lần — nó là NHÂN VẬT CHÍNH
 // của video, để bằng cỡ 3 con meme kia thì nhìn chìm nghỉm.
@@ -13158,6 +13163,7 @@ function _ftFollow(ft, u){
 function _summonTakeDamage(u, dmg, attacker, isHuh, isBurn, dotIcon, hitFx){
   if(u.hp<=0) return;
   dmg=Math.round(dmg); // chuẩn hoá số nguyên, cùng quy tắc với Fighter.takeDamage() thật
+  if(bossCtx && attacker && attacker.team===1 && dmg>0) dmg=Math.round(dmg*BOSS_DMG_MUL);   // 👹 Boss Raid: Evil Gary +50% dame lên cả quân triệu hồi
   if(attacker && attacker.team!=null && dmg>0){ _matchStats[attacker.team].dmg+=dmg; if(!isBurn) _matchStats[attacker.team].hits++; }
   if((duoCtx||fanCtx) && attacker && dmg>0){ const _duoAtkF=_duoResolveAttacker(attacker); if(_duoAtkF) _duoAtkF._duoDealt=(_duoAtkF._duoDealt||0)+dmg; }
   // ⛔ KHÔNG cộng vào _matchStats[].attempted (= cột TAKEN): đó là dame QUÂN TRIỆU HỒI hứng, không phải
@@ -13185,6 +13191,7 @@ function _summonTakeDamage(u, dmg, attacker, isHuh, isBurn, dotIcon, hitFx){
 }
 function _dmgSoldier(s,dmg,clr,ox,oy,isBurn,isPoison,attackerTeam){
   dmg=Math.round(dmg); // chuẩn hoá số nguyên, cùng quy tắc với Fighter.takeDamage() thật
+  if(bossCtx && attackerTeam===1 && dmg>0) dmg=Math.round(dmg*BOSS_DMG_MUL);   // 👹 Boss Raid
   // 📊 lính German là summon-type CUỐI CÙNG còn đi qua hàm này (thay vì _summonTakeDamage) — ghi thống kê y hệt để "german cat lính dame" tính vào bảng
   if(attackerTeam!=null && dmg>0){ _matchStats[attackerTeam].dmg+=dmg; if(!isBurn) _matchStats[attackerTeam].hits++; }
   // ⚠️ dùng (ox,oy) = VỊ TRÍ NGƯỜI ĐÁNH khi có (hầu hết call site đều truyền this.x/this.y) thay vì s.x/s.y (vị trí LÍNH
@@ -18675,7 +18682,7 @@ class Fighter {
     // (thiếu !duoCtx ở đây từng khiến 2vs2 hễ có 1 người chết là CẢ TRẬN ngừng nhận dame luôn, kể cả đồng đội còn sống)
     // ⭐ Commenter Battle cũng là trận NHIỀU người như 3-Way/2vs2: 1 con ngã không có nghĩa là hết trận,
     //    nên không được khoá dame. Thiếu !fanCtx ở đây làm cả sàn bất tử ngay sau cái chết đầu tiên.
-    if(!ffa3Ctx && !duoCtx && !fanCtx && fighters.some(f=>f.dead && f._deathTick!==tick)) return;
+    if(!ffa3Ctx && !duoCtx && !fanCtx && !bossCtx && fighters.some(f=>f.dead && f._deathTick!==tick)) return;
     // 🥊 hộp trợ giúp +30% dame (Rick Roll dùng chung, mọi mode) — khuếch đại NGAY TẠI ĐÂY vì mọi đòn dame trong game
     // (mọi nhân vật) đều đi qua đúng 1 hàm này. ⚠️ hầu hết đạn bay (projectile) không truyền thẳng Fighter thật làm
     // attacker mà truyền tạm 1 object rỗng {team,x,y}, nên phải dùng _duoResolveAttacker() (Fighter thật thì trả thẳng,
@@ -18691,6 +18698,7 @@ class Fighter {
     if(fanCtx && fanBuff && fanBuff.dmgMul>1 && attacker && attacker.team===0 && dmg>0 && !isTrue){
       dmg=Math.round(dmg*fanBuff.dmgMul);
     }
+    if(bossCtx && attacker && attacker.team===1 && dmg>0 && !isTrue) dmg=Math.round(dmg*BOSS_DMG_MUL);   // 👹 Boss Raid: Evil Gary +50% dame
     // 📊 cột TAKEN — ghi TRƯỚC mọi block/hấp thu/redirect để tính cả dame bị chặn, NHƯNG chỉ tính dame
     //    nhắm vào CHÍNH NHÂN VẬT NÀY. Dame mà quân triệu hồi của nó hứng hộ KHÔNG được cộng vào đây
     //    (xem _summonTakeDamage/_dmgSoldier), nếu không TAKEN sẽ vọt cao vô lý so với thanh máu.
@@ -22050,6 +22058,7 @@ function stopAllBattleMusic(keepFr){
 function _battleStartCornerClick(){
   if(ffa3Ctx) ffa3ActuallyStart();
   else if(duoCtx) duoActuallyStart();
+  else if(bossCtx) startGame('instant');
   else startGame('instant');
 }
 function startGame(skipVsIntro){
@@ -22071,7 +22080,12 @@ function startGame(skipVsIntro){
     if(_mi) _mi.style.display='flex'; if(_cta) _cta.style.display='none'; }
   loop._mechShown=true;
   loadAvatars(()=>{
-    if(fanCtx){
+    if(bossCtx){
+      // 👹 BOSS RAID: Evil Gary khổng lồ đứng GIỮA sân, 16 meme dàn vòng elip quanh nó (cùng team 0)
+      const _N=picks.length-1;
+      for(let i=0;i<_N;i++){ const a=-Math.PI/2+i/_N*Math.PI*2; fighters.push(new Fighter(i,0,W/2+Math.cos(a)*W*0.4,H/2+Math.sin(a)*H*0.38)); }
+      const _b=new Fighter(_N,1,W/2,H/2); _b.size*=BOSS_SIZE_MUL; _b.maxHp=BOSS_HP; _b.hp=BOSS_HP; _b._isBoss=true; fighters.push(_b);
+    } else if(fanCtx){
       // ⭐ 1 ĐẤU 3: người hâm mộ (slot 0, team 0) đứng một mình bên trái; 3 con còn lại (team 1) xếp dọc bên phải.
       // 🤝 THU PHỤC: bốc ngẫu nhiên mấy con trong 3 đứa kia cho ĐỔI SANG team 0, chúng đứng luôn về phía fan.
       const _rec=Math.min((fanBuff&&fanBuff.recruit)||0, FAN_RECRUIT_MAX);
@@ -22773,7 +22787,7 @@ function loop(){
   if(tick===1){
     if(rtBattleCtx){ _rtShowSidePanels(); }
   }
-  if(!rtBattleCtx && !tbBattleCtx && !ffa3Ctx && !duoCtx){
+  if(!rtBattleCtx && !tbBattleCtx && !ffa3Ctx && !duoCtx && !bossCtx){
     const _MI_ON=300, _CTA_ON=180, _MI_CYCLE=_MI_ON+_CTA_ON; // 5s info / 3s CTA
     const _mt=tick-1;
     const _showMi = !koWinner;   // 📢 CTA Like&Sub CHỈ hiện khi trận kết thúc CÓ người thắng — còn lại luôn là info (user yêu cầu)
@@ -28760,6 +28774,33 @@ function _fanEnterBattle(){
   // 🎬 KHÔNG vào trận ngay: dừng ở màn chờ "PRESS TO START" để fan bấm ▶ Start khi đã sẵn sàng quay màn hình.
   // Buff đã chốt xong nằm trong fanBuff, chỉ được áp vào lúc startGame() đẻ nhân vật.
   loadAvatars(()=>showVsWaitScreen());
+}
+// 👹 BOSS RAID — vào chế độ (opts.offline: quay video từng khung, vẽ ss cao)
+function playBossWar(opts){ opts=opts||{};
+  const _bi=roster.findIndex(c=>c.charKey==='evilgary'); if(_bi<0) return;
+  const _idx=BOSS_KEYS.map(k=>roster.findIndex(c=>c.charKey===k)).filter(i=>i>=0);
+  document.querySelectorAll('.screen').forEach(el=>el.classList.remove('active'));
+  document.getElementById('battleScreen').classList.add('active');
+  if(animId) cancelAnimationFrame(animId); animId=null; isPaused=false; _gameTickAccum=0;
+  stopAllBattleMusic(); _ffa3ClearArrays();
+  bossCtx={offline:!!opts.offline};
+  _setArenaSize(ARENA_BOSS.w, ARENA_BOSS.h, opts.offline?1.5:ARENA_BOSS.ss);
+  document.getElementById('battleScreen').classList.add('boss-mode'); document.documentElement.classList.add('fan-page');
+  for(const id of ['vsLabel','tbRosterBar']){ const el=document.getElementById(id); if(el) el.style.display='none'; }
+  { const _bb=document.querySelector('.battle-settings .btn-back'); if(_bb){ _bb.style.display=''; _bb.setAttribute('onclick','closeBoss()'); } }
+  picks=[..._idx, _bi];
+  startGame('instant');
+}
+function closeBoss(){
+  bossCtx=null;
+  if(animId) cancelAnimationFrame(animId); animId=null; isPaused=false;
+  stopAllBattleMusic(); _ffa3ClearArrays(); picks=[null,null];
+  _setArenaSize(ARENA_NORMAL.w, ARENA_NORMAL.h, ARENA_NORMAL.ss);
+  document.getElementById('battleScreen').classList.remove('boss-mode'); document.documentElement.classList.remove('fan-page');
+  { const el=document.getElementById('vsLabel'); if(el) el.style.display=''; }
+  { const _bb=document.querySelector('.battle-settings .btn-back'); if(_bb) _bb.setAttribute('onclick','goToSelect()'); }
+  document.querySelectorAll('.screen').forEach(el=>el.classList.remove('active'));
+  document.getElementById('mainMenuScreen').classList.add('active');
 }
 function closeFan(){
   fanCtx=null; fanBuff=null; loop._fanDone=false;

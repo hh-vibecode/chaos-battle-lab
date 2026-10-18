@@ -2,6 +2,7 @@
 // Cần: node + playwright (chromium) + ffmpeg. Chạy trong thư mục repo:
 //   node tools/render-cine.js war   out.mp4            → bản dọc 9:16 (1080×1920)
 //   node tools/render-cine.js war   out.mp4 --wide     → bản ngang 16:9 (1920×1080)
+//   thêm --intro boss.mp4 để ghép 1 đoạn mở đầu (vd trận Boss Raid quay bằng tools/render-boss.js) lên ĐẦU video
 //   thêm --4k để vẽ thẳng 3840×2160 (16:9) / 2160×3840 (9:16)
 //   thêm --from 40 --to 60 để xuất thử 1 đoạn (giây) · --jobs 6 = số tiến trình vẽ SONG SONG (mặc định 6; chia phim thành nhiều đoạn rồi ghép)
 const { chromium } = require('playwright');
@@ -11,6 +12,7 @@ const ROOT = path.resolve(__dirname, '..');
 const args = process.argv.slice(2), film = args[0] || 'war', OUT = path.resolve(args[1] || `cine-${film}.mp4`);
 const WIDE = args.includes('--wide'), K4 = args.includes('--4k'), RK = K4 ? 2 : 1, FPS = 30, SUB = 2;   // SUB: số bước mô phỏng / khung (hạt, rung… chạy theo nhịp 60Hz như lúc xem)
 const opt = k => { const i = args.indexOf(k); return i >= 0 ? parseFloat(args[i + 1]) : null; };
+const sopt = k => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : null; }, INTRO = sopt('--intro') ? path.resolve(sopt('--intro')) : null;
 const PART = args.includes('--part'), JOBS = Math.max(1, opt('--jobs') || 6);
 const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.gif': 'image/gif', '.mp3': 'audio/mpeg', '.ogg': 'audio/ogg', '.wav': 'audio/wav', '.woff2': 'font/woff2', '.ttf': 'font/ttf' };
 
@@ -81,5 +83,11 @@ const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css
   const tmpF = OUT + '.filter.txt'; fs.writeFileSync(tmpF, mix);
   execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', tmpV, ...inputs, '-filter_complex_script', tmpF, '-map', '0:v', '-map', '[out]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-shortest', OUT], { stdio: 'inherit' });
   fs.unlinkSync(tmpV); fs.unlinkSync(tmpF);
+  if (INTRO && fs.existsSync(INTRO)) {   // 🎬 ghép đoạn mở đầu (đã tự tối dần ở cuối) + phim (tự hiện dần từ đen) — đưa về cùng cỡ khung/khung hình/tần số
+    const tmpO = OUT + '.film.mp4'; fs.renameSync(OUT, tmpO);
+    execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', INTRO, '-i', tmpO, '-filter_complex',
+      `[0:v]scale=${W}:${H}:flags=lanczos,fps=${FPS},setsar=1,format=yuv420p[v0];[1:v]fps=${FPS},setsar=1,format=yuv420p[v1];[0:a]aresample=48000,aformat=channel_layouts=stereo[a0];[1:a]aresample=48000,aformat=channel_layouts=stereo[a1];[v0][a0][v1][a1]concat=n=2:v=1:a=1[v][a]`,
+      '-map', '[v]', '-map', '[a]', '-c:v', 'libx264', '-preset', 'medium', '-crf', '18', '-c:a', 'aac', '-b:a', '192k', OUT], { stdio: 'inherit' });
+    fs.unlinkSync(tmpO); console.log(`🎬 đã ghép đoạn mở đầu ${path.basename(INTRO)}`); }
   console.log(`✅ ${OUT}  (${((Date.now() - t0) / 1000).toFixed(0)}s)`);
 })();

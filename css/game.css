@@ -1514,3 +1514,11 @@ html.is-mobile .desk-only { display:none; }
 /* 🐹 trận có Scared Hamster: nền màn trận (ngoài sàn) tối đen — class do game.js tự bật/tắt mỗi khung (_hmDarkSet) */
 body.hm-dark #battleScreen, body.hm-dark #battleScreen.cam-mode, body.hm-dark #duoScreen, body.hm-dark #ffa3Screen,
 body.hm-dark #battleScreen.cam-mode .battle-settings { background:#000 !important; }
+
+/* 👹 BOSS RAID — sàn 16:9 phủ kín màn, ẩn mọi khối info/CTA kiểu Solo */
+#battleScreen.boss-mode { justify-content:center; }
+#battleScreen.boss-mode #arena { width:min(100vw, 177.78vh); height:auto; max-height:100vh; max-width:100vw; }
+#battleScreen.boss-mode .battle-frame { margin-top:0; }
+#battleScreen.boss-mode #bottomCtaWrap, #battleScreen.boss-mode #mechInfoWrap, #battleScreen.boss-mode #fpsMeter { display:none !important; }
+#battleScreen.boss-mode .battle-settings { position:absolute; top:12px; right:12px; width:auto; padding:0; background:none; border:0; z-index:20; }
+#battleScreen.boss-mode .btn-battle-start-corner { display:none !important; }
