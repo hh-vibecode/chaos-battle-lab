@@ -427,7 +427,12 @@
     if(ix1<=ix0||iy1<=iy0) return;
     g.drawImage(Ly.c,(ix0-Ly.x)*Ly.k,(iy0-Ly.y)*Ly.k,(ix1-ix0)*Ly.k,(iy1-iy0)*Ly.k,ix0,iy0,ix1-ix0,iy1-iy0);
   }
-  function pair(g,A,B,V,red){ if(red<1){ g.globalAlpha=1; blit(g,A,V); } if(red>0){ g.globalAlpha=red; blit(g,B,V); } g.globalAlpha=1; }
+  // full-width layers (X0..X1): when the camera sees past an edge, mirror the layer across that edge so no hard seam / empty band shows
+  function blitM(g,Ly,V){ blit(g,Ly,V); if(Ly.w<W-1) return;
+    for(const ax of [X0,X1]){ const out=ax===X1?V.x1>X1:V.x0<X0; if(!out) continue;
+      const mv={x0:ax===X1?Math.max(X0,2*X1-V.x1):X0, x1:ax===X1?X1:Math.min(X1,2*X0-V.x0), y0:V.y0, y1:V.y1};
+      g.save(); g.translate(2*ax,0); g.scale(-1,1); blit(g,Ly,mv); g.restore(); } }
+  function pair(g,A,B,V,red){ if(red<1){ g.globalAlpha=1; blitM(g,A,V); } if(red>0){ g.globalAlpha=red; blitM(g,B,V); } g.globalAlpha=1; }
   // horizontally tiled layer: canvas holds one period (tw) plus a TM margin of wrapped content on each side.
   // Tile n starts at world x = off + n*tw; placed at y0w with vertical scale sy. Tiles overlap by ~1 screen px to hide seams.
   function tiled(g,Ly,V,off,y0w,sy,alpha){
