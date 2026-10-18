@@ -16,7 +16,7 @@
     maxwell:av('maxwell'), dsword:A('assets/img/maxwell/MAXWELL_DIAMOND_SWORD_IMG.webp'), uia:av('uiacat'), uiaSpin:av('uiacat','attackAvatarUrl'),
     king:av('kingcheems'), knight:A('assets/img/kingcheems/DOGE_KNIGHT_IMG.webp'), joninn:av('samuraicheems'), joninnR:av('samuraicheems','rageAvatarUrl'),
     angel:av('holycat','rageAvatarUrl'), friend:av('friend','skill4AvatarUrl'), grin:A('assets/img/friend/FR_GRIN_IMG.webp'), berserk:av('berserkcat'), berserkAtk:av('berserkcat','attackAvatarUrl'),   // 👀😁 grin = chỉ đôi mắt + hàm răng của Friend (đã gỡ viền mặt)
-    gigaLift:A('assets/img/cine/CINE_GIGA_LIFT.webp'), gigaPunch:A('assets/img/cine/CINE_GIGA_PUNCH.webp'), smSlash:A('assets/img/cine/CINE_SM_SLASH.webp'), smBack:A('assets/img/cine/CINE_SM_BACK.webp'), bkBack:A('assets/img/cine/CINE_BK_BACK.webp'),
+    gigaLift:A('assets/img/cine/CINE_GIGA_LIFT.webp'), gigaPunch:A('assets/img/cine/CINE_GIGA_PUNCH.webp'), smSlash:A('assets/img/cine/CINE_SM_SLASH.webp'), akaBg:A('assets/img/cine/CINE_AKA_BG.webp'), smBack:A('assets/img/cine/CINE_SM_BACK.webp'), bkBack:A('assets/img/cine/CINE_BK_BACK.webp'),
     larryMage:av('evillarry','introAvatarUrl'), catlerAtk:av('feuerkatze','attackAvatarUrl'),
     clapIdle:av('clappingcat'), clapUp:av('clappingcat','rageAvatarUrl'), clap:['skill1AvatarUrl','skill2AvatarUrl','skill3AvatarUrl'].map(f=>av('clappingcat',f)),
     hand:{} };
@@ -1661,52 +1661,18 @@
       for(const [lw,col] of [[S*0.16,'#f4f4f4'],[0,'#c0101c']]){ c.fillStyle=col; c.beginPath(); for(const [bx,by,r] of B){ c.moveTo(ox+bx*S+(r*S+lw),oy+by*S); c.arc(ox+bx*S,oy+by*S,r*S+lw,0,Math.PI*2); } c.fill(); }
       const sh=c.createLinearGradient(0,oy-S*0.8,0,oy+S*0.7); sh.addColorStop(0,'rgba(255,80,80,0.25)'); sh.addColorStop(1,'rgba(60,0,0,0.3)'); c.save(); c.globalCompositeOperation='source-atop'; c.fillStyle=sh; c.fillRect(0,0,CW,CH); c.restore();   // khối đỏ có sáng tối nhẹ
       c.strokeStyle='#ffffff'; c.lineWidth=S*0.06; c.lineCap='round'; for(const [bx,by,r] of B.slice(1,4)){ c.beginPath(); c.arc(ox+bx*S,oy+by*S+r*S*0.25,r*S*0.55,Math.PI*1.1,Math.PI*1.75); c.stroke(); } }
-    const k=s/S; g.save(); g.globalAlpha=a; g.drawImage(_akaC,x-ox*k,y-oy*k,CW*k,CH*k); g.restore(); }
+    const k=s/S; g.save(); g.globalAlpha*=a; g.drawImage(_akaC,x-ox*k,y-oy*k,CW*k,CH*k); g.restore(); }
   function akatsukiBg(w,u){ const CL=[[0.12,0.2,46],[0.86,0.16,40],[0.08,0.8,52],[0.9,0.82,44],[0.32,0.9,30],[0.7,0.07,28]];
     CL.forEach(([cx,cy,sz],i)=>{ const a=0.42*seg(w,0.6+i*0.25,2.2+i*0.25); akatsukiCloud(VW*cx+Math.sin(u*0.3+i)*12,VH*cy+Math.cos(u*0.25+i)*6,sz*(VH/540),a); }); }
-  // 🗿 NỀN EASTER EGG (lộ ra sau tia chớp): 2 bàn tay tượng khổng lồ giơ lên (còng + xích ở cổ tay, vân gỗ, xoáy trên mu tay), thân tượng mờ phía sau,
-  //    trên đầu 5 ngón mỗi tay là 1 con mèo Akatsuki (áo choàng đen mây đỏ, bóng đầu tai mèo, mắt sáng) — vẽ 1 lần ra canvas riêng rồi làm mờ cả khối
-  let _gedo=null;
-  function gedoArt(W,H,S){ const c=document.createElement('canvas'); c.width=Math.round(W*S); c.height=Math.round(H*S); const x=c.getContext('2d'); x.scale(S,S); x.lineJoin='round'; x.lineCap='round';
-    x.fillStyle='#34343c'; x.beginPath(); x.moveTo(W*0.3,H+20); x.bezierCurveTo(W*0.3,H*0.45,W*0.38,H*0.08,W*0.5,H*0.04); x.bezierCurveTo(W*0.62,H*0.08,W*0.7,H*0.45,W*0.7,H+20); x.closePath(); x.fill();   // thân tượng phía sau
-    x.strokeStyle='rgba(20,20,26,0.6)'; x.lineWidth=2; for(let i=0;i<14;i++){ const xx=W*(0.34+i*0.023); x.beginPath(); x.moveTo(xx,H); x.bezierCurveTo(xx+Math.sin(i)*20,H*0.6,xx-Math.sin(i*1.7)*20,H*0.3,W*0.5+(xx-W*0.5)*0.4,H*0.1); x.stroke(); }
-    const CAT=[];
-    for(const sd of [-1,1]){ const cx=W*(0.5+sd*0.28), wy=H*0.76, pw=H*0.3, ph=H*0.24, FW=pw*0.2;
-      const P=(dx,dy)=>[cx+sd*dx,wy+dy];   // sd=-1: tay trái (ngón cái phía ngoài bên trái) · sd=1: lật gương
-      const fill='#d9d4ca', ink='#141418';
-      x.fillStyle=fill; x.strokeStyle=ink; x.lineWidth=3;
-      x.beginPath(); x.moveTo(...P(-pw*0.42,H*0.3)); x.lineTo(...P(-pw*0.4,0)); x.lineTo(...P(pw*0.4,0)); x.lineTo(...P(pw*0.42,H*0.3)); x.closePath(); x.fill(); x.stroke();   // cẳng tay
-      x.beginPath(); x.moveTo(...P(-pw*0.42,0)); x.bezierCurveTo(...P(-pw*0.5,-ph*0.4),...P(-pw*0.46,-ph*0.9),...P(-pw*0.42,-ph)); x.lineTo(...P(pw*0.48,-ph)); x.bezierCurveTo(...P(pw*0.62,-ph*0.6),...P(pw*0.55,-ph*0.2),...P(pw*0.42,0)); x.closePath(); x.fill(); x.stroke();   // lòng bàn tay
-      const FING=[[0.3,0.16,0.95],[0.08,0.04,1.12],[-0.15,-0.06,1.08],[-0.36,-0.17,0.86]];   // [vị trí gốc, góc nghiêng, độ dài] ngón trỏ → ngón út
-      const tips=[];
-      for(const [bx,an,lk] of FING){ const L=H*0.24*lk, a=sd*an, b=P(pw*bx,-ph*0.92), tx=b[0]+Math.sin(a)*L, ty=b[1]-Math.cos(a)*L; tips.push([tx,ty]);
-        x.save(); x.translate(b[0],b[1]); x.rotate(a); x.beginPath(); x.moveTo(-FW/2,FW*0.3); x.lineTo(-FW*0.46,-L+FW*0.5); x.quadraticCurveTo(0,-L-FW*0.3,FW*0.46,-L+FW*0.5); x.lineTo(FW/2,FW*0.3); x.closePath(); x.fillStyle=fill; x.fill(); x.stroke();
-        x.fillStyle='#efe9df'; x.beginPath(); x.moveTo(-FW*0.22,-L+FW*0.2); x.lineTo(0,-L-FW*0.9); x.lineTo(FW*0.22,-L+FW*0.2); x.closePath(); x.fill(); x.stroke();   // móng nhọn
-        x.lineWidth=1.6; for(const k of [0.35,0.65]){ x.beginPath(); x.moveTo(-FW*0.4,-L*k); x.quadraticCurveTo(0,-L*k+5,FW*0.4,-L*k); x.stroke(); } x.lineWidth=3; x.restore(); }   // đốt ngón
-      { const b=P(pw*0.46,-ph*0.3), a=sd*0.9, L=H*0.14; const tx=b[0]+Math.sin(a)*L, ty=b[1]-Math.cos(a)*L; tips.unshift([tx,ty]);
-        x.save(); x.translate(b[0],b[1]); x.rotate(a); x.beginPath(); x.moveTo(-FW*0.6,FW*0.4); x.lineTo(-FW*0.5,-L+FW*0.5); x.quadraticCurveTo(0,-L-FW*0.3,FW*0.5,-L+FW*0.5); x.lineTo(FW*0.6,FW*0.4); x.closePath(); x.fillStyle=fill; x.fill(); x.stroke();
-        x.fillStyle='#efe9df'; x.beginPath(); x.moveTo(-FW*0.22,-L+FW*0.2); x.lineTo(0,-L-FW*0.9); x.lineTo(FW*0.22,-L+FW*0.2); x.closePath(); x.fill(); x.stroke(); x.restore(); }   // ngón cái chĩa ra ngoài
-      x.strokeStyle='rgba(20,20,24,0.55)'; x.lineWidth=1.5; for(let i=0;i<7;i++){ const ox=-pw*0.36+i*pw*0.12; x.beginPath(); x.moveTo(...P(ox,H*0.3)); x.bezierCurveTo(...P(ox+8,H*0.15),...P(ox-6,-ph*0.3),...P(ox+4,-ph*0.85)); x.stroke(); }   // vân gỗ
-      x.lineWidth=2.4; for(const [ox,oy,r] of [[-pw*0.1,-ph*0.45,ph*0.13],[pw*0.18,-ph*0.62,ph*0.09]]){ const [qx,qy]=P(ox,oy); x.beginPath(); for(let k=0;k<=40;k++){ const an=k/40*Math.PI*4.2, rr=r*k/40; k?x.lineTo(qx+Math.cos(an)*rr*sd,qy+Math.sin(an)*rr):x.moveTo(qx,qy); } x.stroke(); }   // xoáy trên mu tay
-      x.strokeStyle=ink; x.lineWidth=3; x.fillStyle='#bdb7ac'; { const [qx,qy]=P(0,H*0.02); x.beginPath(); x.ellipse(qx,qy,pw*0.56,H*0.045,0,0,Math.PI*2); x.fill(); x.stroke(); x.beginPath(); x.ellipse(qx,qy-H*0.03,pw*0.56,H*0.03,0,Math.PI,Math.PI*2); x.stroke();
-        x.lineWidth=2; for(let i=0;i<9;i++){ const ox=qx-pw*0.44+i*pw*0.11; x.beginPath(); x.moveTo(ox,qy-H*0.012); x.lineTo(ox,qy+H*0.02); x.stroke(); } }   // còng cổ tay
-      tips.forEach(tp=>CAT.push(tp)); }
-    x.strokeStyle='#141418'; x.lineWidth=3; x.fillStyle='#bdb7ac'; for(let i=0;i<9;i++){ const f=i/8, lx=lerp(W*0.5-W*0.28+H*0.16,W*0.5+W*0.28-H*0.16,f), ly=H*0.79+Math.sin(Math.PI*f)*H*0.05; x.beginPath(); x.ellipse(lx,ly,i%2?16:10,i%2?8:12,0,0,Math.PI*2); x.stroke(); }   // xích nối 2 còng
-    const EYE=['255,40,40','190,120,255','255,210,70','80,230,255','255,130,40','255,40,40','140,255,140','255,90,200','255,255,255','255,40,40'];
-    CAT.forEach(([tx,ty],i)=>{ const h=H*0.13, y=ty-H*0.03, cl=x; cl.strokeStyle='#d9d4ca'; cl.lineWidth=2.5;
-      cl.fillStyle='#0c0c10'; cl.beginPath(); cl.moveTo(tx-h*0.2,y-h*0.55); cl.quadraticCurveTo(tx,y-h*0.62,tx+h*0.2,y-h*0.55); cl.lineTo(tx+h*0.36,y); cl.quadraticCurveTo(tx,y+h*0.04,tx-h*0.36,y); cl.closePath(); cl.stroke(); cl.fill();   // áo choàng (viền sáng để nổi trên nền đen)
-      for(const [ox,oy,r] of [[-0.1,-0.32,0.065],[0.12,-0.16,0.06],[-0.16,-0.08,0.05]]){ const cx2=tx+ox*h, cy2=y+oy*h, rr=r*h; cl.fillStyle='#fff'; cl.beginPath(); cl.ellipse(cx2,cy2,rr*1.5,rr*0.95,0,0,Math.PI*2); cl.fill(); cl.fillStyle='#c0101c'; cl.beginPath(); cl.ellipse(cx2,cy2,rr*1.25,rr*0.7,0,0,Math.PI*2); cl.fill(); }   // mây đỏ trên áo
-      const hy=y-h*0.74, hr=h*0.24; cl.fillStyle='#0c0c10'; const head=()=>{ cl.beginPath(); cl.arc(tx,hy,hr,0,Math.PI*2); for(const e of [-1,1]){ cl.moveTo(tx+e*hr*0.98,hy-hr*0.1); cl.lineTo(tx+e*hr*0.85,hy-hr*1.45); cl.lineTo(tx+e*hr*0.2,hy-hr*0.88); cl.closePath(); } };
-      head(); cl.stroke(); cl.beginPath(); cl.arc(tx,hy,hr,0,Math.PI*2); cl.fill(); for(const e of [-1,1]){ cl.beginPath(); cl.moveTo(tx+e*hr*0.98,hy-hr*0.1); cl.lineTo(tx+e*hr*0.85,hy-hr*1.45); cl.lineTo(tx+e*hr*0.2,hy-hr*0.88); cl.closePath(); cl.fill(); }   // bóng đầu + tai mèo (viền sáng; tô riêng từng phần)
-      const ec=EYE[i%EYE.length]; for(const e of [-1,1]){ const g2=cl.createRadialGradient(tx+e*hr*0.4,hy,0,tx+e*hr*0.4,hy,hr*0.5); g2.addColorStop(0,`rgba(${ec},1)`); g2.addColorStop(1,`rgba(${ec},0)`); cl.fillStyle=g2; cl.beginPath(); cl.arc(tx+e*hr*0.4,hy,hr*0.5,0,Math.PI*2); cl.fill(); } });   // mắt sáng
-    return c; }
-  function gedoBg(a){ if(a<=0.01) return; const S=Math.abs(g.getTransform().a)||1; if(!_gedo||_gedo.W!==VW||_gedo.H!==VH||_gedo.S!==S) _gedo={W:VW,H:VH,S,c:gedoArt(VW,VH,S)}; g.save(); g.globalAlpha=a; g.drawImage(_gedo.c,0,0,VW,VH); g.restore(); }
+  // 🗿 NỀN EASTER EGG (lộ ra sau tia chớp): ảnh 2 bàn tay tượng bị còng + 10 mèo Akatsuki đứng trên đầu ngón tay (ảnh user cung cấp), phủ kín khung, mờ mờ
+  function gedoBg(a){ if(a<=0.01) return; const c=prep(IMG.akaBg); if(!c) return; const W=VW, H=W*c.sh/c.sw, y=0;   // chỉ cắt bớt phần nền đá phía dưới, giữ trọn mèo trên đầu ngón tay
+    g.save(); g.globalAlpha=a; g.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,0,y,W,H); g.restore(); }
   function endCard(u){ g.fillStyle=`rgba(0,0,0,${seg(u,0,0.7)})`; g.fillRect(0,0,VW,VH); const v=u-0.8; if(v<=0) return;
     text('THAT IS THE END OF THE LORE',VW/2,VH*0.52,28,'#ffffff',null,'700 28px Georgia,serif',seg(v,0,0.7));
     const fw=v-3.7, fl=fw<0?0:fw<0.08?1:fw<0.18?0.25:fw<0.26?0.85:Math.max(0,0.85*(1-(fw-0.26)/0.55));   // ⚡ chớp 2 nhịp sau khi chữ đỏ hiện
     if(v>3.0){ const w=v-3.0, k=seg(w,0,0.5), F='900 30px Georgia,serif', TX='BUT ONLY IN THIS UNIVERSE…';
-      if(fw>0) gedoBg(0.2+0.6*fl);
-      akatsukiBg(w,u);
+      if(fw>0) gedoBg(0.38+0.55*fl);
+      { const ca=1-seg(fw,0,0.6); if(ca>0){ g.save(); g.globalAlpha=ca; akatsukiBg(w,u); g.restore(); } }   // ảnh nền đã có mây Akatsuki → mây vẽ tay tan đi sau tia chớp
       g.save(); g.font=F; g.textAlign='center'; g.textBaseline='middle'; g.globalAlpha=k;
       const tg=g.createLinearGradient(0,VH*0.6-20,0,VH*0.6+20); tg.addColorStop(0,'#c21818'); tg.addColorStop(0.6,'#9a0a0a'); tg.addColorStop(1,'#5e0000'); g.fillStyle=tg; g.fillText(TX,VW/2,VH*0.6);
       g.fillStyle='rgba(255,170,170,0.18)'; g.fillText(TX,VW/2-0.8,VH*0.6-1.2); g.restore();   // ánh ướt trên mặt chữ
