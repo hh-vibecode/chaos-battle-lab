@@ -2,13 +2,14 @@
 // Cần: node + playwright (chromium) + ffmpeg. Chạy trong thư mục repo:
 //   node tools/render-cine.js war   out.mp4            → bản dọc 9:16 (1080×1920)
 //   node tools/render-cine.js war   out.mp4 --wide     → bản ngang 16:9 (1920×1080)
+//   thêm --4k để vẽ thẳng 3840×2160 (16:9) / 2160×3840 (9:16)
 //   thêm --from 40 --to 60 để xuất thử 1 đoạn (giây) · --jobs 6 = số tiến trình vẽ SONG SONG (mặc định 6; chia phim thành nhiều đoạn rồi ghép)
 const { chromium } = require('playwright');
 const { spawn, execFileSync } = require('child_process');
 const http = require('http'), fs = require('fs'), path = require('path');
 const ROOT = path.resolve(__dirname, '..');
 const args = process.argv.slice(2), film = args[0] || 'war', OUT = path.resolve(args[1] || `cine-${film}.mp4`);
-const WIDE = args.includes('--wide'), FPS = 30, SUB = 2;   // SUB: số bước mô phỏng / khung (hạt, rung… chạy theo nhịp 60Hz như lúc xem)
+const WIDE = args.includes('--wide'), K4 = args.includes('--4k'), RK = K4 ? 2 : 1, FPS = 30, SUB = 2;   // SUB: số bước mô phỏng / khung (hạt, rung… chạy theo nhịp 60Hz như lúc xem)
 const opt = k => { const i = args.indexOf(k); return i >= 0 ? parseFloat(args[i + 1]) : null; };
 const PART = args.includes('--part'), JOBS = Math.max(1, opt('--jobs') || 6);
 const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.gif': 'image/gif', '.mp3': 'audio/mpeg', '.ogg': 'audio/ogg', '.wav': 'audio/wav', '.woff2': 'font/woff2', '.ttf': 'font/ttf' };
@@ -18,14 +19,14 @@ const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css
   const srv = http.createServer((q, r) => { const f = path.join(ROOT, decodeURIComponent(q.url.split('?')[0])).replace(/\/$/, '/index.html');
     fs.readFile(f, (e, d) => { if (e) { r.writeHead(404); r.end(); return; } r.writeHead(200, { 'Content-Type': MIME[path.extname(f)] || 'application/octet-stream' }); r.end(d); }); });
   await new Promise(r => srv.listen(0, '127.0.0.1', r)); const PORT = srv.address().port;
-  const W = WIDE ? 1920 : 1080, H = WIDE ? 1080 : 1920;
+  const W = (WIDE ? 1920 : 1080) * RK, H = (WIDE ? 1080 : 1920) * RK;
   const br = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required'] });
   const pg = await br.newPage({ viewport: WIDE ? { width: 1280, height: 720 } : { width: 720, height: 1280 } });
   pg.on('pageerror', e => console.log('⚠️', e.message.slice(0, 160)));
   await pg.goto(`http://127.0.0.1:${PORT}/`);
   await pg.waitForFunction(() => !document.getElementById('bootScreen'), null, { timeout: 300000 });
   // 2) mở phim ở chế độ offline (không tiếng, không chạy theo đồng hồ)
-  await pg.evaluate(async ({ film, WIDE }) => { const fn = { war: 'playCineWar' }[film]; window[fn]({ wide: WIDE, offline: true }); }, { film, WIDE });
+  await pg.evaluate(async ({ film, WIDE, RK }) => { const fn = { war: 'playCineWar' }[film]; window[fn]({ wide: WIDE, offline: true, scale: RK }); }, { film, WIDE, RK });
   await pg.waitForFunction(() => window._cineWarStep && window._cineWarCanvas && window._cineWarCanvas(), null, { timeout: 60000 });
   await pg.waitForFunction(() => [...document.images].every(i => i.complete), null, { timeout: 60000 }).catch(() => {});
   await pg.waitForTimeout(3000);   // chờ ảnh phim tải xong
@@ -34,13 +35,13 @@ const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css
     return { ...I, src, lufs, music: [...SND_MUSIC] }; });
   const T0 = opt('--from') || 0, T1 = Math.min(info.dur, opt('--to') || info.dur), N = Math.ceil((T1 - T0) * FPS);
   const F0 = PART ? opt('--f0') : 0, F1 = PART ? opt('--f1') : N;
-  if (!PART) console.log(`🎬 ${film} ${WIDE ? '16:9' : '9:16'} · ${(T1 - T0).toFixed(1)}s · ${N} khung · ${JOBS} tiến trình`);
+  if (!PART) console.log(`🎬 ${film} ${WIDE ? '16:9' : '9:16'} ${W}×${H} · ${(T1 - T0).toFixed(1)}s · ${N} khung · ${JOBS} tiến trình`);
   const t0 = Date.now(), tmpV = PART ? OUT : OUT + '.video.mp4';
   if (!PART && JOBS > 1) {   // 🚀 chia đều số khung cho nhiều tiến trình chạy song song, mỗi tiến trình ra 1 đoạn video → ghép lại không nén lại
     await br.close(); srv.close();
     const per = Math.ceil(N / JOBS), parts = [];
     await Promise.all([...Array(JOBS).keys()].map(j => { const a = j * per, b = Math.min(N, a + per); if (a >= b) return null; const f = `${OUT}.part${j}.mp4`; parts.push([j, f]);
-      const run = () => new Promise(res => { const c = spawn(process.execPath, [__filename, film, f, '--part', '--f0', a, '--f1', b, '--from', T0, '--to', T1, ...(WIDE ? ['--wide'] : [])], { stdio: ['ignore', 'inherit', 'inherit'], env: process.env }); c.on('close', res); });
+      const run = () => new Promise(res => { const c = spawn(process.execPath, [__filename, film, f, '--part', '--f0', a, '--f1', b, '--from', T0, '--to', T1, ...(WIDE ? ['--wide'] : []), ...(K4 ? ['--4k'] : [])], { stdio: ['ignore', 'inherit', 'inherit'], env: process.env }); c.on('close', res); });
       return (async () => { for (let k = 0; k < 3; k++) { if (await run() === 0) return; console.log(`  ↻ đoạn ${j} lỗi, chạy lại (${k + 1})`); } throw new Error('part ' + j + ' failed'); })(); }));   // đoạn nào lỗi (vd tải trang chậm) thì tự chạy lại
     parts.sort((x, y) => x[0] - y[0]); const lst = OUT + '.parts.txt'; fs.writeFileSync(lst, parts.map(([, f]) => `file '${f.replace(/'/g, "'\\''")}'`).join('\n'));
     execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', lst, '-c', 'copy', tmpV], { stdio: 'inherit' });
