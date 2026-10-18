@@ -163,7 +163,9 @@
   const SI={H:4,P:5,J1:7,K:12,L:13,Z:14,M:15,N:16,END:17};
   const DUR=SC[SC.length-1];
   // 🎞️ SLOW-MOTION kiểu anime ở các cú đánh: [bắt đầu, kết thúc (thời gian phim), tốc độ] — đoạn đó chạy chậm lại, phim dài ra tương ứng
-  const SLOW=[[76.4,78.1,0.55],[119.3,119.7,0.3],[29.25,29.75,0.35],[31.2,31.6,0.4],[5.2,5.6,0.3],[15.76,16.21,0.3],[22.42,22.87,0.3],[26.2,26.83,0.35],[36.52,36.8,0.3],[42.58,42.9,0.3],[53.08,53.3,0.35],[56.05,56.55,0.5],[56.58,56.85,0.25],[59.05,59.43,0.45],[59.43,59.7,0.25],[67,67.2,0.4],[69.98,70.3,0.25],[70.5,71.2,0.6],[74.15,74.95,0.6],[76.1,76.6,0.5],[77.7,77.95,0.35],[85.08,85.22,0.35],[88.6,89,0.22],[99.38,99.6,0.3],[111.78,112,0.3],[126.48,126.7,0.3]];
+  const SLOW_RAW=[[76.4,78.1,0.55],[119.3,119.7,0.3],[29.25,29.75,0.35],[31.2,31.6,0.4],[5.2,5.6,0.3],[15.76,16.21,0.3],[22.42,22.87,0.3],[26.2,26.83,0.35],[36.52,36.8,0.3],[42.58,42.9,0.3],[53.08,53.3,0.35],[56.05,56.55,0.5],[56.58,56.85,0.25],[59.05,59.43,0.45],[59.43,59.7,0.25],[67,67.2,0.4],[69.98,70.3,0.25],[70.5,71.2,0.6],[74.15,74.95,0.6],[76.1,76.6,0.5],[77.7,77.95,0.35],[85.08,85.22,0.35],[88.6,89,0.22],[99.38,99.6,0.3],[111.78,112,0.3],[126.48,126.7,0.3]];
+  // 🛠️ chuẩn hoá: c2r/r2c cần các đoạn slow-mo SẮP XẾP tăng dần và KHÔNG chồng nhau (trước đây lẫn thứ tự → bộ đếm thời gian nhảy lùi, phát lặp lại cảnh)
+  const SLOW=(()=>{ const L=SLOW_RAW.map(x=>x.slice()).sort((x,y)=>x[0]-y[0]), out=[]; for(const s of L){ const p=out[out.length-1]; if(p&&s[0]<p[1]){ if(s[1]<=p[1]) continue; s[0]=p[1]; } if(s[1]-s[0]>0.01) out.push(s); } return out; })();
   const c2r=c=>{ let r=c; for(const [a,b,f] of SLOW){ if(c<=a) break; r+=(Math.min(c,b)-a)*(1/f-1); } return r; };   // thời gian phim → thời gian thật
   const r2c=r=>{ let off=0; for(const [a,b,f] of SLOW){ const ra=a+off; if(r<=ra) return r-off; const rb=ra+(b-a)/f; if(r<rb) return a+(r-ra)*f; off+=(b-a)*(1/f-1); } return r-off; };
   const DURR=c2r(DUR);
@@ -1517,6 +1519,7 @@
   };
   // 🎞️ XUẤT VIDEO: vẽ đúng khung ở thời điểm thật R (giây) — bước nhỏ 1/60s để hạt/rung chạy đúng nhịp như lúc xem
   window._cineWarStep=R=>{ if(!OFF) return; OFF.R=R; frame(0); };
+  window._cineWarCheck=()=>{ let prev=-1, bad=[]; for(let R=0;R<=DURR;R+=0.02){ const c=r2c(R); if(c<prev-1e-6) bad.push([+R.toFixed(2),+c.toFixed(2),+prev.toFixed(2)]); prev=c; } let bad2=[]; for(let c=0;c<=DUR;c+=0.05){ const e=Math.abs(r2c(c2r(c))-c); if(e>0.01) bad2.push([+c.toFixed(2),+e.toFixed(3)]); } return {DUR,DURR:+DURR.toFixed(2),backwards:bad.length,firstBad:bad.slice(0,3),roundtrip:bad2.length}; };
   window._cineWarInfo=()=>({dur:DURR, sfx:SFX.map(([ts,k,v,d])=>[c2r(ts),k,v==null?1:v,d||0]), mus:MUS_DEF.map(m=>({...m,ra:c2r(m.a),rb:c2r(Math.min(m.b,DUR))})), slow:SLOW.map(([a,b,f])=>[c2r(a),c2r(b)])});
   window._cineWarStop=stop;
   window._cineWarPause=t=>{ paused=true; pauseT=c2r(t); parts=[]; };   // t = thời gian phim
