@@ -69,10 +69,10 @@ const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css
     inputs.push('-i', path.join(ROOT, info.src[k]));
     filters.push(`[${n+1}:a]${d ? `atrim=0:${d},` : ''}volume=${gn.toFixed(3)},adelay=${Math.round((R - T0) * 1000)}|${Math.round((R - T0) * 1000)},aformat=channel_layouts=stereo[a${n}]`); n++; }
   for (const m of info.mus) { const a = Math.max(m.ra, T0), b = Math.min(m.rb, T1); if (b <= a) continue;
-    const off = a - m.ra, len = b - a;
+    const off = a - m.ra + (m.off || 0), len = b - a;
     inputs.push(...(m.loop ? ['-stream_loop', '-1'] : []), '-i', path.join(ROOT, m.src));
     let f = `[${n+1}:a]atrim=${off.toFixed(3)}:${(off + len).toFixed(3)},asetpts=PTS-STARTPTS,volume=${m.vol}`;
-    if (m.fi && off < m.fi) f += `,afade=t=in:st=0:d=${(m.fi - off).toFixed(3)}`;
+    if (m.fi && a - m.ra < m.fi) f += `,afade=t=in:st=0:d=${(m.fi - (a - m.ra)).toFixed(3)}`;
     if (m.fo && m.rb <= T1) f += `,afade=t=out:st=${Math.max(0, len - m.fo).toFixed(3)}:d=${m.fo}`;
     for (const [sa, sb] of info.slow) if (sb > a && sa < b) f += `,volume=enable='between(t,${(sa - a).toFixed(3)},${(sb - a).toFixed(3)})':volume=0.55`;   // slow-mo: nhạc lặng xuống
     filters.push(f + `,adelay=${Math.round((a - T0) * 1000)}|${Math.round((a - T0) * 1000)},aformat=channel_layouts=stereo[a${n}]`); n++; }

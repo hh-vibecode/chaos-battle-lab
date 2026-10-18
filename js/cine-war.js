@@ -1339,13 +1339,18 @@
     [141,'fr_thunder',0.8],[142.6,'fr_bite',0.7],];
   // 🎵 nhạc nền (Audio riêng, bám thời gian thật của phim)
   let MUS=[];
-  const MUS_DEF=[ {src:'assets/audio/cine_horns.mp3',a:0,b:42.8,vol:0.8,fi:0.6,fo:0.8}, {src:'assets/audio/cine_epic.mp3',a:42.3,b:111.8,vol:0.8,loop:true,fi:0.5,fo:1.0},
-      {src:'assets/audio/cine_heart_fast.mp3',a:111.8,b:116.8,vol:0.7,loop:true,fo:0.3}, {src:'assets/audio/cine_epic.mp3',a:116.8,b:126.8,vol:0.8,loop:true,fi:0.4,fo:0.8}, {src:'assets/audio/cine_horns.mp3',a:133.8,b:138,vol:0.45,fi:1.2,fo:1.0}, {src:'assets/audio/fr_song.mp3',a:141.1,b:1e9,vol:0.8,fi:0.3} ];
+  // 🎵 nhạc nền theo từng phần phim (không lặp 1 đoạn ngắn nữa) · vol đã cân theo độ to (LUFS) của từng bài · off = bắt đầu từ giây thứ mấy của bài
+  const MUS_DEF=[ {src:'assets/audio/cine_pufino.mp3',a:0,b:48.8,vol:0.5,fi:1.0,fo:1.5},                 // Pufino – Adventures Begin: đại chiến mở màn → Stalin/Catler → Spider/UIA → Chonky → King Cheems
+      {src:'assets/audio/cine_horns.mp3',a:48.8,b:57.3,vol:0.7,fi:0.8,fo:1.0},                            // kèn u ám: quỷ giật dây · Giga quyết định
+      {src:'assets/audio/cine_aylex.mp3',a:57.3,b:111.8,vol:0.44,fi:0.6,fo:2.0},                          // Aylex – Cinematic: trận khổng lồ Giga vs quỷ → bom vĩ thú → Chonky thiên thạch → phong ấn
+      {src:'assets/audio/cine_heart_fast.mp3',a:111.8,b:116.8,vol:0.7,loop:true,fo:0.3},                  // tim đập: Evil Gary bị xé đôi
+      {src:'assets/audio/cine_pufino.mp3',a:116.8,b:126.8,vol:0.5,off:75,fi:0.6,fo:1.0},                  // Pufino (đoạn cao trào): đọ chưởng cuối, cả dàn meme hợp sức
+      {src:'assets/audio/cine_horns.mp3',a:133.8,b:138,vol:0.45,fi:1.2,fo:1.0}, {src:'assets/audio/fr_song.mp3',a:141.1,b:1e9,vol:0.8,fi:0.3} ];
   function musSetup(){ musStop(); MUS=MUS_DEF.map(d=>Object.assign({el:Object.assign(new Audio(d.src),{preload:'auto'})},d,{b:Math.min(d.b,DUR)}));
     for(const m of MUS) m.el.loop=!!m.loop; }
   function musTick(rR,tR){ for(const m of MUS){ const on=!paused && tR>=m.a && tR<m.b;
       if(!on){ if(!m.el.paused) m.el.pause(); continue; }
-      const pos=rR-c2r(m.a), d=m.el.duration||1e9;
+      const pos=rR-c2r(m.a)+(m.off||0), d=m.el.duration||1e9;
       if(!m.loop && pos>=d){ if(!m.el.paused) m.el.pause(); continue; }
       if(m.el.paused){ try{ m.el.currentTime=m.loop?pos%d:pos; }catch(e){} m.el.play().catch(()=>{}); }
       else if(!m.loop && Math.abs(m.el.currentTime-pos)>0.35){ try{ m.el.currentTime=pos; }catch(e){} }
