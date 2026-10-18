@@ -765,7 +765,7 @@
   function landscape(u0,t,o){ const sl=seg(u0,o.s0,o.s1), fly=eio(seg(u0,o.f0,o.f1)), boom=seg(u0,o.b0,o.b1), CY=VH*0.45, HY=VH*0.6, bx=VW*0.52, R=VH*0.26, by=VH*0.66-R*0.75;
     const sky=g.createLinearGradient(0,0,0,HY); sky.addColorStop(0,'#1d0a14'); sky.addColorStop(0.6,'#5a1e1c'); sky.addColorStop(1,'#a2482a'); g.fillStyle=sky; g.fillRect(0,0,VW,VH);
     for(let i=0;i<9;i++){ const y=VH*(0.08+hash(i+2500)*0.3), x=((hash(i+2501)*VW*1.5+t*12)%(VW*1.5))-VW*0.25, w=VW*(0.2+hash(i+2502)*0.25); g.fillStyle=`rgba(${i%2?'90,40,50':'140,70,60'},0.35)`; g.beginPath(); g.ellipse(x,y,w,VH*0.012+hash(i)*VH*0.01,0,0,Math.PI*2); g.fill(); }   // mây dải mỏng
-    const upper=(fn)=>{ g.save(); g.beginPath(); g.rect(-VW,-VH*2,VW*3,CY+VH*2); g.clip(); if(fly>0){ g.translate(VW*0.08*fly,-VH*0.55*ein(fly)); g.translate(bx,CY); g.rotate(-0.12*fly); g.translate(-bx,-CY); } fn(); g.restore(); },
+    const upper=(fn)=>{ g.save(); g.beginPath(); g.rect(-VW,-VH*2,VW*3,CY+VH*2); g.clip(); if(fly>0){ g.translate(-VW*0.025*eout(fly),-VH*0.008*eout(fly)); } fn(); g.restore(); },   // nửa trên chỉ trượt lệch nhẹ theo vết cắt (không chao đảo)
           lower=(fn)=>{ g.save(); g.beginPath(); g.rect(-VW,CY,VW*3,VH*3); g.clip(); fn(); g.restore(); };
     const ranges=()=>{ const L=[[0.35,0.62,'#4a2a34','#5e3640','#3a1e28','#2a141c',11,0.55],[0.22,0.7,'#3a1c24','#4e2830','#2a121a','#1c0a10',23,0.8],[0.0,0.78,'#2a1218','#3a1a20','#1c0a10','#12060a',37,1]];
       for(const [d,base,c0,c1,c2,c3,sd,al] of L) for(let i=0;i<5;i++){ const w=VW*(0.28+hash(sd+i)*0.2), h=VH*(0.22+hash(sd+i*3)*0.16)*(1-d*0.6), cx=VW*(-0.05+i*0.27+hash(sd+i*7)*0.08); peak(cx,VH*base,w,h,sd*10+i,[c0,c1,c2,c3],al); }
@@ -784,7 +784,7 @@
     upper(()=>{ ranges(); g.save(); g.globalAlpha=ba; bomb(); g.restore(); });
     if(fly>0){ g.save(); g.globalCompositeOperation='lighter'; g.strokeStyle=`rgba(255,235,210,${0.8*(1-boom)})`; g.lineWidth=3; g.shadowColor='#ffd9b0'; g.shadowBlur=20; g.beginPath(); g.moveTo(0,CY); g.lineTo(VW,CY); g.stroke(); g.restore();   // mặt cắt sáng rực
       for(let i=0;i<3;i++) if(Math.random()<0.9) parts.push({k:'rock',x:Math.random()*VW,y:CY,vx:(Math.random()-0.5)*3,vy:-3-Math.random()*5,l:50,L:50,c:'70,40,40',r:2+Math.random()*6});
-      for(let i=0;i<18;i++){ const x=i/17*VW; puff(x,CY+4,VH*0.03+VH*0.04*fly,0.5*fly*(1-boom),'150,110,95'); } }   // bụi đá tung dọc vết cắt
+      }   // bụi đá tung dọc vết cắt
     // ⚔️ LƯỠI CHÉM TRĂNG KHUYẾT vút ngang qua toàn cảnh (siêu nhanh), để lại vệt mảnh tắt dần
     if(sl>0&&sl<1){ const x=lerp(-VW*0.4,VW*1.4,eio(sl)), w=VW*0.42, hh=VH*0.06; g.save(); g.globalCompositeOperation='lighter';
       for(const [k2,al,c] of [[1.25,0.25,'140,225,255'],[1,0.9,'255,230,240'],[0.6,1,'255,255,255']]){ g.fillStyle=`rgba(${c},${al})`; g.beginPath(); g.moveTo(x-w*k2,CY); g.quadraticCurveTo(x-w*0.2,CY-hh*2.2*k2,x+w*0.25,CY-hh*0.2); g.quadraticCurveTo(x-w*0.15,CY-hh*0.9*k2,x-w*k2,CY); g.fill(); }
@@ -1010,7 +1010,7 @@
     // 🎬 nhịp 2 (kiểu Mihawk chém đôi tảng băng): 2 kiếm sĩ bật nhảy lên NGANG TẦM quả bom vĩ thú, ngọn núi khổng lồ sừng sững sau lưng quả bom
     //    → khí xanh + đỏ xoắn vào nhau (hợp chiêu) → khựng lại → 1 VỆT KIẾM NGANG vụt qua cả khung rồi tắt ngấm → lặng 1 nhịp
     //    → nửa trên quả bom + nửa trên ngọn núi + mây TRƯỢT LỆCH ra theo đường chém ngang (như tảng băng bị Mihawk chém)
-    if(u>=2.12&&u<4.6) ins(()=>landscape(u,t,{s0:2.14,s1:2.3,f0:3.25,f1:3.95,b0:3.75,b1:4.6}));   // 🏞️ toàn cảnh từ trên cao: lưỡi chém vút ngang → lặng → nửa trên bay lên → bom nổ
+    if(u>=2.12&&u<4.6) ins(()=>landscape(u,t,{s0:2.14,s1:2.3,f0:3.25,f1:3.6,b0:3.6,b1:4.6}));   // 🏞️ toàn cảnh từ trên cao: lưỡi chém vút ngang → lặng → nửa trên bay lên → bom nổ
     else if(u>=0.9&&u<2.12) ins(()=>{ const lp=eout(seg(u,0.9,1.5)), cm=seg(u,1.5,2.0), fl=seg(u,2.0,2.08), cut=u>=2.0, sep=eio(seg(u,2.5,3.4)), CY=VH*0.5, bx=VW*0.5, by=CY, R=Math.min(VW*0.3,VH*0.4);   // quả bom TO ngang ngọn núi, ngay giữa khung (theo phác thảo)
       const still=u>=2.08&&u<2.5, tt=still?2.08:u;
       const scene=()=>{ const gr=g.createLinearGradient(0,0,0,VH); gr.addColorStop(0,'#3a0c10'); gr.addColorStop(0.5,'#8a2a14'); gr.addColorStop(1,'#2a0806'); g.fillStyle=gr; g.fillRect(-VW,-VH,VW*3,VH*3);
