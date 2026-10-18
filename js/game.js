@@ -21924,8 +21924,7 @@ function openCinema(){
   const ov=document.createElement('div'); ov.id='cinemaGallery';
   ov.style.cssText='position:fixed;inset:0;z-index:9000;background:radial-gradient(ellipse at top,#2a1b3d,#0b0712 70%);overflow:auto;padding:28px 16px 40px;font-family:system-ui,Arial,sans-serif;color:#fff;';
   const items=[{id:'__endgame', ic:'🦸', name:'Memes Assemble', desc:"Stalin's last stand against Evil Gary — Avengers: Endgame style", dur:37},
-               {id:'__war', ic:'⚔️', name:'Memes Assemble II', desc:"The War of Evil Gary — the last battle… and something in the dark", dur:70},
-               {id:'__war169', ic:'🎬', name:'Memes Assemble II (16:9)', desc:"Same film, widescreen 16:9 for YouTube", dur:105},
+               {id:'__war', ic:'⚔️', name:'Memes Assemble II', desc:"The War of Evil Gary — the last battle… and something in the dark", dur:140},
                {id:'__dpwindow', ic:'🪟', name:'Depressed Cat Comes Home', desc:"He looks up at the window… This world shall know pain.", dur:14}]
     .concat(SC_PRESETS.map(P=>({id:P.id, ic:P.ic, name:(CINEMA_EN[P.id]||[P.name])[0], desc:(CINEMA_EN[P.id]||[0,P.desc])[1], dur:Math.round(P.dur/SC_FPS)})));
   ov.innerHTML=`<div style="max-width:980px;margin:0 auto"><div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
@@ -21938,7 +21937,7 @@ function openCinema(){
     c.style.cssText='text-align:left;background:linear-gradient(160deg,rgba(255,255,255,0.10),rgba(255,255,255,0.03));border:1px solid rgba(255,255,255,0.18);border-radius:16px;padding:16px;color:#fff;cursor:pointer;display:flex;flex-direction:column;gap:8px;min-height:150px;transition:transform .12s,border-color .12s';
     c.onmouseenter=()=>{ c.style.transform='translateY(-3px)'; c.style.borderColor='#ffcc80'; }; c.onmouseleave=()=>{ c.style.transform=''; c.style.borderColor='rgba(255,255,255,0.18)'; };
     c.innerHTML=`<div style="font-size:38px">${it.ic}</div><div style="font-size:18px;font-weight:800">${it.name}</div><div style="font-size:13px;opacity:.75;line-height:1.35;flex:1">${it.desc}</div><div style="font-size:12px;opacity:.6">▶ ${it.dur}s</div>`;
-    c.onclick=()=>{ _cineGalleryClose(); if(it.id==='__endgame') playCineEndgame(); else if(it.id==='__war') playCineWar(); else if(it.id==='__war169') playCineWar({wide:true}); else if(it.id==='__dpwindow') playCineDpWindow(); else playScenePreset(it.id); };
+    c.onclick=()=>{ _cineGalleryClose(); if(it.id==='__endgame') playCineEndgame(); else if(it.id==='__war') playCineWar({wide:true}); else if(it.id==='__dpwindow') playCineDpWindow(); else playScenePreset(it.id); };
     grid.appendChild(c); }
 }
 function _cineGalleryClose(){ const g=document.getElementById('cinemaGallery'); if(g) g.remove(); }
