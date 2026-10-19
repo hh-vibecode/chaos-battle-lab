@@ -44,7 +44,9 @@
   const hash=n=>{ const s=Math.sin(n*127.1+311.7)*43758.5453; return s-Math.floor(s); };
   let cv, g, raf=null, t0=0, parts=[], played={}, overlay, shake=0, paused=false, pauseT=0, markOnly=false, panel=null, crowd=[];
   const sfx=(id,k,v,dur)=>{ if(played[id]) return; played[id]=1; if(markOnly) return; try{ playSample(k,v==null?1:v,dur||null); }catch(e){} };
-  function actor(im,x,y,h,o){ o=o||{}; const c=prep(im); if(!c) return 0; const w=h*c.sw/c.sh;
+  // 📏 CÂN CỠ: ở cảnh chung (ngoài cảnh cận), các meme phải to ngang nhau — ảnh vạm vỡ/khoác áo choàng (Buff Doge, Adolf, Larry pháp sư) thu lại cho bằng cỡ các meme khác (Giga/quỷ/Chonky khổng lồ không áp dụng)
+  let SIZE_FIX=null; const sizeFix=im=>{ if(!SIZE_FIX){ SIZE_FIX=new Map(); for(const m of [IMG.dogeBuff,IMG.dogeHit,...IMG.dogeP]) SIZE_FIX.set(m,0.78); for(const m of [IMG.catler,IMG.catlerAtk]) SIZE_FIX.set(m,0.86); SIZE_FIX.set(IMG.larryMage,0.62); } return SIZE_FIX.get(im)||1; };
+  function actor(im,x,y,h,o){ o=o||{}; const c=prep(im); if(!c) return 0; if(!inIns&&!o.noFix) h*=sizeFix(im); const w=h*c.sw/c.sh;
     if(inIns&&c.bust&&!o.center&&!o.rot&&y>VH*0.72&&y<VH*1.0) y=VH*1.0+h*0.03;   // 🎬 cảnh cận: ảnh bán thân gần đáy khung → hạ xuống cho vết cắt nằm dưới mép khung
     g.save(); g.globalAlpha*=(o.a==null?1:o.a); g.translate(x,y); if(o.rot) g.rotate(o.rot); g.scale((o.flip?-1:1)*(o.sx||1),o.sy||1);
     if(o.glow){ g.shadowColor=o.glow; g.shadowBlur=o.gb||18; }
@@ -234,7 +236,7 @@
   const AG=[...Array(72)].map((_,i)=>({row:i%6, col:Math.floor(i/6), ph:hash(i+720)*6, x0:900+Math.floor(i/6)*80+(i%6)*26}));   // đạo quân linh hồn (phải) — đông ngang ngửa phe meme
   function aBattle(u,t,ch,clash){ const D=[], FX=480;
     [[1150,600,460,3],[1420,620,520,7],[1650,590,430,6]].forEach(([gx,gy,gh,gv],i)=>D.push({y:gy-1,f:()=>giant(gx-(clash?0:lerp(0,-300,1-eio(ch))),gy,gh,gv,t+i,false)}));   // 🗿 quái khổng lồ lừng lững phía sau đạo quân   // ch: 0..1 tiến độ lao vào · clash: đã va chạm
-    army.forEach((T,i)=>{ const row=i%7, col=Math.floor(i/7), y=630+row*48+(col%2)*14, x0=-560-col*90+(row%2)*40, xf=FX-50-col*80+(row%2)*36, x=clash?xf+lunge(t,T.ph,5.5)*24:lerp(x0,xf,eio(ch)), run=!clash&&ch>0, h=T.wolf?120:82;
+    army.forEach((T,i)=>{ const row=i%7, col=Math.floor(i/7), y=630+row*48+(col%2)*14, x0=-560-col*90+(row%2)*40, xf=FX-50-col*80+(row%2)*36, x=clash?xf+lunge(t,T.ph,5.5)*24:lerp(x0,xf,eio(ch)), run=!clash&&ch>0, h=T.wolf?120:100;
       D.push({y,f:()=>{ shadow(x,y,26,0.3); actor(T.im,x,y-(run?Math.abs(Math.sin(t*14+i))*12:Math.abs(Math.sin(t*7+i))*3),h,{rot:run?0.12:0.15*lunge(t,T.ph,5.5),flip:T.wolf?true:flipTo(T.k,true)}); if(run&&Math.random()<0.15) dust(x-30,y,1,40); }}); });
     AG.forEach((s,i)=>{ const y=632+s.row*52+(s.col%2)*14, xe=FX+40+s.col*62+(s.row%2)*30, x=clash?xe-lunge(t,s.ph,5)*30:lerp(s.x0+400,xe,eio(ch)), run=!clash&&ch>0, fly=clash?seg(u,5.2+hash(i)*0.3,5.9+hash(i)*0.3)*(i%4===0?1:0):0;
       D.push({y,f:()=>{ if(fly>0&&fly<1){ monster(x+eout(fly)*500,y-Math.sin(Math.PI*fly)*260,104,false,1,0,fly,i); return; } if(fly>=1) return; monster(x,y-(run?Math.abs(Math.sin(t*13+i))*12:0),92+hash(i)*30,false,1,run?-0.12:-0.12*lunge(t,s.ph,5),0,i); }}); });
@@ -650,27 +652,29 @@
   //    CÂY CHÀY KHỔNG LỒ dựng gần đứng trong khe (đầu to ở trên, cán cắm ở chỗ luồng sáng) rồi BỔ đổ sang phải xuống Doge đứng trên mỏm đá; thành phố đổ nát dưới chân trời bên trái
   function refSky(t,cut){ const BX=VW*0.3, BY=VH*0.8;
     const sk=g.createLinearGradient(0,0,0,VH); sk.addColorStop(0,'#2a0a0c'); sk.addColorStop(1,'#14050a'); g.fillStyle=sk; g.fillRect(0,0,VW,VH);
-    for(let i=0;i<60;i++){ const x=hash(i+7000)*VW*1.2-VW*0.1, y=hash(i+7001)*VH*0.9, r=VH*(0.08+0.12*hash(i+7002)); puff(x,y,r,0.7,hash(i+7003)<0.5?'54,16,18':'34,10,12'); }   // tầng mây giông đỏ thẫm
+    for(let row=0;row<5;row++){ const c=redCloud(row%2); if(!c) break; const H=VH*0.42, W=H*c.width/c.height, y=-VH*0.12+row*VH*0.19, off=((t*VH*0.04*(row%2?1:-1)+row*W*0.37)%W+W)%W; for(let x=-W-off;x<VW+W;x+=W) g.drawImage(c,x,y,W,H); }   // tầng mây giông cuồn cuộn (mây Depressed Cat nhuộm đỏ) phủ kín 2 vách
     const fx=(y,sd)=>{ const f=y/BY; return sd<0?lerp(VW*0.1,BX-VW*0.035,Math.pow(f,0.8))+Math.sin(y*0.02)*VW*0.01:lerp(VW*0.86,BX+VW*0.04,Math.pow(f,0.75))+Math.sin(y*0.017+1)*VW*0.012; };   // mép khe 2 bên
     g.save(); g.beginPath(); g.moveTo(fx(0,-1),0); for(let y=0;y<=BY;y+=8) g.lineTo(fx(y,-1),y); for(let y=BY;y>=0;y-=8) g.lineTo(fx(y,1),y); g.closePath();
     const lg=g.createLinearGradient(0,0,0,BY); lg.addColorStop(0,'#e8a878'); lg.addColorStop(0.6,'#ffd6a8'); lg.addColorStop(1,'#fff4e0'); g.fillStyle=lg; g.fill(); g.clip();
-    for(let i=0;i<14;i++){ puff(fx(0,-1)+hash(i+7010)*(fx(0,1)-fx(0,-1)),VH*(0.05+0.4*hash(i+7011)),VH*0.06,0.35,'255,235,215'); } g.restore();   // mây trắng mỏng trong khe
+    for(let i=0;i<30;i++){ const y=VH*(0.02+0.5*hash(i+7011)), x=fx(y,-1)+hash(i+7010)*(fx(y,1)-fx(y,-1)), r=VH*(0.04+0.06*hash(i+7012)); puff(x,y,r,0.55,'255,240,225'); puff(x+r*0.3,y+r*0.2,r*0.7,0.4,'215,150,120'); } g.restore();   // mây sáng lững lờ trong khe
     for(const sd of [-1,1]) for(let i=0;i<220;i++){ const y0=hash(i+7020+sd*500)*BY*0.95, x=fx(y0,sd)+sd*VW*(0.005+0.09*Math.pow(hash(i+7021+sd*500),1.5)), L=VH*(0.08+0.32*hash(i+7022+sd*500)), lit=Math.max(0,1-Math.abs(x-fx(y0,sd))/(VW*0.07));
       const gr=g.createLinearGradient(x,y0-L,x,y0); gr.addColorStop(0,`rgba(${(70+150*lit)|0},${(28+110*lit)|0},${(24+80*lit)|0},0.9)`); gr.addColorStop(1,`rgba(${(70+150*lit)|0},${(28+110*lit)|0},${(24+80*lit)|0},0)`); g.strokeStyle=gr; g.lineWidth=2+3*hash(i+7023); g.beginPath(); g.moveTo(x,y0-L); g.lineTo(x+sd*L*0.08,y0); g.stroke(); }   // vách mây SỌC DỌC như rèm buông, sáng ở mép khe
     g.save(); g.globalCompositeOperation='lighter'; glow(BX,BY,VH*0.35,0.9,'255,230,190'); glow(BX,BY,VH*0.1,1,'255,255,240'); g.restore();   // luồng sáng ở chân trời
+    return {BX,BY}; }
+  function refFore(){
     g.fillStyle='#12050a'; let x=0, i=0; while(x<VW*0.6){ const w=VW*(0.012+0.02*hash(i+7040)), h=VH*(0.05+0.09*hash(i+7041)); g.fillRect(x,VH*0.9-h,w,h+VH*0.1); if(hash(i+7042)<0.4){ g.beginPath(); g.moveTo(x,VH*0.9-h); g.lineTo(x+w/2,VH*0.9-h-VH*0.04); g.lineTo(x+w,VH*0.9-h); g.fill(); } x+=w*1.15; i++; } g.fillRect(0,VH*0.9,VW,VH*0.1);   // thành phố đổ nát
     g.fillStyle='#3a1a12'; g.beginPath(); g.moveTo(VW*0.52,VH*0.86); g.lineTo(VW*0.56,VH*0.83); g.lineTo(VW*1.0,VH*0.81); g.lineTo(VW,VH); g.lineTo(VW*0.55,VH); g.closePath(); g.fill(); g.fillStyle='#5a2c1c'; g.fillRect(VW*0.56,VH*0.81,VW*0.44,VH*0.012);   // mỏm đá
     for(let j=0;j<40;j++){ g.fillStyle='rgba(20,6,4,0.35)'; g.fillRect(VW*(0.56+0.44*hash(j+7050)),VH*(0.83+0.15*hash(j+7051)),4,3); }
-    return {BX,BY}; }
-  function refShot(t,k){ const {BX,BY}=refSky(t), DG={x:VW*0.74,y:VH*0.82}, HD=VH*0.2;
-    const a0=0.3, aT=Math.atan2(DG.x-BX,-(DG.y-HD*0.9-BY)), ang=lerp(a0,aT-0.06,ein(Math.min(1,k/0.9))), L=VH*0.82;   // chày đổ từ gần thẳng đứng sang phải, đầu chày lao về phía Doge
-    malletAura(BX,BY,L,ang,t,1); bigMallet(BX,BY,L,ang,2.6); malletAura(BX,BY,L,ang,t,0.4);
+  }
+  function refShot(t,k){ const {BX,BY:HZ}=refSky(t), BY=VH*1.12, DG={x:VW*0.78,y:VH*0.815}, HD=VH*0.1;   // gốc chày cắm SÂU dưới chân trời (khuất sau thành phố) — chỉ lộ nửa trên to đùng
+    const L=VH*1.15, a0=0.12, aT=Math.asin(Math.min(0.99,(DG.x-BX)/L)), ang=lerp(a0,aT,ein(Math.min(1,k/0.9)));   // chày dài từ dưới chân trời vươn tới đỉnh khung, bổ đổ sang phải tới ngay trên đầu Doge   // chày đổ từ gần thẳng đứng sang phải, đầu chày lao về phía Doge
+    malletAura(BX,BY,L,ang,t,1); bigMallet(BX,BY,L,ang,2.2); malletAura(BX,BY,L,ang,t,0.4); g.save(); g.globalCompositeOperation='lighter'; glow(BX,HZ,VH*0.3,0.8,'255,230,190'); g.restore(); refFore();
     const hx=BX+Math.sin(ang)*L, hy=BY-Math.cos(ang)*L; g.save(); g.globalCompositeOperation='lighter'; g.strokeStyle='rgba(255,230,200,0.5)'; g.lineCap='round'; for(let i=0;i<5;i++){ g.lineWidth=4; g.beginPath(); g.arc(BX,BY,L*(0.75+i*0.06),-Math.PI/2+ang-0.5-i*0.05,-Math.PI/2+ang-0.05); g.stroke(); } g.restore();   // vệt quét theo hướng bổ (như mũi tên)
-    actor(IMG.dogeP[0],DG.x,DG.y,HD,{flip:true}); if(k>0.7) sfxText('!?',DG.x-VW*0.02,DG.y-HD*1.3,52,seg(k,0.7,1),'#fff'); }
+    actor(IMG.dogeP[0],DG.x,DG.y,HD,{flip:true}); if(k>0.7) sfxText('!?',DG.x-VW*0.02,DG.y-HD*1.6,40,seg(k,0.7,1),'#fff'); }
   function refClose(t,k){   // 🔎 cảnh lớn: đầu chày khổng lồ ập tới sát đầu Doge → VỖ TAY: Doge đổi chỗ với Evil Larry
     const sk=g.createLinearGradient(0,0,0,VH); sk.addColorStop(0,'#ffd0a0'); sk.addColorStop(1,'#a2381c'); g.fillStyle=sk; g.fillRect(0,0,VW,VH);
     g.fillStyle='#3a1a12'; g.fillRect(0,VH*0.8,VW,VH*0.2); g.fillStyle='#5a2c1c'; g.fillRect(0,VH*0.8,VW,VH*0.015);
-    const DG={x:VW*0.62,y:VH*0.82}, HD=VH*0.5, ang=1.25, L=VH*2.4, near=lerp(VH*0.4,VH*0.12,ein(Math.min(1,k*1.3)));
+    const DG={x:VW*0.62,y:VH*0.82}, HD=VH*0.32, ang=1.25, L=VH*2.4, near=lerp(VH*0.4,VH*0.12,ein(Math.min(1,k*1.3)));
     const hx=DG.x-VW*0.05, hy=DG.y-HD-near, px=hx-Math.sin(ang)*L, py=hy+Math.cos(ang)*L; malletAura(px,py,L,ang,t,1); bigMallet(px,py,L,ang,2.4);
     speedLines(hx,hy,0.7,false);
     swapViz(k,{x:DG.x,y:DG.y,h:HD,col:'#e8b24a',draw:(x,y)=>actor(IMG.dogeP[0],x,y,HD,{flip:true})},{x:-VW*0.3,y:DG.y,h:HD*1.1,col:'#b070ff',draw:(x,y)=>actor(IMG.larryMage,x,y,HD*1.1,{})}); }
@@ -1933,7 +1937,7 @@
     crew.forEach((T,i)=>{ const row=i%3, col=Math.floor(i/3), tx=CX-90-col*70-row*24, ty=Y-row*28+20, k=eout(seg(join,i*0.035,i*0.035+0.45)), x=lerp(tx-700,tx,k), y=ty;
       const SL=zSlot(i,gx,Y), g0=seg(u,14.9+i*0.09,17.3+i*0.09), gk=eio(g0), qx=lerp(x,SL.x,gk), qy=lerp(y,SL.y,eout(g0)), walk=g0>0&&g0<1;   // lùi ra phía sau trước rồi mới vòng sang → không đi xuyên qua Gary   // từ từ tụ vào, lần lượt từng con
       const pw=k>=1&&gath>0&&u<6.8; if(pw){ g.save(); g.globalCompositeOperation='lighter'; glow(qx,qy-40,46,0.35+0.2*Math.sin(t*8+i),PAL[i%PAL.length]); g.restore(); }   // hào quang khi truyền năng lượng
-      shadow(qx,qy,24,0.3); actor(T.im,qx,qy-(k<1||walk?Math.abs(Math.sin(t*(walk?7:13)+i))*(walk?6:10):(pw?6+Math.sin(t*6+i)*4:0)),T.wolf?100:78,{flip:T.wolf?qx<gx:flipTo(T.k,gk>0.5?qx<gx:true)});
+      shadow(qx,qy,24,0.3); actor(T.im,qx,qy-(k<1||walk?Math.abs(Math.sin(t*(walk?7:13)+i))*(walk?6:10):(pw?6+Math.sin(t*6+i)*4:0)),T.wolf?110:98,{flip:T.wolf?qx<gx:flipTo(T.k,gk>0.5?qx<gx:true)});
       if(k>=1&&gath>0&&u<6.8){ const c=PAL[i%PAL.length]; g.save(); g.globalCompositeOperation='lighter'; glow(x,y-60,22,0.6,c);
         for(let p=0;p<5;p++){ const f=((t*0.9+p/5+hash(i)*0.7)%1), px=lerp(x,B0.x,f)+Math.sin(f*Math.PI)*(i%2?40:-40), py=lerp(y-60,B0.y,ein(f))-Math.sin(f*Math.PI)*120; glow(px,py,6+4*(1-f),0.9,c); } g.restore(); } });   // tia sáng li ti bay về quả cầu
     // ✨ tia sáng li ti từ khắp nơi (trời, mặt đất xa) tụ về quả cầu
@@ -2043,7 +2047,7 @@
     if(grab>0){ const ga=grab*(1-seg(u,5.8,6.2)); shadowHand('grip',1700,250,gx+drag*280-150,800-drag*50,0.95*(1-drag*0.3),ga,1); shadowHand('grip',1750,1150,gx+drag*280-110,900-drag*50,0.85*(1-drag*0.3),ga,-1); }   // 2 bàn tay túm Evil Gary lôi vào sương
     // các meme lùi lại
     const GXW=gx+220, YW=880;   // vòng cung meme quây Gary (cùng chỗ đứng cuối cảnh Z) → giật lùi ra khi bóng tối ập tới
-    zCrew().forEach((T,i)=>{ const SL=zSlot(i,GXW,YW), x=GXW+(SL.x-GXW)*(1+0.3*back)-220, y=YW+(SL.y-YW)*(1+0.3*back)-20; shadow(x,y,24,0.3); actor(T.im,x,y,T.wolf?100:78,{flip:T.wolf?x<gx:flipTo(T.k,x<gx),rot:Math.sin(t*9+i)*0.03*back}); });
+    zCrew().forEach((T,i)=>{ const SL=zSlot(i,GXW,YW), x=GXW+(SL.x-GXW)*(1+0.3*back)-220, y=YW+(SL.y-YW)*(1+0.3*back)-20; shadow(x,y,24,0.3); actor(T.im,x,y,T.wolf?110:98,{flip:T.wolf?x<gx:flipTo(T.k,x<gx),rot:Math.sin(t*9+i)*0.03*back}); });
     { const x=GXW-430-220-back*120, y=YW+55-20; shadow(x,y,40); actor(IMG.catlerAtk,x,y,118,{}); }
     // Stalin bước tới, giơ búa sét → vung → bị hất văng
     const sx=fly>0?lerp(sx0+90,-380,fly):lerp(sx0,sx0+90,eio(step)), sy=870-Math.sin(Math.PI*fly)*260;
@@ -2062,7 +2066,7 @@
   function scN(u,t){ const D2=[], up=eio(seg(u,0.7,2.4)), sun=eio(seg(u,0.6,3.5)), sx=300, sy=870;
     if(sun>0){ g.save(); g.globalCompositeOperation='lighter'; const gr=g.createLinearGradient(0,-900,0,950); gr.addColorStop(0,`rgba(255,215,150,${0.42*sun})`); gr.addColorStop(1,`rgba(255,195,120,${0.1*sun})`); g.fillStyle=gr; g.fillRect(-1500,-1500,3500,3000);
       g.translate(-150,-700); for(let i=0;i<6;i++){ const a=0.9+i*0.11+Math.sin(t*0.4+i)*0.01; const rg=g.createLinearGradient(0,0,Math.cos(a)*2600,Math.sin(a)*2600); rg.addColorStop(0,`rgba(255,240,200,${0.16*sun})`); rg.addColorStop(1,'rgba(255,220,150,0)'); g.fillStyle=rg; g.beginPath(); g.moveTo(0,0); g.lineTo(Math.cos(a-0.035)*2600,Math.sin(a-0.035)*2600); g.lineTo(Math.cos(a+0.035)*2600,Math.sin(a+0.035)*2600); g.closePath(); g.fill(); } g.restore(); }
-    army.forEach((T,i)=>{ if(T.k==='doge'||T.k==='stalincat') return; const row=i%4, side=i%2?-1:1, n=Math.floor(i/2), x=sx+side*(170+(n%10)*62+row*14), y=790+row*34, run=eout(seg(u,0.15+(n%10)*0.04,1.1+(n%10)*0.04)), xx=lerp(x+side*500,x,run), cheer=u>2.4?Math.abs(Math.sin(t*6+i))*10:0, h=T.wolf?100:72-row*3;
+    army.forEach((T,i)=>{ if(T.k==='doge'||T.k==='stalincat') return; const row=i%4, side=i%2?-1:1, n=Math.floor(i/2), x=sx+side*(170+(n%10)*62+row*14), y=790+row*34, run=eout(seg(u,0.15+(n%10)*0.04,1.1+(n%10)*0.04)), xx=lerp(x+side*500,x,run), cheer=u>2.4?Math.abs(Math.sin(t*6+i))*10:0, h=T.wolf?110:92-row*3;
       D2.push({y,f:()=>{ shadow(xx,y,22,0.3); actor(T.im,xx,y-(run<1?Math.abs(Math.sin(t*12+i))*6:cheer),h,{flip:T.wolf?side<0:flipTo(T.k,side<0)}); }}); });
     D2.sort((a,b)=>a.y-b.y); for(const d of D2) d.f();
     shadow(sx,sy,60); actor(IMG.stalin,sx,sy,150,{rot:lerp(-1.45,0,up)});
