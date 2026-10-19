@@ -17,7 +17,8 @@
     king:av('kingcheems'), knight:A('assets/img/kingcheems/DOGE_KNIGHT_IMG.webp'), joninn:av('samuraicheems'), joninnR:av('samuraicheems','rageAvatarUrl'),
     angel:av('holycat','rageAvatarUrl'), friend:av('friend','skill4AvatarUrl'), grin:A('assets/img/friend/FR_GRIN_IMG.webp'), berserk:av('berserkcat'), berserkAtk:av('berserkcat','attackAvatarUrl'),   // 👀😁 grin = chỉ đôi mắt + hàm răng của Friend (đã gỡ viền mặt)
     gigaLift:A('assets/img/cine/CINE_GIGA_LIFT.webp'), gigaPunch:A('assets/img/cine/CINE_GIGA_PUNCH.webp'), smSlash:A('assets/img/cine/CINE_SM_SLASH.webp'), akaBg:A('assets/img/cine/CINE_AKA_BG.webp'), smBack:A('assets/img/cine/CINE_SM_BACK.webp'), bkBack:A('assets/img/cine/CINE_BK_BACK.webp'),
-    larryMage:av('evillarry','introAvatarUrl'), bibi:av('bibilabu'), bibiBack:av('bibilabu','attackAvatarUrl'), catlerAtk:av('feuerkatze','attackAvatarUrl'),
+    larryMage:av('evillarry','introAvatarUrl'), bibi:av('bibilabu'), dogeP:[1,2,3,4,5].map(i=>A('assets/img/cine/CINE_DOGE_P'+i+'.webp')),   // 💪 5 tư thế đấm của Buff Doge: 1 thủ thấp lấy đà · 2 đấm thẳng · 3 đấm móc lên · 4 đấm ngang · 5 thủ khoanh tay
+    bibiBack:av('bibilabu','attackAvatarUrl'), catlerAtk:av('feuerkatze','attackAvatarUrl'),
     clapIdle:av('clappingcat'), clapUp:av('clappingcat','rageAvatarUrl'), clap:['skill1AvatarUrl','skill2AvatarUrl','skill3AvatarUrl'].map(f=>av('clappingcat',f)),
     hand:{} };
   for(const k of ['crawlA','crawlB','slap','grip','lunge']) IMG.hand[k]=A('assets/img/scaredhamster/HAND_'+k+'.webp');
@@ -249,7 +250,7 @@
     if(o.fx) o.fx(q,af,mx,y,t);
     actor(af>0&&o.imHit?o.imHit:o.im,mx,y,VH*o.h*0.72,{flip:o.flip,rot:af>0?(o.rot||0):0}); }
   const DUELS=[
-    {t0:5.9, c0:'#ffe0a0', c1:'#5a3a08', im:IMG.dogeBuff, imHit:IMG.dogeHit, h:0.5, flip:false, fx:(q,af,mx,y,t)=>{ if(af>0&&af<0.6) for(let i=0;i<5;i++){ const a=i/5*6.28+q*8, r=VW*0.18*af; text('★',VW*0.62+Math.cos(a)*r,y-VH*0.3+Math.sin(a)*r*0.5,46,'#ffe066','#000'); } }},   // 💪 Doge cơ bắp nện búa
+    {t0:5.9, c0:'#ffe0a0', c1:'#5a3a08', im:IMG.dogeBuff, imHit:IMG.dogeP[1], h:0.5, flip:false, fx:(q,af,mx,y,t)=>{ if(af>0&&af<0.6) for(let i=0;i<5;i++){ const a=i/5*6.28+q*8, r=VW*0.18*af; text('★',VW*0.62+Math.cos(a)*r,y-VH*0.3+Math.sin(a)*r*0.5,46,'#ffe066','#000'); } }},   // 💪 Doge cơ bắp nện búa
     {t0:6.7, c0:'#ffd0a0', c1:'#4a1a08', im:IMG.cheems, h:0.36, flip:false, fx:(q,af,mx,y,t)=>{ const hc=prep(IMG.mallet); if(!hc) return; g.save(); g.translate(mx+VW*0.1,y-VH*0.22); g.rotate(af>0?1.4:-0.8+q*2); const L=VH*0.32; g.drawImage(hc.src,hc.sx,hc.sy,hc.sw,hc.sh,-L*0.06,-L,L*0.12*hc.sw/hc.sh*8,L); g.restore(); if(af>0&&af<0.3) text('BONK',VW*0.6,VH*0.3,80,'#fff','#000'); }},   // 🏏 Cheems vụt gậy
     {t0:7.5, c0:'#b0fff0', c1:'#04302a', im:IMG.maxwell, h:0.26, flip:true, split:true, fx:(q,af,mx,y,t)=>{ const sc=prep(IMG.dsword); if(sc){ g.save(); g.translate(mx+VW*0.06,y-VH*0.12); g.rotate(af>0?1.9:-0.6+q*3); g.drawImage(sc.src,sc.sx,sc.sy,sc.sw,sc.sh,-VH*0.06,-VH*0.24,VH*0.12,VH*0.24); g.restore(); }
       if(af>0) slashArc(VW*0.4,VH*0.82,VW*0.95,VH*0.4,Math.min(1,af*4),-60,'120,255,230',1-af); }},   // ⛏️ Maxwell chém kiếm kim cương
@@ -429,7 +430,7 @@
       if(fire){ g.save(); g.globalCompositeOperation='lighter'; glow(hx,hy,lerp(60,140,sTop?1:0.5),0.85,'255,140,40'); g.restore(); for(let i=0;i<4;i++){ const f=((t*2+i/4)%1); puff(hx+Math.sin(i*1.7+t*6)*14,hy-f*70,18*(1-f)+4,0.6*(1-f),'255,'+(150-i*10)+',40'); } }
       if(Math.random()<0.5) bolt(hx,hy,hx+(Math.random()-0.5)*160,hy-80-Math.random()*120,1.6,0.8,'150,210,255'); } }
     // 💪 Buff Doge · 🐕 Cheems · 👏 Clapping Cat
-    shadow(dx,Y,55,0.4*(1-Math.min(1,(Y-dy)/500))); actor(dHit?IMG.dogeHit:IMG.dogeBuff,dx,dy-(charge>0&&charge<1?Math.abs(Math.sin(t*13))*10:0),dHit?175:160,{flip:flipTo('doge',false),rot:dRot+(boom>0?boom*4:0)});
+    shadow(dx,Y,55,0.4*(1-Math.min(1,(Y-dy)/500))); actor(dHit?IMG.dogeP[1]:IMG.dogeBuff,dx,dy-(charge>0&&charge<1?Math.abs(Math.sin(t*13))*10:0),dHit?175:160,{flip:flipTo('doge',false),rot:dRot+(boom>0?boom*4:0)});
     shadow(kx,Y,38,0.35*(1-Math.min(1,(Y-ky)/600))); actor(IMG.cheems,kx,ky-(charge>0&&charge<1?Math.abs(Math.sin(t*15))*10:0),110,{flip:flipTo('cheems',false),rot:kRot+(boom>0?boom*5:0)});
     if(mal!=null){ const hc=prep(IMG.mallet); if(hc){ g.save(); g.translate(kx-20,ky-70); g.rotate(-mal); const L=120; g.drawImage(hc.src,hc.sx,hc.sy,hc.sw,hc.sh,-L*0.5*hc.sw/hc.sh,-L,L*hc.sw/hc.sh,L); g.restore(); } }
     shadow(px,Y,34,0.35*(py<Y-50?0.2:1)); actor(clapPose(U,CLAPS),px,py,118,{flip:true,glow:'rgba(255,225,170,0.75)',gb:12,rot:pRot+(boom>0?boom*5:0)});
@@ -497,8 +498,8 @@
       else softShock(VW*0.68,VH*0.66,lerp(30,VH*0.5,eout(q(10.38,10.7))),0.8*(1-q(10.38,10.7)),'190,90,255',0.8);
       actor(IMG.larryMage,VW*0.2,VH*1.32,Hs*1.15,{filter:'brightness(0.55)',sx:-1}); return; }
     if(sh(10.88,11.45)){ const k=q(10.88,11.45); fieldBG(t,{hy:0.95}); speedLines(VW*0.45,VH*0.72,1,false);   // 9. góc ngước: nửa con ma hoá thành BUFF DOGE giữa trời, lao xuống đấm
-      swapPop(VW*0.72,VH*0.55,Hs*0.45,q(10.88,11.1)); const x=lerp(VW*0.72,VW*0.48,ein(k)), y=lerp(VH*0.68,VH*0.97,ein(k)); actor(IMG.dogeHit,x,y,Hs*0.62,{flip:true,rot:lerp(-0.5,0.4,k)}); return; }
-    if(sh(11.45,11.62)){ inkImpact(q(11.45,11.62),()=>{ actor(IMG.dogeHit,VW*0.38,VH*0.85,Hs*0.6,{flip:true,rot:0.4}); actor(IMG.larryMage,VW*0.68,VH*0.95,Hs*0.7,{rot:0.3}); }); return; }   // 10. khung va chạm mực đen
+      swapPop(VW*0.72,VH*0.55,Hs*0.45,q(10.88,11.1)); const x=lerp(VW*0.72,VW*0.48,ein(k)), y=lerp(VH*0.68,VH*0.97,ein(k)); actor(IMG.dogeP[1],x,y,Hs*0.62,{rot:lerp(-0.2,-0.5,k)}); return; }
+    if(sh(11.45,11.62)){ inkImpact(q(11.45,11.62),()=>{ actor(IMG.dogeP[1],VW*0.38,VH*0.85,Hs*0.6,{flip:true,rot:0.2}); actor(IMG.larryMage,VW*0.68,VH*0.95,Hs*0.7,{rot:0.3}); }); return; }   // 10. khung va chạm mực đen
     if(sh(11.62,12.2)){ const k=q(11.62,12.2); fieldBG(t,{hy:0.5,pan:k*900,streak:-2600});   // 11. lia theo Larry bị đấm văng xuyên bãi cỏ, bụi tung sau lưng
       for(let i=0;i<8;i++) puff(VW*(0.15+i*0.05)-k*80,VH*0.86-i*4,Hs*(0.05+i*0.01),0.4,'150,135,95'); actor(IMG.larryMage,VW*0.55,VH*0.72-Math.sin(Math.PI*k)*VH*0.1,Hs*0.5,{center:true,rot:k*6}); return; }
     // ── COMBO 2 ──
@@ -512,7 +513,7 @@
       actor(IMG.clapUp,VW*0.5,VH*0.6-Math.sin(Math.PI*k)*VH*0.12,Hs*0.3,{center:true,rot:-Math.PI*2*eio(k),flip:true}); return; }
     if(sh(13.68,13.98)){ const k=q(13.68,13.98); fieldBG(t,{hy:0.85}); speedLines(VW*0.55,VH*0.5,0.9,false);   // 17. Doge (đổi vào chỗ Clapping Cat) ĐẤM BẬT quả chưởng thứ 2 lên trời
       swapPop(VW*0.45,VH*0.75,Hs*0.5,q(13.68,13.85)); const hitK=q(13.78,13.98), bx=hitK>0?lerp(VW*0.58,VW*0.8,hitK):lerp(VW*1.05,VW*0.58,q(13.68,13.78)), by=hitK>0?lerp(VH*0.42,VH*-0.2,hitK):VH*0.42;
-      orb(bx,by,Hs*0.07); actor(IMG.dogeHit,VW*0.42,VH*0.92,Hs*0.62,{flip:true,rot:lerp(0.3,-0.6,eout(q(13.72,13.82)))}); if(hitK>0&&hitK<0.25){ g.save(); g.globalCompositeOperation='lighter'; glow(VW*0.58,VH*0.42,Hs*0.3,1-hitK*4,'255,240,220'); g.restore(); } return; }
+      orb(bx,by,Hs*0.07); actor(q(13.72,13.8)<1?IMG.dogeP[0]:IMG.dogeP[1],VW*0.42,VH*0.92,Hs*0.62,{flip:true,rot:lerp(0.1,-0.25,eout(q(13.72,13.82)))}); if(hitK>0&&hitK<0.25){ g.save(); g.globalCompositeOperation='lighter'; glow(VW*0.58,VH*0.42,Hs*0.3,1-hitK*4,'255,240,220'); g.restore(); } return; }
     if(sh(14.16,14.5)){ const k=q(14.16,14.5); bgFocus(t,'#ffe9a8','#6a3a08',false,VW*0.5,VH*0.6); actor(IMG.larryMage,VW*0.55,VH*1.25,VH*0.75,{rot:0.25,sy:0.92});   // 19. BONK: Cheems (đổi vào chỗ Clapping Cat) nện chày từ trên xuống
       swapPop(VW*0.33,VH*0.45,Hs*0.4,q(14.16,14.3)); actor(IMG.cheems,VW*0.33,VH*0.55,VH*0.38,{rot:-0.3}); mal(VW*0.4,VH*0.4,VH*0.42,lerp(-1.2,1.1,eout(Math.min(1,k*3))));
       if(k>0.3){ g.save(); g.globalCompositeOperation='lighter'; glow(VW*0.55,VH*0.45,VH*0.4*(1-k),0.9,'255,250,220'); g.restore(); } text('BONK!',VW*0.72,VH*0.22,110,'#ffe066','#000',undefined,seg(k,0.25,0.4)); return; }
@@ -523,7 +524,7 @@
       rockAt(VW*0.72,VH*0.86,Hs*0.17); g.fillStyle='rgba(40,34,20,0.7)'; g.beginPath(); g.ellipse(VW*0.45,VH*0.86,VW*0.16,VH*0.04,0,0,Math.PI*2); g.fill();
       cursedAura(VW*0.45,VH*0.88,Hs*0.5,'170,60,255',true,t,1); actor(IMG.larryMage,VW*0.45,VH*0.88,Hs*0.55,{sy:lerp(0.72,1,eout(k))}); actor(IMG.cheems,VW*0.12,VH*0.86,Hs*0.12,{}); actor(IMG.dogeBuff,VW*0.06,VH*0.84,Hs*0.22,{flip:true}); return; }
     if(sh(15.28,15.6)){ dogeVsLarry(t,q(15.28,15.6),'upper',0.2); swapPop(VW*0.72,VH*0.9,Hs*0.5,q(15.28,15.4)); return; }   // 22. tảng đá hoá Doge ngay cạnh → ĐẤM MÓC hất Larry bay lên
-    if(sh(15.6,15.75)){ inkImpact(q(15.6,15.75),()=>{ actor(IMG.dogeHit,VW*0.6,VH*0.95,Hs*0.6,{flip:true,rot:-0.6}); actor(IMG.larryMage,VW*0.35,VH*0.6,Hs*0.6,{rot:-0.6}); }); return; }
+    if(sh(15.6,15.75)){ inkImpact(q(15.6,15.75),()=>{ actor(IMG.dogeP[2],VW*0.6,VH*0.95,Hs*0.6,{rot:-0.1}); actor(IMG.larryMage,VW*0.35,VH*0.6,Hs*0.6,{rot:-0.6}); }); return; }
     if(sh(15.75,15.9)){ const k=q(15.75,15.9); fieldBG(t,{hy:0.7}); actor(IMG.larryMage,lerp(VW*0.5,VW*0.15,k),lerp(VH*0.55,VH*0.05,k),Hs*0.14,{rot:-k*8}); return; }   // 23. Larry bay vút khỏi bãi cỏ
     // 6/8/14/16/18/21: cận vỗ tay
     for(const [a,b] of FIELD_CLAPS) if(sh(a,b)){ clapZoom(q(a,b),t); return; }
@@ -566,10 +567,13 @@
     if(mode==='upper'){ dx=lx+H*0.5; if(swapK!=null&&k<swapK){ dx=VW*0.78; } const f=seg(k,0.25,0.4); drot=lerp(-1.1,0.7,eout(f)); hitAt=[0.38]; hp=[lx+H*0.12,gy-H*0.45];
       if(k>0.38){ const r=seg(k,0.38,1); lx-=r*VW*0.12; ly=gy-ein(Math.min(1,r*1.3))*VH*0.75; lrot=-r*2.2; } }
     shadow(lx,gy,H*0.3,0.5*(ly>gy-40?1:0.3)); cursedAura(lx,ly,H*0.9,'170,60,255',true,t,1); actor(IMG.larryMage,lx,ly,H,{rot:lrot});
-    shadow(dx,gy,H*0.28,0.5*(dy>gy-40?1:0.3)); actor(IMG.dogeHit,dx,dy,H*1.02,{rot:drot});
+    let pose=IMG.dogeP[4]; if(mode==='dive') pose=IMG.dogeP[1]; if(mode==='upper') pose=k<0.3?IMG.dogeP[0]:IMG.dogeP[2];
+    if(mode==='combo'){ const PW=[[0,1],[4,3],[0,2]]; hitAt.forEach((c,i)=>{ if(k>=c-0.12&&k<c) pose=IMG.dogeP[PW[i][0]]; else if(k>=c&&k<c+0.14) pose=IMG.dogeP[PW[i][1]]; }); drot=0; hitAt.forEach(c=>{ drot-=0.12*bump(c,0.1); }); }
+    if(mode==='dive') drot=lerp(-0.2,-0.55,Math.min(1,k/0.55)); if(mode==='upper') drot=k<0.3?0.08:-0.1;
+    shadow(dx,gy,H*0.28,0.5*(dy>gy-40?1:0.3)); actor(pose,dx,dy,H*1.0,{rot:drot});
     for(const c of hitAt){ const f=seg(k,c,c+0.16); if(f>0&&f<1&&hp){ g.save(); g.globalCompositeOperation='lighter'; glow(hp[0],hp[1],H*lerp(0.15,0.5,f),1-f,'255,240,215'); g.restore(); impact(hp[0],hp[1],f,H*0.6);
         if(f<0.15){ shake=Math.max(shake,22); for(let i=0;i<10;i++){ const a=hash(i+c*100)*Math.PI*2, r=H*0.25*f*6; g.fillStyle='rgba(255,230,180,0.9)'; g.fillRect(hp[0]+Math.cos(a)*r,hp[1]+Math.sin(a)*r,5,5); } } } }
-    if(mode!=='combo'&&k<0.55) speedLines(dx,dy-H*0.5,0.5,false); }
+    if(mode!=='combo'&&k<0.55) speedLines(dx,dy-H*0.5,0.5,false); }   // (Doge giờ ĐẤM bằng tay, không còn búa)
   // ⚔️ Cheems vs Larry ĐÁNH QUA LẠI chậm rãi (như Stalin vs Evil Gary đầu phim): 4 nhịp — Cheems vụt, Larry đỡ · Larry phản đòn, Cheems đỡ bị đẩy lùi · va nhau trên không · cú va mạnh nhất dưới đất
   function cheemsDuel(t,k){ const H=VH*0.6, gy=VH*0.9; fieldBG(t,{hy:0.5,z:0.95,cx:250});
     const B=[0.12,0.37,0.62,0.87], bump=c=>Math.sin(Math.PI*seg(k,c-0.11,c+0.11));
@@ -633,7 +637,7 @@
       if(kind==='swap2'){ fieldBG(t,{hy:0.5});   // ✨ HOÁN ĐỔI 2 (chậm): nửa con ma đang bay ↔ Buff Doge đứng dưới đất
         actor(IMG.larryMage,VW*0.32,VH*0.88,Hs*0.46,{});
         swapViz(k,{x:VW*0.62,y:VH*0.42,h:Hs*0.3,col:'#9cffd6',draw:(x,y)=>{ g.save(); g.translate(x,y); g.rotate(0.6); g.beginPath(); g.rect(-Hs*0.3,-Hs*0.35,Hs*0.6,Hs*0.2); g.clip(); monster(0,0,Hs*0.32,true,1,0,0,2); g.restore(); }},
-          {x:VW*0.88,y:VH*0.86,h:Hs*0.3,col:'#e8b24a',draw:(x,y)=>actor(k>0.55?IMG.dogeHit:IMG.dogeBuff,x,y,Hs*(k>0.55?0.34:0.3),{flip:k>0.55})}); return; }
+          {x:VW*0.88,y:VH*0.86,h:Hs*0.3,col:'#e8b24a',draw:(x,y)=>actor(k>0.55?IMG.dogeP[1]:IMG.dogeP[4],x,y,Hs*0.32,{rot:k>0.55?-0.4:0})}); return; }
       if(kind==='dive2'){ dogeVsLarry(t,k,'dive'); return; }   // Doge từ trên trời nện búa xuống đầu Larry
       if(kind==='leap2'){ fieldBG(t,{hy:0.78,pan:k*300}); speedLines(VW*0.85,VH*0.6,0.6,false);   // Doge + Clapping Cat bật nhảy đuổi theo Larry (Larry đứng phía xa)
         actor(IMG.larryMage,VW*0.86,VH*0.8,Hs*0.16,{}); actor(IMG.clap[0],lerp(VW*0.05,VW*0.45,k),lerp(VH*0.5,VH*0.3,k),Hs*0.2,{flip:true}); actor(IMG.dogeBuff,lerp(VW*0.18,VW*0.6,k),lerp(VH*0.98,VH*0.62,k),Hs*0.42,{flip:true}); return; }
