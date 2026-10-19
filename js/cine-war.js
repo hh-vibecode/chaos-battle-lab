@@ -172,11 +172,11 @@
   //          quỷ chìm xuống địa ngục · L Evil Gary bị xé làm đôi, Gary gốc văng ra, UIA lướt như Flash đón đi
   //          · M Stalin vung búa → bàn tay bóng tối hất văng, bóng tối + vô số bàn tay, 2 tay lôi 2 kẻ ác đi · N Doge đỡ Stalin, nắng
   //          · O THAT IS THE END OF THE LORE → (3s) BUT NOT MY… máu chảy + mắt và nụ cười đầy máu của Friend
-  const SC=[0,12.5,53.95,59.45,64.75,72.05,77.05,80.55,87.55,93.55,100.05,107.55,120.55,135.05,140.05,159.05,166.05,169.55,181.95];
+  const SC=[0,12.5,53,58.5,63.8,71.1,76.1,79.6,86.6,92.6,99.1,106.6,119.6,134.1,139.1,158.1,165.1,168.6,181];
   const SI={H:4,P:5,J1:7,K:12,L:13,Z:14,M:15,N:16,END:17};
   const DUR=SC[SC.length-1];
   // 🎞️ SLOW-MOTION kiểu anime ở các cú đánh: [bắt đầu, kết thúc (thời gian phim), tốc độ] — đoạn đó chạy chậm lại, phim dài ra tương ứng
-  const SLOW_RAW=[[24.7,25.05,0.4],[31.23,31.5,0.5],[52.55,52.85,0.45],[18.05,18.35,0.35],[19.3,19.6,0.3],[146.23,146.55,0.2],[146.83,147.35,0.4],[102.35,104.05,0.55],[55.2,55.7,0.35],[57.15,57.55,0.4],[5.2,5.6,0.3],[62.47,62.75,0.3],[68.53,68.85,0.3],[79.03,79.25,0.35],[82,82.5,0.5],[82.53,82.8,0.25],[85,85.38,0.45],[85.38,85.65,0.25],[92.95,93.15,0.4],[95.93,96.25,0.25],[96.45,97.15,0.6],[100.1,100.9,0.6],[102.05,102.55,0.5],[103.65,103.9,0.35],[111.03,111.17,0.35],[114.55,114.95,0.22],[125.33,125.55,0.3],[137.73,137.95,0.3],[161.43,161.65,0.3]];
+  const SLOW_RAW=[[24.7,25.05,0.4],[51.6,51.9,0.45],[18.05,18.35,0.35],[19.3,19.6,0.3],[145.28,145.6,0.2],[145.88,146.4,0.4],[101.4,103.1,0.55],[54.25,54.75,0.35],[56.2,56.6,0.4],[5.2,5.6,0.3],[61.52,61.8,0.3],[67.58,67.9,0.3],[78.08,78.3,0.35],[81.05,81.55,0.5],[81.58,81.85,0.25],[84.05,84.43,0.45],[84.43,84.7,0.25],[92,92.2,0.4],[94.98,95.3,0.25],[95.5,96.2,0.6],[99.15,99.95,0.6],[101.1,101.6,0.5],[102.7,102.95,0.35],[110.08,110.22,0.35],[113.6,114,0.22],[124.38,124.6,0.3],[136.78,137,0.3],[160.48,160.7,0.3]];
   // 🛠️ chuẩn hoá: c2r/r2c cần các đoạn slow-mo SẮP XẾP tăng dần và KHÔNG chồng nhau (trước đây lẫn thứ tự → bộ đếm thời gian nhảy lùi, phát lặp lại cảnh)
   const SLOW=(()=>{ const L=SLOW_RAW.map(x=>x.slice()).sort((x,y)=>x[0]-y[0]), out=[]; for(const s of L){ const p=out[out.length-1]; if(p&&s[0]<p[1]){ if(s[1]<=p[1]) continue; s[0]=p[1]; } if(s[1]-s[0]>0.01) out.push(s); } return out; })();
   const c2r=c=>{ let r=c; for(const [a,b,f] of SLOW){ if(c<=a) break; r+=(Math.min(c,b)-a)*(1/f-1); } return r; };   // thời gian phim → thời gian thật
@@ -535,8 +535,7 @@
   //    → chuỗi đấm cận cực gần → mặt kẻ địch trên nền đỏ đen. Các cảnh cũ (fieldShotOld) dùng lại bằng cách co giãn thời gian vào đúng ô.
   // 🎬 chuỗi cảnh trận Larry (~20s, không vội): [thời lượng, cảnh mới | khoảng giờ của cảnh cũ, nhãn âm thanh]
   const FSEQ0=[[1.2,[7.4,8.05],'wide'],[0.7,[8.05,8.55],'leap1'],[3.4,'cduel','cduel'],[0.7,[9.25,9.6],'spin'],[1.1,[9.6,10.1],'charge'],[0.35,'eye'],[0.35,'hands','clap'],[0.8,'swapA'],[1.0,[10.28,10.7],'ghosthit'],
-    [0.3,'hands','clap'],[0.8,'swapB'],[0.9,'dive2','dive'],[0.15,'ink'],[1.0,'barrage','barrage'],[0.6,'redface'],[0.8,[11.62,12.2],'flung'],
-    [2.3,'high','high'],[0.5,[12.7,13.0],'fire'],[0.18,'hands','clap'],[0.17,'ink'],[0.6,[13.18,13.5]],[0.18,'hands','clap'],[0.17,'ink'],[0.6,[13.68,13.98],'pblast'],
+    [0.3,'hands','clap'],[3.6,'pincer','pincer'],[0.6,'redface'],[1.5,'rage','rage'],[2.3,'high','high'],
     [1.4,'cjump','cjump'],[1.2,'cgrab','cgrab'],[2.2,'cref','cref'],[1.3,'dogeup','dogeup'],[0.3,'hands','clap'],[1.0,'cclose','cclose'],[1.8,'mega','mega']];
   const FSEQ=(()=>{ let t0=7.4; return FSEQ0.map(([d,w,lab])=>{ const r=typeof w==='string'?[t0,t0+d,w]:[t0,t0+d,w[0],w[1]]; r.lab=lab; t0+=d; return r; }); })(), FEND=FSEQ[FSEQ.length-1][1];
   // ✨ HOÁN ĐỔI — đúng hiệu ứng GỐC của Clapping Cat trong game (_clpTpTick + clapFx 'smear'/'slines' + loé _tpGlowA):
@@ -670,14 +669,14 @@
     const L=VH*1.15, a0=0.12, aT=Math.asin(Math.min(0.99,(DG.x-BX)/L)), ang=lerp(a0,aT,ein(Math.min(1,k/0.9)));   // chày dài từ dưới chân trời vươn tới đỉnh khung, bổ đổ sang phải tới ngay trên đầu Doge   // chày đổ từ gần thẳng đứng sang phải, đầu chày lao về phía Doge
     malletAura(BX,BY,L,ang,t,1); bigMallet(BX,BY,L,ang,2.2); malletAura(BX,BY,L,ang,t,0.4); g.save(); g.globalCompositeOperation='lighter'; glow(BX,HZ,VH*0.3,0.8,'255,230,190'); g.restore(); refFore();
     const hx=BX+Math.sin(ang)*L, hy=BY-Math.cos(ang)*L; g.save(); g.globalCompositeOperation='lighter'; g.strokeStyle='rgba(255,230,200,0.5)'; g.lineCap='round'; for(let i=0;i<5;i++){ g.lineWidth=4; g.beginPath(); g.arc(BX,BY,L*(0.75+i*0.06),-Math.PI/2+ang-0.5-i*0.05,-Math.PI/2+ang-0.05); g.stroke(); } g.restore();   // vệt quét theo hướng bổ (như mũi tên)
-    actor(IMG.dogeP[0],DG.x,DG.y,HD,{flip:true}); if(k>0.7) sfxText('!?',DG.x-VW*0.02,DG.y-HD*1.6,40,seg(k,0.7,1),'#fff'); }
+    actor(IMG.doge,DG.x,DG.y,HD*0.8,{}); if(k>0.7) sfxText('???',DG.x-VW*0.02,DG.y-HD*1.4,40,seg(k,0.7,1),'#fff'); }
   function refClose(t,k){   // 🔎 cảnh lớn: đầu chày khổng lồ ập tới sát đầu Doge → VỖ TAY: Doge đổi chỗ với Evil Larry
     const sk=g.createLinearGradient(0,0,0,VH); sk.addColorStop(0,'#ffd0a0'); sk.addColorStop(1,'#a2381c'); g.fillStyle=sk; g.fillRect(0,0,VW,VH);
     g.fillStyle='#3a1a12'; g.fillRect(0,VH*0.8,VW,VH*0.2); g.fillStyle='#5a2c1c'; g.fillRect(0,VH*0.8,VW,VH*0.015);
     const DG={x:VW*0.62,y:VH*0.82}, HD=VH*0.32, ang=1.25, L=VH*2.4, near=lerp(VH*0.4,VH*0.12,ein(Math.min(1,k*1.3)));
     const hx=DG.x-VW*0.05, hy=DG.y-HD-near, px=hx-Math.sin(ang)*L, py=hy+Math.cos(ang)*L; malletAura(px,py,L,ang,t,1); bigMallet(px,py,L,ang,2.4);
     speedLines(hx,hy,0.7,false);
-    swapViz(k,{x:DG.x,y:DG.y,h:HD,col:'#e8b24a',draw:(x,y)=>actor(IMG.dogeP[0],x,y,HD,{flip:true})},{x:-VW*0.3,y:DG.y,h:HD*1.1,col:'#b070ff',draw:(x,y)=>actor(IMG.larryMage,x,y,HD*1.1,{})}); }
+    swapViz(k,{x:DG.x,y:DG.y,h:HD*0.8,col:'#e8b24a',draw:(x,y)=>actor(IMG.doge,x,y+Math.sin(t*70)*2,HD*0.8,{})},{x:-VW*0.3,y:DG.y,h:HD*1.1,col:'#b070ff',draw:(x,y)=>actor(IMG.larryMage,x,y,HD*1.1,{})}); }
   function finShot(kind,t,k){ const HS=VH*0.22;
     if(kind==='cref'){ refShot(t,k); return; }
     if(kind==='cclose'){ refClose(t,k); return; }
@@ -692,8 +691,11 @@
       g.strokeStyle='rgba(120,70,30,0.45)'; for(let r=1;r<7;r++){ g.lineWidth=2+R*0.006; g.beginPath(); g.ellipse(cx+R*0.03*r,cy+R*0.02*r,R*r/7.2,R*r/7.6,0.2,0,Math.PI*2); g.stroke(); }
       g.save(); g.globalCompositeOperation='lighter'; g.strokeStyle='rgba(255,240,210,0.8)'; g.lineWidth=4; g.beginPath(); g.arc(cx,cy,R*1.02,0,Math.PI*2); g.stroke(); for(let i=0;i<5;i++){ const an=Math.random()*Math.PI*2; bolt(cx+Math.cos(an)*R,cy+Math.sin(an)*R,cx+Math.cos(an)*R*1.35,cy+Math.sin(an)*R*1.35,2,0.9,'255,170,60','255,240,200'); } g.restore();
       speedLines(cx,cy,0.5+0.4*k,false);
-      actor(IMG.dogeP[4],VW*0.78,VH*1.18,VH*0.85,{filter:`brightness(${0.55+0.35*k})`,rot:-0.06}); g.save(); g.globalCompositeOperation='lighter'; glow(VW*0.72,VH*0.5,VH*0.3,0.25*k,'255,200,140'); g.restore();
-      if(k>0.8) sfxText('!!',VW*0.9,VH*0.28,80,seg(k,0.8,1),'#fff'); return; }
+      { const fx=VW*0.7, fy=VH*1.9, sh=Math.sin(t*70)*VH*0.006*(0.4+k);   // 😨 CẬN MẶT DOGE THƯỜNG: ngước lên, run lẩy bẩy, mồ hôi, vạch u ám kiểu manga — không hiểu sao mình bị đánh
+        actor(IMG.doge,fx+sh,fy,VH*lerp(1.9,2.15,k),{rot:-0.1+Math.sin(t*40)*0.01});   // zoom SÁT mặt
+        g.save(); g.beginPath(); g.rect(fx-VH*0.5,0,VH*1.0,VH*0.4); g.clip(); g.strokeStyle='rgba(40,40,100,0.6)'; g.lineWidth=5; for(let i=0;i<22;i++){ const x=fx-VH*0.48+i*VH*0.045; g.beginPath(); g.moveTo(x,0); g.lineTo(x,VH*(0.18+0.18*hash(i+7100))); g.stroke(); } g.restore();   // vạch u ám trên trán
+        for(let i=0;i<4;i++){ const f=((t*1.4+i/4)%1), x=fx+VH*(i%2?0.42:-0.4)+VH*0.03*i, y=VH*(0.3+0.45*f); g.fillStyle=`rgba(170,220,255,${0.9*(1-f)})`; g.beginPath(); g.moveTo(x,y-VH*0.05); g.quadraticCurveTo(x+VH*0.03,y,x,y+VH*0.02); g.quadraticCurveTo(x-VH*0.03,y,x,y-VH*0.05); g.fill(); }   // giọt mồ hôi
+        sfxText('???',fx+VH*0.38,VH*0.14,80,seg(k,0.15,0.6)*(k<0.95?1:0.99),'#fff'); if(k>0.6) sfxText('!!',fx-VH*0.6,VH*0.16,90,seg(k,0.6,1),'#ff5050'); } return; }
     if(kind==='mega'){ horizonBlast(k,t,{x:0.58,sky0:'#1a0408',sky1:'#7a2410'});   // 🌋 toàn cảnh SIÊU RỘNG: vụ nổ khổng lồ ngay chỗ chày nện xuống
       const f=seg(k,0.3,1); if(f>0&&f<1){ const x=lerp(VW*0.58,-VW*0.08,eout(f)), y=lerp(VH*0.6,VH*0.05,eout(f))-Math.sin(Math.PI*f)*VH*0.1, sz=VH*lerp(0.05,0.16,f);   // 💨 Evil Larry bị thổi văng ra khỏi vụ nổ, vụt qua khung về phía xa
         for(let j=1;j<10;j++){ const ff=Math.max(0,f-j*0.025); puff(lerp(VW*0.58,-VW*0.08,eout(ff)),lerp(VH*0.6,VH*0.05,eout(ff))-Math.sin(Math.PI*ff)*VH*0.1,sz*(0.3+j*0.06),0.5*(1-f),'60,20,70'); }
@@ -724,6 +726,46 @@
       else { actor(IMG.larryMage,D.x,D.y,HG*1.15,{sy:0.55,sx:1.25});
         const g1=seg(k,hit,hit+0.3); if(g1<1){ g.save(); g.globalCompositeOperation='lighter'; glow(D.x,D.y-HG*0.5,HG*lerp(1,5,g1),1-g1,'255,240,215'); g.restore(); impact(D.x,D.y-HG*0.5,g1,HG*5); ring(D.x,D.y,VW*lerp(0.05,0.5,eout(g1)),1-g1,'255,220,180',6,0.15); dustWall(D.x,D.y,VW*lerp(0.04,0.35,eout(g1)),0.6*(1-g1)); if(g1<0.1) shake=Math.max(shake,36); }
         text('BONK!',VW*0.72,VH*0.42,120,'#ffe066','#000',undefined,seg(k,hit,hit+0.05)*(1-seg(k,0.85,1))); } return; } }
+  // 🥊👏 COMBO KẸP TRƯỚC–SAU (quay ngang, Larry ở giữa, 2 bên cùng cỡ): nửa con ma lơ lửng sau lưng Larry —
+  //    vỗ tay: nửa con ma ↔ Buff Doge (đang đứng xa) → Doge đấm từ SAU · Clapping Cat nhảy ra đá từ TRƯỚC · rồi vỗ tay liên tục: 2 con đổi chỗ trước↔sau, mỗi lần đổi là 1 đòn
+  function pincer(t,k){ const H=VH*0.5, gy=VH*0.9, FR=VW*0.27, BK=VW*0.73; fieldBG(t,{hy:0.5,z:0.95,cx:280});
+    const SW=[0.5,0.62,0.74,0.86], HIT=[0.24,0.4,0.55,0.67,0.79,0.93];   // các lần đổi chỗ · các đòn trúng
+    let n=SW.filter(c=>k>=c+0.02).length, dAtBack=n%2===0;   // Doge ở sau lưng khi số lần đổi chẵn
+    const recoil=HIT.reduce((a,c,i)=>a+Math.sin(Math.PI*seg(k,c,c+0.08))*(i%2?1:-1)*(([0.24,0.55,0.79].includes(c)?(dAtBack?-1:1):0)||((i%2)?1:-1)),0);
+    let lx=VW*0.5+VW*0.025*recoil, lrot=0.08*recoil;
+    // nền tối dần + vạch tập trung khi combo dồn dập
+    if(k>0.45){ g.save(); g.fillStyle=`rgba(0,0,0,${0.25*seg(k,0.45,0.55)})`; g.fillRect(0,0,VW,VH); g.restore(); speedLines(VW*0.5,VH*0.55,0.35*seg(k,0.45,0.55),false); }
+    shadow(lx,gy,H*0.3,0.5); cursedAura(lx,gy,H*0.9,'170,60,255',true,t,1); actor(IMG.larryMage,lx,gy,H,{rot:lrot});
+    // nhịp 0: nửa con ma sau lưng ↔ Doge (đứng xa bên phải)
+    if(k<0.2){ const half=(x,y)=>{ g.save(); g.translate(x,y); g.rotate(0.5); g.beginPath(); g.rect(-H*0.6,-H*0.62,H*1.2,H*0.32); g.clip(); monster(0,0,H*0.6,false,1,0,0,2); g.restore(); };
+      swapViz(seg(k,0,0.16),{x:BK,y:gy-H*0.35,h:H*0.4,col:'#9cffd6',draw:(x,y)=>half(x,y)},{x:VW*0.95,y:gy,h:H*0.95,col:'#e8b24a',draw:(x,y)=>actor(IMG.dogeP[4],x,y,H*0.95,{})});
+      actor(IMG.clap[0],FR,gy,H*0.55,{flip:true,glow:'rgba(255,225,170,0.8)',gb:14}); return; }
+    // vị trí 2 con (ai ở trước / sau)
+    const pose=(who,atFront,c)=>{ const att=HIT.find(h=>k>=h-0.06&&k<h+0.06), hitting=att!=null;
+      if(who==='d'){ const hi=HIT.indexOf(att); return hitting?IMG.dogeP[[1,3,2,1,3,2][Math.max(0,hi)]]:IMG.dogeP[[0,4,0,4][SW.filter(c=>k>=c).length%4]]; }
+      return hitting?IMG.clapUp:clapPose(k*3.6,SW.map(v=>v*3.6)); };
+    const dFront=!dAtBack, dx=(dFront?FR:BK)+(dFront?1:-1)*VW*0.05*Math.sin(Math.PI*seg(k,0.18,0.3)), cx=(dFront?BK:FR);
+    let cy=gy, crot=0, cxx=cx; if(k>=0.3&&k<0.46){ const f=seg(k,0.3,0.46); cxx=lerp(FR,FR+VW*0.1,Math.sin(Math.PI*f)); cy=gy-Math.sin(Math.PI*f)*VH*0.22; crot=lerp(0,-0.9,Math.sin(Math.PI*f)); }   // Clapping Cat nhảy ra đá từ trước
+    const sw=SW.find(c=>k>=c-0.04&&k<c+0.06);
+    if(sw!=null){ const q=seg(k,sw-0.04,sw+0.06); const nb=SW.indexOf(sw), dBackBefore=nb%2===0;
+      swapViz(q,{x:dBackBefore?BK:FR,y:gy,h:H*0.95,col:'#e8b24a',draw:(x,y)=>actor(IMG.dogeP[0],x,y,H*0.95,{flip:x<VW*0.5})},{x:dBackBefore?FR:BK,y:gy,h:H*0.55,col:'#ffb74d',draw:(x,y)=>actor(IMG.clapUp,x,y,H*0.55,{flip:x<VW*0.5,glow:'rgba(255,225,170,0.8)',gb:14})}); }
+    else { actor(pose('d',dFront),dx,gy,H*0.95,{flip:dFront}); actor(pose('c',!dFront),cxx,cy,H*0.55,{flip:cxx<VW*0.5,rot:crot,glow:'rgba(255,225,170,0.8)',gb:14}); }
+    // 💥 hiệu ứng đòn đánh kiểu anime: loé trắng 2 khung, vòng xung kích, tia lửa, khung mực ở đòn cuối
+    for(const [i,c] of HIT.entries()){ const f=seg(k,c,c+0.1); if(f<=0||f>=1) continue; const fromBack=(i===0)||(i>1&&((SW.filter(s2=>c>=s2+0.02).length%2===0)===(i%2===0))), hx=lx+(fromBack?1:-1)*H*0.18, hy=gy-H*(0.45+0.1*(i%2));
+      if(f<0.2){ g.fillStyle=`rgba(255,250,240,${0.55*(1-f/0.2)})`; g.fillRect(0,0,VW,VH); shake=Math.max(shake,24); }
+      g.save(); g.globalCompositeOperation='lighter'; glow(hx,hy,H*lerp(0.15,0.6,eout(f)),1-f,'255,240,215'); g.restore(); ring(hx,hy,H*lerp(0.05,0.7,eout(f)),1-f,'255,230,200',5,0.6); impact(hx,hy,f,H*0.7);
+      for(let j=0;j<10;j++){ const an=hash(j+i*30+6900)*Math.PI*2, r=H*0.5*eout(f)*hash(j+6901); g.fillStyle=`rgba(255,${200+40*hash(j)|0},150,${1-f})`; g.fillRect(hx+Math.cos(an)*r,hy+Math.sin(an)*r,5,5); } }
+    if(k>=0.93&&k<0.97) inkFlash(seg(k,0.93,0.97)*0.6); }
+  // 😡 Larry NỔI GIẬN: chú lực tím bùng lên, giơ trượng NỆN xuống đất → sóng chấn động thổi bay Doge (sau) + Clapping Cat (trước) văng 2 bên khỏi khung
+  function rageSlam(t,k){ const H=VH*0.5, gy=VH*0.9, lx=VW*0.5, up=eout(seg(k,0,0.35)), slam=seg(k,0.35,0.45), wave=seg(k,0.42,1); fieldBG(t,{hy:0.5,z:0.95,cx:280});
+    if(k<0.42){ g.save(); g.fillStyle=`rgba(40,0,60,${0.35*up})`; g.fillRect(0,0,VW,VH); g.restore(); }
+    cursedAura(lx,gy,H*(1+1.2*up),'170,60,255',true,t,1); for(let i=0;i<4;i++) if(Math.random()<0.5*up) bolt(lx+(Math.random()-0.5)*H,gy-H*(0.3+Math.random()*0.8),lx+(Math.random()-0.5)*H*2,gy-H*(0.8+Math.random()),2,0.9,'200,120,255','255,230,255');
+    actor(IMG.larryMage,lx+(k<0.35?Math.sin(t*50)*3*up:0),gy-(k<0.35?up*H*0.06:0)+(slam>0?H*0.03*Math.sin(Math.PI*slam):0),H,{sy:1+0.04*up-0.08*Math.sin(Math.PI*slam),rot:k<0.35?-0.1*up:0.06*slam});
+    if(k<0.42) sfxText('😡',lx-H*0.15,gy-H*1.15,60,seg(k,0.05,0.42),'#ff4040');
+    if(wave>0){ if(wave<0.08) shake=Math.max(shake,40); for(let r=0;r<3;r++){ const f=seg(wave,r*0.12,0.7+r*0.12); if(f>0&&f<1){ ring(lx,gy,VW*lerp(0.05,0.7,eout(f)),1-f,'210,140,255',8,0.22); softShock(lx,gy-H*0.4,VW*lerp(0.05,0.8,eout(f)),0.6*(1-f),'190,90,255',0.6); } }
+      g.save(); g.globalCompositeOperation='lighter'; glow(lx,gy,VW*0.4*(1-wave)+20,0.8*(1-wave),'200,120,255'); g.restore(); dustWall(lx,gy,VW*lerp(0.05,0.5,eout(wave)),0.6*(1-wave)); if(wave<0.12){ g.fillStyle=`rgba(230,200,255,${0.6*(1-wave/0.12)})`; g.fillRect(0,0,VW,VH); } }
+    const fl=eout(wave), DX=lerp(VW*0.73,VW*1.25,fl), CX=lerp(VW*0.27,-VW*0.25,fl), fy=Math.sin(Math.PI*Math.min(1,wave*1.2))*VH*0.3;
+    actor(wave>0?IMG.dogeP[4]:IMG.dogeP[0],DX,gy-fy,H*0.95,{rot:wave*3,center:wave>0}); actor(wave>0?IMG.clap[2]:IMG.clapIdle,CX,gy-fy*1.2,H*0.42,{flip:true,rot:-wave*4,center:wave>0}); }
   function inkFlash(k){ g.fillStyle='#f6f3ec'; g.fillRect(0,0,VW,VH); if(k>0.75) return; const sp=0.7+0.5*k;   // ⚪ trắng xoá + MỰC ĐEN văng toả ra
     g.fillStyle='#0b0b0b'; for(let i=0;i<34;i++){ const an=hash(i+5200)*Math.PI*2, d=VH*(0.1+0.55*hash(i+5201))*sp, x=VW/2+Math.cos(an)*d*1.5, y=VH/2+Math.sin(an)*d, L=VH*(0.03+0.09*hash(i+5202)), w=VH*(0.008+0.02*hash(i+5203));
       g.save(); g.translate(x,y); g.rotate(an); g.beginPath(); g.moveTo(-L*0.6,0); g.quadraticCurveTo(0,-w,L,0); g.quadraticCurveTo(0,w*1.4,-L*0.6,0); g.fill(); g.beginPath(); g.arc(L*1.25,0,w*0.7,0,Math.PI*2); g.fill(); g.restore(); }
@@ -742,6 +784,8 @@
       if(kind==='hands'){ bgFocus(t,'#e2cf9e','#5a4620',false,VW*0.5,VH*0.42); actor(k<0.5?IMG.clap[0]:IMG.clapUp,VW*0.5,VH*1.18,Hs*1.25,{glow:'rgba(255,235,190,0.9)',gb:22}); if(k>=0.5){ g.save(); g.globalCompositeOperation='lighter'; glow(VW*0.5,VH*0.45,Hs*0.25,0.9,'255,250,230'); g.restore(); ring(VW*0.5,VH*0.45,Hs*lerp(0.05,0.4,(k-0.5)*2),1-(k-0.5)*2,'255,250,235',6,0.9); } return; }   // cận 2 BÀN TAY vỗ
       if(kind==='cref'||kind==='cclose'||kind==='csky'||kind==='dogeup'||kind==='mega'||kind==='cjump'||kind==='cgrab'||kind==='csplit'||kind==='cswap'||kind==='cslam'){ finShot(kind,t,k); return; }
       if(kind==='smash'){ cheemsSmash(t,k); return; }
+      if(kind==='pincer'){ pincer(t,k); return; }
+      if(kind==='rage'){ rageSlam(t,k); return; }
       if(kind==='cduel'){ cheemsDuel(t,k); return; }
       if(kind==='barrage'){ dogeVsLarry(t,k,'combo'); return; }   // Doge nện liên tiếp 3 cú vào thân Larry (cùng khung, cùng cỡ)
       if(kind==='high'){   // 🦅 góc cao nhìn xuống: Larry trút LÀN ĐẠN tím dày đặc — Doge + Clapping Cat vừa tiến lên vừa VỖ TAY ĐỔI CHỖ trái↔phải liên tục, đạn chỉ trúng TÀN ẢNH để lại
@@ -2133,34 +2177,34 @@
   const SCN=[[scA,camA],[scC,camC],[scD,camD],[scG,camG],[scH,camH],[scP,camP],[scQ,camQ],[scJ1,camJ1],[scJ2,camJ2],[scJ3,camJ3],[scJ4,camJ4],[scJ5,camJ5],[scK,camK],[scL,camL],[scZ,camZ],[scM,camM],[scN,camN]];
   function keys(u,K){ for(let i=0;i<K.length-1;i++){ const a=K[i], b=K[i+1]; if(u>=a[0] && u<b[0]){ const k=(b[0]-a[0]<0.05)?1:eio((u-a[0])/(b[0]-a[0])); return [lerp(a[1],b[1],k),lerp(a[2],b[2],k),lerp(a[3],b[3],k),lerp(a[4]||0,b[4]||0,k)]; } } const L=K[K.length-1]; return [L[1],L[2],L[3],L[4]||0]; }   // [t, x, y, zoom, nghiêng]
   // 🔊 tiếng (thời điểm tuyệt đối)
-  const SFX=[[20,'wg_axe_whoosh',0.4],[21.15,'wg_axe_whoosh',0.6],[22.21,'bonk',0.8],[23.06,'hit_mid',0.9],[23.91,'hit_heavy',0.8],[24.76,'bonk',1],[25.2,'larry_horn',0.6,1.5],[25.9,'ultimate_charge_2',0.6],[27.525,'clap_cat',1],[27.956,'clap_tele',1],[28.74,'death_break',0.9],[29.65,'clap_cat',1],[30.016,'clap_tele',1],[31.23,'cine_impact',1],[31.9,'hit_heavy',0.8],[32.2,'hit_heavy',0.8],[32.5,'hit_heavy',0.9],[33.25,'wg_axe_whoosh',0.7],[34.07,'larry_hit',0.6],[34.28,'clap_cat',0.8],[34.521,'clap_tele',0.8],[34.763,'clap_cat',0.8],[35.005,'clap_tele',0.8],[35.246,'clap_cat',0.8],[35.488,'clap_tele',0.8],[35.729,'clap_cat',0.8],[35.97,'clap_tele',0.8],[36.8,'larry_hit',0.7],[36.94,'clap_cat',1],[37.03,'clap_tele',1],[37.89,'clap_cat',1],[37.98,'clap_tele',1],[38.45,'punch2',1],[38.8,'wg_axe_whoosh',0.7],[39.25,'lightsaber_whoosh_01',0.6],[40.5,'cdg_grow',0.8],[41.4,'wg_axe_whoosh',1],[43.6,'wg_axe_whoosh',0.9],[45,'clap_cat',1],[45.7,'clap_tele',1],[46.37,'creeper_explosion',1],[150.95,'larry_hit',0.6],[151.65,'wg_axe_whoosh',0.6],[48.15,'wg_axe_whoosh',0.6],[49.15,'gp_souls',0.7,1.5],[49.25,'eg_necro',0.8],[50.45,'stalin_hammer_hit',0.9],[50.95,'punch2',1],[51.45,'bonk',0.9],[52.05,'clap_cat',1],[52.55,'cine_impact',1],[12.6,'sc_terror',0.4,2],[14.1,'wg_axe_whoosh',0.6],[15.1,'wg_axe_whoosh',0.7],[15.9,'gp_souls',0.7,1.5],[16.3,'burn_loop',0.6,1],[17.1,'hit_heavy',0.9],[17.6,'hit_mid',1],[18.1,'stalin_hammer_hit',1],[18.5,'burn_loop',0.5,0.8],[19.3,'cine_impact',1],[100.2,'bibilabu_sound',0.8],[140.05,'wg_axe_whoosh',0.6],[141.8,'ultimate_charge_2',0.9],[141.8,'hl_choir',0.6,3],[143.43,'ultimate_charge_2',0.7],[145.55,'wg_axe_whoosh',0.7],[146.05,'wg_axe_whoosh',0.8],[146.3,'chillguy_kick',1.0],[146.55,'larry_horn',0.6,2],[146.85,'cine_impact',1.0],[147.25,'creeper_explosion',1.0],[147.65,'thunder_big',0.5,3],[149.65,'creeper_explosion',1.0],[114.95,'cine_drop',1.7],[116.25,'cine_drop',1.8],[103.35,'cine_impact_jr1',0.8],[161.43,'cine_impact',0.9],[5.2,'cine_impact',0.8],[62.5,'cine_impact_jr1',1.0],[81,'cine_impact',0.9],[82.55,'cine_impact',0.9],[85.4,'cine_impact',0.9],[95.95,'cine_impact_jr1',1.0],[103.8,'cine_impact',1.0],[114.55,'cine_impact',1.0],[116.65,'cine_impact_jr1',1.0],[129.45,'cine_impact_jr1',1.0],
-    [54.35,'uia_tele_dbz',0.9],[54.5,'uiacat_spin',0.6],[54.85,'spidercat_hit',0.6],[55.2,'ninja_slash',0.7],[55.55,'spidercat_hit',0.6],[55.95,'ninja_slash',0.6],[56.55,'uia_tele_dbz',0.6],[57.15,'death_break',1.0],[57.35,'death_break',0.7],[59.55,'cdg_grow',0.6],[64.85,'lightsaber_on',0.5],[65.15,'lightsaber_on',0.45],[0.2,'demon_roar1',0.85,3.5],[1,'thunder_big',0.35,3],[2.5,'wg_axe_whoosh',0.6],[2.8,'wg_axe_whoosh',0.6],[3.1,'wg_axe_whoosh',0.6],[3.4,'fd_roar',0.6,2],[3.5,'gigachad_roar',0.5,1.5],[6.26,'infdoge_bonk',1.0],[7.06,'bonk',1.0],[7.86,'sm_slash',0.9],[8.3,'uiacat_spin',0.7,0.8],[8.66,'hit_mid',0.8],[9.1,'guitar_s1',0.6,0.8],[9.46,'hit_heavy',0.8],[10.5,'hit_mid',0.5],[11.2,'hit_heavy',0.5],
+  const SFX=[[20,'wg_axe_whoosh',0.4],[21.15,'wg_axe_whoosh',0.6],[22.21,'bonk',0.8],[23.06,'hit_mid',0.9],[23.91,'hit_heavy',0.8],[24.76,'bonk',1],[25.2,'larry_horn',0.6,1.5],[25.9,'ultimate_charge_2',0.6],[27.525,'clap_cat',1],[27.956,'clap_tele',1],[28.74,'death_break',0.9],[29.65,'clap_cat',1],[30.088,'clap_tele',1],[30.66,'hit_heavy',0.9],[31.24,'punch2',1],[31.6,'clap_tele',0.9],[31.78,'hit_heavy',0.9],[32.03,'clap_tele',0.9],[32.21,'punch2',1],[32.46,'clap_tele',0.9],[32.64,'hit_heavy',0.9],[32.9,'clap_tele',0.9],[33.15,'cine_impact',1],[34.05,'eg_necro',0.8],[34.6,'cine_impact',1],[35.52,'larry_hit',0.6],[35.73,'clap_cat',0.8],[35.971,'clap_tele',0.8],[36.213,'clap_cat',0.8],[36.455,'clap_tele',0.8],[36.696,'clap_cat',0.8],[36.938,'clap_tele',0.8],[37.179,'clap_cat',0.8],[37.42,'clap_tele',0.8],[37.85,'wg_axe_whoosh',0.7],[38.3,'lightsaber_whoosh_01',0.6],[39.55,'cdg_grow',0.8],[40.45,'wg_axe_whoosh',1],[42.65,'wg_axe_whoosh',0.9],[44.05,'clap_cat',1],[44.75,'clap_tele',1],[45.42,'creeper_explosion',1],[150,'larry_hit',0.6],[150.7,'wg_axe_whoosh',0.6],[47.2,'wg_axe_whoosh',0.6],[48.2,'gp_souls',0.7,1.5],[48.3,'eg_necro',0.8],[49.5,'stalin_hammer_hit',0.9],[50,'punch2',1],[50.5,'bonk',0.9],[51.1,'clap_cat',1],[51.6,'cine_impact',1],[12.6,'sc_terror',0.4,2],[14.1,'wg_axe_whoosh',0.6],[15.1,'wg_axe_whoosh',0.7],[15.9,'gp_souls',0.7,1.5],[16.3,'burn_loop',0.6,1],[17.1,'hit_heavy',0.9],[17.6,'hit_mid',1],[18.1,'stalin_hammer_hit',1],[18.5,'burn_loop',0.5,0.8],[19.3,'cine_impact',1],[99.25,'bibilabu_sound',0.8],[139.1,'wg_axe_whoosh',0.6],[140.85,'ultimate_charge_2',0.9],[140.85,'hl_choir',0.6,3],[142.48,'ultimate_charge_2',0.7],[144.6,'wg_axe_whoosh',0.7],[145.1,'wg_axe_whoosh',0.8],[145.35,'chillguy_kick',1.0],[145.6,'larry_horn',0.6,2],[145.9,'cine_impact',1.0],[146.3,'creeper_explosion',1.0],[146.7,'thunder_big',0.5,3],[148.7,'creeper_explosion',1.0],[114,'cine_drop',1.7],[115.3,'cine_drop',1.8],[102.4,'cine_impact_jr1',0.8],[160.48,'cine_impact',0.9],[5.2,'cine_impact',0.8],[61.55,'cine_impact_jr1',1.0],[80.05,'cine_impact',0.9],[81.6,'cine_impact',0.9],[84.45,'cine_impact',0.9],[95,'cine_impact_jr1',1.0],[102.85,'cine_impact',1.0],[113.6,'cine_impact',1.0],[115.7,'cine_impact_jr1',1.0],[128.5,'cine_impact_jr1',1.0],
+    [53.4,'uia_tele_dbz',0.9],[53.55,'uiacat_spin',0.6],[53.9,'spidercat_hit',0.6],[54.25,'ninja_slash',0.7],[54.6,'spidercat_hit',0.6],[55,'ninja_slash',0.6],[55.6,'uia_tele_dbz',0.6],[56.2,'death_break',1.0],[56.4,'death_break',0.7],[58.6,'cdg_grow',0.6],[63.9,'lightsaber_on',0.5],[64.2,'lightsaber_on',0.45],[0.2,'demon_roar1',0.85,3.5],[1,'thunder_big',0.35,3],[2.5,'wg_axe_whoosh',0.6],[2.8,'wg_axe_whoosh',0.6],[3.1,'wg_axe_whoosh',0.6],[3.4,'fd_roar',0.6,2],[3.5,'gigachad_roar',0.5,1.5],[6.26,'infdoge_bonk',1.0],[7.06,'bonk',1.0],[7.86,'sm_slash',0.9],[8.3,'uiacat_spin',0.7,0.8],[8.66,'hit_mid',0.8],[9.1,'guitar_s1',0.6,0.8],[9.46,'hit_heavy',0.8],[10.5,'hit_mid',0.5],[11.2,'hit_heavy',0.5],
     
     
     
-    [60.45,'cdg_grow',0.9],[62.75,'wg_dragon_impact',0.8],
-    [65.65,'lightsaber_on',0.45],[68.55,'sm_schwing',1.0],[69.45,'sm_fin',1.0],[69.65,'death_break',0.8],
-    [72.15,'demon_roar2',0.85,3.5],[72.85,'larry_horn',0.6,2],[73.05,'gp_souls',0.7,3],[74.15,'punch1',0.5],[74.75,'fd_roar',0.5,2],[75.35,'punch1',0.5],[76.15,'hit_mid',0.5],
-    [77.55,'vine_boom',0.7],[79.05,'ultimate_charge_2',0.9],[79.45,'gigachad_roar',1.0,2],[79.5,'hit_heavy',1.0],
-    [80.55,'wg_axe_whoosh',0.6],[82,'demon_roar3',0.85,3.5],[82.27,'gigachad_roar',0.8,1.5],[83.75,'wg_axe_whoosh',0.8],[84,'hit_heavy',1.0],[85.95,'demon_roar1',0.85,3.5],
-    [87.65,'sc_wing',0.9],[88.15,'sc_wing',0.9],[88.55,'demon_roar2',0.85,3.5],[88.75,'sc_wing',0.7],[90.15,'gp_souls',0.7,3],[90.55,'ultimate_charge_2',0.9],[92.15,'holy_thunder',0.4],[92.55,'vine_boom',0.8],[92.95,'br_boom',0.9],[93,'demon_roar3',0.85,3.5],
-    [93.65,'thunder_big',0.5,4],[95.15,'gigachad_roar',1.0,2],[97.35,'demon_roar1',0.85,3.5],
-    [100.65,'lightsaber_on',0.45],[100.95,'wg_axe_whoosh',0.8],[101.55,'ultimate_charge_2',0.6],[102.05,'zoro_blade',1.0],
-    [107.85,'ultimate_charge_2',0.6],[109.15,'uia_tele_dbz',1.0],[110.35,'cdg_grow',0.6],[109.97,'clap_cat',1.0],[111.05,'clap_tele',1.0],[111.45,'burn_loop',0.7,2.4],[113.65,'cdg_grow',0.9],
-    [115.05,'demon_roar2',0.85,3.5],[115.6,'wg_axe_whoosh',0.7],[117.15,'mewing_statue_break',0.8],
-    [120.65,'demon_roar3',0.85,3.5],[121.55,'wg_dragon_impact',0.7],[121.75,'hl_choir',0.5,3],[122.35,'piano_giorno',0.6,1.6],[123.05,'guitar_jojo',0.6,1.6],[123.75,'tribe_1',0.7,1.6],[124.45,'mosquito_violin',0.6,1.6],[125.35,'hl_laser',0.8],[126.95,'hl_choir',1.0,4],[128.15,'holy_thunder',0.7],[129.05,'wg_axe_whoosh',0.8],[130.15,'demon_roar1',0.85,3.5],[133.15,'holy_thunder',0.8],
-    [135.35,'sc_terror',0.6],[136.05,'ultimate_charge_2',0.8],[137.75,'vine_boom',1.0],[138.55,'uia_tele_dbz',1.0],
-    [159.95,'holy_thunder',0.6],[160.65,'stalin_hammer_return',0.7],[161.2,'hm_claw1',1.0],[161.65,'hm_stalker',0.9],[162.15,'hm_crawl',0.8],[163.25,'hm_claw2',0.9],[163.45,'sc_terror',0.7],[164.05,'gp_souls',0.5],
-    [174.05,'fr_thunder',0.8],[175.65,'fr_bite',0.7],];
+    [59.5,'cdg_grow',0.9],[61.8,'wg_dragon_impact',0.8],
+    [64.7,'lightsaber_on',0.45],[67.6,'sm_schwing',1.0],[68.5,'sm_fin',1.0],[68.7,'death_break',0.8],
+    [71.2,'demon_roar2',0.85,3.5],[71.9,'larry_horn',0.6,2],[72.1,'gp_souls',0.7,3],[73.2,'punch1',0.5],[73.8,'fd_roar',0.5,2],[74.4,'punch1',0.5],[75.2,'hit_mid',0.5],
+    [76.6,'vine_boom',0.7],[78.1,'ultimate_charge_2',0.9],[78.5,'gigachad_roar',1.0,2],[78.55,'hit_heavy',1.0],
+    [79.6,'wg_axe_whoosh',0.6],[81.05,'demon_roar3',0.85,3.5],[81.32,'gigachad_roar',0.8,1.5],[82.8,'wg_axe_whoosh',0.8],[83.05,'hit_heavy',1.0],[85,'demon_roar1',0.85,3.5],
+    [86.7,'sc_wing',0.9],[87.2,'sc_wing',0.9],[87.6,'demon_roar2',0.85,3.5],[87.8,'sc_wing',0.7],[89.2,'gp_souls',0.7,3],[89.6,'ultimate_charge_2',0.9],[91.2,'holy_thunder',0.4],[91.6,'vine_boom',0.8],[92,'br_boom',0.9],[92.05,'demon_roar3',0.85,3.5],
+    [92.7,'thunder_big',0.5,4],[94.2,'gigachad_roar',1.0,2],[96.4,'demon_roar1',0.85,3.5],
+    [99.7,'lightsaber_on',0.45],[100,'wg_axe_whoosh',0.8],[100.6,'ultimate_charge_2',0.6],[101.1,'zoro_blade',1.0],
+    [106.9,'ultimate_charge_2',0.6],[108.2,'uia_tele_dbz',1.0],[109.4,'cdg_grow',0.6],[109.02,'clap_cat',1.0],[110.1,'clap_tele',1.0],[110.5,'burn_loop',0.7,2.4],[112.7,'cdg_grow',0.9],
+    [114.1,'demon_roar2',0.85,3.5],[114.65,'wg_axe_whoosh',0.7],[116.2,'mewing_statue_break',0.8],
+    [119.7,'demon_roar3',0.85,3.5],[120.6,'wg_dragon_impact',0.7],[120.8,'hl_choir',0.5,3],[121.4,'piano_giorno',0.6,1.6],[122.1,'guitar_jojo',0.6,1.6],[122.8,'tribe_1',0.7,1.6],[123.5,'mosquito_violin',0.6,1.6],[124.4,'hl_laser',0.8],[126,'hl_choir',1.0,4],[127.2,'holy_thunder',0.7],[128.1,'wg_axe_whoosh',0.8],[129.2,'demon_roar1',0.85,3.5],[132.2,'holy_thunder',0.8],
+    [134.4,'sc_terror',0.6],[135.1,'ultimate_charge_2',0.8],[136.8,'vine_boom',1.0],[137.6,'uia_tele_dbz',1.0],
+    [159,'holy_thunder',0.6],[159.7,'stalin_hammer_return',0.7],[160.25,'hm_claw1',1.0],[160.7,'hm_stalker',0.9],[161.2,'hm_crawl',0.8],[162.3,'hm_claw2',0.9],[162.5,'sc_terror',0.7],[163.1,'gp_souls',0.5],
+    [173.1,'fr_thunder',0.8],[174.7,'fr_bite',0.7],];
   // 🎵 nhạc nền (Audio riêng, bám thời gian thật của phim)
   let MUS=[];
   // 🎵 nhạc nền theo từng phần phim (không lặp 1 đoạn ngắn nữa) · vol đã cân theo độ to (LUFS) của từng bài · off = bắt đầu từ giây thứ mấy của bài
-  const MUS_DEF=[ {src:'assets/audio/cine_pufino.mp3',a:0,b:72.05,vol:0.5,fi:1.0,fo:1.5},                 // Pufino – Adventures Begin: đại chiến mở màn → Stalin/Catler → Spider/UIA → Chonky → King Cheems
-      {src:'assets/audio/cine_horns.mp3',a:72.05,b:80.55,vol:0.7,fi:0.8,fo:1.0},                            // kèn u ám: quỷ giật dây · Giga quyết định
-      {src:'assets/audio/cine_aylex.mp3',a:80.55,b:135.05,vol:0.44,fi:0.6,fo:2.0},                          // Aylex – Cinematic: trận khổng lồ Giga vs quỷ → bom vĩ thú → Chonky thiên thạch → phong ấn
-      {src:'assets/audio/cine_heart_fast.mp3',a:135.05,b:140.05,vol:0.7,loop:true,fo:0.3},                  // tim đập: Evil Gary bị xé đôi
-      {src:'assets/audio/cine_pufino.mp3',a:140.05,b:159.05,vol:0.5,off:75,fi:0.6,fo:1.0},                  // Pufino (đoạn cao trào): đọ chưởng cuối, cả dàn meme hợp sức
-      {src:'assets/audio/cine_horns.mp3',a:166.05,b:170.25,vol:0.45,fi:1.2,fo:1.0}, {src:'assets/audio/dp_akatsuki.mp3',a:173.35,b:1e9,vol:0.7,fi:0.2} ];
+  const MUS_DEF=[ {src:'assets/audio/cine_pufino.mp3',a:0,b:71.1,vol:0.5,fi:1.0,fo:1.5},                 // Pufino – Adventures Begin: đại chiến mở màn → Stalin/Catler → Spider/UIA → Chonky → King Cheems
+      {src:'assets/audio/cine_horns.mp3',a:71.1,b:79.6,vol:0.7,fi:0.8,fo:1.0},                            // kèn u ám: quỷ giật dây · Giga quyết định
+      {src:'assets/audio/cine_aylex.mp3',a:79.6,b:134.1,vol:0.44,fi:0.6,fo:2.0},                          // Aylex – Cinematic: trận khổng lồ Giga vs quỷ → bom vĩ thú → Chonky thiên thạch → phong ấn
+      {src:'assets/audio/cine_heart_fast.mp3',a:134.1,b:139.1,vol:0.7,loop:true,fo:0.3},                  // tim đập: Evil Gary bị xé đôi
+      {src:'assets/audio/cine_pufino.mp3',a:139.1,b:158.1,vol:0.5,off:75,fi:0.6,fo:1.0},                  // Pufino (đoạn cao trào): đọ chưởng cuối, cả dàn meme hợp sức
+      {src:'assets/audio/cine_horns.mp3',a:165.1,b:169.3,vol:0.45,fi:1.2,fo:1.0}, {src:'assets/audio/dp_akatsuki.mp3',a:172.4,b:1e9,vol:0.7,fi:0.2} ];
   function musSetup(){ musStop(); MUS=MUS_DEF.map(d=>Object.assign({el:Object.assign(new Audio(d.src),{preload:'auto'})},d,{b:Math.min(d.b,DUR)}));
     for(const m of MUS) m.el.loop=!!m.loop; }
   function musTick(rR,tR){ for(const m of MUS){ const on=!paused && tR>=m.a && tR<m.b;
