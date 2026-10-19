@@ -17,7 +17,7 @@
     king:av('kingcheems'), knight:A('assets/img/kingcheems/DOGE_KNIGHT_IMG.webp'), joninn:av('samuraicheems'), joninnR:av('samuraicheems','rageAvatarUrl'),
     angel:av('holycat','rageAvatarUrl'), friend:av('friend','skill4AvatarUrl'), grin:A('assets/img/friend/FR_GRIN_IMG.webp'), berserk:av('berserkcat'), berserkAtk:av('berserkcat','attackAvatarUrl'),   // 👀😁 grin = chỉ đôi mắt + hàm răng của Friend (đã gỡ viền mặt)
     gigaLift:A('assets/img/cine/CINE_GIGA_LIFT.webp'), gigaPunch:A('assets/img/cine/CINE_GIGA_PUNCH.webp'), smSlash:A('assets/img/cine/CINE_SM_SLASH.webp'), akaBg:A('assets/img/cine/CINE_AKA_BG.webp'), dpCloud:[A('assets/img/depressedcat/DP_CLOUD_A.webp'),A('assets/img/depressedcat/DP_CLOUD_B.webp')], smBack:A('assets/img/cine/CINE_SM_BACK.webp'), bkBack:A('assets/img/cine/CINE_BK_BACK.webp'),
-    larryMage:av('evillarry','introAvatarUrl'), bibi:av('bibilabu'), dogeP:[1,2,3,4,5].map(i=>A('assets/img/cine/CINE_DOGE_P'+i+'.webp')),   // 💪 5 tư thế đấm của Buff Doge: 1 thủ thấp lấy đà · 2 đấm thẳng · 3 đấm móc lên · 4 đấm ngang · 5 thủ khoanh tay
+    larryMage:av('evillarry','introAvatarUrl'), bibi:av('bibilabu'), dogeScared:A('assets/img/cine/CINE_DOGE_SCARED.webp'), dogeP:[1,2,3,4,5].map(i=>A('assets/img/cine/CINE_DOGE_P'+i+'.webp')),   // 💪 5 tư thế đấm của Buff Doge: 1 thủ thấp lấy đà · 2 đấm thẳng · 3 đấm móc lên · 4 đấm ngang · 5 thủ khoanh tay
     bibiBack:av('bibilabu','attackAvatarUrl'), catlerAtk:av('feuerkatze','attackAvatarUrl'),
     clapIdle:av('clappingcat'), clapUp:av('clappingcat','rageAvatarUrl'), clap:['skill1AvatarUrl','skill2AvatarUrl','skill3AvatarUrl'].map(f=>av('clappingcat',f)),
     hand:{} };
@@ -669,14 +669,14 @@
     const L=VH*1.15, a0=0.12, aT=Math.asin(Math.min(0.99,(DG.x-BX)/L)), ang=lerp(a0,aT,ein(Math.min(1,k/0.9)));   // chày dài từ dưới chân trời vươn tới đỉnh khung, bổ đổ sang phải tới ngay trên đầu Doge   // chày đổ từ gần thẳng đứng sang phải, đầu chày lao về phía Doge
     malletAura(BX,BY,L,ang,t,1); bigMallet(BX,BY,L,ang,2.2); malletAura(BX,BY,L,ang,t,0.4); g.save(); g.globalCompositeOperation='lighter'; glow(BX,HZ,VH*0.3,0.8,'255,230,190'); g.restore(); refFore();
     const hx=BX+Math.sin(ang)*L, hy=BY-Math.cos(ang)*L; g.save(); g.globalCompositeOperation='lighter'; g.strokeStyle='rgba(255,230,200,0.5)'; g.lineCap='round'; for(let i=0;i<5;i++){ g.lineWidth=4; g.beginPath(); g.arc(BX,BY,L*(0.75+i*0.06),-Math.PI/2+ang-0.5-i*0.05,-Math.PI/2+ang-0.05); g.stroke(); } g.restore();   // vệt quét theo hướng bổ (như mũi tên)
-    actor(IMG.doge,DG.x,DG.y,HD*0.8,{}); if(k>0.7) sfxText('???',DG.x-VW*0.02,DG.y-HD*1.4,40,seg(k,0.7,1),'#fff'); }
+    actor(k>0.55?IMG.dogeScared:IMG.doge,DG.x,DG.y,HD*0.8,{}); if(k>0.7) sfxText('???',DG.x-VW*0.02,DG.y-HD*1.4,40,seg(k,0.7,1),'#fff'); }
   function refClose(t,k){   // 🔎 cảnh lớn: đầu chày khổng lồ ập tới sát đầu Doge → VỖ TAY: Doge đổi chỗ với Evil Larry
     const sk=g.createLinearGradient(0,0,0,VH); sk.addColorStop(0,'#ffd0a0'); sk.addColorStop(1,'#a2381c'); g.fillStyle=sk; g.fillRect(0,0,VW,VH);
     g.fillStyle='#3a1a12'; g.fillRect(0,VH*0.8,VW,VH*0.2); g.fillStyle='#5a2c1c'; g.fillRect(0,VH*0.8,VW,VH*0.015);
     const DG={x:VW*0.62,y:VH*0.82}, HD=VH*0.32, ang=1.25, L=VH*2.4, near=lerp(VH*0.4,VH*0.12,ein(Math.min(1,k*1.3)));
     const hx=DG.x-VW*0.05, hy=DG.y-HD-near, px=hx-Math.sin(ang)*L, py=hy+Math.cos(ang)*L; malletAura(px,py,L,ang,t,1); bigMallet(px,py,L,ang,2.4);
     speedLines(hx,hy,0.7,false);
-    swapViz(k,{x:DG.x,y:DG.y,h:HD*0.8,col:'#e8b24a',draw:(x,y)=>actor(IMG.doge,x,y+Math.sin(t*70)*2,HD*0.8,{})},{x:-VW*0.3,y:DG.y,h:HD*1.1,col:'#b070ff',draw:(x,y)=>actor(IMG.larryMage,x,y,HD*1.1,{})}); }
+    swapViz(k,{x:DG.x,y:DG.y,h:HD*0.8,col:'#e8b24a',draw:(x,y)=>actor(IMG.dogeScared,x,y+Math.sin(t*70)*2,HD*0.85,{})},{x:-VW*0.3,y:DG.y,h:HD*1.1,col:'#b070ff',draw:(x,y)=>actor(IMG.larryMage,x,y,HD*1.1,{})}); }
   function finShot(kind,t,k){ const HS=VH*0.22;
     if(kind==='cref'){ refShot(t,k); return; }
     if(kind==='cclose'){ refClose(t,k); return; }
@@ -691,8 +691,8 @@
       g.strokeStyle='rgba(120,70,30,0.45)'; for(let r=1;r<7;r++){ g.lineWidth=2+R*0.006; g.beginPath(); g.ellipse(cx+R*0.03*r,cy+R*0.02*r,R*r/7.2,R*r/7.6,0.2,0,Math.PI*2); g.stroke(); }
       g.save(); g.globalCompositeOperation='lighter'; g.strokeStyle='rgba(255,240,210,0.8)'; g.lineWidth=4; g.beginPath(); g.arc(cx,cy,R*1.02,0,Math.PI*2); g.stroke(); for(let i=0;i<5;i++){ const an=Math.random()*Math.PI*2; bolt(cx+Math.cos(an)*R,cy+Math.sin(an)*R,cx+Math.cos(an)*R*1.35,cy+Math.sin(an)*R*1.35,2,0.9,'255,170,60','255,240,200'); } g.restore();
       speedLines(cx,cy,0.5+0.4*k,false);
-      { const fx=VW*0.7, fy=VH*1.9, sh=Math.sin(t*70)*VH*0.006*(0.4+k);   // 😨 CẬN MẶT DOGE THƯỜNG: ngước lên, run lẩy bẩy, mồ hôi, vạch u ám kiểu manga — không hiểu sao mình bị đánh
-        actor(IMG.doge,fx+sh,fy,VH*lerp(1.9,2.15,k),{rot:-0.1+Math.sin(t*40)*0.01});   // zoom SÁT mặt
+      { const fx=VW*0.6, fy=VH*1.75, sh=Math.sin(t*70)*VH*0.006*(0.4+k);   // 😨 CẬN MẶT DOGE THƯỜNG: ngước lên, run lẩy bẩy, mồ hôi, vạch u ám kiểu manga — không hiểu sao mình bị đánh
+        actor(IMG.dogeScared,fx+sh,fy,VH*lerp(1.8,2.0,k),{rot:-0.04+Math.sin(t*40)*0.01});   // zoom SÁT mặt — mặt Doge hoảng sợ (ảnh user gửi)
         g.save(); g.beginPath(); g.rect(fx-VH*0.5,0,VH*1.0,VH*0.4); g.clip(); g.strokeStyle='rgba(40,40,100,0.6)'; g.lineWidth=5; for(let i=0;i<22;i++){ const x=fx-VH*0.48+i*VH*0.045; g.beginPath(); g.moveTo(x,0); g.lineTo(x,VH*(0.18+0.18*hash(i+7100))); g.stroke(); } g.restore();   // vạch u ám trên trán
         for(let i=0;i<4;i++){ const f=((t*1.4+i/4)%1), x=fx+VH*(i%2?0.42:-0.4)+VH*0.03*i, y=VH*(0.3+0.45*f); g.fillStyle=`rgba(170,220,255,${0.9*(1-f)})`; g.beginPath(); g.moveTo(x,y-VH*0.05); g.quadraticCurveTo(x+VH*0.03,y,x,y+VH*0.02); g.quadraticCurveTo(x-VH*0.03,y,x,y-VH*0.05); g.fill(); }   // giọt mồ hôi
         sfxText('???',fx+VH*0.38,VH*0.14,80,seg(k,0.15,0.6)*(k<0.95?1:0.99),'#fff'); if(k>0.6) sfxText('!!',fx-VH*0.6,VH*0.16,90,seg(k,0.6,1),'#ff5050'); } return; }
