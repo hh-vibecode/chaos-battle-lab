@@ -790,9 +790,9 @@
   // 🥊👏 COMBO (đặt máy XA + LIA TRƯỢT giữa các khung, nhịp chậm): sân ngang — Cheems chờ xa bên trái · Clapping Cat trước mặt Larry · Larry giữa · CON MA sau lưng Larry
   //    tụ chưởng → lia sang Clapping khi chưởng bắn → vỗ: Clapping ↔ con ma (ma lãnh chưởng, còn nửa người) → Clapping ĐÁ VÀO LƯNG Larry → Larry QUAY LẠI
   //    → vỗ: Clapping ↔ Cheems → Cheems ĐẤM MÓC lên → Clapping (ở chỗ Cheems) vỗ: ↔ nửa con ma sát lưng Larry → ĐÁ tiếp vào lưng
-  function comboShot(t,k){ const T=k*CMB, H=VH*0.5, GY=VH*0.9, CW=VW*0.12, CL0=VW*0.48, LX=VW*0.8, GH=VW*1.12, HG={x:VW*0.62,y:GY-H*0.25};
+  function comboShot(t,k){ const T=k*CMB, H=VH*0.5, GY=VH*0.9, CW=VW*0.34, CL0=VW*0.5, LX=VW*0.78, GH=VW*1.06, HG={x:VW*0.62,y:GY-H*0.25};
     const CUT=[[2.3,2.55],[4.3,4.55],[5.85,6.1]]; for(const [a,b] of CUT) if(T>=a&&T<b){ clapZoom(seg(T,a,b),t); return; }
-    const cam=keys(T,[[0,LX,0,1.3,0],[1.4,LX-VW*0.02,0,1.45,0.02],[1.45,LX-VW*0.05,0,1.0,0],[2.3,CL0+VW*0.05,0,1.0,0],[2.55,VW*0.78,0,0.72,0],[3.2,VW*0.82,0,0.75,0],[3.6,LX+VW*0.1,0,1.05,0.03],[4.3,LX+VW*0.08,0,1.12,0],[4.55,VW*0.68,0,0.66,0],[5.85,VW*0.72,0,0.7,0],[6.1,VW*0.64,0,0.8,0],[7.4,VW*0.66,0,0.9,0]]);
+    const cam=keys(T,[[0,LX,0,1.3,0],[1.4,LX-VW*0.02,0,1.45,0.02],[1.45,LX-VW*0.05,0,1.0,0],[2.3,CL0+VW*0.05,0,1.0,0],[2.55,VW*0.8,0,1.2,0],[3.2,VW*0.88,0,1.32,0.02],[3.6,VW*0.86,0,1.28,0],[4.3,VW*0.88,0,1.3,0],[4.55,VW*0.66,0,1.1,0],[5.85,VW*0.72,0,1.22,0],[6.1,VW*0.68,0,1.18,0],[7.4,VW*0.72,0,1.35,0]]);   // cảnh TRUNG chặt như GIF Hanami: Larry giữa, 2 bên tấn công to rõ
     const cx=cam[0], z=cam[2]; fieldBG(t,{hy:0.5,z:0.95*z,cx:280+(cx-VW*0.8)*0.6});
     g.save(); g.translate(VW/2,VH*0.62); g.scale(z,z); g.translate(-cx,-VH*0.62);
     const ghost=(x,y,half,rot,a)=>{ if(a<=0.01) return; g.save(); g.globalAlpha*=a; if(half){ g.translate(x,y); g.rotate(rot); g.beginPath(); g.rect(-H*0.7,-H*0.7,H*1.4,H*0.36); g.clip(); monster(0,0,H*0.62,false,1,0,0,2); } else monster(x,y,H*0.62,false,1,Math.sin(t*3)*0.04,0,2); g.restore(); };
@@ -823,7 +823,9 @@
     if(T>=6.45) ghost(CW,GY-H*0.25,true,-0.4,1-seg(T,6.5,7.0));
     if(C) actor(cpose,C.x,C.y,H*0.55,{flip:cflip,rot:cr,glow:'rgba(255,225,170,0.7)',gb:10});
     comboHit(lx+H*0.2,GY-H*0.5,seg(T,3.35,3.75),false); comboHit(lx+H*0.15,ly-H*0.8,seg(T,5.25,5.65),false); comboHit(lx-H*0.2,GY-H*0.5,seg(T,6.6,7.05),true);
-    g.restore(); if(T>=6.6&&T<6.68) inkFlash(seg(T,6.6,6.68)*0.7); }
+    comboHit(lx+H*0.22,GY-H*0.7,seg(T,3.6,3.9),false); comboHit(lx-H*0.1,ly-H*0.6,seg(T,5.45,5.75),false);   // đòn nhanh xen thêm
+    g.restore(); for(const m of [2.77,4.77,6.3]) if(T>=m-0.08&&T<m+0.08){ inkFlash(seg(T,m-0.08,m+0.08)*0.6); return; }   // ⚪ đổi chỗ: 4 khung trắng mực văng (như GIF)
+    if(T>=6.6&&T<6.68) inkFlash(seg(T,6.6,6.68)*0.7); }
   // ⚫⚡ CÚ ĐẤM HAKI của Buff Doge (kiểu Luffy đấm Kaido): tay hoá ĐEN (Vũ Trang) → góc thấp, Larry khổng lồ phía trên, Doge đấm móc thốc vào bụng —
   //    haki dồn vào ĐÚNG điểm va chạm: loé sao chói, SÉT VÀNG lõi đen toả ra từ điểm chạm khắp thân Larry → khung đen trắng zoom mạnh
   function hakiBolt(x1,y1,x2,y2,w,a,seed){ if(a<=0.01) return; const pts=[[x1,y1]], n=9, dx=x2-x1, dy=y2-y1, L=Math.hypot(dx,dy)||1, nx=-dy/L, ny=dx/L;
