@@ -741,7 +741,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     uiacat:     { key:'uiacat',     defaultName:'U I A Cat',    emoji:'😼', color:'#ce93d8', hp:1000, speed:5, size:43, skill:'Sau 2s không xoay, OIIA spin 2s: tốc độ x4 (+300%), -25% dame nhận, va chạm 60 dmg + hất văng địch. Xuống dưới 25% HP: ngưng thời gian 1.5s, dịch chuyển ra góc xa nhất so với đối thủ, chuyển dạng Hiphop VĨNH VIỄN — đứng yên tại chỗ, -25% sát thương nhận, thả ĐÚNG 3 UIA nhỏ qua cổng ở rìa sàn (size 70%, xoay theo nhịp nhạc remix, tốc chạy ngang con bố lúc xoay, nảy khắp sàn gây 25 dmg mỗi va chạm, không biến mất tới khi 1 trong 2 bên chết).' },
     beluga:     { key:'beluga',     defaultName:'Beluga',       emoji:'🐳', color:'#80deea', hp:1000, speed:5, size:45, skill:'Chat Spam: nhắn 1.4s, chu kỳ ~3.45s → bắn bong bóng chat (40–300 dmg). 15% toxic = 300 dmg tức thì, mỗi lần trượt +5% tỉ lệ (cộng dồn tới khi ra thì reset).' },
     screamcat:  { key:'screamcat',  defaultName:'Scream Cat',   emoji:'😱', color:'#f48fb1', hp:1000, speed:5, size:42, skill:'Không hét khi bị đánh nữa: ghi nhớ DAME LỚN NHẤT từng nhận trong 1 đòn (vào trận = 10), hiện số trên đầu. Mỗi 2s hét 1 lần gây đúng số dame đó + đẩy văng mọi địch. Số càng to hiệu ứng càng dữ: >120 Echo Slam, >300 rung lắc dữ dội.' },
-    thevoid:    { key:'thevoid',    defaultName:'The Void',     emoji:'🖤', color:'#212121', hp:1000, speed:5, size:45, skill:'Black Hole: ~6.5s/chu kỳ (tích lực 0.5s, hố đen tồn tại 2s, hồi chiêu 4s), hút TẤT CẢ địch trong bán kính toàn map, dame giảm dần theo khoảng cách (gần tâm nhất 30 dame, xa chỉ còn 2 dame).' },
+    thevoid:    { key:'thevoid',    defaultName:'The Void',     emoji:'🖤', color:'#212121', hp:1000, speed:5, size:45, skill:'Black Hole: ~6.5s/chu kỳ (tích lực 0.5s, hố đen tồn tại 2s, hồi chiêu 4s), hút TẤT CẢ địch trong bán kính toàn map, dame giảm dần theo khoảng cách (gần tâm nhất 30 dame, xa chỉ còn 2 dame). Hố đen còn bẻ cong và NUỐT mọi viên đạn / tia / vật ném của địch bay vào tầm.' },
     bananacat:  { key:'bananacat',  defaultName:'Banana Cat',   emoji:'🍌', color:'#fff176', hp:1000, speed:5, size:43, skill:'Mỗi 2s dừng khóc 1.7s → để vỏ chuối. Địch giẫm: lao theo hướng đang đi, dame va tường tỉ lệ nghịch với thời gian. Vỏ tồn tại 12s rồi tự biến mất (mất ngay khi có người giẫm trúng), có thể chồng nhiều vỏ.' },
     suscat:     { key:'suscat',     defaultName:'SUS Cat',      emoji:'📮', color:'#f44336', hp:1000, speed:5, size:38, skill:'Mỗi 3s triệu hồi ngẫu nhiên 1 quân bài ở góc xa nhất sân: Imposter đỏ bắn 3 phát bám mục tiêu (100 dmg/phát), Imposter cận chiến va trúng 180 dmg, Imposter đen tự nổ 150 dmg + choáng 2s cho MỌI người trong bán kính (cũng tự kích nổ khi chạm lính Đức), Imposter cam đứng cách ~140 há đầu phóng LƯỠI đâm 140 dmg + kéo địch lại gần, Imposter vàng TẮT ĐÈN cả sân (địch chậm 25% tối đa 3s) rồi lao vào đâm 120 dmg, Crew va trúng 50 dmg. ĐÚNG 1 LẦN MỖI TRẬN: địch tụt xuống ≤200 máu là nó triệu tập HỌP KHẨN cắt ngang trận — cả sàn đóng băng, vòng quay 50/50 phán xem địch có phải IMPOSTER không. Trúng thì địch bị đáp thẳng ra ngoài vũ trụ, chết ngay lập tức bất kể còn bao nhiêu máu — mà bảng chữ hiện ra lại ghi rõ nó KHÔNG phải imposter, "all imposters remain", tức vote trượt sạch và thằng còn đứng lại trên sàn mới là imposter thật. Trật thì cuộc họp tan ngay, đánh tiếp bình thường.' },
     nyancat:    { key:'nyancat',    defaultName:'Nyan Cat',     emoji:'🌈', color:'#e040fb', hp:1000, speed:5, size:48, skill:'Rainbow Trail: chạm tường → kéo trail (180 dmg khi chạm) → chạm tường tiếp → seal thành bẫy 180 dmg. Mỗi lần chạm tường +3% tốc chạy (cộng dồn).' },
@@ -792,16 +792,16 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     clappingcat: { key:'clappingcat', defaultName:'Clapping Cat', emoji:'👏', color:'#ffb74d', hp:1000, speed:5, size:48.4, skill:'Có nó trong trận thì tường dưới mọc chông và có 1 quả bóng chông lăn qua lại — đâm vào chông hay bóng chông đều mất máu. Sắp lao vào chông thì nó vỗ tay đổi chỗ với địch, để địch lãnh thay. Càng lâu không chạm tường càng chạy nhanh.' },
     evilgary: { key:'evilgary', defaultName:'Evil Gary', emoji:'😈', color:'#b71c1c', hp:1000, speed:5, size:44, skill:'Đầu trận chỉ là con mèo xám ngồi im HÚT LINH HỒN: cứ mỗi giây 1 linh hồn khói đen từ góc xa nhất ngoài sân bay thẳng vào người nó (ai đứng chắn đường ăn 50 dame), mỗi linh hồn hút được vạch thêm 1 cánh ngôi sao ác quỷ trên đầu. Đủ 5 cánh: con quỷ đã nhập hiện lên sau lưng, sàn hoá CÕI LINH HỒN — khói ma lướt ngang sân, và cứ 5s một bầy linh hồn bò từ 4 góc tới bám địch (mỗi đợt đông hơn), bám được là gây dame và gieo độc vĩnh viễn, cộng dồn không giới hạn.' },
     mosquitoviolin: { key:'mosquitoviolin', defaultName:'Mosquito Violin', emoji:'🦟', color:'#ff5252', hp:1000, speed:5, size:34, skill:'Vào trận chưa nối được dây thì +20% tốc chạy và vo ve liên tục. LẦN ĐẦU chạm vào một kẻ địch, nó cắm một sợi dây mảnh vào con đó SUỐT TRẬN (chạm được bao nhiêu con thì nối bấy nhiêu dây). Nối được dây đầu tiên là bắt đầu kéo violin: mỗi nhịp của bài nhạc, một xung âm hình nhịp tim chạy dọc dây và nổ vào kẻ địch gây sát thương. Tần suất sát thương chính là nhịp của bài hát.' },
-    scaredhamster: { key:'scaredhamster', defaultName:'Scared Hamster', emoji:'🐹', color:'#c8a27a', hp:1000, speed:5, size:44, skill:'Không tự đánh — chỉ bò khắp sàn. Bò vào gần góc sàn thì dựa sát góc tường run rẩy sợ hãi, đứng yên tới khi bóng tối đi mất hẳn rồi bò tiếp (mỗi lần nép góc chỉ 1 lượt tay); từ góc xa nhất 2 bàn tay bóng tối móng dài từ từ vươn ra lần theo nó (không ai cản thì ~5s tới nơi, bóng tồn tại 6s). Tay vớ được địch chắn đường thì ngẫu nhiên: bóp chặt ngang người giữ méo móp 1.5s (80 dmg mỗi 0.5s), tóm nhấc bổng rồi vung đập mạnh vào tường ở góc sàn xa nhất (trừ góc hamster đang nép, 250 dmg) hoặc tung ngang qua tay kia rồi tay kia bóp mạnh tiếp (80 dmg mỗi 0.5s trong 1.5s), xong thì 2 tay rụt về tường. Tay chạm được hamster thì nó cũng bị xử y như vậy (cùng mức dame).' },
+    scaredhamster: { key:'scaredhamster', defaultName:'Scared Hamster', emoji:'🐹', color:'#c8a27a', hp:1000, speed:5, size:44, skill:'Không tự đánh — chỉ bò khắp sàn. Bò vào gần góc sàn thì dựa sát góc tường run rẩy sợ hãi, đứng yên tới khi bóng tối đi mất hẳn rồi bò tiếp (mỗi lần nép góc chỉ 1 lượt tay); từ góc xa nhất 2 bàn tay bóng tối móng dài từ từ vươn ra lần theo nó (nhanh hơn 15%, không ai cản thì ~4.4s tới nơi, bóng tồn tại 6s). Tay vớ được địch chắn đường thì ngẫu nhiên: bóp chặt ngang người giữ méo móp 1.5s (110 dmg mỗi 0.5s), tóm nhấc bổng rồi vung đập mạnh vào tường ở góc sàn xa nhất (trừ góc hamster đang nép, 280 dmg) hoặc tung ngang qua tay kia rồi tay kia bóp mạnh tiếp (110 dmg mỗi 0.5s trong 1.5s), xong thì 2 tay rụt về tường. Tay chạm được hamster thì nó cũng bị xử y như vậy (cùng mức dame).' },
     supremearbiter: { key:'supremearbiter', defaultName:'Supreme Cat', emoji:'😼', color:'#e0a050', hp:1000, speed:5, size:48.4, skill:'Kneel before my paw. Không tự đánh, di chuyển như meme bình thường. Lúc đang ở CAO HƠN địch thì điểm CAO NGẠO tăng (bằng hoặc thấp hơn thì tụt dần, chậm bằng 1/2 lúc tăng), và mỗi giây ở trên đầu con nào là con đó dính thêm 3% làm chậm, cộng dồn giữ nguyên tới hết trận (tối đa 50%). Cao ngạo càng cao, TRỌNG LỰC cả sàn càng nặng: mọi địch (cả quân triệu hồi) mất máu mỗi 0.5s (4, 7, 10… mỗi nấc cao ngạo +3). Thắng thì sét đánh dọc sau lưng, camera áp sát khuôn mặt khinh khỉnh: "Pathetic."' },
-    infinitydoge: { key:'infinitydoge', defaultName:'Infinity Doge', emoji:'🐕', color:'#ffb74d', hp:1000, speed:5, size:46, skill:'Bắt đầu 1 thân 1000 máu. Cứ mỗi lần một thân tụt xuống dưới 50% máu, thân đó PHÂN ĐÔI thành 2 thân nhỏ hơn 30% với máu tối đa bằng một nửa — các mốc 1000 → 500 → 250 → 125 → 50 (nấc cuối chốt 50 chứ không chia đôi tiếp). Thân 50 máu là mốc cuối, chết là chết luôn. Không có đòn đánh riêng: mọi thân gây 60 dame mỗi khi VA vào địch. Các thân tách ra tính như meme bình thường (di chuyển, nhận dame, dính hiệu ứng). Cả đàn chết sạch thì mới thua.' },
+    infinitydoge: { key:'infinitydoge', defaultName:'Infinity Doge', emoji:'🐕', color:'#ffb74d', hp:1000, speed:5, size:46, skill:'Bắt đầu 1 thân 1000 máu. Cứ mỗi 3s, MỌI thân (cả bản sao) tự PHÂN BÀO tách đôi như tế bào: 2 thân mới đều mất 100 máu so với thân mẹ, nhỏ đi và chạy nhanh hơn 5% sau mỗi lần tách. Thân còn ≤100 máu thì không tách được nữa. Không có đòn đánh riêng: mọi thân gây 33 dame mỗi khi VA vào địch. Các thân tính như meme bình thường. Cả đàn chết sạch thì mới thua.' },
     cryingcat: { key:'cryingcat', defaultName:'Crying Cat Team', emoji:'😿', color:'#4fc3f7', hp:350, speed:5, size:32.5, skill:'Một đội 3 con mèo khóc, tính chung là 1 meme. Mỗi con 350 máu, di chuyển và đánh như meme thường. Mỗi con chạm vào địch gây 40 sát thương (mỗi con hồi chiêu riêng 0.8s). Giữa 3 con luôn có LIÊN KẾT NƯỚC MẮT nối với nhau: địch chạm/đi qua sợi liên kết mất 50 máu mỗi 0.5s và bị làm chậm. Mỗi lần 2 con trong đội va vào nhau, cả hai được hồi 25 máu. Mỗi con gục thì mấy con còn lại +20% size và +300 máu tối đa. Con cuối cùng còn 1 mình chuyển hẳn sang chiêu NỐI NƯỚC MẮT: cứ 2s nối 1 sợi với địch gần nhất, dính 3s, gây 25 sát thương mỗi 0.5s. Cả đội chỉ chết khi cả 3 con đều gục.' },
     calmdog: { key:'calmdog', defaultName:'Calm Dog', emoji:'🐕', color:'#546e7a', hp:1000, speed:5, size:40, skill:'Là quả bom hẹn giờ — vào trận có đồng hồ đếm ngược 13s, thể hiện qua 5 tấm hình NGẨNG ĐẦU tăng dần (mỗi ~2.6s đổi 1 hình, hình cuối là lúc há mồm chuẩn bị hú) thay vì số đếm. Mỗi 100 dame nhận vào, đồng hồ trôi nhanh thêm 1s. Về 0: hú vang gây 500 dame CHUẨN cho mọi địch trong tầm nổ — chỉ dùng được đúng 1 LẦN CẢ TRẬN. Ngoài ra không có đòn đánh nào khác, chỉ di chuyển né tránh bình thường.' },
     gary: { key:'gary', defaultName:'Gary', emoji:'🐌', color:'#7e57c2', hp:1000, speed:5, size:40, skill:'1000 máu, KHÔNG có đòn đánh nào khác. Thả 1 quả TRÁI ĐẤT nảy quanh sân, chạy nhanh hơn 13.85% so với tốc thường. Chạm địch là hút, hồi chiêu 0.5s giữa 2 lần hút cùng 1 phe (tránh cạo máu quá nhanh khi dính sát): địch nhỏ đi 5% và mất 5% máu tối đa — máu tối đa dồn cho Gary, còn phần kích thước dồn hết vào QUẢ TRÁI ĐẤT (Gary không to lên). Gary tự chạm quả đất của mình thì quả đất phình thêm 5%. Không có trần kích thước.' },
     chillguy: { key:'chillguy', defaultName:'Chill Guy', emoji:'😎', color:'#90a4ae', hp:1000, speed:5, size:50.6, skill:'KHÔNG có đòn đánh thường nào — chỉ đi lại và chịu đòn. Mỗi lần ăn đòn đều GHI SỔ tổng dame đã nhận ngay trên đầu, kèm câu thoại chill ngẫu nhiên (không đau, just chill...). Khi TỔNG dame đã chịu chạm mốc 1000 (không cần hết máu): thức tỉnh — bất tử 2s, tăng 25% tốc chạy, và từ đó không thể bị hạ gục cho tới khi tung xong cú song phi. Sau đó địch vào tầm cận chiến là đứng khựng 1s, hiện chữ đỏ "I\'M NOT CHILL ANYMORE", rồi nhảy song phi thẳng mặt địch — 1000 sát thương CHUẨN, dứt điểm ngay lập tức.' },
     // 🎯 CỌC GỖ (di sản của chế độ Meme Spotlight đã gỡ, giữ lại vì vô hại): không phải nhân vật thật, không AI/tấn công, chỉ dùng làm mục tiêu tập luyện — xem toàn bộ cơ chế bất tử/đứng yên ở các chỗ check this.type==='trainingdummy'
     trainingdummy: { key:'trainingdummy', defaultName:'Training Dummy', emoji:'🎯', color:'#8d6e63', hp:1000, speed:0, size:45, skill:'Cọc gỗ tập luyện — đứng yên, bất tử, nhận dame/hiệu ứng như nhân vật thật để test kỹ năng.' },
-    damdamdidi: { key:'damdamdidi', defaultName:'Damdam Didi Cat', emoji:'💃', color:'#ff4fa3', hp:1000, speed:5, size:45, skill:'Nhại theo trào lưu mèo lắc đầu "dam dam didi didi" từng viral khắp mạng — vào trận là nhảy tới hết trận, vừa nhảy vừa liên tục quăng arrow dance về phía địch theo điệu. Trúng liên tục thì càng lúc càng sung, đòn sau luôn mạnh hơn đòn trước.' },
+    damdamdidi: { key:'damdamdidi', defaultName:'Damdam Didi Cat', emoji:'💃', color:'#ff4fa3', hp:1000, speed:5, size:45, skill:'Nhại theo trào lưu mèo lắc đầu "dam dam didi didi" từng viral khắp mạng — mỗi lượt nhảy 4s rồi nghỉ 2s (nhạc tạm dừng, nhảy lại thì phát tiếp đoạn đang dở), vừa nhảy vừa liên tục quăng arrow dance về phía địch theo điệu. Trúng liên tục thì càng lúc càng sung, đòn sau luôn mạnh hơn đòn trước.' },
     bongocat: { key:'bongocat', defaultName:'Bongo Cat', emoji:'🥁', color:'#c98a4b', hp:1000, speed:5, size:44, skill:'Vào trận khởi động vài nhịp gõ tay không rồi mới bốc lên chơi hẳn 1 bài trống bộ lạc theo đúng beat của bài, cứ hết bài lại nhảy sang bài khác. Mỗi nhịp gõ dội ra 1 vòng sóng âm nhỏ quanh thân, càng đứng gần nó ăn dame càng đau.' },
     stalincat: { key:'stalincat', defaultName:'Stalin Cat', emoji:'☭', color:'#c62828', hp:1000, speed:5, size:45, skill:'Cầm búa quăng thẳng vào địch (đẩy lùi, có thể gây choáng), búa rơi tại chỗ và phải nhặt lại, để lâu thì tự bay về. Liềm nảy khắp sân gây chảy máu. Liềm chạm trúng búa thì bắt chéo, chói loà rồi MỞ RA DOMAIN (chỉ 1 lần mỗi trận): cả sân lấp lánh, địch cháy liên tục, Stalin hồi máu, chạy nhanh hơn, thu búa nhanh hơn và liềm xoay nhanh hơn.' },
     dawae: { key:'dawae', defaultName:'Da Wae', emoji:'🚪', color:'#4a7c3c', hp:1000, speed:5, size:46, skill:'Cứ 3.5s lại gọi ra 1 đàn 20 Da Wae nhỏ (bản thu nhỏ của chính nó), chạy vòng vèo theo hình sóng qua sân ở 70% tốc thường, CUỐN THEO bất kỳ ai chúng chạm phải (kéo lê đi đúng theo đường chạy của đàn, không phải chỉ đẩy lùi). Chạm lần đầu gây 150 sát thương. Trong lúc bị cuốn đi mà va phải tường thì mỗi lần va nhận 40 sát thương — dưới 100 máu mà va tường thì bị lôi thẳng xuyên qua tường ra khỏi sàn, thua ngay lập tức.' },
@@ -4399,18 +4399,19 @@ function _hmWinDraw(){
 // run rẩy sợ hãi (HM_LEAN_T), đồng thời từ GÓC XA NHẤT 2 BÀN TAY BÓNG TỐI móng dài (vẽ kiểu bóng Don't Starve) vươn
 // TỪ TỪ ra rồi lần theo con hamster (không ai cản thì ~5s là tới). Tay chạm meme/quân triệu hồi ĐỊCH chắn đường (hoặc chạm
 // tới chính hamster) thì tung ĐÒN VỒ (xem _hmActTick) rồi cả 2 tay RỤT về tường. Bóng sống 6s.
-const HM_LEAN_T=72, HM_CD=180, HM_SHADOW_LIFE=360, HM_REACH_T=300, HM_EMERGE=75, HM_SWALLOW_DMG=300, HM_SWALLOW_T=50;
+const HM_LEAN_T=72, HM_CD=180, HM_SHADOW_LIFE=360, HM_REACH_T=300, HM_EMERGE=75, HM_SWALLOW_DMG=330, HM_SWALLOW_T=50;
 // ⏱️ bóng sống 6s (HM_SHADOW_LIFE); không ai cản đường thì tay mất ĐÚNG ~5s (HM_REACH_T) để chạm tới hamster:
 //    tốc tay tính lúc mọc ra theo khoảng cách tới hamster (trừ phần chậm lúc mới vươn ra ~37 tick)
 // 🖐️ ĐÒN VỒ (user cho tự thiết kế, gọn & mượt): ① LẤY ĐÀ khựng lại, rụt nhẹ về sau theo đúng đường cánh
 //    tay + nhấc bổng lên (bóng in dưới sàn), xoè vuốt nhắm con mồi · ② VỒ lao xuống chụp trúng (bám theo vị trí hiện tại của
 //    nó) → mất HM_POUNCE_DMG máu + choáng · ③ LÔI: ngón khép vòng quanh người nó, kéo lê nó lùi theo đúng đường tay đã bò
 //    về phía tường · ④ BUÔNG, cả 2 tay rụt về. Đầu tay luôn chạy DỌC vệt cũ → cánh tay co duỗi liền mạch, không gãy khúc.
-const HM_POUNCE_DMG=250, HM_WIND_T=22, HM_STRIKE_T=7, HM_DRAG_T=48, HM_STUN_T=60;
+const HM_POUNCE_DMG=280, HM_WIND_T=22, HM_STRIKE_T=7, HM_DRAG_T=48, HM_STUN_T=60;
 // 🎲 thêm 2 đòn (random đều 3 đòn, cùng pha lấy đà/lao xuống, đều GIỮ con mồi tại chỗ → tay không phải lượn theo, ít lỗi):
 //    'squeeze' VỒ & SIẾT: tóm rồi co ngón siết 3 nhịp × HM_SQZ_DMG (= mốc bóp cũ 3×80) · 'fist' ĐẤM NỆN: nắm tay nhấc cao
 //    rồi nện thẳng xuống HM_FIST_DMG + choáng lâu hơn, đè một lúc rồi nhấc lên
-const HM_SQZ_DMG=80, HM_SQZ_T=12+30*3, HM_FIST_DMG=250, HM_FIST_STRIKE_T=5, HM_FIST_STUN_T=90, HM_FIST_HOLD_T=16;
+const HM_SQZ_DMG=110, HM_SQZ_T=12+30*3, HM_FIST_DMG=280, HM_FIST_STRIKE_T=5, HM_FIST_STUN_T=90, HM_FIST_HOLD_T=16;   // mỗi đòn của bàn tay +30 dame (80→110, 250→280)
+const HM_HAND_SPD=1.15;   // bàn tay bóng tối bò nhanh hơn 15%
 const HM_KINDS=['pounce','squeeze','fist'];
 let hmShadows=[];
 // 🌑 TRẬN CÓ SCARED HAMSTER: phần khung NGOÀI sàn tối đen (lòng sàn vẫn xanh) → tay bóng tối như bò từ bóng đêm vào.
@@ -4477,7 +4478,7 @@ function _hmSpawnShadow(f){
   const X=f.x<W/2?W:0, Y=f.y<H/2?H:0, jx=(Math.random()-0.5)*0.2, jy=(Math.random()-0.5)*0.2;
   const A=[{ax:X, ay:H*(0.5+jy), nx:X?-1:1, ny:0, ph:0}, {ax:W*(0.5+jx), ay:Y, nx:0, ny:Y?-1:1, ph:1.7}];
   S.hands=A.map((h,i)=>{ const d=Math.hypot(f.x-h.ax,f.y-h.ay);
-    return {...h, mir:i?-1:1, mirT:i?-1:1, tx:h.ax, ty:h.ay, hx:h.nx, hy:h.ny, trail:[{x:h.ax,y:h.ay}], close:0, spd:d*1.15/(HM_REACH_T-37)}; });
+    return {...h, mir:i?-1:1, mirT:i?-1:1, tx:h.ax, ty:h.ay, hx:h.nx, hy:h.ny, trail:[{x:h.ax,y:h.ay}], close:0, spd:d*1.15*HM_HAND_SPD/(HM_REACH_T-37)}; });
   hmShadows.push(S);
 }
 function _hmHold(u,x,y){ u.x=x; u.y=y; u.vx=0; u.vy=0; if(u.stun!==undefined) u.stun=Math.max(u.stun||0,2); }
@@ -5129,7 +5130,7 @@ let loadingArrows=[]; // Loading Cat — mũi tên phép vĩnh viễn, xuyên qu
 let flowerShatters=[]; // Flower Cat: hiệu ứng không gian nứt vỡ toàn màn hình khi kích hoạt Siêu Việt
 let flowerZoom=0, flowerZoomX=0, flowerZoomY=0; // zoom-punch bóp méo không gian quanh điểm kích hoạt
 let flowerSpotlight=0, flowerSpotlightX=0, flowerSpotlightY=0; // vùng tối viền ngoài — chỉ còn rõ Flower Cat giữa khung hình
-let flowerSeqT=0, flowerSeqFC=null; // chuỗi hiệu ứng Siêu Việt 2s (120 tick) — cố tình tick Ở TẦNG loop() (KHÔNG đặt trong doAbility()/update() của Fighter), vì battleFreezeTimer đóng băng toàn bộ fighters.forEach(update) nên timer đặt trong đó sẽ không bao giờ chạy được lúc đang đóng băng
+let flowerSeqT=0, flowerSeqFC=null, flowerSeqT0=0; // chuỗi hiệu ứng Siêu Việt 2s (120 tick) — cố tình tick Ở TẦNG loop() (KHÔNG đặt trong doAbility()/update() của Fighter), vì battleFreezeTimer đóng băng toàn bộ fighters.forEach(update) nên timer đặt trong đó sẽ không bao giờ chạy được lúc đang đóng băng
 let susSummons=[]; // Sus Cat summons
 // ==================== 🐶🌙 SUS DOG — MA SÓI ====================
 // Vào trận CHƯA có ngày/đêm; 2s sau trời tối lần đầu, hết đêm đầu mới bắt đầu chu kỳ NGÀY 5s → ĐÊM 3s, lặp tới hết trận. Mỗi pha có ĐÚNG 1 sự kiện, luôn rơi vào giây thứ 2 của pha:
@@ -10445,7 +10446,7 @@ const CHAR_BLURB = {
   uiacat: "Stands still to wind up, then spins out at high speed with reduced damage taken. Below 25% HP it teleports away, goes Hiphop for good, and floods the floor with spinning clones.",
   beluga: "Floods the screen with chat messages, each one hitting anything in its path.",
   screamcat: "Catastrophe-level threat. Remembers the biggest hit it ever took and screams it back at everyone every 2 seconds. Do NOT be foolish enough to hit it hard.",
-  thevoid: "Opens a black hole that drags the enemy in and damages them while they are held.",
+  thevoid: "Opens a black hole that drags the enemy in and damages them, and swallows any shots fired into it.",
   bananacat: "Drops banana peels and dashes off — stepping on one sends you sliding out of control.",
   suscat: "Summons imposters to gang up on the enemy. Once a match, when the enemy drops to 200 HP, it calls a real emergency meeting: the whole floor freezes for a 50/50 vote on whether they are the Imposter. Win the roll and they get ejected into space on the spot — no matter how much HP they had left — and the report cheerfully confirms they were not the Imposter and that all imposters remain, leaving SUS Cat alone on the floor.",
   nyancat: "Leaves a rainbow trail behind it as it bounces around; touching the trail hurts. Gets 3% faster every time it hits a wall.",
@@ -10487,7 +10488,7 @@ const CHAR_BLURB = {
   mosquitoviolin: "Touch it once and it strings you for the whole match, then plays violin damage down the wire on every beat.",
   supremearbiter: "Never attacks and moves like any meme. While it is above you, its arrogance climbs and it slows you 3% more every second; the more arrogant it gets, the heavier the whole arena's gravity crushes every enemy. Wins end with lightning and a single word.",
   scaredhamster: "Never attacks — just wanders. Cornered, it cowers while two shadow hands crawl out of the far corner after it, crushing, slamming or passing-and-squeezing the first one in the way before pulling back. If they reach it, it gets the same treatment.",
-  infinitydoge: "Splits in two every time it drops below half health, down to 50 HP. Damages anything it bumps into.",
+  infinitydoge: "Divides like a cell every 3s — every copy splits, each half 100 HP lighter, smaller and 5% faster. Damages anything it bumps into.",
   cryingcat: "Three linked cats. The tear link between them burns and slows anything that touches it.",
   rubikcat: "Rolls a random cube face on a timer, each with a different effect. Collect all six and a black hole ends the match outright.",
   mewingcat: "Strikes mewing poses on a timer, each one summoning a stone statue that charges the enemy and shatters on impact.",
@@ -10576,7 +10577,7 @@ const CHAR_BLURB_SHORT = {
   mosquitoviolin: "One bite, one string, a whole violin concerto.",
   supremearbiter: "It's over Anakin, I have the high ground.",
   scaredhamster: "Hides in the corner. Something reaches back.",
-  infinitydoge: "Hit one Doge. Get two Doges.",
+  infinitydoge: "Splits like a cell every 3 seconds.",
   cryingcat: "Three crying cats. Their tears burn.",
   rubikcat: "Solve all six faces. Black hole ending.",
   mewingcat: "KitKat Cat.",
@@ -11608,8 +11609,8 @@ function _grumpyRage(f, amt){
 function _flowerStartTranscend(fc){
   if(!fc || fc.dead) return;
   if(flowerSeqT>0) return; // đang có 1 chuỗi khác chạy rồi
-  flowerSeqT=120; flowerSeqFC=fc;
-  battleFreezeTimer = Math.max(battleFreezeTimer, 120); // đóng băng toàn trận suốt 2s — thời gian ngưng lại giữa cơn Siêu Việt
+  flowerSeqT=120; flowerSeqFC=fc; flowerSeqT0=performance.now();   // ⏱️ đếm theo ĐỒNG HỒ THẬT (không theo số khung) — máy tụt khung lúc vẽ cảnh vũ trụ thì chuỗi vẫn đúng 2s khớp sound, không bị kéo chậm
+  battleFreezeTimer = Math.max(battleFreezeTimer, 2); // đóng băng toàn trận suốt 2s — thời gian ngưng lại giữa cơn Siêu Việt
   fc.actionState='attack'; fc.attackAvatarTimer=120; // đổi sang avatar "Trạng thái Siêu Việt" NGAY khi chạm hoa, giữ suốt cả chuỗi 2s
   playSample('flower_transcend', 0.95);
   addShake(8,14);
@@ -11619,8 +11620,12 @@ function _flowerStartTranscend(fc){
 function _flowerSeqTick(){
   if(flowerSeqT<=0) return;
   if(!flowerSeqFC || flowerSeqFC.dead){ flowerSeqT=0; flowerZoom=0; flowerSpotlight=0; flowerSeqFC=null; return; }
-  flowerSeqT--;
-  const fc=flowerSeqFC, _t=flowerSeqT;
+  const _tgt=Math.max(0,120-Math.floor((performance.now()-flowerSeqT0)/(1000/60)));   // số tick còn lại theo giờ thật
+  battleFreezeTimer=Math.max(battleFreezeTimer,2);   // giữ trận đứng hình tới khi chuỗi xong (không đếm theo khung nữa)
+  do { flowerSeqT--; _flowerSeqStep(); } while(flowerSeqT>_tgt && flowerSeqT>0 && flowerSeqFC);   // bù các tick bị lỡ để không sót mốc nứt vỡ / tiếng nện / dame
+}
+function _flowerSeqStep(){
+  const fc=flowerSeqFC, _t=flowerSeqT; if(!fc) return;
   // pha 1 (0 → 0.67s): zoom bóp méo + vùng tối viền ngoài ramp lên — "chỉ còn rõ mỗi Flower Cat"
   flowerZoom=Math.min(1,_t/96);
   flowerZoomX=fc.x; flowerZoomY=fc.y;
@@ -11768,14 +11773,16 @@ function _flCosBG(){
     ctx.fillStyle=`rgba(${p.d<0.25?'255,240,210':'200,180,255'},${0.55*(1-p.d*0.6)})`; ctx.fillRect(x,y,p.r,p.r); }
   _flGlow(f.x,f.y,GR*0.35,0.35,'255,230,190');
   // ✨ sao: lấp lánh lúc đầu, rồi lao vút ra ngoài thành vệt (warp)
-  for(const s of C.stars){ const D=diag*0.75, d0=((s.d+C.t*0.004*s.sp*warp)%1), d=Math.pow(d0,1.6)*D, len=Math.min(D*0.18, d*0.12*warp*s.sp);
-    const x=f.x+Math.cos(s.a)*d, y=f.y+Math.sin(s.a)*d, a=Math.min(1,d0*3)*(0.6+0.4*Math.sin(tm*4+s.ph));
-    if(len>2){ ctx.strokeStyle=`rgba(${s.c},${a})`; ctx.lineWidth=s.r; ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x-Math.cos(s.a)*len,y-Math.sin(s.a)*len); ctx.stroke(); }
-    else { ctx.fillStyle=`rgba(${s.c},${a})`; ctx.beginPath(); ctx.arc(x,y,s.r,0,Math.PI*2); ctx.fill(); } }
+  { const B={};   // ⚡ gom sao theo (màu · nấc độ sáng) → vài nét vẽ thay vì 170 nét lẻ
+    for(const s of C.stars){ const D=diag*0.75, d0=((s.d+C.t*0.004*s.sp*warp)%1), d=Math.pow(d0,1.6)*D, len=Math.min(D*0.18, d*0.12*warp*s.sp);
+      const x=f.x+Math.cos(s.a)*d, y=f.y+Math.sin(s.a)*d, a=Math.min(1,d0*3)*(0.6+0.4*Math.sin(tm*4+s.ph)), key=s.c+'|'+Math.min(3,Math.floor(a*4)); (B[key]=B[key]||[]).push([x,y,len,s]); }
+    ctx.lineWidth=1.3; for(const key in B){ const [c,q]=key.split('|'), al=(+q+0.5)/4; ctx.strokeStyle=ctx.fillStyle=`rgba(${c},${al})`; ctx.beginPath(); let dots=false;
+      for(const [x,y,len,s] of B[key]){ if(len>2){ ctx.moveTo(x,y); ctx.lineTo(x-Math.cos(s.a)*len,y-Math.sin(s.a)*len); } } ctx.stroke();
+      for(const [x,y,len,s] of B[key]) if(len<=2) ctx.fillRect(x-s.r,y-s.r,s.r*2,s.r*2); } }
   // 🧠 sóng não lan ra từ mèo
   for(let k=0;k<4;k++){ const q=((C.t*0.012+k/4)%1); ctx.strokeStyle=`rgba(180,220,255,${0.35*(1-q)})`; ctx.lineWidth=1.5; ctx.beginPath(); ctx.ellipse(f.x,f.y,q*diag*0.6,q*diag*0.6*0.8,0,0,Math.PI*2); ctx.stroke(); }
   ctx.restore();
-  if(R<diag*1.05){ ctx.save(); ctx.globalAlpha=fade; ctx.globalCompositeOperation='lighter'; ctx.strokeStyle='rgba(220,200,255,0.7)'; ctx.lineWidth=3; ctx.shadowColor='#b388ff'; ctx.shadowBlur=14; ctx.beginPath(); ctx.arc(f.x,f.y,R,0,Math.PI*2); ctx.stroke(); ctx.restore(); }   // mép vũ trụ đang loang ra
+  if(R<diag*1.05){ ctx.save(); ctx.globalAlpha=fade; ctx.globalCompositeOperation='lighter'; ctx.beginPath(); ctx.arc(f.x,f.y,R,0,Math.PI*2); ctx.strokeStyle='rgba(179,136,255,0.25)'; ctx.lineWidth=12; ctx.stroke(); ctx.strokeStyle='rgba(220,200,255,0.7)'; ctx.lineWidth=3; ctx.stroke(); ctx.restore(); }   // ⚡ mép vũ trụ loang ra — bỏ đổ bóng mờ (tốn fill-rate), viền mờ bằng nét rộng
 }
 // ♾️ LỚP TRÊN — hào quang, ∞, đường hầm vô cực, cú nổ + cột sáng (vẽ SAU nhân vật)
 function _flCosFG(){
@@ -11809,7 +11816,7 @@ function _flCosFG(){
   if(st>=120){   // 💥 NỔ khai sáng + quầng sáng bung trên từng kẻ địch (dame AOE toàn sân — không còn cột sáng giáng xuống)
     const u=st-120;
     if(u<14){ ctx.globalAlpha=Math.pow(1-u/14,2); ctx.fillStyle='rgba(255,255,255,0.85)'; ctx.fillRect(cv[0],cv[1],cv[2],cv[3]); ctx.globalAlpha=1; }
-    { const v=Math.min(1,u/28); ctx.strokeStyle=`rgba(200,230,255,${0.8*(1-v)})`; ctx.lineWidth=6*(1-v)+1; ctx.shadowColor='#b3e5fc'; ctx.shadowBlur=16; ctx.beginPath(); ctx.ellipse(f.x,f.y,diag*0.7*v,diag*0.7*v*0.8,0,0,Math.PI*2); ctx.stroke(); ctx.shadowBlur=0; }
+    { const v=Math.min(1,u/28); ctx.beginPath(); ctx.ellipse(f.x,f.y,diag*0.7*v,diag*0.7*v*0.8,0,0,Math.PI*2); ctx.strokeStyle=`rgba(179,229,252,${0.3*(1-v)})`; ctx.lineWidth=18*(1-v)+4; ctx.stroke(); ctx.strokeStyle=`rgba(200,230,255,${0.8*(1-v)})`; ctx.lineWidth=6*(1-v)+1; ctx.stroke(); }   // ⚡ bỏ đổ bóng mờ
     for(const h of C.hits){ const a=Math.max(0,1-u/36);
       _flGlow(h.x,h.y,h.s*(1.5+2*Math.min(1,u/20)),0.85*a,'230,240,255');
       for(let k=0;k<10;k++){ const aa=k/10*Math.PI*2+h.ph, d=h.s*(0.6+3*Math.min(1,u/22)); _arStar(h.x+Math.cos(aa)*d, h.y+Math.sin(aa)*d*0.8, 3.5*a+0.5, `rgba(255,255,255,${a})`); } }   // 🤯 sao bung ra — mind blown
@@ -13455,26 +13462,40 @@ function _idSplitBurst(x, y, size, ang){
   playSample('punch1',0.35);
 }
 // thân này có đủ điều kiện phân đôi không, và nếu có thì tách
+const ID_SPLIT_T = 180, ID_SPLIT_COST = 100, ID_MAX_BODIES = 32;   // 3s/lần · mỗi lần mất 100 máu · trần 32 thân cả đàn (chặn tăng theo cấp số nhân gây lag)
+let idMito=[];   // 🧫 hiệu ứng PHÂN BÀO đang diễn ra: {a,b,t,max}
+function _idBodyCount(owner){ return (owner&&!owner.dead?1:0)+dogeClones.filter(c=>c.owner===owner&&!c.dead&&c.hp>0).length; }
 function _idTrySplit(body, isMain){
-  const _mx=body.maxHp||0;
-  if(_mx<=ID_MIN_HP) return false;          // 125 là mốc cuối
-  if(body.hp>_mx*0.5 || body.hp<=0) return false;
-  // 1000 → 500 → 250 → 125 → 50. Nấc cuối cùng KHÔNG phải chia đôi (125/2=62.5) mà chốt cứng 50.
-  const _newHp=(_mx===125) ? 50 : _mx/2;
-  const _newSize=Math.max(6, body.size*0.7);   // nhỏ hơn 30%
-  const _ang=Math.random()*Math.PI*2;
-  _idSplitBurst(body.x, body.y, body.size, _ang);
+  body._idSplitT=(body._idSplitT==null?ID_SPLIT_T:body._idSplitT)-1;
+  if(body._idSplitT>0) return false;
+  body._idSplitT=ID_SPLIT_T;
+  if(body.hp<=ID_SPLIT_COST || body.hp<=0) return false;          // còn ≤100 máu thì hết máu để tách
   const _own = isMain ? body : body.owner;
-  // thân hiện tại BIẾN THÀNH thân con thứ nhất, đẻ thêm đúng 1 thân con nữa → 1 thành 2
-  body.maxHp=_newHp; body.hp=_newHp; body.size=_newSize;
-  body.vx=Math.cos(_ang)*7; body.vy=Math.sin(_ang)*7;
-  body._splitFx=26; body.flash=6;
-  _clearSplitStatus(body);          // thân con sinh ra SẠCH: không mang theo cháy/độc/dây hút máu của thân cũ
+  if(_idBodyCount(_own)>=ID_MAX_BODIES) return false;
+  const _newHp=body.hp-ID_SPLIT_COST, _newSize=Math.max(9, body.size*0.86), _ang=Math.random()*Math.PI*2, _spd=(body._idSpd||1)*1.05;   // nhỏ đi · nhanh hơn 5%
+  body.maxHp=_newHp; body.hp=_newHp; body.size=_newSize; body._idSpd=_spd;
+  if(isMain) body.topSpeed*=1.05;
+  body.vx=Math.cos(_ang)*3; body.vy=Math.sin(_ang)*3;
+  body.flash=4;
+  _clearSplitStatus(body);
   if(isMain) body._idSplitFx=26;
   _idSpawnClone(_own, body.x, body.y, _newHp, _newSize, _ang+Math.PI);
-  floatTexts.push({x:body.x,y:body.y-body.size-20,text:'SPLIT!',color:'#ffd54f',life:38});
+  const _c=dogeClones[dogeClones.length-1]; if(_c){ _c._idSpd=_spd; _c.vx=Math.cos(_ang+Math.PI)*3; _c.vy=Math.sin(_ang+Math.PI)*3; _c._idSplitT=ID_SPLIT_T; }
+  idMito.push({a:body, b:_c, t:0, max:36, r:body.size});
   return true;
 }
+// 🧫 vẽ PHÂN BÀO: màng tế bào trong mờ bao 2 thân — 1 khối tròn → kéo dài thành hạt lạc → eo thắt lại → tách hẳn 2 màng → tan
+function _idMitoDraw(){
+  for(let i=idMito.length-1;i>=0;i--){ const M=idMito[i]; M.t++; const q=M.t/M.max, A=M.a, B=M.b;
+    if(q>=1||!A||!B||A.dead||B.dead){ idMito.splice(i,1); continue; }
+    const r=M.r*1.25, fade=q<0.75?1:1-(q-0.75)/0.25, dx=B.x-A.x, dy=B.y-A.y, d=Math.hypot(dx,dy)||1, nx=-dy/d, ny=dx/d, neck=r*Math.max(0,1-q*1.6);
+    const mx=(A.x+B.x)/2, my=(A.y+B.y)/2, path=()=>{ ctx.beginPath(); ctx.arc(A.x,A.y,r,0,Math.PI*2); ctx.moveTo(B.x+r,B.y); ctx.arc(B.x,B.y,r,0,Math.PI*2);
+      if(neck>1){ ctx.moveTo(A.x+nx*neck,A.y+ny*neck); ctx.quadraticCurveTo(mx+nx*neck*0.55,my+ny*neck*0.55,B.x+nx*neck,B.y+ny*neck); ctx.lineTo(B.x-nx*neck,B.y-ny*neck); ctx.quadraticCurveTo(mx-nx*neck*0.55,my-ny*neck*0.55,A.x-nx*neck,A.y-ny*neck); ctx.closePath(); } };
+    ctx.save(); ctx.globalAlpha=fade;
+    path(); ctx.fillStyle='rgba(205,180,130,0.16)'; ctx.fill('nonzero');   // dịch tế bào
+    ctx.lineWidth=Math.max(1.5,r*0.14); ctx.strokeStyle='rgba(235,215,170,0.75)'; ctx.beginPath(); ctx.arc(A.x,A.y,r,0,Math.PI*2); ctx.stroke(); ctx.beginPath(); ctx.arc(B.x,B.y,r,0,Math.PI*2); ctx.stroke();   // màng tế bào
+    ctx.fillStyle='rgba(255,245,215,0.8)'; for(let k=0;k<10;k++){ const an=k*0.63+M.r, P=k%2?A:B; ctx.fillRect(P.x+Math.cos(an)*r*0.92-1,P.y+Math.sin(an)*r*0.92-1,2,2); }   // lấm tấm trên màng
+    ctx.restore(); } }
 
 function _cbDrawKnife(ck, ckOwner){
     ctx.save();
@@ -16166,12 +16187,17 @@ class Fighter {
     // KẾ TIẾP +10 (cộng dồn vô hạn cả trận, không reset khi trượt), kèm chữ combo Xn hiện lên (xem chỗ tăng
     // _dddCombo/floatTexts trong vòng va chạm đạn ở updateProjectiles).
     if(this.type==='damdamdidi' && !this.dead){
-      if(!this._dddDancing){
-        this._dddDancing=true;
+      if(!this._dddInit){
+        this._dddInit=true; this._dddDancing=true; this._dddPhaseT=240;   // 💃 mỗi lượt nhảy 4s → nghỉ 2s → nhảy tiếp
         this._dddCombo=0;
         this._dddArrowCD=0;
         this._dddMusic=AUDIO_SAMPLES['damdamdidi']?.cloneNode();
         if(this._dddMusic){ this._dddMusic.loop=true; this._dddMusic.volume=0.9; _mixRoute(this._dddMusic); this._dddMusic.play().catch(()=>{}); }
+      }
+      this._dddPhaseT--;
+      if(this._dddPhaseT<=0){
+        this._dddDancing=!this._dddDancing; this._dddPhaseT=this._dddDancing?240:120;
+        if(this._dddMusic){ try{ if(this._dddDancing) this._dddMusic.play().catch(()=>{}); else this._dddMusic.pause(); }catch(e){} }   // ⏸️ nghỉ thì tạm dừng nhạc, nhảy lại thì PHÁT TIẾP đúng chỗ đang dở
       }
       // 🔉 tự lặn nhạc nếu có nhân vật NHẠC NỀN DÀI khác (piano/guitar/violin) đang phát nhạc CÙNG LÚC — 2 bài
       // nhạc dài chồng lên nhau nghe rối, còn SFX ngắn (Yelling Women, tiếng hit...) không đụng tới nhánh này.
@@ -16180,7 +16206,7 @@ class Fighter {
         this._dddMusic.volume = _dddClash ? 0.45 : 0.9;
       }
       this._dddArrowCD=Math.max(0,(this._dddArrowCD||0)-1);
-      if(this._dddArrowCD<=0 && this.enemy && !this.enemy.dead){
+      if(this._dddDancing && this._dddArrowCD<=0 && this.enemy && !this.enemy.dead){
         this._dddArrowCD=36; // 0.6s
         const _dddTgt=this.enemy;
         const _dddRaw=Math.atan2(_dddTgt.y-this.y, _dddTgt.x-this.x);
@@ -17988,7 +18014,7 @@ class Fighter {
       if(this._idHitCD<=0){
         const _t=_findClosestEnemy(this.team,this.x,this.y);
         if(_t && !_t.dead && Math.hypot(_t.x-this.x,_t.y-this.y) < this.size+_t.size+MELEE_REACH){
-          _t.takeDamage(60,this);
+          _t.takeDamage(33,this);
           this._idHitCD=40;
           _idSparkAt(this,_t);
           _hitParticles(_t.x,_t.y,'#ffd54f',6);
@@ -21839,7 +21865,7 @@ function togglePause(){
   const overlay = document.getElementById('pauseOverlay');
   const _loops=[]; // nhạc/loop thường (không phải piano)
   [_flyingCatTheme,_burnLoop,_narutoIntroAudio,_fkGasSfx,_fkAnthemSfx,_egBgm,_saSfx,_dpRainSfx,_hmBoxSfx,_hmCrawlSfx,_hlSfx,_mwTravelSfx].forEach(a=>{ if(a) _loops.push(a); });
-  fighters.forEach(f=>{ [f._ricardoMusic,f._uiaSpin,f._rrMusic,f._belugaTypeSfx,f._dddMusic,f._frMusic,f._ldSawSfx].forEach(a=>{ if(a && a!=='fail') _loops.push(a); }); });   // 🎵 _frMusic: nhạc Friend
+  fighters.forEach(f=>{ [f._ricardoMusic,f._uiaSpin,f._rrMusic,f._belugaTypeSfx,(f._dddDancing?f._dddMusic:null),f._frMusic,f._ldSawSfx].forEach(a=>{ if(a && a!=='fail') _loops.push(a); }); });   // (Damdam Didi đang nghỉ thì nhạc đang tạm dừng — bấm tiếp tục không được bật lại)   // 🎵 _frMusic: nhạc Friend
   // 🐺 tiếng sói hú Sus Dog — chỉ khi ĐANG phát dở (đã hú xong mà đưa vào đây thì bấm tiếp tục sẽ hú lại từ đầu)
   fighters.forEach(f=>{ const a=f._sdHowlSfx; if(a && !a.ended && !a.paused) _loops.push(a); });
   fighters.forEach(f=>{ if(f._arMusic && !f._arGenie && !f.dead) _loops.push(f._arMusic); });   // 🐱 nhạc lắc lư Arabic Cat (đang xoa đèn thì nhạc vốn đã tắt — bấm tiếp tục không được bật lại) // 💃 _dddMusic: nhạc nhảy loop Damdam Didi Cat — thiếu dòng này nên pause game không tắt được tiếng nhạc của nó
@@ -22070,7 +22096,7 @@ function startGame(skipVsIntro){
   document.getElementById('pauseOverlay').classList.remove('visible');
   stopAllBattleMusic();
   _gameTickAccum=0;
-  fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; frRem=null; dpRainK=0; dpRipples=[]; dpWx={cloud:0, rain:0, storm:0, nextBolt:0, bolt:null, nextFlash:0, flash:null}; psCine=null; psWipe=null; psShards=[]; psDust=[]; psCrater=null; mwBits=[]; mwShards=[]; mwKitkat=[]; scEcho=[]; hmShadows=[]; hmEyes=[]; _hmEyeCD=150; hmWisps=[]; _hmWispCD=120; saWin=null; hmWin=null; saBolts=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; wcDrops=[]; wcFx=[]; popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flCos=null; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susFx=[]; susDark=null; dogeFx=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[]; tick=0;
+  idMito=[]; fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; frRem=null; dpRainK=0; dpRipples=[]; dpWx={cloud:0, rain:0, storm:0, nextBolt:0, bolt:null, nextFlash:0, flash:null}; psCine=null; psWipe=null; psShards=[]; psDust=[]; psCrater=null; mwBits=[]; mwShards=[]; mwKitkat=[]; scEcho=[]; hmShadows=[]; hmEyes=[]; _hmEyeCD=150; hmWisps=[]; _hmWispCD=120; saWin=null; hmWin=null; saBolts=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; wcDrops=[]; wcFx=[]; popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flCos=null; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susFx=[]; susDark=null; dogeFx=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[]; tick=0;
   _matchStats=Array.from({length:8},()=>({dmg:0,hits:0,healed:0,attempted:0}));
   screenShake={x:0,y:0,dur:0,str:0}; afterImages=[]; slowMoTimer=0; hitStopFrames=0; hitStopCD=0; koZoom=0; _camReset();
   loop._koTimer=null; loop._resInit=false; loop._resT=null; loop._resClick=false; loop._rtDone=false; loop._statsT=0; loop._lbPrompted=false; loop._ctaText=null; loop._mechShown=false; loop._fanDone=false; loop._wcMeowDone=false;
@@ -22506,7 +22532,7 @@ function resetGame(){
   document.getElementById('pauseOverlay').classList.remove('visible');
   _gameTickAccum=0;
   stopAllBattleMusic();
-  fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; frRem=null; dpRainK=0; dpRipples=[]; dpWx={cloud:0, rain:0, storm:0, nextBolt:0, bolt:null, nextFlash:0, flash:null}; psCine=null; psWipe=null; psShards=[]; psDust=[]; psCrater=null; mwBits=[]; mwShards=[]; mwKitkat=[]; scEcho=[]; hmShadows=[]; hmEyes=[]; _hmEyeCD=150; hmWisps=[]; _hmWispCD=120; saWin=null; hmWin=null; saBolts=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; wcDrops=[]; wcFx=[]; popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flCos=null; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susFx=[]; susDark=null; dogeFx=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[];
+  idMito=[]; fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; frRem=null; dpRainK=0; dpRipples=[]; dpWx={cloud:0, rain:0, storm:0, nextBolt:0, bolt:null, nextFlash:0, flash:null}; psCine=null; psWipe=null; psShards=[]; psDust=[]; psCrater=null; mwBits=[]; mwShards=[]; mwKitkat=[]; scEcho=[]; hmShadows=[]; hmEyes=[]; _hmEyeCD=150; hmWisps=[]; _hmWispCD=120; saWin=null; hmWin=null; saBolts=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; wcDrops=[]; wcFx=[]; popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flCos=null; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susFx=[]; susDark=null; dogeFx=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[];
   screenShake={x:0,y:0,dur:0,str:0}; slowMoTimer=0; hitStopFrames=0; hitStopCD=0; koZoom=0;
   showVsWaitScreen();
 }
@@ -24486,6 +24512,7 @@ function loop(){
   if(battleFreezeTimer<=0){
     for(const _f of fighters){ if(_f.type==='infinitydoge' && !_f.dead) _idTrySplit(_f, true); }
   }
+  if(idMito.length) _idMitoDraw();   // 🧫 màng phân bào (vẽ trước các thân con)
   for(let idi=dogeClones.length-1; idi>=0; idi--){
     const dc=dogeClones[idi];
     if(dc.dead || dc.hp<=0){ spawnParticles(dc.x,dc.y,'#ffb74d',10); dogeClones.splice(idi,1); continue; }
@@ -24494,7 +24521,7 @@ function loop(){
       dc.flash=Math.max(0,dc.flash-1);
       dc._hitCD=Math.max(0,(dc._hitCD||0)-1);
       if((dc._splitFx||0)>0) dc._splitFx--;
-      const idTop=(CHAR_DEFS.infinitydoge.speed)*MOVE_MULT;
+      const idTop=(CHAR_DEFS.infinitydoge.speed)*MOVE_MULT*(dc._idSpd||1);
       if((dc._vertBounceCount||0)>2){
         const bAng=dc._lastAngle||0;
         const kick=(Math.random()<0.5?1:-1)*(Math.PI/9+Math.random()*Math.PI/9);
@@ -24512,7 +24539,7 @@ function loop(){
         dc._facingRight=(dEn.x-dc.x)>0;
         // VA vào địch → 60 dame (không có đòn đánh riêng nào khác)
         if(dc._hitCD<=0 && Math.hypot(dEn.x-dc.x,dEn.y-dc.y) < dc.size+dEn.size+MELEE_REACH){
-          dEn.takeDamage(60,{team:dc.team,x:dc.x,y:dc.y});
+          dEn.takeDamage(33,{team:dc.team,x:dc.x,y:dc.y});
           dc._hitCD=40;
           _idSparkAt(dc,dEn);
           _hitParticles(dEn.x,dEn.y,'#ffd54f',6);
@@ -25362,6 +25389,8 @@ function loop(){
   }
 
   // ===== BLACK HOLES (The Void) =====
+  // 🕳️ các mảng đạn/vật ném có x,y,vx,vy,team mà hố đen The Void hút và nuốt được
+  function _bhProjArrays(){ const L=[projectiles]; for(const a of [typeof sdProjs!=='undefined'?sdProjs:null, typeof coughBlobs!=='undefined'?coughBlobs:null, typeof wcDrops!=='undefined'?wcDrops:null, typeof cnPans!=='undefined'?cnPans:null, typeof heckerBolts!=='undefined'?heckerBolts:null, typeof batRangs!=='undefined'?batRangs:null, typeof loadingArrows!=='undefined'?loadingArrows:null]) if(Array.isArray(a)) L.push(a); return L; }
   for(let i=blackHoles.length-1;i>=0;i--){
     const bh=blackHoles[i];
     bh.life--;
@@ -25398,6 +25427,14 @@ function loop(){
         if(tick%15===0){ const pd=d2<_bhT1?30:d2<_bhT2?8:2; s.takeDamage(pd, bh.owner, false, true, '', null, true); }
       }
     }
+    // 🕳️ HÚT + NUỐT ĐẠN: mọi viên đạn / tia / vật ném của phe địch bay vào tầm hố đen bị bẻ cong, xoáy vào tâm rồi biến mất
+    { const PR=bh.maxR*3.2, EAT=bhR*0.42; for(const arr of _bhProjArrays()) for(let pi=arr.length-1;pi>=0;pi--){ const p=arr[pi];
+        if(!p || p.team===bh.team || typeof p.x!=='number' || typeof p.vx!=='number') continue;
+        const dx=bh.x-p.x, dy=bh.y-p.y, d=Math.hypot(dx,dy)||1; if(d>PR) continue;
+        const sp=Math.max(2,Math.hypot(p.vx,p.vy)), k=1-d/PR, pull=0.25+k*k*1.6;   // càng gần càng bị bẻ mạnh + xoáy vòng
+        p.vx=(p.vx+dx/d*sp*pull*0.35+(-dy/d)*sp*0.12*k); p.vy=(p.vy+dy/d*sp*pull*0.35+(dx/d)*sp*0.12*k); const ns=Math.hypot(p.vx,p.vy)||1; p.vx=p.vx/ns*sp; p.vy=p.vy/ns*sp;
+        if(p.angle!==undefined) p.angle=Math.atan2(p.vy,p.vx);
+        if(d<EAT){ spawnParticles(p.x,p.y,'#9c27b0',5); arr.splice(pi,1); } } }
     // draw black hole — dùng sprite-sheet GIF thật (đã chroma-key bỏ nền, giữ lõi đen)
     ctx.save();
     ctx.globalAlpha=Math.min(1,t*2);
@@ -28822,7 +28859,7 @@ function closeFan(){
   document.getElementById('mainMenuScreen').classList.add('active');
 }
 function _ffa3ClearArrays(){
-  fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; frRem=null; dpRainK=0; dpRipples=[]; dpWx={cloud:0, rain:0, storm:0, nextBolt:0, bolt:null, nextFlash:0, flash:null}; psCine=null; psWipe=null; psShards=[]; psDust=[]; psCrater=null; mwBits=[]; mwShards=[]; mwKitkat=[]; scEcho=[]; hmShadows=[]; hmEyes=[]; _hmEyeCD=150; hmWisps=[]; _hmWispCD=120; saWin=null; hmWin=null; saBolts=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; wcDrops=[]; wcFx=[]; popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flCos=null; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susFx=[]; susDark=null; dogeFx=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[]; tick=0;
+  idMito=[]; fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; frRem=null; dpRainK=0; dpRipples=[]; dpWx={cloud:0, rain:0, storm:0, nextBolt:0, bolt:null, nextFlash:0, flash:null}; psCine=null; psWipe=null; psShards=[]; psDust=[]; psCrater=null; mwBits=[]; mwShards=[]; mwKitkat=[]; scEcho=[]; hmShadows=[]; hmEyes=[]; _hmEyeCD=150; hmWisps=[]; _hmWispCD=120; saWin=null; hmWin=null; saBolts=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; wcDrops=[]; wcFx=[]; popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flCos=null; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susFx=[]; susDark=null; dogeFx=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[]; tick=0;
   screenShake={x:0,y:0,dur:0,str:0}; slowMoTimer=0; hitStopFrames=0; hitStopCD=0; koZoom=0;
 }
 function ffa3Start(){
