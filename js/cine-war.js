@@ -1215,24 +1215,30 @@
   function saber(x,y,L,ang,a,dbl){ g.save(); g.translate(x,y); g.rotate(ang); g.lineCap='round'; for(const sd of dbl?[1,-1]:[1]){ g.globalCompositeOperation='lighter'; for(const [lw,c] of [[L*0.09,'255,30,30,0.3'],[L*0.045,'255,60,50,0.8'],[L*0.018,'255,230,225,1']]){ const q=c.split(','); g.strokeStyle=`rgba(${q[0]},${q[1]},${q[2]},${q[3]*a})`; g.lineWidth=lw; g.beginPath(); g.moveTo(0,-sd*L*0.06); g.lineTo(0,-sd*L); g.stroke(); } }
     g.globalCompositeOperation='source-over'; g.fillStyle='#2a2a2e'; g.fillRect(-L*0.025,-L*0.07,L*0.05,L*0.14); g.restore(); }   // 🗡️ kiếm ánh sáng đỏ (dbl: 2 lưỡi như Darkside Kermit trong game)
   // 🗡️ kiếm vẽ ĐÚNG như trong game: Catvader — kiếm đỏ bay lơ lửng cạnh người · Kermit — kiếm 2 lưỡi cố định trước mặt, xoay khi chém
-  function cvBlade(x,y,ang,s2){ g.save(); g.translate(x,y); g.rotate(ang); const bl=s2*1.5, bw=s2*0.16, hl=s2*0.38, hw=s2*0.18; g.fillStyle='#3a3a3a'; g.fillRect(-hl,-hw/2,hl,hw);
-    g.shadowColor='#ff1744'; g.shadowBlur=Math.max(6,s2*0.35); g.fillStyle='rgba(255,23,68,0.55)'; g.fillRect(0,-bw*0.8,bl,bw*1.6); g.shadowBlur=0; g.fillStyle='#fff5f5'; g.fillRect(0,-bw*0.35,bl,bw*0.7); g.restore(); }
-  function kmStaff(x,y,ang,s2){ g.save(); g.translate(x,y); g.rotate(ang); const bl=s2*1.035, bw=s2*0.16, hL=s2*0.4, hw=s2*0.17; g.fillStyle='#2a2a2a'; g.fillRect(-hL/2,-hw/2,hL,hw);
-    g.shadowColor='#ff1744'; g.shadowBlur=Math.max(6,s2*0.35); g.fillStyle='rgba(255,23,68,0.55)'; g.fillRect(hL/2,-bw*0.8,bl,bw*1.6); g.fillRect(-hL/2-bl,-bw*0.8,bl,bw*1.6); g.shadowBlur=0; g.fillStyle='#fff5f5'; g.fillRect(hL/2,-bw*0.35,bl,bw*0.7); g.fillRect(-hL/2-bl,-bw*0.35,bl,bw*0.7); g.restore(); }
+  function blade(L0,L1,bw){ g.lineCap='round'; g.save(); g.globalCompositeOperation='lighter'; for(const [w,c] of [[bw*3.4,'rgba(255,23,68,0.16)'],[bw*2.0,'rgba(255,23,68,0.38)'],[bw*1.25,'rgba(255,60,80,0.75)']]){ g.strokeStyle=c; g.lineWidth=w; g.beginPath(); g.moveTo(L0,0); g.lineTo(L1,0); g.stroke(); }
+    g.restore(); g.strokeStyle='#fff5f5'; g.lineWidth=bw*0.55; g.beginPath(); g.moveTo(L0,0); g.lineTo(L1,0); g.stroke(); }   // lưỡi sáng: đầu tròn, quầng đỏ mềm nhiều lớp, lõi trắng hồng
+  function hilt(x0,x1,hw){ const gr=g.createLinearGradient(0,-hw/2,0,hw/2); gr.addColorStop(0,'#8a8a90'); gr.addColorStop(0.5,'#2c2c30'); gr.addColorStop(1,'#151518'); g.fillStyle=gr; g.beginPath(); g.roundRect(x0,-hw/2,x1-x0,hw,hw*0.35); g.fill(); g.fillStyle='#5a5a60'; for(let i=1;i<4;i++) g.fillRect(x0+(x1-x0)*i/4-hw*0.06,-hw/2,hw*0.12,hw); }
+  function cvBlade(x,y,ang,s2){ g.save(); g.translate(x,y); g.rotate(ang); const bl=s2*2.3, bw=s2*0.13, hl=s2*0.42, hw=s2*0.17; hilt(-hl,0,hw); blade(hw*0.2,bl,bw); g.restore(); }   // Catvader: kiếm đỏ (kiểu trong game, dài + mượt hơn)
+  function kmStaff(x,y,ang,s2){ g.save(); g.translate(x,y); g.rotate(ang); const bl=s2*1.7, bw=s2*0.13, hL=s2*0.45, hw=s2*0.16; blade(hL/2,hL/2+bl,bw); blade(-hL/2,-hL/2-bl,bw); hilt(-hL/2,hL/2,hw); g.restore(); }   // Kermit: kiếm 2 lưỡi
+  // ✂️ vết cắt kiếm ánh sáng: đường cắt nóng chảy đỏ-cam phát sáng giữa 2 nửa + khói bốc + tàn lửa (nguội dần)
+  function saberCut(x,y,h,ang,k){ if(k>=1) return; const cy=y-h*0.5, a=1-k, L=h*0.3; g.save(); g.translate(x,cy); g.rotate(ang); g.globalCompositeOperation='lighter'; g.lineCap='round';
+    for(const [w,c] of [[h*0.06,`rgba(255,50,10,${0.3*a})`],[h*0.022,`rgba(255,120,40,${0.8*a})`],[h*0.008,`rgba(255,220,170,${a})`]]){ g.strokeStyle=c; g.lineWidth=w; g.beginPath(); g.moveTo(-L/2,0); g.lineTo(L/2,0); g.stroke(); } g.restore();
+    for(let i=0;i<4;i++){ const q=(k*1.6+i/4)%1; puff(x+(hash(i+x)-0.5)*h*0.3,cy-q*h*0.5,h*0.06*(0.5+q),0.35*(1-q)*a,'60,50,50'); } if(k<0.15&&Math.random()<0.6) sparks(x,cy,3,'255,170,80',6); }
   // 🎥 TRẬN CHÉM QUA SÂN — góc RỘNG + máy LINH HOẠT: sân dài nhìn theo chiều sâu (quái đứng nhiều lớp xa gần), máy bám Catvader → lia vụt sang Kermit → kéo lùi toàn cảnh khi 2 đứa gặp nhau giữa sân
-  const VFW=3.2, VFM=[...Array(16)].map((_,i)=>({x:0.1+0.8*(i+0.5)/16+(hash(i+9410)-0.5)*0.03, d:[0,2,1,0,2,1,1,0,2,0,1,2,0,1,2,1][i], v:i}));
+  const VFW=3.2, VFM=[...Array(16)].map((_,i)=>({x:(i<8?0.08+0.3*(i+0.5)/8:0.62+0.3*(i-7.5)/8)+(hash(i+9410)-0.5)*0.02, d:[0,2,1,0,2,1,1,0,2,0,1,2,0,1,2,1][i], v:i})), vWx=(q,left)=>{ const ff=eio(seg(q,1.6,4.6)); return left?0.04+0.33*ff:0.96-0.33*ff; };
   function vaderFight(v,t){ const WW=VW*VFW, GY0=VH*0.84, dY=d=>GY0-d*VH*0.08, dS=d=>1-d*0.2, f=seg(v,1.6,4.6);
-    const cxw=WW*(0.04+0.44*eio(f)), kxw=WW*(0.96-0.44*eio(f)), cd=1+Math.sin(f*Math.PI*5)*1, kd=1-Math.sin(f*Math.PI*5)*1;   // đường đi zic-zắc theo chiều sâu
-    const camK=[[1.6,cxw,1.35,-0.05],[2.75,null,1.25,-0.03],[2.95,null,1.3,0.04],[4.0,null,1.2,0.03],[4.35,WW*0.5,0.95,0],[5.0,WW*0.5,0.88,0]];
+    const cxw=WW*vWx(v,true), kxw=WW*vWx(v,false), cd=1+Math.sin(f*Math.PI*5)*1, kd=1-Math.sin(f*Math.PI*5)*1;   // đường đi zic-zắc theo chiều sâu
+    const camK=[[1.6,cxw,1.35,-0.05],[2.75,null,1.25,-0.03],[2.95,null,1.3,0.04],[4.0,null,1.2,0.03],[4.4,WW*0.5,0.5,0],[5.0,WW*0.5,0.46,0]];
     const camX=v<2.8?cxw+VW*0.12:v<2.95?lerp(cxw+VW*0.12,kxw-VW*0.12,eio(seg(v,2.8,2.95))):v<4.0?kxw-VW*0.12:lerp(kxw-VW*0.12,WW*0.5,eio(seg(v,4.0,4.6)));
     const kz=keys(v,camK.map(c=>[c[0],0,0,c[2],c[3]])), z=kz[2]*(1), roll=kz[3]||0;
     fieldBG(t,{hy:0.6,z:0.75+z*0.25,cx:120+camX/WW*700,streak:v>2.8&&v<2.95?-9000:0});
     if(v>2.8&&v<2.95){ g.save(); g.globalCompositeOperation='lighter'; for(let i=0;i<40;i++){ const y=hash(i+9420+Math.floor(t*30))*VH, L=VW*(0.4+0.6*hash(i+9421)); g.fillStyle='rgba(255,220,210,0.2)'; g.fillRect(hash(i+9422)*VW-L/2,y,L,1+3*hash(i+9423)); } g.restore(); }   // lia vụt
     g.save(); g.translate(VW/2,VH*0.62); g.rotate(roll); g.scale(z,z); g.translate(-camX,-VH*0.62);
     const D=[];   // vẽ theo chiều sâu (xa trước)
-    const passT=(m)=>{ const left=m.x<0.5; for(let q=1.6;q<=4.6;q+=0.02){ const ff=seg(q,1.6,4.6), wx=left?WW*(0.04+0.44*eio(ff)):WW*(0.96-0.44*eio(ff)); if(left?wx>=m.x*WW:wx<=m.x*WW) return q; } return 99; };
+    const passT=(m)=>{ const left=m.x<0.5; for(let q=1.6;q<=4.6;q+=0.02){ const wx=WW*vWx(q,left); if(left?wx>=m.x*WW:wx<=m.x*WW) return q; } return 99; };
+    D.push({y:GY0-VH*0.16,f:()=>giant(WW*0.5,GY0-VH*0.16,VH*0.42*5*0.62,7,t,false)});   // 👹 con MA KHỔNG LỒ chờ sẵn giữa sân (gấp ~5 lần meme)
     VFM.forEach((m,i)=>{ const x=m.x*WW, y=dY(m.d), sc=dS(m.d), tp=passT(m), dd=seg(v,tp,tp+0.7), left=m.x<0.5;
-      D.push({y,f:()=>{ if(dd>0){ halves(x,y,VH*0.36*sc,!left,Math.min(1,dd*1.2),(left?-0.6:0.6)+hash(i)*0.3,i); if(dd<0.3){ g.save(); g.globalCompositeOperation='lighter'; g.lineCap='round'; const k=dd/0.3; g.strokeStyle=`rgba(255,40,50,${1-k})`; g.lineWidth=(10*(1-k)+3)*sc; g.beginPath(); g.arc(x,y-VH*0.18*sc,VH*0.16*sc,left?-2.4:-0.7,left?0.7:2.4); g.stroke(); g.restore(); } }
+      D.push({y,f:()=>{ if(dd>0){ const ang=(left?-0.6:0.6)+hash(i)*0.3; halves(x,y,VH*0.36*sc,!left,Math.min(1,dd*1.2),ang,i); saberCut(x,y,VH*0.36*sc,ang,dd*1.4); }
         else monster(x,y,VH*0.36*sc,!left,1,Math.sin(t*4+i)*0.08,0,i); }}); });
     const H=VH*0.42;
     D.push({y:dY(cd*0.999),f:()=>{ const x=cxw, y=dY(cd), sc=dS(cd); for(let j=1;j<4;j++) actor(IMG.cvFace,x-j*VW*0.03,y,H*sc,{noFix:true,a:0.16-j*0.04});
@@ -1253,20 +1259,20 @@
       return; }
     if(v<5.0){ vaderFight(v,t); return; }
     // 🤝 PHỐI HỢP: Kermit dùng THẦN LỰC nhấc bổng con MA KHỔNG LỒ lên không → Catvader PHÓNG KIẾM ánh sáng xoay tít bay XUYÊN QUA XUYÊN LẠI (đục nhiều lỗ) → con ma nổ tan, kiếm bay về tay
-    const lift=eio(seg(v,5.0,5.9)), boom=seg(v,7.25,7.8); fieldBG(t,{hy:0.8,z:0.9,cx:340}); g.fillStyle='rgba(30,0,5,0.22)'; g.fillRect(0,0,VW,VH);
-    const GX=VW*0.52, GH=VH*0.72, GY=VH*0.88-lift*VH*0.3+Math.sin(t*5)*VH*0.01*lift, GC=GY-GH*0.45;
-    const PS=[[-0.32,-0.05],[0.32,0.12],[-0.3,0.2],[0.3,-0.15],[-0.34,0.02]], TS=[5.95,6.25,6.55,6.85,7.15];   // 5 điểm vòng ra 2 bên con ma (tỉ lệ VW,VH quanh tâm) · mốc tới từng điểm
-    const sPos=v2=>{ if(v2<TS[0]){ const f=eio(seg(v2,5.8,TS[0])); return [lerp(VW*0.2,GX+PS[0][0]*VW,f),lerp(VH*0.62,GC+PS[0][1]*VH,f)]; } for(let i=0;i<TS.length-1;i++) if(v2<TS[i+1]){ const f=eio(seg(v2,TS[i],TS[i+1])), A=PS[i], B=PS[i+1], mid=Math.sin(Math.PI*f)*(i%2?-1:1)*VH*0.12; return [GX+lerp(A[0],B[0],f)*VW,GC+lerp(A[1],B[1],f)*VH+mid]; }
-      const f=eio(seg(v2,TS[TS.length-1],7.6)); return [lerp(GX+PS[4][0]*VW,VW*0.2,f),lerp(GC+PS[4][1]*VH,VH*0.62,f)]; };
+    const lift=eio(seg(v,5.0,5.9)), boom=seg(v,7.25,7.8); fieldBG(t,{hy:0.72,z:0.7,cx:340}); g.fillStyle='rgba(30,0,5,0.22)'; g.fillRect(0,0,VW,VH);   // khung RỘNG: con ma gấp ~5 lần meme
+    const MH=VH*0.17, GX=VW*0.5, GH=VH*0.85, GY=VH*0.93-lift*VH*0.1+Math.sin(t*5)*VH*0.01*lift, GC=GY-GH*0.45;
+    const PS=[[-0.2,-0.05],[0.2,0.12],[-0.19,0.2],[0.19,-0.15],[-0.21,0.02]], TS=[5.95,6.25,6.55,6.85,7.15];   // 5 điểm vòng ra 2 bên con ma (tỉ lệ VW,VH quanh tâm) · mốc tới từng điểm
+    const sPos=v2=>{ if(v2<TS[0]){ const f=eio(seg(v2,5.8,TS[0])); return [lerp(VW*0.3,GX+PS[0][0]*VW,f),lerp(VH*0.85,GC+PS[0][1]*VH,f)]; } for(let i=0;i<TS.length-1;i++) if(v2<TS[i+1]){ const f=eio(seg(v2,TS[i],TS[i+1])), A=PS[i], B=PS[i+1], mid=Math.sin(Math.PI*f)*(i%2?-1:1)*VH*0.12; return [GX+lerp(A[0],B[0],f)*VW,GC+lerp(A[1],B[1],f)*VH+mid]; }
+      const f=eio(seg(v2,TS[TS.length-1],7.6)); return [lerp(GX+PS[4][0]*VW,VW*0.3,f),lerp(GC+PS[4][1]*VH,VH*0.85,f)]; };
     const holes=TS.slice(1).map((tt,i)=>({t:tt-0.15, x:GX+(hash(i+9950)-0.5)*GH*0.35, y:GC+(hash(i+9951)-0.5)*GH*0.4}));   // mỗi lượt xuyên để lại 1 lỗ thủng
     if(boom<=0){ const jolt=holes.reduce((a,h)=>a+Math.max(0,1-Math.abs(v-h.t)/0.08),0); g.save(); g.translate(Math.sin(t*90)*jolt*VW*0.01,0); giant(GX,GY,GH,7,t,false);
         for(const h of holes) if(v>=h.t){ const a=Math.min(1,(v-h.t)/0.1); g.fillStyle=`rgba(0,0,0,${0.9*a})`; g.beginPath(); g.ellipse(h.x,h.y,GH*0.045,GH*0.035,0,0,Math.PI*2); g.fill(); g.save(); g.globalCompositeOperation='lighter'; glow(h.x,h.y,GH*0.08,0.8*a*(0.7+0.3*Math.sin(t*20)),'255,60,40'); g.restore(); }   // 🕳️ lỗ thủng cháy đỏ
         g.restore(); if(lift>0){ g.save(); g.globalCompositeOperation='lighter'; for(let r=0;r<3;r++){ const q=((v*1.5)+r/3)%1; ring(GX,GC,GH*lerp(0.55,0.75,q),0.5*(1-q)*lift,'255,40,40',4,0.9); } g.restore(); } }   // vòng thần lực giữ con ma lơ lửng
     else { g.save(); g.globalCompositeOperation='lighter'; glow(GX,GC,VH*lerp(0.1,0.9,eout(boom)),1-boom,'255,60,50'); g.restore(); for(let i=0;i<22;i++){ const a=hash(i+9900)*Math.PI*2, d=VH*0.6*eout(boom)*hash(i+9901); puff(GX+Math.cos(a)*d,GC+Math.sin(a)*d*0.7,VH*0.05*(1-boom)+3,0.7*(1-boom),'20,6,10'); } if(boom<0.12){ shake=Math.max(shake,40); g.fillStyle=`rgba(255,220,215,${0.7*(1-boom/0.12)})`; g.fillRect(0,0,VW,VH); } }   // 💥 nổ tan thành khói đen
     // Kermit (phải): đưa tay thần lực, tia đỏ nối tới con ma · Catvader (trái): tư thế phóng kiếm
-    actor(IMG.kDark,VW*0.86,VH*1.04,VH*0.6,{noFix:true,flip:true}); if(boom<1&&v<7.3){ g.save(); g.globalCompositeOperation='lighter'; for(let i=0;i<3;i++) bolt(VW*0.8,VH*0.64,GX+VW*0.08,GC+(i-1)*VH*0.08,3,0.6*(0.4+0.6*lift),'255,40,40','255,220,220'); g.restore(); }
-    actor(v>=5.75&&v<7.6?IMG.cvThrow:IMG.cvFace,VW*0.15,VH*1.04,VH*0.6,{noFix:true}); if(v<5.8||v>=7.6) cvBlade(VW*0.27,VH*0.62,-Math.PI/2.4+0.25*Math.sin(t*4),VH*0.17);
-    if(v>=5.8&&v<7.6){ const [x,y]=sPos(v), [px,py]=sPos(Math.max(5.8,v-0.06)); g.save(); g.globalCompositeOperation='lighter'; g.lineCap='round'; g.strokeStyle='rgba(255,50,40,0.35)'; g.lineWidth=VH*0.018; g.beginPath(); g.moveTo(px,py); g.lineTo(x,y); g.stroke(); g.restore(); cvBlade(x,y,t*30,VH*0.15); }   // 🗡️ kiếm xoay tít bay (đúng kiểu kiếm trong game)
+    const KX=VW*0.74, CX=VW*0.24, FY=VH*0.93; actor(IMG.kDark,KX,FY,MH*1.05,{noFix:true,flip:true}); kmStaff(KX-MH*0.42,FY-MH*0.3,Math.PI+Math.PI/2.6,MH*0.3); if(boom<1&&v<7.3){ g.save(); g.globalCompositeOperation='lighter'; for(let i=0;i<3;i++) bolt(KX-MH*0.3,FY-MH*0.6,GX+GH*0.15,GC+(i-1)*GH*0.12,3,0.65*(0.4+0.6*lift),'255,40,40','255,220,220'); g.restore(); }   // tay thần lực của Kermit nối tới con ma
+    actor(v>=5.75&&v<7.6?IMG.cvThrow:IMG.cvFace,CX,FY,MH,{noFix:true}); if(v<5.8||v>=7.6) cvBlade(CX+MH*0.38,FY-MH*0.6,-Math.PI/2.4+0.25*Math.sin(t*4),MH*0.3);
+    if(v>=5.8&&v<7.6){ const [x,y]=sPos(v), [px,py]=sPos(Math.max(5.8,v-0.06)); g.save(); g.globalCompositeOperation='lighter'; g.lineCap='round'; g.strokeStyle='rgba(255,50,40,0.35)'; g.lineWidth=VH*0.018; g.beginPath(); g.moveTo(px,py); g.lineTo(x,y); g.stroke(); g.restore(); cvBlade(x,y,t*30,VH*0.075); }   // 🗡️ kiếm xoay tít bay (đúng kiểu kiếm trong game)
   }
   // ⏳ dấu LOADING (vòng xoay kiểu buffering) trên đầu
   function loadIcon(x,y,r,a,t){ if(a<=0.01) return; g.save(); g.globalAlpha*=a; g.lineCap='round'; for(let i=0;i<10;i++){ const an=i/10*Math.PI*2+t*7, k=((i/10)+t*1.2)%1; g.fillStyle=`rgba(255,255,255,${0.25+0.75*(1-k)})`; g.beginPath(); g.arc(x+Math.cos(an)*r,y+Math.sin(an)*r,r*0.14,0,Math.PI*2); g.fill(); } g.restore(); }
