@@ -21959,8 +21959,9 @@ const CINEMA_EN={   // tên/mô tả tiếng Anh cho các cảnh mẫu của Sce
   void:['Swallowed by the Void','Sucked into a black hole, spun around and shattered'],
 };
 let _scPlayer=null;   // đang ở chế độ XEM PHIM: {bak:cảnh đang dựng, loop}
-function openCinema(){
+function openCinema(folder){
   _cineGalleryClose();
+  if(folder==='__war') return _openWarFolder();
   const ov=document.createElement('div'); ov.id='cinemaGallery';
   ov.style.cssText='position:fixed;inset:0;z-index:9000;background:radial-gradient(ellipse at top,#2a1b3d,#0b0712 70%);overflow:auto;padding:28px 16px 40px;font-family:system-ui,Arial,sans-serif;color:#fff;';
   const items=[{id:'__endgame', ic:'🦸', name:'Memes Assemble', desc:"Stalin's last stand against Evil Gary — Avengers: Endgame style", dur:37},
@@ -21977,8 +21978,27 @@ function openCinema(){
     c.style.cssText='text-align:left;background:linear-gradient(160deg,rgba(255,255,255,0.10),rgba(255,255,255,0.03));border:1px solid rgba(255,255,255,0.18);border-radius:16px;padding:16px;color:#fff;cursor:pointer;display:flex;flex-direction:column;gap:8px;min-height:150px;transition:transform .12s,border-color .12s';
     c.onmouseenter=()=>{ c.style.transform='translateY(-3px)'; c.style.borderColor='#ffcc80'; }; c.onmouseleave=()=>{ c.style.transform=''; c.style.borderColor='rgba(255,255,255,0.18)'; };
     c.innerHTML=`<div style="font-size:38px">${it.ic}</div><div style="font-size:18px;font-weight:800">${it.name}</div><div style="font-size:13px;opacity:.75;line-height:1.35;flex:1">${it.desc}</div><div style="font-size:12px;opacity:.6">▶ ${it.dur}s</div>`;
-    c.onclick=()=>{ _cineGalleryClose(); if(it.id==='__endgame') playCineEndgame(); else if(it.id==='__war') playCineWar({wide:true}); else if(it.id==='__dpwindow') playCineDpWindow(); else playScenePreset(it.id); };
+    c.onclick=()=>{ _cineGalleryClose(); if(it.id==='__endgame') playCineEndgame(); else if(it.id==='__war') openCinema('__war'); else if(it.id==='__dpwindow') playCineDpWindow(); else playScenePreset(it.id); };
     grid.appendChild(c); }
+}
+// 📂 thư mục Memes Assemble II: ô "cả phim" + từng cảnh nhỏ (danh sách do js/cine-war.js tự tính)
+function _openWarFolder(){
+  const ov=document.createElement('div'); ov.id='cinemaGallery';
+  ov.style.cssText='position:fixed;inset:0;z-index:9000;background:radial-gradient(ellipse at top,#2a1b3d,#0b0712 70%);overflow:auto;padding:28px 16px 40px;font-family:system-ui,Arial,sans-serif;color:#fff;';
+  ov.innerHTML=`<div style="max-width:980px;margin:0 auto"><div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
+    <button onclick="openCinema()" style="font-size:20px;background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.25);border-radius:10px;padding:6px 14px;cursor:pointer">◀</button>
+    <div style="font-size:28px;font-weight:900;letter-spacing:1px">⚔️ MEMES ASSEMBLE II</div></div>
+    <div id="cinemaGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px"><div style="opacity:.6">Loading…</div></div></div>`;
+  document.body.appendChild(ov);
+  _cineWarLoad().then(()=>{ const grid=ov.querySelector('#cinemaGrid'); if(!grid) return; grid.innerHTML='';
+    const CH=window._cineWarChapters?window._cineWarChapters():[], full={name:'Full Movie', ic:'🎬', a:0, b:null, full:true};
+    [full].concat(CH).forEach((it,i)=>{ const c=document.createElement('button');
+      c.style.cssText='text-align:left;background:linear-gradient(160deg,rgba(255,255,255,0.10),rgba(255,255,255,0.03));border:1px solid '+(it.full?'#ffcc80':'rgba(255,255,255,0.18)')+';border-radius:14px;padding:14px;color:#fff;cursor:pointer;display:flex;flex-direction:column;gap:6px;min-height:110px;transition:transform .12s,border-color .12s';
+      c.onmouseenter=()=>{ c.style.transform='translateY(-3px)'; c.style.borderColor='#ffcc80'; }; c.onmouseleave=()=>{ c.style.transform=''; c.style.borderColor=it.full?'#ffcc80':'rgba(255,255,255,0.18)'; };
+      const dur=it.full?'':`▶ ${Math.max(1,Math.round(it.b-it.a))}s`;
+      c.innerHTML=`<div style="font-size:30px">${it.ic}</div><div style="font-size:12px;opacity:.55">${it.full?'':'Part '+i}</div><div style="font-size:16px;font-weight:800;line-height:1.25">${it.name}</div><div style="font-size:12px;opacity:.6;margin-top:auto">${dur}</div>`;
+      c.onclick=()=>{ _cineGalleryClose(); playCineWar(it.full?{wide:true}:{wide:true, part:{a:it.a, b:it.b, name:'Part '+i+' · '+it.name}}); };
+      grid.appendChild(c); }); });
 }
 function _cineGalleryClose(){ const g=document.getElementById('cinemaGallery'); if(g) g.remove(); }
 function playScenePreset(id){
@@ -22026,10 +22046,13 @@ function playCineDpWindow(){   // 🪟 phim ngắn Depressed Cat về nhà (js/c
   if(window._cineDW) return window._cineDW();
   const v=window.GAME_VERSION?'?v='+GAME_VERSION.build:'', s=document.createElement('script'); s.src='js/cine-dpwindow.js'+v; s.onload=()=>window._cineDW&&window._cineDW(); document.body.appendChild(s);
 }
-function playCineWar(opts){   // ⚔️ Memes Assemble II — The War of Evil Gary (js/cine-war.js, dùng chung nền js/cine-bg.js) · opts.wide = bản 16:9
-  if(window._cineWar) return window._cineWar(opts);
+function _cineWarLoad(){   // tải kịch bản phim (chưa phát)
+  if(window._cineWar) return Promise.resolve();
   const v=window.GAME_VERSION?'?v='+GAME_VERSION.build:'', load=src=>new Promise(r=>{ const s=document.createElement('script'); s.src=src+v; s.onload=r; s.onerror=r; document.body.appendChild(s); });
-  (window._cineBG?Promise.resolve():load('js/cine-bg.js')).then(()=>load('js/cine-war.js')).then(()=>window._cineWar&&window._cineWar(opts));
+  return (window._cineBG?Promise.resolve():load('js/cine-bg.js')).then(()=>load('js/cine-war.js'));
+}
+function playCineWar(opts){   // ⚔️ Memes Assemble II — The War of Evil Gary (js/cine-war.js, dùng chung nền js/cine-bg.js) · opts.wide = bản 16:9 · opts.part = chỉ xem 1 cảnh nhỏ
+  _cineWarLoad().then(()=>window._cineWar&&window._cineWar(opts));
 }
 function playCineEndgame(){
   if(window._cineEG) return window._cineEG();

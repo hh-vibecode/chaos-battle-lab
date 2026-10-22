@@ -42,7 +42,7 @@
   const eio=x=>x*x*(3-2*x), eout=x=>1-Math.pow(1-x,3), ein=x=>x*x*x, lerp=(a,b,k)=>a+(b-a)*k;
   const back=x=>{ const c=1.70158; return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2); };
   const hash=n=>{ const s=Math.sin(n*127.1+311.7)*43758.5453; return s-Math.floor(s); };
-  let cv, g, raf=null, t0=0, parts=[], played={}, overlay, shake=0, paused=false, pauseT=0, markOnly=false, panel=null, crowd=[];
+  let cv, g, raf=null, t0=0, parts=[], played={}, overlay, shake=0, paused=false, pauseT=0, markOnly=false, panel=null, crowd=[], PART=null;   // PART: đang xem 1 cảnh nhỏ {a,b} (giây thật)
   const sfx=(id,k,v,dur)=>{ if(played[id]) return; played[id]=1; if(markOnly) return; try{ playSample(k,v==null?1:v,dur||null); }catch(e){} };
   // 📏 CÂN CỠ: ở cảnh chung (ngoài cảnh cận), các meme phải to ngang nhau — ảnh vạm vỡ/khoác áo choàng (Buff Doge, Adolf, Larry pháp sư) thu lại cho bằng cỡ các meme khác (Giga/quỷ/Chonky khổng lồ không áp dụng)
   let SIZE_FIX=null; const sizeFix=im=>{ if(!SIZE_FIX){ SIZE_FIX=new Map(); for(const m of [IMG.dogeBuff,IMG.dogeHit,...IMG.dogeP]) SIZE_FIX.set(m,1.25); for(const m of [IMG.dogeStand,IMG.dogeStandHaki]) SIZE_FIX.set(m,1.2); /* 💪 Buff Doge to GẤP ĐÔI các meme khác ở khung chung */ for(const m of [IMG.catler,IMG.catlerAtk]) SIZE_FIX.set(m,1.05); SIZE_FIX.set(IMG.larryMage,0.62); } return SIZE_FIX.get(im)||1; };
@@ -2589,6 +2589,7 @@
 
   function frame(now){
     if(!OFF) raf=requestAnimationFrame(frame);
+    if(PART&&!OFF&&!paused&&(now-t0)/1000>=PART.b){ paused=true; pauseT=PART.b; }   // xem từng cảnh: hết cảnh thì dừng
     const R=OFF?Math.min(OFF.R,DURR):Math.min(paused?pauseT:(now-t0)/1000, DURR), t=r2c(R), SL=slowAt(t), spd=SL?SL[2]:1;
     let si=0; while(si<SCN.length && t>=SC[si+1]) si++;
     const u=t-SC[si];
@@ -2645,18 +2646,27 @@
     cv.style.cssText=WIDE?'width:100vw;max-height:100vh;aspect-ratio:16/9;object-fit:contain;':'height:100vh;max-width:100vw;aspect-ratio:9/16;object-fit:contain;';
     g=cv.getContext('2d');
     overlay.appendChild(cv); document.body.appendChild(overlay);
-    if(window._cinePanelMake && !(opts&&opts.offline)) panel=_cinePanelMake(overlay,{ title:'Memes Assemble II'+(WIDE?' (16:9)':''), dur:()=>DURR, t:curT, playing:()=>!paused && curT()<DURR,
-      toggle:()=>{ if(!paused && curT()>=DURR) seek(0); else toggle(); }, seek, replay:()=>{ paused=false; setup(); seek(0); markOnly=false; }, close:()=>{ stop(); if(window.openCinema) openCinema(); } });
+    PART=(opts&&opts.part)||null; const P0=PART?PART.a:0, P1=PART?PART.b:DURR;
+    if(window._cinePanelMake && !(opts&&opts.offline)) panel=_cinePanelMake(overlay,{ title:PART?PART.name:'Memes Assemble II'+(WIDE?' (16:9)':''), dur:()=>P1-P0, t:()=>Math.max(0,curT()-P0), playing:()=>!paused && curT()<P1,
+      toggle:()=>{ if(curT()>=P1-0.05){ seek(P0); paused=false; t0=performance.now()-P0*1000; } else toggle(); }, seek:x=>seek(P0+x), replay:()=>{ paused=false; setup(); seek(P0); markOnly=false; }, close:()=>{ stop(); if(window.openCinema) openCinema('__war'); } });
     try{ stopAllBattleMusic(); }catch(e){}
     try{ window._cineBG && window._cineBG.prepare && window._cineBG.prepare(); }catch(e){}
     if(opts&&opts.offline){ OFF={R:0}; paused=false; setup(); return; }   // 🎞️ chế độ xuất video: không tiếng, không chạy theo đồng hồ
-    paused=false; setup(); musSetup(); t0=performance.now(); raf=requestAnimationFrame(frame);
+    paused=false; setup(); musSetup(); t0=performance.now(); if(PART) seek(PART.a); raf=requestAnimationFrame(frame);
   };
   // 🎞️ XUẤT VIDEO: vẽ đúng khung ở thời điểm thật R (giây) — bước nhỏ 1/60s để hạt/rung chạy đúng nhịp như lúc xem
   window._cineWarStep=R=>{ if(!OFF) return; OFF.R=R; frame(0); };
   window._cineWarCheck=()=>{ let prev=-1, bad=[]; for(let R=0;R<=DURR;R+=0.02){ const c=r2c(R); if(c<prev-1e-6) bad.push([+R.toFixed(2),+c.toFixed(2),+prev.toFixed(2)]); prev=c; } let bad2=[]; for(let c=0;c<=DUR;c+=0.05){ const e=Math.abs(r2c(c2r(c))-c); if(e>0.01) bad2.push([+c.toFixed(2),+e.toFixed(3)]); } return {DUR,DURR:+DURR.toFixed(2),backwards:bad.length,firstBad:bad.slice(0,3),roundtrip:bad2.length}; };
   window._cineWarInfo=()=>({dur:DURR, sfx:SFX.map(([ts,k,v,d])=>[c2r(ts),k,v==null?1:v,d||0]), mus:MUS_DEF.map(m=>({...m,ra:c2r(m.a),rb:c2r(Math.min(m.b,DUR))})), slow:SLOW.map(([a,b,f])=>[c2r(a),c2r(b)])});
   window._cineWarStop=stop;
+  // 📂 THƯ MỤC CẢNH NHỎ (rạp phim trong game): mỗi cảnh chính 1 mục, xem riêng được — mốc tự tính theo bảng cảnh nên sửa phim không phải chỉnh tay
+  window._cineWarChapters=()=>{ const FS=k=>SC[1]+(FSEQ.find(r=>r[2]===k)||[FEND])[0], D0=SC[2];
+    const CH=[['The Armies Clash','⚔️',0,SC[1]],['Stalin & Catler vs Evil Gary','🔨',SC[1],SC[1]+7.4],['Clapping Cat + Doge Combo','👏',SC[1]+7.4,FS('hakiArm')],['The Haki Punch','✊',FS('hakiArm'),FS('redface')],
+      ["Larry's Rage & the Dodge",'😡',FS('redface'),FS('cjump')],["Cheems' Giant Mallet",'🏏',FS('cjump'),SC[1]+FEND],['The Barrier','🛡️',SC[1]+FEND,D0],['Spider Cat & UIA','🕷️',D0,D0+DEND],["Loading Cat's Arrow",'🏹',D0+DEND,D0+DEND+YD],
+      ['Catvader & Darkside Kermit','🗡️',D0+DEND+YD,SC[3]],['Chonky Splits the Earth','🐕',SC[3],SC[4]],["King Cheems' One Cut",'👑',SC[4],SC[5]],['The Puppet Master','🕸️',SC[5],SC[6]],['Gigachad Rises','💪',SC[6],SC[7]],
+      ['Gigachad vs the Demon','👹',SC[7],SC[9]],['The Tailed-Beast Bomb','💣',SC[9],SC[11]],['Chonky Meteor','☄️',SC[11],SC[12]],['The Music Seal','🎵',SC[12],SC[13]],['Evil Gary Torn Apart','💔',SC[13],SC[14]],
+      ['The Final Clash','🌟',SC[14],SC[15]],['One Punch & the Dark Hands','👊',SC[15],SC[16]],['Dawn','🌅',SC[16],DUR]];
+    return CH.map(([name,ic,a,b])=>({name,ic,a:c2r(a),b:c2r(b)})); };
   window._cineWarPause=t=>{ paused=true; pauseT=c2r(t); parts=[]; };   // t = thời gian phim
   window._cineWarCanvas=()=>cv;
 })();
