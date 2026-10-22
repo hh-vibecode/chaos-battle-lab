@@ -817,6 +817,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     doorbellchud: { key:'doorbellchud', defaultName:'Doorbell Chud', emoji:'🔔', color:'#90a4ae', hp:1000, speed:5, size:57, skill:'Đi đâu cũng vác theo cái chuông cửa treo lơ lửng trên đầu. Mò tới sát ai là ngước lên giật dây, chuông reng một cái đau một cái. Giật tới lần thứ 4 thì chuông chịu hết nổi, vỡ tan tành — còn mỗi sợi dây trong tay, thế là quật dây tới tấp từ xa, nhanh hơn hẳn nhưng mỗi phát nhẹ hơn.' },
     scootercat: { key:'scootercat', defaultName:'Scooter Cat', emoji:'🛵', color:'#ff7043', hp:1000, speed:5, size:47.5, skill:'Phóng xe máy vòng vòng khắp sàn. Cứ lao tới sát góc sàn là nghiêng xe drift một vòng cung thật gắt quay đầu ra giữa sân, ai đứng trên đường cua là bị tông hất văng, còn đường cua để lại thảm than hồng tí tách ai đạp phải cũng bén lửa. Bị đánh tụt nửa máu là bật Gas Gas Gas lên, vít ga phóng nhanh hẳn.' },
     samuraicheems: { key:'samuraicheems', defaultName:'Joninn Cheems', emoji:'⚔️', color:'#29b6f6', hp:1000, speed:5, size:53.24, skill:'Cầm kiếm múa Hơi Thở Của Nước, chém đâu nước bắn tới đó. Thỉnh thoảng gạt bật luôn đạn bắn tới, trả nguyên về mặt chủ nhân; đòn đánh khác thì đỡ gọn, không xước miếng lông nào. Địch tàn máu là lần áp sát kế tiếp lướt xuyên qua người, tra kiếm vào vỏ — rồi địch mới biết mình đã bị chém.' },
+    morsecat: { key:'morsecat', defaultName:'Morse Code Cat', emoji:'📡', color:'#66bb6a', hp:1000, speed:5, size:45, skill:'Chọn ngẫu nhiên 1 chữ cái rồi gõ nó bằng mã Morse (bảng gõ hiện trên đầu). Gõ xong thì từng dấu bay thẳng vào địch: dấu CHẤM 10 dame, dấu GẠCH 20 dame (bám nhẹ theo mục tiêu, trúng cả quân triệu hồi). Mỗi dấu trúng địch → tốc độ gõ +0.1x VĨNH VIỄN (cộng dồn không giới hạn).' },
 };
 
 // Mỗi char phải chờ đủ 1 lần CD sau khi vào trận mới được tấn công (không ai đánh ngay frame đầu)
@@ -826,7 +827,7 @@ const FIRST_ATTACK_CD = {
   loooongcat:50, screamcat:51, feuerkatze:30, batcat:60, commandercat:30, evillarry:40, pianocat:20, grumpycat:30, bibilabu:30, applecat:20, cheems:30, stalincat:20,
   maxwell:60, yellingwomen:40, pakistanguy:40, kingcheems:50, kermit:40, coughcat:60, mewingcat:60, smartguy:40, capybara:30, mechaniccat:20, rubikcat:30,
   aliencat:40, chillguy:38, clappingcat:30, evilgary:30, gary:45, electricguitarcat:20, scareddog:20, calmdog:20, cryingcat:35, infinitydoge:30, mosquitoviolin:30, slapcat:40, yuki:60, windguy:60,
-  cornelius:60, epicsaxguy:60, dawae:60, vampirecat:30, mlemcat:30, trollface:45, susdog:60, berserkcat:60, friend:60, chonkydog:60, doorbellchud:60, alottadameguy:40, arabiccat:60, scootercat:60, samuraicheems:40
+  cornelius:60, epicsaxguy:60, dawae:60, vampirecat:30, mlemcat:30, trollface:45, susdog:60, berserkcat:60, friend:60, chonkydog:60, doorbellchud:60, morsecat:30, alottadameguy:40, arabiccat:60, scootercat:60, samuraicheems:40
 };
 
 // ===================== ROSTER (localStorage) =====================
@@ -1076,6 +1077,7 @@ let modalVfxGrid = '';      // lưới sprite-sheet VFX, vd "4x4" (trống = d�
 // field = tên thuộc tính lưu trên roster (cũng là khóa ảnh dùng trong trận)
 const POSE_SLOT_DEFS = {
   fanchar: [],  // ⭐ nhân vật fan: chỉ 1 ảnh đại diện, không có khung hoạt ảnh
+  morsecat: [{ field:'attackAvatarUrl', label:'Đang gõ (mắt loé trắng)', emoji:'📡', color:'#66bb6a' }],   // 📡 mỗi phím gõ hiện ảnh này 0.2s
   supremearbiter: [],  // 😼 1 ảnh đại diện (ngồi ngước mặt khinh khỉnh)
   scaredhamster: [],   // 🐹 dùng bộ ảnh dựng sẵn HM_IMG (sợ hãi + 4 dáng chạy), không qua slot upload
   finedog: [   // 🐶 avatar ngồi + ĐÚNG 1 khung uống nước — 2 cái nối lại thành vòng lặp 2 khung, chạy mỗi lần nó nói THIS IS FINE (lúc lửa mạnh thêm)
@@ -2729,6 +2731,8 @@ const AUDIO_SAMPLES = {};
       cine_impact_jr1: 'assets/audio/cine_impact_jr1.mp3',
       cine_flesh: 'assets/audio/cine_flesh.mp3', cine_deep_impact: 'assets/audio/cine_deep_impact.mp3', cine_strongpunch: 'assets/audio/cine_strongpunch.mp3', cine_haki: 'assets/audio/cine_haki.mp3', cine_conq_haki: 'assets/audio/cine_conq_haki.mp3', cv_win: 'assets/audio/cv_win.mp3', cine_heavy_slow: 'assets/audio/cine_heavy_slow.mp3', cine_haki_hit: 'assets/audio/cine_haki_hit.mp3',   // 🎬 phim: đấm/đá thịt · chày nện đất (rền sâu) · cú đấm mạnh của Buff Doge   // 🎬 phim: impact rền dài (jr1 — vật khổng lồ đập đất) + impact ngắn chát (jr2 — cú đấm/chém) // 🎬 phim: tiếng va chạm / nổ lớn (user gửi, đã cắt khoảng lặng)
       clap_cat: 'assets/audio/clap_cat.mp3',
+      morse_dot: 'assets/audio/morse_dot.mp3',     // 📡 Morse Code Cat: bíp ngắn (dấu chấm)
+      morse_dash: 'assets/audio/morse_dash.mp3',   // 📡 bíp dài (dấu gạch)
       dp_akatsuki: 'assets/audio/dp_akatsuki.mp3',   // 🎵 theme Akatsuki (user gửi) — phim Depressed Cat từ lúc mất điện tới hết
       dp_cloak: 'assets/audio/dp_cloak.mp3',   // 🧥 Depressed Cat (phim): tung áo Akatsuki vụt lên + khoác vào phạch 1 cái
       gp_break: 'assets/audio/gp_break.mp3',
@@ -10354,6 +10358,7 @@ const CHAR_FACTS = {
   feuerkatze:[ "Adolf Catler's mustache is just a fur pattern. He takes it very seriously anyway.", "Adolf Catler has declared the entire couch conquered territory. Negotiations are not an option.", "Adolf Catler's world domination plan mostly involves knocking things off tables and taking long naps.", "Adolf Catler gives a dramatic speech to the food bowl every single morning, right on schedule." ],
   germancat:[ "German Cat's PowerPoint has 400 slides. No soldier has survived past slide 2.", "German Cat's troops get paid in thoughts and prayers. No refunds.", "German Cat once gave a 2-hour speech for a battle that lasted 5 minutes.", "Soldiers don't fight for glory. They fight so the speech will finally end." ],
   uiacat:[ "OIIA Cat's chiropractor blocked its number years ago.", "OIIA Cat got dizzy exactly once, in 2019. Recovery is ongoing.", "If OIIA Cat ever stops spinning, several governments already have a contingency plan.", "OIIA Cat's washing machine tried to sue for plagiarism. Case dismissed.", "When cornered, OIIA Cat does not run. It calls for backup, and backup is also spinning." ],
+  morsecat:[ "Morse Code Cat once typed SOS. Help never came. The enemy did.", "Dots hurt. Dashes hurt twice as much. Morse Code Cat can count.", "Every hit makes Morse Code Cat type faster. Nobody has ever made it stop typing." ],
   beluga:[ "Beluga turned off read receipts and lives with a clean conscience.", "Beluga's Caps Lock key filed for workers' comp.", "Beluga got banned from a server it created.", "Beluga's last 4000 messages were typed with one paw. Genuinely impressive." ],
   screamcat:[ "Scream Cat's shriek once cracked a phone screen through the case.", "Scream Cat doesn't need wifi. It just screams until the page loads.", "Scream Cat's neighbors moved. The whole neighborhood. Same week.", "Scream Cat tried whispering once. Broke a different window." ],
   thevoid:[ "Someone asked The Void \"what's wrong?\". It said nothing. Literally.", "The Void's only review reads: \"nice space, hard to leave\".", "The Void isn't ignoring you, it's just slowly consuming you. Slight difference.", "Scientists stared into The Void. The Void stared back. Hiring starts Monday." ],
@@ -10444,6 +10449,7 @@ const CHAR_BLURB = {
   feuerkatze: "A relentless brawler that sets anything it touches on fire. Once wounded below 75% HP, he bolts gas valves into the arena walls and lets the whole floor choke on green fog.",
   germancat: "Stops to give a speech while its soldiers do the fighting, taking reduced damage throughout.",
   uiacat: "Stands still to wind up, then spins out at high speed with reduced damage taken. Below 25% HP it teleports away, goes Hiphop for good, and floods the floor with spinning clones.",
+  morsecat: "Taps out a random letter in Morse code, then fires every dot and dash at you, and types faster with every hit.",
   beluga: "Floods the screen with chat messages, each one hitting anything in its path.",
   screamcat: "Catastrophe-level threat. Remembers the biggest hit it ever took and screams it back at everyone every 2 seconds. Do NOT be foolish enough to hit it hard.",
   thevoid: "Opens a black hole that drags the enemy in and damages them, and swallows any shots fired into it.",
@@ -10533,6 +10539,7 @@ const CHAR_BLURB_SHORT = {
   feuerkatze: "Art school rejected him. The arena pays.",
   germancat: "Gives a long speech. The soldiers do the rest.",
   uiacat: "OIIAOIIA. Spin harder. Then spin with friends.",
+  morsecat: "··· −−− ···  (You'll need it.)",
   beluga: "Beluga's Discord chat, but every message hurts.",
   screamcat: "AAAAA! Every hit comes screaming back.",
   thevoid: "Stare into the void. The void pulls you in.",
@@ -11665,6 +11672,16 @@ function _flowerSeqStep(){
 //   càng nhanh càng nhiều tia (tối đa 6, mọc từ 2 tay, 2 chân, đầu, khuỷu, kéo vệt song song về sau). Đổi hình mỗi 2 khung cho lách tách.
 function _spK(f){ const v=Math.hypot(f.vx||0,f.vy||0); return Math.max(0,Math.min(1,(v-5)/14)); }   // (dùng cho dáng chúi người)
 function _spRatio(f){ return (f.topSpeed||0)/(5*MOVE_MULT); }   // tốc độ so với 1 meme thường
+const MORSE={A:'.-',B:'-...',C:'-.-.',D:'-..',E:'.',F:'..-.',G:'--.',H:'....',I:'..',J:'.---',K:'-.-',L:'.-..',M:'--',N:'-.',O:'---',P:'.--.',Q:'--.-',R:'.-.',S:'...',T:'-',U:'..-',V:'...-',W:'.--',X:'-..-',Y:'-.--',Z:'--..'}, MORSE_KEYS=Object.keys(MORSE);
+// 📡 bảng gõ Morse trên đầu Morse Code Cat: chữ cái đang gõ + các dấu đã gõ (dấu nào đã bắn đi thì biến khỏi bảng)
+function _mcDrawHud(f){ const MC=f._mc; if(!MC || MC.st==='cd' || !MC.code) return;
+  const n=MC.st==='type'?MC.i:MC.code.length, from=MC.st==='fire'?MC.fire:0, syms=MC.code.slice(from,n);
+  const x=f.x, y=f.y-f.size-58, w=Math.max(46,22+MC.code.length*16), h=40;
+  ctx.save(); ctx.fillStyle='rgba(8,22,14,0.86)'; ctx.strokeStyle='#66bb6a'; ctx.lineWidth=2; ctx.beginPath(); ctx.roundRect(x-w/2,y-h/2,w,h,8); ctx.fill(); ctx.stroke();
+  ctx.font='900 16px "Courier New",monospace'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillStyle='#b9f6ca'; ctx.fillText(MC.letter,x,y-8);
+  ctx.shadowColor='#69f0ae'; ctx.shadowBlur=6; ctx.fillStyle='#e8fff0';
+  let cx=x-((MC.code.length-1)*16)/2+from*16; for(const c of syms){ if(c==='.'){ ctx.beginPath(); ctx.arc(cx,y+9,3,0,Math.PI*2); ctx.fill(); } else { ctx.beginPath(); ctx.roundRect(cx-6,y+7,12,4,2); ctx.fill(); } cx+=16; }
+  ctx.restore(); }
 function _spBoltN(f){ const r=_spRatio(f); return r<1.2 ? 0 : Math.min(6, 1+Math.floor((r-1.2)*3.5)); }   // tối đa 6 tia (nhiều quá rối + lag)
 function _spDrawBolt(P,w,a){   // ⚡ SÉT ĐEN NEON: quầng tím neon cộng sáng (lighter) → viền neon sáng gắt → lõi ĐEN sắc cạnh đè giữa
   const path=()=>{ ctx.beginPath(); P.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); };
@@ -13740,7 +13757,7 @@ const CHARS_OWN_HIT_VFX = new Set(['epicsaxguy', 'loadingcat',   // 🏹 Loading
 // đụng độ char khác cũng đang phát nhạc dài, tránh 2 bài chồng lên nhau. KHÔNG đụng tới SFX ngắn (Yelling
 // Women, hit sound...) vì mấy cái đó không nằm trong nhánh check này.
 const MUSIC_LOOP_CHARS = new Set(['pianocat','electricguitarcat','mosquitoviolin','damdamdidi']);
-const CHARS_OWN_SOUND = new Set(['alottadameguy','cornelius','epicsaxguy','yuki','infinitydoge','mosquitoviolin','popcat','holycat','screamcat','flyingcat','beluga','thevoid','huhcat','applecat','cheems','pakistanguy','spidercat',
+const CHARS_OWN_SOUND = new Set(['morsecat','alottadameguy','cornelius','epicsaxguy','yuki','infinitydoge','mosquitoviolin','popcat','holycat','screamcat','flyingcat','beluga','thevoid','huhcat','applecat','cheems','pakistanguy','spidercat',
   'feuerkatze','uiacat','loooongcat','catvader','kingcheems','kermit','mewingcat','smartguy','hecker','evillarry','suscat','flowercat','depressedcat','damdamdidi','pianocat','electricguitarcat','bongocat',
   'vampirecat','mlemcat']);
 // tìm Image trong kho theo tên hiển thị (đã có _cols/_rows/_frames/_additive sẵn)
@@ -14793,6 +14810,23 @@ class Fighter {
           }
         }
       }
+    }
+
+    // ───── 📡 MORSE CODE CAT ─────
+    // chọn ngẫu nhiên 1 chữ cái → gõ từng dấu Morse (bíp ngắn/dài, mỗi phím hiện ảnh "Đang gõ" 0.2s) → gõ xong bắn lần lượt từng dấu vào địch
+    // (chấm 10 · gạch 20). Mỗi dấu TRÚNG → tốc gõ +0.1x vĩnh viễn (_mcSpd, cộng ở chỗ đạn trúng). Choáng thật thì tạm dừng gõ.
+    if(this.type==='morsecat' && !this.dead){
+      const MC=this._mc||(this._mc={st:'cd',t:40,code:'',letter:'',i:0,fire:0});
+      const spd=this._mcSpd||1;
+      if(MC.st==='cd'){ if(--MC.t<=0 && !this._isHardCC()){ const L=MORSE_KEYS[Math.floor(Math.random()*MORSE_KEYS.length)]; MC.letter=L; MC.code=MORSE[L]; MC.i=0; MC.st='type'; MC.t=Math.max(2,Math.round(16/spd)); } }
+      else if(MC.st==='type'){ if(!this._isHardCC() && --MC.t<=0){ const sym=MC.code[MC.i++];
+          playSample(sym==='.'?'morse_dot':'morse_dash',0.55); this.actionState='attack'; this.attackAvatarTimer=12;   // 👀 0.2s
+          if(MC.i>=MC.code.length){ MC.st='fire'; MC.fire=0; MC.t=Math.max(4,Math.round(14/spd)); } else MC.t=Math.max(2,Math.round((sym==='.'?14:22)/spd)); } }
+      else if(MC.st==='fire'){ if(--MC.t<=0){ const e=this.enemy, sym=MC.code[MC.fire];
+          if(e){ const dx=e.x-this.x, dy=e.y-(this.y-this.size*0.9), d=Math.hypot(dx,dy)||1, sp=sym==='.'?10:9;
+            projectiles.push({ x:this.x, y:this.y-this.size*0.9, vx:dx/d*sp, vy:dy/d*sp, team:this.team, owner:this, dmg:sym==='.'?10:20, life:150, maxLife:150, isMorse:true, sym, size:sym==='.'?6:9, target:e }); }
+          MC.fire++; MC.t=6;
+          if(MC.fire>=MC.code.length){ MC.st='cd'; MC.t=Math.max(10,Math.round(40/spd)); } } }
     }
 
     // ───── BELUGA CAT ─────
@@ -23231,6 +23265,7 @@ function loop(){
       const _spd=Math.sqrt(p.vx*p.vx+p.vy*p.vy)||11;
       p.vx=_htx/_htd*_spd; p.vy=_hty/_htd*_spd;
     }
+    if(p.isMorse && p.target && !p.target.dead){ const _mx=p.target.x-p.x, _my=p.target.y-p.y, _md=Math.hypot(_mx,_my)||1, _ms=Math.hypot(p.vx,p.vy)||9, _nx=p.vx*0.88+_mx/_md*_ms*0.12, _ny=p.vy*0.88+_my/_md*_ms*0.12, _nl=Math.hypot(_nx,_ny)||1; p.vx=_nx/_nl*_ms; p.vy=_ny/_nl*_ms; }   // 📡 dấu Morse bám nhẹ mục tiêu
     // Doge text: bám nhẹ theo mục tiêu (tăng tỉ lệ trúng khi địch di chuyển/né, không snap cứng như homing tuyệt đối)
     if(p.isDogeText && p.target && !p.target.dead){
       const _dtx=p.target.x-p.x, _dty=p.target.y-p.y, _dtd=Math.sqrt(_dtx*_dtx+_dty*_dty)||1;
@@ -23291,6 +23326,7 @@ function loop(){
         if(p.isSonicWave){ _spawnMusicNoteFx(f.x,f.y,f.size); _egHit(p,f.x,f.y,f.size); _egBurn(p,f); }
         if(p.isNote){ _spawnMusicNoteFx(f.x,f.y,f.size); }   // 🎹 Piano Cat: nốt nhạc trúng địch
         if(p.isDddArrow) _spawnMusicNoteFx(f.x,f.y,f.size);   // 💃 Damdam Didi Cat: arrow dance trúng địch
+        if(p.isMorse && p.owner && !p.owner.dead){ p.owner._mcSpd=(p.owner._mcSpd||1)+0.1; _hitParticles(f.x,f.y,'#69f0ae',4,false,true); }   // 📡 mỗi dấu trúng: tốc gõ +0.1x
       if(p._droolSub==='poison'){ _applyPoison(f,1,p._droolOwner||p.owner||{team:p.team,x:p.x,y:p.y}); }
       else if(p._droolSub==='fire'){ f.burn=180; f.burnTickCD=0; f._burnSrc=p._droolOwner||p.owner||{team:p.team,x:p.x,y:p.y}; }
       if(p.isGojoRed){ const _grAng=Math.atan2(p.vy,p.vx); f.vx=Math.cos(_grAng)*26; f.vy=Math.sin(_grAng)*20; f._slammed=true; _hitParticles(f.x,f.y,'#e53935',8,false,true); }
@@ -23323,6 +23359,7 @@ function loop(){
             if(p.sniper){ if(!p._hitSet) p._hitSet=new Set(); if(p._hitSet.has(s)) continue; p._hitSet.add(s); }
             if(p.isDddArrow && p.owner && !p.owner.dead) p.dmg=10+10*(p.owner._dddCombo||0);
             s.takeDamage(p.dmg, p._droolOwner||p.owner||{team:p.team,x:p.x,y:p.y});
+            if(p.isMorse && p.owner && !p.owner.dead) p.owner._mcSpd=(p.owner._mcSpd||1)+0.1;   // 📡 trúng quân triệu hồi cũng tính
             // 🎯 hiệu ứng bất lợi (độc/băng/lửa của Drooling Cat) — coi như char thường, đơn vị triệu hồi cũng phải dính
             if(p._droolSub==='poison'){ s.burn=Math.max(s.burn||0,180); }
             else if(p._droolSub==='ice'){ s._droolSlowTimer=180; }
@@ -23492,6 +23529,11 @@ function loop(){
       ctx.filter='none'; ctx.globalAlpha=1; ctx.restore();
     } else if(p.isPopO){
       const st=_popRingState(p); _popRingDraw(p.x,p.y,st,p._seed||0,p._t||0);
+    } else if(p.isMorse){   // 📡 dấu chấm / dấu gạch Morse phát sáng, gạch xoay theo hướng bay
+      ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(Math.atan2(p.vy,p.vx)); ctx.shadowColor='#69f0ae'; ctx.shadowBlur=12; ctx.fillStyle='#e8fff0';
+      if(p.sym==='.'){ ctx.beginPath(); ctx.arc(0,0,6,0,Math.PI*2); ctx.fill(); }
+      else { ctx.beginPath(); ctx.roundRect(-13,-4.5,26,9,4.5); ctx.fill(); }
+      ctx.globalAlpha=0.35; ctx.fillStyle='#69f0ae'; ctx.beginPath(); ctx.roundRect(-34,-3,24,6,3); ctx.fill(); ctx.restore();   // vệt đuôi
     } else if(p.isBelugaMsg){
       // bong bóng chat bay tới địch
       ctx.save();
@@ -27541,6 +27583,7 @@ function loop(){
   for(const _f of fighters){ if(_f.dead) continue;
     if(_f._lvAxe) _lvDraw(_f);          // 🪓 rìu Leviathan vẽ ĐÈ lên mọi meme (đang găm thì phải thấy trên người địch)
     if(_f._dnW) _dnDrawWriting(_f);     // 📓 tên đang được viết trên đầu địch
+    if(_f.type==='morsecat') _mcDrawHud(_f);   // 📡 bảng gõ Morse
     if(_f._dnMark) _dnDrawMark(_f); }   // 📓 địch đã bị ghi tên
   _susVoteDraw();
   _frDrawNight();   // 🐈‍⬛ bóng đêm Friend phủ lên TRÊN CÙNG — chỉ còn thấy mặt mèo ngoạm
