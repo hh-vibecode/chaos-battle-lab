@@ -5422,7 +5422,13 @@ function _popRingFxDraw(){
 // Quân triệu hồi có máu ăn đủ y như meme (dame vũng, piranha, cá mập).
 const DL_TPS=60*GAME_SPEED*TIME_SCALE;            // tick logic mỗi GIÂY THẬT (≈72, không phải 60)
 const DL_RATE0=1.5, DL_RATE_UP=1.1, DL_RATE_MAX=10, DL_STREAM_RATE=5;
-const DL_DROP_AREA=420;                           // diện tích (px²) mỗi giọt góp vào vũng
+// 🌊 NHỊP NƯỚC DÂNG: diện tích vũng bám theo đường cong A(t) = A_đầy·(t/DL_FULL_T)^DL_FULL_POW — lúc đầu dâng chậm, càng về sau
+//    nước chảy càng nhiều, tới đúng giây DL_FULL_T thì phủ KÍN cả sàn; đầy rồi thì Drooling Cat thôi nhỏ dãi.
+//    Mỗi giọt mang đúng phần nước còn thiếu so với đường cong (tính trước DL_FLOW_LEAD giây — thời gian giọt chảy từ chân tới giữa),
+//    nên dù mèo bị choáng / nhịp nhỏ lệch đi thì vũng vẫn đầy đúng hẹn, không vọt quá.
+const DL_FULL_T=20, DL_FULL_POW=2.5, DL_FLOW_LEAD=1.2, DL_DROP_MIN=150;
+function _dlFullR(){ return Math.hypot(W/2,(H/2)/DL_POOL_SQ)*1.08; }      // bán kính vũng phủ kín 4 góc sàn (trừ hao mép gợn)
+function _dlFullA(){ const R=_dlFullR(); return Math.PI*R*R; }
 const DL_POOL_SQ=0.6;                             // vũng nằm trên MẶT SÀN → dẹt theo chiều dọc (phối cảnh)
 const DL_POOL_DMG=10, DL_POOL_HEAL=10;            // mỗi giây
 const DL_PIRANHA_AT=8, DL_SHARK_AT=15, DL_SOAK=3, DL_PIRANHA_DMG=80, DL_SHARK_DMG=200;
@@ -5454,13 +5460,16 @@ function _dlDrip(f){
   f._dlRate=Math.min(DL_RATE_MAX,(f._dlRate||DL_RATE0)*DL_RATE_UP);
   f.cooldown=Math.max(1,Math.round(DL_TPS/f._dlRate));
   const m=_dlMouth(f), stream=f._dlRate>=DL_STREAM_RATE;
-  dlDrops.push({ x:m.x+(stream?0:(Math.random()-0.5)*2), y:m.y, vy:0.5, gy:Math.max(m.y+6,_dlFeetY(f)),
-    r:stream?1.6+Math.random()*0.8:2.4+Math.random()*1.2, owner:f, team:f.team });
+  const t=(f._dlAge||0)/DL_TPS+DL_FLOW_LEAD, want=_dlFullA()*Math.pow(Math.min(1,t/DL_FULL_T),DL_FULL_POW);
+  const A=Math.max(DL_DROP_MIN, want-(f._dlEmit||0)); f._dlEmit=(f._dlEmit||0)+A;
+  const big=Math.min(1,Math.sqrt(A)/90); f._dlBig=big;   // nước càng nhiều → giọt / dòng càng to
+  dlDrops.push({ x:m.x+(stream?0:(Math.random()-0.5)*2), y:m.y, vy:0.5, gy:Math.max(m.y+6,_dlFeetY(f)), A,
+    r:(stream?1.6+Math.random()*0.8:2.4+Math.random()*1.2)*(1+big*1.3), owner:f, team:f.team });
 }
 // 🌀 giọt chảy tới GIỮA SÀN: nhập vào vũng giữa sàn của chủ (cộng DIỆN TÍCH → vũng to dần, nhanh lúc đầu rồi chậm lại)
 function _dlAddWater(f,x,y,A){
   let p=dlPools.find(q=>q.owner===f);
-  if(p) p.A+=A; else dlPools.push(p={x:W/2, y:H/2, A:A*2, R:2, owner:f, team:f.team, sd:Math.random()*9});
+  if(p) p.A=Math.min(_dlFullA(),p.A+A); else dlPools.push(p={x:W/2, y:H/2, A:A*2, R:2, owner:f, team:f.team, sd:Math.random()*9});
   dlFx.push({k:'ring',x,y,t:0,max:30,r:2});
 }
 // mọi mục tiêu sống (meme + quân triệu hồi có máu) không cùng phe
@@ -5472,7 +5481,8 @@ function _dlBiteHole(o,x,y){
   const u=0.5+(L.fl?-1:1)*(x-o.x)/L.dw, v=0.5+(y-o.y)/L.dh;
   hs.push({ x:Math.max(0.08,Math.min(0.92,u)), y:Math.max(0.2,Math.min(0.88,v)), r:0.24+Math.random()*0.05, sd:Math.random()*99 });
 }
-function _dlPickInPool(p,k){ const a=Math.random()*Math.PI*2, d=Math.sqrt(Math.random())*p.R*(k||0.75); return {x:p.x+Math.cos(a)*d, y:p.y+Math.sin(a)*d*DL_POOL_SQ}; }
+function _dlPickInPool(p,k){ const a=Math.random()*Math.PI*2, d=Math.sqrt(Math.random())*p.R*(k||0.75);   // (vũng tràn quá sàn thì kẹp lại trong sàn)
+  return {x:Math.max(24,Math.min(W-24,p.x+Math.cos(a)*d)), y:Math.max(24,Math.min(H-24,p.y+Math.sin(a)*d*DL_POOL_SQ))}; }
 // chạy trong vòng tick của loop() (kể cả lúc Drooling Cat bị choáng)
 function _dlTick(){
   // giọt nhả ra rơi thẳng xuống đất, chạm đất thì CHẢY trên sàn về GIỮA SÀN (bị hút cong vào, càng gần càng nhanh —
@@ -5493,7 +5503,7 @@ function _dlTick(){
     d.x+=d.vx; d.y+=d.vy;
     d.trail.push(d.x,d.y); if(d.trail.length>14) d.trail.splice(0,2);
     const p=dlPools.find(q=>q.owner===d.owner), R=p?p.R:0;
-    if(Math.hypot(W/2-d.x,(H/2-d.y)/DL_POOL_SQ) < Math.max(5,R) || d.age>600){ _dlAddWater(d.owner,d.x,d.y,DL_DROP_AREA); dlDrops.splice(i,1); }
+    if(Math.hypot(W/2-d.x,(H/2-d.y)/DL_POOL_SQ) < Math.max(5,R) || d.age>600){ _dlAddWater(d.owner,d.x,d.y,d.A||DL_DROP_MIN); dlDrops.splice(i,1); }
   }
   for(const p of dlPools){
     const dead=!p.owner || p.owner.dead;
@@ -5504,6 +5514,7 @@ function _dlTick(){
   for(const f of fighters){
     if(f.type!=='droolingcat' || f.dead) continue;
     f._dlAge=(f._dlAge||0)+1;
+    { const p=dlPools.find(q=>q.owner===f); f._dlFull=!!(p && p.A>=_dlFullA()*0.999); }   // 🌊 nước đã phủ kín sàn → thôi nhỏ dãi
     const sec=f._dlAge/DL_TPS, T1=Math.round(DL_TPS);
     // 💚 Drooling Cat đứng trong vũng của mình: hồi 10 máu/s
     if(_dlPoolAt(f.x,_dlFeetY(f),f.size*0.35,null,f.team)){
@@ -6811,8 +6822,9 @@ function _dlDrawOver(){
   for(const f of fighters){
     if(f.type!=='droolingcat' || f.dead) continue;
     const m=_dlMouth(f), gy=_dlFeetY(f), rate=f._dlRate||0;
-    if(rate>=DL_STREAM_RATE && gy>m.y+4){   // 🌊 nhỏ đủ nhanh → thành DÒNG liền, càng lâu càng to
-      const w=Math.min(4.2,1.4+(rate-DL_STREAM_RATE)*0.5), tm=performance.now()/1000, n=10;
+    if(f._dlFull){ /* sàn ngập kín rồi — hết dãi */ }
+    else if(rate>=DL_STREAM_RATE && gy>m.y+4){   // 🌊 nhỏ đủ nhanh → thành DÒNG liền, càng lâu càng to
+      const w=Math.min(4.2,1.4+(rate-DL_STREAM_RATE)*0.5)*(1+(f._dlBig||0)*1.2), tm=performance.now()/1000, n=10;
       const pts=[]; for(let i=0;i<=n;i++){ const u=i/n; pts.push([m.x+Math.sin(tm*9+u*7)*0.8*u, m.y+(gy-m.y)*u]); }
       ctx.save(); ctx.lineCap='round'; ctx.lineJoin='round';
       for(const [lw,col] of [[w+1.2,'rgba(90,190,235,0.55)'],[w,'rgba(170,235,255,0.8)'],[w*0.35,'rgba(255,255,255,0.85)']]){
@@ -17102,7 +17114,7 @@ class Fighter {
         this._popLastShot=tick; }
     }
     // 🤤💧 DROOLING CAT: đi chậm, dãi nhỏ từ mồm xuống chân liên tục (nhanh dần, lâu thì thành dòng) — đọng thành vũng (xem _dl*).
-    if(this.type==='droolingcat' && !this.dead && this.cooldown<=0){
+    if(this.type==='droolingcat' && !this.dead && !this._dlFull && this.cooldown<=0){
       _dlDrip(this);   // không đánh, không tư thế đánh, không tiếng — chỉ nhỏ dãi
     }
     // mouth close timer

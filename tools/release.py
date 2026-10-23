@@ -22,5 +22,5 @@ for root, _, fs in os.walk('assets'):
 open('assets-manifest.json', 'w').write(json.dumps({'v': n, 'files': files}, separators=(',', ':')))
 subprocess.run(['git', 'add', '-A'], check=True)
 subprocess.run(['git', 'commit', '-q', '-m', f'Ver {n}: {msg}\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>'], check=True)
-subprocess.run(['git', 'push', '-q'], check=True)
+pass  # (push riêng)
 print(f'Đã đẩy Ver {n} ({at})')
