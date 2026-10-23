@@ -5156,15 +5156,12 @@ function _bxPunch(f,u){   // tung cú đấm đã tích vào u (fighter hoặc q
   const kb=Math.min(20,4+dmg*0.035); u.vx=(u.vx||0)+Math.cos(a)*kb; u.vy=(u.vy||0)+Math.sin(a)*kb;
   if(dmg>BX_STUN_DMG && u.stun!==undefined) u.stun=Math.max(u.stun||0,BX_STUN_T);
   playSample(tier>0?'bx_whitebeard':'hit_heavy',[0.8,0.8,0.95,1.1][tier]);   // 🥊 từ 100 dame trở lên: tiếng đấm Râu Trắng (to dần theo bậc)
-  if(tier>0){ const N=[0,8,13,20][tier], L=f.size*[0,2.6,5,9][tier], cr=[];
-    for(let i=0;i<N;i++){ const an=i/N*Math.PI*2+(Math.random()-0.5)*0.5, len=L*(0.55+0.6*Math.random()), pts=[[0,0]]; let px=0,py=0; const sg=5+tier;
-      for(let k=1;k<=sg;k++){ const r=len*k/sg, aj=an+(Math.random()-0.5)*0.35; px=Math.cos(aj)*r; py=Math.sin(aj)*r; pts.push([px,py]); }
-      const br=[]; if(tier>=2) for(let b=0;b<tier;b++){ const k=1+Math.floor(Math.random()*(sg-1)), p0=pts[k], ba=an+(Math.random()<0.5?-1:1)*(0.5+Math.random()*0.6), bl=len*(0.15+0.25*Math.random()); br.push([p0,[p0[0]+Math.cos(ba)*bl,p0[1]+Math.sin(ba)*bl]]); }
-      cr.push({pts,br}); }
-    const sh=[]; if(tier>=3) for(let i=0;i<14;i++){ const an=Math.random()*Math.PI*2, r=f.size*(1.5+Math.random()*4), s2=f.size*(0.25+Math.random()*0.5); sh.push({x:Math.cos(an)*r,y:Math.sin(an)*r,vx:Math.cos(an)*(2+Math.random()*4),vy:Math.sin(an)*(2+Math.random()*4),s:s2,rot:Math.random()*6,vr:(Math.random()-0.5)*0.3}); }
-    bxFx.push({x:hx,y:hy,a,dmg,tier,t:0,T:[0,26,38,58][tier],R:f.size*[0,1.6,2.4,3.1][tier],cr,sh});
-    addShake([0,5,11,20][tier],[0,8,12,20][tier]);
-    if(tier>=3) battleFreezeTimer=Math.max(battleFreezeTimer,6);   // khựng hình 0.1s đúng lúc nứt vỡ không gian
+  if(tier>0){ const deb=[]; const ND=[0,9,16,22][tier];
+    for(let i=0;i<ND;i++){ const an=Math.random()*Math.PI*2, r=f.size*Math.random()*0.8, sp=(tier>=2?1.6:0.9)*(0.5+Math.random()); deb.push({x:Math.cos(an)*r,y:Math.sin(an)*r,vx:Math.cos(an)*sp,vy:Math.sin(an)*sp,s:f.size*(0.08+Math.random()*0.16)*(tier>=2?1.3:1),rot:Math.random()*6,vr:(Math.random()-0.5)*0.25,g:Math.random()<0.5}); }   // đá vụn / mảnh vỡ trong quả cầu
+    const cr=[]; if(tier>=3){ const L=Math.hypot(W,H); for(let i=0;i<16;i++){ const an=i/16*Math.PI*2+(Math.random()-0.5)*0.35, pts=[[0,0]]; let r=0; while(r<L){ r+=L*(0.12+Math.random()*0.18); const aj=an+(Math.random()-0.5)*0.22; pts.push([Math.cos(aj)*r,Math.sin(aj)*r]); }
+        const br=[]; for(let b=0;b<2;b++){ const p0=pts[1+Math.floor(Math.random()*(pts.length-2))], ba=an+(Math.random()<0.5?-1:1)*(0.35+Math.random()*0.5), bl=L*(0.08+Math.random()*0.12); br.push([p0,[p0[0]+Math.cos(ba)*bl,p0[1]+Math.sin(ba)*bl]]); } cr.push({pts,br}); } }   // vết nứt không khí dài thẳng như tia chớp
+    bxFx.push({x:hx,y:hy,a,dmg,tier,t:0,T:[0,30,40,54][tier],R:f.size*[0,1.25,1.8,1.6][tier],deb,cr});
+    addShake([0,3,6,10][tier],[0,6,9,12][tier]);
   }
   B.inc+=BX_INC_ADD; B.st='rest'; B.t=BX_REST; B.dmg=BX_BASE; f.actionState='attack'; f.actionTimer=14;
 }
@@ -5186,19 +5183,24 @@ function _bxFxDraw(){
     ctx.lineCap='round'; for(let j=0;j<2;j++){ const ph=((tick*0.18)+j*0.5)%1, side=j?1:-1, ox=f.x+Math.cos(a)*f.size*(0.9+0.9*ph)-Math.sin(a)*side*f.size*0.35, oy=f.y+Math.sin(a)*f.size*(0.9+0.9*ph)+Math.cos(a)*side*f.size*0.35;
       ctx.strokeStyle=`rgba(${col},${0.7*(1-ph)})`; ctx.lineWidth=2+tier; ctx.beginPath(); ctx.arc(ox,oy,f.size*(0.18+0.25*ph),a-1.1,a+1.1); ctx.stroke(); } ctx.restore();
     ctx.save(); ctx.font=`900 ${13+tier*2}px "Press Start 2P",monospace`; ctx.textAlign='center'; ctx.lineWidth=4; ctx.strokeStyle='#000'; ctx.fillStyle=tier>=2?'#ffd54f':'#fff'; ctx.strokeText(B.dmg,f.x,f.y-f.size-16); ctx.fillText(B.dmg,f.x,f.y-f.size-16); ctx.restore(); }
-  // 💥 cú đấm: quả cầu chấn động trắng (Gura Gura) + vết nứt kính trong không trung + mảnh kính văng (bậc 3) + loé trắng
-  ctx.save(); ctx.beginPath(); ctx.rect(0,0,W,H); ctx.clip();   // nứt vỡ chỉ trong sàn đấu
-  for(let i=bxFx.length-1;i>=0;i--){ const F=bxFx[i]; F.t++; if(F.t>F.T){ bxFx.splice(i,1); continue; } const k=F.t/F.T, grow=Math.min(1,F.t/6), fade=1-Math.max(0,(k-0.45)/0.55);
-    ctx.save(); ctx.translate(F.x,F.y);
-    if(F.tier>=3&&F.t<5){ ctx.fillStyle=`rgba(255,255,255,${0.55*(1-F.t/5)})`; ctx.fillRect(-W*2,-H*2,W*4,H*4); }   // loé trắng
-    ctx.globalCompositeOperation='lighter'; const R=F.R*(0.6+0.6*grow)*(1+0.15*k);
-    const g2=ctx.createRadialGradient(0,0,0,0,0,R); g2.addColorStop(0,`rgba(255,255,255,${0.95*fade})`); g2.addColorStop(0.55,`rgba(220,235,255,${0.55*fade})`); g2.addColorStop(1,'rgba(200,225,255,0)'); ctx.fillStyle=g2; ctx.beginPath(); ctx.arc(0,0,R,0,Math.PI*2); ctx.fill();
-    ctx.strokeStyle=`rgba(255,255,255,${0.9*fade})`; ctx.lineWidth=2+F.tier; ctx.beginPath(); ctx.arc(0,0,R*0.92,0,Math.PI*2); ctx.stroke();   // vỏ quả cầu chấn động
-    if(F.tier>=2){ const rr=F.R*(1+4*k); ctx.strokeStyle=`rgba(230,240,255,${0.5*(1-k)})`; ctx.lineWidth=3; ctx.beginPath(); ctx.arc(0,0,rr,0,Math.PI*2); ctx.stroke(); }   // sóng xung kích
-    ctx.globalCompositeOperation='source-over'; const rv=Math.min(1,F.t/(F.tier>=3?8:5)); ctx.lineCap='round'; ctx.lineJoin='round';
-    for(const c of F.cr){ const n=Math.max(1,Math.round((c.pts.length-1)*rv)); for(const [lw,st] of [[3+F.tier,`rgba(120,170,255,${0.35*fade})`],[1.2+F.tier*0.4,`rgba(255,255,255,${0.95*fade})`]]){ ctx.strokeStyle=st; ctx.lineWidth=lw; ctx.beginPath(); ctx.moveTo(0,0); for(let j=1;j<=n;j++) ctx.lineTo(c.pts[j][0],c.pts[j][1]); ctx.stroke();
-        if(rv>=1) for(const b of c.br){ ctx.beginPath(); ctx.moveTo(b[0][0],b[0][1]); ctx.lineTo(b[1][0],b[1][1]); ctx.stroke(); } } }   // vết nứt kính lan ra
-    for(const s2 of F.sh){ s2.x+=s2.vx; s2.y+=s2.vy; s2.rot+=s2.vr; ctx.save(); ctx.translate(s2.x,s2.y); ctx.rotate(s2.rot); ctx.fillStyle=`rgba(225,240,255,${0.55*fade})`; ctx.strokeStyle=`rgba(255,255,255,${0.9*fade})`; ctx.lineWidth=1.2; ctx.beginPath(); ctx.moveTo(-s2.s,-s2.s*0.3); ctx.lineTo(s2.s*0.4,-s2.s*0.7); ctx.lineTo(s2.s*0.8,s2.s*0.5); ctx.lineTo(-s2.s*0.3,s2.s*0.6); ctx.closePath(); ctx.fill(); ctx.stroke(); ctx.restore(); }   // mảnh không gian vỡ văng ra
+  // 💥 cú đấm Râu Trắng — NHẸ (≥100/≥180): quả cầu chấn động TRONG SUỐT ôm điểm đấm, đá vụn vỡ bên trong rồi văng ra · NẶNG (≥250): nền tối lại, chấm sáng chói ở nắm đấm, vết nứt không khí trắng dài xuyên cả sàn
+  ctx.save(); ctx.beginPath(); ctx.rect(0,0,W,H); ctx.clip();
+  for(let i=bxFx.length-1;i>=0;i--){ const F=bxFx[i]; F.t++; if(F.t>F.T){ bxFx.splice(i,1); continue; } const k=F.t/F.T, grow=Math.min(1,F.t/5), fade=1-Math.max(0,(k-0.5)/0.5);
+    ctx.save();
+    if(F.tier>=3){ const dk=0.42*(F.t<6?F.t/6:1)*fade; ctx.fillStyle=`rgba(0,0,10,${dk})`; ctx.fillRect(0,0,W,H); }   // nền tối lại cho vết nứt sáng nổi bật
+    ctx.translate(F.x,F.y);
+    const R=F.R*(0.55+0.45*grow)*(1+0.12*k);
+    // quả cầu chấn động: trong suốt, mép sáng, có vệt phản chiếu như kính
+    const gb=ctx.createRadialGradient(0,0,R*0.2,0,0,R); gb.addColorStop(0,`rgba(255,255,255,${0.10*fade})`); gb.addColorStop(0.78,`rgba(235,242,255,${0.22*fade})`); gb.addColorStop(0.93,`rgba(255,255,255,${0.55*fade})`); gb.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.fillStyle=gb; ctx.beginPath(); ctx.arc(0,0,R,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle=`rgba(255,255,255,${0.75*fade})`; ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(0,0,R*0.96,0,Math.PI*2); ctx.stroke();
+    ctx.strokeStyle=`rgba(255,255,255,${0.5*fade})`; ctx.lineWidth=3; ctx.beginPath(); ctx.arc(-R*0.15,-R*0.15,R*0.7,Math.PI*1.05,Math.PI*1.45); ctx.stroke();   // vệt phản chiếu
+    // đá vụn / mảnh vỡ (xám + trắng) bay ra từ tâm
+    for(const d of F.deb){ d.x+=d.vx; d.y+=d.vy; d.rot+=d.vr; ctx.save(); ctx.translate(d.x,d.y); ctx.rotate(d.rot); ctx.fillStyle=d.g?`rgba(150,150,160,${0.95*fade})`:`rgba(235,235,240,${0.95*fade})`; ctx.strokeStyle=`rgba(60,60,70,${0.8*fade})`; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(-d.s,-d.s*0.4); ctx.lineTo(d.s*0.5,-d.s*0.8); ctx.lineTo(d.s,d.s*0.4); ctx.lineTo(-d.s*0.3,d.s*0.7); ctx.closePath(); ctx.fill(); ctx.stroke(); ctx.restore(); }
+    if(F.tier>=3){ const rv=Math.min(1,F.t/7); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round'; ctx.lineJoin='round';
+      for(const c of F.cr){ const n=Math.max(1,Math.round((c.pts.length-1)*rv)); for(const [lw,st] of [[7,`rgba(140,180,255,${0.22*fade})`],[2.2,`rgba(255,255,255,${0.95*fade})`]]){ ctx.strokeStyle=st; ctx.lineWidth=lw; ctx.beginPath(); ctx.moveTo(0,0); for(let j=1;j<=n;j++) ctx.lineTo(c.pts[j][0],c.pts[j][1]); ctx.stroke();
+          if(rv>=1) for(const b of c.br){ ctx.beginPath(); ctx.moveTo(b[0][0],b[0][1]); ctx.lineTo(b[1][0],b[1][1]); ctx.stroke(); } } }
+      const sr=F.R*(0.5+0.4*Math.sin(F.t*0.9))*fade+4, gs=ctx.createRadialGradient(0,0,0,0,0,sr*2.2); gs.addColorStop(0,`rgba(255,255,255,${fade})`); gs.addColorStop(0.3,`rgba(220,235,255,${0.7*fade})`); gs.addColorStop(1,'rgba(200,220,255,0)'); ctx.fillStyle=gs; ctx.beginPath(); ctx.arc(0,0,sr*2.2,0,Math.PI*2); ctx.fill(); }   // chấm sáng chói ở nắm đấm
     ctx.restore(); }
   ctx.restore();
 }
@@ -19419,7 +19421,7 @@ class Fighter {
     // 🧛 VAMPIRE CAT: vừa né đòn hoá khói — mờ gần như tan biến rồi hiện lại ngay (toàn bộ khối vẽ sprite bên
     // dưới nằm trong save/restore này nên set 1 lần ở đây là đủ, không đụng gì các nhân vật khác).
     if(this.type==='vampirecat' && (this._vampSmoke||0)>0){ this._vampSmoke--; ctx.globalAlpha=0.12; }
-    const s=this.size*((this.type==='boxingcat')?1.3:(this.type==='chonkydog')?1.1:(this.type==='vampirecat'&&this._vampBatForm)?1.2:(this.type==='doge'&&this.dogeBuffed)?1.1:(this.type==='feuerkatze'&&(this._fkSaluteNow||0)>0)?1.1:(this.type==='germancat'&&this.germanSpeechTimer>0)?1.4:(this.type==='evillarry'&&this.actionState==='attack')?1.2:(this.type==='grumpycat'&&this._rageActive)?1.3:(this.type==='maxwell'&&(this._mwPhase==='spin'||this._mwPhase==='reveal'))?1.2:(this.type==='uiacat'&&this.oiiaSpinTimer>0)?1.265:(this.type==='capybara'&&this._cbFused)?0.9:(this.type==='capybara'&&!this._cbFused&&!this._cbIsKnife)?0.8:1)*(1-(this._rbShrinkFrac||0)); // bị Rubik Cat hút vào hố đen thì thu nhỏ dần về 0 thay vì vỡ mảnh vụn
+    const s=this.size*((this.type==='boxingcat')?1.43:(this.type==='chonkydog')?1.1:(this.type==='vampirecat'&&this._vampBatForm)?1.2:(this.type==='doge'&&this.dogeBuffed)?1.1:(this.type==='feuerkatze'&&(this._fkSaluteNow||0)>0)?1.1:(this.type==='germancat'&&this.germanSpeechTimer>0)?1.4:(this.type==='evillarry'&&this.actionState==='attack')?1.2:(this.type==='grumpycat'&&this._rageActive)?1.3:(this.type==='maxwell'&&(this._mwPhase==='spin'||this._mwPhase==='reveal'))?1.2:(this.type==='uiacat'&&this.oiiaSpinTimer>0)?1.265:(this.type==='capybara'&&this._cbFused)?0.9:(this.type==='capybara'&&!this._cbFused&&!this._cbIsKnife)?0.8:1)*(1-(this._rbShrinkFrac||0)); // bị Rubik Cat hút vào hố đen thì thu nhỏ dần về 0 thay vì vỡ mảnh vụn
     let scaleX=1,scaleY=1,offX=0,offY=0,rotation=0;
     // 😏 đang bị Troll Face ngậm → thu nhỏ lại còn 45%, nhìn như đang nằm gọn trong bụng nó
     // 😏 Troll Face đang ngậm địch: phình to thêm 30% (chỉ phần HÌNH, hitbox giữ nguyên). Riêng 0.5–0.7s ĐẦU
@@ -19950,7 +19952,7 @@ class Fighter {
       else img=avatarImgs[i];
     } else if(this.type==='boxingcat' && BX_FR[0].naturalWidth){
       // 🥊 đang đấm khởi động: chạy 20 khung (~15 khung/giây) · nghỉ: đứng ở khung 1
-      const _bxw=this._bx && (this._bx.st==='warm' || (this.actionTimer||0)>0); const _bxI=_bxw?Math.floor(tick/5)%BX_FR.length:0; img=BX_FR[_bxI].naturalWidth?BX_FR[_bxI]:BX_FR[0];
+      const _bxw=this._bx && (this._bx.st==='warm' || (this.actionTimer||0)>0); const _bxI=_bxw?Math.floor(tick/8)%BX_FR.length:0; img=BX_FR[_bxI].naturalWidth?BX_FR[_bxI]:BX_FR[0];
     } else if(this.type==='slapcat' && (this._slapFreeze||0)>0){
       // 🐈 CHỈ chạy animation trong đúng 0.5s lúc vả (avatar → Khung 2 → Khung 3, chạy hết đúng 1 lượt).
       // Ngoài lúc đó đứng yên ở avatar như mọi meme bình thường.
