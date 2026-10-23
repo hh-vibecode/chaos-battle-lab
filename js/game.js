@@ -5204,6 +5204,18 @@ function _bxFxDraw(){
     ctx.restore(); }
   ctx.restore();
 }
+// 💬 BELUGA: bắn 1 tin nhắn — XUYÊN qua mọi thứ trên đường bay (mỗi mục tiêu ăn 1 lần), bám mục tiêu tới lúc trúng đầu tiên
+const BL_SHORTS=['wait','WAIT','no','bro','what','huh','NO WAY','omg','gg','lol','bruh','ok','???','LMAO','rip','nah','yikes','sir','bro??','HUH','k','sus','real??','why','cope'];
+function _blFire(f,e,dmg,msgText,msgColor){ const dx=e.x-f.x, dy=e.y-f.y, dist=Math.hypot(dx,dy)||1, sp=dmg>=300?22:dmg>=80?10:dmg>=50?13:16, life=dmg>=300?90:dmg>=80?140:dmg>=50?120:100;
+  projectiles.push({ x:f.x, y:f.y-f.size, vx:dx/dist*sp, vy:dy/dist*sp, team:f.team, owner:f, dmg, life, maxLife:life, isBelugaMsg:true, msgText, msgColor, size:6, target:e, sniper:true, trail:[] });
+  playSample('beluga_text',0.85); }
+// 💬 "Beluga is typing…" trên đầu lúc đang gõ
+function _blDrawTyping(f){ if(!(f.belugaChatTimer>0)) return; const x=f.x, y=f.y+f.size+12, t=tick;   // dưới chân (bong bóng gõ chữ đã ở trên đầu)
+  ctx.save(); ctx.font='bold 10px Arial,sans-serif'; const txt='Beluga is typing', tw=ctx.measureText(txt).width, w=tw+34, h=18;
+  ctx.fillStyle='rgba(32,34,37,0.9)'; ctx.beginPath(); ctx.roundRect(x-w/2,y-h/2,w,h,9); ctx.fill();
+  ctx.fillStyle='#dcddde'; ctx.textAlign='left'; ctx.textBaseline='middle'; ctx.fillText(txt,x-w/2+8,y+0.5);
+  for(let k=0;k<3;k++){ const b=Math.max(0,Math.sin(t*0.25-k*0.9)); ctx.fillStyle=`rgba(220,221,222,${0.5+0.5*b})`; ctx.beginPath(); ctx.arc(x+w/2-20+k*6,y-b*2.5,1.9,0,Math.PI*2); ctx.fill(); }
+  ctx.restore(); }
 let flowerShatters=[]; // Flower Cat: hiệu ứng không gian nứt vỡ toàn màn hình khi kích hoạt Siêu Việt
 let flowerZoom=0, flowerZoomX=0, flowerZoomY=0; // zoom-punch bóp méo không gian quanh điểm kích hoạt
 let flowerSpotlight=0, flowerSpotlightX=0, flowerSpotlightY=0; // vùng tối viền ngoài — chỉ còn rõ Flower Cat giữa khung hình
@@ -15397,6 +15409,7 @@ class Fighter {
     // ───── BELUGA CAT ─────
     if(this.type==='beluga' && !this.dead){
       this.belugaChatCD = Math.max(0, this.belugaChatCD - 1);
+      if((this._blBurst||0)>0 && --this._blBurstT<=0 && this.enemy){ const sh=BL_SHORTS[Math.floor(Math.random()*BL_SHORTS.length)]; _blFire(this,this.enemy,40+Math.floor(Math.random()*11),sh,'#80deea'); this._blBurst--; this._blBurstT=9; }
       if(this.belugaChatTimer > 0){
         this.belugaChatTimer--;
         this.skill1AvatarTimer = 4;
@@ -15405,22 +15418,13 @@ class Fighter {
           const e = this.enemy;
           if(e && this._belugaPending){
             const {dmg, msgText, msgColor} = this._belugaPending;
-            const dx=e.x-this.x, dy=e.y-this.y, dist=Math.sqrt(dx*dx+dy*dy)||1;
-            const projSpd = dmg>=300 ? 22 : dmg>=80 ? 10 : dmg>=50 ? 13 : 16;
-            const projLife = dmg>=300 ? 80 : dmg>=80 ? 130 : dmg>=50 ? 110 : 90;
-            projectiles.push({
-              x:this.x, y:this.y-this.size,
-              vx: dx/dist*projSpd, vy: dy/dist*projSpd,
-              team:this.team, owner:this, dmg, life:projLife, maxLife:projLife,
-              isBelugaMsg:true, msgText, msgColor, size:6,
-              target: e
-            });
-            playSample('beluga_text', 0.85);
+            _blFire(this, e, dmg, msgText, msgColor);
+            if(dmg<60 && Math.random()<0.45){ this._blBurst=1+(Math.random()<0.5?1:0); this._blBurstT=9; }   // 💬 spam: tin ngắn hay kèm 1–2 tin ngắn nữa liền tù tì
           }
           this._belugaPending = null;
           // ⌨️ gõ xong là CẮT tiếng gõ ngay, không để kéo dài sang lúc tin đã bay đi
           if(this._belugaTypeSfx){ try{ this._belugaTypeSfx.pause(); this._belugaTypeSfx.currentTime=0; }catch(e){} this._belugaTypeSfx=null; }
-          this.belugaChatCD = 123; // 2.05s delay trước lần tiếp (tăng thêm 1s so với 1.05s cũ, cho bớt khoẻ/bắn chậm lại)
+          this.belugaChatCD = 72; // 1.2s nghỉ trước lần gõ tiếp
         }
       } else if(this.belugaChatCD <= 0 && !this._isHardCC()){   // ⚠️ đang CHOÁNG THẬT thì không được gõ tin mới. Ngưỡng <=2 chứ không phải <20: mọi chỗ TỰ khoá chân đều đặt đúng stun=2, còn choáng thật luôn ≥45 — để 20 thì 19 tick cuối mỗi lần choáng vẫn lọt (đo thực tế: Beluga gõ lại được ngay khi rickroll còn 19 tick).
         // chọn tin nhắn TRƯỚC khi gõ để reveal từng ký tự
@@ -23909,7 +23913,8 @@ function loop(){
         if(p.isSonicWave){ _spawnMusicNoteFx(f.x,f.y,f.size); _egHit(p,f.x,f.y,f.size); _egBurn(p,f); }
         if(p.isNote){ _spawnMusicNoteFx(f.x,f.y,f.size); }   // 🎹 Piano Cat: nốt nhạc trúng địch
         if(p.isDddArrow) _spawnMusicNoteFx(f.x,f.y,f.size);   // 💃 Damdam Didi Cat: arrow dance trúng địch
-        if(p.isMorse && p.owner && !p.owner.dead){ _hitParticles(f.x,f.y,'#69f0ae',4,false,true); }   // 📡 (tốc gõ giờ tăng lúc GÕ mỗi ký tự, không phải lúc trúng)
+        if(p.isMorse && p.owner && !p.owner.dead){ _hitParticles(f.x,f.y,'#69f0ae',4,false,true); }
+        if(p.isBelugaMsg){ p.target=null; if(p.msgColor==='#ff1744'){ const _a=Math.atan2(p.vy,p.vx); f.vx=Math.cos(_a)*14; f.vy=Math.sin(_a)*14; f._slammed=true; addShake(8,12); _hitParticles(f.x,f.y,'#ff1744',14,false,true); floatTexts.push({x:f.x,y:f.y-f.size-34,text:'@everyone',color:'#ff5252',life:45,big:true}); } else _hitParticles(f.x,f.y,'#90caf9',6,false,true); }   // 💬 tin nhắn xuyên tiếp · toxic: nổ đẩy lùi   // 📡 (tốc gõ giờ tăng lúc GÕ mỗi ký tự, không phải lúc trúng)
       if(p._droolSub==='poison'){ _applyPoison(f,1,p._droolOwner||p.owner||{team:p.team,x:p.x,y:p.y}); }
       else if(p._droolSub==='fire'){ f.burn=180; f.burnTickCD=0; f._burnSrc=p._droolOwner||p.owner||{team:p.team,x:p.x,y:p.y}; }
       if(p.isGojoRed){ const _grAng=Math.atan2(p.vy,p.vx); f.vx=Math.cos(_grAng)*26; f.vy=Math.sin(_grAng)*20; f._slammed=true; _hitParticles(f.x,f.y,'#e53935',8,false,true); }
@@ -23949,6 +23954,7 @@ function loop(){
             if(p.isGojoRed){ const _grAng=Math.atan2(p.vy,p.vx); s.vx=Math.cos(_grAng)*22; s.vy=Math.sin(_grAng)*16; }
             if(p.isKmWave){ const _kwAng=Math.atan2(p.vy,p.vx); s.vx=Math.cos(_kwAng)*15; s.vy=Math.sin(_kwAng)*15; }
             if(p.isSonicWave || p.isNote){ _spawnMusicNoteFx(s.x,s.y,s.size); } if(p.isSonicWave){ _egHit(p,s.x,s.y,s.size||20); _egBurn(p,s); }   // 🎸🎹 Guitar/Piano trúng quân triệu hồi
+            if(p.isBelugaMsg) p.target=null;   // 💬 xuyên tiếp
             if(p.isDddArrow){
               _spawnMusicNoteFx(s.x,s.y,s.size);   // 💃 arrow dance trúng quân triệu hồi
               if(Math.random()<0.10 && s.stun<=0){ s.stun=90; playSound('stun'); }
@@ -24125,9 +24131,11 @@ function loop(){
       const fontSize = isToxic ? 17 : p.msgText.length>30 ? 13 : p.msgText.length>15 ? 15 : 17;
       ctx.font = `bold ${fontSize}px Arial,sans-serif`;
       const tw = Math.max(60, ctx.measureText(p.msgText).width);
-      const pad = 10, bh = fontSize + pad*2, bw = tw + pad*2;
+      const pad = 10, av = fontSize+8, bh = fontSize + pad*2 + 8, bw = tw + pad*2 + av + 6;
       const alpha = Math.min(1, p.life/12);
       ctx.globalAlpha = alpha;
+      if(p.trail){ p.trail.push(p.x,p.y); if(p.trail.length>16) p.trail.splice(0,2);
+        if(isToxic){ ctx.save(); ctx.lineCap='round'; for(let j=2;j<p.trail.length;j+=2){ const k=j/p.trail.length; ctx.strokeStyle=`rgba(255,23,68,${0.5*k})`; ctx.lineWidth=bh*0.7*k; ctx.beginPath(); ctx.moveTo(p.trail[j-2],p.trail[j-1]); ctx.lineTo(p.trail[j],p.trail[j+1]); ctx.stroke(); } ctx.restore(); } }   // 🔴 vệt đỏ sau tin toxic
       // shadow glow for toxic
       if(isToxic){ ctx.shadowColor='#ff1744'; ctx.shadowBlur=16; }
       // bong bóng
@@ -24145,9 +24153,13 @@ function loop(){
       ctx.lineTo(p.x+12, p.y+bh/2);
       ctx.fill();
       // text
-      ctx.fillStyle = p.msgColor==='#ff1744' ? '#ffffff' : '#222';
-      ctx.textAlign='center'; ctx.textBaseline='middle';
-      ctx.fillText(p.msgText, p.x, p.y);
+      { const ax=p.x-bw/2+pad+av/2-2, ay=p.y, im=p.owner&&avatarImgs[p.owner.slotIdx];   // 🐳 avatar tròn + tên kiểu Discord
+        ctx.save(); ctx.beginPath(); ctx.arc(ax,ay,av/2,0,Math.PI*2); ctx.fillStyle='#5865f2'; ctx.fill(); ctx.clip(); if(im&&im.complete&&im.naturalWidth){ const c=im._crop||{sx:0,sy:0,sw:im.naturalWidth,sh:im.naturalHeight}; ctx.drawImage(im,c.sx,c.sy,c.sw,c.sh,ax-av/2,ay-av/2,av,av); } ctx.restore(); }
+      const tx=p.x-bw/2+pad+av+4;
+      ctx.textAlign='left'; ctx.textBaseline='middle';
+      ctx.font='bold 9px Arial,sans-serif'; ctx.fillStyle=isToxic?'#ffcdd2':'#5865f2'; ctx.fillText('Beluga',tx,p.y-fontSize*0.55);
+      ctx.font = `bold ${fontSize}px Arial,sans-serif`; ctx.fillStyle = p.msgColor==='#ff1744' ? '#ffffff' : '#222';
+      ctx.fillText(p.msgText, tx, p.y+5);
       ctx.globalAlpha=1; ctx.restore();
     } else if(p.isZzz){
       // Snooze Cat Zzz projectile
@@ -28176,6 +28188,7 @@ function loop(){
     if(_f._lvAxe) _lvDraw(_f);          // 🪓 rìu Leviathan vẽ ĐÈ lên mọi meme (đang găm thì phải thấy trên người địch)
     if(_f._dnW) _dnDrawWriting(_f);     // 📓 tên đang được viết trên đầu địch
     if(_f.type==='morsecat') _mcDrawHud(_f);   // 📡 bảng gõ Morse
+    if(_f.type==='beluga') _blDrawTyping(_f);   // 💬 Beluga is typing…
     if(_f._dnMark) _dnDrawMark(_f); }   // 📓 địch đã bị ghi tên
   _susVoteDraw();
   _frDrawNight();   // 🐈‍⬛ bóng đêm Friend phủ lên TRÊN CÙNG — chỉ còn thấy mặt mèo ngoạm
