@@ -5560,6 +5560,8 @@ function _dlTick(){
       const isF=fighters.includes(o), sz=o.size||20;
       const p=_dlPoolAt(o.x,_dlFeetY(o),sz*0.35,null,f.team);
       if(!p){ o._dlSoak=0; o._dlDotT=0; continue; }
+      // 🌊 lội nước: chậm đi 30% (trả lại 30% quãng vừa đi mỗi nhịp — áp dụng được cho cả meme lẫn quân triệu hồi) + đánh dấu để vẽ lún người
+      o._dlWadeTick=tick; o.x-=(o.vx||0)*0.3; o.y-=(o.vy||0)*0.3;
       // 💧 10 máu/s khi đứng trong nước
       o._dlDotT=(o._dlDotT||0)+1;
       if(o._dlDotT>=T1){ o._dlDotT=0;
@@ -22401,6 +22403,20 @@ class Fighter {
       }
     }
   }
+}
+// 🌊 Drooling Cat: địch đang LỘI trong hồ → lún người xuống nước (giấu ~30% thân dưới mặt nước) + vòng gợn nước quanh eo
+{ const _dlOrigDraw=Fighter.prototype.draw;
+  Fighter.prototype.draw=function(){
+    const L=this._lastSprite, wade=(this._dlWadeTick!=null && tick-this._dlWadeTick<=1 && !this.dead && L && L.dh);
+    if(!wade) return _dlOrigDraw.call(this);
+    const feet=this.y+L.dh*0.46, wl=feet-L.dh*0.3, rx=L.dw*0.42;
+    ctx.save(); ctx.beginPath(); ctx.rect(-9999,-9999,19999+W,9999+wl); ctx.clip();   // chỉ vẽ phần trên mặt nước
+    try{ _dlOrigDraw.call(this); } finally{ ctx.restore(); }
+    const tm=performance.now()/1000;
+    ctx.save(); ctx.fillStyle='rgba(18,66,124,0.35)'; ctx.beginPath(); ctx.ellipse(this.x,wl,rx,rx*DL_POOL_SQ*0.45,0,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle='rgba(225,245,255,0.75)'; ctx.lineWidth=1.6; ctx.beginPath(); ctx.ellipse(this.x,wl,rx*(1+0.04*Math.sin(tm*4)),rx*DL_POOL_SQ*0.45,0,0,Math.PI*2); ctx.stroke();
+    const k=(tm*0.8)%1; ctx.strokeStyle=`rgba(225,245,255,${0.5*(1-k)})`; ctx.lineWidth=1; ctx.beginPath(); ctx.ellipse(this.x,wl,rx*(1+0.6*k),rx*(1+0.6*k)*DL_POOL_SQ*0.45,0,0,Math.PI*2); ctx.stroke(); ctx.restore();   // gợn lan ra
+  };
 }
 
 // ===================== ARENA =====================
