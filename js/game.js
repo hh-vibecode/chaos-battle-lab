@@ -820,7 +820,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     doorbellchud: { key:'doorbellchud', defaultName:'Doorbell Chud', emoji:'🔔', color:'#90a4ae', hp:1000, speed:5, size:57, skill:'Đi đâu cũng vác theo cái chuông cửa treo lơ lửng trên đầu. Mò tới sát ai là ngước lên giật dây, chuông reng một cái đau một cái. Giật tới lần thứ 4 thì chuông chịu hết nổi, vỡ tan tành — còn mỗi sợi dây trong tay, thế là quật dây tới tấp từ xa, nhanh hơn hẳn nhưng mỗi phát nhẹ hơn.' },
     scootercat: { key:'scootercat', defaultName:'Scooter Cat', emoji:'🛵', color:'#ff7043', hp:1000, speed:5, size:47.5, skill:'Phóng xe máy vòng vòng khắp sàn. Cứ lao tới sát góc sàn là nghiêng xe drift một vòng cung thật gắt quay đầu ra giữa sân, ai đứng trên đường cua là bị tông hất văng, còn đường cua để lại thảm than hồng tí tách ai đạp phải cũng bén lửa. Bị đánh tụt nửa máu là bật Gas Gas Gas lên, vít ga phóng nhanh hẳn.' },
     samuraicheems: { key:'samuraicheems', defaultName:'Joninn Cheems', emoji:'⚔️', color:'#29b6f6', hp:1000, speed:5, size:53.24, skill:'Cầm kiếm múa Hơi Thở Của Nước, chém đâu nước bắn tới đó. Thỉnh thoảng gạt bật luôn đạn bắn tới, trả nguyên về mặt chủ nhân; đòn đánh khác thì đỡ gọn, không xước miếng lông nào. Địch tàn máu là lần áp sát kế tiếp lướt xuyên qua người, tra kiếm vào vỏ — rồi địch mới biết mình đã bị chém.' },
-    morsecat: { key:'morsecat', defaultName:'Morse Code Cat', emoji:'📡', color:'#66bb6a', hp:1000, speed:5, size:45, skill:'Khởi động gõ 3 chữ cái lẻ, sau đó gõ nguyên từ bằng mã Morse (MEOW, STOP, HEHE, DIE, MEWW — bảng gõ hiện trên đầu). Gõ tới đâu bắn dấu đó tới đó (chấm 10, gạch 20 dame); gõ xong cả chữ/từ thì bắn luôn chữ đó (30 dame). Mỗi dấu Morse (chấm/gạch) gõ xong tốc gõ +3% vĩnh viễn (cộng dồn).' },
+    morsecat: { key:'morsecat', defaultName:'Morse Code Cat', emoji:'📡', color:'#66bb6a', hp:1000, speed:5, size:45, skill:'Khởi động gõ 3 chữ cái lẻ, sau đó gõ từng từ của các câu gợi ý bằng mã Morse (SUS CAT IS IMPOSTER, FRIEND WILL KILL ALL… — bảng gõ hiện trên đầu, các từ ghép dần thành câu). Gõ tới đâu bắn dấu đó tới đó (chấm 10, gạch 20 dame); gõ xong cả chữ/từ thì bắn luôn chữ đó (30 dame). Mỗi dấu Morse (chấm/gạch) gõ xong tốc gõ +3% vĩnh viễn (cộng dồn).' },
 };
 
 // Mỗi char phải chờ đủ 1 lần CD sau khi vào trận mới được tấn công (không ai đánh ngay frame đầu)
@@ -10521,7 +10521,7 @@ const CHAR_BLURB = {
   feuerkatze: "A relentless brawler that sets anything it touches on fire. Once wounded below 75% HP, he bolts gas valves into the arena walls and lets the whole floor choke on green fog.",
   germancat: "Stops to give a speech while its soldiers do the fighting, taking reduced damage throughout.",
   uiacat: "Stands still to wind up, then spins out at high speed with reduced damage taken. Below 25% HP it teleports away, goes Hiphop for good, and floods the floor with spinning clones.",
-  morsecat: "Warms up with 3 single letters, then taps whole words in Morse (MEOW, STOP, DIE…), firing each dot and dash as it types and then the word itself, typing 3% faster with every dot and dash.",
+  morsecat: "Warms up with 3 single letters, then taps out hint sentences word by word (SUS CAT IS IMPOSTER…), firing each dot and dash as it types and then the word itself, typing 3% faster with every dot and dash.",
   beluga: "Floods the screen with chat messages, each one hitting anything in its path.",
   screamcat: "Catastrophe-level threat. Remembers the biggest hit it ever took and screams it back at everyone every 2 seconds. Do NOT be foolish enough to hit it hard.",
   thevoid: "Opens a black hole that drags the enemy in and damages them, and swallows any shots fired into it.",
@@ -11747,10 +11747,17 @@ function _spK(f){ const v=Math.hypot(f.vx||0,f.vy||0); return Math.max(0,Math.mi
 function _spRatio(f){ return (f.topSpeed||0)/(5*MOVE_MULT); }   // tốc độ so với 1 meme thường
 // 📡 bíp Morse thật: [tên, độ dài (khung 60fps)] — mỗi lần gõ chọn ngẫu nhiên 1 kiểu cho đỡ lặp; miệng mở đúng bằng độ dài tiếng
 const MC_SND={'.':[['morse_dot1',6],['morse_dot2',10],['morse_dot3',10]], '-':[['morse_dash1',26],['morse_dash2',22],['morse_dash3',25],['morse_dash4',18]]};
-const MC_WORDS=['MEOW','STOP','HEHE','DIE','MEWW'];   // 📡 sau 3 chữ cái lẻ khởi động → gõ nguyên từ
+// 📡 sau 3 chữ cái lẻ khởi động → gõ từng TỪ của 1 câu gợi ý (lore meme), ghép lại thành câu hoàn chỉnh
+const MC_SENTS=[['SUS','CAT','IS','IMPOSTER'],['FRIEND','WILL','KILL','ALL'],['EVIL','WILL','RISING'],['GARY','IS','NOT','DEAD'],['LARRY','DRAWS','THE','STAR'],['THE','VOID','IS','HUNGRY'],['DOGE','HAS','HAKI'],['TRUST','NO','CAT'],['RUN','FROM','CHONKY'],['STALIN','WILL','RETURN'],
+  ['CATVADER','IS','YOUR','FATHER'],['NEVER','SKIP','MEWING','DAY'],['LOADING','IS','A','LIE'],['THE','HAMSTER','SEES','YOU'],['CHEEMS','HAS','THE','BONK'],['GIGACHAD','NEVER','BLINKS'],['DOGE','WILL','MULTIPLY'],['FLOWER','CAT','TRANSCENDS'],['DO','NOT','CLAP','BACK'],['BOXING','CAT','IS','WARMING','UP']];
 const MORSE={A:'.-',B:'-...',C:'-.-.',D:'-..',E:'.',F:'..-.',G:'--.',H:'....',I:'..',J:'.---',K:'-.-',L:'.-..',M:'--',N:'-.',O:'---',P:'.--.',Q:'--.-',R:'.-.',S:'...',T:'-',U:'..-',V:'...-',W:'.--',X:'-..-',Y:'-.--',Z:'--..'}, MORSE_KEYS=Object.keys(MORSE);
 // 📡 bảng gõ Morse trên đầu Morse Code Cat: chữ cái đang gõ + các dấu đã gõ (dấu nào đã bắn đi thì biến khỏi bảng)
-function _mcDrawHud(f){ const MC=f._mc; if(!MC || MC.st==='cd' || !MC.code) return;
+function _mcDrawHud(f){ const MC=f._mc; if(!MC) return;
+  // 🧩 câu đang ghép: các từ đã gõ xong hiện phía trên bảng · gõ xong từ cuối → hiện cả câu ~1.8s
+  if(MC.sent && (MC.n||0)>3){ if((MC.showT||0)>0) MC.showT--; const done=MC.st==='type'?MC.sent.slice(0,MC.si-1):((MC.showT||0)>0?MC.sent:[]);
+    if(done.length){ const full=(MC.showT||0)>0&&MC.st!=='type', txt=done.join(' '), yy=f.y-f.size-(MC.st==='type'?90:62);
+      ctx.save(); ctx.font=`900 ${full?15:12}px "Courier New",monospace`; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.lineWidth=4; ctx.strokeStyle='rgba(0,0,0,0.85)'; ctx.strokeText(txt,f.x,yy); ctx.fillStyle=full?'#b9f6ca':'rgba(185,246,202,0.85)'; ctx.shadowColor='#69f0ae'; ctx.shadowBlur=full?10:0; ctx.fillText(txt,f.x,yy); ctx.restore(); } }
+  if(MC.st==='cd' || !MC.code) return;
   const n=MC.st==='type'?MC.i:MC.code.length, from=0, syms=MC.code.slice(from,n);
   const x=f.x, y=f.y-f.size-58, w=Math.max(46,22+MC.code.length*12), h=40;
   ctx.save(); ctx.fillStyle='rgba(8,22,14,0.86)'; ctx.strokeStyle='#66bb6a'; ctx.lineWidth=2; ctx.beginPath(); ctx.roundRect(x-w/2,y-h/2,w,h,8); ctx.fill(); ctx.stroke();
@@ -14897,13 +14904,13 @@ class Fighter {
       const spd=this._mcSpd||1;
       const _mcShoot=(sym,word)=>{ const e=this.enemy; if(!e) return; const dx=e.x-this.x, dy=e.y-(this.y-this.size*0.9), d=Math.hypot(dx,dy)||1, sp=word?8:(sym==='.'?10:9);
         projectiles.push({ x:this.x, y:this.y-this.size*0.9, vx:dx/d*sp, vy:dy/d*sp, team:this.team, owner:this, dmg:word?30:(sym==='.'?10:20), life:word?180:150, maxLife:word?180:150, isMorse:true, sym:word?'W':sym, word, size:word?12:(sym==='.'?6:9), target:e }); };
-      if(MC.st==='cd'){ if(--MC.t<=0 && !this._isHardCC()){ const W=(MC.n||0)<3?MORSE_KEYS[Math.floor(Math.random()*MORSE_KEYS.length)]:MC_WORDS[Math.floor(Math.random()*MC_WORDS.length)]; MC.n=(MC.n||0)+1;
+      if(MC.st==='cd'){ if(--MC.t<=0 && !this._isHardCC()){ let W; if((MC.n||0)<3) W=MORSE_KEYS[Math.floor(Math.random()*MORSE_KEYS.length)]; else { if(!MC.sent||MC.si>=MC.sent.length){ let nx; do{ nx=MC_SENTS[Math.floor(Math.random()*MC_SENTS.length)]; }while(MC_SENTS.length>1&&nx===MC.sent); MC.sent=nx; MC.si=0; } W=MC.sent[MC.si++]; } MC.n=(MC.n||0)+1;
           MC.letter=W; MC.code=''; MC.bnd=[]; for(const ch of W){ MC.code+=MORSE[ch]; MC.bnd.push(MC.code.length); } MC.i=0; MC.st='type'; MC.t=Math.max(2,Math.round(16/spd)); } }
       else if(MC.st==='type'){ if(!this._isHardCC() && --MC.t<=0){ const sym=MC.code[MC.i++];
           const _snd=MC_SND[sym==='.'?'.':'-'], _pk=_snd[Math.floor(Math.random()*_snd.length)]; playSample(_pk[0],0.85,null,Math.min(4,spd)); this.actionState='attack'; this.attackAvatarTimer=12;   // 👀 0.2s
           this._mcMouth=sym==='.'?'HALF':'OPEN'; this._mcMouthT=Math.max(2,Math.round(_pk[1]/spd));   // 👄 khẩu hình theo mã: chấm hé ngắn, gạch há to — mở đúng bằng độ dài tiếng bíp
           _mcShoot(sym);   // 📡 gõ tới đâu, dấu đó bắn ra tới đó
-          if(MC.i>=MC.code.length){ _mcShoot(null,MC.letter); MC.st='cd'; MC.t=Math.max(10,Math.round(40/spd)); } /* gõ xong cả chữ/từ → bắn luôn chữ đó (30 dame) */ else { const _endL=MC.bnd&&MC.bnd.includes(MC.i); MC.t=Math.max(2,Math.round((_pk[1]+(_endL?22:8))/spd)); }   // (bỏ chặn sàn 80% độ dài tiếng — trước đây nó làm tốc gõ ngừng tăng sau ~1.5x)   // nghỉ sau mỗi dấu theo đúng độ dài tiếng · hết 1 chữ cái thì nghỉ dài hơn (như điện báo thật)
+          if(MC.i>=MC.code.length){ _mcShoot(null,MC.letter); if(MC.sent&&MC.si>=MC.sent.length) MC.showT=110; MC.st='cd'; MC.t=Math.max(10,Math.round(40/spd)); } /* gõ xong cả chữ/từ → bắn luôn chữ đó (30 dame) */ else { const _endL=MC.bnd&&MC.bnd.includes(MC.i); MC.t=Math.max(2,Math.round((_pk[1]+(_endL?22:8))/spd)); }   // (bỏ chặn sàn 80% độ dài tiếng — trước đây nó làm tốc gõ ngừng tăng sau ~1.5x)   // nghỉ sau mỗi dấu theo đúng độ dài tiếng · hết 1 chữ cái thì nghỉ dài hơn (như điện báo thật)
           this._mcSpd=(this._mcSpd||1)+0.03;   // ⚡ mỗi KÝ TỰ MORSE (từng dấu chấm/gạch) gõ xong: tốc gõ +3% ngay — đang gõ dở 1 chữ cũng đã nhanh dần (cộng dồn vô hạn) (không cần bắn trúng)
         } }
     }
