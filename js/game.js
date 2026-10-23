@@ -19950,8 +19950,11 @@ class Fighter {
       if(CALMDOG_FORM_IMGS[_cdIdx] && CALMDOG_FORM_IMGS[_cdIdx].complete) img=CALMDOG_FORM_IMGS[_cdIdx];
       else img=avatarImgs[i];
     } else if(this.type==='boxingcat' && BX_FR[0].naturalWidth){
-      // 🥊 đang đấm khởi động: chạy 20 khung (~15 khung/giây) · nghỉ: đứng ở khung 1
-      const _bxw=this._bx && (this._bx.st==='warm' || (this.actionTimer||0)>0); const _bxI=_bxw?Math.floor(tick/8)%BX_FR.length:0; img=BX_FR[_bxI].naturalWidth?BX_FR[_bxI]:BX_FR[0];
+      // 🥊 đang đấm khởi động: chạy vòng 9 khung (~7.5 khung/giây) · nghỉ: đứng ở khung 1
+      // chạy HẾT 1 vòng: bộ đếm riêng bắt đầu từ khung 1 khi khởi động; hết khởi động (đấm/nghỉ) thì vẫn chạy tiếp cho tròn vòng rồi mới đứng ở khung 1
+      const _bxw=this._bx && this._bx.st==='warm', _bxL=BX_FR.length*8; if(this._bxA===undefined) this._bxA=0;
+      if(this._bxTk!==tick){ this._bxTk=tick; if(_bxw || this._bxA%_bxL!==0) this._bxA++; else this._bxA=0; }
+      const _bxI=Math.floor((this._bxA%_bxL)/8); img=BX_FR[_bxI].naturalWidth?BX_FR[_bxI]:BX_FR[0];
     } else if(this.type==='slapcat' && (this._slapFreeze||0)>0){
       // 🐈 CHỈ chạy animation trong đúng 0.5s lúc vả (avatar → Khung 2 → Khung 3, chạy hết đúng 1 lượt).
       // Ngoài lúc đó đứng yên ở avatar như mọi meme bình thường.
