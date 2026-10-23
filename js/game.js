@@ -798,7 +798,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     mosquitoviolin: { key:'mosquitoviolin', defaultName:'Mosquito Violin', emoji:'🦟', color:'#ff5252', hp:1000, speed:5, size:34, skill:'Vào trận chưa nối được dây thì +20% tốc chạy và vo ve liên tục. LẦN ĐẦU chạm vào một kẻ địch, nó cắm một sợi dây mảnh vào con đó SUỐT TRẬN (chạm được bao nhiêu con thì nối bấy nhiêu dây). Nối được dây đầu tiên là bắt đầu kéo violin: mỗi nhịp của bài nhạc, một xung âm hình nhịp tim chạy dọc dây và nổ vào kẻ địch gây sát thương. Tần suất sát thương chính là nhịp của bài hát.' },
     scaredhamster: { key:'scaredhamster', defaultName:'Scared Hamster', emoji:'🐹', color:'#c8a27a', hp:1000, speed:5, size:44, skill:'Không tự đánh — chỉ bò khắp sàn. Bò vào gần góc sàn thì dựa sát góc tường run rẩy sợ hãi, đứng yên tới khi bóng tối đi mất hẳn rồi bò tiếp (mỗi lần nép góc chỉ 1 lượt tay); từ góc xa nhất 2 bàn tay bóng tối móng dài từ từ vươn ra lần theo nó (nhanh hơn 15%, không ai cản thì ~4.4s tới nơi, bóng tồn tại 6s). Tay vớ được địch chắn đường thì ngẫu nhiên: bóp chặt ngang người giữ méo móp 1.5s (110 dmg mỗi 0.5s), tóm nhấc bổng rồi vung đập mạnh vào tường ở góc sàn xa nhất (trừ góc hamster đang nép, 280 dmg) hoặc tung ngang qua tay kia rồi tay kia bóp mạnh tiếp (110 dmg mỗi 0.5s trong 1.5s), xong thì 2 tay rụt về tường. Tay chạm được hamster thì nó cũng bị xử y như vậy (cùng mức dame).' },
     supremearbiter: { key:'supremearbiter', defaultName:'Supreme Cat', emoji:'😼', color:'#e0a050', hp:1000, speed:5, size:48.4, skill:'Kneel before my paw. Không tự đánh, di chuyển như meme bình thường. Lúc đang ở CAO HƠN địch thì điểm CAO NGẠO tăng (bằng hoặc thấp hơn thì tụt dần, chậm bằng 1/2 lúc tăng), và mỗi giây ở trên đầu con nào là con đó dính thêm 3% làm chậm, cộng dồn giữ nguyên tới hết trận (tối đa 50%). Cao ngạo càng cao, TRỌNG LỰC cả sàn càng nặng: mọi địch (cả quân triệu hồi) mất máu mỗi 0.5s (4, 7, 10… mỗi nấc cao ngạo +3). Thắng thì sét đánh dọc sau lưng, camera áp sát khuôn mặt khinh khỉnh: "Pathetic."' },
-    infinitydoge: { key:'infinitydoge', defaultName:'Infinity Doge', emoji:'🐕', color:'#ffb74d', hp:1000, speed:5, size:46, skill:'Bắt đầu 1 thân 1000 máu. Cứ mỗi 3s, MỌI thân (cả bản sao) tự PHÂN BÀO tách đôi như tế bào: 2 thân mới đều mất 100 máu so với thân mẹ, nhỏ đi và chạy nhanh hơn 5% sau mỗi lần tách. Thân còn ≤100 máu thì không tách được nữa. Không có đòn đánh riêng: mọi thân gây 33 dame mỗi khi VA vào địch. Các thân tính như meme bình thường. Cả đàn chết sạch thì mới thua.' },
+    infinitydoge: { key:'infinitydoge', defaultName:'Infinity Doge', emoji:'🐕', color:'#ffb74d', hp:1000, speed:5, size:46, skill:'Bắt đầu 1 thân 1000 máu. Cứ mỗi 4s, MỌI thân (cả bản sao) hoá thạch rồi TÁCH ĐÔI như slime: 2 thân mới đều mất 100 máu so với thân mẹ, nhỏ đi 20% và chạy nhanh hơn 5% sau mỗi lần tách. Thân còn ≤100 máu thì không tách được nữa. Không có đòn đánh riêng: mọi thân gây 33 dame mỗi khi VA vào địch. Các thân tính như meme bình thường. Cả đàn chết sạch thì mới thua.' },
     cryingcat: { key:'cryingcat', defaultName:'Crying Cat Team', emoji:'😿', color:'#4fc3f7', hp:350, speed:5, size:32.5, skill:'Một đội 3 con mèo khóc, tính chung là 1 meme. Mỗi con 350 máu, di chuyển và đánh như meme thường. Mỗi con chạm vào địch gây 40 sát thương (mỗi con hồi chiêu riêng 0.8s). Giữa 3 con luôn có LIÊN KẾT NƯỚC MẮT nối với nhau: địch chạm/đi qua sợi liên kết mất 50 máu mỗi 0.5s và bị làm chậm. Mỗi lần 2 con trong đội va vào nhau, cả hai được hồi 25 máu. Mỗi con gục thì mấy con còn lại +20% size và +300 máu tối đa. Con cuối cùng còn 1 mình chuyển hẳn sang chiêu NỐI NƯỚC MẮT: cứ 2s nối 1 sợi với địch gần nhất, dính 3s, gây 25 sát thương mỗi 0.5s. Cả đội chỉ chết khi cả 3 con đều gục.' },
     calmdog: { key:'calmdog', defaultName:'Calm Dog', emoji:'🐕', color:'#546e7a', hp:1000, speed:5, size:40, skill:'Là quả bom hẹn giờ — vào trận có đồng hồ đếm ngược 13s, thể hiện qua 5 tấm hình NGẨNG ĐẦU tăng dần (mỗi ~2.6s đổi 1 hình, hình cuối là lúc há mồm chuẩn bị hú) thay vì số đếm. Mỗi 100 dame nhận vào, đồng hồ trôi nhanh thêm 1s. Về 0: hú vang gây 500 dame CHUẨN cho mọi địch trong tầm nổ — chỉ dùng được đúng 1 LẦN CẢ TRẬN. Ngoài ra không có đòn đánh nào khác, chỉ di chuyển né tránh bình thường.' },
     gary: { key:'gary', defaultName:'Gary', emoji:'🐌', color:'#7e57c2', hp:1000, speed:5, size:40, skill:'1000 máu, KHÔNG có đòn đánh nào khác. Thả 1 quả TRÁI ĐẤT nảy quanh sân, chạy nhanh hơn 13.85% so với tốc thường. Chạm địch là hút, hồi chiêu 0.5s giữa 2 lần hút cùng 1 phe (tránh cạo máu quá nhanh khi dính sát): địch nhỏ đi 5% và mất 5% máu tối đa — máu tối đa dồn cho Gary, còn phần kích thước dồn hết vào QUẢ TRÁI ĐẤT (Gary không to lên). Gary tự chạm quả đất của mình thì quả đất phình thêm 5%. Không có trần kích thước.' },
@@ -10999,7 +10999,7 @@ const CHAR_BLURB = {
   mosquitoviolin: "Touch it once and it strings you for the whole match, then plays violin damage down the wire on every beat.",
   supremearbiter: "Never attacks and moves like any meme. While it is above you, its arrogance climbs and it slows you 3% more every second; the more arrogant it gets, the heavier the whole arena's gravity crushes every enemy. Wins end with lightning and a single word.",
   scaredhamster: "Never attacks — just wanders. Cornered, it cowers while two shadow hands crawl out of the far corner after it, crushing, slamming or passing-and-squeezing the first one in the way before pulling back. If they reach it, it gets the same treatment.",
-  infinitydoge: "Divides like a cell every 3s — every copy splits, each half 100 HP lighter, smaller and 5% faster. Damages anything it bumps into.",
+  infinitydoge: "Turns to jelly and splits like a slime every 4s — every copy splits, each half 100 HP lighter, 20% smaller and 5% faster. Damages anything it bumps into.",
   cryingcat: "Three linked cats. The tear link between them burns and slows anything that touches it.",
   rubikcat: "Rolls a random cube face on a timer, each with a different effect. Collect all six and a black hole ends the match outright.",
   mewingcat: "Strikes mewing poses on a timer, each one summoning a stone statue that charges the enemy and shatters on impact.",
@@ -11091,7 +11091,7 @@ const CHAR_BLURB_SHORT = {
   mosquitoviolin: "One bite, one string, a whole violin concerto.",
   supremearbiter: "It's over Anakin, I have the high ground.",
   scaredhamster: "Hides in the corner. Something reaches back.",
-  infinitydoge: "Splits like a cell every 3 seconds.",
+  infinitydoge: "Splits like a slime every 4 seconds.",
   cryingcat: "Three crying cats. Their tears burn.",
   rubikcat: "Solve all six faces. Black hole ending.",
   mewingcat: "KitKat Cat.",
@@ -13994,7 +13994,7 @@ function _idSplitBurst(x, y, size, ang){
   playSample('punch1',0.35);
 }
 // thân này có đủ điều kiện phân đôi không, và nếu có thì tách
-const ID_SPLIT_T = 180, ID_SPLIT_COST = 100, ID_MAX_BODIES = 32;   // 3s/lần · mỗi lần mất 100 máu · trần 32 thân cả đàn (chặn tăng theo cấp số nhân gây lag)
+const ID_SPLIT_T = 240, ID_SPLIT_COST = 100, ID_MAX_BODIES = 32, ID_SHRINK = 0.8, ID_MITO_T = 66;   // 4s/lần · mỗi lần nhỏ đi 20% · mỗi lần mất 100 máu · trần 32 thân cả đàn (chặn tăng theo cấp số nhân gây lag)
 let idMito=[];   // 🧫 hiệu ứng PHÂN BÀO đang diễn ra: {a,b,t,max}
 function _idBodyCount(owner){ return (owner&&!owner.dead?1:0)+dogeClones.filter(c=>c.owner===owner&&!c.dead&&c.hp>0).length; }
 function _idTrySplit(body, isMain){
@@ -14004,7 +14004,8 @@ function _idTrySplit(body, isMain){
   if(body.hp<=ID_SPLIT_COST || body.hp<=0) return false;          // còn ≤100 máu thì hết máu để tách
   const _own = isMain ? body : body.owner;
   if(_idBodyCount(_own)>=ID_MAX_BODIES) return false;
-  const _newHp=body.hp-ID_SPLIT_COST, _newSize=Math.max(9, body.size*0.86), _ang=Math.random()*Math.PI*2, _spd=(body._idSpd||1)*1.05;   // nhỏ đi · nhanh hơn 5%
+  const _oldSize=body.size, _x0=body.x, _y0=body.y;
+  const _newHp=body.hp-ID_SPLIT_COST, _newSize=Math.max(5, body.size*ID_SHRINK), _ang=Math.random()*Math.PI*2, _spd=(body._idSpd||1)*1.05;   // nhỏ đi · nhanh hơn 5%
   body.maxHp=_newHp; body.hp=_newHp; body.size=_newSize; body._idSpd=_spd;
   if(isMain) body.topSpeed*=1.05;
   body.vx=Math.cos(_ang)*3; body.vy=Math.sin(_ang)*3;
@@ -14013,21 +14014,47 @@ function _idTrySplit(body, isMain){
   if(isMain) body._idSplitFx=26;
   _idSpawnClone(_own, body.x, body.y, _newHp, _newSize, _ang+Math.PI);
   const _c=dogeClones[dogeClones.length-1]; if(_c){ _c._idSpd=_spd; _c.vx=Math.cos(_ang+Math.PI)*3; _c.vy=Math.sin(_ang+Math.PI)*3; _c._idSplitT=ID_SPLIT_T; }
-  idMito.push({a:body, b:_c, t:0, max:36, r:body.size});
+  if(_c){ const M={a:body, b:_c, t:0, max:ID_MITO_T, r:_oldSize, rn:_newSize, x0:_x0, y0:_y0, ang:_ang, own:_own}; body._idMito=M; _c._idMito=M; idMito.push(M); }   // 🧫 2 thân đứng yên chồng lên nhau tới lúc phân bào xong
   return true;
 }
-// 🧫 vẽ PHÂN BÀO: màng tế bào trong mờ bao 2 thân — 1 khối tròn → kéo dài thành hạt lạc → eo thắt lại → tách hẳn 2 màng → tan
+// 🟠 PHÂN TÁCH KIỂU SLIME: thân CỨNG hoá thành THẠCH (rung nhũn, lóng lánh) → kéo dài ngang gấp đôi → 2 cục tách dần, giữa có
+//    SỢI NHẦY kéo căng mảnh dần rồi ĐỨT → 2 con nhỏ hơn (−20%) rung lắc như thạch rồi mới ổn định và bật ra 2 hướng.
+//    Lúc đang diễn: 2 thân đứng yên, thân thật ẩn, vẽ bằng ảnh tổng hợp này.
 function _idMitoDraw(){
   for(let i=idMito.length-1;i>=0;i--){ const M=idMito[i]; M.t++; const q=M.t/M.max, A=M.a, B=M.b;
-    if(q>=1||!A||!B||A.dead||B.dead){ idMito.splice(i,1); continue; }
-    const r=M.r*1.25, fade=q<0.75?1:1-(q-0.75)/0.25, dx=B.x-A.x, dy=B.y-A.y, d=Math.hypot(dx,dy)||1, nx=-dy/d, ny=dx/d, neck=r*Math.max(0,1-q*1.6);
-    const mx=(A.x+B.x)/2, my=(A.y+B.y)/2, path=()=>{ ctx.beginPath(); ctx.arc(A.x,A.y,r,0,Math.PI*2); ctx.moveTo(B.x+r,B.y); ctx.arc(B.x,B.y,r,0,Math.PI*2);
-      if(neck>1){ ctx.moveTo(A.x+nx*neck,A.y+ny*neck); ctx.quadraticCurveTo(mx+nx*neck*0.55,my+ny*neck*0.55,B.x+nx*neck,B.y+ny*neck); ctx.lineTo(B.x-nx*neck,B.y-ny*neck); ctx.quadraticCurveTo(mx-nx*neck*0.55,my-ny*neck*0.55,A.x-nx*neck,A.y-ny*neck); ctx.closePath(); } };
-    ctx.save(); ctx.globalAlpha=fade;
-    path(); ctx.fillStyle='rgba(205,180,130,0.16)'; ctx.fill('nonzero');   // dịch tế bào
-    ctx.lineWidth=Math.max(1.5,r*0.14); ctx.strokeStyle='rgba(235,215,170,0.75)'; ctx.beginPath(); ctx.arc(A.x,A.y,r,0,Math.PI*2); ctx.stroke(); ctx.beginPath(); ctx.arc(B.x,B.y,r,0,Math.PI*2); ctx.stroke();   // màng tế bào
-    ctx.fillStyle='rgba(255,245,215,0.8)'; for(let k=0;k<10;k++){ const an=k*0.63+M.r, P=k%2?A:B; ctx.fillRect(P.x+Math.cos(an)*r*0.92-1,P.y+Math.sin(an)*r*0.92-1,2,2); }   // lấm tấm trên màng
-    ctx.restore(); } }
+    if(q>=1||!A||!B||A.dead||B.dead){ if(A&&A._idMito===M){ A._idMito=null; if(!A.dead){ A.vx=-Math.cos(M.ang0||0)*3; A.vy=0; } } if(B&&B._idMito===M){ B._idMito=null; if(!B.dead){ B.vx=3; B.vy=0; } } idMito.splice(i,1); continue; }
+    const r=M.r, sm=u=>u<=0?0:u>=1?1:u*u*(3-2*u), t=M.t;
+    const jel=sm(q/0.22), str=sm((q-0.22)/0.24), sep=sm((q-0.46)/0.3), snap=q>=0.76, aft=snap?(q-0.76)/0.24:0;
+    const cx=Math.max(r*2.2,Math.min(W-r*2.2,M.x0)), cy=M.y0, d=r*(0.1+1.05*sep), ax=cx-d, bx=cx+d;
+    for(const [U,x] of [[A,ax],[B,bx]]){ U.x=x; U.y=cy; U.vx=0; U.vy=0; }
+    const img=_idImgFor(M.own.slotIdx, A.maxHp)||avatarImgs[M.own.slotIdx], ok=img&&img.complete&&img.naturalWidth>0;
+    const fl=((M.own.facingDefault)==='right') ? (A._facingRight===false) : !(A._facingRight===false);
+    const box=(sz)=>{ const c=img._crop, sw=c?c.sw:img.naturalWidth, sh=c?c.sh:img.naturalHeight, asp=sw/sh; let dw,dh; if(asp>=1){dw=sz*2;dh=dw/asp;}else{dh=sz*2;dw=dh*asp;} return {sx:c?c.sx:0,sy:c?c.sy:0,sw,sh,dw,dh}; };
+    const blob=(x,y,sz,sx,sy,gl)=>{ if(!ok) return; const bb=box(sz); ctx.save(); ctx.translate(x,y+bb.dh/2); ctx.scale((fl?-1:1)*sx,sy); ctx.translate(0,-bb.dh/2);   // co giãn neo ở CHÂN như thạch trên mặt đất
+      if(gl>0){ const W2=Math.ceil(bb.dw)+2, H2=Math.ceil(bb.dh)+2; let oc=_idMitoDraw._c; if(!oc||oc.width<W2||oc.height<H2){ oc=_idMitoDraw._c=document.createElement('canvas'); oc.width=Math.max(W2,256); oc.height=Math.max(H2,256); }
+        const x2=oc.getContext('2d'); x2.clearRect(0,0,oc.width,oc.height); x2.globalCompositeOperation='source-over'; x2.drawImage(_stickerMask(img),bb.sx,bb.sy,bb.sw,bb.sh,1,1,bb.dw,bb.dh);
+        x2.globalCompositeOperation='source-atop'; x2.fillStyle=`rgba(255,200,120,${0.25*gl})`; x2.fillRect(0,0,W2,H2); x2.fillStyle=`rgba(255,255,255,${0.35*gl})`; x2.beginPath(); x2.ellipse(1+bb.dw*0.32,1+bb.dh*0.28,bb.dw*0.16,bb.dh*0.09,-0.5,0,Math.PI*2); x2.fill();   // ánh thạch trong + vệt bóng loáng (chỉ trên thân)
+        ctx.drawImage(oc,0,0,W2,H2,-bb.dw/2-1,-bb.dh/2-1,W2,H2); }
+      else ctx.drawImage(_stickerMask(img),bb.sx,bb.sy,bb.sw,bb.sh,-bb.dw/2,-bb.dh/2,bb.dw,bb.dh);
+      ctx.restore(); };
+    // rung nhũn: biên độ tăng khi hoá thạch, giảm dần sau khi đứt
+    const wobA=(snap?0.16*(1-aft):0.12*jel), wob=Math.sin(t*0.9)*wobA, gloss=snap?1-aft:jel;
+    if(!snap){
+      if(sep<=0){ const sx=(1+0.95*str)*(1+wob), sy=(1-0.16*str)*(1-wob*0.8); blob(cx,cy,r,sx,sy,gloss); }
+      else { const sz=r+(M.rn-r)*sep, sx=(1+0.5*(1-sep))*(1+wob*0.6), sy=(1-0.1*(1-sep))*(1-wob*0.5);
+        // 🟠 sợi nhầy nối 2 cục: dày → mảnh dần, võng xuống giữa, đứt lúc tách xong
+        const th=r*0.75*Math.pow(1-sep,1.4)+r*0.06, sag=r*0.35*sep, yb=cy+r*0.15;
+        ctx.save(); ctx.fillStyle='rgba(236,176,86,0.78)'; ctx.strokeStyle='rgba(150,95,30,0.55)'; ctx.lineWidth=1.2; ctx.beginPath();
+        ctx.moveTo(ax,yb-th); ctx.quadraticCurveTo(cx,yb-th*0.35+sag,bx,yb-th); ctx.lineTo(bx,yb+th); ctx.quadraticCurveTo(cx,yb+th*0.35+sag,ax,yb+th); ctx.closePath(); ctx.fill(); ctx.stroke();
+        ctx.fillStyle='rgba(255,240,210,0.55)'; ctx.beginPath(); ctx.ellipse(cx,yb-th*0.3+sag*0.8,Math.max(1,d*0.45),Math.max(0.8,th*0.18),0,0,Math.PI*2); ctx.fill(); ctx.restore();
+        blob(ax,cy,sz,sx,sy,gloss); blob(bx,cy,sz,sx,sy,gloss); }
+    } else {
+      // đứt sợi: 2 giọt nhầy rụt về 2 bên + bắn vài giọt nhỏ
+      if(aft<0.35){ ctx.save(); ctx.fillStyle=`rgba(236,176,86,${0.8*(1-aft/0.35)})`; const k=aft/0.35; for(const s2 of [-1,1]){ ctx.beginPath(); ctx.ellipse(cx+s2*d*(0.35+0.5*k),cy+r*0.15,r*0.14*(1-k),r*0.08*(1-k)+1,0,0,Math.PI*2); ctx.fill(); }
+        for(let j=0;j<4;j++){ ctx.beginPath(); ctx.arc(cx+(j-1.5)*r*0.18,cy+r*0.15-Math.sin(k*Math.PI)*r*0.5*(0.5+0.5*((j*7)%3)/2),Math.max(0.8,r*0.05*(1-k)),0,Math.PI*2); ctx.fill(); } ctx.restore(); }
+      const sz=M.rn; blob(ax,cy,sz,(1+wob),(1-wob*0.9),gloss); blob(bx,cy,sz,(1-wob),(1+wob*0.9),gloss);
+    }
+  } }
 
 function _cbDrawKnife(ck, ckOwner){
     ctx.save();
@@ -19780,7 +19807,8 @@ class Fighter {
   }
 
   draw(){
-    if(this._mwErased) return;   // 🟣 đã bị Hollow Purple xoá sổ — không còn gì để vẽ
+    if(this._mwErased) return;
+    if(this.type==='infinitydoge' && this._idMito) return;   // 🟠 đang tách kiểu slime: vẽ bằng _idMitoDraw   // 🟣 đã bị Hollow Purple xoá sổ — không còn gì để vẽ
     _arPin(this);   // 🗿 đang là tượng: luôn vẽ đúng chỗ bị hoá
     // 😏 đang bị Troll Face NGẬM trong mồm → biến mất hẳn khỏi sàn: không vẽ thân, không vẽ cả thanh máu,
     // coi như đã nằm gọn trong bụng nó (số dame nổi vẫn bay ra bình thường vì nằm ở hệ floatTexts riêng).
@@ -25159,6 +25187,7 @@ function loop(){
       _idTrySplit(dc, false);
     }
     // ── vẽ ──
+    if(dc._idMito) continue;   // 🟠 đang tách kiểu slime: vẽ bằng _idMitoDraw
     ctx.save();
     if(dc.flash>0 && !_lowTier(dc)){ ctx.filter='brightness(3)'; }
     _drawUnitHpBar(dc);
