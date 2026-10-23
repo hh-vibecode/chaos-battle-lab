@@ -5499,6 +5499,9 @@ function _dlBiteHole(o,x,y){
   const u=0.5+(L.fl?-1:1)*(x-o.x)/L.dw, v=0.5+(y-o.y)/L.dh;
   hs.push({ x:Math.max(0.08,Math.min(0.92,u)), y:Math.max(0.2,Math.min(0.88,v)), r:0.24+Math.random()*0.05, sd:Math.random()*99 });
 }
+// 🩸 máu loang dưới nước sau cú cắn: vài đám đỏ sẫm nở rộng, trôi đi chậm, mờ dần trong ~2s rồi tan
+function _dlBlood(x,y,sz){ const a=Math.random()*Math.PI*2; for(let j=0;j<5;j++){ const aj=a+(Math.random()-0.5)*1.2, sp=0.25+Math.random()*0.35;
+  dlFx.push({k:'blood', x:x+(Math.random()-0.5)*sz*0.5, y:y+(Math.random()-0.5)*sz*0.25, vx:Math.cos(aj)*sp, vy:Math.sin(aj)*sp*DL_POOL_SQ, r:sz*(0.12+Math.random()*0.12), t:-j*3, max:Math.round(DL_TPS*2)}); } }
 function _dlPickInPool(p,k){ const a=Math.random()*Math.PI*2, d=Math.sqrt(Math.random())*p.R*(k||0.75);   // (vũng tràn quá sàn thì kẹp lại trong sàn)
   return {x:Math.max(24,Math.min(W-24,p.x+Math.cos(a)*d)), y:Math.max(24,Math.min(H-24,p.y+Math.sin(a)*d*DL_POOL_SQ))}; }
 // chạy trong vòng tick của loop() (kể cả lúc Drooling Cat bị choáng)
@@ -5613,9 +5616,10 @@ function _dlTick(){
     if(s.t>16 && s.t<=s.H && o && !o.dead && o.hp>0){
       if(o.stun!==undefined) o.stun=Math.max(o.stun||0,2); o.vx=0; o.vy=0;   // bị ghì chặt, giằng co qua lại
       const tug=Math.sin(s.t*0.55)*(o.size||20)*0.18; o.x+= (s.ox0===undefined?0:(s.ax+tug)-o.x)*0.35; if(s.ox0===undefined){ s.ox0=1; s.ax=o.x; }
-      if((s.t-16)%TK===0){ playSample(s.t%2?'vamp_bite1':'vamp_bite2',0.8); addShake(6,8);
+      if((s.t-16)%TK===0){ playSample(s.t%2?'vamp_bite1':'vamp_bite2',0.8); addShake(6,8); _dlBlood(s.x,s.y,s.sz);
         if(fighters.includes(o)) o.takeDamage(DL_SHARK_TICK_DMG, s.owner); else _summonTakeDamage(o, DL_SHARK_TICK_DMG, s.owner); } }
     if(s.t<s.H && o && !o.dead && s.ox!==undefined){ s.x=o.x+s.ox; s.y=o.y+s.oy; }   // ngoạm trúng rồi thì bám theo con mồi tới lúc nhả
+    if(s.t===s.H) _dlBlood(s.x,s.y,s.sz*1.3);   // nhả mồi: vũng máu to hơn
     if(s.t>=s.H+26){ dlFx.push({k:'ring',x:s.x,y:s.y,t:0,max:34,r:8}); dlSharks.splice(i,1); }
   }
 }
@@ -6790,7 +6794,7 @@ function _dlDrawPool(){
   // ① khuôn: hợp của mọi vũng
   g.fillStyle='#fff'; for(const p of dlPools){ _dlBlobPath(g,p,tm,0); g.fill(); }
   // ② màu nước trong
-  g.globalCompositeOperation='source-in'; g.fillStyle='rgba(38,108,170,0.66)';   // 🌊 nước tối hơn (xanh biển sâu) g.fillRect(x0,y0,bw,bh);
+  g.globalCompositeOperation='source-in'; g.fillStyle='rgba(18,66,124,0.78)'; g.fillRect(x0,y0,bw,bh);   // 🌊 nước tối hơn (xanh biển sâu)
   g.globalCompositeOperation='source-atop';
   // ③ lòng hồ sâu hơn mép
   for(const p of dlPools){ if(p.R<6) continue; const R=p.R;
@@ -6798,7 +6802,7 @@ function _dlDrawPool(){
     g.save(); g.translate(p.x,p.y); g.scale(1,DL_POOL_SQ); g.translate(-p.x,-p.y); g.fillStyle=gr; g.beginPath(); g.arc(p.x,p.y,R,0,Math.PI*2); g.fill(); g.restore(); }
   // ④ vân sáng đáy hồ trôi chậm (2 lớp lệch nhau cho lung linh)
   const pat=g.createPattern(_dlCaustic(),'repeat');
-  for(const [sp,al,sc] of [[9,0.32,0.6],[-6,0.22,0.85]]){ const off=(tm*sp)%128;
+  for(const [sp,al,sc] of [[9,0.13,0.6],[-6,0.09,0.85]]){   // vân sáng nhạt bớt cho nước sâu tối const off=(tm*sp)%128;
     try{ pat.setTransform(new DOMMatrix().translateSelf(off,off*0.6).scaleSelf(sc,sc*DL_POOL_SQ*1.4)); }catch(e){}
     g.globalAlpha=al; g.fillStyle=pat; g.fillRect(x0,y0,bw,bh); }
   g.globalAlpha=1;
@@ -6806,6 +6810,9 @@ function _dlDrawPool(){
   g.lineWidth=1.1;
   for(const e of dlFx){ if(e.k!=='ring' || e.t<0) continue; const k=e.t/e.max, rr=e.r+18*(1-Math.pow(1-k,2));
     g.strokeStyle=`rgba(235,252,255,${0.75*(1-k)})`; g.beginPath(); g.ellipse(e.x,e.y,rr,rr*DL_POOL_SQ,0,0,Math.PI*2); g.stroke(); }
+  for(const e of dlFx){ if(e.k!=='blood' || e.t<0) continue; const k=e.t/e.max, x=e.x+e.vx*e.t, y=e.y+e.vy*e.t, rr=e.r*(0.6+1.6*Math.pow(k,0.6)), al=0.42*(k<0.15?k/0.15:1)*(1-k);   // 🩸 chỉ hiện TRONG nước (đã cắt theo khuôn vũng)
+    const bg=g.createRadialGradient(x,y,0,x,y,rr); bg.addColorStop(0,`rgba(120,0,10,${al})`); bg.addColorStop(0.55,`rgba(150,10,20,${al*0.6})`); bg.addColorStop(1,'rgba(150,10,20,0)');
+    g.save(); g.translate(x,y); g.scale(1,DL_POOL_SQ*1.3); g.translate(-x,-y); g.fillStyle=bg; g.beginPath(); g.arc(x,y,rr,0,Math.PI*2); g.fill(); g.restore(); }
   for(const n of dlFins) for(const w of n.wake){ const k=w.t/40, rr=4+k*16;
     g.strokeStyle=`rgba(235,252,255,${0.45*(1-k)})`; g.beginPath(); g.ellipse(w.x,w.y,rr,rr*DL_POOL_SQ,0,0,Math.PI*2); g.stroke(); }
   // ⑥ bờ nước: nét sáng chạy quanh MÉP NGOÀI của cả khối (nét bên trong vùng chồng nhau bị xoá)
