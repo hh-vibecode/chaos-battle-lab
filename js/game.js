@@ -915,6 +915,8 @@ function loadRoster(){
   roster.forEach(c=>{ if(c.charKey==='supremearbiter' && c.name==='The Supreme Arbiter') c.name='Supreme Cat'; });   // 😼 đổi tên The Supreme Arbiter → Supreme Cat
   // 🐈‍⬛ Loading Cat đổi ẢNH MỚI (mèo đen trắng, user gửi): ép MỌI roster đã lưu dùng ảnh mới + xoá ảnh cũ (kể cả ảnh tự upload,
   //    ảnh pose "Đang Loading") — chạy 1 lần (cờ cbs_lc_av2), sau đó user tự đổi ảnh thì giữ nguyên
+  // 🐱🐱 Drooling Cat đổi sang ảnh 2 con mèo (user gửi): ép roster đã lưu dùng ảnh mới — chạy 1 lần (cờ cbs_dl_av2)
+  { let _d=null; try{ _d=localStorage.getItem('cbs_dl_av2'); }catch(e){} if(!_d){ let _ch=false; roster.forEach(c=>{ if(c.charKey==='droolingcat'){ c.avatarUrl='assets/avatars/droolingcat/avatarUrl.webp'; _ch=true; } }); if(_ch){ try{ storeSet('cbs_roster', JSON.stringify(roster)); }catch(e){} } try{ localStorage.setItem('cbs_dl_av2','1'); }catch(e){} } }
   { let _lcDone=null; try{ _lcDone=localStorage.getItem('cbs_lc_av2'); }catch(e){}
     if(!_lcDone){ let _ch=false;
       roster.forEach(c=>{ if(c.charKey==='loadingcat'){ c.avatarUrl='assets/avatars/loadingcat/avatar_v2.webp';
@@ -925,7 +927,7 @@ function loadRoster(){
   // bổ sung ngay những charKey còn thiếu, không đụng gì tới các nhân vật/avatar đã lưu trước đó
   // ⚠️ Gigachad CHƯA có ảnh mặc định (chưa có nguồn ảnh phù hợp) — dùng emoji 🗿 tạm thời, người dùng tự upload
   // qua màn Add Character khi có ảnh (avatar chính + ảnh "Gigachad To" ở ô Khung 1, xem POSE_SLOT_DEFS.gigachad).
-  const _mcDefaultAvatars={ boxingcat: 'assets/avatars/boxingcat/avatarUrl.webp', morsecat: 'assets/avatars/morsecat/avatarUrl.webp', supremearbiter: 'assets/avatars/supremearbiter/avatarUrl.webp', scaredhamster: 'assets/avatars/scaredhamster/avatarUrl.webp', evilgary: GP_EVIL_IMG.src, doorbellchud: DC_FR[0].src, alottadameguy: LD_FR[0].src, arabiccat: AR_FR[0].src, rickroll: RICKROLL_AVATAR_IMG.src, aliencat: ALIENCAT_AVATAR_IMG.src, chillguy: CHILLGUY_AVATAR_IMG.src, uiacat: UIACAT_AVATAR_IMG.src };
+  const _mcDefaultAvatars={ droolingcat: 'assets/avatars/droolingcat/avatarUrl.webp', boxingcat: 'assets/avatars/boxingcat/avatarUrl.webp', morsecat: 'assets/avatars/morsecat/avatarUrl.webp', supremearbiter: 'assets/avatars/supremearbiter/avatarUrl.webp', scaredhamster: 'assets/avatars/scaredhamster/avatarUrl.webp', evilgary: GP_EVIL_IMG.src, doorbellchud: DC_FR[0].src, alottadameguy: LD_FR[0].src, arabiccat: AR_FR[0].src, rickroll: RICKROLL_AVATAR_IMG.src, aliencat: ALIENCAT_AVATAR_IMG.src, chillguy: CHILLGUY_AVATAR_IMG.src, uiacat: UIACAT_AVATAR_IMG.src };
   // ⚙️ QUÉT TỰ ĐỘNG toàn bộ CHAR_DEFS thay vì liệt kê tay từng charKey — trước đây danh sách này hardcode
   // (['aliencat','wetcat','chillguy','gary','electricguitarcat']) nên MỖI LẦN thêm nhân vật mới mà quên cập nhật
   // là người đã có roster lưu sẵn sẽ KHÔNG thấy nhân vật đó xuất hiện. Giờ chỉ cần khai báo trong CHAR_DEFS là
@@ -5421,7 +5423,7 @@ function _popRingFxDraw(){
 //   và khoét mất miếng thịt ĐÚNG chỗ bị cắn (cùng cơ chế vết gặm Friend: _biteHoles / _biteMask).
 // Quân triệu hồi có máu ăn đủ y như meme (dame vũng, piranha, cá mập).
 const DL_TPS=60*GAME_SPEED*TIME_SCALE;            // tick logic mỗi GIÂY THẬT (≈72, không phải 60)
-const DL_RATE0=1.5, DL_RATE_UP=1.1, DL_RATE_MAX=10, DL_STREAM_RATE=5;
+const DL_RATE0=1.0, DL_RATE_UP=1.09, DL_RATE_MAX=10, DL_STREAM_RATE=5, DL_FALL_T=13;   // 🤤 lúc đầu nhỏ từng sợi dãi dài · ~10s thành dòng · từ giây 13 chảy như THÁC
 // 🌊 NHỊP NƯỚC DÂNG: diện tích vũng bám theo đường cong A(t) = A_đầy·(t/DL_FULL_T)^DL_FULL_POW — lúc đầu dâng chậm, càng về sau
 //    nước chảy càng nhiều, tới đúng giây DL_FULL_T thì phủ KÍN cả sàn; đầy rồi thì Drooling Cat thôi nhỏ dãi.
 //    Mỗi giọt mang đúng phần nước còn thiếu so với đường cong (tính trước DL_FLOW_LEAD giây — thời gian giọt chảy từ chân tới giữa),
@@ -5432,18 +5434,21 @@ function _dlFullA(){ const R=_dlFullR(); return Math.PI*R*R; }
 const DL_POOL_SQ=0.6;                             // vũng nằm trên MẶT SÀN → dẹt theo chiều dọc (phối cảnh)
 const DL_POOL_DMG=10, DL_POOL_HEAL=10;            // mỗi giây
 const DL_PIRANHA_AT=8, DL_SHARK_AT=15, DL_SOAK=3, DL_PIRANHA_DMG=80, DL_SHARK_DMG=200;
-const DL_FIN_SPD=0.55, DL_FIN_CD=2.5;             // vây bơi chậm; cắn xong 2.5s sau mới có vây mới
-// 👄 vị trí MỒM trong khung ảnh (u,v: 0..1 theo bề ngang/dọc ảnh đang vẽ) — chỉnh lại khi có ảnh chính thức của Drooling Cat
-const DL_MOUTH=[0.5,0.68];
+const DL_FIN_SPD=0.55, DL_FIN_CD=2.5, DL_SHARK_HOLD=1.5, DL_SHARK_TICK=0.5, DL_SHARK_TICK_DMG=70;   // 🦈 ngoạm rồi GIẰNG CO 1.5s, mỗi 0.5s −70             // vây bơi chậm; cắn xong 2.5s sau mới có vây mới
+// 👄 vị trí 2 MỒM (2 con mèo trong ảnh: xám bên trái, kem bên phải) theo khung ảnh đang vẽ (u,v: 0..1)
+const DL_MOUTH=[0.5,0.68], DL_MOUTHS=[[0.26,0.215],[0.69,0.235]];
+// 🐱🐱 6 khung (spritesheet user gửi, cắt đúng ô lưới) — 2 con mèo đứng thở
+const DL_FR=[1,2,3,4,5,6].map(n=>{ const im=new Image(); im.onload=()=>{ im._crop={sx:0,sy:0,sw:im.naturalWidth,sh:im.naturalHeight}; }; im.src='assets/img/droolingcat/DL_FR_'+n+'.webp'; return im; });
 let dlDrops=[], dlPools=[], dlFx=[], dlFish=[], dlFins=[], dlSharks=[];
 function _dlReset(){ dlDrops=[]; dlPools=[]; dlFx=[]; dlFish=[]; dlFins=[]; dlSharks=[]; }
 function _dlKeepWin(team){ dlPools=dlPools.filter(p=>p.team===team); dlFins=dlFins.filter(p=>p.team===team); dlDrops=[]; dlFx=[]; dlFish=[]; dlSharks=[]; }
 function _dlPoolR(p){ return Math.sqrt(p.A/Math.PI); }
 // mồm / mặt đất ngay dưới chân — theo đúng ảnh đang vẽ (lật trái/phải), chưa có ảnh thì ước theo size
-function _dlMouth(f){
+function _dlMouth(f,i){
   const L=f._lastSprite;
-  if(!L || !L.dw) return {x:f.x, y:f.y+f.size*0.3};
-  return {x:f.x+(L.fl?-1:1)*(DL_MOUTH[0]-0.5)*L.dw, y:f.y+(DL_MOUTH[1]-0.5)*L.dh};
+  if(!L || !L.dw) return {x:f.x+(i?1:-1)*f.size*0.4, y:f.y-f.size*0.55};
+  const M=DL_FR[0].naturalWidth?DL_MOUTHS[i?1:0]:DL_MOUTH;
+  return {x:f.x+(L.fl?-1:1)*(M[0]-0.5)*L.dw, y:f.y+(M[1]-0.5)*L.dh};
 }
 function _dlFeetY(u){ const L=u._lastSprite; return u.y+((L && L.dh) ? L.dh*0.46 : (u.size||20)*0.85); }
 // (x,y) trên mặt sàn có nằm trong vũng nào của phe KHÁC `team` không (team=null → vũng bất kỳ). pad = chạm mép cũng tính.
@@ -5457,9 +5462,9 @@ function _dlPoolAt(x,y,pad,team,own){
   return null;
 }
 function _dlDrip(f){
-  f._dlRate=Math.min(DL_RATE_MAX,(f._dlRate||DL_RATE0)*DL_RATE_UP);
+  f._dlRate=Math.min(DL_RATE_MAX,DL_RATE0*Math.pow(DL_STREAM_RATE/DL_RATE0,((f._dlAge||0)/DL_TPS)/9));   // ⏱️ nhịp nhỏ dãi theo THỜI GIAN: ~9s thành dòng, ~13s thành thác (không phụ thuộc số giọt)
   f.cooldown=Math.max(1,Math.round(DL_TPS/f._dlRate));
-  const m=_dlMouth(f), stream=f._dlRate>=DL_STREAM_RATE;
+  f._dlMi=f._dlMi?0:1; const m=_dlMouth(f,f._dlMi), stream=f._dlRate>=DL_STREAM_RATE;   // 2 mồm thay phiên nhỏ dãi
   const t=(f._dlAge||0)/DL_TPS+DL_FLOW_LEAD, want=_dlFullA()*Math.pow(Math.min(1,t/DL_FULL_T),DL_FULL_POW);
   const A=Math.max(DL_DROP_MIN, want-(f._dlEmit||0)); f._dlEmit=(f._dlEmit||0)+A;
   const big=Math.min(1,Math.sqrt(A)/90); f._dlBig=big;   // nước càng nhiều → giọt / dòng càng to
@@ -5588,17 +5593,17 @@ function _dlTick(){
         if(fighters.includes(o)) o.takeDamage(DL_PIRANHA_DMG, q.owner); else _summonTakeDamage(o, DL_PIRANHA_DMG, q.owner); } }
     if(q.t>=46){ dlFx.push({k:'ring',x:q.x1??q.x0,y:q.y1??q.y0,t:0,max:26,r:3}); dlFish.splice(i,1); }
   }
-  // cá mập: ngoi lên há mồm (0→16) → NGOẠM (16) → giữ lắc đầu → chìm xuống (44→70)
+  // cá mập: ngoi lên há mồm (0→16) → NGOẠM (16) → GIẰNG CO giữ chặt con mồi 1.5s (mỗi 0.5s −70) → nhả, chìm xuống
   for(let i=dlSharks.length-1;i>=0;i--){ const s=dlSharks[i]; s.t++;
-    const o=s.tgt;
-    if(s.t<44 && o && !o.dead && s.ox!==undefined){ s.x=o.x+s.ox; s.y=o.y+s.oy; }   // ngoạm trúng rồi thì bám theo con mồi tới lúc nhả
-    if(s.t===16 && !s.hit){ s.hit=true;
-      if(o && !o.dead && o.hp>0){
-        playSample('vamp_bite1',1.0); addShake(9,12);
-        _dlBiteHole(o, s.x+s.dir*(o.size||20)*0.15, s.y-(o.size||20)*0.35);   // 🦷 khoét đúng chỗ hàm cá đớp vào
-        if(fighters.includes(o)) o.takeDamage(DL_SHARK_DMG, s.owner); else _summonTakeDamage(o, DL_SHARK_DMG, s.owner);
-      } }
-    if(s.t>=70){ dlFx.push({k:'ring',x:s.x,y:s.y,t:0,max:34,r:8}); dlSharks.splice(i,1); }
+    const o=s.tgt, HOLD=Math.round(DL_TPS*DL_SHARK_HOLD), TK=Math.round(DL_TPS*DL_SHARK_TICK); s.H=16+HOLD;
+    if(s.t===16 && !s.hit){ s.hit=true; if(o && !o.dead && o.hp>0){ playSample('vamp_bite1',1.0); addShake(9,12); _dlBiteHole(o, s.x+s.dir*(o.size||20)*0.15, s.y-(o.size||20)*0.35); } }
+    if(s.t>16 && s.t<=s.H && o && !o.dead && o.hp>0){
+      if(o.stun!==undefined) o.stun=Math.max(o.stun||0,2); o.vx=0; o.vy=0;   // bị ghì chặt, giằng co qua lại
+      const tug=Math.sin(s.t*0.55)*(o.size||20)*0.18; o.x+= (s.ox0===undefined?0:(s.ax+tug)-o.x)*0.35; if(s.ox0===undefined){ s.ox0=1; s.ax=o.x; }
+      if((s.t-16)%TK===0){ playSample(s.t%2?'vamp_bite1':'vamp_bite2',0.8); addShake(6,8);
+        if(fighters.includes(o)) o.takeDamage(DL_SHARK_TICK_DMG, s.owner); else _summonTakeDamage(o, DL_SHARK_TICK_DMG, s.owner); } }
+    if(s.t<s.H && o && !o.dead && s.ox!==undefined){ s.x=o.x+s.ox; s.y=o.y+s.oy; }   // ngoạm trúng rồi thì bám theo con mồi tới lúc nhả
+    if(s.t>=s.H+26){ dlFx.push({k:'ring',x:s.x,y:s.y,t:0,max:34,r:8}); dlSharks.splice(i,1); }
   }
 }
 
@@ -6821,17 +6826,24 @@ function _dlDrawPool(){
 function _dlDrawOver(){
   for(const f of fighters){
     if(f.type!=='droolingcat' || f.dead) continue;
-    const m=_dlMouth(f), gy=_dlFeetY(f), rate=f._dlRate||0;
-    if(f._dlFull){ /* sàn ngập kín rồi — hết dãi */ }
-    else if(rate>=DL_STREAM_RATE && gy>m.y+4){   // 🌊 nhỏ đủ nhanh → thành DÒNG liền, càng lâu càng to
-      const w=Math.min(4.2,1.4+(rate-DL_STREAM_RATE)*0.5)*(1+(f._dlBig||0)*1.2), tm=performance.now()/1000, n=10;
-      const pts=[]; for(let i=0;i<=n;i++){ const u=i/n; pts.push([m.x+Math.sin(tm*9+u*7)*0.8*u, m.y+(gy-m.y)*u]); }
-      ctx.save(); ctx.lineCap='round'; ctx.lineJoin='round';
-      for(const [lw,col] of [[w+1.2,'rgba(90,190,235,0.55)'],[w,'rgba(170,235,255,0.8)'],[w*0.35,'rgba(255,255,255,0.85)']]){
-        ctx.lineWidth=lw; ctx.strokeStyle=col; ctx.beginPath(); pts.forEach(([x,y],i)=>i?ctx.lineTo(x+(lw<w?-w*0.2:0),y):ctx.moveTo(x+(lw<w?-w*0.2:0),y)); ctx.stroke(); }
-      ctx.restore();
-    } else {   // giọt đang đọng ở mép mồm, phồng dần rồi rơi
-      ctx.fillStyle='rgba(170,235,255,0.85)'; ctx.beginPath(); ctx.ellipse(m.x,m.y+1.8,1.6,2.2,0,0,Math.PI*2); ctx.fill();
+    const gy=_dlFeetY(f), rate=f._dlRate||0, tS=(f._dlAge||0)/DL_TPS, tm=performance.now()/1000;
+    if(f._dlFull) continue;   // sàn ngập kín rồi — hết dãi
+    const fall=Math.max(0,Math.min(1,(tS-DL_FALL_T)/3));   // 0→1: dòng → THÁC
+    for(let mi=0;mi<2;mi++){ const m=_dlMouth(f,mi); if(gy<=m.y+4) continue;
+      if(rate<DL_STREAM_RATE){   // 🧵 sợi dãi DÀI kéo dần xuống từ mép mồm, đầu phồng giọt, đứt ra thì rơi (2 mồm lệch nhịp nhau)
+        const per=Math.max(1,Math.round(DL_TPS/Math.max(0.1,rate))), cyc=per*2, ph=(((f._dlAge||0)+mi*per)%cyc)/cyc, L=(gy-m.y)*0.55*Math.pow(ph,1.4), sw=Math.sin(tm*3+mi)*1.5*ph;
+        ctx.save(); ctx.lineCap='round'; ctx.strokeStyle='rgba(185,238,255,0.8)'; ctx.lineWidth=1.3; ctx.beginPath(); ctx.moveTo(m.x,m.y); ctx.quadraticCurveTo(m.x+sw,m.y+L*0.5,m.x+sw*0.6,m.y+L); ctx.stroke();
+        ctx.fillStyle='rgba(170,235,255,0.9)'; ctx.beginPath(); ctx.ellipse(m.x+sw*0.6,m.y+L+1.5,1.4+ph*1.6,1.8+ph*2.2,0,0,Math.PI*2); ctx.fill(); ctx.restore();
+      } else {   // 🌊 dòng liền, càng lâu càng to → THÁC: dải nước rộng nhiều lớp, bọt tung trắng xoá dưới chân
+        const w=(Math.min(4.2,1.4+(rate-DL_STREAM_RATE)*0.5)*(1+(f._dlBig||0)*1.2))*(1+fall*2.6), n=10, pts=[];
+        for(let i=0;i<=n;i++){ const u=i/n; pts.push([m.x+Math.sin(tm*9+u*7+mi)*(0.8+fall*1.5)*u, m.y+(gy-m.y)*u]); }
+        ctx.save(); ctx.lineCap='round'; ctx.lineJoin='round';
+        for(const [lw,col] of [[w+1.2+fall*3,'rgba(90,190,235,0.55)'],[w,'rgba(170,235,255,0.8)'],[w*0.35,'rgba(255,255,255,0.85)']]){
+          ctx.lineWidth=lw; ctx.strokeStyle=col; ctx.beginPath(); pts.forEach(([x,y],i)=>i?ctx.lineTo(x+(lw<w?-w*0.2:0),y):ctx.moveTo(x+(lw<w?-w*0.2:0),y)); ctx.stroke(); }
+        if(fall>0){ ctx.lineWidth=Math.max(1,w*0.12); ctx.strokeStyle=`rgba(255,255,255,${0.6*fall})`;   // vệt nước chảy xiết trên mặt thác
+          for(let j=0;j<3;j++){ const o=(j-1)*w*0.28, ph2=((tm*2.2+j*0.33)%1); ctx.beginPath(); ctx.moveTo(m.x+o,m.y+(gy-m.y)*ph2*0.6); ctx.lineTo(m.x+o,m.y+(gy-m.y)*Math.min(1,ph2*0.6+0.35)); ctx.stroke(); }
+          ctx.fillStyle=`rgba(240,252,255,${0.75*fall})`; for(let j=0;j<7;j++){ const q=((tm*1.8+j/7)%1), a=Math.PI*(0.1+0.8*(j/6)); ctx.beginPath(); ctx.arc(m.x+Math.cos(a)*w*(0.6+q*1.4)*(j%2?1:-1)*0.8, gy-Math.sin(a)*w*q*1.2, (1.2+w*0.12)*(1-q*0.5), 0, Math.PI*2); ctx.fill(); } }   // bọt tung ở chân thác
+        ctx.restore(); }
     }
   }
   for(const d of dlDrops){   // giọt nước đang RƠI: đầu tròn, kéo dài theo tốc độ rơi (giọt đã chạm đất vẽ ở _dlDrawPool)
@@ -6851,14 +6863,14 @@ function _dlDrawOver(){
     _dlPiranha(x,y,Math.max(16,sz*0.42),ang,open);
   }
   for(const s of dlSharks){   // 🦈 ngoi lên há mồm → NGOẠM → lắc đầu → chìm
-    const t=s.t, k=s.sz*0.1, ease=u=>1-Math.pow(1-Math.max(0,Math.min(1,u)),3);
-    const rise=t<16?ease(t/16):t<44?1:1-ease((t-44)/26);
+    const t=s.t, k=s.sz*0.1, ease=u=>1-Math.pow(1-Math.max(0,Math.min(1,u)),3), Hd=s.H||44;
+    const rise=t<16?ease(t/16):t<Hd?1:1-ease((t-Hd)/26);
     const open=t<16?Math.min(1,t/9):t<19?1-(t-16)/3:0;
-    const shake=t>=16&&t<44?Math.sin(t*1.4)*0.08:0;
-    _dlSharkDraw(s.x+(t>=16&&t<44?Math.sin(t*1.7)*2:0), s.y, k, s.dir, 0.95+shake, open, rise);
+    const shake=t>=16&&t<Hd?Math.sin(t*1.4)*0.12:0;
+    _dlSharkDraw(s.x+(t>=16&&t<Hd?Math.sin(t*1.7)*3:0), s.y, k, s.dir, 0.95+shake, open, rise);
     ctx.strokeStyle='rgba(240,253,255,0.85)'; ctx.lineWidth=1.6;   // bọt nước quanh chỗ cá trồi lên
     ctx.beginPath(); ctx.ellipse(s.x,s.y,k*8*Math.max(0.4,rise),k*8*Math.max(0.4,rise)*DL_POOL_SQ*0.5,0,0,Math.PI*2); ctx.stroke();
-    if(t<20 || (t>44 && t<60)){ ctx.fillStyle='rgba(200,240,255,0.8)';
+    if(t<20 || (t>16 && t<Hd && t%12<6) || (t>Hd && t<Hd+16)){ ctx.fillStyle='rgba(200,240,255,0.8)';
       for(let i=0;i<6;i++){ const a=i/6*Math.PI+0.2, u=((t%20)/20), rr=k*(5+u*7); ctx.beginPath(); ctx.arc(s.x+Math.cos(a)*rr*(i%2?1:-1), s.y-Math.sin(a)*rr*0.8+u*u*k*4, 1.4, 0, Math.PI*2); ctx.fill(); } }
   }
 }
@@ -20373,6 +20385,9 @@ class Fighter {
       const _cdIdx=Math.max(0,Math.min(4,Math.floor((780-(this._cdTimer===undefined?780:this._cdTimer))/156)));
       if(CALMDOG_FORM_IMGS[_cdIdx] && CALMDOG_FORM_IMGS[_cdIdx].complete) img=CALMDOG_FORM_IMGS[_cdIdx];
       else img=avatarImgs[i];
+    } else if(this.type==='droolingcat' && DL_FR[0].naturalWidth){
+      // 🐱🐱 2 con mèo đứng thở: 6 khung lặp (~6 khung/giây)
+      const _dli=Math.floor(tick/10)%DL_FR.length; img=DL_FR[_dli].naturalWidth?DL_FR[_dli]:DL_FR[0];
     } else if(this.type==='boxingcat' && BX_FR[0].naturalWidth){
       // 🥊 đang đấm khởi động: chạy vòng 9 khung (~7.5 khung/giây) · nghỉ: đứng ở khung 1
       // chạy HẾT 1 vòng: bộ đếm riêng bắt đầu từ khung 1 khi khởi động; hết khởi động (đấm/nghỉ) thì vẫn chạy tiếp cho tròn vòng rồi mới đứng ở khung 1
