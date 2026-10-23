@@ -2338,7 +2338,7 @@
     const sk=g.createLinearGradient(0,-3500,0,GY); sk.addColorStop(0,sky0); sk.addColorStop(1,sky1); g.fillStyle=sk; g.fillRect(-6000,-6000,14000,6000+GY);
     for(let i=0;i<26;i++){ const x=-3500+((hash(i+3900)*8000+t*15)%8000), y=-1600+hash(i+3901)*1500, r=260+hash(i+3902)*420; if(Math.abs(x-800)<500+hash(i+3903)*300) continue; puff(x,y,r,0.55,'120,36,30'); puff(x,y+r*0.2,r*0.8,0.35,'60,14,14'); }   // mây bị xé dạt sang 2 bên (khe trống giữa trời)
     for(const [L,n,u2p,base,hz] of [[0,80,85,GY-4,0.72],[1,40,150,GY+30,0.38]]) for(let i=0;i<n;i++){ const b=CITY[(i*7+L*3)%CITY.length], S=bSprite(b), x=-3600+i*(8000/n)+(hash(i+3910+L*90)-0.5)*90, h=b.h*u2p*(L?0.8:1), w=b.w*u2p*1.2;
-      g.save(); g.translate(x,base); g.rotate((hash(i+3920+L*90)-0.5)*0.08*L); g.filter='sepia(1) hue-rotate(-30deg) saturate(2.2) brightness(0.55)'; g.drawImage(S.c,-w/2,-h,w,h); g.filter='none'; g.globalAlpha=hz*0.6; g.fillStyle='#5a1a14'; g.drawImage(S.hz,-w/2,-h,w,h); g.restore(); }   // 2 lớp nhà đổ nát
+      g.save(); g.translate(x,base); g.rotate((hash(i+3920+L*90)-0.5)*0.08*L); g.drawImage(bFilt(S,'sepia(1) hue-rotate(-30deg) saturate(2.2) brightness(0.55)'),-w/2,-h,w,h); g.globalAlpha=hz*0.6; g.fillStyle='#5a1a14'; g.drawImage(S.hz,-w/2,-h,w,h); g.restore(); }   // 2 lớp nhà đổ nát
     const gr=g.createLinearGradient(0,GY-8,0,2400); gr.addColorStop(0,'#5a2218'); gr.addColorStop(0.35,'#3e1610'); gr.addColorStop(1,'#1e0907'); g.fillStyle=gr; g.fillRect(-6000,GY-8,14000,8000);   // đất bị cày
     g.fillStyle='#4e1c14'; g.beginPath(); g.moveTo(-6000,GY+60); for(let x=-6000;x<=8000;x+=40) g.lineTo(x,GY+30-Math.abs(Math.sin(x*0.013)*30+Math.sin(x*0.051)*18)); g.lineTo(8000,GY+60); g.closePath(); g.fill();
     for(let i=0;i<260;i++){ const x=-4000+hash(i+3930)*9000, y=GY+20+hash(i+3931)*50, r=14+hash(i+3932)*44, v=Math.round(80+60*hash(i+3933)); g.fillStyle=`rgb(${v},${(v*0.5)|0},${(v*0.42)|0})`; g.beginPath(); g.moveTo(x-r*1.3,y); g.lineTo(x-r*0.5,y-r*(0.6+0.6*hash(i+3934))); g.lineTo(x+r*0.3,y-r*(0.4+0.8*hash(i+3935))); g.lineTo(x+r*1.2,y); g.closePath(); g.fill(); }   // gờ gạch đá dọc bờ rãnh
@@ -2349,6 +2349,7 @@
     for(let i=0;i<300;i++){ const y=GY+40+Math.pow(hash(i+3970),1.2)*1500, s=(y-GY)/600, x=-4000+hash(i+3971)*9000, r=(4+hash(i+3972)*12)*s, v=Math.round(60+70*hash(i+3973)); g.fillStyle=`rgb(${v+10},${(v*0.45)|0},${(v*0.38)|0})`; g.beginPath(); g.moveTo(x-r,y); g.lineTo(x-r*0.4,y-r*0.9); g.lineTo(x+r*0.6,y-r*0.7); g.lineTo(x+r,y); g.closePath(); g.fill(); }   // gạch vụn
     for(let i=0;i<14;i++){ const x=-3000+((hash(i+3980)*7000+t*25)%7000), y=GY-40+hash(i+3981)*160; puff(x,y,240+hash(i+3982)*260,0.22,'140,60,45'); }   // bụi còn lơ lửng
   }
+  function bFilt(S,f){ const k='_f'+f; if(S[k]) return S[k]; try{ const c=document.createElement('canvas'); c.width=S.c.width; c.height=S.c.height; const x=c.getContext('2d'); x.filter=f; x.drawImage(S.c,0,0); S[k]=c; }catch(e){ S[k]=S.c; } return S[k]; }   // ⚡ tòa nhà đã lọc màu sẵn (vẽ lại cực nhanh)
   function cityPlough(q,t){ const VPx=VW*0.5, VPy=VH*0.42, F=VH*0.9, HC=0.5, sx=(X,d)=>VPx+X*F/d, gy=d=>VPy+HC*F/d;
     const QS=0.14, QE=0.84, TL=2.9, BV=(80-0.4)/((QE-QS)*TL);   // quả cầu bay với VẬN TỐC KHÔNG ĐỔI theo chiều sâu (BV đơn vị/giây) · TL = thời lượng cảnh (giây)
     const bd=0.4+BV*Math.max(0,q-QS)*TL, done=seg(q,QE,1), tq=d=>QS+(d-0.4)/BV/TL;   // tq(d): thời điểm quả cầu đi qua độ sâu d
@@ -2391,7 +2392,7 @@
       let kk=0; if(b.mid&&b.d<bd+3) kk=seg(bd,b.d-3,b.d)*0.25;   // sắp bị đâm: rung + nứt (sóng áp lực đi trước quả cầu)
       const S=bSprite(b), haze=Math.min(0.85,b.d/70);
       g.save(); if(kk>0){ g.translate(Math.sin(t*60+b.seed)*kk*6,0); }
-      g.filter='sepia(1) hue-rotate(-30deg) saturate(2.2) brightness(0.6)'; g.drawImage(S.c,x0-w/2,y0-h,w,h); g.filter='none'; g.globalAlpha=haze; g.drawImage(S.hz,x0-w/2,y0-h,w,h); g.restore(); }
+      g.drawImage(bFilt(S,'sepia(1) hue-rotate(-30deg) saturate(2.2) brightness(0.6)'),x0-w/2,y0-h,w,h); g.globalAlpha=haze; g.drawImage(S.hz,x0-w/2,y0-h,w,h); g.restore(); }
     for(const f of frag){ const s=F/f.Z, x=sx(f.X,f.Z), y=gy(f.Z)-f.Y*s, r=f.sz*s; if(r<0.6||x<-50||x>VW+50) continue; const v=Math.round(70+f.tone*50), hz=Math.min(0.8,f.Z/70);
       g.save(); g.translate(x,y); g.rotate(f.rot); g.fillStyle=`rgb(${lerp(v,176,hz)|0},${lerp(v*0.5,96,hz)|0},${lerp(v*0.42,80,hz)|0})`; g.beginPath(); g.moveTo(-r,-r*0.4); g.lineTo(-r*0.2,-r); g.lineTo(r,-r*0.3); g.lineTo(r*0.6,r*0.7); g.lineTo(-r*0.7,r*0.6); g.closePath(); g.fill();
       g.fillStyle='rgba(15,18,26,0.6)'; g.fillRect(-r*0.3,-r*0.3,r*0.25,r*0.3); g.restore();

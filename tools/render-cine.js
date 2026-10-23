@@ -42,9 +42,12 @@ const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css
   if (!PART && JOBS > 1) {   // 🚀 chia đều số khung cho nhiều tiến trình chạy song song, mỗi tiến trình ra 1 đoạn video → ghép lại không nén lại
     await br.close(); srv.close();
     const per = Math.ceil(N / JOBS), parts = [];
+    const CONC = opt('--conc') || JOBS; let live = 0; const q = []; const slot = () => new Promise(r => { if (live < CONC) { live++; r(); } else q.push(r); }), free = () => { live--; if (q.length) { live++; q.shift()(); } };   // --conc: số tiến trình chạy CÙNG LÚC (ít hơn số đoạn → khỏi tràn RAM)
+    const doneOK = (f, n) => { try { const c = execFileSync('ffprobe', ['-v', 'error', '-count_packets', '-select_streams', 'v:0', '-show_entries', 'stream=nb_read_packets', '-of', 'csv=p=0', f]).toString().trim().replace(',', ''); return +c === n; } catch (e) { return false; } };
     await Promise.all([...Array(JOBS).keys()].map(j => { const a = j * per, b = Math.min(N, a + per); if (a >= b) return null; const f = `${OUT}.part${j}.mp4`; parts.push([j, f]);
+      if (args.includes('--keep') && fs.existsSync(f) && doneOK(f, b - a)) { console.log(`  ✔ giữ đoạn ${j} (đã xuất xong)`); return null; }   // --keep: đoạn đã xuất đủ khung thì dùng lại
       const run = () => new Promise(res => { const c = spawn(process.execPath, [__filename, film, f, '--part', '--f0', a, '--f1', b, '--from', T0, '--to', T1, ...(WIDE ? ['--wide'] : []), ...(K4 ? ['--4k'] : [])], { stdio: ['ignore', 'inherit', 'inherit'], env: process.env }); c.on('close', res); });
-      return (async () => { for (let k = 0; k < 3; k++) { if (await run() === 0) return; console.log(`  ↻ đoạn ${j} lỗi, chạy lại (${k + 1})`); } throw new Error('part ' + j + ' failed'); })(); }));   // đoạn nào lỗi (vd tải trang chậm) thì tự chạy lại
+      return (async () => { await slot(); try { for (let k = 0; k < 3; k++) { if (await run() === 0) return; console.log(`  ↻ đoạn ${j} lỗi, chạy lại (${k + 1})`); } throw new Error('part ' + j + ' failed'); } finally { free(); } })(); }));   // đoạn nào lỗi (vd tải trang chậm) thì tự chạy lại
     parts.sort((x, y) => x[0] - y[0]); const lst = OUT + '.parts.txt'; fs.writeFileSync(lst, parts.map(([, f]) => `file '${f.replace(/'/g, "'\\''")}'`).join('\n'));
     execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', lst, '-c', 'copy', tmpV], { stdio: 'inherit' });
     for (const [, f] of parts) fs.unlinkSync(f); fs.unlinkSync(lst);
@@ -57,7 +60,7 @@ const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css
     const R = T0 + i / FPS;
     const b64 = await pg.evaluate(({ R, SUB, FPS }) => { for (let s = SUB - 1; s >= 0; s--) _cineWarStep(R - s / (FPS * SUB)); return _cineWarCanvas().toDataURL('image/jpeg', 0.93).split(',')[1]; }, { R, SUB, FPS });
     if (!ff.stdin.write(Buffer.from(b64, 'base64'))) await new Promise(r => ff.stdin.once('drain', r));
-    if ((i - F0) % 150 === 0) console.log(`  ${PART ? `[đoạn ${F0}-${F1}] ` : ''}khung ${i - F0}/${F1 - F0} · ${((Date.now() - t0) / 1000).toFixed(0)}s`);
+    if ((i - F0) % 10 === 0) console.log(`  ${PART ? `[đoạn ${F0}-${F1}] ` : ''}khung ${i - F0}/${F1 - F0} · ${((Date.now() - t0) / 1000).toFixed(0)}s`);
   }
   ff.stdin.end(); await new Promise(r => ff.on('close', r));
   await br.close(); srv.close();

@@ -239,6 +239,8 @@ DOGE_KNIGHT_IMG.src = 'assets/img/kingcheems/DOGE_KNIGHT_IMG.webp';
 const RICKROLL_AVATAR_IMG = new Image(); RICKROLL_AVATAR_IMG.src='assets/img/rickroll/RICKROLL_AVATAR_IMG.webp';
 const SCREAMING_MARMOT_SCREAM_IMG = new Image(); SCREAMING_MARMOT_SCREAM_IMG._cols=9; SCREAMING_MARMOT_SCREAM_IMG._rows=3; SCREAMING_MARMOT_SCREAM_IMG._frames=27;
 SCREAMING_MARMOT_SCREAM_IMG.src = 'assets/img/screamcat/SCREAMING_MARMOT_SCREAM_IMG.webp';
+// 📡 Morse Code Cat: 3 khẩu hình (user gửi) — ngậm · hé (dấu chấm) · há to (dấu gạch); cùng khung, thân trùng khít, chỉ miệng đổi
+const MC_MOUTH={}; ['CLOSED','HALF','OPEN'].forEach(k=>{ const im=new Image(); im.onload=()=>{ im._crop={sx:0,sy:0,sw:im.naturalWidth,sh:im.naturalHeight}; }; im.src='assets/img/morsecat/MC_'+k+'.webp'; MC_MOUTH[k]=im; });
 const SMARTGUY_THINK_IMG = new Image(); SMARTGUY_THINK_IMG._cols=5; SMARTGUY_THINK_IMG._rows=3; SMARTGUY_THINK_IMG._frames=15;
 SMARTGUY_THINK_IMG.src = 'assets/img/smartguy/SMARTGUY_THINK_IMG.webp';const MEWING_STONE_2_IMG = new Image(); MEWING_STONE_2_IMG.src='assets/img/mewingcat/MEWING_STONE_2_IMG.webp';
 const MEWING_STONE_1_IMG = new Image(); MEWING_STONE_1_IMG.src='assets/img/mewingcat/MEWING_STONE_1_IMG.webp';
@@ -921,7 +923,7 @@ function loadRoster(){
   // bổ sung ngay những charKey còn thiếu, không đụng gì tới các nhân vật/avatar đã lưu trước đó
   // ⚠️ Gigachad CHƯA có ảnh mặc định (chưa có nguồn ảnh phù hợp) — dùng emoji 🗿 tạm thời, người dùng tự upload
   // qua màn Add Character khi có ảnh (avatar chính + ảnh "Gigachad To" ở ô Khung 1, xem POSE_SLOT_DEFS.gigachad).
-  const _mcDefaultAvatars={ supremearbiter: 'assets/avatars/supremearbiter/avatarUrl.webp', scaredhamster: 'assets/avatars/scaredhamster/avatarUrl.webp', evilgary: GP_EVIL_IMG.src, doorbellchud: DC_FR[0].src, alottadameguy: LD_FR[0].src, arabiccat: AR_FR[0].src, rickroll: RICKROLL_AVATAR_IMG.src, aliencat: ALIENCAT_AVATAR_IMG.src, chillguy: CHILLGUY_AVATAR_IMG.src, uiacat: UIACAT_AVATAR_IMG.src };
+  const _mcDefaultAvatars={ morsecat: 'assets/avatars/morsecat/avatarUrl.webp', supremearbiter: 'assets/avatars/supremearbiter/avatarUrl.webp', scaredhamster: 'assets/avatars/scaredhamster/avatarUrl.webp', evilgary: GP_EVIL_IMG.src, doorbellchud: DC_FR[0].src, alottadameguy: LD_FR[0].src, arabiccat: AR_FR[0].src, rickroll: RICKROLL_AVATAR_IMG.src, aliencat: ALIENCAT_AVATAR_IMG.src, chillguy: CHILLGUY_AVATAR_IMG.src, uiacat: UIACAT_AVATAR_IMG.src };
   // ⚙️ QUÉT TỰ ĐỘNG toàn bộ CHAR_DEFS thay vì liệt kê tay từng charKey — trước đây danh sách này hardcode
   // (['aliencat','wetcat','chillguy','gary','electricguitarcat']) nên MỖI LẦN thêm nhân vật mới mà quên cập nhật
   // là người đã có roster lưu sẵn sẽ KHÔNG thấy nhân vật đó xuất hiện. Giờ chỉ cần khai báo trong CHAR_DEFS là
@@ -14816,15 +14818,18 @@ class Fighter {
     // chọn ngẫu nhiên 1 chữ cái → gõ từng dấu Morse (bíp ngắn/dài, mỗi phím hiện ảnh "Đang gõ" 0.2s) → gõ xong bắn lần lượt từng dấu vào địch
     // (chấm 10 · gạch 20). Mỗi dấu TRÚNG → tốc gõ +0.1x vĩnh viễn (_mcSpd, cộng ở chỗ đạn trúng). Choáng thật thì tạm dừng gõ.
     if(this.type==='morsecat' && !this.dead){
+      if((this._mcMouthT||0)>0) this._mcMouthT--;
       const MC=this._mc||(this._mc={st:'cd',t:40,code:'',letter:'',i:0,fire:0});
       const spd=this._mcSpd||1;
       if(MC.st==='cd'){ if(--MC.t<=0 && !this._isHardCC()){ const L=MORSE_KEYS[Math.floor(Math.random()*MORSE_KEYS.length)]; MC.letter=L; MC.code=MORSE[L]; MC.i=0; MC.st='type'; MC.t=Math.max(2,Math.round(16/spd)); } }
       else if(MC.st==='type'){ if(!this._isHardCC() && --MC.t<=0){ const sym=MC.code[MC.i++];
           playSample(sym==='.'?'morse_dot':'morse_dash',0.55); this.actionState='attack'; this.attackAvatarTimer=12;   // 👀 0.2s
+          this._mcMouth=sym==='.'?'HALF':'OPEN'; this._mcMouthT=sym==='.'?6:13;   // 👄 khẩu hình theo mã: chấm hé ngắn, gạch há to dài
           if(MC.i>=MC.code.length){ MC.st='fire'; MC.fire=0; MC.t=Math.max(4,Math.round(14/spd)); } else MC.t=Math.max(2,Math.round((sym==='.'?14:22)/spd)); } }
       else if(MC.st==='fire'){ if(--MC.t<=0){ const e=this.enemy, sym=MC.code[MC.fire];
           if(e){ const dx=e.x-this.x, dy=e.y-(this.y-this.size*0.9), d=Math.hypot(dx,dy)||1, sp=sym==='.'?10:9;
             projectiles.push({ x:this.x, y:this.y-this.size*0.9, vx:dx/d*sp, vy:dy/d*sp, team:this.team, owner:this, dmg:sym==='.'?10:20, life:150, maxLife:150, isMorse:true, sym, size:sym==='.'?6:9, target:e }); }
+          this._mcMouth=sym==='.'?'HALF':'OPEN'; this._mcMouthT=sym==='.'?4:6;   // 👄 nhả từng dấu ra khỏi miệng
           MC.fire++; MC.t=6;
           if(MC.fire>=MC.code.length){ MC.st='cd'; MC.t=Math.max(10,Math.round(40/spd)); } } }
     }
@@ -19963,6 +19968,9 @@ class Fighter {
     } else if(this.type==='feuerkatze' && (this._fkSaluteNow||0)>0 && (attackAvatarImgs[i]||skill1AvatarImgs[i])){
       // 🫡 Adolf Catler giơ tay (chào cờ mở van / kề súng tự sát) → ảnh ở ô duy nhất của nó (attackAvatarUrl)
       img = attackAvatarImgs[i] || skill1AvatarImgs[i];
+    } else if(this.type==='morsecat' && MC_MOUTH.CLOSED.naturalWidth){
+      // 📡 Morse Code Cat: khẩu hình theo nhịp mã Morse (ngậm khi nghỉ)
+      const _mk=(this._mcMouthT||0)>0?this._mcMouth:'CLOSED'; img=(MC_MOUTH[_mk]&&MC_MOUTH[_mk].naturalWidth)?MC_MOUTH[_mk]:MC_MOUTH.CLOSED;
     } else if(this.type==='smartguy' && this.attackAvatarTimer>0 && attackAvatarImgs[i]){
       // Smart Guy: đúng lúc bắn IQ (vừa chốt kết quả, ~0.33s) → đổi sang tư thế "Đang bắn IQ" (ảnh upload riêng), ưu tiên hơn GIF suy nghĩ
       img = attackAvatarImgs[i];
