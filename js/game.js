@@ -5414,7 +5414,7 @@ function _popRingFxDraw(){
 // (skill vũng dãi cũ của Wet Cat chuyển hẳn sang đây rồi sửa lại; Wet Cat giờ là mưa + sét — xem khối WET CAT bên dưới)
 // • Dãi nhỏ giọt từ MỒM rơi thẳng xuống đất ngay dưới chân, nhịp nhanh dần (×DL_RATE_UP mỗi giọt, trần DL_RATE_MAX giọt/s);
 //   nhỏ đủ nhanh (≥ DL_STREAM_RATE giọt/s) thì thành DÒNG liền từ mồm xuống đất, dòng càng lâu càng to.
-// • Giọt / dòng KHÔNG gây dame — chỉ đọng thành vũng nước xanh trong, to dần (cộng DIỆN TÍCH), vũng chạm nhau thì nhập làm một.
+// • Giọt / dòng KHÔNG gây dame — rơi xuống đất rồi CHẢY về GIỮA SÀN, dồn thành 1 vũng nước xanh trong ở giữa, to dần (cộng DIỆN TÍCH).
 // • Trong vũng: địch mất 10 máu/s; Drooling Cat hồi 10 máu/s.
 // • Từ giây 8: piranha — địch ngâm nước LIÊN TỤC 3s thì 1 con nhảy lên cắn thêm 80 (ngâm tiếp 3s nữa lại 1 con).
 // • Từ giây 15: piranha đổi thành cá mập — vây cá bơi chậm trong vũng; địch chạm vây thì cá ngoi lên cắn 200
@@ -5457,25 +5457,10 @@ function _dlDrip(f){
   dlDrops.push({ x:m.x+(stream?0:(Math.random()-0.5)*2), y:m.y, vy:0.5, gy:Math.max(m.y+6,_dlFeetY(f)),
     r:stream?1.6+Math.random()*0.8:2.4+Math.random()*1.2, owner:f, team:f.team });
 }
-// giọt rơi xuống đất: rơi trong / sát mép vũng (≤ DL_JOIN px ngoài bờ) thì chảy vào vũng đó — cộng diện tích, vũng loang dần
-// về phía chỗ nước đổ (đi theo chân mèo); xa hẳn mọi vũng thì mở vũng mới
-const DL_JOIN=60;
+// 🌀 giọt chảy tới GIỮA SÀN: nhập vào vũng giữa sàn của chủ (cộng DIỆN TÍCH → vũng to dần, nhanh lúc đầu rồi chậm lại)
 function _dlAddWater(f,x,y,A){
-  let best=null, bk=1e9;
-  for(const p of dlPools){ if(p.owner!==f) continue;
-    const R=_dlPoolR(p), d=Math.hypot(x-p.x,(y-p.y)/DL_POOL_SQ)-R; if(d<DL_JOIN && d<bk){ bk=d; best=p; } }
-  if(best){ const k=A/(best.A+A); best.x+=(x-best.x)*k*1.2; best.y+=(y-best.y)*k*1.2; best.A+=A; }
-  else dlPools.push({x, y, A:A*2, R:2, owner:f, team:f.team, sd:Math.random()*9});
-  // 2 vũng chồng lên nhau nhiều → nhập làm một (giữ cỡ đang hiện của vũng to hơn để không giật)
-  for(let i=dlPools.length-1;i>0;i--) for(let j=i-1;j>=0;j--){
-    const a=dlPools[i], b=dlPools[j]; if(a.owner!==b.owner) continue;
-    const Ra=_dlPoolR(a), Rb=_dlPoolR(b);
-    if(Math.hypot(a.x-b.x,(a.y-b.y)/DL_POOL_SQ) < (Ra+Rb)*0.7){
-      const A2=a.A+b.A; b.x=(a.x*a.A+b.x*b.A)/A2; b.y=(a.y*a.A+b.y*b.A)/A2; b.A=A2; b.R=Math.max(a.R,b.R);
-      for(const fn of dlFins) if(fn.pool===a) fn.pool=b;
-      dlPools.splice(i,1); break;
-    }
-  }
+  let p=dlPools.find(q=>q.owner===f);
+  if(p) p.A+=A; else dlPools.push(p={x:W/2, y:H/2, A:A*2, R:2, owner:f, team:f.team, sd:Math.random()*9});
   dlFx.push({k:'ring',x,y,t:0,max:30,r:2});
 }
 // mọi mục tiêu sống (meme + quân triệu hồi có máu) không cùng phe
@@ -5490,10 +5475,26 @@ function _dlBiteHole(o,x,y){
 function _dlPickInPool(p,k){ const a=Math.random()*Math.PI*2, d=Math.sqrt(Math.random())*p.R*(k||0.75); return {x:p.x+Math.cos(a)*d, y:p.y+Math.sin(a)*d*DL_POOL_SQ}; }
 // chạy trong vòng tick của loop() (kể cả lúc Drooling Cat bị choáng)
 function _dlTick(){
-  // giọt rơi thẳng xuống đất (không bay ngang theo người — nhả ra rồi là rơi tự do)
+  // giọt nhả ra rơi thẳng xuống đất, chạm đất thì CHẢY trên sàn về GIỮA SÀN (bị hút cong vào, càng gần càng nhanh —
+  // y kiểu giọt bị hút của skill cũ), tới mép vũng giữa sàn thì nhập vào làm vũng to thêm
   for(let i=dlDrops.length-1;i>=0;i--){ const d=dlDrops[i];
-    d.vy+=0.32; d.y+=d.vy;
-    if(d.y>=d.gy){ if(d.owner && !d.owner.dead) _dlAddWater(d.owner,d.x,d.gy,DL_DROP_AREA); dlDrops.splice(i,1); } }
+    if(!d.owner || d.owner.dead){ dlDrops.splice(i,1); continue; }
+    if(!d.ground){
+      d.vy+=0.32; d.y+=d.vy;
+      if(d.y>=d.gy){ d.y=d.gy; d.ground=true; d.age=0; d.r=Math.max(d.r,2.6); dlFx.push({k:'ring',x:d.x,y:d.y,t:0,max:18,r:1});
+        const toC=Math.atan2(H/2-d.y, W/2-d.x), side=Math.random()<0.5?-1:1;
+        d.vx=Math.cos(toC)*0.8+Math.cos(toC+side*Math.PI/2)*1.2; d.vy=Math.sin(toC)*0.8+Math.sin(toC+side*Math.PI/2)*1.2; d.trail=[]; }
+      continue;
+    }
+    d.age++;
+    const dx=W/2-d.x, dy=H/2-d.y, dd=Math.hypot(dx,dy)||1, k=0.03+Math.min(0.4,d.age*0.005);
+    d.vx=(d.vx+dx/dd*k)*0.985; d.vy=(d.vy+dy/dd*k)*0.985;
+    const sp=Math.hypot(d.vx,d.vy); if(sp>6){ d.vx*=6/sp; d.vy*=6/sp; }
+    d.x+=d.vx; d.y+=d.vy;
+    d.trail.push(d.x,d.y); if(d.trail.length>14) d.trail.splice(0,2);
+    const p=dlPools.find(q=>q.owner===d.owner), R=p?p.R:0;
+    if(Math.hypot(W/2-d.x,(H/2-d.y)/DL_POOL_SQ) < Math.max(5,R) || d.age>600){ _dlAddWater(d.owner,d.x,d.y,DL_DROP_AREA); dlDrops.splice(i,1); }
+  }
   for(const p of dlPools){
     const dead=!p.owner || p.owner.dead;
     if(dead){ p.A*=0.985; }   // chủ gục → vũng rút dần rồi khô hẳn
@@ -6737,6 +6738,14 @@ let _dlWaterCv=null, _dlRimCv=null;
 // Mọi vũng gộp chung 1 khối (vẽ vào canvas riêng rồi mới đắp lên sàn) → chỗ 2 vũng chồng nhau không bị đậm lên / lộ mép trong.
 function _dlDrawPool(){
   for(let i=dlFx.length-1;i>=0;i--){ const e=dlFx[i]; e.t++; if(e.t>=e.max) dlFx.splice(i,1); }
+  // 💧 giọt dãi đang chảy trên sàn về giữa: hạt nước + vệt ướt kéo theo sau
+  for(const d of dlDrops){ if(!d.ground) continue;
+    const tr=d.trail||[];
+    for(let j=0;j<tr.length;j+=2){ const k=(j/2+1)/(tr.length/2+1);
+      ctx.fillStyle=`rgba(150,225,255,${0.15+0.45*k})`; ctx.beginPath(); ctx.ellipse(tr[j],tr[j+1],d.r*(0.4+0.5*k),d.r*(0.4+0.5*k)*0.7,0,0,Math.PI*2); ctx.fill(); }
+    ctx.fillStyle='rgba(160,230,255,0.9)'; ctx.beginPath(); ctx.ellipse(d.x,d.y,d.r,d.r*0.75,0,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle='rgba(255,255,255,0.85)'; ctx.beginPath(); ctx.arc(d.x-d.r*0.3,d.y-d.r*0.25,d.r*0.3,0,Math.PI*2); ctx.fill();
+  }
   if(!dlPools.length) return;
   const SS=_ARENA_SS, cw=Math.ceil(W*SS), ch=Math.ceil(H*SS);
   if(!_dlWaterCv || _dlWaterCv.width!==cw || _dlWaterCv.height!==ch){
@@ -6813,7 +6822,8 @@ function _dlDrawOver(){
       ctx.fillStyle='rgba(170,235,255,0.85)'; ctx.beginPath(); ctx.ellipse(m.x,m.y+1.8,1.6,2.2,0,0,Math.PI*2); ctx.fill();
     }
   }
-  for(const d of dlDrops){   // giọt nước: đầu tròn, kéo dài theo tốc độ rơi
+  for(const d of dlDrops){   // giọt nước đang RƠI: đầu tròn, kéo dài theo tốc độ rơi (giọt đã chạm đất vẽ ở _dlDrawPool)
+    if(d.ground) continue;
     const st=Math.min(3,1+d.vy*0.25), r=d.r;
     ctx.fillStyle='rgba(150,225,255,0.88)';
     ctx.beginPath(); ctx.moveTo(d.x,d.y-r*st*1.4); ctx.quadraticCurveTo(d.x+r,d.y-r*0.3,d.x+r*0.9,d.y+r*0.3); ctx.arc(d.x,d.y+r*0.3,r*0.9,0,Math.PI); ctx.quadraticCurveTo(d.x-r,d.y-r*0.3,d.x,d.y-r*st*1.4); ctx.fill();
