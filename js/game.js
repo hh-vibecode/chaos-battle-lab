@@ -819,7 +819,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     doorbellchud: { key:'doorbellchud', defaultName:'Doorbell Chud', emoji:'🔔', color:'#90a4ae', hp:1000, speed:5, size:57, skill:'Đi đâu cũng vác theo cái chuông cửa treo lơ lửng trên đầu. Mò tới sát ai là ngước lên giật dây, chuông reng một cái đau một cái. Giật tới lần thứ 4 thì chuông chịu hết nổi, vỡ tan tành — còn mỗi sợi dây trong tay, thế là quật dây tới tấp từ xa, nhanh hơn hẳn nhưng mỗi phát nhẹ hơn.' },
     scootercat: { key:'scootercat', defaultName:'Scooter Cat', emoji:'🛵', color:'#ff7043', hp:1000, speed:5, size:47.5, skill:'Phóng xe máy vòng vòng khắp sàn. Cứ lao tới sát góc sàn là nghiêng xe drift một vòng cung thật gắt quay đầu ra giữa sân, ai đứng trên đường cua là bị tông hất văng, còn đường cua để lại thảm than hồng tí tách ai đạp phải cũng bén lửa. Bị đánh tụt nửa máu là bật Gas Gas Gas lên, vít ga phóng nhanh hẳn.' },
     samuraicheems: { key:'samuraicheems', defaultName:'Joninn Cheems', emoji:'⚔️', color:'#29b6f6', hp:1000, speed:5, size:53.24, skill:'Cầm kiếm múa Hơi Thở Của Nước, chém đâu nước bắn tới đó. Thỉnh thoảng gạt bật luôn đạn bắn tới, trả nguyên về mặt chủ nhân; đòn đánh khác thì đỡ gọn, không xước miếng lông nào. Địch tàn máu là lần áp sát kế tiếp lướt xuyên qua người, tra kiếm vào vỏ — rồi địch mới biết mình đã bị chém.' },
-    morsecat: { key:'morsecat', defaultName:'Morse Code Cat', emoji:'📡', color:'#66bb6a', hp:1000, speed:5, size:45, skill:'Khởi động gõ 3 chữ cái lẻ, sau đó gõ nguyên từ bằng mã Morse (MEOW, STOP, HEHE, DIE, MEWW — bảng gõ hiện trên đầu). Gõ xong thì từng dấu bay thẳng vào địch: chấm 10 dame, gạch 20 dame. Mỗi ký tự gõ xong tốc gõ +1% vĩnh viễn.' },
+    morsecat: { key:'morsecat', defaultName:'Morse Code Cat', emoji:'📡', color:'#66bb6a', hp:1000, speed:5, size:45, skill:'Khởi động gõ 3 chữ cái lẻ, sau đó gõ nguyên từ bằng mã Morse (MEOW, STOP, HEHE, DIE, MEWW — bảng gõ hiện trên đầu). Gõ xong thì từng dấu bay thẳng vào địch: chấm 10 dame, gạch 20 dame. Mỗi ký tự gõ xong tốc gõ +1.5% vĩnh viễn.' },
 };
 
 // Mỗi char phải chờ đủ 1 lần CD sau khi vào trận mới được tấn công (không ai đánh ngay frame đầu)
@@ -10454,7 +10454,7 @@ const CHAR_BLURB = {
   feuerkatze: "A relentless brawler that sets anything it touches on fire. Once wounded below 75% HP, he bolts gas valves into the arena walls and lets the whole floor choke on green fog.",
   germancat: "Stops to give a speech while its soldiers do the fighting, taking reduced damage throughout.",
   uiacat: "Stands still to wind up, then spins out at high speed with reduced damage taken. Below 25% HP it teleports away, goes Hiphop for good, and floods the floor with spinning clones.",
-  morsecat: "Warms up with 3 single letters, then taps whole words in Morse (MEOW, STOP, DIE…) and fires every dot and dash at you, typing 1% faster with each letter.",
+  morsecat: "Warms up with 3 single letters, then taps whole words in Morse (MEOW, STOP, DIE…) and fires every dot and dash at you, typing 1.5% faster with each letter.",
   beluga: "Floods the screen with chat messages, each one hitting anything in its path.",
   screamcat: "Catastrophe-level threat. Remembers the biggest hit it ever took and screams it back at everyone every 2 seconds. Do NOT be foolish enough to hit it hard.",
   thevoid: "Opens a black hole that drags the enemy in and damages them, and swallows any shots fired into it.",
@@ -14188,7 +14188,7 @@ class Fighter {
     this.huhCharging=false; this.huhChargeTimer=0; // huh cat charge
     this.flash=0; this.reflectFlash=0; this.dead=false;
     this.idleAnimKey = char.idleAnim || 'bounce';
-    this.facingDefault = char.facing || 'right'; // which way the image faces by default
+    this.facingDefault = this.type==='morsecat' ? 'left' : (char.facing || 'right'); // which way the image faces by default · 📡 3 ảnh khẩu hình Morse Cat quay mặt TRÁI
     this.animTick = Math.floor(Math.random()*1000);
     this.actionState = 'idle'; // idle | attack | hurt | run
     this.actionTimer = 0;
@@ -14833,7 +14833,7 @@ class Fighter {
           const _snd=MC_SND[sym==='.'?'.':'-'], _pk=_snd[Math.floor(Math.random()*_snd.length)]; playSample(_pk[0],0.85); this.actionState='attack'; this.attackAvatarTimer=12;   // 👀 0.2s
           this._mcMouth=sym==='.'?'HALF':'OPEN'; this._mcMouthT=_pk[1];   // 👄 khẩu hình theo mã: chấm hé ngắn, gạch há to — mở đúng bằng độ dài tiếng bíp
           if(MC.i>=MC.code.length){ MC.st='fire'; MC.fire=0; MC.t=Math.max(4,Math.round(14/spd)); } else { const _endL=MC.bnd&&MC.bnd.includes(MC.i); MC.t=Math.max(Math.round(_pk[1]*0.8),Math.round((_pk[1]+(_endL?22:8))/spd)); }   // nghỉ sau mỗi dấu theo đúng độ dài tiếng · hết 1 chữ cái thì nghỉ dài hơn (như điện báo thật)
-          if(MC.bnd&&MC.bnd.includes(MC.i)) this._mcSpd=(this._mcSpd||1)+0.01;   // ⚡ gõ xong mỗi ký tự: tốc +1% ngay (không cần bắn trúng)
+          if(MC.bnd&&MC.bnd.includes(MC.i)) this._mcSpd=(this._mcSpd||1)+0.015;   // ⚡ gõ xong mỗi ký tự: tốc +1.5% ngay (không cần bắn trúng)
         } }
       else if(MC.st==='fire'){ if(--MC.t<=0){ const e=this.enemy, sym=MC.code[MC.fire];
           if(e){ const dx=e.x-this.x, dy=e.y-(this.y-this.size*0.9), d=Math.hypot(dx,dy)||1, sp=sym==='.'?10:9;
