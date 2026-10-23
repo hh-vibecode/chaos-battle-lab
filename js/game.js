@@ -5205,7 +5205,8 @@ function _bxFxDraw(){
   ctx.restore();
 }
 // 💬 BELUGA: bắn 1 tin nhắn — XUYÊN qua mọi thứ trên đường bay (mỗi mục tiêu ăn 1 lần), bám mục tiêu tới lúc trúng đầu tiên
-const BL_SHORTS=['wait','WAIT','no','bro','what','huh','NO WAY','omg','gg','lol','bruh','ok','???','LMAO','rip','nah','yikes','sir','bro??','HUH','k','sus','real??','why','cope'];
+const BL_VS={"popcat": ["why is ur mouth like that", "pop cat pls stop popping 😭", "bro its 3am"], "ricardo": ["bro where is ur shirt", "why is he dancing at me", "ricardo pls im in class"], "doge": ["wow", "such dog very ok", "doge is that u from 2015"], "feuerkatze": ["nice mustache lol", "bro why u yelling", "ok mr mustache"], "cornelius": ["is the food ready", "why do u have a pan", "i want pancakes"], "epicsaxguy": ["turn ur sax down pls", "my mom is sleeping", "♪♪♪ bro stop"], "germancat": ["what did u say", "no speak german sorry", "u have soldiers?? unfair"], "uiacat": ["OIIAOIIA", "why do u spin", "im dizzy now"], "beluga": ["wait who r u", "why do u look like me", "am i the fake one 😰"], "screamcat": ["why r u screaming", "my ears bro", "ok calm down"], "thevoid": ["hello??", "is anyone there", "its too dark i cant see"], "bananacat": ["why r u crying", "u ok banana?", "🍌😭"], "suscat": ["thats kinda sus ngl", "emergency meeting!!", "i saw u vent"], "nyancat": ["nyan nyan nyan", "why is ur butt a rainbow", "pls stop the music"], "loooongcat": ["how long r u", "where does he end", "bro is still going"], "flyingcat": ["how r u flying", "come down pls", "cats cant fly bro"], "snoozecat": ["r u sleeping", "wake up we r fighting", "bro is afk"], "depressedcat": ["cheer up bro", "u want a hug?", "why so sad 😢"], "drivercat": ["do u have a license", "slow down bro", "can u drive me home"], "knifecat": ["is that a real knife", "put it down pls 😰", "bro has a knife??"], "holycat": ["r u an angel", "why r u glowing", "can u pray for me"], "hecker": ["pls dont hack me", "r u in my wifi", "how do u type so fast"], "commandercat": ["who made u boss", "sir yes sir??", "ur army is so small"], "batcat": ["r u batman", "where is ur cape", "i am vengeance lol"], "evillarry": ["what r u drawing", "nice star bro", "can i draw too"], "pianocat": ["play something cool", "do u know fortnite song", "ur off key bro"], "grumpycat": ["why so grumpy", "smile pls", "u need a nap"], "catvader": ["r u my dad??", "why do u breathe so loud", "nice lightsaber can i hold"], "bibilabu": ["what is a bibilabu", "bibi what", "labu labu labu"], "applecat": ["can i eat u", "r u an iphone", "apple a day lol"], "cheems": ["bonk", "cheems want burger?", "why do u have a bat"], "maxwell": ["why r u spinning", "maxwell song is stuck in my head", "🎵 dun dun dun"], "yellingwomen": ["why is she yelling at me", "i didnt do anything", "the cat is innocent"], "pakistanguy": ["what did he say", "bro is so calm", "ok ok ok"], "kingcheems": ["r u the king", "nice crown", "can i be king"], "kermit": ["hi kermit", "its not easy being green", "r u ok kermit"], "coughcat": ["cover ur mouth bro", "r u sick", "dont cough on me 🤢"], "spidercat": ["can u shoot webs", "spider cat?? cool", "dont bite me"], "flowercat": ["nice flower", "can i have the flower", "why is it so bright"], "loadingcat": ["still loading?", "bro is buffering", "my wifi is better"], "yuki": ["ur so round", "can u roll", "r u a ball"], "finedog": ["ur room is on fire", "this is not fine", "call 911 bro"], "gigachad": ["how r u so big", "teach me ur workout", "bro never blinks"], "rickroll": ["dont send me links", "i know that song", "never gonna what?"], "windguy": ["who r u", "do i know u", "unknown guy?"], "mechaniccat": ["can u fix my pc", "nice turret", "what r u building"], "rubikcat": ["can u solve it", "i cant solve it", "too many colors"], "mewingcat": ["why is ur jaw like that", "stop mewing", "what is mewing"], "smartguy": ["whats 9+10", "ur so smart", "help me with homework"], "aliencat": ["r u from space", "take me with u", "beep boop?"], "wetcat": ["why r u wet", "use a towel", "its raining on u lol"], "droolingcat": ["ew drool", "wipe ur mouth", "bro is a waterfall"], "electricguitarcat": ["play smoke on the water", "too loud bro", "nice guitar"], "scareddog": ["boo!", "why r u scared", "its ok doggy"], "boxingcat": ["stop punching the air", "r u warming up still", "float like a butterfly"], "slapcat": ["dont slap me", "why do u slap", "ow"], "clappingcat": ["why r u clapping", "clap for me 👏", "good job?"], "evilgary": ["gary?? is that u", "why r u evil now", "u were so nice"], "mosquitoviolin": ["bzzzz", "go away mosquito", "why do u play violin"], "scaredhamster": ["why is he staring", "hamster pls blink", "i'm scared too"], "supremearbiter": ["r u god", "why r u supreme", "ok boss"], "infinitydoge": ["how many doges", "why r there 2 of u", "stop splitting"], "cryingcat": ["why r u all crying", "3 cats crying??", "its ok guys 😭"], "calmdog": ["how r u so calm", "teach me", "bro is chilling"], "gary": ["hi gary", "meow", "gary is so small"], "chillguy": ["ur so chill", "just a chill guy", "how r u not mad"], "damdamdidi": ["teach me the dance", "damdam what", "nice moves"], "bongocat": ["bongo bongo", "tap tap tap", "can i play"], "stalincat": ["comrade?", "nice hammer", "why is everyone red"], "dawae": ["do u know da wae", "i dont know da wae", "clicking noises"], "vampirecat": ["r u a vampire", "dont bite me", "its daytime bro"], "mlemcat": ["mlem", "why r u licking", "stop licking me"], "trollface": ["u mad?", "problem?", "why r u smiling like that"], "susdog": ["thats kinda sus", "r u the werewolf", "sus dog 👀"], "berserkcat": ["calm down bro", "why r u so angry", "take a breath"], "friend": ["r u my friend", "why r u smiling", "i dont trust u 😰"], "chonkydog": ["ur so big", "how much do u eat", "chonky pls dont sit on me"], "alottadameguy": ["thats a lotta damage?", "what is dame", "ok bro"], "arabiccat": ["what did u say", "i dont understand", "translate pls"], "doorbellchud": ["who is at the door", "stop ringing", "ding dong?"], "scootercat": ["can i ride ur scooter", "nice scooter", "slow down bro"], "samuraicheems": ["r u a samurai", "nice sword", "water breathing??"], "morsecat": ["... --- ...", "what r u typing", "beep beep?"]};   // 💬 câu chat RIÊNG cho từng meme đối thủ — kiểu Beluga: lowercase, ngơ ngác, hỏi ngu, trêu nhẹ
+const BL_SHORTS=['wait','WAIT','no','bro','what','huh','NO WAY','omg','gg','lol','bruh','ok','???','LMAO','rip','nah','yikes','sir','bro??','HUH','k','sus','real??','why','cope','ratio','fr','ong','no cap','L','W','dead 💀','mid','skill issue','ez','touch grass','cringe','based','💀💀💀','ayo','sheesh','bet','lmaooo','nope','pls','stop','ur done','who asked','ok and?','smh'];
 function _blFire(f,e,dmg,msgText,msgColor){ const dx=e.x-f.x, dy=e.y-f.y, dist=Math.hypot(dx,dy)||1, sp=dmg>=300?22:dmg>=80?10:dmg>=50?13:16, life=dmg>=300?90:dmg>=80?140:dmg>=50?120:100;
   projectiles.push({ x:f.x, y:f.y-f.size, vx:dx/dist*sp, vy:dy/dist*sp, team:f.team, owner:f, dmg, life, maxLife:life, isBelugaMsg:true, msgText, msgColor, size:6, target:e, sniper:true, trail:[] });
   playSample('beluga_text',0.85); }
@@ -5579,7 +5580,8 @@ function _dlTick(){
         dlFish.push({k:'hop', x0:s.x, y0:s.y, dx:(Math.random()<0.5?-1:1)*(14+Math.random()*16), t:0, T:28+Math.random()*10}); }
     }
     // 🦈 từ giây 15: 1 con cá mập TO bơi vòng nhanh trong vũng
-    if(sec>=DL_SHARK_AT){
+    const _dlPoolA=dlPools.filter(p=>p.owner===f).reduce((a,p)=>a+p.A*DL_POOL_SQ,0);
+    if(_dlPoolA>=W*H/4 || f._dlSharkOn){   // 🦈 hồ đủ to (chiếm ≥ 1/4 sàn) thì cá mập mới xuất hiện — không theo thời gian
       if(!f._dlSharkOn){ f._dlSharkOn=true; f._dlFinCD=0; floatTexts.push({x:f.x,y:f.y-f.size-28,text:'🦈 SHARKS!',color:'#4fc3f7',life:70,big:true}); }
       const mine=dlPools.filter(p=>p.owner===f && p.R>=22), area=mine.reduce((s,p)=>s+p.A,0);
       const want=(mine.length && !dlSharks.some(q=>q.owner===f))?1:0;   // 🦈 chỉ 1 con cá mập duy nhất (đang ngoạm thì không có vây mới)
@@ -5624,7 +5626,7 @@ function _dlTick(){
   // cá mập: ngoi lên há mồm (0→16) → NGOẠM (16) → GIẰNG CO giữ chặt con mồi 1.5s (mỗi 0.5s −70) → nhả, chìm xuống
   for(let i=dlSharks.length-1;i>=0;i--){ const s=dlSharks[i]; s.t++;
     const o=s.tgt, HOLD=Math.round(DL_TPS*DL_SHARK_HOLD), TK=Math.round(DL_TPS*DL_SHARK_TICK); s.H=16+HOLD;
-    if(s.t===16 && !s.hit){ s.hit=true; if(o && !o.dead && o.hp>0){ playSample('vamp_bite1',1.0); addShake(9,12); _dlBiteHole(o, s.x+s.dir*(o.size||20)*0.15, s.y-(o.size||20)*0.35); } }
+    if(s.t===16 && !s.hit){ s.hit=true; if(o && !o.dead && o.hp>0){ playSample('vamp_bite1',1.0); addShake(9,12); } }   // (đã bỏ khoét mất mảng thịt khi cắn)
     if(s.t>16 && s.t<=s.H && o && !o.dead && o.hp>0){
       if(o.stun!==undefined) o.stun=Math.max(o.stun||0,2); o.vx=0; o.vy=0;   // bị ghì chặt, giằng co qua lại
       const tug=Math.sin(s.t*0.55)*(o.size||20)*0.18; o.x+= (s.ox0===undefined?0:(s.ax+tug)-o.x)*0.35; if(s.ox0===undefined){ s.ox0=1; s.ax=o.x; }
@@ -6769,6 +6771,17 @@ function _dlBlobPath(g,p,tm,grow){
 }
 // 🌊 vân sáng dưới đáy hồ (caustics) — ô 128px LẶP LIỀN, vẽ sẵn 1 lần
 let _dlCausticCv=null;
+let _dlStreakCv=null;
+function _dlStreaks(){   // 🌊 vân sóng NẰM NGANG kiểu nước 2D (ảnh tham khảo): dải sáng gợn + vệt trắng dài mảnh — lặp được theo chiều ngang
+  if(_dlStreakCv) return _dlStreakCv;
+  const Wt=320, Ht=120, c=document.createElement('canvas'); c.width=Wt; c.height=Ht; const g=c.getContext('2d');
+  let sd=7; const rnd=()=>((sd=(sd*9301+49297)%233280)/233280);
+  for(let b=0;b<3;b++){ const y0=Ht*(0.18+0.32*b); g.fillStyle='rgba(110,170,235,0.18)'; g.beginPath(); g.moveTo(0,y0);
+    for(let x=0;x<=Wt;x+=8) g.lineTo(x,y0+Math.sin(x/Wt*Math.PI*4+b)*5); for(let x=Wt;x>=0;x-=8) g.lineTo(x,y0+14+Math.sin(x/Wt*Math.PI*4+b+1)*5); g.closePath(); g.fill(); }
+  for(let i=0;i<22;i++){ const y=rnd()*Ht, x=rnd()*Wt, L=40+rnd()*110, th=0.8+rnd()*2.2, a=0.35+rnd()*0.45;
+    for(const ox of [0,-Wt,Wt]){ const X=x+ox; g.fillStyle=`rgba(255,255,255,${a})`; g.beginPath(); g.moveTo(X,y); g.quadraticCurveTo(X+L*0.5,y-th,X+L,y+th*0.3); g.quadraticCurveTo(X+L*0.5,y+th*0.7,X,y); g.fill(); } }
+  return _dlStreakCv=c;
+}
 function _dlCaustic(){
   if(_dlCausticCv) return _dlCausticCv;
   const N=128, c=document.createElement('canvas'); c.width=c.height=N; const g=c.getContext('2d'), id=g.createImageData(N,N), D=id.data, T=Math.PI*2;
@@ -6813,9 +6826,9 @@ function _dlDrawPool(){
     const gr=g.createRadialGradient(p.x,p.y,0,p.x,p.y,R); gr.addColorStop(0,'rgba(6,40,92,0.5)'); gr.addColorStop(0.7,'rgba(12,60,120,0.22)'); gr.addColorStop(1,'rgba(30,140,210,0)');
     g.save(); g.translate(p.x,p.y); g.scale(1,DL_POOL_SQ); g.translate(-p.x,-p.y); g.fillStyle=gr; g.beginPath(); g.arc(p.x,p.y,R,0,Math.PI*2); g.fill(); g.restore(); }
   // ④ vân sáng đáy hồ trôi chậm (2 lớp lệch nhau cho lung linh)
-  const pat=g.createPattern(_dlCaustic(),'repeat');
-  for(const [sp,al,sc] of [[9,0.13,0.6],[-6,0.09,0.85]]){   // vân sáng nhạt bớt cho nước sâu tối const off=(tm*sp)%128;
-    try{ pat.setTransform(new DOMMatrix().translateSelf(off,off*0.6).scaleSelf(sc,sc*DL_POOL_SQ*1.4)); }catch(e){}
+  const pat=g.createPattern(_dlStreaks(),'repeat');   // 🌊 sóng ngang trôi nhẹ, lặp chậm (2 lớp lệch tốc)
+  for(const [sp,al,sc,oy] of [[7,0.5,0.75,0],[-4,0.3,1.05,47]]){ const off=(tm*sp)%320, bob=Math.sin(tm*0.6+oy)*3;
+    try{ pat.setTransform(new DOMMatrix().translateSelf(off,oy+bob).scaleSelf(sc,sc*0.8)); }catch(e){}
     g.globalAlpha=al; g.fillStyle=pat; g.fillRect(x0,y0,bw,bh); }
   g.globalAlpha=1;
   // ⑤ vòng gợn (giọt rơi, cá ngoi/lặn) + vệt sóng sau vây cá
@@ -6840,12 +6853,9 @@ function _dlDrawPool(){
   ctx.restore();
   // 🦈 vây cá mập thật rẽ nước: bọt trắng ôm chân vây + vệt sóng chữ V phía sau
   for(const n of dlFins){ const im=SHK[0]; if(!im.naturalWidth) continue;
-    const fw=DL_FIN_K*16, fh=fw*im.naturalHeight/im.naturalWidth, up=Math.min(1,n.t/20), bob=Math.sin(n.t*0.09)*1.2, mvR=Math.cos(n.ang)>0;
-    ctx.save(); ctx.strokeStyle='rgba(240,252,255,0.55)'; ctx.lineWidth=1.6; const ba=n.ang+Math.PI;   // vệt V
-    for(const sd of [-1,1]){ ctx.beginPath(); ctx.moveTo(n.x,n.y+bob); ctx.lineTo(n.x+Math.cos(ba+sd*0.35)*fw*1.1, n.y+bob+Math.sin(ba+sd*0.35)*fw*1.1*DL_POOL_SQ); ctx.stroke(); } ctx.restore();
+    const fw=DL_FIN_K*16*2.5, fh=fw*im.naturalHeight/im.naturalWidth, up=Math.min(1,n.t/20), bob=Math.sin(n.t*0.09)*1.2, mvR=Math.cos(n.ang)>0;
     ctx.save(); ctx.translate(n.x,n.y+bob); if(mvR) ctx.scale(-1,1);
     ctx.beginPath(); ctx.rect(-fw,-fh*2,fw*2,fh*2); ctx.clip(); ctx.drawImage(im,-fw*0.31,-fh*up,fw,fh); ctx.restore();
-    _dlSpray(n.x,n.y+bob,fw*0.42,0.75,n.t,1.3);
   }
   // 🐟 piranha nhảy lên khỏi mặt nước (chỉ để nhìn) — thấp, nằm dưới meme
   for(const q of dlFish){ if(q.k!=='hop') continue; const u=q.t/q.T, x=q.x0+q.dx*u, y=q.y0-Math.sin(u*Math.PI)*22;
@@ -6864,10 +6874,10 @@ function _dlDrawOver(){
         ctx.save(); ctx.lineCap='round'; ctx.strokeStyle='rgba(185,238,255,0.8)'; ctx.lineWidth=1.3; ctx.beginPath(); ctx.moveTo(m.x,m.y); ctx.quadraticCurveTo(m.x+sw,m.y+L*0.5,m.x+sw*0.6,m.y+L); ctx.stroke();
         ctx.fillStyle='rgba(170,235,255,0.9)'; ctx.beginPath(); ctx.ellipse(m.x+sw*0.6,m.y+L+1.5,1.4+ph*1.6,1.8+ph*2.2,0,0,Math.PI*2); ctx.fill(); ctx.restore();
       } else {   // 🌊 dòng liền, càng lâu càng to → THÁC: dải nước rộng nhiều lớp, bọt tung trắng xoá dưới chân
-        const w=(Math.min(4.2,1.4+(rate-DL_STREAM_RATE)*0.5)*(1+(f._dlBig||0)*1.2))*(1+fall*2.6), n=10, pts=[];
-        for(let i=0;i<=n;i++){ const u=i/n; pts.push([m.x+Math.sin(tm*9+u*7+mi)*(0.8+fall*1.5)*u, m.y+(gy-m.y)*u]); }
+        const w=Math.min(2.2,1.2+(rate-DL_STREAM_RATE)*0.25)*(1+fall*0.9), n=10, pts=[], my=m.y+2;   // dòng mảnh vừa phải — vẫn thấy rõ miệng
+        for(let i=0;i<=n;i++){ const u=i/n; pts.push([m.x+Math.sin(tm*9+u*7+mi)*(0.6+fall*0.8)*u, my+(gy-my)*u]); }
         ctx.save(); ctx.lineCap='round'; ctx.lineJoin='round';
-        for(const [lw,col] of [[w+1.2+fall*3,'rgba(90,190,235,0.55)'],[w,'rgba(170,235,255,0.8)'],[w*0.35,'rgba(255,255,255,0.85)']]){
+        for(const [lw,col] of [[w+1,'rgba(90,190,235,0.45)'],[w,'rgba(170,235,255,0.8)'],[w*0.35,'rgba(255,255,255,0.85)']]){
           ctx.lineWidth=lw; ctx.strokeStyle=col; ctx.beginPath(); pts.forEach(([x,y],i)=>i?ctx.lineTo(x+(lw<w?-w*0.2:0),y):ctx.moveTo(x+(lw<w?-w*0.2:0),y)); ctx.stroke(); }
         if(fall>0){ ctx.lineWidth=Math.max(1,w*0.12); ctx.strokeStyle=`rgba(255,255,255,${0.6*fall})`;   // vệt nước chảy xiết trên mặt thác
           for(let j=0;j<3;j++){ const o=(j-1)*w*0.28, ph2=((tm*2.2+j*0.33)%1); ctx.beginPath(); ctx.moveTo(m.x+o,m.y+(gy-m.y)*ph2*0.6); ctx.lineTo(m.x+o,m.y+(gy-m.y)*Math.min(1,ph2*0.6+0.35)); ctx.stroke(); }
@@ -6898,11 +6908,10 @@ function _dlDrawOver(){
       const rise=ease(t/12), w=Dh*im.naturalWidth/im.naturalHeight, jx=t>16?Math.sin(t*1.7)*s.sz*0.06:0, jr=t>16?Math.sin(t*1.3)*0.06:0;
       ctx.save(); ctx.translate(s.x+jx,s.y); ctx.beginPath(); ctx.rect(-w*1.2,-Dh*1.4,w*2.4,Dh*1.4+2); ctx.clip();   // chỉ phần nhô khỏi mặt nước
       if(s.dir<0) ctx.scale(-1,1); ctx.rotate(jr); ctx.drawImage(im,-w*0.62,-Dh*rise,w,Dh); ctx.restore();
-      _dlSpray(s.x,s.y,s.sz*(0.75+0.35*(t<16?1-t/16:0.4)),1,t,0.7);
     } else { const u=Math.min(1,(t-Hd)/26), fr=4+Math.min(3,Math.floor(u*4)), im=SHK[fr]; if(!im.naturalWidth) continue;   // lặn: nhào xuống, mờ dần như chìm vào nước tối
       const w=Dh*0.9*im.naturalWidth/im.naturalHeight, h=Dh*0.9;
       ctx.save(); ctx.globalAlpha=Math.max(0,1-u*1.1); ctx.translate(s.x+s.dir*u*s.sz*0.5,s.y+u*s.sz*0.5); if(s.dir<0) ctx.scale(-1,1); ctx.drawImage(im,-w/2,-h*0.75,w,h); ctx.restore();
-      _dlSpray(s.x,s.y,s.sz*0.9,1-u,t,2.1); }
+    }
   }
 }
 
@@ -11042,7 +11051,7 @@ const CHAR_BLURB = {
   calmdog: "A living time bomb. A 13s countdown ticks faster the more damage it takes, then howls for a 500 dmg blast across the whole arena — and the clock restarts.",
   chillguy: "No attack of its own — it absorbs hits and tallies them. A high enough tally awakens it, and a flying kick ends the fight.",
   wetcat: "Brings its own storm. The rain follows wherever it walks and hurts enemies inside it; every 4s in the rain is a 25% chance of a lightning strike that zaps and stuns.",
-  droolingcat: "Drools nonstop until it pours. The drool pools into a lake that hurts enemies and heals Drooling Cat. A shark moves in at 10s.",
+  droolingcat: "Drools nonstop until it pours. The drool pools into a lake that hurts enemies and heals Drooling Cat. A shark moves in once the lake covers a quarter of the floor.",
   damdamdidi: "A riff on the viral head-bobbing cat meme — dances non-stop, throwing arrow dances at the enemy the whole match. Every landed hit makes the next one hit harder, with no ceiling.",
   bongocat: "Warms up with a few practice taps before dropping into a real tribal drum track, riding the beat all match. Every hit sends out a small shockwave that hurts more the closer you're standing.",
   stalincat: "Throws its hammer while a sickle bounces loose. The first time the two meet they open a domain, once per match: the whole arena glitters and every enemy burns.",
@@ -15452,6 +15461,7 @@ class Fighter {
           const shorts = ['wait','WAIT','no','bro','what','huh','NO WAY','omg','gg','lol','bruh','ok','???','LMAO','rip','nah','yikes','sir','bro??','HUH','k','sus','real??','why','cope'];
           msgText = shorts[Math.floor(Math.random()*shorts.length)]; msgColor = '#80deea';
         }
+        { const _vs=this.enemy&&BL_VS[this.enemy.type]; if(_vs && msgColor!=='#ff1744' && Math.random()<0.55){ msgText=_vs[Math.floor(Math.random()*_vs.length)]; const L=msgText.length; dmg=L<=12?40+Math.floor(Math.random()*11):L<=22?70+Math.floor(Math.random()*21):100+Math.floor(Math.random()*21); } }   // 💬 gặp con nào nói câu về con đó
         this._belugaPending = { dmg, msgText, msgColor };
         this.belugaChatTimer = 84; // 2s gốc * 0.7 → gõ nhanh hơn 30%
         this.belugaChatCD = 0;
