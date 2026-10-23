@@ -13994,7 +13994,7 @@ function _idSplitBurst(x, y, size, ang){
   playSample('punch1',0.35);
 }
 // thân này có đủ điều kiện phân đôi không, và nếu có thì tách
-const ID_SPLIT_T = 240, ID_SPLIT_COST = 100, ID_MAX_BODIES = 32, ID_SHRINK = 0.8, ID_MITO_T = 66;   // 4s/lần · mỗi lần nhỏ đi 20% · mỗi lần mất 100 máu · trần 32 thân cả đàn (chặn tăng theo cấp số nhân gây lag)
+const ID_SPLIT_T = 240, ID_SPLIT_COST = 100, ID_MAX_BODIES = 32, ID_SHRINK = 0.8, ID_MITO_T = 30;   // tách trong 0.5s   // 4s/lần · mỗi lần nhỏ đi 20% · mỗi lần mất 100 máu · trần 32 thân cả đàn (chặn tăng theo cấp số nhân gây lag)
 let idMito=[];   // 🧫 hiệu ứng PHÂN BÀO đang diễn ra: {a,b,t,max}
 function _idBodyCount(owner){ return (owner&&!owner.dead?1:0)+dogeClones.filter(c=>c.owner===owner&&!c.dead&&c.hp>0).length; }
 function _idTrySplit(body, isMain){
@@ -14021,7 +14021,7 @@ function _idTrySplit(body, isMain){
 //    SỢI NHẦY kéo căng mảnh dần rồi ĐỨT → 2 con nhỏ hơn (−20%) rung lắc như thạch rồi mới ổn định và bật ra 2 hướng.
 //    Lúc đang diễn: 2 thân đứng yên, thân thật ẩn, vẽ bằng ảnh tổng hợp này.
 function _idMitoDraw(){
-  for(let i=idMito.length-1;i>=0;i--){ const M=idMito[i]; M.t++; const q=M.t/M.max, A=M.a, B=M.b;
+  for(let i=idMito.length-1;i>=0;i--){ const M=idMito[i]; M.t++; if(M.t0==null) M.t0=performance.now(); const q=(performance.now()-M.t0)/500, A=M.a, B=M.b;   // ⏱️ đúng 0.5s thật (không phụ thuộc FPS)
     if(q>=1||!A||!B||A.dead||B.dead){ if(A&&A._idMito===M){ A._idMito=null; if(!A.dead){ A.vx=-Math.cos(M.ang0||0)*3; A.vy=0; } } if(B&&B._idMito===M){ B._idMito=null; if(!B.dead){ B.vx=3; B.vy=0; } } idMito.splice(i,1); continue; }
     const r=M.r, sm=u=>u<=0?0:u>=1?1:u*u*(3-2*u), t=M.t;
     const jel=sm(q/0.22), str=sm((q-0.22)/0.24), sep=sm((q-0.46)/0.3), snap=q>=0.76, aft=snap?(q-0.76)/0.24:0;
@@ -14054,6 +14054,7 @@ function _idMitoDraw(){
         for(let j=0;j<4;j++){ ctx.beginPath(); ctx.arc(cx+(j-1.5)*r*0.18,cy+r*0.15-Math.sin(k*Math.PI)*r*0.5*(0.5+0.5*((j*7)%3)/2),Math.max(0.8,r*0.05*(1-k)),0,Math.PI*2); ctx.fill(); } ctx.restore(); }
       const sz=M.rn; blob(ax,cy,sz,(1+wob),(1-wob*0.9),gloss); blob(bx,cy,sz,(1-wob),(1+wob*0.9),gloss);
     }
+    _drawUnitHpBar(A); _drawUnitHpBar(B);   // vẫn thấy máu (và vẫn ăn dame bình thường) trong lúc tách
   } }
 
 function _cbDrawKnife(ck, ckOwner){
