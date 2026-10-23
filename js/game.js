@@ -5176,12 +5176,10 @@ function _bxTick(f){   // gọi trong doAbility
   if(best) _bxPunch(f,best);
 }
 function _bxFxDraw(){
-  // 🥊 lúc đang khởi động: quầng lực quanh người (trắng → vàng → trắng chói theo bậc) + vệt đấm gió liên tục phía trước + số dame đang tích
+  // 🥊 lúc đang khởi động: chỉ hiện số dame đang tích trên đầu (vàng khi ≥180)
   for(const f of fighters){ if(f.dead||f.type!=='boxingcat'||!f._bx||f._bx.st!=='warm') continue; const B=f._bx, tier=_bxTier(B.dmg), pulse=0.7+0.3*Math.sin(tick*0.5);
     const col=['255,255,255','255,240,200','255,215,120','255,250,235'][tier], e=f.enemy, a=e?Math.atan2(e.y-f.y,e.x-f.x):0;
-    ctx.save(); ctx.globalCompositeOperation='lighter'; const gr=ctx.createRadialGradient(f.x,f.y,f.size*0.6,f.x,f.y,f.size*(1.3+0.25*tier)); gr.addColorStop(0,`rgba(${col},0)`); gr.addColorStop(0.7,`rgba(${col},${(0.12+0.1*tier)*pulse})`); gr.addColorStop(1,`rgba(${col},0)`); ctx.fillStyle=gr; ctx.beginPath(); ctx.arc(f.x,f.y,f.size*(1.3+0.25*tier),0,Math.PI*2); ctx.fill();
-    ctx.lineCap='round'; for(let j=0;j<2;j++){ const ph=((tick*0.18)+j*0.5)%1, side=j?1:-1, ox=f.x+Math.cos(a)*f.size*(0.9+0.9*ph)-Math.sin(a)*side*f.size*0.35, oy=f.y+Math.sin(a)*f.size*(0.9+0.9*ph)+Math.cos(a)*side*f.size*0.35;
-      ctx.strokeStyle=`rgba(${col},${0.7*(1-ph)})`; ctx.lineWidth=2+tier; ctx.beginPath(); ctx.arc(ox,oy,f.size*(0.18+0.25*ph),a-1.1,a+1.1); ctx.stroke(); } ctx.restore();
+    // (đã bỏ quầng sáng + vệt đấm gió lúc khởi động theo yêu cầu — chỉ còn số dame đang tích trên đầu)
     ctx.save(); ctx.font=`900 ${13+tier*2}px "Press Start 2P",monospace`; ctx.textAlign='center'; ctx.lineWidth=4; ctx.strokeStyle='#000'; ctx.fillStyle=tier>=2?'#ffd54f':'#fff'; ctx.strokeText(B.dmg,f.x,f.y-f.size-16); ctx.fillText(B.dmg,f.x,f.y-f.size-16); ctx.restore(); }
   // 💥 cú đấm Râu Trắng — NHẸ (≥100/≥180): quả cầu chấn động TRONG SUỐT ôm điểm đấm, đá vụn vỡ bên trong rồi văng ra · NẶNG (≥250): nền tối lại, chấm sáng chói ở nắm đấm, vết nứt không khí trắng dài xuyên cả sàn
   ctx.save(); ctx.beginPath(); ctx.rect(0,0,W,H); ctx.clip();
