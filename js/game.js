@@ -22409,7 +22409,7 @@ class Fighter {
   Fighter.prototype.draw=function(){
     const L=this._lastSprite, wade=(this._dlWadeTick!=null && tick-this._dlWadeTick<=1 && !this.dead && L && L.dh);
     if(!wade) return _dlOrigDraw.call(this);
-    const feet=this.y+L.dh*0.46, wl=feet-L.dh*0.3, rx=L.dw*0.42;
+    const feet=this.y+L.dh*0.46, wl=feet-L.dh*0.25, rx=L.dw*0.42;   // ngập 1/4 người
     ctx.save(); ctx.beginPath(); ctx.rect(-9999,-9999,19999+W,9999+wl); ctx.clip();   // chỉ vẽ phần trên mặt nước
     try{ _dlOrigDraw.call(this); } finally{ ctx.restore(); }
     const tm=performance.now()/1000;
