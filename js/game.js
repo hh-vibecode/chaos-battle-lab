@@ -904,7 +904,7 @@ function loadRoster(){
       { id:'c62', name:'Mosquito Violin', charKey:'mosquitoviolin', avatarUrl:null, idleAnim:'bounce' },
       { id:'c63', name:'Slap Cat', charKey:'slapcat', avatarUrl:null, idleAnim:'bounce' },
       { id:'c64', name:'Yuki - The Round One', charKey:'yuki', avatarUrl:null, idleAnim:'bounce' },
-      { id:'c65', name:'Boxing Cat', charKey:'boxingcat', avatarUrl:null, idleAnim:'bounce' },
+      { id:'c65', name:'Boxing Cat', charKey:'boxingcat', avatarUrl:'assets/avatars/boxingcat/avatarUrl.webp', idleAnim:'bounce' },
     ];
   }
   // 🔁 đổi tên "Drooling Cat" (charKey cũ) thành "Wet Cat" (charKey mới) ngay trên roster ĐÃ LƯU của người dùng —
@@ -926,7 +926,7 @@ function loadRoster(){
   // bổ sung ngay những charKey còn thiếu, không đụng gì tới các nhân vật/avatar đã lưu trước đó
   // ⚠️ Gigachad CHƯA có ảnh mặc định (chưa có nguồn ảnh phù hợp) — dùng emoji 🗿 tạm thời, người dùng tự upload
   // qua màn Add Character khi có ảnh (avatar chính + ảnh "Gigachad To" ở ô Khung 1, xem POSE_SLOT_DEFS.gigachad).
-  const _mcDefaultAvatars={ morsecat: 'assets/avatars/morsecat/avatarUrl.webp', supremearbiter: 'assets/avatars/supremearbiter/avatarUrl.webp', scaredhamster: 'assets/avatars/scaredhamster/avatarUrl.webp', evilgary: GP_EVIL_IMG.src, doorbellchud: DC_FR[0].src, alottadameguy: LD_FR[0].src, arabiccat: AR_FR[0].src, rickroll: RICKROLL_AVATAR_IMG.src, aliencat: ALIENCAT_AVATAR_IMG.src, chillguy: CHILLGUY_AVATAR_IMG.src, uiacat: UIACAT_AVATAR_IMG.src };
+  const _mcDefaultAvatars={ boxingcat: 'assets/avatars/boxingcat/avatarUrl.webp', morsecat: 'assets/avatars/morsecat/avatarUrl.webp', supremearbiter: 'assets/avatars/supremearbiter/avatarUrl.webp', scaredhamster: 'assets/avatars/scaredhamster/avatarUrl.webp', evilgary: GP_EVIL_IMG.src, doorbellchud: DC_FR[0].src, alottadameguy: LD_FR[0].src, arabiccat: AR_FR[0].src, rickroll: RICKROLL_AVATAR_IMG.src, aliencat: ALIENCAT_AVATAR_IMG.src, chillguy: CHILLGUY_AVATAR_IMG.src, uiacat: UIACAT_AVATAR_IMG.src };
   // ⚙️ QUÉT TỰ ĐỘNG toàn bộ CHAR_DEFS thay vì liệt kê tay từng charKey — trước đây danh sách này hardcode
   // (['aliencat','wetcat','chillguy','gary','electricguitarcat']) nên MỖI LẦN thêm nhân vật mới mà quên cập nhật
   // là người đã có roster lưu sẵn sẽ KHÔNG thấy nhân vật đó xuất hiện. Giờ chỉ cần khai báo trong CHAR_DEFS là
@@ -1226,8 +1226,7 @@ huhcat: [
   // Thiếu ô nào cũng chạy được: chỉ lật vòng giữa những ô ĐÃ có ảnh (xem chỗ _egFrameT trong doAbility).
   scareddog: [], // chỉ dùng GIF làm avatar chính — không có đòn đánh/skill riêng nên KHÔNG cần slot pose nào cả
   // 🐈 Slap Cat: avatar chính + 1 tư thế vả (tay thò qua cổng)
-  boxingcat: [{ field:'skill1AvatarUrl', label:'Khung 2', emoji:'🥊', color:'#e53935' },   // 🥊 avatar + 2 khung: lặp nhanh trong lúc đấm khởi động
-              { field:'skill2AvatarUrl', label:'Khung 3', emoji:'🥊', color:'#ff7043' }],
+  boxingcat: [],   // 🥊 chỉ avatar — 20 khung khởi động đã gắn sẵn trong game (BX_FR)
   slapcat: [{ field:'skill1AvatarUrl', label:'Khung 2', emoji:'🐈', color:'#7c4dff' },
             { field:'skill2AvatarUrl', label:'Khung 3', emoji:'🐈', color:'#9575ff' }],
   // 👏 avatar + 3 ảnh vỗ tay (chạy VÒNG LẶP NHANH trong lúc vỗ) + 1 ảnh giơ tay lúc THẮNG.
@@ -5146,7 +5145,9 @@ let loadingArrows=[]; // Loading Cat — mũi tên phép vĩnh viễn, xuyên qu
 // là tung cú đấm đã tích. Đấm xong nghỉ 0.5s rồi khởi động lại, và INC của lượt sau +5 (10 → 15 → 20 … vô hạn).
 // >200 dame: choáng. VFX kiểu Râu Trắng (Gura Gura): quả cầu chấn động trắng + KHÔNG GIAN NỨT VỠ như kính — chia 3 bậc ≥100 · ≥180 · ≥250.
 const BX_BASE=50, BX_STEP=30, BX_REST=30, BX_START=60, BX_INC0=10, BX_INC_ADD=5, BX_STUN_DMG=200, BX_STUN_T=60;
-let bxFx=[];   // hiệu ứng cú đấm: {x,y,a,dmg,t,T,cr:[vết nứt],sh:[mảnh kính]}
+let bxFx=[];
+// 🥊 20 khung KHỞI ĐỘNG (spritesheet user gửi, cắt đúng ô lưới → các khung trùng vị trí, không giật) · khung 1 = avatar / dáng đứng
+const BX_FR=[...Array(20)].map((_,i)=>{ const im=new Image(); im.onload=()=>{ im._crop={sx:0,sy:0,sw:im.naturalWidth,sh:im.naturalHeight}; }; im.src='assets/img/boxingcat/BX_W_'+String(i+1).padStart(2,'0')+'.webp'; return im; });   // hiệu ứng cú đấm: {x,y,a,dmg,t,T,cr:[vết nứt],sh:[mảnh kính]}
 function _bxTier(d){ return d>=250?3:d>=180?2:d>=100?1:0; }
 function _bxPunch(f,u){   // tung cú đấm đã tích vào u (fighter hoặc quân triệu hồi)
   const B=f._bx, dmg=B.dmg, a=Math.atan2(u.y-f.y,u.x-f.x), tier=_bxTier(dmg), hx=u.x-Math.cos(a)*u.size*0.6, hy=u.y-Math.sin(a)*u.size*0.6;
@@ -19417,7 +19418,7 @@ class Fighter {
     // 🧛 VAMPIRE CAT: vừa né đòn hoá khói — mờ gần như tan biến rồi hiện lại ngay (toàn bộ khối vẽ sprite bên
     // dưới nằm trong save/restore này nên set 1 lần ở đây là đủ, không đụng gì các nhân vật khác).
     if(this.type==='vampirecat' && (this._vampSmoke||0)>0){ this._vampSmoke--; ctx.globalAlpha=0.12; }
-    const s=this.size*((this.type==='chonkydog')?1.1:(this.type==='vampirecat'&&this._vampBatForm)?1.2:(this.type==='doge'&&this.dogeBuffed)?1.1:(this.type==='feuerkatze'&&(this._fkSaluteNow||0)>0)?1.1:(this.type==='germancat'&&this.germanSpeechTimer>0)?1.4:(this.type==='evillarry'&&this.actionState==='attack')?1.2:(this.type==='grumpycat'&&this._rageActive)?1.3:(this.type==='maxwell'&&(this._mwPhase==='spin'||this._mwPhase==='reveal'))?1.2:(this.type==='uiacat'&&this.oiiaSpinTimer>0)?1.265:(this.type==='capybara'&&this._cbFused)?0.9:(this.type==='capybara'&&!this._cbFused&&!this._cbIsKnife)?0.8:1)*(1-(this._rbShrinkFrac||0)); // bị Rubik Cat hút vào hố đen thì thu nhỏ dần về 0 thay vì vỡ mảnh vụn
+    const s=this.size*((this.type==='boxingcat')?1.3:(this.type==='chonkydog')?1.1:(this.type==='vampirecat'&&this._vampBatForm)?1.2:(this.type==='doge'&&this.dogeBuffed)?1.1:(this.type==='feuerkatze'&&(this._fkSaluteNow||0)>0)?1.1:(this.type==='germancat'&&this.germanSpeechTimer>0)?1.4:(this.type==='evillarry'&&this.actionState==='attack')?1.2:(this.type==='grumpycat'&&this._rageActive)?1.3:(this.type==='maxwell'&&(this._mwPhase==='spin'||this._mwPhase==='reveal'))?1.2:(this.type==='uiacat'&&this.oiiaSpinTimer>0)?1.265:(this.type==='capybara'&&this._cbFused)?0.9:(this.type==='capybara'&&!this._cbFused&&!this._cbIsKnife)?0.8:1)*(1-(this._rbShrinkFrac||0)); // bị Rubik Cat hút vào hố đen thì thu nhỏ dần về 0 thay vì vỡ mảnh vụn
     let scaleX=1,scaleY=1,offX=0,offY=0,rotation=0;
     // 😏 đang bị Troll Face ngậm → thu nhỏ lại còn 45%, nhìn như đang nằm gọn trong bụng nó
     // 😏 Troll Face đang ngậm địch: phình to thêm 30% (chỉ phần HÌNH, hitbox giữ nguyên). Riêng 0.5–0.7s ĐẦU
@@ -19946,9 +19947,9 @@ class Fighter {
       const _cdIdx=Math.max(0,Math.min(4,Math.floor((780-(this._cdTimer===undefined?780:this._cdTimer))/156)));
       if(CALMDOG_FORM_IMGS[_cdIdx] && CALMDOG_FORM_IMGS[_cdIdx].complete) img=CALMDOG_FORM_IMGS[_cdIdx];
       else img=avatarImgs[i];
-    } else if(this.type==='boxingcat' && this._bx && (this._bx.st==='warm' || (this.actionTimer||0)>0) && (skill1AvatarImgs[i]||skill2AvatarImgs[i])){
-      // 🥊 đang đấm khởi động: avatar → Khung 2 → Khung 3 lặp nhanh (~0.1s/khung)
-      const _bxP=[avatarImgs[i], skill1AvatarImgs[i], skill2AvatarImgs[i]].filter(Boolean); img=_bxP[Math.floor(tick/6)%_bxP.length];
+    } else if(this.type==='boxingcat' && BX_FR[0].naturalWidth){
+      // 🥊 đang đấm khởi động: chạy 20 khung (~15 khung/giây) · nghỉ: đứng ở khung 1
+      const _bxw=this._bx && (this._bx.st==='warm' || (this.actionTimer||0)>0); const _bxI=_bxw?Math.floor(tick/4)%BX_FR.length:0; img=BX_FR[_bxI].naturalWidth?BX_FR[_bxI]:BX_FR[0];
     } else if(this.type==='slapcat' && (this._slapFreeze||0)>0){
       // 🐈 CHỈ chạy animation trong đúng 0.5s lúc vả (avatar → Khung 2 → Khung 3, chạy hết đúng 1 lượt).
       // Ngoài lúc đó đứng yên ở avatar như mọi meme bình thường.
