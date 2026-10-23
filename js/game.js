@@ -5434,7 +5434,7 @@ function _dlFullA(){ const R=_dlFullR(); return Math.PI*R*R; }
 const DL_POOL_SQ=0.6;                             // vũng nằm trên MẶT SÀN → dẹt theo chiều dọc (phối cảnh)
 const DL_POOL_DMG=10, DL_POOL_HEAL=10;            // mỗi giây
 const DL_PIRANHA_AT=8, DL_SHARK_AT=15, DL_SOAK=3, DL_PIRANHA_DMG=80, DL_SHARK_DMG=200;
-const DL_FIN_SPD=0.55, DL_FIN_CD=2.5, DL_SHARK_HOLD=1.5, DL_SHARK_TICK=0.5, DL_SHARK_TICK_DMG=70;   // 🦈 ngoạm rồi GIẰNG CO 1.5s, mỗi 0.5s −70             // vây bơi chậm; cắn xong 2.5s sau mới có vây mới
+const DL_FIN_SPD=1.5, DL_FIN_K=4.2, DL_FIN_REACH=34, DL_FIN_CD=2.5, DL_SHARK_HOLD=1.5, DL_SHARK_TICK=0.5, DL_SHARK_TICK_DMG=70;   // 🦈 ngoạm rồi GIẰNG CO 1.5s, mỗi 0.5s −70             // vây bơi chậm; cắn xong 2.5s sau mới có vây mới
 // 👄 vị trí 2 MỒM (2 con mèo trong ảnh: xám bên trái, kem bên phải) theo khung ảnh đang vẽ (u,v: 0..1)
 const DL_MOUTH=[0.5,0.68], DL_MOUTHS=[[0.26,0.215],[0.69,0.235]];
 // 🐱🐱 6 khung (spritesheet user gửi, cắt đúng ô lưới) — 2 con mèo đứng thở
@@ -5550,11 +5550,11 @@ function _dlTick(){
       if(big.length && Math.random()<0.02*Math.min(3,big.length)){ const p=big[(Math.random()*big.length)|0], s=_dlPickInPool(p,0.7);
         dlFish.push({k:'hop', x0:s.x, y0:s.y, dx:(Math.random()<0.5?-1:1)*(14+Math.random()*16), t:0, T:28+Math.random()*10}); }
     }
-    // 🦈 từ giây 15: vây cá mập bơi chậm trong vũng (vũng càng rộng càng nhiều vây, tối đa 3)
+    // 🦈 từ giây 15: 1 con cá mập TO bơi vòng nhanh trong vũng
     if(sec>=DL_SHARK_AT){
       if(!f._dlSharkOn){ f._dlSharkOn=true; f._dlFinCD=0; floatTexts.push({x:f.x,y:f.y-f.size-28,text:'🦈 SHARKS!',color:'#4fc3f7',life:70,big:true}); }
       const mine=dlPools.filter(p=>p.owner===f && p.R>=30), area=mine.reduce((s,p)=>s+p.A,0);
-      const want=Math.min(3,Math.max(mine.length?1:0,Math.round(area/30000)));
+      const want=(mine.length && !dlSharks.some(q=>q.owner===f))?1:0;   // 🦈 chỉ 1 con cá mập duy nhất (đang ngoạm thì không có vây mới)
       if((f._dlFinCD||0)>0) f._dlFinCD--;
       else if(dlFins.filter(n=>n.owner===f).length<want){
         const p=mine[(Math.random()*mine.length)|0], s=_dlPickInPool(p,0.6);
@@ -5570,15 +5570,15 @@ function _dlTick(){
     if(!n.tgt || Math.hypot(n.tgt.x-n.x,n.tgt.y-n.y)<6) n.tgt=_dlPickInPool(n.pool,0.72);
     const ta=Math.atan2((n.tgt.y-n.y)/DL_POOL_SQ, n.tgt.x-n.x);
     let da=ta-n.ang; while(da>Math.PI) da-=Math.PI*2; while(da<-Math.PI) da+=Math.PI*2;
-    n.ang+=Math.max(-0.04,Math.min(0.04,da));                  // quay đầu từ từ → đường bơi lượn vòng
+    n.ang+=Math.max(-0.075,Math.min(0.075,da));                  // quay đầu từ từ → đường bơi lượn vòng
     n.x+=Math.cos(n.ang)*DL_FIN_SPD; n.y+=Math.sin(n.ang)*DL_FIN_SPD*DL_POOL_SQ;
     if(n.t%6===0){ n.wake.push({x:n.x,y:n.y,t:0}); }
     for(const w of n.wake) w.t++; while(n.wake.length && n.wake[0].t>40) n.wake.shift();
     if(n.t<20) continue;   // vừa trồi lên, chưa cắn
     for(const o of _dlFoes(n.team)){
       const sz=o.size||20, fy=_dlFeetY(o);
-      if(Math.hypot(o.x-n.x,(fy-n.y)/DL_POOL_SQ) < sz*0.6+12){
-        dlSharks.push({x:n.x, y:n.y, ox:n.x-o.x, oy:n.y-o.y, tgt:o, owner:n.owner, t:0, dir:n.x<o.x?1:-1, hit:false, sz:Math.max(36,sz)});
+      if(Math.hypot(o.x-n.x,(fy-n.y)/DL_POOL_SQ) < sz*0.6+DL_FIN_REACH){
+        dlSharks.push({x:n.x, y:n.y, ox:n.x-o.x, oy:n.y-o.y, tgt:o, owner:n.owner, t:0, dir:n.x<o.x?1:-1, hit:false, sz:Math.max(62,sz*1.6)});
         dlFx.push({k:'ring',x:n.x,y:n.y,t:0,max:34,r:6}); dlFx.push({k:'ring',x:n.x,y:n.y,t:-6,max:34,r:3});
         n.owner._dlFinCD=Math.round(DL_TPS*DL_FIN_CD);
         dlFins.splice(i,1); break;
@@ -6809,7 +6809,7 @@ function _dlDrawPool(){
   // 🦈 vây cá mập rẽ nước
   const P=_dlSharkParts();
   for(const n of dlFins){
-    const k=2.6, fw=P.fin.width/P.S*k, fh=P.fin.height/P.S*k, up=Math.min(1,n.t/20), bob=Math.sin(n.t*0.09)*1.2;
+    const k=DL_FIN_K, fw=P.fin.width/P.S*k, fh=P.fin.height/P.S*k, up=Math.min(1,n.t/20), bob=Math.sin(n.t*0.09)*1.2;
     ctx.save(); ctx.translate(n.x,n.y+bob);
     ctx.beginPath(); ctx.rect(-fw,-fh*2,fw*2,fh*2); ctx.clip();     // chỉ phần nhô khỏi mặt nước
     if(Math.cos(n.ang)>0) ctx.scale(-1,1);
