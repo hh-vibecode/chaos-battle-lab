@@ -15527,7 +15527,8 @@ class Fighter {
     // ───── NYAN CAT (wall tracking) ─────
     // 😏 Nyan bị Troll Face NUỐT: không kéo/tạo cầu vồng trong bụng (trước đây nó bị ghim sát tường theo Troll Face →
     //    cứ 0.5s lại "chạm tường" đẻ 1 cầu vồng ngay chỗ Troll Face → nổ 180 dame liên tục). Huỷ luôn dải đang kéo dở.
-    if(this.type==='nyancat' && this._tfSwallowed){ this.nyanTracking=false; this.nyanPath=[]; this.nyanRainbowStart=null; this.nyanWallCD=30; if(this._nyanMusic && !this._nyanMusic.paused){ try{ this._nyanMusic.pause(); }catch(e){} } }
+    if(this.type==='nyancat' && this._tfSwallowed){ if(this.nyanTracking && this._tfSwallowed.takeDamage){ this._tfSwallowed.takeDamage(180,this); _hitParticles(this._tfSwallowed.x,this._tfSwallowed.y,'#e040fb',14); }   // 🌈 đang kéo cầu vồng mà bị nuốt → Troll Face ăn ĐÚNG 1 lần (180) rồi dải cầu vồng tắt
+      this.nyanTracking=false; this.nyanPath=[]; this.nyanRainbowStart=null; this.nyanWallCD=30; if(this._nyanMusic && !this._nyanMusic.paused){ try{ this._nyanMusic.pause(); }catch(e){} } }
     else if(this.type==='nyancat' && !this.dead){
       // 🎵 nhạc nyan_theme: PHÁT khi đang kéo trail (nyanTracking), TẠM DỪNG (không reset) khi không kéo, phát tiếp đúng chỗ cũ khi kéo lại
       if(this.nyanTracking){
