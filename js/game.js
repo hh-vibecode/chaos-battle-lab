@@ -14890,7 +14890,7 @@ class Fighter {
 
     // ───── 📡 MORSE CODE CAT ─────
     // chọn ngẫu nhiên 1 chữ cái → gõ từng dấu Morse (bíp ngắn/dài, mỗi phím hiện ảnh "Đang gõ" 0.2s) → gõ xong bắn lần lượt từng dấu vào địch
-    // (chấm 10 · gạch 20). Mỗi dấu TRÚNG → tốc gõ +0.1x vĩnh viễn (_mcSpd, cộng ở chỗ đạn trúng). Choáng thật thì tạm dừng gõ.
+    // (chấm 10 · gạch 20). Mỗi dấu Morse GÕ xong → tốc gõ +3% vĩnh viễn (_mcSpd): tiếng bíp, khẩu hình và khoảng nghỉ đều nhanh theo. Choáng thật thì tạm dừng gõ.
     if(this.type==='morsecat' && !this.dead){
       if((this._mcMouthT||0)>0) this._mcMouthT--;
       const MC=this._mc||(this._mc={st:'cd',t:40,code:'',letter:'',i:0,fire:0});
@@ -14898,9 +14898,9 @@ class Fighter {
       if(MC.st==='cd'){ if(--MC.t<=0 && !this._isHardCC()){ const W=(MC.n||0)<3?MORSE_KEYS[Math.floor(Math.random()*MORSE_KEYS.length)]:MC_WORDS[Math.floor(Math.random()*MC_WORDS.length)]; MC.n=(MC.n||0)+1;
           MC.letter=W; MC.code=''; MC.bnd=[]; for(const ch of W){ MC.code+=MORSE[ch]; MC.bnd.push(MC.code.length); } MC.i=0; MC.st='type'; MC.t=Math.max(2,Math.round(16/spd)); } }
       else if(MC.st==='type'){ if(!this._isHardCC() && --MC.t<=0){ const sym=MC.code[MC.i++];
-          const _snd=MC_SND[sym==='.'?'.':'-'], _pk=_snd[Math.floor(Math.random()*_snd.length)]; playSample(_pk[0],0.85); this.actionState='attack'; this.attackAvatarTimer=12;   // 👀 0.2s
-          this._mcMouth=sym==='.'?'HALF':'OPEN'; this._mcMouthT=_pk[1];   // 👄 khẩu hình theo mã: chấm hé ngắn, gạch há to — mở đúng bằng độ dài tiếng bíp
-          if(MC.i>=MC.code.length){ MC.st='fire'; MC.fire=0; MC.t=Math.max(4,Math.round(14/spd)); } else { const _endL=MC.bnd&&MC.bnd.includes(MC.i); MC.t=Math.max(Math.round(_pk[1]*0.8),Math.round((_pk[1]+(_endL?22:8))/spd)); }   // nghỉ sau mỗi dấu theo đúng độ dài tiếng · hết 1 chữ cái thì nghỉ dài hơn (như điện báo thật)
+          const _snd=MC_SND[sym==='.'?'.':'-'], _pk=_snd[Math.floor(Math.random()*_snd.length)]; playSample(_pk[0],0.85,null,Math.min(4,spd)); this.actionState='attack'; this.attackAvatarTimer=12;   // 👀 0.2s
+          this._mcMouth=sym==='.'?'HALF':'OPEN'; this._mcMouthT=Math.max(2,Math.round(_pk[1]/spd));   // 👄 khẩu hình theo mã: chấm hé ngắn, gạch há to — mở đúng bằng độ dài tiếng bíp
+          if(MC.i>=MC.code.length){ MC.st='fire'; MC.fire=0; MC.t=Math.max(4,Math.round(14/spd)); } else { const _endL=MC.bnd&&MC.bnd.includes(MC.i); MC.t=Math.max(2,Math.round((_pk[1]+(_endL?22:8))/spd)); }   // (bỏ chặn sàn 80% độ dài tiếng — trước đây nó làm tốc gõ ngừng tăng sau ~1.5x)   // nghỉ sau mỗi dấu theo đúng độ dài tiếng · hết 1 chữ cái thì nghỉ dài hơn (như điện báo thật)
           this._mcSpd=(this._mcSpd||1)+0.03;   // ⚡ mỗi KÝ TỰ MORSE (từng dấu chấm/gạch) gõ xong: tốc gõ +3% ngay — đang gõ dở 1 chữ cũng đã nhanh dần (cộng dồn vô hạn) (không cần bắn trúng)
         } }
       else if(MC.st==='fire'){ if(--MC.t<=0){ const e=this.enemy, sym=MC.code[MC.fire];
