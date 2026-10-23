@@ -2735,6 +2735,8 @@ const AUDIO_SAMPLES = {};
       clap_cat: 'assets/audio/clap_cat.mp3',
       morse_dot: 'assets/audio/morse_dot.mp3',     // 📡 Morse Code Cat: bíp ngắn (dấu chấm)
       morse_dash: 'assets/audio/morse_dash.mp3',   // 📡 bíp dài (dấu gạch)
+      morse_dot1: 'assets/audio/morse_dot1.mp3', morse_dot2: 'assets/audio/morse_dot2.mp3', morse_dot3: 'assets/audio/morse_dot3.mp3',   // 📡 bíp Morse thật (user gửi) — 3 kiểu chấm
+      morse_dash1: 'assets/audio/morse_dash1.mp3', morse_dash2: 'assets/audio/morse_dash2.mp3', morse_dash3: 'assets/audio/morse_dash3.mp3', morse_dash4: 'assets/audio/morse_dash4.mp3',   // 📡 4 kiểu gạch
       dp_akatsuki: 'assets/audio/dp_akatsuki.mp3',   // 🎵 theme Akatsuki (user gửi) — phim Depressed Cat từ lúc mất điện tới hết
       dp_cloak: 'assets/audio/dp_cloak.mp3',   // 🧥 Depressed Cat (phim): tung áo Akatsuki vụt lên + khoác vào phạch 1 cái
       gp_break: 'assets/audio/gp_break.mp3',
@@ -11674,6 +11676,8 @@ function _flowerSeqStep(){
 //   càng nhanh càng nhiều tia (tối đa 6, mọc từ 2 tay, 2 chân, đầu, khuỷu, kéo vệt song song về sau). Đổi hình mỗi 2 khung cho lách tách.
 function _spK(f){ const v=Math.hypot(f.vx||0,f.vy||0); return Math.max(0,Math.min(1,(v-5)/14)); }   // (dùng cho dáng chúi người)
 function _spRatio(f){ return (f.topSpeed||0)/(5*MOVE_MULT); }   // tốc độ so với 1 meme thường
+// 📡 bíp Morse thật: [tên, độ dài (khung 60fps)] — mỗi lần gõ chọn ngẫu nhiên 1 kiểu cho đỡ lặp; miệng mở đúng bằng độ dài tiếng
+const MC_SND={'.':[['morse_dot1',6],['morse_dot2',10],['morse_dot3',10]], '-':[['morse_dash1',26],['morse_dash2',22],['morse_dash3',25],['morse_dash4',18]]};
 const MORSE={A:'.-',B:'-...',C:'-.-.',D:'-..',E:'.',F:'..-.',G:'--.',H:'....',I:'..',J:'.---',K:'-.-',L:'.-..',M:'--',N:'-.',O:'---',P:'.--.',Q:'--.-',R:'.-.',S:'...',T:'-',U:'..-',V:'...-',W:'.--',X:'-..-',Y:'-.--',Z:'--..'}, MORSE_KEYS=Object.keys(MORSE);
 // 📡 bảng gõ Morse trên đầu Morse Code Cat: chữ cái đang gõ + các dấu đã gõ (dấu nào đã bắn đi thì biến khỏi bảng)
 function _mcDrawHud(f){ const MC=f._mc; if(!MC || MC.st==='cd' || !MC.code) return;
@@ -14823,9 +14827,9 @@ class Fighter {
       const spd=this._mcSpd||1;
       if(MC.st==='cd'){ if(--MC.t<=0 && !this._isHardCC()){ const L=MORSE_KEYS[Math.floor(Math.random()*MORSE_KEYS.length)]; MC.letter=L; MC.code=MORSE[L]; MC.i=0; MC.st='type'; MC.t=Math.max(2,Math.round(16/spd)); } }
       else if(MC.st==='type'){ if(!this._isHardCC() && --MC.t<=0){ const sym=MC.code[MC.i++];
-          playSample(sym==='.'?'morse_dot':'morse_dash',0.55); this.actionState='attack'; this.attackAvatarTimer=12;   // 👀 0.2s
-          this._mcMouth=sym==='.'?'HALF':'OPEN'; this._mcMouthT=sym==='.'?6:13;   // 👄 khẩu hình theo mã: chấm hé ngắn, gạch há to dài
-          if(MC.i>=MC.code.length){ MC.st='fire'; MC.fire=0; MC.t=Math.max(4,Math.round(14/spd)); } else MC.t=Math.max(2,Math.round((sym==='.'?14:22)/spd)); } }
+          const _snd=MC_SND[sym==='.'?'.':'-'], _pk=_snd[Math.floor(Math.random()*_snd.length)]; playSample(_pk[0],0.85); this.actionState='attack'; this.attackAvatarTimer=12;   // 👀 0.2s
+          this._mcMouth=sym==='.'?'HALF':'OPEN'; this._mcMouthT=_pk[1];   // 👄 khẩu hình theo mã: chấm hé ngắn, gạch há to — mở đúng bằng độ dài tiếng bíp
+          if(MC.i>=MC.code.length){ MC.st='fire'; MC.fire=0; MC.t=Math.max(4,Math.round(14/spd)); } else MC.t=Math.max(Math.round(_pk[1]*0.8),Math.round((_pk[1]+8)/spd)); } }   // nghỉ sau mỗi dấu theo đúng độ dài tiếng (tăng tốc thì khít lại)
       else if(MC.st==='fire'){ if(--MC.t<=0){ const e=this.enemy, sym=MC.code[MC.fire];
           if(e){ const dx=e.x-this.x, dy=e.y-(this.y-this.size*0.9), d=Math.hypot(dx,dy)||1, sp=sym==='.'?10:9;
             projectiles.push({ x:this.x, y:this.y-this.size*0.9, vx:dx/d*sp, vy:dy/d*sp, team:this.team, owner:this, dmg:sym==='.'?10:20, life:150, maxLife:150, isMorse:true, sym, size:sym==='.'?6:9, target:e }); }
