@@ -11749,7 +11749,7 @@ function _spRatio(f){ return (f.topSpeed||0)/(5*MOVE_MULT); }   // tốc độ s
 const MC_SND={'.':[['morse_dot1',6],['morse_dot2',10],['morse_dot3',10]], '-':[['morse_dash1',26],['morse_dash2',22],['morse_dash3',25],['morse_dash4',18]]};
 // 📡 sau 3 chữ cái lẻ khởi động → gõ từng TỪ của 1 câu gợi ý (lore meme), ghép lại thành câu hoàn chỉnh
 const MC_SENTS=[['SUS','CAT','IS','IMPOSTER'],['FRIEND','WILL','KILL','ALL'],['EVIL','WILL','RISING'],['GARY','IS','NOT','DEAD'],['LARRY','DRAWS','THE','STAR'],['THE','VOID','IS','HUNGRY'],['DOGE','HAS','HAKI'],['TRUST','NO','CAT'],['RUN','FROM','CHONKY'],['STALIN','WILL','RETURN'],
-  ['CATVADER','IS','YOUR','FATHER'],['NEVER','SKIP','MEWING','DAY'],['LOADING','IS','A','LIE'],['THE','HAMSTER','SEES','YOU'],['CHEEMS','HAS','THE','BONK'],['GIGACHAD','NEVER','BLINKS'],['DOGE','WILL','MULTIPLY'],['FLOWER','CAT','TRANSCENDS'],['DO','NOT','CLAP','BACK'],['BOXING','CAT','IS','WARMING','UP']];
+  ['CATVADER','IS','YOUR','FATHER'],['NEVER','SKIP','MEWING','DAY'],['LOADING','IS','A','LIE'],['GIGACHAD','NEVER','BLINKS'],['BOXING','CAT','IS','WARMING','UP']];
 const MORSE={A:'.-',B:'-...',C:'-.-.',D:'-..',E:'.',F:'..-.',G:'--.',H:'....',I:'..',J:'.---',K:'-.-',L:'.-..',M:'--',N:'-.',O:'---',P:'.--.',Q:'--.-',R:'.-.',S:'...',T:'-',U:'..-',V:'...-',W:'.--',X:'-..-',Y:'-.--',Z:'--..'}, MORSE_KEYS=Object.keys(MORSE);
 // 📡 bảng gõ Morse trên đầu Morse Code Cat: chữ cái đang gõ + các dấu đã gõ (dấu nào đã bắn đi thì biến khỏi bảng)
 function _mcDrawHud(f){ const MC=f._mc; if(!MC) return;
