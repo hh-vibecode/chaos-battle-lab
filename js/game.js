@@ -11753,10 +11753,7 @@ const MC_SENTS=[['SUS','CAT','IS','IMPOSTER'],['FRIEND','WILL','KILL','ALL'],['E
 const MORSE={A:'.-',B:'-...',C:'-.-.',D:'-..',E:'.',F:'..-.',G:'--.',H:'....',I:'..',J:'.---',K:'-.-',L:'.-..',M:'--',N:'-.',O:'---',P:'.--.',Q:'--.-',R:'.-.',S:'...',T:'-',U:'..-',V:'...-',W:'.--',X:'-..-',Y:'-.--',Z:'--..'}, MORSE_KEYS=Object.keys(MORSE);
 // 📡 bảng gõ Morse trên đầu Morse Code Cat: chữ cái đang gõ + các dấu đã gõ (dấu nào đã bắn đi thì biến khỏi bảng)
 function _mcDrawHud(f){ const MC=f._mc; if(!MC) return;
-  // 🧩 câu đang ghép: các từ đã gõ xong hiện phía trên bảng · gõ xong từ cuối → hiện cả câu ~1.8s
-  if(MC.sent && (MC.n||0)>3){ if((MC.showT||0)>0) MC.showT--; const done=MC.st==='type'?MC.sent.slice(0,MC.si-1):((MC.showT||0)>0?MC.sent:[]);
-    if(done.length){ const full=(MC.showT||0)>0&&MC.st!=='type', txt=done.join(' '), yy=f.y-f.size-(MC.st==='type'?90:62);
-      ctx.save(); ctx.font=`900 ${full?15:12}px "Courier New",monospace`; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.lineWidth=4; ctx.strokeStyle='rgba(0,0,0,0.85)'; ctx.strokeText(txt,f.x,yy); ctx.fillStyle=full?'#b9f6ca':'rgba(185,246,202,0.85)'; ctx.shadowColor='#69f0ae'; ctx.shadowBlur=full?10:0; ctx.fillText(txt,f.x,yy); ctx.restore(); } }
+  // (không hiện câu đang ghép — người xem tự để ý từng từ để ghép lại câu)
   if(MC.st==='cd' || !MC.code) return;
   const n=MC.st==='type'?MC.i:MC.code.length, from=0, syms=MC.code.slice(from,n);
   const x=f.x, y=f.y-f.size-58, w=Math.max(46,22+MC.code.length*12), h=40;
@@ -14910,7 +14907,7 @@ class Fighter {
           const _snd=MC_SND[sym==='.'?'.':'-'], _pk=_snd[Math.floor(Math.random()*_snd.length)]; playSample(_pk[0],0.85,null,Math.min(4,spd)); this.actionState='attack'; this.attackAvatarTimer=12;   // 👀 0.2s
           this._mcMouth=sym==='.'?'HALF':'OPEN'; this._mcMouthT=Math.max(2,Math.round(_pk[1]/spd));   // 👄 khẩu hình theo mã: chấm hé ngắn, gạch há to — mở đúng bằng độ dài tiếng bíp
           _mcShoot(sym);   // 📡 gõ tới đâu, dấu đó bắn ra tới đó
-          if(MC.i>=MC.code.length){ _mcShoot(null,MC.letter); if(MC.sent&&MC.si>=MC.sent.length) MC.showT=110; MC.st='cd'; MC.t=Math.max(10,Math.round(40/spd)); } /* gõ xong cả chữ/từ → bắn luôn chữ đó (30 dame) */ else { const _endL=MC.bnd&&MC.bnd.includes(MC.i); MC.t=Math.max(2,Math.round((_pk[1]+(_endL?22:8))/spd)); }   // (bỏ chặn sàn 80% độ dài tiếng — trước đây nó làm tốc gõ ngừng tăng sau ~1.5x)   // nghỉ sau mỗi dấu theo đúng độ dài tiếng · hết 1 chữ cái thì nghỉ dài hơn (như điện báo thật)
+          if(MC.i>=MC.code.length){ _mcShoot(null,MC.letter); MC.st='cd'; MC.t=Math.max(10,Math.round(40/spd)); } /* gõ xong cả chữ/từ → bắn luôn chữ đó (30 dame) */ else { const _endL=MC.bnd&&MC.bnd.includes(MC.i); MC.t=Math.max(2,Math.round((_pk[1]+(_endL?22:8))/spd)); }   // (bỏ chặn sàn 80% độ dài tiếng — trước đây nó làm tốc gõ ngừng tăng sau ~1.5x)   // nghỉ sau mỗi dấu theo đúng độ dài tiếng · hết 1 chữ cái thì nghỉ dài hơn (như điện báo thật)
           this._mcSpd=(this._mcSpd||1)+0.03;   // ⚡ mỗi KÝ TỰ MORSE (từng dấu chấm/gạch) gõ xong: tốc gõ +3% ngay — đang gõ dở 1 chữ cũng đã nhanh dần (cộng dồn vô hạn) (không cần bắn trúng)
         } }
     }
