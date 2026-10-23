@@ -5148,7 +5148,7 @@ let loadingArrows=[]; // Loading Cat — mũi tên phép vĩnh viễn, xuyên qu
 const BX_BASE=50, BX_STEP=30, BX_REST=30, BX_START=60, BX_INC0=10, BX_INC_ADD=5, BX_STUN_DMG=200, BX_STUN_T=60;
 let bxFx=[];
 // 🥊 20 khung KHỞI ĐỘNG (spritesheet user gửi, cắt đúng ô lưới → các khung trùng vị trí, không giật) · khung 1 = avatar / dáng đứng
-const BX_FR=[...Array(20)].map((_,i)=>{ const im=new Image(); im.onload=()=>{ im._crop={sx:0,sy:0,sw:im.naturalWidth,sh:im.naturalHeight}; }; im.src='assets/img/boxingcat/BX_W_'+String(i+1).padStart(2,'0')+'.webp'; return im; });   // hiệu ứng cú đấm: {x,y,a,dmg,t,T,cr:[vết nứt],sh:[mảnh kính]}
+const BX_FR=[1,2,3,7,8,10,11,13,14].map(n=>{ const im=new Image(); im.onload=()=>{ im._crop={sx:0,sy:0,sw:im.naturalWidth,sh:im.naturalHeight}; }; im.src='assets/img/boxingcat/BX_W_'+String(n).padStart(2,'0')+'.webp'; return im; });   // chỉ giữ 9 khung NÉT (đã bỏ các khung nhoè do chuyển động)   // hiệu ứng cú đấm: {x,y,a,dmg,t,T,cr:[vết nứt],sh:[mảnh kính]}
 function _bxTier(d){ return d>=250?3:d>=180?2:d>=100?1:0; }
 function _bxPunch(f,u){   // tung cú đấm đã tích vào u (fighter hoặc quân triệu hồi)
   const B=f._bx, dmg=B.dmg, a=Math.atan2(u.y-f.y,u.x-f.x), tier=_bxTier(dmg), hx=u.x-Math.cos(a)*u.size*0.6, hy=u.y-Math.sin(a)*u.size*0.6;
@@ -19950,7 +19950,7 @@ class Fighter {
       else img=avatarImgs[i];
     } else if(this.type==='boxingcat' && BX_FR[0].naturalWidth){
       // 🥊 đang đấm khởi động: chạy 20 khung (~15 khung/giây) · nghỉ: đứng ở khung 1
-      const _bxw=this._bx && (this._bx.st==='warm' || (this.actionTimer||0)>0); const _bxI=_bxw?Math.floor(tick/4)%BX_FR.length:0; img=BX_FR[_bxI].naturalWidth?BX_FR[_bxI]:BX_FR[0];
+      const _bxw=this._bx && (this._bx.st==='warm' || (this.actionTimer||0)>0); const _bxI=_bxw?Math.floor(tick/5)%BX_FR.length:0; img=BX_FR[_bxI].naturalWidth?BX_FR[_bxI]:BX_FR[0];
     } else if(this.type==='slapcat' && (this._slapFreeze||0)>0){
       // 🐈 CHỈ chạy animation trong đúng 0.5s lúc vả (avatar → Khung 2 → Khung 3, chạy hết đúng 1 lượt).
       // Ngoài lúc đó đứng yên ở avatar như mọi meme bình thường.
