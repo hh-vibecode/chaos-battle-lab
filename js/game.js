@@ -5545,7 +5545,7 @@ function _dlDrip(f){
   // 💧 THỂ TÍCH THẬT: mỗi giọt mang đúng lượng nước theo độ to của nó — giọt nhỏ chỉ làm vũng to thêm chút xíu,
   //    thành dòng thì mỗi nhịp nhiều nước hơn, thành THÁC thì đổ ào ào (không còn ép vũng theo đường cong thời gian)
   const tS=(f._dlAge||0)/DL_TPS, fall=Math.max(0,Math.min(1,(tS-DL_FALL_T)/3));
-  const A=stream ? DL_VOL_STREAM+(DL_VOL_FALL-DL_VOL_STREAM)*fall : DL_VOL_DROP*Math.pow(f._dlRate,0.6);   // giọt càng dồn dập càng to f._dlEmit=(f._dlEmit||0)+A;
+  const A=stream ? DL_VOL_STREAM+(DL_VOL_FALL-DL_VOL_STREAM)*fall : DL_VOL_DROP*Math.pow(f._dlRate,0.6);   /* giọt càng dồn dập càng to */ f._dlEmit=(f._dlEmit||0)+A;
   const big=Math.min(1,Math.sqrt(A)/90); f._dlBig=big;   // nước càng nhiều → giọt / dòng càng to
   dlDrops.push({ x:m.x+(stream?0:(Math.random()-0.5)*2), y:m.y, vy:0.5, gy:Math.max(m.y+6,_dlFeetY(f)), A,
     r:(stream?1.6+Math.random()*0.8:2.4+Math.random()*1.2)*(1+big*1.3), owner:f, team:f.team });
@@ -20536,7 +20536,7 @@ class Fighter {
       // chạy HẾT 1 vòng: bộ đếm riêng bắt đầu từ khung 1 khi khởi động; hết khởi động (đấm/nghỉ) thì vẫn chạy tiếp cho tròn vòng rồi mới đứng ở khung 1
       const _bxw=this._bx && this._bx.st==='warm', _bxL=BX_LOOP; if(this._bxA===undefined) this._bxA=0;
       if(this._bxTk!==tick){ this._bxTk=tick; if(_bxw || this._bxA%_bxL!==0) this._bxA++; else this._bxA=0; }
-      let _bxT=this._bxA%_bxL, _bxI=0; while(_bxI<BX_DUR.length-1 && _bxT>=BX_DUR[_bxI]){ _bxT-=BX_DUR[_bxI]; _bxI++; }   // khung nét giữ lâu, khung nhoè lướt nhanh img=BX_FR[_bxI].naturalWidth?BX_FR[_bxI]:BX_FR[0];
+      let _bxT=this._bxA%_bxL, _bxI=0; while(_bxI<BX_DUR.length-1 && _bxT>=BX_DUR[_bxI]){ _bxT-=BX_DUR[_bxI]; _bxI++; }   /* khung nét giữ lâu, khung nhoè lướt nhanh */ img=BX_FR[_bxI].naturalWidth?BX_FR[_bxI]:BX_FR[0];
     } else if(this.type==='slapcat' && (this._slapFreeze||0)>0){
       // 🐈 CHỈ chạy animation trong đúng 0.5s lúc vả (avatar → Khung 2 → Khung 3, chạy hết đúng 1 lượt).
       // Ngoài lúc đó đứng yên ở avatar như mọi meme bình thường.
