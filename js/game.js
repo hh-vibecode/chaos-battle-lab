@@ -5453,6 +5453,8 @@ const DL_PIRANHA_AT=1e9, DL_SHARK_AT=10,   // (đã bỏ piranha) · cá mập t
 const DL_FIN_SPD=1.5, DL_FIN_K=4.2, DL_FIN_REACH=58, DL_FIN_AGGRO=170, DL_FIN_CD=2, DL_SHARK_HOLD=1.5, DL_SHARK_TICK=0.5, DL_SHARK_TICK_DMG=70;   // 🦈 ngoạm rồi GIẰNG CO 1.5s, mỗi 0.5s −70             // vây bơi chậm; cắn xong 2.5s sau mới có vây mới
 // 👄 vị trí 2 MỒM (2 con mèo trong ảnh: xám bên trái, kem bên phải) theo khung ảnh đang vẽ (u,v: 0..1)
 const DL_MOUTH=[0.5,0.68], DL_MOUTHS=[[0.26,0.215],[0.69,0.235]];
+// 👄 vị trí 2 mồm THEO TỪNG KHUNG (đo bằng dò ảnh: 2 con lắc lư thở nên mồm xê dịch tới ~13px giữa các khung)
+const DL_MOUTH_FR=[[[0.2597,0.2143],[0.6878,0.2327]],[[0.2376,0.2143],[0.6519,0.2442]],[[0.2762,0.2212],[0.6796,0.2442]],[[0.2597,0.212],[0.6768,0.2396]],[[0.2486,0.2143],[0.6657,0.2442]],[[0.2569,0.212],[0.6768,0.235]]];
 // 🦈 cá mập thật (spritesheet user gửi): 1 vây · 2 ngoi lên · 3 HÁ MỒM · 4 NGOẠM · 5–8 lặn xuống (1–4 cùng khung: đáy ảnh = mặt nước, mõm hướng PHẢI)
 const SHK=[1,2,3,4,5,6,7,8].map(n=>{ const im=new Image(); im.src='assets/img/droolingcat/SHK_'+n+'.webp'; return im; });
 function _dlSpray(x,y,R,a,t,seed){   // 💦 bọt nước tung kiểu ảnh minh hoạ: vòng bọt trắng trên mặt nước + tia nước + giọt bắn
@@ -5471,6 +5473,9 @@ function _dlKeepWin(team){ dlPools=dlPools.filter(p=>p.team===team); dlFins=dlFi
 function _dlPoolR(p){ return Math.sqrt(p.A/Math.PI); }
 // mồm / mặt đất ngay dưới chân — theo đúng ảnh đang vẽ (lật trái/phải), chưa có ảnh thì ước theo size
 function _dlMouth(f,i){
+  if(f._dlXf && f._dlBase && f._dlTick!=null && tick-f._dlTick<=3){   // 👄 CHUẨN: lấy đúng điểm mồm trên ảnh đang vẽ (theo khung + mọi phép nhún/lắc/lật)
+    const M=(DL_MOUTH_FR[f._dlFr||0]||DL_MOUTHS)[i?1:0], d=f._dlXf.transformPoint(new DOMPoint((M[0]-0.5)*f._dlDW,(M[1]-0.5)*f._dlDH)), w=f._dlBase.inverse().transformPoint(d);
+    return {x:w.x, y:w.y}; }
   const L=f._lastSprite;
   if(!L || !L.dw) return {x:f.x+(i?1:-1)*f.size*0.4, y:f.y-f.size*0.55};
   const M=DL_FR[0].naturalWidth?DL_MOUTHS[i?1:0]:DL_MOUTH;
@@ -20460,7 +20465,7 @@ class Fighter {
       else img=avatarImgs[i];
     } else if(this.type==='droolingcat' && DL_FR[0].naturalWidth){
       // 🐱🐱 2 con mèo đứng thở: 6 khung lặp (~6 khung/giây)
-      const _dli=Math.floor(tick/10)%DL_FR.length; img=DL_FR[_dli].naturalWidth?DL_FR[_dli]:DL_FR[0];
+      const _dli=Math.floor(tick/10)%DL_FR.length; this._dlFr=_dli; img=DL_FR[_dli].naturalWidth?DL_FR[_dli]:DL_FR[0];
     } else if(this.type==='boxingcat' && BX_FR[0].naturalWidth){
       // 🥊 đang đấm khởi động: chạy vòng 9 khung (~7.5 khung/giây) · nghỉ: đứng ở khung 1
       // chạy HẾT 1 vòng: bộ đếm riêng bắt đầu từ khung 1 khi khởi động; hết khởi động (đấm/nghỉ) thì vẫn chạy tiếp cho tròn vòng rồi mới đứng ở khung 1
@@ -20754,6 +20759,7 @@ class Fighter {
         ctx.restore();
       }
       else if(!_lcRibbon) ctx.drawImage((this._biteHoles&&this._biteHoles.length) ? _biteMask(this,img) : _stickerMask(img), _sx,_sy,_sw,_sh, -dw/2,-dh/2, dw,dh);   // 🦷 có vết Friend gặm thì vẽ bản đã khuyết
+      if(this.type==='droolingcat'){ this._dlXf=ctx.getTransform(); this._dlDW=dw; this._dlDH=dh; this._dlTick=tick; }   // 👄 chụp ĐÚNG phép biến hình đang vẽ ảnh (nhún, lắc, lật, phóng…) để dãi bám chuẩn mồm
       const _silImg=(this._biteHoles&&this._biteHoles.length) ? _biteMask(this,img) : img;   // 🦷 đã bị Friend gặm khuyết → bóng đen cũng khuyết
       if((this._wcZapT||0)>0 && !this.dead && !_lcRibbon && !_fanBall) _wcDrawZap(this,img,_sx,_sy,_sw,_sh,dw,dh);   // ⚡💀 bị sét Wet Cat đánh: giật sáng lòi xương
       if(psCine && psCine.f===this && psCine.sil>0.01 && !_lcRibbon && !_fanBall){ ctx.save(); ctx.globalAlpha*=0.96*psCine.sil; ctx.drawImage(_frDarkMask(_silImg), _sx,_sy,_sw,_sh, -dw/2,-dh/2, dw,dh); ctx.restore(); }
@@ -22416,6 +22422,7 @@ class Fighter {
 // 🌊 Drooling Cat: địch đang LỘI trong hồ → lún người xuống nước (giấu ~30% thân dưới mặt nước) + vòng gợn nước quanh eo
 { const _dlOrigDraw=Fighter.prototype.draw;
   Fighter.prototype.draw=function(){
+    if(this.type==='droolingcat') this._dlBase=ctx.getTransform();   // 👄 phép biến hình gốc (thế giới) lúc bắt đầu vẽ meme
     const L=this._lastSprite, inW=(this._dlWadeTick!=null && tick-this._dlWadeTick<=1 && !this.dead);
     this._dlSink=Math.max(0,Math.min(1,(this._dlSink||0)+(inW?0.1:-0.1)));   // lún xuống / nổi lên TỪ TỪ (~0.2s)
     if(!(this._dlSink>0) || !L || !L.dh) return _dlOrigDraw.call(this);
