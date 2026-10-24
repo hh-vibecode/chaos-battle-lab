@@ -26678,9 +26678,10 @@ function loop(){
       // trúng lại được. Nhờ vậy mũi tên kẹt/đứng yên trong người địch không spam dame.
       // áp dụng cho CẢ fighter thật lẫn mọi lính/summon có máu (commanderSoldiers/germanSoldiers/dogeKnights), không chỉ fighters
       if(!ar._inside) ar._inside=new Set();
+      const _px=ar._px??ar.x, _py=ar._py??ar.y;   // vị trí frame trước → xét va chạm theo CẢ ĐOẠN bay (mũi tên nhanh không lọt qua người)
       const _laTouch=(t)=>{
-        const _tdx=t.x-ar.x, _tdy=t.y-ar.y;
-        if(Math.sqrt(_tdx*_tdx+_tdy*_tdy) < _arS+t.size*0.6){
+        const _sx=ar.x-_px, _sy=ar.y-_py, _sl=_sx*_sx+_sy*_sy, _u=_sl>0?Math.max(0,Math.min(1,((t.x-_px)*_sx+(t.y-_py)*_sy)/_sl)):1;
+        if(Math.hypot(t.x-(_px+_sx*_u), t.y-(_py+_sy*_u)) < _arS+t.size*0.85){   // hitbox rộng hơn: mũi tên lướt qua người là tính trúng
           if(!ar._inside.has(t)){
             ar._inside.add(t);
             if(!ar._smRefl && _smCanParry(t)){   // ⚔️ Cheems gạt bật mũi tên → lao ngược về chủ, tạm sang phe Cheems
@@ -26704,8 +26705,10 @@ function loop(){
           _laTouch(s);
         }
       }
+      ar._px=ar.x; ar._py=ar.y;
     } else {
       // tạm dừng tiếng rít khi mũi tên đang cắm im (không bay)
+      ar._px=ar._py=undefined;   // đang cắm im: lần bay sau xét va chạm từ đúng chỗ cắm
       if(ar._flyMusic && !ar._flyMusic.paused){ try{ ar._flyMusic.pause(); }catch(e){} }
       if(!ar._planted){
         // vừa chuyển sang pha di chuyển → cắm im vào cạnh tường gần nhất, đứng yên tới khi chủ loading lại
