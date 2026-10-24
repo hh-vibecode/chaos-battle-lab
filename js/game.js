@@ -797,7 +797,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     evilgary: { key:'evilgary', defaultName:'Evil Gary', emoji:'😈', color:'#b71c1c', hp:1000, speed:5, size:44, skill:'Đầu trận chỉ là con mèo xám ngồi im HÚT LINH HỒN: cứ mỗi giây 1 linh hồn khói đen từ góc xa nhất ngoài sân bay thẳng vào người nó (ai đứng chắn đường ăn 50 dame), mỗi linh hồn hút được vạch thêm 1 cánh ngôi sao ác quỷ trên đầu. Đủ 5 cánh: con quỷ đã nhập hiện lên sau lưng, sàn hoá CÕI LINH HỒN — khói ma lướt ngang sân, và cứ 5s một bầy linh hồn bò từ 4 góc tới bám địch (mỗi đợt đông hơn), bám được là gây dame và gieo độc vĩnh viễn, cộng dồn không giới hạn.' },
     mosquitoviolin: { key:'mosquitoviolin', defaultName:'Mosquito Violin', emoji:'🦟', color:'#ff5252', hp:1000, speed:5, size:34, skill:'Vào trận chưa nối được dây thì +20% tốc chạy và vo ve liên tục. LẦN ĐẦU chạm vào một kẻ địch, nó cắm một sợi dây mảnh vào con đó SUỐT TRẬN (chạm được bao nhiêu con thì nối bấy nhiêu dây). Nối được dây đầu tiên là bắt đầu kéo violin: mỗi nhịp của bài nhạc, một xung âm hình nhịp tim chạy dọc dây và nổ vào kẻ địch gây sát thương. Tần suất sát thương chính là nhịp của bài hát.' },
     scaredhamster: { key:'scaredhamster', defaultName:'Scared Hamster', emoji:'🐹', color:'#c8a27a', hp:1000, speed:5, size:44, skill:'Không tự đánh — chỉ bò khắp sàn. Bò vào gần góc sàn thì dựa sát góc tường run rẩy sợ hãi, đứng yên tới khi bóng tối đi mất hẳn rồi bò tiếp (mỗi lần nép góc chỉ 1 lượt tay); từ góc xa nhất 2 bàn tay bóng tối móng dài từ từ vươn ra lần theo nó (nhanh hơn 15%, không ai cản thì ~4.4s tới nơi, bóng tồn tại 6s). Tay vớ được địch chắn đường thì ngẫu nhiên: bóp chặt ngang người giữ méo móp 1.5s (110 dmg mỗi 0.5s), tóm nhấc bổng rồi vung đập mạnh vào tường ở góc sàn xa nhất (trừ góc hamster đang nép, 280 dmg) hoặc tung ngang qua tay kia rồi tay kia bóp mạnh tiếp (110 dmg mỗi 0.5s trong 1.5s), xong thì 2 tay rụt về tường. Tay chạm được hamster thì nó cũng bị xử y như vậy (cùng mức dame).' },
-    supremearbiter: { key:'supremearbiter', defaultName:'Supreme Cat', emoji:'😼', color:'#e0a050', hp:1000, speed:5, size:48.4, skill:'Kneel before my paw. Không tự đánh, di chuyển như meme bình thường. Lúc đang ở CAO HƠN địch thì điểm CAO NGẠO tăng (bằng hoặc thấp hơn thì tụt dần, chậm bằng 1/2 lúc tăng), và mỗi giây ở trên đầu con nào là con đó dính thêm 3% làm chậm, cộng dồn giữ nguyên tới hết trận (tối đa 50%). Cao ngạo càng cao, TRỌNG LỰC cả sàn càng nặng: mọi địch (cả quân triệu hồi) mất máu mỗi 0.5s (4, 7, 10… mỗi nấc cao ngạo +3). Thắng thì sét đánh dọc sau lưng, camera áp sát khuôn mặt khinh khỉnh: "Pathetic."' },
+    supremearbiter: { key:'supremearbiter', defaultName:'Supreme Cat', emoji:'😼', color:'#e0a050', hp:1000, speed:5, size:48.4, skill:'Kneel before my paw. Không tự đánh. Spotlight hiện ngẫu nhiên ở 1/3 TRÊN của sàn: nó đi thẳng tới, đứng vào là đứng YÊN. Đứng trong spotlight mà CAO HƠN địch thì điểm CAO NGẠO tăng (bằng hoặc thấp hơn thì tụt dần, chậm bằng 1/2 lúc tăng), và mỗi giây ở trên đầu con nào là con đó dính thêm 3% làm chậm, cộng dồn giữ nguyên tới hết trận (tối đa 50%). Cao ngạo càng cao, TRỌNG LỰC càng nặng: địch (cả quân triệu hồi) đang ở BÊN DƯỚI nó mất máu mỗi 0.5s (4, 7, 10… mỗi nấc cao ngạo +3). Có địch đứng CAO HƠN nó lúc đang trong spotlight → MẤT SẠCH cao ngạo, spotlight tắt, đi lại bình thường; 2s sau spotlight mới hiện. Thắng thì sét đánh dọc sau lưng, camera áp sát khuôn mặt khinh khỉnh: "Pathetic."' },
     infinitydoge: { key:'infinitydoge', defaultName:'Infinity Doge', emoji:'🐕', color:'#ffb74d', hp:1000, speed:5, size:46, skill:'Bắt đầu 1 thân 1000 máu. Cứ mỗi 4s, MỌI thân (cả bản sao) hoá thạch rồi TÁCH ĐÔI như slime: 2 thân mới đều mất 150 máu so với thân mẹ, nhỏ đi 20% và chạy nhanh hơn 5% sau mỗi lần tách. Thân còn ≤100 máu thì không tách được nữa. Không có đòn đánh riêng: mọi thân gây 33 dame mỗi khi VA vào địch. Các thân tính như meme bình thường. Cả đàn chết sạch thì mới thua.' },
     cryingcat: { key:'cryingcat', defaultName:'Crying Cat Team', emoji:'😿', color:'#4fc3f7', hp:350, speed:5, size:32.5, skill:'Một đội 3 con mèo khóc, tính chung là 1 meme. Mỗi con 350 máu, di chuyển và đánh như meme thường. Mỗi con chạm vào địch gây 40 sát thương (mỗi con hồi chiêu riêng 0.8s). Giữa 3 con luôn có LIÊN KẾT NƯỚC MẮT nối với nhau: địch chạm/đi qua sợi liên kết mất 50 máu mỗi 0.5s và bị làm chậm. Mỗi lần 2 con trong đội va vào nhau, cả hai được hồi 25 máu. Mỗi con gục thì mấy con còn lại +20% size và +300 máu tối đa. Con cuối cùng còn 1 mình chuyển hẳn sang chiêu NỐI NƯỚC MẮT: cứ 2s nối 1 sợi với địch gần nhất, dính 3s, gây 25 sát thương mỗi 0.5s. Cả đội chỉ chết khi cả 3 con đều gục.' },
     calmdog: { key:'calmdog', defaultName:'Calm Dog', emoji:'🐕', color:'#546e7a', hp:1000, speed:5, size:40, skill:'Là quả bom hẹn giờ — vào trận có đồng hồ đếm ngược 13s, thể hiện qua 5 tấm hình NGẨNG ĐẦU tăng dần (mỗi ~2.6s đổi 1 hình, hình cuối là lúc há mồm chuẩn bị hú) thay vì số đếm. Mỗi 100 dame nhận vào, đồng hồ trôi nhanh thêm 1s. Về 0: hú vang gây 500 dame CHUẨN cho mọi địch trong tầm nổ — chỉ dùng được đúng 1 LẦN CẢ TRẬN. Ngoài ra không có đòn đánh nào khác, chỉ di chuyển né tránh bình thường.' },
@@ -4226,7 +4226,7 @@ let saWin=null, saBolts=[]; const SA_WIN_Z=5;
 function _saFoes(f){ return [...fighters.filter(o=>o.team!==f.team && !o.dead), ..._summonFoes(f.team)]; }
 function _saG(f){ return Math.max(0,Math.min(1,(f._saSmug||0)/100)); }
 // độ nặng trọng lực đang đè lên u = mức tự mãn cao nhất của các Arbiter KHÁC phe còn sống
-function _saGravOn(u){ let g=0; if(!u) return 0; for(const f of fighters){ if(f.type==='supremearbiter' && !f.dead && f.team!==u.team) g=Math.max(g,_saG(f)); } return g; }
+function _saGravOn(u){ let g=0; if(!u) return 0; for(const f of fighters){ if(f.type==='supremearbiter' && !f.dead && f.team!==u.team && f.y < u.y-f.size*0.5) g=Math.max(g,_saG(f)); } return g; }
 // 🐢 làm chậm: mỗi giây Arbiter đứng trên đầu con nào là con đó +SA_SLOW_STEP chậm, cộng dồn giữ nguyên (không tụt), tối đa SA_SLOW_MAX
 function _saSlowMul(u){ if(!u || !(u._saSlw>0)) return 1; for(const f of fighters){ if(f.type==='supremearbiter' && !f.dead && f.team!==u.team) return 1-u._saSlw; } return 1; }
 // 🔊 nhạc cao ngạo: lặp suốt lúc Arbiter còn sống, âm lượng = điểm cao ngạo (0 → im, đầy → to nhất)
@@ -4238,30 +4238,98 @@ function _saSoundTick(){
     try{ const c=a.cloneNode(); c.loop=true; c.volume=0; _mixRoute(c); c.play().catch(()=>{}); _saSfx=c; }catch(e){ return; } }
   try{ _saSfx.volume=Math.max(0,Math.min(1,g)); }catch(e){}
 }
+// 🔦 SPOTLIGHT: hiện ngẫu nhiên ở 1/3 TRÊN của sàn. Arbiter đi thẳng tới, đứng vào là đứng YÊN farm cao ngạo
+//    như cũ (ở trên địch → tăng, không thì tụt). Có địch (cả quân triệu hồi) đứng CAO HƠN nó lúc đang đứng trong
+//    spotlight → mất SẠCH điểm cao ngạo, spotlight tắt, đi lại bình thường; SA_SPOT_RE giây sau mới có spotlight mới.
+const SA_SPOT_RE=2;
+function _saNewSpot(f){ const m=f.size*1.3; return { x:W*0.1+Math.random()*W*0.8, y:m+Math.random()*Math.max(1,H/3-m), r:f.size*1.35, born:tick }; }
 function _saTick(){
   for(const f of fighters){ if(f.type!=='supremearbiter' || f.dead) continue;
-    const foes=_saFoes(f); let above=false;
-    for(const u of foes) if(f.y < u.y-f.size*0.5){ above=true; u._saSlw=Math.min(SA_SLOW_MAX,(u._saSlw||0)+SA_SLOW_STEP/_egTps()); }
+    const foes=_saFoes(f);
+    if(!f._saSpot && (f._saSpotT=(f._saSpotT||0)-1)<=0) f._saSpot=_saNewSpot(f);
+    const sp=f._saSpot; f._saOnSpot=!!sp && Math.hypot(sp.x-f.x,sp.y-f.y)<sp.r*0.5;
+    if(f._saOnSpot && foes.some(u=>u.y < f.y-f.size*0.5)){   // ⬆️ bị địch đứng cao hơn → mất hết
+      f._saSpotOff={x:sp.x,y:sp.y,r:sp.r,t:tick}; f._saSpot=null; f._saOnSpot=false; f._saSpotT=SA_SPOT_RE*_egTps(); f._saSmug=0; f._saAbove=false; }
+    let above=false;
+    if(f._saOnSpot){
+      for(const u of foes) if(f.y < u.y-f.size*0.5){ above=true; u._saSlw=Math.min(SA_SLOW_MAX,(u._saSlw||0)+SA_SLOW_STEP/_egTps()); }
+      f._saSmug=Math.max(0,Math.min(100,(f._saSmug||0)+(above?100/SA_SMUG_UP:-100/SA_SMUG_DOWN)));
+    }
     f._saAbove=above;
-    f._saSmug=Math.max(0,Math.min(100,(f._saSmug||0)+(above?100/SA_SMUG_UP:-100/SA_SMUG_DOWN)));
     const g=_saG(f);
     if(--f._saCD>0) continue; f._saCD=SA_DMG_EVERY;
     if(g<0.02) continue;
     const dmg=SA_DMG_MIN+SA_DMG_STEP*Math.round(g*SA_SMUG_UP/SA_DMG_EVERY);   // 4, 7, 10, 13… (đầy tự mãn = 20 nấc → 64)
-    for(const u of foes){ if(fighters.includes(u)) u.takeDamage(dmg, f, false, true, '⬇️', null, true); else _summonTakeDamage(u, dmg, f, false, true, '⬇️', null); }
+    for(const u of foes){ if(!(f.y < u.y-f.size*0.5)) continue;   // ⬇️ chỉ địch đang ở BÊN DƯỚI nó mới bị trọng lực đè mất máu
+      if(fighters.includes(u)) u.takeDamage(dmg, f, false, true, '⬇️', null, true); else _summonTakeDamage(u, dmg, f, false, true, '⬇️', null); }
   }
 }
-// 🌌 ÁP LỰC kiểu "nhân vật mạnh" trong anime (Haki / JoJo "ゴゴゴ"): sàn sẫm + tối dần mép; quanh Arbiter: hào quang tím
-//    đen bốc như lửa, sóng áp lực dội ra khắp sàn, sàn nứt toác dưới chân, đá vụn bay lơ lửng lên; tự mãn cao thì thêm đường
-//    tập trung (集中線) chĩa vào nó. Dưới chân MỖI địch (cả quân triệu hồi): hố lõm + nứt + vòng áp lực + bụi; thân bị ép bẹp
-//    xuống đất (hook scaleX/scaleY trong Fighter.draw). Chữ "ゴゴゴ" vẽ ĐÈ lên trên ở _saDrawOver.
+// 🌌 ÁP LỰC kiểu "nhân vật mạnh" trong anime (Haki / JoJo "ゴゴゴ"): sàn sẫm + tối dần mép; quanh Arbiter: hào quang
+//    tím đen bốc như lửa bám theo thân (3 lớp: viền tối → tím rực → lõi trắng tím), tia năng lượng bay lên, điện tím
+//    lách tách khi cao ngạo cao, sóng áp lực dội ra; tự mãn cao thì thêm đường tập trung (集中線). KHÔNG nứt sàn / đá vụn.
+//    Dưới chân địch ở BÊN DƯỚI: bóng lõm + vòng áp lực; thân bị ép bẹp (hook scaleX/scaleY trong Fighter.draw).
+//    Spotlight 🔦 vẽ ở _saDrawSpot. Chữ "ゴゴゴ" vẽ ĐÈ lên trên ở _saDrawOver.
+function _saDrawSpot(sp,a,R){
+  if(a<=0.01) return;
+  const fy=sp.y+R*0.9, rx=sp.r, ry=sp.r*0.4;
+  ctx.save(); ctx.globalCompositeOperation='lighter';
+  // chùm sáng rọi xiên từ mép trên xuống
+  const tx=sp.x+R*0.9, bg=ctx.createLinearGradient(tx,-20,sp.x,fy);
+  bg.addColorStop(0,`rgba(255,236,190,${0.02*a})`); bg.addColorStop(1,`rgba(255,236,190,${0.16*a})`);
+  ctx.fillStyle=bg; ctx.beginPath(); ctx.moveTo(tx-R*0.25,-20); ctx.lineTo(tx+R*0.25,-20); ctx.lineTo(sp.x+rx,fy); ctx.ellipse(sp.x,fy,rx,ry,0,0,Math.PI); ctx.closePath(); ctx.fill();
+  // hạt bụi lơ lửng trong chùm sáng
+  ctx.fillStyle=`rgba(255,245,215,${0.5*a})`;
+  for(let k=0;k<7;k++){ const ph=(tick*0.004+_hmHash(k,3.1))%1, yy=fy-ph*(fy+20), q=yy<fy?(yy+20)/(fy+20):1, xx=tx+(sp.x-tx)*q+(_hmHash(k+7,3.1)-0.5)*(R*0.5+rx*2*q)*0.8+Math.sin(tick*0.03+k)*3;
+    ctx.globalAlpha=Math.sin(ph*Math.PI); ctx.beginPath(); ctx.arc(xx,yy,1.1+0.9*_hmHash(k+3,3.1),0,Math.PI*2); ctx.fill(); }
+  ctx.globalAlpha=1;
+  // vòng sáng trên sàn
+  ctx.save(); ctx.translate(sp.x,fy); ctx.scale(1,ry/rx);
+  const fg=ctx.createRadialGradient(0,0,0,0,0,rx*1.15); fg.addColorStop(0,`rgba(255,244,214,${0.42*a})`); fg.addColorStop(0.8,`rgba(255,226,160,${0.26*a})`); fg.addColorStop(1,'rgba(255,210,130,0)');
+  ctx.fillStyle=fg; ctx.beginPath(); ctx.arc(0,0,rx*1.15,0,Math.PI*2); ctx.fill(); ctx.restore();
+  ctx.strokeStyle=`rgba(255,230,170,${0.55*a})`; ctx.lineWidth=2; ctx.beginPath(); ctx.ellipse(sp.x,fy,rx,ry,0,0,Math.PI*2); ctx.stroke();
+  ctx.restore();
+}
+function _saDrawAura(f,gf){
+  const R=f.size, cx=f.x, cy=f.y, t=tick;
+  // quầng tối ôm thân
+  { const gl=ctx.createRadialGradient(cx,cy,R*0.6,cx,cy,R*(1.5+0.9*gf)); gl.addColorStop(0,`rgba(40,0,70,${0.5*gf})`); gl.addColorStop(1,'rgba(20,0,40,0)');
+    ctx.fillStyle=gl; ctx.beginPath(); ctx.arc(cx,cy,R*(1.5+0.9*gf),0,Math.PI*2); ctx.fill(); }
+  // lưỡi lửa hào quang: gốc bám quanh thân, ngọn bẻ ngược lên trời, 3 lớp
+  const N=18, L=[[1.0,1.0,`rgba(34,0,58,${0.7*gf})`,false],[0.82,0.7,`rgba(150,60,255,${0.42*gf})`,true],[0.5,0.38,`rgba(240,215,255,${0.38*gf})`,true]];
+  for(const [lk,wk,col,add] of L){ ctx.globalCompositeOperation=add?'lighter':'source-over'; ctx.fillStyle=col;
+    for(let k=0;k<N;k++){ const a=k/N*Math.PI*2+0.1*Math.sin(t*0.05+k), ca=Math.cos(a), sa=Math.sin(a);
+      const fl=0.6+0.4*Math.sin(t*0.37+k*2.3)*Math.sin(t*0.21+k*1.1), up=0.55+0.45*(-sa+1)/2;   // ngọn phía trên dài hơn
+      const len=R*(0.45+1.25*gf)*fl*up*lk, bx=cx+ca*R*0.8, by=cy+sa*R*0.8;
+      let dx=ca*0.45, dy=sa*0.45-1.0; const dl=Math.hypot(dx,dy); dx/=dl; dy/=dl;
+      const w=R*0.26*wk, nx=-dy, ny=dx, sway=Math.sin(t*0.15+k*1.7)*R*0.12*lk;
+      const tx=bx+dx*len+nx*sway, ty=by+dy*len+ny*sway;
+      ctx.beginPath(); ctx.moveTo(bx+nx*w,by+ny*w);
+      ctx.quadraticCurveTo(bx+dx*len*0.55+nx*(w*0.7+sway*0.6),by+dy*len*0.55+ny*(w*0.7+sway*0.6),tx,ty);
+      ctx.quadraticCurveTo(bx+dx*len*0.55-nx*(w*0.7-sway*0.6),by+dy*len*0.55-ny*(w*0.7-sway*0.6),bx-nx*w,by-ny*w);
+      ctx.closePath(); ctx.fill(); } }
+  ctx.globalCompositeOperation='lighter';
+  // viền sáng ôm sát thân, đập nhẹ
+  { const pr=R*(0.98+0.04*Math.sin(t*0.2)); ctx.strokeStyle=`rgba(200,150,255,${(0.25+0.15*Math.sin(t*0.2))*gf})`; ctx.lineWidth=3; ctx.beginPath(); ctx.arc(cx,cy,pr,0,Math.PI*2); ctx.stroke(); }
+  // tia năng lượng bay vụt lên
+  for(let k=0;k<Math.round(6+14*gf);k++){ const ph=(t*0.018+_hmHash(k,5.3))%1, ox=(_hmHash(k+9,5.3)-0.5)*R*2.2, x=cx+ox+Math.sin(t*0.08+k)*2, y=cy+R*0.6-ph*R*(2.2+1.6*gf), ln=R*(0.12+0.18*_hmHash(k+4,5.3));
+    ctx.strokeStyle=`rgba(225,190,255,${Math.sin(ph*Math.PI)*0.8*gf})`; ctx.lineWidth=1.6; ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x,y+ln); ctx.stroke(); }
+  // điện tím lách tách (cao ngạo > 55%), đổi hình mỗi 4 tick
+  if(gf>0.55){ const sd=Math.floor(t/4), fa=(gf-0.55)/0.45;
+    for(let k=0;k<3;k++){ if(_hmHash(k,sd)<0.4) continue; const a0=_hmHash(k+3,sd)*Math.PI*2, r0=R*(0.9+0.5*_hmHash(k+6,sd));
+      ctx.strokeStyle=`rgba(235,210,255,${0.85*fa})`; ctx.lineWidth=1.5; ctx.beginPath();
+      for(let q=0;q<=5;q++){ const a=a0+q*0.16, rr=r0+(_hmHash(k*11+q,sd)-0.5)*R*0.35; q?ctx.lineTo(cx+Math.cos(a)*rr,cy+Math.sin(a)*rr):ctx.moveTo(cx+Math.cos(a)*rr,cy+Math.sin(a)*rr); }
+      ctx.stroke(); } }
+  ctx.globalCompositeOperation='source-over';
+}
 function _saDrawGravity(){
   let g=0; for(const f of fighters) if(f.type==='supremearbiter' && !f.dead) g=Math.max(g,_saG(f));
-  if(g<0.03) return;
   ctx.save(); ctx.beginPath(); ctx.rect(0,0,W,H); ctx.clip();   // chỉ trong lòng sàn
-  ctx.fillStyle=`rgba(22,6,34,${0.24*g})`; ctx.fillRect(0,0,W,H);
-  { const vg=ctx.createRadialGradient(W/2,H/2,Math.min(W,H)*0.3,W/2,H/2,Math.max(W,H)*0.75);   // tối dần mép
+  if(g>=0.03){ ctx.fillStyle=`rgba(22,6,34,${0.24*g})`; ctx.fillRect(0,0,W,H);
+    const vg=ctx.createRadialGradient(W/2,H/2,Math.min(W,H)*0.3,W/2,H/2,Math.max(W,H)*0.75);   // tối dần mép
     vg.addColorStop(0,'rgba(8,0,16,0)'); vg.addColorStop(1,`rgba(8,0,16,${0.5*g})`); ctx.fillStyle=vg; ctx.fillRect(0,0,W,H); }
+  for(const f of fighters){ if(f.type!=='supremearbiter' || f.dead) continue;   // 🔦 spotlight: hiện dần lúc mới có, tắt phụt khi bị đứng cao hơn
+    if(f._saSpot) _saDrawSpot(f._saSpot, Math.min(1,(tick-f._saSpot.born)/20), f.size);
+    const off=f._saSpotOff; if(off && tick-off.t<18) _saDrawSpot(off, (1-(tick-off.t)/18)*(((tick-off.t)>>1)%2?0.35:1), f.size); }
   for(const f of fighters){ if(f.type!=='supremearbiter' || f.dead) continue; const gf=_saG(f); if(gf<0.03) continue;
     const R=f.size, cx=f.x, fy=f.y+R*0.9;
     // 集中線: nêm đen mảnh từ ngoài mép chĩa vào Arbiter (đổi mỗi 3 tick cho có cảm giác giật)
@@ -4275,21 +4343,8 @@ function _saDrawGravity(){
       ctx.beginPath(); ctx.ellipse(cx,fy,rr,rr*0.42,0,0,Math.PI*2); ctx.stroke();
       ctx.strokeStyle=`rgba(40,0,70,${(1-ph)*0.35*gf})`; ctx.lineWidth=6*(1-ph)+1;
       ctx.beginPath(); ctx.ellipse(cx,fy,rr*0.96,rr*0.4,0,0,Math.PI*2); ctx.stroke(); }
-    // sàn nứt toác dưới chân nó
-    ctx.strokeStyle=`rgba(10,2,18,${0.8*gf})`; ctx.lineWidth=1.8;
-    for(let k=0;k<11;k++){ const a=k/11*Math.PI*2+_hmHash(k,7.3)*0.5, L=R*(1+4.5*gf)*(0.55+0.45*_hmHash(k+20,7.3));
-      ctx.beginPath(); ctx.moveTo(cx,fy); for(let q=1;q<=5;q++){ const t=q/5, jj=(_hmHash(k*9+q,7.3)-0.5)*0.55; ctx.lineTo(cx+Math.cos(a+jj)*L*t, fy+Math.sin(a+jj)*L*t*0.4); } ctx.stroke(); }
-    // hào quang tím đen bốc lên như lửa (sau lưng nó)
-    { const gl=ctx.createRadialGradient(cx,f.y,0,cx,f.y,R*(1.6+1.2*gf)); gl.addColorStop(0,`rgba(140,60,230,${0.28*gf})`); gl.addColorStop(1,'rgba(60,0,110,0)');
-      ctx.fillStyle=gl; ctx.beginPath(); ctx.arc(cx,f.y,R*(1.6+1.2*gf),0,Math.PI*2); ctx.fill(); }
-    for(let k=0;k<11;k++){ const ox=(k/10-0.5)*R*1.7, h=R*(1.3+1.8*gf)*(0.55+0.45*Math.sin(tick*0.32+k*1.9)), w=R*(0.2+0.12*_hmHash(k,4.4)), sway=Math.sin(tick*0.12+k)*R*0.25;
-      const x0=cx+ox, y0=fy, gr=ctx.createLinearGradient(x0,y0,x0,y0-h); gr.addColorStop(0,`rgba(30,0,50,${0.6*gf})`); gr.addColorStop(0.6,`rgba(110,40,200,${0.35*gf})`); gr.addColorStop(1,'rgba(160,90,255,0)');
-      ctx.fillStyle=gr; ctx.beginPath(); ctx.moveTo(x0-w,y0); ctx.quadraticCurveTo(x0-w*0.6+sway*0.4,y0-h*0.55,x0+sway,y0-h); ctx.quadraticCurveTo(x0+w*0.6+sway*0.4,y0-h*0.55,x0+w,y0); ctx.closePath(); ctx.fill(); }
-    // đá vụn bay lơ lửng lên quanh nó
-    for(let k=0;k<Math.round(4+10*gf);k++){ const ph=((tick*0.008+_hmHash(k,2.7))%1), x=cx+(_hmHash(k+5,2.7)-0.5)*R*4.2, y=fy-ph*R*(2.5+1.5*gf)+Math.sin(tick*0.05+k)*2, sz=1.6+3.4*_hmHash(k+11,2.7);
-      ctx.save(); ctx.translate(x,y); ctx.rotate(tick*0.03+k); ctx.globalAlpha=Math.min(1,(1-ph)*1.6)*gf; ctx.fillStyle='#2a1f2e';
-      ctx.beginPath(); ctx.moveTo(-sz,-sz*0.5); ctx.lineTo(sz*0.3,-sz); ctx.lineTo(sz,sz*0.2); ctx.lineTo(-sz*0.2,sz*0.8); ctx.closePath(); ctx.fill(); ctx.restore(); }
-    for(const u of _saFoes(f)) _saDrawPressed(u,gf); }
+    _saDrawAura(f,gf);
+    for(const u of _saFoes(f)) if(f.y < u.y-f.size*0.5) _saDrawPressed(u,gf); }   // bóng lõm / ép bẹp chỉ hiện ở địch bên dưới
   ctx.restore();
 }
 function _saDrawPressed(u,g){
@@ -4300,19 +4355,10 @@ function _saDrawPressed(u,g){
   const rx=R*(0.9+1.0*g), ry=rx*0.32, cg=ctx.createRadialGradient(fx,fy,0,fx,fy,rx);
   cg.addColorStop(0,`rgba(8,2,14,${0.6*g})`); cg.addColorStop(0.7,`rgba(20,6,30,${0.35*g})`); cg.addColorStop(1,'rgba(20,6,30,0)');
   ctx.save(); ctx.translate(fx,fy); ctx.scale(1,ry/rx); ctx.fillStyle=cg; ctx.beginPath(); ctx.arc(0,0,rx,0,Math.PI*2); ctx.fill(); ctx.restore();
-  // vết nứt toả ra (gấp khúc, cố định theo từng con)
-  ctx.strokeStyle=`rgba(10,4,16,${0.75*g})`; ctx.lineWidth=1.4;
-  for(let k=0;k<7;k++){ const a=k/7*Math.PI*2+_hmHash(k,sd)*0.6, L=R*(0.5+1.7*g)*(0.6+0.4*_hmHash(k+9,sd));
-    ctx.beginPath(); ctx.moveTo(fx,fy); let px=fx, py=fy;
-    for(let q=1;q<=4;q++){ const t=q/4, j=(_hmHash(k*7+q,sd)-0.5)*0.5; px=fx+Math.cos(a+j)*L*t; py=fy+Math.sin(a+j)*L*t*0.34; ctx.lineTo(px,py); } ctx.stroke(); }
   // vòng sóng áp lực dội ra từ chân
   for(let r=0;r<2;r++){ const ph=((tick+sd*10+r*18)%36)/36, rr=R*(0.5+2.2*ph);
     ctx.strokeStyle=`rgba(225,195,255,${(1-ph)*0.45*g})`; ctx.lineWidth=2*(1-ph)+0.6;
     ctx.beginPath(); ctx.ellipse(fx,fy,rr,rr*0.3,0,0,Math.PI*2); ctx.stroke(); }
-  // bụi đá bắn lên
-  ctx.fillStyle=`rgba(60,40,70,${0.7*g})`;
-  for(let k=0;k<Math.round(3+5*g);k++){ const ph=((tick*0.04+_hmHash(k,sd))%1), a=_hmHash(k+3,sd)*Math.PI*2, d=R*(0.5+0.9*ph);
-    ctx.beginPath(); ctx.arc(fx+Math.cos(a)*d, fy+Math.sin(a)*d*0.3-ph*R*0.6*g, 1+1.5*(1-ph), 0, Math.PI*2); ctx.fill(); }
 }
 // 😏 thanh "ARROGANCE" (điểm cao ngạo) dưới chân Arbiter
 function _saDrawOver(){
@@ -11052,7 +11098,7 @@ const CHAR_BLURB = {
   clappingcat: "Spike walls and a rolling spike ball. Claps to swap places with you right before it hits them.",
   evilgary: "Sucks in five souls to complete the demon star over its head, then opens the soul realm: ghosts sweep the floor and ever-bigger swarms crawl out to poison you forever.",
   mosquitoviolin: "Touch it once and it strings you for the whole match, then plays violin damage down the wire on every beat.",
-  supremearbiter: "Never attacks and moves like any meme. While it is above you, its arrogance climbs and it slows you 3% more every second; the more arrogant it gets, the heavier the whole arena's gravity crushes every enemy. Wins end with lightning and a single word.",
+  supremearbiter: "Never attacks. A spotlight appears in the top third of the floor; it walks in and stands still. While it is above you, its arrogance climbs and it slows you 3% more every second; the more arrogant it gets, the harder gravity crushes every enemy beneath it. Stand higher than it and it loses everything — a new spotlight shows up 2s later. Wins end with lightning and a single word.",
   scaredhamster: "Never attacks — just wanders. Cornered, it cowers while two shadow hands crawl out of the far corner after it, crushing, slamming or passing-and-squeezing the first one in the way before pulling back. If they reach it, it gets the same treatment.",
   infinitydoge: "Turns to jelly and splits like a slime every 4s — every copy splits, each half 150 HP lighter, 20% smaller and 5% faster. Damages anything it bumps into.",
   cryingcat: "Three linked cats. The tear link between them burns and slows anything that touches it.",
@@ -14051,6 +14097,22 @@ function _idSplitBurst(x, y, size, ang){
 // thân này có đủ điều kiện phân đôi không, và nếu có thì tách
 const ID_DMG = 20, ID_SPLIT_T = 240, ID_SPLIT_COST = 150, ID_MAX_BODIES = 32, ID_SHRINK = 0.8, ID_MITO_T = 30;   // tách trong 0.5s   // 4s/lần · mỗi lần nhỏ đi 20% · mỗi lần mất 100 máu · trần 32 thân cả đàn (chặn tăng theo cấp số nhân gây lag)
 let idMito=[];   // 🧫 hiệu ứng PHÂN BÀO đang diễn ra: {a,b,t,max}
+// 📏 tầm với co theo thân: thân nhỏ đi bao nhiêu % thì MELEE_REACH nhỏ đi đúng bấy nhiêu (thân đầy cỡ = tầm chuẩn mọi meme)
+function _idReach(b){ const o=b.owner||b; if(!o._idSz0) o._idSz0=(o.size>=(b.size||0)?o.size:CHAR_DEFS.infinitydoge.size); return MELEE_REACH*Math.min(1,(b.size||o._idSz0)/o._idSz0); }
+function _idPsn(u){ return (u.poisonTimer||0)>0 || (u._coughStepCount||0)>0 || (u._egPsn||0)>0; }
+// 🔥 lửa vẽ tay cho thân con khi chưa có ảnh VFX cháy — chép đúng bản lửa cam thường của Fighter.draw
+function _idBurnFlames(x, baseY, fs, ba){
+  const bn=Date.now(); ctx.save(); ctx.globalCompositeOperation='lighter';
+  const bg=ctx.createRadialGradient(x,baseY,2,x,baseY,fs*1.5); bg.addColorStop(0,`rgba(255,140,30,${0.28*ba})`); bg.addColorStop(1,'rgba(255,60,0,0)');
+  ctx.fillStyle=bg; ctx.beginPath(); ctx.arc(x,baseY,fs*1.5,0,Math.PI*2); ctx.fill();
+  for(let i=0;i<20;i++){ const sd=Math.sin(i*43.21), t=((bn/620)+(i/20))%1, life=1-t, wob=Math.sin(bn/130+i*1.3)*fs*0.18*t;
+    const fx=x+sd*fs*0.7*(1-t*0.5)+wob, fy=baseY-t*fs*1.9, r=Math.max(2,(0.42-t*0.28)*fs*(0.7+0.5*Math.abs(sd)));
+    const col=t<0.28?`rgba(255,248,205,${0.75*life*ba})`:t<0.6?`rgba(255,170,45,${0.6*life*ba})`:`rgba(255,65,15,${0.5*life*ba})`;
+    const g=ctx.createRadialGradient(fx,fy,0,fx,fy,r); g.addColorStop(0,col); g.addColorStop(1,'rgba(255,40,0,0)'); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(fx,fy,r,0,Math.PI*2); ctx.fill(); }
+  for(let i=0;i<6;i++){ const ep=((bn/560)+i*0.17)%1; ctx.globalAlpha=(1-ep)*ba*0.9; ctx.fillStyle=`rgba(255,${(210-ep*140)|0},60,1)`;
+    ctx.beginPath(); ctx.arc(x+Math.sin(bn/170+i*2.3)*fs*0.6, baseY-ep*fs*2.5, (1-ep)*1.8+0.4, 0, Math.PI*2); ctx.fill(); }
+  ctx.restore();
+}
 function _idBodyCount(owner){ return (owner&&!owner.dead?1:0)+dogeClones.filter(c=>c.owner===owner&&!c.dead&&c.hp>0).length; }
 function _idTrySplit(body, isMain){
   body._idSplitT=(body._idSplitT==null?ID_SPLIT_T:body._idSplitT)-1;
@@ -14060,6 +14122,7 @@ function _idTrySplit(body, isMain){
   const _own = isMain ? body : body.owner;
   if(_idBodyCount(_own)>=ID_MAX_BODIES) return false;
   const _oldSize=body.size, _x0=body.x, _y0=body.y;
+  if(!_own._idSz0) _own._idSz0=_own.size;
   const _newHp=body.hp-ID_SPLIT_COST, _newSize=Math.max(5, body.size*ID_SHRINK), _ang=Math.random()*Math.PI*2, _spd=(body._idSpd||1)*1.05;   // nhỏ đi · nhanh hơn 5%
   body.maxHp=_newHp; body.hp=_newHp; body.size=_newSize; body._idSpd=_spd;
   if(isMain) body.topSpeed*=1.05;
@@ -15527,7 +15590,7 @@ class Fighter {
           const _wallNear = 160; // ngưỡng coi là "sát tường"
           if(this.x < _wallNear) faceDir = 1;
           else if(this.x > W - _wallNear) faceDir = -1;
-          this._bhCasts=(this._bhCasts||0)+1; const _bhK=1+0.05*(this._bhCasts-1), _bhD=1+0.03*(this._bhCasts-1);   // 🕳️ mỗi lần cast: +5% cỡ/tầm/lực hút, +3% dame (cộng dồn)
+          this._bhCasts=(this._bhCasts||0)+1; const _bhK=1+0.05*(this._bhCasts-1), _bhD=1;   // 🕳️ mỗi lần cast: +5% cỡ/tầm/lực hút (cộng dồn) — dame KHÔNG tăng
           const bhR = 144*_bhK;
           let bhX = this.x + faceDir * 150;
           bhX = Math.max(bhR*0.55, Math.min(W-bhR*0.55, bhX)); // an toàn: luôn giữ trọn hố đen trong tầm nhìn sàn đấu
@@ -16395,6 +16458,10 @@ class Fighter {
       ? this.topSpeed * 4.0
       : this._screamPushed ? this.topSpeed * 8  // giữ nguyên vận tốc scream push, không cap
       : this.topSpeed) * slowMult * _soloMoveMul();
+    // 🔦 Supreme Cat: có spotlight → đi thẳng tới đó; đứng vào rồi thì đứng YÊN giữa vòng sáng (ngoại lực vẫn đẩy được, tắt dần)
+    if(this.type==='supremearbiter' && this._saSpot){ const sp=this._saSpot, dx=sp.x-this.x, dy=sp.y-this.y, d=Math.hypot(dx,dy)||1;
+      if(this._saOnSpot){ this.vx*=0.6; this.vy*=0.6; this.x+=this.vx+dx*0.12; this.y+=this.vy+dy*0.12; return; }
+      const v=Math.min(d,effectiveTop*0.55); this.vx=dx/d*v; this.vy=dy/d*v; this.x+=this.vx; this.y+=this.vy; return; }
     if(spd<effectiveTop*0.55){
       const angle = (this._lastAngle !== undefined) ? this._lastAngle : Math.random()*Math.PI*2;
       this.vx=Math.cos(angle)*effectiveTop*0.5; this.vy=Math.sin(angle)*effectiveTop*0.5;
@@ -18647,11 +18714,9 @@ class Fighter {
       this._idHitCD=Math.max(0,(this._idHitCD||0)-1);
       if(this._idHitCD<=0){
         const _t=_findClosestEnemy(this.team,this.x,this.y);
-        if(_t && !_t.dead && Math.hypot(_t.x-this.x,_t.y-this.y) < this.size+_t.size+MELEE_REACH){
+        if(_t && !_t.dead && Math.hypot(_t.x-this.x,_t.y-this.y) < this.size+_t.size+_idReach(this)){
           _t.takeDamage(ID_DMG,this);
           this._idHitCD=40;
-          _idSparkAt(this,_t);
-          _hitParticles(_t.x,_t.y,'#ffd54f',6);
           playSample('infdoge_bonk',0.85);
         }
       }
@@ -25228,6 +25293,9 @@ function loop(){
       dc.flash=Math.max(0,dc.flash-1);
       dc._hitCD=Math.max(0,(dc._hitCD||0)-1);
       if((dc._splitFx||0)>0) dc._splitFx--;
+      if((dc.poisonTimer||0)>0){ dc.poisonTimer--; dc.poisonTickCD=Math.max(0,(dc.poisonTickCD||0)-1);   // ☠️ độc thường (cháy tick ở _summonBurnTick)
+        if(dc.poisonTickCD<=0 && dc.hp>0){ dc.takeDamage(6*(dc.poisonStacks||1), dc._poisonSrc||null, false, true, '💀', null); dc.poisonTickCD=60; spawnPoisonParticles(dc.x,dc.y,3*(dc.poisonStacks||1)); }
+        if(dc.poisonTimer<=0) dc.poisonStacks=0; }
       const idTop=(CHAR_DEFS.infinitydoge.speed)*MOVE_MULT*(dc._idSpd||1);
       if((dc._vertBounceCount||0)>2){
         const bAng=dc._lastAngle||0;
@@ -25245,11 +25313,9 @@ function loop(){
       if(dEn){
         dc._facingRight=(dEn.x-dc.x)>0;
         // VA vào địch → 60 dame (không có đòn đánh riêng nào khác)
-        if(dc._hitCD<=0 && Math.hypot(dEn.x-dc.x,dEn.y-dc.y) < dc.size+dEn.size+MELEE_REACH){
+        if(dc._hitCD<=0 && Math.hypot(dEn.x-dc.x,dEn.y-dc.y) < dc.size+dEn.size+_idReach(dc)){
           dEn.takeDamage(ID_DMG,{team:dc.team,x:dc.x,y:dc.y});
           dc._hitCD=40;
-          _idSparkAt(dc,dEn);
-          _hitParticles(dEn.x,dEn.y,'#ffd54f',6);
           playSample('infdoge_bonk',0.85);
         }
       }
@@ -25285,12 +25351,22 @@ function loop(){
         _drawStickerOutline(dImg,_sx,_sy,_sw,_sh,_dw,_dh, Math.max(1.2, dsz*0.036)*((duoCtx||ffa3Ctx)?2.4:1), _tc);
         ctx.restore(); }
       ctx.drawImage(_stickerMask(dImg),_sx,_sy,_sw,_sh,-_dw/2,-_dh/2,_dw,_dh);
+      if(_idPsn(dc) && !debuffVfxImgs.poison && _dw<=420 && _dh<=420){   // ☠️ dính độc: glow xanh lá bám quanh thân y như Fighter
+        _outCtx.clearRect(0,0,_outCanvas.width,_outCanvas.height); _outCtx.globalCompositeOperation='source-over';
+        _outCtx.drawImage(_stickerMask(dImg),_sx,_sy,_sw,_sh,0,0,_dw,_dh);
+        _outCtx.globalCompositeOperation='source-in'; _outCtx.fillStyle='#76ff03'; _outCtx.fillRect(0,0,_dw,_dh); _outCtx.globalCompositeOperation='source-over';
+        ctx.save(); ctx.globalAlpha=0.18+0.16*Math.abs(Math.sin(Date.now()/200)); ctx.shadowColor='#76ff03'; ctx.shadowBlur=14;
+        ctx.drawImage(_outCanvas,0,0,_dw,_dh,-_dw/2,-_dh/2,_dw,_dh); ctx.restore(); }
     } else {
       ctx.font=`${Math.round(dsz*1.5)}px serif`; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('🐕',0,0);
     }
     ctx.restore();
     if(dc.flash>0) ctx.filter='none';
     ctx.restore();
+    { const _dz=dsz*2.4;   // 🔥☠️ hiệu ứng DOT y như thân gốc (Fighter): có ảnh VFX debuff thì dùng ảnh, không thì vẽ tay
+      if(_idPsn(dc) && debuffVfxImgs.poison) _drawDebuffFX(debuffVfxImgs.poison, dc.x, dc.y, _dz);
+      if((dc.burn||0)>0 || (dc._fdBurnFx||0)>0){ if(debuffVfxImgs.burn) _drawDebuffFX(debuffVfxImgs.burn, dc.x, dc.y, _dz); else _idBurnFlames(dc.x, dc.y+dsz*0.45, dsz, dc.burn>0?Math.min(1,dc.burn/20):1); }
+      if((dc.stun||0)>0 && debuffVfxImgs.stun) _drawDebuffFX(debuffVfxImgs.stun, dc.x, dc.y-dsz*0.8, dsz*1.8); }
   }
   // ===== 🪓 THE GREAT MAGICSPELLER (Commenter Battle): BẢN SAO của chính nó — cầm rìu kim cương chém y thân chính =====
   // Di chuyển y hệt meme thường (ma sát + tự lấy đà theo _lastAngle + nảy tường + đá chống kẹt), KHÔNG có lực bám đuổi
