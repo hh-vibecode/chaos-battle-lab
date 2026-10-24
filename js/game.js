@@ -798,7 +798,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     mosquitoviolin: { key:'mosquitoviolin', defaultName:'Mosquito Violin', emoji:'🦟', color:'#ff5252', hp:1000, speed:5, size:34, skill:'Vào trận chưa nối được dây thì +20% tốc chạy và vo ve liên tục. LẦN ĐẦU chạm vào một kẻ địch, nó cắm một sợi dây mảnh vào con đó SUỐT TRẬN (chạm được bao nhiêu con thì nối bấy nhiêu dây). Nối được dây đầu tiên là bắt đầu kéo violin: mỗi nhịp của bài nhạc, một xung âm hình nhịp tim chạy dọc dây và nổ vào kẻ địch gây sát thương. Tần suất sát thương chính là nhịp của bài hát.' },
     scaredhamster: { key:'scaredhamster', defaultName:'Scared Hamster', emoji:'🐹', color:'#c8a27a', hp:1000, speed:5, size:44, skill:'Không tự đánh — chỉ bò khắp sàn. Bò vào gần góc sàn thì dựa sát góc tường run rẩy sợ hãi, đứng yên tới khi bóng tối đi mất hẳn rồi bò tiếp (mỗi lần nép góc chỉ 1 lượt tay); từ góc xa nhất 2 bàn tay bóng tối móng dài từ từ vươn ra lần theo nó (nhanh hơn 15%, không ai cản thì ~4.4s tới nơi, bóng tồn tại 6s). Tay vớ được địch chắn đường thì ngẫu nhiên: bóp chặt ngang người giữ méo móp 1.5s (110 dmg mỗi 0.5s), tóm nhấc bổng rồi vung đập mạnh vào tường ở góc sàn xa nhất (trừ góc hamster đang nép, 280 dmg) hoặc tung ngang qua tay kia rồi tay kia bóp mạnh tiếp (110 dmg mỗi 0.5s trong 1.5s), xong thì 2 tay rụt về tường. Tay chạm được hamster thì nó cũng bị xử y như vậy (cùng mức dame).' },
     supremearbiter: { key:'supremearbiter', defaultName:'Supreme Cat', emoji:'😼', color:'#e0a050', hp:1000, speed:5, size:48.4, skill:'Kneel before my paw. Không tự đánh, di chuyển như meme bình thường. Lúc đang ở CAO HƠN địch thì điểm CAO NGẠO tăng (bằng hoặc thấp hơn thì tụt dần, chậm bằng 1/2 lúc tăng), và mỗi giây ở trên đầu con nào là con đó dính thêm 3% làm chậm, cộng dồn giữ nguyên tới hết trận (tối đa 50%). Cao ngạo càng cao, TRỌNG LỰC cả sàn càng nặng: mọi địch (cả quân triệu hồi) mất máu mỗi 0.5s (4, 7, 10… mỗi nấc cao ngạo +3). Thắng thì sét đánh dọc sau lưng, camera áp sát khuôn mặt khinh khỉnh: "Pathetic."' },
-    infinitydoge: { key:'infinitydoge', defaultName:'Infinity Doge', emoji:'🐕', color:'#ffb74d', hp:1000, speed:5, size:46, skill:'Bắt đầu 1 thân 1000 máu. Cứ mỗi 4s, MỌI thân (cả bản sao) hoá thạch rồi TÁCH ĐÔI như slime: 2 thân mới đều mất 100 máu so với thân mẹ, nhỏ đi 20% và chạy nhanh hơn 5% sau mỗi lần tách. Thân còn ≤100 máu thì không tách được nữa. Không có đòn đánh riêng: mọi thân gây 33 dame mỗi khi VA vào địch. Các thân tính như meme bình thường. Cả đàn chết sạch thì mới thua.' },
+    infinitydoge: { key:'infinitydoge', defaultName:'Infinity Doge', emoji:'🐕', color:'#ffb74d', hp:1000, speed:5, size:46, skill:'Bắt đầu 1 thân 1000 máu. Cứ mỗi 4s, MỌI thân (cả bản sao) hoá thạch rồi TÁCH ĐÔI như slime: 2 thân mới đều mất 150 máu so với thân mẹ, nhỏ đi 20% và chạy nhanh hơn 5% sau mỗi lần tách. Thân còn ≤100 máu thì không tách được nữa. Không có đòn đánh riêng: mọi thân gây 33 dame mỗi khi VA vào địch. Các thân tính như meme bình thường. Cả đàn chết sạch thì mới thua.' },
     cryingcat: { key:'cryingcat', defaultName:'Crying Cat Team', emoji:'😿', color:'#4fc3f7', hp:350, speed:5, size:32.5, skill:'Một đội 3 con mèo khóc, tính chung là 1 meme. Mỗi con 350 máu, di chuyển và đánh như meme thường. Mỗi con chạm vào địch gây 40 sát thương (mỗi con hồi chiêu riêng 0.8s). Giữa 3 con luôn có LIÊN KẾT NƯỚC MẮT nối với nhau: địch chạm/đi qua sợi liên kết mất 50 máu mỗi 0.5s và bị làm chậm. Mỗi lần 2 con trong đội va vào nhau, cả hai được hồi 25 máu. Mỗi con gục thì mấy con còn lại +20% size và +300 máu tối đa. Con cuối cùng còn 1 mình chuyển hẳn sang chiêu NỐI NƯỚC MẮT: cứ 2s nối 1 sợi với địch gần nhất, dính 3s, gây 25 sát thương mỗi 0.5s. Cả đội chỉ chết khi cả 3 con đều gục.' },
     calmdog: { key:'calmdog', defaultName:'Calm Dog', emoji:'🐕', color:'#546e7a', hp:1000, speed:5, size:40, skill:'Là quả bom hẹn giờ — vào trận có đồng hồ đếm ngược 13s, thể hiện qua 5 tấm hình NGẨNG ĐẦU tăng dần (mỗi ~2.6s đổi 1 hình, hình cuối là lúc há mồm chuẩn bị hú) thay vì số đếm. Mỗi 100 dame nhận vào, đồng hồ trôi nhanh thêm 1s. Về 0: hú vang gây 500 dame CHUẨN cho mọi địch trong tầm nổ — chỉ dùng được đúng 1 LẦN CẢ TRẬN. Ngoài ra không có đòn đánh nào khác, chỉ di chuyển né tránh bình thường.' },
     gary: { key:'gary', defaultName:'Gary', emoji:'🐌', color:'#7e57c2', hp:1000, speed:5, size:40, skill:'1000 máu, KHÔNG có đòn đánh nào khác. Thả 1 quả TRÁI ĐẤT nảy quanh sân, chạy nhanh hơn 13.85% so với tốc thường. Chạm địch là hút, hồi chiêu 0.5s giữa 2 lần hút cùng 1 phe (tránh cạo máu quá nhanh khi dính sát): địch nhỏ đi 5% và mất 5% máu tối đa — máu tối đa dồn cho Gary, còn phần kích thước dồn hết vào QUẢ TRÁI ĐẤT (Gary không to lên). Gary tự chạm quả đất của mình thì quả đất phình thêm 5%. Không có trần kích thước.' },
@@ -11047,7 +11047,7 @@ const CHAR_BLURB = {
   mosquitoviolin: "Touch it once and it strings you for the whole match, then plays violin damage down the wire on every beat.",
   supremearbiter: "Never attacks and moves like any meme. While it is above you, its arrogance climbs and it slows you 3% more every second; the more arrogant it gets, the heavier the whole arena's gravity crushes every enemy. Wins end with lightning and a single word.",
   scaredhamster: "Never attacks — just wanders. Cornered, it cowers while two shadow hands crawl out of the far corner after it, crushing, slamming or passing-and-squeezing the first one in the way before pulling back. If they reach it, it gets the same treatment.",
-  infinitydoge: "Turns to jelly and splits like a slime every 4s — every copy splits, each half 100 HP lighter, 20% smaller and 5% faster. Damages anything it bumps into.",
+  infinitydoge: "Turns to jelly and splits like a slime every 4s — every copy splits, each half 150 HP lighter, 20% smaller and 5% faster. Damages anything it bumps into.",
   cryingcat: "Three linked cats. The tear link between them burns and slows anything that touches it.",
   rubikcat: "Rolls a random cube face on a timer, each with a different effect. Collect all six and a black hole ends the match outright.",
   mewingcat: "Strikes mewing poses on a timer, each one summoning a stone statue that charges the enemy and shatters on impact.",
@@ -14042,7 +14042,7 @@ function _idSplitBurst(x, y, size, ang){
   playSample('punch1',0.35);
 }
 // thân này có đủ điều kiện phân đôi không, và nếu có thì tách
-const ID_SPLIT_T = 240, ID_SPLIT_COST = 100, ID_MAX_BODIES = 32, ID_SHRINK = 0.8, ID_MITO_T = 30;   // tách trong 0.5s   // 4s/lần · mỗi lần nhỏ đi 20% · mỗi lần mất 100 máu · trần 32 thân cả đàn (chặn tăng theo cấp số nhân gây lag)
+const ID_DMG = 20, ID_SPLIT_T = 240, ID_SPLIT_COST = 150, ID_MAX_BODIES = 32, ID_SHRINK = 0.8, ID_MITO_T = 30;   // tách trong 0.5s   // 4s/lần · mỗi lần nhỏ đi 20% · mỗi lần mất 100 máu · trần 32 thân cả đàn (chặn tăng theo cấp số nhân gây lag)
 let idMito=[];   // 🧫 hiệu ứng PHÂN BÀO đang diễn ra: {a,b,t,max}
 function _idBodyCount(owner){ return (owner&&!owner.dead?1:0)+dogeClones.filter(c=>c.owner===owner&&!c.dead&&c.hp>0).length; }
 function _idTrySplit(body, isMain){
@@ -15520,11 +15520,12 @@ class Fighter {
           const _wallNear = 160; // ngưỡng coi là "sát tường"
           if(this.x < _wallNear) faceDir = 1;
           else if(this.x > W - _wallNear) faceDir = -1;
-          const bhR = 144;
+          this._bhCasts=(this._bhCasts||0)+1; const _bhK=1+0.05*(this._bhCasts-1), _bhD=1+0.03*(this._bhCasts-1);   // 🕳️ mỗi lần cast: +5% cỡ/tầm/lực hút, +3% dame (cộng dồn)
+          const bhR = 144*_bhK;
           let bhX = this.x + faceDir * 150;
           bhX = Math.max(bhR*0.55, Math.min(W-bhR*0.55, bhX)); // an toàn: luôn giữ trọn hố đen trong tầm nhìn sàn đấu
           const bhY = Math.max(bhR*0.55, Math.min(H-bhR*0.55, this.y));
-          blackHoles.push({ x:bhX, y:bhY, team:this.team, owner:this, life:120, maxLife:120, maxR:bhR });
+          blackHoles.push({ x:bhX, y:bhY, team:this.team, owner:this, life:120, maxLife:120, maxR:bhR, k:_bhK, dk:_bhD });
         playSample('blackhole', 0.8);
           spawnParticles(bhX,bhY,'#9c27b0',12);
           addShake(6,8);
@@ -18640,7 +18641,7 @@ class Fighter {
       if(this._idHitCD<=0){
         const _t=_findClosestEnemy(this.team,this.x,this.y);
         if(_t && !_t.dead && Math.hypot(_t.x-this.x,_t.y-this.y) < this.size+_t.size+MELEE_REACH){
-          _t.takeDamage(33,this);
+          _t.takeDamage(ID_DMG,this);
           this._idHitCD=40;
           _idSparkAt(this,_t);
           _hitParticles(_t.x,_t.y,'#ffd54f',6);
@@ -25236,7 +25237,7 @@ function loop(){
         dc._facingRight=(dEn.x-dc.x)>0;
         // VA vào địch → 60 dame (không có đòn đánh riêng nào khác)
         if(dc._hitCD<=0 && Math.hypot(dEn.x-dc.x,dEn.y-dc.y) < dc.size+dEn.size+MELEE_REACH){
-          dEn.takeDamage(33,{team:dc.team,x:dc.x,y:dc.y});
+          dEn.takeDamage(ID_DMG,{team:dc.team,x:dc.x,y:dc.y});
           dc._hitCD=40;
           _idSparkAt(dc,dEn);
           _hitParticles(dEn.x,dEn.y,'#ffd54f',6);
@@ -26097,32 +26098,32 @@ function loop(){
     const bhR=bh.maxR*(0.3+0.7*t);
     // pull địch toàn bản đồ — lực + dame giảm theo khoảng cách
     const bhFullRange = Math.sqrt(W*W+H*H);
-    const _bhT1 = 200, _bhT2 = 450; // tầm ảnh hưởng (bán kính 2 tier)
+    const _bk=bh.k||1, _bd=bh.dk||1, _bhT1 = 200*_bk, _bhT2 = 450*_bk; // tầm ảnh hưởng (bán kính 2 tier) — to dần theo số lần cast
     fighters.forEach(f=>{
       if(f.team===bh.team||f.dead) return;
       const dx2=bh.x-f.x, dy2=bh.y-f.y, d2=Math.sqrt(dx2*dx2+dy2*dy2)||1;
       // pull 3 tier: gần=0.5, trung=0.1, xa=0.05
-      const pullStr = d2 < _bhT1 ? 0.5 : d2 < _bhT2 ? 0.1 : 0.05;
+      const pullStr = (d2 < _bhT1 ? 0.5 : d2 < _bhT2 ? 0.1 : 0.05)*_bk;
       f.vx+=dx2/d2*pullStr; f.vy+=dy2/d2*pullStr;
       // dame cùng tier: gần=30, trung=8, xa=2 mỗi 15 tick
       if(tick%15===0){
-        const pullDmg = d2 < _bhT1 ? 30 : d2 < _bhT2 ? 8 : 2;
+        const pullDmg = Math.round((d2 < _bhT1 ? 30 : d2 < _bhT2 ? 8 : 2)*_bd);
         f.takeDamage(pullDmg, bh.owner, false, true, '', null, true);
       }
     });
     germanSoldiers.forEach(s=>{
       if(s.team===bh.team||s.dead||s.hp<=0) return;
       const dx2=bh.x-s.x, dy2=bh.y-s.y, d2=Math.sqrt(dx2*dx2+dy2*dy2)||1;
-      const pullStr=d2<_bhT1?0.5:d2<_bhT2?0.1:0.05; s.vx+=dx2/d2*pullStr; s.vy+=dy2/d2*pullStr;
-      if(tick%15===0){ const pd=d2<_bhT1?30:d2<_bhT2?8:2; _dmgSoldier(s,pd,'#9c27b0',undefined,undefined,undefined,undefined,bh.team); }
+      const pullStr=(d2<_bhT1?0.5:d2<_bhT2?0.1:0.05)*_bk; s.vx+=dx2/d2*pullStr; s.vy+=dy2/d2*pullStr;
+      if(tick%15===0){ const pd=Math.round((d2<_bhT1?30:d2<_bhT2?8:2)*_bd); _dmgSoldier(s,pd,'#9c27b0',undefined,undefined,undefined,undefined,bh.team); }
     });
     // 🌀 hút cả lính Commander/clone Naruto/bản thể Drooling/tượng đá Mewing — coi như char thường, không riêng gì lính German
     for(const _arr of [commanderSoldiers, dogeKnights, mewingStatues, capybaraKnives, cryCats, dogeClones, mspClones, evilSouls]){
       for(const s of _arr){
         if(s.team===bh.team||s.dead||s.hp<=0) continue;
         const dx2=bh.x-s.x, dy2=bh.y-s.y, d2=Math.sqrt(dx2*dx2+dy2*dy2)||1;
-        const pullStr=d2<_bhT1?0.5:d2<_bhT2?0.1:0.05; s.vx+=dx2/d2*pullStr; s.vy+=dy2/d2*pullStr;
-        if(tick%15===0){ const pd=d2<_bhT1?30:d2<_bhT2?8:2; s.takeDamage(pd, bh.owner, false, true, '', null, true); }
+        const pullStr=(d2<_bhT1?0.5:d2<_bhT2?0.1:0.05)*_bk; s.vx+=dx2/d2*pullStr; s.vy+=dy2/d2*pullStr;
+        if(tick%15===0){ const pd=Math.round((d2<_bhT1?30:d2<_bhT2?8:2)*_bd); s.takeDamage(pd, bh.owner, false, true, '', null, true); }
       }
     }
     // 🕳️ HÚT + NUỐT ĐẠN: mọi viên đạn / tia / vật ném của phe địch bay vào tầm hố đen bị bẻ cong, xoáy vào tâm rồi biến mất
