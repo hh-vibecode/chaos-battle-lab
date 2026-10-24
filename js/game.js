@@ -5150,7 +5150,9 @@ let loadingArrows=[]; // Loading Cat — mũi tên phép vĩnh viễn, xuyên qu
 const BX_BASE=50, BX_STEP=30, BX_REST=30, BX_START=60, BX_INC0=10, BX_INC_ADD=5, BX_STUN_DMG=200, BX_STUN_T=60;
 let bxFx=[];
 // 🥊 20 khung KHỞI ĐỘNG (spritesheet user gửi, cắt đúng ô lưới → các khung trùng vị trí, không giật) · khung 1 = avatar / dáng đứng
-const BX_FR=[1,2,3,7,8,10,11,13,14].map(n=>{ const im=new Image(); im.onload=()=>{ im._crop={sx:0,sy:0,sw:im.naturalWidth,sh:im.naturalHeight}; }; im.src='assets/img/boxingcat/BX_W_'+String(n).padStart(2,'0')+'.webp'; return im; });   // chỉ giữ 9 khung NÉT (đã bỏ các khung nhoè do chuyển động)   // hiệu ứng cú đấm: {x,y,a,dmg,t,T,cr:[vết nứt],sh:[mảnh kính]}
+const BX_FN=[1,2,3,5,6,7,8,9,10,11,12,13,14,15,17,18,19,20], BX_BLUR=new Set([5,6,9,12,15,17,18,19,20]);   // 18 khung (bỏ 4 & 16 có tay người) · khung NHOÈ = cú đấm nhanh → chiếu nhanh
+const BX_DUR=BX_FN.map(n=>BX_BLUR.has(n)?3:8), BX_LOOP=BX_DUR.reduce((a,b)=>a+b,0);
+const BX_FR=BX_FN.map(n=>{ const im=new Image(); im.onload=()=>{ im._crop={sx:0,sy:0,sw:im.naturalWidth,sh:im.naturalHeight}; }; im.src='assets/img/boxingcat/BX_W_'+String(n).padStart(2,'0')+'.webp'; return im; });   // hiệu ứng cú đấm: {x,y,a,dmg,t,T,cr:[vết nứt],sh:[mảnh kính]}
 function _bxTier(d){ return d>=250?3:d>=180?2:d>=100?1:0; }
 function _bxPunch(f,u){   // tung cú đấm đã tích vào u (fighter hoặc quân triệu hồi)
   const B=f._bx, dmg=B.dmg, a=Math.atan2(u.y-f.y,u.x-f.x), tier=_bxTier(dmg), hx=u.x-Math.cos(a)*u.size*0.6, hy=u.y-Math.sin(a)*u.size*0.6;
@@ -20462,9 +20464,9 @@ class Fighter {
     } else if(this.type==='boxingcat' && BX_FR[0].naturalWidth){
       // 🥊 đang đấm khởi động: chạy vòng 9 khung (~7.5 khung/giây) · nghỉ: đứng ở khung 1
       // chạy HẾT 1 vòng: bộ đếm riêng bắt đầu từ khung 1 khi khởi động; hết khởi động (đấm/nghỉ) thì vẫn chạy tiếp cho tròn vòng rồi mới đứng ở khung 1
-      const _bxw=this._bx && this._bx.st==='warm', _bxL=BX_FR.length*8; if(this._bxA===undefined) this._bxA=0;
+      const _bxw=this._bx && this._bx.st==='warm', _bxL=BX_LOOP; if(this._bxA===undefined) this._bxA=0;
       if(this._bxTk!==tick){ this._bxTk=tick; if(_bxw || this._bxA%_bxL!==0) this._bxA++; else this._bxA=0; }
-      const _bxI=Math.floor((this._bxA%_bxL)/8); img=BX_FR[_bxI].naturalWidth?BX_FR[_bxI]:BX_FR[0];
+      let _bxT=this._bxA%_bxL, _bxI=0; while(_bxI<BX_DUR.length-1 && _bxT>=BX_DUR[_bxI]){ _bxT-=BX_DUR[_bxI]; _bxI++; }   // khung nét giữ lâu, khung nhoè lướt nhanh img=BX_FR[_bxI].naturalWidth?BX_FR[_bxI]:BX_FR[0];
     } else if(this.type==='slapcat' && (this._slapFreeze||0)>0){
       // 🐈 CHỈ chạy animation trong đúng 0.5s lúc vả (avatar → Khung 2 → Khung 3, chạy hết đúng 1 lượt).
       // Ngoài lúc đó đứng yên ở avatar như mọi meme bình thường.
