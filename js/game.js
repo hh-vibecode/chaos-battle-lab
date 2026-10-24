@@ -22691,23 +22691,28 @@ let _scPlayer=null;   // đang ở chế độ XEM PHIM: {bak:cảnh đang dựn
 function openCinema(folder){
   _cineGalleryClose();
   if(folder==='__war') return _openWarFolder();
+  // 📂 trang chủ chỉ có 2 thư mục: Meme Lore 1 (mọi phim cũ) · Meme Lore 2 (các tập mới, khung dọc 9:16)
+  const LORE={ __top:{ title:'🎬 MEME CINEMA', back:null, items:[{id:'__lore1', ic:'📼', name:'Meme Lore 1', desc:'Memes Assemble I & II and the classic scenes', folder:true},
+                                                              {id:'__lore2', ic:'🌑', name:'Meme Lore 2', desc:'Pain is coming… (Shorts 9:16)', folder:true}]},
+    __lore2:{ title:'🌑 MEME LORE 2', back:'', items:[{id:'__dpwindow', ic:'🪟', name:'Ep 1 · Depressed Cat Comes Home', desc:"He looks up at the window… This world shall know pain.", dur:23},
+                                                       {id:'__l2e2', ic:'🗿', name:'Ep 2 · Into the Dark', desc:"A dark gate opens and Evil Gary falls into a cave… where something is waiting.", dur:25}]} };
+  const L=LORE[folder||'__top'];
   const ov=document.createElement('div'); ov.id='cinemaGallery';
   ov.style.cssText='position:fixed;inset:0;z-index:9000;background:radial-gradient(ellipse at top,#2a1b3d,#0b0712 70%);overflow:auto;padding:28px 16px 40px;font-family:system-ui,Arial,sans-serif;color:#fff;';
-  const items=[{id:'__endgame', ic:'🦸', name:'Memes Assemble', desc:"Stalin's last stand against Evil Gary — Avengers: Endgame style", dur:37},
-               {id:'__war', ic:'⚔️', name:'Memes Assemble II', desc:"The War of Evil Gary — the last battle… and something in the dark", dur:218},   // thời lượng thật (tính cả slow-mo) — đổi khi phim dài/ngắn đi
-               {id:'__dpwindow', ic:'🪟', name:'Depressed Cat Comes Home', desc:"He looks up at the window… This world shall know pain.", dur:14}]
+  const items=L?L.items:[{id:'__endgame', ic:'🦸', name:'Memes Assemble', desc:"Stalin's last stand against Evil Gary — Avengers: Endgame style", dur:37},
+               {id:'__war', ic:'⚔️', name:'Memes Assemble II', desc:"The War of Evil Gary — the last battle… and something in the dark", dur:218, folder:true}]   // thời lượng thật (tính cả slow-mo) — đổi khi phim dài/ngắn đi
     .concat(SC_PRESETS.map(P=>({id:P.id, ic:P.ic, name:(CINEMA_EN[P.id]||[P.name])[0], desc:(CINEMA_EN[P.id]||[0,P.desc])[1], dur:Math.round(P.dur/SC_FPS)})));
   ov.innerHTML=`<div style="max-width:980px;margin:0 auto"><div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
-    <button onclick="_cineGalleryClose()" style="font-size:20px;background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.25);border-radius:10px;padding:6px 14px;cursor:pointer">◀</button>
-    <div style="font-size:28px;font-weight:900;letter-spacing:1px">🎬 MEME CINEMA</div></div>
+    <button onclick="${L&&L.back!=null?`openCinema('${L.back}')`:(folder==='__lore1'?'openCinema()':'_cineGalleryClose()')}" style="font-size:20px;background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.25);border-radius:10px;padding:6px 14px;cursor:pointer">◀</button>
+    <div style="font-size:28px;font-weight:900;letter-spacing:1px">${L?L.title:'📼 MEME LORE 1'}</div></div>
     <div id="cinemaGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px"></div></div>`;
   document.body.appendChild(ov);
   const grid=ov.querySelector('#cinemaGrid');
   for(const it of items){ const c=document.createElement('button');
     c.style.cssText='text-align:left;background:linear-gradient(160deg,rgba(255,255,255,0.10),rgba(255,255,255,0.03));border:1px solid rgba(255,255,255,0.18);border-radius:16px;padding:16px;color:#fff;cursor:pointer;display:flex;flex-direction:column;gap:8px;min-height:150px;transition:transform .12s,border-color .12s';
     c.onmouseenter=()=>{ c.style.transform='translateY(-3px)'; c.style.borderColor='#ffcc80'; }; c.onmouseleave=()=>{ c.style.transform=''; c.style.borderColor='rgba(255,255,255,0.18)'; };
-    c.innerHTML=`<div style="font-size:38px">${it.ic}</div><div style="font-size:18px;font-weight:800">${it.name}</div><div style="font-size:13px;opacity:.75;line-height:1.35;flex:1">${it.desc}</div><div style="font-size:12px;opacity:.6">▶ ${it.dur}s</div>`;
-    c.onclick=()=>{ _cineGalleryClose(); if(it.id==='__endgame') playCineEndgame(); else if(it.id==='__war') openCinema('__war'); else if(it.id==='__dpwindow') playCineDpWindow(); else playScenePreset(it.id); };
+    c.innerHTML=`<div style="font-size:38px">${it.ic}</div><div style="font-size:18px;font-weight:800">${it.name}</div><div style="font-size:13px;opacity:.75;line-height:1.35;flex:1">${it.desc}</div><div style="font-size:12px;opacity:.6">${it.folder?'📂 Open':'▶ '+it.dur+'s'}</div>`;
+    c.onclick=()=>{ _cineGalleryClose(); if(it.id==='__lore1'||it.id==='__lore2') openCinema(it.id); else if(it.id==='__endgame') playCineEndgame(); else if(it.id==='__war') openCinema('__war'); else if(it.id==='__dpwindow') playCineDpWindow(); else if(it.id==='__l2e2') playCineL2E2(); else playScenePreset(it.id); };
     grid.appendChild(c); }
 }
 // 📂 thư mục Memes Assemble II: ô "cả phim" + từng cảnh nhỏ (danh sách do js/cine-war.js tự tính)
@@ -22715,7 +22720,7 @@ function _openWarFolder(){
   const ov=document.createElement('div'); ov.id='cinemaGallery';
   ov.style.cssText='position:fixed;inset:0;z-index:9000;background:radial-gradient(ellipse at top,#2a1b3d,#0b0712 70%);overflow:auto;padding:28px 16px 40px;font-family:system-ui,Arial,sans-serif;color:#fff;';
   ov.innerHTML=`<div style="max-width:980px;margin:0 auto"><div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
-    <button onclick="openCinema()" style="font-size:20px;background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.25);border-radius:10px;padding:6px 14px;cursor:pointer">◀</button>
+    <button onclick="openCinema('__lore1')" style="font-size:20px;background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.25);border-radius:10px;padding:6px 14px;cursor:pointer">◀</button>
     <div style="font-size:28px;font-weight:900;letter-spacing:1px">⚔️ MEMES ASSEMBLE II</div></div>
     <div id="cinemaGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px"><div style="opacity:.6">Loading…</div></div></div>`;
   document.body.appendChild(ov);
@@ -22774,6 +22779,10 @@ window._cinePanelMake=_cinePanelMake; window._cinePanelRemove=_cinePanelRemove;
 function playCineDpWindow(){   // 🪟 phim ngắn Depressed Cat về nhà (js/cine-dpwindow.js, chỉ tải khi bấm)
   if(window._cineDW) return window._cineDW();
   const v=window.GAME_VERSION?'?v='+GAME_VERSION.build:'', s=document.createElement('script'); s.src='js/cine-dpwindow.js'+v; s.onload=()=>window._cineDW&&window._cineDW(); document.body.appendChild(s);
+}
+function playCineL2E2(){   // 🗿 Meme Lore 2 · Tập 2 "Into the Dark" (js/cine-lore2ep2.js, chỉ tải khi bấm)
+  if(window._cineL2E2) return window._cineL2E2();
+  const v=window.GAME_VERSION?'?v='+GAME_VERSION.build:'', s=document.createElement('script'); s.src='js/cine-lore2ep2.js'+v; s.onload=()=>window._cineL2E2&&window._cineL2E2(); document.body.appendChild(s);
 }
 function _cineWarLoad(){   // tải kịch bản phim (chưa phát)
   if(window._cineWar) return Promise.resolve();
@@ -33336,7 +33345,7 @@ function closeScene(){
   _setArenaSize(ARENA_NORMAL.w, ARENA_NORMAL.h, ARENA_NORMAL.ss);
   document.getElementById('sceneScreen').classList.remove('active');
   document.getElementById('mainMenuScreen').classList.add('active');
-  if(_wasPlayer) openCinema();   // xem xong → về lại Rạp phim
+  if(_wasPlayer) openCinema('__lore1');   // xem xong → về lại thư mục Meme Lore 1
 }
 // thả MEME vào khung → thành diễn viên đứng đúng chỗ vừa thả; kéo diễn viên trong khung để dời chỗ
 function _scWireStage(){

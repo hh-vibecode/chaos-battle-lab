@@ -446,7 +446,7 @@
     g=cv.getContext('2d');
     overlay.appendChild(cv); document.body.appendChild(overlay);
     if(window._cinePanelMake) panel=_cinePanelMake(overlay,{ title:'Memes Assemble', dur:DUR, t:()=>Math.min(curT(),DUR()), playing:()=>!paused && curT()<DUR(),
-      toggle:()=>{ if(!paused && curT()>=DUR()) seek(0); else toggle(); }, seek, replay:()=>{ paused=false; setup(); seek(0); markOnly=false; }, close:()=>{ stop(); if(window.openCinema) openCinema(); } });
+      toggle:()=>{ if(!paused && curT()>=DUR()) seek(0); else toggle(); }, seek, replay:()=>{ paused=false; setup(); seek(0); markOnly=false; }, close:()=>{ stop(); if(window.openCinema) openCinema('__lore1'); } });
     try{ stopAllBattleMusic(); }catch(e){}
     try{ window._cineBG && window._cineBG.prepare && window._cineBG.prepare(); }catch(e){}   // dựng sẵn các lớp nền (tránh giật khung đầu)
     paused=false; C=null; setup(); musSetup(); t0=performance.now(); raf=requestAnimationFrame(frame);

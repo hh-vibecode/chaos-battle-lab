@@ -461,7 +461,7 @@
     W2=document.createElement('canvas'); W2.width=cv.width; W2.height=cv.height; w2=W2.getContext('2d');
     overlay.appendChild(cv); document.body.appendChild(overlay);
     if(window._cinePanelMake) panel=_cinePanelMake(overlay,{ title:'Depressed Cat Comes Home', dur:()=>DUR, t:()=>Math.min(curT(),DUR), playing:()=>!paused && curT()<DUR,
-      toggle:()=>{ if(!paused && curT()>=DUR) seek(0); else toggle(); }, seek, replay:()=>{ paused=false; seek(0); markOnly=false; }, close:()=>{ stop(); if(window.openCinema) openCinema(); } });
+      toggle:()=>{ if(!paused && curT()>=DUR) seek(0); else toggle(); }, seek, replay:()=>{ paused=false; seek(0); markOnly=false; }, close:()=>{ stop(); if(window.openCinema) openCinema('__lore2'); } });
     try{ stopAllBattleMusic(); }catch(e){}
     paused=false; played={}; t0=performance.now(); raf=requestAnimationFrame(frame);
   };
