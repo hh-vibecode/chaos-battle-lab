@@ -11,7 +11,7 @@ window.PLAY_ONLY = !/^(localhost|127\.0\.0\.1|\[::1\]|)$/.test(location.hostname
 if(window.PLAY_ONLY) document.documentElement.classList.add('play-only');
 (function(){
   const GROUP = window.ASSET_GROUP || {};
-  const DEPS = { arabiccat:['windguy'] };          // nhân vật mượn đồ của nhân vật khác (Arabic Cat hoá gà bằng gà của Wind Guy)
+  const DEPS = { arabiccat:['windguy'], ninjacat:['samuraicheems'] };          // nhân vật mượn đồ của nhân vật khác (Arabic Cat hoá gà bằng gà của Wind Guy · Ninja Cat mượn tiếng chém ninja_slash của Samurai Cheems)
   const desc = Object.getOwnPropertyDescriptor(HTMLImageElement.prototype, 'src');
   const active = new Set(['critical']), pending = {}, queue = [];
   const P = g => pending[g] || (pending[g] = { imgs:[], auds:[] });
