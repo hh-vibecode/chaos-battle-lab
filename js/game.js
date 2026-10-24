@@ -17418,7 +17418,7 @@ class Fighter {
       if(_mfT){ const _d=Math.hypot(_mfT.x-this.x,_mfT.y-this.y); if(_d<_mfMin || _d>_mfMax) _mfT=null; }
       if(!_mfT){
         let _best=null,_bd=Infinity;
-        for(const o of fighters){
+        for(const o of [...fighters, ..._summonFoes(this.team)]){   // 👥 cả quân triệu hồi có máu
           if(o===this||o.team===this.team||o.dead) continue;
           const _d=Math.hypot(o.x-this.x,o.y-this.y);
           if(_d>=_mfMin && _d<=_mfMax && _d<_bd){ _best=o; _bd=_d; }
@@ -17444,7 +17444,7 @@ class Fighter {
         this._mfRangeT=(this._mfRangeT||0)+1;
         this._mfHitCD=Math.max(0,(this._mfHitCD||0)-1);
         if(this._mfHitCD<=0){
-          _mfT.takeDamage(10+20*Math.floor(this._mfRangeT/60), this);
+          { const _md=10+20*Math.floor(this._mfRangeT/60); if(fighters.includes(_mfT)) _mfT.takeDamage(_md, this); else _summonTakeDamage(_mfT, _md, this); }
           this._mfHitCD=18;
         }
         this.actionState='attack'; this.actionTimer=10; this.attackAvatarTimer=10;
@@ -26927,6 +26927,7 @@ function loop(){
   }
 
   // ===== COUGH CAT: mầm bệnh trên sàn — địch dẫm phải dính độc, tốc độ độc tăng dần theo số lần dẫm (không giới hạn) =====
+  for(const u of _summonFoes(-1)){ if(!(u._coughStepCount>0)) continue; if(--u._coughPoisonTickCD<=0){ u._coughPoisonTickCD=60; _summonTakeDamage(u, 10*u._coughStepCount, u._coughAtkOwner, false, true, '💀'); } }   // 🦠 độc Cough Cat trên quân triệu hồi (1s/nhịp)
   for(let i=coughGerms.length-1;i>=0;i--){
     const cg=coughGerms[i];
     // 🦠 giai đoạn ĐANG BAY (vừa văng ra từ cú ho) — bay theo vòng cung tới điểm rơi, CHƯA tính va chạm/poison lúc này,
@@ -26967,6 +26968,8 @@ function loop(){
         break;
       }
     }
+    if(i<coughGerms.length && coughGerms[i]===cg) for(const u of _summonFoes(cg.team)){   // 👥 quân triệu hồi có máu dẫm phải cũng nhiễm độc
+      if(Math.hypot(u.x-cg.x,u.y-cg.y)<31.2+(u.size||20)*0.4){ u._coughStepCount=(u._coughStepCount||0)+1; u._coughAtkOwner=cg.owner||null; if(!(u._coughPoisonTickCD>0)) u._coughPoisonTickCD=60; spawnPoisonParticles(u.x,u.y,8); coughGerms.splice(i,1); break; } }
     if(i>=coughGerms.length || coughGerms[i]!==cg) continue; // đã bị dẫm & xoá ở trên
     // vẽ mầm bệnh — dùng VFX "Coronavirus Pulse" (kho), tự lặp lại khi hết 1 vòng, size khớp đúng bán kính va chạm (31.2 → diameter 62.4, đã +20% theo yêu cầu)
     ctx.save(); ctx.globalAlpha=cgAlpha;
@@ -27462,6 +27465,7 @@ function loop(){
     let _ssTgt=null, _ssBest=Infinity, _ssIsSoldier=false;
     for(const f of fighters){ if(f.team===ss.team||f.dead) continue; const d=Math.sqrt((f.x-ss.x)**2+(f.y-ss.y)**2); if(d<_ssBest){_ssBest=d;_ssTgt=f;_ssIsSoldier=false;} }
     for(const gs of germanSoldiers){ if(gs.team===ss.team||gs.dead||gs.hp<=0) continue; const d=Math.sqrt((gs.x-ss.x)**2+(gs.y-ss.y)**2); if(d<_ssBest){_ssBest=d;_ssTgt=gs;_ssIsSoldier=true;} }
+    for(const u of _summonFoes(ss.team)){ if(germanSoldiers.includes(u)||typeof u.takeDamage!=='function') continue; const d=Math.hypot(u.x-ss.x,u.y-ss.y); if(d<_ssBest){_ssBest=d;_ssTgt=u;_ssIsSoldier=false;} }   // 👥 mọi quân triệu hồi có máu khác (bản sao Infinity Doge…) cũng là mục tiêu
     if(!_ssTgt){_susDespawn(ss);susSummons.splice(i,1);continue;}
     // Red imposter: fire 3 bullets immediately then vanish
     if(ss.type==='imp_red'){
