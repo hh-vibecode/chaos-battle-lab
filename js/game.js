@@ -9570,6 +9570,65 @@ function _smDrawSword(f,sp){
 // ===================== 🥷 NINJA CAT — "Don't look into its eyes." =====================
 // Gần: rút kiếm KUSANAGI (kiếm thẳng của Sasuke: lưỡi chokuto thẳng 1 cạnh, chắn kiếm nhỏ, chuôi đen quấn chéo trắng) chém 1 nhát
 // vòng cung rồi tra kiếm lại (ảnh đã có chuôi kiếm sau lưng nên kiếm chỉ hiện lúc chém). Xa: ném kunai bay thẳng.
+// 👁️ MANGEKYOU (ảo thuật): lần đầu tụt ≤60% và ≤30% máu → nạp 1 lần. Đòn TRÚNG tiếp theo (không tính cháy/độc, không tính
+//    dame thật/kết liễu) xuyên qua như khói: biểu tượng Mangekyou Sharingan hiện sau lưng, nó tan thành khói → hiện ra SAU LƯNG
+//    địch đâm kiếm xuyên qua (200). Đâm xong là xong, đánh tiếp bình thường từ chỗ đó.
+const NJ_SHARINGAN_IMG=new Image(); NJ_SHARINGAN_IMG.src='assets/img/ninjacat/NJ_SHARINGAN.webp';
+const NJ_GEN_VANISH=30, NJ_GEN_STAB=26, NJ_GEN_STAB_HIT=6, NJ_GEN_DMG=200, NJ_GEN_FREEZE=45;   // 45 frame = 0.75s đứng hình lúc đâm
+let njSmoke=[];
+function _njPuff(x,y,s,n,dir){ for(let i=0;i<n;i++){ const a=Math.random()*Math.PI*2, sp=0.4+Math.random()*1.6;
+  njSmoke.push({x:x+Math.cos(a)*s*0.4*Math.random(), y:y+Math.sin(a)*s*0.5*Math.random(), vx:Math.cos(a)*sp+(dir||0)*1.2, vy:Math.sin(a)*sp*0.6-0.5, r:s*(0.25+Math.random()*0.3), t:0, T:34+Math.random()*20}); } }
+// chặn đòn trong _takeDamageCore — trả true = đòn xuyên qua khói (không mất máu)
+function _njGenGuard(f,attacker){
+  if(f._njGen) return true;   // đang tan biến / hiện ra đâm: không chạm được
+  const ax=(attacker && attacker.x!==undefined)?attacker.x:f.x, ay=(attacker && attacker.y!==undefined)?attacker.y:f.y;
+  if((f._njCharges||0)>0){ f._njCharges--;
+    const e=(attacker && fighters.includes(attacker) && !attacker.dead)?attacker:(f.enemy&&!f.enemy.dead?f.enemy:attacker);
+    f._njGen={st:'vanish', t:0, x0:f.x, y0:f.y, e, hx:(ax+f.x)/2, hy:(ay+f.y)/2};
+    _njPuff((ax+f.x)/2,(ay+f.y)/2,f.size,10,Math.sign(f.x-ax)); playSample('uia_tele_dbz',0.9);
+    return true; }
+  return false;
+}
+function _njGenTick(f){
+  if(!f._nj60 && f.hp<=f.maxHp*0.6){ f._nj60=true; f._njCharges=(f._njCharges||0)+1; }
+  if(!f._nj30 && f.hp<=f.maxHp*0.3){ f._nj30=true; f._njCharges=(f._njCharges||0)+1; }
+  const G=f._njGen; if(!G) return; G.t++; f.vx=f.vy=0;
+  if(G.st==='vanish'){
+    if(G.t%3===0) _njPuff(f.x,f.y,f.size,2,0);
+    if(G.t>=NJ_GEN_VANISH){ const e=G.e;
+      if(!e || e.dead || e.x===undefined){ f._njGen=null; return; }
+      const dx=e.x-G.x0, dy=e.y-G.y0, d=Math.hypot(dx,dy)||1, go=e.size+f.size*0.85;   // sau lưng địch (nhìn từ chỗ nó vừa đứng)
+      f.x=Math.max(f.size,Math.min(W-f.size,e.x+dx/d*go)); f.y=Math.max(f.size,Math.min(H-f.size,e.y+dy/d*go));
+      _njPuff(f.x,f.y,f.size,12,0); G.st='stab'; G.t=0; } }
+  else if(G.st==='stab'){
+    const e=G.e;
+    if(G.t===NJ_GEN_STAB_HIT && e && !e.dead){ e.takeDamage(NJ_GEN_DMG, f, false, false, '', 'Blood Batch 1_Sprite'); battleFreezeTimer=Math.max(battleFreezeTimer,NJ_GEN_FREEZE); addShake(8,12); playSample('ld_stab',1.0); }   // 🎬 kiếm vừa xuyên qua: cả 2 đứng hình 0.75s
+    if(G.t>=NJ_GEN_STAB){ f._njGen=null; f._njMeleeCD=Math.max(f._njMeleeCD||0,20); } }
+}
+// 👁️ biểu tượng Mangekyou sau lưng + 🗡️ kiếm đâm xuyên (vẽ DƯỚI các meme: thân địch che phần lưỡi nằm TRONG người,
+//    mũi kiếm dính máu lòi ra phía trước; chuôi nằm sau thân Ninja Cat như đang cầm)
+function _njDrawUnder(){ for(const f of fighters){ const G=f._njGen; if(f.type!=='ninjacat' || f.dead || !G) continue;
+  if(G.st==='stab'){ _njDrawStab(f,G); continue; }
+  if(G.st!=='vanish' || !NJ_SHARINGAN_IMG.naturalWidth) continue;
+  const u=G.t/NJ_GEN_VANISH, a=u<0.2?u/0.2:u>0.75?(1-u)/0.25:1, R=f.size*(1.9+0.35*Math.min(1,u*3)), x=G.x0, y=G.y0-f.size*0.15;
+  ctx.save(); ctx.globalAlpha=a; ctx.globalCompositeOperation='lighter'; const gr=ctx.createRadialGradient(x,y,0,x,y,R*1.5); gr.addColorStop(0,'rgba(255,40,40,0.55)'); gr.addColorStop(1,'rgba(160,0,0,0)');
+  ctx.fillStyle=gr; ctx.beginPath(); ctx.arc(x,y,R*1.5,0,Math.PI*2); ctx.fill(); ctx.globalCompositeOperation='source-over';
+  ctx.translate(x,y); ctx.rotate(-u*1.4); ctx.drawImage(NJ_SHARINGAN_IMG,-R,-R,R*2,R*2); ctx.restore(); } }
+function _njDrawStab(f,G){ const e=G.e; if(!e || e.x===undefined) return;
+  const a=Math.atan2(e.y-f.y,e.x-f.x), k=Math.min(1,G.t/NJ_GEN_STAB_HIT), fade=G.t>NJ_GEN_STAB-6?(NJ_GEN_STAB-G.t)/6:1;
+  const gx=f.x+Math.cos(a)*f.size*0.2, gy=f.y+Math.sin(a)*f.size*0.2, full=Math.hypot(e.x-gx,e.y-gy)+e.size*1.75, L=full*(0.3+0.7*(1-Math.pow(1-k,3)));   // mũi kiếm lòi ra ~0.75 thân phía trước
+  _njKusanagi(gx,gy,a,L,fade);
+  const din=Math.hypot(e.x-gx,e.y-gy); if(L<=din) return;   // máu trên đoạn mũi đã xuyên ra
+  ctx.save(); ctx.translate(gx,gy); ctx.rotate(a); ctx.globalAlpha*=fade;
+  const g=ctx.createLinearGradient(din,0,L,0); g.addColorStop(0,'rgba(150,0,10,0.85)'); g.addColorStop(1,'rgba(200,10,20,0.35)');
+  ctx.fillStyle=g; ctx.beginPath(); ctx.moveTo(din,-L*0.025); ctx.lineTo(L-L*0.06*0.9,-L*0.025); ctx.lineTo(L,L*0.03); ctx.lineTo(din,L*0.03); ctx.closePath(); ctx.fill();
+  ctx.fillStyle='rgba(150,0,10,0.9)'; for(let i=0;i<3;i++){ const px=din+(L-din)*(0.25+0.3*i), dr=Math.min(1,Math.max(0,(G.t-NJ_GEN_STAB_HIT)/14))*(6+i*4); ctx.beginPath(); ctx.ellipse(px,L*0.03+dr*0.5,1.6,1.6+dr*0.5,0,0,Math.PI*2); ctx.fill(); }   // giọt máu nhỏ xuống
+  ctx.restore(); }
+function _njDrawGen(f){}
+function _njSmokeTickDraw(){ for(let i=njSmoke.length-1;i>=0;i--){ const p=njSmoke[i]; p.t++; if(p.t>=p.T){ njSmoke.splice(i,1); continue; }
+  p.x+=p.vx; p.y+=p.vy; p.vx*=0.95; p.vy*=0.95; const u=p.t/p.T, r=p.r*(1+u*1.4);
+  ctx.fillStyle=`rgba(150,150,160,${0.45*(1-u)})`; ctx.beginPath(); ctx.arc(p.x,p.y,r,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle=`rgba(220,220,228,${0.25*(1-u)})`; ctx.beginPath(); ctx.arc(p.x-r*0.25,p.y-r*0.25,r*0.55,0,Math.PI*2); ctx.fill(); } }
 const NJ_SLASH_DMG=75, NJ_SLASH_CD=40, NJ_SWING_T=14, NJ_KUNAI_DMG=30, NJ_KUNAI_CD=45, NJ_KUNAI_SPD=11;
 function _njSlash(f,e){
   e.takeDamage(NJ_SLASH_DMG, f, false, false, '', 'Blood Batch 1_Sprite');
@@ -15539,6 +15598,7 @@ class Fighter {
     // ───── 📡 MORSE CODE CAT ─────
     // chọn ngẫu nhiên 1 chữ cái → gõ từng dấu Morse (bíp ngắn/dài, mỗi phím hiện ảnh "Đang gõ" 0.2s) → gõ xong bắn lần lượt từng dấu vào địch
     // (chấm 10 · gạch 20). Mỗi dấu Morse GÕ xong → tốc gõ +3% vĩnh viễn (_mcSpd): tiếng bíp, khẩu hình và khoảng nghỉ đều nhanh theo. Choáng thật thì tạm dừng gõ.
+    if(this.type==='ninjacat' && !this.dead) _njGenTick(this);   // 👁️ nạp ảo thuật ở 60%/30% máu + tan biến → đâm sau lưng
     if(this.type==='morsecat' && !this.dead){
       if((this._mcMouthT||0)>0) this._mcMouthT--;
       const MC=this._mc||(this._mc={st:'cd',t:40,code:'',letter:'',i:0,fire:0});
@@ -16125,6 +16185,7 @@ class Fighter {
     }
     // 🎯 Cọc gỗ tập luyện: đứng yên tuyệt đối, không AI wander/chase — vẫn cho ngoại lực (knockback) đẩy nhẹ rồi tự tắt dần qua ma sát như bình thường
     if(this.type==='trainingdummy'){ this._friction(); this.x+=this.vx; this.y+=this.vy; return; }
+    if(this.type==='ninjacat' && this._njGen){ this.vx=0; this.vy=0; return; }   // 👁️ đang tan biến / đâm sau lưng
     // đang lao vào sân (nhập trận) → chưa di chuyển logic
     if(this._entryTimer>0){ this.vx=0; this.vy=0; return; }
     // Loading Cat: đứng YÊN TUYỆT ĐỐI trong lúc loading — chặn hẳn AI wander/chase chung ngay từ đầu, không để nó ghi đè lại vx/vy mỗi frame
@@ -17707,7 +17768,7 @@ class Fighter {
     }
 
     // ===== 🥷 NINJA CAT: địch ĐỨNG GẦN (tầm melee chuẩn) → rút kiếm Kusanagi chém; địch Ở XA → ném kunai. 2 CD riêng. =====
-    if(this.type==='ninjacat' && !this.dead && e && !e.dead && e.hp>0){
+    if(this.type==='ninjacat' && !this.dead && !this._njGen && e && !e.dead && e.hp>0){
       this._njMeleeCD=Math.max(0,(this._njMeleeCD||0)-1); this._njKunaiCD=Math.max(0,(this._njKunaiCD||0)-1);
       if(touching){ if(this._njMeleeCD<=0) _njSlash(this,e); }
       else if(this._njKunaiCD<=0) _njThrow(this,e);
@@ -19469,6 +19530,7 @@ class Fighter {
       const _ax=(attacker && attacker.x!==undefined)?attacker.x:this.x+(this._lastFacingLeft?-1:1), _ay=(attacker && attacker.y!==undefined)?attacker.y:this.y;
       _smParryFx(this,_ax,_ay,true); return;
     }
+    if(this.type==='ninjacat' && dmg>0 && !isBurn && !isDot && !isTrue && attacker && attacker!==this && attacker.team!==this.team && _njGenGuard(this,attacker)) return;   // 👁️ ảo thuật: đòn xuyên qua khói
     // 🔢 CHUẨN HOÁ số dame về SỐ NGUYÊN ngay tại nguồn DUY NHẤT này — mọi đòn dame trong toàn bộ game (bất kể nhân vật/công
     // thức nào tính ra số lẻ) đều đi qua đúng 1 hàm takeDamage(), nên chặn ở đây là chặn được TẤT CẢ, không cần sửa từng
     // công thức riêng lẻ ở từng nhân vật. Làm tròn TRƯỚC khi trừ máu/hiện số nổi, không phải làm tròn sau khi hiển thị.
@@ -22555,6 +22617,11 @@ class Fighter {
   }
 }
 // 🌊 Drooling Cat: địch đang LỘI trong hồ → lún người xuống nước (giấu ~30% thân dưới mặt nước) + vòng gợn nước quanh eo
+{ const _njOrigDraw=Fighter.prototype.draw;   // 👁️ Ninja Cat tan thành khói: thân mờ dần rồi biến mất, hiện ra sau lưng địch thì rõ dần trong 4 tick
+  Fighter.prototype.draw=function(){ const G=this.type==='ninjacat'?this._njGen:null; if(!G) return _njOrigDraw.call(this);
+    const a=G.st==='vanish'?Math.max(0,1-G.t/(NJ_GEN_VANISH*0.55)):Math.min(1,G.t/4); if(a<=0.01) return;
+    ctx.save(); ctx.globalAlpha*=a; try{ _njOrigDraw.call(this); } finally{ ctx.restore(); } };
+}
 { const _dlOrigDraw=Fighter.prototype.draw;
   Fighter.prototype.draw=function(){
     if(this.type==='droolingcat') this._dlBase=ctx.getTransform();   // 👄 phép biến hình gốc (thế giới) lúc bắt đầu vẽ meme
@@ -22928,7 +22995,7 @@ function startGame(skipVsIntro){
   document.getElementById('pauseOverlay').classList.remove('visible');
   stopAllBattleMusic();
   _gameTickAccum=0;
-  idMito=[]; fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; bxFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; frRem=null; dpRainK=0; dpRipples=[]; dpWx={cloud:0, rain:0, storm:0, nextBolt:0, bolt:null, nextFlash:0, flash:null}; psCine=null; psWipe=null; psShards=[]; psDust=[]; psCrater=null; mwBits=[]; mwShards=[]; mwKitkat=[]; scEcho=[]; hmShadows=[]; hmEyes=[]; _hmEyeCD=150; hmWisps=[]; _hmWispCD=120; saWin=null; hmWin=null; saBolts=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; _dlReset(); _wcRainReset(); popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flCos=null; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susFx=[]; susDark=null; dogeFx=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[]; tick=0;
+  njSmoke=[]; idMito=[]; fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; bxFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; frRem=null; dpRainK=0; dpRipples=[]; dpWx={cloud:0, rain:0, storm:0, nextBolt:0, bolt:null, nextFlash:0, flash:null}; psCine=null; psWipe=null; psShards=[]; psDust=[]; psCrater=null; mwBits=[]; mwShards=[]; mwKitkat=[]; scEcho=[]; hmShadows=[]; hmEyes=[]; _hmEyeCD=150; hmWisps=[]; _hmWispCD=120; saWin=null; hmWin=null; saBolts=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; _dlReset(); _wcRainReset(); popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flCos=null; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susFx=[]; susDark=null; dogeFx=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[]; tick=0;
   _matchStats=Array.from({length:8},()=>({dmg:0,hits:0,healed:0,attempted:0}));
   screenShake={x:0,y:0,dur:0,str:0}; afterImages=[]; slowMoTimer=0; hitStopFrames=0; hitStopCD=0; koZoom=0; _camReset();
   loop._koTimer=null; loop._resInit=false; loop._resT=null; loop._resClick=false; loop._rtDone=false; loop._statsT=0; loop._lbPrompted=false; loop._ctaText=null; loop._mechShown=false; loop._fanDone=false; loop._wcMeowDone=false;
@@ -23364,7 +23431,7 @@ function resetGame(){
   document.getElementById('pauseOverlay').classList.remove('visible');
   _gameTickAccum=0;
   stopAllBattleMusic();
-  idMito=[]; fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; bxFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; frRem=null; dpRainK=0; dpRipples=[]; dpWx={cloud:0, rain:0, storm:0, nextBolt:0, bolt:null, nextFlash:0, flash:null}; psCine=null; psWipe=null; psShards=[]; psDust=[]; psCrater=null; mwBits=[]; mwShards=[]; mwKitkat=[]; scEcho=[]; hmShadows=[]; hmEyes=[]; _hmEyeCD=150; hmWisps=[]; _hmWispCD=120; saWin=null; hmWin=null; saBolts=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; _dlReset(); _wcRainReset(); popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flCos=null; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susFx=[]; susDark=null; dogeFx=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[];
+  njSmoke=[]; idMito=[]; fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; bxFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; frRem=null; dpRainK=0; dpRipples=[]; dpWx={cloud:0, rain:0, storm:0, nextBolt:0, bolt:null, nextFlash:0, flash:null}; psCine=null; psWipe=null; psShards=[]; psDust=[]; psCrater=null; mwBits=[]; mwShards=[]; mwKitkat=[]; scEcho=[]; hmShadows=[]; hmEyes=[]; _hmEyeCD=150; hmWisps=[]; _hmWispCD=120; saWin=null; hmWin=null; saBolts=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; _dlReset(); _wcRainReset(); popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flCos=null; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susFx=[]; susDark=null; dogeFx=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[];
   screenShake={x:0,y:0,dur:0,str:0}; slowMoTimer=0; hitStopFrames=0; hitStopCD=0; koZoom=0;
   showVsWaitScreen();
 }
@@ -24590,6 +24657,7 @@ function loop(){
   _egDrawDemons(); // 😈 quỷ hiện sau lưng Evil Gary
   _clapFxDraw();  // 👏⚡ nhoè + vạch tốc độ lúc dịch chuyển — nằm DƯỚI meme, con vừa tới luôn rõ
   _saDrawGravity(); // 😼 trọng lực đè nặng (dưới meme)
+  _njDrawUnder();   // 👁️ Mangekyou Sharingan sau lưng Ninja Cat
   _hmDrawUnder(); // 🐹 tay bóng tối Scared Hamster bò sát mặt sàn (dưới meme)
   if(ESG_SHOW_WAVE_VFX) _esgDrawWaves();   // 🎷🌊 sóng âm gợn trên mặt sàn (đang TẮT tạm theo yêu cầu, dame vẫn tính)
   _esgDrawSquirtles(); // 🐢 đàn Squirtle thổi sax cùng
@@ -28391,11 +28459,12 @@ function loop(){
   _susDarkDraw();   // 💡 Sus Cat: imposter vàng phá điện — sân tối om
   _dogeFxDraw();   // 🐕 hiệu ứng biến hình / BONK của Doge
   _bxFxDraw();     // 🥊 Boxing Cat: quầng khởi động + cú đấm nứt vỡ không gian
+  if(njSmoke.length) _njSmokeTickDraw();   // 💨 khói Ninja Cat tan biến / hiện ra
   for(const _f of fighters){ if(_f.dead) continue;
     if(_f._lvAxe) _lvDraw(_f);          // 🪓 rìu Leviathan vẽ ĐÈ lên mọi meme (đang găm thì phải thấy trên người địch)
     if(_f._dnW) _dnDrawWriting(_f);     // 📓 tên đang được viết trên đầu địch
     if(_f.type==='morsecat') _mcDrawHud(_f);   // 📡 bảng gõ Morse
-    if(_f.type==='ninjacat') _njDraw(_f);   // 🥷 kiếm Kusanagi lúc chém + vệt tay ném kunai
+    if(_f.type==='ninjacat'){ _njDraw(_f); _njDrawGen(_f); }   // 🥷 kiếm Kusanagi lúc chém + vệt tay ném kunai
     if(_f.type==='beluga') _blDrawTyping(_f);   // 💬 Beluga is typing…
     if(_f._dnMark) _dnDrawMark(_f); }   // 📓 địch đã bị ghi tên
   _susVoteDraw();
@@ -29739,7 +29808,7 @@ function closeFan(){
   document.getElementById('mainMenuScreen').classList.add('active');
 }
 function _ffa3ClearArrays(){
-  idMito=[]; fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; bxFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; frRem=null; dpRainK=0; dpRipples=[]; dpWx={cloud:0, rain:0, storm:0, nextBolt:0, bolt:null, nextFlash:0, flash:null}; psCine=null; psWipe=null; psShards=[]; psDust=[]; psCrater=null; mwBits=[]; mwShards=[]; mwKitkat=[]; scEcho=[]; hmShadows=[]; hmEyes=[]; _hmEyeCD=150; hmWisps=[]; _hmWispCD=120; saWin=null; hmWin=null; saBolts=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; _dlReset(); _wcRainReset(); popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flCos=null; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susFx=[]; susDark=null; dogeFx=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[]; tick=0;
+  njSmoke=[]; idMito=[]; fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; bxFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; frRem=null; dpRainK=0; dpRipples=[]; dpWx={cloud:0, rain:0, storm:0, nextBolt:0, bolt:null, nextFlash:0, flash:null}; psCine=null; psWipe=null; psShards=[]; psDust=[]; psCrater=null; mwBits=[]; mwShards=[]; mwKitkat=[]; scEcho=[]; hmShadows=[]; hmEyes=[]; _hmEyeCD=150; hmWisps=[]; _hmWispCD=120; saWin=null; hmWin=null; saBolts=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; _dlReset(); _wcRainReset(); popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flCos=null; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susFx=[]; susDark=null; dogeFx=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[]; tick=0;
   screenShake={x:0,y:0,dur:0,str:0}; slowMoTimer=0; hitStopFrames=0; hitStopCD=0; koZoom=0;
 }
 function ffa3Start(){

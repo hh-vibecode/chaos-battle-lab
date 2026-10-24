@@ -374,6 +374,7 @@ window.ASSET_GROUP={
 "assets/audio/thunder_big.mp3": "critical",
 "assets/audio/sa_phase1.mp3": "supremearbiter",
 "assets/audio/ninja_kunai.mp3": "ninjacat",
+"assets/img/ninjacat/NJ_SHARINGAN.webp": "ninjacat",
 "assets/audio/hm_crawl.mp3": "scaredhamster",
 "assets/audio/hm_scared.mp3": "scaredhamster",
 "assets/audio/hm_claw1.mp3": "scaredhamster",
