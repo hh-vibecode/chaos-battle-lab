@@ -746,7 +746,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     thevoid:    { key:'thevoid',    defaultName:'The Void',     emoji:'🖤', color:'#212121', hp:1000, speed:5, size:45, skill:'Black Hole: ~6.5s/chu kỳ (tích lực 0.5s, hố đen tồn tại 2s, hồi chiêu 4s), hút TẤT CẢ địch trong bán kính toàn map, dame giảm dần theo khoảng cách (gần tâm nhất 30 dame, xa chỉ còn 2 dame). Hố đen còn bẻ cong và NUỐT mọi viên đạn / tia / vật ném của địch bay vào tầm.' },
     bananacat:  { key:'bananacat',  defaultName:'Banana Cat',   emoji:'🍌', color:'#fff176', hp:1000, speed:5, size:43, skill:'Mỗi 2s dừng khóc 1.7s → để vỏ chuối. Địch giẫm: lao theo hướng đang đi, dame va tường tỉ lệ nghịch với thời gian. Vỏ tồn tại 12s rồi tự biến mất (mất ngay khi có người giẫm trúng), có thể chồng nhiều vỏ.' },
     suscat:     { key:'suscat',     defaultName:'SUS Cat',      emoji:'📮', color:'#f44336', hp:1000, speed:5, size:38, skill:'Mỗi 3s triệu hồi ngẫu nhiên 1 quân bài ở góc xa nhất sân: Imposter đỏ bắn 3 phát bám mục tiêu (100 dmg/phát), Imposter cận chiến va trúng 180 dmg, Imposter đen tự nổ 150 dmg + choáng 2s cho MỌI người trong bán kính (cũng tự kích nổ khi chạm lính Đức), Imposter cam đứng cách ~140 há đầu phóng LƯỠI đâm 140 dmg + kéo địch lại gần, Imposter vàng TẮT ĐÈN cả sân (địch chậm 25% tối đa 3s) rồi lao vào đâm 120 dmg, Crew va trúng 50 dmg. ĐÚNG 1 LẦN MỖI TRẬN: địch tụt xuống ≤200 máu là nó triệu tập HỌP KHẨN cắt ngang trận — cả sàn đóng băng, vòng quay 50/50 phán xem địch có phải IMPOSTER không. Trúng thì địch bị đáp thẳng ra ngoài vũ trụ, chết ngay lập tức bất kể còn bao nhiêu máu — mà bảng chữ hiện ra lại ghi rõ nó KHÔNG phải imposter, "all imposters remain", tức vote trượt sạch và thằng còn đứng lại trên sàn mới là imposter thật. Trật thì cuộc họp tan ngay, đánh tiếp bình thường.' },
-    nyancat:    { key:'nyancat',    defaultName:'Nyan Cat',     emoji:'🌈', color:'#e040fb', hp:1000, speed:5, size:48, skill:'Rainbow Trail: chạm tường → kéo trail (180 dmg khi chạm) → chạm tường tiếp → seal thành bẫy 180 dmg. Mỗi lần chạm tường +3% tốc chạy (cộng dồn).' },
+    nyancat:    { key:'nyancat',    defaultName:'Nyan Cat',     emoji:'🌈', color:'#e040fb', hp:1000, speed:5, size:43.2, skill:'Rainbow Trail: chạm tường → kéo trail (180 dmg khi chạm) → chạm tường tiếp → seal thành bẫy 180 dmg. Mỗi lần chạm tường +3% tốc chạy (cộng dồn).' },
     loooongcat: { key:'loooongcat', defaultName:'Loooong Cat',  emoji:'🐱', color:'#eeeeee', hp:1000, speed:5, size:52, skill:'Cơ chế RẮN SĂN MỒI. Vào trận chỉ có mỗi cái đầu ở góc sàn, rồi bò theo từng hàng ngang lấp dần cả sân — thân KHÔNG BAO GIỜ ngắn lại, cứ dài ra mãi. Cả thân là vật cản thật: địch đâm vào bị chặn và ăn 25 dmg mỗi 0.5s. Khoảng trống hẹp dần cho tới khi không còn chỗ nào — lúc đó mọi kẻ địch còn sống bị ÉP TAN ngay lập tức. Không có đòn đánh nào khác, và chỉ ĐẦU mới ăn sát thương.' },
     flyingcat:  { key:'flyingcat',  defaultName:'Flying Cat',   emoji:'🦅', color:'#ffcc80', hp:1000, speed:5, size:43, skill:'Vẫn bay lượn đuổi theo địch và càng dội tường càng nhanh, nhưng giờ có ba bản sao tí hon của chính nó bay vòng quanh như vệ tinh. Quỹ đạo nở dần ra rồi thu lại, càng ra xa quay càng nhanh, vệ tinh nào sượt qua địch là cắt một nhát.' },
     snoozecat:  { key:'snoozecat',  defaultName:'Snooze Cat',   emoji:'😴', color:'#90caf9', hp:1000, speed:5, size:45, skill:'Ngủ 2s mỗi 2s: bắn Zzz (10+10/s ngủ), hồi 20 HP. Drowsy: mỗi 10% máu mất → +5% mọi buff.' },
@@ -20346,7 +20346,7 @@ class Fighter {
     if(this._tfSwallowed) return;
     if(this.type==='susdog' && this._sdHide && _sdHideK(this)>=0.999) return;   // 🌑 đã lẩn HẲN vào bóng tối ban đêm: biến mất (cả thân lẫn thanh máu)
     if(this.type==='evilgary' && this._egExit) return;   // 🏆 đang xoay–chìm vào ngôi sao: thân do _egDrawExit vẽ
-    if(this.type==='nyancat' && !this.dead) _nyTailDraw(this);   // 🌈 đuôi cầu vồng vẽ TRƯỚC (nằm dưới thân mèo)
+    // (đã bỏ đuôi cầu vồng sống bám sau mông Nyan theo yêu cầu — chỉ còn cầu vồng của skill)
     // Commander Cat: đứng sát mép arena quan sát (vô hình hitbox, chỉ vẽ ở mép) — mép ĐÚNG PHE của nó (team 0 = trái, team 1 = phải), không cố định trái
     if(this.type==='commandercat'){
       if(this.dead) return;
@@ -28120,7 +28120,7 @@ function loop(){
 
   // ===== RAINBOW TRAILS (Nyan Cat) — pixel rainbow style =====
   const _RBCLR=['#FF0000','#FF7700','#FFFF00','#00CC00','#0066FF','#8800CC'];
-  const _RBBAND=3; // px per color band (half original)
+  const _RBBAND=3.45; // px mỗi dải màu (+15% theo yêu cầu, gốc 3)
   const _RBTOTAL=_RBBAND*_RBCLR.length; // 18px total trail width
 
   // 🌈 cầu vồng Nyan: DẢI LỤA MỀM — 6 dải màu uốn lượn nhẹ theo sóng sin chạy dọc (biên độ nhỏ dần về 2 đầu nên
