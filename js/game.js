@@ -9625,7 +9625,7 @@ function _pdTick(){
   // 🪨 sự kiện duy trì: mất ≥100 karma → cứ 3s 1 vật bay vào sau gáy
   if(dogs.length) for(const F of fighters){ if(F.dead || !((F._pdKarma||0)>=100) || !dogs.some(d=>d.team!==F.team)) continue;
     F._pdStoneT=(F._pdStoneT||0)+1;
-    if(F._pdStoneT>=180){ F._pdStoneT=0; const back=F._lastShouldFaceLeft?1:-1, big=(F._pdKarma||0)>=300;   // ném từ phía SAU GÁY (ngược hướng nó đang nhìn)
+    if(F._pdStoneT>=180 && !dogs.some(d=>d._pd && d._pd.st==='lie')){ F._pdStoneT=0; /* mỗi lần nằm chỉ 1 vận rủi → đá chỉ bay lúc Poor Dog đang đi (đang nằm thì chờ nó dậy) */ const back=F._lastShouldFaceLeft?1:-1, big=(F._pdKarma||0)>=300;   // ném từ phía SAU GÁY (ngược hướng nó đang nhìn)
       pdFx.push({k:'throw', dog:dogs.find(d=>d.team!==F.team), e:F, kind:big?PD_THROW_KINDS[(Math.random()*PD_THROW_KINDS.length)|0]:'stone', x0:back>0?W+40:-40, y0:F.y-90-Math.random()*60, t:0, T:34, big}); } }
   // ── cập nhật từng hiệu ứng ──
   for(let i=pdFx.length-1;i>=0;i--){ const q=pdFx[i]; q.t++; const e=q.e;
@@ -14114,10 +14114,15 @@ function _ftFollow(ft, u){
   }
   return ft;
 }
+// 🪦 EVIL GARY yếu đi 30%: mọi sát thương do nó (hoặc linh hồn / đòn phụ của nó) gây ra ×0.7
+const EG_DMG_MUL=0.7;
+function _egNerf(attacker,dmg){ if(!attacker || attacker.team==null) return dmg; const F=fighters.includes(attacker)?attacker:_duoResolveAttacker(attacker);
+  return (F && (F._realType||F.type)==='evilgary') ? Math.round(dmg*EG_DMG_MUL) : dmg; }
 function _summonTakeDamage(u, dmg, attacker, isHuh, isBurn, dotIcon, hitFx){
   if(u.hp<=0) return;
   dmg=Math.round(dmg); // chuẩn hoá số nguyên, cùng quy tắc với Fighter.takeDamage() thật
   if(bossCtx && attacker && attacker.team===1 && dmg>0) dmg=Math.round(dmg*BOSS_DMG_MUL);   // 👹 Boss Raid: Evil Gary +50% dame lên cả quân triệu hồi
+  if(dmg>0) dmg=_egNerf(attacker,dmg);   // 🪦 Evil Gary −30% (cả lên quân triệu hồi)
   if(attacker && attacker.team!=null && dmg>0){ _matchStats[attacker.team].dmg+=dmg; if(!isBurn) _matchStats[attacker.team].hits++; }
   if((duoCtx||fanCtx) && attacker && dmg>0){ const _duoAtkF=_duoResolveAttacker(attacker); if(_duoAtkF) _duoAtkF._duoDealt=(_duoAtkF._duoDealt||0)+dmg; }
   // ⛔ KHÔNG cộng vào _matchStats[].attempted (= cột TAKEN): đó là dame QUÂN TRIỆU HỒI hứng, không phải
@@ -19749,6 +19754,7 @@ class Fighter {
       dmg=Math.round(dmg*fanBuff.dmgMul);
     }
     if(bossCtx && attacker && attacker.team===1 && dmg>0 && !isTrue) dmg=Math.round(dmg*BOSS_DMG_MUL);   // 👹 Boss Raid: Evil Gary +50% dame
+    if(dmg>0 && !isTrue) dmg=_egNerf(attacker,dmg);   // 🪦 Evil Gary: mọi sát thương gây ra −30%
     // 📊 cột TAKEN — ghi TRƯỚC mọi block/hấp thu/redirect để tính cả dame bị chặn, NHƯNG chỉ tính dame
     //    nhắm vào CHÍNH NHÂN VẬT NÀY. Dame mà quân triệu hồi của nó hứng hộ KHÔNG được cộng vào đây
     //    (xem _summonTakeDamage/_dmgSoldier), nếu không TAKEN sẽ vọt cao vô lý so với thanh máu.
