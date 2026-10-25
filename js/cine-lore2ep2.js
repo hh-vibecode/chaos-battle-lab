@@ -427,10 +427,17 @@
     if(sh>0.2){ r[0]+=(hash(Math.floor(t*60))-0.5)*sh/r[2]; r[1]+=(hash(Math.floor(t*60)+7)-0.5)*sh/r[2]; }
     return r; }
 
+  // 🔊 lịch tiếng (dùng chung cho xem trực tiếp + xuất video): [giây, key, âm lượng, cắt sau (s)]
+  const SFX_PLAN=[[T.open,'blackhole',0.9,3.6],[T.out,'cine_drop',0.9,0],[T.land,'cine_impact',1.0,0],[T.shake,'gp_meow',0.9,0],[T.flash,'thunder_big',0.9,0],[T.eyes,'ultimate_charge_2',0.7,0]];
+  let OFF=null;   // 🎞️ chế độ xuất video: vẽ đúng thời điểm R, không tiếng, không đồng hồ
   function frame(now){
+    if(OFF) return;
     raf=requestAnimationFrame(frame);
     if(!ready) return;
-    const t=paused?pauseT:(now-t0)/1000;
+    renderAt(paused?pauseT:(now-t0)/1000);
+  }
+  function renderAt(t){
+    if(OFF) markOnly=true;
     if(t>=T.open) sfx('portal','blackhole',0.9,3.6);
     if(t>=T.out) sfx('drop','cine_drop',0.9);
     if(t>=T.land) sfx('land','cine_impact',1.0);
@@ -477,23 +484,28 @@
   function seek(sec){ sec=clamp(sec,0,DUR); try{ stopAllLongSfx(); }catch(e){} played={}; markOnly=true; if(paused) pauseT=sec; else t0=performance.now()-sec*1000; }
   function toggle(){ if(paused){ if(pauseT>=DUR-0.05) pauseT=0; t0=performance.now()-pauseT*1000; paused=false; } else { pauseT=curT(); paused=true; } }
   function stop(){ if(raf) cancelAnimationFrame(raf); raf=null; try{ stopAllLongSfx(); }catch(e){} if(window._cinePanelRemove) _cinePanelRemove(); panel=null; if(overlay) overlay.remove(); overlay=null; }
-  window._cineL2E2=function(){
+  window._cineL2E2=function(opts){
     if(overlay) return;
+    const SCALE=(opts&&opts.scale)||1;
     overlay=document.createElement('div');
     overlay.style.cssText='position:fixed;inset:0;z-index:99999;background:#000;display:flex;align-items:center;justify-content:center;';
-    cv=document.createElement('canvas'); cv.width=1080; cv.height=1920; SC=cv.width/VW;
+    cv=document.createElement('canvas'); cv.width=Math.round(1080*SCALE); cv.height=Math.round(1920*SCALE); SC=cv.width/VW;
     cv.style.cssText='height:100vh;max-width:100vw;aspect-ratio:9/16;object-fit:contain;';
     W2=mk(cv.width,cv.height); w2=W2.getContext('2d'); D=mk(cv.width,cv.height); dctx=D.getContext('2d');
     overlay.appendChild(cv); document.body.appendChild(overlay);
     { const x=cv.getContext('2d'); x.fillStyle='#000'; x.fillRect(0,0,cv.width,cv.height); x.fillStyle='rgba(255,255,255,0.5)'; x.font='40px system-ui'; x.textAlign='center'; x.fillText('Loading…',cv.width/2,cv.height/2); }
-    if(window._cinePanelMake) panel=_cinePanelMake(overlay,{ title:'Meme Lore 2 · Ep 2 · Into the Dark', dur:()=>DUR, t:()=>ready?Math.min(curT(),DUR):0, playing:()=>ready && !paused && curT()<DUR,
+    if(opts&&opts.offline) OFF={};
+    if(window._cinePanelMake && !OFF) panel=_cinePanelMake(overlay,{ title:'Meme Lore 2 · Ep 2 · Into the Dark', dur:()=>DUR, t:()=>ready?Math.min(curT(),DUR):0, playing:()=>ready && !paused && curT()<DUR,
       toggle:()=>{ if(!ready) return; if(!paused && curT()>=DUR) seek(0); else toggle(); }, seek:s=>{ if(ready) seek(s); }, replay:()=>{ if(!ready) return; paused=false; seek(0); markOnly=false; }, close:()=>{ stop(); if(window.openCinema) openCinema('__lore2'); } });
     try{ stopAllBattleMusic(); }catch(e){}
     const all=[IMG.gary,IMG.friend,IMG.hand,IMG.pain,...IMG.mem];
     Promise.all(all.map(im=>im.decode?im.decode().catch(()=>{}):Promise.resolve())).then(()=>{ if(!overlay) return;
       if(!ready){ build(); ready=true; } paused=false; played={}; t0=performance.now(); });
-    ready=!!BG; paused=false; played={}; t0=performance.now(); raf=requestAnimationFrame(frame);
+    ready=!!BG; paused=false; played={}; t0=performance.now(); if(!OFF) raf=requestAnimationFrame(frame);
   };
+  window._cineL2E2Ready=()=>ready;
+  window._cineL2E2Step=R=>{ if(OFF && ready) renderAt(R); };
+  window._cineL2E2Info=()=>({dur:DUR, sfx:SFX_PLAN.map(([a,k,v,d])=>[a,k,v,d]), mus:[{src:'assets/audio/pain_theme.mp3', ra:T.ignite, rb:DUR, vol:Math.pow(10,(-14-((typeof SND_LUFS!=='undefined'&&SND_LUFS.pain_theme)?SND_LUFS.pain_theme[0]:-14))/20), off:0, fo:1.0}], slow:[]});
   window._cineL2E2Stop=stop;
   window._cineL2E2Seek=t=>{ t0=performance.now()-t*1000; played={}; markOnly=true; };
   window._cineL2E2Canvas=()=>cv;

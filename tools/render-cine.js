@@ -3,14 +3,18 @@
 //   node tools/render-cine.js war   out.mp4            → bản dọc 9:16 (1080×1920)
 //   node tools/render-cine.js war   out.mp4 --wide     → bản ngang 16:9 (1920×1080)
 //   thêm --intro boss.mp4 để ghép 1 đoạn mở đầu (vd trận Boss Raid quay bằng tools/render-boss.js) lên ĐẦU video
-//   thêm --4k để vẽ thẳng 3840×2160 (16:9) / 2160×3840 (9:16)
+//   thêm --4k để vẽ thẳng 3840×2160 (16:9) / 2160×3840 (9:16) · --scale 1.5 = 3K (1620×2880 dọc)
+//   node tools/render-cine.js l2e2 out.mp4 --scale 1.5   → Meme Lore 2 tập 2 (chỉ có bản dọc 9:16)
 //   thêm --from 40 --to 60 để xuất thử 1 đoạn (giây) · --jobs 6 = số tiến trình vẽ SONG SONG (mặc định 6; chia phim thành nhiều đoạn rồi ghép)
 const { chromium } = require('playwright');
 const { spawn, execFileSync } = require('child_process');
 const http = require('http'), fs = require('fs'), path = require('path');
 const ROOT = path.resolve(__dirname, '..');
 const args = process.argv.slice(2), film = args[0] || 'war', OUT = path.resolve(args[1] || `cine-${film}.mp4`);
-const WIDE = args.includes('--wide'), K4 = args.includes('--4k'), RK = K4 ? 2 : 1, FPS = 30, SUB = 2;   // SUB: số bước mô phỏng / khung (hạt, rung… chạy theo nhịp 60Hz như lúc xem)
+const WIDE = args.includes('--wide'), K4 = args.includes('--4k'), FPS = 30, SUB = 2;
+const _sc = (() => { const i = args.indexOf('--scale'); return i >= 0 ? parseFloat(args[i + 1]) : null; })(), RK = K4 ? 2 : (_sc || 1);
+const FILMS = { war: { play: 'playCineWar', step: '_cineWarStep', canvas: '_cineWarCanvas', info: '_cineWarInfo' },
+  l2e2: { play: 'playCineL2E2', step: '_cineL2E2Step', canvas: '_cineL2E2Canvas', info: '_cineL2E2Info', ready: '_cineL2E2Ready' } }, FM = FILMS[film];   // SUB: số bước mô phỏng / khung (hạt, rung… chạy theo nhịp 60Hz như lúc xem)
 const opt = k => { const i = args.indexOf(k); return i >= 0 ? parseFloat(args[i + 1]) : null; };
 const sopt = k => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : null; }, INTRO = sopt('--intro') ? path.resolve(sopt('--intro')) : null;
 const PART = args.includes('--part'), JOBS = Math.max(1, opt('--jobs') || 6);
@@ -21,20 +25,20 @@ const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css
   const srv = http.createServer((q, r) => { const f = path.join(ROOT, decodeURIComponent(q.url.split('?')[0])).replace(/\/$/, '/index.html');
     fs.readFile(f, (e, d) => { if (e) { r.writeHead(404); r.end(); return; } r.writeHead(200, { 'Content-Type': MIME[path.extname(f)] || 'application/octet-stream' }); r.end(d); }); });
   await new Promise(r => srv.listen(0, '127.0.0.1', r)); const PORT = srv.address().port;
-  const W = (WIDE ? 1920 : 1080) * RK, H = (WIDE ? 1080 : 1920) * RK;
+  const W = Math.round((WIDE ? 1920 : 1080) * RK), H = Math.round((WIDE ? 1080 : 1920) * RK);
   const br = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required'] });
   const pg = await br.newPage({ viewport: WIDE ? { width: 1280, height: 720 } : { width: 720, height: 1280 } });
   pg.on('pageerror', e => console.log('⚠️', e.message.slice(0, 160)));
   await pg.goto(`http://127.0.0.1:${PORT}/`);
   await pg.waitForFunction(() => !document.getElementById('bootScreen'), null, { timeout: 300000 });
   // 2) mở phim ở chế độ offline (không tiếng, không chạy theo đồng hồ)
-  await pg.evaluate(async ({ film, WIDE, RK }) => { const fn = { war: 'playCineWar' }[film]; window[fn]({ wide: WIDE, offline: true, scale: RK }); }, { film, WIDE, RK });
-  await pg.waitForFunction(() => window._cineWarStep && window._cineWarCanvas && window._cineWarCanvas(), null, { timeout: 60000 });
+  await pg.evaluate(async ({ FM, WIDE, RK }) => { window[FM.play]({ wide: WIDE, offline: true, scale: RK }); }, { FM, WIDE, RK });
+  await pg.waitForFunction(FM => window[FM.step] && window[FM.canvas] && window[FM.canvas]() && (!FM.ready || window[FM.ready]()), FM, { timeout: 120000 });
   await pg.waitForFunction(() => [...document.images].every(i => i.complete), null, { timeout: 60000 }).catch(() => {});
   await pg.waitForTimeout(3000);   // chờ ảnh phim tải xong
-  const info = await pg.evaluate(() => { const I = _cineWarInfo(); const src = {}, lufs = {};
+  const info = await pg.evaluate(FM => { const I = window[FM.info](); const src = {}, lufs = {};
     for (const s of I.sfx) { const a = AUDIO_SAMPLES[s[1]]; if (a) src[s[1]] = new URL(a.src, location.href).pathname; if (SND_LUFS[s[1]]) lufs[s[1]] = SND_LUFS[s[1]]; }
-    return { ...I, src, lufs, music: [...SND_MUSIC] }; });
+    return { ...I, src, lufs, music: [...SND_MUSIC] }; }, FM);
   const T0 = opt('--from') || 0, T1 = Math.min(info.dur, opt('--to') || info.dur), N = Math.ceil((T1 - T0) * FPS);
   const F0 = PART ? opt('--f0') : 0, F1 = PART ? opt('--f1') : N;
   if (!PART) console.log(`🎬 ${film} ${WIDE ? '16:9' : '9:16'} ${W}×${H} · ${(T1 - T0).toFixed(1)}s · ${N} khung · ${JOBS} tiến trình`);
@@ -46,7 +50,7 @@ const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css
     const doneOK = (f, n) => { try { const c = execFileSync('ffprobe', ['-v', 'error', '-count_packets', '-select_streams', 'v:0', '-show_entries', 'stream=nb_read_packets', '-of', 'csv=p=0', f]).toString().trim().replace(',', ''); return +c === n; } catch (e) { return false; } };
     await Promise.all([...Array(JOBS).keys()].map(j => { const a = j * per, b = Math.min(N, a + per); if (a >= b) return null; const f = `${OUT}.part${j}.mp4`; parts.push([j, f]);
       if (args.includes('--keep') && fs.existsSync(f) && doneOK(f, b - a)) { console.log(`  ✔ giữ đoạn ${j} (đã xuất xong)`); return null; }   // --keep: đoạn đã xuất đủ khung thì dùng lại
-      const run = () => new Promise(res => { const c = spawn(process.execPath, [__filename, film, f, '--part', '--f0', a, '--f1', b, '--from', T0, '--to', T1, ...(WIDE ? ['--wide'] : []), ...(K4 ? ['--4k'] : [])], { stdio: ['ignore', 'inherit', 'inherit'], env: process.env }); c.on('close', res); });
+      const run = () => new Promise(res => { const c = spawn(process.execPath, [__filename, film, f, '--part', '--f0', a, '--f1', b, '--from', T0, '--to', T1, ...(WIDE ? ['--wide'] : []), ...(K4 ? ['--4k'] : []), ...(_sc ? ['--scale', _sc] : [])], { stdio: ['ignore', 'inherit', 'inherit'], env: process.env }); c.on('close', res); });
       return (async () => { await slot(); try { for (let k = 0; k < 3; k++) { if (await run() === 0) return; console.log(`  ↻ đoạn ${j} lỗi, chạy lại (${k + 1})`); } throw new Error('part ' + j + ' failed'); } finally { free(); } })(); }));   // đoạn nào lỗi (vd tải trang chậm) thì tự chạy lại
     parts.sort((x, y) => x[0] - y[0]); const lst = OUT + '.parts.txt'; fs.writeFileSync(lst, parts.map(([, f]) => `file '${f.replace(/'/g, "'\\''")}'`).join('\n'));
     execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', lst, '-c', 'copy', tmpV], { stdio: 'inherit' });
@@ -55,10 +59,10 @@ const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css
   // 3) hình: vẽ từng khung → đẩy JPEG vào ffmpeg
   const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(FPS), '-c:v', 'mjpeg', '-i', '-', '-c:v', 'libx264', '-preset', 'medium', '-crf', '18', '-pix_fmt', 'yuv420p', '-s', `${W}x${H}`, tmpV], { stdio: ['pipe', 'inherit', 'inherit'] });
   const RS = T0 + F0 / FPS;
-  if (RS > 0) for (let R = Math.max(0, RS - 1); R < RS; R += 1 / 60) await pg.evaluate(R => _cineWarStep(R), R);   // làm ấm hạt/hiệu ứng trước điểm bắt đầu
+  if (RS > 0) for (let R = Math.max(0, RS - 1); R < RS; R += 1 / 60) await pg.evaluate(({ R, FM }) => window[FM.step](R), { R, FM });   // làm ấm hạt/hiệu ứng trước điểm bắt đầu
   for (let i = F0; i < F1; i++) {
     const R = T0 + i / FPS;
-    const b64 = await pg.evaluate(({ R, SUB, FPS }) => { for (let s = SUB - 1; s >= 0; s--) _cineWarStep(R - s / (FPS * SUB)); return _cineWarCanvas().toDataURL('image/jpeg', 0.93).split(',')[1]; }, { R, SUB, FPS });
+    const b64 = await pg.evaluate(({ R, SUB, FPS, FM }) => { for (let s = SUB - 1; s >= 0; s--) window[FM.step](R - s / (FPS * SUB)); return window[FM.canvas]().toDataURL('image/jpeg', 0.93).split(',')[1]; }, { R, SUB, FPS, FM });
     if (!ff.stdin.write(Buffer.from(b64, 'base64'))) await new Promise(r => ff.stdin.once('drain', r));
     if ((i - F0) % 10 === 0) console.log(`  ${PART ? `[đoạn ${F0}-${F1}] ` : ''}khung ${i - F0}/${F1 - F0} · ${((Date.now() - t0) / 1000).toFixed(0)}s`);
   }

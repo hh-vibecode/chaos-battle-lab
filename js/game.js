@@ -9625,7 +9625,7 @@ function _pdTick(){
   // 🪨 sự kiện duy trì: mất ≥100 karma → cứ 3s 1 vật bay vào sau gáy
   if(dogs.length) for(const F of fighters){ if(F.dead || !((F._pdKarma||0)>=100) || !dogs.some(d=>d.team!==F.team)) continue;
     F._pdStoneT=(F._pdStoneT||0)+1;
-    if(F._pdStoneT>=180){ F._pdStoneT=0; const back=F._lastFacingLeft?1:-1, big=(F._pdKarma||0)>=300;
+    if(F._pdStoneT>=180){ F._pdStoneT=0; const back=F._lastShouldFaceLeft?1:-1, big=(F._pdKarma||0)>=300;   // ném từ phía SAU GÁY (ngược hướng nó đang nhìn)
       pdFx.push({k:'throw', dog:dogs.find(d=>d.team!==F.team), e:F, kind:big?PD_THROW_KINDS[(Math.random()*PD_THROW_KINDS.length)|0]:'stone', x0:back>0?W+40:-40, y0:F.y-90-Math.random()*60, t:0, T:34, big}); } }
   // ── cập nhật từng hiệu ứng ──
   for(let i=pdFx.length-1;i>=0;i--){ const q=pdFx[i]; q.t++; const e=q.e;
@@ -9759,7 +9759,7 @@ function hash01(a,b){ const v=Math.sin(a*127.1+b*311.7)*43758.5453; return v-Mat
 //    dame thật/kết liễu) xuyên qua như khói: biểu tượng Mangekyou Sharingan hiện sau lưng, nó tan thành khói → hiện ra SAU LƯNG
 //    địch đâm kiếm xuyên qua (200). Đâm xong là xong, đánh tiếp bình thường từ chỗ đó.
 const NJ_SHARINGAN_IMG=new Image(); NJ_SHARINGAN_IMG.src='assets/img/ninjacat/NJ_SHARINGAN.webp';
-const NJ_GEN_VANISH=30, NJ_GEN_STAB=26, NJ_GEN_STAB_HIT=6, NJ_GEN_DMG=200, NJ_GEN_FREEZE=45;   // 45 frame = 0.75s đứng hình lúc đâm
+const NJ_GEN_VANISH=30, NJ_GEN_STAB=26, NJ_GEN_STAB_HIT=6, NJ_GEN_DMG=200, NJ_GEN_FREEZE=45, NJ_GEN_BLADE=2.1, NJ_GEN_TIP=1.25;   // dài lưỡi = 2.1×thân Ninja · mũi lòi ra tới 1.25×thân địch tính từ tâm   // 45 frame = 0.75s đứng hình lúc đâm
 let njSmoke=[];
 function _njPuff(x,y,s,n,dir){ for(let i=0;i<n;i++){ const a=Math.random()*Math.PI*2, sp=0.4+Math.random()*1.6;
   njSmoke.push({x:x+Math.cos(a)*s*0.4*Math.random(), y:y+Math.sin(a)*s*0.5*Math.random(), vx:Math.cos(a)*sp+(dir||0)*1.2, vy:Math.sin(a)*sp*0.6-0.5, r:s*(0.25+Math.random()*0.3), t:0, T:34+Math.random()*20}); } }
@@ -9782,9 +9782,13 @@ function _njGenTick(f){
     if(G.t%3===0) _njPuff(f.x,f.y,f.size,2,0);
     if(G.t>=NJ_GEN_VANISH){ const e=G.e;
       if(!e || e.dead || e.x===undefined){ f._njGen=null; return; }
-      const dx=e.x-G.x0, dy=e.y-G.y0, d=Math.hypot(dx,dy)||1, go=e.size+f.size*0.85;   // sau lưng địch (nhìn từ chỗ nó vừa đứng)
-      f.x=Math.max(f.size,Math.min(W-f.size,e.x+dx/d*go)); f.y=Math.max(f.size,Math.min(H-f.size,e.y+dy/d*go));
-      _njPuff(f.x,f.y,f.size,12,0); G.st='stab'; G.t=0; } }
+      // 🔙 hiện ra đúng SAU LƯNG địch, ngang hàng (phía ngược hướng địch đang quay mặt); kẹt tường thì sang bên kia
+      let back=(e._lastShouldFaceLeft!=null)?(e._lastShouldFaceLeft?1:-1):(G.x0>e.x?1:-1);   // hướng THẬT địch đang nhìn (không phải cờ lật ảnh)
+      const go=e.size*0.55+f.size*0.55, tipOff=(e._lastSprite&&e._lastSprite.dw?e._lastSprite.dw*0.5:e.size)+e.size*0.38;   // đứng sát sau lưng · mũi kiếm nhô ra trước ngực ~1/4 thân
+      G.L=go+tipOff-f.size*0.3;
+      if(e.x+back*go<f.size || e.x+back*go>W-f.size) back=-back;
+      f.x=Math.max(f.size,Math.min(W-f.size,e.x+back*go)); f.y=Math.max(f.size,Math.min(H-f.size,e.y));
+      _njPuff(f.x,f.y,f.size,5,0); G.st='stab'; G.t=0; } }
   else if(G.st==='stab'){
     const e=G.e;
     if(G.t===NJ_GEN_STAB_HIT && e && !e.dead){ e.takeDamage(NJ_GEN_DMG, f, false, false, '', 'Blood Batch 1_Sprite'); battleFreezeTimer=Math.max(battleFreezeTimer,NJ_GEN_FREEZE); addShake(8,12); playSample('ld_stab',1.0); }   // 🎬 kiếm vừa xuyên qua: cả 2 đứng hình 0.75s
@@ -9800,8 +9804,8 @@ function _njDrawUnder(){ for(const f of fighters){ const G=f._njGen; if(f.type!=
   ctx.fillStyle=gr; ctx.beginPath(); ctx.arc(x,y,R*1.5,0,Math.PI*2); ctx.fill(); ctx.globalCompositeOperation='source-over';
   ctx.translate(x,y); ctx.rotate(-u*1.4); ctx.drawImage(NJ_SHARINGAN_IMG,-R,-R,R*2,R*2); ctx.restore(); } }
 function _njDrawStab(f,G){ const e=G.e; if(!e || e.x===undefined) return;
-  const a=Math.atan2(e.y-f.y,e.x-f.x), k=Math.min(1,G.t/NJ_GEN_STAB_HIT), fade=G.t>NJ_GEN_STAB-6?(NJ_GEN_STAB-G.t)/6:1;
-  const gx=f.x+Math.cos(a)*f.size*0.2, gy=f.y+Math.sin(a)*f.size*0.2, full=Math.hypot(e.x-gx,e.y-gy)+e.size*1.75, L=full*(0.3+0.7*(1-Math.pow(1-k,3)));   // mũi kiếm lòi ra ~0.75 thân phía trước
+  const a=Math.atan2(e.y-f.y,e.x-f.x), k=Math.min(1,G.t/NJ_GEN_STAB_HIT), fade=G.t>NJ_GEN_STAB-6?(NJ_GEN_STAB-G.t)/6:1, L=G.L||f.size*NJ_GEN_BLADE;   // dài vừa đủ xuyên qua, mũi nhô ra vừa phải
+  const pull=(1-(1-Math.pow(1-k,3)))*L*0.45, gx=f.x+Math.cos(a)*(f.size*0.3-pull), gy=f.y+Math.sin(a)*(f.size*0.3-pull);   // thọc tới từ sau lưng
   _njKusanagi(gx,gy,a,L,fade);
   const din=Math.hypot(e.x-gx,e.y-gy); if(L<=din) return;   // máu trên đoạn mũi đã xuyên ra
   ctx.save(); ctx.translate(gx,gy); ctx.rotate(a); ctx.globalAlpha*=fade;
@@ -23114,9 +23118,9 @@ function playCineDpWindow(){   // 🪟 phim ngắn Depressed Cat về nhà (js/c
   if(window._cineDW) return window._cineDW();
   const v=window.GAME_VERSION?'?v='+GAME_VERSION.build:'', s=document.createElement('script'); s.src='js/cine-dpwindow.js'+v; s.onload=()=>window._cineDW&&window._cineDW(); document.body.appendChild(s);
 }
-function playCineL2E2(){   // 🗿 Meme Lore 2 · Tập 2 "Into the Dark" (js/cine-lore2ep2.js, chỉ tải khi bấm)
-  if(window._cineL2E2) return window._cineL2E2();
-  const v=window.GAME_VERSION?'?v='+GAME_VERSION.build:'', s=document.createElement('script'); s.src='js/cine-lore2ep2.js'+v; s.onload=()=>window._cineL2E2&&window._cineL2E2(); document.body.appendChild(s);
+function playCineL2E2(opts){   // 🗿 Meme Lore 2 · Tập 2 "Into the Dark" (js/cine-lore2ep2.js, chỉ tải khi bấm) · opts.offline/scale = xuất video
+  if(window._cineL2E2) return window._cineL2E2(opts);
+  const v=window.GAME_VERSION?'?v='+GAME_VERSION.build:'', s=document.createElement('script'); s.src='js/cine-lore2ep2.js'+v; s.onload=()=>window._cineL2E2&&window._cineL2E2(opts); document.body.appendChild(s);
 }
 function _cineWarLoad(){   // tải kịch bản phim (chưa phát)
   if(window._cineWar) return Promise.resolve();
