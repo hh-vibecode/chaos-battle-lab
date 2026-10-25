@@ -799,7 +799,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     evilgary: { key:'evilgary', defaultName:'Evil Gary', emoji:'😈', color:'#b71c1c', hp:1000, speed:5, size:44, skill:'Đầu trận chỉ là con mèo xám ngồi im HÚT LINH HỒN: cứ mỗi giây 1 linh hồn khói đen từ góc xa nhất ngoài sân bay thẳng vào người nó (ai đứng chắn đường ăn 50 dame), mỗi linh hồn hút được vạch thêm 1 cánh ngôi sao ác quỷ trên đầu. Đủ 5 cánh: con quỷ đã nhập hiện lên sau lưng, sàn hoá CÕI LINH HỒN — khói ma lướt ngang sân, và cứ 5s một bầy linh hồn bò từ 4 góc tới bám địch (mỗi đợt đông hơn), bám được là gây dame và gieo độc vĩnh viễn, cộng dồn không giới hạn.' },
     mosquitoviolin: { key:'mosquitoviolin', defaultName:'Mosquito Violin', emoji:'🦟', color:'#ff5252', hp:1000, speed:5, size:34, skill:'Vào trận chưa nối được dây thì +20% tốc chạy và vo ve liên tục. LẦN ĐẦU chạm vào một kẻ địch, nó cắm một sợi dây mảnh vào con đó SUỐT TRẬN (chạm được bao nhiêu con thì nối bấy nhiêu dây). Nối được dây đầu tiên là bắt đầu kéo violin: mỗi nhịp của bài nhạc, một xung âm hình nhịp tim chạy dọc dây và nổ vào kẻ địch gây sát thương. Tần suất sát thương chính là nhịp của bài hát.' },
     scaredhamster: { key:'scaredhamster', defaultName:'Scared Hamster', emoji:'🐹', color:'#c8a27a', hp:1000, speed:5, size:44, skill:'Không tự đánh — chỉ bò khắp sàn. Bò vào gần góc sàn thì dựa sát góc tường run rẩy sợ hãi, đứng yên tới khi bóng tối đi mất hẳn rồi bò tiếp (mỗi lần nép góc chỉ 1 lượt tay); từ góc xa nhất 2 bàn tay bóng tối móng dài từ từ vươn ra lần theo nó (nhanh hơn 15%, không ai cản thì ~4.4s tới nơi, bóng tồn tại 6s). Tay vớ được địch chắn đường thì ngẫu nhiên: bóp chặt ngang người giữ méo móp 1.5s (110 dmg mỗi 0.5s), tóm nhấc bổng rồi vung đập mạnh vào tường ở góc sàn xa nhất (trừ góc hamster đang nép, 280 dmg) hoặc tung ngang qua tay kia rồi tay kia bóp mạnh tiếp (110 dmg mỗi 0.5s trong 1.5s), xong thì 2 tay rụt về tường. Tay chạm được hamster thì nó cũng bị xử y như vậy (cùng mức dame).' },
-    supremearbiter: { key:'supremearbiter', defaultName:'Supreme Cat', emoji:'😼', color:'#e0a050', hp:1000, speed:5, size:48.4, skill:'Kneel before my paw. Không tự đánh. Spotlight hiện ngẫu nhiên ở 1/3 TRÊN của sàn: nó đi thẳng tới, đứng vào là đứng YÊN. Đứng trong spotlight mà CAO HƠN địch thì điểm CAO NGẠO tăng (bằng hoặc thấp hơn thì tụt dần, chậm bằng 1/2 lúc tăng), và mỗi giây ở trên đầu con nào là con đó dính thêm 3% làm chậm, cộng dồn giữ nguyên tới hết trận (tối đa 50%). Cao ngạo càng cao, TRỌNG LỰC càng nặng: địch (cả quân triệu hồi) đang ở BÊN DƯỚI nó mất máu mỗi 0.5s (4, 7, 10… mỗi nấc cao ngạo +3). Có địch đứng CAO HƠN nó lúc đang trong spotlight → MẤT SẠCH cao ngạo, spotlight tắt, đi lại bình thường; 2s sau spotlight mới hiện. Thắng thì sét đánh dọc sau lưng, camera áp sát khuôn mặt khinh khỉnh: "Pathetic."' },
+    supremearbiter: { key:'supremearbiter', defaultName:'Supreme Cat', emoji:'😼', color:'#e0a050', hp:1000, speed:5, size:48.4, skill:'Kneel before my paw. Không tự đánh. Spotlight hiện ngẫu nhiên ở 1/3 TRÊN của sàn: nó đi thẳng tới, đứng vào là đứng YÊN. Đứng trong spotlight mà CAO HƠN địch thì điểm CAO NGẠO tăng (bằng hoặc thấp hơn thì tụt dần, chậm bằng 1/2 lúc tăng), và mỗi giây ở trên đầu con nào là con đó dính thêm 3% làm chậm, cộng dồn giữ nguyên tới hết trận (tối đa 50%). Cao ngạo càng cao, TRỌNG LỰC càng nặng: địch (cả quân triệu hồi) đang ở BÊN DƯỚI nó mất máu mỗi 0.5s (4, 7, 10… mỗi nấc cao ngạo +3), mỗi lần dính còn chậm thêm 1.5% (chung trần 50%). Có địch đứng CAO HƠN nó lúc đang trong spotlight → MẤT SẠCH cao ngạo, spotlight tắt, đi lại bình thường; 2s sau spotlight mới hiện. Thắng thì sét đánh dọc sau lưng, camera áp sát khuôn mặt khinh khỉnh: "Pathetic."' },
     infinitydoge: { key:'infinitydoge', defaultName:'Infinity Doge', emoji:'🐕', color:'#ffb74d', hp:1000, speed:5, size:46, skill:'Bắt đầu 1 thân 1000 máu. Cứ mỗi 4s, MỌI thân (cả bản sao) hoá thạch rồi TÁCH ĐÔI như slime: 2 thân mới đều mất 120 máu so với thân mẹ, nhỏ đi 20% và chạy nhanh hơn 5% sau mỗi lần tách. Thân còn ≤100 máu thì không tách được nữa. Không có đòn đánh riêng: mọi thân gây 33 dame mỗi khi VA vào địch. Các thân tính như meme bình thường. Cả đàn chết sạch thì mới thua.' },
     cryingcat: { key:'cryingcat', defaultName:'Crying Cat Team', emoji:'😿', color:'#4fc3f7', hp:350, speed:5, size:32.5, skill:'Một đội 3 con mèo khóc, tính chung là 1 meme. Mỗi con 350 máu, di chuyển và đánh như meme thường. Mỗi con chạm vào địch gây 40 sát thương (mỗi con hồi chiêu riêng 0.8s). Giữa 3 con luôn có LIÊN KẾT NƯỚC MẮT nối với nhau: địch chạm/đi qua sợi liên kết mất 50 máu mỗi 0.5s và bị làm chậm. Mỗi lần 2 con trong đội va vào nhau, cả hai được hồi 25 máu. Mỗi con gục thì mấy con còn lại +20% size và +300 máu tối đa. Con cuối cùng còn 1 mình chuyển hẳn sang chiêu NỐI NƯỚC MẮT: cứ 2s nối 1 sợi với địch gần nhất, dính 3s, gây 25 sát thương mỗi 0.5s. Cả đội chỉ chết khi cả 3 con đều gục.' },
     calmdog: { key:'calmdog', defaultName:'Calm Dog', emoji:'🐕', color:'#546e7a', hp:1000, speed:5, size:40, skill:'Là quả bom hẹn giờ — vào trận có đồng hồ đếm ngược 13s, thể hiện qua 5 tấm hình NGẨNG ĐẦU tăng dần (mỗi ~2.6s đổi 1 hình, hình cuối là lúc há mồm chuẩn bị hú) thay vì số đếm. Mỗi 100 dame nhận vào, đồng hồ trôi nhanh thêm 1s. Về 0: hú vang gây 500 dame CHUẨN cho mọi địch trong tầm nổ — chỉ dùng được đúng 1 LẦN CẢ TRẬN. Ngoài ra không có đòn đánh nào khác, chỉ di chuyển né tránh bình thường.' },
@@ -1035,10 +1035,24 @@ function clearPick(slot){
   document.getElementById('pickAvatar'+slot).innerHTML=`<span id="pickEmoji${slot}">❓</span>`;
   document.getElementById('pickName'+slot).textContent='— not selected —';
   document.getElementById('pickType'+slot).textContent='';
+  _selSideRender(slot);
   renderRoster();
   document.getElementById('btnFight').classList.remove('ready');
 }
 
+// 📖 BẢNG MÔ TẢ 2 BÊN màn chọn 1vs1: trái = P1, phải = P2 — avatar to (viền trắng như trong trận, quầng màu đội, nhún nhẹ,
+//    quay mặt vào giữa) + tên + info ngắn + mô tả skill. Màn hình hẹp / điện thoại thì ẩn (xem css .sel-side).
+function _selSideRender(slot){
+  const el=document.getElementById('selSide'+slot); if(!el) return;
+  const idx=picks[slot]; if(idx===null || !roster[idx]){ el.classList.remove('show'); el.innerHTML=''; return; }
+  const ch=roster[idx], k=ch.charKey, def=CHAR_DEFS[k]||CHAR_DEFS.huhcat;
+  const facesLeft=(k==='morsecat'||k==='ninjacat'||k==='poordog'||ch.facing==='left'), flip=slot===0?facesLeft:!facesLeft;   // P1 nhìn sang PHẢI, P2 nhìn sang TRÁI
+  const esc=t=>String(t||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const av=ch.avatarUrl?`<div class="sel-av-flip" style="transform:scaleX(${flip?-1:1})"><img src="${esc(ch.avatarUrl)}" alt=""></div>`:`<div class="sel-av-emoji">${def.emoji}</div>`;
+  el.innerHTML=`<div class="sel-side-tag">${slot===0?'🔵 PLAYER 1':'🔴 PLAYER 2'}</div><div class="sel-av">${av}</div>
+    <div class="sel-name">${esc(ch.name)}</div>${CHAR_BLURB_SHORT[k]?`<div class="sel-short">“${esc(CHAR_BLURB_SHORT[k])}”</div>`:''}
+    <div class="sel-skill-h">SKILL</div><div class="sel-skill">${esc(CHAR_BLURB[k]||CHAR_BLURB._default||'')}</div>`;
+  el.classList.add('show'); }
 function updatePickBar(slot){
   const idx = picks[slot];
   if(idx===null) return;
@@ -1052,6 +1066,7 @@ function updatePickBar(slot){
   else { avWrap.textContent = def.emoji; }
   document.getElementById('pickName'+slot).textContent = char.name;
   document.getElementById('pickType'+slot).textContent = def.emoji + ' ' + def.key;
+  _selSideRender(slot);
 }
 
 function deleteChar(idx){
@@ -4228,7 +4243,7 @@ function _scEchoDrawOver(){
 // mọi địch (meme + quân triệu hồi có máu) mất máu mỗi 0.5s (SA_DMG_MIN, mỗi nấc tự mãn +SA_DMG_STEP). Làm chậm tính riêng: +3%/giây trên đầu (xem _saSlowMul).
 // Thắng (Solo 1vs1): sét đánh dọc sau lưng, camera áp sát khuôn mặt khinh khỉnh, xung quanh tối chỉ mặt nó sáng, "Pathetic."
 const SA_SMUG_UP=600, SA_SMUG_DOWN=1200,   // điểm CAO NGẠO: tăng 0→100 trong 600 tick khi ở trên; bằng/dưới thì tụt dần, chậm bằng 1/2 lúc tăng
-      SA_SLOW_MAX=0.5, SA_SLOW_STEP=0.03, SA_DMG_MIN=4, SA_DMG_STEP=3, SA_DMG_EVERY=30;   // mỗi nấc tự mãn (+5 = 1 nhịp 0.5s đứng trên) dame +3
+      SA_SLOW_MAX=0.5, SA_SLOW_STEP=0.03, SA_HIT_SLOW=0.015, SA_DMG_MIN=4, SA_DMG_STEP=3, SA_DMG_EVERY=30;   // mỗi nấc tự mãn (+5 = 1 nhịp 0.5s đứng trên) dame +3
 const SA_FACE={x:0.647, y:0.146};   // tâm mặt trong ảnh đại diện (tỉ lệ theo khung ảnh)
 let saWin=null, saBolts=[]; const SA_WIN_Z=5;
 function _saFoes(f){ return [...fighters.filter(o=>o.team!==f.team && !o.dead), ..._summonFoes(f.team)]; }
@@ -4236,7 +4251,7 @@ function _saG(f){ return Math.max(0,Math.min(1,(f._saSmug||0)/100)); }
 // độ nặng trọng lực đang đè lên u = mức tự mãn cao nhất của các Arbiter KHÁC phe còn sống
 function _saGravOn(u){ let g=0; if(!u) return 0; for(const f of fighters){ if(f.type==='supremearbiter' && !f.dead && f.team!==u.team && f.y < u.y-f.size*0.5) g=Math.max(g,_saG(f)); } return g; }
 // 🐢 làm chậm: mỗi giây Arbiter đứng trên đầu con nào là con đó +SA_SLOW_STEP chậm, cộng dồn giữ nguyên (không tụt), tối đa SA_SLOW_MAX
-function _saSlowMul(u){ if(!u || !(u._saSlw>0)) return 1; for(const f of fighters){ if(f.type==='supremearbiter' && !f.dead && f.team!==u.team) return 1-u._saSlw; } return 1; }
+function _saSlowMul(u){ if(!u || !(u._saSlw>0)) return 1; for(const f of fighters){ if(f.type==='supremearbiter' && !f.dead && f.team!==u.team && f._saOnSpot) return 1-u._saSlw; } return 1; }   // chỉ chậm khi Supreme Cat ĐANG đứng trong spotlight
 // 🔊 nhạc cao ngạo: lặp suốt lúc Arbiter còn sống, âm lượng = điểm cao ngạo (0 → im, đầy → to nhất)
 let _saSfx=null;
 function _saSoundTick(){
@@ -4257,7 +4272,7 @@ function _saTick(){
     if(!f._saSpot && (f._saSpotT=(f._saSpotT||0)-1)<=0) f._saSpot=_saNewSpot(f);
     const sp=f._saSpot; f._saOnSpot=!!sp && Math.hypot(sp.x-f.x,sp.y-f.y)<sp.r*0.5;
     if(f._saOnSpot && foes.some(u=>u.y < f.y-f.size*0.12)){   // ⬆️ bị địch đứng cao hơn → mất hết (ngưỡng nhỏ: spotlight sát trần thì địch dí sát trần vẫn tính là cao hơn)
-      f._saSpotOff={x:sp.x,y:sp.y,r:sp.r,t:tick}; f._saSpot=null; f._saOnSpot=false; f._saSpotT=SA_SPOT_RE*_egTps(); f._saSmug=0; f._saAbove=false; }
+      f._saSpotOff={x:sp.x,y:sp.y,r:sp.r,t:tick}; f._saSpot=null; f._saOnSpot=false; f._saSpotT=SA_SPOT_RE*_egTps(); f._saSmug=0; f._saAbove=false; for(const u of foes) u._saSlw=0; }   /* mất spotlight → địch hết chậm, về tốc độ thường */
     let above=false;
     if(f._saOnSpot){
       for(const u of foes) if(f.y < u.y-f.size*0.5){ above=true; u._saSlw=Math.min(SA_SLOW_MAX,(u._saSlw||0)+SA_SLOW_STEP/_egTps()); }
@@ -4269,7 +4284,8 @@ function _saTick(){
     if(g<0.02) continue;
     const dmg=SA_DMG_MIN+SA_DMG_STEP*Math.round(g*SA_SMUG_UP/SA_DMG_EVERY);   // 4, 7, 10, 13… (đầy tự mãn = 20 nấc → 64)
     for(const u of foes){ if(!(f.y < u.y-f.size*0.5)) continue;   // ⬇️ chỉ địch đang ở BÊN DƯỚI nó mới bị trọng lực đè mất máu
-      if(fighters.includes(u)) u.takeDamage(dmg, f, false, true, '⬇️', null, true); else _summonTakeDamage(u, dmg, f, false, true, '⬇️', null); }
+      if(fighters.includes(u)) u.takeDamage(dmg, f, false, true, '⬇️', null, true); else _summonTakeDamage(u, dmg, f, false, true, '⬇️', null);
+      u._saSlw=Math.min(SA_SLOW_MAX,(u._saSlw||0)+SA_HIT_SLOW); }   // 🐢 mỗi lần bị trọng lực đè trúng: chậm thêm 1.5% (chung trần 50%)
   }
 }
 // 🌌 ÁP LỰC kiểu "nhân vật mạnh" trong anime (Haki / JoJo "ゴゴゴ"): sàn sẫm + tối dần mép; quanh Arbiter: hào quang
@@ -11377,6 +11393,10 @@ const CHAR_FACTS = {
 };
 // giới thiệu ngắn 2-3 dòng cho màn chờ (tiếng Anh, game full English) — viết tay dựa trên cơ chế thật, không tự động cắt câu
 const CHAR_BLURB = {
+  boxingcat: "Shadow-boxes to warm up — every jab adds to the damage counter over its head. The moment it touches an enemy it throws the punch with everything stored: from 100 the air quakes like Whitebeard, and from 250 the whole screen cracks.",
+  ninjacat: "Melee ninja. Up close it draws a Kusanagi and slashes for 75; at range it throws kunai for 30. The first time it drops to 60% HP and again at 30%, the next hit passes through it like smoke — a Mangekyou Sharingan flashes, it vanishes and reappears behind the enemy, running them through for 200.",
+  poordog: "Never attacks and walks very slowly. Every 2s it slowly lies down for 3s. Hit it while it lies there and you lose karma equal to the damage — every 100 karma lost makes bad luck hit you 10% harder. Each time it lies down, one bad-luck event strikes in turn: banana peels, a runaway truck, lightning, a falling grand piano, a portal trap. Lose 100+ karma and junk starts flying at the back of your head.",
+  arabiccat: "Every 3s it rubs the lamp and the genie comes out for 2s with one random move: a lightning bolt (100), a giant fist (150), turning the enemy into a chicken, turning them to stone, or summoning 2 mini genies with scimitars.",
   // 📋 Mô tả hiện dưới sàn / 2 panel bên: TÓM TẮT KỸ NĂNG, viết thẳng, KHÔNG pha trò và KHÔNG kèm chỉ số chi tiết
   // KHÔNG nhồi số dame/thời gian/tỉ lệ vào — chỉ làm rối mắt người xem.
   // ⚠️ Bản CHAR_BLURB_SHORT (dòng hiện DƯỚI SÀN ở 1vs1) tối đa 8 TỪ, dài hơn là chữ bị co nhỏ lại.
@@ -11431,7 +11451,7 @@ const CHAR_BLURB = {
   clappingcat: "Spike walls and a rolling spike ball. Claps to swap places with you right before it hits them.",
   evilgary: "Sucks in five souls to complete the demon star over its head, then opens the soul realm: ghosts sweep the floor and ever-bigger swarms crawl out to poison you forever.",
   mosquitoviolin: "Touch it once and it strings you for the whole match, then plays violin damage down the wire on every beat.",
-  supremearbiter: "Never attacks. A spotlight appears in the top third of the floor; it walks in and stands still. While it is above you, its arrogance climbs and it slows you 3% more every second; the more arrogant it gets, the harder gravity crushes every enemy beneath it. Stand higher than it and it loses everything — a new spotlight shows up 2s later. Wins end with lightning and a single word.",
+  supremearbiter: "Never attacks. A spotlight appears in the top third of the floor; it walks in and stands still. While it is above you, its arrogance climbs and while it stands in the spotlight it slows you 3% more every second; the more arrogant it gets, the harder gravity crushes every enemy beneath it, and every crush slows them another 1.5%. Stand higher than it and it loses everything (your speed comes back) — a new spotlight shows up 2s later. Wins end with lightning and a single word.",
   scaredhamster: "Never attacks — just wanders. Cornered, it cowers while two shadow hands crawl out of the far corner after it, crushing, slamming or passing-and-squeezing the first one in the way before pulling back. If they reach it, it gets the same treatment.",
   infinitydoge: "Turns to jelly and splits like a slime every 4s — every copy splits, each half 120 HP lighter, 20% smaller and 5% faster. Damages anything it bumps into.",
   cryingcat: "Three linked cats. The tear link between them burns and slows anything that touches it.",

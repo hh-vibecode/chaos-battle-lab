@@ -1522,3 +1522,31 @@ body.hm-dark #battleScreen.cam-mode .battle-settings { background:#000 !importan
 #battleScreen.boss-mode #bottomCtaWrap, #battleScreen.boss-mode #mechInfoWrap, #battleScreen.boss-mode #fpsMeter { display:none !important; }
 #battleScreen.boss-mode .battle-settings { position:absolute; top:12px; right:12px; width:auto; padding:0; background:none; border:0; z-index:20; }
 #battleScreen.boss-mode .btn-battle-start-corner { display:none !important; }
+
+/* 📖 bảng mô tả nhân vật 2 bên màn chọn 1vs1 (trái P1 · phải P2) — chỉ hiện khi đủ chỗ 2 bên lưới roster */
+#selectScreen { position:relative; }
+.sel-side { position:absolute; top:178px; width:min(360px, calc((100vw - 860px)/2 - 20px)); display:none;
+  background:rgba(255,252,245,0.82); border:2px solid rgba(0,0,0,0.12); border-radius:16px; padding:14px 16px 16px;
+  box-shadow:0 8px 24px rgba(60,40,10,0.12); z-index:2; }
+.sel-side.show { display:block; animation:selIn 0.25s ease-out; }
+.sel-side-l { left:16px; border-color:#1976d2; }
+.sel-side-r { right:16px; border-color:#c62828; }
+.sel-side-tag { font-family:'Press Start 2P',monospace; font-size:0.55rem; letter-spacing:1px; color:#888; margin-bottom:8px; }
+.sel-side-l .sel-side-tag { color:#1976d2; } .sel-side-r .sel-side-tag { color:#c62828; }
+.sel-av { height:230px; display:flex; align-items:flex-end; justify-content:center; border-radius:12px; margin-bottom:12px; overflow:hidden; }
+.sel-side-l .sel-av { background:radial-gradient(ellipse at 50% 85%, rgba(25,118,210,0.28), rgba(25,118,210,0.04) 70%); }
+.sel-side-r .sel-av { background:radial-gradient(ellipse at 50% 85%, rgba(198,40,40,0.28), rgba(198,40,40,0.04) 70%); }
+.sel-av-flip { height:210px; display:flex; align-items:flex-end; justify-content:center; width:100%; }
+.sel-av img { max-height:200px; max-width:88%; object-fit:contain; transform-origin:50% 100%; animation:selBob 1.5s ease-in-out infinite;
+  filter:drop-shadow(2px 0 0 #fff) drop-shadow(-2px 0 0 #fff) drop-shadow(0 2px 0 #fff) drop-shadow(0 -2px 0 #fff); }
+.sel-side-l .sel-av img { filter:drop-shadow(2px 0 0 #fff) drop-shadow(-2px 0 0 #fff) drop-shadow(0 2px 0 #fff) drop-shadow(0 -2px 0 #fff) drop-shadow(0 0 8px rgba(33,150,243,0.9)); }
+.sel-side-r .sel-av img { filter:drop-shadow(2px 0 0 #fff) drop-shadow(-2px 0 0 #fff) drop-shadow(0 2px 0 #fff) drop-shadow(0 -2px 0 #fff) drop-shadow(0 0 8px rgba(229,57,53,0.9)); }
+.sel-av-emoji { font-size:110px; line-height:1; margin-bottom:30px; animation:selBob 1.5s ease-in-out infinite; }
+.sel-name { font-family:'Press Start 2P',monospace; font-size:0.86rem; color:#2b1d0f; line-height:1.5; }
+.sel-short { font-style:italic; font-size:0.86rem; color:#6b5a45; margin-top:4px; }
+.sel-skill-h { font-size:0.6rem; font-weight:800; letter-spacing:3px; color:#a08c70; margin-top:12px; margin-bottom:4px; }
+.sel-skill { font-size:0.9rem; line-height:1.5; color:#2b1d0f; }
+@keyframes selBob { 0%,100% { transform:translateY(0) scale(1,1); } 50% { transform:translateY(-7px) scale(0.98,1.03); } }
+@keyframes selIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+@media (max-width:1240px) { .sel-side { display:none !important; } }
+html.is-mobile .sel-side { display:none !important; }
