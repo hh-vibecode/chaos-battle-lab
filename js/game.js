@@ -5204,7 +5204,7 @@ let bxFx=[];
 // 🥊 20 khung KHỞI ĐỘNG (spritesheet user gửi, cắt đúng ô lưới → các khung trùng vị trí, không giật) · khung 1 = avatar / dáng đứng
 const BX_FN=[1,2,3,5,6,7,8,9,10,11,12,13,14,15,17,18,19,20], BX_BLUR=new Set([5,6,9,12,15,17,18,19,20]);   // 18 khung (bỏ 4 & 16 có tay người) · khung NHOÈ = cú đấm nhanh → chiếu nhanh
 const BX_DUR=BX_FN.map(n=>BX_BLUR.has(n)?3:8), BX_LOOP=BX_DUR.reduce((a,b)=>a+b,0);
-const BX_FR=BX_FN.map(n=>{ const im=new Image(); im.onload=()=>{ im._crop={sx:0,sy:0,sw:im.naturalWidth,sh:im.naturalHeight}; }; im.src='assets/img/boxingcat/BX_W_'+String(n).padStart(2,'0')+'.webp'; return im; });   // hiệu ứng cú đấm: {x,y,a,dmg,t,T,cr:[vết nứt],sh:[mảnh kính]}
+const BX_FR=BX_FN.map(n=>{ const im=new Image(); im._noMask=true; /* khung đã tách nền sẵn — không cho _stickerMask gặm mép (nhoè viền) */ im.onload=()=>{ im._crop={sx:0,sy:0,sw:im.naturalWidth,sh:im.naturalHeight}; }; im.src='assets/img/boxingcat/BX_W_'+String(n).padStart(2,'0')+'.webp'; return im; });   // hiệu ứng cú đấm: {x,y,a,dmg,t,T,cr:[vết nứt],sh:[mảnh kính]}
 function _bxTier(d){ return d>=250?3:d>=180?2:d>=100?1:0; }
 function _bxPunch(f,u){   // tung cú đấm đã tích vào u (fighter hoặc quân triệu hồi)
   const B=f._bx, dmg=B.dmg, a=Math.atan2(u.y-f.y,u.x-f.x), tier=_bxTier(dmg), hx=u.x-Math.cos(a)*u.size*0.6, hy=u.y-Math.sin(a)*u.size*0.6;
@@ -9200,7 +9200,8 @@ function _arChicken(u){
   spawnParticles(u.x,u.y,'#ffffff',16,false,true); spawnParticles(u.x,u.y,'#ffd54f',10,false,true);
   playSample('wg_chicken',1.0); }
 function _arIsChick(u){ return (u._arChickT||0)>0 && (u.stun||0)>0; }
-function _arLocked(u){ return !!u && !u.dead && ((u._arStoneT||0)>0 || (u._arChickT||0)>0); }
+function _arLocked(u){ return !!u && !u.dead && ((u._arStoneT||0)>0 || (u._arChickT||0)>0 || _pdSprawled(u)); }   // 🍌 ngã sõng soài (Poor Dog) cũng khoá hẳn mọi chiêu
+function _pdSprawled(u){ const P=u&&u._pdSprawl; return !!P && tick-P.t0<P.dur; }
 // trúng phép hoá gà / tượng: huỷ ngay chiêu đang làm dở (đang khoá thì khối skill không chạy nên không tự dọn được)
 function _arLockStart(u){
   if(!u || !fighters.includes(u)) return;
@@ -16381,6 +16382,7 @@ class Fighter {
     }
     // 🎯 Cọc gỗ tập luyện: đứng yên tuyệt đối, không AI wander/chase — vẫn cho ngoại lực (knockback) đẩy nhẹ rồi tự tắt dần qua ma sát như bình thường
     if(this.type==='trainingdummy'){ this._friction(); this.x+=this.vx; this.y+=this.vy; return; }
+    if(_pdSprawled(this)){ this.vx*=0.88; this.vy*=0.88; this.x+=this.vx; this.y+=this.vy; return; }   // 🍌 nằm sõng soài: trượt nốt đà rồi nằm im
     if(this.type==='ninjacat' && this._njGen){ this.vx=0; this.vy=0; return; }
     if(this.type==='poordog' && this._pd && this._pd.st==='lie'){ this.vx=0; this.vy=0; return; }   // 🥣 đang nằm   // 👁️ đang tan biến / đâm sau lưng
     // đang lao vào sân (nhập trận) → chưa di chuyển logic
@@ -20493,7 +20495,7 @@ class Fighter {
     if(this.type==='vampire'&&this.animPulse>0){ const pulse=1+0.28*Math.sin((this.animPulse/14)*Math.PI); scaleX*=pulse; scaleY*=pulse; }
     if(this.type==='tank'&&this.animBump>0){ const bump=1+0.2*Math.sin((this.animBump/10)*Math.PI); scaleX*=bump; scaleY*=bump; }
     if(this._hmGrab){ const g=this._hmGrab; scaleX*=g.sx||1; scaleY*=g.sy||1; offY-=g.lift||0; }
-    { const _ps=this._pdSprawl, _pu=_ps?tick-_ps.t0:1e9; if(_ps && _pu<_ps.dur){ const k=Math.min(1,_pu/6)*Math.min(1,(_ps.dur-_pu)/8); rotation+=_ps.dir*1.45*k; offY+=s*0.35*k; } }   // 🍌 ngã sõng soài
+    { const _ps=this._pdSprawl, _pu=_ps?tick-_ps.t0:1e9; if(_ps && _pu<_ps.dur){ const k=Math.min(1,_pu/6)*Math.min(1,(_ps.dur-_pu)/8); rotation+=_ps.dir*Math.PI*k; offY+=s*0.15*k; } }   // 🍌 ngã sõng soài: nằm NGỬA mặt lên trời, chân chổng lên
     if(this._pdHideK!=null){ scaleX*=this._pdHideK; scaleY*=this._pdHideK; rotation+=this._pdSpin||0; }   // 🌀 lọt portal
     { const _pq=this._pdSquash!=null?tick-this._pdSquash:1e9; if(_pq<24){ const k=1-_pq/24; scaleY*=1-0.45*k; scaleX*=1+0.3*k; offY+=s*0.3*k; } }   // 🎹 bị đàn đè bẹp
     { const _sg=this.dead?0:_saGravOn(this); if(_sg>0.02){ scaleY*=1-0.3*_sg; scaleX*=1+0.15*_sg; offY+=s*0.3*_sg; offX+=(Math.random()-0.5)*s*0.05*_sg; } }   // 😼 bị trọng lực Arbiter ép bẹp dần xuống đất, run lên   // 🐹 bị tay bóng tối bóp bẹp / nhấc bổng
