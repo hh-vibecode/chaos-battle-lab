@@ -16,7 +16,7 @@
   const IMG={ gary:A('assets/avatars/evilgary/avatarUrl.webp'), friend:A('assets/avatars/friend/avatarUrl.webp'), hand:A('assets/img/scaredhamster/HAND_grip.webp'),
     pain:A('assets/img/depressedcat/DP_PAIN_IMG.webp'), mem:['ninjacat','mewingcat','infinitydoge','doorbellchud'].map(n=>A('assets/avatars/'+n+'/avatarUrl.webp')) };
   // 4 thành viên mặc áo choàng Akatsuki: ĐẦU cắt từ avatar (tỉ lệ x0,y0,x1,y1 trong ảnh) ghép lên thân áo choàng của Pain
-  const MEM_HEAD=[[0.06,0,0.64,0.37],[0.1,0.05,0.93,0.66],[0.2,0.03,0.8,0.62],[0.37,0.09,0.64,0.31]];
+  const MEM_HEAD=[[0.2,0.03,0.6,0.3],[0.1,0.05,0.93,0.66],[0.2,0.03,0.8,0.62],[0.37,0.09,0.64,0.31]];
   const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)), seg=(t,a,b)=>clamp((t-a)/(b-a),0,1), eio=x=>x*x*(3-2*x), lerp=(a,b,k)=>a+(b-a)*k;
   const eout=x=>1-(1-x)*(1-x), ein=x=>x*x;
   const hash=n=>{ const s=Math.sin(n*127.1+311.7)*43758.5453; return s-Math.floor(s); };
@@ -43,8 +43,8 @@
     x.globalCompositeOperation='destination-out'; x.drawImage(src,dx,dy); return c; }
 
   // ───────────────────── 🎨 HANG ĐÁ (vẽ sẵn) ─────────────────────
-  const BX0=-380, BX1=920, BY0=-720, BY1=1400, BS=1.6;
-  const STX=270, PED=GROUND-70, SH=820;   // tượng: tâm x · mặt trên bệ · chiều cao
+  const BX0=-560, BX1=1100, BY0=-980, BY1=1560, BS=1.4;
+  const STX=270, PED=GROUND-70, SH=1100;   // tượng: tâm x · mặt trên bệ · chiều cao
   const BRZ=[[-170,GY+40,1,9.8],[710,GY+40,1,9.8],[30,PED,0.75,10.3],[510,PED,0.75,10.3],[-205,190,0.8,10.8],[745,190,0.8,10.8],[-170,-160,0.7,11.3],[710,-160,0.7,11.3]];   // đuốc: x, y miệng chậu, cỡ, lúc bùng cháy
   function rockBlob(x,y,r,seed,c0,c1){
     const n=10, P=[]; for(let i=0;i<n;i++){ const a=i/n*Math.PI*2, rr=r*(0.7+0.45*h2(i,seed,3)); P.push([x+Math.cos(a)*rr, y+Math.sin(a)*rr*0.8]); }
@@ -112,7 +112,7 @@
     return { c, half:(R+30) }; }
   // vẽ vòng phong ấn: tâm (x,y), bán kính r, flat = độ dẹt (1 = tròn đứng, 0.3 = nằm dưới chân), xoay rot, độ sáng a
   function drawSeal(x,y,r,flat,rot,a){ if(a<=0.01 || !SEAL) return; const s=r/200, H=SEAL.half*s;
-    g.save(); g.globalCompositeOperation='lighter'; g.globalAlpha=Math.min(1,a); g.translate(x,y); g.scale(1,flat); g.rotate(rot); g.drawImage(SEAL.c,-H,-H,H*2,H*2); g.restore(); }
+    g.save(); g.globalCompositeOperation='lighter'; g.globalAlpha*=Math.min(1,a); g.translate(x,y); g.scale(1,flat); g.rotate(rot); g.drawImage(SEAL.c,-H,-H,H*2,H*2); g.restore(); }
   function brazier(x,y,s){
     g.save(); g.translate(x,y); g.scale(s,s);
     let gr=g.createLinearGradient(-30,0,30,0); gr.addColorStop(0,'#15121c'); gr.addColorStop(0.4,'#3b3548'); gr.addColorStop(1,'#110f17');
@@ -143,7 +143,7 @@
     const X0=STX-SW/2, Y0=PED-SH;
     return { c:cvs, x:X0, y:Y0, w:SW, h:SH, k, headX:X0+hx/k, headY:Y0+top[hx]/k, rimL:rimOf(cvs,14,10,'rgb(190,140,255)'), rimR:rimOf(cvs,-14,10,'rgb(190,140,255)'), rimT:rimOf(cvs,0,16,'rgb(190,215,255)') };
   }
-  const HH=520;   // bàn tay khum (từ cổ tay tới đầu ngón) — cùng cánh tay bóng tối khổng lồ vươn từ góc sàn lên
+  const HH=1000;   // bàn tay khum (từ cổ tay tới đầu ngón) — cùng cánh tay bóng tối khổng lồ vươn từ góc sàn lên
   function buildHand(){
     const c=prep(IMG.hand), k=2.2, hw=HH*c.sh/c.sw, cw=Math.round(hw*k), ch=Math.round(HH*k), cvs=mk(cw,ch), x=cvs.getContext('2d');
     x.translate(cw/2,ch/2); x.rotate(-Math.PI/2); x.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,-ch/2,-cw/2,ch,cw);
@@ -154,11 +154,11 @@
   }
   // ✋ 2 CÁNH TAY BÓNG TỐI mọc từ 2 góc dưới, vươn lên, bàn tay khum NGỬA lên lơ lửng chéo trên lồng như đang kết ấn phong ấn + hút chakra
   //    S = vai (ngoài khung), C = điểm uốn khuỷu, (x,y) = cổ tay, a = độ nghiêng bàn tay vào phía lồng. Tay phải = đối xứng qua tâm lồng.
-  const HANDS=[{x:-30,y:520,a:0.55,flip:false,S:[-400,1180],C:[-310,620]},{x:550,y:520,a:-0.55,flip:true,S:[920,1180],C:[830,620]}];
+  const HANDS=[{x:-150,y:1020,a:-0.1,flip:false,S:[-560,1560],C:[-430,1230]},{x:670,y:1020,a:0.1,flip:true,S:[1100,1560],C:[970,1230]}];   // lòng bàn tay NGỬA lên, hơi mở ra ngoài
   const handPt=(H,lx,ly)=>[H.x+lx*Math.cos(H.a)-ly*Math.sin(H.a), H.y+lx*Math.sin(H.a)+ly*Math.cos(H.a)];   // điểm (lx,ly) theo khung tay (gốc = cổ tay, -y = về phía ngón) → toạ độ thế giới
   function drawArm(H,lit){ const [sx,sy]=H.S, [qx,qy]=H.C, N=26, L=[], R=[];
     for(let i=0;i<=N;i++){ const u=i/N, x=(1-u)*(1-u)*sx+2*(1-u)*u*qx+u*u*H.x, y=(1-u)*(1-u)*sy+2*(1-u)*u*qy+u*u*H.y;
-      const tx=2*(1-u)*(qx-sx)+2*u*(H.x-qx), ty=2*(1-u)*(qy-sy)+2*u*(H.y-qy), tl=Math.hypot(tx,ty)||1, nx=-ty/tl, ny=tx/tl, w=(250-95*u)/2*(1+0.08*Math.sin(u*9));
+      const tx=2*(1-u)*(qx-sx)+2*u*(H.x-qx), ty=2*(1-u)*(qy-sy)+2*u*(H.y-qy), tl=Math.hypot(tx,ty)||1, nx=-ty/tl, ny=tx/tl, w=(440-120*u)/2*(1+0.08*Math.sin(u*9));
       L.push([x+nx*w,y+ny*w]); R.push([x-nx*w,y-ny*w]); }
     const path=()=>{ g.beginPath(); L.forEach((p,i)=>i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1])); for(let i=R.length-1;i>=0;i--) g.lineTo(R[i][0],R[i][1]); g.closePath(); };
     g.save(); g.fillStyle='#07060b'; path(); g.fill();
@@ -176,16 +176,13 @@
     x.drawImage(im,hx0,hy0,hw0,hh0,(W-hw)/2,0,hw,hh);
     x.drawImage(P,0,cy0,cw0,ch0,(W-cw)/2,h-ch,cw,ch);
     return fig; }
-  function buildHolo(im,i){ if(!im.naturalWidth || !IMG.pain.naturalWidth) return null; const h=MH*3, fig=buildFigure(im,MEM_HEAD[i],h), w=fig.width, pad=24, cvs=mk(w+pad*2,h+pad*2), x=cvs.getContext('2d');
-    const m=mk(w,h), mx=m.getContext('2d'); mx.drawImage(fig,0,0); mx.globalCompositeOperation='source-in'; mx.fillStyle='#fff'; mx.fillRect(0,0,w,h);
-    x.filter='blur(7px)'; x.globalAlpha=1; for(let i=0;i<3;i++) x.drawImage(m,pad,pad);   // quầng viền phát sáng
-    x.filter='none'; x.globalCompositeOperation='source-in'; x.fillStyle='#c2adff'; x.fillRect(0,0,cvs.width,cvs.height);
-    x.globalCompositeOperation='destination-out'; x.filter='blur(2px)'; x.drawImage(m,pad+4,pad+4,w-8,h-8); x.filter='none';
-    x.globalCompositeOperation='source-over'; const inner=mk(w,h), ix=inner.getContext('2d');
-    ix.filter='brightness(0.85) saturate(0.8)'; ix.drawImage(fig,0,0); ix.filter='none'; ix.globalCompositeOperation='source-atop';
-    ix.fillStyle='rgba(80,55,160,0.3)'; ix.fillRect(0,0,w,h);   // ám tím hình chiếu (mây đỏ trên áo vẫn lộ)
-    ix.fillStyle='rgba(200,180,255,0.16)'; for(let y=0;y<h;y+=5) ix.fillRect(0,y,w,1.6);   // vạch quét ngang
-    x.globalAlpha=0.9; x.filter='blur(1.6px)'; x.drawImage(inner,pad,pad); x.filter='none';   // nhoè nhẹ → mờ ảo
+  // 👤 thành viên = BÓNG ĐEN y như Pain: mặt / thân chìm hẳn vào bóng tối, chỉ mây đỏ trên áo choàng lộ mờ mờ + viền tím mảnh
+  function buildHolo(im,i){ if(!im.naturalWidth || !IMG.pain.naturalWidth) return null; const h=MH*3, fig=buildFigure(im,MEM_HEAD[i],h), w=fig.width, pad=12, cvs=mk(w+pad*2,h+pad*2), x=cvs.getContext('2d');
+    const fx=fig.getContext('2d'), id=fx.getImageData(0,0,fig.width,fig.height), p=id.data;
+    for(let j=0;j<p.length;j+=4){ if(p[j+3]<8) continue; const r=p[j],gg=p[j+1],b=p[j+2], red=r>110 && r>gg*1.9 && r>b*1.7, f=red?0.45:0.05; p[j]=r*f; p[j+1]=gg*f; p[j+2]=b*f+(red?0:3); }
+    fx.putImageData(id,0,0);
+    const rim=rimOf(fig,0,7,'rgb(190,150,255)');   // viền sáng phía trên (ánh đuốc hắt)
+    x.drawImage(fig,pad,pad); x.globalCompositeOperation='lighter'; x.globalAlpha=0.55; x.drawImage(rim,pad,pad);
     return { c:cvs, w:(w+pad*2)/3, h:(h+pad*2)/3, pad:pad/3 }; }
   function buildPain(){ const c=prep(IMG.pain), k=2.4, h=110, w=h*c.sw/c.sh, cw=Math.round(w*k), ch=Math.round(h*k), cvs=mk(cw,ch), x=cvs.getContext('2d');
     x.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,0,0,cw,ch);
@@ -272,7 +269,7 @@
     for(let i=0;i<n;i++){ const u=(i+0.5)/n, x=lerp(x0,x1,u), y=lerp(y0,y1,u)+sag*4*u*(1-u), dx=(x1-x0)/n, dy=(y1-y0)/n+sag*4*(1-2*u)/n, a=Math.atan2(dy,dx);
       g.save(); g.translate(x,y); g.rotate(a); g.lineWidth=4; g.strokeStyle=i%2?'#2a2833':'#4a4758'; g.beginPath(); g.ellipse(0,0,9,i%2?2.5:5.5,0,0,Math.PI*2); g.stroke();
       g.strokeStyle='rgba(220,210,255,0.18)'; g.lineWidth=1; g.beginPath(); g.ellipse(0,-1,8,i%2?1.5:4.5,0,Math.PI,Math.PI*2); g.stroke(); g.restore(); } }
-  function cuffs(t,lit){ for(const H of HANDS){ const w=200, hgt=56, dir=H.flip?1:-1, CY=30;   // cùm nằm ngay dưới cổ tay (trên cánh tay)
+  function cuffs(t,lit){ for(const H of HANDS){ const w=340, hgt=80, dir=H.flip?1:-1, CY=40;   // cùm nằm ngay dưới cổ tay (trên cánh tay)
       const [ox1,oy1]=handPt(H,dir*w*0.45,CY), [ox2,oy2]=handPt(H,-dir*w*0.2,CY+hgt*0.4), ax=ox2+dir*-150;
       chain(ox1,oy1,dir<0?BX0+10:BX1-10,oy1-220,90);   // xích lên vách hang
       chain(ox2,oy2,ax,GY+60,40);   // xích xuống mỏ neo dưới sàn
@@ -300,7 +297,7 @@
     if(t>=T.land){ const a=t<T.closed?seg(t,T.land,T.closed):1; L.push([PX,GY-30,190,0.55*a*(1-0.5*Lv(t)),'140,90,230']); }   // dư ảnh năng lượng cổng còn vương quanh Gary
     for(const b of BRZ){ const a=brzOn(b,t); if(a>0) L.push([b[0],b[1]-30*b[2],340*b[2],a*(0.85+0.15*Math.sin(t*11+b[0])),'160,100,255']); }
     const beam=t>=T.ignite?0.35*Lv(t):0, fl=flashK(t); if(beam+fl>0.01) L.push([ST.headX,ST.headY-60,260+200*fl,Math.min(1,beam+fl),'190,210,255']);
-    { const k=cageBurst(t); L.push([CAGE.x,CAGE.y,200+160*k,0.12+0.6*k,'230,40,60']); }   // 🔒 ánh đỏ hắt ra từ lồng giam Friend (bùng mạnh khi nó định phá lồng)
+    { const k=cageBurst(t), rv=Lv(t); if(rv>0.01) L.push([CAGE.x,CAGE.y,260+200*k,(0.15+0.6*k)*rv,'230,40,60']); }   // 🔒 ánh đỏ hắt ra từ lồng giam Friend (bùng mạnh khi nó định phá lồng)
     return L; }
   function darkness(t,cx,cy,z,Ls){ const fl=flashK(t), a=clamp(lerp(0.965,0.62,Lv(t))-0.35*fl,0,1);
     dctx.setTransform(1,0,0,1,0,0); dctx.globalCompositeOperation='source-over'; dctx.clearRect(0,0,D.width,D.height);
@@ -313,7 +310,7 @@
   // ───────────────────── 🔒 FRIEND THẬT BỊ GIAM TRONG BỤNG TƯỢNG ─────────────────────
   // Hốc đá khoét trong bụng tượng, song chắn đá + bùa 封. Friend giẫy giụa bên trong, cắm đầy THANH NHẬN CHAKRA ĐEN
   // (Black Receivers) phong ấn khắp người, mắt rực sáng. Cứ ~3.4s lại bùng AURA đỏ đen định phá lồng: song chắn rung, rực đỏ, bụi rơi.
-  const CAGE={x:STX-10, y:PED-SH*0.36, w:250, h:200};
+  const CAGE={x:STX-10, y:PED-SH*0.36, w:325, h:260};
   const RODS=[[0.36,0.46,-2.6,62],[0.5,0.64,2.4,56],[0.28,0.7,3.0,58],[0.64,0.56,-0.55,64],[0.44,0.3,-2.0,52],[0.72,0.74,0.5,56],[0.18,0.52,3.5,54],[0.58,0.4,-1.1,50]];   // [x,y trong thân, góc chĩa ra, dài]
   const cageBurst=t=>{ const ph=((t+1.3)%3.4)/3.4; return ph<0.28?Math.sin(ph/0.28*Math.PI):0; };
   function rod(x0,y0,a,L){ const x1=x0+Math.cos(a)*L, y1=y0+Math.sin(a)*L;
@@ -333,7 +330,7 @@
         for(let i=0;i<14;i++){ const a=i/14*Math.PI*2, l=FW*(0.55+0.35*k*(0.6+0.4*Math.sin(t*20+i*2.3)));
           g.strokeStyle=`rgba(255,${60+80*hash(i)},60,${0.5*k})`; g.lineWidth=5; g.beginPath(); g.moveTo(Math.cos(a)*FW*0.35,Math.sin(a)*FH*0.35); g.lineTo(Math.cos(a)*l,Math.sin(a)*l*0.9); g.stroke(); } g.restore(); }
       g.filter=`brightness(${Math.min(1.3,0.35+0.7*L)})`; g.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,-FW/2,-FH/2,FW,FH); g.filter='none';
-      for(const [fx,fy,a,len] of RODS) rod(-FW/2+fx*FW,-FH/2+fy*FH,a,len);
+      for(const [fx,fy,a,len] of RODS) rod(-FW/2+fx*FW,-FH/2+fy*FH,a,len*C.h/200);
       g.save(); g.globalCompositeOperation='lighter';   // 👁️ mắt rực sáng (vàng / hồng) — luôn thấy kể cả trong bóng tối
       glow(-FW/2+0.56*FW,-FH/2+0.27*FH,FH*0.13,0.55+0.4*k,'255,220,40'); glow(-FW/2+0.71*FW,-FH/2+0.27*FH,FH*0.13,0.55+0.4*k,'255,110,200'); g.restore();
       g.restore(); }
@@ -367,7 +364,7 @@
     MEM.forEach((M,i)=>{ if(!M) return; const ts=T.holo+[0,0.5,0.25,0.75][i], u=seg(t,ts-0.3,ts+0.3); if(u<=0) return; const [x,y]=P[i];
       drawSeal(x,y+2,M.w*0.62*(0.6+0.4*eout(u)),0.3,t*0.7+i,0.95*eout(u)); }); }
   // ⚫ VIÊN CẦU ĐEN trên lồng: hút năng lượng từ Friend bị nhốt (luồng sáng cam đỏ chảy ngược lên), mặt cầu NỨT, ánh cam rỉ qua vết nứt
-  const ORB={x:CAGE.x, y:CAGE.y-CAGE.h/2-52, r:30};
+  const ORB={x:CAGE.x, y:CAGE.y-CAGE.h/2-190, r:72};   // cách lồng 1 khoảng, hút liên tục qua 1 luồng chakra
   const CRACKS=(()=>{ const out=[]; for(let i=0;i<7;i++){ let a=h2(i,3,1)*Math.PI*2, d=0.15+0.25*h2(i,3,2); const P=[[Math.cos(a)*d,Math.sin(a)*d]];
       for(let q=0;q<4;q++){ a+=(h2(i,q,3)-0.5)*1.1; d=Math.min(1,d+0.2+0.12*h2(i,q,4)); P.push([Math.cos(a)*d,Math.sin(a)*d]); } out.push(P); } return out; })();
   function orb(t){ const {x,y,r}=ORB, k=cageBurst(t), pul=0.65+0.35*Math.sin(t*5.3)*Math.sin(t*2.1), lit=Lv(t);
@@ -376,9 +373,17 @@
     for(const H of HANDS){ const [px,py]=handPt(H,0,-HH*0.45), sx=CAGE.x+(H.flip?1:-1)*CAGE.w*0.5, sy=CAGE.y;   // ✋ 2 bàn tay kết ấn cũng hút chakra từ lồng vào lòng bàn tay
       for(let i=0;i<14;i++){ const ph=(t*0.55+i/14+(H.flip?0.5:0))%1, bx=sx+(px-sx)*ph, by=sy+(py-sy)*ph-Math.sin(ph*Math.PI)*40+Math.sin(ph*9+t*4+i)*6;
         g.fillStyle=`rgba(255,${120+80*hash(i)},40,${(0.2+0.3*k)*Math.sin(ph*Math.PI)*(0.3+0.7*lit)})`; g.beginPath(); g.arc(bx,by,2.4+1.6*hash(i+9),0,Math.PI*2); g.fill(); } }
-    for(let s=0;s<3;s++) for(let i=0;i<12;i++){ const ph=((t*(0.7+0.15*s)+i/12+s*0.33)%1), y0=CAGE.y-CAGE.h*0.1, yy=y0+(y-y0)*ph, xx=x+Math.sin(ph*Math.PI*2.2+s*2.1+t*3)*(18*(1-ph));
-      g.fillStyle=`rgba(255,${110+70*hash(i+s)},40,${(0.25+0.4*k)*Math.sin(ph*Math.PI)})`; g.beginPath(); g.arc(xx,yy,2.2+2*(1-ph),0,Math.PI*2); g.fill(); }
-    glow(x,y,r*3.2,(0.2+0.25*k)*pul,'255,110,30'); g.restore();
+    // 🌊 LUỒNG chakra liên tục từ Friend (trong lồng) chảy ngược lên quả cầu — lõi xoắn sáng + hạt chạy dọc luồng
+    const y0=CAGE.y-CAGE.h*0.3, y1=y+r*0.85, wv=(yy,ph)=>x+Math.sin((yy-y1)*0.045-t*7+ph)*(10+8*k)*((yy-y1)/(y0-y1));
+    for(const [lw,col,ph] of [[30,`rgba(255,90,20,${0.16+0.12*k})`,0],[14,`rgba(255,150,40,${0.35+0.2*k})`,1.3],[5,`rgba(255,235,190,${0.65+0.25*k})`,2.6]]){
+      g.strokeStyle=col; g.lineWidth=lw*(0.9+0.1*Math.sin(t*6+ph)); g.lineCap='round'; g.beginPath();
+      for(let i=0;i<=24;i++){ const yy=y0+(y1-y0)*i/24, xx=wv(yy,ph); i?g.lineTo(xx,yy):g.moveTo(xx,yy); } g.stroke(); }
+    for(let i=0;i<26;i++){ const ph=((t*0.9+i/26)%1), yy=y0+(y1-y0)*ph, xx=wv(yy,i)+Math.sin(i*2.3+t*5)*6*(1-ph);
+      g.fillStyle=`rgba(255,${140+80*hash(i)},60,${0.8*Math.sin(ph*Math.PI)})`; g.beginPath(); g.arc(xx,yy,2+2.4*(1-ph),0,Math.PI*2); g.fill(); }
+    for(let i=0;i<12;i++){ const ph=((t*0.8+i/12)%1), a=i*0.52+t*2.5+ph*4, d=r*(2.1-1.2*ph);   // xoáy hút vào quả cầu
+      g.fillStyle=`rgba(255,${120+90*hash(i+5)},40,${0.7*Math.sin(ph*Math.PI)})`; g.beginPath(); g.arc(x+Math.cos(a)*d,y+Math.sin(a)*d*0.8,1.8+1.5*hash(i),0,Math.PI*2); g.fill(); }
+    glow(x,y1,r*1.3,0.5*(0.7+0.3*pul),'255,140,40');
+    glow(x,y,r*3.4,(0.22+0.25*k)*pul,'255,110,30'); g.restore();
     // thân cầu đen bóng
     const gr=g.createRadialGradient(x-r*0.35,y-r*0.4,r*0.1,x,y,r); gr.addColorStop(0,`rgb(${40+40*lit|0},${34+30*lit|0},${48+40*lit|0})`); gr.addColorStop(0.55,'#0b090f'); gr.addColorStop(1,'#020104');
     g.fillStyle=gr; g.beginPath(); g.arc(x,y,r,0,Math.PI*2); g.fill();
@@ -412,7 +417,7 @@
 
   // ───────────────────── 🎥 MÁY QUAY ─────────────────────
   const CAMK=[[0,PX,PY+30,1.5],[T.out,PX,PY+40,1.42],[T.land,PX,GY-120,1.9],[T.closed,PX,GY-80,2.1],[T.wake,PX,GY-60,2.75],[T.lookUp,PX,GY-60,2.55],
-    [T.wide,STX,380,0.5],[T.push,STX,372,0.53],[T.flash,STX,null,1.7],[T.fade,STX,null,3.1],[DUR,STX,null,3.2]];
+    [T.wide,STX,370,0.47],[T.push,STX,360,0.5],[T.flash,STX,null,1.7],[T.fade,STX,null,3.1],[DUR,STX,null,3.2]];
   function cam(t){ const head=ST.headY-PAIN.h*0.62, K=CAMK.map(k=>[k[0],k[2]==null?ST.headX:k[1],k[2]==null?(k[3]>2?head:head+40):k[2],k[3]]);
     let r=K[K.length-1].slice(1);
     for(let i=1;i<K.length;i++) if(t<K[i][0]){ const a=K[i-1], b=K[i], e=eio(seg(t,a[0],b[0])); r=[lerp(a[1],b[1],e),lerp(a[2],b[2],e),Math.exp(lerp(Math.log(a[3]),Math.log(b[3]),e))]; break; }
@@ -451,9 +456,11 @@
     darkness(t,cx,cy,z,lights(t));
     for(const b of BRZ) flame(b[0],b[1],b[2],brzOn(b,t),t,b[0]*0.01);
     portal(t);
-    { const k=cageBurst(t); drawSeal(CAGE.x,CAGE.y,165,1,t*0.15,(0.25+0.75*lit)*(0.85+0.15*Math.sin(t*2.2))+0.4*k); }   // 🔶 vòng phong ấn cam bao quanh lồng
+    const rev=Lv(t); g.save(); g.globalAlpha=rev;   // 🔒 cụm lồng giam chỉ lộ ra khi đuốc bừng lên (trước đó chìm hẳn trong bóng tối)
+    { const k=cageBurst(t); drawSeal(CAGE.x,CAGE.y,215,1,t*0.15,(0.25+0.75*lit)*(0.85+0.15*Math.sin(t*2.2))+0.4*k); }   // 🔶 vòng phong ấn cam bao quanh lồng
     friendCage(t);
     orb(t);
+    g.restore();
     holoSeals(t); holos(t); drawPain(t);
     fog(t,0.4+0.6*lit); motes(t,0.25+0.75*lit);
     g=cv.getContext('2d'); g.setTransform(1,0,0,1,0,0); g.drawImage(W2,0,0); g.setTransform(SC,0,0,SC,0,0);
