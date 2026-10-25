@@ -5233,12 +5233,28 @@ function _bxTick(f){   // gọi trong doAbility
   for(const u of fighters){ if(u===f||u.dead||u.team===f.team) continue; const d=Math.hypot(u.x-f.x,u.y-f.y)-f.size-u.size; if(d<=MELEE_REACH&&d<bd){ bd=d; best=u; } }
   if(best) _bxPunch(f,best);
 }
+// 🥊 số dame đang tích trên đầu kiểu BẢNG ĐIỂM VÕ ĐÀI: chữ đậm nghiêng viền đen dày, tô chuyển màu theo bậc (trắng → vàng → cam → đỏ rực),
+//    quầng sáng cùng màu, NẢY lên mỗi lần số tăng, bậc cao nhất thì rung; găng 🥊 nhỏ bên trái nhún theo
+const BX_NUM_COL=[['#ffffff','#cfd8dc',null],['#fff8e1','#ffca28','255,200,80'],['#ffe082','#ff8f00','255,140,0'],['#ffffff','#ff3d00','255,50,0']];
+function _bxDrawCounter(f,dmg,tier){
+  if(f._bxLastDmg!==dmg){ if(f._bxLastDmg!=null && dmg>f._bxLastDmg) f._bxPop=tick; f._bxLastDmg=dmg; }
+  const pop=Math.max(0,1-(tick-(f._bxPop??-99))/8), sc=1+0.35*pop*pop, fs=16+tier*3, C=BX_NUM_COL[tier];
+  const jx=tier>=3?(Math.random()-0.5)*2.4:0, jy=tier>=3?(Math.random()-0.5)*2:0, x=f.x+jx, y=f.y-f.size-60+jy, txt=String(dmg);   /* nằm TRÊN thanh máu */
+  ctx.save(); ctx.translate(x,y); ctx.scale(sc,sc);
+  ctx.font=`italic 900 ${fs}px "Arial Black","Impact",sans-serif`; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.lineJoin='round';
+  const tw=ctx.measureText(txt).width;
+  if(C[2]){ ctx.shadowColor=`rgba(${C[2]},${0.65+0.3*Math.sin(tick*0.4)})`; ctx.shadowBlur=6+tier*4; }
+  ctx.lineWidth=fs*0.36; ctx.strokeStyle='#170b02'; ctx.strokeText(txt,0,0); ctx.shadowBlur=0;
+  const gr=ctx.createLinearGradient(0,-fs*0.5,0,fs*0.5); gr.addColorStop(0,C[0]); gr.addColorStop(1,C[1]); ctx.fillStyle=gr; ctx.fillText(txt,0,0);
+  ctx.lineWidth=1; ctx.strokeStyle='rgba(255,255,255,0.55)'; ctx.strokeText(txt,0,-1);   // ánh kim mảnh mép trên
+  ctx.font=`${Math.round(fs*0.85)}px serif`; ctx.save(); ctx.translate(-tw/2-fs*0.55,fs*0.05-pop*4); ctx.rotate(-0.35+pop*0.3); ctx.fillText('🥊',0,0); ctx.restore();
+  ctx.restore(); }
 function _bxFxDraw(){
   // 🥊 lúc đang khởi động: chỉ hiện số dame đang tích trên đầu (vàng khi ≥180)
   for(const f of fighters){ if(f.dead||f.type!=='boxingcat'||!f._bx||f._bx.st!=='warm') continue; const B=f._bx, tier=_bxTier(B.dmg), pulse=0.7+0.3*Math.sin(tick*0.5);
     const col=['255,255,255','255,240,200','255,215,120','255,250,235'][tier], e=f.enemy, a=e?Math.atan2(e.y-f.y,e.x-f.x):0;
     // (đã bỏ quầng sáng + vệt đấm gió lúc khởi động theo yêu cầu — chỉ còn số dame đang tích trên đầu)
-    ctx.save(); ctx.font=`900 ${13+tier*2}px "Press Start 2P",monospace`; ctx.textAlign='center'; ctx.lineWidth=4; ctx.strokeStyle='#000'; ctx.fillStyle=tier>=2?'#ffd54f':'#fff'; ctx.strokeText(B.dmg,f.x,f.y-f.size-16); ctx.fillText(B.dmg,f.x,f.y-f.size-16); ctx.restore(); }
+    _bxDrawCounter(f,B.dmg,tier); }
   // 💥 cú đấm Râu Trắng — NHẸ (≥100/≥180): quả cầu chấn động TRONG SUỐT ôm điểm đấm, đá vụn vỡ bên trong rồi văng ra · NẶNG (≥250): nền tối lại, chấm sáng chói ở nắm đấm, vết nứt không khí trắng dài xuyên cả sàn
   ctx.save(); ctx.beginPath(); ctx.rect(0,0,W,H); ctx.clip();
   for(let i=bxFx.length-1;i>=0;i--){ const F=bxFx[i]; F.t++; if(F.t>F.T){ bxFx.splice(i,1); continue; } const k=F.t/F.T, grow=Math.min(1,F.t/5), fade=1-Math.max(0,(k-0.5)/0.5);
@@ -20335,7 +20351,7 @@ class Fighter {
     // 🧛 VAMPIRE CAT: vừa né đòn hoá khói — mờ gần như tan biến rồi hiện lại ngay (toàn bộ khối vẽ sprite bên
     // dưới nằm trong save/restore này nên set 1 lần ở đây là đủ, không đụng gì các nhân vật khác).
     if(this.type==='vampirecat' && (this._vampSmoke||0)>0){ this._vampSmoke--; ctx.globalAlpha=0.12; }
-    const s=this.size*((this.type==='boxingcat')?1.43:(this.type==='poordog')?1.3:(this.type==='chonkydog')?1.1:(this.type==='vampirecat'&&this._vampBatForm)?1.2:(this.type==='doge'&&this.dogeBuffed)?1.1:(this.type==='feuerkatze'&&(this._fkSaluteNow||0)>0)?1.1:(this.type==='germancat'&&this.germanSpeechTimer>0)?1.4:(this.type==='evillarry'&&this.actionState==='attack')?1.2:(this.type==='grumpycat'&&this._rageActive)?1.3:(this.type==='maxwell'&&(this._mwPhase==='spin'||this._mwPhase==='reveal'))?1.2:(this.type==='uiacat'&&this.oiiaSpinTimer>0)?1.265:(this.type==='capybara'&&this._cbFused)?0.9:(this.type==='capybara'&&!this._cbFused&&!this._cbIsKnife)?0.8:1)*(1-(this._rbShrinkFrac||0)); // bị Rubik Cat hút vào hố đen thì thu nhỏ dần về 0 thay vì vỡ mảnh vụn
+    const s=this.size*((this.type==='boxingcat')?1.22:(this.type==='poordog')?1.3:(this.type==='chonkydog')?1.1:(this.type==='vampirecat'&&this._vampBatForm)?1.2:(this.type==='doge'&&this.dogeBuffed)?1.1:(this.type==='feuerkatze'&&(this._fkSaluteNow||0)>0)?1.1:(this.type==='germancat'&&this.germanSpeechTimer>0)?1.4:(this.type==='evillarry'&&this.actionState==='attack')?1.2:(this.type==='grumpycat'&&this._rageActive)?1.3:(this.type==='maxwell'&&(this._mwPhase==='spin'||this._mwPhase==='reveal'))?1.2:(this.type==='uiacat'&&this.oiiaSpinTimer>0)?1.265:(this.type==='capybara'&&this._cbFused)?0.9:(this.type==='capybara'&&!this._cbFused&&!this._cbIsKnife)?0.8:1)*(1-(this._rbShrinkFrac||0)); // bị Rubik Cat hút vào hố đen thì thu nhỏ dần về 0 thay vì vỡ mảnh vụn
     let scaleX=1,scaleY=1,offX=0,offY=0,rotation=0;
     // 😏 đang bị Troll Face ngậm → thu nhỏ lại còn 45%, nhìn như đang nằm gọn trong bụng nó
     // 😏 Troll Face đang ngậm địch: phình to thêm 30% (chỉ phần HÌNH, hitbox giữ nguyên). Riêng 0.5–0.7s ĐẦU
