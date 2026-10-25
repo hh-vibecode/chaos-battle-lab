@@ -23690,7 +23690,7 @@ function resetGame(){
 
 // 💥 VA CHẠM GIỮA CÁC CHAR: không cho đè/xuyên qua nhau. Tách về đúng điểm chạm + nảy NHẸ (sát, melee vẫn kịp đánh).
 //    Trừ các char ĐẶC BIỆT (di chuyển/định vị riêng) trong _NO_BOUNCE.
-const _NO_BOUNCE = new Set(['commandercat','loooongcat','nyancat','evillarry']); // 😈 Larry đi XUYÊN qua mọi meme, không đẩy nhau
+const _NO_BOUNCE = new Set(['commandercat','loooongcat','evillarry']); // 😈 Larry đi XUYÊN qua mọi meme, không đẩy nhau · 🌈 Nyan Cat đã bỏ khỏi đây — va chạm như meme thường (trước đi xuyên mọi meme)
 // 🥊 char thiên về cận chiến (cần áp sát mới gây dame) — dùng cho cơ chế chống kẹt nảy tường ở moveLogic()
 // 🗿 GIGACHAD +1 STACK: +3% size và +3% dame (cộng dồn, không giới hạn) — cả khi BỊ ĐÁNH lẫn khi HÚC TRÚNG.
 //    Vượt mốc GIGACHAD_BIG_MUL: hiệu ứng chuyển dạng NHẸ đúng 1 lần (edge-triggered), không đóng băng/banner.
