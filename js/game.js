@@ -9574,13 +9574,13 @@ function _smDrawSword(f,sp){
 // Đi RẤT chậm. Cứ đi 2s lại NẰM 3s (5 khung ảnh nằm xuống từ từ, khung 5 user bỏ do AI vẽ lỗi). Trong lúc nằm, ai đánh
 // nó thì bị trừ KARMA đúng bằng số máu nó mất (karma hiện số ÂM trên đầu, kiểu bảng công đức). Mỗi 100 karma mất →
 // mọi sự kiện đen đủi đánh vào kẻ đó +10% dame. Mỗi lần nằm xong là 1 sự kiện đen đủi giáng vào địch, lần lượt:
-//   1 Banana Cat lướt qua văng 2 vỏ chuối (ở lại cả trận; dẫm phải ngã sõng soài 120 + choáng 1.5s)
+//   1 Banana Cat lướt qua văng 2 vỏ chuối (nằm đó tới khi có kẻ dẫm phải: ngã sõng soài 120 + choáng 1.5s, vỏ mất luôn)
 //   2 xe tải (của Wind Guy) húc 150 · 3 sét đánh 150 + choáng lòi xương 1s · 4 đàn piano rơi trúng đầu 120
 //   5 bước hụt vào portal ĐỎ dưới chân (chỉ khi địch ở nửa dưới sân) → rơi ra portal XANH sát mép trên sàn, văng xa nằm sõng soài 100
 //   6 (duy trì) đã mất ≥100 karma: cứ 3s 1 viên đá nhỏ từ ngoài sân bay vào sau gáy 40; từ 300 karma dame ×2 và đổi thành
 //     vật ngẫu nhiên (gạch đỏ / chảo / đá to / dép tổ ong / chậu hoa)
 // Gió thổi lá thu bay ngang sân suốt lúc nó còn sống — cho thấy sự nghèo khổ.
-const PD_FR=[1,2,3,4,5].map(n=>{ const im=new Image(); im.onload=()=>{ im._crop={sx:0,sy:0,sw:im.naturalWidth,sh:im.naturalHeight}; }; im.src='assets/img/poordog/PD_F'+n+'.webp'; return im; });
+const PD_FR=[1,2,3,4,5].map(n=>{ const im=new Image(); im._noMask=true; im.onload=()=>{ im._crop={sx:0,sy:0,sw:im.naturalWidth,sh:im.naturalHeight}; }; im.src='assets/img/poordog/PD_F'+n+'.webp'; return im; });   // _noMask: tranh vẽ có nét viền đen — KHÔNG cho _stickerMask gặm 4px mép (mất viền, mất cái bát)
 const PD_PIANO_IMG=new Image(); PD_PIANO_IMG.src='assets/img/poordog/PD_PIANO.webp';
 const PD_BANANA_IMG=new Image(); PD_BANANA_IMG.src='assets/avatars/bananacat/avatarUrl.webp';
 const PD_SPD=0.4, PD_MOVE_T=120, PD_LIE_T=180, PD_DOWN_T=84, PD_UP_T=24;
@@ -9602,7 +9602,7 @@ function _pdKarma(dog,attacker,n){ const F=_duoResolveAttacker(attacker); if(!F 
 function _pdEvent(dog,e,i){
   if(i===0){ const dir=e.x<W/2?-1:1;   // 🍌 Banana Cat lướt qua từ phía xa hơn, văng 2 vỏ chuối vào đường đi của địch
     pdFx.push({k:'banana', dog, e, dir, x:dir<0?W+60:-60, y:Math.min(H-30,e.y+e.size*0.9), t:0, tossed:false}); playSample('cry_banana_cat',0.9); return true; }
-  if(i===1){ const dir=Math.random()<0.5?1:-1; pdFx.push({k:'truck', dog, e, dir, x:dir>0?-120:W+120, lane:e.y, t:0, hit:new Set()}); playSample('wg_truck_horn',0.9); return true; }
+  if(i===1){ const dir=Math.random()<0.5?1:-1; pdFx.push({k:'truck', dog, e, dir, x:dir>0?-220:W+220, lane:e.y, t:0, hit:new Set()}); playSample('wg_truck_horn',0.9); return true; }
   if(i===2){ pdFx.push({k:'bolt', dog, e, x:e.x, y:e.y, t:0, seed:Math.random()*99}); _pdHit(e,PD_DMG.bolt,dog); if(e.stun!==undefined) e.stun=Math.max(e.stun||0,60); e._pdZap={t0:tick,dur:60}; addShake(10,14); playSample('thunder_big',0.9); return true; }
   if(i===3){ pdFx.push({k:'piano', dog, e, t:0, T:40}); return true; }
   if(i===4){ if(!(e.y>H/2)) return false;   // 🌀 chỉ khi địch đang ở NỬA DƯỚI sân
@@ -9617,11 +9617,11 @@ function _pdTick(){
       if(P.t>=PD_DOWN_T && !P.fired){ const e=_pdTarget(dog); if(e && _pdEvent(dog,e,P.ev)){ P.fired=true; P.ev=(P.ev+1)%5; } }   // portal chưa đủ điều kiện → thử lại suốt lúc nằm
       if(P.t>=PD_LIE_T){ if(!P.fired && P.ev===4) P.ev=0; P.st='move'; P.t=0; P.was=true; } } }
   // 🍌 vỏ chuối: dẫm vào (lúc mới chạm) là ngã sõng soài
-  for(const pl of pdPeels){ if(!pl.on) pl.on=new Set();
+  for(let i=pdPeels.length-1;i>=0;i--){ const pl=pdPeels[i];   // 🍌 dẫm phải là ngã — vỏ chuối bị dẫm thì mất luôn
     const us=[...fighters.filter(o=>o.team!==pl.team && !o.dead), ..._summonFoes(pl.team)];
-    for(const u of us){ const d=Math.hypot(u.x-pl.x,u.y-pl.y), R=(u.size||20)*0.6+14;
-      if(d<R){ if(!pl.on.has(u)){ pl.on.add(u); _pdHit(u,PD_DMG.peel,pl.dog); _pdSprawl(u,90,Math.sign(u.vx||1)); const sp=Math.hypot(u.vx||0,u.vy||0)||1; u.vx=(u.vx||1)/sp*7; u.vy=(u.vy||0)/sp*7; playSample('bonk',1.0); addShake(5,8); } }
-      else if(d>R+12) pl.on.delete(u); } }
+    for(const u of us){ if(Math.hypot(u.x-pl.x,u.y-pl.y) < (u.size||20)*0.6+14){
+      _pdHit(u,PD_DMG.peel,pl.dog); _pdSprawl(u,90,Math.sign(u.vx||1)); const sp=Math.hypot(u.vx||0,u.vy||0)||1; u.vx=(u.vx||1)/sp*7; u.vy=(u.vy||0)/sp*7; playSample('bonk',1.0); addShake(5,8);
+      pdPeels.splice(i,1); break; } } }
   // 🪨 sự kiện duy trì: mất ≥100 karma → cứ 3s 1 vật bay vào sau gáy
   if(dogs.length) for(const F of fighters){ if(F.dead || !((F._pdKarma||0)>=100) || !dogs.some(d=>d.team!==F.team)) continue;
     F._pdStoneT=(F._pdStoneT||0)+1;
@@ -9636,9 +9636,9 @@ function _pdTick(){
     else if(q.k==='peelfly'){ if(q.t>=q.T){ pdPeels.push({x:q.x1, y:q.y1, rot:q.rot, team:q.dog.team, dog:q.dog}); pdFx.splice(i,1); } }
     else if(q.k==='truck'){ q.x+=q.dir*15; if(e && !e.dead && Math.abs(q.x-e.x)>220) q.lane+=(e.y-q.lane)*0.25;
       const us=[...(e && !e.dead?[e]:[]), ..._summonFoes(q.dog.team)];
-      for(const u of us){ if(q.hit.has(u)) continue; if(Math.abs(u.x-q.x)<70 && Math.abs(u.y-q.lane)<(u.size||20)+40){ q.hit.add(u);
+      for(const u of us){ if(q.hit.has(u)) continue; if(Math.abs(u.x-q.x)<110 && Math.abs(u.y-q.lane)<(u.size||20)+65){ q.hit.add(u);
         _pdHit(u,PD_DMG.truck,q.dog); u.vx=q.dir*20; u.vy=(u.y<q.lane?-1:1)*5; if(q.hit.size===1){ playSample('wg_jockey_hit',0.9); addShake(9,12); } } }
-      if(q.x<-200 || q.x>W+200) pdFx.splice(i,1); }
+      if(q.x<-320 || q.x>W+320) pdFx.splice(i,1); }
     else if(q.k==='bolt'){ if(q.t>=22) pdFx.splice(i,1); }
     else if(q.k==='piano'){ if(q.t===q.T-17) playSample('cine_drop',1.0);   // tiếng rơi chạm đất ở 0.28s → bắt đầu sớm 17 tick cho khớp
       if(q.t>=q.T){ if(e && !e.dead){ _pdHit(e,PD_DMG.piano,q.dog); e._pdSquash=tick; addShake(9,12); try{ _spawnMusicNoteFx(e.x,e.y-e.size,e.size); }catch(err){} }
@@ -9675,7 +9675,7 @@ function _pdDrawUnder(){
   for(const q of pdFx){ const e=q.e;
     if(q.k==='portal'){ const op=Math.min(1,q.t/10)*(q.t>90?(100-q.t)/10:1), r=(e&&e.size||40)*1.15;
       _pdPortal(q.rx,q.ry,r,r*0.38,'255,60,40',q.t<60?op:Math.max(0,1-(q.t-60)/20)); }
-    if(q.k==='piano' && e){ const u=q.t/q.T; ctx.save(); ctx.globalAlpha=0.15+0.4*u; ctx.fillStyle='#000'; ctx.beginPath(); ctx.ellipse(e.x,e.y+e.size*0.8,e.size*(0.6+0.9*u),e.size*(0.2+0.25*u),0,0,Math.PI*2); ctx.fill(); ctx.restore(); } } }
+    if(q.k==='piano' && e){ const u=q.t/q.T; ctx.save(); ctx.globalAlpha=0.15+0.4*u; ctx.fillStyle='#000'; ctx.beginPath(); ctx.ellipse(e.x,e.y+e.size*0.8,e.size*(0.9+1.35*u),e.size*(0.3+0.38*u),0,0,Math.PI*2); ctx.fill(); ctx.restore(); } } }
 function _pdSkeleton(w,h){ ctx.save(); ctx.strokeStyle='#f4f9ff'; ctx.fillStyle='#f4f9ff'; ctx.lineCap='round'; ctx.lineWidth=Math.max(2,w*0.045);
   const hy=-h*0.2, hr=h*0.17; ctx.beginPath(); ctx.arc(0,hy,hr,0,Math.PI*2); ctx.fill();
   ctx.fillStyle='#0b1630'; for(const sx of [-1,1]){ ctx.beginPath(); ctx.arc(sx*hr*0.4,hy-hr*0.05,hr*0.25,0,Math.PI*2); ctx.fill(); }
@@ -9701,8 +9701,8 @@ function _pdDrawOver(){
       ctx.rotate(q.dir*0.28); if(q.dir>0) ctx.scale(-1,1); ctx.drawImage(PD_BANANA_IMG,-w/2,-h,w,h); ctx.restore();
       ctx.save(); ctx.strokeStyle='rgba(255,255,255,0.5)'; ctx.lineWidth=2; for(let k=0;k<3;k++){ const yy=q.y-12-k*16; ctx.beginPath(); ctx.moveTo(q.x-q.dir*(w*0.4),yy); ctx.lineTo(q.x-q.dir*(w*0.4+30+k*10),yy); ctx.stroke(); } ctx.restore(); }   // vệt lướt
     else if(q.k==='peelfly'){ const u=q.t/q.T; _pdDrawPeel(q.x0+(q.x1-q.x0)*u, q.y0+(q.y1-q.y0)*u-Math.sin(u*Math.PI)*70, q.rot+u*8, 1); }
-    else if(q.k==='truck' && WG_ITEM_TRUCK_IMG.naturalWidth){ const h=150, w=h*WG_ITEM_TRUCK_IMG.naturalWidth/WG_ITEM_TRUCK_IMG.naturalHeight, by=Math.sin(q.t*0.9)*2;
-      ctx.save(); ctx.translate(q.x,q.lane+h*0.35+by); ctx.globalAlpha=0.3; ctx.fillStyle='#000'; ctx.beginPath(); ctx.ellipse(0,0,w*0.5,12,0,0,Math.PI*2); ctx.fill(); ctx.globalAlpha=1;
+    else if(q.k==='truck' && WG_ITEM_TRUCK_IMG.naturalWidth){ const h=240, w=h*WG_ITEM_TRUCK_IMG.naturalWidth/WG_ITEM_TRUCK_IMG.naturalHeight, by=Math.sin(q.t*0.9)*3;
+      ctx.save(); ctx.translate(q.x,q.lane+h*0.35+by); ctx.globalAlpha=0.3; ctx.fillStyle='#000'; ctx.beginPath(); ctx.ellipse(0,0,w*0.5,18,0,0,Math.PI*2); ctx.fill(); ctx.globalAlpha=1;
       if(q.dir>0) ctx.scale(-1,1); ctx.drawImage(WG_ITEM_TRUCK_IMG,-w/2,-h,w,h); ctx.restore();
       ctx.save(); ctx.fillStyle='rgba(180,170,150,0.35)'; for(let k=0;k<4;k++){ const ph=((q.t*0.08+k*0.25)%1); ctx.globalAlpha=0.4*(1-ph); ctx.beginPath(); ctx.arc(q.x-q.dir*(w*0.45+ph*90),q.lane+h*0.3,10+ph*22,0,Math.PI*2); ctx.fill(); } ctx.restore(); }   // bụi đường
     else if(q.k==='bolt' && e){ const a=1-q.t/22; let x=e.x+(Math.random()-0.5)*0, y=-20; const P=[[x,y]]; const ty=e.y-e.size*0.4;
@@ -9710,9 +9710,9 @@ function _pdDrawOver(){
       ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineJoin='round';
       for(const [lw,c] of [[16,`rgba(130,170,255,${0.3*a})`],[6,`rgba(200,220,255,${0.8*a})`],[2.5,`rgba(255,255,255,${a})`]]){ ctx.lineWidth=lw; ctx.strokeStyle=c; ctx.beginPath(); P.forEach((p,k)=>k?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.stroke(); }
       if(q.t<5){ ctx.fillStyle=`rgba(220,230,255,${0.35*(1-q.t/5)})`; ctx.fillRect(0,0,W,H); } ctx.restore(); }
-    else if(q.k==='piano' && e && PD_PIANO_IMG.naturalWidth){ const u=q.t/q.T, h=e.size*2.3, w=h*PD_PIANO_IMG.naturalWidth/PD_PIANO_IMG.naturalHeight, y=-h+(e.y-e.size*0.2+h*0.1)*u*u;
+    else if(q.k==='piano' && e && PD_PIANO_IMG.naturalWidth){ const u=q.t/q.T, h=e.size*3.45, w=h*PD_PIANO_IMG.naturalWidth/PD_PIANO_IMG.naturalHeight, y=-h+(e.y-e.size*0.2+h*0.1)*u*u;
       ctx.save(); ctx.translate(e.x,y); ctx.rotate(Math.sin(q.t*0.3)*0.08); ctx.drawImage(PD_PIANO_IMG,-w/2,-h,w,h); ctx.restore(); }
-    else if(q.k==='pianobreak' && PD_PIANO_IMG.naturalWidth){ const u=q.t/q.T, h=58*1.6, w=h*PD_PIANO_IMG.naturalWidth/PD_PIANO_IMG.naturalHeight;
+    else if(q.k==='pianobreak' && PD_PIANO_IMG.naturalWidth){ const u=q.t/q.T, h=58*2.4, w=h*PD_PIANO_IMG.naturalWidth/PD_PIANO_IMG.naturalHeight;
       ctx.save(); ctx.globalAlpha=1-u; ctx.translate(q.x,q.y+u*20); ctx.rotate(u*0.5); ctx.scale(1+u*0.15,1-u*0.35); ctx.drawImage(PD_PIANO_IMG,-w/2,-h*0.75,w,h); ctx.restore();
       ctx.save(); for(let k=0;k<12;k++){ const a=-Math.PI*(0.1+0.8*((k*37)%12)/12), d=u*(50+((k*53)%40)); ctx.globalAlpha=1-u; ctx.fillStyle=k%3?'#f4f4f4':'#111'; ctx.save(); ctx.translate(q.x+Math.cos(a)*d,q.y+Math.sin(a)*d+u*u*60); ctx.rotate(u*6+k); ctx.fillRect(-3,-8,6,16); ctx.restore(); } ctx.restore(); }   // phím đàn văng tung toé
     else if(q.k==='portal'){ const op=q.t<36?0:Math.min(1,(q.t-36)/8)*(q.t>90?(100-q.t)/10:1), r=(e&&e.size||40)*1.15; _pdPortal(q.bx,q.by,r,r*0.38,'60,160,255',op); }
