@@ -179,7 +179,7 @@
   // 👤 thành viên = BÓNG ĐEN y như Pain: mặt / thân chìm hẳn vào bóng tối, chỉ mây đỏ trên áo choàng lộ mờ mờ + viền tím mảnh
   function buildHolo(im,i){ if(!im.naturalWidth || !IMG.pain.naturalWidth) return null; const h=MH*3, fig=buildFigure(im,MEM_HEAD[i],h), w=fig.width, pad=12, cvs=mk(w+pad*2,h+pad*2), x=cvs.getContext('2d');
     const fx=fig.getContext('2d'), id=fx.getImageData(0,0,fig.width,fig.height), p=id.data;
-    for(let j=0;j<p.length;j+=4){ if(p[j+3]<8) continue; const r=p[j],gg=p[j+1],b=p[j+2], red=r>110 && r>gg*1.9 && r>b*1.7, f=red?0.45:0.05; p[j]=r*f; p[j+1]=gg*f; p[j+2]=b*f+(red?0:3); }
+    for(let j=0;j<p.length;j+=4){ if(p[j+3]<8) continue; const r=p[j],gg=p[j+1],b=p[j+2], red=(j/4/fig.width)>fig.height*0.42 && r>130 && gg<80 && r>gg*2.4 && r>b*2.2, f=red?0.45:0.05; /* mặt đen tuyền, chỉ mây đỏ trên áo */ p[j]=r*f; p[j+1]=gg*f; p[j+2]=b*f+(red?0:3); }
     fx.putImageData(id,0,0);
     const rim=rimOf(fig,0,7,'rgb(190,150,255)');   // viền sáng phía trên (ánh đuốc hắt)
     x.drawImage(fig,pad,pad); x.globalCompositeOperation='lighter'; x.globalAlpha=0.55; x.drawImage(rim,pad,pad);
@@ -187,7 +187,7 @@
   function buildPain(){ const c=prep(IMG.pain), k=2.4, h=110, w=h*c.sw/c.sh, cw=Math.round(w*k), ch=Math.round(h*k), cvs=mk(cw,ch), x=cvs.getContext('2d');
     x.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,0,0,cw,ch);
     const id=x.getImageData(0,0,cw,ch), p=id.data;
-    for(let i=0;i<p.length;i+=4){ if(p[i+3]<8) continue; const r=p[i],gg=p[i+1],b=p[i+2], red=r>110 && r>gg*1.9 && r>b*1.7;   // mây đỏ trên áo giữ lại mờ mờ, còn lại chìm vào bóng tối
+    for(let i=0;i<p.length;i+=4){ if(p[i+3]<8) continue; const r=p[i],gg=p[i+1],b=p[i+2], cloak=(i/4/cw)>ch*0.4, red=cloak && r>130 && gg<80 && r>gg*2.4 && r>b*2.2;   // chỉ mây đỏ TRÊN ÁO (lông cam trên mặt không tính)   // mây đỏ trên áo giữ lại mờ mờ, còn lại chìm vào bóng tối
       const f=red?0.42:0.05; p[i]=r*f; p[i+1]=gg*f; p[i+2]=b*f+(red?0:3); }
     x.putImageData(id,0,0);
     const EYES=[[297,275],[452,250]].map(([ex,ey])=>[(ex-c.sx)/c.sw*w-w/2,(ey-c.sy)/c.sh*h-h, 34/c.sw*w]);   // toạ độ mắt so với (tâm, chân)
@@ -400,10 +400,12 @@
     const ea=eio(seg(t,T.eyes,T.eyes+0.9)); if(ea<=0) return;   // 👁️ Rinnegan sáng lên trong bóng tối
     const c=P.eyeSrc;
     for(const [ex,ey,er] of P.eyes){ const X=x+ex, Y=y+ey;
-      g.save(); g.beginPath(); g.arc(X,Y,er*1.05,0,Math.PI*2); g.clip(); g.globalAlpha=ea; g.filter='brightness(1.6) saturate(1.3)';
-      g.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,x-w/2,y-h,w,h); g.filter='none'; g.restore();
-      g.save(); g.globalCompositeOperation='lighter'; glow(X,Y,er*4.5,0.55*ea*(0.85+0.15*Math.sin(t*3)),'175,120,255'); glow(X,Y,er*1.6,0.5*ea,'230,210,255');
-      g.strokeStyle=`rgba(225,205,255,${0.5*ea})`; g.lineWidth=0.8; g.beginPath(); g.moveTo(X-er*5,Y); g.lineTo(X+er*5,Y); g.stroke(); g.restore(); } }   // vệt loé ngang
+      g.save(); g.globalCompositeOperation='lighter'; glow(X,Y,er*3.6,0.45*ea*(0.85+0.15*Math.sin(t*3)),'150,90,255'); g.restore();   // quầng tím
+      g.save(); g.globalAlpha=ea; g.beginPath(); g.arc(X,Y,er,0,Math.PI*2); g.clip();   // 👁️ RINNEGAN: tròng tím nhạt + các vòng tròn đồng tâm + đồng tử
+      const gi=g.createRadialGradient(X,Y,0,X,Y,er); gi.addColorStop(0,'#f1e8ff'); gi.addColorStop(0.55,'#c9aef7'); gi.addColorStop(1,'#8a63d6'); g.fillStyle=gi; g.fillRect(X-er,Y-er,er*2,er*2);
+      g.strokeStyle='rgba(45,18,95,0.9)'; g.lineWidth=Math.max(0.6,er*0.09); for(const kk of [0.3,0.52,0.74,0.95]){ g.beginPath(); g.arc(X,Y,er*kk,0,Math.PI*2); g.stroke(); }
+      g.fillStyle='#21093f'; g.beginPath(); g.arc(X,Y,er*0.13,0,Math.PI*2); g.fill(); g.restore();
+      g.save(); g.globalCompositeOperation='lighter'; glow(X,Y,er*1.2,0.25*ea,'200,170,255'); g.restore(); } }
 
   // ───────────────────── 🌫️ SƯƠNG · BỤI LƠ LỬNG · CỘT SÁNG TRẦN ─────────────────────
   function fog(t,a){ if(a<=0.01) return; for(let i=0;i<12;i++){ const x=BX0+((hash(i)*(BX1-BX0)+t*(10+hash(i+3)*14))%(BX1-BX0)), y=GROUND+10+hash(i+5)*160, r=160+hash(i+7)*140;
