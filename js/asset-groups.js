@@ -373,6 +373,8 @@ window.ASSET_GROUP={
 "assets/img/depressedcat/DP_PAIN_IMG.webp": "depressedcat",
 "assets/audio/thunder_big.mp3": "critical",
 "assets/audio/sa_phase1.mp3": "supremearbiter",
+"assets/img/supremearbiter/SA_DEMON_INK.webp": "supremearbiter",
+"assets/img/supremearbiter/SA_DEMON_GLOW.webp": "supremearbiter",
 "assets/audio/ninja_kunai.mp3": "ninjacat",
 "assets/img/poordog/PD_F1.webp": "poordog",
 "assets/img/poordog/PD_F2.webp": "poordog",
