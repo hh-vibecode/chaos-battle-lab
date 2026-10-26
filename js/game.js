@@ -5688,7 +5688,7 @@ function _duoTick(){
   // 🧊 nhặt Streak Freeze (Duo KHÔNG phá được — chỉ địch nhặt)
   for(let i=duoFreezes.length-1;i>=0;i--){ const z=duoFreezes[i]; z.t++;
     const o=z.owner; if(!o || o.dead || _duoForm(o)===3){ duoFreezes.splice(i,1); continue; }
-    const g=fighters.find(u=>!u.dead && u.team!==z.team && Math.hypot(u.x-z.x,u.y-z.y)<u.size+28);   // khối to x2 → tầm chạm cũng x2
+    const g=[...fighters.filter(u=>!u.dead && u.team!==z.team), ..._summonFoes(z.team)].find(u=>!u.dead && (u.hp===undefined||u.hp>0) && Math.hypot(u.x-z.x,u.y-z.y)<(u.size||20)+28);   // khối to x2 → tầm chạm cũng x2 · quân triệu hồi có máu (2 mèo phụ Crying Cat, bản sao Doge...) cũng nhặt được
     if(g){ duoFreezes.splice(i,1); o._duo.ice=Math.round(DUO_FREEZE_T*DUO_TPS); o._duo.iceMax=o._duo.ice;
       playSample('duo_wrong',1.0); addShake(4,6);   // ❌ tiếng sai của app Duolingo
       floatTexts.push({x:o.x,y:o.y-o.size-40,text:'🧊 STREAK FREEZE!',color:'#84d8ff',life:70,big:true}); }
