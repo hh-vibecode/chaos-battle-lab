@@ -5580,18 +5580,34 @@ const DUO_SWEEP_DPS=120, DUO_BIG_DMG=200, DUO_BIG_CD=3;
 const _duoImg=(n,mul,cy,eyes)=>{ const im=new Image(); im._noMask=true; im.src='assets/img/duolingo/'+n+'.webp'; im._duoMul=mul; return {im,mul,cy,eyes}; };
 const DUO_FREEZE_IMG=new Image(); DUO_FREEZE_IMG.src='assets/img/duolingo/DUO_FREEZE.webp';   // 🧊 icon Streak Freeze của app (Duolingo wiki)
 const DUO_F={
-  st1:_duoImg('DUO_ST1',1,0.47), st2:_duoImg('DUO_ST2',1.06,0.47), st3:_duoImg('DUO_ST3',1.26,0.54), talk:_duoImg('DUO_TALK',1.0,0.48),
-  cross:_duoImg('DUO_CROSS',1.05,0.47), st5:_duoImg('DUO_ST5',1.31,0.56), st7:_duoImg('DUO_ST7',1.35,0.62,[[0.461,0.439],[0.677,0.438]]),
-  laser:_duoImg('DUO_LASER',1.85,0.69,[[0.361,0.419],[0.639,0.417]]), st8:_duoImg('DUO_ST8',1.64,0.68,[[0.346,0.427],[0.638,0.41]]),
+  st1:_duoImg('DUO_ST1',1,0.47), st2:_duoImg('DUO_ST2',1.06,0.47), talk:_duoImg('DUO_TALK',1.0,0.48), cross:_duoImg('DUO_CROSS',1.05,0.47),
 };
+// 🔴 dạng LAST CHANCE: dựng từ ảnh Duo thường — thân tối sẫm ngả đỏ (như bị lửa giận bao trùm), mắt thành sao trắng (vẽ riêng),
+//    aura lửa nhọn kiểu Super Saiyan vẽ bằng code (_duoAuraDraw) — chỉ bật ở dạng này
+DUO_F.ult={im:null, mul:1, cy:0.47, eyes:[[0.344,0.381],[0.758,0.379]]};
+let _duoUltGlowCv=null;
+function _duoUltBuild(){
+  const src=DUO_F.st1.im; if(DUO_F.ult.im || !src.naturalWidth) return DUO_F.ult.im;
+  const w=src.naturalWidth, h=src.naturalHeight, c=document.createElement('canvas'); c.width=w; c.height=h; const g=c.getContext('2d');
+  g.drawImage(src,0,0); g.globalCompositeOperation='multiply'; g.fillStyle='#b4c88c'; g.fillRect(0,0,w,h);
+  { const rg=g.createRadialGradient(w/2,h*0.5,w*0.2,w/2,h*0.5,w*0.62); rg.addColorStop(0,'rgba(255,40,10,0)'); rg.addColorStop(0.45,'rgba(255,40,10,0.12)'); rg.addColorStop(1,'rgba(255,30,10,0.9)'); g.globalCompositeOperation='source-atop'; g.fillStyle=rg; g.fillRect(0,0,w,h); }   // mép thân hắt đỏ lửa
+  g.globalCompositeOperation='destination-in'; g.drawImage(src,0,0);
+  c._noMask=true; c._duoMul=1; c.naturalWidth=w; c.naturalHeight=h; DUO_F.ult.im=c;
+  // viền sáng rực quanh thân (bóng mờ màu cam của chính hình Duo)
+  const P=Math.round(w*0.18), gc=document.createElement('canvas'); gc.width=w+P*2; gc.height=h+P*2; const gg=gc.getContext('2d');
+  const sil=document.createElement('canvas'); sil.width=w; sil.height=h; const sg=sil.getContext('2d'); sg.drawImage(src,0,0); sg.globalCompositeOperation='source-in'; sg.fillStyle='#ff3c18'; sg.fillRect(0,0,w,h);
+  gg.filter=`blur(${Math.round(w*0.035)}px)`; gg.drawImage(sil,P,P); gg.drawImage(sil,P,P); gg.filter='none';
+  gc._pad=P/w; _duoUltGlowCv=gc;
+  return c;
+}
 // dạng đang hiện: dễ thương → khó chịu → nổi giận (tới 12s) · khoanh tay → bốc lửa → mắt đỏ rực (tới 0s) · LAST CHANCE
 function _duoPick(f){
   const D=f._duo; if(!D) return DUO_F.st1;
   const sec=D.clock/DUO_TPS, form=_duoForm(f);
-  if(form===3) return (D.bigT && D.bigT.t>=Math.round(DUO_TPS*0.35)) ? DUO_F.st8 : DUO_F.laser;   // bắn laser lớn: bùng lửa hết cỡ
-  if(form===2) return sec>8 ? DUO_F.cross : sec>4 ? DUO_F.st5 : DUO_F.st7;
-  if(f.actionState==='attack' && f.actionTimer>0 && sec>16) return DUO_F.talk;   // đang "giảng bài" bắn chữ
-  return sec>20 ? DUO_F.st1 : sec>16 ? DUO_F.st2 : DUO_F.st3;
+  if(form===3){ _duoUltBuild(); return DUO_F.ult.im ? DUO_F.ult : DUO_F.st1; }
+  if(form===2) return DUO_F.cross;
+  if(f.actionState==='attack' && f.actionTimer>0) return DUO_F.talk;   // đang "giảng bài" bắn chữ
+  return sec>17 ? DUO_F.st1 : DUO_F.st2;
 }
 const DUO_LANGS=[
   {k:'es', txt:'¡Hola!',  col:'#ff4b4b', spd:7.5, dmg:35},
@@ -5608,7 +5624,7 @@ function _duoShoot(f,L,ang){
 }
 // mắt Duo (toạ độ thế giới) — theo đúng ảnh đang vẽ
 function _duoEyes(f){
-  const S=f._lastSprite, E=(_duoPick(f).eyes)||DUO_F.laser.eyes; if(!S || !S.dw) return [[f.x-f.size*0.3,f.y-f.size*0.3],[f.x+f.size*0.3,f.y-f.size*0.3]];
+  const S=f._lastSprite, E=(_duoPick(f).eyes)||DUO_F.ult.eyes; if(!S || !S.dw) return [[f.x-f.size*0.3,f.y-f.size*0.3],[f.x+f.size*0.3,f.y-f.size*0.3]];
   const oy=f._duoOffY||0; return E.map(([u,v])=>[f.x+(S.fl?-1:1)*(u-0.5)*S.dw, f.y-oy+(v-0.5)*S.dh]);
 }
 function _duoSegDist(px,py,ax,ay,bx,by){ const dx=bx-ax, dy=by-ay, l2=dx*dx+dy*dy||1, t=Math.max(0,Math.min(1,((px-ax)*dx+(py-ay)*dy)/l2)); return Math.hypot(px-ax-dx*t,py-ay-dy*t); }
@@ -5688,10 +5704,93 @@ function _duoTick(){
     if(w.t>200 || w.x<-60||w.x>W+60||w.y<-60||w.y>H+60) duoWords.splice(i,1);
   }
 }
+// 🔥 AURA LỬA DUO (vẽ bằng code, sống động thay cho aura vẽ cứng trong ảnh): lưỡi lửa liếm lên quanh mép thân + tàn lửa bay,
+//    lập loè liên tục. pal = bảng màu theo nấc giận; k = độ dữ (0..1). (cx,cy) tâm thân, rx/ry bán kính thân.
+const DUO_AURA_PAL={
+  green: {core:[235,255,170], mid:[140,225,70],  tip:[60,170,30],  glow:[120,230,80]},
+  gold:  {core:[255,250,200], mid:[255,205,60],  tip:[255,140,20], glow:[255,200,70]},
+  orange:{core:[255,240,180], mid:[255,150,30],  tip:[240,70,10],  glow:[255,140,40]},
+  red:   {core:[255,225,190], mid:[255,70,30],   tip:[170,0,0],    glow:[255,40,30]},
+  ult:   {core:[255,205,90],  mid:[255,62,16],   tip:[210,0,0],    glow:[255,30,20]},   // 🔴 LAST CHANCE: lửa nhọn bao kín người
+};
+const _duoRGBA=(c,a)=>`rgba(${c[0]},${c[1]},${c[2]},${a})`;
+function _duoAuraDraw(st,cx,cy,rx,ry,pal,k,tm){
+  const P=DUO_AURA_PAL[pal]; if(!P || k<=0.01) return;
+  st.parts=st.parts||[];
+  const ULT=pal==='ult';
+  ctx.save();
+  if(ULT){   // quầng ĐỎ đậm bao ngoài (màu thật, không cộng sáng)
+    const R=Math.max(rx,ry)*1.75, gr=ctx.createRadialGradient(cx,cy,Math.min(rx,ry)*0.7,cx,cy,R);
+    gr.addColorStop(0,'rgba(255,40,20,0.55)'); gr.addColorStop(0.6,'rgba(230,20,10,0.28)'); gr.addColorStop(1,'rgba(200,0,0,0)');
+    ctx.fillStyle=gr; ctx.beginPath(); ctx.ellipse(cx,cy,R,R*0.95,0,0,Math.PI*2); ctx.fill(); }
+  ctx.globalCompositeOperation='lighter';
+  // ① quầng sáng mờ quanh thân, "thở" theo nhịp
+  const br=1+0.05*Math.sin(tm*6)+0.03*Math.sin(tm*13.7);
+  const g=ctx.createRadialGradient(cx,cy,Math.min(rx,ry)*0.6,cx,cy,Math.max(rx,ry)*1.5*br);
+  g.addColorStop(0,_duoRGBA(P.glow,0.35*k)); g.addColorStop(0.55,_duoRGBA(P.glow,0.16*k)); g.addColorStop(1,_duoRGBA(P.glow,0));
+  ctx.fillStyle=g; ctx.beginPath(); ctx.ellipse(cx,cy,rx*1.5*br,ry*1.4*br,0,0,Math.PI*2); ctx.fill();
+  ctx.globalCompositeOperation='source-over';   // lửa: màu THẬT (cộng sáng lên nền xanh sẽ ra trắng/hồng, không ra lửa)
+  // ② lưỡi lửa lớn: gốc bám mép thân (nửa trên + 2 bên), liếm hướng lên, mỗi lưỡi dài/ngắn + uốn theo nhiễu riêng
+  const N=ULT?30:Math.round(13+9*k);
+  for(let i=0;i<N;i++){
+    const u=i/(N-1), a=ULT ? Math.PI*(0.72+u*1.56)+Math.sin(i*7.3)*0.04       // ULT: bao kín từ dưới-trái, qua đỉnh, xuống dưới-phải
+                           : Math.PI*(1.08+u*0.84)+Math.sin(i*7.3)*0.05;          // từ trái-dưới vòng qua đỉnh sang phải-dưới
+    const bx=cx+Math.cos(a)*rx*0.92, by=cy+Math.sin(a)*ry*0.92;
+    const side=Math.cos(a), up=0.35+0.65*(1-Math.abs(side));                // lưỡi ở đỉnh dài hơn ở hai bên
+    const fl=0.55+0.45*Math.sin(tm*(7+i%5)+i*1.9)*Math.sin(tm*(3.1+i%3)+i);   // lập loè
+    const fl2=ULT?0.55+0.45*Math.sin(tm*(13+i%7)+i*2.7):fl;                  // ULT: giật nhanh, gắt hơn
+    const L=ULT ? ry*(0.6+0.65*up)*(0.55+0.6*fl2)*(0.8+0.45*(i%3===0)) *k : ry*(0.45+0.75*up)*(0.6+0.6*fl)*(0.55+0.75*k);
+    const w=ULT ? rx*(0.15+0.08*up) : rx*(0.2+0.12*up)*(0.85+0.3*k);
+    const sway=Math.sin(tm*(ULT?9:5)+i*2.3)*w*(ULT?0.6:0.9);
+    const dx=ULT?Math.cos(a)*0.9:side*0.55, dy=ULT?Math.min(-0.35,Math.sin(a)*0.7-0.75):-1, dl=Math.hypot(dx,dy);   // ULT: toả ra mọi phía rồi vút lên
+    const tx=bx+dx/dl*L+sway, ty=by+dy/dl*L;
+    const nx=-dy/dl, ny=dx/dl;
+    const gr=ctx.createLinearGradient(bx,by,tx,ty);
+    gr.addColorStop(0,_duoRGBA(P.mid,0.95)); gr.addColorStop(0.45,_duoRGBA(P.mid,0.85)); gr.addColorStop(0.8,_duoRGBA(P.tip,0.55)); gr.addColorStop(1,_duoRGBA(P.tip,0));
+    ctx.fillStyle=gr; ctx.beginPath();
+    ctx.moveTo(bx+nx*w,by+ny*w);
+    ctx.quadraticCurveTo(bx+nx*w*0.9+(tx-bx)*0.5+sway*0.3,by+ny*w*0.9+(ty-by)*0.5,tx,ty);
+    ctx.quadraticCurveTo(bx-nx*w*0.9+(tx-bx)*0.5+sway*0.3,by-ny*w*0.9+(ty-by)*0.5,bx-nx*w,by-ny*w);
+    ctx.closePath(); ctx.fill();
+    const ix=bx+(tx-bx)*0.55, iy=by+(ty-by)*0.55, gi=ctx.createLinearGradient(bx,by,ix,iy);   // lõi sáng vàng
+    gi.addColorStop(0,_duoRGBA(P.core,0.95)); gi.addColorStop(1,_duoRGBA(P.core,0));
+    ctx.fillStyle=gi; ctx.beginPath(); ctx.moveTo(bx+nx*w*0.5,by+ny*w*0.5); ctx.quadraticCurveTo(bx+(ix-bx)*0.5+sway*0.15,by+(iy-by)*0.5,ix,iy); ctx.quadraticCurveTo(bx+(ix-bx)*0.5+sway*0.15,by+(iy-by)*0.5,bx-nx*w*0.5,by-ny*w*0.5); ctx.closePath(); ctx.fill();
+  }
+  ctx.globalCompositeOperation='lighter';
+  // ③ đốm lửa / tàn lửa bốc lên từ mép thân
+  const want=Math.round(26*k);
+  for(let n=0;n<3 && st.parts.length<want;n++){ const a=Math.PI*(1.05+Math.random()*0.9);
+    st.parts.push({x:cx+Math.cos(a)*rx*0.9, y:cy+Math.sin(a)*ry*0.9, vx:Math.cos(a)*0.4+(Math.random()-0.5)*0.4, vy:-(0.8+Math.random()*1.3), r:rx*(0.08+Math.random()*0.1), t:0, T:22+Math.random()*20}); }
+  for(let i=st.parts.length-1;i>=0;i--){ const p=st.parts[i]; p.t++; if(p.t>p.T){ st.parts.splice(i,1); continue; }
+    p.x+=p.vx+Math.sin(p.t*0.3+i)*0.3; p.y+=p.vy; const q=p.t/p.T, r=p.r*(1-q*0.7);
+    const c=q<0.3?P.core:q<0.65?P.mid:P.tip, rg=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,r);
+    rg.addColorStop(0,_duoRGBA(c,0.7*k*(1-q))); rg.addColorStop(1,_duoRGBA(c,0)); ctx.fillStyle=rg; ctx.beginPath(); ctx.arc(p.x,p.y,r,0,Math.PI*2); ctx.fill(); }
+  ctx.restore();
+}
+// ✨ mắt laser lấp lánh (sao 4 cánh trắng + quầng đỏ), xoay/nhói theo nhịp — vẽ TRÊN thân
+function _duoEyeStar(x,y,R,tm,seed){
+  const p=1+0.18*Math.sin(tm*14+seed)+0.1*Math.sin(tm*31+seed*2);
+  ctx.save();
+  { const e=ctx.createRadialGradient(x,y,0,x,y,R*1.15); e.addColorStop(0,'rgba(255,235,225,1)'); e.addColorStop(0.7,'rgba(255,120,100,0.95)'); e.addColorStop(1,'rgba(255,60,40,0)');   // che con ngươi cũ: cả hốc mắt sáng rực
+    ctx.fillStyle=e; ctx.beginPath(); ctx.arc(x,y,R*1.15,0,Math.PI*2); ctx.fill(); }
+  ctx.globalCompositeOperation='lighter';
+  const g=ctx.createRadialGradient(x,y,0,x,y,R*1.6*p); g.addColorStop(0,'rgba(255,255,255,0.95)'); g.addColorStop(0.25,'rgba(255,120,110,0.75)'); g.addColorStop(1,'rgba(255,0,0,0)');
+  ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,R*1.6*p,0,Math.PI*2); ctx.fill();
+  ctx.translate(x,y); ctx.rotate(Math.sin(tm*2+seed)*0.08); ctx.fillStyle='rgba(255,255,255,0.95)';
+  for(const [lx,ly] of [[R*0.22*p,R*1.55*p],[R*1.1*p,R*0.2*p]]){ ctx.beginPath(); ctx.moveTo(0,-ly); ctx.quadraticCurveTo(lx*0.25,-lx*0.25,lx,0); ctx.quadraticCurveTo(lx*0.25,lx*0.25,0,ly); ctx.quadraticCurveTo(-lx*0.25,lx*0.25,-lx,0); ctx.quadraticCurveTo(-lx*0.25,-lx*0.25,0,-ly); ctx.fill(); }
+  ctx.restore();
+}
+
 // 🔴 sàn đỏ rực dưới chân (dạng tối thượng) + khối Streak Freeze nằm trên sàn
 function _duoDrawUnder(){
   if(fighters.some(f=>f.type==='duolingo' && !f.dead && _duoForm(f)===3)){ const C=_fxCoverRect(1.1), p=0.16+0.05*Math.sin(performance.now()/180);
     ctx.save(); ctx.fillStyle=`rgba(200,20,30,${p})`; ctx.fillRect(C[0],C[1],C[2],C[3]); ctx.restore(); }
+  // 🔥 aura Super Saiyan quanh Duo LAST CHANCE (sau lưng thân)
+  for(const f of fighters){ if(f.type!=='duolingo' || f.dead || _duoForm(f)!==3 || !f._lastSprite) continue;
+    const S=f._lastSprite, cx=f.x, cy=f.y-(f._duoOffY||0), tm=performance.now()/1000, D=f._duo, boost=(D.bigT && D.bigT.t>=Math.round(DUO_TPS*0.35))?1.25:1;
+    _duoAuraDraw(f._duoAura||(f._duoAura={}),cx,cy,S.dw*0.47,S.dh*0.45,'ult',boost,tm);
+    if(_duoUltGlowCv){ const P=_duoUltGlowCv._pad, k=1.12+0.05*Math.sin(tm*11), w=S.dw*(1+2*P)*k, h=S.dh*(1+2*P)*k;
+      ctx.save(); ctx.globalAlpha=0.9+0.1*Math.sin(tm*17); ctx.translate(cx,cy); if(S.fl) ctx.scale(-1,1); ctx.drawImage(_duoUltGlowCv,-w/2,-h/2,w,h); ctx.globalCompositeOperation='lighter'; ctx.globalAlpha=0.5; ctx.drawImage(_duoUltGlowCv,-w/2,-h/2,w,h); ctx.restore(); } }
   for(const z of duoFreezes){ const bob=Math.sin(z.t*0.08)*3, h=34, x=z.x, y=z.y+bob-10, pop=Math.min(1,z.t/12);
     ctx.save(); ctx.fillStyle='rgba(0,0,0,0.18)'; ctx.beginPath(); ctx.ellipse(x,z.y+h*0.45,13*pop,4*pop,0,0,Math.PI*2); ctx.fill();
     if(DUO_FREEZE_IMG.naturalWidth){ const w=h*DUO_FREEZE_IMG.naturalWidth/DUO_FREEZE_IMG.naturalHeight;
@@ -5718,6 +5817,7 @@ function _duoDrawOver(){
   for(const f of fighters){
     if(f.type!=='duolingo' || f.dead || !f._duo) continue;
     const D=f._duo, form=_duoForm(f);
+    if(form===3 && f._lastSprite){ const tm=performance.now()/1000; _duoEyes(f).forEach(([ex,ey],i)=>_duoEyeStar(ex,ey,f._lastSprite.dw*0.085,tm,i*2.1)); }   // ✨ mắt sao trắng rực
     // 🔴 laser
     if(D.beams){ ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round';
       for(const [ax,ay,bx,by] of D.beams) for(const [lw,c] of [[14,'rgba(255,40,40,0.25)'],[6,'rgba(255,90,90,0.7)'],[2.2,'rgba(255,240,240,1)']]){ ctx.lineWidth=lw; ctx.strokeStyle=c; ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(bx,by); ctx.stroke(); }
@@ -21580,7 +21680,7 @@ class Fighter {
       // slot 1: normal
       img = avatarImgs[i];
     }
-    if(this.type==='duolingo'){ const _e=_duoPick(this); if(_e.im.naturalWidth) img=_e.im; }   // 🦉 dạng theo đồng hồ học muộn
+    if(this.type==='duolingo'){ const _e=_duoPick(this); if(_e.im && _e.im.naturalWidth) img=_e.im; }   // 🦉 dạng theo đồng hồ học muộn
     // 🧊 bị đóng băng (hard CC): giữ NGUYÊN ảnh lúc bị đóng — không đổi dáng/ảnh tấn công, ảnh động cũng đứng ở 1 khung (xem _frzIdx)
     if((this._mlemFreezeT||0)>0){ if(!this._frzSel) this._frzSel=img; else img=this._frzSel; } else this._frzSel=null;
     if(img){
