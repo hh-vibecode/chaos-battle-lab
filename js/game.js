@@ -795,7 +795,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     poordog: { key:'poordog', defaultName:'Poor Dog', emoji:'🥣', color:'#c8a165', hp:1000, speed:5, size:45, skill:'' },
     ninjacat: { key:'ninjacat', defaultName:'Ninja Cat', emoji:'🥷', color:'#546e7a', hp:1000, speed:5, size:45, skill:'' },
     azel: { key:'azel', defaultName:'Azel', emoji:'🎧', color:'#26c6da', hp:1000, speed:4, size:46, skill:'Không đánh thường. Beatbox dubstep theo nhịp ĐỀU (0.5s/nhịp, dưới 50% máu 0.35s/nhịp), mỗi nhịp tay giật 1 động tác = 1 bước nấu, vòng 8 nhịp: 3 nhát dao giáng đúng chỗ địch sắp tới (25/nhát) → rắc muối làm chậm 2s → đặt chảo ở chỗ địch sắp tới (chảo trượt theo) → 2 lần lật chảo hất địch vào chảo (20/lần, bị giữ trong chảo) → DROP: dọn món 150 dame, Azel hồi 50% số đó.' },
-    duolingo: { key:'duolingo', defaultName:'Duolingo', emoji:'🦉', color:'#58cc02', hp:1000, speed:5, size:44, skill:'Bắn câu chào nhiều thứ tiếng, mỗi tiếng 1 kiểu bay (¡Hola! thẳng 35 · Bonjour~ lượn sóng 35 · こんにちは tách 3 chữ 15/chữ · HALLO! to chậm 50 + đẩy lùi · Привет nảy tường 30). Đồng hồ học muộn 23s: 23→12s dạng thường, 12→0s khoanh tay (bắn nhanh ×1.5, 2 tiếng/lần), hết giờ mà chưa thắng → dạng tối thượng LAST CHANCE tới hết trận: laser mắt quét 120/s, 3s/lần laser lớn 200, bắn 5 tiếng cùng lúc. Mỗi 6s rơi 1 Streak Freeze: địch nhặt được thì đồng hồ dừng + Duo bị nhốt trong khối băng 2s.' },
+    duolingo: { key:'duolingo', defaultName:'Duolingo', emoji:'🦉', color:'#58cc02', hp:1000, speed:5, size:44, skill:'Bắn câu chào nhiều thứ tiếng, mỗi tiếng 1 kiểu bay (¡Hola! thẳng 35 · Bonjour~ lượn sóng 35 · こんにちは tách 3 chữ 15/chữ · HALLO! to chậm 50 + đẩy lùi · Привет nảy tường 30). Đồng hồ học muộn 23s: 23→12s dạng thường, 12→0s khoanh tay (bắn nhanh ×1.5, 2 tiếng/lần), mỗi lần trúng đồng hồ tụt 1s, hết giờ mà chưa thắng → dạng tối thượng LAST CHANCE tới hết trận: laser mắt quét 120/s, 3s/lần laser lớn 200, bắn 5 tiếng cùng lúc. Mỗi 6s rơi 1 Streak Freeze: địch nhặt được thì đồng hồ dừng + Duo bị nhốt trong khối băng 2s.' },
     slapcat: { key:'slapcat', defaultName:'Slap Cat', emoji:'🐈', color:'#7c4dff', hp:1000, speed:5, size:44, skill:'Vừa chạy vừa tích lực, cứ 2s lại đứng khựng lại VẢ một phát. Cú vả mở 2 cổng không gian: một cổng ngay cạnh Slap Cat và một cổng SAU LƯNG đối thủ — tay thò qua cổng vả trúng địch dù nó đứng bất kỳ đâu trên sàn. Sát thương gốc 120, ĐỨNG CÀNG XA ĐÁNH CÀNG ĐAU (xa tối đa +100%). 30% tỉ lệ gây choáng.' },
     clappingcat: { key:'clappingcat', defaultName:'Clapping Cat', emoji:'👏', color:'#ffb74d', hp:1000, speed:5, size:48.4, skill:'Có nó trong trận thì tường dưới mọc chông và có 1 quả bóng chông lăn qua lại — đâm vào chông hay bóng chông đều mất máu. Sắp lao vào chông thì nó vỗ tay đổi chỗ với địch, để địch lãnh thay. Càng lâu không chạm tường càng chạy nhanh.' },
     evilgary: { key:'evilgary', defaultName:'Evil Gary', emoji:'😈', color:'#b71c1c', hp:1000, speed:5, size:44, skill:'Đầu trận chỉ là con mèo xám ngồi im HÚT LINH HỒN: cứ mỗi giây 1 linh hồn khói đen từ góc xa nhất ngoài sân bay thẳng vào người nó (ai đứng chắn đường ăn 50 dame), mỗi linh hồn hút được vạch thêm 1 cánh ngôi sao ác quỷ trên đầu. Đủ 5 cánh: con quỷ đã nhập hiện lên sau lưng, sàn hoá CÕI LINH HỒN — khói ma lướt ngang sân, và cứ 5s một bầy linh hồn bò từ 4 góc tới bám địch (mỗi đợt đông hơn), bám được là gây dame và gieo độc vĩnh viễn, cộng dồn không giới hạn.' },
@@ -1249,7 +1249,7 @@ huhcat: [
   // Thiếu ô nào cũng chạy được: chỉ lật vòng giữa những ô ĐÃ có ảnh (xem chỗ _egFrameT trong doAbility).
   scareddog: [], // chỉ dùng GIF làm avatar chính — không có đòn đánh/skill riêng nên KHÔNG cần slot pose nào cả
   // 🐈 Slap Cat: avatar chính + 1 tư thế vả (tay thò qua cổng)
-  duolingo: [],    // 🦉 3 dạng đã gắn sẵn trong game (DUO_CROSS_IMG / DUO_LASER_IMG theo đồng hồ)
+  duolingo: [],    // 🦉 các dạng đã gắn sẵn trong game (DUO_F, đổi theo đồng hồ — xem _duoPick)
   azel: [],        // 🎧 chỉ avatar (giật tư thế theo nhịp bằng nghiêng/lệch — xem AZ_POSES)
   boxingcat: [],   // 🥊 chỉ avatar — 20 khung khởi động đã gắn sẵn trong game (BX_FR)
   slapcat: [{ field:'skill1AvatarUrl', label:'Khung 2', emoji:'🐈', color:'#7c4dff' },
@@ -5574,9 +5574,25 @@ function _popRingFxDraw(){
 const DUO_TPS=60*GAME_SPEED*TIME_SCALE;
 const DUO_TIME=23, DUO_FORM2_AT=12, DUO_FREEZE_EVERY=6, DUO_FREEZE_T=2;
 const DUO_SWEEP_DPS=120, DUO_BIG_DMG=200, DUO_BIG_CD=3;
-const DUO_EYES=[[0.331,0.244],[0.665,0.243]];   // mắt trong ảnh dạng tối thượng (đo từ pixel sáng nhất)
-const _duoImg=n=>{ const im=new Image(); im.src='assets/img/duolingo/'+n+'.webp'; return im; };
-const DUO_CROSS_IMG=_duoImg('DUO_CROSS'), DUO_LASER_IMG=_duoImg('DUO_LASER');
+// 🖼️ CÁC DẠNG theo đồng hồ (ảnh user gửi, đã tách nền). mul = bù cỡ để THÂN Duo cùng to dù ảnh có hào quang lửa bao quanh;
+//    cy = tâm thân trong ảnh (hào quang bốc lên trên → thân lệch xuống, kéo ảnh lên cho thân đứng đúng chỗ); eyes = mắt laser (u,v)
+// _noMask: KHÔNG qua _stickerMask (bước đó gọt viền + vứt phần bán trong suốt → mép lởm chởm, mất hào quang lửa); ảnh đã khử răng cưa sẵn
+const _duoImg=(n,mul,cy,eyes)=>{ const im=new Image(); im._noMask=true; im.src='assets/img/duolingo/'+n+'.webp'; im._duoMul=mul; return {im,mul,cy,eyes}; };
+const DUO_FREEZE_IMG=new Image(); DUO_FREEZE_IMG.src='assets/img/duolingo/DUO_FREEZE.webp';   // 🧊 icon Streak Freeze của app (Duolingo wiki)
+const DUO_F={
+  st1:_duoImg('DUO_ST1',1,0.47), st2:_duoImg('DUO_ST2',1.06,0.47), st3:_duoImg('DUO_ST3',1.26,0.54), talk:_duoImg('DUO_TALK',1.0,0.48),
+  cross:_duoImg('DUO_CROSS',1.05,0.47), st5:_duoImg('DUO_ST5',1.31,0.56), st7:_duoImg('DUO_ST7',1.35,0.62,[[0.461,0.439],[0.677,0.438]]),
+  laser:_duoImg('DUO_LASER',1.85,0.69,[[0.361,0.419],[0.639,0.417]]), st8:_duoImg('DUO_ST8',1.64,0.68,[[0.346,0.427],[0.638,0.41]]),
+};
+// dạng đang hiện: dễ thương → khó chịu → nổi giận (tới 12s) · khoanh tay → bốc lửa → mắt đỏ rực (tới 0s) · LAST CHANCE
+function _duoPick(f){
+  const D=f._duo; if(!D) return DUO_F.st1;
+  const sec=D.clock/DUO_TPS, form=_duoForm(f);
+  if(form===3) return (D.bigT && D.bigT.t>=Math.round(DUO_TPS*0.35)) ? DUO_F.st8 : DUO_F.laser;   // bắn laser lớn: bùng lửa hết cỡ
+  if(form===2) return sec>8 ? DUO_F.cross : sec>4 ? DUO_F.st5 : DUO_F.st7;
+  if(f.actionState==='attack' && f.actionTimer>0 && sec>16) return DUO_F.talk;   // đang "giảng bài" bắn chữ
+  return sec>20 ? DUO_F.st1 : sec>16 ? DUO_F.st2 : DUO_F.st3;
+}
 const DUO_LANGS=[
   {k:'es', txt:'¡Hola!',  col:'#ff4b4b', spd:7.5, dmg:35},
   {k:'fr', txt:'Bonjour~',col:'#1cb0f6', spd:6,   dmg:35, wave:1},
@@ -5592,8 +5608,8 @@ function _duoShoot(f,L,ang){
 }
 // mắt Duo (toạ độ thế giới) — theo đúng ảnh đang vẽ
 function _duoEyes(f){
-  const S=f._lastSprite; if(!S || !S.dw) return [[f.x-f.size*0.3,f.y-f.size*0.3],[f.x+f.size*0.3,f.y-f.size*0.3]];
-  return DUO_EYES.map(([u,v])=>[f.x+(S.fl?-1:1)*(u-0.5)*S.dw, f.y+(v-0.5)*S.dh]);
+  const S=f._lastSprite, E=(_duoPick(f).eyes)||DUO_F.laser.eyes; if(!S || !S.dw) return [[f.x-f.size*0.3,f.y-f.size*0.3],[f.x+f.size*0.3,f.y-f.size*0.3]];
+  const oy=f._duoOffY||0; return E.map(([u,v])=>[f.x+(S.fl?-1:1)*(u-0.5)*S.dw, f.y-oy+(v-0.5)*S.dh]);
 }
 function _duoSegDist(px,py,ax,ay,bx,by){ const dx=bx-ax, dy=by-ay, l2=dx*dx+dy*dy||1, t=Math.max(0,Math.min(1,((px-ax)*dx+(py-ay)*dy)/l2)); return Math.hypot(px-ax-dx*t,py-ay-dy*t); }
 function _duoHitUnit(u,dmg,owner,isBurn){ if(fighters.includes(u)) u.takeDamage(dmg,owner,false,!!isBurn); else _summonTakeDamage(u,dmg,owner,false,!!isBurn); }
@@ -5666,6 +5682,7 @@ function _duoTick(){
     let hit=null;
     for(const u of [...fighters.filter(o=>!o.dead && o.team!==w.team), ..._summonFoes(w.team)]) if(Math.hypot(u.x-w.x,u.y-w.y)<(u.size||20)+w.r){ hit=u; break; }
     if(hit){ _duoHitUnit(hit,w.dmg,w.owner);
+      { const D=w.owner && w.owner._duo; if(D && D.clock>0 && !w.owner.dead){ D.clock=Math.max(0,D.clock-Math.round(DUO_TPS)); D.tickFx=12; } }   // ⏰ mỗi lần trúng: đồng hồ tụt 1s
       if(L.push){ const a=Math.atan2(hit.y-w.y,hit.x-w.x); hit.vx=(hit.vx||0)+Math.cos(a)*6; hit.vy=(hit.vy||0)+Math.sin(a)*6; }
       duoFx.push({k:'pop',x:w.x,y:w.y,col:L.col,t:0,T:14}); duoWords.splice(i,1); continue; }
     if(w.t>200 || w.x<-60||w.x>W+60||w.y<-60||w.y>H+60) duoWords.splice(i,1);
@@ -5675,15 +5692,11 @@ function _duoTick(){
 function _duoDrawUnder(){
   if(fighters.some(f=>f.type==='duolingo' && !f.dead && _duoForm(f)===3)){ const C=_fxCoverRect(1.1), p=0.16+0.05*Math.sin(performance.now()/180);
     ctx.save(); ctx.fillStyle=`rgba(200,20,30,${p})`; ctx.fillRect(C[0],C[1],C[2],C[3]); ctx.restore(); }
-  for(const z of duoFreezes){ const bob=Math.sin(z.t*0.08)*3, s=15, x=z.x, y=z.y+bob-6, pop=Math.min(1,z.t/12);
-    ctx.save(); ctx.translate(x,y); ctx.scale(pop,pop);
-    ctx.fillStyle='rgba(0,0,0,0.18)'; ctx.beginPath(); ctx.ellipse(0,s+8-bob,s*0.9,s*0.3,0,0,Math.PI*2); ctx.fill();
-    const g=ctx.createLinearGradient(-s,-s,s,s); g.addColorStop(0,'#c9f2ff'); g.addColorStop(1,'#4fc3f7');
-    ctx.fillStyle=g; ctx.strokeStyle='#0d8fd8'; ctx.lineWidth=2.5;
-    ctx.beginPath(); ctx.roundRect?ctx.roundRect(-s,-s,s*2,s*2,5):ctx.rect(-s,-s,s*2,s*2); ctx.fill(); ctx.stroke();
-    ctx.fillStyle='#ffffff'; ctx.font='bold 16px sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('🔥',0,1);
-    ctx.globalCompositeOperation='source-atop'; ctx.fillStyle='rgba(120,210,255,0.55)'; ctx.fillRect(-s,-s,s*2,s*2);   // lửa chuỗi ngày học bị đóng băng
-    ctx.globalCompositeOperation='source-over'; ctx.fillStyle='rgba(255,255,255,0.7)'; ctx.fillRect(-s+3,-s+3,s*0.5,3);
+  for(const z of duoFreezes){ const bob=Math.sin(z.t*0.08)*3, h=34, x=z.x, y=z.y+bob-10, pop=Math.min(1,z.t/12);
+    ctx.save(); ctx.fillStyle='rgba(0,0,0,0.18)'; ctx.beginPath(); ctx.ellipse(x,z.y+h*0.45,13*pop,4*pop,0,0,Math.PI*2); ctx.fill();
+    if(DUO_FREEZE_IMG.naturalWidth){ const w=h*DUO_FREEZE_IMG.naturalWidth/DUO_FREEZE_IMG.naturalHeight;
+      ctx.translate(x,y); ctx.scale(pop,pop); ctx.rotate(Math.sin(z.t*0.05)*0.08); ctx.drawImage(DUO_FREEZE_IMG,-w/2,-h/2,w,h);
+      ctx.globalCompositeOperation='lighter'; ctx.globalAlpha=0.25+0.2*Math.sin(z.t*0.15); ctx.drawImage(DUO_FREEZE_IMG,-w/2,-h/2,w,h); }   // lấp lánh
     ctx.restore(); }
 }
 // 🗣️ chữ bay + laser + khối băng nhốt Duo + đồng hồ trên đầu — vẽ TRÊN meme
@@ -5716,7 +5729,7 @@ function _duoDrawOver(){
       else if(B.seg){ const k=1-(B.t-aim)/(DUO_TPS*0.35); for(const [lw,c] of [[34,`rgba(255,30,30,${0.35*k})`],[16,`rgba(255,110,110,${0.8*k})`],[6,`rgba(255,255,255,${k})`]]){ ctx.lineWidth=lw; ctx.strokeStyle=c; ctx.beginPath(); ctx.moveTo(B.seg[0],B.seg[1]); ctx.lineTo(B.seg[2],B.seg[3]); ctx.stroke(); } }
       ctx.restore(); }
     // 🧊 khối băng vuông nhốt Duo: nứt dần, rung theo cú giãy
-    if(D.ice>0){ const S=f._lastSprite, w=(S&&S.dw?S.dw:f.size*2)*1.15, h=(S&&S.dh?S.dh:f.size*2)*1.12, u=1-D.ice/(D.iceMax||1), jx=Math.sin(tick*1.9)*(1+u*3), jy=Math.cos(tick*2.3)*u*1.5;
+    if(D.ice>0){ const S=f._lastSprite, K=(S&&S.img&&S.img._duoMul)||1, w=(S&&S.dw?S.dw/K:f.size*2)*1.15, h=(S&&S.dh?S.dh/K:f.size*2)*1.12, u=1-D.ice/(D.iceMax||1), jx=Math.sin(tick*1.9)*(1+u*3), jy=Math.cos(tick*2.3)*u*1.5;
       ctx.save(); ctx.translate(f.x+jx,f.y+jy);
       const g=ctx.createLinearGradient(-w/2,-h/2,w/2,h/2); g.addColorStop(0,'rgba(210,245,255,0.55)'); g.addColorStop(1,'rgba(90,190,240,0.45)');
       ctx.fillStyle=g; ctx.strokeStyle='rgba(235,250,255,0.95)'; ctx.lineWidth=3;
@@ -5728,9 +5741,10 @@ function _duoDrawOver(){
       ctx.restore(); }
     // ⏰ đồng hồ "học muộn" trên đầu
     if(form<3){ const sec=Math.ceil(D.clock/DUO_TPS), frozen=D.ice>0, col=frozen?'#84d8ff':form===2?'#ff9600':'#58cc02';
-      const S=f._lastSprite, top=f.y-(S&&S.dh?S.dh/2:f.size)-46;
+      const S=f._lastSprite, K=(S&&S.img&&S.img._duoMul)||1, top=f.y-(S&&S.dh?S.dh/2/K:f.size)-46;
       ctx.save(); ctx.font='900 15px "Nunito",sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
       const txt=(frozen?'🧊 ':'⏰ ')+'0:'+String(sec).padStart(2,'0'), tw=ctx.measureText(txt).width+14;
+      if((D.tickFx||0)>0){ D.tickFx--; ctx.fillStyle=`rgba(255,75,75,${D.tickFx/12})`; ctx.fillText('-1s',f.x+tw/2+14,top-6-(12-D.tickFx)); }
       ctx.fillStyle='rgba(255,255,255,0.92)'; ctx.strokeStyle=col; ctx.lineWidth=2.5;
       ctx.beginPath(); ctx.roundRect?ctx.roundRect(f.x-tw/2,top-11,tw,22,11):ctx.rect(f.x-tw/2,top-11,tw,22); ctx.fill(); ctx.stroke();
       ctx.fillStyle=col; ctx.fillText(txt,f.x,top+1); ctx.restore(); }
@@ -5851,16 +5865,16 @@ function _azTick(f){
 function _azDrawUnder(){
   for(const e of azFx){
     if(e.k==='pan'){ const P=e.pan; if(!AZ_PAN.naturalWidth) continue;
-      const D=P.r*2*1.25, tilt=(P.caught && P.flip)?Math.sin(Math.min(1,(e.owner?._az?.t||0)/12)*Math.PI)*0.25:0;
+      const Db=P.r*2.3, k=Db/AZ_PAN.naturalHeight, tilt=(P.caught && P.flip)?Math.sin(Math.min(1,(e.owner?._az?.t||0)/12)*Math.PI)*0.25:0;
       ctx.save(); ctx.translate(P.x,P.y+P.r*0.1); ctx.scale(1,0.62*(1-tilt*0.5)); ctx.rotate(tilt);
-      ctx.drawImage(AZ_PAN,-D*0.41,-D*0.44,D,D);
+      ctx.drawImage(AZ_PAN,-Db/2,-Db/2,AZ_PAN.naturalWidth*k,Db);   // ảnh chảo nhìn từ trên: lòng chảo tròn bên trái (đường kính = chiều cao ảnh), cán chĩa lên phải
       ctx.restore();
       // khói nóng bốc lên
       const tm=performance.now()/1000;
       for(let i=0;i<3;i++){ const u=((tm*0.9+i/3)%1), x=P.x+(i-1)*P.r*0.35+Math.sin(tm*3+i)*3, y=P.y-u*P.r*1.2;
         ctx.fillStyle=`rgba(240,240,250,${0.28*(1-u)})`; ctx.beginPath(); ctx.arc(x,y,P.r*(0.12+u*0.18),0,Math.PI*2); ctx.fill(); }
-    } else if(e.k==='plate' && AZ_PLATE.naturalWidth){ const u=e.t/e.T, D=e.sz*2.8, a=u<0.8?1:1-(u-0.8)/0.2;
-      ctx.save(); ctx.globalAlpha=a; ctx.translate(e.x,e.y+e.sz*0.3); ctx.scale(1,0.6); ctx.drawImage(AZ_PLATE,-D/2,-D/2,D,D); ctx.restore(); }
+    } else if(e.k==='plate' && AZ_PLATE.naturalWidth){ const u=e.t/e.T, Dw=e.sz*3.6, Dh=Dw*AZ_PLATE.naturalHeight/AZ_PLATE.naturalWidth, a=u<0.8?1:1-(u-0.8)/0.2;
+      ctx.save(); ctx.globalAlpha=a; ctx.translate(e.x,e.y+e.sz*0.3); ctx.scale(1,0.6); ctx.drawImage(AZ_PLATE,-Dw/2,-Dh/2,Dw,Dh); ctx.restore(); }
   }
 }
 // 🔪🧂 vẽ TRÊN meme: dao giáng xuống, lọ muối lắc rắc muối
@@ -5868,13 +5882,14 @@ function _azDrawOver(){
   for(let i=azFx.length-1;i>=0;i--){ const e=azFx[i]; e.t++;
     if(e.k==='pan'){ if(!e.owner || e.owner.dead || e.owner._az?.pan!==e.pan){ if(e.pan.caught) e.pan.caught._azLift=0; azFx.splice(i,1); } continue; }
     if(e.t>=e.T){ azFx.splice(i,1); continue; }
-    if(e.k==='knife' && AZ_KNIFE.naturalWidth){ const u=e.t/e.T, fall=Math.min(1,e.t/3), D=e.sz*1.6, a=u<0.7?1:1-(u-0.7)/0.3;
-      ctx.save(); ctx.globalAlpha=a; ctx.translate(e.x,e.y-e.sz*0.15-(1-fall)*e.sz*2.2); if(e.flip) ctx.scale(-1,1); ctx.rotate(Math.PI/4);
-      ctx.drawImage(AZ_KNIFE,-D*0.7,-D*0.7,D,D); ctx.restore();
+    if(e.k==='knife' && AZ_KNIFE.naturalWidth){ const u=e.t/e.T, fall=Math.min(1,e.t/3), Hk=e.sz*2, Wk=Hk*AZ_KNIFE.naturalWidth/AZ_KNIFE.naturalHeight, a=u<0.7?1:1-(u-0.7)/0.3;
+      ctx.save(); ctx.globalAlpha=a; ctx.translate(e.x,e.y+e.sz*0.25-(1-fall)*e.sz*2.2); if(e.flip) ctx.scale(-1,1); ctx.rotate(e.flip?0.12:-0.12);
+      ctx.drawImage(AZ_KNIFE,-Wk/2,-Hk,Wk,Hk); ctx.restore();   // ảnh dao dựng đứng, mũi chĩa xuống: mũi cắm đúng điểm chặt
       if(e.t>=3 && e.t<10){ ctx.strokeStyle=`rgba(255,255,255,${0.8*(1-(e.t-3)/7)})`; ctx.lineWidth=2;
         ctx.beginPath(); ctx.ellipse(e.x,e.y+e.sz*0.25,e.sz*0.9*(e.t-2)/7,e.sz*0.3*(e.t-2)/7,0,0,Math.PI*2); ctx.stroke(); }
     } else if(e.k==='salt' && AZ_SALT.naturalWidth){ const o=e.tgt, x=o&&!o.dead?o.x:e.x, y=(o&&!o.dead?o.y:e.y+e.sz*1.3)-(o?.size||20)*1.5, u=e.t/e.T, a=u<0.75?1:1-(u-0.75)/0.25, D=e.sz*1.4;
-      ctx.save(); ctx.globalAlpha=a; ctx.translate(x,y); ctx.rotate(Math.PI*0.85+Math.sin(e.t*0.9)*0.35); ctx.drawImage(AZ_SALT,-D/2,-D/2,D,D); ctx.restore();
+      const Ws=D*AZ_SALT.naturalWidth/AZ_SALT.naturalHeight;
+      ctx.save(); ctx.globalAlpha=a; ctx.translate(x,y); ctx.rotate(Math.PI*0.85+Math.sin(e.t*0.9)*0.35); ctx.drawImage(AZ_SALT,-Ws/2,-D/2,Ws,D); ctx.restore();
       ctx.fillStyle=`rgba(255,255,255,${0.9*a})`;
       for(let k=0;k<14;k++){ const q=((e.t*0.06+k/14)%1), gx=x+Math.sin(k*12.9898)*e.sz*0.5, gy=y+D*0.3+q*(o?.size||20)*2.2; ctx.fillRect(gx,gy,2,2); }
     }
@@ -21045,7 +21060,8 @@ class Fighter {
     if(this.type==='azel' && this._az && !this.dead){ const P=AZ_POSES[this._az.pose%AZ_POSES.length], k=Math.max(0,this._az.hit)/6, fl=facingLeft?-1:1;
       rotation+=P.r*fl; offX+=P.x*s*fl; offY+=P.y*s; scaleX*=P.sx*(1+0.07*k); scaleY*=P.sy*(1+0.07*k); }
     if((this._azLift||0)>0) offY-=this._azLift;
-    if(this.type==='duolingo' && this._duo && this._duo.ice>0){ const u=1-this._duo.ice/(this._duo.iceMax||1); offX+=Math.sin(tick*1.9)*s*(0.03+0.06*u); rotation+=Math.sin(tick*1.3)*(0.05+0.1*u); }   // 🧊 giãy giụa trong khối băng   // 🍳 bị Azel lật chảo tung lên
+    if(this.type==='duolingo' && this._duo && this._duo.ice>0){ const u=1-this._duo.ice/(this._duo.iceMax||1); offX+=Math.sin(tick*1.9)*s*(0.03+0.06*u); rotation+=Math.sin(tick*1.3)*(0.05+0.1*u); }   // 🧊 giãy giụa trong khối băng
+    if(this.type==='duolingo'){ const _e=_duoPick(this); this._duoOffY=(_e.cy-0.47)*2*s*_e.mul; offY-=this._duoOffY; }   // 🦉 hào quang lửa bốc trên đầu → kéo ảnh lên cho THÂN đứng đúng chỗ   // 🍳 bị Azel lật chảo tung lên
     // CHEEMS: nghiêng cả người lúc gõ chày (chày đứng thẳng lúc nghỉ, xem block vẽ chày riêng ở dưới dùng lại đúng góc `rotation` này)
     let _cheemsTilt=0;
     if(this.type==='cheems' && this.attackAvatarTimer>0){
@@ -21562,13 +21578,13 @@ class Fighter {
       // slot 1: normal
       img = avatarImgs[i];
     }
-    if(this.type==='duolingo' && this._duo){ const _fm=_duoForm(this); if(_fm===2 && DUO_CROSS_IMG.naturalWidth) img=DUO_CROSS_IMG; else if(_fm===3 && DUO_LASER_IMG.naturalWidth) img=DUO_LASER_IMG; }   // 🦉 dạng theo đồng hồ học muộn
+    if(this.type==='duolingo'){ const _e=_duoPick(this); if(_e.im.naturalWidth) img=_e.im; }   // 🦉 dạng theo đồng hồ học muộn
     // 🧊 bị đóng băng (hard CC): giữ NGUYÊN ảnh lúc bị đóng — không đổi dáng/ảnh tấn công, ảnh động cũng đứng ở 1 khung (xem _frzIdx)
     if((this._mlemFreezeT||0)>0){ if(!this._frzSel) this._frzSel=img; else img=this._frzSel; } else this._frzSel=null;
     if(img){
       // Ricardo: thu nhỏ avatar lúc tấn công 15% | Screaming Marmot: GIF hét phóng to thêm 95% (1.5x rồi +30% nữa)
       if(this.type==='friend' && (this._frBites||0)>0 && !((img._frames||1)>1)) img=_frBloody(img,Math.min(6,this._frBites));   // 🩸 răng Friend dính máu + vụn thịt, càng cắn nhiều càng đẫm
-      const _avMul = (this.type==='duolingo' && (img===DUO_CROSS_IMG || img===DUO_LASER_IMG)) ? 1.3   // 🦉 hoá dạng: to hơn
+      const _avMul = (this.type==='duolingo' && img._duoMul) ? img._duoMul   // 🦉 bù hào quang: thân Duo luôn cùng cỡ
                    : (this.type==='ricardo' && isAttacking && !RC_FR.includes(img) && !RC_RG.includes(img)) ? 0.85   // (tư thế nhảy giữ nguyên cỡ, không co lúc đánh)
                    : (this.type==='smartguy' && (this._sgDisplayVal||0)>0) ? 1.5
                    : (this.type==='ricardo' && RC_FR.includes(img)) ? RC_VIS_MUL   // 🕺 tư thế nhảy: phóng cho bằng cỡ avatar
