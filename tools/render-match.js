@@ -3,7 +3,8 @@
 //   node tools/render-match.js out.mp4 --a friend --b evilgary [--fps 60] [--w 1440] [--seed N]
 //        [--win a|b] [--close 0.25] [--tries 12]
 //   --sim 10: chỉ CHẠY THỬ 10 trận (không quay), in kết quả từng seed để chọn → quay lại bằng --seed N
-//   Không --win / --close: trận NGẪU NHIÊN, quay luôn.
+//   MẶC ĐỊNH (chỉ --a --b): chạy thử 10 trận, lấy trận SÁT SAO NHẤT (con thắng còn ít máu nhất) rồi quay ở 2K 9:16 60fps.
+//   --best N: đổi số trận chạy thử · --random: bỏ chạy thử, quay luôn 1 trận ngẫu nhiên.
 //   Có --win / --close: chạy THỬ nhanh (độ phân giải thấp, không quay) từng seed tới khi ra trận đúng ý
 //   (--win a = bên trái thắng · --close 0.25 = con thắng còn ≤25% máu, thắng sát nút) rồi mới quay đúng trận đó ở 2K.
 // Tiếng: ghi lại mọi lần game phát/dừng Audio rồi trộn bằng tools/mix-plan.py theo SND_LUFS (tiếng tổng hợp WebAudio nhỏ thì không ghi được).
@@ -15,7 +16,7 @@ const args = process.argv.slice(2), OUT = path.resolve(args[0] || 'match.mp4');
 const opt = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; };
 const A = opt('--a'), B = opt('--b'), FPS = +opt('--fps', 60), VW = +opt('--w', 1440), VH = Math.round(VW * 16 / 9);
 const WIN = opt('--win', null), CLOSE = opt('--close', null) == null ? null : +opt('--close'), TRIES = +opt('--tries', 12), MAXSEC = +opt('--max', 240);
-const SIM = +opt('--sim', 0), SIMW = +opt('--simw', 360);
+const SIM = +opt('--sim', 0), SIMW = +opt('--simw', 360), BEST = +opt('--best', 10), RANDOM = args.includes('--random');
 let SEED = opt('--seed', null) == null ? null : +opt('--seed');
 const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.gif': 'image/gif', '.mp3': 'audio/mpeg', '.ogg': 'audio/ogg', '.wav': 'audio/wav', '.svg': 'image/svg+xml', '.woff2': 'font/woff2', '.ttf': 'font/ttf' };
 const GPU = ['--autoplay-policy=no-user-gesture-required', '--enable-gpu', '--use-angle=metal', '--ignore-gpu-blocklist'];
@@ -98,6 +99,15 @@ const ok = r => (!WIN || r.win === WIN) && (CLOSE == null || (r.win && (() => { 
     }
     if (SEED == null) { console.log(`❌ ${TRIES} lần thử chưa ra trận đúng ý`); await br.close(); srv.close(); process.exit(1); }
   }
+  // 🏆 mặc định: chạy thử BEST trận, lấy trận sát sao nhất (con thắng còn ÍT máu nhất, phải có người thắng)
+  if (SEED == null && !RANDOM && BEST > 0) { let best = null;
+    for (let k = 0; k < BEST; k++) { const sd = (Date.now() + k * 7919) >>> 0, pg = await openMatch(br, PORT, sd, SIMW);
+      while (!(await pg.evaluate(STEP, { n: 240, FPS, stopAt: 14 })) && (await pg.evaluate(() => __vt)) < MAXSEC) {}
+      const r = await pg.evaluate(RESULT); await pg.close();
+      const h = r.win ? r.hp[r.win === 'a' ? 0 : 1] : null, k2 = h && h[1] > 0 ? h[1] / h[2] : null;
+      console.log(`  thử #${k + 1} seed ${sd}: ${fmt(r)}`);
+      if (k2 != null && (!best || k2 < best.k)) best = { sd, k: k2, r }; }
+    if (best) { SEED = best.sd; console.log(`🏆 trận sát sao nhất: seed ${SEED} · ${fmt(best.r)}`); } }
   if (SEED == null) SEED = (Date.now() ^ (Math.random() * 1e9)) >>> 0;
   // 🎥 quay thật ở 2K
   console.log(`🎬 quay seed ${SEED} · ${VW}x${VH} @${FPS}fps`);
