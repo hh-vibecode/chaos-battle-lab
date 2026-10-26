@@ -5580,19 +5580,20 @@ const DUO_SWEEP_DPS=120, DUO_BIG_DMG=200, DUO_BIG_CD=3;
 const _duoImg=(n,mul,cy,eyes)=>{ const im=new Image(); im._noMask=true; im.src='assets/img/duolingo/'+n+'.webp'; im._duoMul=mul; return {im,mul,cy,eyes}; };
 const DUO_FREEZE_IMG=new Image(); DUO_FREEZE_IMG.src='assets/img/duolingo/DUO_FREEZE.webp';   // 🧊 icon Streak Freeze của app (Duolingo wiki)
 const DUO_F={
-  st1:_duoImg('DUO_ST1',1,0.47), st2:_duoImg('DUO_ST2',1.06,0.47), talk:_duoImg('DUO_TALK',1.0,0.48), cross:_duoImg('DUO_CROSS',1.05,0.47),
+  st1:_duoImg('DUO_ST1',1,0.47), st2:_duoImg('DUO_ST2',1.06,0.47), talk:_duoImg('DUO_TALK',1.05,0.5), cross:_duoImg('DUO_CROSS',1.05,0.5),
+  wings:_duoImg('DUO_WINGS',1.15,0.5),   // 🔴 giơ 2 cánh, mắt sao — thân của dạng LAST CHANCE
 };
-// 🔴 dạng LAST CHANCE: dựng từ ảnh Duo thường — thân tối sẫm ngả đỏ (như bị lửa giận bao trùm), mắt thành sao trắng (vẽ riêng),
+// 🔴 dạng LAST CHANCE: dựng từ ảnh Duo giơ 2 cánh — thân sẫm lại, mép hắt đỏ lửa (như bị lửa giận bao trùm), mắt sao trắng nhói (vẽ thêm),
 //    aura lửa nhọn kiểu Super Saiyan vẽ bằng code (_duoAuraDraw) — chỉ bật ở dạng này
-DUO_F.ult={im:null, mul:1, cy:0.47, eyes:[[0.344,0.381],[0.758,0.379]]};
+DUO_F.ult={im:null, mul:1.15, cy:0.5, eyes:[[0.353,0.349],[0.643,0.344]]};
 let _duoUltGlowCv=null;
 function _duoUltBuild(){
-  const src=DUO_F.st1.im; if(DUO_F.ult.im || !src.naturalWidth) return DUO_F.ult.im;
+  const src=DUO_F.wings.im; if(DUO_F.ult.im || !src.naturalWidth) return DUO_F.ult.im;
   const w=src.naturalWidth, h=src.naturalHeight, c=document.createElement('canvas'); c.width=w; c.height=h; const g=c.getContext('2d');
   g.drawImage(src,0,0); g.globalCompositeOperation='multiply'; g.fillStyle='#b4c88c'; g.fillRect(0,0,w,h);
   { const rg=g.createRadialGradient(w/2,h*0.5,w*0.2,w/2,h*0.5,w*0.62); rg.addColorStop(0,'rgba(255,40,10,0)'); rg.addColorStop(0.45,'rgba(255,40,10,0.12)'); rg.addColorStop(1,'rgba(255,30,10,0.9)'); g.globalCompositeOperation='source-atop'; g.fillStyle=rg; g.fillRect(0,0,w,h); }   // mép thân hắt đỏ lửa
   g.globalCompositeOperation='destination-in'; g.drawImage(src,0,0);
-  c._noMask=true; c._duoMul=1; c.naturalWidth=w; c.naturalHeight=h; DUO_F.ult.im=c;
+  c._noMask=true; c._duoMul=DUO_F.ult.mul; c.naturalWidth=w; c.naturalHeight=h; DUO_F.ult.im=c;
   // viền sáng rực quanh thân (bóng mờ màu cam của chính hình Duo)
   const P=Math.round(w*0.18), gc=document.createElement('canvas'); gc.width=w+P*2; gc.height=h+P*2; const gg=gc.getContext('2d');
   const sil=document.createElement('canvas'); sil.width=w; sil.height=h; const sg=sil.getContext('2d'); sg.drawImage(src,0,0); sg.globalCompositeOperation='source-in'; sg.fillStyle='#ff3c18'; sg.fillRect(0,0,w,h);
@@ -5604,7 +5605,7 @@ function _duoUltBuild(){
 function _duoPick(f){
   const D=f._duo; if(!D) return DUO_F.st1;
   const sec=D.clock/DUO_TPS, form=_duoForm(f);
-  if(form===3){ _duoUltBuild(); return DUO_F.ult.im ? DUO_F.ult : DUO_F.st1; }
+  if(form===3){ _duoUltBuild(); return DUO_F.ult.im ? DUO_F.ult : DUO_F.wings; }
   if(form===2) return DUO_F.cross;
   if(f.actionState==='attack' && f.actionTimer>0) return DUO_F.talk;   // đang "giảng bài" bắn chữ
   return sec>17 ? DUO_F.st1 : DUO_F.st2;
