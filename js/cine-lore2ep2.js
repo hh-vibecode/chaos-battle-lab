@@ -428,7 +428,7 @@
     return r; }
 
   // 🔊 lịch tiếng (dùng chung cho xem trực tiếp + xuất video): [giây, key, âm lượng, cắt sau (s)]
-  const SFX_PLAN=[[T.open,'blackhole',0.9,3.6],[T.land-0.28,'cine_drop',1.0,0],[T.shake,'gp_meow',0.9,0],[T.flash,'thunder_big',0.9,0],[T.eyes,'ultimate_charge_2',0.7,0]];
+  const SFX_PLAN=[[T.open,'blackhole',0.9,3.6],[T.land-0.03,'pd_fall',1.0,0],[T.shake,'gp_meow',0.9,0],[T.flash,'thunder_big',0.9,0],[T.eyes,'ultimate_charge_2',0.7,0]];
   let OFF=null;   // 🎞️ chế độ xuất video: vẽ đúng thời điểm R, không tiếng, không đồng hồ
   function frame(now){
     if(OFF) return;
@@ -439,7 +439,7 @@
   function renderAt(t){
     if(OFF) markOnly=true;
     if(t>=T.open) sfx('portal','blackhole',0.9,3.6);
-    if(t>=T.land-0.28) sfx('drop','cine_drop',1.0);   // cú 'bịch' trong file ở 0.28s → phát sớm 0.28s cho trúng lúc Gary đập đất (1 tiếng duy nhất)
+    if(t>=T.land-0.03) sfx('drop','pd_fall',1.0);   // 💥 Gary đập lưng xuống đất — tiếng ngã dứt khoát (đoạn 2 của slipandfall), cú đập ở 0.02s của file
     if(t>=T.shake) sfx('meow','gp_meow',0.9);
     if(t>=T.ignite && t<DUR) sfx('theme','pain_theme',1.0,Math.max(0.1,DUR-Math.max(t,T.ignite)));   // 🎵 Pain's Theme (Girei) xuyên suốt từ lúc khung cảnh lớn mở ra tới hết phim
     if(t>=T.flash) sfx('thunder','thunder_big',0.9);
