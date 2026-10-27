@@ -761,7 +761,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     evillarry:  { key:'evillarry',  defaultName:'Evil Larry',    emoji:'😈', color:'#9c27b0', hp:1000, speed:5, size:39.6, skill:'Không đánh ai. Vào trận là lầm lũi đi VẼ hình ngôi sao quỷ khổng lồ trên sàn (5 nét sao rồi tới vòng tròn bao quanh). Vẽ xong hình thì nghi lễ hoàn tất: MỌI kẻ địch VÀ chính Larry cùng nhận 6666 sát thương chuẩn.' },
     pianocat:   { key:'pianocat',   defaultName:'Piano Cat',     emoji:'🎹', color:'#8e24aa', hp:1000, speed:5, size:43, skill:'Chơi piano — bắn nốt nhạc theo NHỊP & CAO ĐỘ thật của bài (màu theo nốt), mỗi nốt trúng địch gây 15 sát thương. Nốt tự bám mục tiêu gần nhất (kể cả quân triệu hồi) nên không bao giờ trượt. Tự đổi sang bài khác mỗi 8s.' },
     grumpycat:  { key:'grumpycat',  defaultName:'Grumpy Cat',    emoji:'😾', color:'#607d8b', hp:1000, speed:5, size:43, skill:'Slap cận chiến hất văng. Mỗi đòn +12 nộ, ăn đòn +6 nộ. Đủ 100 nộ → RAGE: +50% tốc đánh, +35% tốc chạy, +30% size & tầm đánh, miễn khống chế cứng, slap x2 đẩy lùi, avatar nhấp nháy đỏ, đánh trúng phóng VFX Chidori.' },
-    catvader:   { key:'catvader',   defaultName:'Catvader',     emoji:'⚔️', color:'#d32f2f', hp:1000, speed:5, size:43, skill:'Vào trận rút lightsaber luôn. Địch ở gần chém melee 80 dame, địch ở xa kiếm tự bay tới chém 60 dame, 40% gây cháy 20 dame/giây trong 4s. Mỗi 5s hồi 1 lượt Force: đạn địch bay vào gần → toả aura đỏ, giữ đứng hình mọi viên đạn trong vùng 0.7s rồi bắn ngược về phía địch (đúng dame gốc của viên đó).' },
+    catvader:   { key:'catvader',   defaultName:'Catvader',     emoji:'⚔️', color:'#d32f2f', hp:1000, speed:5, size:43, skill:'Vào trận rút lightsaber luôn. Địch ở gần chém melee 80 dame, địch ở xa kiếm tự bay tới chém 60 dame, 40% gây cháy 20 dame/giây trong 4s. Mỗi 5s hồi 1 lượt Force: đạn địch bay vào gần → mở vùng aura đỏ 0.75s (Catvader đứng yên), MỌI loại đạn địch trong vùng chậm siêu chậm như bị bẻ cong thời gian, hết 0.75s đẩy hết ngược về phía địch (đúng dame gốc của từng viên).' },
     bibilabu:   { key:'bibilabu',   defaultName:'Bibilabu',     emoji:'🐕', color:'#a0522d', hp:1000, speed:5, size:55, skill:'Cầm kiếm + khiên. Tích luỹ sức mạnh theo thời gian (thanh vạch dưới máu, mỗi 0.5s +1 vạch, tối đa 10 vạch, từ vạch 8 trở lên chuyển đỏ). Vào tầm cận chiến thì chém: dame = 50 + 15×số vạch hiện có, đẩy bay xa/gần tuỳ số vạch, đủ vạch đỏ (≥8) mới gây choáng 1.5s. Chém xong tích lại từ đầu, tốc đánh phụ thuộc hoàn toàn vào tốc tích vạch. Đủ 10 vạch (đỏ) còn +30% tốc chạy.' },
     applecat:   { key:'applecat',   defaultName:'Apple Cat',    emoji:'🍎', color:'#e53935', hp:1000, speed:5, size:43, skill:'Ngay khi vào trận và mỗi 4s, thả 1 quả táo nảy khắp sân — va trúng đối thủ gây 70 dame rồi bật ngược lại như va tường, không đẩy lùi đối thủ.' },
     cheems:     { key:'cheems',     defaultName:'Cheems',      emoji:'🔨', color:'#c9a86a', hp:1000, speed:5, size:47, skill:'Cận chiến, gõ chày: dame gốc 20, tốc đánh 3, 15% tỉ lệ gây choáng 0.75s mỗi đòn. Mỗi lần gõ trúng: dame +3.5 cộng dồn (làm tròn xuống số nguyên khi gây dame thật), chày to thêm 3.5% (tầm đánh cũng tăng theo), tối đa 15 lần cộng dồn (dame tối đa 72). Càng đánh càng mạnh, tới khi đạt giới hạn.' },
@@ -10603,52 +10603,124 @@ function _mmDrawOver(){
 function _mmFrame(f){ const M=f._mm||{}, k=(M.charge>0 || M.tf>0 || M.hold || (f._mmShove!=null && tick-f._mmShove<14)) ? 1 : 0, s=MM_FR[2+k];
   return (M.ssj && s.complete && s.naturalWidth) ? 2+k : k; }
 // ===================== ⚔️ CATVADER — THE FORCE: GIỮ ĐẠN GIỮA KHÔNG TRUNG =====================
-// Mỗi 5s hồi 1 lượt: có đạn địch (mảng projectiles) bay vào vùng quanh người → toả AURA ĐỎ, mọi viên đạn địch bay vào vùng
-// bị ĐỨNG HÌNH lơ lửng (run nhẹ, quầng đỏ) trong 0.7s, rồi bật ngược phóng thẳng về phía địch — đổi sang phe Catvader,
-// gây đúng dame gốc của viên đó (đạn tự đuổi thì đổi sang đuổi địch).
-const CV_FORCE_CD=300, CV_FORCE_R=4.2, CV_FORCE_HOLD=54, CV_FORCE_SPD=1.35;   // 5s hồi · bán kính = 4.2×thân · giữ 0.9s (kiểu Neo chặn đạn trong Matrix) · bay về nhanh hơn 35%
-function _cvForceable(f,p,R){ if(p.team===f.team || p._cvHeld || p._cvForced) return false;
-  const dx=f.x-p.x, dy=f.y-p.y; return Math.hypot(dx,dy)<R && dx*(p.vx||0)+dy*(p.vy||0)>0; }   // trong vùng VÀ đang bay về phía Catvader
-function _cvForceGrab(f,F,R){ for(const p of projectiles){ if(!_cvForceable(f,p,R)) continue;
-  const sp=Math.hypot(p.vx||0,p.vy||0)||6; p._cvHeld=true; p._cvSp=sp; p._cvX=p.x; p._cvY=p.y;
-  p.vx*=0.015; p.vy*=0.015;   // gần như đứng yên nhưng GIỮ hướng mũi (ảnh đạn xoay theo vx/vy)
-  p.team=f.team; p.life=Math.max(p.life||0,CV_FORCE_HOLD+90);   // đổi phe ngay: lơ lửng sát người cũng không trúng Catvader
-  F.list.push(p); spawnParticles(p.x,p.y,'#ff1744',4,false,true); } }
+// Kiểu VÙNG BẺ CONG THỜI GIAN (Twisted Timeflow của Zilean, Tốc Chiến) + Neo chặn đạn (Matrix):
+// Mỗi 5s hồi 1 lượt. Có đạn địch bay vào vùng quanh người → toả AURA ĐỎ trong 0.75s, Catvader ĐỨNG YÊN (khỏi tự lao vào đạn).
+// MỌI viên đạn địch đang ở / bay vào vùng đều chậm SIÊU CHẬM (≈5% tốc), đổi sang phe Catvader; hết 0.75s đẩy hết ngược về
+// phía địch (bay nhanh hơn 35%, đúng dame gốc), rồi Catvader đi lại bình thường.
+// Bắt được MỌI hệ đạn: mảng projectiles chung (kunai, Morse, Beluga, nốt nhạc...) giữ nguyên hình gốc; búa Stalin dùng chế độ
+// "bị gạt ngược" sẵn có; các hệ riêng khác (CV_SYS: chảo, táo, hoa, mũi tên Loading, batarang, dao boomerang, cầu code Hecker,
+// chữ Duolingo, đờm/mầm Cough Cat, lọ độc Sus Dog) → cuối khung hình CHỤP đúng hình viên đạn trên canvas (tách nền sân),
+// gỡ khỏi hệ cũ, thay bằng 1 viên đạn của Catvader mang đúng hình đó. Không bắt quả đất Gary / liềm Stalin (vật nảy cả trận, mất là hỏng skill).
+const CV_FORCE_CD=300, CV_FORCE_HOLD=45, CV_FORCE_SPD=1.35, CV_SLOW=0.05;   // 5s hồi · vùng mở 0.75s (rộng 1/4 diện tích sân, xem _cvR) · đẩy về nhanh hơn 35% · trong vùng còn 5% tốc
+const CV_SYS=[
+  {arr:()=>cnPans,          dmg:()=>CN_PAN_DMG},
+  {arr:()=>apples,          ok:o=>!o._garyEarth && !o._stalinSickle, dmg:o=>o.dmg||70},
+  {arr:()=>flowers,         dmg:o=>o.dmg||40},
+  {arr:()=>loadingArrows,   ok:o=>!o._planted, dmg:()=>40, ang:o=>o.angle},
+  {arr:()=>batRangs,        ok:o=>!o.stuck, dmg:()=>BR_DMG},
+  {arr:()=>knifeBoomerangs, dmg:o=>o.dmg||60, r:o=>(o.size||60)*0.5},
+  {arr:()=>heckerBolts,     dmg:o=>o.dmg||40},
+  {arr:()=>duoWords,        dmg:o=>o.dmg||35, r:o=>(o.r||11)*1.8},
+  {arr:()=>coughBlobs,      dmg:()=>30, pos:o=>({x:o.x, y:o.y-Math.sin((1-o.t/o.tMax)*Math.PI)*20})},
+  {arr:()=>coughGerms,      ok:o=>o.flyT>0, dmg:()=>20, pos:o=>({x:o.x, y:o.y-Math.sin((1-o.flyT/o.flyMax)*Math.PI)*24})},
+  {arr:()=>sdProjs,         ok:o=>o.hostile && !o._smBy && o.to, team:o=>o.src&&o.src.team, dmg:()=>40,
+    pos:o=>{ const u=Math.min(1,o.t/o.T); return {x:o.from.x+(o.to.x-o.from.x)*u, y:o.from.y+(o.to.y-o.from.y)*u}; }},
+];
+let _cvWorldM=null;   // phép biến đổi WORLD → pixel canvas (chốt lúc vẽ lớp dưới meme) để chụp hình đạn cuối khung
+const _cvR=()=>Math.sqrt(W*H/(4*Math.PI));   // vùng Force = hình tròn rộng đúng 1/4 diện tích sân
+function _cvInZone(f,x,y){ return Math.hypot(x-f.x,y-f.y)<_cvR(); }
+function _cvForceable(f,p){ return p.team!==f.team && !p._cvHeld && !p._cvForced && _cvInZone(f,p.x,p.y); }
+// quét đạn địch trong vùng: grab=false chỉ hỏi "có không" (để kích hoạt), grab=true thì bắt luôn
+function _cvScan(f,F,grab){ let any=false;
+  for(const p of projectiles){ if(!_cvForceable(f,p)) continue; any=true; if(!grab) return true;
+    const sp=Math.hypot(p.vx||0,p.vy||0)||6; p._cvHeld=true; p._cvSp=sp; p.vx*=CV_SLOW; p.vy*=CV_SLOW;   // vẫn trôi + giữ hướng mũi, chỉ chậm hẳn lại
+    p.team=f.team; p.life=Math.max(p.life||0,CV_FORCE_HOLD+120); F.list.push(p); spawnParticles(p.x,p.y,'#ff1744',4,false,true); }
+  for(const s of fighters){ if(s.type!=='stalincat' || s.dead || s.team===f.team || s._slHammerState!=='flying' || s._slHammerRefl || !_cvInZone(f,s._slHammerX,s._slHammerY)) continue;
+    any=true; if(!grab) return true;   // ☭ búa: chế độ "bị gạt ngược" sẵn có → chỉ còn đập được chính Stalin, dame tính cho Catvader
+    s._slHammerRefl=f; F.ham.push({s,sp:Math.hypot(s._slHammerVX,s._slHammerVY)||7}); s._slHammerVX*=CV_SLOW; s._slHammerVY*=CV_SLOW; }
+  for(const S of CV_SYS){ let A; try{ A=S.arr(); }catch(e){ continue; } if(!A) continue;
+    for(const o of A){ if(o._cvPend || (S.ok && !S.ok(o))) continue; const tm=S.team?S.team(o):o.team; if(tm===undefined || tm===f.team) continue;
+      const P=S.pos?S.pos(o):o; if(!_cvInZone(f,P.x,P.y)) continue; any=true; if(!grab) return true;
+      o._cvPend=true; F.pend.push({S,o}); } }   // chụp hình + đổi sang đạn Catvader ở CUỐI khung (sau khi mọi thứ đã vẽ xong)
+  return any; }
 function _cvForceTick(f){
   if((f._cvForceCD||0)>0) f._cvForceCD--;
-  const R=f.size*CV_FORCE_R, F=f._cvForce;
+  const F=f._cvForce;
   if(F){ F.t++;
-    if(F.t<CV_FORCE_HOLD) _cvForceGrab(f,F,R);   // đạn bay tới TRONG lúc đang giữ cũng bị chặn lại
-    for(let i=F.list.length-1;i>=0;i--){ const p=F.list[i]; if(!projectiles.includes(p)){ F.list.splice(i,1); continue; }
-      if(F.t<CV_FORCE_HOLD){ p.x=p._cvX+(Math.random()-0.5)*2.2; p.y=p._cvY+(Math.random()-0.5)*2.2; } }   // run bần bật giữa không trung
+    if(F.t<CV_FORCE_HOLD) _cvScan(f,F,true);   // đạn bay vào TRONG lúc vùng còn mở cũng bị bắt
+    for(let i=F.list.length-1;i>=0;i--) if(!projectiles.includes(F.list[i])) F.list.splice(i,1);
     if(F.t===CV_FORCE_HOLD){
-      for(const p of F.list){ const o=p.owner && !p.owner.dead && p.owner.team!==f.team && fighters.includes(p.owner) ? p.owner : null, e=o||f.enemy;
-        const a=e && !e.dead ? Math.atan2(e.y-p.y,e.x-p.x) : Math.atan2(p.y-f.y,p.x-f.x), sp=Math.max(7,p._cvSp||7)*CV_FORCE_SPD;
-        p.x=p._cvX; p.y=p._cvY; p.vx=Math.cos(a)*sp; p.vy=Math.sin(a)*sp; p.owner=f; p._droolOwner=null; p._cvHeld=false; p._cvForced=true;
-        const tg=e && !e.dead ? e : null; if(p.target) p.target=tg; if(p._homingTarget) p._homingTarget=tg; if(p.homingTarget) p.homingTarget=tg;
+      const aim=(o,x,y)=>{ const e=(o && !o.dead && o.team!==f.team && fighters.includes(o)) ? o : f.enemy; return {e:e&&!e.dead?e:null, a:e&&!e.dead?Math.atan2(e.y-y,e.x-x):Math.atan2(y-f.y,x-f.x)}; };
+      for(const p of F.list){ const {e,a}=aim(p._cvFrom||p.owner,p.x,p.y), sp=Math.max(7,p._cvSp||7)*CV_FORCE_SPD;
+        p.vx=Math.cos(a)*sp; p.vy=Math.sin(a)*sp; p.owner=f; p._droolOwner=null; p._cvHeld=false; p._cvForced=true;
+        if(p.target) p.target=e; if(p._homingTarget) p._homingTarget=e; if(p.homingTarget) p.homingTarget=e;
         p.life=Math.max(p.life||0,120); }
-      if(F.list.length){ playSample('lightsaber_whoosh_01',1.0); addShake(5,8); }
+      for(const h of F.ham){ const s=h.s; if(s.dead || s._slHammerState!=='flying') continue; const a=Math.atan2(s.y-s._slHammerY,s.x-s._slHammerX), sp=Math.max(7,h.sp)*CV_FORCE_SPD;
+        s._slHammerVX=Math.cos(a)*sp; s._slHammerVY=Math.sin(a)*sp; }
+      if(F.list.length || F.ham.length){ playSample('lightsaber_whoosh_01',1.0); addShake(5,8); }
       F.burst=true; }
     if(F.t>=CV_FORCE_HOLD+18) f._cvForce=null;
     return; }
-  if((f._cvForceCD||0)>0 || f._isHardCC()) return;
-  if(!projectiles.some(p=>_cvForceable(f,p,R))) return;
-  f._cvForce={t:0,list:[]}; _cvForceGrab(f,f._cvForce,R); f._cvForceCD=CV_FORCE_CD;
+  if((f._cvForceCD||0)>0 || f._isHardCC() || !_cvScan(f,null,false)) return;
+  f._cvForce={t:0,list:[],ham:[],pend:[]}; _cvScan(f,f._cvForce,true); f._cvForceCD=CV_FORCE_CD; f.vx=f.vy=0;
   f.skill2AvatarTimer=Math.max(f.skill2AvatarTimer||0,CV_FORCE_HOLD);   // giơ tay dùng Force (ảnh tư thế phi kiếm)
   playSample('lightsaber_on',0.7); addShake(3,5);
 }
-// 🔴 aura đỏ + quầng quanh từng viên đạn đang bị giữ (vẽ DƯỚI các meme)
-function _cvForceDraw(){ for(const f of fighters){ const F=f._cvForce; if(f.type!=='catvader' || f.dead || !F) continue;
-  const R=f.size*CV_FORCE_R, H=CV_FORCE_HOLD, open=Math.min(1,F.t/8), fade=F.t>H?Math.max(0,1-(F.t-H)/18):1, pul=0.5+0.5*Math.sin(F.t*0.45);
-  ctx.save(); ctx.globalCompositeOperation='lighter';
-  const r=R*(0.35+0.65*open), g=ctx.createRadialGradient(f.x,f.y,f.size*0.5,f.x,f.y,r);
-  g.addColorStop(0,`rgba(255,40,40,${0.32*fade})`); g.addColorStop(0.75,`rgba(200,0,20,${(0.14+0.06*pul)*fade})`); g.addColorStop(1,'rgba(120,0,0,0)');
-  ctx.fillStyle=g; ctx.beginPath(); ctx.arc(f.x,f.y,r,0,Math.PI*2); ctx.fill();
-  ctx.strokeStyle=`rgba(255,60,60,${(0.35+0.25*pul)*fade})`; ctx.lineWidth=2; ctx.setLineDash([10,8]); ctx.lineDashOffset=-F.t*1.5;
-  ctx.beginPath(); ctx.arc(f.x,f.y,r*0.97,0,Math.PI*2); ctx.stroke(); ctx.setLineDash([]);
-  if(F.burst){ const u=Math.min(1,(F.t-H)/18); ctx.strokeStyle=`rgba(255,120,120,${0.8*(1-u)})`; ctx.lineWidth=6*(1-u)+1; ctx.beginPath(); ctx.arc(f.x,f.y,R*(0.6+0.7*u),0,Math.PI*2); ctx.stroke(); }   // sóng bật ra
+// 📸 chụp mảng hình quanh (x,y) trên canvas, xoá nền sân (màu trung bình của viền mảng) → hình viên đạn nền trong suốt
+function _cvSnap(x,y,r){ const m=_cvWorldM, cv=ctx.canvas; if(!m) return null;
+  const k=Math.hypot(m.a,m.b)||1, px=m.a*x+m.c*y+m.e, py=m.b*x+m.d*y+m.f, hs=Math.max(4,Math.ceil(r*k));
+  const x0=Math.max(0,Math.round(px-hs)), y0=Math.max(0,Math.round(py-hs)), x1=Math.min(cv.width,Math.round(px+hs)), y1=Math.min(cv.height,Math.round(py+hs)), w=x1-x0, h=y1-y0;
+  if(w<6 || h<6) return null; let id; try{ id=ctx.getImageData(x0,y0,w,h); }catch(e){ return null; }
+  const d=id.data; let R=0,G=0,B=0,n=0;
+  for(let yy=0;yy<h;yy++) for(let xx=0;xx<w;xx++){ if(yy>1 && yy<h-2 && xx>1 && xx<w-2) continue; const i=(yy*w+xx)*4; R+=d[i]; G+=d[i+1]; B+=d[i+2]; n++; }
+  R/=n; G/=n; B/=n;
+  let op=0; for(let i=0;i<d.length;i+=4){ const dist=Math.hypot(d[i]-R,d[i+1]-G,d[i+2]-B); d[i+3]=Math.round(d[i+3]*Math.max(0,Math.min(1,(dist-26)/30))); if(d[i+3]>128) op++; }
+  if(op<8) return null;   // chụp hụt (vật chưa kịp vẽ / trùng màu nền) → vẽ thay bằng chấm đỏ
+  const c=document.createElement('canvas'); c.width=w; c.height=h; c.getContext('2d').putImageData(id,0,0);
+  c._ox=(x0+w/2-px)/k; c._oy=(y0+h/2-py)/k; c._w=w/k; c._h=h/k; return c; }   // lệch tâm (mảng bị cắt ở mép canvas) + cỡ theo đơn vị thế giới
+// cuối khung: đạn hệ riêng vừa vào vùng → chụp hình, gỡ khỏi hệ cũ, thay bằng đạn Catvader (siêu chậm) mang đúng hình đó
+function _cvForceSnapFrame(){
+  for(const f of fighters){ const F=f._cvForce; if(f.type!=='catvader' || !F || !F.pend.length) continue;
+    for(const {S,o} of F.pend){ const A=S.arr(), i=A?A.indexOf(o):-1; o._cvPend=false; if(i<0) continue;   // đã tự biến mất (trúng ai đó) giữa chừng
+      const P=S.pos?S.pos(o):{x:o.x,y:o.y}, r=Math.max(12,Math.min(56,S.r?S.r(o):(o.size?o.size*0.62:16))), img=_cvSnap(P.x,P.y,r);
+      A.splice(i,1); if(f.dead) continue;
+      const sp0=Math.hypot(o.vx||0,o.vy||0)||o.spd||8, a=Math.atan2(f.y-P.y,f.x-P.x), a0=S.ang?S.ang(o):((o.vx||o.vy)?Math.atan2(o.vy,o.vx):null);
+      const p={x:P.x,y:P.y,vx:Math.cos(a)*sp0*CV_SLOW,vy:Math.sin(a)*sp0*CV_SLOW,team:f.team,owner:f,dmg:Math.max(1,Math.round(S.dmg(o)||40)),life:CV_FORCE_HOLD+180,maxLife:CV_FORCE_HOLD+180,
+        size:r*0.7,isCvSnap:true,img,rot0:a0,_cvHeld:true,_cvSp:Math.max(7,sp0),_cvFrom:o.owner||o.src||null};
+      if(F.t>=CV_FORCE_HOLD){ const e=f.enemy; if(e && !e.dead){ const b=Math.atan2(e.y-p.y,e.x-p.x); p.vx=Math.cos(b)*p._cvSp*CV_FORCE_SPD; p.vy=Math.sin(b)*p._cvSp*CV_FORCE_SPD; } p._cvHeld=false; p._cvForced=true; }
+      else F.list.push(p);
+      projectiles.push(p); spawnParticles(p.x,p.y,'#ff1744',4,false,true); }
+    F.pend.length=0; } }
+// vẽ đạn đã chụp: đúng hình cũ; bay ngược thì xoay mũi theo hướng mới (nếu viên đạn có hướng)
+function _cvDrawSnap(p){ const im=p.img;
+  if(!im){ ctx.save(); ctx.fillStyle='#ff5252'; ctx.beginPath(); ctx.arc(p.x,p.y,p.size||8,0,Math.PI*2); ctx.fill(); ctx.restore(); return; }
+  ctx.save(); ctx.translate(p.x,p.y); if(p.rot0!=null && !p._cvHeld) ctx.rotate(Math.atan2(p.vy,p.vx)-p.rot0);
+  ctx.drawImage(im, im._ox-im._w/2, im._oy-im._h/2, im._w, im._h); ctx.restore(); }
+// 🌀 BÓP MÉO KHÔNG GIAN trong vùng tròn (x,y,R): cắt vùng thành các vành khuyên, mỗi vành vẽ lại đúng mảng hình bên dưới
+//    nhưng phóng/thu một chút theo sóng chạy dần ra ngoài → sàn + đạn trong vùng gợn méo như không gian bị bẻ cong.
+function _cvWarp(x,y,R,t,amt){ const m=ctx.getTransform(), cv=ctx.canvas, k=Math.hypot(m.a,m.b)||1, px=m.a*x+m.c*y+m.e, py=m.b*x+m.d*y+m.f, N=6;
+  if(amt<=0.01) return;
+  for(let i=N-1;i>=0;i--){ const r1=R*(i+1)/N, r0=R*i/N, s=1+amt*0.08*Math.sin(t*0.32-i*1.2)*(1-i/N*0.5), sr=r1*k/s;
+    const sx=Math.max(0,px-sr), sy=Math.max(0,py-sr), sx1=Math.min(cv.width,px+sr), sy1=Math.min(cv.height,py+sr); if(sx1-sx<2 || sy1-sy<2) continue;
+    ctx.save(); ctx.beginPath(); ctx.arc(x,y,r1,0,Math.PI*2); if(r0>0) ctx.arc(x,y,r0,0,Math.PI*2,true); ctx.clip();
+    const dx=x+(sx-px)/k*s, dy=y+(sy-py)/k*s;
+    try{ ctx.drawImage(cv, sx, sy, sx1-sx, sy1-sy, dx, dy, (sx1-sx)/k*s, (sy1-sy)/k*s); }catch(e){}
+    ctx.restore(); } }
+// 🔴 vùng Force (vẽ DƯỚI các meme): không gian bị bóp méo + viền đỏ mờ + quầng quanh từng viên đạn đang bị làm chậm
+function _cvForceDraw(){ _cvWorldM=ctx.getTransform(); for(const f of fighters){ const F=f._cvForce; if(f.type!=='catvader' || f.dead || !F) continue;
+  const R=_cvR(), H=CV_FORCE_HOLD, open=Math.min(1,F.t/8), fade=F.t>H?Math.max(0,1-(F.t-H)/18):1, pul=0.5+0.5*Math.sin(F.t*0.45), r=R*(0.35+0.65*open);
+  _cvWarp(f.x,f.y,r,F.t,fade);
+  ctx.save();
+  const g=ctx.createRadialGradient(f.x,f.y,r*0.55,f.x,f.y,r); g.addColorStop(0,'rgba(200,0,20,0)'); g.addColorStop(0.85,`rgba(200,0,20,${(0.1+0.05*pul)*fade})`); g.addColorStop(1,`rgba(255,40,40,${0.22*fade})`);
+  ctx.fillStyle=g; ctx.beginPath(); ctx.arc(f.x,f.y,r,0,Math.PI*2); ctx.fill();   // ửng đỏ nhẹ dồn về mép vùng
+  for(let i=0;i<4;i++){ const ph=((F.t*0.022)+i/4)%1, rr=r*(0.12+0.86*ph), a=Math.sin(ph*Math.PI)*0.22*fade;   // vòng gợn khúc xạ chạy từ tâm ra: sàn phẳng 1 màu vẫn thấy rõ không gian đang bị bẻ cong
+    ctx.lineWidth=3; ctx.strokeStyle=`rgba(255,255,255,${a})`; ctx.beginPath(); ctx.arc(f.x,f.y,rr,0,Math.PI*2); ctx.stroke();
+    ctx.lineWidth=2; ctx.strokeStyle=`rgba(60,0,10,${a*0.8})`; ctx.beginPath(); ctx.arc(f.x+1,f.y+1.5,rr+2.5,0,Math.PI*2); ctx.stroke(); }
+  ctx.globalCompositeOperation='lighter';
+  ctx.strokeStyle=`rgba(255,60,60,${(0.3+0.2*pul)*fade})`; ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(f.x,f.y,r,0,Math.PI*2); ctx.stroke();
+  if(F.burst){ const u=Math.min(1,(F.t-H)/18); ctx.strokeStyle=`rgba(255,120,120,${0.8*(1-u)})`; ctx.lineWidth=6*(1-u)+1; ctx.beginPath(); ctx.arc(f.x,f.y,R*(0.4+0.7*u),0,Math.PI*2); ctx.stroke(); }   // sóng bật ra
   if(F.t<H) for(const p of F.list){ const pr=(p.size||8)*2.4+3*pul, gp=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,pr);
-    gp.addColorStop(0,'rgba(255,90,90,0.4)'); gp.addColorStop(1,'rgba(255,0,0,0)'); ctx.fillStyle=gp; ctx.beginPath(); ctx.arc(p.x,p.y,pr,0,Math.PI*2); ctx.fill(); }
+    gp.addColorStop(0,'rgba(255,90,90,0.35)'); gp.addColorStop(1,'rgba(255,0,0,0)'); ctx.fillStyle=gp; ctx.beginPath(); ctx.arc(p.x,p.y,pr,0,Math.PI*2); ctx.fill(); }
   ctx.restore();
   if(F.t<H) for(const p of F.list) _cvMatrixRipple(p, F.t, fade);   // 🕶️ gợn sóng không khí quanh viên đạn đứng hình (Neo chặn đạn)
 } }
@@ -12326,7 +12398,7 @@ const CHAR_BLURB = {
   evillarry: "Ignores everyone and walks a pentagram onto the floor — a summoning circle. Completing it SACRIFICES every living thing in the arena, itself included, to whatever is listening.",
   pianocat: "Plays piano and fires a homing musical note on every beat of the song (locks onto the nearest target, including summons, and never misses), switching tracks as it goes.",
   grumpycat: "Builds rage from every hit dealt and taken; a full bar unlocks a far stronger rage form.",
-  catvader: "Ignites a lightsaber and either fights up close or throws it and calls it back. Every 5s, a red Force aura freezes incoming enemy projectiles mid-air, then hurls them back at the enemy.",
+  catvader: "Ignites a lightsaber and either fights up close or throws it and calls it back. Every 5s it stands still and opens a red Force aura for 0.75s: every enemy projectile inside slows to a crawl, then gets hurled back at the enemy.",
   bibilabu: "Quietly powers up between slaps until a single hit is enough to end the fight.",
   applecat: "Keeps an apple bouncing around the arena that damages anyone it collides with.",
   cheems: "Every bonk makes its bat larger, hitting harder and reaching further.",
@@ -12425,7 +12497,7 @@ const CHAR_BLURB_SHORT = {
   evillarry: "Larry is drawing a pentagram. Run.",
   pianocat: "Play him off, Keyboard Cat. Every note hits.",
   grumpycat: "No. No. NO!!",
-  catvader: "I am your father. Also, lightsaber.",
+  catvader: "I AM YOUR FATHER",
   bibilabu: "Bibilabu charges… one slap. Goodnight.",
   applecat: "Apple cat's apple bounces. Into your face.",
   cheems: "Bonk. Bigger bonk. Go to horny jail.",
@@ -17334,6 +17406,7 @@ class Fighter {
     if(_pdSprawled(this)){ this.vx*=0.88; this.vy*=0.88; this.x+=this.vx; this.y+=this.vy; return; }   // 🍌 nằm sõng soài: trượt nốt đà rồi nằm im
     if(this.type==='ninjacat' && this._njGen){ this.vx=0; this.vy=0; return; }
     if(this.type==='saiyanmarmot' && _mmIsBusy(this)){ this.vx=0; this.vy=0; return; }   // 🦫 đang gồng / hét biến hình / khựng dồn khí
+    if(this.type==='catvader' && this._cvForce && this._cvForce.t<CV_FORCE_HOLD){ this.vx=0; this.vy=0; return; }   // ⚔️ đang mở vùng Force: đứng yên, khỏi tự lao vào đạn
     if(this.type==='mechaniccat' && this._gd && (this._gd.work>0||this._gd.board>0||this._gd.slashT>0||this._gd.aimT>0)){ this.vx=0; this.vy=0; return; }   // 🤖 đang lắp / phóng vào buồng lái / Gundam đang chém-ngắm
     if(this.type==='poordog' && this._pd && this._pd.st==='lie'){ this.vx=0; this.vy=0; return; }   // 🥣 đang nằm   // 👁️ đang tan biến / đâm sau lưng
     // đang lao vào sân (nhập trận) → chưa di chuyển logic
@@ -25569,6 +25642,7 @@ function loop(){
     } else if(p.isPopO){
       const st=_popRingState(p); _popRingDraw(p.x,p.y,st,p._seed||0,p._t||0);
     } else if(p.isKunai){ _njDrawKunai(p);
+    } else if(p.isCvSnap){ _cvDrawSnap(p);   // ⚔️ đạn hệ riêng bị Catvader bắt: vẽ lại đúng hình đã chụp
     } else if(p.isMorse && p.sym==='W'){   // 📡 chữ/từ vừa gõ xong bay vào địch (30 dame)
       ctx.save(); ctx.translate(p.x,p.y); ctx.font='900 18px "Courier New",monospace'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.shadowColor='#69f0ae'; ctx.shadowBlur=14; ctx.lineWidth=4; ctx.strokeStyle='#0b2a18'; ctx.strokeText(p.word,0,0); ctx.fillStyle='#e8fff0'; ctx.fillText(p.word,0,0); ctx.restore();
     } else if(p.isMorse){   // 📡 dấu chấm / dấu gạch Morse phát sáng, gạch xoay theo hướng bay
@@ -29675,6 +29749,7 @@ function loop(){
     if(_f.type==='ninjacat'){ _njDraw(_f); _njDrawGen(_f); }   // 🥷 kiếm Kusanagi lúc chém + vệt tay ném kunai
     if(_f.type==='beluga') _blDrawTyping(_f);   // 💬 Beluga is typing…
     if(_f._dnMark) _dnDrawMark(_f); }   // 📓 địch đã bị ghi tên
+  _cvForceSnapFrame();   // ⚔️ đạn hệ riêng lọt vào vùng Force: chụp hình NGAY SAU khi mọi vật thể đã vẽ, TRƯỚC các lớp phủ (đêm, mưa…)
   _pdDrawOver();    // 🥣 sự kiện đen đủi + bảng karma + lá thu bay
   _susVoteDraw();
   _frDrawNight();   // 🐈‍⬛ bóng đêm Friend phủ lên TRÊN CÙNG — chỉ còn thấy mặt mèo ngoạm

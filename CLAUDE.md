@@ -62,8 +62,14 @@ Mẫu đã duyệt:
   **Ảnh đang là ảnh TẠM** tách tay từ GIF Giphy (`assets/img/saiyanmarmot/MM_IDLE.png`, `MM_SCREAM.png`, avatar `assets/avatars/saiyanmarmot/avatarUrl.png`), mặt quay TRÁI.
   Chờ anh gửi ảnh ChatGPT: dạng thường KHÔNG tóc (thay MM_IDLE/MM_SCREAM), Super Saiyan tóc vàng → lưu `MM_SSJ_IDLE.png` / `MM_SSJ_SCREAM.png` (code tự dùng khi có file).
   Các khung phải cùng khung cắt/chân chạm đáy. Ảnh mới quay mặt PHẢI thì bỏ `saiyanmarmot` khỏi 2 danh sách quay-mặt-trái (facingDefault + `_selSideRender`).
-- ⚔️ **Catvader — Force kiểu Neo chặn đạn (Matrix)**: `_cvForce*`, `CV_FORCE_*`. 5s/lượt, đạn địch bay vào vùng 4.2×thân → đứng hình 0.9s (gợn sóng + thấu kính bẻ cong không khí `_cvMatrixRipple`) → bắn ngược về địch, đúng dame gốc.
-  Chỉ bắt đạn trong mảng `projectiles` (kunai, Morse, Beluga...). Chữ Duolingo, batarang, búa, chảo... là hệ riêng → CHƯA bắt (anh muốn thì làm thêm).
+- ⚔️ **Catvader — vùng Force** (Ver 395): `_cvForce*`, `CV_FORCE_*`, `CV_SYS`. 5s/lượt, có đạn địch trong vùng → mở vùng 0.75s, rộng đúng 1/4 diện tích sân (`_cvR`),
+  Catvader ĐỨNG YÊN; không gian trong vùng bị bóp méo (`_cvWarp`: vành khuyên vẽ lại canvas phóng/thu theo sóng) + gợn Matrix quanh từng viên (`_cvMatrixRipple`);
+  MỌI đạn địch trong vùng chậm còn 5% tốc, đổi sang phe Catvader; hết 0.75s đẩy hết về phía địch (nhanh hơn 35%, đúng dame gốc), rồi đi lại bình thường.
+  Anh mô tả "giống Zilean" chỉ để hiểu ý vùng làm chậm — KHÔNG thêm khiên/tăng tốc như skill Zilean.
+  Bắt mọi hệ đạn: `projectiles` giữ nguyên hình gốc; búa Stalin dùng chế độ `_slHammerRefl` sẵn có; hệ riêng trong `CV_SYS` (chảo, táo, hoa, mũi tên Loading,
+  batarang, dao boomerang, cầu code Hecker, chữ Duolingo, đờm/mầm Cough Cat, lọ độc Sus Dog) → cuối khung `_cvForceSnapFrame` CHỤP hình vật thể trên canvas
+  (tách nền = màu trung bình viền mảng), gỡ khỏi hệ cũ, thay bằng đạn Catvader `isCvSnap` mang đúng hình đó. Thêm hệ đạn mới → thêm 1 dòng vào `CV_SYS`.
+  Không bắt: quả đất Gary, liềm Stalin (vật nảy cả trận, gỡ là hỏng skill), tia laze tức thời (Gundam, Duolingo, King Cheems...).
 - 🥷 **Ninja Cat**: Sharingan không bao giờ đâm vào mặt nữa — lưng địch sát tường thì NHỊN (`_njWait`, giữ lượt), địch có chỗ sau lưng là cast ngay; đã tan khói mà địch lùi sát tường thì ẩn chờ thêm ≤1.5s rồi hiện lại, trả lượt.
   Lúc đâm khoá hướng nhìn địch (`_njFaceBy` / `_njFaceL` ở chỗ tính `shouldFaceLeft`) để nó không quay lại nhìn Ninja.
 - 🧪 Máy anh không có node/python: chạy thử trận bằng Edge headless + DevTools (script PowerShell để ngoài repo). Cổng 9333 thường bị Edge của PHIÊN KHÁC chiếm → dùng cổng khác, kiểm cổng trước.
