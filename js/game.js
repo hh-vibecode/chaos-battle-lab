@@ -761,7 +761,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     evillarry:  { key:'evillarry',  defaultName:'Evil Larry',    emoji:'😈', color:'#9c27b0', hp:1000, speed:5, size:39.6, skill:'Không đánh ai. Vào trận là lầm lũi đi VẼ hình ngôi sao quỷ khổng lồ trên sàn (5 nét sao rồi tới vòng tròn bao quanh). Vẽ xong hình thì nghi lễ hoàn tất: MỌI kẻ địch VÀ chính Larry cùng nhận 6666 sát thương chuẩn.' },
     pianocat:   { key:'pianocat',   defaultName:'Piano Cat',     emoji:'🎹', color:'#8e24aa', hp:1000, speed:5, size:43, skill:'Chơi piano — bắn nốt nhạc theo NHỊP & CAO ĐỘ thật của bài (màu theo nốt), mỗi nốt trúng địch gây 15 sát thương. Nốt tự bám mục tiêu gần nhất (kể cả quân triệu hồi) nên không bao giờ trượt. Tự đổi sang bài khác mỗi 8s.' },
     grumpycat:  { key:'grumpycat',  defaultName:'Grumpy Cat',    emoji:'😾', color:'#607d8b', hp:1000, speed:5, size:43, skill:'Slap cận chiến hất văng. Mỗi đòn +12 nộ, ăn đòn +6 nộ. Đủ 100 nộ → RAGE: +50% tốc đánh, +35% tốc chạy, +30% size & tầm đánh, miễn khống chế cứng, slap x2 đẩy lùi, avatar nhấp nháy đỏ, đánh trúng phóng VFX Chidori.' },
-    catvader:   { key:'catvader',   defaultName:'Catvader',     emoji:'⚔️', color:'#d32f2f', hp:1000, speed:5, size:43, skill:'Vào trận rút lightsaber luôn. Địch ở gần chém melee 80 dame, địch ở xa kiếm tự bay tới chém 60 dame, 40% gây cháy 20 dame/giây trong 4s.' },
+    catvader:   { key:'catvader',   defaultName:'Catvader',     emoji:'⚔️', color:'#d32f2f', hp:1000, speed:5, size:43, skill:'Vào trận rút lightsaber luôn. Địch ở gần chém melee 80 dame, địch ở xa kiếm tự bay tới chém 60 dame, 40% gây cháy 20 dame/giây trong 4s. Mỗi 5s hồi 1 lượt Force: đạn địch bay vào gần → toả aura đỏ, giữ đứng hình mọi viên đạn trong vùng 0.7s rồi bắn ngược về phía địch (đúng dame gốc của viên đó).' },
     bibilabu:   { key:'bibilabu',   defaultName:'Bibilabu',     emoji:'🐕', color:'#a0522d', hp:1000, speed:5, size:55, skill:'Cầm kiếm + khiên. Tích luỹ sức mạnh theo thời gian (thanh vạch dưới máu, mỗi 0.5s +1 vạch, tối đa 10 vạch, từ vạch 8 trở lên chuyển đỏ). Vào tầm cận chiến thì chém: dame = 50 + 15×số vạch hiện có, đẩy bay xa/gần tuỳ số vạch, đủ vạch đỏ (≥8) mới gây choáng 1.5s. Chém xong tích lại từ đầu, tốc đánh phụ thuộc hoàn toàn vào tốc tích vạch. Đủ 10 vạch (đỏ) còn +30% tốc chạy.' },
     applecat:   { key:'applecat',   defaultName:'Apple Cat',    emoji:'🍎', color:'#e53935', hp:1000, speed:5, size:43, skill:'Ngay khi vào trận và mỗi 4s, thả 1 quả táo nảy khắp sân — va trúng đối thủ gây 70 dame rồi bật ngược lại như va tường, không đẩy lùi đối thủ.' },
     cheems:     { key:'cheems',     defaultName:'Cheems',      emoji:'🔨', color:'#c9a86a', hp:1000, speed:5, size:47, skill:'Cận chiến, gõ chày: dame gốc 20, tốc đánh 3, 15% tỉ lệ gây choáng 0.75s mỗi đòn. Mỗi lần gõ trúng: dame +3.5 cộng dồn (làm tròn xuống số nguyên khi gây dame thật), chày to thêm 3.5% (tầm đánh cũng tăng theo), tối đa 15 lần cộng dồn (dame tối đa 72). Càng đánh càng mạnh, tới khi đạt giới hạn.' },
@@ -794,6 +794,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     boxingcat: { key:'boxingcat', defaultName:'Boxing Cat', emoji:'🥊', color:'#e53935', hp:1000, speed:5, size:44, skill:'' },
     poordog: { key:'poordog', defaultName:'Poor Dog', emoji:'🥣', color:'#c8a165', hp:1000, speed:5, size:39.6, skill:'' },
     ninjacat: { key:'ninjacat', defaultName:'Ninja Cat', emoji:'🥷', color:'#546e7a', hp:1000, speed:5, size:45, skill:'' },
+    saiyanmarmot: { key:'saiyanmarmot', defaultName:'Saiyan Marmot', emoji:'🦫', color:'#ffca28', hp:1000, speed:5, size:46, skill:'Cận chiến ĐẨY: chạm địch là xô văng ra như mấy con marmot xô nhau (45 dame). Cứ đi 2s lại đứng gồng 1.5s; lần gồng thứ 3 hét AAAH dài 3s rồi hoá SUPER SAIYAN tới hết trận. Super Saiyan: mỗi lần chạm để đẩy thì khựng 0.5s rồi bắn địch thẳng vào tường cực nhanh, ghim vào tường (160 dame), tường chỗ đó nứt vỡ, rơi mảnh còn lại mép lởm chởm. Lỗ tường vỡ đủ to mà địch bị bắn trúng đúng chỗ đó → văng ra khỏi sàn, thua luôn.' },
     azel: { key:'azel', defaultName:'Azel', emoji:'🎧', color:'#26c6da', hp:1000, speed:4, size:46, skill:'Không đánh thường. Beatbox dubstep theo nhịp ĐỀU (0.5s/nhịp, dưới 50% máu 0.35s/nhịp), mỗi nhịp tay giật 1 động tác = 1 bước nấu, vòng 8 nhịp: 3 nhát dao giáng đúng chỗ địch sắp tới (25/nhát) → rắc muối làm chậm 2s → đặt chảo ở chỗ địch sắp tới (chảo trượt theo) → 2 lần lật chảo hất địch vào chảo (20/lần, bị giữ trong chảo) → DROP: dọn món 150 dame, Azel hồi 50% số đó.' },
     duolingo: { key:'duolingo', defaultName:'Duolingo', emoji:'🦉', color:'#58cc02', hp:1000, speed:5, size:44, skill:'Bắn câu chào nhiều thứ tiếng, mỗi tiếng 1 kiểu bay (¡Hola! thẳng 35 · Bonjour~ lượn sóng 35 · こんにちは tách 3 chữ 15/chữ · HALLO! to chậm 50 + đẩy lùi · Привет nảy tường 30). Đồng hồ học muộn 23s: 23→12s dạng thường, 12→0s khoanh tay (bắn nhanh ×1.5, 2 tiếng/lần), mỗi lần trúng đồng hồ tụt 0.3s, hết giờ mà chưa thắng → dạng tối thượng LAST CHANCE tới hết trận: laser mắt quét 120/s, 3s/lần laser lớn 200, bắn 5 tiếng cùng lúc. Mỗi 4s rơi 1 Streak Freeze (tối đa 1 khối trên sàn, Duo không phá được): địch nhặt được thì đồng hồ dừng + Duo bị nhốt trong khối băng 2s.' },
     slapcat: { key:'slapcat', defaultName:'Slap Cat', emoji:'🐈', color:'#7c4dff', hp:1000, speed:5, size:44, skill:'Vừa chạy vừa tích lực, cứ 2s lại đứng khựng lại VẢ một phát. Cú vả mở 2 cổng không gian: một cổng ngay cạnh Slap Cat và một cổng SAU LƯNG đối thủ — tay thò qua cổng vả trúng địch dù nó đứng bất kỳ đâu trên sàn. Sát thương gốc 120, ĐỨNG CÀNG XA ĐÁNH CÀNG ĐAU (xa tối đa +100%). 30% tỉ lệ gây choáng.' },
@@ -836,7 +837,7 @@ const FIRST_ATTACK_CD = {
   loooongcat:50, screamcat:51, feuerkatze:30, batcat:60, commandercat:30, evillarry:40, pianocat:20, grumpycat:30, bibilabu:30, applecat:20, cheems:30, stalincat:20,
   maxwell:60, yellingwomen:40, pakistanguy:40, kingcheems:50, kermit:40, coughcat:60, mewingcat:60, smartguy:40, capybara:30, mechaniccat:20, rubikcat:30,
   aliencat:40, chillguy:38, clappingcat:30, evilgary:30, gary:45, electricguitarcat:20, scareddog:20, calmdog:20, cryingcat:35, infinitydoge:30, mosquitoviolin:30, slapcat:40, yuki:60, windguy:60,
-  cornelius:60, epicsaxguy:60, dawae:60, vampirecat:30, mlemcat:30, trollface:45, susdog:60, berserkcat:60, friend:60, chonkydog:60, doorbellchud:60, morsecat:30, ninjacat:30, alottadameguy:40, arabiccat:60, scootercat:60, samuraicheems:40
+  cornelius:60, epicsaxguy:60, dawae:60, vampirecat:30, mlemcat:30, trollface:45, susdog:60, berserkcat:60, friend:60, chonkydog:60, doorbellchud:60, morsecat:30, ninjacat:30, saiyanmarmot:30, alottadameguy:40, arabiccat:60, scootercat:60, samuraicheems:40
 };
 
 // ===================== ROSTER (localStorage) =====================
@@ -931,7 +932,7 @@ function loadRoster(){
   // bổ sung ngay những charKey còn thiếu, không đụng gì tới các nhân vật/avatar đã lưu trước đó
   // ⚠️ Gigachad CHƯA có ảnh mặc định (chưa có nguồn ảnh phù hợp) — dùng emoji 🗿 tạm thời, người dùng tự upload
   // qua màn Add Character khi có ảnh (avatar chính + ảnh "Gigachad To" ở ô Khung 1, xem POSE_SLOT_DEFS.gigachad).
-  const _mcDefaultAvatars={ droolingcat: 'assets/avatars/droolingcat/avatarUrl.webp', boxingcat: 'assets/avatars/boxingcat/avatarUrl.webp', duolingo: 'assets/avatars/duolingo/avatarUrl.webp', azel: 'assets/avatars/azel/avatarUrl.webp', ninjacat: 'assets/avatars/ninjacat/avatarUrl.webp', poordog: 'assets/avatars/poordog/avatarUrl.webp', morsecat: 'assets/avatars/morsecat/avatarUrl.webp', supremearbiter: 'assets/avatars/supremearbiter/avatarUrl.webp', scaredhamster: 'assets/avatars/scaredhamster/avatarUrl.webp', evilgary: GP_EVIL_IMG.src, doorbellchud: DC_FR[0].src, alottadameguy: LD_FR[0].src, arabiccat: AR_FR[0].src, rickroll: RICKROLL_AVATAR_IMG.src, aliencat: ALIENCAT_AVATAR_IMG.src, chillguy: CHILLGUY_AVATAR_IMG.src, uiacat: UIACAT_AVATAR_IMG.src };
+  const _mcDefaultAvatars={ droolingcat: 'assets/avatars/droolingcat/avatarUrl.webp', boxingcat: 'assets/avatars/boxingcat/avatarUrl.webp', duolingo: 'assets/avatars/duolingo/avatarUrl.webp', azel: 'assets/avatars/azel/avatarUrl.webp', ninjacat: 'assets/avatars/ninjacat/avatarUrl.webp', saiyanmarmot: 'assets/avatars/saiyanmarmot/avatarUrl.png', poordog: 'assets/avatars/poordog/avatarUrl.webp', morsecat: 'assets/avatars/morsecat/avatarUrl.webp', supremearbiter: 'assets/avatars/supremearbiter/avatarUrl.webp', scaredhamster: 'assets/avatars/scaredhamster/avatarUrl.webp', evilgary: GP_EVIL_IMG.src, doorbellchud: DC_FR[0].src, alottadameguy: LD_FR[0].src, arabiccat: AR_FR[0].src, rickroll: RICKROLL_AVATAR_IMG.src, aliencat: ALIENCAT_AVATAR_IMG.src, chillguy: CHILLGUY_AVATAR_IMG.src, uiacat: UIACAT_AVATAR_IMG.src };
   // ⚙️ QUÉT TỰ ĐỘNG toàn bộ CHAR_DEFS thay vì liệt kê tay từng charKey — trước đây danh sách này hardcode
   // (['aliencat','wetcat','chillguy','gary','electricguitarcat']) nên MỖI LẦN thêm nhân vật mới mà quên cập nhật
   // là người đã có roster lưu sẵn sẽ KHÔNG thấy nhân vật đó xuất hiện. Giờ chỉ cần khai báo trong CHAR_DEFS là
@@ -1048,7 +1049,7 @@ function _selSideRender(slot){
   const el=document.getElementById('selSide'+slot); if(!el) return;
   const idx=picks[slot]; if(idx===null || !roster[idx]){ el.classList.remove('show'); el.innerHTML=''; return; }
   const ch=roster[idx], k=ch.charKey, def=CHAR_DEFS[k]||CHAR_DEFS.huhcat;
-  const facesLeft=(k==='morsecat'||k==='ninjacat'||k==='poordog'||ch.facing==='left'), flip=slot===0?facesLeft:!facesLeft;   // P1 nhìn sang PHẢI, P2 nhìn sang TRÁI
+  const facesLeft=(k==='morsecat'||k==='ninjacat'||k==='poordog'||k==='saiyanmarmot'||ch.facing==='left'), flip=slot===0?facesLeft:!facesLeft;   // P1 nhìn sang PHẢI, P2 nhìn sang TRÁI
   const esc=t=>String(t||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   const av=ch.avatarUrl?`<div class="sel-av-flip" style="transform:scaleX(${flip?-1:1})"><img src="${esc(ch.avatarUrl)}" alt=""></div>`:`<div class="sel-av-emoji">${def.emoji}</div>`;
   el.innerHTML=`<div class="sel-side-tag">${slot===0?'🔵 PLAYER 1':'🔴 PLAYER 2'}</div><div class="sel-av">${av}</div>
@@ -1105,6 +1106,7 @@ const POSE_SLOT_DEFS = {
   morsecat: [{ field:'attackAvatarUrl', label:'Đang gõ (mắt loé trắng)', emoji:'📡', color:'#66bb6a' }],   // 📡 mỗi phím gõ hiện ảnh này 0.2s
   poordog: [],         // 🥣 avatar + 5 khung nằm xuống CỐ ĐỊNH (assets/img/poordog/PD_F1..5), không cho upload
   ninjacat: [],        // 🥷 chỉ 1 ảnh đại diện (kiếm Kusanagi + kunai vẽ bằng code)
+  saiyanmarmot: [],    // 🦫 khung dựng sẵn MM_FR (assets/img/saiyanmarmot): thường + Super Saiyan; hào quang/tia điện vẽ bằng code
   supremearbiter: [],  // 😼 1 ảnh đại diện (ngồi ngước mặt khinh khỉnh)
   scaredhamster: [],   // 🐹 dùng bộ ảnh dựng sẵn HM_IMG (sợ hãi + 4 dáng chạy), không qua slot upload
   finedog: [   // 🐶 avatar ngồi + ĐÚNG 1 khung uống nước — 2 cái nối lại thành vòng lặp 2 khung, chạy mỗi lần nó nói THIS IS FINE (lúc lửa mạnh thêm)
@@ -5346,7 +5348,7 @@ function _bxFxDraw(){
   ctx.restore();
 }
 // 💬 BELUGA: bắn 1 tin nhắn — XUYÊN qua mọi thứ trên đường bay (mỗi mục tiêu ăn 1 lần), bám mục tiêu tới lúc trúng đầu tiên
-const BL_VS={"popcat": ["why is ur mouth like that", "pop cat pls stop popping 😭", "bro its 3am", "can u pop for me", "is ur mouth ok", "whats so funny"], "ricardo": ["bro where is ur shirt", "why is he dancing at me", "ricardo pls im in class", "pls teach me the dance", "why r u so happy", "my eyes 😭"], "doge": ["wow", "such dog very ok", "doge is that u from 2015", "r u a shiba", "where is ur hat", "can i pet u"], "feuerkatze": ["nice mustache lol", "bro why u yelling", "ok mr mustache", "why is ur arm up", "r u waving", "stop shouting at me"], "cornelius": ["is the food ready", "why do u have a pan", "i want pancakes", "can i taste", "whats for dinner", "the pan is hot bro"], "epicsaxguy": ["turn ur sax down pls", "my mom is sleeping", "♪♪♪ bro stop", "do the head thing", "ur sax is shiny", "who gave u a sax"], "germancat": ["what did u say", "no speak german sorry", "u have soldiers?? unfair", "guten tag?", "why so many soldiers", "r they ur friends"], "uiacat": ["OIIAOIIA", "why do u spin", "im dizzy now", "r u a washing machine", "stop spinning pls", "oiia oiia oiia"], "beluga": ["wait who r u", "why do u look like me", "am i the fake one 😰", "i was here first", "nice pfp", "we look the same lol"], "screamcat": ["why r u screaming", "my ears bro", "ok calm down", "pls use inside voice", "r u ok??", "AAAAAAA (me too)"], "thevoid": ["hello??", "is anyone there", "its too dark i cant see", "can u see me", "r u hungry", "its so empty"], "bananacat": ["why r u crying", "u ok banana?", "🍌😭", "why r u in a banana", "r u a fruit now", "stop crying pls"], "suscat": ["thats kinda sus ngl", "emergency meeting!!", "i saw u vent", "i saw u in electrical", "red sus", "ur the imposter"], "nyancat": ["nyan nyan nyan", "why is ur butt a rainbow", "pls stop the music", "r u a poptart", "how do u fly", "rainbow pls"], "loooongcat": ["how long r u", "where does he end", "bro is still going", "how tall r u", "r u a noodle", "ur head is so far"], "flyingcat": ["how r u flying", "come down pls", "cats cant fly bro", "can i fly too", "r u a bird", "how high can u go"], "snoozecat": ["r u sleeping", "wake up we r fighting", "bro is afk", "5 more minutes?", "ur snoring bro", "its morning"], "depressedcat": ["cheer up bro", "u want a hug?", "why so sad 😢", "life is ok bro", "want a cookie?", "dont cry pls"], "drivercat": ["do u have a license", "slow down bro", "can u drive me home", "where r u going", "can i drive", "seatbelt on!"], "knifecat": ["is that a real knife", "put it down pls 😰", "bro has a knife??", "where did u get that", "is it sharp", "ur scary bro"], "holycat": ["r u an angel", "why r u glowing", "can u pray for me", "r u from heaven", "bless me pls", "so shiny"], "hecker": ["pls dont hack me", "r u in my wifi", "how do u type so fast", "r u in the matrix", "green text cool", "hack my homework"], "commandercat": ["who made u boss", "sir yes sir??", "ur army is so small", "can i join ur army", "salute?", "who r u commanding"], "batcat": ["r u batman", "where is ur cape", "i am vengeance lol", "where is robin", "r u a bat or cat", "nice ears"], "evillarry": ["what r u drawing", "nice star bro", "can i draw too", "is that a pentagram", "r u summoning something", "larry pls no"], "pianocat": ["play something cool", "do u know fortnite song", "ur off key bro", "play happy birthday", "can i press a key", "nice song"], "grumpycat": ["why so grumpy", "smile pls", "u need a nap", "did u eat", "why r u mad", "ok grumpy"], "catvader": ["r u my dad??", "why do u breathe so loud", "nice lightsaber can i hold", "luke?", "whats the dark side", "r u breathing ok"], "bibilabu": ["what is a bibilabu", "bibi what", "labu labu labu", "is bibilabu a word", "say it again", "bibi pls"], "applecat": ["can i eat u", "r u an iphone", "apple a day lol", "r u red or green", "can i bite u", "apple pie?"], "cheems": ["bonk", "cheems want burger?", "why do u have a bat", "r u hungry", "bonk me pls (no)", "why u so small"], "maxwell": ["why r u spinning", "maxwell song is stuck in my head", "🎵 dun dun dun", "r u a minecraft cat", "spin faster", "nice tail"], "yellingwomen": ["why is she yelling at me", "i didnt do anything", "the cat is innocent", "pls stop yelling", "she is so loud", "whos the cat"], "pakistanguy": ["what did he say", "bro is so calm", "ok ok ok", "nice smile", "what r u saying", "r u ok bro"], "kingcheems": ["r u the king", "nice crown", "can i be king", "where is ur castle", "do u have knights", "bow to me?"], "kermit": ["hi kermit", "its not easy being green", "r u ok kermit", "where is miss piggy", "r u a frog", "sip ur tea"], "coughcat": ["cover ur mouth bro", "r u sick", "dont cough on me 🤢", "drink water", "r u contagious", "bless u"], "spidercat": ["can u shoot webs", "spider cat?? cool", "dont bite me", "can u climb walls", "how many legs", "r u marvel"], "flowercat": ["nice flower", "can i have the flower", "why is it so bright", "what does it smell like", "r u a flower", "so pretty"], "loadingcat": ["still loading?", "bro is buffering", "my wifi is better", "r u lagging", "press f5", "ur stuck bro"], "yuki": ["ur so round", "can u roll", "r u a ball", "r u a mochi", "so squishy", "can i hug u"], "finedog": ["ur room is on fire", "this is not fine", "call 911 bro", "r u sure its fine", "ur hat is burning", "drink ur coffee"], "gigachad": ["how r u so big", "teach me ur workout", "bro never blinks", "r u real", "nice jaw", "how many pushups"], "rickroll": ["dont send me links", "i know that song", "never gonna what?", "is this a rickroll", "ur dancing again", "nice coat"], "windguy": ["who r u", "do i know u", "unknown guy?", "r u the wind", "where did u come from", "say hi"], "mechaniccat": ["can u fix my pc", "nice turret", "what r u building", "whats that wrench for", "r u an engineer", "build me a robot"], "rubikcat": ["can u solve it", "i cant solve it", "too many colors", "how many moves", "r u a cube", "teach me pls"], "mewingcat": ["why is ur jaw like that", "stop mewing", "what is mewing", "is ur jaw tired", "mewing works?", "show me"], "smartguy": ["whats 9+10", "ur so smart", "help me with homework", "r u einstein", "ur brain is big", "2+2?"], "aliencat": ["r u from space", "take me with u", "beep boop?", "where is ur ufo", "r u green", "phone home"], "wetcat": ["why r u wet", "use a towel", "its raining on u lol", "u look cold", "r u a fish", "umbrella?"], "droolingcat": ["ew drool", "wipe ur mouth", "bro is a waterfall", "r u hungry", "so much water", "bring a towel"], "electricguitarcat": ["play smoke on the water", "too loud bro", "nice guitar", "play a solo", "r u a rockstar", "plug it in"], "scareddog": ["boo!", "why r u scared", "its ok doggy", "who scared u", "its just me", "calm down doggy"], "poordog": ["why is ur shirt like that", "do u need money", "where is ur food bowl", "pls stand up", "who hurt u", "ill send u 5 bucks"], "ninjacat": ["why r u wearing a headband", "is that a real sword", "ninja cat pls teach me jutsu", "dont look at me like that", "r u from the leaf village", "how many kunai do u have"], "boxingcat": ["stop punching the air", "r u warming up still", "float like a butterfly", "r u fighting the air", "nice gloves", "who r u punching"], "slapcat": ["dont slap me", "why do u slap", "ow", "why ur hand so big", "slap the air", "that hurt"], "clappingcat": ["why r u clapping", "clap for me 👏", "good job?", "why so happy", "clap clap clap", "u like this?"], "evilgary": ["gary?? is that u", "why r u evil now", "u were so nice", "gary what happened", "why r u red", "come back gary"], "mosquitoviolin": ["bzzzz", "go away mosquito", "why do u play violin", "r u a bug", "play quieter", "dont bite me"], "scaredhamster": ["why is he staring", "hamster pls blink", "i'm scared too", "r u ok hamster", "why so big eyes", "its staring at me"], "supremearbiter": ["r u god", "why r u supreme", "ok boss", "r u the boss", "can i be supreme", "nice outfit"], "infinitydoge": ["how many doges", "why r there 2 of u", "stop splitting", "r u twins", "which one is real", "so many doges"], "cryingcat": ["why r u all crying", "3 cats crying??", "its ok guys 😭", "want a tissue", "whos the sad one", "stop crying all of u"], "calmdog": ["how r u so calm", "teach me", "bro is chilling", "r u meditating", "so peaceful", "u good bro"], "gary": ["hi gary", "meow", "gary is so small", "gary pls", "r u a snail", "so tiny"], "chillguy": ["ur so chill", "just a chill guy", "how r u not mad", "nice sweater", "r u always chill", "be chill with me"], "damdamdidi": ["teach me the dance", "damdam what", "nice moves", "what song is this", "dance with me", "u have rhythm"], "bongocat": ["bongo bongo", "tap tap tap", "can i play", "tap tap", "r u a drummer", "play faster"], "stalincat": ["comrade?", "nice hammer", "why is everyone red", "whats a comrade", "why the hammer", "nice hat"], "dawae": ["do u know da wae", "i dont know da wae", "clicking noises", "show me da wae", "r u my queen?", "*clicks*"], "vampirecat": ["r u a vampire", "dont bite me", "its daytime bro", "r u thirsty", "nice teeth", "its so bright outside"], "mlemcat": ["mlem", "why r u licking", "stop licking me", "is ur tongue stuck", "blep", "mlem mlem mlem"], "trollface": ["u mad?", "problem?", "why r u smiling like that", "u think ur funny?", "why r u like that", "trolololo"], "susdog": ["thats kinda sus", "r u the werewolf", "sus dog 👀", "who did u vote", "r u a wolf", "bark if ur sus"], "berserkcat": ["calm down bro", "why r u so angry", "take a breath", "r u mad", "chill bro", "so angry"], "friend": ["r u my friend", "why r u smiling", "i dont trust u 😰", "r u my best friend", "why r u so big", "friends dont bite"], "chonkydog": ["ur so big", "how much do u eat", "chonky pls dont sit on me", "r u a cloud", "so fluffy", "can i sit on u"], "alottadameguy": ["thats a lotta damage?", "what is dame", "ok bro", "how much damage", "is it a lot", "say the line"], "arabiccat": ["what did u say", "i dont understand", "translate pls", "say it slower", "r u singing", "what language"], "doorbellchud": ["who is at the door", "stop ringing", "ding dong?", "who rang", "is it pizza", "open the door"], "scootercat": ["can i ride ur scooter", "nice scooter", "slow down bro", "r u fast", "can u do a trick", "where r u going"], "samuraicheems": ["r u a samurai", "nice sword", "water breathing??", "r u a ninja", "nice hat", "teach me sword"], "morsecat": ["... --- ... u need help already?", "bro is texting with his paw", "beep boop beep (i said ur bad)", "type faster grandpa", "ur morse just spelled L", "who still uses morse lol", "can u just use whatsapp", "i cant read beep bro"], "azel": ["why r ur hands like that", "wub wub wub??", "r u cooking or dancing", "is that dubstep", "make me a sandwich", "stop chopping on beat"], "duolingo": ["i did my lesson i swear", "pls dont delete my streak", "hola??", "why r u staring at me", "ok ok ill study", "ur eyes r glowing bro"], "capybara": ["ok i pull up", "r u a capybara", "why r u so calm", "nice orange on ur head", "capy pls", "r u a big hamster"]};   // 💬 câu chat RIÊNG cho từng meme đối thủ — kiểu Beluga: lowercase, ngơ ngác, hỏi ngu, trêu nhẹ
+const BL_VS={"popcat": ["why is ur mouth like that", "pop cat pls stop popping 😭", "bro its 3am", "can u pop for me", "is ur mouth ok", "whats so funny"], "ricardo": ["bro where is ur shirt", "why is he dancing at me", "ricardo pls im in class", "pls teach me the dance", "why r u so happy", "my eyes 😭"], "doge": ["wow", "such dog very ok", "doge is that u from 2015", "r u a shiba", "where is ur hat", "can i pet u"], "feuerkatze": ["nice mustache lol", "bro why u yelling", "ok mr mustache", "why is ur arm up", "r u waving", "stop shouting at me"], "cornelius": ["is the food ready", "why do u have a pan", "i want pancakes", "can i taste", "whats for dinner", "the pan is hot bro"], "epicsaxguy": ["turn ur sax down pls", "my mom is sleeping", "♪♪♪ bro stop", "do the head thing", "ur sax is shiny", "who gave u a sax"], "germancat": ["what did u say", "no speak german sorry", "u have soldiers?? unfair", "guten tag?", "why so many soldiers", "r they ur friends"], "uiacat": ["OIIAOIIA", "why do u spin", "im dizzy now", "r u a washing machine", "stop spinning pls", "oiia oiia oiia"], "beluga": ["wait who r u", "why do u look like me", "am i the fake one 😰", "i was here first", "nice pfp", "we look the same lol"], "screamcat": ["why r u screaming", "my ears bro", "ok calm down", "pls use inside voice", "r u ok??", "AAAAAAA (me too)"], "thevoid": ["hello??", "is anyone there", "its too dark i cant see", "can u see me", "r u hungry", "its so empty"], "bananacat": ["why r u crying", "u ok banana?", "🍌😭", "why r u in a banana", "r u a fruit now", "stop crying pls"], "suscat": ["thats kinda sus ngl", "emergency meeting!!", "i saw u vent", "i saw u in electrical", "red sus", "ur the imposter"], "nyancat": ["nyan nyan nyan", "why is ur butt a rainbow", "pls stop the music", "r u a poptart", "how do u fly", "rainbow pls"], "loooongcat": ["how long r u", "where does he end", "bro is still going", "how tall r u", "r u a noodle", "ur head is so far"], "flyingcat": ["how r u flying", "come down pls", "cats cant fly bro", "can i fly too", "r u a bird", "how high can u go"], "snoozecat": ["r u sleeping", "wake up we r fighting", "bro is afk", "5 more minutes?", "ur snoring bro", "its morning"], "depressedcat": ["cheer up bro", "u want a hug?", "why so sad 😢", "life is ok bro", "want a cookie?", "dont cry pls"], "drivercat": ["do u have a license", "slow down bro", "can u drive me home", "where r u going", "can i drive", "seatbelt on!"], "knifecat": ["is that a real knife", "put it down pls 😰", "bro has a knife??", "where did u get that", "is it sharp", "ur scary bro"], "holycat": ["r u an angel", "why r u glowing", "can u pray for me", "r u from heaven", "bless me pls", "so shiny"], "hecker": ["pls dont hack me", "r u in my wifi", "how do u type so fast", "r u in the matrix", "green text cool", "hack my homework"], "commandercat": ["who made u boss", "sir yes sir??", "ur army is so small", "can i join ur army", "salute?", "who r u commanding"], "batcat": ["r u batman", "where is ur cape", "i am vengeance lol", "where is robin", "r u a bat or cat", "nice ears"], "evillarry": ["what r u drawing", "nice star bro", "can i draw too", "is that a pentagram", "r u summoning something", "larry pls no"], "pianocat": ["play something cool", "do u know fortnite song", "ur off key bro", "play happy birthday", "can i press a key", "nice song"], "grumpycat": ["why so grumpy", "smile pls", "u need a nap", "did u eat", "why r u mad", "ok grumpy"], "catvader": ["r u my dad??", "why do u breathe so loud", "nice lightsaber can i hold", "luke?", "whats the dark side", "r u breathing ok"], "bibilabu": ["what is a bibilabu", "bibi what", "labu labu labu", "is bibilabu a word", "say it again", "bibi pls"], "applecat": ["can i eat u", "r u an iphone", "apple a day lol", "r u red or green", "can i bite u", "apple pie?"], "cheems": ["bonk", "cheems want burger?", "why do u have a bat", "r u hungry", "bonk me pls (no)", "why u so small"], "maxwell": ["why r u spinning", "maxwell song is stuck in my head", "🎵 dun dun dun", "r u a minecraft cat", "spin faster", "nice tail"], "yellingwomen": ["why is she yelling at me", "i didnt do anything", "the cat is innocent", "pls stop yelling", "she is so loud", "whos the cat"], "pakistanguy": ["what did he say", "bro is so calm", "ok ok ok", "nice smile", "what r u saying", "r u ok bro"], "kingcheems": ["r u the king", "nice crown", "can i be king", "where is ur castle", "do u have knights", "bow to me?"], "kermit": ["hi kermit", "its not easy being green", "r u ok kermit", "where is miss piggy", "r u a frog", "sip ur tea"], "coughcat": ["cover ur mouth bro", "r u sick", "dont cough on me 🤢", "drink water", "r u contagious", "bless u"], "spidercat": ["can u shoot webs", "spider cat?? cool", "dont bite me", "can u climb walls", "how many legs", "r u marvel"], "flowercat": ["nice flower", "can i have the flower", "why is it so bright", "what does it smell like", "r u a flower", "so pretty"], "loadingcat": ["still loading?", "bro is buffering", "my wifi is better", "r u lagging", "press f5", "ur stuck bro"], "yuki": ["ur so round", "can u roll", "r u a ball", "r u a mochi", "so squishy", "can i hug u"], "finedog": ["ur room is on fire", "this is not fine", "call 911 bro", "r u sure its fine", "ur hat is burning", "drink ur coffee"], "gigachad": ["how r u so big", "teach me ur workout", "bro never blinks", "r u real", "nice jaw", "how many pushups"], "rickroll": ["dont send me links", "i know that song", "never gonna what?", "is this a rickroll", "ur dancing again", "nice coat"], "windguy": ["who r u", "do i know u", "unknown guy?", "r u the wind", "where did u come from", "say hi"], "mechaniccat": ["can u fix my pc", "nice turret", "what r u building", "whats that wrench for", "r u an engineer", "build me a robot"], "rubikcat": ["can u solve it", "i cant solve it", "too many colors", "how many moves", "r u a cube", "teach me pls"], "mewingcat": ["why is ur jaw like that", "stop mewing", "what is mewing", "is ur jaw tired", "mewing works?", "show me"], "smartguy": ["whats 9+10", "ur so smart", "help me with homework", "r u einstein", "ur brain is big", "2+2?"], "aliencat": ["r u from space", "take me with u", "beep boop?", "where is ur ufo", "r u green", "phone home"], "wetcat": ["why r u wet", "use a towel", "its raining on u lol", "u look cold", "r u a fish", "umbrella?"], "droolingcat": ["ew drool", "wipe ur mouth", "bro is a waterfall", "r u hungry", "so much water", "bring a towel"], "electricguitarcat": ["play smoke on the water", "too loud bro", "nice guitar", "play a solo", "r u a rockstar", "plug it in"], "scareddog": ["boo!", "why r u scared", "its ok doggy", "who scared u", "its just me", "calm down doggy"], "poordog": ["why is ur shirt like that", "do u need money", "where is ur food bowl", "pls stand up", "who hurt u", "ill send u 5 bucks"], "saiyanmarmot": ["why r u screaming", "pls stop yelling ur scaring the birds", "is ur hair supposed to glow", "why did u push me into the wall", "how long can u scream for", "who gave u goku hair"], "ninjacat": ["why r u wearing a headband","is that a real sword", "ninja cat pls teach me jutsu", "dont look at me like that", "r u from the leaf village", "how many kunai do u have"], "boxingcat": ["stop punching the air", "r u warming up still", "float like a butterfly", "r u fighting the air", "nice gloves", "who r u punching"], "slapcat": ["dont slap me", "why do u slap", "ow", "why ur hand so big", "slap the air", "that hurt"], "clappingcat": ["why r u clapping", "clap for me 👏", "good job?", "why so happy", "clap clap clap", "u like this?"], "evilgary": ["gary?? is that u", "why r u evil now", "u were so nice", "gary what happened", "why r u red", "come back gary"], "mosquitoviolin": ["bzzzz", "go away mosquito", "why do u play violin", "r u a bug", "play quieter", "dont bite me"], "scaredhamster": ["why is he staring", "hamster pls blink", "i'm scared too", "r u ok hamster", "why so big eyes", "its staring at me"], "supremearbiter": ["r u god", "why r u supreme", "ok boss", "r u the boss", "can i be supreme", "nice outfit"], "infinitydoge": ["how many doges", "why r there 2 of u", "stop splitting", "r u twins", "which one is real", "so many doges"], "cryingcat": ["why r u all crying", "3 cats crying??", "its ok guys 😭", "want a tissue", "whos the sad one", "stop crying all of u"], "calmdog": ["how r u so calm", "teach me", "bro is chilling", "r u meditating", "so peaceful", "u good bro"], "gary": ["hi gary", "meow", "gary is so small", "gary pls", "r u a snail", "so tiny"], "chillguy": ["ur so chill", "just a chill guy", "how r u not mad", "nice sweater", "r u always chill", "be chill with me"], "damdamdidi": ["teach me the dance", "damdam what", "nice moves", "what song is this", "dance with me", "u have rhythm"], "bongocat": ["bongo bongo", "tap tap tap", "can i play", "tap tap", "r u a drummer", "play faster"], "stalincat": ["comrade?", "nice hammer", "why is everyone red", "whats a comrade", "why the hammer", "nice hat"], "dawae": ["do u know da wae", "i dont know da wae", "clicking noises", "show me da wae", "r u my queen?", "*clicks*"], "vampirecat": ["r u a vampire", "dont bite me", "its daytime bro", "r u thirsty", "nice teeth", "its so bright outside"], "mlemcat": ["mlem", "why r u licking", "stop licking me", "is ur tongue stuck", "blep", "mlem mlem mlem"], "trollface": ["u mad?", "problem?", "why r u smiling like that", "u think ur funny?", "why r u like that", "trolololo"], "susdog": ["thats kinda sus", "r u the werewolf", "sus dog 👀", "who did u vote", "r u a wolf", "bark if ur sus"], "berserkcat": ["calm down bro", "why r u so angry", "take a breath", "r u mad", "chill bro", "so angry"], "friend": ["r u my friend", "why r u smiling", "i dont trust u 😰", "r u my best friend", "why r u so big", "friends dont bite"], "chonkydog": ["ur so big", "how much do u eat", "chonky pls dont sit on me", "r u a cloud", "so fluffy", "can i sit on u"], "alottadameguy": ["thats a lotta damage?", "what is dame", "ok bro", "how much damage", "is it a lot", "say the line"], "arabiccat": ["what did u say", "i dont understand", "translate pls", "say it slower", "r u singing", "what language"], "doorbellchud": ["who is at the door", "stop ringing", "ding dong?", "who rang", "is it pizza", "open the door"], "scootercat": ["can i ride ur scooter", "nice scooter", "slow down bro", "r u fast", "can u do a trick", "where r u going"], "samuraicheems": ["r u a samurai", "nice sword", "water breathing??", "r u a ninja", "nice hat", "teach me sword"], "morsecat": ["... --- ... u need help already?", "bro is texting with his paw", "beep boop beep (i said ur bad)", "type faster grandpa", "ur morse just spelled L", "who still uses morse lol", "can u just use whatsapp", "i cant read beep bro"], "azel": ["why r ur hands like that", "wub wub wub??", "r u cooking or dancing", "is that dubstep", "make me a sandwich", "stop chopping on beat"], "duolingo": ["i did my lesson i swear", "pls dont delete my streak", "hola??", "why r u staring at me", "ok ok ill study", "ur eyes r glowing bro"], "capybara": ["ok i pull up", "r u a capybara", "why r u so calm", "nice orange on ur head", "capy pls", "r u a big hamster"]};   // 💬 câu chat RIÊNG cho từng meme đối thủ — kiểu Beluga: lowercase, ngơ ngác, hỏi ngu, trêu nhẹ
 const BL_SHORTS=['wait','WAIT','no','bro','what','huh','NO WAY','omg','gg','lol','bruh','ok','???','LMAO','rip','nah','yikes','sir','bro??','HUH','k','sus','real??','why','cope','ratio','fr','ong','no cap','L','W','dead 💀','mid','skill issue','ez','touch grass','cringe','based','💀💀💀','ayo','sheesh','bet','lmaooo','nope','pls','stop','ur done','who asked','ok and?','smh'];
 function _blFire(f,e,dmg,msgText,msgColor){ const dx=e.x-f.x, dy=e.y-f.y, dist=Math.hypot(dx,dy)||1, sp=dmg>=300?22:dmg>=80?10:dmg>=50?13:16, life=dmg>=300?90:dmg>=80?140:dmg>=50?120:100;
   projectiles.push({ x:f.x, y:f.y-f.size, vx:dx/dist*sp, vy:dy/dist*sp, team:f.team, owner:f, dmg, life, maxLife:life, isBelugaMsg:true, msgText, msgColor, size:6, target:e, sniper:true, trail:[] });
@@ -10431,6 +10433,239 @@ function _gdDrawSites(){ for(const f of fighters){ if(f.type!=='mechaniccat' || 
     ctx.drawImage(MECH_CRATE_IMG,c.x-s/2,cy-s/2,s,s);
     if(drop<=0){ ctx.save(); ctx.strokeStyle=`rgba(255,213,79,${0.35+0.2*Math.sin(tick*0.1)})`; ctx.setLineDash([6,6]); ctx.lineWidth=2; ctx.beginPath(); ctx.ellipse(c.x,c.y+8,f.size+56,(f.size+56)*0.45,0,0,Math.PI*2); ctx.stroke(); ctx.restore();   // vòng vùng chạm
       ctx.save(); ctx.font='bold 10px "Press Start 2P",monospace'; ctx.textAlign='center'; ctx.fillStyle='#ffd54f'; ctx.strokeStyle='#000'; ctx.lineWidth=3; const tx=`${g.stage}/4`; ctx.strokeText(tx,c.x,c.y-s*0.75); ctx.fillText(tx,c.x,c.y-s*0.75); ctx.restore(); } } } }
+// ===================== 🦫 SAIYAN MARMOT — "AAAAAAAH! Power level: through the wall." =====================
+// Meme: con marmot đứng hét ở Whistler (2015) → bản chế "Super Saiyan Marmot" (tóc Goku, hét AAAAH rồi hoá Super Saiyan).
+// Dạng thường: chạm địch là XÔ văng ra (45) như mấy con marmot xô nhau. Cứ ĐI đủ 2s lại đứng GỒNG 1.5s (hét ngắn);
+//   lần gồng thứ 3 hét dài 3s → SUPER SAIYAN tới hết trận (tóc vàng dựng ngược + hào quang lửa vàng + tia điện).
+// Super Saiyan: chạm địch → cả 2 KHỰNG 0.5s (dồn khí) → địch bị bắn thẳng vào tường cực nhanh, GHIM trong tường 1s (160 dame),
+//   đoạn tường đó nứt; địch rời đi thì mảnh tường rơi ra sàn, còn lại lỗ mép lởm chởm. Cú sau đập trúng/chồng lên lỗ cũ → lỗ to ra;
+//   lỗ trùm hết thân địch (≥1.6×size) mà địch bay trúng giữa lỗ → văng hẳn ra ngoài sàn = thua thẳng (_susEject, xuyên mọi skill cứu mạng).
+// Quân triệu hồi có máu bị xử y hệt meme (bay + ghim + văng ra ngoài thì chết).
+// 4 khung: [đứng, hét] dạng thường (KHÔNG tóc) · [đứng, hét] dạng Super Saiyan (tóc vàng — ảnh vẽ riêng). Thiếu ảnh SSJ thì dùng tạm ảnh thường.
+const MM_FR=['MM_IDLE','MM_SCREAM','MM_SSJ_IDLE','MM_SSJ_SCREAM'].map(n=>{ const im=new Image(); im._noMask=true;
+  im.onload=()=>{ im._crop={sx:0,sy:0,sw:im.naturalWidth,sh:im.naturalHeight}; }; im.onerror=()=>{ im._missing=true; }; im.src='assets/img/saiyanmarmot/'+n+'.png'; return im; });   // khung đã tách nền sẵn, cùng 1 khung cắt → không nhảy vị trí khi đổi khung
+const MM_WALK_T=120, MM_CHARGE_T=90, MM_SSJ_T=180, MM_PUSH_DMG=45, MM_PUSH_CD=45, MM_PUSH_KB=13,
+      MM_HOLD_T=30, MM_FLY_SPD=34, MM_PIN_T=60, MM_WALL_DMG=160, MM_SSJ_CD=60, MM_OUT_T=34, MM_HOLE_OUT=0.8;   // lỗ phải trùm ±0.8×size quanh điểm đập (= rộng ≥1.6×size)
+let mmFly=[], mmWall=[], mmFx=[];
+function _mmIsBusy(f){ const M=f._mm; return !!M && (M.charge>0 || M.tf>0 || M.hold); }
+function _mmCanLaunch(u){ return !(u.type==='loooongcat' || u.type==='evillarry' || u.type==='chonkydog' || (u.type==='berserkcat' && u.hp<u.maxHp*0.3)
+  || u._tfSwallowed || (u._dawaeExecT||0)>0 || u._njGen || u._mmHeld); }   // mấy con miễn đẩy lùi / đang bị skill khác cầm
+function _mmTick(f){
+  const M=f._mm||(f._mm={walk:0,charge:0,n:0,ssj:false,tf:0,cd:0,hold:false});
+  if(M.cd>0) M.cd--; if((f._mmPushCD||0)>0) f._mmPushCD--;
+  if(f._isHardCC()) return;   // choáng: ngưng gồng/đếm
+  if(M.tf>0){ M.tf--; f.vx=f.vy=0; if(M.tf%5===0) addShake(2+3*(1-M.tf/MM_SSJ_T),4);
+    if(M.tf%3===0) mmFx.push({k:'rock',x:f.x+(Math.random()-0.5)*f.size*2.4,y:f.y+f.size*(0.6+Math.random()*0.4),vx:0,vy:-1.5-Math.random()*2.5,r:1.5+Math.random()*3,rot:Math.random()*6,t:0,T:40,up:true});
+    if(M.tf===0){ M.ssj=true; addShake(16,24); spawnParticles(f.x,f.y,'#ffd600',30,false,true); mmFx.push({k:'flash',t:0,T:16}); mmFx.push({k:'ring',x:f.x,y:f.y,R:f.size*6,t:0,T:24,c:'255,214,0'});
+      floatTexts.push({x:f.x,y:f.y-f.size-30,text:'SUPER SAIYAN',color:'#ffd600',life:70,huge:true}); }
+    return; }
+  if(M.charge>0){ M.charge--; f.vx=f.vy=0; if(M.charge%4===0) mmFx.push({k:'rock',x:f.x+(Math.random()-0.5)*f.size*2,y:f.y+f.size*(0.7+Math.random()*0.3),vx:0,vy:-1-Math.random()*1.5,r:1+Math.random()*2.2,rot:Math.random()*6,t:0,T:30,up:true}); return; }
+  if(M.ssj || M.hold) return;
+  if(Math.hypot(f.vx,f.vy)>0.3) M.walk++;
+  if(M.walk>=MM_WALK_T){ M.walk=0; M.n++;
+    if(M.n>=3){ M.tf=MM_SSJ_T; playSample('marmot_ssj',1.0); floatTexts.push({x:f.x,y:f.y-f.size-26,text:'AAAAAAAAAAH!!',color:'#fff176',life:150,huge:true}); }   // 😱 lần 3: hét dài → biến hình
+    else { M.charge=MM_CHARGE_T; playSample('marmot_scream',0.9); floatTexts.push({x:f.x,y:f.y-f.size-22,text:'AAAH!',color:'#ffffff',life:60,big:true}); } }
+}
+// đòn đánh: chạm là xô (dạng thường) / khựng + bắn vào tường (Super Saiyan)
+function _mmAttack(f,e,touching){
+  const M=f._mm; if(!M || !touching || M.charge>0 || M.tf>0 || M.hold) return;
+  if(M.ssj){ if(M.cd>0 || mmFly.some(q=>q.u===e)) return;
+    if(!_mmCanLaunch(e)){ if((f._mmPushCD||0)>0) return; e.takeDamage(MM_WALL_DMG,f); f._mmPushCD=120; addShake(10,14); mmFx.push({k:'ring',x:e.x,y:e.y,R:e.size*3,t:0,T:18,c:'255,214,0'}); return; }   // không bay được → ăn trọn cú đấm tại chỗ
+    mmFly.push({f,u:e,st:'hold',t:0,x:e.x,y:e.y,a:Math.atan2(e.y-f.y,e.x-f.x),isF:fighters.includes(e)});
+    e._mmHeld=true; M.hold=true; f.vx=f.vy=0; e.vx=0; e.vy=0; f._mmShove=tick;
+    playSample('marmot_scream',0.8); addShake(4,6); return; }
+  if((f._mmPushCD||0)>0) return;
+  const a=Math.atan2(e.y-f.y,e.x-f.x);
+  e.takeDamage(MM_PUSH_DMG,f);
+  if(!e.dead && _mmCanLaunch(e)){ e.vx=(e.vx||0)+Math.cos(a)*MM_PUSH_KB; e.vy=(e.vy||0)+Math.sin(a)*MM_PUSH_KB; }
+  f._mmPushCD=MM_PUSH_CD; f.actionState='attack'; f.actionTimer=12; f._mmShove=tick;
+  spawnParticles((f.x+e.x)/2,(f.y+e.y)/2,'#d7ccc8',6,false,true); addShake(3,5);
+}
+// tia bắn từ (x,y) theo góc a → điểm TÂM chạm tường đầu tiên (tâm cách tường đúng s) + cạnh tường: 0 trên · 1 phải · 2 dưới · 3 trái
+function _mmWallHit(x,y,a,s){ const c=Math.cos(a), sn=Math.sin(a); let best=1e9, side=1;
+  if(c>1e-6){ const t=(W-s-x)/c; if(t<best){ best=t; side=1; } }
+  if(c<-1e-6){ const t=(s-x)/c; if(t<best){ best=t; side=3; } }
+  if(sn>1e-6){ const t=(H-s-y)/sn; if(t<best){ best=t; side=2; } }
+  if(sn<-1e-6){ const t=(s-y)/sn; if(t<best){ best=t; side=0; } }
+  best=Math.max(0,best); return {x:x+c*best, y:y+sn*best, side}; }
+const _mmN=side=>[[0,1],[-1,0],[0,-1],[1,0]][side];   // pháp tuyến hướng VÀO sân
+const _mmAlong=(side,x,y)=>(side===0||side===2)?x:y, _mmLen=side=>(side===0||side===2)?W:H;
+// điểm trên tường: along = toạ độ dọc tường, dep = độ sâu (+ ra ngoài sân, − vào trong sân)
+function _mmWP(side,along,dep){ return side===0?[along,-dep]:side===1?[W+dep,along]:side===2?[along,H+dep]:[-dep,along]; }
+function _mmZero(q){ const u=q.u; u.vx=0; u.vy=0; if(!q.isF && u.stun!==undefined) u.stun=Math.max(u.stun||0,2); }
+function _mmRelease(q){ if(q.u) q.u._mmHeld=false; if(q.f && q.f._mm) q.f._mm.hold=false; }
+function _mmImpact(q){
+  const u=q.u, s=u.size||20, h=q.hit, along=_mmAlong(h.side,h.x,h.y), n=_mmN(h.side);
+  // 🕳️ lỗ cũ đủ to trùm hết thân → bay xuyên ra ngoài sàn
+  if(mmWall.some(b=>b.side===h.side && !b.fresh && along-s*MM_HOLE_OUT>=b.a0 && along+s*MM_HOLE_OUT<=b.a1)){
+    q.st='out'; q.t=0; q.sp=MM_FLY_SPD*0.85; addShake(14,20); playSample('cine_impact',1.0);
+    floatTexts.push({x:u.x,y:u.y-s-30,text:'OUT OF THE ARENA!',color:'#ffd600',life:80,huge:true}); return; }
+  q.st='pin'; q.t=0; q.x=h.x-n[0]*s*0.45; q.y=h.y-n[1]*s*0.45;   // lún nửa người vào tường
+  // 🧱 tường nứt: gộp với lỗ cũ chồng lên → lỗ to ra
+  const L=_mmLen(h.side), w=s*(0.9+Math.random()*0.9); let a0=Math.max(0,along-w/2), a1=Math.min(L,along+w/2); const open=[];
+  for(let j=mmWall.length-1;j>=0;j--){ const b=mmWall[j]; if(b.side===h.side && b.a1>=a0 && b.a0<=a1){ a0=Math.min(a0,b.a0); a1=Math.max(a1,b.a1); open.push(...b.open); mmWall.splice(j,1); } }
+  const wx=h.x-n[0]*s, wy=h.y-n[1]*s, ia=Math.atan2(n[1],n[0]), cracks=[];
+  for(let k=0;k<7;k++) cracks.push(_scCrack(wx,wy,ia+(k/6-0.5)*2.4+(Math.random()-0.5)*0.3,s*(0.7+Math.random()*0.9),s*0.18).pts);   // nứt toả vào sân
+  const b={side:h.side,a0,a1,open,fresh:true,cracks,t:0,seed:Array.from({length:40},()=>Math.random())}; mmWall.push(b); q.hole=b;
+  u.takeDamage(MM_WALL_DMG,q.f||null,false,false,'','Blood Batch 1_Sprite');
+  playSample('ar_stone_break',1.0); addShake(16,22); spawnParticles(wx,wy,'#9e9e9e',18,false,true);
+  for(let k=0;k<10;k++) mmFx.push({k:'rock',x:wx+(Math.random()-0.5)*s,y:wy+(Math.random()-0.5)*s,vx:n[0]*(1+Math.random()*4)+(Math.random()-0.5)*3,vy:n[1]*(1+Math.random()*4)+(Math.random()-0.5)*3,r:1.5+Math.random()*3,rot:Math.random()*6,t:0,T:50});
+  if(u._njGen){ _mmRelease(q); q.done=true; }   // 🥷 Ninja tan thành khói lúc đập tường → thả ra
+}
+// địch rời tường → mảng tường nứt rơi ra sàn thành đống đá vụn, lỗ còn lại mép lởm chởm
+function _mmCrumble(b){ if(!b || !b.fresh) return; b.fresh=false; b.open=[[b.a0,b.a1]]; b.t=0;
+  const n=_mmN(b.side), u=W/480, N=Math.min(14,Math.round((b.a1-b.a0)/7));
+  for(let k=0;k<N;k++){ const al=b.a0+(b.a1-b.a0)*Math.random(), [x,y]=_mmWP(b.side,al,4*u*Math.random()), sp=0.8+Math.random()*2.2;
+    mmFx.push({k:'chunk',x,y,vx:n[0]*sp+(Math.random()-0.5)*0.8,vy:n[1]*sp+(Math.random()-0.5)*0.8,r:(2.5+Math.random()*4)*u,rot:Math.random()*6,vr:(Math.random()-0.5)*0.3,c:['#333333','#888888','#555555'][k%3],t:0,T:1e9,pts:Array.from({length:5},()=>0.6+Math.random()*0.5)}); }
+  playSample('ar_stone_break',0.5); }
+// mỗi tick (sau va chạm thân): giữ / bay / ghim / văng ra ngoài
+function _mmWorldTick(){
+  for(let i=mmFly.length-1;i>=0;i--){ const q=mmFly[i], u=q.u; q.t++;
+    if(q.done || !u || u.dead || (u.hp!==undefined && u.hp<=0)){ _mmRelease(q); if(q.hole) _mmCrumble(q.hole); mmFly.splice(i,1); continue; }
+    if(q.st==='hold'){ u.x=q.x; u.y=q.y; _mmZero(q); const f=q.f; if(f && !f.dead){ f.vx=f.vy=0; }
+      if(q.t>=MM_HOLD_T){ if(f && !f.dead) q.a=Math.atan2(u.y-f.y,u.x-f.x);
+        q.hit=_mmWallHit(u.x,u.y,q.a,u.size||20); q.st='fly'; q.t=0; if(f && f._mm){ f._mm.hold=false; f._mm.cd=MM_SSJ_CD; }
+        playSample('cine_impact',0.9); addShake(12,16); mmFx.push({k:'ring',x:u.x,y:u.y,R:(u.size||20)*3.5,t:0,T:16,c:'255,236,130'}); }
+      continue; }
+    if(q.st==='fly'){ const d=Math.hypot(q.hit.x-q.x,q.hit.y-q.y), px=q.x, py=q.y;
+      if(d<=MM_FLY_SPD){ q.x=q.hit.x; q.y=q.hit.y; } else { q.x+=Math.cos(q.a)*MM_FLY_SPD; q.y+=Math.sin(q.a)*MM_FLY_SPD; }
+      mmFx.push({k:'streak',x0:px,y0:py,x1:q.x,y1:q.y,w:(u.size||20)*0.9,t:0,T:12});
+      u.x=q.x; u.y=q.y; _mmZero(q); if(d<=MM_FLY_SPD) _mmImpact(q); continue; }
+    if(q.st==='pin'){ const j=q.t<8?2.5:0.5; u.x=q.x+(Math.random()-0.5)*j; u.y=q.y+(Math.random()-0.5)*j; _mmZero(q);
+      if(q.t>=MM_PIN_T){ _mmRelease(q); _mmCrumble(q.hole); const n=_mmN(q.hit.side); u.x=q.hit.x; u.y=q.hit.y; u.vx=n[0]*3; u.vy=n[1]*3; mmFly.splice(i,1); }
+      continue; }
+    if(q.st==='out'){ q.x+=Math.cos(q.a)*q.sp; q.y+=Math.sin(q.a)*q.sp; q.sp*=0.93; u.x=q.x; u.y=q.y; _mmZero(q);
+      if(q.t>=MM_OUT_T){ mmFly.splice(i,1); _mmRelease(q); if(q.isF) _susEject(u,q.f); else _forceKill(u,q.f); } }
+  }
+}
+// 🔥 hào quang (DƯỚI meme): gồng = khí trắng, biến hình = trắng→vàng, Super Saiyan = lửa vàng bốc ngược · tường vỡ · đá vụn · vệt bay
+// hào quang kiểu Dragon Ball: bóng lửa ôm người, lưỡi lửa nhọn bốc NGƯỢC lên (đỉnh cao, đáy thấp), 2 lớp: vỏ màu + lõi sáng.
+// Vẽ chồng màu THƯỜNG (không 'lighter': cộng sáng trên nền sân xanh biến vàng thành trắng nhợt).
+function _mmFlame(x,y,w,h,t,col,amp,edge){ ctx.save(); const cy=y+h*0.05, N=12;
+  const g=ctx.createRadialGradient(x,cy,0,x,cy,Math.max(w,h)*0.6); g.addColorStop(0,`rgba(${col},${0.35*amp})`); g.addColorStop(1,`rgba(${col},0)`);
+  ctx.fillStyle=g; ctx.beginPath(); ctx.ellipse(x,cy,w*0.68,h*0.64,0,0,Math.PI*2); ctx.fill();   // quầng mờ
+  const tongue=(sc,phase)=>{ const P=[]; for(let i=0;i<=N*2;i++){ const a=Math.PI/2+i/(N*2)*Math.PI*2, ca=Math.cos(a), sa=Math.sin(a), up=Math.max(0,-sa), tip=i%2===1;
+      const fl=0.6+0.4*Math.sin(t*0.45+i*2.1+phase), k=tip?1.06+up*0.22*fl:0.84, rise=(0.3+0.7*up)*(sa>0.6?0.4:1);   // mọi lưỡi lửa đều BỐC NGƯỢC lên (hông cũng bốc), đỉnh cao nhất
+      P.push([x+ca*w*0.5*k*sc+(tip?Math.sin(t*0.25+i+phase)*w*0.04:0), cy+sa*h*0.5*k*sc-(tip?rise*h*0.3*fl*sc:0)]); }
+    ctx.beginPath(); ctx.moveTo(P[0][0],P[0][1]);
+    for(let i=1;i<P.length;i++){ const [px,py]=P[i], [qx,qy]=P[i-1], mx=(px+qx)/2, my=(py+qy)/2, tip=i%2===1, d=tip?1:-1;
+      ctx.quadraticCurveTo(mx+(px<x?-1:1)*w*0.035*d, my+h*0.03*d, px, py); }   // lưỡi lửa cong mềm, không răng cưa
+    ctx.closePath(); };
+  const go=ctx.createLinearGradient(0,cy-h*0.75,0,cy+h*0.5); go.addColorStop(0,`rgba(${edge||col},${0.55*amp})`); go.addColorStop(1,`rgba(${col},${0.75*amp})`);
+  ctx.fillStyle=go; tongue(1,0); ctx.fill();
+  ctx.fillStyle=`rgba(255,252,215,${0.55*amp})`; tongue(0.72,1.7); ctx.fill();   // lõi sáng
+  ctx.restore(); }
+function _mmDrawUnder(){
+  const u=W/480, bg=_hmDarkOn()?'#000':PAPER_BG;
+  for(const b of mmWall){ b.t++; const D=16*u, sd=b.seed;
+    for(const [a0,a1] of b.open){ const P=(al,dp)=>_mmWP(b.side,al,dp); ctx.save(); ctx.fillStyle=bg; ctx.beginPath();
+      let p=P(a0,-1.5); ctx.moveTo(p[0],p[1]);
+      for(let k=0;k<=8;k++){ const al=a0+(a1-a0)*k/8; p=P(al,-1.5+sd[(k+3)%40]*2.5*u); ctx.lineTo(p[0],p[1]); }   // mép trong lởm chởm
+      for(let k=0;k<=5;k++){ p=P(a1+(sd[k]-0.5)*7*u,-1.5+(D+1.5)*k/5); ctx.lineTo(p[0],p[1]); }                       // đầu gãy phía a1
+      p=P(a0,D); ctx.lineTo(p[0],p[1]);
+      for(let k=5;k>=0;k--){ p=P(a0+(sd[k+10]-0.5)*7*u,-1.5+(D+1.5)*k/5); ctx.lineTo(p[0],p[1]); }                    // đầu gãy phía a0
+      ctx.closePath(); ctx.fill(); ctx.restore(); }
+    const ca=b.fresh?1:Math.max(0.35,1-b.t/120);   // vết nứt trên sàn: rõ lúc đang ghim, nhạt dần còn vết mờ
+    ctx.save(); ctx.strokeStyle=`rgba(25,20,15,${0.75*ca})`; ctx.lineWidth=1.6*u; ctx.lineJoin='round';
+    for(const c of b.cracks){ ctx.beginPath(); c.forEach((pt,k)=>k?ctx.lineTo(pt.x,pt.y):ctx.moveTo(pt.x,pt.y)); ctx.stroke(); }
+    if(b.fresh){ ctx.strokeStyle='rgba(20,20,20,0.9)'; ctx.lineWidth=1.3*u;   // nứt chằng chịt trên chính đoạn tường
+      for(let k=0;k<6;k++){ const al=b.a0+(b.a1-b.a0)*sd[k+20]; let p=_mmWP(b.side,al,-1); ctx.beginPath(); ctx.moveTo(p[0],p[1]);
+        for(let m=1;m<=4;m++){ p=_mmWP(b.side,al+(sd[(k*4+m)%40]-0.5)*8*u,-1+m*3.5*u); ctx.lineTo(p[0],p[1]); } ctx.stroke(); } }
+    ctx.restore(); }
+  for(let i=mmFx.length-1;i>=0;i--){ const p=mmFx[i]; p.t++;
+    if(p.k==='chunk'){ if(p.vx||p.vy){ p.x+=p.vx; p.y+=p.vy; p.vx*=0.88; p.vy*=0.88; p.rot+=p.vr; p.vr*=0.88; if(Math.hypot(p.vx,p.vy)<0.05){ p.vx=p.vy=0; } }   // mảnh tường rơi ra rồi nằm lại
+      ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.fillStyle=p.c; ctx.strokeStyle='rgba(0,0,0,0.5)'; ctx.lineWidth=0.8; ctx.beginPath();
+      p.pts.forEach((k,j)=>{ const a=j/5*Math.PI*2; ctx.lineTo(Math.cos(a)*p.r*k,Math.sin(a)*p.r*k*0.8); }); ctx.closePath(); ctx.fill(); ctx.stroke(); ctx.restore(); continue; }
+    if(p.t>=p.T){ mmFx.splice(i,1); continue; }
+    if(p.k==='rock'){ p.x+=p.vx; p.y+=p.vy; if(p.up) p.vy*=0.97; else { p.vx*=0.9; p.vy*=0.9; } p.rot+=0.1; const a=1-p.t/p.T;
+      ctx.save(); ctx.globalAlpha=a; ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.fillStyle='#8d8079'; ctx.fillRect(-p.r,-p.r*0.7,p.r*2,p.r*1.4); ctx.restore(); }
+    else if(p.k==='streak'){ const a=1-p.t/p.T; ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round';
+      ctx.strokeStyle=`rgba(255,220,90,${0.45*a})`; ctx.lineWidth=p.w*a; ctx.beginPath(); ctx.moveTo(p.x0,p.y0); ctx.lineTo(p.x1,p.y1); ctx.stroke(); ctx.restore(); } }
+  for(const f of fighters){ if(f.type!=='saiyanmarmot' || f.dead || !f._mm) continue; const M=f._mm, L=f._lastSprite, w=(L&&L.dw)||f.size*1.1, h=(L&&L.dh)||f.size*2;
+    if(M.ssj) _mmFlame(f.x,f.y,w*1.65,h*1.15,tick,'255,190,0',1,'255,236,90');
+    else if(M.tf>0){ const k=1-M.tf/MM_SSJ_T; _mmFlame(f.x,f.y,w*(1.3+0.35*k),h*(1+0.15*k),tick,k<0.5?'235,245,255':'255,190,0',0.6+0.4*k,k<0.5?'255,255,255':'255,236,90'); }
+    else if(M.charge>0) _mmFlame(f.x,f.y,w*1.3,h*1.0,tick,'235,245,255',0.6,'255,255,255'); }
+}
+// ⚡ TRÊN meme: tia điện quanh người Super Saiyan · quả khí dồn lúc khựng · vòng sóng · loé trắng biến hình
+function _mmDrawOver(){
+  for(const f of fighters){ if(f.type!=='saiyanmarmot' || f.dead || !f._mm) continue; const M=f._mm, L=f._lastSprite, h=(L&&L.dh)||f.size*2;
+    if((M.ssj && tick%14<3) || (M.tf>0 && tick%6<2)){ ctx.save(); ctx.strokeStyle=M.ssj?'rgba(170,230,255,0.95)':'rgba(255,255,255,0.9)'; ctx.lineWidth=1.6; ctx.shadowColor='#80d8ff'; ctx.shadowBlur=6; ctx.beginPath();
+      let a=Math.random()*Math.PI*2, r=h*0.42; ctx.moveTo(f.x+Math.cos(a)*r*0.6,f.y+Math.sin(a)*r);
+      for(let k=0;k<5;k++){ a+=0.25+Math.random()*0.25; r=h*(0.35+Math.random()*0.2); ctx.lineTo(f.x+Math.cos(a)*r*0.6,f.y+Math.sin(a)*r); } ctx.stroke(); ctx.restore(); } }
+  for(const q of mmFly){ if(q.st!=='hold' || !q.f) continue; const f=q.f, u=q.u, k=Math.min(1,q.t/MM_HOLD_T), x=(f.x+u.x)/2, y=(f.y+u.y)/2, R=(f.size*0.35)*(0.4+0.9*k);
+    ctx.save(); ctx.globalCompositeOperation='lighter'; const g=ctx.createRadialGradient(x,y,0,x,y,R*2.2); g.addColorStop(0,'rgba(255,255,230,0.95)'); g.addColorStop(0.35,'rgba(255,214,0,0.7)'); g.addColorStop(1,'rgba(255,160,0,0)');
+    ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,R*2.2,0,Math.PI*2); ctx.fill(); ctx.restore(); }
+  for(let i=mmFx.length-1;i>=0;i--){ const p=mmFx[i]; if(p.k!=='ring' && p.k!=='flash') continue; const u=p.t/p.T;
+    if(p.k==='ring'){ ctx.save(); ctx.strokeStyle=`rgba(${p.c},${1-u})`; ctx.lineWidth=6*(1-u)+1; ctx.beginPath(); ctx.arc(p.x,p.y,p.R*(0.2+0.8*u),0,Math.PI*2); ctx.stroke(); ctx.restore(); }
+    else { ctx.save(); ctx.globalAlpha=0.6*(1-u); ctx.fillStyle='#fffde7'; ctx.fillRect(-W,-H,W*3,H*3); ctx.restore(); } }
+}
+// khung đang hiện: há mồm (hét) lúc gồng / biến hình / khựng dồn khí / vừa xô; còn lại đứng thường. Super Saiyan → bộ ảnh tóc vàng (nếu đã có)
+function _mmFrame(f){ const M=f._mm||{}, k=(M.charge>0 || M.tf>0 || M.hold || (f._mmShove!=null && tick-f._mmShove<14)) ? 1 : 0, s=MM_FR[2+k];
+  return (M.ssj && s.complete && s.naturalWidth) ? 2+k : k; }
+// ===================== ⚔️ CATVADER — THE FORCE: GIỮ ĐẠN GIỮA KHÔNG TRUNG =====================
+// Mỗi 5s hồi 1 lượt: có đạn địch (mảng projectiles) bay vào vùng quanh người → toả AURA ĐỎ, mọi viên đạn địch bay vào vùng
+// bị ĐỨNG HÌNH lơ lửng (run nhẹ, quầng đỏ) trong 0.7s, rồi bật ngược phóng thẳng về phía địch — đổi sang phe Catvader,
+// gây đúng dame gốc của viên đó (đạn tự đuổi thì đổi sang đuổi địch).
+const CV_FORCE_CD=300, CV_FORCE_R=4.2, CV_FORCE_HOLD=54, CV_FORCE_SPD=1.35;   // 5s hồi · bán kính = 4.2×thân · giữ 0.9s (kiểu Neo chặn đạn trong Matrix) · bay về nhanh hơn 35%
+function _cvForceable(f,p,R){ if(p.team===f.team || p._cvHeld || p._cvForced) return false;
+  const dx=f.x-p.x, dy=f.y-p.y; return Math.hypot(dx,dy)<R && dx*(p.vx||0)+dy*(p.vy||0)>0; }   // trong vùng VÀ đang bay về phía Catvader
+function _cvForceGrab(f,F,R){ for(const p of projectiles){ if(!_cvForceable(f,p,R)) continue;
+  const sp=Math.hypot(p.vx||0,p.vy||0)||6; p._cvHeld=true; p._cvSp=sp; p._cvX=p.x; p._cvY=p.y;
+  p.vx*=0.015; p.vy*=0.015;   // gần như đứng yên nhưng GIỮ hướng mũi (ảnh đạn xoay theo vx/vy)
+  p.team=f.team; p.life=Math.max(p.life||0,CV_FORCE_HOLD+90);   // đổi phe ngay: lơ lửng sát người cũng không trúng Catvader
+  F.list.push(p); spawnParticles(p.x,p.y,'#ff1744',4,false,true); } }
+function _cvForceTick(f){
+  if((f._cvForceCD||0)>0) f._cvForceCD--;
+  const R=f.size*CV_FORCE_R, F=f._cvForce;
+  if(F){ F.t++;
+    if(F.t<CV_FORCE_HOLD) _cvForceGrab(f,F,R);   // đạn bay tới TRONG lúc đang giữ cũng bị chặn lại
+    for(let i=F.list.length-1;i>=0;i--){ const p=F.list[i]; if(!projectiles.includes(p)){ F.list.splice(i,1); continue; }
+      if(F.t<CV_FORCE_HOLD){ p.x=p._cvX+(Math.random()-0.5)*2.2; p.y=p._cvY+(Math.random()-0.5)*2.2; } }   // run bần bật giữa không trung
+    if(F.t===CV_FORCE_HOLD){
+      for(const p of F.list){ const o=p.owner && !p.owner.dead && p.owner.team!==f.team && fighters.includes(p.owner) ? p.owner : null, e=o||f.enemy;
+        const a=e && !e.dead ? Math.atan2(e.y-p.y,e.x-p.x) : Math.atan2(p.y-f.y,p.x-f.x), sp=Math.max(7,p._cvSp||7)*CV_FORCE_SPD;
+        p.x=p._cvX; p.y=p._cvY; p.vx=Math.cos(a)*sp; p.vy=Math.sin(a)*sp; p.owner=f; p._droolOwner=null; p._cvHeld=false; p._cvForced=true;
+        const tg=e && !e.dead ? e : null; if(p.target) p.target=tg; if(p._homingTarget) p._homingTarget=tg; if(p.homingTarget) p.homingTarget=tg;
+        p.life=Math.max(p.life||0,120); }
+      if(F.list.length){ playSample('lightsaber_whoosh_01',1.0); addShake(5,8); }
+      F.burst=true; }
+    if(F.t>=CV_FORCE_HOLD+18) f._cvForce=null;
+    return; }
+  if((f._cvForceCD||0)>0 || f._isHardCC()) return;
+  if(!projectiles.some(p=>_cvForceable(f,p,R))) return;
+  f._cvForce={t:0,list:[]}; _cvForceGrab(f,f._cvForce,R); f._cvForceCD=CV_FORCE_CD;
+  f.skill2AvatarTimer=Math.max(f.skill2AvatarTimer||0,CV_FORCE_HOLD);   // giơ tay dùng Force (ảnh tư thế phi kiếm)
+  playSample('lightsaber_on',0.7); addShake(3,5);
+}
+// 🔴 aura đỏ + quầng quanh từng viên đạn đang bị giữ (vẽ DƯỚI các meme)
+function _cvForceDraw(){ for(const f of fighters){ const F=f._cvForce; if(f.type!=='catvader' || f.dead || !F) continue;
+  const R=f.size*CV_FORCE_R, H=CV_FORCE_HOLD, open=Math.min(1,F.t/8), fade=F.t>H?Math.max(0,1-(F.t-H)/18):1, pul=0.5+0.5*Math.sin(F.t*0.45);
+  ctx.save(); ctx.globalCompositeOperation='lighter';
+  const r=R*(0.35+0.65*open), g=ctx.createRadialGradient(f.x,f.y,f.size*0.5,f.x,f.y,r);
+  g.addColorStop(0,`rgba(255,40,40,${0.32*fade})`); g.addColorStop(0.75,`rgba(200,0,20,${(0.14+0.06*pul)*fade})`); g.addColorStop(1,'rgba(120,0,0,0)');
+  ctx.fillStyle=g; ctx.beginPath(); ctx.arc(f.x,f.y,r,0,Math.PI*2); ctx.fill();
+  ctx.strokeStyle=`rgba(255,60,60,${(0.35+0.25*pul)*fade})`; ctx.lineWidth=2; ctx.setLineDash([10,8]); ctx.lineDashOffset=-F.t*1.5;
+  ctx.beginPath(); ctx.arc(f.x,f.y,r*0.97,0,Math.PI*2); ctx.stroke(); ctx.setLineDash([]);
+  if(F.burst){ const u=Math.min(1,(F.t-H)/18); ctx.strokeStyle=`rgba(255,120,120,${0.8*(1-u)})`; ctx.lineWidth=6*(1-u)+1; ctx.beginPath(); ctx.arc(f.x,f.y,R*(0.6+0.7*u),0,Math.PI*2); ctx.stroke(); }   // sóng bật ra
+  if(F.t<H) for(const p of F.list){ const pr=(p.size||8)*2.4+3*pul, gp=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,pr);
+    gp.addColorStop(0,'rgba(255,90,90,0.4)'); gp.addColorStop(1,'rgba(255,0,0,0)'); ctx.fillStyle=gp; ctx.beginPath(); ctx.arc(p.x,p.y,pr,0,Math.PI*2); ctx.fill(); }
+  ctx.restore();
+  if(F.t<H) for(const p of F.list) _cvMatrixRipple(p, F.t, fade);   // 🕶️ gợn sóng không khí quanh viên đạn đứng hình (Neo chặn đạn)
+} }
+// 🕶️ MATRIX: viên đạn đứng khựng giữa không trung, không khí quanh nó GỢN SÓNG — (1) thấu kính: chụp đúng mảng hình
+//    sau viên đạn trên canvas rồi vẽ lại phóng nhẹ, độ phóng nhấp nhô theo sóng → nhìn như không khí bị bẻ cong;
+//    (2) các vòng gợn trong suốt toả ra liên tục (vệt sáng + vệt tối lệch 1px giả khúc xạ).
+function _cvMatrixRipple(p,t,fade){
+  const r0=Math.max(14,(p.size||8)*3.2), m=ctx.getTransform(), cv=ctx.canvas, k=Math.hypot(m.a,m.b)||1;
+  const px=m.a*p.x+m.c*p.y+m.e, py=m.b*p.x+m.d*p.y+m.f, mag=1.07+0.05*Math.sin(t*0.35), sr=r0*k/mag;
+  if(px-sr>0 && py-sr>0 && px+sr<cv.width && py+sr<cv.height){
+    try{ ctx.save(); ctx.globalAlpha*=0.9*fade; ctx.beginPath(); ctx.arc(p.x,p.y,r0,0,Math.PI*2); ctx.clip();
+      ctx.drawImage(cv, px-sr, py-sr, sr*2, sr*2, p.x-r0, p.y-r0, r0*2, r0*2); ctx.restore(); }catch(e){ ctx.restore(); } }
+  ctx.save(); ctx.lineCap='round';
+  for(let i=0;i<3;i++){ const ph=((t*0.035)+i/3)%1, R=(p.size||8)*1.2+ph*r0*1.9, a=(1-ph)*0.5*fade;
+    ctx.lineWidth=2.2*(1-ph)+0.6; ctx.strokeStyle=`rgba(255,255,255,${a})`; ctx.beginPath(); ctx.arc(p.x,p.y,R,0,Math.PI*2); ctx.stroke();
+    ctx.strokeStyle=`rgba(0,0,0,${a*0.45})`; ctx.beginPath(); ctx.arc(p.x+0.8,p.y+1,R+1.4,0,Math.PI*2); ctx.stroke(); }
+  ctx.restore(); }
 // ===================== 🥷 NINJA CAT — "Don't look into its eyes." =====================
 // Gần: rút kiếm KUSANAGI (kiếm thẳng của Sasuke: lưỡi chokuto thẳng 1 cạnh, chắn kiếm nhỏ, chuôi đen quấn chéo trắng) chém 1 nhát
 // vòng cung rồi tra kiếm lại (ảnh đã có chuôi kiếm sau lưng nên kiếm chỉ hiện lúc chém). Xa: ném kunai bay thẳng.
@@ -10442,31 +10677,49 @@ const NJ_GEN_VANISH=30, NJ_GEN_STAB=26, NJ_GEN_STAB_HIT=6, NJ_GEN_DMG=150, NJ_GE
 let njSmoke=[];
 function _njPuff(x,y,s,n,dir){ for(let i=0;i<n;i++){ const a=Math.random()*Math.PI*2, sp=0.4+Math.random()*1.6;
   njSmoke.push({x:x+Math.cos(a)*s*0.4*Math.random(), y:y+Math.sin(a)*s*0.5*Math.random(), vx:Math.cos(a)*sp+(dir||0)*1.2, vy:Math.sin(a)*sp*0.6-0.5, r:s*(0.25+Math.random()*0.3), t:0, T:34+Math.random()*20}); } }
+// 🔙 phía SAU LƯNG địch (theo hướng THẬT nó đang nhìn) còn chỗ đứng không: trả +1/-1 = phía sau lưng, 0 = lưng dính tường
+const NJ_GEN_WAIT_MAX=90;   // đã tan thành khói mà địch lùi sát tường → chờ ẩn thêm tối đa 1.5s, quá thì hiện lại chỗ cũ và giữ lượt
+function _njBackSide(f,e){
+  if(!e || e.dead || e.x===undefined) return 0;
+  const back=(e._lastShouldFaceLeft!=null)?(e._lastShouldFaceLeft?1:-1):(f.x>e.x?-1:1), go=(e.size||20)*0.55+f.size*0.55, x=e.x+back*go;
+  return (x<f.size || x>W-f.size)?0:back;
+}
+function _njGenStart(f,e,ax,ay){
+  f._njCharges--; f._njWait=false;
+  f._njGen={st:'vanish', t:0, x0:f.x, y0:f.y, e, hx:(ax+f.x)/2, hy:(ay+f.y)/2, wait:0};
+  _njPuff((ax+f.x)/2,(ay+f.y)/2,f.size,10,Math.sign(f.x-ax)||0); playSample('nj_sharingan',1.0);   /* 👁️ tiếng kích hoạt Sharingan (myinstants 'sonido-sharingan-activado' — chỉ hiệu ứng, KHÔNG có giọng nói) */
+}
 // chặn đòn trong _takeDamageCore — trả true = đòn xuyên qua khói (không mất máu)
 function _njGenGuard(f,attacker){
   if(f._njGen) return true;   // đang tan biến / hiện ra đâm: không chạm được
   const ax=(attacker && attacker.x!==undefined)?attacker.x:f.x, ay=(attacker && attacker.y!==undefined)?attacker.y:f.y;
-  if((f._njCharges||0)>0){ f._njCharges--;
+  if((f._njCharges||0)>0){
     const e=(attacker && fighters.includes(attacker) && !attacker.dead)?attacker:(f.enemy&&!f.enemy.dead?f.enemy:attacker);
-    f._njGen={st:'vanish', t:0, x0:f.x, y0:f.y, e, hx:(ax+f.x)/2, hy:(ay+f.y)/2};
-    _njPuff((ax+f.x)/2,(ay+f.y)/2,f.size,10,Math.sign(f.x-ax)); playSample('nj_sharingan',1.0);   /* 👁️ tiếng kích hoạt Sharingan (myinstants 'sonido-sharingan-activado' — chỉ hiệu ứng, KHÔNG có giọng nói) */
+    // 🧱 địch đang quay LƯNG SÁT TƯỜNG (không có chỗ đứng sau lưng) → NHỊN, giữ lượt Sharingan; địch rời tường là cast ngay (_njGenTick)
+    if(!_njBackSide(f,e)){ f._njWait=true; return false; }
+    _njGenStart(f,e,ax,ay);
     return true; }
   return false;
 }
 function _njGenTick(f){
   if(!f._nj60 && f.hp<=f.maxHp*0.6){ f._nj60=true; f._njCharges=(f._njCharges||0)+1; }
   if(!f._nj30 && f.hp<=f.maxHp*0.3){ f._nj30=true; f._njCharges=(f._njCharges||0)+1; }
+  // ⏳ lượt Sharingan đang NHỊN (lúc bị đánh thì địch quay lưng sát tường): địch vừa có chỗ sau lưng là cast LUÔN, không chờ ăn đòn
+  if(!f._njGen && f._njWait && (f._njCharges||0)>0 && !f._isHardCC()){ const e=f.enemy;
+    if(e && !e.dead && fighters.includes(e) && _njBackSide(f,e)) _njGenStart(f,e,e.x,e.y); }
   const G=f._njGen; if(!G) return; G.t++; f.vx=f.vy=0;
   if(G.st==='vanish'){
-    if(G.t%3===0) _njPuff(f.x,f.y,f.size,2,0);
+    if(G.t%3===0 && G.t<=NJ_GEN_VANISH) _njPuff(f.x,f.y,f.size,2,0);
     if(G.t>=NJ_GEN_VANISH){ const e=G.e;
       if(!e || e.dead || e.x===undefined){ f._njGen=null; return; }
-      // 🔙 hiện ra đúng SAU LƯNG địch, ngang hàng (phía ngược hướng địch đang quay mặt); kẹt tường thì sang bên kia
-      let back=(e._lastShouldFaceLeft!=null)?(e._lastShouldFaceLeft?1:-1):(G.x0>e.x?1:-1);   // hướng THẬT địch đang nhìn (không phải cờ lật ảnh)
+      // 🔙 hiện ra đúng SAU LƯNG địch, ngang hàng (phía ngược hướng địch đang quay mặt — hướng THẬT, không phải cờ lật ảnh).
+      //    Lưng địch dính tường → KHÔNG BAO GIỜ vòng ra trước mặt: ẩn trong khói chờ thêm; quá NJ_GEN_WAIT_MAX thì hiện lại chỗ cũ, trả lượt
+      const back=_njBackSide(f,e);
+      if(!back){ if(++G.wait>NJ_GEN_WAIT_MAX){ f._njCharges=(f._njCharges||0)+1; f._njWait=true; f._njGen=null; _njPuff(f.x,f.y,f.size,5,0); } return; }
       const go=e.size*0.55+f.size*0.55, tipOff=(e._lastSprite&&e._lastSprite.dw?e._lastSprite.dw*0.5:e.size)+e.size*0.38;   // đứng sát sau lưng · mũi kiếm nhô ra trước ngực ~1/4 thân
       G.L=go+tipOff-f.size*0.3;
-      if(e.x+back*go<f.size || e.x+back*go>W-f.size) back=-back;
       f.x=Math.max(f.size,Math.min(W-f.size,e.x+back*go)); f.y=Math.max(f.size,Math.min(H-f.size,e.y));
+      e._njFaceBy=f; e._njFaceL=back>0;   // 🔒 khoá hướng nhìn của địch suốt cú đâm (lưng ở phía back → mặt nhìn ngược lại) — không thì nó quay phắt lại nhìn Ninja, thành đâm vào mặt
       _njPuff(f.x,f.y,f.size,5,0); G.st='stab'; G.t=0; } }
   else if(G.st==='stab'){
     const e=G.e;
@@ -10477,7 +10730,7 @@ function _njGenTick(f){
 //    mũi kiếm dính máu lòi ra phía trước; chuôi nằm sau thân Ninja Cat như đang cầm)
 function _njDrawUnder(){ for(const f of fighters){ const G=f._njGen; if(f.type!=='ninjacat' || f.dead || !G) continue;
   if(G.st==='stab'){ _njDrawStab(f,G); continue; }
-  if(G.st!=='vanish' || !NJ_SHARINGAN_IMG.naturalWidth) continue;
+  if(G.st!=='vanish' || !NJ_SHARINGAN_IMG.naturalWidth || G.t>=NJ_GEN_VANISH) continue;   // (đang ẩn chờ địch rời tường: không vẽ — alpha âm canvas bỏ qua, sẽ hiện đậm)
   const u=G.t/NJ_GEN_VANISH, a=u<0.2?u/0.2:u>0.75?(1-u)/0.25:1, R=f.size*(1.9+0.35*Math.min(1,u*3)), x=G.x0, y=G.y0-f.size*0.15;
   ctx.save(); ctx.globalAlpha=a; ctx.globalCompositeOperation='lighter'; const gr=ctx.createRadialGradient(x,y,0,x,y,R*1.5); gr.addColorStop(0,'rgba(255,40,40,0.55)'); gr.addColorStop(1,'rgba(160,0,0,0)');
   ctx.fillStyle=gr; ctx.beginPath(); ctx.arc(x,y,R*1.5,0,Math.PI*2); ctx.fill(); ctx.globalCompositeOperation='source-over';
@@ -11943,6 +12196,7 @@ let confetti=[];   // pháo giấy lúc KO
 let koWinner=null; // con thắng (để nhảy ăn mừng)
 let koFact='';     // fun fact ngẫu nhiên của con thắng
 const CHAR_FACTS = {
+  saiyanmarmot:[ "Saiyan Marmot was only warning the others about hikers. It got out of hand.", "Its power level was never measured. The scouter screamed first.", "Whistler, British Columbia, 2015. One scream. A legend was born.", "It does not train. It just screams until something changes." ],
   poordog:[ "Poor Dog's bowl has been empty since 2019. It still checks every morning.", "Its shirt has more patches than a live-service game.", "Nobody remembers who kicked Poor Dog first. The universe does.", "Every banana peel in this arena was placed by fate. Fate owes Poor Dog a favor.", "Poor Dog is not slow. It is just in no hurry to be disappointed again." ],
   ninjacat:[ "Ninja Cat trained for twelve years. Mostly naps. The naps were also training.", "Nobody has ever seen it draw the sword. Several have seen it put the sword back.", "The headband says Hidden Leaf. It has never been to a leaf village. It has eaten a leaf.", "The kunai are not thrown. They are delivered.", "It does not have a Sharingan. It is just disappointed in you." ],
   duolingo:[ "Duo has never missed a day. Neither have its notifications.", "Duo speaks 40 languages. Every single one of them is a threat.", "The streak freeze was supposed to be a gift. Duo does not see it that way.", "At 23 seconds left it is a reminder. At zero it is a laser." ],
@@ -12037,7 +12291,8 @@ const CHAR_FACTS = {
 // giới thiệu ngắn 2-3 dòng cho màn chờ (tiếng Anh, game full English) — viết tay dựa trên cơ chế thật, không tự động cắt câu
 const CHAR_BLURB = {
   boxingcat: "Shadow-boxes to warm up — every jab adds to the damage counter over its head. The moment it touches an enemy it throws the punch with everything stored: from 100 the air quakes like Whitebeard, and from 250 the whole screen cracks.",
-  ninjacat: "Melee ninja. Up close it draws a Kusanagi and slashes for 75; at range it throws kunai for 30. The first time it drops to 60% HP and again at 30%, the next hit passes through it like smoke — a Mangekyou Sharingan flashes, it vanishes and reappears behind the enemy, running them through for 150.",
+  saiyanmarmot: "Melee shover: touches the enemy to shove them away like fighting marmots (45). Every 2s of walking it stops and powers up for 1.5s; the 3rd time it screams for 3s and goes Super Saiyan for good. Super Saiyan: every shove freezes for 0.5s, then blasts the enemy straight into the wall and pins them there (160), breaking off a chunk of wall. Hit the same broken spot and the hole can get big enough to send the enemy flying out of the arena — instant win.",
+  ninjacat: "Melee ninja. Up close it draws a Kusanagi and slashes for 75; at range it throws kunai for 30. The first time it drops to 60% HP and again at 30%, the next hit passes through it like smoke — a Mangekyou Sharingan flashes, it vanishes and reappears behind the enemy, running them through for 150. If the enemy's back is against a wall it holds the trick, and strikes the moment there is room behind them.",
   poordog: "Never attacks and walks very slowly. Every 2s it slowly lies down for 3s. Hit it while it lies there and you lose karma equal to the damage — every 100 karma lost makes bad luck hit you 10% harder. Every 4s one bad-luck event strikes in turn (0.3s sooner each time it gets hit), walking or lying: banana peels, a runaway truck, lightning, a falling grand piano, a flower pot dropped on your head. It takes 20% less damage while lying down. Lose 100+ karma and junk starts flying at the back of your head.",
   arabiccat: "Every 3s it rubs the lamp and the genie comes out for 2s with one random move: a lightning bolt (100), a giant fist (150), turning the enemy into a chicken, turning them to stone, or summoning 2 mini genies with scimitars.",
   // 📋 Mô tả hiện dưới sàn / 2 panel bên: TÓM TẮT KỸ NĂNG, viết thẳng, KHÔNG pha trò và KHÔNG kèm chỉ số chi tiết
@@ -12071,7 +12326,7 @@ const CHAR_BLURB = {
   evillarry: "Ignores everyone and walks a pentagram onto the floor — a summoning circle. Completing it SACRIFICES every living thing in the arena, itself included, to whatever is listening.",
   pianocat: "Plays piano and fires a homing musical note on every beat of the song (locks onto the nearest target, including summons, and never misses), switching tracks as it goes.",
   grumpycat: "Builds rage from every hit dealt and taken; a full bar unlocks a far stronger rage form.",
-  catvader: "Ignites a lightsaber and either fights up close or throws it and calls it back.",
+  catvader: "Ignites a lightsaber and either fights up close or throws it and calls it back. Every 5s, a red Force aura freezes incoming enemy projectiles mid-air, then hurls them back at the enemy.",
   bibilabu: "Quietly powers up between slaps until a single hit is enough to end the fight.",
   applecat: "Keeps an apple bouncing around the arena that damages anyone it collides with.",
   cheems: "Every bonk makes its bat larger, hitting harder and reaching further.",
@@ -12134,6 +12389,7 @@ const CHAR_BLURB = {
 // trong lúc trận đang chạy. Ở đây chốt cứng: MỖI CON 1 CÂU NGẮN, chỉ đủ hiểu skill là gì, để phóng chữ thật to mà
 // không rối mắt. Giữ nguyên CHAR_BLURB dài cho các chế độ khác (1vs1 / Tournament / 3-Way).
 const CHAR_BLURB_SHORT = {
+  saiyanmarmot: "AAAAAAAH! Power level: through the wall.",
   poordog: "Kick a poor dog. Karma kicks back.",
   ninjacat: "Don't look into its eyes.",
   duolingo: "Your streak or your life.",
@@ -15850,7 +16106,7 @@ class Fighter {
     this.huhCharging=false; this.huhChargeTimer=0; // huh cat charge
     this.flash=0; this.reflectFlash=0; this.dead=false;
     this.idleAnimKey = char.idleAnim || 'bounce';
-    this.facingDefault = (this.type==='morsecat' || this.type==='ninjacat' || this.type==='poordog') ? 'left' : (char.facing || 'right'); // which way the image faces by default · 📡 3 ảnh khẩu hình Morse Cat quay mặt TRÁI
+    this.facingDefault = (this.type==='morsecat' || this.type==='ninjacat' || this.type==='poordog' || this.type==='saiyanmarmot') ? 'left' : (char.facing || 'right'); // which way the image faces by default · 📡 3 ảnh khẩu hình Morse Cat quay mặt TRÁI
     this.animTick = Math.floor(Math.random()*1000);
     this.actionState = 'idle'; // idle | attack | hurt | run
     this.actionTimer = 0;
@@ -16170,6 +16426,7 @@ class Fighter {
       return; // hiệu ứng vỡ mảnh (deathShards) chạy độc lập trong loop() chính, không cần cập nhật gì thêm ở đây
     }
     this._cvSaberFlightTick(); // kiếm Catvader đang bay ra/về — luôn chạy, không phụ thuộc choáng/slip/confuse của người
+    if(this.type==='catvader' && this._cvDrawn) _cvForceTick(this);   // 🔴 Force giữ đạn (đang giữ thì luôn chạy tiếp; choáng chỉ chặn lúc KÍCH HOẠT)
     if(this.type==='flyingcat') _fcSatTick(this);   // 🛰️ 3 vệ tinh quay quanh — chạy cả lúc choáng
     if(this.type==='scootercat') _scTick(this);   // 🛵 drift + bẻ lái tránh địch khi dội tường
     if(this.type==='epicsaxguy') _esgTick(this);  // 🎷 chu kỳ thổi sax / lấy hơi + đàn Squirtle mọc lên
@@ -16178,6 +16435,7 @@ class Fighter {
     if(this.type==='friend') _frTick(this);   // 🐈‍⬛ lao xuyên / đánh dấu / hồi chiêu — chạy cả lúc choáng
     if(this.type==='susdog') _sdCycle(this); // 🐶🌙 chu kỳ ngày/đêm Sus Dog — chạy cả lúc choáng (sự kiện của làng, không phải hành động của nó)
     _slHammerTick(this); // ☭ búa Stalin Cat đang bay/rơi/tự hút về — luôn chạy, không phụ thuộc choáng, cùng khuôn mẫu trên
+    if(this.type==='saiyanmarmot') _mmTick(this);   // 🦫 đếm bước → gồng → hoá Super Saiyan (choáng thì tự dừng đếm)
     this.flash=Math.max(0,this.flash-1);
     if(this._cgSay && !this._cgSay.perm && --this._cgSay.life<=0) this._cgSay=null; // 😎 Chill Guy: đếm ngược bong bóng thoại (perm=true thì không bao giờ tự tắt)
     if(this._wgAnimT>0) this._wgAnimT--; // 🌬️ The Unknown Guy: đếm ngược 1s chạy hoạt ảnh lúc có sự kiện
@@ -16962,6 +17220,7 @@ class Fighter {
     this.animBump=Math.max(0,this.animBump-1);
     this.animShot=Math.max(0,this.animShot-1);
     if((this._shakeTimer||0)>0) this._shakeTimer--;
+    if(this._mmHeld){ this.vx=0; this.vy=0; return; }   // 🦫 đang bị Saiyan Marmot giữ / bắn bay / ghim tường: vị trí do _mmWorldTick cầm, không đi/đánh, không kẹp tường
     if(this.stun>0){
       // 🦭 YUKI: dính choáng là NGƯNG BAY luôn, không bay nốt quãng còn lại. Cú bay bị huỷ hẳn:
       // xoá cả quỹ bay lẫn cờ đã-dội-tường, nên hết choáng cũng không tự bay tiếp.
@@ -17074,6 +17333,7 @@ class Fighter {
     if(this.type==='trainingdummy'){ this._friction(); this.x+=this.vx; this.y+=this.vy; return; }
     if(_pdSprawled(this)){ this.vx*=0.88; this.vy*=0.88; this.x+=this.vx; this.y+=this.vy; return; }   // 🍌 nằm sõng soài: trượt nốt đà rồi nằm im
     if(this.type==='ninjacat' && this._njGen){ this.vx=0; this.vy=0; return; }
+    if(this.type==='saiyanmarmot' && _mmIsBusy(this)){ this.vx=0; this.vy=0; return; }   // 🦫 đang gồng / hét biến hình / khựng dồn khí
     if(this.type==='mechaniccat' && this._gd && (this._gd.work>0||this._gd.board>0||this._gd.slashT>0||this._gd.aimT>0)){ this.vx=0; this.vy=0; return; }   // 🤖 đang lắp / phóng vào buồng lái / Gundam đang chém-ngắm
     if(this.type==='poordog' && this._pd && this._pd.st==='lie'){ this.vx=0; this.vy=0; return; }   // 🥣 đang nằm   // 👁️ đang tan biến / đâm sau lưng
     // đang lao vào sân (nhập trận) → chưa di chuyển logic
@@ -18663,6 +18923,8 @@ class Fighter {
       if(touching){ if(this._njMeleeCD<=0) _njSlash(this,e); }
       else if(this._njKunaiCD<=0) _njThrow(this,e);
     }
+    // ===== 🦫 SAIYAN MARMOT: chạm là xô (Super Saiyan: khựng 0.5s rồi bắn thẳng vào tường) =====
+    if(this.type==='saiyanmarmot' && !this.dead && e && !e.dead && e.hp>0) _mmAttack(this,e,touching);
 
     // ===== 🐕 BIBILABU: tích luỹ dame theo thời gian (mỗi 0.5s +1 vạch, tối đa 10), đủ tầm cận chiến thì chém =====
     if(this.type==='bibilabu' && !this.dead){
@@ -21088,6 +21350,7 @@ class Fighter {
     else if(this.type==='feuerkatze') this._fkLockFace=undefined;
     if(this.type==='samuraicheems' && this._smFaceAway && smCine && smCine.e) shouldFaceLeft = smCine.e.x > this.x;   // ⚔️ đứng quay LƯNG lại với địch
     if(this.type==='scootercat'){ if(Math.abs(this.vx)>0.4) this._scFaceL=this.vx<0; if(this._scFaceL!==undefined) shouldFaceLeft=this._scFaceL; }   // 🛵 xe quay đầu theo hướng đang chạy, không theo địch
+    { const _nj=this._njFaceBy, _G=_nj && !_nj.dead && _nj._njGen; if(_G && _G.st==='stab' && _G.e===this) shouldFaceLeft=this._njFaceL; else if(_nj) this._njFaceBy=null; }   // 🥷 đang bị Ninja Cat đâm sau lưng: giữ nguyên hướng nhìn (không quay lại nhìn Ninja → kiếm luôn xuyên từ LƯNG)
     // if image faces right by default: flip when shouldFaceLeft
     // if image faces left by default: flip when NOT shouldFaceLeft
     let facingLeft = this.facingDefault==='right' ? shouldFaceLeft : !shouldFaceLeft;
@@ -21656,6 +21919,8 @@ class Fighter {
       img = AR_FR[_arFrame(this)];   // 🐱 lắc lư theo nhạc / xoa đèn
     } else if(this.type==='alottadameguy' && LD_FR[0].complete && LD_FR[0].naturalWidth){
       img = LD_FR[_ldFrame(this)];   // 🪚 6 khung dựng sẵn: đứng / đâm dao / cầm cưa / giật dây ×2 / cưa
+    } else if(this.type==='saiyanmarmot' && MM_FR[0].complete && MM_FR[0].naturalWidth && MM_FR[1].naturalWidth){
+      img = MM_FR[_mmFrame(this)];   // 🦫 đứng / há mồm hét (gồng, biến hình, dồn khí, xô)
     } else if(this.type==='doorbellchud' && DC_FR[0].complete && DC_FR[0].naturalWidth){
       // 🔔 10 khung hoạt ảnh dựng sẵn: đứng → ngước → với tay → nắm dây → giật xuống; cầm dây thì khung 7/8 quật, 9 nghỉ
       img = DC_ALL[_dcFrame(this)];
@@ -21736,6 +22001,7 @@ class Fighter {
                    : (this.type==='alottadameguy' && LD_FR.includes(img)) ? LD_VIS_MUL
                    : (this.type==='maxwell' && img===rageAttackAvatarImgs[i]) ? 1.1   // 🐈‍⬛ GIF xoay vật phẩm Maxwell to thêm 10%
                    : (this.type==='scaredhamster' && img===HM_IMG.SCARED) ? 1/1.1   // 🐹 thân to thêm 10% nhưng dáng đứng sợ hãi giữ đúng cỡ cũ
+                   : (this.type==='saiyanmarmot' && MM_FR.includes(img)) ? 1.2   // 🦫 ảnh đứng thẳng rất gầy → hình to thêm 20% cho cân với meme khác (hitbox giữ nguyên)
                    : (this.type==='electricguitarcat') ? 1.15  // 🎸 ảnh to hơn 15% (chỉ phần HÌNH, hitbox giữ nguyên cho cân bằng)
                    : (this.type==='pianocat' && img===attackAvatarImgs[i]) ? 1.1  // 🎹 khung 3 (Đánh đàn) nhìn bé hơn khung 1/2 → bù thêm 10%
                    : 1.0;
@@ -23925,7 +24191,7 @@ function startGame(skipVsIntro){
   document.getElementById('pauseOverlay').classList.remove('visible');
   stopAllBattleMusic();
   _gameTickAccum=0;
-  pdPeels=[]; pdFx=[]; pdTexts=[]; njSmoke=[]; idMito=[]; fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; bxFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; frRem=null; dpRainK=0; dpRipples=[]; dpWx={cloud:0, rain:0, storm:0, nextBolt:0, bolt:null, nextFlash:0, flash:null}; psCine=null; psWipe=null; psShards=[]; psDust=[]; psCrater=null; mwBits=[]; mwShards=[]; mwKitkat=[]; scEcho=[]; hmShadows=[]; hmEyes=[]; _hmEyeCD=150; hmWisps=[]; _hmWispCD=120; saWin=null; hmWin=null; saBolts=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; _dlReset(); _wcRainReset(); _azReset(); _duoReset(); popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flCos=null; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susFx=[]; susDark=null; dogeFx=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[]; tick=0;
+  pdPeels=[]; pdFx=[]; pdTexts=[]; njSmoke=[]; mmFly=[]; mmWall=[]; mmFx=[]; idMito=[]; fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; bxFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; frRem=null; dpRainK=0; dpRipples=[]; dpWx={cloud:0, rain:0, storm:0, nextBolt:0, bolt:null, nextFlash:0, flash:null}; psCine=null; psWipe=null; psShards=[]; psDust=[]; psCrater=null; mwBits=[]; mwShards=[]; mwKitkat=[]; scEcho=[]; hmShadows=[]; hmEyes=[]; _hmEyeCD=150; hmWisps=[]; _hmWispCD=120; saWin=null; hmWin=null; saBolts=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; _dlReset(); _wcRainReset(); _azReset(); _duoReset(); popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flCos=null; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susFx=[]; susDark=null; dogeFx=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[]; tick=0;
   _matchStats=Array.from({length:8},()=>({dmg:0,hits:0,healed:0,attempted:0}));
   screenShake={x:0,y:0,dur:0,str:0}; afterImages=[]; slowMoTimer=0; hitStopFrames=0; hitStopCD=0; koZoom=0; _camReset();
   loop._koTimer=null; loop._resInit=false; loop._resT=null; loop._resClick=false; loop._rtDone=false; loop._statsT=0; loop._lbPrompted=false; loop._ctaText=null; loop._mechShown=false; loop._fanDone=false; loop._wcMeowDone=false;
@@ -24361,7 +24627,7 @@ function resetGame(){
   document.getElementById('pauseOverlay').classList.remove('visible');
   _gameTickAccum=0;
   stopAllBattleMusic();
-  pdPeels=[]; pdFx=[]; pdTexts=[]; njSmoke=[]; idMito=[]; fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; bxFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; frRem=null; dpRainK=0; dpRipples=[]; dpWx={cloud:0, rain:0, storm:0, nextBolt:0, bolt:null, nextFlash:0, flash:null}; psCine=null; psWipe=null; psShards=[]; psDust=[]; psCrater=null; mwBits=[]; mwShards=[]; mwKitkat=[]; scEcho=[]; hmShadows=[]; hmEyes=[]; _hmEyeCD=150; hmWisps=[]; _hmWispCD=120; saWin=null; hmWin=null; saBolts=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; _dlReset(); _wcRainReset(); _azReset(); _duoReset(); popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flCos=null; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susFx=[]; susDark=null; dogeFx=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[];
+  pdPeels=[]; pdFx=[]; pdTexts=[]; njSmoke=[]; mmFly=[]; mmWall=[]; mmFx=[]; idMito=[]; fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; bxFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; frRem=null; dpRainK=0; dpRipples=[]; dpWx={cloud:0, rain:0, storm:0, nextBolt:0, bolt:null, nextFlash:0, flash:null}; psCine=null; psWipe=null; psShards=[]; psDust=[]; psCrater=null; mwBits=[]; mwShards=[]; mwKitkat=[]; scEcho=[]; hmShadows=[]; hmEyes=[]; _hmEyeCD=150; hmWisps=[]; _hmWispCD=120; saWin=null; hmWin=null; saBolts=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; _dlReset(); _wcRainReset(); _azReset(); _duoReset(); popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flCos=null; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susFx=[]; susDark=null; dogeFx=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[];
   screenShake={x:0,y:0,dur:0,str:0}; slowMoTimer=0; hitStopFrames=0; hitStopCD=0; koZoom=0;
   showVsWaitScreen();
 }
@@ -25592,6 +25858,8 @@ function loop(){
   _gdDrawSites();   // 🤖 hòm đồ + Gundam đang lắp + bộ phận bay + mảnh vỡ
   _pdDrawUnder();   // 🍌 vỏ chuối, portal đỏ, bóng đàn piano
   _njDrawUnder();   // 👁️ Mangekyou Sharingan sau lưng Ninja Cat
+  _cvForceDraw();   // 🔴 aura Force của Catvader + đạn bị giữ
+  _mmDrawUnder();   // 🦫 tường vỡ + đá vụn + vệt bay + hào quang Saiyan Marmot (dưới meme)
   _hmDrawUnder(); // 🐹 tay bóng tối Scared Hamster bò sát mặt sàn (dưới meme)
   if(ESG_SHOW_WAVE_VFX) _esgDrawWaves();   // 🎷🌊 sóng âm gợn trên mặt sàn (đang TẮT tạm theo yêu cầu, dame vẫn tính)
   _esgDrawSquirtles(); // 🐢 đàn Squirtle thổi sax cùng
@@ -25646,12 +25914,14 @@ function loop(){
       _fkTick();         // ☠️🟢 van + khí độc Adolf Catler
       _sdTick();         // 🐶 dân làng / ma sói / đồ bay của Sus Dog — cùng nhịp tick với update()
       _bounceFighters(); // 💥 không cho các char đè/xuyên qua nhau (tách sát điểm chạm + nảy nhẹ)
+      _mmWorldTick();    // 🦫 Saiyan Marmot: giữ / bắn bay / ghim tường / văng khỏi sàn — chốt vị trí SAU va chạm thân
       _arPinAll();       // 🗿 tượng: ghim cứng sau MỌI lực của tick này
       _gameTickAccum -= 1;
     }
     fighters.forEach(f=>f.draw());
   }
   _scEchoDrawOver();   // 🌋 Scream Cat: sóng chấn động + đá văng + tiếng vọng (trên meme)
+  _mmDrawOver();       // 🦫 tia điện Super Saiyan + quả khí dồn lúc khựng + vòng sóng
   _scHeadDraw();       // 😱 số dame lớn nhất + hiệu ứng nguy hiểm trên đầu Scream Cat
   if(frRem && frRem.rec) _frRemDraw();   // 🐈‍⬛ cảnh cổng hắc ám vơ mảnh Friend: vẽ NỔI trên meme (meme thắng không che mất)
   _hmDrawOver();       // 🐹 vuốt tay bóng tối quặp ĐÈ lên con mồi đang bị cầm (cảm giác 3D) + bị nuốt chửng
@@ -30748,7 +31018,7 @@ function closeFan(){
   document.getElementById('mainMenuScreen').classList.add('active');
 }
 function _ffa3ClearArrays(){
-  pdPeels=[]; pdFx=[]; pdTexts=[]; njSmoke=[]; idMito=[]; fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; bxFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; frRem=null; dpRainK=0; dpRipples=[]; dpWx={cloud:0, rain:0, storm:0, nextBolt:0, bolt:null, nextFlash:0, flash:null}; psCine=null; psWipe=null; psShards=[]; psDust=[]; psCrater=null; mwBits=[]; mwShards=[]; mwKitkat=[]; scEcho=[]; hmShadows=[]; hmEyes=[]; _hmEyeCD=150; hmWisps=[]; _hmWispCD=120; saWin=null; hmWin=null; saBolts=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; _dlReset(); _wcRainReset(); _azReset(); _duoReset(); popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flCos=null; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susFx=[]; susDark=null; dogeFx=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[]; tick=0;
+  pdPeels=[]; pdFx=[]; pdTexts=[]; njSmoke=[]; mmFly=[]; mmWall=[]; mmFx=[]; idMito=[]; fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; bxFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; frRem=null; dpRainK=0; dpRipples=[]; dpWx={cloud:0, rain:0, storm:0, nextBolt:0, bolt:null, nextFlash:0, flash:null}; psCine=null; psWipe=null; psShards=[]; psDust=[]; psCrater=null; mwBits=[]; mwShards=[]; mwKitkat=[]; scEcho=[]; hmShadows=[]; hmEyes=[]; _hmEyeCD=150; hmWisps=[]; _hmWispCD=120; saWin=null; hmWin=null; saBolts=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; _dlReset(); _wcRainReset(); _azReset(); _duoReset(); popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flCos=null; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susFx=[]; susDark=null; dogeFx=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[]; tick=0;
   screenShake={x:0,y:0,dur:0,str:0}; slowMoTimer=0; hitStopFrames=0; hitStopCD=0; koZoom=0;
 }
 function ffa3Start(){

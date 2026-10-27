@@ -49,6 +49,26 @@ Mẫu đã duyệt:
 - Muốn vật khổng lồ trông to thì đưa máy quay lại gần / đổi góc, KHÔNG phóng to meme nhỏ lên cho vừa khung (làm vật khổng lồ trông bé đi). Chỉ phóng to khi kịch bản bảo nhân vật hoá to (vd Chonky to gấp 3 con quỷ).
 - Chịu khó đổi góc máy (cận, góc thấp/ngước, qua vai, toàn cảnh) — đừng để cả cảnh chỉ là 1 khung rộng nhìn toàn canvas.
 
+## Phân việc ảnh / hiệu ứng (anh dặn 27/10/2026)
+- Ảnh NHÂN VẬT (thân, tóc, tư thế) do anh tự vẽ bằng ChatGPT rồi gửi. Claude CHỈ làm hiệu ứng / VFX / skill bằng code (hào quang, tia điện, nứt tường...).
+  KHÔNG tự vẽ bộ phận nhân vật bằng code (đã làm tóc Goku cho Saiyan Marmot → anh bắt gỡ).
+
+## Nhật ký gần đây (cho phiên sau nắm) — Ver 394, 27/10/2026
+- 🦫 **Saiyan Marmot** (`saiyanmarmot`, meme mới): code khối `MM_*` / `_mm*` trong js/game.js.
+  Thường: chạm là xô 45 + đẩy văng; đi đủ 2s → đứng gồng 1.5s (`marmot_scream`); lần 3 hét 3s (`marmot_ssj`) → Super Saiyan vĩnh viễn (hào quang vàng + tia điện vẽ code).
+  SSJ: chạm → khựng 0.5s → bắn địch thẳng vào tường (34px/tick) → ghim 1s, 160 dame → tường vỡ (`mmWall`, giữ tới hết trận), địch rời đi thì mảnh rơi (`mmFx` 'chunk').
+  Lỗ cũ trùm ±0.8×size quanh điểm đập → địch bay ra ngoài sàn → `_susEject` (thua thẳng). Quân triệu hồi bị xử y hệt (ra ngoài thì `_forceKill`).
+  Nạn nhân đang bị giữ/bay/ghim mang cờ `_mmHeld` (return sớm trong `_updateCore`, vị trí do `_mmWorldTick` cầm). Miễn bay: loooongcat, evillarry, chonkydog, berserk <30% (ăn 160 tại chỗ).
+  **Ảnh đang là ảnh TẠM** tách tay từ GIF Giphy (`assets/img/saiyanmarmot/MM_IDLE.png`, `MM_SCREAM.png`, avatar `assets/avatars/saiyanmarmot/avatarUrl.png`), mặt quay TRÁI.
+  Chờ anh gửi ảnh ChatGPT: dạng thường KHÔNG tóc (thay MM_IDLE/MM_SCREAM), Super Saiyan tóc vàng → lưu `MM_SSJ_IDLE.png` / `MM_SSJ_SCREAM.png` (code tự dùng khi có file).
+  Các khung phải cùng khung cắt/chân chạm đáy. Ảnh mới quay mặt PHẢI thì bỏ `saiyanmarmot` khỏi 2 danh sách quay-mặt-trái (facingDefault + `_selSideRender`).
+- ⚔️ **Catvader — Force kiểu Neo chặn đạn (Matrix)**: `_cvForce*`, `CV_FORCE_*`. 5s/lượt, đạn địch bay vào vùng 4.2×thân → đứng hình 0.9s (gợn sóng + thấu kính bẻ cong không khí `_cvMatrixRipple`) → bắn ngược về địch, đúng dame gốc.
+  Chỉ bắt đạn trong mảng `projectiles` (kunai, Morse, Beluga...). Chữ Duolingo, batarang, búa, chảo... là hệ riêng → CHƯA bắt (anh muốn thì làm thêm).
+- 🥷 **Ninja Cat**: Sharingan không bao giờ đâm vào mặt nữa — lưng địch sát tường thì NHỊN (`_njWait`, giữ lượt), địch có chỗ sau lưng là cast ngay; đã tan khói mà địch lùi sát tường thì ẩn chờ thêm ≤1.5s rồi hiện lại, trả lượt.
+  Lúc đâm khoá hướng nhìn địch (`_njFaceBy` / `_njFaceL` ở chỗ tính `shouldFaceLeft`) để nó không quay lại nhìn Ninja.
+- 🧪 Máy anh không có node/python: chạy thử trận bằng Edge headless + DevTools (script PowerShell để ngoài repo). Cổng 9333 thường bị Edge của PHIÊN KHÁC chiếm → dùng cổng khác, kiểm cổng trước.
+  `release.py` cần python → làm tay đúng các bước của nó (tăng GAME_VERSION + giờ VN, đổi `?v=`, thêm file mới vào assets-manifest.json, commit "Ver N: ...", push).
+
 ## Phát hành
 - **Làm xong là TỰ ĐẨY LÊN `main` luôn** (người dùng đã dặn, không cần hỏi lại): commit trên nhánh làm việc rồi `git push origin HEAD:main` (fast-forward).
 - Đừng tự thêm tính năng/hiệu ứng người dùng không yêu cầu; muốn thêm thì hỏi trước.
