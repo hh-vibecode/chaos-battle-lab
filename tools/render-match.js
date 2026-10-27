@@ -15,7 +15,7 @@ const ROOT = path.resolve(__dirname, '..');
 const args = process.argv.slice(2), OUT = path.resolve(args[0] || 'match.mp4');
 const opt = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; };
 const A = opt('--a'), B = opt('--b'), FPS = +opt('--fps', 60), VW = +opt('--w', 1440), VH = Math.round(VW * 16 / 9);
-const WANT = +opt('--want', 5);   // --win/--close: gom đủ bấy nhiêu trận đúng ý rồi chọn trận sát nhất
+const WANT = +opt('--want', 5), MIN = +opt('--min', 0);   // --min: chạy thử ÍT NHẤT bấy nhiêu trận rồi mới chọn   // --win/--close: gom đủ bấy nhiêu trận đúng ý rồi chọn trận sát nhất
 const WIN = opt('--win', null), CLOSE = opt('--close', null) == null ? null : +opt('--close'), TRIES = +opt('--tries', 12), MAXSEC = +opt('--max', 240);
 const SIM = +opt('--sim', 0), SIMW = +opt('--simw', 360), BEST = +opt('--best', 10), RANDOM = args.includes('--random');
 let SEED = opt('--seed', null) == null ? null : +opt('--seed');
@@ -36,6 +36,8 @@ async function openMatch(br, PORT, seed, cw) {
     document.querySelectorAll('.screen').forEach(el => el.classList.remove('active')); document.getElementById('selectScreen').classList.add('active');
     goToBattle(); }, { A, B, cw });
   await pg.waitForTimeout(1500);
+  await pg.waitForLoadState('networkidle').catch(() => {});   // ảnh/tiếng tải lười của 2 meme phải về HẾT trước khi bấm START (tải muộn giữa trận làm trận chạy lệch so với lúc thử)
+  await pg.waitForTimeout(500);
   await pg.evaluate(() => document.fonts.ready);
   await pg.waitForFunction(() => [...document.images].every(i => i.complete), null, { timeout: 60000 }).catch(() => {});
   await pg.evaluate(seed => {
@@ -92,7 +94,7 @@ const ok = r => (!WIN || r.win === WIN) && (CLOSE == null || (r.win && (() => { 
   // 🔎 dò trước kết quả (chỉ khi có yêu cầu thắng/thua) — chạy nhanh ở độ phân giải thấp, KHÔNG quay
   if (SEED == null && (WIN || CLOSE != null)) {
     const hits = [];   // gom các trận đúng ý, đủ WANT trận (hoặc hết TRIES) thì lấy trận SÁT SAO NHẤT (con thắng còn ít máu nhất)
-    for (let k = 0; k < TRIES && hits.length < WANT; k++) {
+    for (let k = 0; k < TRIES && (k < MIN || hits.length < WANT); k++) {
       const sd = (Date.now() + k * 7919) >>> 0, pg = await openMatch(br, PORT, sd, 360);
       while (!(await pg.evaluate(STEP, { n: 240, FPS, stopAt: 14 })) && (await pg.evaluate(() => __vt)) < MAXSEC) {}
       const r = await pg.evaluate(RESULT); await pg.close();
