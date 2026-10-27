@@ -15,6 +15,7 @@ const ROOT = path.resolve(__dirname, '..');
 const args = process.argv.slice(2), OUT = path.resolve(args[0] || 'match.mp4');
 const opt = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; };
 const A = opt('--a'), B = opt('--b'), FPS = +opt('--fps', 60), VW = +opt('--w', 1440), VH = Math.round(VW * 16 / 9);
+const WANT = +opt('--want', 5);   // --win/--close: gom đủ bấy nhiêu trận đúng ý rồi chọn trận sát nhất
 const WIN = opt('--win', null), CLOSE = opt('--close', null) == null ? null : +opt('--close'), TRIES = +opt('--tries', 12), MAXSEC = +opt('--max', 240);
 const SIM = +opt('--sim', 0), SIMW = +opt('--simw', 360), BEST = +opt('--best', 10), RANDOM = args.includes('--random');
 let SEED = opt('--seed', null) == null ? null : +opt('--seed');
@@ -90,13 +91,15 @@ const ok = r => (!WIN || r.win === WIN) && (CLOSE == null || (r.win && (() => { 
     console.log(`✅ chạy thử xong ${SIM} trận · ${((Date.now() - T0) / 1000).toFixed(0)}s`); await br.close(); srv.close(); return; }
   // 🔎 dò trước kết quả (chỉ khi có yêu cầu thắng/thua) — chạy nhanh ở độ phân giải thấp, KHÔNG quay
   if (SEED == null && (WIN || CLOSE != null)) {
-    for (let k = 0; k < TRIES && SEED == null; k++) {
+    const hits = [];   // gom các trận đúng ý, đủ WANT trận (hoặc hết TRIES) thì lấy trận SÁT SAO NHẤT (con thắng còn ít máu nhất)
+    for (let k = 0; k < TRIES && hits.length < WANT; k++) {
       const sd = (Date.now() + k * 7919) >>> 0, pg = await openMatch(br, PORT, sd, 360);
       while (!(await pg.evaluate(STEP, { n: 240, FPS, stopAt: 14 })) && (await pg.evaluate(() => __vt)) < MAXSEC) {}
       const r = await pg.evaluate(RESULT); await pg.close();
-      console.log(`  thử seed ${sd}: ${fmt(r)}${ok(r) ? '  ✔' : ''}`);
-      if (ok(r)) SEED = sd;
+      console.log(`  thử #${k + 1} seed ${sd}: ${fmt(r)}${ok(r) ? '  ✔' : ''}`);
+      if (ok(r)) { const h = r.hp[r.win === 'a' ? 0 : 1]; hits.push({ sd, k: h[1] / h[2], r }); }
     }
+    if (hits.length) { hits.sort((x, y) => x.k - y.k); SEED = hits[0].sd; console.log(`🏆 ${hits.length} trận đúng ý · chọn trận sát sao nhất: seed ${SEED} · ${fmt(hits[0].r)}`); }
     if (SEED == null) { console.log(`❌ ${TRIES} lần thử chưa ra trận đúng ý`); await br.close(); srv.close(); process.exit(1); }
   }
   // 🏆 mặc định: chạy thử BEST trận, lấy trận sát sao nhất (con thắng còn ÍT máu nhất, phải có người thắng)
