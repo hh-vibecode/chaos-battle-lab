@@ -5705,7 +5705,7 @@ function _duoTick(){
     let hit=null;
     for(const u of [...fighters.filter(o=>!o.dead && o.team!==w.team), ..._summonFoes(w.team)]) if(Math.hypot(u.x-w.x,u.y-w.y)<(u.size||20)+w.r){ hit=u; break; }
     if(hit){ _duoHitUnit(hit,w.dmg,w.owner);
-      if(tick-(_duoTick._snd||-99)>=6){ _duoTick._snd=tick; playSample('duo_correct',0.9); }   // ✅ tiếng "correct" của app mỗi đòn trúng (cùng nhịp chỉ 1 tiếng)
+      if(tick-(_duoTick._snd||-99)>=6){ _duoTick._snd=tick; playSample(Math.random()<0.5?'duo_correct':'duo_wrong',0.9); }   // ✅❌ đòn trúng: ngẫu nhiên tiếng ĐÚNG hoặc SAI của app cho đa dạng (cùng nhịp chỉ 1 tiếng)
       { const D=w.owner && w.owner._duo; if(D && D.clock>0 && !w.owner.dead){ D.clock=Math.max(0,D.clock-Math.round(DUO_TPS*DUO_HIT_SEC)); D.tickFx=12; } }   // ⏰ mỗi lần trúng: đồng hồ tụt 0.3s
       if(L.push){ const a=Math.atan2(hit.y-w.y,hit.x-w.x); hit.vx=(hit.vx||0)+Math.cos(a)*6; hit.vy=(hit.vy||0)+Math.sin(a)*6; }
       duoFx.push({k:'pop',x:w.x,y:w.y,col:L.col,t:0,T:14}); duoWords.splice(i,1); continue; }
