@@ -2669,12 +2669,9 @@
   let MUS=[];
   // 🎵 nhạc nền theo từng phần phim (không lặp 1 đoạn ngắn nữa) · vol đã cân theo độ to (LUFS) của từng bài · off = bắt đầu từ giây thứ mấy của bài
   const MUS_DEF=[ {src:'assets/audio/cine_ambient_war.mp3',a:0.5,b:186.55,vol:0.4,loop:true,fi:2.0,fo:2.0},   // 🌫️ âm nền chiến trường (gió, lửa lách tách, tiếng nổ xa) lót dưới nhạc suốt trận
-      {src:'assets/audio/cine_pufino.mp3',a:0,b:69.15,vol:0.5,fi:1.0,fo:0.5}, {src:'assets/audio/flyingcat_theme.mp3',a:69.15,b:77.15,vol:0.6,fi:0.3,fo:0.8},   // ⚔️ nhạc Star Wars sẵn của Catvader
-      {src:'assets/audio/cine_pufino.mp3',a:77.15,b:89.75,vol:0.5,off:68.45,fi:1.0,fo:1.5},                 // Pufino – Adventures Begin: đại chiến mở màn → Stalin/Catler → Spider/UIA → Chonky → King Cheems
+      /* 🚫 đã bỏ nhạc Pufino – Adventures Begin (freetouse.com, bị YouTube claim bản quyền 27/10) */ {src:'assets/audio/flyingcat_theme.mp3',a:69.15,b:77.15,vol:0.6,fi:0.3,fo:0.8},   // ⚔️ nhạc Star Wars sẵn của Catvader
       {src:'assets/audio/cine_horns.mp3',a:89.75,b:98.25,vol:0.7,fi:0.8,fo:1.0},                            // kèn u ám: quỷ giật dây · Giga quyết định
-      {src:'assets/audio/cine_aylex.mp3',a:98.25,b:152.75,vol:0.44,fi:0.6,fo:2.0},                          // Aylex – Cinematic: trận khổng lồ Giga vs quỷ → bom vĩ thú → Chonky thiên thạch → phong ấn
       {src:'assets/audio/cine_heart_fast.mp3',a:152.75,b:157.75,vol:0.7,loop:true,fo:0.3},                  // tim đập: Evil Gary bị xé đôi
-      {src:'assets/audio/cine_pufino.mp3',a:157.75,b:176.75,vol:0.5,off:75,fi:0.6,fo:1.0},                  // Pufino (đoạn cao trào): đọ chưởng cuối, cả dàn meme hợp sức
       {src:'assets/audio/cine_horns.mp3',a:186.55,b:190.75,vol:0.45,fi:1.2,fo:1.0}, {src:'assets/audio/dp_akatsuki.mp3',a:193.85,b:1e9,vol:0.7,fi:0.2} ];
   function musSetup(){ musStop(); MUS=MUS_DEF.map(d=>Object.assign({el:Object.assign(new Audio(d.src),{preload:'auto'})},d,{b:Math.min(d.b,DUR)}));
     for(const m of MUS) m.el.loop=!!m.loop; }
