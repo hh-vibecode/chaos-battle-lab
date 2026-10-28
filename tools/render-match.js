@@ -102,6 +102,12 @@ async function openMatch(br, PORT, seed, cw) {
   return pg;
 }
 const TAIL = +opt('--tail', 10);   // quay thêm tối đa bao nhiêu giây sau khi hạ địch (cảnh thắng của Friend/Evil Gary... chạy mãi không tự dừng)
+// ⚡ TĂNG TỐC (thêm 28/10/2026):
+//   --par N : chạy thử N trận CÙNG LÚC (mỗi trận 1 tab riêng, seed + đồng hồ ảo riêng → kết quả y hệt chạy lần lượt). Mặc định 1 = như cũ.
+//   --hw    : (chỉ macOS) nén video bằng chip phần cứng VideoToolbox thay libx264 — nhanh hơn nhiều, file to hơn chút.
+//   --preset: preset libx264 khi không dùng --hw (mặc định medium; 'fast'/'veryfast' nhanh hơn, chất lượng giảm nhẹ).
+const PAR = Math.max(1, +opt('--par', 1)), HW = args.includes('--hw') && process.platform === 'darwin', PRESET = opt('--preset', 'medium');
+const VENC = HW ? ['-c:v', 'h264_videotoolbox', '-b:v', '25M', '-maxrate', '35M', '-bufsize', '50M', '-allow_sw', '1'] : ['-c:v', 'libx264', '-preset', PRESET, '-crf', '17'];
 const STEP = ({ n, FPS, stopAt }) => {
   for (let k = 0; k < n; k++) {
     __vEnded();
@@ -123,45 +129,45 @@ const ok = r => (!WIN || r.win === WIN) && (CLOSE == null || (r.win && (() => { 
     fs.readFile(f, (e, d) => { if (e) { r.writeHead(404); r.end(); return; } r.writeHead(200, { 'Content-Type': MIME[path.extname(f)] || 'application/octet-stream' }); r.end(d); }); });
   await new Promise(r => srv.listen(0, '127.0.0.1', r)); const PORT = srv.address().port;
   const br = await chromium.launch({ args: GPU });
-  const T0 = Date.now();
+  const T0 = Date.now(), base = Date.now();
+  // 1 trận chạy thử (không quay) · pool chạy nhiều trận song song (--par), mỗi trận 1 tab riêng
+  const simulate = async (sd, w) => { const pg = await openMatch(br, PORT, sd, w);
+    while (!(await pg.evaluate(STEP, { n: 240, FPS, stopAt: 14 })) && (await pg.evaluate(() => __vt)) < MAXSEC) {}
+    const r = await pg.evaluate(RESULT); await pg.close(); return r; };
+  const pool = async (seeds, w, onDone) => { let i = 0;
+    await Promise.all(Array.from({ length: Math.min(PAR, seeds.length) }, async () => { while (i < seeds.length) { const k = i++; onDone(k, seeds[k], await simulate(seeds[k], w)); } })); };
   // 🧪 chỉ chạy thử N trận, in kết quả (không quay)
   if (SIM) { const rows = [];
-    for (let k = 0; k < SIM; k++) { const sd = SEED != null ? SEED + k : ((Date.now() + k * 7919) >>> 0), pg = await openMatch(br, PORT, sd, SIMW);
-      while (!(await pg.evaluate(STEP, { n: 240, FPS, stopAt: 14 })) && (await pg.evaluate(() => __vt)) < MAXSEC) {}
-      const r = await pg.evaluate(RESULT); await pg.close(); rows.push({ sd, r });
-      console.log(`  #${k + 1} seed ${sd}: ${fmt(r)}`); }
+    await pool(Array.from({ length: SIM }, (_, k) => SEED != null ? SEED + k : ((base + k * 7919) >>> 0)), SIMW, (k, sd, r) => { rows.push({ sd, r }); console.log(`  #${k + 1} seed ${sd}: ${fmt(r)}`); });
     fs.writeFileSync(OUT + '.sim.json', JSON.stringify(rows));
     console.log(`✅ chạy thử xong ${SIM} trận · ${((Date.now() - T0) / 1000).toFixed(0)}s`); await br.close(); srv.close(); return; }
   // 🔎 dò trước kết quả (chỉ khi có yêu cầu thắng/thua) — chạy nhanh ở độ phân giải thấp, KHÔNG quay
   if (SEED == null && (WIN || CLOSE != null)) {
     const hits = [];   // gom các trận đúng ý, đủ WANT trận (hoặc hết TRIES) thì lấy trận SÁT SAO NHẤT (con thắng còn ít máu nhất)
-    for (let k = 0; k < TRIES && (k < MIN || hits.length < WANT); k++) {
-      const sd = (Date.now() + k * 7919) >>> 0, pg = await openMatch(br, PORT, sd, 360);
-      while (!(await pg.evaluate(STEP, { n: 240, FPS, stopAt: 14 })) && (await pg.evaluate(() => __vt)) < MAXSEC) {}
-      const r = await pg.evaluate(RESULT); await pg.close();
-      console.log(`  thử #${k + 1} seed ${sd}: ${fmt(r)}${ok(r) ? '  ✔' : ''}`);
-      if (ok(r)) { const h = r.hp[r.win === 'a' ? 0 : 1]; hits.push({ sd, k: h[1] / h[2], r }); }
+    for (let k = 0; k < TRIES && (k < MIN || hits.length < WANT); k += PAR) {   // mỗi đợt PAR trận song song, xong đợt mới xét đủ chưa
+      await pool(Array.from({ length: Math.min(PAR, TRIES - k) }, (_, j) => (base + (k + j) * 7919) >>> 0), 360, (j, sd, r) => {
+        console.log(`  thử #${k + j + 1} seed ${sd}: ${fmt(r)}${ok(r) ? '  ✔' : ''}`);
+        if (ok(r)) { const h = r.hp[r.win === 'a' ? 0 : 1]; hits.push({ sd, k: h[1] / h[2], r }); } });
     }
     if (hits.length) { hits.sort((x, y) => x.k - y.k); SEED = hits[0].sd; console.log(`🏆 ${hits.length} trận đúng ý · chọn trận sát sao nhất: seed ${SEED} · ${fmt(hits[0].r)}`); }
     if (SEED == null) { console.log(`❌ ${TRIES} lần thử chưa ra trận đúng ý`); await br.close(); srv.close(); process.exit(1); }
   }
   // 🏆 mặc định: chạy thử BEST trận, lấy trận sát sao nhất (con thắng còn ÍT máu nhất, phải có người thắng)
   if (SEED == null && !RANDOM && BEST > 0) { let best = null;
-    for (let k = 0; k < BEST; k++) { const sd = (Date.now() + k * 7919) >>> 0, pg = await openMatch(br, PORT, sd, SIMW);
-      while (!(await pg.evaluate(STEP, { n: 240, FPS, stopAt: 14 })) && (await pg.evaluate(() => __vt)) < MAXSEC) {}
-      const r = await pg.evaluate(RESULT); await pg.close();
+    await pool(Array.from({ length: BEST }, (_, k) => (base + k * 7919) >>> 0), SIMW, (k, sd, r) => {
       const h = r.win ? r.hp[r.win === 'a' ? 0 : 1] : null, k2 = h && h[1] > 0 ? h[1] / h[2] : null;
       console.log(`  thử #${k + 1} seed ${sd}: ${fmt(r)}`);
-      if (k2 != null && (!best || k2 < best.k)) best = { sd, k: k2, r }; }
+      if (k2 != null && (!best || k2 < best.k || (k2 === best.k && sd < best.sd))) best = { sd, k: k2, r }; });
     if (best) { SEED = best.sd; console.log(`🏆 trận sát sao nhất: seed ${SEED} · ${fmt(best.r)}`); } }
   if (SEED == null) SEED = (Date.now() ^ (Math.random() * 1e9)) >>> 0;
+  console.log(`⏱️ chạy thử mất ${((Date.now() - T0) / 1000).toFixed(0)}s${PAR > 1 ? ` (song song ${PAR})` : ''}`);
   // 🎥 quay thật ở 2K
-  console.log(`🎬 quay seed ${SEED} · ${VW}x${VH} @${FPS}fps`);
+  console.log(`🎬 quay seed ${SEED} · ${VW}x${VH} @${FPS}fps · nén ${HW ? 'VideoToolbox (phần cứng)' : 'libx264 ' + PRESET}`);
   const pg = await openMatch(br, PORT, SEED, VW);
   const cdp = await pg.context().newCDPSession(pg);
   const rc = await pg.evaluate(() => { const r = document.getElementById('arena').getBoundingClientRect(); return { x: r.x, y: r.y, width: r.width, height: r.height }; });
   const tmpV = OUT + '.video.mp4';
-  const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(FPS), '-c:v', 'mjpeg', '-i', '-', '-vf', `scale=${VW}:${VH}:flags=lanczos`, '-c:v', 'libx264', '-preset', 'medium', '-crf', '17', '-pix_fmt', 'yuv420p', '-r', String(FPS), tmpV], { stdio: ['pipe', 'inherit', 'inherit'] });
+  const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(FPS), '-c:v', 'mjpeg', '-i', '-', '-vf', `scale=${VW}:${VH}:flags=lanczos`, ...VENC, '-pix_fmt', 'yuv420p', '-r', String(FPS), tmpV], { stdio: ['pipe', 'inherit', 'inherit'] });
   let i = 0, hold = 0;
   for (;;) {
     const fin = await pg.evaluate(STEP, { n: 1, FPS, stopAt: Math.round(TAIL * FPS) });
