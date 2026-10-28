@@ -18,7 +18,7 @@ const FILMS = { war: { play: 'playCineWar', step: '_cineWarStep', canvas: '_cine
   l2e3: { play: 'playCineL2E3', step: '_cineL2E3Step', canvas: '_cineL2E3Canvas', info: '_cineL2E3Info', ready: '_cineL2E3Ready' } }, FM = FILMS[film];   // SUB: số bước mô phỏng / khung (hạt, rung… chạy theo nhịp 60Hz như lúc xem)
 const opt = k => { const i = args.indexOf(k); return i >= 0 ? parseFloat(args[i + 1]) : null; };
 const sopt = k => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : null; }, INTRO = sopt('--intro') ? path.resolve(sopt('--intro')) : null;
-const PART = args.includes('--part'), JOBS = Math.max(1, opt('--jobs') || Math.max(2, Math.min(8, require('os').cpus().length - 2)));   // mặc định theo số nhân máy (chừa 2 nhân), tối đa 8 cho khỏi tràn RAM
+const PART = args.includes('--part'), JOBS = Math.max(1, opt('--jobs') || 3);   // ⚠️ anh dặn: chạy NHIỀU tiến trình làm MacBook vừa LAG vừa LÂU hơn → mặc định 3 (trước là 6). Đừng tăng nếu anh không yêu cầu.
 const TSTART = Date.now(), WEBC = args.includes('--webcodecs');
 // --webcodecs : trình duyệt tự nén H.264 bằng phần cứng (WebCodecs → VideoToolbox) → bỏ hẳn khâu JPEG 4K + chuyển ~10MB base64/khung + ffmpeg nén lại.
 //               Tự kiểm hỗ trợ; không có thì quay về cách JPEG cũ (in ra '↩').
