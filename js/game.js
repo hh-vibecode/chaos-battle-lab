@@ -24024,7 +24024,7 @@ function openCinema(folder){
                                                               {id:'__lore2', ic:'🌑', name:'Meme Lore 2', desc:'Pain is coming… (Shorts 9:16)', folder:true}]},
     __lore2:{ title:'🌑 MEME LORE 2', back:'', items:[{id:'__dpwindow', ic:'🪟', name:'Ep 1 · Depressed Cat Comes Home', desc:"He looks up at the window… This world shall know pain.", dur:23},
                                                        {id:'__l2e2', ic:'🗿', name:'Ep 2 · Into the Dark', desc:"A dark gate opens and Evil Gary falls into a cave… where something is waiting.", dur:25},
-                                                       {id:'__l2e3', ic:'🌋', name:'Ep 3 · The High Ground', desc:"Supreme Cat has the high ground. Grumpy is reborn as Catvader… and the Meowcatsuki set Friend free.", dur:60}]} };
+                                                       {id:'__l2e3', ic:'🌋', name:'Ep 3 · The High Ground', desc:"Supreme Cat has the high ground. Grumpy is reborn as Catvader… and the Meowcatsuki set Friend free.", dur:62}]} };
   const L=LORE[folder||'__top'];
   const ov=document.createElement('div'); ov.id='cinemaGallery';
   ov.style.cssText='position:fixed;inset:0;z-index:9000;background:radial-gradient(ellipse at top,#2a1b3d,#0b0712 70%);overflow:auto;padding:28px 16px 40px;font-family:system-ui,Arial,sans-serif;color:#fff;';
