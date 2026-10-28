@@ -40,7 +40,7 @@ description: Danh sách việc khi THÊM MEME MỚI (hoặc đổi hẳn skill m
 
 ## 4. Âm thanh
 - [ ] File vào `assets/audio/`, khai báo trong `AUDIO_SAMPLES`; meme có tiếng đánh riêng → thêm vào `CHARS_OWN_SOUND` (tắt tiếng hit mặc định);
-      có VFX trúng đòn riêng → `CHARS_OWN_HIT_VFX`. Tải tiếng từ myinstants được (Invoke-WebRequest).
+      có VFX trúng đòn riêng → `CHARS_OWN_HIT_VFX`. Tải tiếng từ myinstants được (`curl -L -o` trên Mac, `Invoke-WebRequest -OutFile` trên Windows).
 - [ ] Ảnh/tiếng mới → `js/asset-groups.js` nhóm `<key>`.
 
 ## 5. Kiểm + phát hành + ghi chú

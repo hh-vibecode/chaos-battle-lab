@@ -1,32 +1,32 @@
 ---
 name: phat-hanh
-description: Phát hành bản mới Chaos Battle Lab lên main trên máy Windows của anh Hải (không có python nên KHÔNG chạy được tools/release.py) — tăng số bản + giờ VN, gắn ?v=, cập nhật assets-manifest.json, commit "Ver N: ...", push. Dùng mỗi khi làm xong việc trong game (anh đã dặn làm xong là tự đẩy, không cần hỏi).
+description: Phát hành bản mới Chaos Battle Lab lên main (Mac hoặc Windows) — tăng số bản + giờ VN, gắn ?v=, cập nhật assets-manifest.json, commit "Ver N: ...", push. Dùng mỗi khi làm xong việc trong game (anh đã dặn làm xong là tự đẩy, không cần hỏi).
 ---
 
-# Phát hành bản mới (thay tools/release.py)
+# Phát hành bản mới
 
-> Đang ở **MacBook** (có python3) → cứ `python3 tools/release.py "mô tả"` như cũ; skill này chỉ cho máy Windows.
+`tools/x/release.js` làm đúng các bước của `tools/release.py` nhưng chạy được cả máy không có python.
+Chạy: **Mac** `node tools/x/release.js ...` · **Windows** `powershell -NoProfile -File tools/node.ps1 tools/x/release.js ...`
+(Mac có python3 thì `python3 tools/release.py "mô tả"` vẫn dùng được, nhưng nó luôn `git add -A`.)
 
 ## Trước khi phát hành
-1. `powershell -File tools/win/syntax.ps1` phải OK. Thay đổi có hình/skill → đã chạy thử bằng skill **chay-thu**.
-2. `git -C . status --short` + `git diff --stat`: chỉ có file MÌNH sửa. Thấy file lạ → có thể phiên khác đang sửa cùng lúc → KHÔNG `add -A`, dùng `-files`.
-3. Cập nhật mục "Nhật ký gần đây" trong `CLAUDE.md` nếu thay đổi đáng để phiên sau biết.
+1. `--check js/game.js` OK; thay đổi có hình/skill → đã chạy skill **chay-thu**.
+2. `git status --short` + `git diff --stat`: chỉ có file MÌNH sửa. Thấy file lạ → có thể phiên khác đang sửa cùng lúc → dùng `--files`.
+3. Cập nhật "Nhật ký gần đây" trong `CLAUDE.md` nếu đáng để phiên sau biết.
 
-## Chạy
+## Lệnh
 ```
-powershell -File tools/win/release.ps1 -msg "<mô tả tiếng Anh, kiểu các commit cũ>" -authorName "Hoàng Hải" -authorEmail "<email tài khoản đang dùng>" -files js/game.js,CLAUDE.md,assets/img/<key>/NEW.png
+NODE tools/x/release.js --msg "<English, kiểu commit cũ>" --files js/game.js,CLAUDE.md,assets/img/<key>/NEW.png --author-name "Hoàng Hải" --author-email "<userEmail của phiên>"
 ```
-- `-dryRun` để xem trước số bản + file mới vào manifest mà không ghi gì.
-- Bỏ `-files` = `git add -A` y như release.py (chỉ khi chắc không có ai khác đang sửa repo).
-- Script tự: kiểm remote (đang thua origin thì dừng, bảo `git pull --ff-only origin main`), đổi `GAME_VERSION={build:N,at:"HH:mm · dd/MM/yyyy"}` theo giờ VN,
-  thay mọi `.css?v=` / `.js?v=` trong index.html, dựng lại manifest (giữ thứ tự cũ, cập nhật mã băm, bỏ file đã xoá, thêm file mới), commit qua file `-F`, push `HEAD:main`.
-- Máy này KHÔNG cấu hình tên/email git → luôn truyền `-authorName/-authorEmail` (tên anh: Hoàng Hải; email lấy từ userEmail của phiên).
+- `--dry-run`: xem trước số bản + file mới vào manifest, không ghi gì. `--no-push`: commit nhưng chưa đẩy.
+- Bỏ `--files` = `git add -A`. Máy Windows chưa cấu hình tên/email git → luôn truyền `--author-name/--author-email` (Mac có sẵn thì bỏ qua được).
+- Script tự: dừng nếu đang thua origin (bảo `git pull --ff-only origin main`), đổi `GAME_VERSION={build:N,at:"HH:mm · dd/MM/yyyy"}` giờ VN,
+  thay mọi `.css?v=` / `.js?v=`, dựng lại manifest GIỮ thứ tự cũ (người chơi chỉ tải lại đúng file đổi), commit qua file `-F`, push `HEAD:main`.
 
 ## Mô tả commit
-- Tiếng Anh, bắt đầu bằng tên meme / mục: `Saiyan Marmot: ...; Catvader: ...` (script tự thêm `Ver N: ` và dòng Co-Authored-By).
-- Nói điều NGƯỜI CHƠI thấy, không nói tên biến.
+Tiếng Anh, mở đầu bằng tên meme / mục: `Saiyan Marmot: ...; Catvader: ...` — nói điều NGƯỜI CHƠI thấy, không nói tên biến. Script tự thêm `Ver N: ` + Co-Authored-By.
 
-## ⚠️ Bẫy đã gặp
-- File .ps1 phải ASCII: PowerShell 5.1 đọc UTF-8 không BOM thành ANSI → "·" thành "Â·" (script đã dùng `[char]0x00B7`).
-- Dấu ngoặc kép trong `-m "..."` bị PowerShell 5.1 làm vỡ khi truyền cho git → luôn commit bằng file `-F` (script đã làm).
-- `git push` in ra stderr nên PowerShell báo exit 255 dù push thành công → tin dòng `abc..def  HEAD -> main`.
+## ⚠️ Bẫy đã gặp (Windows)
+- Không gõ `git commit -m "..."` có dấu ngoặc kép trong PowerShell 5.1 (vỡ tham số) → script đã commit bằng file.
+- File .ps1 có tiếng Việt bị PowerShell 5.1 đọc sai mã (· thành Â·) → công cụ viết bằng JS, `tools/node.ps1` chỉ ASCII.
+- `git push` in ra stderr nên PowerShell có thể báo exit 255 dù đã đẩy — tin dòng `abc..def  HEAD -> main`.

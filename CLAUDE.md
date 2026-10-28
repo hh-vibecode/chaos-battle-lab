@@ -72,12 +72,12 @@ Mẫu đã duyệt:
   Không bắt: quả đất Gary, liềm Stalin (vật nảy cả trận, gỡ là hỏng skill), tia laze tức thời (Gundam, Duolingo, King Cheems...).
 - 🥷 **Ninja Cat**: Sharingan không bao giờ đâm vào mặt nữa — lưng địch sát tường thì NHỊN (`_njWait`, giữ lượt), địch có chỗ sau lưng là cast ngay; đã tan khói mà địch lùi sát tường thì ẩn chờ thêm ≤1.5s rồi hiện lại, trả lượt.
   Lúc đâm khoá hướng nhìn địch (`_njFaceBy` / `_njFaceL` ở chỗ tính `shouldFaceLeft`) để nó không quay lại nhìn Ninja.
-- 🧪 Máy anh không có node/python: chạy thử trận bằng Edge headless + DevTools (script PowerShell để ngoài repo). Cổng 9333 thường bị Edge của PHIÊN KHÁC chiếm → dùng cổng khác, kiểm cổng trước.
-  `release.py` cần python → làm tay đúng các bước của nó (tăng GAME_VERSION + giờ VN, đổi `?v=`, thêm file mới vào assets-manifest.json, commit "Ver N: ...", push).
+- 🧪 Máy Windows của anh không có node/python: chạy thử trận + phát hành bằng skill `chay-thu` / `phat-hanh` (công cụ `tools/x/`). Cổng 9333 thường bị trình duyệt của PHIÊN KHÁC chiếm → dùng 9455.
 
 ## Skill của repo (`.claude/skills/`, thêm 28/10/2026)
 - `them-meme` (danh sách việc thêm meme mới) · `tach-nen-anh` (ảnh ChatGPT nền xanh → khung game) · `chay-thu` (chạy thử trận bằng Edge headless) · `phat-hanh` (đẩy bản mới không cần python).
-- Script Windows ở `tools/win/` (ASCII-only, PowerShell 5.1). Trên MacBook dùng `tools/release.py` / `tools/render-match.js` như cũ.
+- Công cụ chung Mac + Windows ở `tools/x/*.js` (Node thuần, không npm): Mac `node tools/x/X.js`, Windows `powershell -NoProfile -File tools/node.ps1 tools/x/X.js`
+  (máy Windows không có node → `tools/node.ps1` mượn Node của VS Code). `tools/release.py` / `tools/render-match.js` cũ vẫn giữ cho Mac.
 - Làm ra công cụ / quy trình dùng lại được → TỰ đề xuất (hoặc tạo) skill mới, đừng để anh phải hỏi.
 
 ## Phát hành
