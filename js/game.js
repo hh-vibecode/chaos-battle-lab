@@ -5725,12 +5725,14 @@ const DUO_AURA_PAL={
   orange:{core:[255,240,180], mid:[255,150,30],  tip:[240,70,10],  glow:[255,140,40]},
   red:   {core:[255,225,190], mid:[255,70,30],   tip:[170,0,0],    glow:[255,40,30]},
   ult:   {core:[255,205,90],  mid:[255,62,16],   tip:[210,0,0],    glow:[255,30,20]},   // 🔴 LAST CHANCE: lửa nhọn bao kín người
+  ssj:   {core:[255,255,215], mid:[255,215,40],  tip:[255,150,0],  glow:[255,210,60]},   // 🦫 Saiyan Marmot: lửa vàng Super Saiyan
+  ki:    {core:[255,255,255], mid:[225,240,255], tip:[160,205,255], glow:[200,230,255]},  // 🦫 Saiyan Marmot đang gồng: khí trắng
 };
 const _duoRGBA=(c,a)=>`rgba(${c[0]},${c[1]},${c[2]},${a})`;
 function _duoAuraDraw(st,cx,cy,rx,ry,pal,k,tm){
   const P=DUO_AURA_PAL[pal]; if(!P || k<=0.01) return;
   st.parts=st.parts||[];
-  const ULT=pal==='ult';
+  const ULT=pal==='ult'||pal==='ssj'||pal==='ki';
   ctx.save();
   if(ULT){   // quầng ĐỎ đậm bao ngoài (màu thật, không cộng sáng)
     const R=Math.max(rx,ry)*1.75, gr=ctx.createRadialGradient(cx,cy,Math.min(rx,ry)*0.7,cx,cy,R);
@@ -10455,14 +10457,14 @@ function _mmTick(f){
   if(f._isHardCC()) return;   // choáng: ngưng gồng/đếm
   if(M.tf>0){ M.tf--; f.vx=f.vy=0; if(M.tf%5===0) addShake(2+3*(1-M.tf/MM_SSJ_T),4);
     if(M.tf%3===0) mmFx.push({k:'rock',x:f.x+(Math.random()-0.5)*f.size*2.4,y:f.y+f.size*(0.6+Math.random()*0.4),vx:0,vy:-1.5-Math.random()*2.5,r:1.5+Math.random()*3,rot:Math.random()*6,t:0,T:40,up:true});
-    if(M.tf===0){ M.ssj=true; addShake(16,24); spawnParticles(f.x,f.y,'#ffd600',30,false,true); mmFx.push({k:'flash',t:0,T:16}); mmFx.push({k:'ring',x:f.x,y:f.y,R:f.size*6,t:0,T:24,c:'255,214,0'});
+    if(M.tf===0){ M.ssj=true; playSample('marmot_ssj',1.0); addShake(16,24); spawnParticles(f.x,f.y,'#ffd600',30,false,true); mmFx.push({k:'flash',t:0,T:16}); mmFx.push({k:'ring',x:f.x,y:f.y,R:f.size*6,t:0,T:24,c:'255,214,0'});
       floatTexts.push({x:f.x,y:f.y-f.size-30,text:'SUPER SAIYAN',color:'#ffd600',life:70,huge:true}); }
     return; }
   if(M.charge>0){ M.charge--; f.vx=f.vy=0; if(M.charge%4===0) mmFx.push({k:'rock',x:f.x+(Math.random()-0.5)*f.size*2,y:f.y+f.size*(0.7+Math.random()*0.3),vx:0,vy:-1-Math.random()*1.5,r:1+Math.random()*2.2,rot:Math.random()*6,t:0,T:30,up:true}); return; }
   if(M.ssj || M.hold) return;
   if(Math.hypot(f.vx,f.vy)>0.3) M.walk++;
   if(M.walk>=MM_WALK_T){ M.walk=0; M.n++;
-    if(M.n>=3){ M.tf=MM_SSJ_T; playSample('marmot_ssj',1.0); floatTexts.push({x:f.x,y:f.y-f.size-26,text:'AAAAAAAAAAH!!',color:'#fff176',life:150,huge:true}); }   // 😱 lần 3: hét dài → biến hình
+    if(M.n>=3){ M.tf=MM_SSJ_T; playSample('marmot_scream',1.0); floatTexts.push({x:f.x,y:f.y-f.size-26,text:'AAAAAAAAAAH!!',color:'#fff176',life:150,huge:true}); }   // 😱 lần 3: hét dài → biến hình
     else { M.charge=MM_CHARGE_T; playSample('marmot_scream',0.9); floatTexts.push({x:f.x,y:f.y-f.size-22,text:'AAAH!',color:'#ffffff',life:60,big:true}); } }
 }
 // đòn đánh: chạm là xô (dạng thường) / khựng + bắn vào tường (Super Saiyan)
@@ -10564,13 +10566,7 @@ function _mmDrawUnder(){
       p=P(a0,D); ctx.lineTo(p[0],p[1]);
       for(let k=5;k>=0;k--){ p=P(a0+(sd[k+10]-0.5)*7*u,-1.5+(D+1.5)*k/5); ctx.lineTo(p[0],p[1]); }                    // đầu gãy phía a0
       ctx.closePath(); ctx.fill(); ctx.restore(); }
-    const ca=b.fresh?1:Math.max(0.35,1-b.t/120);   // vết nứt trên sàn: rõ lúc đang ghim, nhạt dần còn vết mờ
-    ctx.save(); ctx.strokeStyle=`rgba(25,20,15,${0.75*ca})`; ctx.lineWidth=1.6*u; ctx.lineJoin='round';
-    for(const c of b.cracks){ ctx.beginPath(); c.forEach((pt,k)=>k?ctx.lineTo(pt.x,pt.y):ctx.moveTo(pt.x,pt.y)); ctx.stroke(); }
-    if(b.fresh){ ctx.strokeStyle='rgba(20,20,20,0.9)'; ctx.lineWidth=1.3*u;   // nứt chằng chịt trên chính đoạn tường
-      for(let k=0;k<6;k++){ const al=b.a0+(b.a1-b.a0)*sd[k+20]; let p=_mmWP(b.side,al,-1); ctx.beginPath(); ctx.moveTo(p[0],p[1]);
-        for(let m=1;m<=4;m++){ p=_mmWP(b.side,al+(sd[(k*4+m)%40]-0.5)*8*u,-1+m*3.5*u); ctx.lineTo(p[0],p[1]); } ctx.stroke(); } }
-    ctx.restore(); }
+    }   // (đã bỏ vết nứt trên sàn/tường theo yêu cầu: nứt nhìn xấu — chỉ còn lỗ thủng + mảnh tường rơi)
   for(let i=mmFx.length-1;i>=0;i--){ const p=mmFx[i]; p.t++;
     if(p.k==='chunk'){ if(p.vx||p.vy){ p.x+=p.vx; p.y+=p.vy; p.vx*=0.88; p.vy*=0.88; p.rot+=p.vr; p.vr*=0.88; if(Math.hypot(p.vx,p.vy)<0.05){ p.vx=p.vy=0; } }   // mảnh tường rơi ra rồi nằm lại
       ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.fillStyle=p.c; ctx.strokeStyle='rgba(0,0,0,0.5)'; ctx.lineWidth=0.8; ctx.beginPath();
@@ -10581,9 +10577,10 @@ function _mmDrawUnder(){
     else if(p.k==='streak'){ const a=1-p.t/p.T; ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round';
       ctx.strokeStyle=`rgba(255,220,90,${0.45*a})`; ctx.lineWidth=p.w*a; ctx.beginPath(); ctx.moveTo(p.x0,p.y0); ctx.lineTo(p.x1,p.y1); ctx.stroke(); ctx.restore(); } }
   for(const f of fighters){ if(f.type!=='saiyanmarmot' || f.dead || !f._mm) continue; const M=f._mm, L=f._lastSprite, w=(L&&L.dw)||f.size*1.1, h=(L&&L.dh)||f.size*2;
-    if(M.ssj) _mmFlame(f.x,f.y,w*1.65,h*1.15,tick,'255,190,0',1,'255,236,90');
-    else if(M.tf>0){ const k=1-M.tf/MM_SSJ_T; _mmFlame(f.x,f.y,w*(1.3+0.35*k),h*(1+0.15*k),tick,k<0.5?'235,245,255':'255,190,0',0.6+0.4*k,k<0.5?'255,255,255':'255,236,90'); }
-    else if(M.charge>0) _mmFlame(f.x,f.y,w*1.3,h*1.0,tick,'235,245,255',0.6,'255,255,255'); }
+    const A=f._mmAura||(f._mmAura={}), tm=tick/60;
+    if(M.ssj) _duoAuraDraw(A,f.x,f.y,w*0.5,h*0.46,'ssj',1,tm);
+    else if(M.tf>0){ const k=1-M.tf/MM_SSJ_T; _duoAuraDraw(A,f.x,f.y,w*(0.42+0.08*k),h*(0.4+0.06*k),k<0.5?'ki':'ssj',0.55+0.45*k,tm); }
+    else if(M.charge>0) _duoAuraDraw(A,f.x,f.y,w*0.42,h*0.4,'ki',0.6,tm); }
 }
 // ⚡ TRÊN meme: tia điện quanh người Super Saiyan · quả khí dồn lúc khựng · vòng sóng · loé trắng biến hình
 function _mmDrawOver(){
