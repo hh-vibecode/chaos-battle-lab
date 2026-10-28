@@ -246,7 +246,7 @@
   // ───────────────────── 🔊 LỊCH TIẾNG (1 nhịp 1 tiếng) ─────────────────────
   const SFX_PLAN=[[0.3,'ep3_lava',0.7,0],[T.press,'sa_menacing',1.0,0],[T.hit,'bonk',1.0,0],[T.rage,'demon_roar1',1.0,0],[T.crush,'ep3_rock',1.0,0],[T.splash-0.05,'ep3_whoosh',1.0,0],
     [T.pain,'ep3_dark',0.9,0],[T.doorShut,'ep3_klunk',1.0,0],[T.serum,'ep3_hydraulic',0.9,0],[T.ray,'ultimate_charge_2',0.9,0],[T.cool,'gas_leak',0.8,1.6],
-    [T.leg-0.55,'ep3_ratchet',0.8,0],[T.leg,'ep3_klunk',1.0,0],[T.body-0.55,'ep3_ratchet',0.8,0],[T.body,'ep3_klunk',1.0,0],[T.helm,'ep3_shine',1.0,0],
+    [T.leg-0.55,'ep3_ratchet',0.8,0],[T.leg,'ep3_klunk',1.0,0],[T.body-0.55,'ep3_ratchet',0.8,0],[T.body,'ep3_klunk',1.0,0],[T.helm,'ep3_shine',1.0,0],[T.helm+0.15,'flyingcat_theme',0.8,T.cave-T.helm-0.4],
     [T.breath,'ep3_breath',1.0,0],[T.hand,'ep3_force',1.0,0],[T.choke,'ep3_choke',0.9,0],[T.drop+0.35,'pd_fall',0.9,0],
     [T.painOut,'ep3_dark',0.8,0],[T.fist+0.15,'ep3_glass',0.8,0],[T.beams,'ep3_charge',1.0,0],[T.sealBreak,'ep3_glass',1.0,0],[T.cageBurst+0.1,'ep3_chain',1.0,0],[T.dash,'fr_dash',1.0,0],
     [T.shake,'ep3_quake',1.0,0],[T.real,'ep3_titan',1.0,0],[T.grow+0.6,'ep3_rock',0.9,0],[T.out+0.15,'ep3_explode',1.0,0],[T.roar,'titan_roar',1.0,0],[T.hands+0.4,'hm_claw1',0.9,0],[T.title,'ep3_boom',1.0,0]];
