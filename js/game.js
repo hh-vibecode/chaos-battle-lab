@@ -795,7 +795,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     poordog: { key:'poordog', defaultName:'Poor Dog', emoji:'🥣', color:'#c8a165', hp:1000, speed:5, size:39.6, skill:'' },
     ninjacat: { key:'ninjacat', defaultName:'Ninja Cat', emoji:'🥷', color:'#546e7a', hp:1000, speed:5, size:45, skill:'' },
     saiyanmarmot: { key:'saiyanmarmot', defaultName:'Saiyan Marmot', emoji:'🦫', color:'#ffca28', hp:1000, speed:5, size:46, skill:'Cận chiến ĐẨY: chạm địch là xô văng ra như mấy con marmot xô nhau (45 dame). Cứ đi 2s lại đứng gồng 1.5s; lần gồng thứ 3 hét AAAH dài 3s rồi hoá SUPER SAIYAN tới hết trận. Super Saiyan: mỗi lần chạm để đẩy thì khựng 0.5s rồi bắn địch thẳng vào tường cực nhanh, ghim vào tường (160 dame), tường chỗ đó nứt vỡ, rơi mảnh còn lại mép lởm chởm. Lỗ tường vỡ đủ to mà địch bị bắn trúng đúng chỗ đó → văng ra khỏi sàn, thua luôn.' },
-    azel: { key:'azel', defaultName:'Azel', emoji:'🎧', color:'#26c6da', hp:1000, speed:4, size:46, skill:'Không đánh thường. Phát NGUYÊN clip beatbox dubstep của Azel (hình + tiếng, khớp nhịp). Mỗi nhịp của bài = 1 đòn: đoạn build-up chưởng tay chém (14), đoạn đếm số ném số 1→5 (14), đoạn vung tay sóng WUB xuyên địch (14); nhịp bass mạnh = sóng chấn động quanh người 32 + hất văng. Trúng cả quân triệu hồi.' },
+    azel: { key:'azel', defaultName:'Azel', emoji:'🎧', color:'#26c6da', hp:1000, speed:4, size:46, skill:'Không đánh thường. Phát NGUYÊN clip beatbox dubstep của Azel (hình + tiếng, khớp nhịp, tốc ×1.15). Mỗi nhịp của bài = 1 đòn: đoạn build-up lưỡi sóng neon chém (14), đoạn đếm ngón tay: giơ ngón nào thì số đó (1→5) bật ra từ bàn tay bay tới địch (14), đoạn vung tay sóng WUB xuyên địch (14); nhịp bass mạnh = sóng chấn động quanh người 32 + hất văng. Trúng cả quân triệu hồi.' },
     duolingo: { key:'duolingo', defaultName:'Duolingo', emoji:'🦉', color:'#58cc02', hp:1000, speed:5, size:44, skill:'Bắn câu chào nhiều thứ tiếng, mỗi tiếng 1 kiểu bay (¡Hola! thẳng 35 · Bonjour~ lượn sóng 35 · こんにちは tách 3 chữ 15/chữ · HALLO! to chậm 50 + đẩy lùi · Привет nảy tường 30). Đồng hồ học muộn 23s: 23→12s dạng thường, 12→0s khoanh tay (bắn nhanh ×1.5, 2 tiếng/lần), mỗi lần trúng đồng hồ tụt 0.3s, hết giờ mà chưa thắng → dạng tối thượng LAST CHANCE tới hết trận: laser mắt quét 120/s, 3s/lần laser lớn 200, bắn 5 tiếng cùng lúc. Mỗi 4s rơi 1 Streak Freeze (tối đa 1 khối trên sàn, Duo không phá được): địch nhặt được thì đồng hồ dừng + Duo bị nhốt trong khối băng 2s.' },
     slapcat: { key:'slapcat', defaultName:'Slap Cat', emoji:'🐈', color:'#7c4dff', hp:1000, speed:5, size:44, skill:'Vừa chạy vừa tích lực, cứ 2s lại đứng khựng lại VẢ một phát. Cú vả mở 2 cổng không gian: một cổng ngay cạnh Slap Cat và một cổng SAU LƯNG đối thủ — tay thò qua cổng vả trúng địch dù nó đứng bất kỳ đâu trên sàn. Sát thương gốc 120, ĐỨNG CÀNG XA ĐÁNH CÀNG ĐAU (xa tối đa +100%). 30% tỉ lệ gây choáng.' },
     clappingcat: { key:'clappingcat', defaultName:'Clapping Cat', emoji:'👏', color:'#ffb74d', hp:1000, speed:5, size:48.4, skill:'Có nó trong trận thì tường dưới mọc chông và có 1 quả bóng chông lăn qua lại — đâm vào chông hay bóng chông đều mất máu. Sắp lao vào chông thì nó vỗ tay đổi chỗ với địch, để địch lãnh thay. Càng lâu không chạm tường càng chạy nhanh.' },
@@ -5867,80 +5867,173 @@ function _duoDrawOver(){
 }
 
 // ==================== 🎧 AZEL — BEATBOX DUBSTEP (nguyên clip YouTube phông xanh) ====================
-// Hình = NGUYÊN clip Azel beatbox (416 khung, 12.5 khung/giây, đã tách nền) · tiếng = NGUYÊN giai điệu beatbox dubstep của clip.
-// Khung hình chọn theo ĐÚNG vị trí đang phát của tiếng → động tác tay khớp nhịp tuyệt đối (clip lặp liên tục cả trận).
-// Đòn đánh = NHỊP của chính bài (80 nhịp dò sẵn từ audio — AZ_BEATS [giây, mạnh?]); mỗi nhịp tung 1 đòn theo đoạn đang diễn:
-//   0–14s  build-up tay băm băm → CHƯỞNG TAY chém: vệt sóng trắng xanh bay thẳng tới địch
-//   14–21s bắt chéo tay · ĐẾM SỐ → con số 1,2,3,4,5 bay tới địch
-//   21s→   vung tay loạn xạ → sóng âm "WUB" tím lan tới địch
+// Hình = NGUYÊN clip Azel beatbox (416 khung, 12.5 khung/giây, đã tách nền, đã xoá cánh cửa gỗ) · tiếng = NGUYÊN giai điệu beatbox dubstep của clip.
+// Cả nhạc lẫn hình chạy nhanh ×AZ_RATE (1.15). Khung hình chọn theo ĐÚNG vị trí đang phát của tiếng → động tác tay khớp nhịp tuyệt đối.
+// Đòn đánh = NHỊP của chính bài (80 nhịp dò sẵn từ audio — AZ_BEATS [giây trong clip, mạnh?]):
+//   0–14s  build-up tay băm băm → LƯỠI SÓNG NEON chém thẳng tới địch
+//   14–21s bắt chéo tay → lưỡi sóng · 3 lượt ĐẾM NGÓN TAY 1→5: đúng khung giơ thêm ngón nào thì con số đó bật ra TỪ BÀN TAY (AZ_COUNT)
+//   21s→   vung tay loạn xạ → sóng âm "WUB" lan tới địch
 //   nhịp MẠNH (bass) → sóng chấn động quanh người: dame vùng + hất văng + rung màn hình
-// Đòn trúng cả quân triệu hồi có máu. Không có đòn đánh thường nào khác.
-const AZ_N=416, AZ_FPS=12.5, AZ_LEN=33.29, AZ_FR_K=2.28;   // khung rộng (tay vươn xa, đầu ở giữa) → phóng phần HÌNH cho người cao bằng avatar cũ
+// Dưới chân luôn có vòng equalizer nhảy theo nhịp. Đòn trúng cả quân triệu hồi có máu. Không có đòn đánh thường nào khác.
+// 🔇 NHẠC: mọi bản nhạc Azel nằm trong _azAllAudio — stopAllBattleMusic tắt hết; tạm dừng / ra menu / Azel chết / hết trận thì
+//    máy canh _azGuard (4 lần/giây) cũng ép dừng, và _azOff chặn không cho tự bật lại.
+const AZ_N=416, AZ_FPS=12.5, AZ_LEN=33.29, AZ_FR_K=2.28, AZ_RATE=1.15;   // khung rộng (tay vươn xa, đầu ở giữa) → phóng phần HÌNH cho người cao bằng avatar cũ
 const AZ_BEATS=[[0.023,0],[1.405,0],[2.171,0],[2.821,0],[3.425,0],[4.052,0],[4.574,0],[5.143,0],[5.631,0],[6.118,0],[6.56,0],[7.001,0],[7.43,0],[7.837,0],[8.208,0],[8.58,0],[8.905,0],[9.253,0],[9.567,0],[9.868,0],[10.159,0],[10.414,0],[10.704,0],[10.971,0],[11.227,0],[11.471,0],[11.703,0],[11.923,0],[12.156,0],[12.365,0],[12.585,0],[12.806,0],[13.026,0],[13.282,0],[13.595,0],[13.92,0],[14.257,1],[14.78,0],[15.209,0],[15.627,0],[16.045,0],[16.451,0],[16.672,0],[17.775,0],[18.17,1],[18.379,0],[19.052,0],[19.482,0],[19.876,0],[20.097,0],[20.759,0],[21.2,0],[21.537,0],[21.966,1],[22.396,0],[22.825,0],[23.255,1],[23.533,0],[24.114,1],[24.543,1],[24.973,1],[25.24,0],[25.832,1],[26.25,1],[26.691,1],[26.958,0],[27.597,0],[28.073,0],[28.619,0],[28.979,0],[29.338,0],[29.687,1],[30.116,0],[30.534,1],[30.975,1],[31.393,1],[31.835,0],[32.253,1],[32.682,0],[33.112,1]];
+// ✋ đếm ngón tay — dò từng khung clip: [giây trong clip lúc ngón mới giơ lên, số ngón, lượt]
+const AZ_COUNT=[[16.40,1,0],[16.64,2,0],[16.88,3,0],[17.20,4,0],[17.28,5,0],[18.16,1,1],[18.32,2,1],[18.64,3,1],[18.92,4,1],[18.96,5,1],[19.80,1,2],[20.04,2,2],[20.32,3,2],[20.60,4,2],[20.64,5,2]];
+const AZ_COUNT_WIN=[[16.3,17.5],[18.05,19.05],[19.7,20.75]];   // đang đếm thì nhịp thường nhường cho con số
+const AZ_HAND=[[-0.33,-0.30],[0.20,-0.22],[-0.36,-0.07]];       // vị trí bàn tay đếm của từng lượt (tỉ lệ theo khung hình, chưa lật)
 const AZ_V=Array.from({length:AZ_N},(_,n)=>{ const im=new Image(); im._noMask=true; im._azv=true; im.onload=()=>{ im._crop={sx:0,sy:0,sw:im.naturalWidth,sh:im.naturalHeight}; }; im.src='assets/img/azel/AZ_V_'+String(n+1).padStart(3,'0')+'.webp'; return im; });
 const AZ_HIT=14, AZ_DROP=32, AZ_DROP_R=150, AZ_SPD=8.5;
 let azFx=[];
+const _azAllAudio=new Set();
 function _azReset(){ azFx=[]; }
 // vị trí đang phát của clip (giây) — theo tiếng nếu đang phát, không thì theo đồng hồ game
-function _azClipT(f){ const a=f._azAudio; return (a && a!=='fail' && !a.paused) ? (a.currentTime||0)%AZ_LEN : ((tick-(f._azT0||0))/60)%AZ_LEN; }
+function _azClipT(f){ const a=f._azAudio; return (a && a!=='fail' && !a.paused) ? (a.currentTime||0)%AZ_LEN : ((tick-(f._azT0||0))/60*AZ_RATE)%AZ_LEN; }
 function _azFrame(f){ return Math.floor(_azClipT(f)*AZ_FPS)%AZ_N; }
-function _azStartAudio(f){ if(f._azAudio) return; f._azT0=tick; const a=AUDIO_SAMPLES['azel_beat']?.cloneNode(); if(!a){ f._azAudio='fail'; return; }
-  a.loop=true; a.volume=0.9; _registerBgMusic(a,0.9); _mixRoute(a); a.play().catch(()=>{}); f._azAudio=a; f._azBi=0; f._azLast=0; }
-function _azStop(f){ const a=f._azAudio; if(a && a!=='fail'){ try{ a.pause(); }catch(e){} } f._azAudio=null; }
+function _azStartAudio(f){ if(f._azAudio || f._azOff) return; f._azT0=tick; const a=AUDIO_SAMPLES['azel_beat']?.cloneNode(); if(!a){ f._azAudio='fail'; return; }
+  a.loop=true; a.volume=0.9; a.playbackRate=AZ_RATE; _registerBgMusic(a,0.9); _mixRoute(a); a._azOwner=f; _azAllAudio.add(a); a.play().catch(()=>{}); f._azAudio=a; f._azBi=0; f._azCi=0; f._azLast=0; }
+function _azStop(f){ const a=f._azAudio; if(a && a!=='fail'){ _azAllAudio.delete(a); _stopLoopAudio(a); } f._azAudio=null; f._azOff=true; }
+function _azStopAll(){ for(const f of fighters) if(f._azAudio) _azStop(f); for(const a of _azAllAudio) _stopLoopAudio(a); _azAllAudio.clear(); }
+// 🐕 máy canh: nhạc Azel chỉ được kêu khi trận đang chạy, không tạm dừng, chủ còn sống trong trận
+function _azGuard(){ for(const a of _azAllAudio){ if(a.paused) continue; const f=a._azOwner;
+  if(isPaused || !animId || !f || f.dead || f._azOff || !fighters.includes(f) || f._azAudio!==a){ try{ a.pause(); }catch(e){} if(!f || f._azAudio!==a || f.dead || !fighters.includes(f)){ _azAllAudio.delete(a); _stopLoopAudio(a); } } } }
+setInterval(_azGuard,250);
 function _azTick(f){
   if(f._introLock>0) return;
   _azStartAudio(f);
+  const a=f._azAudio; if(a && a!=='fail' && a.paused && !isPaused) a.play().catch(()=>{});   // vừa bị máy canh dừng lúc chuyển cảnh → trận chạy tiếp thì phát tiếp
   const ct=_azClipT(f);
-  if(ct+0.05<(f._azLast||0)) f._azBi=0;   // clip vừa lặp lại từ đầu
+  if(ct+0.05<(f._azLast||0)){ f._azBi=0; f._azCi=0; }   // clip vừa lặp lại từ đầu
   f._azLast=ct;
-  while((f._azBi||0)<AZ_BEATS.length && AZ_BEATS[f._azBi][0]<=ct){ const b=AZ_BEATS[f._azBi++]; if(ct-b[0]<0.3 && !f._isHardCC()) _azAttack(f,b[0],b[1]); }
+  const cc=f._isHardCC();
+  while((f._azBi||0)<AZ_BEATS.length && AZ_BEATS[f._azBi][0]<=ct){ const b=AZ_BEATS[f._azBi++]; if(ct-b[0]<0.3 && !cc && (b[1] || !AZ_COUNT_WIN.some(w=>b[0]>=w[0]&&b[0]<=w[1]))) _azAttack(f,b[0],b[1]); }
+  while((f._azCi||0)<AZ_COUNT.length && AZ_COUNT[f._azCi][0]<=ct){ const c=AZ_COUNT[f._azCi++]; if(ct-c[0]<0.3 && !cc) _azCountShot(f,c[1],c[2]); }
 }
 function _azFoes(f){ return [...fighters.filter(o=>!o.dead && o.team!==f.team), ..._summonFoes(f.team)]; }
 function _azHit(u,dmg,f){ if(fighters.includes(u)) u.takeDamage(dmg,f); else _summonTakeDamage(u,dmg,f); }
 function _azAttack(f,bt,strong){
   if(strong){   // 🔊 bass drop: sóng chấn động quanh người
-    azFx.push({k:'drop',x:f.x,y:f.y,t:0,T:30,R:AZ_DROP_R}); addShake(9,12);
+    azFx.push({k:'drop',x:f.x,y:f.y,t:0,T:34,R:AZ_DROP_R,seed:Math.random()*9}); addShake(9,12);
     for(const u of _azFoes(f)){ const d=Math.hypot(u.x-f.x,u.y-f.y); if(d>AZ_DROP_R+(u.size||20)) continue; _azHit(u,AZ_DROP,f);
       if(!u.dead && fighters.includes(u)){ const a=Math.atan2(u.y-f.y,u.x-f.x); u.vx=(u.vx||0)+Math.cos(a)*9; u.vy=(u.vy||0)+Math.sin(a)*9; } }
     floatTexts.push({x:f.x,y:f.y-f.size-28,text:'WUB!',color:'#e040fb',life:40,big:true}); return; }
   const e=_sdFoe(f); if(!e) return;
-  const a=Math.atan2(e.y-f.y,e.x-f.x), kind=bt<14?'chop':bt<21?'count':'wub';
-  if(kind==='count') f._azCount=((f._azCount||0)%5)+1;
-  azFx.push({k:kind,x:f.x+Math.cos(a)*f.size*0.7,y:f.y-f.size*0.15+Math.sin(a)*f.size*0.7,a,t:0,T:75,team:f.team,owner:f,n:f._azCount||1,hit:new Set(),r:kind==='wub'?22:16});
+  const a=Math.atan2(e.y-f.y,e.x-f.x), kind=bt<21?'chop':'wub';
+  azFx.push({k:kind,x:f.x+Math.cos(a)*f.size*0.7,y:f.y-f.size*0.15+Math.sin(a)*f.size*0.7,a,t:0,T:75,team:f.team,owner:f,hit:new Set(),r:kind==='wub'?22:16,tr:[],flip:Math.random()<0.5?-1:1});
+}
+// ✋ con số bật ra từ đúng bàn tay đang giơ ngón rồi bay tới địch
+function _azCountShot(f,n,round){
+  const e=_sdFoe(f); const S=f._lastSprite, fl=S?S.fl:false, dw=S?S.dw:f.size*2*AZ_FR_K, dh=S?S.dh:dw/2.37;
+  const hp=AZ_HAND[round], hx=f.x+(fl?-hp[0]:hp[0])*dw, hy=f.y+hp[1]*dh;
+  azFx.push({k:'pop',x:hx,y:hy,t:0,T:16,n});
+  const a=e?Math.atan2(e.y-hy,e.x-hx):(fl?Math.PI:0);
+  azFx.push({k:'count',x:hx,y:hy,a,t:0,T:80,team:f.team,owner:f,n,hit:new Set(),r:16+n*1.5,tr:[]});
 }
 // mỗi tick: đạn bay + trúng (gọi từ vòng tick chính) · Azel chết thì tắt nhạc
 function _azWorldTick(){
   for(const f of fighters) if(f.type==='azel' && f.dead && f._azAudio) _azStop(f);
   for(let i=azFx.length-1;i>=0;i--){ const e=azFx[i]; e.t++; if(e.t>=e.T){ azFx.splice(i,1); continue; }
-    if(e.k==='drop') continue;
-    const sp=e.k==='wub'?AZ_SPD*0.8:AZ_SPD; e.x+=Math.cos(e.a)*sp; e.y+=Math.sin(e.a)*sp; if(e.k==='wub') e.r=Math.min(40,e.r+0.5);
+    if(e.k==='drop' || e.k==='pop' || e.k==='hit') continue;
+    if(e.tr){ e.tr.unshift(e.x,e.y); if(e.tr.length>14) e.tr.length=14; }
+    const sp=e.k==='wub'?AZ_SPD*0.8:e.k==='count'?(e.t<6?1.5:AZ_SPD*1.05):AZ_SPD; e.x+=Math.cos(e.a)*sp; e.y+=Math.sin(e.a)*sp; if(e.k==='wub') e.r=Math.min(40,e.r+0.5);
     if(e.x<-40||e.x>W+40||e.y<-40||e.y>H+40){ azFx.splice(i,1); continue; }
     const f=e.owner; if(!f) continue;
-    for(const u of _azFoes(f)){ if(e.hit.has(u)) continue; if(Math.hypot(u.x-e.x,u.y-e.y)<(u.size||20)+e.r){ e.hit.add(u); _azHit(u,AZ_HIT,f); spawnParticles(e.x,e.y,e.k==='wub'?'#e040fb':e.k==='count'?'#ffd54f':'#80deea',6,false,true);
+    for(const u of _azFoes(f)){ if(e.hit.has(u)) continue; if(Math.hypot(u.x-e.x,u.y-e.y)<(u.size||20)+e.r){ e.hit.add(u); _azHit(u,AZ_HIT,f);
+        azFx.push({k:'hit',x:e.x,y:e.y,t:0,T:14,c:e.k==='wub'?'224,64,251':e.k==='count'?'255,213,79':'128,222,234',a:e.a});
         if(e.k!=='wub'){ azFx.splice(i,1); break; } } } }
 }
+// ---------- vẽ ----------
+function _azGlowStroke(path,cols){ for(const [w,c] of cols){ ctx.lineWidth=w; ctx.strokeStyle=c; path(); ctx.stroke(); } }
+// lưỡi sóng hình trăng khuyết: viền ngoài bán kính R, viền trong lệch ra sau → mũi nhọn 2 đầu
+function _azCrescent(R,span){ ctx.beginPath(); ctx.arc(0,0,R,-span,span); ctx.arc(-R*0.42,0,R*0.82,span*0.92,-span*0.92,true); ctx.closePath(); }
+// 🎚️ vòng equalizer dưới chân — cột nhảy theo nhịp (đỉnh ngay lúc trúng nhịp rồi tụt dần), nhịp mạnh vọt cao + đổi màu nóng
+function _azEqRing(f){
+  const ct=_azClipT(f); let bi=(f._azBi||1)-1; if(bi<0) bi=0; const b=AZ_BEATS[bi]; const dt=Math.max(0,ct-b[0]);
+  const env=Math.exp(-dt*(b[1]?5:8))*(b[1]?1.6:1), N=36, rx=f.size*1.45, ry=rx*0.38, cx=f.x, cy=f.y+f.size*0.82;
+  ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round';
+  const g=ctx.createRadialGradient(cx,cy,0,cx,cy,rx*1.2); g.addColorStop(0,`rgba(224,64,251,${0.10+0.22*env})`); g.addColorStop(1,'rgba(64,196,255,0)');
+  ctx.fillStyle=g; ctx.beginPath(); ctx.ellipse(cx,cy,rx*1.2,ry*1.2,0,0,Math.PI*2); ctx.fill();
+  ctx.strokeStyle=`rgba(128,222,234,${0.35+0.4*env})`; ctx.lineWidth=1.5; ctx.beginPath(); ctx.ellipse(cx,cy,rx,ry,0,0,Math.PI*2); ctx.stroke();
+  for(let i=0;i<N;i++){ const th=i/N*Math.PI*2, c=Math.cos(th), s=Math.sin(th);
+    const rnd=0.45+0.55*Math.abs(Math.sin(i*2.37+bi*1.71)), h=(4+20*env*rnd)*(s<0?0.8:1);
+    const x0=cx+c*rx, y0=cy+s*ry, x1=cx+c*(rx+h), y1=cy+s*(ry+h*0.38)-h*0.55;
+    const hot=b[1] && env>0.5, col=hot?`255,${120+((i*37)%100)},90`:(i%2?'224,64,251':'64,196,255');
+    ctx.strokeStyle=`rgba(${col},0.25)`; ctx.lineWidth=5; ctx.beginPath(); ctx.moveTo(x0,y0); ctx.lineTo(x1,y1); ctx.stroke();
+    ctx.strokeStyle=`rgba(${col},0.9)`; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(x0,y0); ctx.lineTo(x1,y1); ctx.stroke(); }
+  ctx.restore();
+}
 function _azDrawUnder(){
-  for(const e of azFx){ if(e.k!=='drop') continue; const u=e.t/e.T, R=e.R*(0.25+0.85*Math.sqrt(u));
+  for(const f of fighters) if(f.type==='azel' && !f.dead && (f._azAudio||f._azT0!==undefined)) _azEqRing(f);
+  for(const e of azFx){ if(e.k!=='drop') continue; const u=e.t/e.T, ease=1-Math.pow(1-u,3), R=e.R*(0.2+0.9*ease), fa=1-u;
     ctx.save(); ctx.globalCompositeOperation='lighter';
-    const g=ctx.createRadialGradient(e.x,e.y,R*0.6,e.x,e.y,R); g.addColorStop(0,'rgba(224,64,251,0)'); g.addColorStop(0.85,`rgba(224,64,251,${0.35*(1-u)})`); g.addColorStop(1,'rgba(128,222,234,0)');
+    const g=ctx.createRadialGradient(e.x,e.y,R*0.45,e.x,e.y,R); g.addColorStop(0,'rgba(224,64,251,0)'); g.addColorStop(0.8,`rgba(224,64,251,${0.32*fa})`); g.addColorStop(0.96,`rgba(255,255,255,${0.5*fa})`); g.addColorStop(1,'rgba(128,222,234,0)');
     ctx.fillStyle=g; ctx.beginPath(); ctx.ellipse(e.x,e.y,R,R*0.55,0,0,Math.PI*2); ctx.fill();
-    for(const [k,c] of [[1,'224,64,251'],[0.8,'128,222,234']]){ ctx.strokeStyle=`rgba(${c},${(1-u)*0.9})`; ctx.lineWidth=5*(1-u)+1; ctx.beginPath(); ctx.ellipse(e.x,e.y,R*k,R*k*0.55,0,0,Math.PI*2); ctx.stroke(); }
+    // viền tách màu kiểu chromatic (tím lệch trái, xanh lệch phải)
+    for(const [dx,c] of [[-3,'224,64,251'],[3,'64,196,255'],[0,'255,255,255']]){ ctx.strokeStyle=`rgba(${c},${(dx?0.8:0.9)*fa})`; ctx.lineWidth=dx?4*fa+1:2*fa+0.5; ctx.beginPath(); ctx.ellipse(e.x+dx,e.y,R,R*0.55,0,0,Math.PI*2); ctx.stroke(); }
+    ctx.strokeStyle=`rgba(128,222,234,${0.5*fa})`; ctx.lineWidth=2; ctx.beginPath(); ctx.ellipse(e.x,e.y,R*0.7,R*0.385,0,0,Math.PI*2); ctx.stroke();
+    // tia equalizer bắn ra theo vòng sóng
+    ctx.lineCap='round'; for(let i=0;i<24;i++){ const th=i/24*Math.PI*2+e.seed, L=(10+22*Math.abs(Math.sin(i*1.9+e.seed)))*fa, c=Math.cos(th), s=Math.sin(th)*0.55;
+      ctx.strokeStyle=`rgba(${i%2?'224,64,251':'255,255,255'},${0.8*fa})`; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(e.x+c*R,e.y+s*R); ctx.lineTo(e.x+c*(R+L),e.y+s*(R+L)); ctx.stroke(); }
     ctx.restore(); }
 }
-// 🎛️ vẽ TRÊN meme: chưởng tay chém · số đếm · sóng WUB · cột sóng chấn động
+// 🎛️ vẽ TRÊN meme: lưỡi sóng neon · con số đếm · sóng WUB · tia trúng đòn
 function _azDrawOver(){
-  for(const e of azFx){ const u=e.t/e.T, fade=Math.min(1,(e.T-e.t)/10);
-    if(e.k==='chop'){ ctx.save(); ctx.translate(e.x,e.y); ctx.rotate(e.a); ctx.globalCompositeOperation='lighter';
-      for(const [w,a,c] of [[16,0.25,'128,222,234'],[7,0.6,'200,245,255'],[2.5,1,'255,255,255']]){ ctx.strokeStyle=`rgba(${c},${a*fade})`; ctx.lineWidth=w; ctx.lineCap='round'; ctx.beginPath(); ctx.arc(-14,0,24,-1.05,1.05); ctx.stroke(); }
-      const tr=ctx.createLinearGradient(-60,0,0,0); tr.addColorStop(0,'rgba(128,222,234,0)'); tr.addColorStop(1,`rgba(128,222,234,${0.35*fade})`); ctx.fillStyle=tr; ctx.fillRect(-60,-12,52,24);
+  for(const e of azFx){ const fade=Math.min(1,(e.T-e.t)/10);
+    if(e.k==='chop'){ ctx.save(); ctx.globalCompositeOperation='lighter';
+      // vệt bóng mờ phía sau (lưỡi sóng cũ nhỏ dần)
+      for(let j=4;j<e.tr.length;j+=4){ const k=1-j/e.tr.length; ctx.save(); ctx.translate(e.tr[j],e.tr[j+1]); ctx.rotate(e.a); ctx.scale(0.6+0.4*k,(0.6+0.4*k)*e.flip);
+        ctx.fillStyle=`rgba(64,196,255,${0.28*k*fade})`; _azCrescent(26,1.15); ctx.fill(); ctx.restore(); }
+      ctx.translate(e.x,e.y); ctx.rotate(e.a); ctx.scale(1,e.flip); const pulse=1+0.08*Math.sin(e.t*0.9);
+      ctx.scale(pulse,pulse);
+      ctx.fillStyle=`rgba(224,64,251,${0.35*fade})`; ctx.save(); ctx.scale(1.25,1.25); _azCrescent(26,1.2); ctx.fill(); ctx.restore();
+      const lg=ctx.createLinearGradient(-20,0,28,0); lg.addColorStop(0,'rgba(64,196,255,0)'); lg.addColorStop(0.6,`rgba(128,222,234,${0.9*fade})`); lg.addColorStop(1,`rgba(255,255,255,${fade})`);
+      ctx.fillStyle=lg; _azCrescent(26,1.15); ctx.fill();
+      ctx.strokeStyle=`rgba(255,255,255,${fade})`; ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(0,0,26,-1.0,1.0); ctx.stroke();
+      // tia lửa nhỏ văng ở 2 mũi
+      for(const sg of [-1,1]){ const px=Math.cos(1.15)*26, py=sg*Math.sin(1.15)*26; ctx.fillStyle=`rgba(255,255,255,${0.8*fade})`; ctx.beginPath(); ctx.arc(px-4-(e.t%5),py+sg*(e.t%3),1.6,0,Math.PI*2); ctx.fill(); }
       ctx.restore(); }
-    else if(e.k==='count'){ ctx.save(); ctx.translate(e.x,e.y); ctx.rotate(Math.sin(e.t*0.3)*0.25); const s=1+0.25*Math.max(0,1-e.t/8);
-      ctx.scale(s,s); ctx.font='900 30px "Arial Black",Impact,sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.lineWidth=6; ctx.strokeStyle=`rgba(40,10,60,${fade})`; ctx.strokeText(String(e.n),0,0);
-      ctx.fillStyle=`rgba(255,213,79,${fade})`; ctx.fillText(String(e.n),0,0); ctx.globalCompositeOperation='lighter'; ctx.fillStyle=`rgba(255,240,180,${0.35*fade})`; ctx.beginPath(); ctx.arc(0,0,22,0,Math.PI*2); ctx.fill(); ctx.restore(); }
-    else if(e.k==='wub'){ ctx.save(); ctx.translate(e.x,e.y); ctx.rotate(e.a); ctx.globalCompositeOperation='lighter';
-      for(let k=0;k<3;k++){ const rr=e.r*(0.55+0.3*k); ctx.strokeStyle=`rgba(${k%2?'128,222,234':'224,64,251'},${(0.85-0.2*k)*fade})`; ctx.lineWidth=4-k; ctx.beginPath(); ctx.arc(-rr*0.6,0,rr,-0.9,0.9); ctx.stroke(); }
-      ctx.restore(); ctx.save(); ctx.font='900 13px "Arial Black",Impact,sans-serif'; ctx.textAlign='center'; ctx.fillStyle=`rgba(255,255,255,${fade})`; ctx.strokeStyle=`rgba(80,0,110,${fade})`; ctx.lineWidth=3; ctx.strokeText('WUB',e.x,e.y-e.r-4); ctx.fillText('WUB',e.x,e.y-e.r-4); ctx.restore(); }
-    else if(e.k==='drop' && e.t<10){ ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.fillStyle=`rgba(255,255,255,${0.35*(1-e.t/10)})`; ctx.beginPath(); ctx.ellipse(e.x,e.y,e.R*0.5,e.R*0.3,0,0,Math.PI*2); ctx.fill(); ctx.restore(); } }
+    else if(e.k==='count'){ const pop=e.t<6 ? 0.4+e.t/6*1.1 : Math.max(1,1.5-(e.t-6)*0.06), str=String(e.n);
+      ctx.save(); ctx.globalCompositeOperation='lighter';
+      for(let j=4;j<e.tr.length;j+=4){ const k=1-j/e.tr.length; ctx.font='900 30px "Arial Black",Impact,sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
+        ctx.fillStyle=`rgba(255,${150+j*6},60,${0.35*k*fade})`; ctx.fillText(str,e.tr[j],e.tr[j+1]); }
+      ctx.translate(e.x,e.y);
+      ctx.save(); ctx.rotate(e.t*0.18); ctx.strokeStyle=`rgba(255,213,79,${0.75*fade})`; ctx.lineWidth=2.5; ctx.setLineDash([7,6]); ctx.beginPath(); ctx.arc(0,0,e.r+6,0,Math.PI*2); ctx.stroke();
+      ctx.rotate(-e.t*0.36); ctx.strokeStyle=`rgba(224,64,251,${0.6*fade})`; ctx.setLineDash([3,9]); ctx.beginPath(); ctx.arc(0,0,e.r+11,0,Math.PI*2); ctx.stroke(); ctx.restore();
+      const rg=ctx.createRadialGradient(0,0,0,0,0,e.r+8); rg.addColorStop(0,`rgba(255,240,180,${0.55*fade})`); rg.addColorStop(1,'rgba(255,160,40,0)'); ctx.fillStyle=rg; ctx.beginPath(); ctx.arc(0,0,e.r+8,0,Math.PI*2); ctx.fill();
+      ctx.restore();
+      ctx.save(); ctx.translate(e.x,e.y); ctx.rotate(Math.sin(e.t*0.3)*0.2); ctx.scale(pop,pop);
+      ctx.font='900 32px "Arial Black",Impact,sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.lineJoin='round';
+      ctx.lineWidth=9; ctx.strokeStyle=`rgba(224,64,251,${0.45*fade})`; ctx.strokeText(str,0,1);
+      ctx.lineWidth=5; ctx.strokeStyle=`rgba(40,8,60,${fade})`; ctx.strokeText(str,0,1);
+      const dg=ctx.createLinearGradient(0,-14,0,14); dg.addColorStop(0,`rgba(255,255,230,${fade})`); dg.addColorStop(0.5,`rgba(255,213,79,${fade})`); dg.addColorStop(1,`rgba(255,140,30,${fade})`);
+      ctx.fillStyle=dg; ctx.fillText(str,0,1); ctx.restore(); }
+    else if(e.k==='pop'){ const u=e.t/e.T, fa=1-u; ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.translate(e.x,e.y);
+      ctx.strokeStyle=`rgba(255,213,79,${0.9*fa})`; ctx.lineWidth=3*fa+0.5; ctx.beginPath(); ctx.arc(0,0,6+26*u,0,Math.PI*2); ctx.stroke();
+      ctx.lineCap='round'; for(let i=0;i<8;i++){ const th=i/8*Math.PI*2+0.4, r0=8+14*u, r1=r0+10*fa; ctx.strokeStyle=`rgba(${i%2?'255,255,255':'224,64,251'},${fa})`; ctx.lineWidth=2.5;
+        ctx.beginPath(); ctx.moveTo(Math.cos(th)*r0,Math.sin(th)*r0); ctx.lineTo(Math.cos(th)*r1,Math.sin(th)*r1); ctx.stroke(); }
+      ctx.restore(); }
+    else if(e.k==='hit'){ const u=e.t/e.T, fa=1-u; ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.translate(e.x,e.y);
+      const hg=ctx.createRadialGradient(0,0,0,0,0,24); hg.addColorStop(0,`rgba(255,255,255,${0.8*fa})`); hg.addColorStop(0.4,`rgba(${e.c},${0.6*fa})`); hg.addColorStop(1,`rgba(${e.c},0)`);
+      ctx.fillStyle=hg; ctx.beginPath(); ctx.arc(0,0,24,0,Math.PI*2); ctx.fill();
+      ctx.lineCap='round'; for(let i=0;i<6;i++){ const th=e.a+(i-2.5)*0.45, L=10+22*u; ctx.strokeStyle=`rgba(${i%2?'255,255,255':e.c},${fa})`; ctx.lineWidth=2.5*fa+0.5;
+        ctx.beginPath(); ctx.moveTo(Math.cos(th)*L*0.4,Math.sin(th)*L*0.4); ctx.lineTo(Math.cos(th)*L,Math.sin(th)*L); ctx.stroke(); }
+      ctx.restore(); }
+    else if(e.k==='wub'){ ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.translate(e.x,e.y); ctx.rotate(e.a);
+      // dải sóng âm lượn phía sau
+      ctx.lineCap='round'; ctx.beginPath(); for(let x=0;x<=70;x+=3){ const tp=1-x/70, y=Math.sin(x*0.32-e.t*0.7)*e.r*0.45*tp; x?ctx.lineTo(-x,y):ctx.moveTo(-x,y); }
+      ctx.strokeStyle=`rgba(224,64,251,${0.35*fade})`; ctx.lineWidth=6; ctx.stroke(); ctx.strokeStyle=`rgba(255,200,255,${0.9*fade})`; ctx.lineWidth=1.8; ctx.stroke();
+      for(let k=0;k<4;k++){ const rr=e.r*(0.45+0.25*k)*(1+0.06*Math.sin(e.t*0.8+k)); const col=k%2?'64,196,255':'224,64,251';
+        ctx.strokeStyle=`rgba(${col},${(0.3-0.05*k)*fade})`; ctx.lineWidth=8-k; ctx.beginPath(); ctx.arc(-rr*0.6,0,rr,-0.95,0.95); ctx.stroke();
+        ctx.strokeStyle=`rgba(255,255,255,${(0.9-0.18*k)*fade})`; ctx.lineWidth=1.6; ctx.beginPath(); ctx.arc(-rr*0.6,0,rr,-0.95,0.95); ctx.stroke(); }
+      ctx.restore();
+      ctx.save(); ctx.font='900 14px "Arial Black",Impact,sans-serif'; ctx.textAlign='center'; const ty=e.y-e.r-6, jit=Math.sin(e.t*1.3)*1.5;
+      ctx.globalCompositeOperation='lighter'; ctx.fillStyle=`rgba(224,64,251,${0.85*fade})`; ctx.fillText('WUB',e.x-2+jit,ty); ctx.fillStyle=`rgba(64,196,255,${0.85*fade})`; ctx.fillText('WUB',e.x+2-jit,ty);
+      ctx.globalCompositeOperation='source-over'; ctx.fillStyle=`rgba(255,255,255,${fade})`; ctx.fillText('WUB',e.x,ty); ctx.restore(); }
+    else if(e.k==='drop' && e.t<10){ ctx.save(); ctx.globalCompositeOperation='lighter'; const fa=1-e.t/10;
+      const fg=ctx.createRadialGradient(e.x,e.y,0,e.x,e.y,e.R*0.6); fg.addColorStop(0,`rgba(255,255,255,${0.55*fa})`); fg.addColorStop(0.5,`rgba(224,64,251,${0.3*fa})`); fg.addColorStop(1,'rgba(224,64,251,0)');
+      ctx.fillStyle=fg; ctx.beginPath(); ctx.ellipse(e.x,e.y,e.R*0.6,e.R*0.38,0,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle=`rgba(255,255,255,${0.5*fa})`; ctx.fillRect(e.x-2*fa-1,e.y-90*fa,4*fa+2,90*fa); ctx.restore(); } }
 }
 // ==================== 🤤💧 DROOLING CAT — DÃI NHỎ TỪ MỒM, ĐỌNG THÀNH VŨNG NƯỚC (piranha → cá mập) ====================
 // (skill vũng dãi cũ của Wet Cat chuyển hẳn sang đây rồi sửa lại; Wet Cat giờ là mưa + sét — xem khối WET CAT bên dưới)
@@ -12363,7 +12456,7 @@ const CHAR_BLURB = {
   wetcat: "Brings its own storm. The rain follows wherever it walks and hurts enemies inside it; every 4s in the rain is a 25% chance of a lightning strike that zaps and stuns.",
   droolingcat: "Drools nonstop until it pours. The drool pools into a lake that hurts enemies and heals Drooling Cat. A shark moves in once the lake covers a quarter of the floor.",
   duolingo: "Shoots greetings in five languages. A 23-second clock ticks over its head: run it down and Duo goes LAST CHANCE with laser eyes. Grab a streak freeze to stop the clock and lock Duo in ice.",
-  azel: "Beatboxes his full dubstep track. Every beat is an attack: hand chops in the build-up, flying numbers while he counts, WUB waves when he goes wild, and every bass drop shakes the floor around him.",
+  azel: "Beatboxes his full dubstep track. Every beat is an attack: neon blade waves in the build-up, a flying number every time he raises a finger to count, WUB waves when he goes wild, and every bass drop shakes the floor around him.",
   damdamdidi: "A riff on the viral head-bobbing cat meme — dances non-stop, throwing arrow dances at the enemy the whole match. Every landed hit makes the next one hit harder, with no ceiling.",
   bongocat: "Warms up with a few practice taps before dropping into a real tribal drum track, riding the beat all match. Every hit sends out a small shockwave that hurts more the closer you're standing.",
   stalincat: "Throws its hammer while a sickle bounces loose. The first time the two meet they open a domain, once per match: the whole arena glitters and every enemy burns.",
@@ -24160,6 +24253,7 @@ function stopAllBattleMusic(keepFr){
   if(_hmBoxSfx){ _stopLoopAudio(_hmBoxSfx); _hmBoxSfx=null; } if(_hmCrawlSfx){ _stopLoopAudio(_hmCrawlSfx); _hmCrawlSfx=null; }   // 🐹 hộp nhạc + tiếng bò tay bóng tối                            // 🪦 nhạc nền Evil Gary
   if(_dawaeRunSfx){ _stopLoopAudio(_dawaeRunSfx); _dawaeRunSfx=null; }         // 🚪 tiếng chạy loop của đàn Da Wae
   if(_dawaeRunSfx2){ _stopLoopAudio(_dawaeRunSfx2); _dawaeRunSfx2=null; }      // 🚪 tiếng chạy loop thứ 2 (bước chân) của đàn Da Wae
+  _azStopAll();   // 🎧 nhạc beatbox Azel (cả bản lạc ngoài fighters)
   // ricardo music (stored on fighter objects)
   for(const f of fighters) _stopFighterSfx(f);
   // tiếng rít mũi tên Loading Cat (lưu trên chính object mũi tên, không phải fighter)
