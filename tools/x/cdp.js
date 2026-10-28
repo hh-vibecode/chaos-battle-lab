@@ -7,6 +7,8 @@
 //   shot <name>            page screenshot -> <out>/<name>.png
 //   wait <seconds>
 //   reload                 reload bypassing HTTP cache + service worker, wait until the game finished booting
+//   goto <path|url>        open another page of the same server (e.g. tools/x/view3d.html?src=assets/3d/doge.glb)
+//   waitfor <js>           poll until the expression is truthy (max 2 min), e.g. waitfor window.__ready
 // Dialogs (alert/confirm) are auto-accepted and printed.
 // WARNING: another session's browser may already own a debug port (9333 seen taken). --launch refuses a busy port;
 //          never drive a browser you did not start.
@@ -63,6 +65,8 @@ async function main() {
       if (typeof v === 'string' && v.startsWith('data:image/png;base64,')) { fs.writeFileSync(path.join(OUT, nm + '.png'), Buffer.from(v.slice(22), 'base64')); console.log('saved ' + nm); } else console.log('evalsave fail: ' + v); }
     else if (cmd === 'shot') { const r = await send('Page.captureScreenshot', { format: 'png' }); fs.writeFileSync(path.join(OUT, rest + '.png'), Buffer.from(r.result.data, 'base64')); console.log('shot ' + rest); }
     else if (cmd === 'wait') await sleep(parseFloat(rest) * 1000);
+    else if (cmd === 'goto') { await send('Page.navigate', { url: new URL(rest, new URL(URL0).origin + '/').href }); await sleep(800); for (let k = 0; k < 60; k++) { if (await ev('document.readyState') === 'complete') break; await sleep(500); } console.log('goto ' + rest); }
+    else if (cmd === 'waitfor') { let v; for (let k = 0; k < 240; k++) { v = await ev(rest); if (v && !String(v).startsWith('EXC')) break; await sleep(500); } console.log('waitfor -> ' + v); }   // waitfor <js expression> (truthy, tối đa 2 phút)
     else if (cmd === 'reload') { await send('Network.enable'); await send('Network.setBypassServiceWorker', { bypass: true }); await send('Network.setCacheDisabled', { cacheDisabled: true }); await send('Page.reload', { ignoreCache: true });
       let v = 'wait'; for (let k = 0; k < 150 && v !== 'ready'; k++) { await sleep(2000); v = await ev("(typeof roster!=='undefined' && typeof goToBattle==='function' && !document.getElementById('bootScreen')) ? 'ready' : 'wait'"); }
       await send('Network.disable'); console.log('reloaded ' + v); }
