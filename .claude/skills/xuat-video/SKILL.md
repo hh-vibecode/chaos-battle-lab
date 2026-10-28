@@ -25,7 +25,8 @@ Phim có sẵn: `war`, `l2e2`, `l2e3` (bảng `FILMS` đầu file; phim mới ph
    - `--webcodecs`: trình duyệt tự nén H.264 (phần cứng VideoToolbox, không có thì nén phần mềm của trình duyệt) → bỏ khâu JPEG 4K +
      chuyển ~10MB/khung + ffmpeg nén lại (mỗi khung chỉ còn ~55KB). Trình duyệt không hỗ trợ thì tự in `↩` và quay về JPEG.
    - `--hw`: khi rơi về JPEG thì ffmpeg nén bằng VideoToolbox thay libx264 (CPU dành cho việc vẽ).
-   - **Số tiến trình: mặc định 3. KHÔNG tăng** — anh dặn chạy nhiều tiến trình làm MacBook vừa lag vừa lâu hơn. Máy vẫn ì → `--jobs 2`.
+   - **Số tiến trình: mặc định 3. KHÔNG tăng** — từng chạy nhiều tiến trình bị TRÀN RAM (mỗi trình duyệt giữ canvas 4K ~1–2GB) → MacBook swap, vừa lag vừa lâu.
+     Trước khi chạy bản 4K: đóng bớt app nặng; Activity Monitor báo "Memory Pressure" vàng/đỏ → dừng, chạy lại `--jobs 2` (đoạn đã xong được giữ nhờ `--cache`).
    - Mỗi đoạn in `⏱️ … boot Xs · vẽ Y ms/khung · đẩy Z ms/khung` → biết còn chậm ở khâu nào.
 3. **Anh góp ý sửa 1 cảnh** → sửa code, rồi chạy LẠI ĐÚNG lệnh bước 2 + `--redo <giây đầu>-<giây cuối>` của cảnh đó (nhiều cảnh: `--redo 10-25,80-95`).
    Chỉ các đoạn 20s chạm khoảng đó bị quay lại; phần còn lại dùng lại, tiếng trộn lại toàn bộ (nhanh).
