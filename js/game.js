@@ -10462,7 +10462,7 @@ function _gdDrawSites(){ for(const f of fighters){ if(f.type!=='mechaniccat' || 
 //   lỗ trùm hết thân địch (≥1.6×size) mà địch bay trúng giữa lỗ → văng hẳn ra ngoài sàn = thua thẳng (_susEject, xuyên mọi skill cứu mạng).
 // Quân triệu hồi có máu bị xử y hệt meme (bay + ghim + văng ra ngoài thì chết).
 // 4 khung: [đứng, hét] dạng thường (KHÔNG tóc) · [đứng, hét] dạng Super Saiyan (tóc vàng — ảnh vẽ riêng). Thiếu ảnh SSJ thì dùng tạm ảnh thường.
-const MM_FR=['MM_IDLE','MM_SCREAM','MM_SSJ_IDLE','MM_SSJ_SCREAM','MM_OPEN1','MM_OPEN2','MM_PUSH'].map(n=>{ const im=new Image(); im._noMask=true;
+const MM_FR=['MM_IDLE','MM_SCREAM','MM_SSJ_IDLE','MM_SSJ_SCREAM','MM_OPEN1','MM_OPEN2','MM_PUSH','MM_SSJ_PUSH'].map(n=>{ const im=new Image(); im._noMask=true;
   im.onload=()=>{ im._crop={sx:0,sy:0,sw:im.naturalWidth,sh:im.naturalHeight}; }; im.onerror=()=>{ im._missing=true; }; im.src='assets/img/saiyanmarmot/'+n+'.png'; return im; });   // khung đã tách nền sẵn, cùng 1 khung cắt → không nhảy vị trí khi đổi khung
 const MM_WALK_T=120, MM_CHARGE_T=90, MM_SSJ_T=180, MM_PUSH_DMG=45, MM_PUSH_CD=45, MM_PUSH_KB=13,
       MM_HOLD_T=30, MM_FLY_SPD=34, MM_PIN_T=60, MM_WALL_DMG=160, MM_SSJ_CD=60, MM_OUT_T=34, MM_HOLE_OUT=0.8;   // lỗ phải trùm ±0.8×size quanh điểm đập (= rộng ≥1.6×size)
@@ -10536,7 +10536,7 @@ function _mmImpact(q){
 function _mmCrumble(b){ if(!b || !b.fresh) return; b.fresh=false; b.open=[[b.a0,b.a1]]; b.t=0;
   const n=_mmN(b.side), u=W/480, N=Math.min(14,Math.round((b.a1-b.a0)/7));
   for(let k=0;k<N;k++){ const al=b.a0+(b.a1-b.a0)*Math.random(), [x,y]=_mmWP(b.side,al,4*u*Math.random()), sp=0.8+Math.random()*2.2;
-    mmFx.push({k:'chunk',x,y,vx:n[0]*sp+(Math.random()-0.5)*0.8,vy:n[1]*sp+(Math.random()-0.5)*0.8,r:(2.5+Math.random()*4)*u,rot:Math.random()*6,vr:(Math.random()-0.5)*0.3,c:['#333333','#888888','#555555'][k%3],t:0,T:1e9,pts:Array.from({length:5},()=>0.6+Math.random()*0.5)}); }
+    mmFx.push({k:'chunk',x,y,vx:n[0]*sp+(Math.random()-0.5)*0.8,vy:n[1]*sp+(Math.random()-0.5)*0.8,r:(2.5+Math.random()*4)*u,rot:Math.random()*6,vr:(Math.random()-0.5)*0.3,c:['#333333','#888888','#555555'][k%3],t:0,T:120,pts:Array.from({length:5},()=>0.6+Math.random()*0.5)}); }
   playSample('ar_stone_break',0.5); }
 // mỗi tick (sau va chạm thân): giữ / bay / ghim / văng ra ngoài
 function _mmWorldTick(){
@@ -10587,8 +10587,9 @@ function _mmDrawUnder(){
       ctx.closePath(); ctx.fill(); ctx.restore(); }
     }   // (đã bỏ vết nứt trên sàn/tường theo yêu cầu: nứt nhìn xấu — chỉ còn lỗ thủng + mảnh tường rơi)
   for(let i=mmFx.length-1;i>=0;i--){ const p=mmFx[i]; p.t++;
-    if(p.k==='chunk'){ if(p.vx||p.vy){ p.x+=p.vx; p.y+=p.vy; p.vx*=0.88; p.vy*=0.88; p.rot+=p.vr; p.vr*=0.88; if(Math.hypot(p.vx,p.vy)<0.05){ p.vx=p.vy=0; } }   // mảnh tường rơi ra rồi nằm lại
-      ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.fillStyle=p.c; ctx.strokeStyle='rgba(0,0,0,0.5)'; ctx.lineWidth=0.8; ctx.beginPath();
+    if(p.k==='chunk'){ if(p.t>=p.T){ mmFx.splice(i,1); continue; }   // vụn tường chỉ nằm 2s rồi biến mất (mép tường mẻ thì giữ tới hết trận)
+      if(p.vx||p.vy){ p.x+=p.vx; p.y+=p.vy; p.vx*=0.88; p.vy*=0.88; p.rot+=p.vr; p.vr*=0.88; if(Math.hypot(p.vx,p.vy)<0.05){ p.vx=p.vy=0; } }   // mảnh tường rơi ra
+      ctx.save(); ctx.globalAlpha=Math.min(1,(p.T-p.t)/30); ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.fillStyle=p.c; ctx.strokeStyle='rgba(0,0,0,0.5)'; ctx.lineWidth=0.8; ctx.beginPath();
       p.pts.forEach((k,j)=>{ const a=j/5*Math.PI*2; ctx.lineTo(Math.cos(a)*p.r*k,Math.sin(a)*p.r*k*0.8); }); ctx.closePath(); ctx.fill(); ctx.stroke(); ctx.restore(); continue; }
     if(p.t>=p.T){ mmFx.splice(i,1); continue; }
     if(p.k==='rock'){ p.x+=p.vx; p.y+=p.vy; if(p.up) p.vy*=0.97; else { p.vx*=0.9; p.vy*=0.9; } p.rot+=0.1; const a=1-p.t/p.T;
@@ -10616,6 +10617,8 @@ function _mmDrawOver(){
 }
 // khung đang hiện: há mồm (hét) lúc gồng / biến hình / khựng dồn khí / vừa xô; còn lại đứng thường. Super Saiyan → bộ ảnh tóc vàng (nếu đã có)
 function _mmFrame(f){ const M=f._mm||{}; let st=null;   // 🦫 4 khung ảnh mới (user gửi): đứng im · hé mồm · há mồm · hét to ngửa đầu
+  if(M.ssj && MM_FR[2].naturalWidth){   // ⚡ Super Saiyan (tóc vàng, ảnh user gửi): đứng · giơ tay đẩy
+    return (M.hold || (f._mmShove!=null && tick-f._mmShove<14)) && MM_FR[7].naturalWidth ? 7 : 2; }
   if(M.hold || (f._mmShove!=null && tick-f._mmShove<14)) return MM_FR[6].naturalWidth?6:1;   // ✋ đẩy / húc địch: khung giơ tay
   if(M.charge>0) st=MM_CHARGE_T-M.charge; else if(M.tf>0) st=MM_SSJ_T-M.tf;
   if(st==null) return 0;
@@ -22091,6 +22094,7 @@ class Fighter {
                    : (this.type==='alottadameguy' && LD_FR.includes(img)) ? LD_VIS_MUL
                    : (this.type==='maxwell' && img===rageAttackAvatarImgs[i]) ? 1.1   // 🐈‍⬛ GIF xoay vật phẩm Maxwell to thêm 10%
                    : (this.type==='scaredhamster' && img===HM_IMG.SCARED) ? 1/1.1   // 🐹 thân to thêm 10% nhưng dáng đứng sợ hãi giữ đúng cỡ cũ
+                   : (this.type==='saiyanmarmot' && (img===MM_FR[2] || img===MM_FR[7])) ? 1.2*1.15   // 🦫 ảnh Super Saiyan có tóc dựng cao → phóng thêm 15% để THÂN vẫn đúng cỡ dạng thường
                    : (this.type==='saiyanmarmot' && MM_FR.includes(img)) ? 1.2   // 🦫 ảnh đứng thẳng rất gầy → hình to thêm 20% cho cân với meme khác (hitbox giữ nguyên)
                    : (this.type==='electricguitarcat') ? 1.15  // 🎸 ảnh to hơn 15% (chỉ phần HÌNH, hitbox giữ nguyên cho cân bằng)
                    : (this.type==='pianocat' && img===attackAvatarImgs[i]) ? 1.1  // 🎹 khung 3 (Đánh đàn) nhìn bé hơn khung 1/2 → bù thêm 10%

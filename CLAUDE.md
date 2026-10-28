@@ -56,12 +56,12 @@ Mẫu đã duyệt:
 ## Nhật ký gần đây (cho phiên sau nắm) — Ver 394, 27/10/2026
 - 🦫 **Saiyan Marmot** (`saiyanmarmot`, meme mới): code khối `MM_*` / `_mm*` trong js/game.js.
   Thường: chạm là xô 45 + đẩy văng; đi đủ 2s → đứng gồng 1.5s (`marmot_scream`); lần 3 hét 3s (`marmot_ssj`) → Super Saiyan vĩnh viễn (hào quang vàng + tia điện vẽ code).
-  SSJ: chạm → khựng 0.5s → bắn địch thẳng vào tường (34px/tick) → ghim 1s, 160 dame → tường vỡ (`mmWall`, giữ tới hết trận), địch rời đi thì mảnh rơi (`mmFx` 'chunk').
+  SSJ: chạm → khựng 0.5s → bắn địch thẳng vào tường (34px/tick) → ghim 1s, 160 dame → tường vỡ (`mmWall`, mép mẻ giữ tới hết trận), địch rời đi thì vụn rơi (`mmFx` 'chunk', 2s sau biến mất).
   Lỗ cũ trùm ±0.8×size quanh điểm đập → địch bay ra ngoài sàn → `_susEject` (thua thẳng). Quân triệu hồi bị xử y hệt (ra ngoài thì `_forceKill`).
   Nạn nhân đang bị giữ/bay/ghim mang cờ `_mmHeld` (return sớm trong `_updateCore`, vị trí do `_mmWorldTick` cầm). Miễn bay: loooongcat, evillarry, chonkydog, berserk <30% (ăn 160 tại chỗ).
-  **Ảnh đang là ảnh TẠM** tách tay từ GIF Giphy (`assets/img/saiyanmarmot/MM_IDLE.png`, `MM_SCREAM.png`, avatar `assets/avatars/saiyanmarmot/avatarUrl.png`), mặt quay TRÁI.
-  Chờ anh gửi ảnh ChatGPT: dạng thường KHÔNG tóc (thay MM_IDLE/MM_SCREAM), Super Saiyan tóc vàng → lưu `MM_SSJ_IDLE.png` / `MM_SSJ_SCREAM.png` (code tự dùng khi có file).
-  Các khung phải cùng khung cắt/chân chạm đáy. Ảnh mới quay mặt PHẢI thì bỏ `saiyanmarmot` khỏi 2 danh sách quay-mặt-trái (facingDefault + `_selSideRender`).
+  Ảnh (anh gửi, đã đủ): dạng thường `MM_IDLE / MM_OPEN1 / MM_OPEN2 / MM_SCREAM / MM_PUSH` (Ver 402); Super Saiyan tóc vàng `MM_SSJ_IDLE / MM_SSJ_PUSH` (Ver 406,
+  tách nền xanh, cao 420, chân chạm đáy, mặt quay TRÁI; vẽ to thêm 15% vì tóc chiếm phần trên → thân bằng cỡ dạng thường). `MM_SSJ_SCREAM` không dùng.
+  Ảnh mới quay mặt PHẢI thì bỏ `saiyanmarmot` khỏi 2 danh sách quay-mặt-trái (facingDefault + `_selSideRender`).
 - ⚔️ **Catvader — vùng Force** (Ver 395): `_cvForce*`, `CV_FORCE_*`, `CV_SYS`. 5s/lượt, có đạn địch trong vùng → mở vùng 0.75s, rộng đúng 1/4 diện tích sân (`_cvR`),
   Catvader ĐỨNG YÊN; không gian trong vùng bị bóp méo (`_cvWarp`: vành khuyên vẽ lại canvas phóng/thu theo sóng) + gợn Matrix quanh từng viên (`_cvMatrixRipple`);
   MỌI đạn địch trong vùng chậm còn 5% tốc, đổi sang phe Catvader; hết 0.75s đẩy hết về phía địch (nhanh hơn 35%, đúng dame gốc), rồi đi lại bình thường.
