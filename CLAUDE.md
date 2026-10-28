@@ -75,6 +75,11 @@ Mẫu đã duyệt:
 - 🧪 Máy anh không có node/python: chạy thử trận bằng Edge headless + DevTools (script PowerShell để ngoài repo). Cổng 9333 thường bị Edge của PHIÊN KHÁC chiếm → dùng cổng khác, kiểm cổng trước.
   `release.py` cần python → làm tay đúng các bước của nó (tăng GAME_VERSION + giờ VN, đổi `?v=`, thêm file mới vào assets-manifest.json, commit "Ver N: ...", push).
 
+## Skill của repo (`.claude/skills/`, thêm 28/10/2026)
+- `them-meme` (danh sách việc thêm meme mới) · `tach-nen-anh` (ảnh ChatGPT nền xanh → khung game) · `chay-thu` (chạy thử trận bằng Edge headless) · `phat-hanh` (đẩy bản mới không cần python).
+- Script Windows ở `tools/win/` (ASCII-only, PowerShell 5.1). Trên MacBook dùng `tools/release.py` / `tools/render-match.js` như cũ.
+- Làm ra công cụ / quy trình dùng lại được → TỰ đề xuất (hoặc tạo) skill mới, đừng để anh phải hỏi.
+
 ## Phát hành
 - **Làm xong là TỰ ĐẨY LÊN `main` luôn** (người dùng đã dặn, không cần hỏi lại): commit trên nhánh làm việc rồi `git push origin HEAD:main` (fast-forward).
 - Đừng tự thêm tính năng/hiệu ứng người dùng không yêu cầu; muốn thêm thì hỏi trước.

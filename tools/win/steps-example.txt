@@ -1,0 +1,17 @@
+# Steps for tools/win/cdp.ps1 - one command per line. Copy to scratchpad, then edit.
+reload
+eval window.__errs=[]; addEventListener('error',e=>__errs.push(String(e.message)+' @'+e.lineno+':'+e.colno)); window.__go=(A,B)=>{ const n=k=>roster.findIndex(c=>c.charKey===k); picks=[n(A),n(B)]; if(picks.includes(-1)) return 'missing '+A+'/'+B; document.querySelectorAll('.screen').forEach(el=>el.classList.remove('active')); document.getElementById('selectScreen').classList.add('active'); goToBattle(); return JSON.stringify(picks); }; window.__probe=()=>JSON.stringify({errs:__errs.slice(0,6),tick,f:fighters.map(f=>({t:f.type,hp:Math.round(f.hp),x:Math.round(f.x),y:Math.round(f.y),dead:f.dead}))}); 'helpers ok'
+eval __go('saiyanmarmot','ninjacat')
+wait 3
+eval startGame('instant'); 'started'
+wait 4
+shot battle1
+eval __probe()
+# force a skill state so it shows up quickly (here: Saiyan Marmot already Super Saiyan)
+eval (()=>{ const m=fighters.find(f=>f.type==='saiyanmarmot'); if(m && m._mm) m._mm.ssj=true; return 'forced'; })()
+# capture an exact moment: wait for a condition, pause, screenshot, resume
+eval window.__hit=false; window.__poll=setInterval(()=>{ const m=fighters.find(f=>f.type==='saiyanmarmot'); if(m && m._mm && m._mm.hold && !__hit){ __hit=true; togglePause(); } },5); 'polling'
+wait 8
+eval 'hit=' + __hit + ' paused=' + isPaused
+shot moment1
+eval if(isPaused) togglePause(); clearInterval(__poll); 'resumed'
