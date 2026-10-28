@@ -2,3 +2,4 @@
 _source/
 .DS_Store
 w[0-9]*.jpg
+tools/.audio-dur.json
