@@ -502,6 +502,16 @@
       if(!ready){ build(); ready=true; } paused=false; played={}; t0=performance.now(); });
     ready=!!BG; paused=false; played={}; t0=performance.now(); if(!OFF) raf=requestAnimationFrame(frame);
   };
+  // 🧰 BỘ ĐỒ DÙNG LẠI cho tập sau (Ep 3 quay lại đúng hang này): vẽ bằng chính các hàm của tập 2 lên canvas của tập khác (setG)
+  window._l2e2Kit={
+    imgs:()=>[IMG.gary,IMG.friend,IMG.hand,IMG.pain,...IMG.mem], build:()=>{ if(!BG) build(); }, setG:x=>{ const p=g; g=x; return p; },
+    get:()=>({BG,ST,HAND,SEAL,PAIN,MEM}), C:{STX,PED,SH,GROUND,GY,BX0,BX1,BY0,BY1,CAGE,ORB,HANDS,HH,BRZ,MEM_HEAD,MH},
+    bg:()=>g.drawImage(BG,BX0,BY0,BX1-BX0,BY1-BY0),
+    statueRims:(lit)=>{ g.save(); g.globalCompositeOperation='lighter'; g.globalAlpha=0.55*lit; g.drawImage(ST.rimL,ST.x,ST.y,ST.w,ST.h); g.drawImage(ST.rimR,ST.x,ST.y,ST.w,ST.h); g.globalAlpha=0.35*lit; g.drawImage(ST.rimT,ST.x,ST.y,ST.w,ST.h); g.restore(); },
+    hands:(t,lit)=>{ for(const H of HANDS){ drawArm(H,lit); g.save(); g.translate(H.x,H.y); g.rotate(H.a); if(H.flip) g.scale(-1,1); g.drawImage(HAND.c,-HAND.w/2,-HH,HAND.w,HH);
+      g.globalCompositeOperation='lighter'; g.globalAlpha=0.6*lit; g.drawImage(HAND.rimOut,-HAND.w/2,-HH,HAND.w,HH); g.globalAlpha=0.35*lit; g.drawImage(HAND.rimIn,-HAND.w/2,-HH,HAND.w,HH); g.restore(); } },
+    cuffs:(t,lit)=>cuffs(t,lit), flames:t=>{ for(const b of BRZ) flame(b[0],b[1],b[2],1,t,b[0]*0.01); }, fog:(t,a)=>fog(t,a), motes:(t,a)=>motes(t,a),
+    drawSeal:(x,y,r,flat,rot,a)=>drawSeal(x,y,r,flat,rot,a), friendCage:t=>friendCage(t), orb:t=>orb(t), handPt, memPos, buildFigure, prep, rod };
   window._cineL2E2Ready=()=>ready;
   window._cineL2E2Step=R=>{ if(OFF && ready) renderAt(R); };
   window._cineL2E2Info=()=>({dur:DUR, sfx:SFX_PLAN.map(([a,k,v,d])=>[a,k,v,d]), mus:[{src:'assets/audio/pain_theme.mp3', ra:T.ignite, rb:DUR, vol:Math.pow(10,(-14-((typeof SND_LUFS!=='undefined'&&SND_LUFS.pain_theme)?SND_LUFS.pain_theme[0]:-14))/20), off:0, fo:1.0}], slow:[]});
