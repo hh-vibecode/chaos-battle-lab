@@ -4419,6 +4419,33 @@ function _saDrawGravity(){
   ctx.restore();
   for(const f of fighters){ if(f.type!=='supremearbiter' || f.dead) continue; const gf=_saG(f); if(gf>=0.03 && f._lastSprite && f._lastSprite.dw) _saDrawDemon(f,f._lastSprite,gf,tick/60); }   // 👹 pháp tướng vẽ NGOÀI vùng cắt của sàn → tràn ra ngoài sàn được
 }
+// 😼🌀 NHOÈ ÁP LỰC (anh thích motion blur 29/10): con nào đang bị Supreme đè (đứng trong spotlight) thì càng CHẬM càng NHOÈ —
+//   vùng quanh nó nhoè theo hướng đang chạy + kéo trĩu xuống (dán lại mép mềm, không lộ khung); cả khung hình nhoè DỌC nhẹ theo áp lực lớn nhất.
+//   Độ nhoè tỉ lệ đúng mức chậm _saSlw (0 → SA_SLOW_MAX). Bộ lọc: VfxGL.fx.motionBlur (pixi-filters).
+let _saBlurTmp=null;
+function _saPressBlur(){
+  if(!window.VfxGL || !VfxGL.fx || saWin) return;
+  const S=fighters.find(f=>f.type==='supremearbiter' && !f.dead && f._saOnSpot); if(!S) return;
+  const cv=ctx.canvas, T=ctx.getTransform(), sc=Math.hypot(T.a,T.b)||1; let kMax=0;
+  const us=[...fighters.filter(o=>!o.dead && o.team!==S.team), ..._summonFoes(S.team)];
+  for(const u of us){ const k=Math.min(1,(u._saSlw||0)/SA_SLOW_MAX); if(k<0.04) continue; kMax=Math.max(kMax,k);
+    const sz=(u.size||20), r=sz*1.9, p=T.transformPoint(new DOMPoint(u.x,u.y)), R=Math.round(r*sc);
+    const x0=Math.max(0,Math.round(p.x-R)), y0=Math.max(0,Math.round(p.y-R*1.15)), w=Math.min(cv.width-x0,R*2), h=Math.min(cv.height-y0,Math.round(R*2.3)); if(w<8||h<8) continue;
+    if(!_saBlurTmp) _saBlurTmp=document.createElement('canvas'); const c=_saBlurTmp; c.width=w; c.height=h; const g=c.getContext('2d'); g.drawImage(cv,x0,y0,w,h,0,0,w,h);
+    const sp=Math.hypot(u.vx||0,u.vy||0)||1, L=(5+26*k)*sc, vx=-(u.vx||0)/sp*L*0.8, vy=L*0.55-(u.vy||0)/sp*L*0.3;   // ngược hướng chạy (vệt kéo sau lưng) + trĩu xuống
+    const out=VfxGL.fx.motionBlur(c,{vx,vy,kernel:Math.round(9+12*k)}); if(!out) continue;
+    g.clearRect(0,0,w,h); g.drawImage(out,0,0);
+    const gr=g.createRadialGradient(w/2,h*0.52,Math.min(w,h)*0.28,w/2,h*0.52,Math.min(w,h)*0.5); gr.addColorStop(0,'rgba(0,0,0,1)'); gr.addColorStop(1,'rgba(0,0,0,0)');   // mép mềm
+    g.globalCompositeOperation='destination-in'; g.fillStyle=gr; g.fillRect(0,0,w,h); g.globalCompositeOperation='source-over';
+    ctx.save(); ctx.setTransform(1,0,0,1,0,0); ctx.globalAlpha=0.55+0.4*k; ctx.drawImage(c,x0,y0); ctx.restore(); }
+  if(kMax>0.08){ const out=VfxGL.fx.motionBlur(cv,{vx:0,vy:(3+12*kMax)*sc,kernel:Math.round(7+8*kMax)}); if(out){
+    // môi trường: CHỈ trong sàn đấu (không nhoè tên trận / chữ ngoài khung) · chừa vùng tròn quanh Supreme cho nó NÉT — kẻ đè áp lực đứng vững
+    const a0=T.transformPoint(new DOMPoint(0,0)), a1=T.transformPoint(new DOMPoint(W,H)), ax=Math.max(0,Math.min(a0.x,a1.x)), ay=Math.max(0,Math.min(a0.y,a1.y)), aw=Math.min(cv.width,Math.max(a0.x,a1.x))-ax, ah=Math.min(cv.height,Math.max(a0.y,a1.y))-ay;
+    if(aw>8&&ah>8){ if(!_saPressBlur.env) _saPressBlur.env=document.createElement('canvas'); const e=_saPressBlur.env; e.width=aw; e.height=ah; const g=e.getContext('2d'); g.drawImage(out,ax,ay,aw,ah,0,0,aw,ah);
+      const sp=T.transformPoint(new DOMPoint(S.x,S.y)), sr=(S.size||40)*2.3*sc, gr=g.createRadialGradient(sp.x-ax,sp.y-ay,sr*0.55,sp.x-ax,sp.y-ay,sr); gr.addColorStop(0,'rgba(0,0,0,1)'); gr.addColorStop(1,'rgba(0,0,0,0)');
+      g.globalCompositeOperation='destination-out'; g.fillStyle=gr; g.fillRect(0,0,aw,ah); g.globalCompositeOperation='source-over';
+      ctx.save(); ctx.setTransform(1,0,0,1,0,0); ctx.globalAlpha=0.25+0.45*kMax; ctx.drawImage(e,ax,ay); ctx.restore(); } } }
+}
 function _saDrawPressed(u,g){
   if(g<0.03) return;
   const R=u.size||20, fx=u.x, fy=u.y+R*0.85; if(u._saSeed===undefined) u._saSeed=Math.random()*99;
@@ -29899,6 +29926,7 @@ function loop(){
   _mwPurpleDraw();  // 🟣 Hollow Purple + RÃNH HƯ VÔ — vẽ sau cùng trong world: khoét xuyên sân, chữ, mọi thứ
   _saWinDraw();     // ⚡ Arbiter thắng: tối om + sét, chỉ mặt nó sáng
   _hmWinDraw();     // 👁️ Hamster thắng: bóng tối + mắt
+  _saPressBlur();   // 😼 meme bị trọng lực Supreme đè: nhoè chuyển động rõ dần theo mức chậm + cả môi trường nhoè dọc
   if(_camOn) ctx.restore(); // 🎥
   _saWinText();     // "Pathetic."
   _frDrawPianoCameo();   // 🎸 Guitar Cat gảy đàn ở góc khung hình — toạ độ màn hình, dính theo góc cam đóng camera — mọi thứ vẽ SAU đây (tint disco, overlay...) là toạ độ màn hình, không bám camera
