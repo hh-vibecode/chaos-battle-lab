@@ -13866,16 +13866,26 @@ function _dogeAnim(f){
   if((f._dgDeflate||0)>0){ const p=1-f._dgDeflate/DG_DEFLATE, s=1+0.5*(1-_dgElastic(p)), wob=0.06*Math.sin(p*Math.PI*4)*(1-p); o.sx*=s*(1+wob); o.sy*=s*(1-wob); }
   return o; }
 // 🖤 hiệu ứng haki (anh dặn làm ĐƠN GIẢN, trọng tâm là 2 tay hoá đen): lúc thức tỉnh tối nền thoáng qua · chỗ trúng đấm: chớp trắng + 1 vòng đỏ mảnh + 2 tia sét haki CHÉO (kiểu manga)
-// ⚡ SÉT HAKI kiểu manga One Piece (ảnh mẫu anh gửi 29/10): dải ĐEN đặc, ít đoạn, GÃY GÓC gắt, MẢNH + DÀI, thon nhọn 2 đầu, vài gai nhánh ngắn
-function _dgBolt(x0,y0,ang,len,wmax,seed){ const H=(n)=>{ const v=Math.sin(seed*91.7+n*12.9898)*43758.5453; return v-Math.floor(v); };
-  const n=4+Math.floor(H(1)*2), pts=[[x0,y0]]; let x=x0, y=y0, a=ang;
-  for(let i=0;i<n;i++){ a=ang+(i%2?1:-1)*(0.35+0.4*H(i+2)); const L=len/n*(0.6+0.8*H(i+9)); x+=Math.cos(a)*L; y+=Math.sin(a)*L; pts.push([x,y]); }
+// ⚡ SÉT HAKI (ảnh mẫu anh gửi 29/10): GÃY GÓC gắt, MẢNH + DÀI, thon nhọn 2 đầu · màu như anime: lõi ĐEN + viền ĐỎ + quầng đỏ nhẹ
+//    _dgBolt vẽ 1 tia và trả các khớp gãy (để mọc tia nhỏ bám vào) · _dgBoltSet = 1 tia chính + 2–3 tia nhỏ mọc từ khớp
+function _dgBoltShape(x0,y0,ang,len,wmax,seed,small){ const H=(n)=>{ const v=Math.sin(seed*91.7+n*12.9898)*43758.5453; return v-Math.floor(v); };
+  const n=small?2:3, pts=[[x0,y0]]; let x=x0, y=y0;   // ít khúc, gãy dứt khoát (không xoăn)
+  for(let i=0;i<n;i++){ const a=ang+(i%2?1:-1)*(small?0.12+0.2*H(i+2):0.18+0.22*H(i+2)), L=len/n*(0.75+0.5*H(i+9)); x+=Math.cos(a)*L; y+=Math.sin(a)*L; pts.push([x,y]); }
   const N=pts.length, Lf=[], Rt=[];
   for(let i=0;i<N;i++){ const p=pts[i], q=pts[Math.min(N-1,i+1)], o=pts[Math.max(0,i-1)], dx=q[0]-o[0], dy=q[1]-o[1], dl=Math.hypot(dx,dy)||1, u=i/(N-1);
     const w=wmax*Math.min(1,u*5)*Math.pow(1-u,0.85)*(0.7+0.6*H(i+20)); Lf.push([p[0]-dy/dl*w,p[1]+dx/dl*w]); Rt.push([p[0]+dy/dl*w,p[1]-dx/dl*w]); }
-  ctx.beginPath(); ctx.moveTo(pts[0][0],pts[0][1]); Lf.forEach(p=>ctx.lineTo(p[0],p[1])); ctx.lineTo(pts[N-1][0],pts[N-1][1]); for(let i=N-1;i>=0;i--) ctx.lineTo(Rt[i][0],Rt[i][1]); ctx.closePath(); ctx.fill();
-  for(let i=1;i<N-1;i++){ if(H(i+40)<0.45) continue; const p=pts[i], ba=ang+(H(i+50)<0.5?1:-1)*(0.7+0.5*H(i+60)), bl=len*(0.12+0.12*H(i+70)), bw=wmax*0.45;   // gai nhánh ngắn
-    ctx.beginPath(); ctx.moveTo(p[0]-Math.sin(ba)*bw,p[1]+Math.cos(ba)*bw); ctx.lineTo(p[0]+Math.cos(ba)*bl,p[1]+Math.sin(ba)*bl); ctx.lineTo(p[0]+Math.sin(ba)*bw,p[1]-Math.cos(ba)*bw); ctx.closePath(); ctx.fill(); } }
+  const path=()=>{ ctx.beginPath(); ctx.moveTo(pts[0][0],pts[0][1]); Lf.forEach(p=>ctx.lineTo(p[0],p[1])); ctx.lineTo(pts[N-1][0],pts[N-1][1]); for(let i=N-1;i>=0;i--) ctx.lineTo(Rt[i][0],Rt[i][1]); ctx.closePath(); };
+  return {pts,path,H}; }
+function _dgBolt(x0,y0,ang,len,wmax,seed,small){ const B=_dgBoltShape(x0,y0,ang,len,wmax,seed,small);
+  ctx.save(); ctx.lineJoin='round';
+  ctx.strokeStyle='rgba(255,20,40,0.28)'; ctx.lineWidth=wmax*1.6+2.5; B.path(); ctx.stroke();   // quầng đỏ
+  ctx.strokeStyle='#e8102c'; ctx.lineWidth=wmax*0.7+1.2; B.path(); ctx.stroke();                  // viền đỏ
+  ctx.fillStyle='#07060a'; B.path(); ctx.fill(); ctx.restore();                                                                      // lõi đen
+  return B; }
+function _dgBoltSet(x0,y0,ang,len,wmax,seed){ const B=_dgBolt(x0,y0,ang,len,wmax,seed), P=B.pts;
+  for(let i=1;i<P.length-1;i++){   // 2–3 tia nhỏ bám vào khớp gãy, toả chéo khỏi tia chính
+    const sd=seed*3+i, ba=ang+(B.H(i+90)<0.5?1:-1)*(0.5+0.45*B.H(i+95)); _dgBolt(P[i][0],P[i][1],ba,len*(0.32+0.16*B.H(i+99)),wmax*0.45,sd,true);
+    if(B.H(i+70)<0.6) _dgBolt(P[i][0],P[i][1],ang+(B.H(i+90)<0.5?-1:1)*(0.4+0.3*B.H(i+75)),len*(0.22+0.1*B.H(i+77)),wmax*0.35,sd+7,true); } }
 function _dgHakiFxDraw(F){ const t=F.t;
   if(F.k==='hakion'){ const f=F.f; if(!f) return; const T=DG_HAKI_FREEZE, fade=t<T?1:1-(t-T)/20;   // nền tối thoáng qua lúc trận đứng hình — trọng tâm là 2 tay hoá đen (nháy ở chỗ chọn ảnh)
     ctx.globalAlpha=0.3*fade*Math.min(1,t/8); ctx.fillStyle='#05030a'; ctx.fillRect(-W,-H,W*3,H*3); ctx.globalAlpha=1;
@@ -13884,10 +13894,10 @@ function _dgHakiFxDraw(F){ const t=F.t;
   const u=t/F.T, x=F.x, y=F.y, s=F.s;
   if(t<5){ ctx.globalAlpha=1-t/5; _dgGlow(x,y,s*1.2,0.85,'255,255,255'); ctx.globalAlpha=1; }   // đơn giản: chớp trắng + 1 vòng đỏ mảnh
   { const R=s*(0.35+1.2*_dgOut(u)); ctx.globalAlpha=(1-u)*0.85; ctx.strokeStyle='#c4001f'; ctx.lineWidth=s*0.04*(1-u)+0.8; ctx.beginPath(); ctx.ellipse(x,y,R,R*0.75,0,0,Math.PI*2); ctx.stroke(); }
-  if(t<12){ ctx.globalAlpha=1-t/12; ctx.fillStyle='#07070b'; const fr=Math.floor(t/4), sd=F.sd||(F.sd=Math.random()*99);
-    // ⚡ 2 tia sét CHÉO như ảnh mẫu: từ chỗ trúng, ngược về phía người đấm — 1 tia chéo lên, 1 tia chéo xuống
+  if(t<12){ ctx.globalAlpha=1-t/12; const fr=Math.floor(t/4), sd=F.sd||(F.sd=Math.random()*99);
+    // ⚡ 2 tia sét CHÍNH chéo như ảnh mẫu (từ chỗ trúng, ngược về phía người đấm — 1 chéo lên, 1 chéo xuống) + mỗi tia 2–3 tia nhỏ bám vào
     const bk=F.a+Math.PI, sg=Math.cos(bk)>=0?1:-1;
-    _dgBolt(x,y,bk-sg*0.55,s*2.1,s*0.09,fr*5+sd); _dgBolt(x,y+s*0.1,bk+sg*1.15,s*1.7,s*0.075,fr*5+sd+2); }
+    _dgBoltSet(x,y,bk-sg*0.55,s*2.3,s*0.12,fr*5+sd); _dgBoltSet(x,y+s*0.1,bk+sg*1.15,s*1.9,s*0.1,fr*5+sd+2); }
   ctx.globalAlpha=1; }
 // đếm lùi các timer hoạt ảnh (gọi trong update — đứng yên lúc đóng băng trận)
 function _dogeTick(f){ for(const k of ['_dgMorph','_dgDeflate','_dgAtk']) if(f[k]>0) f[k]--; }
