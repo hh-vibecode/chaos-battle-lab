@@ -13823,9 +13823,30 @@ const DG_COLS=['#ff4081','#00e5ff','#ffea00','#76ff03','#ff9100','#e040fb'];
 // 🖤 HAKI VŨ TRANG (từ LẦN BIẾN HÌNH THỨ 2): trận đóng băng 1s, 2 tay hoá đen bóng · dạng buff chỉ ĐẤM (không búa), 145 dame
 //   Ảnh: tô lại ĐÚNG 2 tay (vai → nắm đấm) kiểu tay haki Luffy (đen tuyền + mảng bóng xám xanh viền sắc + dải viền mép) — bản gốc: rageAvatarUrl + CINE_DOGE_P1/P5
 //   P1 = đấm móc (mặt nhìn theo nắm đấm) · P5 = đấm ngang (mặt nhìn theo nắm đấm) → lật sao cho mặt + nắm đấm luôn hướng về địch (xem _dogeBuffMirror)
-const DG_HAKI={ idle:new Image(), p1:new Image(), p5:new Image() };
-DG_HAKI.idle.src='assets/img/doge/DG_HAKI_IDLE.webp'; DG_HAKI.p1.src='assets/img/doge/DG_HAKI_P1.webp'; DG_HAKI.p5.src='assets/img/doge/DG_HAKI_P5.webp';
-const DG_HAKI_DMG=145, DG_HAKI_FREEZE=60;   // 120 + 25 · đóng băng 1s lúc bật haki
+//   Ảnh dựng ở ×2 độ phân giải gốc (mép mịn) · phần người ửng CAM ĐỎ nhẹ kiểu Luffy bật Gear 2 · DG_GEAR_IDLE = ửng da nhưng tay chưa haki (để haki LAN dần)
+const DG_HAKI={ idle:new Image(), p1:new Image(), p5:new Image(), gear:new Image() };
+for(const [k,f] of [['idle','DG_HAKI_IDLE'],['p1','DG_HAKI_P1'],['p5','DG_HAKI_P5'],['gear','DG_GEAR_IDLE']]){ const im=DG_HAKI[k]; im.onload=()=>{ im._crop=computeCropBox(im); }; im.src='assets/img/doge/'+f+'.webp'; }
+const DG_HAKI_DMG=145, DG_HAKI_FREEZE=60, DG_HAKI_WIPE=1.0;   // 120 + 25 · đóng băng 1s lúc bật haki · haki chạy từ tay lên vai trong 1s
+const DG_HAKI_WORDS=['wow haki','such buff','too hard','very black','much armament','so shiny','amaze haki','many dark'];
+// 🖤 lớp "chỉ 2 tay haki" (ảnh haki trừ đi ảnh buff gốc) + bản sáng của nó (vệt bóng chạy theo mép haki đang lan)
+function _dgHakiArms(){ if(DG_HAKI._arms) return DG_HAKI._arms; const w=DG_HAKI.idle.naturalWidth, h=DG_HAKI.idle.naturalHeight;
+  const mk=()=>{ const c=document.createElement('canvas'); c.width=w; c.height=h; return c; };
+  const A=mk(), ax=A.getContext('2d'); ax.drawImage(DG_HAKI.idle,0,0,w,h); const R=mk(), rx=R.getContext('2d'); rx.drawImage(DG_HAKI.gear,0,0,w,h);
+  try{ const ad=ax.getImageData(0,0,w,h), rd=rx.getImageData(0,0,w,h).data, d=ad.data;
+    for(let k=0;k<d.length;k+=4){ const df=Math.abs(d[k]-rd[k])+Math.abs(d[k+1]-rd[k+1])+Math.abs(d[k+2]-rd[k+2]); d[k+3]=Math.round(d[k+3]*Math.min(1,Math.max(0,(df-30)/60))); }
+    ax.putImageData(ad,0,0); }catch(e){}
+  const Lt=mk(), lx=Lt.getContext('2d'); lx.drawImage(A,0,0); lx.globalCompositeOperation='source-in'; lx.fillStyle='#d8deff'; lx.fillRect(0,0,w,h);
+  return DG_HAKI._arms={A,Lt}; }
+const _dgHakiFront=p=>0.88-0.66*_dgSS(p);   // mép haki đang lan (tỉ lệ theo chiều cao ảnh): nắm đấm 0.88 → vai 0.22
+// 🖤 khung đang thức tỉnh: ảnh buff gốc + haki LAN TỪ DƯỚI LÊN (nắm đấm → vai) theo p 0→1, mép lan có vệt sáng
+function _dgHakiWipe(f,rage,p){ const w=DG_HAKI.idle.naturalWidth, h=DG_HAKI.idle.naturalHeight, M=_dgHakiArms();
+  let C=f._dgWipeCv; if(!C||C.width!==w){ C=f._dgWipeCv=document.createElement('canvas'); C.width=w; C.height=h; C.naturalWidth=w; C.naturalHeight=h; C.complete=true; C._dgWipe=true; C._noMask=true; }
+  C._crop=DG_HAKI.idle._crop; const x=C.getContext('2d'); x.clearRect(0,0,w,h); x.drawImage(rage,0,0,w,h);
+  if(DG_HAKI.gear.naturalWidth){ x.globalAlpha=Math.min(1,p*1.6); x.drawImage(DG_HAKI.gear,0,0,w,h); x.globalAlpha=1; }   // da ửng dần
+  const front=h*_dgHakiFront(p), band=h*0.025;
+  x.save(); x.beginPath(); x.rect(0,front,w,h-front); x.clip(); x.drawImage(M.A,0,0); x.restore();
+  x.save(); x.beginPath(); x.rect(0,front-band*0.3,w,band); x.clip(); x.globalAlpha=0.9; x.drawImage(M.Lt,0,0); x.restore();
+  return C; }
 let dogeFx=[];
 function _dgFx(o){ dogeFx.push(Object.assign({t:0},o)); }
 function _dgFace(f){ const e=f.enemy; return e ? (e.x>=f.x?1:-1) : 1; }
@@ -13887,9 +13908,22 @@ function _dgBoltSet(x0,y0,ang,len,wmax,seed){ const B=_dgBolt(x0,y0,ang,len,wmax
     const sd=seed*3+i, ba=ang+(B.H(i+90)<0.5?1:-1)*(0.5+0.45*B.H(i+95)); _dgBolt(P[i][0],P[i][1],ba,len*(0.32+0.16*B.H(i+99)),wmax*0.45,sd,true);
     if(B.H(i+70)<0.6) _dgBolt(P[i][0],P[i][1],ang+(B.H(i+90)<0.5?-1:1)*(0.4+0.3*B.H(i+75)),len*(0.22+0.1*B.H(i+77)),wmax*0.35,sd+7,true); } }
 function _dgHakiFxDraw(F){ const t=F.t;
-  if(F.k==='hakion'){ const f=F.f; if(!f) return; const T=DG_HAKI_FREEZE, fade=t<T?1:1-(t-T)/20;   // nền tối thoáng qua lúc trận đứng hình — trọng tâm là 2 tay hoá đen (nháy ở chỗ chọn ảnh)
+  if(F.k==='hakion'){ const f=F.f; if(!f) return; const T=DG_HAKI_FREEZE, fade=t<T?1:Math.max(0,1-(t-T)/20);   // ⚠️ không để âm: globalAlpha âm bị bỏ qua → lớp tối thành ĐEN ĐẶC   // nền tối thoáng qua lúc trận đứng hình — trọng tâm là 2 tay hoá đen (nháy ở chỗ chọn ảnh)
     ctx.globalAlpha=0.3*fade*Math.min(1,t/8); ctx.fillStyle='#05030a'; ctx.fillRect(-W,-H,W*3,H*3); ctx.globalAlpha=1;
-    ctx.globalAlpha=1; return; }
+    const x=f.x, y=f.y, s=f.size, Ls=f._lastSprite, dw=Ls?Ls.dw:s*2, dh=Ls?Ls.dh:s*2.6, el=(performance.now()-(f._dgHakiOn||0))/1000;
+    // ♨️ HƠI NƯỚC kiểu Luffy bật Gear 2: bùng ra khắp người (trắng hồng), bốc lên, nở to rồi tan — dày nhất lúc vừa bật
+    for(let b=0;b<=Math.min(t,80);b+=2){ const age=t-b; if(age>46) continue; const k=age/46, dens=b<50?1:0.45;
+      for(let q=0;q<3;q++){ const h1=((b*37+q*61)%97)/97, h2=((b*53+q*29)%89)/89, side=h1<0.5?-1:1;
+        const x0=x+(h1-0.5)*dw*0.85, y0=y-dh*0.42+h2*dh*0.8, px=x0+side*dw*0.1*_dgOut(k)+Math.sin(b*1.7+age*0.12)*dw*0.025, py=y0-dh*0.32*_dgOut(k), rr=dw*(0.06+0.13*_dgOut(k));
+        _dgPuff(px,py,rr,0.42*(1-k)*dens,k<0.35?'255,250,250':'255,226,230'); } }
+    // 💬 chữ Comic Sans kiểu doge bật ra (cùng kiểu chữ lần biến hình 1, nội dung haki)
+    if(!F.words) F.words=DG_HAKI_WORDS.slice().sort(()=>Math.random()-0.5).slice(0,5).map((w,q)=>({w, a:-Math.PI/2+(q-2)*0.62+(Math.random()-0.5)*0.3, c:DG_COLS[q%DG_COLS.length], r:(Math.random()-0.5)*0.4, d:6+q*5}));
+    const L=F.T;
+    for(const W2 of F.words){ const uu=t-W2.d; if(uu<=0) continue; const pop=_dgElastic(uu/22), d=s*(1.0+1.6*_dgOut(uu/26)), al=1-_dgSS((uu-(L-W2.d-24))/20); if(al<=0) continue;
+      ctx.save(); ctx.globalAlpha=al; ctx.translate(x+Math.cos(W2.a)*d*1.2, y+Math.sin(W2.a)*d*0.8-uu*0.25); ctx.rotate(W2.r+Math.sin(uu*0.08)*0.05); ctx.scale(pop,pop);
+      ctx.font=`bold ${Math.round(s*0.42)}px "Comic Sans MS","Comic Sans",cursive`; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.lineJoin='round';
+      ctx.shadowColor='rgba(0,0,0,0.35)'; ctx.shadowBlur=6; ctx.lineWidth=2.4; ctx.strokeStyle='rgba(0,0,0,0.85)'; ctx.strokeText(W2.w,0,0); ctx.shadowBlur=0; ctx.fillStyle=W2.c; ctx.fillText(W2.w,0,0); ctx.restore(); }
+    return; }
   // hpunch
   const u=t/F.T, x=F.x, y=F.y, s=F.s;
   if(t<5){ ctx.globalAlpha=1-t/5; _dgGlow(x,y,s*1.2,0.85,'255,255,255'); ctx.globalAlpha=1; }   // đơn giản: chớp trắng + 1 vòng đỏ mảnh
@@ -13904,6 +13938,10 @@ function _dogeTick(f){ for(const k of ['_dgMorph','_dgDeflate','_dgAtk']) if(f[k
 // 🔥 hào quang vàng dạng buff (vẽ SAU lưng thân)
 function _dogeAura(f,s){
   const t=performance.now()/1000;
+  if(f._dgHaki){   // ♨️ dạng haki: không hào quang vàng — hơi nước Gear 2 bốc nhẹ quanh người (sau lưng thân)
+    for(let k=0;k<7;k++){ const ph=(t*0.55+k/7)%1, xo=(((k*0.618)%1)-0.5)*s*1.5+Math.sin(t*1.7+k)*s*0.08, yy=f.y+s*0.5-ph*s*2.1, r=s*(0.22+0.3*ph);
+      _dgPuff(f.x+xo,yy,r,0.22*Math.sin(ph*Math.PI),'255,232,236'); }
+    return; }
 
   ctx.save(); ctx.globalCompositeOperation='lighter';
   const g=ctx.createRadialGradient(f.x,f.y,s*0.5,f.x,f.y,s*1.45), pu=0.6+0.25*Math.sin(t*4.5);
@@ -16123,34 +16161,34 @@ function _stickerMask(img){
   return img._sil;
 }
 function _drawStickerOutline(img, sx,sy,sw,sh, dw,dh, ow, color){
-  ow=ow||4; color=color||'#ffffff';
-  // ⚡ CACHE viền: dw/dh ổn định mỗi frame (jelly áp qua ctx.scale) → dựng viền 1 lần rồi
-  //   mỗi frame chỉ 1 drawImage thay vì dập 16 lần/nhân vật (giảm tải cực nhiều khi đông char).
+  ow=(ow||4)*0.85; color=color||'#ffffff';   // viền mỏng đi 15% cho MỌI meme (yêu cầu 29/10)
+  // ⚡ CACHE viền: dw/dh ổn định mỗi frame (jelly áp qua ctx.scale) → dựng viền 1 lần rồi mỗi frame chỉ 1 drawImage.
+  // 🔍 DỰNG Ở ĐỘ PHÂN GIẢI THẬT (29/10, anh chê viền vỡ/không mịn): trước dựng ở cỡ LOGIC (dw×dh) rồi ctx phóng lên theo độ phân giải
+  //    canvas (2K = ×2.6…) với smoothing TẮT → mép thành bậc thang. Giờ nhân thêm hệ số phóng hiện tại K của ctx (làm tròn 0.25 để cache ổn định),
+  //    dập viền ở cỡ thật rồi vẽ thu về đúng khung logic → mép mịn ở mọi độ phân giải.
+  const _T=ctx.getTransform(), K=Math.min(6,Math.max(1,Math.round(Math.hypot(_T.a,_T.b)*4)/4));
   const cw=Math.ceil(dw)+ow*2, ch=Math.ceil(dh)+ow*2;
   // sprite-sheet nhiều khung (GIF động) → PHẢI thêm sx,sy vào key, không thì viền bị đóng băng ở đúng khung đầu tiên lúc cache
-  const key=cw+'x'+ch+'@'+Math.round(ow)+color+((img._frames||1)>1?'#'+sx+'_'+sy:'');
+  const key=cw+'x'+ch+'@'+Math.round(ow)+color+'k'+K+((img._frames||1)>1?'#'+sx+'_'+sy:'');
   img._olCache=img._olCache||{};
   let oc=img._olCache[key];
   if(!oc){
-    const tmp=document.createElement('canvas'); tmp.width=cw; tmp.height=ch;
+    const CW=Math.ceil(cw*K), CH=Math.ceil(ch*K), OW=ow*K;
+    const tmp=document.createElement('canvas'); tmp.width=CW; tmp.height=CH;
     const t=tmp.getContext('2d');
-    t.imageSmoothingEnabled=false; // ⚠️ KHÔNG smoothing → mép mask SẮC, không mờ → 16 lần dập không tích tụ alpha thành quầng trắng to (fix "blob" avatar to/rộng)
-    t.drawImage(_stickerMask(img), sx,sy,sw,sh, ow,ow, dw,dh);
-    t.globalCompositeOperation='source-in'; t.fillStyle=color; t.fillRect(0,0,cw,ch); // silhouette tô 1 màu
-    oc=document.createElement('canvas'); oc.width=cw; oc.height=ch;
+    t.imageSmoothingEnabled=true; t.imageSmoothingQuality='high';   // mask phóng mượt (đã ở cỡ thật nên không còn bậc thang)
+    t.drawImage(_stickerMask(img), sx,sy,sw,sh, OW,OW, dw*K,dh*K);
+    t.globalCompositeOperation='source-in'; t.fillStyle=color; t.fillRect(0,0,CW,CH); // silhouette tô 1 màu
+    oc=document.createElement('canvas'); oc.width=CW; oc.height=CH;
     const o=oc.getContext('2d');
-    o.imageSmoothingEnabled=false;
-    const steps=24; // viền mượt hơn (cache 1 lần nên không tốn thêm mỗi frame)
-    for(let k=0;k<steps;k++){ const a=k/steps*Math.PI*2; o.drawImage(tmp, Math.round(Math.cos(a)*ow), Math.round(Math.sin(a)*ow)); } // dập 16 hướng (offset nguyên → mép sắc)
+    const steps=Math.max(24,Math.min(64,Math.round(OW*6)));   // viền dày ở cỡ thật → dập nhiều hướng hơn cho tròn đều
+    for(let k=0;k<steps;k++){ const a=k/steps*Math.PI*2; o.drawImage(tmp, Math.cos(a)*OW, Math.sin(a)*OW); }
+    // khử răng cưa còn sót: alpha các lần dập cộng dồn → ép lại thành mép sắc nhưng mịn (đường cong alpha ngắn)
+    try{ const id=o.getImageData(0,0,CW,CH), d=id.data; for(let i=3;i<d.length;i+=4){ const v=d[i]; d[i]=v<40?0:v>140?255:Math.round((v-40)*2.55); } o.putImageData(id,0,0); }catch(e){}
     img._olCache[key]=oc;
     const ks=Object.keys(img._olCache); if(ks.length>32) delete img._olCache[ks[0]]; // chặn phình cache (nâng lên 32 để đủ chỗ cache hết khung của sprite-sheet GIF động)
   }
-  // viền đã cache SẮC sẵn, nhưng ctx chính đang bật imageSmoothingEnabled=true (để ảnh nhân vật đỡ vỡ hạt khi thu nhỏ) —
-  // lúc nhân vật đang bị scale méo do animation (nhảy/lắc/jelly), vẽ viền qua context đang smoothing sẽ bị mờ lại. Tắt riêng lúc vẽ viền rồi trả lại ngay.
-  const _olSmooth=ctx.imageSmoothingEnabled;
-  ctx.imageSmoothingEnabled=false;
-  ctx.drawImage(oc, -dw/2-ow, -dh/2-ow);
-  ctx.imageSmoothingEnabled=_olSmooth;
+  ctx.drawImage(oc, -dw/2-ow, -dh/2-ow, cw, ch);   // canvas viền to gấp K → vẽ thu về đúng khung logic, smoothing bật (mịn)
 }
 
 // ⚡ SPRITE GLOW dựng sẵn cho hạt tròn (lửa/độc): ctx.shadowBlur là lệnh ĐẮT NHẤT của canvas và trước đây
@@ -20810,9 +20848,9 @@ class Fighter {
     floatTexts.push({x:this.x,y:this.y-this.size-30,text:_hakiNew?'ARMAMENT HAKI':'MUCH POWER',color:_hakiNew?'#c9d3ff':'#f4a460',life:80,huge:true});
     floatTexts.push({x:this.x,y:this.y-this.size-16,text:'+20% MAX HP',color:'#44ff88',life:50,big:true});
     if(_hakiNew){ this._dgHaki=true; this._dgHakiOn=performance.now(); battleFreezeTimer=Math.max(battleFreezeTimer,DG_HAKI_FREEZE);
-      playSample('cine_haki',1.0); _dgFx({k:'hakion', f:this, T:DG_HAKI_FREEZE+20}); }   // (1 nhịp 1 tiếng: tiếng haki thay tiếng rage)
+      playSample('cine_haki',1.0); _dgFx({k:'hakion', f:this, T:DG_HAKI_FREEZE+50}); }   // (1 nhịp 1 tiếng: tiếng haki thay tiếng rage)
     else playSound('rage');
-    _dgOnTransform(this);   // 💪 hoạt cảnh phồng cơ + nổ vàng
+    if(!_hakiNew) _dgOnTransform(this);   // 💪 hoạt cảnh phồng cơ + nổ vàng (lần thức tỉnh haki: Doge TO SẴN, không phồng từ nhỏ, không hào quang vàng — haki lan trên 2 tay + toả HƠI NƯỚC kiểu Gear 2)
   }
 
   _dogeRevert(){
@@ -22121,9 +22159,11 @@ class Fighter {
     } else if(castingSkill1 && skill1AvatarImgs[i]){
       // skill 1 cast — ưu tiên cao
       img = skill1AvatarImgs[i];
-    } else if(this.type==='doge' && this.dogeBuffed && this._dgHaki && DG_HAKI.idle.naturalWidth && !(performance.now()-(this._dgHakiOn||0)<450 && Math.floor((performance.now()-this._dgHakiOn)/50)%2===0)){
-      // 🖤 haki vũ trang: đứng = tay đen bóng · đánh = 2 ảnh đấm luân phiên (lúc mới bật: nháy qua lại ảnh cũ ↔ haki 0.45s)
-      img = isAttacking ? (this._dgPunchI ? DG_HAKI.p5 : DG_HAKI.p1) : DG_HAKI.idle;
+    } else if(this.type==='doge' && this.dogeBuffed && this._dgHaki && DG_HAKI.idle.naturalWidth){
+      // 🖤 haki vũ trang: đứng = tay đen bóng · đánh = 2 ảnh đấm luân phiên · lúc mới thức tỉnh: haki LAN từ nắm đấm lên vai trong 1s
+      const _hel=(performance.now()-(this._dgHakiOn||0))/1000;
+      img = (_hel<DG_HAKI_WIPE && rageAvatarImgs[i] && rageAvatarImgs[i].naturalWidth && DG_HAKI.gear.naturalWidth) ? _dgHakiWipe(this,rageAvatarImgs[i],_hel/DG_HAKI_WIPE)   // đang thức tỉnh: luôn là cảnh haki lan
+          : isAttacking ? (this._dgPunchI ? DG_HAKI.p5 : DG_HAKI.p1) : DG_HAKI.idle;
     } else if(isRaging && isAttacking && rageAttackAvatarImgs[i]){
       // slot 6: rage + attacking — có ảnh rage attack riêng
       img = rageAttackAvatarImgs[i];
@@ -22225,7 +22265,7 @@ class Fighter {
       }
       // DOGE: 2 ảnh Buff Doge (rageAvatarUrl/rageAttackAvatarUrl) được chụp/vẽ ngược hướng so với ảnh mặc định
       // → chỉ lật riêng khi ẢNH ĐANG VẼ thực sự là 1 trong 2 slot buff đó (không lật nhầm ảnh thường khi thiếu ảnh buff)
-      const _dogeBuffMirror = this.type==='doge' && isRaging && (img===rageAvatarImgs[i] || img===rageAttackAvatarImgs[i] || img===DG_HAKI.idle || img===DG_HAKI.p5);   // 🖤 haki: đã thử trong trận — P5 phải lật thêm, P1 giữ nguyên thì mặt + nắm đấm mới hướng về địch
+      const _dogeBuffMirror = this.type==='doge' && isRaging && (img===rageAvatarImgs[i] || img===rageAttackAvatarImgs[i] || img===DG_HAKI.idle || img===DG_HAKI.p5 || (img && img._dgWipe));   // 🖤 haki: đã thử trong trận — P5 phải lật thêm, P1 giữ nguyên thì mặt + nắm đấm mới hướng về địch
       if(this.type==='doge') this._dgFlipNow = (!!facingLeft) !== _dogeBuffMirror;   // hướng lật THẬT của ảnh (cho aura haki bám đúng dáng)
       if(_dogeBuffMirror){ ctx.save(); ctx.scale(-1,1); }
       // VIỀN theo màu team (P1 xanh / P2 đỏ) — ĐÚNG VỊ TRÍ viền trắng cũ (viền stamp ở RÌA, KHÔNG đè màu lên mặt avatar), có toả glow nhẹ quanh viền
