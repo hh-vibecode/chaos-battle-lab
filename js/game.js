@@ -10208,7 +10208,7 @@ function _pdTick(){
     else if(q.k==='slipland'){ if(q.t>=q.T){ const u=q.u; if(u && !u.dead && !(u.hp<=0)){ _pdHit(u,PD_DMG.peel,q.dog); playSample('pd_fall',1.0); addShake(6,10); } pdFx.splice(i,1); } }   // 💥 lưng đập đất
     else if(q.k==='piano'){ if(q.t===q.T-5) playSample('pd_piano',1.0);   // 🎹 cú đập ở 0.09s của file → phát sớm 5 tick cho khớp lúc đàn trúng đầu
       if(q.t>=q.T){ if(e && !e.dead){ _pdHit(e,PD_DMG.piano,q.dog); e._pdSquash=tick; addShake(9,12); try{ _spawnMusicNoteFx(e.x,e.y-e.size,e.size); }catch(err){} }
-        pdFx[i]={k:'pianobreak', x:e?e.x:W/2, y:e?e.y-e.size*0.2:H/2, t:0, T:34}; } }
+        pdFx[i]={k:'pianobreak', x:e?e.x:W/2, y:e?e.y-e.size*0.2:H/2, h:e?e.size*3.45:58*3.45, rot:Math.sin(q.t*0.3)*0.08, t:0, T:34}; } }   // giữ NGUYÊN cỡ + chỗ đàn lúc rơi trúng (trước dùng cỡ cố định nhỏ hơn → đàn bé đi khi chạm đầu)
     else if(q.k==='pianobreak'){ if(q.t>=q.T) pdFx.splice(i,1); }
     else if(q.k==='pot'){ if(q.t>=q.T){ if(e && !e.dead){ _pdHit(e,PD_DMG.pot,q.dog); if(e.stun!==undefined) e.stun=Math.max(e.stun||0,60); addShake(6,9); }   // 🪴 trúng đầu: 75 + choáng 1s
         playSample('pd_pot',1.0); pdFx[i]={k:'potbreak', x:e?e.x:W/2, y:e?e.y-e.size*0.95:H/2, sz:e?e.size*1.25:50, t:0, T:36}; } }
@@ -10286,8 +10286,8 @@ function _pdDrawOver(){
       if(q.t<5){ ctx.fillStyle=`rgba(220,230,255,${0.35*(1-q.t/5)})`; ctx.fillRect(0,0,W,H); } ctx.restore(); }
     else if(q.k==='piano' && e && PD_PIANO_IMG.naturalWidth){ const u=q.t/q.T, h=e.size*3.45, w=h*PD_PIANO_IMG.naturalWidth/PD_PIANO_IMG.naturalHeight, y=-h+(e.y-e.size*0.2+h*0.1)*u*u;
       ctx.save(); ctx.translate(e.x,y); ctx.rotate(Math.sin(q.t*0.3)*0.08); ctx.drawImage(PD_PIANO_IMG,-w/2,-h,w,h); ctx.restore(); }
-    else if(q.k==='pianobreak' && PD_PIANO_IMG.naturalWidth){ const u=q.t/q.T, h=58*2.4, w=h*PD_PIANO_IMG.naturalWidth/PD_PIANO_IMG.naturalHeight;
-      ctx.save(); ctx.globalAlpha=1-u; ctx.translate(q.x,q.y+u*20); ctx.rotate(u*0.5); ctx.scale(1+u*0.15,1-u*0.35); ctx.drawImage(PD_PIANO_IMG,-w/2,-h*0.75,w,h); ctx.restore();
+    else if(q.k==='pianobreak' && PD_PIANO_IMG.naturalWidth){ const u=q.t/q.T, h=q.h||58*3.45, w=h*PD_PIANO_IMG.naturalWidth/PD_PIANO_IMG.naturalHeight;
+      ctx.save(); ctx.globalAlpha=1-u; ctx.translate(q.x,q.y+h*0.1+u*20); ctx.rotate((q.rot||0)+u*0.5); ctx.scale(1+u*0.15,1-u*0.35); ctx.drawImage(PD_PIANO_IMG,-w/2,-h,w,h); ctx.restore();
       ctx.save(); for(let k=0;k<12;k++){ const a=-Math.PI*(0.1+0.8*((k*37)%12)/12), d=u*(50+((k*53)%40)); ctx.globalAlpha=1-u; ctx.fillStyle=k%3?'#f4f4f4':'#111'; ctx.save(); ctx.translate(q.x+Math.cos(a)*d,q.y+Math.sin(a)*d+u*u*60); ctx.rotate(u*6+k); ctx.fillRect(-3,-8,6,16); ctx.restore(); } ctx.restore(); }   // phím đàn văng tung toé
     else if(q.k==='pot' && e && PD_TH_IMG.pot.naturalWidth){ const im=PD_TH_IMG.pot, u=q.t/q.T, h=e.size*1.25, w=h*im.naturalWidth/im.naturalHeight, yh=e.y-e.size*0.95, y=-h+(yh+h)*u*u;   // rơi nhanh dần tới đỉnh đầu
       ctx.save(); ctx.translate(e.x,y); ctx.rotate(Math.sin(q.t*0.35)*0.12); ctx.drawImage(im,-w/2,-h,w,h); ctx.restore(); }
