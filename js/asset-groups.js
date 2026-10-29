@@ -818,6 +818,7 @@ window.ASSET_GROUP={
 "assets/img/poordog/PD_PIANO.webp": "poordog",
 "assets/audio/pd_slip.mp3": "poordog",
 "assets/audio/pd_piano.mp3": "poordog",
+"assets/audio/pd_truck_crash.mp3": "poordog",
 "assets/audio/pd_fall.mp3": "poordog",
 "assets/audio/pd_pot.mp3": "poordog",
 "assets/img/ninjacat/NJ_SHARINGAN.webp": "ninjacat",
