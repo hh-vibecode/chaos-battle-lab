@@ -734,7 +734,7 @@ const CHAR_DEFS = {
 huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:'#e0e0e0', hp:1000,  speed:5, size:43, skill:'Tích lực 0.5s rồi bắn luồng "HUH" bám mục tiêu (90 dmg, tầm 340, 25% choáng 1.5s). Chậm dần lại lúc tích lực (không đứng hẳn).' },
     popcat:     { key:'popcat',     defaultName:'Pop Cat',      emoji:'😺', color:'#ffb347', hp:1000,  speed:5, size:43, skill:'Há mồm POP là phả ra 1 vòng khói chữ O bay về phía địch, tầm phủ hết sàn. Vòng khói to dần như thổi vape, ra tới mép sàn thì tan như khói. Càng bắn càng nhanh.' },
     ricardo:    { key:'ricardo',    defaultName:'Ricardo Milos',emoji:'🕺', color:'#ff69b4', hp:1000, speed:5, size:45, skill:'Cứ vài giây lại đứng giữa spotlight uốn éo 4 điệu, mỗi lần nhảy xong +30 dame, đang nhảy thì đánh trúng cũng nửa phần trượt. Tụt dưới 35% máu là bật nhạc, thả quả cầu disco, sàn LED nhấp nháy rồi quẩy không nghỉ: cứ mỗi giây +10 dame, mỗi nhịp đổi một điệu giật đùng đùng, né nửa số đòn suốt tới cuối trận.' },
-    doge:       { key:'doge',       defaultName:'Doge',         emoji:'🐕', color:'#f4a460', hp:1000, speed:5, size:44, skill:'Bắn meme text (40 dmg, tầm 340). Sau 5 đòn ăn được → hóa Buff Doge trong 10s: hồi máu, +20% tốc chạy, +50% kích cỡ, cận chiến 120 dmg, và +20% máu tối đa VĨNH VIỄN (giữ nguyên sau khi hết buff). Hết giờ các buff khác tự trở lại bình thường.' },
+    doge:       { key:'doge',       defaultName:'Doge',         emoji:'🐕', color:'#f4a460', hp:1000, speed:5, size:44, skill:'Bắn meme text (40 dmg, tầm 340). Sau 5 đòn ăn được → hóa Buff Doge trong 10s: hồi máu, +20% tốc chạy, +50% kích cỡ, cận chiến 120 dmg, và +20% máu tối đa VĨNH VIỄN (giữ nguyên sau khi hết buff). Hết giờ các buff khác tự trở lại bình thường. Từ lần biến hình THỨ 2: thức tỉnh HAKI VŨ TRANG (trận đứng hình 1s, 2 tay hoá đen bóng) — dạng buff từ đó chỉ đấm, 145 dame.' },
     feuerkatze: { key:'feuerkatze', defaultName:'Adolf Catler', emoji:'🔥', color:'#ff7043', hp:1000,  speed:5, size:43, skill:'Chạm địch: 50 dmg tức thì + thiêu đốt 10 dmg mỗi 0.5s trong 4s (tổng 80 dmg đốt, cộng dồn 130 dmg cả combo). Hồi chiêu 0.5s giữa các đòn, cận chiến lao vào liên tục. Lửa đốt của nó bén khí độc: địch đang cháy mà đứng trong khí thì ăn DOT ×1.5 (15 dmg mỗi 0.5s). Không bao giờ để địch hạ gục: đòn lẽ ra giết nó thì nó khựng lại, giơ tay, kề súng vào thái dương và tự kết liễu. Khi máu tụt dưới 70%: đứng nghiêm giơ tay hát quốc ca (đứng im tới hết bài), 2 vòi từ tường trái/phải nhô ra trong 2.5s rồi mở van khí độc gắn giữa tường trái/phải, cả sàn ngập sương xanh — mọi meme và summon trong sân (trừ chính nó) ăn 10 dmg mỗi 0.5s, mỗi giây địch có 15% đứng hình ho sặc sụa 1s.' },
     cornelius: { key:'cornelius', defaultName:'Cornelius', emoji:'🍳', color:'#8d6e63', hp:1000, speed:5, size:44, skill:'Phi chảo liên tục vào địch gần nhất, mỗi chảo 60 dmg (1.3s/cái). Địch nào ăn đủ 8 chảo sẽ bị đánh dấu 🍳; lần tới Cornelius áp sát nó, một cái chảo khổng lồ hiện ra dưới chân nó kèm chữ LET HIM COOK — nó bị giữ trong chảo, lắc qua lắc lại giữa lửa và đồ ăn suốt 2.5s rồi ăn 300 dmg. Nấu xong thì đếm lại từ đầu.' },
     epicsaxguy: { key:'epicsaxguy', defaultName:'Epic Sax Guy', emoji:'🎷', color:'#ffb300', hp:1000, speed:5, size:53.2, skill:'Thổi sax theo chu kỳ: trước mỗi lần thổi 1s có 1 con Squirtle chui lên từ sàn ở chỗ ngẫu nhiên (không trùng chỗ con cũ, không giới hạn số con, ở lại tới hết trận). Cả bọn thổi cùng, mỗi nhịp mỗi Squirtle nện ra một luồng sóng âm bán kính 143: địch trong vùng ăn 23-46 dmg tuỳ cự ly, sát chân là ăn đủ 46. Lúc đang thổi: -20% tốc chạy, -35% sát thương nhận vào. Thổi xong nghỉ lấy hơi 1s. Nhạc sax phát nhanh ×1.1.' },
@@ -12399,7 +12399,7 @@ const CHAR_BLURB = {
   huhcat: "Charges up, then fires a piercing beam that homes in on its target.",
   popcat: "Pops its mouth and blows vape-style smoke rings at enemies, firing faster with every single pop.",
   ricardo: "Dances in the spotlight for damage, dodges half your hits mid-dance, and turns into a full disco at low health.",
-  doge: "Throws meme text from range. After enough hits it heals and transforms into a stronger buff form.",
+  doge: "Throws meme text from range. After enough hits it heals and transforms into a stronger buff form. From the second transformation on it awakens Armament Haki: jet-black arms and heavy punches.",
   feuerkatze: "A relentless brawler that sets anything it touches on fire. Once wounded below 75% HP, he bolts gas valves into the arena walls and lets the whole floor choke on green fog.",
   germancat: "Stops to give a speech while its soldiers do the fighting, taking reduced damage throughout.",
   uiacat: "Stands still to wind up, then spins out at high speed with reduced damage taken. Below 25% HP it teleports away, goes Hiphop for good, and floods the floor with spinning clones.",
@@ -13820,6 +13820,12 @@ function _flCosFG(){
 const DG_MORPH=70, DG_DEFLATE=30, DG_SLAM_DELAY=7;
 const DG_WORDS=['wow','such strong','very buff','much power','so swole','many gains','amaze','very muscle'];
 const DG_COLS=['#ff4081','#00e5ff','#ffea00','#76ff03','#ff9100','#e040fb'];
+// 🖤 HAKI VŨ TRANG (từ LẦN BIẾN HÌNH THỨ 2): trận đóng băng 1s, 2 tay hoá đen bóng · dạng buff chỉ ĐẤM (không búa), 145 dame
+//   Ảnh: tô lại ĐÚNG 2 tay (vai → nắm đấm) kiểu tay haki Luffy (đen tuyền + mảng bóng xám xanh viền sắc + dải viền mép) — bản gốc: rageAvatarUrl + CINE_DOGE_P1/P5
+//   P1 = đấm móc (mặt nhìn theo nắm đấm) · P5 = đấm ngang (mặt nhìn theo nắm đấm) → lật sao cho mặt + nắm đấm luôn hướng về địch (xem _dogeBuffMirror)
+const DG_HAKI={ idle:new Image(), p1:new Image(), p5:new Image() };
+DG_HAKI.idle.src='assets/img/doge/DG_HAKI_IDLE.webp'; DG_HAKI.p1.src='assets/img/doge/DG_HAKI_P1.webp'; DG_HAKI.p5.src='assets/img/doge/DG_HAKI_P5.webp';
+const DG_HAKI_DMG=145, DG_HAKI_FREEZE=60;   // 120 + 25 · đóng băng 1s lúc bật haki
 let dogeFx=[];
 function _dgFx(o){ dogeFx.push(Object.assign({t:0},o)); }
 function _dgFace(f){ const e=f.enemy; return e ? (e.x>=f.x?1:-1) : 1; }
@@ -13859,11 +13865,36 @@ function _dogeAnim(f){
   // 🎈 xì hơi lúc hết buff: từ cỡ to (1.5) xẹp mềm về
   if((f._dgDeflate||0)>0){ const p=1-f._dgDeflate/DG_DEFLATE, s=1+0.5*(1-_dgElastic(p)), wob=0.06*Math.sin(p*Math.PI*4)*(1-p); o.sx*=s*(1+wob); o.sy*=s*(1-wob); }
   return o; }
+// 🖤 hiệu ứng haki (anh dặn làm ĐƠN GIẢN, trọng tâm là 2 tay hoá đen): lúc thức tỉnh tối nền thoáng qua · chỗ trúng đấm: chớp trắng + 1 vòng đỏ mảnh + 2 tia sét haki CHÉO (kiểu manga)
+// ⚡ SÉT HAKI kiểu manga One Piece (ảnh mẫu anh gửi 29/10): dải ĐEN đặc, ít đoạn, GÃY GÓC gắt, MẢNH + DÀI, thon nhọn 2 đầu, vài gai nhánh ngắn
+function _dgBolt(x0,y0,ang,len,wmax,seed){ const H=(n)=>{ const v=Math.sin(seed*91.7+n*12.9898)*43758.5453; return v-Math.floor(v); };
+  const n=4+Math.floor(H(1)*2), pts=[[x0,y0]]; let x=x0, y=y0, a=ang;
+  for(let i=0;i<n;i++){ a=ang+(i%2?1:-1)*(0.35+0.4*H(i+2)); const L=len/n*(0.6+0.8*H(i+9)); x+=Math.cos(a)*L; y+=Math.sin(a)*L; pts.push([x,y]); }
+  const N=pts.length, Lf=[], Rt=[];
+  for(let i=0;i<N;i++){ const p=pts[i], q=pts[Math.min(N-1,i+1)], o=pts[Math.max(0,i-1)], dx=q[0]-o[0], dy=q[1]-o[1], dl=Math.hypot(dx,dy)||1, u=i/(N-1);
+    const w=wmax*Math.min(1,u*5)*Math.pow(1-u,0.85)*(0.7+0.6*H(i+20)); Lf.push([p[0]-dy/dl*w,p[1]+dx/dl*w]); Rt.push([p[0]+dy/dl*w,p[1]-dx/dl*w]); }
+  ctx.beginPath(); ctx.moveTo(pts[0][0],pts[0][1]); Lf.forEach(p=>ctx.lineTo(p[0],p[1])); ctx.lineTo(pts[N-1][0],pts[N-1][1]); for(let i=N-1;i>=0;i--) ctx.lineTo(Rt[i][0],Rt[i][1]); ctx.closePath(); ctx.fill();
+  for(let i=1;i<N-1;i++){ if(H(i+40)<0.45) continue; const p=pts[i], ba=ang+(H(i+50)<0.5?1:-1)*(0.7+0.5*H(i+60)), bl=len*(0.12+0.12*H(i+70)), bw=wmax*0.45;   // gai nhánh ngắn
+    ctx.beginPath(); ctx.moveTo(p[0]-Math.sin(ba)*bw,p[1]+Math.cos(ba)*bw); ctx.lineTo(p[0]+Math.cos(ba)*bl,p[1]+Math.sin(ba)*bl); ctx.lineTo(p[0]+Math.sin(ba)*bw,p[1]-Math.cos(ba)*bw); ctx.closePath(); ctx.fill(); } }
+function _dgHakiFxDraw(F){ const t=F.t;
+  if(F.k==='hakion'){ const f=F.f; if(!f) return; const T=DG_HAKI_FREEZE, fade=t<T?1:1-(t-T)/20;   // nền tối thoáng qua lúc trận đứng hình — trọng tâm là 2 tay hoá đen (nháy ở chỗ chọn ảnh)
+    ctx.globalAlpha=0.3*fade*Math.min(1,t/8); ctx.fillStyle='#05030a'; ctx.fillRect(-W,-H,W*3,H*3); ctx.globalAlpha=1;
+    ctx.globalAlpha=1; return; }
+  // hpunch
+  const u=t/F.T, x=F.x, y=F.y, s=F.s;
+  if(t<5){ ctx.globalAlpha=1-t/5; _dgGlow(x,y,s*1.2,0.85,'255,255,255'); ctx.globalAlpha=1; }   // đơn giản: chớp trắng + 1 vòng đỏ mảnh
+  { const R=s*(0.35+1.2*_dgOut(u)); ctx.globalAlpha=(1-u)*0.85; ctx.strokeStyle='#c4001f'; ctx.lineWidth=s*0.04*(1-u)+0.8; ctx.beginPath(); ctx.ellipse(x,y,R,R*0.75,0,0,Math.PI*2); ctx.stroke(); }
+  if(t<12){ ctx.globalAlpha=1-t/12; ctx.fillStyle='#07070b'; const fr=Math.floor(t/4), sd=F.sd||(F.sd=Math.random()*99);
+    // ⚡ 2 tia sét CHÉO như ảnh mẫu: từ chỗ trúng, ngược về phía người đấm — 1 tia chéo lên, 1 tia chéo xuống
+    const bk=F.a+Math.PI, sg=Math.cos(bk)>=0?1:-1;
+    _dgBolt(x,y,bk-sg*0.55,s*2.1,s*0.09,fr*5+sd); _dgBolt(x,y+s*0.1,bk+sg*1.15,s*1.7,s*0.075,fr*5+sd+2); }
+  ctx.globalAlpha=1; }
 // đếm lùi các timer hoạt ảnh (gọi trong update — đứng yên lúc đóng băng trận)
 function _dogeTick(f){ for(const k of ['_dgMorph','_dgDeflate','_dgAtk']) if(f[k]>0) f[k]--; }
 // 🔥 hào quang vàng dạng buff (vẽ SAU lưng thân)
 function _dogeAura(f,s){
   const t=performance.now()/1000;
+
   ctx.save(); ctx.globalCompositeOperation='lighter';
   const g=ctx.createRadialGradient(f.x,f.y,s*0.5,f.x,f.y,s*1.45), pu=0.6+0.25*Math.sin(t*4.5);
   g.addColorStop(0,`rgba(255,215,64,${0.08*pu})`); g.addColorStop(0.65,`rgba(255,180,0,${0.3*pu})`); g.addColorStop(1,'rgba(255,140,0,0)');
@@ -13885,6 +13916,7 @@ function _dogeFxDraw(){
   for(let i=dogeFx.length-1;i>=0;i--){ const F=dogeFx[i]; F.t++;
     if(F.t>F.T || (F.f && F.f.dead && F.k==='morph')){ dogeFx.splice(i,1); continue; }
     ctx.save();
+    if(F.k==='hakion' || F.k==='hpunch'){ _dgHakiFxDraw(F); ctx.restore(); continue; }
     if(F.k==='morph'){
       const f=F.f, x=f.x, y=f.y, s=f.size, t=F.t, B=20;   // B = khoảnh khắc bung
       if(t<B){   // ⚡ tụ lực: đốm sáng mềm xoáy vào + quầng vàng lớn dần
@@ -18707,6 +18739,16 @@ class Fighter {
         this.cooldown=81;
         this.actionState='attack'; this.actionTimer=24; this.attackAvatarTimer=24;
         playSound('shoot');
+      } else if(this.dogeBuffed && this._dgHaki && this.cooldown<=0 && touching){   // 🖤 haki: CHỈ ĐẤM (đổi luân phiên 2 ảnh đấm), 145 dame, tiếng đấm Buff Doge của phim
+        this._dgPunchI=(this._dgPunchI||0)^1;
+        e.takeDamage(DG_HAKI_DMG,this);
+        for(const s of germanSoldiers){if(s.dead||s.hp<=0||s.team===this.team)continue;const sdx=s.x-this.x,sdy=s.y-this.y,sd=Math.sqrt(sdx*sdx+sdy*sdy)||1;if(sd<this.size+38+6){_dmgSoldier(s,DG_HAKI_DMG,'#1a1a24',this.x,this.y,undefined,undefined,this.team);}}
+        _hitParticles(e.x,e.y,'#1a1a24',5,false,true); _hitParticles(e.x,e.y,'#c9d3ff',3,false,true);
+        addShake(7,9);
+        this._dgAtk=28; _dgFx({k:'hpunch', x:e.x, y:e.y, s:Math.max(e.size,30), a:Math.atan2(e.y-this.y,e.x-this.x), T:20});
+        this.cooldown=30;
+        this.actionState='attack'; this.actionTimer=28; this.attackAvatarTimer=28;
+        playSample('cine_strongpunch',0.9);
       } else if(this.dogeBuffed && this.cooldown<=0 && touching){
         e.takeDamage(120,this); // dame x2
         playSample('punch2',0.85);
@@ -20753,9 +20795,13 @@ class Fighter {
     this.size*=1.5;
     this.dogeTransformFlash=40;
     addShake(10,20);
-    floatTexts.push({x:this.x,y:this.y-this.size-30,text:'MUCH POWER',color:'#f4a460',life:80,huge:true});
+    this._dgTfN=(this._dgTfN||0)+1;
+    const _hakiNew = this._dgTfN>=2 && !this._dgHaki;   // 🖤 lần biến hình THỨ 2: thức tỉnh haki vũ trang (giữ cho mọi lần buff sau)
+    floatTexts.push({x:this.x,y:this.y-this.size-30,text:_hakiNew?'ARMAMENT HAKI':'MUCH POWER',color:_hakiNew?'#c9d3ff':'#f4a460',life:80,huge:true});
     floatTexts.push({x:this.x,y:this.y-this.size-16,text:'+20% MAX HP',color:'#44ff88',life:50,big:true});
-    playSound('rage');
+    if(_hakiNew){ this._dgHaki=true; this._dgHakiOn=performance.now(); battleFreezeTimer=Math.max(battleFreezeTimer,DG_HAKI_FREEZE);
+      playSample('cine_haki',1.0); _dgFx({k:'hakion', f:this, T:DG_HAKI_FREEZE+20}); }   // (1 nhịp 1 tiếng: tiếng haki thay tiếng rage)
+    else playSound('rage');
     _dgOnTransform(this);   // 💪 hoạt cảnh phồng cơ + nổ vàng
   }
 
@@ -22065,6 +22111,9 @@ class Fighter {
     } else if(castingSkill1 && skill1AvatarImgs[i]){
       // skill 1 cast — ưu tiên cao
       img = skill1AvatarImgs[i];
+    } else if(this.type==='doge' && this.dogeBuffed && this._dgHaki && DG_HAKI.idle.naturalWidth && !(performance.now()-(this._dgHakiOn||0)<450 && Math.floor((performance.now()-this._dgHakiOn)/50)%2===0)){
+      // 🖤 haki vũ trang: đứng = tay đen bóng · đánh = 2 ảnh đấm luân phiên (lúc mới bật: nháy qua lại ảnh cũ ↔ haki 0.45s)
+      img = isAttacking ? (this._dgPunchI ? DG_HAKI.p5 : DG_HAKI.p1) : DG_HAKI.idle;
     } else if(isRaging && isAttacking && rageAttackAvatarImgs[i]){
       // slot 6: rage + attacking — có ảnh rage attack riêng
       img = rageAttackAvatarImgs[i];
@@ -22088,6 +22137,7 @@ class Fighter {
       // Ricardo: thu nhỏ avatar lúc tấn công 15% | Screaming Marmot: GIF hét phóng to thêm 95% (1.5x rồi +30% nữa)
       if(this.type==='friend' && (this._frBites||0)>0 && !((img._frames||1)>1)) img=_frBloody(img,Math.min(6,this._frBites));   // 🩸 răng Friend dính máu + vụn thịt, càng cắn nhiều càng đẫm
       const _avMul = (this.type==='azel' && img && img._azv) ? AZ_FR_K   // 🎧 khung video rộng ngang → bù cho người cao bằng avatar
+                   : (this.type==='doge' && img===DG_HAKI.p1) ? 1.1   // 🖤 ảnh đấm P1 ngang rộng → bù cho thân cùng cỡ ảnh đứng
                    : (this.type==='duolingo' && img._duoMul) ? img._duoMul   // 🦉 bù hào quang: thân Duo luôn cùng cỡ
                    : (this.type==='ricardo' && isAttacking && !RC_FR.includes(img) && !RC_RG.includes(img)) ? 0.85   // (tư thế nhảy giữ nguyên cỡ, không co lúc đánh)
                    : (this.type==='smartguy' && (this._sgDisplayVal||0)>0) ? 1.5
@@ -22165,7 +22215,8 @@ class Fighter {
       }
       // DOGE: 2 ảnh Buff Doge (rageAvatarUrl/rageAttackAvatarUrl) được chụp/vẽ ngược hướng so với ảnh mặc định
       // → chỉ lật riêng khi ẢNH ĐANG VẼ thực sự là 1 trong 2 slot buff đó (không lật nhầm ảnh thường khi thiếu ảnh buff)
-      const _dogeBuffMirror = this.type==='doge' && isRaging && (img===rageAvatarImgs[i] || img===rageAttackAvatarImgs[i]);
+      const _dogeBuffMirror = this.type==='doge' && isRaging && (img===rageAvatarImgs[i] || img===rageAttackAvatarImgs[i] || img===DG_HAKI.idle || img===DG_HAKI.p5);   // 🖤 haki: đã thử trong trận — P5 phải lật thêm, P1 giữ nguyên thì mặt + nắm đấm mới hướng về địch
+      if(this.type==='doge') this._dgFlipNow = (!!facingLeft) !== _dogeBuffMirror;   // hướng lật THẬT của ảnh (cho aura haki bám đúng dáng)
       if(_dogeBuffMirror){ ctx.save(); ctx.scale(-1,1); }
       // VIỀN theo màu team (P1 xanh / P2 đỏ) — ĐÚNG VỊ TRÍ viền trắng cũ (viền stamp ở RÌA, KHÔNG đè màu lên mặt avatar), có toả glow nhẹ quanh viền
       // ⭐ Fan Battle: con của fan vẽ thành QUẢ BÓNG (xem bên dưới) và bóng đã có viền tròn riêng —
