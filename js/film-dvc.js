@@ -56,8 +56,8 @@
     shake:t=>Math.max(t>=T.s4?14*(1-seg(t,T.s4,T.s4+0.45)):0, (t>=T.s5&&t<T.s6)?2.2:0, t>=T.s6&&t<T.s6+0.25?6:0, t>=T.hit?18*(1-seg(t,T.hit,T.hit+0.6)):0, t>=T.s8+0.1&&t<T.s8+0.6?5*(1-seg(t,T.s8+0.1,T.s8+0.6)):0),
     world(F,t){ const I=F.I, d=doge(t), c=cheems(t);
       const dFl=faceFlip(F,d.x,c.x), cFl=faceFlip(F,c.x,d.x);
-      const auraC=(t>=T.s2&&t<T.s7)?{col:'90,170,255',k:t<T.s3?seg(t,T.s2,T.s2+0.4):0.85}:null;
-      const auraD=(t>=T.s5&&t<T.s6)?{col:'255,200,70',k:0.8}:(t>=T.s7&&t<T.s8)?{col:'170,20,40',k:seg(t,T.s7,T.s7+0.35)}:null;
+      const auraC=(t>=T.s2&&t<T.s7)?{preset:'ki',col:'90,170,255',k:t<T.s3?seg(t,T.s2,T.s2+0.4):0.9,seed:3}:null;
+      const auraD=(t>=T.s5&&t<T.s6)?{preset:'ssj',col:'255,200,70',k:0.9,seed:7}:(t>=T.s7&&t<T.s8)?{preset:'haki',col:'170,20,40',k:seg(t,T.s7,T.s7+0.35),seed:11}:null;
       if(!c.gone) K.sprite(F,{img:I[c.im],x:c.x,y:c.y,z:0,h:c.im==='cSlash'?C.h*1.15:C.h,flip:c.im==='cBack'?false:cFl,lean:c.lean,aura:auraC,white:(t>=T.hit&&t<T.hit+0.1)?1:0});
       K.sprite(F,{img:I[d.im],x:d.x,y:d.y,z:0,h:D.h,flip:dFl,smear:d.sm,aura:auraD});
       // gió cuốn bụi lúc mở màn
@@ -78,6 +78,15 @@
         K.smoke(F,{x:C.x-60,z:0,t0:T.hit,n:20,spread:360,rise:80,life:2.0,size:70,seed:12,tint:'120,60,70'}); K.debris(F,{x:C.x,z:0,t0:T.hit,n:16,speed:560,life:1.6,size:11,seed:15,dir:180,cone:120});
         K.sparks(F,{x:C.x+20,y:80,z:0,t0:T.hit,n:24,speed:600,life:0.6,seed:17,col:'255,120,100'}); }
       if(t>=T.hit+0.85) K.smoke(F,{x:-1050,z:0,t0:T.hit+0.85,n:22,spread:260,rise:110,life:2.4,size:80,seed:30}); },
+    // hậu kỳ shader: sóng xung kích BÓP MÉO không gian, zoom blur lúc lao tới, tách màu lúc va chạm, không khí nóng gợn khi gồng haki
+    post(F,t){ const fx={shocks:[]};
+      if(t>=T.s4&&t<T.s4+0.55){ const u=seg(t,T.s4,T.s4+0.55); fx.shocks.push({x:CLASH,y:60,z:0,r:20+380*eout(u),w:26,str:24*(1-u)}); fx.chroma=2.2*(1-u); }
+      if(t>=T.s5&&t<T.s6){ const ph=((t-T.s5)%0.35)/0.35; fx.shocks.push({x:CLASH,y:60,z:0,r:10+200*eout(ph),w:16,str:9*(1-ph)}); }
+      if(t>=T.dash&&t<T.s4) fx.zoom={x:CLASH,y:90,z:0,k:0.06*seg(t,T.dash,T.s4)};
+      if(t>=T.s7&&t<T.punch) fx.heat={k:3*seg(t,T.s7,T.s7+0.3),t};
+      if(t>=T.punch&&t<T.hit+0.1) fx.zoom={x:C.x+20,y:80,z:0,k:0.14};
+      if(t>=T.hit&&t<T.hit+0.7){ const u=seg(t,T.hit,T.hit+0.7); fx.shocks.push({x:C.x+20,y:60,z:0,r:20+560*eout(u),w:34,str:32*(1-u)}); fx.chroma=3*(1-u); }
+      return fx; },
     screen(F,t){
       if(t>=T.s2&&t<T.s3) K.speedLines(F,{k:0.5+0.5*seg(t,T.s2,T.s3),n:60,r0:0.36});
       if(t>=T.dash&&t<T.s4) K.panLines(F,{k:0.8,ang:-4});

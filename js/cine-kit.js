@@ -54,6 +54,9 @@
     const xc=vx*B.r[0]+vy*B.r[1]+vz*B.r[2], yc=vx*B.u[0]+vy*B.u[1]+vz*B.u[2], s=B.focal/zc;
     return {x:B.cx+xc*s, y:B.cy-yc*s, s, d:zc}; };
 
+  K.toPx=(F,p)=>{ let X,Y; if(p.sx!=null){ X=p.sx; Y=p.sy; } else { const P=K.proj(F.B,p.x,p.y||0,p.z||0); if(!P) return null; X=P.x; Y=P.y; }
+    const c=Math.cos(F.B.roll), s=Math.sin(F.B.roll), dx=X-F.VW/2, dy=Y-F.VH/2, k=F.SC||1;
+    return {x:(F.VW/2+(F.shx||0)+dx*c-dy*s)*k, y:(F.VH/2+(F.shy||0)+dx*s+dy*c)*k}; };
   // ───────── nền: trời + núi xa + sân đá phối cảnh ─────────
   // th = {sky:[trên,giữa,chân trời], sun:{x (độ yaw), y (0–1 trên chân trời), r, col}, mount:[màu xa, màu gần], ground:[màu đá 1, màu đá 2, màu khe], fog:'r,g,b', tile:120, R:2600}
   K.drawWorldBg=(F,th)=>{ const g=F.g, B=F.B, VW=F.VW, VH=F.VH;
@@ -105,6 +108,8 @@
     o._scr={x:P.x,y:P.y,w,h}; }
   // hào quang lửa theo đúng bóng nhân vật: nhiều lớp bóng màu phóng to rung + lưỡi lửa bốc lên
   K.auraAt=(F,c,x,y,w,h,o)=>{ const g=F.g, A=o.aura, col=A.col, k=A.k==null?1:A.k, t=F.t; if(k<=0.01) return;
+    // ✨ có preset → lửa sinh bằng shader (js/vfx-gl.js): mềm, cuộn liên tục, bám dáng người. Không có WebGL → kiểu vẽ tay cũ bên dưới
+    if(A.preset && window.VfxGL && VfxGL.drawAura(g,c.src,Object.assign({},A,{sx:c.sx,sy:c.sy,sw:c.sw,sh:c.sh,x,y,w,h,t:t+(A.seed||0),k,flip:o.flip}))) return;
     const sil=K.tinted(c,`rgb(${col})`);
     g.save(); g.globalCompositeOperation='lighter';
     for(let i=0;i<3;i++){ const sc=1.06+0.07*i+0.03*Math.sin(t*23+i*2), j=(Math.sin(t*31+i)*0.012)*w;
@@ -181,7 +186,8 @@
   // ───────── khung chạy phim ─────────
   // def = { id, title, VW:540, VH:960 (khung logic; xuất 1080×1920 ×scale), DUR, imgs:{tên:đường dẫn}, sfx:[[giây,khoá,âm lượng,thời lượng]],
   //         theme (nền K.drawWorldBg), shots (máy quay), world(F,t) (đặt nhân vật + hiệu ứng thế giới), screen(F,t) (hiệu ứng màn hình),
-  //         impact(t) → 0 / 'bw' / 'inv' (khung impact) , shake(t) → biên độ rung (px logic) }
+  //         impact(t) → 0 / 'bw' / 'inv' / 'red' (khung impact) , shake(t) → biên độ rung (px logic),
+//         post(F,t) → hậu kỳ shader (js/vfx-gl.js): {shocks:[{x,y,z | sx,sy, r,w,str}], zoom:{x,y,z | sx,sy, k}, chroma, heat:{k,t}} (đơn vị logic) }
   K.film=def=>{ const id=def.id, VW=def.VW||540, VH=def.VH||960, DUR=def.DUR;
     const I={}; for(const [k,p] of Object.entries(def.imgs||{})){ const im=new Image(); im.src=p; I[k]=im; }
     let cv=null, W2=null, w2=null, SC=1, raf=null, t0=0, paused=false, pauseT=0, played={}, markOnly=false, panel=null, overlay=null, ready=false, OFF=null;
@@ -192,7 +198,7 @@
       (def.sfx||[]).forEach((s,i)=>{ if(t>=s[0] && t<DUR && t-s[0]<0.25) sfx('s'+i,s[1],s[2],s[3]); else if(t>=s[0]) played['s'+i]=1; });
       const cam=K.camAt(def.shots,t), B=camBasis(cam,VW,VH);
       const shk=def.shake?def.shake(t):0, sx=shk?(hash(Math.floor(t*60))-0.5)*2*shk:0, sy=shk?(hash(Math.floor(t*60)+7)-0.5)*2*shk:0;
-      const F={t,cam,B,VW,VH,g:w2,list:[],shadows:[],under:[],I,DUR};
+      const F={t,cam,B,VW,VH,g:w2,list:[],shadows:[],under:[],I,DUR,SC};
       w2.setTransform(SC,0,0,SC,0,0); w2.fillStyle='#000'; w2.fillRect(0,0,VW,VH);
       w2.translate(VW/2+sx,VH/2+sy); w2.rotate(B.roll); w2.translate(-VW/2,-VH/2);
       if(def.theme) K.drawWorldBg(F,typeof def.theme==='function'?def.theme(t):def.theme);
@@ -200,11 +206,17 @@
       drawShadows(F); for(const fn of F.under) fn();
       F.list.sort((a,b)=>b.d-a.d); for(const it of F.list) it.fn();
       const g=cv.getContext('2d'); g.setTransform(1,0,0,1,0,0);
+      F.shx=sx; F.shy=sy;
+      let SRC=W2; if(def.post && window.VfxGL){ const fx=def.post(F,t); if(fx){ const px=v=>v*SC, cvt=p=>K.toPx(F,p);   // toạ độ logic → điểm ảnh thật
+          const out={chroma:fx.chroma||0, heat:fx.heat?{k:px(fx.heat.k),t:fx.heat.t}:null,
+            shocks:(fx.shocks||[]).map(s0=>{ const q=cvt(s0); return q?{x:q.x,y:q.y,r:px(s0.r),w:px(s0.w),str:px(s0.str)}:null; }).filter(Boolean),
+            zoom:fx.zoom?(()=>{ const q=cvt(fx.zoom); return q?{x:q.x,y:q.y,k:fx.zoom.k}:null; })():null};
+          const r=VfxGL.post(W2,out); if(r) SRC=r; } }
       const imp=def.impact?def.impact(t):0;
-      if(imp==='bw'){ g.filter='grayscale(1) contrast(6) brightness(1.15)'; g.drawImage(W2,0,0); g.filter='none'; }
-      else if(imp==='inv'){ g.filter='grayscale(1) invert(1) contrast(6)'; g.drawImage(W2,0,0); g.filter='none'; }
-      else if(imp==='red'){ g.filter='grayscale(1) contrast(5)'; g.drawImage(W2,0,0); g.filter='none'; g.globalCompositeOperation='multiply'; g.fillStyle='#ff2a2a'; g.fillRect(0,0,cv.width,cv.height); g.globalCompositeOperation='source-over'; }
-      else g.drawImage(W2,0,0);
+      if(imp==='bw'){ g.filter='grayscale(1) contrast(6) brightness(1.15)'; g.drawImage(SRC,0,0); g.filter='none'; }
+      else if(imp==='inv'){ g.filter='grayscale(1) invert(1) contrast(6)'; g.drawImage(SRC,0,0); g.filter='none'; }
+      else if(imp==='red'){ g.filter='grayscale(1) contrast(5)'; g.drawImage(SRC,0,0); g.filter='none'; g.globalCompositeOperation='multiply'; g.fillStyle='#ff2a2a'; g.fillRect(0,0,cv.width,cv.height); g.globalCompositeOperation='source-over'; }
+      else g.drawImage(SRC,0,0);
       F.g=g; g.setTransform(SC,0,0,SC,0,0);
       if(def.screen) def.screen(F,t);
       if(t<0.4) K.flash(F,1-t/0.4,'#000');

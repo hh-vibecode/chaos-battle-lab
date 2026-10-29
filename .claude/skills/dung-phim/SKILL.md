@@ -27,6 +27,7 @@ Mẫu đầy đủ: `js/film-dvc.js` (Buff Doge vs Samurai Cheems, ~7.6s) — co
 - `K.sprite(F,{img,x,z,y,h,flip,lean,a,white,smear:{dx,dy,dz,n} (dx = VẬN TỐC, vệt kéo ra phía sau),aura:{col:'r,g,b',k}})`
 - Hiệu ứng thế giới: `K.smoke` (khói toon, `swirl` xoáy, `tint`, `a`), `K.ring` (sóng xung kích trên đất), `K.slash` (vệt chém trăng khuyết, `k` tiến độ vung),
   `K.sparks`, `K.debris`. Hiệu ứng màn hình: `K.speedLines`, `K.panLines`, `K.sfxText` (chữ tượng thanh), `K.flash`, `K.letterbox`, `K.vignette`.
+- Hào quang: `aura:{preset:'ssj'|'ki'|'haki'|…, k, seed}` → lửa shader (skill `tao-vfx`); hậu kỳ `post(F,t)` → sóng bóp méo / zoom blur / tách màu / khí nóng.
 - `impact(t)` trả `'inv'` / `'bw'` / `'red'` = khung impact (2–4 khung là đủ); `shake(t)` = biên độ rung.
 - Chuyển động nhân vật dùng `K.twos(t)` (giật 12 hình/giây như anime vẽ tay); máy quay + hiệu ứng để mượt.
 - Ảnh gốc nhìn sang trái/phải → hàm `faceFlip` trong film-dvc.js tự lật theo vị trí đối thủ TRÊN MÀN HÌNH (máy bay vòng ra sau thì tự đổi).
