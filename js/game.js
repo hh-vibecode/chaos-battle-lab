@@ -13903,7 +13903,8 @@ function _dgBolt(x0,y0,ang,len,wmax,seed,small){ const B=_dgBoltShape(x0,y0,ang,
   ctx.strokeStyle='#e8102c'; ctx.lineWidth=wmax*0.7+1.2; B.path(); ctx.stroke();                  // viền đỏ
   ctx.fillStyle='#07060a'; B.path(); ctx.fill(); ctx.restore();                                                                      // lõi đen
   return B; }
-function _dgBoltSet(x0,y0,ang,len,wmax,seed){ const B=_dgBolt(x0,y0,ang,len,wmax,seed), P=B.pts;
+function _dgBoltSet(x0,y0,ang,len,wmax,seed){ if(window.VfxGL&&VfxGL.boltSet){ VfxGL.boltSet(ctx,x0,y0,ang,len,wmax,seed); return; }   // bản chung trong vfx-gl.js (dưới đây: dự phòng)
+  const B=_dgBolt(x0,y0,ang,len,wmax,seed), P=B.pts;
   for(let i=1;i<P.length-1;i++){   // 2–3 tia nhỏ bám vào khớp gãy, toả chéo khỏi tia chính
     const sd=seed*3+i, ba=ang+(B.H(i+90)<0.5?1:-1)*(0.5+0.45*B.H(i+95)); _dgBolt(P[i][0],P[i][1],ba,len*(0.32+0.16*B.H(i+99)),wmax*0.45,sd,true);
     if(B.H(i+70)<0.6) _dgBolt(P[i][0],P[i][1],ang+(B.H(i+90)<0.5?-1:1)*(0.4+0.3*B.H(i+75)),len*(0.22+0.1*B.H(i+77)),wmax*0.35,sd+7,true); } }

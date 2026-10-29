@@ -108,5 +108,30 @@
     const z=fx.zoom; gl.uniform3f(pr.loc('zm'),z?z.x:0,z?h-z.y:0,z?z.k:0); gl.uniform1f(pr.loc('chroma'),fx.chroma||0);
     gl.uniform2f(pr.loc('heat'),fx.heat?fx.heat.k:0,fx.heat?fx.heat.t:0);
     return run(pr,w,h); }
-  window.VfxGL={ init, aura, drawAura, post, PRESETS:PRE };
+  // ───────── ⚡ SÉT MANGA / ANIME (canvas 2D, không cần WebGL) ─────────
+  // Dải sét GÃY GÓC gắt, ít khúc, thon nhọn 2 đầu (mẫu anh gửi: sét haki One Piece). Mặc định lõi ĐEN viền ĐỎ + quầng đỏ (haki);
+  // đổi o.core / o.rim / o.glow cho sét khác (vd sét xanh: core '#e8f6ff', rim '#3aa0ff', glow 'rgba(80,170,255,0.3)').
+  // bolt(ctx,x,y,góc,dài,dày,seed,o) → trả các khớp gãy · boltSet = 1 tia chính + 2–4 tia nhỏ bám vào khớp (o.branches=false để tắt)
+  // seed đổi mỗi 3–4 khung → sét "giật" hình kiểu anime; cùng seed = cùng hình (tua lại y hệt)
+  function boltShape(x0,y0,ang,len,wmax,seed,small){ const H=n=>{ const v=Math.sin(seed*91.7+n*12.9898)*43758.5453; return v-Math.floor(v); };
+    const n=small?2:3, pts=[[x0,y0]]; let x=x0, y=y0;
+    for(let i=0;i<n;i++){ const a=ang+(i%2?1:-1)*(small?0.12+0.2*H(i+2):0.18+0.22*H(i+2)), L=len/n*(0.75+0.5*H(i+9)); x+=Math.cos(a)*L; y+=Math.sin(a)*L; pts.push([x,y]); }
+    const N=pts.length, Lf=[], Rt=[];
+    for(let i=0;i<N;i++){ const p=pts[i], q=pts[Math.min(N-1,i+1)], o=pts[Math.max(0,i-1)], dx=q[0]-o[0], dy=q[1]-o[1], dl=Math.hypot(dx,dy)||1, u=i/(N-1);
+      const w=wmax*Math.min(1,u*5)*Math.pow(1-u,0.85)*(0.7+0.6*H(i+20)); Lf.push([p[0]-dy/dl*w,p[1]+dx/dl*w]); Rt.push([p[0]+dy/dl*w,p[1]-dx/dl*w]); }
+    return {pts,H,path:c=>{ c.beginPath(); c.moveTo(pts[0][0],pts[0][1]); Lf.forEach(p=>c.lineTo(p[0],p[1])); c.lineTo(pts[N-1][0],pts[N-1][1]); for(let i=N-1;i>=0;i--) c.lineTo(Rt[i][0],Rt[i][1]); c.closePath(); }}; }
+  function bolt(c,x0,y0,ang,len,wmax,seed,o){ o=o||{}; const B=boltShape(x0,y0,ang,len,wmax,seed,o.small);
+    c.save(); c.lineJoin='round';
+    if(o.glow!==false){ c.strokeStyle=o.glow||'rgba(255,20,40,0.28)'; c.lineWidth=wmax*1.6+2.5; B.path(c); c.stroke(); }
+    if(o.rim!==false){ c.strokeStyle=o.rim||'#e8102c'; c.lineWidth=wmax*0.7+1.2; B.path(c); c.stroke(); }
+    c.fillStyle=o.core||'#07060a'; B.path(c); c.fill(); c.restore(); return B; }
+  function boltSet(c,x0,y0,ang,len,wmax,seed,o){ o=o||{}; const B=bolt(c,x0,y0,ang,len,wmax,seed,o), P=B.pts; if(o.branches===false) return B;
+    for(let i=1;i<P.length-1;i++){ const sd=seed*3+i, so=Object.assign({},o,{small:true});
+      bolt(c,P[i][0],P[i][1],ang+(B.H(i+90)<0.5?1:-1)*(0.5+0.45*B.H(i+95)),len*(0.32+0.16*B.H(i+99)),wmax*0.45,sd,so);
+      if(B.H(i+70)<0.6) bolt(c,P[i][0],P[i][1],ang+(B.H(i+90)<0.5?-1:1)*(0.4+0.3*B.H(i+75)),len*(0.22+0.1*B.H(i+77)),wmax*0.35,sd+7,so); }
+    return B; }
+  // ☁️ cụm khói / hơi nước / bụi mềm (gradient tròn không viền) — col 'r,g,b'. Hơi nước Gear 2: '255,240,242' → '255,226,230'; khói đen: '14,10,22'
+  function puff(c,x,y,r,a,col){ if(a<=0.01||r<=0.5) return; const g=c.createRadialGradient(x,y,0,x,y,r); g.addColorStop(0,`rgba(${col},${a})`); g.addColorStop(0.6,`rgba(${col},${a*0.45})`); g.addColorStop(1,`rgba(${col},0)`);
+    c.fillStyle=g; c.beginPath(); c.arc(x,y,r,0,Math.PI*2); c.fill(); }
+  window.VfxGL={ init, aura, drawAura, post, bolt, boltSet, puff, PRESETS:PRE };
 })();

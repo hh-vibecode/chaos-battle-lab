@@ -1,6 +1,6 @@
 ---
 name: tao-vfx
-description: Tạo / sửa VFX (hào quang, lửa, năng lượng, sóng xung kích, chém, impact…) cho meme trong GAME lẫn PHIM — ưu tiên hiệu ứng SINH BẰNG SHADER (js/vfx-gl.js) thay vì vẽ tay khối hình hay ảnh VFX có sẵn; xem trước bằng tools/vfx-preview.js (bảng khung + mp4) trước khi gắn. Dùng mỗi khi anh yêu cầu VFX mới, chê VFX "cứng/xấu/basic", hoặc dựng skill/cảnh phim cần hiệu ứng.
+description: Tạo / sửa VFX + phần NHÌN của skill (hào quang, lửa, sét, khói/hơi nước, sóng xung kích, chém, impact, TÔ LẠI 1 BỘ PHẬN như tay haki / giáp / đổi màu…) cho meme trong GAME lẫn PHIM — ưu tiên CÔNG CỤ sinh hiệu ứng (shader js/vfx-gl.js, sét/khói VfxGL, tools/part-paint.py) thay vì vẽ tay khối hình hay ảnh VFX có sẵn; xem trước bằng tools/vfx-preview.js trước khi gắn. Dùng mỗi khi anh yêu cầu VFX/biến hình mới, gửi ảnh mẫu anime/manga, hoặc chê VFX "cứng/xấu/basic/vỡ".
 ---
 
 # Tạo VFX (game + phim)
@@ -36,6 +36,31 @@ mỗi nhịp 1 tiếng · hiệu ứng skill trong phim phải giống trong gam
 - Bùng lên: tăng `k` 0→1 trong 0.3s + `rise` cao lúc đầu rồi hạ → hiệu ứng "gồng".
 - Va chạm: `post` shock (str ~24–34 px logic, w ~26) + chroma 2–3 giảm dần trong 0.5s + khung impact 2–4 khung — mạnh hơn hẳn vòng tròn vẽ tay.
 - Lao tới: zoom blur k 0.06–0.14 tâm ở mục tiêu.
+
+## 5. Thư viện 2D dùng chung (VfxGL, không cần WebGL) — thêm 29/10
+- **Sét manga/anime** `VfxGL.boltSet(ctx, x, y, góc, dài, dày, seed, {core, rim, glow, branches})` (1 tia chính + 2–4 tia nhỏ bám khớp gãy) / `VfxGL.bolt(...)` (1 tia).
+  Mặc định haki: lõi đen + viền đỏ + quầng đỏ. Sét xanh: `{core:'#e8f6ff', rim:'#3aa0ff', glow:'rgba(80,170,255,0.3)'}`. Đổi `seed` mỗi 3–4 khung → giật hình kiểu anime.
+  Anh duyệt (Doge haki): **2 tia chính CHÉO** từ chỗ trúng (1 chéo lên, 1 chéo xuống, ngược về phía người đấm) + tia nhỏ bám, sống ~0.2s. Ít khúc, gãy dứt khoát, KHÔNG xoăn.
+- **Khói / hơi nước / bụi** `VfxGL.puff(ctx, x, y, r, alpha, 'r,g,b')`. Hơi nước Gear 2 (trắng hồng) bốc từ khắp người khi bật dạng mới; khói đen cho tà khí.
+
+## 6. Tô lại 1 bộ phận nhân vật (tay haki, giáp thép, tay vàng, đổi màu…) — `tools/part-paint.py` (Mac)
+Không tự VẼ bộ phận mới (anh vẽ ChatGPT) — nhưng ĐỔI CHẤT LIỆU/MÀU bộ phận có sẵn trong ảnh thì làm bằng công cụ này:
+1. Soi nếp cơ: `python3 tools/part-paint.py --img <ảnh> --crease <scratchpad>/c.png --box x0,y0,x1,y1` → Read, chép toạ độ ranh giới
+   (nếp vai/ngực rất mờ trên ảnh gốc — ĐỪNG đoán: lần đầu khoanh tay Doge lấn cả ngực, anh chê "tay thôi sao lên cả ngực").
+2. Tô: `--part '[[[x,y],...],...]' --style haki|steel|gold|tint:#hex:0.7 [--body-tint '#ff7a3a:0.3'] --out <file> --check <scratchpad>/k.png` → Read ảnh check.
+   haki = kiểu tay Luffy (anh gửi mẫu): đen tuyền + mảng bóng xám xanh PHẲNG viền sắc + vệt sáng dọc mép — "đen BÓNG", không đen nhám, không gradient mềm.
+   Mặc định phóng ×2 (mép mịn). Ảnh nguồn nhỏ (<500px) thì báo anh xin bản nét hơn.
+3. Muốn hiệu ứng "lan dần" (haki chạy từ tay lên vai): xuất thêm bản `--no-part` (chỉ ửng thân) rồi trong game ghép: ảnh gốc → bản no-part (alpha tăng dần)
+   → lớp bộ phận (ảnh tô trừ bản no-part) cắt từ dưới lên theo tiến độ + vệt sáng ở mép lan. Mẫu: `_dgHakiWipe` trong js/game.js.
+4. Ảnh mới gắn vào game: `im.onload=()=>{ im._crop=computeCropBox(im); }` (như avatar) để khung khớp ảnh gốc; ảnh đấm/tư thế phải để mặt + nắm đấm HƯỚNG VỀ ĐỊCH
+   — thử trong trận cả 2 phía (địch trái / phải) rồi mới chốt danh sách lật ảnh, đừng đoán.
+
+## 7. Bài học anh đã góp ý (giữ cho mọi VFX)
+- Anh gửi ẢNH MẪU (anime/manga) → bám đúng hình dáng, GÓC, số lượng, màu của mẫu; không tự chế thêm.
+- "Làm đơn giản" = 1–2 lớp hiệu ứng, trọng tâm vào thứ anh nói (vd haki buff tay), bỏ vòng/aura/hạt thừa.
+- Biến hình lần 2 ≠ lần 1: đổi chữ bay ra theo chủ đề (wow haki, such buff, too hard…), đổi hiệu ứng (khói/hơi nước thay hào quang), nhân vật TO SẴN không phồng lại từ nhỏ.
+- Chữ / sét / vòng: `globalAlpha` ÂM bị canvas BỎ QUA (giữ giá trị cũ) → luôn `Math.max(0,…)` (đã từng làm cả màn hình đen kịt).
+- Viền / mặt nạ / sprite dựng sẵn phải dựng ở ĐỘ PHÂN GIẢI THẬT (nhân hệ số phóng của ctx), không thì vỡ răng cưa khi xuất 2K (xem `_drawStickerOutline`).
 
 ## 4. Thêm loại hiệu ứng mới vào vfx-gl.js
 Viết fragment shader mới theo mẫu `AURA_FS` / `POST_FS` (dùng chung `NOISE`: `vn`, `fbm`, hash12 không vỡ ô trên GPU thật),
