@@ -788,7 +788,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     smartguy: { key:'smartguy', defaultName:'Smart Guy', emoji:'🤓', color:'#5c6bc0', hp:1000, speed:5, size:44, skill:'Không cận chiến. Chốt ngay 1 chỉ số IQ ngẫu nhiên (60-200) làm dame bắn thẳng vào địch, chỉ hiệu ứng quay số trên đầu kéo dài ~1.6s (rút ngắn dần theo tốc suy nghĩ) trước khi bắn. Tỉ lệ ra đúng 200 gốc 1%. <80 (LOW IQ): +5% tỉ lệ ra 200 lần sau (không còn tự làm chậm). 80-150 (AVERAGE IQ): không hiệu ứng. >150 (HIGH IQ): bản thân +20% tốc suy nghĩ (roll nhanh hơn) + tỉ lệ roll ra đúng 200 lần sau +2%, cả 2 cộng dồn không giới hạn tới khi ra đúng 200 thì reset. Roll đúng 200: dame x2 = 400 + pháo hoa jackpot. Roll đúng 60: tự dame 60 + tự choáng 3s.' },
     aliencat: { key:'aliencat', defaultName:'Mr. Folk', emoji:'🥾', color:'#ffc400', hp:1000, speed:5, size:49.5, skill:'Chiếu 2 tia laze VÀNG thẳng từ 2 con mắt vào mục tiêu ở CỰ LY TẦM TRUNG — xa nhất gần gấp đôi tầm cận chiến, quá gần hoặc quá xa là mất khoá và phải gây lại từ đầu. Giữ được đúng cự ly càng lâu thì mỗi nhịp bắn càng đau: bắt đầu 10 dmg, cứ mỗi giây giữ được tia lại cộng thêm 20. Mỗi 8s triệu hồi 1 đĩa bay từ ngoài sân bay vào, dừng trên đầu địch gần nhất, dùng tia sóng âm hút địch lên xoay vòng tại chỗ trong 2s rồi bay đi mất.' },
     wetcat: { key:'wetcat', defaultName:'Wet Cat', emoji:'🌧️', color:'#4fc3f7', hp:1000, speed:2.0125, size:45, skill:'Đi rất chậm, không đánh. Vào trận là trời đổ mưa quanh chỗ nó đứng; đi tới đâu vùng mưa lan tới đó (mưa ở lại cả trận), thỉnh thoảng sét giáng xuống trong vùng mưa. Địch đứng trong mưa mất 30 máu/s; cứ ở trong mưa đủ 4s là 25% bị sét đánh: 100 dame + choáng điện 1s, người giật sáng loé lòi xương.' },
-    droolingcat: { key:'droolingcat', defaultName:'Drooling Cat', emoji:'🤤', color:'#4dd0e1', hp:1000, speed:2.0125, size:45, skill:'Đi rất chậm, không đánh. Dãi nhỏ từ mồm xuống chân liên tục, càng lúc càng nhanh, lâu thì thành dòng — đọng thành vũng nước to dần (giọt/dòng không gây dame). Địch đứng trong nước mất 10 máu/s, Drooling Cat đứng trong nước hồi 10 máu/s. Từ giây 8: địch ngâm nước liên tục 3s bị piranha nhảy lên cắn 80. Từ giây 15: piranha thành cá mập — vây cá bơi chậm trong vũng, địch chạm vây bị cá ngoi lên cắn 200 và mất miếng thịt đúng chỗ bị cắn.' },
+    droolingcat: { key:'droolingcat', defaultName:'Drooling Cat', emoji:'🤤', color:'#4dd0e1', hp:1000, speed:2.0125, size:45, skill:'Đi rất chậm, không đánh. Dãi nhỏ từ mồm xuống chân liên tục, càng lúc càng nhanh, lâu thì thành dòng — đọng thành vũng nước to dần (giọt/dòng không gây dame). Địch đứng trong nước mất 20 máu mỗi 0.5s, Drooling Cat đứng trong nước hồi 10 máu/s. Từ giây 8: địch ngâm nước liên tục 3s bị piranha nhảy lên cắn 80. Từ giây 15: piranha thành cá mập — vây cá bơi chậm trong vũng, địch chạm vây bị cá ngoi lên cắn 200 và mất miếng thịt đúng chỗ bị cắn.' },
     electricguitarcat: { key:'electricguitarcat', defaultName:'Electric Guitar Cat', emoji:'🎸', color:'#ec407a', hp:1000, speed:5, size:43, skill:'Chơi guitar điện — bắn ra SÓNG ÂM theo đúng NHỊP & CAO ĐỘ thật của bài (màu theo nốt), y hệt cơ chế của Piano Cat. Mỗi luồng sóng 20 dame, đánh tới đâu nốt nhạc nảy tới đó. Tự đổi bài mỗi 8s. Bị đánh còn 30% máu là chơi tới mức đàn bốc cháy — sóng đàn đốt địch thêm 20 dame/s.' },
     scareddog: { key:'scareddog', defaultName:'Scared Dog', emoji:'🐶', color:'#795548', hp:1000, speed:5, size:44, skill:'Không tự tấn công — chỉ di chuyển né tránh bình thường. Sau 1s vào trận, triệu hồi 1 ma đen + 1 ma trắng bay lượn quanh (không có HP, không thể bị tiêu diệt, chỉ biến mất khi Scared Dog chết): mỗi ma di chuyển bằng 40% tốc của 1 meme thường, nảy tường y hệt meme, húc trúng địch (hoặc lính/tượng địch có HP) lại gần thì gây dame — ma trắng 20 dmg, ma đen là Giám Ngục: không lướt xuyên địch, địch lọt vào tầm hút nhỏ (≈1.5× tầm cận chiến, +10%) thì đứng chắn trước mặt HÚT LINH HỒN (nạn nhân tái nhợt, nhoè kéo về phía ma): mỗi 0.3s 1 nhịp, nhịp đầu 10 dmg + chậm 10%, rồi mỗi nhịp +5 dmg và +5% chậm (tối đa 90%), ra khỏi tầm thì reset. Ma trắng có hào quang hồi máu bán kính gấp đôi thân nó, Scared Dog đứng trong đó được hồi 20 HP/s.' },
     boxingcat: { key:'boxingcat', defaultName:'Boxing Cat', emoji:'🥊', color:'#e53935', hp:1000, speed:5, size:44, skill:'' },
@@ -6040,7 +6040,7 @@ function _azDrawOver(){
 // • Dãi nhỏ giọt từ MỒM rơi thẳng xuống đất ngay dưới chân, nhịp nhanh dần (×DL_RATE_UP mỗi giọt, trần DL_RATE_MAX giọt/s);
 //   nhỏ đủ nhanh (≥ DL_STREAM_RATE giọt/s) thì thành DÒNG liền từ mồm xuống đất, dòng càng lâu càng to.
 // • Giọt / dòng KHÔNG gây dame — rơi xuống đất rồi CHẢY về GIỮA SÀN, dồn thành 1 vũng nước xanh trong ở giữa, to dần (cộng DIỆN TÍCH).
-// • Trong vũng: địch mất 10 máu/s; Drooling Cat hồi 10 máu/s.
+// • Trong vũng: địch mất 20 máu mỗi 0.5s; Drooling Cat hồi 10 máu/s.
 // • Từ giây 8: piranha — địch ngâm nước LIÊN TỤC 3s thì 1 con nhảy lên cắn thêm 80 (ngâm tiếp 3s nữa lại 1 con).
 // • Từ giây 15: piranha đổi thành cá mập — vây cá bơi chậm trong vũng; địch chạm vây thì cá ngoi lên cắn 200
 //   và khoét mất miếng thịt ĐÚNG chỗ bị cắn (cùng cơ chế vết gặm Friend: _biteHoles / _biteMask).
@@ -6054,8 +6054,9 @@ const DL_RATE0=1.0, DL_RATE_UP=1.09, DL_RATE_MAX=10, DL_STREAM_RATE=5, DL_FALL_T
 const DL_FULL_T=20, DL_FULL_POW=2.5, DL_FLOW_LEAD=1.2, DL_DROP_MIN=150, DL_VOL_DROP=110, DL_VOL_STREAM=550, DL_VOL_FALL=2600;   // 💧 nước mỗi giọt (diện tích): giọt · dòng · thác
 function _dlFullR(){ return Math.hypot(W/2,(H/2)/DL_POOL_SQ)*1.08; }      // bán kính vũng phủ kín 4 góc sàn (trừ hao mép gợn)
 function _dlFullA(){ const R=_dlFullR(); return Math.PI*R*R; }
+const DL_DROP_K=1.2, DL_GROW_K=1.2;               // 💧 giọt dãi to hơn 20% · 🌊 mỗi giọt đổ thêm 20% nước → vũng lan nhanh hơn 20%
 const DL_POOL_SQ=0.6;                             // vũng nằm trên MẶT SÀN → dẹt theo chiều dọc (phối cảnh)
-const DL_POOL_DMG=10, DL_POOL_HEAL=10;            // mỗi giây
+const DL_POOL_DMG=20, DL_POOL_HEAL=10;            // dame vũng mỗi nhịp 0.5s (10 → 20 theo yêu cầu 29/10) · hồi máu mỗi giây
 const DL_PIRANHA_AT=1e9, DL_SHARK_AT=10,   // (đã bỏ piranha) · cá mập từ giây 10
  /*cũ*/ DL_PIRANHA_OLD=8, DL_SOAK=3, DL_PIRANHA_DMG=80, DL_SHARK_DMG=200;
 const DL_FIN_SPD=1.5, DL_FIN_K=4.2, DL_FIN_REACH=58, DL_FIN_AGGRO=170, DL_FIN_CD=2, DL_SHARK_HOLD=1.5, DL_SHARK_TICK=0.5, DL_SHARK_TICK_DMG=70;   // 🦈 ngoạm rồi GIẰNG CO 1.5s, mỗi 0.5s −70             // vây bơi chậm; cắn xong 2.5s sau mới có vây mới
@@ -6111,10 +6112,11 @@ function _dlDrip(f){
   const A=stream ? DL_VOL_STREAM+(DL_VOL_FALL-DL_VOL_STREAM)*fall : DL_VOL_DROP*Math.pow(f._dlRate,0.6);   /* giọt càng dồn dập càng to */ f._dlEmit=(f._dlEmit||0)+A;
   const big=Math.min(1,Math.sqrt(A)/90); f._dlBig=big;   // nước càng nhiều → giọt / dòng càng to
   dlDrops.push({ x:m.x+(stream?0:(Math.random()-0.5)*2), y:m.y, vy:0.5, gy:Math.max(m.y+6,_dlFeetY(f)), A,
-    r:(stream?1.6+Math.random()*0.8:2.4+Math.random()*1.2)*(1+big*1.3), owner:f, team:f.team });
+    r:(stream?1.6+Math.random()*0.8:2.4+Math.random()*1.2)*(1+big*1.3)*DL_DROP_K, owner:f, team:f.team });
 }
 // 🌀 giọt chảy tới GIỮA SÀN: nhập vào vũng giữa sàn của chủ (cộng DIỆN TÍCH → vũng to dần, nhanh lúc đầu rồi chậm lại)
 function _dlAddWater(f,x,y,A){
+  A*=DL_GROW_K;   // 🌊 vũng lan nhanh hơn 20%
   let p=dlPools.find(q=>q.owner===f);
   if(p) p.A=Math.min(_dlFullA(),p.A+A); else dlPools.push(p={x:W/2, y:H/2, A:A*2, R:2, owner:f, team:f.team, sd:Math.random()*9});
   dlFx.push({k:'ring',x,y,t:0,max:30,r:2});
@@ -6145,7 +6147,7 @@ function _dlTick(){
     if(!d.owner || d.owner.dead){ dlDrops.splice(i,1); continue; }
     if(!d.ground){
       d.vy+=0.32; d.y+=d.vy;
-      if(d.y>=d.gy){ d.y=d.gy; d.ground=true; d.age=0; d.r=Math.max(d.r,2.6); dlFx.push({k:'ring',x:d.x,y:d.y,t:0,max:18,r:1});
+      if(d.y>=d.gy){ d.y=d.gy; d.ground=true; d.age=0; d.r=Math.max(d.r,2.6*DL_DROP_K); dlFx.push({k:'ring',x:d.x,y:d.y,t:0,max:18,r:1});
         const toC=Math.atan2(H/2-d.y, W/2-d.x), side=Math.random()<0.5?-1:1;
         d.vx=Math.cos(toC)*0.8+Math.cos(toC+side*Math.PI/2)*1.2; d.vy=Math.sin(toC)*0.8+Math.sin(toC+side*Math.PI/2)*1.2; d.trail=[]; }
       continue;
@@ -6184,9 +6186,9 @@ function _dlTick(){
       if(_dlPoolAt(o.x,_dlFeetY(o),-sz*0.7,null,f.team)){   // chỉ khi đã bước HẲN vào trong hồ (cả thân), đứng mép thì chưa
         if(o._dlWadeTick==null || tick-o._dlWadeTick>2) o._dlSplashT=18;   // 💦 vừa lội xuống: nước bắn lên
         o._dlWadeTick=tick; if(!isF){ o.x-=(o.vx||0)*0.3; o.y-=(o.vy||0)*0.3; } }   // quân triệu hồi: trả lại 30% quãng đi (meme chính chậm qua slowMult)
-      // 💧 10 máu/s khi đứng trong nước
+      // 💧 20 dame mỗi 0.5s khi đứng trong nước
       o._dlDotT=(o._dlDotT||0)+1;
-      if(o._dlDotT>=Math.round(DL_TPS*0.5)){ o._dlDotT=0;   // 💧 10 dame mỗi 0.5s
+      if(o._dlDotT>=Math.round(DL_TPS*0.5)){ o._dlDotT=0;   // 💧 DL_POOL_DMG (20) mỗi 0.5s
         if(isF) o.takeDamage(DL_POOL_DMG, f, false, true); else _summonTakeDamage(o, DL_POOL_DMG, f, false, true); }
       // 🐟 từ giây 8 (tới giây 15): ngâm liên tục 3s → piranha nhảy lên cắn
       o._dlSoak=(o._dlSoak||0)+1;
