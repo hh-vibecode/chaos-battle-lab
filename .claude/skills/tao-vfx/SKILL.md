@@ -43,6 +43,15 @@ mỗi nhịp 1 tiếng · hiệu ứng skill trong phim phải giống trong gam
   Anh duyệt (Doge haki): **2 tia chính CHÉO** từ chỗ trúng (1 chéo lên, 1 chéo xuống, ngược về phía người đấm) + tia nhỏ bám, sống ~0.2s. Ít khúc, gãy dứt khoát, KHÔNG xoăn.
 - **Khói / hơi nước / bụi** `VfxGL.puff(ctx, x, y, r, alpha, 'r,g,b')`. Hơi nước Gear 2 (trắng hồng) bốc từ khắp người khi bật dạng mới; khói đen cho tà khí.
 
+## 5b. Đồ kéo về từ GitHub (MIT — dùng thương mại được), nạp sẵn trong game + phim
+- **pixi-filters v6** (`js/vendor/pixi-filters/glsl.js` + LICENSE): 37 bộ lọc GLSL chạy qua `VfxGL.filter(canvas,'tên',{uniform},{define})` (WebGL2, toạ độ px gốc trên-trái).
+  Lệnh gọn `VfxGL.fx.*` (đã thử cả 17 trên khung trận thật): `glow` (hào quang quanh ảnh nhân vật) · `outline` (viền mượt) · `godray` (tia sáng) · `shockwave` (sóng bóp méo)
+  · `zoomBlur` · `radialBlur` · `motionBlur` · `rgbSplit` · `bulge` · `twist` · `crt` · `oldFilm` · `bloom` · `glitch` · `adjust` (độ bão hoà/tương phản) · `pixelate`.
+  Mỗi lệnh trả canvas → `ctx.drawImage`. Dùng cho cả khung (chụp canvas trận) lẫn 1 ảnh nhân vật. Shader cũ GLSL1 / biến tên `sample` tự được vá.
+- **Proton v7** (`js/vendor/proton/proton.min.js` + LICENSE): engine hạt — `VfxGL.parts.spawn('fire'|'smoke'|'sparks'|'dust'|'steam'|'embers'|'magic'|'snow', x, y, {dur, scale, color, angle, spread})`,
+  `VfxGL.parts.step(dt)` gọi theo NHỊP GAME (đứng hình → hạt đứng), `VfxGL.parts.draw(ctx)`.
+- Muốn thêm thư viện khác: ưu tiên MIT/BSD/Apache, KHÔNG dùng giấy phép phi thương mại (vd LYGIA dạng Prosperity) vì kênh anh có kiếm tiền; tải vào `js/vendor/<tên>/` kèm LICENSE.
+
 ## 6. Tô lại 1 bộ phận nhân vật (tay haki, giáp thép, tay vàng, đổi màu…) — `tools/part-paint.py` (Mac)
 Không tự VẼ bộ phận mới (anh vẽ ChatGPT) — nhưng ĐỔI CHẤT LIỆU/MÀU bộ phận có sẵn trong ảnh thì làm bằng công cụ này:
 1. Soi nếp cơ: `python3 tools/part-paint.py --img <ảnh> --crease <scratchpad>/c.png --box x0,y0,x1,y1` → Read, chép toạ độ ranh giới

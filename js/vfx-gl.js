@@ -133,5 +133,98 @@
   // ☁️ cụm khói / hơi nước / bụi mềm (gradient tròn không viền) — col 'r,g,b'. Hơi nước Gear 2: '255,240,242' → '255,226,230'; khói đen: '14,10,22'
   function puff(c,x,y,r,a,col){ if(a<=0.01||r<=0.5) return; const g=c.createRadialGradient(x,y,0,x,y,r); g.addColorStop(0,`rgba(${col},${a})`); g.addColorStop(0.6,`rgba(${col},${a*0.45})`); g.addColorStop(1,`rgba(${col},0)`);
     c.fillStyle=g; c.beginPath(); c.arc(x,y,r,0,Math.PI*2); c.fill(); }
-  window.VfxGL={ init, aura, drawAura, post, bolt, boltSet, puff, PRESETS:PRE };
+  // ───────── 🧩 PIXI-FILTERS (MIT, js/vendor/pixi-filters/glsl.js) chạy bằng WebGL2 riêng — 37 bộ lọc GLSL của cộng đồng PixiJS ─────────
+  // VfxGL.filter(canvasNguồn, 'tên', {uniform…}, {define…}) → canvas kết quả (vẽ ngay bằng drawImage). Toạ độ px: gốc TRÊN-TRÁI như canvas 2D.
+  // Tự cấp: uInputSize, uInputClamp, uOutputFrame, uOutputTexture, uDimensions, uTime(0). Uniform là ảnh/canvas → tự gắn texture.
+  // Lệnh gọn cho hay dùng: VfxGL.fx.glow / godray / shockwave / zoomBlur / radialBlur / motionBlur / rgbSplit / bulge / twist / crt / oldFilm / outline / bloom / glitch / adjust / pixelate
+  let gl2=null, cv2=null, q2=null; const P2={}, T2=new Map();
+  function init2(){ if(gl2!==null) return !!gl2; try{ cv2=document.createElement('canvas'); cv2.width=cv2.height=4; gl2=cv2.getContext('webgl2',{premultipliedAlpha:true,preserveDrawingBuffer:true,alpha:true})||false; }catch(e){ gl2=false; }
+    if(!gl2) return false; q2=gl2.createBuffer(); gl2.bindBuffer(gl2.ARRAY_BUFFER,q2); gl2.bufferData(gl2.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl2.STATIC_DRAW); return true; }
+  const VS2='#version 300 es\nin vec2 aPos; out vec2 vTextureCoord; void main(){ vTextureCoord=vec2(aPos.x*0.5+0.5,0.5-aPos.y*0.5); gl_Position=vec4(aPos,0.,1.); }';
+  const PF_DEF={ '${ANGLE_STEP}':'0.0628318', '${MAX_KERNEL_SIZE}':'32.0', '__DIST__':'10.0', '__ANGLE_STEP_SIZE__':'0.31415', '${MAX_COLORS}':'4', 'MAX_STOPS':'8' };
+  function pfSource(name,defs){ const G=window.PIXI_FILTERS_GLSL||{}, [nm,file]=name.split('/'), F=G[nm]; if(!F) throw new Error('pixi-filters: không có '+name);   // 'tên' hoặc 'tên/file' (vd 'advanced-bloom/extract-brightness')
+    let src=file?F[file]:Object.values(F).find(s=>/void main/.test(s)); const D=Object.assign({},PF_DEF,defs||{}); if(G.godray&&G.godray.perlin) D['${PERLIN}']=G.godray.perlin;
+    for(const [k,v] of Object.entries(D)) src=src.split(k).join(String(v));
+    // vá tương thích WebGL2: shader kiểu GLSL cũ (gl_FragColor/texture2D/varying) và biến trùng từ khoá mới ('sample')
+    if(/gl_FragColor/.test(src)){ if(!/out\s+vec4\s+finalColor/.test(src)) src=src.replace(/(precision[^;]*;)/,'$1\nout vec4 finalColor;'); src=src.replace(/gl_FragColor/g,'finalColor'); if(!/out\s+vec4\s+finalColor/.test(src)) src='out vec4 finalColor;\n'+src; }
+    src=src.replace(/\btexture2D\b/g,'texture').replace(/\bvarying\b/g,'in').replace(/\bsample\b/g,'smp_');
+    return '#version 300 es\nprecision highp float;\nprecision highp int;\n'+src.replace(/^\s*#version[^\n]*\n/,''); }   // vài shader không khai precision (WebGL2 bắt buộc) → tự thêm
+  function prog2(name,defs){ const key=name+'|'+JSON.stringify(defs||{}); if(P2[key]) return P2[key]; const g=gl2;
+    const sh=(t,s)=>{ const o=g.createShader(t); g.shaderSource(o,s); g.compileShader(o); if(!g.getShaderParameter(o,g.COMPILE_STATUS)) throw new Error(name+': '+g.getShaderInfoLog(o)); return o; };
+    const p=g.createProgram(); g.attachShader(p,sh(g.VERTEX_SHADER,VS2)); g.attachShader(p,sh(g.FRAGMENT_SHADER,pfSource(name,defs))); g.bindAttribLocation(p,0,'aPos'); g.linkProgram(p);
+    if(!g.getProgramParameter(p,g.LINK_STATUS)) throw new Error(name+': '+g.getProgramInfoLog(p));
+    const U={}; const n=g.getProgramParameter(p,g.ACTIVE_UNIFORMS); for(let i=0;i<n;i++){ const a=g.getActiveUniform(p,i); U[a.name.replace(/\[0\]$/,'')]={loc:g.getUniformLocation(p,a.name),type:a.type,size:a.size}; }
+    return P2[key]={p,U}; }
+  function tex2(src,slot){ const g=gl2; g.activeTexture(g.TEXTURE0+slot); let t=T2.get(slot); if(!t){   /* ⚠️ chọn khe TRƯỚC khi tạo/gắn texture mới (không thì đè lên khe 0 = ảnh gốc) */ t=g.createTexture(); T2.set(slot,t); g.bindTexture(g.TEXTURE_2D,t);
+      g.texParameteri(g.TEXTURE_2D,g.TEXTURE_MIN_FILTER,g.LINEAR); g.texParameteri(g.TEXTURE_2D,g.TEXTURE_MAG_FILTER,g.LINEAR); g.texParameteri(g.TEXTURE_2D,g.TEXTURE_WRAP_S,g.CLAMP_TO_EDGE); g.texParameteri(g.TEXTURE_2D,g.TEXTURE_WRAP_T,g.CLAMP_TO_EDGE); }
+    g.activeTexture(g.TEXTURE0+slot); g.bindTexture(g.TEXTURE_2D,t); g.pixelStorei(g.UNPACK_FLIP_Y_WEBGL,false); g.pixelStorei(g.UNPACK_PREMULTIPLY_ALPHA_WEBGL,true); g.texImage2D(g.TEXTURE_2D,0,g.RGBA,g.RGBA,g.UNSIGNED_BYTE,src); return t; }
+  function filter(src,name,uni,defs,outW,outH){ if(!init2()) return null; const g=gl2, w=outW||src.width, h=outH||src.height, P=prog2(name,defs);
+    if(cv2.width!==w||cv2.height!==h){ cv2.width=w; cv2.height=h; } g.viewport(0,0,w,h); g.useProgram(P.p);
+    const auto={ uInputSize:[w,h,1/w,1/h], uInputClamp:[0.5/w,0.5/h,1-0.5/w,1-0.5/h], uOutputFrame:[0,0,w,h], uOutputTexture:[w,h,1/w,1/h], uDimensions:[w,h], uTime:0 };
+    const all=Object.assign(auto,uni||{}); let slot=0; tex2(src,slot); if(P.U.uTexture) g.uniform1i(P.U.uTexture.loc,slot); slot++;
+    for(const [k,u] of Object.entries(P.U)){ if(k==='uTexture') continue; let v=all[k]; if(v===undefined) continue;
+      const T=u.type;
+      if(T===g.SAMPLER_2D){ tex2(v,slot); g.uniform1i(u.loc,slot); slot++; continue; }
+      if(typeof v==='boolean') v=v?1:0; const arr=Array.isArray(v)?v.flat():[v];
+      if(T===g.FLOAT) g.uniform1fv(u.loc,arr); else if(T===g.FLOAT_VEC2) g.uniform2fv(u.loc,arr); else if(T===g.FLOAT_VEC3) g.uniform3fv(u.loc,arr); else if(T===g.FLOAT_VEC4) g.uniform4fv(u.loc,arr);
+      else if(T===g.INT||T===g.BOOL) g.uniform1iv(u.loc,arr.map(x=>Math.round(x))); else if(T===g.FLOAT_MAT3) g.uniformMatrix3fv(u.loc,false,arr); }
+    g.bindBuffer(g.ARRAY_BUFFER,q2); g.enableVertexAttribArray(0); g.vertexAttribPointer(0,2,g.FLOAT,false,0,0);
+    g.clearColor(0,0,0,0); g.clear(g.COLOR_BUFFER_BIT); g.drawArrays(g.TRIANGLE_STRIP,0,4); return cv2; }
+  // chạy nhiều lượt liên tiếp (kết quả lượt trước = nguồn lượt sau) — chép sang canvas đệm vì cv2 bị ghi đè
+  const _buf=[]; function snap(c,i){ let b=_buf[i]; if(!b){ b=_buf[i]=document.createElement('canvas'); } if(b.width!==c.width||b.height!==c.height){ b.width=c.width; b.height=c.height; } const x=b.getContext('2d'); x.clearRect(0,0,b.width,b.height); x.drawImage(c,0,0); return b; }
+  const col3=c=>hex(c||'#ffffff');
+  let _gmap=null; function glitchMap(seed,slices){ if(!_gmap){ _gmap=document.createElement('canvas'); _gmap.width=1; _gmap.height=256; } const x=_gmap.getContext('2d'); let s=seed||1, y=0; const r=()=>{ s=(s*16807)%2147483647; return s/2147483647; };
+    while(y<256){ const hh=Math.max(2,Math.round(r()*256/(slices||8))); const v=Math.round((r()*2-1)*255), on=r()<0.6; x.fillStyle=on?(v>=0?`rgb(${v},0,0)`:`rgb(0,${-v},0)`):'rgb(0,0,0)'; x.fillRect(0,y,1,hh); y+=hh; } return _gmap; }   // lệch = đỏ − xanh lá: lát đỏ lệch phải, lát xanh lệch trái, đen = đứng yên
+  const fx={
+    glow:(c,o={})=>filter(c,'glow',{uStrength:[o.inner||0,o.outer==null?4:o.outer],uColor:col3(o.color),uKnockout:o.knockout?1:0,uAlpha:o.alpha==null?1:o.alpha},{'__DIST__':(o.dist||10).toFixed(1),'__ANGLE_STEP_SIZE__':(Math.PI*2/(o.quality||20)).toFixed(5)}),
+    godray:(c,o={})=>filter(c,'godray',{uLight:o.parallel===false?[o.x||0,o.y||0]:[Math.cos((o.angle==null?30:o.angle)*Math.PI/180),Math.sin((o.angle==null?30:o.angle)*Math.PI/180)],uParallel:o.parallel===false?0:1,uAspect:c.height/c.width,uTime:o.time||0,uRay:[o.gain==null?0.5:o.gain,o.lacunarity==null?2.5:o.lacunarity,o.alpha==null?1:o.alpha]}),
+    shockwave:(c,o={})=>filter(c,'shockwave',{uCenter:[o.x||c.width/2,o.y||c.height/2],uTime:o.time||0,uSpeed:o.speed||500,uWave:[o.amplitude||30,o.wavelength||160,o.brightness||1,o.radius==null?-1:o.radius]}),
+    zoomBlur:(c,o={})=>filter(c,'zoom-blur',{uStrength:o.strength==null?0.1:o.strength,uCenter:[o.x||c.width/2,o.y||c.height/2],uRadii:[o.inner||0,o.outer==null?-1:o.outer]}),
+    radialBlur:(c,o={})=>filter(c,'radial-blur',{uRadian:(o.angle==null?20:o.angle)*Math.PI/180,uCenter:[o.x||c.width/2,o.y||c.height/2],uRadius:o.radius==null?-1:o.radius,uKernelSize:o.kernel||15}),
+    motionBlur:(c,o={})=>filter(c,'motion-blur',{uVelocity:[o.vx||20,o.vy||0],uKernelSize:o.kernel||15,uOffset:o.offset||0}),
+    rgbSplit:(c,o={})=>filter(c,'rgb-split',{uRed:o.red||[-6,0],uGreen:o.green||[0,4],uBlue:o.blue||[4,0]}),
+    bulge:(c,o={})=>filter(c,'bulge-pinch',{uCenter:[(o.x==null?c.width/2:o.x)/c.width,(o.y==null?c.height/2:o.y)/c.height],uRadius:o.radius||100,uStrength:o.strength==null?1:o.strength}),
+    twist:(c,o={})=>filter(c,'twist',{uTwist:[o.radius||200,o.angle==null?4:o.angle],uOffset:[o.x||c.width/2,o.y||c.height/2]}),
+    crt:(c,o={})=>filter(c,'crt',{uLine:[o.curvature||1,o.lineWidth||1,o.lineContrast||0.25,o.vertical?1:0],uNoise:[o.noise==null?0.3:o.noise,o.noiseSize||1],uVignette:[o.vignetting==null?0.3:o.vignetting,o.vignettingAlpha==null?1:o.vignettingAlpha,o.vignettingBlur==null?0.3:o.vignettingBlur],uSeed:o.seed||Math.random(),uTime:o.time||0}),
+    oldFilm:(c,o={})=>filter(c,'old-film',{uSepia:o.sepia==null?0.3:o.sepia,uNoise:[o.noise==null?0.3:o.noise,o.noiseSize||1],uScratch:[o.scratch==null?0.5:o.scratch,o.scratchDensity==null?0.3:o.scratchDensity,o.scratchWidth||1],uVignetting:[o.vignetting==null?0.3:o.vignetting,o.vignettingAlpha==null?1:o.vignettingAlpha,o.vignettingBlur==null?0.3:o.vignettingBlur],uSeed:o.seed||Math.random()}),
+    outline:(c,o={})=>filter(c,'outline',{uThickness:[(o.thickness||2)/c.width,(o.thickness||2)/c.height],uColor:col3(o.color),uAlpha:o.alpha==null?1:o.alpha,uKnockout:o.knockout?1:0},{'${ANGLE_STEP}':(Math.PI*2/Math.max(8,Math.round((o.quality||0.5)*100))).toFixed(7)}),
+    adjust:(c,o={})=>filter(c,'adjustment',{uGamma:o.gamma||1,uContrast:o.contrast||1,uSaturation:o.saturation==null?1:o.saturation,uBrightness:o.brightness||1,uColor:[o.red||1,o.green||1,o.blue||1,o.alpha==null?1:o.alpha]}),
+    pixelate:(c,o={})=>filter(c,'pixelate',{uSize:[o.size||8,o.size||8]}),
+    glitch:(c,o={})=>filter(c,'glitch',{uDisplacementMap:glitchMap(o.seed||Math.floor(Math.random()*1e6),o.slices||8),uSeed:o.seed?((o.seed%1000)/1000):Math.random(),uDimensions:[c.width,c.height],uAspect:c.height/c.width,uFillMode:o.fillMode||0,uOffset:o.offset==null?30:o.offset,uDirection:(o.direction||0)*Math.PI/180,uRed:o.red||[2,0],uGreen:o.green||[-2,0],uBlue:o.blue||[0,0]}),
+  };
+  fx.bloom=(c,o={})=>{ if(!init2()) return null; let b=snap(filter(c,'advanced-bloom/extract-brightness',{uThreshold:o.threshold==null?0.72:o.threshold},null),1);   // bloom nhiều lượt: tách vùng sáng → mờ Kawase vài lượt → cộng lại
+    const K=o.kernels||[4,5,7,9]; K.forEach((k,i)=>{ b=snap(filter(b,'kawase-blur/kawase-blur',{uOffset:[(k+0.5)/c.width,(k+0.5)/c.height]}),2+(i%2)); });
+    const out=snap(c,4), x=out.getContext('2d'); x.save(); x.globalCompositeOperation='lighter'; x.globalAlpha=Math.min(1,o.scale==null?0.7:o.scale); x.drawImage(b,0,0);   // cộng lớp sáng đã làm mờ lên ảnh gốc
+    if((o.scale||1)>1){ x.globalAlpha=Math.min(1,(o.scale||1)-1); x.drawImage(b,0,0); } x.restore(); return out; };
+  // ───────── 🎆 HẠT (Proton — MIT, js/vendor/proton/proton.min.js) ─────────
+  // VfxGL.parts.spawn('fire'|'smoke'|'sparks'|'dust'|'steam'|'embers'|'magic'|'snow', x, y, {dur (giây phát, 0 = 1 phát nổ), scale, color:[đầu,cuối], angle (độ, hướng phun), spread, rate})
+  //   → emitter (đổi emitter.p.x/.p.y để bám theo nhân vật; emitter.stopEmit() để tắt)
+  // VfxGL.parts.step(dt giây) — gọi theo NHỊP GAME (đứng hình thì không gọi → hạt cũng đứng) · VfxGL.parts.draw(ctx) · VfxGL.parts.clear()
+  const PARTS=(()=>{ let P=null; const sprites={};
+    const PR={ fire:{r:[0.8,1.4],life:[0.5,0.9],v:[1.2,2.4],ang:0,spr:22,rate:[6,9],col:['#fff1a0','#ff3a00'],sc:[1.2,0.1],grav:-2,alpha:[1,0],add:true},
+      smoke:{r:[1.2,2.2],life:[1.2,2.0],v:[0.6,1.2],ang:0,spr:30,rate:[3,4],col:['#9a9a9a','#3a3a3a'],sc:[0.6,2.2],grav:-0.6,alpha:[0.55,0]},
+      sparks:{r:[0.25,0.45],life:[0.25,0.6],v:[5,9],ang:0,spr:180,rate:[30,40],col:['#ffffff','#ffb020'],sc:[1,0.2],grav:6,alpha:[1,0],add:true,burst:true},
+      dust:{r:[0.8,1.6],life:[0.6,1.1],v:[1.5,3],ang:0,spr:80,rate:[14,20],col:['#d8c8a8','#a89878'],sc:[0.5,1.8],grav:-0.2,alpha:[0.6,0],burst:true},
+      steam:{r:[1.0,1.8],life:[1.0,1.6],v:[0.8,1.6],ang:0,spr:40,rate:[4,5],col:['#ffffff','#ffe2e8'],sc:[0.6,2.4],grav:-1.2,alpha:[0.45,0]},
+      embers:{r:[0.2,0.35],life:[1.0,2.0],v:[0.6,1.4],ang:0,spr:50,rate:[3,4],col:['#ffd27a','#ff4a10'],sc:[1,0.3],grav:-0.8,alpha:[1,0],add:true,drift:true},
+      magic:{r:[0.3,0.6],life:[0.6,1.2],v:[0.5,1.5],ang:0,spr:180,rate:[3,4],col:['#ffffff','#b070ff'],sc:[1,0],grav:-0.5,alpha:[1,0],add:true,drift:true},
+      snow:{r:[0.3,0.6],life:[2,3.5],v:[0.4,0.9],ang:180,spr:30,rate:[1,2],col:['#ffffff','#dff2ff'],sc:[1,1],grav:0.5,alpha:[0.9,0],drift:true} };
+    function sprite(col,add){ const k=col+(add?'+':''); if(sprites[k]) return sprites[k]; const c=document.createElement('canvas'); c.width=c.height=64; const x=c.getContext('2d');
+      const g=x.createRadialGradient(32,32,0,32,32,32); g.addColorStop(0,`rgba(${col},1)`); g.addColorStop(add?0.25:0.5,`rgba(${col},${add?0.8:0.6})`); g.addColorStop(1,`rgba(${col},0)`); x.fillStyle=g; x.fillRect(0,0,64,64); return sprites[k]=c; }
+    function ensure(){ if(P) return P; if(!window.Proton) return null; const C=window.Proton.default||window.Proton; P=new C(); return P; }   // bản UMD: window.Proton = namespace, lớp chính ở .default
+    function spawn(kind,x,y,o){ o=o||{}; const Pn=ensure(); if(!Pn) return null; const PX=window.Proton; const D=PR[kind]||PR.fire, S=o.scale||10, e=new PX.Emitter();
+      const rate=o.rate||D.rate; e.rate=new PX.Rate(new PX.Span(rate[0],rate[1]), D.burst&&!o.dur?new PX.Span(0.01):new PX.Span(0.03,0.06));
+      e.addInitialize(new PX.Mass(1)); e.addInitialize(new PX.Radius(D.r[0]*S,D.r[1]*S)); e.addInitialize(new PX.Life(D.life[0],D.life[1]));
+      e.addInitialize(new PX.Velocity(new PX.Span(D.v[0]*S*0.3,D.v[1]*S*0.3),new PX.Span(o.angle==null?D.ang:o.angle,o.spread==null?D.spr:o.spread,true),'polar'));
+      e.addBehaviour(new PX.Alpha(D.alpha[0],D.alpha[1])); e.addBehaviour(new PX.Scale(D.sc[0],D.sc[1])); e.addBehaviour(new PX.Color(...(o.color||D.col)));
+      if(D.grav) e.addBehaviour(new PX.Gravity(D.grav*S*0.06)); if(D.drift) e.addBehaviour(new PX.RandomDrift(S*1.5,S*0.6,0.05));
+      e.p.x=x; e.p.y=y; e._add=o.add==null?!!D.add:o.add; if(D.burst&&!o.dur) e.emit('once'); else e.emit(o.dur||1, true); Pn.addEmitter(e); return e; }
+    function step(dt){ if(P) P.emittersUpdate(dt); }
+    function draw(c){ if(!P) return; for(const e of P.emitters){ c.save(); if(e._add) c.globalCompositeOperation='lighter';
+        for(const p of e.particles){ if(p.dead) continue; const rgb=p.rgb||{r:255,g:255,b:255}, q=v=>Math.round(v/16)*16, col=`${q(rgb.r)},${q(rgb.g)},${q(rgb.b)}`, r=(p.radius||4)*(p.scale==null?1:p.scale);
+          if(r<0.3||p.alpha<=0.01) continue; c.globalAlpha=Math.max(0,Math.min(1,p.alpha)); c.drawImage(sprite(col,e._add),p.p.x-r,p.p.y-r,r*2,r*2); }
+        c.restore(); } }
+    function clear(){ if(P){ P.destroy(); P=null; } }
+    return {spawn,step,draw,clear,PRESETS:PR}; })();
+  window.VfxGL={ init, aura, drawAura, post, bolt, boltSet, puff, filter, fx, parts:PARTS, PRESETS:PRE };
 })();

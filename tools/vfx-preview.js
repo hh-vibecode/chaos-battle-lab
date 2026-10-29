@@ -22,7 +22,7 @@ const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.webp': 'image/w
   const b = await chromium.launch({ args: ['--enable-gpu', '--use-angle=metal', '--ignore-gpu-blocklist'] }); const p = await b.newPage();
   const errs = []; p.on('pageerror', e => errs.push(e.message)); p.on('console', m => { if (m.type() === 'error') errs.push(m.text()); });
   await p.goto(`http://127.0.0.1:${PORT}/`);
-  for (const s of ['js/vfx-gl.js', 'js/cine-kit.js']) await p.addScriptTag({ url: '/' + s + '?v=' + Date.now() });
+  for (const s of ['js/vendor/proton/proton.min.js', 'js/vendor/pixi-filters/glsl.js', 'js/vfx-gl.js', 'js/cine-kit.js']) await p.addScriptTag({ url: '/' + s + '?v=' + Date.now() });
   if (CODE) await p.addScriptTag({ content: fs.readFileSync(path.resolve(CODE), 'utf8') });
   await p.evaluate(async ({ IMG, SIZE, BG, SET }) => { const im = new Image(); im.src = '/' + IMG; await im.decode(); const c = CineKit.prep(im);
     window.__S = (pad) => { const h = SIZE, w = h * c.sw / c.sh, W = Math.round(Math.max(w * 1.9, h * 1.1)), H = Math.round(h * 1.75);
