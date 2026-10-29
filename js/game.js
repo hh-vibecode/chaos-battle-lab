@@ -10084,7 +10084,7 @@ function _ldDrawProps(f,img,dw,dh){
 // ⚠️ hồi chiêu toàn game trừ 0.85/tick → đặt số đã nhân 0.85 để ra đúng nhịp thực (~1 nhát/giây).
 const SM_PARRY_S=1;   // kích hoạt đỡ đạn → trong 1s gạt bật MỌI viên đạn bay tới
 const SM_REFLECT_CD_S=4;   // ⏳ phản đòn xong (hết 1s gạt liên tục) phải chờ 4s mới phản tiếp
-const SM_DMG=90, SM_CD=Math.round(60*0.85), SM_REFLECT_P=0.3, SM_EXEC_HP=150, SM_EXEC_RANGE=2.6;
+const SM_DMG=90, SM_CD=Math.round(60*0.85), SM_REFLECT_P=0.2, SM_EXEC_HP=150, SM_EXEC_RANGE=2.6;
 const SM_DASH_T=9, SM_SHEATHE_T=26, SM_CUTS=16;   // 16 = lưới 4×4   // SM_CUTS: số vệt chém đỏ kết liễu
 let smFx=[];   // {k:'slash'|'drop'|'ring'|'ribbon'|'ghost'|'flash', ...}
 // 🗡️ KATANA RÚT RA: chỉ hiện lúc chém / gạt đạn / lướt dứt điểm; bình thường kiếm nằm trong vỏ (đúng như avatar).
@@ -11152,7 +11152,7 @@ function _smDrawCutIn(){
 // ⚔️ GẠT BẬT MỌI VẬT THỂ ĐỊCH NÉM/BẮN NGOÀI mảng projectiles (táo/liềm/quả đất, chảo, batarang, cầu code Hecker,
 //    mũi tên Loading, búa Stalin, bọc đờm, lọ độc Sus Dog) — cùng luật với đạn: 30% mỗi lần chạm, gạt được thì mở 1s
 //    gạt liên tục; vật bay ngược về đúng kẻ ném và đổi sang phe Cheems (trúng chủ thì dame tính cho Cheems).
-// 🎲 có gạt được không: đang trong 1s gạt liên tục → luôn gạt; ngoài ra 30% — NHƯNG hết 1s gạt phải nghỉ 4s (_smReflCD) mới được gạt tiếp
+// 🎲 có gạt được không: đang trong 1s gạt liên tục → luôn gạt; ngoài ra 20% (30 → 20 theo yêu cầu 29/10) — NHƯNG hết 1s gạt phải nghỉ 4s (_smReflCD) mới được gạt tiếp
 function _smRoll(u,mark=true){ if(mark) u._smRollTick=tick;   // đạn/vật ném đã tung xúc xắc ở chỗ va chạm → takeDamage() không tung lần 2
   return (u._smParryT||0)>0 || (!((u._smReflCD||0)>0) && Math.random()<SM_REFLECT_P); }
 function _smCanParry(u){ return !!u && u.type==='samuraicheems' && !u.dead && !u._smDash && !u._smPre && !u._smSheathe && _smRoll(u); }
