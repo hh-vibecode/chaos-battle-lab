@@ -4424,10 +4424,10 @@ function _saDrawGravity(){
 //   Độ nhoè tỉ lệ đúng mức chậm _saSlw (0 → SA_SLOW_MAX). Bộ lọc: VfxGL.fx.motionBlur (pixi-filters).
 let _saBlurTmp=null;
 // 😼💥 MÀN HÌNH VỠ (anh yêu cầu 29/10 — ngoại lệ của luật "không VFX nứt": đây là KÍNH MÀN HÌNH vỡ, không phải nứt mặt sàn):
-//   cao ngạo chạm ĐỈNH (100%) → mạng vết nứt toả từ chỗ Supreme đứng ra khắp màn hình (cắt cả chữ UI, mép sàn, khung) + tiếng vỡ;
+//   cao ngạo chạm ĐỈNH (100%) → 2s sau mới nứt (+ tiếng vỡ), rồi MỖI VÒNG SÓNG AURA nứt lan thêm 1 vòng ra khắp màn hình (cắt cả chữ UI, mép sàn, khung);
 //   giữ đỉnh → ~1s 1 MẢNH NHỎ (chụp đúng hình đang hiện ở đó) bong ra rơi xuống, chỗ cũ thành LỖ ĐEN; mất đỉnh → nứt + lỗ mờ dần, lành lại.
 //   Toạ độ = điểm ảnh của canvas (vẽ sau cùng, ngoài camera) nên đè lên mọi thứ kể cả UI.
-let saShatter=null;
+let saShatter=null; const SA_SHATTER_WAIT=120, SA_WAVE_EVERY=22;   // đợi 2s sau khi chạm max · mỗi vòng sóng aura (22 tick, xem _saDrawGravity) nứt lan thêm 1 vòng
 function _saShatterBuild(cx,cy,cw,ch,sc){ const R=[], N=13, maxL=Math.hypot(cw,ch);
   for(let i=0;i<N;i++){ let a=i/N*Math.PI*2+(Math.random()-0.5)*0.35, x=cx, y=cy, d=0; const pts=[[x,y,0]];
     while(d<maxL && x>-40 && y>-40 && x<cw+40 && y<ch+40){ const L=(18+Math.random()*30)*sc; a+=(Math.random()-0.5)*0.32; x+=Math.cos(a)*L; y+=Math.sin(a)*L; d+=L; pts.push([x,y,d]); }
@@ -4437,9 +4437,12 @@ function _saShatterBuild(cx,cy,cw,ch,sc){ const R=[], N=13, maxL=Math.hypot(cw,c
   rings.forEach((r,j)=>{ for(let i=0;i<N;i++){ if(Math.random()<0.25) continue; const A=at(R[i],r*(0.9+Math.random()*0.2)), B=at(R[(i+1)%N],r*(0.9+Math.random()*0.2)), mx=(A[0]+B[0])/2+(Math.random()-0.5)*14*sc, my=(A[1]+B[1])/2+(Math.random()-0.5)*14*sc;
     ringSeg.push({pts:[A,[mx,my],B], r}); } });
     const spl=Array.from({length:26},()=>{ const a=Math.random()*Math.PI*2, r0=(6+Math.random()*30)*sc, L=(8+Math.random()*26)*sc; return [[cx+Math.cos(a)*r0,cy+Math.sin(a)*r0],[cx+Math.cos(a+0.3*(Math.random()-0.5))*(r0+L),cy+Math.sin(a+0.3*(Math.random()-0.5))*(r0+L)]]; });   // nứt vụn dày quanh tâm va đập
-  return {cx,cy,R,rings,ringSeg,spl,at,N,t:0,k:0,holes:[],shards:[],next:14,on:true}; }
+  return {cx,cy,R,rings,ringSeg,spl,at,N,t:0,k:0,holes:[],shards:[],next:14,on:true,lvl:1,wave:Math.floor(tick/SA_WAVE_EVERY),reach:0}; }
 function _saShatterDraw(){
-  const cv=ctx.canvas, S=fighters.find(f=>f.type==='supremearbiter' && !f.dead && (f._saSmug||0)>=99.5 && !saWin);
+  const cv=ctx.canvas;
+  // ⏱️ chạm max → đợi 2s (theo nhịp game) mới bắt đầu nứt; tụt khỏi max là đếm lại
+  for(const f of fighters) if(f.type==='supremearbiter'){ if(!f.dead && (f._saSmug||0)>=99.5){ if(!f._saPeakT) f._saPeakT=tick||1; } else f._saPeakT=0; }
+  const S=fighters.find(f=>f.type==='supremearbiter' && !f.dead && f._saPeakT && tick-f._saPeakT>=SA_SHATTER_WAIT && !saWin);
   if(S && (!saShatter || !saShatter.on)){ const T=ctx.getTransform(); ctx.save(); ctx.setTransform(1,0,0,1,0,0);
     // vị trí Supreme trên màn hình: dùng phép biến đổi camera đang dùng cho thế giới (đã restore → tính lại từ toạ độ logic)
     const p=(window._camLastT||T).transformPoint(new DOMPoint(S.x,S.y)); ctx.restore();
@@ -4447,10 +4450,14 @@ function _saShatterDraw(){
   const Z=saShatter; if(!Z) return;
   if(!S) Z.on=false;
   Z.t++; Z.k=Z.on?Math.min(1,Z.k+0.08):Math.max(0,Z.k-0.035); if(Z.k<=0 && !Z.on && !Z.shards.length){ saShatter=null; return; }
-  const grow=Math.min(1,Z.t/36), reach=grow*Math.hypot(cv.width,cv.height), sc=cv.width/Math.max(1,W);
+  // 🌊 LAN THEO NHỊP AURA: mỗi vòng sóng áp lực mới dội ra → nứt vươn thêm 1 vòng (6 vòng rồi tràn kín màn hình); trong 1 nhịp nứt "chạy" tới đích
+  const wv=Math.floor(tick/SA_WAVE_EVERY); if(Z.on && wv!==Z.wave){ Z.wave=wv; if(Z.lvl<=Z.rings.length) Z.lvl++; }
+  const full=Math.hypot(cv.width,cv.height), target=Z.lvl>Z.rings.length?full:Z.rings[Z.lvl-1]*1.05;
+  Z.reach+= (target-Z.reach)*0.22; const reach=Z.reach, grow=Z.lvl>Z.rings.length && reach>full*0.95 ? 1 : 0, sc=cv.width/Math.max(1,W);
   // mảnh rơi: lấy ô mạng nứt (giữa 2 tia + 2 vòng), thu nhỏ lại thành mảnh nhỏ, CHỤP hình đang hiện rồi cho rơi; chỗ cũ thành lỗ đen
-  if(Z.on && grow>=1 && --Z.next<=0 && Z.holes.length<14){ Z.next=40+Math.floor(Math.random()*35);
-    const i=Math.floor(Math.random()*Z.N), j=1+Math.floor(Math.random()*(Z.rings.length-1)), r0=Z.rings[j-1], r1=Z.rings[j];
+  const jMax=Math.min(Z.rings.length-1, Z.lvl-2);   // chỉ rơi ở vòng đã nứt tới (từ vòng 2 trở ra)
+  if(Z.on && jMax>=1 && --Z.next<=0 && Z.holes.length<14){ Z.next=40+Math.floor(Math.random()*35);
+    const i=Math.floor(Math.random()*Z.N), j=1+Math.floor(Math.random()*jMax), r0=Z.rings[j-1], r1=Z.rings[j];
     const fa=0.12+Math.random()*0.35, fb=Math.min(0.95,fa+0.35+Math.random()*0.3), ra=r0+(r1-r0)*(0.05+Math.random()*0.3), rb=Math.min(r1,ra+(r1-r0)*(0.45+Math.random()*0.35));   // mảnh chắc, không phải sợi mảnh
     const A1=Z.at(Z.R[i],ra), A2=Z.at(Z.R[(i+1)%Z.N],ra), B1=Z.at(Z.R[i],rb), B2=Z.at(Z.R[(i+1)%Z.N],rb);
     const L=(P,Q,f)=>[P[0]+(Q[0]-P[0])*f, P[1]+(Q[1]-P[1])*f];
