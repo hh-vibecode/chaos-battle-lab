@@ -10277,7 +10277,7 @@ function _pdDrawOver(){
       ctx.save(); ctx.strokeStyle='rgba(255,255,255,0.5)'; ctx.lineWidth=2; for(let k=0;k<3;k++){ const yy=q.y-12-k*16; ctx.beginPath(); ctx.moveTo(q.x-q.dir*(w*0.4),yy); ctx.lineTo(q.x-q.dir*(w*0.4+30+k*10),yy); ctx.stroke(); } ctx.restore(); }   // vệt lướt
     else if(q.k==='peelfly'){ const u=q.t/q.T; _pdDrawPeel(q.x0+(q.x1-q.x0)*u, q.y0+(q.y1-q.y0)*u-Math.sin(u*Math.PI)*70, q.rot+u*8, 1); }
     else if(q.k==='truck' && WG_ITEM_TRUCK_IMG.naturalWidth){ const h=240, w=h*WG_ITEM_TRUCK_IMG.naturalWidth/WG_ITEM_TRUCK_IMG.naturalHeight, by=Math.sin(q.t*0.9)*3;
-      ctx.save(); ctx.translate(q.x,q.lane+h*0.35+by); ctx.globalAlpha=0.3; ctx.fillStyle='#000'; ctx.beginPath(); ctx.ellipse(0,0,w*0.5,18,0,0,Math.PI*2); ctx.fill(); ctx.globalAlpha=1;
+      ctx.save(); ctx.translate(q.x,q.lane+h*0.35+by);   /* (bỏ bóng đen dưới xe theo yêu cầu 29/10) */
       if(q.dir>0) ctx.scale(-1,1); ctx.drawImage(WG_ITEM_TRUCK_IMG,-w/2,-h,w,h); ctx.restore();
       ctx.save(); ctx.fillStyle='rgba(180,170,150,0.35)'; for(let k=0;k<4;k++){ const ph=((q.t*0.08+k*0.25)%1); ctx.globalAlpha=0.4*(1-ph); ctx.beginPath(); ctx.arc(q.x-q.dir*(w*0.45+ph*90),q.lane+h*0.3,10+ph*22,0,Math.PI*2); ctx.fill(); } ctx.restore(); }   // bụi đường
     else if(q.k==='bolt' && e){ const a=1-q.t/22; let x=e.x+(Math.random()-0.5)*0, y=-20; const P=[[x,y]]; const ty=e.y-e.size*0.4;
