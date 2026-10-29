@@ -15,7 +15,7 @@ const WIDE = args.includes('--wide'), K4 = args.includes('--4k'), FPS = 30, SUB 
 const _sc = (() => { const i = args.indexOf('--scale'); return i >= 0 ? parseFloat(args[i + 1]) : null; })(), RK = K4 ? 2 : (_sc || 1);
 const FILMS = { war: { play: 'playCineWar', step: '_cineWarStep', canvas: '_cineWarCanvas', info: '_cineWarInfo' },
   l2e2: { play: 'playCineL2E2', step: '_cineL2E2Step', canvas: '_cineL2E2Canvas', info: '_cineL2E2Info', ready: '_cineL2E2Ready' },
-  l2e3: { play: 'playCineL2E3', step: '_cineL2E3Step', canvas: '_cineL2E3Canvas', info: '_cineL2E3Info', ready: '_cineL2E3Ready' } }, FM = FILMS[film];   // SUB: số bước mô phỏng / khung (hạt, rung… chạy theo nhịp 60Hz như lúc xem)
+  l2e3: { play: 'playCineL2E3', step: '_cineL2E3Step', canvas: '_cineL2E3Canvas', info: '_cineL2E3Info', ready: '_cineL2E3Ready' } }, FM = FILMS[film] || { kit: film };   // phim khác = phim CINE-KIT (js/film-<id>.js)   // SUB: số bước mô phỏng / khung (hạt, rung… chạy theo nhịp 60Hz như lúc xem)
 const opt = k => { const i = args.indexOf(k); return i >= 0 ? parseFloat(args[i + 1]) : null; };
 const sopt = k => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : null; }, INTRO = sopt('--intro') ? path.resolve(sopt('--intro')) : null;
 const PART = args.includes('--part'), JOBS = Math.max(1, opt('--jobs') || 3);   // ⚠️ anh dặn: chạy NHIỀU tiến trình làm MacBook vừa LAG vừa LÂU hơn → mặc định 3 (trước là 6). Đừng tăng nếu anh không yêu cầu.
@@ -44,7 +44,11 @@ const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css
   await pg.goto(`http://127.0.0.1:${PORT}/`);
   await pg.waitForFunction(() => !document.getElementById('bootScreen'), null, { timeout: 300000 });
   // 2) mở phim ở chế độ offline (không tiếng, không chạy theo đồng hồ)
-  await pg.evaluate(async ({ FM, WIDE, RK }) => { window[FM.play]({ wide: WIDE, offline: true, scale: RK }); }, { FM, WIDE, RK });
+  if (FM.kit) {   // 🎬 CINE-KIT: tải bộ khung + phim, gắn tên hàm chuẩn để phần dưới dùng chung
+    await pg.evaluate(async ({ id, WIDE, RK }) => { await playCineKit(id, { wide: WIDE, offline: true, scale: RK }); const f = CineKit.films[id];
+      window.__ckStep = f.step; window.__ckCanvas = f.canvas; window.__ckInfo = f.info; window.__ckReady = f.ready; }, { id: FM.kit, WIDE, RK });
+    Object.assign(FM, { step: '__ckStep', canvas: '__ckCanvas', info: '__ckInfo', ready: '__ckReady' });
+  } else await pg.evaluate(async ({ FM, WIDE, RK }) => { window[FM.play]({ wide: WIDE, offline: true, scale: RK }); }, { FM, WIDE, RK });
   await pg.waitForFunction(FM => window[FM.step] && window[FM.canvas] && window[FM.canvas]() && (!FM.ready || window[FM.ready]()), FM, { timeout: 120000 });
   await pg.waitForFunction(() => [...document.images].every(i => i.complete), null, { timeout: 60000 }).catch(() => {});
   await pg.waitForTimeout(3000);   // chờ ảnh phim tải xong
@@ -128,7 +132,7 @@ const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css
   for (const [R, k, v, d] of info.sfx) { if (R < T0 - 0.05 || R >= T1 || !info.src[k]) continue;
     let gn = v * lufsGain(k); if (!info.music.includes(k) && musOn(R)) gn *= 0.75;
     inputs.push('-i', path.join(ROOT, info.src[k]));
-    filters.push(`[${n+1}:a]${d ? `atrim=0:${d},` : ''}volume=${gn.toFixed(3)},adelay=${Math.round((R - T0) * 1000)}|${Math.round((R - T0) * 1000)},aformat=channel_layouts=stereo[a${n}]`); n++; }
+    filters.push(`[${n+1}:a]${d ? `atrim=0:${d},` : ''}volume=${gn.toFixed(3)},adelay=${Math.max(0, Math.round((R - T0) * 1000))}|${Math.max(0, Math.round((R - T0) * 1000))},aformat=channel_layouts=stereo[a${n}]`); n++; }
   for (const m of info.mus) { const a = Math.max(m.ra, T0), b = Math.min(m.rb, T1); if (b <= a) continue;
     const off = a - m.ra + (m.off || 0), len = b - a;
     inputs.push(...(m.loop ? ['-stream_loop', '-1'] : []), '-i', path.join(ROOT, m.src));

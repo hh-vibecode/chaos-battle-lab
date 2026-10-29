@@ -16,7 +16,7 @@ Nguyên tắc: **xem thử rẻ → sửa → chỉ quay lại đoạn bị sử
 Anh không nói khung nào → hỏi 16:9 hay 9:16 (hoặc cả hai) trước khi quay.
 
 ## Phim Meme Cinema — `tools/render-cine.js <film> <out.mp4> ...`
-Phim có sẵn: `war`, `l2e2`, `l2e3` (bảng `FILMS` đầu file; phim mới phải thêm vào đó). Mặc định 30fps, 6 tiến trình song song.
+Phim có sẵn: `war`, `l2e2`, `l2e3` (bảng `FILMS` đầu file). Phim dựng bằng CINE-KIT (`js/film-<id>.js`, vd `dvc`) thì gõ thẳng `<id>` — tự nhận, không cần thêm vào `FILMS`. Mặc định 30fps, 6 tiến trình song song.
 1. **Xem thử nhanh** (soát cảnh, thời lượng, tiếng): `--scale 0.5` (+ `--from A --to B` nếu chỉ cần 1 cảnh). Rẻ gấp ~10–16 lần bản 4K.
 2. **Bản thật — công thức NHANH NHẤT**:
    - 16:9: `node tools/render-cine.js l2e3 out/l2e3-16x9-4k.mp4 --wide --4k --cache --webcodecs --hw`

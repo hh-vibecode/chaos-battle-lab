@@ -24120,10 +24120,12 @@ function openCinema(folder){
   if(folder==='__war') return _openWarFolder();
   // 📂 trang chủ chỉ có 2 thư mục: Meme Lore 1 (mọi phim cũ) · Meme Lore 2 (các tập mới, khung dọc 9:16)
   const LORE={ __top:{ title:'🎬 MEME CINEMA', back:null, items:[{id:'__lore1', ic:'📼', name:'Meme Lore 1', desc:'Memes Assemble I & II and the classic scenes', folder:true},
-                                                              {id:'__lore2', ic:'🌑', name:'Meme Lore 2', desc:'Pain is coming… (Shorts 9:16)', folder:true}]},
+                                                              {id:'__lore2', ic:'🌑', name:'Meme Lore 2', desc:'Pain is coming… (Shorts 9:16)', folder:true},
+                                                              {id:'__lab', ic:'🧪', name:'Anime Lab', desc:'Test scenes for the new anime film kit', folder:true}]},
     __lore2:{ title:'🌑 MEME LORE 2', back:'', items:[{id:'__dpwindow', ic:'🪟', name:'Ep 1 · Depressed Cat Comes Home', desc:"He looks up at the window… This world shall know pain.", dur:23},
                                                        {id:'__l2e2', ic:'🗿', name:'Ep 2 · Into the Dark', desc:"A dark gate opens and Evil Gary falls into a cave… where something is waiting.", dur:25},
-                                                       {id:'__l2e3', ic:'🌋', name:'Ep 3 · The High Ground', desc:"Supreme Cat has the high ground. Grumpy is reborn as Catvader… and the Meowcatsuki set Friend free.", dur:62}]} };
+                                                       {id:'__l2e3', ic:'🌋', name:'Ep 3 · The High Ground', desc:"Supreme Cat has the high ground. Grumpy is reborn as Catvader… and the Meowcatsuki set Friend free.", dur:62}]},
+    __lab:{ title:'🧪 ANIME LAB', back:'', items:[{id:'ck:dvc', ic:'⚔️', name:'Test · Buff Doge vs Samurai Cheems', desc:'Anime fight test: orbiting camera, high angles, smoke, slashes, impact frames.', dur:8}]} };
   const L=LORE[folder||'__top'];
   const ov=document.createElement('div'); ov.id='cinemaGallery';
   ov.style.cssText='position:fixed;inset:0;z-index:9000;background:radial-gradient(ellipse at top,#2a1b3d,#0b0712 70%);overflow:auto;padding:28px 16px 40px;font-family:system-ui,Arial,sans-serif;color:#fff;';
@@ -24140,7 +24142,7 @@ function openCinema(folder){
     c.style.cssText='text-align:left;background:linear-gradient(160deg,rgba(255,255,255,0.10),rgba(255,255,255,0.03));border:1px solid rgba(255,255,255,0.18);border-radius:16px;padding:16px;color:#fff;cursor:pointer;display:flex;flex-direction:column;gap:8px;min-height:150px;transition:transform .12s,border-color .12s';
     c.onmouseenter=()=>{ c.style.transform='translateY(-3px)'; c.style.borderColor='#ffcc80'; }; c.onmouseleave=()=>{ c.style.transform=''; c.style.borderColor='rgba(255,255,255,0.18)'; };
     c.innerHTML=`<div style="font-size:38px">${it.ic}</div><div style="font-size:18px;font-weight:800">${it.name}</div><div style="font-size:13px;opacity:.75;line-height:1.35;flex:1">${it.desc}</div><div style="font-size:12px;opacity:.6">${it.folder?'📂 Open':'▶ '+it.dur+'s'}</div>`;
-    c.onclick=()=>{ _cineGalleryClose(); if(it.id==='__lore1'||it.id==='__lore2') openCinema(it.id); else if(it.id==='__endgame') playCineEndgame(); else if(it.id==='__war') openCinema('__war'); else if(it.id==='__dpwindow') playCineDpWindow(); else if(it.id==='__l2e2') playCineL2E2(); else if(it.id==='__l2e3') playCineL2E3(); else playScenePreset(it.id); };
+    c.onclick=()=>{ _cineGalleryClose(); if(it.id.startsWith('ck:')) playCineKit(it.id.slice(3)); else if(it.id==='__lore1'||it.id==='__lore2'||it.id==='__lab') openCinema(it.id); else if(it.id==='__endgame') playCineEndgame(); else if(it.id==='__war') openCinema('__war'); else if(it.id==='__dpwindow') playCineDpWindow(); else if(it.id==='__l2e2') playCineL2E2(); else if(it.id==='__l2e3') playCineL2E3(); else playScenePreset(it.id); };
     grid.appendChild(c); }
 }
 // 📂 thư mục Memes Assemble II: ô "cả phim" + từng cảnh nhỏ (danh sách do js/cine-war.js tự tính)
@@ -24207,6 +24209,12 @@ window._cinePanelMake=_cinePanelMake; window._cinePanelRemove=_cinePanelRemove;
 function playCineDpWindow(){   // 🪟 phim ngắn Depressed Cat về nhà (js/cine-dpwindow.js, chỉ tải khi bấm)
   if(window._cineDW) return window._cineDW();
   const v=window.GAME_VERSION?'?v='+GAME_VERSION.build:'', s=document.createElement('script'); s.src='js/cine-dpwindow.js'+v; s.onload=()=>window._cineDW&&window._cineDW(); document.body.appendChild(s);
+}
+// 🎬 phim dựng bằng CINE-KIT (js/cine-kit.js + js/film-<id>.js, chỉ tải khi bấm) · opts.offline/scale = xuất video (tools/render-cine.js <id>)
+function playCineKit(id,opts){
+  const v=window.GAME_VERSION?'?v='+GAME_VERSION.build:'';
+  const load=src=>new Promise(r=>{ const s=document.createElement('script'); s.src=src+v; s.onload=r; s.onerror=r; document.body.appendChild(s); });
+  return (window.CineKit?Promise.resolve():load('js/cine-kit.js')).then(()=>CineKit.films[id]?0:load('js/film-'+id+'.js')).then(()=>{ const f=CineKit.films[id]; if(f) f.play(opts); return !!f; });
 }
 function playCineL2E3(opts){   // 🌋 Meme Lore 2 · Tập 3 "The High Ground" (js/cine-lore2ep3.js, chỉ tải khi bấm) · opts.offline/scale = xuất video
   if(window._cineL2E3) return window._cineL2E3(opts);

@@ -76,7 +76,7 @@ Mẫu đã duyệt:
 
 ## Skill của repo (`.claude/skills/`, thêm 28/10/2026)
 - `them-meme` (danh sách việc thêm meme mới) · `tach-nen-anh` (ảnh ChatGPT nền xanh → khung game) · `chay-thu` (chạy thử trận bằng Edge headless) · `phat-hanh` (đẩy bản mới không cần python)
-  · `xuat-video` (CHỈ Mac: phim + trận đấu giả lập; chỉ quay lại đoạn bị sửa).
+  · `xuat-video` (CHỈ Mac: phim + trận đấu giả lập; chỉ quay lại đoạn bị sửa) · `dung-phim` (dựng phim anime bằng cine-kit) · `xem-video` (CHỈ Mac: video mẫu → bảng cảnh).
 - **Chuẩn video (anh dặn 28/10/2026), áp cho cả phim lẫn trận đấu giả lập: 16:9 → 4K 3840×2160 · 9:16 → 2K 1440×2560.**
 - **Xuất video trên MacBook: KHÔNG chạy nhiều tiến trình song song** — anh dặn chạy nhiều nhân làm máy vừa LAG vừa LÂU hơn.
   Nguyên nhân (anh xác nhận): TRÀN RAM — mỗi tiến trình là 1 trình duyệt giữ canvas 4K (~1–2GB), 6 cái → hết RAM, máy phải swap ra ổ đĩa.
@@ -86,24 +86,23 @@ Mẫu đã duyệt:
   (máy Windows không có node → `tools/node.ps1` mượn Node của VS Code). `tools/release.py` / `tools/render-match.js` cũ vẫn giữ cho Mac.
 - Làm ra công cụ / quy trình dùng lại được → TỰ đề xuất (hoặc tạo) skill mới, đừng để anh phải hỏi.
 
-## 🚧 ĐANG LÀM DỞ (28/10/2026, hết token) — bộ dựng phim anime. Đọc mục này trước khi làm tiếp
+## 🎬 Bộ dựng phim anime (bắt đầu 28/10, dựng xong khung 29/10/2026)
 Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh yêu cầu, đặc biệt cảnh COMBAT NHANH kiểu anime, góc máy liên tục, góc khó
-(ảnh mẫu: góc cao chéo từ trên xuống, 2 nhân vật xoay người, khói + vệt chém + năng lượng — kiểu Jujutsu Kaisen). Anh đã "chốt hết", nhưng:
-- **3D: TẠM DỪNG** (anh: "khó nhằn thì bỏ qua, anime ngày xưa vẽ tay"). Đã thử được (giữ lại để dùng sau nếu cần, chỉ cho vài cảnh chính, không lạm dụng):
+(ảnh mẫu: góc cao chéo từ trên xuống, 2 nhân vật xoay người, khói + vệt chém + năng lượng — kiểu Jujutsu Kaisen).
+- **Đã có (29/10):** `js/cine-kit.js` = bộ khung chung (máy quay 2.5D: bay vòng / góc cao chéo / ngước / qua vai / nghiêng; sân đá phối cảnh + trời + núi;
+  khói toon, sóng xung kích, vệt chém, hào quang theo bóng nhân vật, tia lửa, đá văng, speed lines, khung impact, chữ tượng thanh; khung chạy + bảng điều khiển + xuất offline).
+  Phim mới chỉ cần `js/film-<id>.js` gọi `CineKit.film({...})`; `playCineKit(id)` trong game.js tải khi bấm; `tools/render-cine.js <id>` tự nhận phim cine-kit.
+  Bài thử: `js/film-dvc.js` — Buff Doge vs Samurai Cheems ~7.6s (Meme Cinema → 🧪 Anime Lab). Dùng ảnh có sẵn (Buff Doge P1–P5/haki, Samurai Cheems đứng/quay lưng/chém).
+  Skill: `dung-phim` (quy trình + API + mẫu câu lệnh ChatGPT vẽ khung chính), `xem-video` (`tools/xem-video.py`: file hoặc link YouTube + mốc giây → bảng cảnh theo chỗ cắt máy, 3 khung/cảnh, nhịp, nét phác).
+- **Chờ anh:** xem bài thử trong Anime Lab rồi quyết hướng; nếu chốt "anime vẽ tay kiểu tiết kiệm" → anh vẽ khung chính bằng ChatGPT theo mẫu lệnh trong skill `dung-phim`.
+- **Chưa làm / để sau:** ToonCrafter (nội suy khung chèn giữa), Wan 2.x image→video trên Hugging Face (miễn phí), Kling (~10$/tháng, có API).
+  Chuyển phim cũ (js/cine-*.js) sang cine-kit — chưa cần, chỉ dùng cho phim mới.
+- **3D: TẠM DỪNG** (anh: "khó nhằn thì bỏ qua, anime ngày xưa vẽ tay"). Giữ lại để dùng sau nếu cần, chỉ cho vài cảnh chính, không lạm dụng:
   `tools/x/img23d.js` — ảnh → mô hình .glb MIỄN PHÍ qua demo Hunyuan3D-2 trên Hugging Face (không cần tài khoản; bước tô màu của demo đang hỏng → dùng `--shape-only`);
-  ra `assets/3d/doge.glb` (Buff Doge), `assets/3d/cheems.glb` — đúng dáng mọi góc, CHƯA có mặt meme (định chiếu ảnh gốc lên mặt trước) và CHƯA có xương/động tác.
-  `tools/x/view3d.html?src=assets/3d/doge.glb` = xem 4 góc kiểu toon + viền đen. Three.js r160 ở `js/vendor/three/` (đã sửa import tương đối).
+  ra `assets/3d/doge.glb` (Buff Doge), `assets/3d/cheems.glb` — đúng dáng mọi góc, CHƯA có mặt meme và CHƯA có xương/động tác.
+  `tools/x/view3d.html?src=assets/3d/doge.glb` = xem 4 góc kiểu toon + viền đen. Three.js r160 ở `js/vendor/three/`.
   TRELLIS demo hỏng (lỗi null); Tripo/Meshy/Mixamo cần đăng nhập → anh NGẠI đăng nhập nhiều tool, chỉ chịu chi ≤10$ và phải gọi API được từ Claude.
-- **Hướng anh đang chờ duyệt (đề xuất cuối):** "anime vẽ tay kiểu tiết kiệm":
-  1) Claude viết bảng phân cảnh + CÂU LỆNH ChatGPT cho từng KHUNG CHÍNH (góc máy như ảnh mẫu, phong cách anime nhất quán) → anh dán vào ChatGPT, gửi ảnh lại;
-  2) Claude làm chuyển động bằng code: giữ khung, lia/đẩy máy trên ảnh, rung, smear, impact frame, khói, vệt chém, năng lượng, cắt nhịp nhạc;
-  3) thử thêm (miễn phí trước): ToonCrafter (nội suy khung chèn giữa cho hoạt hình), Wan 2.x image→video trên Hugging Face; trả phí thì Kling (~10$/tháng, có API).
-  Bài thử đầu: cảnh đánh ~5s **Doge vs Cheems** như ảnh mẫu → anh xem rồi quyết.
-- **Chưa làm:** skill `xem-video` (ffmpeg tách cảnh theo chỗ cắt máy → bảng ảnh 3 khung/cảnh có giây, nhịp nhạc, bản phác nét đen trắng; yt-dlp tải link YouTube
-  ĐÚNG đoạn anh ghi; anh sẽ gửi LINK kèm mốc giây), `cine-kit` (bộ dựng phim dùng chung: máy quay theo tên shot, hiệu ứng anime, khung chạy phim/xuất video
-  chung để mỗi phim chỉ khai báo shot — phim cũ js/cine-*.js mỗi file tự viết lại hết), skill `dung-phim` (quy trình: kịch bản → bảng phân cảnh anh duyệt →
-  danh sách ảnh cần vẽ → dựng từng cảnh → xem thử thấp → `xuat-video`). Ghi luật: 3D chỉ cho vài cảnh chính.
-- Công cụ mới đã có: `tools/x/cdp.js` thêm `goto <path>` và `waitfor <js>` (xem đầu file).
+- Công cụ: `tools/x/cdp.js` có `goto <path>` và `waitfor <js>` (xem đầu file).
 
 ## Phát hành
 - **Làm xong là TỰ ĐẨY LÊN `main` luôn** (người dùng đã dặn, không cần hỏi lại): commit trên nhánh làm việc rồi `git push origin HEAD:main` (fast-forward).
