@@ -15,14 +15,14 @@
   const T={ press:1.2, line1:2.9, line2:5.1, boxOff:7.3, grab:7.5, throw:8.1, hit:8.8, rage:9.4, crush:11.3, fall:11.6, splash:12.2, fade1:12.7, s2:13.6,
             pain:14.4, carry0:14.9, lift:15.7, onStr:16.7, carry:17.3, fade2:18.6, lab:19.2, door:19.6, doorShut:20.1, serum:20.6, ray:21.6, peak:23.6, cool:24.2, open:24.7,
             leg:25.9, body:27.1, helm:28.3, breath:29.3, army:31.6, hand:32.4, pull:33.0, choke:34.0, drop:36.6,
-            painOut:37.3, rin:38.5, pl1:39.0, pl2:41.0, fist:43.2, pBoxOff:43.7, cave:44.2, beams:45.0, sealBreak:47.4, cageBurst:47.75, eyes:48.2, dash:48.9, stEyes:49.6, shake:49.9, real:50.7, grow:51.4, out:52.8, rise:53.0, free:55.0, roar:55.3, hands:55.6, title:58.8, fade:61.6 };
+            painOut:37.3, rin:38.5, pl1:39.0, pl2:41.0, fist:43.2, pBoxOff:43.7, cave:44.2, beams:45.0, join:46.2, sealBreak:47.4, cageBurst:47.75, eyes:48.2, dash:48.9, stEyes:49.6, shake:49.9, real:50.7, grow:51.4, out:52.8, rise:53.0, free:55.0, roar:55.3, hands:55.6, title:58.8, fade:61.6 };
   const LINES=[{t:T.line1,txt:'GIVE UP, GRUMPY.'},{t:T.line2,txt:'I HAVE THE HIGH GROUND.'},{t:T.pl1,txt:'HE LEFT YOU TO BURN.'},{t:T.pl2,txt:'JOIN US... AND HE WILL KNOW PAIN.'}], CPS=18;   // chữ / giây
   const BOXES=[{t0:T.line1,t1:T.boxOff,L:[0,1],who:'SUPREME CAT',im:'sup',col:'#c48cff',bd:'#8a5cff',bg:['#3a0a6a','#12021f'],face:[0.647,0.146],fz:0.38},
                {t0:T.pl1,t1:T.pBoxOff,L:[2,3],who:'PAIN',im:'pain',col:'#ff8a5a',bd:'#ff3a2a',bg:['#4a0a0a','#120202'],face:null,fz:0.42}];   // 2 lượt hội thoại: Supreme · Pain
   const A=p=>{ const im=new Image(); im.src=p; return im; };
   const IMG={ grumpy:A('assets/avatars/grumpycat/avatarUrl.webp'), grumpyAtk:A('assets/avatars/grumpycat/attackAvatarUrl.webp'), sup:A('assets/avatars/supremearbiter/avatarUrl.webp'),
     vader:A('assets/avatars/catvader/avatarUrl.webp'), vaderHand:A('assets/avatars/catvader/skill2AvatarUrl.webp'), pain:A('assets/img/depressedcat/DP_PAIN_IMG.webp'),
-    soldier:A('assets/avatars/germancat/skill1AvatarUrl.webp'), stone:A('assets/img/poordog/PD_TH_STONE.webp') };
+    soldier:A('assets/avatars/germancat/skill1AvatarUrl.webp'), stone:A('assets/img/poordog/PD_TH_STONE.webp'), egary:A('assets/avatars/evilgary/avatarUrl.webp') };
   const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)), seg=(t,a,b)=>clamp((t-a)/(b-a),0,1), eio=x=>x*x*(3-2*x), lerp=(a,b,k)=>a+(b-a)*k;
   const eout=x=>1-(1-x)*(1-x);
   const hash=n=>{ const s=Math.sin(n*127.1+311.7)*43758.5453; return s-Math.floor(s); };
@@ -112,7 +112,7 @@
   function cloud(x,y,w,h,top,bot,a,seed){ for(let k=0;k<7;k++){ const cx=x+(h2(k,seed,1)-0.5)*w, cy=y+(h2(k,seed,2)-0.5)*h*0.6, r=h*(0.45+0.4*h2(k,seed,3));
       const gr=g.createLinearGradient(0,cy-r,0,cy+r); gr.addColorStop(0,top); gr.addColorStop(1,bot); g.globalAlpha=a; g.fillStyle=gr; g.beginPath(); g.ellipse(cx,cy,r*1.8,r,0,0,Math.PI*2); g.fill(); } g.globalAlpha=1; }
   // 🌋 cảnh 1 · núi lửa (kiểu Mustafar): trời đen tro, mây hắt đỏ từ dưới, núi xa nhiều lớp, thác dung nham, cột đá cao
-  const LAVA=900, HI=330, LO=690, SUPX=140, GRX=430;
+  const LAVA=900, LO=690, HI=LO-72, SUPX=208, GRX=430;   // Supreme đứng ngay cạnh, chỉ cao hơn Grumpy 1 BẬC ĐÁ (anh sửa 30/10)
   const FALLS=[[-190,120,22],[610,60,30],[760,250,18]];   // thác dung nham: x, đỉnh y, bề rộng (vẽ động)
   let BG1, BG2, BG3, BG4;
   function paintVolcano(){ return paint(-320,-260,860,1180,()=>{
@@ -124,11 +124,11 @@
     RANGES.forEach(([k,col,base,amp],L)=>{ g.beginPath(); g.moveTo(-320,LAVA); for(let x=-320;x<=860;x+=20){ const y=base-amp*Math.pow(Math.abs(Math.sin(x*0.004*(1+L*0.4)+L)),1.6)*(0.7+0.3*h2(x|0,L,3)); g.lineTo(x,y); } g.lineTo(860,LAVA); g.closePath();
       gr=g.createLinearGradient(0,base-amp,0,LAVA); gr.addColorStop(0,col); gr.addColorStop(1,'#060202'); g.fillStyle=gr; g.fill();
       g.save(); g.clip(); gr=g.createLinearGradient(0,LAVA-120,0,LAVA); gr.addColorStop(0,'rgba(255,80,20,0)'); gr.addColorStop(1,`rgba(255,90,20,${0.25*k})`); g.fillStyle=gr; g.fillRect(-320,LAVA-120,1180,120); g.restore(); });
-    // 🏔️ cột đá CAO của Supreme (bên trái)
-    const P=[[-60,HI+12],[-26,HI-6],[30,HI-3],[90,HI-1],[150,HI],[210,HI-3],[262,HI+4],[286,HI+40],[298,HI+150],[312,HI+330],[340,LAVA+10],[-140,LAVA+10],[-118,HI+330],[-96,HI+160],[-80,HI+50]];
+    // 🪨 bậc đá của Supreme: khối đá liền kề, mặt trên cao hơn mỏm của Grumpy đúng 1 bậc
+    const P=[[56,HI+16],[84,HI-3],[140,HI-1],[200,HI+1],[254,HI-2],[300,HI+5],[314,HI+34],[306,LO+48],[322,LO+140],[344,LAVA+10],[10,LAVA+10],[30,LO+170],[42,HI+90]];
     rockPoly(P,'#140909','#2f1b18','#9a3412',7);
-    g.save(); path(P); g.clip(); gr=g.createLinearGradient(0,LAVA-280,0,LAVA); gr.addColorStop(0,'rgba(255,90,20,0)'); gr.addColorStop(1,'rgba(255,120,30,0.6)'); g.fillStyle=gr; g.fillRect(-160,LAVA-280,520,290); g.restore();
-    g.strokeStyle='rgba(255,180,130,0.35)'; g.lineWidth=2; g.beginPath(); g.moveTo(-26,HI-6); [[30,HI-3],[90,HI-1],[150,HI],[210,HI-3],[262,HI+4]].forEach(p=>g.lineTo(p[0],p[1])); g.stroke();   // viền sáng mép trên
+    g.save(); path(P); g.clip(); gr=g.createLinearGradient(0,LAVA-260,0,LAVA); gr.addColorStop(0,'rgba(255,90,20,0)'); gr.addColorStop(1,'rgba(255,120,30,0.6)'); g.fillStyle=gr; g.fillRect(0,LAVA-280,360,290); g.restore();
+    g.strokeStyle='rgba(255,180,130,0.35)'; g.lineWidth=2; g.beginPath(); g.moveTo(84,HI-3); [[140,HI-1],[200,HI+1],[254,HI-2],[300,HI+5]].forEach(p=>g.lineTo(p[0],p[1])); g.stroke();   // viền sáng mép trên
     // khói bốc từ mặt dung nham
     for(let i=0;i<12;i++) cloud(-300+hash(i+70)*1140,LAVA-60-hash(i+71)*140,120+90*hash(i+72),40+30*hash(i+73),'rgba(60,20,16,1)','rgba(30,10,8,1)',0.28,i+30);
   }); }
@@ -141,8 +141,14 @@
     return {ch,outline}; })();
   { const c=LEDGE.ch[3]; let u=0; while(c.vy*u+575*u*u<LAVA-LO-10 && u<3) u+=0.005; T.splash=T.crush+c.dl+u; }   // 🔥 dung nham bắn tung ĐÚNG lúc Grumpy chạm mặt dung nham
   function chunkPose(c,t){ const u=Math.max(0,t-T.crush-c.dl); return {dx:c.vx*u, dy:c.vy*u+0.5*1150*u*u, r:c.vr*u}; }
-  function drawLedge(t){ const shake=t<T.crush&&t>T.press?Math.sin(t*70)*0.6*seg(t,T.rage,T.crush):0;
-    if(t<T.crush){ g.save(); g.translate(shake,0); rockPoly(LEDGE.outline,'#1a0d0c','#38221d','#a0360f',11); g.strokeStyle='rgba(255,180,130,0.3)'; g.lineWidth=1.6; g.beginPath(); LEDGE.outline.slice(0,7).forEach((p,i)=>i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1])); g.stroke(); g.restore(); return; }
+  // 📳 biên độ rung: đè áp lực → rung NHẸ · trúng đá vào mặt Supreme → rung MẠNH dần tới lúc vỡ
+  function quake(t){ if(t<T.press || t>=T.crush) return 0; if(t<T.hit) return 0.9*seg(t,T.press,T.press+0.6); return 3+11*eio(seg(t,T.hit,T.crush)); }
+  const qx=(t,ph)=>Math.sin(t*61+ph)*quake(t)+Math.sin(t*97+ph*2)*quake(t)*0.4, qy=(t,ph)=>Math.sin(t*53+ph)*quake(t)*0.35;
+  function drawLedge(t){
+    if(t<T.crush){ const Q=quake(t), blur=t>=T.hit?seg(t,T.hit,T.hit+0.6):0;
+      const one=(dx,dy,a)=>{ g.save(); g.globalAlpha=a; g.translate(dx,dy); rockPoly(LEDGE.outline,'#1a0d0c','#38221d','#a0360f',11); g.strokeStyle='rgba(255,180,130,0.3)'; g.lineWidth=1.6; g.beginPath(); LEDGE.outline.slice(0,7).forEach((p,i)=>i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1])); g.stroke(); g.restore(); };
+      if(blur>0){ one(qx(t,1.7)+Q*1.3,qy(t,0.4),0.38*blur); one(qx(t,3.1)-Q*1.3,qy(t,2.2),0.38*blur); }   // rung NHOÈ: bóng mờ 2 bên
+      one(qx(t,0),qy(t,0),1); return; }
     for(const c of LEDGE.ch){ const p=chunkPose(c,t); if(c.cy+p.dy>LAVA+80) continue;
       g.save(); g.translate(c.cx+p.dx,c.cy+p.dy); g.rotate(p.r); g.translate(-c.cx,-c.cy); rockPoly(c.P,'#1a0d0c','#38221d','#a0360f'); g.restore(); } }
   function drawFalls(t){ g.save(); for(const [x,y0,w] of FALLS){ const gr=g.createLinearGradient(0,y0,0,LAVA); gr.addColorStop(0,'#ffd36a'); gr.addColorStop(0.3,'#ff7a1c'); gr.addColorStop(1,'#b5300a');
@@ -227,12 +233,12 @@
     g.fillStyle='#5f6b4a'; g.fillRect(-len/2,-6,len,14); g.strokeStyle='rgba(0,0,0,0.4)'; g.lineWidth=1; for(let k=1;k<5;k++){ g.beginPath(); g.moveTo(-len/2+k*len/5,-6); g.lineTo(-len/2+k*len/5,8); g.stroke(); } g.restore(); }
 
   // ───────────────────── 🎥 MÁY QUAY (toạ độ riêng mỗi cảnh — cặp mốc trùng giờ ở chỗ chuyển cảnh nên không trượt qua nhau) ─────────────────────
-  const CAMK=[[0,300,600,0.92],[T.press,300,600,0.98],[T.line1-0.25,250,470,1.25],[T.line1+0.4,170,315,1.85],[T.boxOff,170,315,1.9],[T.grab,430,650,2.05],[T.throw,430,650,2.1],[T.throw+0.35,290,510,1.15],[T.hit,175,290,2.1],
-    [T.rage,165,215,1.12],[T.crush-0.3,165,215,1.12],[T.crush+0.15,410,650,1.3],[T.splash-0.15,430,800,1.3],[T.splash+0.3,430,850,1.4],[T.s2-0.001,430,850,1.45],
+  const CAMK=[[0,320,560,0.95],[T.press,318,575,1.05],[T.line1-0.25,260,560,1.4],[T.line1+0.4,SUPX+30,HI-18,1.85],[T.boxOff,SUPX+30,HI-18,1.9],[T.grab,GRX-10,LO-40,2.05],[T.throw,GRX-10,LO-40,2.1],[T.throw+0.25,(SUPX+GRX)/2,(HI+LO)/2-50,1.7],[T.hit,SUPX+35,HI-42,2.1],
+    [T.rage,SUPX+50,HI-170,0.86],[T.crush-0.3,(SUPX+GRX)/2+10,HI-140,0.88],[T.crush+0.15,410,650,1.3],[T.splash-0.15,430,800,1.3],[T.splash+0.3,430,850,1.4],[T.s2-0.001,430,850,1.45],
     [T.s2,330,690,1.7],[T.pain,345,680,1.45],[T.lift,330,660,1.45],[T.carry,300,660,1.4],[T.lab-0.001,180,660,1.35],
     [T.lab,270,560,1.0],[T.doorShut,270,580,1.25],[T.serum,270,560,1.35],[T.ray,270,560,1.2],[T.peak,270,560,1.5],[T.open,270,580,1.6],[T.leg,265,620,1.9],[T.body,265,580,1.9],[T.helm,268,540,2.0],[T.breath,270,530,2.3],[T.army-0.001,270,500,2.8],
     [T.army,300,660,1.3],[T.hand,270,660,1.35],[T.pull,255,630,1.35],[T.choke,215,600,1.75],[T.drop,205,620,1.55],[T.painOut,250,650,1.15],[T.rin,300,700,1.3],[T.pl1-0.3,250,725,1.06],[T.fist,245,725,1.08],[T.cave-0.001,245,725,1.12],
-    [T.cave,270,380,0.46],[T.beams,268,470,0.56],[T.sealBreak-0.3,260,400,0.82],[T.sealBreak+0.2,260,400,0.78],[T.eyes,260,395,1.15],[T.dash,262,300,0.75],[T.stEyes,270,120,0.62],[T.real,270,180,0.6],[T.grow,270,260,0.5],[T.out-0.001,270,330,0.42],
+    [T.cave,270,380,0.46],[T.beams,270,420,0.5],[T.join,270,520,0.47],[T.sealBreak-0.3,270,360,0.55],[T.sealBreak+0.2,270,340,0.6],[T.eyes,270,260,0.66],[T.dash,270,170,0.62],[T.stEyes,270,120,0.62],[T.real,270,180,0.6],[T.grow,270,260,0.5],[T.out-0.001,270,330,0.42],
     [T.out,270,600,0.42],[T.rise,270,600,0.42],[T.free,270,520,0.4],[T.roar,270,380,0.52],[T.hands,270,600,0.36],[T.title,270,620,0.33],[DUR,270,620,0.32]];
   function cam(t){ let r=CAMK[CAMK.length-1].slice(1);
     for(let i=1;i<CAMK.length;i++) if(t<CAMK[i][0]){ const a=CAMK[i-1], b=CAMK[i], e=eio(seg(t,a[0],b[0])); r=[lerp(a[1],b[1],e),lerp(a[2],b[2],e),Math.exp(lerp(Math.log(a[3]),Math.log(b[3]),e))]; break; }
@@ -248,7 +254,7 @@
     [T.pain,'ep3_dark',0.9,0],[T.doorShut,'ep3_klunk',1.0,0],[T.serum,'ep3_hydraulic',0.9,0],[T.ray,'ultimate_charge_2',0.9,0],[T.cool,'gas_leak',0.8,1.6],
     [T.leg-0.55,'ep3_ratchet',0.8,0],[T.leg,'ep3_klunk',1.0,0],[T.body-0.55,'ep3_ratchet',0.8,0],[T.body,'ep3_klunk',1.0,0],[T.helm,'ep3_shine',1.0,0],[T.helm+0.15,'flyingcat_theme',0.8,T.cave-T.helm-0.4],
     [T.breath,'ep3_breath',1.0,0],[T.hand,'ep3_force',1.0,0],[T.choke,'ep3_choke',0.9,0],[T.drop+0.35,'pd_fall',0.9,0],
-    [T.painOut,'ep3_dark',0.8,0],[T.fist+0.15,'ep3_glass',0.8,0],[T.beams,'ep3_charge',1.0,0],[T.sealBreak,'ep3_glass',1.0,0],[T.cageBurst+0.1,'ep3_chain',1.0,0],[T.dash,'fr_dash',1.0,0],
+    [T.painOut,'ep3_dark',0.8,0],[T.fist+0.15,'ep3_glass',0.8,0],[T.beams,'ep3_charge',1.0,0],[T.join,'eg_necro',1.0,0],[T.sealBreak,'ep3_glass',1.0,0],[T.cageBurst+0.05,'death_break',1.0,0],[T.dash,'soul_steal',0.9,0],
     [T.shake,'ep3_quake',1.0,0],[T.real,'ep3_titan',1.0,0],[T.grow+0.6,'ep3_rock',0.9,0],[T.out+0.15,'ep3_explode',1.0,0],[T.roar,'titan_roar',1.0,0],[T.hands+0.4,'hm_claw1',0.9,0],[T.title,'ep3_boom',1.0,0]];
   for(const L of LINES){ let n=0; for(let i=0;i<L.txt.length;i++){ if(L.txt[i]===' ') continue; if((n++)%2) continue; SFX_PLAN.push([L.t+0.25+i/CPS,'ep3_blip',0.7,0]); } }   // tiếng "píp" chữ pixel (cách 1 chữ kêu 1 lần)
   SFX_PLAN.sort((a,b)=>a[0]-b[0]);
@@ -297,14 +303,17 @@
     drawLedge(t);
     const pv=t<T.press?0:(t<T.crush?0.6+0.3*seg(t,T.rage,T.crush):1);
     let gx=GRX, gy=LO, rot=0, sy=1, sx=1, alpha=1;
-    if(t>=T.press){ const k=eio(seg(t,T.press,T.press+0.5)); sy=lerp(1,t<T.rage?0.76:lerp(0.76,0.62,seg(t,T.rage,T.crush)),k); sx=lerp(1,1.14,k); gx+=Math.sin(t*55)*1.4*k; }
+    if(t>=T.press){ const k=eio(seg(t,T.press,T.press+0.5)); sy=lerp(1,t<T.rage?0.76:lerp(0.76,0.62,seg(t,T.rage,T.crush)),k); sx=lerp(1,1.14,k); }
+    if(t<T.crush){ gx+=qx(t,0); gy+=qy(t,0); }   // rung cùng tảng đá dưới chân
     if(t>=T.crush){ const c=LEDGE.ch[3], p=chunkPose(c,t); gx+=p.dx; gy+=p.dy; rot=p.r*0.6; if(t>=T.splash) alpha=0; }
     if(t<T.crush && pv>0) saPressed(GRX,LO,MU*0.5,pv,t,3.7);
     const gc=(t>=T.throw-0.1 && t<T.throw+0.35)?prep(IMG.grumpyAtk):prep(IMG.grumpy);
-    if(alpha>0) actor(gc,gx,gy,MU,{sx,sy,rot});   // mặt quay về phía Supreme (bên trái)
+    if(alpha>0){ const bl=t>=T.hit&&t<T.crush?seg(t,T.hit,T.hit+0.6):0, Q=quake(t);
+      if(bl>0){ actor(gc,gx+Q*1.3,gy,MU,{sx,sy,rot,a:0.38*bl}); actor(gc,gx-Q*1.3,gy,MU,{sx,sy,rot,a:0.38*bl}); }   // rung nhoè
+      actor(gc,gx,gy,MU,{sx,sy,rot}); }   // mặt quay về phía Supreme (bên trái)
     const st=prep(IMG.stone);
     if(st){ if(t>=T.grab && t<T.throw){ actor(st,GRX-34,LO-4,16,{}); }
-      else if(t>=T.throw && t<T.hit){ const u=seg(t,T.throw,T.hit), x=lerp(GRX-30,SUPX+10,u), y=lerp(LO-50,HI-MU*0.8,u)-Math.sin(u*Math.PI)*150; actor(st,x,y,18,{center:true,rot:t*14}); }
+      else if(t>=T.throw && t<T.hit){ const u=seg(t,T.throw,T.hit), x=lerp(GRX-30,SUPX+10,u), y=lerp(LO-50,HI-MU*0.8,u)-Math.sin(u*Math.PI)*70; actor(st,x,y,18,{center:true,rot:t*14}); }
       else if(t>=T.hit && t<T.hit+1.6){ const u=t-T.hit, x=SUPX+10+60*u, y=HI-MU*0.8-120*u+500*u*u; actor(st,x,y,18,{center:true,rot:t*10}); } }
     if(t>=T.hit && t<T.hit+0.3){ const k=1-(t-T.hit)/0.3; g.save(); g.globalCompositeOperation='lighter'; glow(SUPX+10,HI-MU*0.8,60*k+10,0.9*k,'255,240,200'); g.restore(); }
     drawLava(t);
@@ -475,50 +484,66 @@
     for(const [w,a] of [[18,0.18],[8,0.45],[2.5,1]]){ g.strokeStyle=`rgba(${col},${a*k})`; g.lineWidth=w*(0.7+0.5*k); g.beginPath(); g.moveTo(x0,y0); g.quadraticCurveTo(mx,my,x1,y1); g.stroke(); }
     for(let i=0;i<6;i++){ const u=((t*1.6+i/6+seed)%1), x=(1-u)*(1-u)*x0+2*(1-u)*u*mx+u*u*x1, y=(1-u)*(1-u)*y0+2*(1-u)*u*my+u*u*y1; glow(x,y,10,0.8*k,col); }
     glow(x0,y0,24,0.6*k,col); g.restore(); }
+  // 🔒 5 LỒNG — mỗi lồng 1 Friend bị phong ấn riêng, bị rút năng lượng truyền thẳng vào bức tượng (anh đổi kịch bản 30/10)
+  const CAGES5=[[-80,388],[95,272],[270,222],[445,272],[620,388]], CS5=0.5, CORE=[270,40];
+  function core5(){ return CORE; }
+  // mảnh vỡ của 1 Friend (lưới 3×3 cắt từ ảnh) bay theo đường cong về lõi tượng
+  function friendShards(fc,cx,cy,FH,u,i){ if(!fc) return; const FW=FH*fc.sw/fc.sh, N=3, [kx,ky]=CORE;
+    for(let a=0;a<N;a++) for(let b=0;b<N;b++){ const q=a*N+b, dl=hash(i*13+q)*0.35, v=clamp((u-dl)/0.85,0,1); if(v>=1) continue;
+      const sx0=cx-FW/2+(a+0.5)*FW/N, sy0=cy-FH/2+(b+0.5)*FH/N, e=v*v*(3-2*v), mx=(sx0+kx)/2+(hash(q+i*7)-0.5)*260, my=Math.min(sy0,ky)-120-160*hash(q+3+i);
+      const x=(1-e)*(1-e)*sx0+2*(1-e)*e*mx+e*e*kx, y=(1-e)*(1-e)*sy0+2*(1-e)*e*my+e*e*ky, sc=1-0.85*e, rot=(hash(q+9+i)-0.5)*8*e;
+      g.save(); g.globalCompositeOperation='lighter'; glow(x,y,FW/N*0.9*sc+4,0.5*(1-e*0.5),'255,60,50'); g.restore();
+      g.save(); g.translate(x,y); g.rotate(rot); g.scale(sc,sc); g.drawImage(fc.src,fc.sx+a*fc.sw/N,fc.sy+b*fc.sh/N,fc.sw/N,fc.sh/N,-FW/N/2,-FH/N/2,FW/N,FH/N); g.restore(); } }
   function scene5(t){
-    const K=window._l2e2Kit; if(!K || !K.get().BG){ return; } const prevG=K.setG(g), C=K.C, G=K.get(), ST=G.ST, CG=C.CAGE, tt=T2+(t-T.cave);
+    const K=window._l2e2Kit; if(!K || !K.get().BG){ return; } const prevG=K.setG(g), C=K.C, G=K.get(), ST=G.ST, CG=C.CAGE, tt=T2+(t-T.cave), fc=prep(K.imgs()[1]);
     K.bg();
-    // 🗿 tượng (rung + phình to sau khi Friend nhập vào)
+    // 🗿 tượng (rung + phình to sau khi hoá Friend thật) — lõi tượng sáng dần theo năng lượng hút vào
     const grow=t<T.grow?0:eio(seg(t,T.grow,T.out)), sc=1+0.32*grow, sk=t>=T.shake?(0.4+grow):0, shx=Math.sin(t*48)*5*sk, shy=Math.sin(t*37)*3*sk;
-    const realK=eio(seg(t,T.real,T.real+0.7)), fr=prep(K.imgs()[1]);   // 🗿→🐈‍⬛ tượng đá HOÁ thành Friend thật rồi mới phình to
+    const realK=eio(seg(t,T.real,T.real+0.7)), fr=fc;
     g.save(); g.translate(C.STX+shx,C.PED+shy); g.scale(sc,sc); g.translate(-C.STX,-C.PED);
-    if(realK<1){ g.save(); g.globalAlpha=1-realK; g.drawImage(ST.c,ST.x,ST.y,ST.w,ST.h); g.restore(); K.statueRims(1-realK); }
+    if(realK<1){ g.save(); g.globalAlpha=1-realK; g.drawImage(ST.c,ST.x,ST.y,ST.w,ST.h); g.restore(); K.statueRims((1-realK)*Math.max(1,1+2*seg(t,T.cageBurst,T.stEyes))); }
     if(realK>0 && fr){ g.save(); g.globalAlpha=realK; g.drawImage(fr.src,fr.sx,fr.sy,fr.sw,fr.sh,ST.x,ST.y,ST.w,ST.h); g.restore(); }
-    if(t>=T.real && t<T.real+1.0){ const u=seg(t,T.real,T.real+1.0); g.save(); g.globalCompositeOperation='lighter'; glow(C.STX,ST.y+ST.h*0.45,ST.h*0.8,0.6*Math.sin(u*Math.PI),'255,210,120');
-      for(let i=0;i<6;i++){ if(hash(Math.floor(t*20)+i*7)>0.5) continue; const x0=ST.x+hash(i+Math.floor(t*20))*ST.w, y0=ST.y+hash(i+3+Math.floor(t*20))*ST.h*0.8;   // ⚡ tia sét biến hình
-        g.strokeStyle='rgba(255,240,180,0.9)'; g.lineWidth=4; g.beginPath(); g.moveTo(x0,y0-200); for(let k=1;k<=5;k++) g.lineTo(x0+(hash(i*9+k)-0.5)*80,y0-200+k*60); g.stroke(); } g.restore(); }
+    if(t>=T.real && t<T.real+1.0){ const u=seg(t,T.real,T.real+1.0); g.save(); g.globalCompositeOperation='lighter'; glow(C.STX,ST.y+ST.h*0.45,ST.h*0.8,0.6*Math.sin(u*Math.PI),'255,210,120'); g.restore();
+      if(window.VfxGL){ const sd=Math.floor(t*16); for(let i=0;i<3;i++) VfxGL.boltSet(g,ST.x+hash(sd*3+i)*ST.w,ST.y+ST.h*0.1+hash(sd*3+i+1)*ST.h*0.5,Math.PI/2+(hash(sd+i)-0.5)*0.8,260,14,sd*5+i,{core:'#fff6d8',rim:'#ffb340',glow:'rgba(255,190,80,0.3)'}); } }   // ⚡ sét biến hình (thư viện sét chung)
     const se=seg(t,T.stEyes,T.stEyes+0.35); if(se>0){ g.save(); g.globalCompositeOperation='lighter'; const r=ST.h*0.055*(1+0.3*Math.sin(t*9));
       glow(ST.x+0.56*ST.w,ST.y+0.27*ST.h,r*2.2,0.9*se,'255,220,40'); glow(ST.x+0.71*ST.w,ST.y+0.27*ST.h,r*2.2,0.9*se,'255,110,200');
       glow(ST.x+0.56*ST.w,ST.y+0.27*ST.h,r*0.7,se,'255,255,230'); glow(ST.x+0.71*ST.w,ST.y+0.27*ST.h,r*0.7,se,'255,240,250'); g.restore(); }
     g.restore();
     K.hands(T2,1); if(t<T.cageBurst) K.cuffs(T2,1);
     K.flames(t);
-    // 🔒 lồng + viên cầu đen (trước khi vỡ) · sau khi vỡ: song sắt văng tung, Friend tự do
-    if(t<T.cageBurst) K.friendCage(tt);
-    else { const u=t-T.cageBurst, x0=CG.x-CG.w/2, y0=CG.y-CG.h/2;
-      g.save(); g.beginPath(); g.roundRect(x0,y0,CG.w,CG.h,28); g.fillStyle='#050307'; g.fill(); g.restore();
-      for(let i=0;i<6;i++){ const bx=x0+18+i*(CG.w-36)/5, dir=bx<CG.x?-1:1, vx=dir*(160+120*hash(i+40)), vy=-220-140*hash(i+41);
-        g.save(); g.translate(bx+vx*u,CG.y+vy*u+600*u*u); g.rotate(dir*u*(3+2*hash(i+42))); g.fillStyle='#3e3a4a'; g.fillRect(-7,-CG.h/2,14,CG.h); g.restore(); }
-      const fc=prep(K.imgs()[1]); if(fc && t<T.dash+0.7){ const d=seg(t,T.dash,T.dash+0.7), FH=CG.h*0.92*(1-0.85*d), FW=FH*fc.sw/fc.sh, fx=lerp(CG.x,ST.headX,eio(d)), fy=lerp(CG.y+CG.h*0.06,ST.headY+ST.h*0.2,eio(d));
-        g.save(); g.globalCompositeOperation='lighter'; glow(fx,fy,FW*1.1,0.55,'230,30,40'); g.restore();
-        if(d>0){ g.save(); g.globalCompositeOperation='lighter'; for(let k=1;k<8;k++){ const dd=Math.max(0,d-k*0.04); glow(lerp(CG.x,ST.headX,eio(dd)),lerp(CG.y,ST.headY+ST.h*0.2,eio(dd)),FW*0.6,0.35*(1-k/8),'120,20,40'); } g.restore(); }   // vệt bóng đen lao lên
-        g.save(); g.globalAlpha=1-d*0.6; g.drawImage(fc.src,fc.sx,fc.sy,fc.sw,fc.sh,fx-FW/2,fy-FH/2,FW,FH); g.restore();
-        const ek=seg(t,T.eyes,T.eyes+0.25); if(ek>0){ g.save(); g.globalCompositeOperation='lighter'; glow(fx-FW/2+0.56*FW,fy-FH/2+0.27*FH,FH*0.2*ek+4,ek,'255,220,40'); glow(fx-FW/2+0.71*FW,fy-FH/2+0.27*FH,FH*0.2*ek+4,ek,'255,110,200'); g.restore(); } }
-      if(u<0.5){ g.save(); g.globalCompositeOperation='lighter'; glow(CG.x,CG.y,300*(0.4+u),0.9*(1-u/0.5),'255,200,140'); g.restore(); } }
-    if(t<T.sealBreak) K.orb(tt);
-    // 👥 6 kẻ phá phong ấn: 4 thành viên trên 2 lòng bàn tay khổng lồ + Catvader + Pain dưới sàn
-    const P=K.memPos(), F=figs(K), bk=t<T.beams?0:seg(t,T.beams,T.beams+0.6)*(t<T.sealBreak?1:1-seg(t,T.sealBreak,T.sealBreak+0.4)), boost=1+0.8*seg(t,T.beams+1,T.sealBreak);
-    const SRC=[]; F.forEach((fg,i)=>{ if(!fg) return; const [x,y]=P[i], h=C.MH, w=h*fg.width/fg.height; g.drawImage(fg,x-w/2,y-h,w,h); SRC.push([x,y-h*0.62,BEAMC[i]]); });
-    const vc=prep(IMG.vaderHand), pc=prep(IMG.pain), GYc=C.GY; actor(vc,150,GYc,MU*1.25,{}); actor(pc,385,GYc,MU*1.15,{flip:true});
-    SRC.push([150+52,GYc-MU*1.25*0.8,'255,50,50']); SRC.push([385-40,GYc-MU*1.15*0.62,'180,90,255']);
-    SRC.forEach(([x,y,col],i)=>beamLine(x,y,CG.x+(hash(i+70)-0.5)*60,CG.y+(hash(i+71)-0.5)*60,col,bk*boost/1.8,t,i*0.37));
-    // 🔶 vòng phong ấn: quay nhanh + rung theo sức ép → vỡ thành mảnh sáng văng ra
-    const S=G.SEAL;
-    if(t<T.sealBreak) K.drawSeal(CG.x+(bk>0?Math.sin(t*60)*3*boost:0),CG.y,215*(1+0.03*Math.sin(t*22)*bk),1,t*(0.15+1.4*bk),0.8+0.7*bk);
-    else if(S){ const u=seg(t,T.sealBreak,T.sealBreak+1.2), Hh=S.half*215/200, N=14; g.save(); g.globalCompositeOperation='lighter';
-      for(let i=0;i<N;i++){ const a0=i/N*Math.PI*2, a1=(i+1)/N*Math.PI*2, am=(a0+a1)/2, d=380*eout(u)*(0.6+0.6*hash(i+80));
-        g.save(); g.globalAlpha=1-u; g.translate(CG.x+Math.cos(am)*d,CG.y+Math.sin(am)*d+150*u*u); g.rotate((hash(i+81)-0.5)*4*u); g.beginPath(); g.moveTo(0,0); g.arc(0,0,Hh,a0,a1); g.closePath(); g.clip(); g.drawImage(S.c,-Hh,-Hh,Hh*2,Hh*2); g.restore(); }
-      g.restore(); }
+    // ⚡ cường độ rút năng lượng: bắt đầu khi các thành viên kết ấn · Catvader + Evil Gary nhập cuộc → phong ấn MỞ RỘNG, rút mạnh gấp đôi
+    const bk=t<T.beams?0:seg(t,T.beams,T.beams+0.6)*(t<T.cageBurst?1:1-seg(t,T.cageBurst,T.cageBurst+0.5)), jk=t<T.join?0:eio(seg(t,T.join,T.join+0.9)), drain=bk*(0.55+0.45*jk)*(t<T.sealBreak?1:1.2);
+    const dried=seg(t,T.join+0.4,T.sealBreak+0.2);   // Friend bị rút dần tới cạn (tối dần, run bần bật)
+    // 🌀 luồng năng lượng đỏ từ mỗi lồng chảy vào lõi tượng
+    if(t<T.cageBurst) CAGES5.forEach(([x,y],i)=>beamLine(x,y-30,CORE[0],CORE[1],'255,60,50',drain*0.9,t,i*0.61+3));
+    if(drain>0){ g.save(); g.globalCompositeOperation='lighter'; glow(CORE[0],CORE[1],90+150*drain+200*seg(t,T.cageBurst,T.stEyes),0.35+0.4*drain,'255,70,60'); g.restore(); }
+    // 🔒 5 lồng (trước khi vỡ): Friend giẫy giụa trong lồng, phong ấn vàng nhỏ quay trước mỗi lồng
+    if(t<T.cageBurst) CAGES5.forEach(([x,y],i)=>{ const jit=(1+3*dried*jk)*(Math.sin(t*41+i*2)*1.6), jy=Math.cos(t*33+i)*1.2*(1+2*dried*jk);
+      g.save(); g.translate(x+jit,y+jy); g.scale(CS5,CS5); g.translate(-CG.x,-CG.y); K.friendCage(tt+i*0.73); g.restore();
+      if(dried>0){ g.save(); g.beginPath(); g.roundRect(x-CG.w*CS5/2,y-CG.h*CS5/2,CG.w*CS5,CG.h*CS5,12); g.clip(); g.fillStyle=`rgba(12,4,20,${0.55*dried})`; g.fillRect(x-CG.w,y-CG.h,CG.w*2,CG.h*2); g.restore(); }   // bị rút cạn: tối dần
+      K.drawSeal(x,y,(118+14*jk)*(1+0.04*Math.sin(t*20+i)*bk),1,t*(0.4+1.2*bk)+i,0.12+0.33*bk); });   // phong ấn nhỏ mờ, lớn hơn lồng → vẫn thấy Friend bên trong
+    else { const u=t-T.cageBurst;   // 💥 5 Friend TAN VỠ thành mảnh, bị hút xoáy vào tượng · khung lồng đổ sập
+      CAGES5.forEach(([x,y],i)=>{ const w=CG.w*CS5, h=CG.h*CS5, x0=x-w/2, y0=y-h/2;
+        g.save(); g.globalAlpha=Math.max(0,1-u*0.8); g.beginPath(); g.roundRect(x0,y0,w,h,12); g.fillStyle='#050307'; g.fill(); g.restore();
+        for(let k=0;k<6;k++){ const bx=x0+8+k*(w-16)/5, dir=bx<x?-1:1, vx=dir*(70+60*hash(i*6+k+40)), vy=-90-60*hash(i*6+k+41);
+          g.save(); g.translate(bx+vx*u,y+vy*u+500*u*u); g.rotate(dir*u*(3+2*hash(k+42))); g.fillStyle='#3e3a4a'; g.fillRect(-3,-h/2,6,h); g.restore(); }
+        friendShards(fc,x,y+h*0.03,h*0.92,seg(t,T.cageBurst,T.stEyes-0.2),i);
+        if(u<0.4){ g.save(); g.globalCompositeOperation='lighter'; glow(x,y,140*(0.5+u),0.9*(1-u/0.4),'255,120,90'); g.restore(); } }); }
+    // 👥 kẻ phá phong ấn: 4 thành viên trên 2 lòng bàn tay + Pain dưới sàn — chakra cấp cho phong ấn từng lồng
+    const P=K.memPos(), F=figs(K), boost=1+0.8*jk, pairs=[0,1,4,3];
+    F.forEach((fg,i)=>{ if(!fg) return; const [x,y]=P[i], h=C.MH, w=h*fg.width/fg.height; g.drawImage(fg,x-w/2,y-h,w,h);
+      const cg=CAGES5[pairs[i]]; if(t<T.cageBurst) beamLine(x,y-h*0.62,cg[0],cg[1],BEAMC[i],bk*boost/1.8,t,i*0.37); });
+    const pc=prep(IMG.pain), GYc=C.GY; actor(pc,270,GYc,MU*1.15,{flip:true}); if(t<T.cageBurst) beamLine(270,GYc-MU*1.15*0.62,CAGES5[2][0],CAGES5[2][1],'180,90,255',bk*boost/1.8,t,1.9);
+    // ⚫🔴 CATVADER + 🐱 EVIL GARY bước ra từ bóng tối 2 bên — aura shader, tia của họ nuôi VÒNG PHONG ẤN LỚN
+    if(t>=T.join-0.4){ const ap=eio(seg(t,T.join-0.4,T.join+0.3)), vc=prep(t>=T.join?IMG.vaderHand:IMG.vader), ec=prep(IMG.egary);
+      for(const [im,x,h,pre,col,fl] of [[vc,90,MU*1.3,'haki','255,50,50',false],[ec,452,MU*0.95,'toxic','120,255,120',true]]){ if(!im) continue; const w=h*im.sw/im.sh, xx=x+(fl?1:-1)*(1-ap)*80;
+        if(window.VfxGL && ap>0.05) VfxGL.drawAura(g,im.src,{preset:pre,sx:im.sx,sy:im.sy,sw:im.sw,sh:im.sh,x:xx,y:GYc,w,h,t,k:ap*(0.6+0.4*jk),flip:fl,seed:x});
+        actor(im,xx,GYc,h,{a:ap,flip:fl});
+        if(t<T.cageBurst) beamLine(xx+(fl?-1:1)*w*0.3,GYc-h*0.7,270,300,col,jk*1.1,t,x*0.01); } }
+    // 🔶 VÒNG PHONG ẤN LỚN: nở rộng phủ cả 5 lồng khi Catvader + Evil Gary nhập cuộc, quay nhanh, sét tím chập chờn quanh vành → loé trắng lúc rút cạn
+    const BR=lerp(0,640,eout(seg(t,T.join+0.15,T.join+1.0)));
+    if(BR>4 && t<T.cageBurst+0.4){ const fa=t<T.cageBurst?1:1-seg(t,T.cageBurst,T.cageBurst+0.4); K.drawSeal(270,300,BR*(1+0.02*Math.sin(t*30)),1,-t*(0.8+1.2*jk),(0.5+0.5*jk)*fa);
+      if(window.VfxGL && t<T.cageBurst){ const sd=Math.floor(t*14); for(let i=0;i<4;i++){ const a=hash(sd*4+i)*Math.PI*2; VfxGL.boltSet(g,270+Math.cos(a)*BR*0.92,300+Math.sin(a)*BR*0.92,a+Math.PI+(hash(sd+i*3)-0.5),120+80*hash(i+sd),9,sd*7+i,{core:'#120018',rim:'#c060ff',glow:'rgba(170,80,255,0.3)'}); } } }
     if(t>=T.sealBreak && t<T.sealBreak+0.25) fullFill('rgba(255,235,200,A)',0.8*(1-(t-T.sealBreak)/0.25));
     // 🪨 đá trần rơi khi tượng phình to
     if(t>=T.grow){ for(let i=0;i<26;i++){ const t0=T.grow+hash(i+90)*1.3, u=t-t0; if(u<0) continue; const x=C.BX0+200+hash(i+91)*(C.BX1-C.BX0-400), y=C.BY0+300+ 0.5*1400*u*u, r=14+30*hash(i+92);
@@ -591,6 +616,53 @@
     if(t>=T.roar && t<T.roar+0.5) fullFill('rgba(255,40,30,A)',0.35*(1-(t-T.roar)/0.5));
     if(t<T.out+0.35) fullFill('rgba(255,240,230,A)',1-seg(t,T.out,T.out+0.35));
   }
+  // ───────────────────── ✨ HẬU KỲ (VfxGL — bộ lọc pixi-filters, MIT) ─────────────────────
+  // sóng bóp méo lúc tảng đá vỡ / dung nham bắn / phong ấn lớn bung / Friend gầm · bloom tia Vita-Ray · XOÁY (twist) lúc 5 Friend bị hút vào tượng · zoom blur lúc phong ấn loé · god rays trăng máu
+  let PA=null, PB=null;
+  function postFX(t,cx,cy,z){ if(!window.VfxGL || !VfxGL.fx) return W2; let src=W2; const F=VfxGL.fx, S=SC*z, dev=(x,y)=>[SC*(VW/2+(x-cx)*z), SC*(VH/2+(y-cy)*z)];
+    const step=o=>{ if(!o) return; const d=(src===PA)?(PB||(PB=mk(1,1))):(PA||(PA=mk(1,1))); if(d.width!==o.width||d.height!==o.height){ d.width=o.width; d.height=o.height; } const x=d.getContext('2d'); x.clearRect(0,0,d.width,d.height); x.drawImage(o,0,0); src=d; };
+    try{
+      if(t<T.s2){ if(t>=T.crush && t<T.crush+0.9){ const [x,y]=dev(GRX,LO+30); step(F.shockwave(src,{x,y,time:t-T.crush,speed:700*S,amplitude:26*S,wavelength:140*S,brightness:1.1})); }
+        if(t>=T.splash && t<T.splash+0.8){ const [x,y]=dev(GRX+20,LAVA); step(F.shockwave(src,{x,y,time:t-T.splash,speed:800*S,amplitude:30*S,wavelength:170*S,brightness:1.15})); } }
+      else if(t>=T.ray && t<T.cool+0.6){ const k=seg(t,T.ray,T.peak)*(1-seg(t,T.cool,T.cool+0.6)); if(k>0.02) step(F.bloom(src,{threshold:0.62-0.2*k,scale:0.5+0.9*k})); }
+      else if(t>=T.cave && t<T.out){ if(t>=T.join && t<T.join+0.8){ const [x,y]=dev(270,300); step(F.shockwave(src,{x,y,time:t-T.join,speed:900*S,amplitude:22*S,wavelength:200*S})); }
+        if(t>=T.cageBurst && t<T.stEyes+0.3){ const [x,y]=dev(CORE[0],CORE[1]), k=Math.sin(Math.PI*seg(t,T.cageBurst,T.stEyes+0.3)); step(F.twist(src,{x,y,radius:470*S,angle:3*k})); }
+        if(t>=T.sealBreak && t<T.sealBreak+0.35){ const [x,y]=dev(270,300); step(F.zoomBlur(src,{x,y,strength:0.18*(1-seg(t,T.sealBreak,T.sealBreak+0.35)),inner:40*S})); } }
+      else if(t>=T.out){ const [mx,my]=dev(270,-430); step(F.godray(src,{parallel:false,x:mx,y:my,gain:0.5,lacunarity:2.6,alpha:0.2,time:t*0.5}));
+        if(t>=T.roar && t<T.roar+1.0){ const [x,y]=dev(270,700); step(F.shockwave(src,{x,y,time:t-T.roar,speed:1100*S,amplitude:36*S,wavelength:240*S,brightness:1.2})); } }
+    }catch(e){ console.warn('ep3 postFX',e); }
+    return src; }
+  // 💥 KÍNH MÀN HÌNH NỨT (giống Supreme trong game khi cao ngạo chạm đỉnh): Supreme nổi giận → nứt toả từ chỗ nó, lan thêm 1 vòng mỗi nhịp sóng aura (0.3s),
+  //    lúc tảng đá vỡ thì vài mảnh kính rơi ra lộ nền ĐEN. Tất định theo thời gian (tua đi tua lại / xuất video y hệt).
+  const CR={t0:T.rage+0.3, every:0.3, rings:[30,62,104,160,230,320,430], N:12, web:null, shards:[{t:T.crush,i:2,j:3},{t:T.crush+0.15,i:7,j:4},{t:T.crush+0.32,i:10,j:2},{t:T.crush+0.5,i:4,j:5}], cap:{}};
+  function crackWeb(){ if(CR.web) return CR.web; const [ccx,ccy,cz]=cam(CR.t0), cx=VW/2+(SUPX-ccx)*cz, cy=VH/2+(HI-MU*0.6-ccy)*cz, R=[];
+    for(let i=0;i<CR.N;i++){ let a=i/CR.N*Math.PI*2+(hash(i+3000)-0.5)*0.4, x=cx, y=cy, d=0; const pts=[[x,y,0]];
+      while(d<1300){ const L=10+26*hash(i*31+pts.length+3100), kink=hash(i*23+pts.length+3150)<0.25?0.9:0.3; a+=(hash(i*17+pts.length+3200)-0.5)*kink; x+=Math.cos(a)*L; y+=Math.sin(a)*L; d+=L; pts.push([x,y,d]); } R.push(pts); }
+    const at=(pts,r)=>{ for(let k=1;k<pts.length;k++) if(pts[k][2]>=r){ const p=pts[k-1], q=pts[k], u=(r-p[2])/((q[2]-p[2])||1); return [p[0]+(q[0]-p[0])*u, p[1]+(q[1]-p[1])*u]; } return pts[pts.length-1].slice(0,2); };
+    const segs=[]; CR.rings.forEach((r,j)=>{ for(let i=0;i<CR.N;i++){ if(hash(i*7+j*13+3300)<0.5) continue; const A=at(R[i],r*(0.9+0.2*hash(i+j*5+3400))), B=at(R[(i+1)%CR.N],r*(0.9+0.2*hash(i+j*5+3500)));
+      segs.push({pts:[A,[(A[0]+B[0])/2+(hash(i*3+j+3600)-0.5)*26,(A[1]+B[1])/2+(hash(i*5+j+3700)-0.5)*26],B],r}); } });
+    for(let i=0;i<CR.N;i++) for(let k=0;k<2;k++){ const P=R[i], idx=4+Math.floor(hash(i*9+k+3750)*(P.length-6)); if(idx>=P.length) continue; const [x0,y0,d0]=P[idx], a=Math.atan2(y0-cy,x0-cx)+(hash(i+k*11+3760)<0.5?1:-1)*(0.5+0.5*hash(i+k+3770)), L=20+50*hash(i+k*7+3780);   // nhánh phụ toả xiên
+      segs.push({pts:[[x0,y0],[x0+Math.cos(a)*L*0.55+(hash(i+k+3790)-0.5)*8,y0+Math.sin(a)*L*0.55],[x0+Math.cos(a)*L,y0+Math.sin(a)*L]],r:d0}); }
+    const spl=Array.from({length:22},(_,k)=>{ const a=hash(k+3800)*Math.PI*2, r0=4+18*hash(k+3900), L=6+16*hash(k+4000); return [[cx+Math.cos(a)*r0,cy+Math.sin(a)*r0],[cx+Math.cos(a+0.2)*(r0+L),cy+Math.sin(a+0.2)*(r0+L)]]; });
+    return CR.web={cx,cy,R,at,segs,spl}; }
+  function crackFX(t){ if(t<CR.t0 || t>=T.s2) return; const Wb=crackWeb(), lv=Math.floor((t-CR.t0)/CR.every), fr=((t-CR.t0)%CR.every)/CR.every;
+    const ri=k=>k<0?0:(k<CR.rings.length?CR.rings[k]*1.05:1400), reach=lerp(ri(lv-1),ri(lv),eout(Math.min(1,fr*2.5))), fade=1-seg(t,T.fade1,T.fade1+0.4);
+    g.save(); g.globalAlpha=fade;
+    // lỗ đen + mảnh rơi (chụp đúng hình đang hiện lúc mảnh bong ra)
+    const ctx2=cv.getContext('2d');
+    for(let n=0;n<CR.shards.length;n++){ const S2=CR.shards[n]; if(t<S2.t){ delete CR.cap[n]; continue; } const i=S2.i, j=S2.j, r0=CR.rings[j-1], r1=CR.rings[j];
+      const L2=(P,Q,f)=>[P[0]+(Q[0]-P[0])*f,P[1]+(Q[1]-P[1])*f], A1=Wb.at(Wb.R[i],r0+(r1-r0)*0.15), A2=Wb.at(Wb.R[(i+1)%CR.N],r0+(r1-r0)*0.15), B1=Wb.at(Wb.R[i],r0+(r1-r0)*0.8), B2=Wb.at(Wb.R[(i+1)%CR.N],r0+(r1-r0)*0.8);
+      const poly=[L2(A1,A2,0.2),L2(A1,A2,0.75),L2(B1,B2,0.7),L2(B1,B2,0.25)], xs=poly.map(q=>q[0]), ys=poly.map(q=>q[1]), x0=Math.min(...xs), y0=Math.min(...ys), w=Math.max(...xs)-x0, h=Math.max(...ys)-y0;
+      if(!CR.cap[n] && w>2 && h>2){ const c=mk(w*SC,h*SC), x=c.getContext('2d'); x.beginPath(); poly.forEach((q,k)=>k?x.lineTo((q[0]-x0)*SC,(q[1]-y0)*SC):x.moveTo((q[0]-x0)*SC,(q[1]-y0)*SC)); x.closePath(); x.clip(); x.drawImage(cv,x0*SC,y0*SC,w*SC,h*SC,0,0,w*SC,h*SC); x.strokeStyle='rgba(255,255,255,0.7)'; x.lineWidth=2; x.stroke(); CR.cap[n]={c,x0,y0,w,h}; }
+      g.fillStyle='#000'; g.beginPath(); poly.forEach((q,k)=>k?g.lineTo(q[0],q[1]):g.moveTo(q[0],q[1])); g.closePath(); g.fill();
+      const cp=CR.cap[n], u=t-S2.t; if(cp && u<1.6){ g.save(); g.translate(cp.x0+cp.w/2+(hash(n+4100)-0.5)*40*u,cp.y0+cp.h/2-30*u+520*u*u); g.rotate((hash(n+4200)-0.5)*5*u); g.drawImage(cp.c,-cp.w/2,-cp.h/2,cp.w,cp.h); g.restore(); } }
+    // vết nứt: nét tối + viền sáng lệch như kính vỡ
+    const line=P=>{ g.beginPath(); P.forEach((q,k)=>k?g.lineTo(q[0],q[1]):g.moveTo(q[0],q[1])); };
+    for(const [lw,col,o] of [[1.6,'rgba(10,6,14,0.85)',0],[0.7,'rgba(255,255,255,0.8)',0.7]]){ g.strokeStyle=col; g.lineWidth=lw; g.save(); g.translate(o,o);
+      for(const P of Wb.R){ const cut=[]; for(const q of P){ if(q[2]>reach) break; cut.push(q); } if(cut.length>1){ line(cut); g.stroke(); } }
+      for(const sg of Wb.segs){ if(sg.r>reach) continue; line(sg.pts); g.stroke(); } for(const sg of Wb.spl){ line(sg); g.stroke(); }
+      g.restore(); }
+    g.restore(); }
   // ───────────────────── 🖼️ VẼ 1 KHUNG ─────────────────────
   function frame(now){ if(OFF) return; raf=requestAnimationFrame(frame); if(!ready) return; renderAt(paused?pauseT:(now-t0)/1000); }
   function renderAt(t){
@@ -600,9 +672,10 @@
     w2.setTransform(1,0,0,1,0,0); w2.fillStyle='#000'; w2.fillRect(0,0,W2.width,W2.height);
     w2.setTransform(SC*z,0,0,SC*z,SC*(VW/2-cx*z),SC*(VH/2-cy*z)); g=w2;
     if(t<T.s2) scene1(t); else if(t<T.lab) scene2(t); else if(t<T.army) scene3(t); else if(t<T.cave) scene4(t); else if(t<T.out) scene5(t); else scene6(t);
-    g=cv.getContext('2d'); g.setTransform(1,0,0,1,0,0); g.drawImage(W2,0,0); g.setTransform(SC,0,0,SC,0,0);
+    const SRC=postFX(t,cx,cy,z);
+    g=cv.getContext('2d'); g.setTransform(1,0,0,1,0,0); g.drawImage(SRC,0,0); g.setTransform(SC,0,0,SC,0,0);
     { const vg=g.createRadialGradient(VW/2,VH/2,VH*0.25,VW/2,VH/2,VH*0.75); vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,'rgba(0,0,0,0.55)'); g.fillStyle=vg; g.fillRect(0,0,VW,VH); }
-    dialog(t); title(t);
+    dialog(t); title(t); crackFX(t);
     if(t<0.6){ g.fillStyle=`rgba(0,0,0,${1-t/0.6})`; g.fillRect(0,0,VW,VH); }
     if(t>=T.fade1 && t<T.s2+0.5){ g.fillStyle=`rgba(0,0,0,${t<T.s2?seg(t,T.fade1,T.s2):1-seg(t,T.s2,T.s2+0.5)})`; g.fillRect(0,0,VW,VH); }
     if(t>T.fade){ g.fillStyle=`rgba(0,0,0,${seg(t,T.fade,DUR)})`; g.fillRect(0,0,VW,VH); }
