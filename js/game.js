@@ -14939,6 +14939,24 @@ function _skyBuild(vw,vh){
   for(let i=0;i<260;i++){ const x=vw*_skH(i+40), y=vh*_skH(i+540), r=0.4+0.9*_skH(i+1040); g.fillStyle=`rgba(${225+30*_skH(i+7)|0},${220+35*_skH(i+8)|0},255,${0.18+0.45*_skH(i+1540)})`; g.beginPath(); g.arc(x,y,r,0,Math.PI*2); g.fill(); }   // sao nhỏ đứng yên
   return {c,vw,vh,ss:_ARENA_SS};
 }
+
+// 🌫️ BÓNG TỐI SỐNG của Scared Hamster (anh dặn 30/10: không đen kịt — khói dày đặc, chỗ đậm chỗ mờ, chỗ hở thấy nền + sao trời)
+//    2 lớp khói (nhiễu fractal lặp liền mạch, tạo 1 lần) trôi chậm 2 hướng khác nhau + phập phồng → mật độ đổi liên tục; lớp khói tím xám nhạt cho có khối
+let _hmSmokeTex=null;
+function _hmSmokeBuild(){ const N=256, out=[]; const vn=(x,y,P)=>{ const xi=Math.floor(x), yi=Math.floor(y), fx=x-xi, fy=y-yi, h=(a,b)=>_skH(((a%P)+P)%P*57+((b%P)+P)%P*131+P*7), s=t=>t*t*(3-2*t);
+    const a=h(xi,yi), b=h(xi+1,yi), c=h(xi,yi+1), d=h(xi+1,yi+1); return a+(b-a)*s(fx)+(c-a)*s(fy)+(a-b-c+d)*s(fx)*s(fy); };
+  for(const [col,lo,hi,seed] of [['5,3,12',0.2,0.56,0],['7,4,16',0.24,0.6,3],['70,58,100',0.42,0.78,7]]){ const c=document.createElement('canvas'); c.width=N; c.height=N; const g=c.getContext('2d'), im=g.createImageData(N,N);
+    for(let y=0;y<N;y++) for(let x=0;x<N;x++){ let v=0, amp=0.5, f=4, tot=0; for(let o=0;o<5;o++){ v+=amp*vn((x/N)*f+seed*5.3,(y/N)*f+seed*2.1,f); tot+=amp; amp*=0.5; f*=2; } v/=tot;
+      const a=Math.max(0,Math.min(1,(v-lo)/(hi-lo))), k=(y*N+x)*4, cc=col.split(','); im.data[k]=+cc[0]; im.data[k+1]=+cc[1]; im.data[k+2]=+cc[2]; im.data[k+3]=Math.round(255*a*a*(3-2*a)); }
+    g.putImageData(im,0,0); out.push(c); }
+  return out; }
+function _hmSmokeDraw(vw,vh){   // toạ độ MÀN HÌNH, vẽ đè lên bầu trời
+  if(!_hmSmokeTex) _hmSmokeTex=_hmSmokeBuild(); const t=tick/60, S=Math.max(vw,vh)/256;
+  const L=[[0,2.2,0.0125,0.0045,1],[1,1.5,-0.009,0.007,0.92],[2,1.7,0.006,-0.004,0.5]];   // [lớp, cỡ, trôi x, trôi y, đậm]
+  ctx.save(); ctx.fillStyle='rgba(4,3,10,0.38)'; ctx.fillRect(0,0,vw,vh);   /* nền tối nhẹ chung */
+  for(const [i,sc,dx,dy,a] of L){ const pat=ctx.createPattern(_hmSmokeTex[i],'repeat'), k=S*sc, br=0.88+0.12*Math.sin(t*0.6+i*2.1);
+    pat.setTransform(new DOMMatrix().translateSelf(t*dx*256*k+i*97,t*dy*256*k+i*53).scaleSelf(k,k)); ctx.globalAlpha=a*br; ctx.fillStyle=pat; ctx.fillRect(0,0,vw,vh); }
+  ctx.restore(); }
 function _skyDraw(vw,vh){   // vẽ trong toạ độ MÀN HÌNH (đã setTransform(_ARENA_SS))
   if(!_skyCache || _skyCache.vw!==vw || _skyCache.vh!==vh || _skyCache.ss!==_ARENA_SS) _skyCache=_skyBuild(vw,vh);
   ctx.drawImage(_skyCache.c,0,0,vw,vh);
@@ -14971,7 +14989,7 @@ function _floorBuild(){ const u=W/480, ML=60*u, MT=30*u, MB=210*u;
   const c=document.createElement('canvas'); c.width=Math.ceil((W+ML*2)*_ARENA_SS); c.height=Math.ceil((H+MT+MB)*_ARENA_SS); const g=c.getContext('2d'); g.scale(_ARENA_SS,_ARENA_SS); g.translate(ML,MT);
   const rim=13*u, D=30*u, y0=H+rim, yT=y0+D, L=-rim, R=W+rim, mix=(a,b,k)=>{ const pa=[1,3,5].map(i=>parseInt(a.slice(i,i+2),16)), pb=[1,3,5].map(i=>parseInt(b.slice(i,i+2),16)); return `rgb(${pa.map((v,i)=>Math.round(v+(pb[i]-v)*Math.max(0,Math.min(1,k)))).join(',')})`; };
   // 🌫️ sương + quầng tím dưới đảo
-  let gr=g.createRadialGradient(W/2,yT+70*u,10,W/2,yT+70*u,W*0.75); gr.addColorStop(0,'rgba(150,95,255,0.32)'); gr.addColorStop(0.5,'rgba(120,90,230,0.12)'); gr.addColorStop(1,'rgba(120,90,230,0)'); g.fillStyle=gr; g.fillRect(-ML,H-20*u,W+ML*2,MB+20*u);
+  let gr; g.save(); g.translate(W/2,yT+60*u); g.scale(1,0.4); gr=g.createRadialGradient(0,0,4,0,0,W*0.55); gr.addColorStop(0,'rgba(150,95,255,0.32)'); gr.addColorStop(0.5,'rgba(120,90,230,0.12)'); gr.addColorStop(1,'rgba(120,90,230,0)'); g.fillStyle=gr; g.beginPath(); g.arc(0,0,W*0.55,0,Math.PI*2); g.fill(); g.restore();   // quầng elip — mờ hết TRƯỚC mép vùng vẽ (không lộ cạnh vuông)
   // 🪨 KHỐI ĐÁ ĐẢO BAY kiểu low-poly: 3 hàng điểm (mép trên · tầng giữa · đáy) → mặt cắt tam giác, đèn từ trên-trái: mặt trái sáng, phải + càng sâu càng tối
   const N=16, TOP=[], MID=[], BOT=[];
   for(let i=0;i<=N;i++){ const t=i/N, jx=(i>0&&i<N)?(_skH(i+700)-0.5)*14*u:0, x=L+(R-L)*t+jx, sh=Math.pow(Math.sin(Math.PI*t),1.5), d=(12+100*sh+18*Math.sin(t*9.4)*sh)*u*(0.85+0.3*_skH(i+710));
@@ -15041,10 +15059,10 @@ function _floorShatter(x,y,R,o){ o=o||{}; if(!(window.d3 && d3.Delaunay)) return
 function _flPath(P){ ctx.beginPath(); P.forEach((p,k)=>k?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.closePath(); }
 // 🌌 tô BẦU TRỜI vào 1 vùng (đường do pathFn dựng, toạ độ đang dùng) — lỗ xuyên sàn / tường nhìn thấy vũ trụ bên dưới
 function _skyRepaint(pathFn){ ctx.save(); pathFn(); ctx.clip(); ctx.setTransform(_ARENA_SS,0,0,_ARENA_SS,0,0); const vw=_viewW||W, vh=_viewH||H;
-  if(_hmDarkOn()){ ctx.fillStyle='#000'; ctx.fillRect(0,0,vw,vh); } else { if(!_skyCache || _skyCache.vw!==vw || _skyCache.vh!==vh || _skyCache.ss!==_ARENA_SS) _skyCache=_skyBuild(vw,vh); ctx.drawImage(_skyCache.c,0,0,vw,vh); } ctx.restore(); }
+  if(!_skyCache || _skyCache.vw!==vw || _skyCache.vh!==vh || _skyCache.ss!==_ARENA_SS) _skyCache=_skyBuild(vw,vh); ctx.drawImage(_skyCache.c,0,0,vw,vh); if(_hmDarkOn()) _hmSmokeDraw(vw,vh); ctx.restore(); }
 // 🧽 vẽ lại NỀN SẠCH (trời + mặt sân) vào 1 vùng — thay cho kiểu cũ tô 1 màu phẳng PAPER_BG (sân giờ có hoạ tiết, tô phẳng sẽ lộ mảng)
 function _skyFillClipped(){ ctx.save(); ctx.setTransform(_ARENA_SS,0,0,_ARENA_SS,0,0); const vw=_viewW||W, vh=_viewH||H;   // tô trời vào vùng đang clip
-  if(_hmDarkOn()){ ctx.fillStyle='#000'; ctx.fillRect(0,0,vw,vh); } else { if(!_skyCache || _skyCache.vw!==vw || _skyCache.vh!==vh || _skyCache.ss!==_ARENA_SS) _skyCache=_skyBuild(vw,vh); ctx.drawImage(_skyCache.c,0,0,vw,vh); } ctx.restore(); }
+  if(!_skyCache || _skyCache.vw!==vw || _skyCache.vh!==vh || _skyCache.ss!==_ARENA_SS) _skyCache=_skyBuild(vw,vh); ctx.drawImage(_skyCache.c,0,0,vw,vh); if(_hmDarkOn()) _hmSmokeDraw(vw,vh); ctx.restore(); }
 function _bgRepaint(pathFn){ _skyRepaint(pathFn); ctx.save(); pathFn(); ctx.clip(); if(!_floorCache) _floorCache=_floorBuild(); const F=_floorCache; ctx.drawImage(F.c,-F.ML,-F.MT,W+F.ML*2,H+F.MT+F.MB); ctx.restore(); }
 
 // 🕳️ tô chiều sâu cho LỖ (hợp nhất mọi mảnh đã bong): vực tối hơn · mép tối dần vào trong · thành đá dày ở mép XA · đường mép cắt sáng — chỉ theo VIỀN NGOÀI của cả lỗ
@@ -24860,7 +24878,7 @@ function showVsWaitScreen(){
       const _bs=document.getElementById('battleScreen'); if(_bs) _bs.classList.add('cam-mode'); }
     // nền phủ TOÀN khung nhìn (toạ độ màn hình) — xoá sạch mọi thứ còn sót của trận trước
     ctx.save(); ctx.setTransform(_ARENA_SS,0,0,_ARENA_SS,0,0);
-    if(_hmDarkOn()){ ctx.fillStyle='#000'; ctx.fillRect(0,0,_viewW||W,_viewH||H); } else _skyDraw(_viewW||W,_viewH||H);
+    _skyDraw(_viewW||W,_viewH||H); if(_hmDarkOn()) _hmSmokeDraw(_viewW||W,_viewH||H);
     ctx.restore();
     ctx.save();
     ctx.translate((_viewW||W)/2,(_viewH||H)/2);
@@ -25470,7 +25488,7 @@ function loop(){
     _camUpdate();
     // nền phủ TOÀN màn hình (toạ độ màn hình, vẽ TRƯỚC khi biến đổi) — chỗ sàn trượt lệch ra sẽ lộ nền này
     ctx.save(); ctx.setTransform(_ARENA_SS,0,0,_ARENA_SS,0,0);
-    if(_hmDarkOn()){ ctx.fillStyle='#000'; ctx.fillRect(0,0,_viewW||W,_viewH||H); } else _skyDraw(_viewW||W,_viewH||H); // 🌌 nền trời vũ trụ phủ TOÀN khung nhìn (trận có hamster: đen), màu đo từ video gốc (trận có hamster: đen)
+    _skyDraw(_viewW||W,_viewH||H); if(_hmDarkOn()) _hmSmokeDraw(_viewW||W,_viewH||H); // 🌌 nền trời vũ trụ phủ TOÀN khung nhìn (trận có hamster: đen), màu đo từ video gốc (trận có hamster: đen)
     ctx.restore();
     // camera: đưa điểm ngắm ra giữa KHUNG NHÌN, rồi dời gốc world về đúng góc trên-trái của sàn
     ctx.save();
