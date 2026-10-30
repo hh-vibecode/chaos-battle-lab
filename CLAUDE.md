@@ -112,8 +112,8 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
   - `_bgRepaint(pathFn)` = vẽ lại NỀN SẠCH (trời + mặt sân) vào vùng — xoá dấu vết trên sàn (vd Shinra Tensei).
   - `_skyRepaint(pathFn)` / `_skyFillClipped()` = khoét XUYÊN sàn/tường, lộ vũ trụ bên dưới (Hollow Purple, tường thủng).
   - `_floorShatter(x,y,R,{n,hold,crack,ripple})` = mặt sân NỨT thành mảnh Voronoi (d3-delaunay, `js/vendor/d3-delaunay`) → rơi xuống vũ trụ → tự liền sau `hold` tick. Chỉ là hình. Chưa gắn skill nào — chỉ gắn khi anh chọn. ⚠️ Gigachad KHÔNG làm vỡ sàn (chỉ hiệu ứng đấm nứt kiểu Râu Trắng của Boxing Cat — anh dặn 30/10).
-- 🌿 (30/10, Ver 438) Mặt sân = CỎ TÍM kiểu ảnh mẫu anh gửi (`_grassTufts`: búi lá 2 tông + mảng đậm, bake 1 lần; ~6% búi cao vẽ sống `_grassWindDraw`, mỗi ~7s 1 đợt gió lướt qua).
-  Cỏ CHỈ là trang trí: meme đi TRÊN cỏ — anh đã bỏ hiệu ứng lún / búi cỏ che chân / bóng dưới chân, đừng thêm lại.
+- 🟪 Mặt sân = Ô ĐÁ RẤT MỜ (lưới 60px trong `_paintFloorTop`). 30/10 đã thử cỏ tím (Ver 436–438) → anh bỏ: "rối mắt, canvas đã rối sẵn rồi" — mặt sân phải TĨNH, ÍT CHI TIẾT.
+  Sau này có thể thêm SKIN sân (anh định, chưa làm) — vẫn giữ nguyên tắc nền mờ, không lấn meme/VFX.
 - ⚠️ Hiệu ứng động của nền/sân KHÔNG dùng `Math.random` (băm theo `tick`/toạ độ — `_skH`) → không xáo chuỗi random có seed của trận (quay video phải khớp lúc chạy thử).
 
 ## 🔊 Luật sound (anh dặn)
