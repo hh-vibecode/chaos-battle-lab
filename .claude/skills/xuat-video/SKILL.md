@@ -19,8 +19,10 @@ Anh không nói khung nào → mặc định DỌC 3K (anh: "dọc 3k chứ").
 Phim có sẵn: `war`, `l2e2`, `l2e3` (bảng `FILMS` đầu file). Phim dựng bằng CINE-KIT (`js/film-<id>.js`, vd `dvc`) thì gõ thẳng `<id>` — tự nhận, không cần thêm vào `FILMS`. Mặc định 30fps, 6 tiến trình song song.
 1. **Xem thử nhanh** (soát cảnh, thời lượng, tiếng): `--scale 0.5` (+ `--from A --to B` nếu chỉ cần 1 cảnh). Rẻ gấp ~10–16 lần bản 4K.
 2. **Bản thật — công thức NHANH NHẤT**:
-   - 16:9: `node tools/render-cine.js l2e3 out/l2e3-16x9-4k.mp4 --wide --4k --cache --webcodecs --hw`
-   - 9:16: `node tools/render-cine.js l2e3 out/l2e3-9x16-3k.mp4 --scale 1.5 --cache --webcodecs --hw`
+   - ⚠️ **Mac: KHÔNG dùng `--webcodecs`** (30/10: đoạn 600 khung ra video chỉ 1.4s — dấu thời gian sai, phim 40s thành 3.5s). `--hw` cũng chưa kiểm trên Mac. Dùng lệnh mặc định dưới.
+   - 16:9: `node tools/render-cine.js l2e3 out/l2e3-16x9-4k.mp4 --wide --4k --cache`
+   - 9:16: `node tools/render-cine.js l2e3 out/l2e3-9x16-3k.mp4 --scale 1.5 --cache`
+   - Xong luôn soát độ dài: `ffprobe -v error -show_entries format=duration -of csv=p=0 <file>` phải khớp độ dài phim.
    - `--cache`: cắt phim thành đoạn 20s (`--chunk`) lưu ở `<out>.chunks/` và GIỮ LẠI.
    - `--webcodecs`: trình duyệt tự nén H.264 (phần cứng VideoToolbox, không có thì nén phần mềm của trình duyệt) → bỏ khâu JPEG 4K +
      chuyển ~10MB/khung + ffmpeg nén lại (mỗi khung chỉ còn ~55KB). Trình duyệt không hỗ trợ thì tự in `↩` và quay về JPEG.
