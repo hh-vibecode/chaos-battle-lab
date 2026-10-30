@@ -24,10 +24,16 @@ function analyze(file) {
   const x = new Float32Array(raw.length / 2); for (let i = 0; i < x.length; i++) x[i] = raw.readInt16LE(i * 2) / 32768;
   const n = 320, env = []; for (let i = 0; i + n <= x.length; i += n) { let s = 0; for (let k = 0; k < n; k++) s += x[i + k] * x[i + k]; env.push(Math.sqrt(s / n)); }
   const mx = Math.max(...env, 1e-9), on = env.findIndex(v => 20 * Math.log10(v / mx) > -12), pk = env.indexOf(mx);
-  let voiced = 0, loud = 0; const W = 640;   // giọng người: tự tương quan mạnh ở chu kỳ 85–400 Hz trên khung đủ to
-  for (let i = 0; i + W <= x.length; i += W) { let e = 0; for (let k = 0; k < W; k++) e += x[i + k] * x[i + k]; if (Math.sqrt(e / W) < mx * 0.25) continue; loud++;
-    let best = 0; for (let lag = 40; lag <= 188; lag += 2) { let c = 0; for (let k = 0; k < W - lag; k++) c += x[i + k] * x[i + k + lag]; best = Math.max(best, c / e); } if (best > 0.55) voiced++; }
-  return { dur: x.length / 16000, onset: Math.max(0, on) * 0.02, peak: pk * 0.02, env: env.map(v => +(v / mx).toFixed(3)), voice: loud ? voiced / loud : 0 };
+  // giọng người (cùng cách với tools/sfx-find.py): có cao độ 85–400Hz × cao độ TRÔI như ngữ điệu × không đứng yên × dải cao độ đủ rộng
+  // (tiếng bonk/còi/sạc năng lượng có cao độ ĐỨNG YÊN → bị trừ; bộ dò cũ báo bonk 100%)
+  const W = 640, f0 = []; let loud = 0;
+  for (let i = 0; i + W <= x.length; i += 320) { let e = 0; for (let k = 0; k < W; k++) e += x[i + k] * x[i + k]; if (Math.sqrt(e / W) < mx * 0.2) continue; loud++;
+    let best = 0, bl = 0; for (let lag = 40; lag < 190; lag++) { let c = 0; for (let k = 0; k < W - lag; k++) c += x[i + k] * x[i + k + lag]; if (c / e > best) { best = c / e; bl = lag; } }
+    if (best > 0.5 && bl > 41 && bl < 189) f0.push(16000 / bl); }
+  let gl = 0, st = 0; for (let i = 1; i < f0.length; i++) { const d = Math.abs(f0[i] - f0[i - 1]) / f0[i - 1]; if (d <= 0.004) st++; else if (d < 0.12) gl++; }
+  const nd = Math.max(1, f0.length - 1), srt = f0.slice().sort((a, b) => a - b), med = srt[srt.length >> 1] || 1, rng = f0.length > 1 ? (srt[srt.length - 1] - srt[0]) / med : 0;
+  const voice = loud ? (f0.length / loud) * (gl / nd) * (1 - st / nd) * Math.min(1, rng / 0.25) : 0;
+  return { dur: x.length / 16000, onset: Math.max(0, on) * 0.02, peak: pk * 0.02, env: env.map(v => +(v / mx).toFixed(3)), voice };
 }
 (async () => {
   fs.mkdirSync(OUT, { recursive: true });
@@ -47,7 +53,7 @@ function analyze(file) {
   const AN = {}; for (const k of new Set(rows.map(r => r[1]))) { const pth = meta.src[k]; AN[k] = pth && fs.existsSync(path.join(ROOT, pth)) ? analyze(path.join(ROOT, pth)) : null; }
   const report = rows.map((r, i) => { const [t, k, v, d] = r, a = AN[k], fl = [];
     if (!meta.src[k]) fl.push('❌ CHƯA KHAI'); if (!meta.lufs[k] && meta.src[k]) fl.push('📏 CHƯA ĐO');
-    if (a && a.onset > 0.12) fl.push(`⏱️ TRỄ ${a.onset.toFixed(2)}s`); if (a && a.voice > 0.35) fl.push(`🗣️ CÓ GIỌNG? ${(a.voice * 100) | 0}%`);
+    if (a && a.onset > 0.12) fl.push(`⏱️ TRỄ ${a.onset.toFixed(2)}s`); if (a && a.voice >= 0.2) fl.push(`🗣️ CÓ GIỌNG? ${(a.voice * 100) | 0}%`);
     const near = rows.filter((q, j) => j !== i && Math.abs(q[0] - t) < 0.15).map(q => q[1]); if (near.length) fl.push('👥 CHỒNG: ' + near.join(','));
     return { t: +t.toFixed(2), key: k, vol: v, dur: d || null, flags: fl, an: a ? { dur: +a.dur.toFixed(2), onset: +a.onset.toFixed(2), peak: +a.peak.toFixed(2), voice: +a.voice.toFixed(2) } : null }; });
   fs.writeFileSync(path.join(OUT, 'audit.json'), JSON.stringify(report, null, 1));
