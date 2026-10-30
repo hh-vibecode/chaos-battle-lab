@@ -123,8 +123,8 @@ const STEP = ({ n, FPS, stopAt }) => {
   return false;
 };
 const RESULT = () => ({ t: __vt, win: koWinner ? (koWinner.slotIdx === 0 ? 'a' : 'b') : null, over: !!loop._koTimer,
-  hp: fighters.map(f => [f.type, Math.max(0, Math.round(f.hp)), f.maxHp]), far: typeof bhFarEat !== 'undefined' ? bhFarEat : 0 });
-const fmt = r => `${r.win ? (r.win === 'a' ? A : B) + ' thắng' : 'hoà/chưa xong'} lúc ${r.t.toFixed(1)}s · ${r.hp.map(h => h[0] + ' ' + h[1] + '/' + h[2]).join(' · ')}${FAR ? ' · nuốt đạn xa ' + (r.far || 0) : ''}`;
+  hp: fighters.map(f => [f.type, Math.max(0, Math.round(f.hp)), f.maxHp]), far: typeof bhFarEat !== 'undefined' ? bhFarEat : 0, dir: typeof __director === 'function' ? __director() : '' });
+const fmt = r => `${r.win ? (r.win === 'a' ? A : B) + ' thắng' : 'hoà/chưa xong'} lúc ${r.t.toFixed(1)}s · ${r.hp.map(h => h[0] + ' ' + h[1] + '/' + h[2]).join(' · ')}${FAR ? ' · nuốt đạn xa ' + (r.far || 0) : ''}${r.dir ? ' · ' + r.dir : ''}`;
 const ok = r => (!WIN || r.win === WIN) && (r.far || 0) >= FAR && (CLOSE == null || (r.win && (() => { const h = r.hp[r.win === 'a' ? 0 : 1]; return h[1] > 0 && h[1] / h[2] <= CLOSE; })()));
 
 (async () => {

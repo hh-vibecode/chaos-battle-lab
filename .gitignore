@@ -3,3 +3,6 @@ _source/
 .DS_Store
 w[0-9]*.jpg
 tools/.audio-dur.json
+
+# video xuất ra (render-cine / render-match) — file nặng, KHÔNG đẩy lên repo
+out/
