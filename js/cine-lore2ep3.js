@@ -12,7 +12,7 @@
 // Khung dọc 1080×1920 như tập 1 + 2. Nền mỗi cảnh vẽ SẴN 1 lần, phần động vẽ mỗi khung. Không vẽ vết nứt (tảng đá rời ra nguyên khối).
 (function(){
   if(window._cineL2E3) return;
-  const VW=540, VH=960, FL=7.6, KM=15.5;   // KM: đoạn KAMUI cuối tập 3 (cổng xoáy → Akatsuki hiện ra → dung nham tách đôi)   // FL: đoạn ĐÁNH NHAU thêm ở đầu (anh yêu cầu 30/10) — mọi mốc cũ dời sau FL giây
+  const VW=540, VH=960, FL=8.4, KM=15.5;   // KM: đoạn KAMUI cuối tập 3 (cổng xoáy → Akatsuki hiện ra → dung nham tách đôi)   // FL: đoạn ĐÁNH NHAU thêm ở đầu (anh yêu cầu 30/10) — mọi mốc cũ dời sau FL giây
   const T={ press:1.2, line1:2.9, line2:5.1, boxOff:7.3, grab:7.5, throw:8.1, hit:8.8, rage:9.4, crush:11.3, fall:11.6, splash:12.2, fade1:12.7, s2:13.6,
             pain:14.4, carry0:14.9, lift:15.7, onStr:16.7, carry:17.3, fade2:18.6, lab:19.2, door:19.6, doorShut:20.1, serum:20.6, ray:21.6, peak:23.6, cool:24.2, open:24.7,
             leg:25.9, body:27.1, helm:28.3, breath:29.3, army:31.6, hand:32.4, pull:33.0, choke:34.0, drop:36.6,
@@ -32,13 +32,15 @@
   const PAINY=750;   // Pain lơ lửng ngay trên chỗ Grumpy chìm
   // 📼 chia 2 TẬP (anh dặn 30/10): tập 3 = đánh nhau → rơi dung nham → Akatsuki tới (hết khi tay Grumpy cử động) · tập 4 = lính khiêng cáng → phòng thí nghiệm → … → Friend
   HOLD('pain',0.7);     // mở tập 4: Grumpy nằm 1 mình 1 lúc rồi lính mới tới
-  GAP('lab',0.7); GAP('army',1.0); HOLD('drop',0.7); HOLD('pBoxOff',0.5); GAP('cave',1.0); HOLD('cave',0.7); HOLD('stEyes',0.4); HOLD('roar',0.8);
+  GAP('lab',0.7); GAP('army',1.0); HOLD('drop',0.7); HOLD('pBoxOff',0.5); GAP('cave',1.0); HOLD('cave',0.7); HOLD('join',2.4);   /* join → CẬN CẢNH 2 Friend bị rút (CU) → mới về toàn cảnh vỡ tan */ HOLD('stEyes',0.4); HOLD('roar',0.8);
+  const CU0=T.join+1.0, CU1=T.join+3.0;   // 🔍 cận cảnh 1 con Friend to cả màn: lao đâm "nhoi nhoi" vào lồng khi đang bị hút
   const DUR=T.end;
   const PARTS2={ 1:{a:0, b:T.s2, title:'Meme Lore 2 · Ep 3 · The High Ground'}, 2:{a:T.carry0-1.5, b:DUR, title:'Meme Lore 2 · Ep 4 · Rise of Catvader'} };
-  // ⚔️ ĐÁNH NHAU (0 → FL): Grumpy vồ lên → bị trọng lực giữ lơ lửng → đập xuống · gượng dậy lao lên lần 2 → bị hất văng · quỳ rạp: "MASTER... WHY?!"
-  const TF={ leap1:1.0, hang1:1.38, slam1:1.75, up:2.55, dash:3.2, leap2:3.7, hang2:3.98, slam2:4.25, kneel:4.85, say:5.45, sayOff:7.15 };   // quỳ rạp → lặng 0.6s rồi mới thốt lên
+  // ⚔️ ĐÁNH NHAU (0 → FL) — kịch bản anh dặn 30/10: 2 bên đứng CÙNG mặt đá bằng phẳng · Grumpy lướt cực nhanh đánh từ mọi phía nhưng TRƯỜNG LỰC chặn hết
+  //    → đứng thở dốc: "MASTER... WHY DIDN'T YOU CHOOSE ME?!" → lặng 1 nhịp → lao đòn tiếp → aura Supreme bùng lên HẤT VĂNG Grumpy xuống mỏm đá thấp → rồi Supreme mới nói
+  const TF={ a1:1.0, a2:1.55, a3:2.1, a4:2.65, a5:3.2, rest:3.9, say:4.5, sayOff:6.7, leap:7.4, hit:7.85, blast:8.0, land:8.55, kneel:9.0 };
   const PRESS0=TF.kneel;   // từ lúc quỳ rạp là bị đè liên tục (trước đây bắt đầu ở T.press)
-  const LINES=[{t:TF.say,txt:'MASTER... WHY?!'},{t:T.line1,txt:'GIVE UP, GRUMPY.'},{t:T.line2,txt:'I HAVE THE HIGH GROUND.'},{t:T.pl1,txt:'HE LEFT YOU TO BURN.'},{t:T.pl2,txt:'JOIN US... AND HE WILL KNOW PAIN.'}], CPS=30;   // chữ / giây (anh bảo chạy nhanh hơn: 18 → 30)
+  const LINES=[{t:TF.say,txt:"MASTER... WHY DIDN'T YOU CHOOSE ME?!"},{t:T.line1,txt:'GIVE UP, GRUMPY.'},{t:T.line2,txt:'I HAVE THE HIGH GROUND.'},{t:T.pl1,txt:'HE LEFT YOU TO BURN.'},{t:T.pl2,txt:'JOIN US... AND HE WILL KNOW PAIN.'}], CPS=30;   // chữ / giây (anh bảo chạy nhanh hơn: 18 → 30)
   const BOXES=[{t0:TF.say,t1:TF.sayOff,L:[0,0],who:'GRUMPY CAT',im:'grumpy',col:'#9fd3ff',bd:'#3a8bff',bg:['#0a2a4a','#020812'],face:[0.5,0.42],fz:0.62},
                {t0:T.line1,t1:T.boxOff,L:[1,2],who:'SUPREME CAT',im:'sup',col:'#c48cff',bd:'#8a5cff',bg:['#3a0a6a','#12021f'],face:[0.647,0.146],fz:0.38},
                {t0:T.pl1,t1:T.pBoxOff,L:[3,4],who:'PAIN',im:'pain',col:'#ff8a5a',bd:'#ff3a2a',bg:['#4a0a0a','#120202'],face:null,fz:0.42}];   // 2 lượt hội thoại: Supreme · Pain
@@ -137,6 +139,9 @@
       const gr=g.createLinearGradient(0,cy-r,0,cy+r); gr.addColorStop(0,top); gr.addColorStop(1,bot); g.globalAlpha=a; g.fillStyle=gr; g.beginPath(); g.ellipse(cx,cy,r*1.8,r,0,0,Math.PI*2); g.fill(); } g.globalAlpha=1; }
   // 🌋 cảnh 1 · núi lửa (kiểu Mustafar): trời đen tro, mây hắt đỏ từ dưới, núi xa nhiều lớp, thác dung nham, cột đá cao
   const LAVA=900, LO=690, HI=LO-72, SUPX=208, GRX=430;   // Supreme đứng ngay cạnh, chỉ cao hơn Grumpy 1 BẬC ĐÁ (anh sửa 30/10)
+  const FC=[SUPX,HI-48], FR=92, G0=[30,HI];   // tâm + bán kính trường lực · chỗ Grumpy đứng (chân) bên trái Supreme
+  const ATK=[[TF.a1,Math.PI],[TF.a2,-Math.PI/2],[TF.a3,0],[TF.a4,-2.35],[TF.a5,-0.8]], ATKF=-0.6;   // 5 đòn: trái · trên đầu · phải · chéo trái · chéo phải · đòn cuối chéo phải
+  const cpt=(a,d)=>[FC[0]+Math.cos(a)*(FR+d), FC[1]+Math.sin(a)*(FR+d)];   // tâm Grumpy cách trường lực d
   const MEMK=[[492,330],[SUPX+44,HI],[672,596],[-30,548]], FLOAT=0;   // Ninja Cat trên tảng đá lơ lửng phía sau · bậc đá của Supreme · 2 cột đá
   const SFACE=[SUPX+8,HI-90], SFR=17;   // tâm mặt Supreme (SA_FACE của game: 0.647 · 0.146 khung ảnh) · bán kính mặt
   const SRC=[GRX+20,LAVA-6], DST=[128,HI-36];   // chỗ Grumpy chìm · chỗ Kamui nhả Grumpy ra (bậc đá trống của Supreme)
@@ -156,10 +161,10 @@
     for(const [x,top,w] of PILLARS){ const Pp=[[x-w*0.5,top+6],[x-w*0.2,top-2],[x+w*0.25,top],[x+w*0.5,top+8],[x+w*0.62,LAVA+10],[x-w*0.66,LAVA+10]]; rockPoly(Pp,'#120808','#2a1814','#8a2e10',x|0);
       g.save(); path(Pp); g.clip(); const gp=g.createLinearGradient(0,LAVA-200,0,LAVA); gp.addColorStop(0,'rgba(255,90,20,0)'); gp.addColorStop(1,'rgba(255,120,30,0.55)'); g.fillStyle=gp; g.fillRect(x-w,LAVA-210,w*2,220); g.restore(); }
     // 🪨 bậc đá của Supreme: khối đá liền kề, mặt trên cao hơn mỏm của Grumpy đúng 1 bậc
-    const P=[[56,HI+16],[84,HI-3],[140,HI-1],[200,HI+1],[254,HI-2],[300,HI+5],[314,HI+34],[306,LO+48],[322,LO+140],[344,LAVA+10],[10,LAVA+10],[30,LO+170],[42,HI+90]];
+    const P=[[-170,HI+16],[-130,HI-2],[-60,HI+1],[10,HI-2],[84,HI-3],[140,HI-1],[200,HI+1],[254,HI-2],[300,HI+5],[314,HI+34],[306,LO+48],[322,LO+140],[344,LAVA+10],[-200,LAVA+10]];   // mặt đá BẰNG rộng (2 bên đánh nhau trên đó trước)
     rockPoly(P,'#140909','#2f1b18','#9a3412',7);
-    g.save(); path(P); g.clip(); gr=g.createLinearGradient(0,LAVA-260,0,LAVA); gr.addColorStop(0,'rgba(255,90,20,0)'); gr.addColorStop(1,'rgba(255,120,30,0.6)'); g.fillStyle=gr; g.fillRect(0,LAVA-280,360,290); g.restore();
-    g.strokeStyle='rgba(255,180,130,0.35)'; g.lineWidth=2; g.beginPath(); g.moveTo(84,HI-3); [[140,HI-1],[200,HI+1],[254,HI-2],[300,HI+5]].forEach(p=>g.lineTo(p[0],p[1])); g.stroke();   // viền sáng mép trên
+    g.save(); path(P); g.clip(); gr=g.createLinearGradient(0,LAVA-260,0,LAVA); gr.addColorStop(0,'rgba(255,90,20,0)'); gr.addColorStop(1,'rgba(255,120,30,0.6)'); g.fillStyle=gr; g.fillRect(-220,LAVA-280,580,290); g.restore();
+    g.strokeStyle='rgba(255,180,130,0.35)'; g.lineWidth=2; g.beginPath(); g.moveTo(-130,HI-2); [[-60,HI+1],[10,HI-2],[84,HI-3],[140,HI-1],[200,HI+1],[254,HI-2],[300,HI+5]].forEach(p=>g.lineTo(p[0],p[1])); g.stroke();   // viền sáng mép trên
     // khói bốc từ mặt dung nham
     for(let i=0;i<12;i++) cloud(-300+hash(i+70)*1140,LAVA-60-hash(i+71)*140,120+90*hash(i+72),40+30*hash(i+73),'rgba(60,20,16,1)','rgba(30,10,8,1)',0.28,i+30);
   }); }
@@ -264,7 +269,7 @@
     g.fillStyle='#5f6b4a'; g.fillRect(-len/2,-6,len,14); g.strokeStyle='rgba(0,0,0,0.4)'; g.lineWidth=1; for(let k=1;k<5;k++){ g.beginPath(); g.moveTo(-len/2+k*len/5,-6); g.lineTo(-len/2+k*len/5,8); g.stroke(); } g.restore(); }
 
   // ───────────────────── 🎥 MÁY QUAY (toạ độ riêng mỗi cảnh — cặp mốc trùng giờ ở chỗ chuyển cảnh nên không trượt qua nhau) ─────────────────────
-  const CAMK=[[0,320,560,0.95],[TF.leap1-0.15,GRX-20,LO-40,1.45],[TF.hang1,300,(HI+LO)/2-70,1.2],[TF.slam1+0.1,GRX-40,LO-30,1.45],[TF.up,GRX-40,LO-40,1.55],[TF.dash,300,LO-50,1.25],[TF.hang2,SUPX+90,HI-30,1.35],[TF.slam2+0.1,GRX+30,LO-30,1.4],[TF.kneel,GRX,LO-35,1.7],[TF.say,GRX,LO-40,1.9],[TF.sayOff,GRX,LO-40,1.95],[T.press-0.5,320,560,0.98],[T.press,318,575,1.05],[T.line1-0.25,260,560,1.4],[T.line1+0.4,SUPX+30,HI-18,1.85],[T.boxOff,SUPX+30,HI-18,1.9],[T.grab,GRX-10,LO-40,2.05],[T.throw,GRX-10,LO-40,2.1],[T.throw+0.25,(SUPX+GRX)/2,(HI+LO)/2-50,1.7],[T.hit,SUPX+35,HI-42,2.1],[T.rage-0.001,SUPX+30,HI-50,2.2],[T.rage,SFACE[0],SFACE[1],4.6],[T.rage+1.45,SFACE[0],SFACE[1],5.3],[T.rage+1.451,SUPX+40,260,0.66],[T.rage+2.2,SUPX+50,250,0.64],
+  const CAMK=[[0,SUPX-40,HI-70,1.15],[TF.a1-0.2,SUPX-50,HI-80,1.3],[TF.a2,SUPX,HI-110,1.2],[TF.a3,SUPX+30,HI-80,1.25],[TF.a5,SUPX+10,HI-90,1.2],[TF.rest,SUPX-60,HI-60,1.35],[TF.say,G0[0]+10,HI-55,1.95],[TF.sayOff,G0[0]+10,HI-55,2.05],[TF.leap-0.2,SUPX+20,HI-70,1.1],[TF.blast,SUPX+80,HI-80,1.2],[TF.land,(SUPX+GRX)/2+40,LO-60,1.1],[TF.kneel,GRX,LO-40,1.45],[T.press-0.5,320,560,0.98],[T.press,318,575,1.05],[T.line1-0.25,260,560,1.4],[T.line1+0.4,SUPX+30,HI-18,1.85],[T.boxOff,SUPX+30,HI-18,1.9],[T.grab,GRX-10,LO-40,2.05],[T.throw,GRX-10,LO-40,2.1],[T.throw+0.25,(SUPX+GRX)/2,(HI+LO)/2-50,1.7],[T.hit,SUPX+35,HI-42,2.1],[T.rage-0.001,SUPX+30,HI-50,2.2],[T.rage,SFACE[0],SFACE[1],4.6],[T.rage+1.45,SFACE[0],SFACE[1],5.3],[T.rage+1.451,SUPX+40,260,0.66],[T.rage+2.2,SUPX+50,250,0.64],
     [T.crush-0.3,(SUPX+GRX)/2+10,270,0.64],[T.crush+0.15,410,650,1.3],[T.splash-0.15,430,800,1.3],[T.splash+0.3,430,850,1.4],[K.calm,420,820,1.25],[K.calm+0.9,SUPX+70,HI-50,1.4],[K.turn,SUPX+60,HI-50,1.45],[K.turn+0.9,SUPX-10,HI-50,1.3],[K.gone,300,720,0.95],[K.open-0.2,PX-20,PY+60,0.98],[K.open,PX,PY+40,1.0],[K.peak,PX,PY+20,0.9],[K.members,320,590,0.7],[K.eye-0.4,320,600,0.72],[K.eye+0.2,MEMK[0][0],MEMK[0][1]-60,1.7],[K.warp-0.2,MEMK[0][0]-10,MEMK[0][1]-55,1.75],[K.warp+0.3,SRC[0]-30,SRC[1]-80,1.05],[K.arrive-0.3,(SRC[0]+DST[0])/2,(SRC[1]+DST[1])/2-60,0.9],[K.arrive+0.3,DST[0]+10,DST[1]-20,1.35],[K.reveal,DST[0],DST[1]-10,1.5],[K.zoom,DST[0]-8,DST[1],3.0],[K.eyes,DST[0]-8,DST[1],4.6],[T.s2-0.001,DST[0]-8,DST[1],4.9],
     [T.s2,330,690,1.7],[T.pain,345,680,1.45],[T.lift,330,660,1.45],[T.carry,300,660,1.4],[T.lab-0.001,180,660,1.35],
     [T.lab,270,560,1.0],[T.doorShut,270,580,1.25],[T.serum,270,560,1.35],[T.ray,270,560,1.2],[T.peak,270,560,1.5],[T.open,270,580,1.6],[T.leg,265,620,1.9],[T.body,265,580,1.9],[T.helm,268,540,2.0],[T.breath,270,530,2.3],[T.army-0.001,270,500,2.8],
@@ -274,7 +279,7 @@
   for(let i=1;i<CAMK.length;i++) if(CAMK[i][0]<CAMK[i-1][0]) console.error('🎥 CAMK lệch thứ tự ở mốc',i,CAMK[i][0].toFixed(2),'<',CAMK[i-1][0].toFixed(2));   // mốc máy phải tăng dần
   function cam(t){ let r=CAMK[CAMK.length-1].slice(1);
     for(let i=1;i<CAMK.length;i++) if(t<CAMK[i][0]){ const a=CAMK[i-1], b=CAMK[i], e=eio(seg(t,a[0],b[0])); r=[lerp(a[1],b[1],e),lerp(a[2],b[2],e),Math.exp(lerp(Math.log(a[3]),Math.log(b[3]),e))]; break; }
-    let sh=0; for(const ts of [TF.slam1,TF.slam2]) if(t>=ts && t<ts+0.45) sh+=12*(1-(t-ts)/0.45);
+    let sh=0; for(const [ts] of ATK) if(t>=ts && t<ts+0.25) sh+=6*(1-(t-ts)/0.25); for(const ts of [TF.blast,TF.land]) if(t>=ts && t<ts+0.45) sh+=12*(1-(t-ts)/0.45);
     if(t>=T.crush && t<T.splash+0.6) sh+=9*Math.exp(-(t-T.crush)*1.2)+(t>=T.splash?10*Math.exp(-(t-T.splash)*5):0);
     if(t>=T.rage && t<T.crush) sh+=2.5*seg(t,T.rage,T.crush); if(t>=T.hit && t<T.hit+0.25) sh+=6*(1-(t-T.hit)/0.25);
     if(t>=T.ray && t<T.peak+0.3) sh+=3*seg(t,T.ray,T.peak); if(t>=T.drop+0.35 && t<T.drop+0.6) sh+=5;
@@ -283,17 +288,18 @@
     return r; }
 
   // ───────────────────── 🔊 LỊCH TIẾNG (1 nhịp 1 tiếng) ─────────────────────
-  const SFX_PLAN=[[0.3,'ep3_lava',0.7,0],[TF.leap1,'ep3_whoosh',0.9,0],[TF.hang1,'ep3_force',0.9,0],[TF.slam1+0.5,'sa_phase1',0.6,T.press-TF.slam1-0.5],[TF.slam1,'cine_heavy_slow',1.0,0],[TF.leap2,'ep3_whoosh',0.9,0],[TF.slam2,'cine_haki_hit',1.0,0],   /* ⚔️ đoạn đánh: vồ · bị giữ · đập · vồ lần 2 · bị giữ · hất văng */
+  const SFX_PLAN=[[0.3,'ep3_lava',0.7,0],...ATK.map(([ta])=>[ta,'hit_heavy',0.85,0]),[TF.leap,'ep3_whoosh',0.9,0],[TF.blast,'cine_haki_hit',1.0,0],[TF.land,'cine_heavy_slow',1.0,0],   /* ⚔️ lướt · 5 đòn dội vào trường lực · lao đòn cuối · aura hất văng · rơi xuống mỏm thấp */
     [T.press,'sa_phase1',0.75,T.rage-T.press],[T.hit,'bonk',1.0,0],[T.rage-0.25,'sa_phase1',1.0,T.splash+0.55-T.rage],[T.rage+0.33,'thunder_big',0.9,0],[T.rage+1.6,'sa_menacing',1.0,0],   /* 😼 giống GAME: aura áp lực = sa_phase1 (lớp 2 to hơn lúc nổi giận) · ゴゴゴ = sa_menacing · mặt quỷ không gầm */[T.crush,'ep3_rock',1.0,0],[T.splash-0.05,'ep3_whoosh',1.0,0],
     [K.open-0.1,'ep3_kamui',1.0,0],[K.members,'ep3_pain4',1.0,4],[K.eye,'nj_sharingan',1.0,0],[K.warp-0.3,'ep3_kamui',0.85,0],   /* 🌀 cổng Kamui · 4s nhạc Pain lúc Akatsuki hiện ra · 👁️ Sharingan (tiếng của chính Ninja Cat) · Kamui hút / nhả Grumpy */
     [T.doorShut,'ep3_klunk',1.0,0],[T.serum,'ep3_hydraulic',0.9,0],[T.ray,'ultimate_charge_2',0.9,0],[T.cool,'gas_leak',0.8,1.6],
     [T.leg-0.55,'ep3_ratchet',0.8,0],[T.leg,'ep3_klunk',1.0,0],[T.body-0.55,'ep3_ratchet',0.8,0],[T.body,'ep3_klunk',1.0,0],[T.helm,'ep3_shine',1.0,0],[T.helm+0.15,'flyingcat_theme',0.8,T.cave-T.helm-0.4],
     [T.breath,'ep3_breath',1.0,0],[T.hand,'ep3_force',1.0,0],[T.choke,'ep3_choke',0.9,0],[T.drop+0.35,'cine_drop',1.0,0],
-    [T.painOut+0.35,'ep3_dark',0.8,0],[T.fist+0.15,'ep3_glass',0.8,0],[T.beams,'ep3_charge',1.0,0],[T.join,'eg_necro',1.0,0],[T.sealBreak,'ep3_glass',1.0,0],[T.cageBurst+0.05,'death_break',1.0,0],[T.dash,'soul_steal',0.9,0],
+    [T.painOut+0.35,'ep3_dark',0.8,0],[T.fist+0.15,'ep3_glass',0.8,0],[T.beams,'ep3_charge',1.0,0],[T.join,'eg_necro',1.0,0],[CU0+0.05,'fr_dash',1.0,0],[CU0+0.5,'fr_dash',1.0,0],[CU0+0.95,'fr_dash',1.0,0],[CU0+1.4,'fr_dash',1.0,0],   /* 🐈‍⬛ tiếng "nhoi nhoi" lướt đâm của Friend trong game — mỗi cú húc lồng 1 tiếng (trùng RAMS) */
+    [T.sealBreak,'ep3_glass',1.0,0],[T.cageBurst+0.05,'death_break',1.0,0],[T.dash,'soul_steal',0.9,0],
     [T.shake,'ep3_quake',1.0,0],[T.real,'ep3_titan',1.0,0],[T.grow+0.6,'ep3_rock',0.9,0],[T.out+0.15,'ep3_explode',1.0,0],[T.roar,'fr_titan_roar',1.0,0]];   /* (bỏ tiêu đề cuối + tiếng nổ theo yêu cầu 30/10) */
   for(const L of LINES){ let n=0; for(let i=0;i<L.txt.length;i++){ if(L.txt[i]===' ') continue; if((n++)%2) continue; SFX_PLAN.push([L.t+0.25+i/CPS,'ep3_blip',0.7,0]); } }   // tiếng "píp" chữ pixel (cách 1 chữ kêu 1 lần)
   // ⏱️ GIỜ GHI TRONG LỊCH = lúc muốn NGHE THẤY trên hình. File nào có khoảng lặng đầu (đo bằng tools/sfx-audit.js) thì phát sớm lên đúng bấy nhiêu.
-  const SND_ONSET={cine_heavy_slow:0.26, cine_haki_hit:0.26,   /* tiếng va chạm: canh theo ĐỈNH */ sa_menacing:0.36, ep3_dark:0.22, ep3_breath:0.2, ep3_glass:0.36, ep3_charge:0.18, ep3_quake:0.14, ep3_titan:0.14, soul_steal:1.32, flyingcat_theme:0.56, fr_titan_roar:0.14};
+  const SND_ONSET={hit_heavy:0.15, cine_heavy_slow:0.26, cine_haki_hit:0.26,   /* tiếng va chạm: canh theo ĐỈNH */ sa_menacing:0.36, ep3_dark:0.22, ep3_breath:0.2, ep3_glass:0.36, ep3_charge:0.18, ep3_quake:0.14, ep3_titan:0.14, soul_steal:1.32, flyingcat_theme:0.56, fr_titan_roar:0.14};
   for(const e of SFX_PLAN) e[0]=Math.max(0,e[0]-(SND_ONSET[e[1]]||0));
   SFX_PLAN.sort((a,b)=>a[0]-b[0]);
 
@@ -325,16 +331,26 @@
     g.restore(); }
 
   // ⚔️ tư thế Grumpy trong đoạn đánh nhau (hàm theo thời gian → vẽ được bóng nhoè ở các khung trước)
-  function grumpyFight(t){ let gx=GRX, gy=LO, rot=0, sy=1, sx=1, atk=false, sm=0;
+  function grumpyFight(t){ let gx=GRX, gy=LO, rot=0, sy=1, sx=1, atk=false, sm=0, fl=false;
     if(t<PRESS0){ const tq=Math.floor(t*12)/12;   // giật 12 hình/giây như anime vẽ tay
-      if(t>=TF.leap1 && t<TF.hang1){ const u=eio(seg(tq,TF.leap1,TF.hang1)); gx=lerp(GRX,SUPX+120,u); gy=lerp(LO,HI-70,u)-Math.sin(u*Math.PI)*40; atk=true; sm=1; rot=-0.25*u; }
-      else if(t>=TF.hang1 && t<TF.slam1){ const u=seg(t,TF.hang1,TF.slam1), dn=u<0.55?0:eio((u-0.55)/0.45); gx=lerp(SUPX+120,GRX-40,dn)+Math.sin(t*90)*3*(1-dn); gy=lerp(HI-70,LO,dn*dn); atk=true; rot=-0.25+0.6*dn; sm=dn>0?1:0; }   // bị giữ lơ lửng → đập xuống
-      else if(t>=TF.slam1 && t<TF.dash){ const u=seg(t,TF.slam1,TF.up); gx=GRX-40; sy=lerp(0.6,1,eio(u)); sx=lerp(1.25,1,eio(u)); rot=0.15*(1-u); }   // bẹp dí rồi gượng dậy
-      else if(t>=TF.dash && t<TF.leap2){ const u=seg(tq,TF.dash,TF.leap2); gx=lerp(GRX-40,322,eio(u)); sm=1; }
-      else if(t>=TF.leap2 && t<TF.hang2){ const u=eio(seg(tq,TF.leap2,TF.hang2)); gx=lerp(322,SUPX+118,u); gy=lerp(LO,HI-40,u)-Math.sin(u*Math.PI)*30; atk=true; sm=1; }
-      else if(t>=TF.hang2 && t<TF.slam2){ const u=eio(seg(t,TF.hang2,TF.slam2)); gx=lerp(SUPX+118,GRX+50,u); gy=lerp(HI-40,LO,u)-Math.sin(u*Math.PI)*60; rot=u*2.4; sm=1; }   // bị HẤT VĂNG xoay vòng
-      else if(t>=TF.slam2){ const u=seg(t,TF.slam2,TF.kneel); gx=lerp(GRX+50,GRX,eio(u)); sy=lerp(0.62,0.8,eio(u)); sx=lerp(1.25,1.1,eio(u)); rot=0.2*(1-u); } }
-    return {gx,gy,rot,sy,sx,atk,sm}; }
+      let c=[G0[0],G0[1]-MU*0.5], prev=c.slice();
+      if(t<TF.a1-0.15){ fl=true; }
+      else if(t<TF.rest){ for(let i=0;i<ATK.length;i++){ const [ta,a]=ATK[i], C=cpt(a,26), Bk=cpt(a,90), t0=ta-0.15, nxt=i+1<ATK.length?ATK[i+1][0]-0.15:TF.rest;
+          if(t<t0) break;
+          if(t<ta){ const u=eio(seg(tq,t0,ta)); c=[lerp(prev[0],C[0],u),lerp(prev[1],C[1],u)]; sm=1; atk=true; }   // ⚡ lướt vụt tới
+          else if(t<ta+0.16){ c=[C[0]+Math.sin(t*90)*2.5,C[1]+Math.cos(t*77)*2]; atk=true; }   // ép vào trường lực
+          else if(t<nxt){ const u=eout(seg(t,ta+0.16,ta+0.34)); c=[lerp(C[0],Bk[0],u),lerp(C[1],Bk[1],u)]; rot=(i%2?1:-1)*0.45*u; }   // bị bật ra
+          else { prev=Bk; continue; }
+          break; }
+        if(t>=ATK[ATK.length-1][0]+0.34){ const Bk=cpt(ATK[ATK.length-1][1],90), u=eio(seg(t,ATK[ATK.length-1][0]+0.34,TF.rest)); c=[lerp(Bk[0],G0[0],u),lerp(Bk[1],G0[1]-MU*0.5,u)-Math.sin(u*Math.PI)*40]; rot=0; sm=1; }   // đáp về chỗ cũ
+        fl=c[0]<FC[0]-4; }
+      else if(t<TF.leap){ const br=Math.sin(t*7)*0.03; sy=1-0.04-br; sx=1+0.04+br; fl=true; }   // đứng thở dốc
+      else if(t<TF.hit){ const C=cpt(ATKF,26), u=eio(seg(tq,TF.leap,TF.hit)); c=[lerp(G0[0],C[0],u),lerp(G0[1]-MU*0.5,C[1],u)-Math.sin(u*Math.PI)*120]; atk=true; sm=1; fl=c[0]<FC[0]; }   // lao đòn cuối
+      else if(t<TF.blast){ const C=cpt(ATKF,26); c=[C[0]+Math.sin(t*90)*3,C[1]]; atk=true; }
+      else if(t<TF.land){ const C=cpt(ATKF,26), u=seg(t,TF.blast,TF.land); c=[lerp(C[0],GRX,u),lerp(C[1],LO-MU*0.5,u*u)-Math.sin(u*Math.PI)*70]; rot=u*5.2; sm=1; }   // 💥 bị aura HẤT VĂNG xoay vòng xuống mỏm thấp
+      if(t<TF.land){ gx=c[0]; gy=c[1]+MU*0.5; }
+      else { const u=seg(t,TF.land,TF.kneel); gx=GRX; sy=lerp(0.62,0.8,eio(u)); sx=lerp(1.25,1.1,eio(u)); rot=0.2*(1-u); } }   // đập xuống, bẹp dí → quỳ rạp
+    return {gx,gy,rot,sy,sx,atk,sm,fl}; }
 
   // ───────────────────── 🌀 KAMUI · cuối TẬP 3 ─────────────────────
   // Supreme bỏ đi → Kamui xoắn không gian → 5 thành viên Akatsuki hiện ra (bóng đen viền tím, mắt đỏ, KHÔNG lộ mặt)
@@ -394,9 +410,9 @@
   }
   // 🛡️ TRƯỜNG LỰC quanh Supreme chặn mọi đòn của Grumpy (anh dặn 30/10): chỉ hiện LỜ MỜ khi Grumpy lao tới — vỏ năng lượng tím đen kiểu aura Supreme
   //    (shader aura 'cursed' chạy quanh 1 hình tròn) · chỗ Grumpy đập vào: gợn sóng tím loang ra
-  const FLD={x:SUPX, y:HI-48, R:92, hits:[[TF.hang1,TF.slam1],[TF.hang2,TF.slam2]]};
+  const FLD={x:FC[0], y:FC[1], R:FR, hits:ATK.concat([[TF.hit,ATKF]])};
   let FLDC=null;
-  function field(t){ let k=0; for(const [a,b] of [[TF.leap1-0.1,TF.slam1+0.35],[TF.leap2-0.1,TF.slam2+0.35]]) k=Math.max(k,Math.sin(Math.PI*seg(t,a,b))); if(k<=0.01) return;
+  function field(t){ const k=Math.max(Math.min(seg(t,TF.a1-0.3,TF.a1-0.1),1-seg(t,TF.rest-0.1,TF.rest+0.4)),Math.min(seg(t,TF.leap,TF.leap+0.3),1-seg(t,TF.land,TF.land+0.5))); if(k<=0.01) return;
     if(!FLDC){ FLDC=mk(256,256); const x=FLDC.getContext('2d'); x.fillStyle='#fff'; x.beginPath(); x.arc(128,128,120,0,Math.PI*2); x.fill(); }
     const {x,y,R}=FLD; g.save(); g.globalAlpha=0.42*k;
     if(window.VfxGL) VfxGL.drawAura(g,FLDC,{preset:'cursed',x,y:y+R,w:R*2,h:R*2,t,k:0.7,seed:7});
@@ -404,15 +420,16 @@
     g.save(); g.globalCompositeOperation='lighter'; const gr=g.createRadialGradient(x,y,R*0.55,x,y,R); gr.addColorStop(0,'rgba(120,40,220,0)'); gr.addColorStop(0.85,`rgba(150,70,255,${0.16*k})`); gr.addColorStop(1,'rgba(150,70,255,0)');
     g.fillStyle=gr; g.beginPath(); g.arc(x,y,R,0,Math.PI*2); g.fill();
     g.strokeStyle=`rgba(200,150,255,${0.22*k})`; g.lineWidth=1.5; g.beginPath(); g.arc(x,y,R*0.98,0,Math.PI*2); g.stroke();
-    for(const [h0] of FLD.hits){ const u=t-h0; if(u<0||u>0.7) continue; const q=grumpyFight(h0), a=Math.atan2(q.gy-MU*0.5-y,q.gx-x), cx=x+Math.cos(a)*R, cy=y+Math.sin(a)*R;   // 💥 chỗ bị chặn: gợn tím loang
+    for(const [h0,a] of FLD.hits){ const u=t-h0; if(u<0||u>0.7) continue; const cx=x+Math.cos(a)*R, cy=y+Math.sin(a)*R;   // 💥 chỗ bị chặn: gợn tím loang
       for(let j=0;j<3;j++){ const v=u/0.7-j*0.15; if(v<0||v>1) continue; g.strokeStyle=`rgba(210,150,255,${0.6*(1-v)})`; g.lineWidth=2.5*(1-v)+0.5; g.beginPath(); g.arc(x,y,R,a-0.2-1.1*v,a+0.2+1.1*v); g.stroke(); }
       glow(cx,cy,40*(1-u/0.7)+10,0.7*(1-u/0.7),'190,110,255'); }
+    if(t>=TF.blast && t<TF.blast+0.5){ const u=(t-TF.blast)/0.5; g.strokeStyle=`rgba(190,120,255,${0.8*(1-u)})`; g.lineWidth=10*(1-u)+1; g.beginPath(); g.arc(x,y,R*(1+1.6*eout(u)),0,Math.PI*2); g.stroke(); glow(x+R*1.2,y-R*0.4,R*1.4,0.4*(1-u),'170,80,255'); }   // aura bùng nổ hất văng (quầng ở phía Grumpy, không phủ hồng lên Supreme)
     g.restore(); }
   // ───────────────────── 🎬 CẢNH 1 · NÚI LỬA ─────────────────────
   function scene1(t){
     drawBG(BG1); drawFalls(t); embers(t,-300,840,LAVA,90,'255,140,60'); heatHaze(t,LAVA-300,LAVA,0.05);
     const pc=prep(IMG.sup); const sL=pc?spriteInfo(pc,MU*1.05):null;
-    const flare=Math.max(Math.sin(Math.PI*seg(t,TF.hang1-0.15,TF.slam1+0.35)),Math.sin(Math.PI*seg(t,TF.hang2-0.15,TF.slam2+0.35)));
+    const flare=Math.max(Math.min(seg(t,TF.a1-0.3,TF.a1),1-seg(t,TF.rest,TF.rest+0.5))*0.7,Math.sin(Math.PI*seg(t,TF.leap,TF.land+0.3)));
     const gf=t<PRESS0?0.6*flare:(t<T.rage?Math.max(0.55*seg(t,PRESS0,PRESS0+0.8),0.6*flare):lerp(0.55,1,seg(t,T.rage,T.rage+0.7)));
     const calmK=1-seg(t,T.splash+0.3,K.calm+0.6), P=t<T.rage?0:eio(seg(t,T.rage,T.rage+1.0))*calmK, eyes=seg(t,T.rage+0.7,T.rage+1.0)*calmK;
     if(sL && P>0){ const dcy=HI-MU*1.05*0.95-MU*1.05*2.15*DS*0.6; g.save(); g.globalCompositeOperation='lighter'; glow(SUPX,dcy,260*DS*0.8,0.45*P,'150,40,230'); glow(SUPX,dcy-60,150*DS*0.8,0.35*P,'255,90,200'); g.restore(); }   // quầng sáng tím sau lưng mặt quỷ (để mặt quỷ đen nổi trên nền trời tối)
@@ -427,18 +444,18 @@
     field(t);
     drawLedge(t);
     const pv=t<PRESS0?0:(t<T.crush?0.6+0.3*seg(t,T.rage,T.crush):1);
-    let {gx,gy,rot,sy,sx,atk,sm}=grumpyFight(t), alpha=1;
+    let {gx,gy,rot,sy,sx,atk,sm,fl}=grumpyFight(t), alpha=1;
     if(t>=PRESS0 && t<T.press){ const k=eio(seg(t,PRESS0,PRESS0+0.4)); sy=lerp(0.8,0.78,k); sx=lerp(1.1,1.12,k); gx+=Math.sin(t*55)*1.2; }   // quỳ rạp dưới áp lực
     if(t>=T.press){ const k=eio(seg(t,T.press,T.press+0.5)); sy=lerp(1,t<T.rage?0.76:lerp(0.76,0.62,seg(t,T.rage,T.crush)),k); sx=lerp(1,1.14,k); }
     if(t<T.crush){ gx+=qx(t,0); gy+=qy(t,0); }   // rung cùng tảng đá dưới chân
     if(t>=T.crush){ const c=LEDGE.ch[3], p=chunkPose(c,t); gx+=p.dx; gy+=p.dy; rot=p.r*0.6; if(t>=T.splash) alpha=0; }
     if(t<T.crush && pv>0) saPressed(GRX,LO,MU*0.5,pv,t,3.7);
-    for(const [ts,xx] of [[TF.slam1,GRX-40],[TF.slam2,GRX+50]]) if(t>=ts && t<ts+1.2) smoke(xx,LO+4,t-ts+0.6,7,1-seg(t,ts,ts+1.2));   // bụi bốc lên chỗ đập
+    for(const [ts,xx,yy] of [[TF.rest,G0[0],HI+4],[TF.land,GRX,LO+4]]) if(t>=ts && t<ts+1.2) smoke(xx,yy,t-ts+0.6,7,1-seg(t,ts,ts+1.2));   // bụi bốc lên chỗ đập
     const gc=(atk || (t>=T.throw-0.1 && t<T.throw+0.35))?prep(IMG.grumpyAtk):prep(IMG.grumpy);
-    if(alpha>0 && sm && t<PRESS0){ for(let j=3;j>=1;j--){ const q=grumpyFight(t-j*0.045); actor(gc,q.gx,q.gy,MU,{sx:q.sx,sy:q.sy,rot:q.rot,a:0.32/j}); } }   // vệt nhoè: bóng mờ ở vị trí các khung trước
+    if(alpha>0 && sm && t<PRESS0){ for(let j=3;j>=1;j--){ const q=grumpyFight(t-j*0.045); actor(gc,q.gx,q.gy,MU,{sx:q.sx,sy:q.sy,rot:q.rot,a:0.32/j,flip:q.fl}); } }   // vệt nhoè: bóng mờ ở vị trí các khung trước
     if(alpha>0){ const bl=t>=T.hit&&t<T.crush?seg(t,T.hit,T.hit+0.6):0, Q=quake(t);
       if(bl>0){ actor(gc,gx+Q*1.3,gy,MU,{sx,sy,rot,a:0.38*bl}); actor(gc,gx-Q*1.3,gy,MU,{sx,sy,rot,a:0.38*bl}); }   // rung nhoè
-      actor(gc,gx,gy,MU,{sx,sy,rot}); }   // mặt quay về phía Supreme (bên trái)
+      actor(gc,gx,gy,MU,{sx,sy,rot,flip:fl&&t<PRESS0}); }   // mặt quay về phía Supreme (bên trái)
     const st=prep(IMG.stone);
     if(st){ if(t>=T.grab && t<T.throw){ actor(st,GRX-34,LO-4,16,{}); }
       else if(t>=T.throw && t<T.hit){ const u=seg(t,T.throw,T.hit), x=lerp(GRX-30,SUPX+10,u), y=lerp(LO-50,HI-MU*0.8,u)-Math.sin(u*Math.PI)*70; actor(st,x,y,18,{center:true,rot:t*14}); }
@@ -625,6 +642,41 @@
       const x=(1-e)*(1-e)*sx0+2*(1-e)*e*mx+e*e*kx, y=(1-e)*(1-e)*sy0+2*(1-e)*e*my+e*e*ky, sc=1-0.85*e, rot=(hash(q+9+i)-0.5)*8*e;
       g.save(); g.globalCompositeOperation='lighter'; glow(x,y,FW/N*0.9*sc+4,0.5*(1-e*0.5),'255,60,50'); g.restore();
       g.save(); g.translate(x,y); g.rotate(rot); g.scale(sc,sc); g.drawImage(fc.src,fc.sx+a*fc.sw/N,fc.sy+b*fc.sh/N,fc.sw/N,fc.sh/N,-FW/N/2,-FH/N/2,FW/N,FH/N); g.restore(); } }
+  // 🔍 CẬN CẢNH (anh dặn 30/10): 1 con Friend to cả màn hình, đang bị rút năng lượng vẫn LAO ĐÂM liên tục vào lồng (kiểu lướt đâm "nhoi nhoi" trong game)
+  //    mỗi cú húc: lao vụt về phía máy (để lại bóng mờ) → song sắt cong ra, phong ấn vàng loé lên chặn lại, toé lửa, rung màn → bị kéo giật về
+  const RAMS=[0.05,0.5,0.95,1.4];   // giây trong cận cảnh (trùng 4 tiếng fr_dash)
+  function friendCloseups(t){ if(t<CU0 || t>=CU1) return; const KIT=window._l2e2Kit, fc=KIT&&prep(KIT.imgs()[1]); if(!fc) return;
+    const v=t-CU0, u=v/(CU1-CU0);
+    const ram=tt=>{ let s=0, hit=0; for(const r of RAMS){ const d=tt-r; if(d<0) continue; if(d<0.12) s=Math.max(s,eio(d/0.12)); else if(d<0.18){ s=Math.max(s,1); hit=Math.max(hit,1-(d-0.12)/0.06*0.3); } else if(d<0.45) s=Math.max(s,1-eout((d-0.18)/0.27)); } return {s,hit}; };
+    const R=ram(v); let imp=0; for(const r of RAMS){ const d=v-r-0.12; if(d>=0 && d<0.35) imp=Math.max(imp,1-d/0.35); }
+    const shx=(hash(Math.floor(t*50))-0.5)*(4+26*imp), shy=(hash(Math.floor(t*50)+9)-0.5)*(3+18*imp);
+    g.save(); g.setTransform(SC,0,0,SC,0,0); g.fillStyle='#000'; g.fillRect(0,0,VW,VH); g.translate(shx,shy);
+    let gr=g.createRadialGradient(VW/2,VH*0.5,20,VW/2,VH*0.5,VH*0.7); gr.addColorStop(0,'#4a0808'); gr.addColorStop(0.6,'#170306'); gr.addColorStop(1,'#040102'); g.fillStyle=gr; g.fillRect(-40,-40,VW+80,VH+80);
+    const cx=VW/2, FCX=0.635, FCY=0.3, fxy=[VW/2,VH*0.44], H0=VH*0.4, base=fxy[1]+H0*(1-FCY), at=(s)=>{ const h=H0*(1+0.6*s), w=h*fc.sw/fc.sh; return {h, w, x0:fxy[0]-FCX*w, y0:fxy[1]+VH*0.05*s-FCY*h}; };   // neo theo MẶT Friend (mắt ở ~0.64·0.3 khung ảnh)
+    // 🩸 năng lượng bị hút ra ngoài (vệt đỏ bay lên phía tượng, mạnh dần)
+    g.save(); g.globalCompositeOperation='lighter'; g.lineCap='round'; glow(fxy[0],fxy[1]+H0*0.3,H0*0.9,0.3+0.4*u,'255,40,30');
+    for(let i=0;i<34;i++){ const ph=(t*(0.9+0.9*hash(i+11))+hash(i+12))%1, x0=fxy[0]+(hash(i+13)-0.5)*H0*1.1, y0=fxy[1]+H0*0.3+(hash(i+14)-0.5)*H0*0.6, x=x0+(hash(i+15)-0.5)*120*ph, y=y0-ph*VH*0.7, L=20+60*ph;
+      g.strokeStyle=`rgba(255,${50+90*hash(i+16)|0},40,${(1-ph)*(0.35+0.55*u)})`; g.lineWidth=2+5*(1-ph); g.beginPath(); g.moveTo(x,y); g.lineTo(x,y+L); g.stroke(); }
+    g.restore();
+    // 👻 bóng mờ cú lao (giống vệt lướt trong game)
+    for(let j=3;j>=1;j--){ const q=ram(v-j*0.035); if(q.s<0.05) continue; const A=at(q.s); g.save(); g.globalAlpha=0.22/j; g.drawImage(fc.src,fc.sx,fc.sy,fc.sw,fc.sh,A.x0,A.y0,A.w,A.h); g.restore(); }
+    const A=at(R.s);
+    if(window.VfxGL) VfxGL.drawAura(g,fc.src,{preset:'haki',sx:fc.sx,sy:fc.sy,sw:fc.sw,sh:fc.sh,x:A.x0+A.w/2,y:A.y0+A.h,w:A.w,h:A.h,t,k:0.7+0.5*u,seed:3});
+    g.drawImage(fc.src,fc.sx,fc.sy,fc.sw,fc.sh,A.x0,A.y0,A.w,A.h);
+    g.save(); g.globalCompositeOperation='multiply'; g.fillStyle=`rgb(${210-100*u|0},${140-100*u|0},${150-100*u|0})`; g.fillRect(-40,-40,VW+80,VH+80); g.restore();   // bị rút cạn: tối & đỏ dần
+    // ⛓️ song sắt lồng phía trước — cong ra ở giữa mỗi lần bị húc
+    g.save(); g.lineCap='butt'; for(let k=0;k<7;k++){ const bx=VW*(0.04+k*0.153), off=(bx-fxy[0])/(VW/2), bend=imp*48*off;
+      g.strokeStyle='rgba(18,16,24,0.95)'; g.lineWidth=13; g.beginPath(); g.moveTo(bx,-40); g.quadraticCurveTo(bx+bend*2,VH*0.5,bx,VH+40); g.stroke();
+      g.strokeStyle='rgba(120,110,140,0.35)'; g.lineWidth=2; g.beginPath(); g.moveTo(bx-4,-40); g.quadraticCurveTo(bx-4+bend*2,VH*0.5,bx-4,VH+40); g.stroke(); }
+    g.restore();
+    // 🔶 phong ấn vàng loé lên chặn cú húc + toé lửa
+    if(KIT){ const pg=KIT.setG(g); KIT.drawSeal(fxy[0],fxy[1],VW*0.5*(1+0.1*imp),1,t*0.8,0.08+0.55*imp); KIT.setG(pg); }
+    if(imp>0){ g.save(); g.globalCompositeOperation='lighter'; const last=RAMS.filter(r=>v>=r+0.12).pop(), d=v-last-0.12;
+      for(let i=0;i<30;i++){ const a=hash(i+last*91)*Math.PI*2, sp=200+500*hash(i+last*37), x=fxy[0]+Math.cos(a)*sp*d, y=fxy[1]+Math.sin(a)*sp*d+500*d*d;
+        g.fillStyle=`rgba(255,${180+60*hash(i)|0},90,${imp})`; g.beginPath(); g.arc(x,y,1.5+2.5*hash(i+3),0,Math.PI*2); g.fill(); }
+      glow(fxy[0],fxy[1],VW*0.35*imp+30,0.5*imp,'255,200,120'); g.restore(); }
+    g.restore();
+    if(u<0.04 || u>0.96){ g.save(); g.setTransform(SC,0,0,SC,0,0); g.fillStyle=`rgba(255,240,230,${0.5*(u<0.04?1-u/0.04:(u-0.96)/0.04)})`; g.fillRect(0,0,VW,VH); g.restore(); } }   // chớp nhẹ lúc cắt vào/ra
   function scene5(t){
     const K=window._l2e2Kit; if(!K || !K.get().BG){ return; } const prevG=K.setG(g), C=K.C, G=K.get(), ST=G.ST, CG=C.CAGE, tt=T2+(t-T.cave), fc=prep(K.imgs()[1]);
     K.bg();
@@ -683,6 +735,7 @@
     K.fog(tt,0.6); K.motes(tt,0.7);
     K.setG(prevG);
     fullFill('rgba(14,6,26,A)',0.22);
+    friendCloseups(t);
     
   }
   // ───────────────────── 🎬 CẢNH 6 · NGOÀI NÚI: tượng Friend khổng lồ phá núi chui ra, đuôi kiểu Thập Vĩ mọc từ sau lưng lên tận trời ─────────────────────
@@ -757,7 +810,7 @@
   function postFX(t,cx,cy,z){ if(!window.VfxGL || !VfxGL.fx) return W2; let src=W2; const F=VfxGL.fx, S=SC*z, dev=(x,y)=>[SC*(VW/2+(x-cx)*z), SC*(VH/2+(y-cy)*z)];
     const step=o=>{ if(!o) return; const d=(src===PA)?(PB||(PB=mk(1,1))):(PA||(PA=mk(1,1))); if(d.width!==o.width||d.height!==o.height){ d.width=o.width; d.height=o.height; } const x=d.getContext('2d'); x.clearRect(0,0,d.width,d.height); x.drawImage(o,0,0); src=d; };
     try{
-      if(t<T.s2){ for(const [ts,xx] of [[TF.slam1,GRX-40],[TF.slam2,GRX+50]]) if(t>=ts && t<ts+0.7){ const [x,y]=dev(xx,LO); step(F.shockwave(src,{x,y,time:t-ts,speed:600*S,amplitude:18*S,wavelength:120*S,brightness:1.05})); }
+      if(t<T.s2){ for(const [ts,xx,yy] of [[TF.blast,FC[0],FC[1]],[TF.land,GRX,LO]]) if(t>=ts && t<ts+0.7){ const [x,y]=dev(xx,yy); step(F.shockwave(src,{x,y,time:t-ts,speed:600*S,amplitude:18*S,wavelength:120*S,brightness:1.05})); }
         if(t>=T.crush && t<T.crush+0.9){ const [x,y]=dev(GRX,LO+30); step(F.shockwave(src,{x,y,time:t-T.crush,speed:700*S,amplitude:26*S,wavelength:140*S,brightness:1.1})); }
         if(t>=T.splash && t<T.splash+0.8){ const [x,y]=dev(GRX+20,LAVA); step(F.shockwave(src,{x,y,time:t-T.splash,speed:800*S,amplitude:30*S,wavelength:170*S,brightness:1.15})); }
         let gk=0; for(const w of KW){ const u=seg(t,w.t0,w.t1); if(u<=0||u>=1) continue; const [x,y]=dev(w.x,w.y), k=Math.sin(Math.PI*u); gk=Math.max(gk,k); step(F.twist(src,{x,y,radius:w.rad*S,angle:w.ang*k})); }
