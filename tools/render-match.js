@@ -16,6 +16,7 @@ const args = process.argv.slice(2), OUT = path.resolve(args[0] || 'match.mp4');
 const opt = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; };
 const A = opt('--a'), B = opt('--b'), FPS = +opt('--fps', 60), VW = +opt('--w', 1440), VH = Math.round(VW * 16 / 9);
 const WANT = +opt('--want', 5), MIN = +opt('--min', 0);   // --min: chạy thử ÍT NHẤT bấy nhiêu trận rồi mới chọn   // --win/--close: gom đủ bấy nhiêu trận đúng ý rồi chọn trận sát nhất
+const INJECT = opt('--inject', null) ? fs.readFileSync(opt('--inject'), 'utf8') : null;   // --inject f.js: JS nạp vào trang ngay sau START (kịch bản riêng cho 1 video, KHÔNG đổi game)
 const FAR = +opt('--far', 0);   // --far N: trận phải có ≥N lần hố đen (The Void) nuốt đạn đã bay XA (thấy rõ đường đạn bị nuốt — anh dặn 30/10)
 const WIN = opt('--win', null), CLOSE = opt('--close', null) == null ? null : +opt('--close'), TRIES = +opt('--tries', 12), MAXSEC = +opt('--max', 240);
 const SIM = +opt('--sim', 0), SIMW = +opt('--simw', 360), BEST = +opt('--best', 10), RANDOM = args.includes('--random');
@@ -100,6 +101,7 @@ async function openMatch(br, PORT, seed, cw) {
     startGame('instant');   // = bấm ▶ START
   }, seed);
   await pg.waitForFunction(() => fighters.length >= 2 && __raf.size > 0, null, { timeout: 60000 });
+  if (INJECT) await pg.evaluate(INJECT);   // 🎬 kịch bản đạo diễn riêng cho video (--inject) — chạy y hệt lúc dò lẫn lúc quay → cùng seed ra cùng trận
   return pg;
 }
 const TAIL = +opt('--tail', 10);   // quay thêm tối đa bao nhiêu giây sau khi hạ địch (cảnh thắng của Friend/Evil Gary... chạy mãi không tự dừng)
