@@ -14985,6 +14985,7 @@ function _grassTufts(g){ const u=W/480, hh=(a,b)=>_skH(a*12.9898+b*78.233);
   for(const [px,py,r] of P){ const gr=g.createRadialGradient(px,py,0,px,py,r); gr.addColorStop(0,'rgba(60,50,120,0.55)'); gr.addColorStop(0.7,'rgba(60,50,120,0.35)'); gr.addColorStop(1,'rgba(60,50,120,0)');
     g.fillStyle=gr; g.beginPath(); g.ellipse(px,py,r,r*0.85,0,0,6.283); g.fill(); }
   // búi lá: lưới so le có rung, mỗi búi 2–3 chiếc lá nhọn chĩa lên, có bóng nhỏ dưới chân; trong mảng đậm thì dùng tông tối
+  _grassTall=[];
   const S=6.5*u, leaf=(x,y,len,w,ang)=>{ g.save(); g.translate(x,y); g.rotate(ang); g.beginPath(); g.moveTo(-w,0); g.quadraticCurveTo(-w*0.8,-len*0.55,0,-len); g.quadraticCurveTo(w*0.8,-len*0.55,w,0); g.closePath(); g.fill(); g.restore(); };
   for(let j=0, y=0; y<H+S; j++, y+=S*0.8) for(let i=0, x=(j%2)*S*0.5; x<W+S; i++, x+=S){
     const r1=hh(i+j*977,5), r2=hh(i*3+j,6), px=x+(r1-0.5)*S*0.9, py=y+(r2-0.5)*S*0.7; if(r1*r2>0.62) continue;   // chừa vài chỗ trống cho tự nhiên
@@ -14992,22 +14993,20 @@ function _grassTufts(g){ const u=W/480, hh=(a,b)=>_skH(a*12.9898+b*78.233);
     const len=(3.2+2.6*hh(i,j+3))*u*(tall?1.8:1), w=len*(tall?0.2:0.32);
     g.fillStyle=SH; g.beginPath(); g.ellipse(px,py+0.6*u,w*(tall?2.6:1.6),w*0.55*(tall?1.4:1),0,0,6.283); g.fill();   // bóng chân búi
     const nl=tall?4+(hh(j,i+9)<0.5?1:0):2+(hh(j,i+9)<0.5?1:0);
-    for(let k=0;k<nl;k++){ const c=k-(nl-1)/2; g.fillStyle=tall?(k%2?pal[0]:'#8274c9'):pal[(k+i)%2];   // búi cao: ngọn sáng hơn chút cho nổi khối
-      leaf(px+c*w*(tall?1.4:1.1), py, len*(tall?(1-Math.abs(c)*0.16):(k===1?1:0.82)), w, c*(tall?0.28:0.45)+(hh(i+k,j)-0.5)*0.3); } }
+    if(tall){ _grassTall.push({x:px,y:py,len,w,nl,col:pal[0],s:hh(i,j+11),r:Array.from({length:nl},(_,k)=>(hh(i+k,j)-0.5)*0.3)}); continue; }   // búi cao: vẽ SỐNG (gió lay) — xem _grassWindDraw
+    for(let k=0;k<nl;k++){ const c=k-(nl-1)/2; g.fillStyle=pal[(k+i)%2];
+      leaf(px+c*w*1.1, py, len*(k===1?1:0.82), w, c*0.45+(hh(i+k,j)-0.5)*0.3); } }
 }
-// 👣 MEME GIẪM LÊN CỎ (anh: "hơi chìm xíu xíu, có độ giẫm nhẹ lên sân, tạo cảm giác thật"):
-//    dưới meme = bóng tiếp đất mờ ngay chân · trên meme = 1 hàng búi cỏ trước chân che ~5% mép dưới, rạp nhẹ theo hướng đang chạy.
-function _grassFoot(f){ const L=f._lastSprite, u=W/480; if(!L || !L.dw) return null; return { x:f.x, y:f.y+L.dh*0.5, w:L.dw*0.7, u }; }
-function _grassFeetUnder(){ for(const f of fighters){ if(f.dead) continue; const P=_grassFoot(f); if(!P) continue;
-  const gr=ctx.createRadialGradient(P.x,P.y,0,P.x,P.y,P.w*0.6); gr.addColorStop(0,'rgba(18,12,44,0.6)'); gr.addColorStop(0.6,'rgba(18,12,44,0.3)'); gr.addColorStop(1,'rgba(18,12,44,0)');
-  ctx.save(); ctx.fillStyle=gr; ctx.translate(P.x,P.y); ctx.scale(1,0.32); ctx.translate(-P.x,-P.y); ctx.beginPath(); ctx.arc(P.x,P.y,P.w*0.6,0,6.283); ctx.fill(); ctx.restore(); } }
-function _grassFeetOver(){}   // (hàng cỏ trước chân giờ vẽ ngay trong Fighter.draw — _grassFringeLocal — theo đúng mép dưới ảnh)
-// 🌿 hàng búi cỏ trước chân, vẽ trong hệ toạ độ THÂN (gốc = tâm ảnh, đáy ảnh = +dh/2) → luôn khớp mép dưới dù nhún / phóng / lật
-function _grassFringeLocal(f,dw,dh){ const u=W/480, w0=dw*0.7, n=Math.max(7,Math.round(w0/(2.3*u))), yb=dh/2-dh*0.035, sp=Math.hypot(f.vx||0,f.vy||0);   // nâng lên ~3.5% (đáy ảnh có viền trong suốt) → cỏ phủ đúng chân
-  const sw=Math.sin(tick*0.25+f.x*0.05)*0.12*Math.min(1,sp*0.4);
-  for(let i=0;i<n;i++){ const h1=_skH(i*31+(f.slotIdx||0)*97+5), x=-w0/2+w0*(i+0.5)/n+(h1-0.5)*2*u, y=yb+(0.6+1.6*h1)*u, len=(4.8+3.4*_skH(i*17+3))*u, w=len*0.3, a=sw+(h1-0.5)*0.55;
-    ctx.fillStyle=h1<0.33?'#8274c9':h1<0.66?'#7466bd':'#6559ad'; ctx.save(); ctx.translate(x,y); ctx.rotate(a);
-    ctx.beginPath(); ctx.moveTo(-w,0); ctx.quadraticCurveTo(-w*0.8,-len*0.55,0,-len); ctx.quadraticCurveTo(w*0.8,-len*0.55,w,0); ctx.closePath(); ctx.fill(); ctx.restore(); } }
+// 🍃 GIÓ LƯỚT CỎ (anh: "thỉnh thoảng chuyển động nhẹ là được" — cỏ chỉ là vật trang trí, meme đi TRÊN cỏ, không lún):
+//    chỉ các búi CAO (~6%, ghi ở _grassTall lúc bake) vẽ sống mỗi khung; mỗi ~7s 1 đợt gió lướt chéo qua sân, búi nào gió đi qua thì nghiêng nhẹ rồi về.
+//    Tính theo tick + toạ độ (không Math.random) → quay video khớp lúc chạy thử.
+let _grassTall=[];
+function _grassWindDraw(){ if(!_grassTall.length) return; const u=W/480, P=420, ph=(tick%P)/P, front=-0.25+ph*1.6;   // vị trí đợt gió (theo đường chéo, 0..1 trên sân)
+  ctx.save(); ctx.beginPath(); if(ctx.roundRect) ctx.roundRect(0,0,W,H,FLOOR_R*u); else ctx.rect(0,0,W,H); ctx.clip();
+  for(const T of _grassTall){ const d=(T.x/W*0.6+T.y/H*0.4)-front, g=Math.exp(-d*d*60), a0=Math.sin(tick*0.18+T.s*6)*0.05+0.32*g*Math.sin(Math.min(1,g*1.4)*Math.PI*0.5);   // lắc rất nhẹ + gió đi qua thì rạp
+    for(let k=0;k<T.nl;k++){ const c=k-(T.nl-1)/2; ctx.fillStyle=k%2?T.col:'#8274c9'; ctx.save(); ctx.translate(T.x+c*T.w*1.4,T.y); ctx.rotate(c*0.28+T.r[k]+a0*(0.8+0.2*k));
+      const L=T.len*(1-Math.abs(c)*0.16), w=T.w; ctx.beginPath(); ctx.moveTo(-w,0); ctx.quadraticCurveTo(-w*0.8,-L*0.55,0,-L); ctx.quadraticCurveTo(w*0.8,-L*0.55,w,0); ctx.closePath(); ctx.fill(); ctx.restore(); } }
+  ctx.restore(); }
 function _paintFloorTop(g){ const u=W/480;
   g.save(); g.beginPath(); if(g.roundRect) g.roundRect(0,0,W,H,FLOOR_R*u); else g.rect(0,0,W,H); g.clip();   // bo góc sân
   let gr=g.createRadialGradient(W/2,H/2,Math.min(W,H)*0.12,W/2,H/2,Math.hypot(W,H)*0.58); gr.addColorStop(0,'#25224a'); gr.addColorStop(0.6,'#2b2752'); gr.addColorStop(1,'#3a3274'); g.fillStyle=gr; g.fillRect(0,0,W,H);
@@ -15049,6 +15048,7 @@ function _floorBuild(){ const u=W/480, ML=60*u, MT=30*u, MB=210*u;
 function _floorDraw(){   // toạ độ WORLD (sau camera)
   if(!_floorCache) _floorCache=_floorBuild(); const F=_floorCache;
   ctx.drawImage(F.c,-F.ML,-F.MT,W+F.ML*2,H+F.MT+F.MB);
+  _grassWindDraw();   // 🍃 búi cỏ cao lay theo gió
   { const u=W/480, yT=H+43*u; ctx.save();   // 🪨 vài hòn đá nhỏ lơ lửng dưới đảo (nhún nhẹ, low-poly như khối đảo)
     for(const [fx,dy,r,ph] of [[0.22,128,9,0],[0.6,150,12,2.1],[0.84,112,7,4.2]]){ const x=W*fx, y=yT+dy*u+Math.sin(tick*0.03+ph)*5*u, R=r*u;
       const P=[[-R,-R*0.3],[-R*0.3,-R*0.75],[R*0.6,-R*0.6],[R,-R*0.1],[R*0.4,R*0.9],[-R*0.5,R*0.6]];
@@ -22742,8 +22742,7 @@ class Fighter {
       }
       if(img && !_lcRibbon && !_fanBall) this._lastSprite={img,sx:_sx,sy:_sy,sw:_sw,sh:_sh,dw,dh,flip:!!this._lastFacingLeft};   // cho hiệu ứng nhoè dịch chuyển
       // 🔪 KNIFE CAT: avatar chính KHÔNG có dao → vẽ con dao phay (đúng con dao đang ném) vào tay; dao đang bay thì tay trống
-      if(this.type==='alottadameguy' && !this.dead && !_lcRibbon && !_fanBall && LD_FR.includes(img)) _ldDrawProps(this,img,dw,dh);
-      if(!this.dead && !_lcRibbon && !_fanBall && !this._mmHeld) _grassFringeLocal(this,dw,dh);   // 🌿 meme hơi chìm vào cỏ (búi cỏ trước chân)   // 🪚 cưa máy + dây giật + khói, tay vẽ đè lên tay cầm
+      if(this.type==='alottadameguy' && !this.dead && !_lcRibbon && !_fanBall && LD_FR.includes(img)) _ldDrawProps(this,img,dw,dh);   // 🪚 cưa máy + dây giật + khói, tay vẽ đè lên tay cầm
       if(this.type==='knifecat' && !this.dead && !_lcRibbon && !_fanBall && img===avatarImgs[i] && !knifeBoomerangs.some(b=>b.owner===this)) _kcDrawHeldKnife(img,_sx,_sy,_sw,_sh,dw,dh);
       if(this.type==='doorbellchud' && !this.dead && !_lcRibbon && !_fanBall && DC_ALL.includes(img)){
         // 🔔 chuông + dây: vẽ trong hệ toạ độ riêng của thân (đã lật/xoay) — đổi qua lại với toạ độ sân bằng ma trận hiện tại
@@ -26446,9 +26445,7 @@ function loop(){
   _pdDrawUnder();   // 🍌 vỏ chuối, portal đỏ, bóng đàn piano
   _njDrawUnder();   // 👁️ Mangekyou Sharingan sau lưng Ninja Cat
   _cvForceDraw();   // 🔴 aura Force của Catvader + đạn bị giữ
-  _mmDrawUnder();   // 🦫 tường vỡ + đá vụn + vệt bay + hào quang Saiyan Marmot (dưới meme)
-  _grassFeetUnder();   // 👣 bóng tiếp đất dưới chân meme (giẫm lên cỏ)
-  _hmDrawUnder(); // 🐹 tay bóng tối Scared Hamster bò sát mặt sàn (dưới meme)
+  _mmDrawUnder();   // 🦫 tường vỡ + đá vụn + vệt bay + hào quang Saiyan Marmot (dưới meme)  _hmDrawUnder(); // 🐹 tay bóng tối Scared Hamster bò sát mặt sàn (dưới meme)
   if(ESG_SHOW_WAVE_VFX) _esgDrawWaves();   // 🎷🌊 sóng âm gợn trên mặt sàn (đang TẮT tạm theo yêu cầu, dame vẫn tính)
   _esgDrawSquirtles(); // 🐢 đàn Squirtle thổi sax cùng
   _cnDrawUnder();      // 🍳 chảo khổng lồ + lửa + đồ ăn — nằm DƯỚI con bị nấu
@@ -26509,9 +26506,7 @@ function loop(){
     }
     fighters.forEach(f=>f.draw());
   }
-  _scEchoDrawOver();   // 🌋 Scream Cat: sóng chấn động + đá văng + tiếng vọng (trên meme)
-  _grassFeetOver();    // 🌿 hàng cỏ trước chân meme → meme hơi chìm vào cỏ
-  _mmDrawOver();       // 🦫 tia điện Super Saiyan + quả khí dồn lúc khựng + vòng sóng
+  _scEchoDrawOver();   // 🌋 Scream Cat: sóng chấn động + đá văng + tiếng vọng (trên meme)  _mmDrawOver();       // 🦫 tia điện Super Saiyan + quả khí dồn lúc khựng + vòng sóng
   _scHeadDraw();       // 😱 số dame lớn nhất + hiệu ứng nguy hiểm trên đầu Scream Cat
   if(frRem && frRem.rec) _frRemDraw();   // 🐈‍⬛ cảnh cổng hắc ám vơ mảnh Friend: vẽ NỔI trên meme (meme thắng không che mất)
   _hmDrawOver();       // 🐹 vuốt tay bóng tối quặp ĐÈ lên con mồi đang bị cầm (cảm giác 3D) + bị nuốt chửng
