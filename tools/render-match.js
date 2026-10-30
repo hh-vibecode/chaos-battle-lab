@@ -16,6 +16,7 @@ const args = process.argv.slice(2), OUT = path.resolve(args[0] || 'match.mp4');
 const opt = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; };
 const A = opt('--a'), B = opt('--b'), FPS = +opt('--fps', 60), VW = +opt('--w', 1440), VH = Math.round(VW * 16 / 9);
 const WANT = +opt('--want', 5), MIN = +opt('--min', 0);   // --min: chạy thử ÍT NHẤT bấy nhiêu trận rồi mới chọn   // --win/--close: gom đủ bấy nhiêu trận đúng ý rồi chọn trận sát nhất
+const FAR = +opt('--far', 0);   // --far N: trận phải có ≥N lần hố đen (The Void) nuốt đạn đã bay XA (thấy rõ đường đạn bị nuốt — anh dặn 30/10)
 const WIN = opt('--win', null), CLOSE = opt('--close', null) == null ? null : +opt('--close'), TRIES = +opt('--tries', 12), MAXSEC = +opt('--max', 240);
 const SIM = +opt('--sim', 0), SIMW = +opt('--simw', 360), BEST = +opt('--best', 10), RANDOM = args.includes('--random');
 let SEED = opt('--seed', null) == null ? null : +opt('--seed');
@@ -120,9 +121,9 @@ const STEP = ({ n, FPS, stopAt }) => {
   return false;
 };
 const RESULT = () => ({ t: __vt, win: koWinner ? (koWinner.slotIdx === 0 ? 'a' : 'b') : null, over: !!loop._koTimer,
-  hp: fighters.map(f => [f.type, Math.max(0, Math.round(f.hp)), f.maxHp]) });
-const fmt = r => `${r.win ? (r.win === 'a' ? A : B) + ' thắng' : 'hoà/chưa xong'} lúc ${r.t.toFixed(1)}s · ${r.hp.map(h => h[0] + ' ' + h[1] + '/' + h[2]).join(' · ')}`;
-const ok = r => (!WIN || r.win === WIN) && (CLOSE == null || (r.win && (() => { const h = r.hp[r.win === 'a' ? 0 : 1]; return h[1] > 0 && h[1] / h[2] <= CLOSE; })()));
+  hp: fighters.map(f => [f.type, Math.max(0, Math.round(f.hp)), f.maxHp]), far: typeof bhFarEat !== 'undefined' ? bhFarEat : 0 });
+const fmt = r => `${r.win ? (r.win === 'a' ? A : B) + ' thắng' : 'hoà/chưa xong'} lúc ${r.t.toFixed(1)}s · ${r.hp.map(h => h[0] + ' ' + h[1] + '/' + h[2]).join(' · ')}${FAR ? ' · nuốt đạn xa ' + (r.far || 0) : ''}`;
+const ok = r => (!WIN || r.win === WIN) && (r.far || 0) >= FAR && (CLOSE == null || (r.win && (() => { const h = r.hp[r.win === 'a' ? 0 : 1]; return h[1] > 0 && h[1] / h[2] <= CLOSE; })()));
 
 (async () => {
   const srv = http.createServer((q, r) => { const f = path.join(ROOT, decodeURIComponent(q.url.split('?')[0])).replace(/\/$/, '/index.html');
@@ -142,7 +143,7 @@ const ok = r => (!WIN || r.win === WIN) && (CLOSE == null || (r.win && (() => { 
     fs.writeFileSync(OUT + '.sim.json', JSON.stringify(rows));
     console.log(`✅ chạy thử xong ${SIM} trận · ${((Date.now() - T0) / 1000).toFixed(0)}s`); await br.close(); srv.close(); return; }
   // 🔎 dò trước kết quả (chỉ khi có yêu cầu thắng/thua) — chạy nhanh ở độ phân giải thấp, KHÔNG quay
-  if (SEED == null && (WIN || CLOSE != null)) {
+  if (SEED == null && (WIN || CLOSE != null || FAR)) {
     const hits = [];   // gom các trận đúng ý, đủ WANT trận (hoặc hết TRIES) thì lấy trận SÁT SAO NHẤT (con thắng còn ít máu nhất)
     for (let k = 0; k < TRIES && (k < MIN || hits.length < WANT); k += PAR) {   // mỗi đợt PAR trận song song, xong đợt mới xét đủ chưa
       await pool(Array.from({ length: Math.min(PAR, TRIES - k) }, (_, j) => (base + (k + j) * 7919) >>> 0), 360, (j, sd, r) => {
