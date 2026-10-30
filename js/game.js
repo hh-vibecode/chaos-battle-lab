@@ -14973,33 +14973,45 @@ function _skyDraw(vw,vh){   // vẽ trong toạ độ MÀN HÌNH (đã setTransf
   ctx.restore();
 }
 // mặt sân (toạ độ world 0..W × 0..H) — dùng chung cho mọi chế độ
-// 🌿 CỎ TÍM phủ mặt sân (anh gửi miếng cỏ xanh, bảo thay ô vuông + đổi tím nhạt hợp màu sân): cắt bỏ 2 mép tối của miếng cỏ,
-//    lật gương 2×2 thành miếng ghép LIỀN (không lộ đường nối), tô lại tím theo độ sáng từng sợi cỏ. Nằm phẳng sát nền, phủ vừa phải để không lấn meme / hiệu ứng.
-const FLOOR_GRASS=new Image(); FLOOR_GRASS.onload=()=>{ _floorCache=null; };   // ảnh về sau khi sân đã bake → bake lại có cỏ
-FLOOR_GRASS.src='assets/img/arena/GRASS.png';
-let _grassTile=null;
-// rải cỏ: đóng nhiều MẢNG cỏ (mép mờ dần) xoay/lật theo băm toạ độ, chồng lên nhau → không lộ lặp, không đường nối (không dùng Math.random)
-function _grassPaint(g,alpha){
-  if(!FLOOR_GRASS.naturalWidth) return false;
-  if(!_grassTile){ const sw=FLOOR_GRASS.naturalWidth, y0=4, sh=Math.max(8,FLOOR_GRASS.naturalHeight-12);   // bỏ hàng ngọn cỏ trên + bóng tối dưới của miếng gốc
-    const t=document.createElement('canvas'); t.width=sw; t.height=sh; const x=t.getContext('2d'); x.drawImage(FLOOR_GRASS,0,y0,sw,sh,0,0,sw,sh);
-    const id=x.getImageData(0,0,sw,sh), d=id.data; let lo=255, hi=0; const L=new Float32Array(d.length/4);
-    for(let i=0;i<L.length;i++){ const v=0.3*d[i*4]+0.59*d[i*4+1]+0.11*d[i*4+2]; L[i]=v; if(v<lo) lo=v; if(v>hi) hi=v; }
-    const A=[62,52,112], B=[140,124,204];   // tím đậm (kẽ cỏ) → tím nhạt (ngọn cỏ)
-    for(let i=0;i<L.length;i++){ const px=i%sw, py=(i/sw)|0, ex=Math.min(px,sw-1-px)/(sw*0.5), ey=Math.min(py,sh-1-py)/(sh*0.5), fe=Math.min(1,Math.min(ex,ey)*2.2);   // mép mảng mờ dần
-      const k=Math.pow((L[i]-lo)/Math.max(1,hi-lo),1.15); for(let c=0;c<3;c++) d[i*4+c]=Math.round(A[c]+(B[c]-A[c])*k); d[i*4+3]=Math.round(255*fe*fe*(3-2*fe)); }
-    x.putImageData(id,0,0); _grassTile=t; }
-  const u=W/480, T=_grassTile, s=0.62*u, pw=T.width*s, ph=T.height*s, step=Math.min(pw,ph)*0.55;
-  g.save(); g.globalAlpha=alpha;
-  for(let j=-1, row=0; j*step<H+ph; j++, row++) for(let i=-1; i*step<W+pw; i++){ const h1=_skH(i*53+j*97+1300), h2=_skH(i*29+j*61+1400);
-    const cx=(i+0.5+(h1-0.5)*0.9)*step, cy=(j+0.5+(h2-0.5)*0.9)*step;
-    g.save(); g.translate(cx,cy); g.rotate(h1*Math.PI*2); g.scale(h2<0.5?-1:1, 1); g.drawImage(T,-pw/2,-ph/2,pw,ph); g.restore(); }
-  g.restore(); return true;
+// 🌿 CỎ TÍM phủ mặt sân — kiểu ảnh mẫu anh gửi (game top-down): nền 1 màu + phủ kín BÚI LÁ nhỏ hình chiếc lá 2 tông (sáng/tối)
+//    + vài MẢNG cỏ đậm loang lổ, mép mảng chính là các búi lá (không có viền tròn). Tông tím nhạt hợp sân. Bake 1 lần, băm toạ độ (không Math.random).
+function _grassTufts(g){ const u=W/480, hh=(a,b)=>_skH(a*12.9898+b*78.233);
+  const BASE='#5f54a6', LIGHT=['#7466bd','#6c5fb4'], DARK=['#4e4492','#463c86'], SH='rgba(34,26,72,0.35)';
+  g.fillStyle=BASE; g.fillRect(0,0,W,H);
+  // mảng đậm: mỗi mảng = cụm vài hình tròn lệch nhau; hàm dens() = mức "đậm" tại 1 điểm (0..1, mép mềm)
+  const P=[]; for(let k=0;k<11;k++){ const cx=W*(0.08+0.84*hh(k,1)), cy=H*(0.08+0.84*hh(k,2)), R=(28+40*hh(k,3))*u, n=3+Math.floor(hh(k,4)*3);
+    for(let j=0;j<n;j++){ const a=hh(k,10+j)*6.283, d=R*0.55*hh(k,20+j); P.push([cx+Math.cos(a)*d, cy+Math.sin(a)*d*0.8, R*(0.55+0.45*hh(k,30+j))]); } }
+  const dens=(x,y)=>{ let m=0; for(const [px,py,r] of P){ const q=1-Math.hypot((x-px)/r,(y-py)/(r*0.85)); if(q>m) m=q; } return Math.min(1,m*2.2); };
+  for(const [px,py,r] of P){ const gr=g.createRadialGradient(px,py,0,px,py,r); gr.addColorStop(0,'rgba(60,50,120,0.55)'); gr.addColorStop(0.7,'rgba(60,50,120,0.35)'); gr.addColorStop(1,'rgba(60,50,120,0)');
+    g.fillStyle=gr; g.beginPath(); g.ellipse(px,py,r,r*0.85,0,0,6.283); g.fill(); }
+  // búi lá: lưới so le có rung, mỗi búi 2–3 chiếc lá nhọn chĩa lên, có bóng nhỏ dưới chân; trong mảng đậm thì dùng tông tối
+  const S=6.5*u, leaf=(x,y,len,w,ang)=>{ g.save(); g.translate(x,y); g.rotate(ang); g.beginPath(); g.moveTo(-w,0); g.quadraticCurveTo(-w*0.8,-len*0.55,0,-len); g.quadraticCurveTo(w*0.8,-len*0.55,w,0); g.closePath(); g.fill(); g.restore(); };
+  for(let j=0, y=0; y<H+S; j++, y+=S*0.8) for(let i=0, x=(j%2)*S*0.5; x<W+S; i++, x+=S){
+    const r1=hh(i+j*977,5), r2=hh(i*3+j,6), px=x+(r1-0.5)*S*0.9, py=y+(r2-0.5)*S*0.7; if(r1*r2>0.62) continue;   // chừa vài chỗ trống cho tự nhiên
+    const dk=dens(px,py), dark=hh(i,j*7+1)<dk, pal=dark?DARK:LIGHT, tall=hh(i*7,j*5+2)<0.06;   // ~6% búi NHÔ CAO (anh: thỉnh thoảng nhô lên, đừng cao quá)
+    const len=(3.2+2.6*hh(i,j+3))*u*(tall?1.8:1), w=len*(tall?0.2:0.32);
+    g.fillStyle=SH; g.beginPath(); g.ellipse(px,py+0.6*u,w*(tall?2.6:1.6),w*0.55*(tall?1.4:1),0,0,6.283); g.fill();   // bóng chân búi
+    const nl=tall?4+(hh(j,i+9)<0.5?1:0):2+(hh(j,i+9)<0.5?1:0);
+    for(let k=0;k<nl;k++){ const c=k-(nl-1)/2; g.fillStyle=tall?(k%2?pal[0]:'#8274c9'):pal[(k+i)%2];   // búi cao: ngọn sáng hơn chút cho nổi khối
+      leaf(px+c*w*(tall?1.4:1.1), py, len*(tall?(1-Math.abs(c)*0.16):(k===1?1:0.82)), w, c*(tall?0.28:0.45)+(hh(i+k,j)-0.5)*0.3); } }
 }
+// 👣 MEME GIẪM LÊN CỎ (anh: "hơi chìm xíu xíu, có độ giẫm nhẹ lên sân, tạo cảm giác thật"):
+//    dưới meme = bóng tiếp đất mờ ngay chân · trên meme = 1 hàng búi cỏ trước chân che ~5% mép dưới, rạp nhẹ theo hướng đang chạy.
+function _grassFoot(f){ const L=f._lastSprite, u=W/480; if(!L || !L.dw) return null; return { x:f.x, y:f.y+L.dh*0.5, w:L.dw*0.7, u }; }
+function _grassFeetUnder(){ for(const f of fighters){ if(f.dead) continue; const P=_grassFoot(f); if(!P) continue;
+  const gr=ctx.createRadialGradient(P.x,P.y,0,P.x,P.y,P.w*0.6); gr.addColorStop(0,'rgba(18,12,44,0.6)'); gr.addColorStop(0.6,'rgba(18,12,44,0.3)'); gr.addColorStop(1,'rgba(18,12,44,0)');
+  ctx.save(); ctx.fillStyle=gr; ctx.translate(P.x,P.y); ctx.scale(1,0.32); ctx.translate(-P.x,-P.y); ctx.beginPath(); ctx.arc(P.x,P.y,P.w*0.6,0,6.283); ctx.fill(); ctx.restore(); } }
+function _grassFeetOver(){}   // (hàng cỏ trước chân giờ vẽ ngay trong Fighter.draw — _grassFringeLocal — theo đúng mép dưới ảnh)
+// 🌿 hàng búi cỏ trước chân, vẽ trong hệ toạ độ THÂN (gốc = tâm ảnh, đáy ảnh = +dh/2) → luôn khớp mép dưới dù nhún / phóng / lật
+function _grassFringeLocal(f,dw,dh){ const u=W/480, w0=dw*0.7, n=Math.max(7,Math.round(w0/(2.3*u))), yb=dh/2-dh*0.035, sp=Math.hypot(f.vx||0,f.vy||0);   // nâng lên ~3.5% (đáy ảnh có viền trong suốt) → cỏ phủ đúng chân
+  const sw=Math.sin(tick*0.25+f.x*0.05)*0.12*Math.min(1,sp*0.4);
+  for(let i=0;i<n;i++){ const h1=_skH(i*31+(f.slotIdx||0)*97+5), x=-w0/2+w0*(i+0.5)/n+(h1-0.5)*2*u, y=yb+(0.6+1.6*h1)*u, len=(4.8+3.4*_skH(i*17+3))*u, w=len*0.3, a=sw+(h1-0.5)*0.55;
+    ctx.fillStyle=h1<0.33?'#8274c9':h1<0.66?'#7466bd':'#6559ad'; ctx.save(); ctx.translate(x,y); ctx.rotate(a);
+    ctx.beginPath(); ctx.moveTo(-w,0); ctx.quadraticCurveTo(-w*0.8,-len*0.55,0,-len); ctx.quadraticCurveTo(w*0.8,-len*0.55,w,0); ctx.closePath(); ctx.fill(); ctx.restore(); } }
 function _paintFloorTop(g){ const u=W/480;
   g.save(); g.beginPath(); if(g.roundRect) g.roundRect(0,0,W,H,FLOOR_R*u); else g.rect(0,0,W,H); g.clip();   // bo góc sân
   let gr=g.createRadialGradient(W/2,H/2,Math.min(W,H)*0.12,W/2,H/2,Math.hypot(W,H)*0.58); gr.addColorStop(0,'#25224a'); gr.addColorStop(0.6,'#2b2752'); gr.addColorStop(1,'#3a3274'); g.fillStyle=gr; g.fillRect(0,0,W,H);
-  _grassPaint(g,0.42);   // 🌿 cỏ tím (thay lưới ô đá cũ)
+  _grassTufts(g);   // 🌿 cỏ tím kiểu ảnh mẫu anh gửi (thay lưới ô đá cũ)
   for(const [x0,y0,x1,y1,w] of [[0,0,0,1,W],[0,H,0,-1,W],[0,0,1,0,H],[W,0,-1,0,H]]){ const L=70*u, lg=g.createLinearGradient(x0,y0,x0+x1*L,y0+y1*L); lg.addColorStop(0,'rgba(120,150,255,0.26)'); lg.addColorStop(0.4,'rgba(170,110,255,0.10)'); lg.addColorStop(1,'rgba(150,110,255,0)');   // mép sân sáng tím-xanh như ảnh mẫu
     g.fillStyle=lg; if(x1===0) g.fillRect(0,Math.min(y0,y0+y1*L),W,L); else g.fillRect(Math.min(x0,x0+x1*L),0,L,H); }
   g.restore();
@@ -22730,7 +22742,8 @@ class Fighter {
       }
       if(img && !_lcRibbon && !_fanBall) this._lastSprite={img,sx:_sx,sy:_sy,sw:_sw,sh:_sh,dw,dh,flip:!!this._lastFacingLeft};   // cho hiệu ứng nhoè dịch chuyển
       // 🔪 KNIFE CAT: avatar chính KHÔNG có dao → vẽ con dao phay (đúng con dao đang ném) vào tay; dao đang bay thì tay trống
-      if(this.type==='alottadameguy' && !this.dead && !_lcRibbon && !_fanBall && LD_FR.includes(img)) _ldDrawProps(this,img,dw,dh);   // 🪚 cưa máy + dây giật + khói, tay vẽ đè lên tay cầm
+      if(this.type==='alottadameguy' && !this.dead && !_lcRibbon && !_fanBall && LD_FR.includes(img)) _ldDrawProps(this,img,dw,dh);
+      if(!this.dead && !_lcRibbon && !_fanBall && !this._mmHeld) _grassFringeLocal(this,dw,dh);   // 🌿 meme hơi chìm vào cỏ (búi cỏ trước chân)   // 🪚 cưa máy + dây giật + khói, tay vẽ đè lên tay cầm
       if(this.type==='knifecat' && !this.dead && !_lcRibbon && !_fanBall && img===avatarImgs[i] && !knifeBoomerangs.some(b=>b.owner===this)) _kcDrawHeldKnife(img,_sx,_sy,_sw,_sh,dw,dh);
       if(this.type==='doorbellchud' && !this.dead && !_lcRibbon && !_fanBall && DC_ALL.includes(img)){
         // 🔔 chuông + dây: vẽ trong hệ toạ độ riêng của thân (đã lật/xoay) — đổi qua lại với toạ độ sân bằng ma trận hiện tại
@@ -26434,6 +26447,7 @@ function loop(){
   _njDrawUnder();   // 👁️ Mangekyou Sharingan sau lưng Ninja Cat
   _cvForceDraw();   // 🔴 aura Force của Catvader + đạn bị giữ
   _mmDrawUnder();   // 🦫 tường vỡ + đá vụn + vệt bay + hào quang Saiyan Marmot (dưới meme)
+  _grassFeetUnder();   // 👣 bóng tiếp đất dưới chân meme (giẫm lên cỏ)
   _hmDrawUnder(); // 🐹 tay bóng tối Scared Hamster bò sát mặt sàn (dưới meme)
   if(ESG_SHOW_WAVE_VFX) _esgDrawWaves();   // 🎷🌊 sóng âm gợn trên mặt sàn (đang TẮT tạm theo yêu cầu, dame vẫn tính)
   _esgDrawSquirtles(); // 🐢 đàn Squirtle thổi sax cùng
@@ -26496,6 +26510,7 @@ function loop(){
     fighters.forEach(f=>f.draw());
   }
   _scEchoDrawOver();   // 🌋 Scream Cat: sóng chấn động + đá văng + tiếng vọng (trên meme)
+  _grassFeetOver();    // 🌿 hàng cỏ trước chân meme → meme hơi chìm vào cỏ
   _mmDrawOver();       // 🦫 tia điện Super Saiyan + quả khí dồn lúc khựng + vòng sóng
   _scHeadDraw();       // 😱 số dame lớn nhất + hiệu ứng nguy hiểm trên đầu Scream Cat
   if(frRem && frRem.rec) _frRemDraw();   // 🐈‍⬛ cảnh cổng hắc ám vơ mảnh Friend: vẽ NỔI trên meme (meme thắng không che mất)
