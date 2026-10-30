@@ -38,10 +38,10 @@
   const DUR=T.end;
   const PARTS2={ 1:{a:0, b:T.s2, title:'Meme Lore 2 · Ep 3 · The High Ground'}, 2:{a:T.carry0-1.5, b:DUR, title:'Meme Lore 2 · Ep 4 · Rise of Catvader'} };
   // ⚔️ ĐÁNH NHAU (0 → FL) — kịch bản anh dặn 30/10: 2 bên đứng CÙNG mặt đá bằng phẳng · Grumpy lướt cực nhanh đánh từ mọi phía nhưng TRƯỜNG LỰC chặn hết
-  //    → đứng thở dốc: "MASTER... WHY DIDN'T YOU CHOOSE ME?!" → lặng 1 nhịp → lao đòn tiếp → aura Supreme bùng lên HẤT VĂNG Grumpy xuống mỏm đá thấp → rồi Supreme mới nói
+  //    → đứng thở dốc: "MASTER... WHY DIDN'T YOU TEACH ME HAKI?!" → lặng 1 nhịp → lao đòn tiếp → aura Supreme bùng lên HẤT VĂNG Grumpy xuống mỏm đá thấp → rồi Supreme mới nói
   const TF={ a1:1.0, a2:1.55, a3:2.1, a4:2.65, a5:3.2, rest:3.9, say:4.5, sayOff:6.7, leap:7.4, hit:7.85, blast:8.0, land:8.55, kneel:9.0 };
   const PRESS0=TF.kneel;   // từ lúc quỳ rạp là bị đè liên tục (trước đây bắt đầu ở T.press)
-  const LINES=[{t:TF.say,txt:"MASTER... WHY DIDN'T YOU CHOOSE ME?!"},{t:T.line1,txt:'GIVE UP, GRUMPY.'},{t:T.line2,txt:'I HAVE THE HIGH GROUND.'},{t:T.pl1,txt:'HE LEFT YOU TO BURN.'},{t:T.pl2,txt:'JOIN US... AND HE WILL KNOW PAIN.'}], CPS=30;   // chữ / giây (anh bảo chạy nhanh hơn: 18 → 30)
+  const LINES=[{t:TF.say,txt:"MASTER... WHY DIDN'T YOU TEACH ME HAKI?!"},{t:T.line1,txt:'GIVE UP, GRUMPY.'},{t:T.line2,txt:'I HAVE THE HIGH GROUND.'},{t:T.pl1,txt:'HE LEFT YOU TO BURN.'},{t:T.pl2,txt:'JOIN US... AND HE WILL KNOW PAIN.'}], CPS=30;   // chữ / giây (anh bảo chạy nhanh hơn: 18 → 30)
   const BOXES=[{t0:TF.say,t1:TF.sayOff,L:[0,0],who:'GRUMPY CAT',im:'grumpy',col:'#9fd3ff',bd:'#3a8bff',bg:['#0a2a4a','#020812'],face:[0.5,0.42],fz:0.62},
                {t0:T.line1,t1:T.boxOff,L:[1,2],who:'SUPREME CAT',im:'sup',col:'#c48cff',bd:'#8a5cff',bg:['#3a0a6a','#12021f'],face:[0.647,0.146],fz:0.38},
                {t0:T.pl1,t1:T.pBoxOff,L:[3,4],who:'PAIN',im:'pain',col:'#ff8a5a',bd:'#ff3a2a',bg:['#4a0a0a','#120202'],face:null,fz:0.42}];   // 2 lượt hội thoại: Supreme · Pain
