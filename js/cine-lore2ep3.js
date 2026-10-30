@@ -32,8 +32,9 @@
   const PAINY=750;   // Pain lơ lửng ngay trên chỗ Grumpy chìm
   // 📼 chia 2 TẬP (anh dặn 30/10): tập 3 = đánh nhau → rơi dung nham → Akatsuki tới (hết khi tay Grumpy cử động) · tập 4 = lính khiêng cáng → phòng thí nghiệm → … → Friend
   HOLD('pain',0.7);     // mở tập 4: Grumpy nằm 1 mình 1 lúc rồi lính mới tới
-  GAP('lab',0.7); GAP('army',1.0); HOLD('drop',0.7); HOLD('pBoxOff',0.5); GAP('cave',1.0); HOLD('cave',0.7); HOLD('join',2.4);   /* join → CẬN CẢNH 2 Friend bị rút (CU) → mới về toàn cảnh vỡ tan */ HOLD('stEyes',0.4); HOLD('roar',0.8);
+  GAP('lab',0.7); GAP('army',1.0); HOLD('drop',0.7); HOLD('pBoxOff',0.5); GAP('cave',1.0); HOLD('cave',0.7); HOLD('beams',1.6); HOLD('join',2.4);   /* beams → CHIA ĐÔI MÀN Catvader | Evil Gary bước vào → join */   /* join → CẬN CẢNH 2 Friend bị rút (CU) → mới về toàn cảnh vỡ tan */ HOLD('stEyes',0.4); HOLD('roar',0.8);
   const CU0=T.join+1.0, CU1=T.join+3.0;   // 🔍 cận cảnh 1 con Friend to cả màn: lao đâm "nhoi nhoi" vào lồng khi đang bị hút
+  const SJ0=T.join-1.75, SJ1=T.join-0.35;   // ✂️ màn chia đôi: nửa Catvader · nửa Evil Gary (anh dặn 30/10)
   const DUR=T.end;
   const PARTS2={ 1:{a:0, b:T.s2, title:'Meme Lore 2 · Ep 3 · The High Ground'}, 2:{a:T.carry0-1.5, b:DUR, title:'Meme Lore 2 · Ep 4 · Rise of Catvader'} };
   // ⚔️ ĐÁNH NHAU (0 → FL) — kịch bản anh dặn 30/10: 2 bên đứng CÙNG mặt đá bằng phẳng · Grumpy lướt cực nhanh đánh từ mọi phía nhưng TRƯỜNG LỰC chặn hết
@@ -290,11 +291,12 @@
   // ───────────────────── 🔊 LỊCH TIẾNG (1 nhịp 1 tiếng) ─────────────────────
   const SFX_PLAN=[[0.3,'ep3_lava',0.7,0],...ATK.map(([ta])=>[ta,'hit_heavy',0.85,0]),[TF.leap,'ep3_whoosh',0.9,0],[TF.blast,'cine_haki_hit',1.0,0],[TF.land,'cine_heavy_slow',1.0,0],   /* ⚔️ lướt · 5 đòn dội vào trường lực · lao đòn cuối · aura hất văng · rơi xuống mỏm thấp */
     [T.press,'sa_phase1',0.75,T.rage-T.press],[T.hit,'bonk',1.0,0],[T.rage-0.25,'sa_phase1',1.0,T.splash+0.55-T.rage],[T.rage+0.33,'thunder_big',0.9,0],[T.rage+1.6,'sa_menacing',1.0,0],   /* 😼 giống GAME: aura áp lực = sa_phase1 (lớp 2 to hơn lúc nổi giận) · ゴゴゴ = sa_menacing · mặt quỷ không gầm */[T.crush,'ep3_rock',1.0,0],[T.splash-0.05,'ep3_whoosh',1.0,0],
-    [K.open-0.1,'ep3_kamui',1.0,0],[K.members,'ep3_pain4',1.0,4],[K.eye,'nj_sharingan',1.0,0],[K.warp-0.3,'ep3_kamui',0.85,0],   /* 🌀 cổng Kamui · 4s nhạc Pain lúc Akatsuki hiện ra · 👁️ Sharingan (tiếng của chính Ninja Cat) · Kamui hút / nhả Grumpy */
+    [K.open-0.1,'ep3_kamui',1.0,0],[K.eyes,'ep3_end_boom',1.0,0],   /* 💥 Grumpy mở mắt — hết tập */
+    [K.members,'ep3_pain4',1.0,4],[K.eye,'nj_sharingan',1.0,0],[K.warp-0.3,'ep3_kamui',0.85,0],   /* 🌀 cổng Kamui · 4s nhạc Pain lúc Akatsuki hiện ra · 👁️ Sharingan (tiếng của chính Ninja Cat) · Kamui hút / nhả Grumpy */
     [T.doorShut,'ep3_klunk',1.0,0],[T.serum,'ep3_hydraulic',0.9,0],[T.ray,'ultimate_charge_2',0.9,0],[T.cool,'gas_leak',0.8,1.6],
     [T.leg-0.55,'ep3_ratchet',0.8,0],[T.leg,'ep3_klunk',1.0,0],[T.body-0.55,'ep3_ratchet',0.8,0],[T.body,'ep3_klunk',1.0,0],[T.helm,'ep3_shine',1.0,0],[T.helm+0.15,'flyingcat_theme',0.8,T.cave-T.helm-0.4],
     [T.breath,'ep3_breath',1.0,0],[T.hand,'ep3_force',1.0,0],[T.choke,'ep3_choke',0.9,0],[T.drop+0.35,'cine_drop',1.0,0],
-    [T.painOut+0.35,'ep3_dark',0.8,0],[T.fist+0.15,'ep3_glass',0.8,0],[T.beams,'ep3_charge',1.0,0],[T.join,'eg_necro',1.0,0],[CU0+0.05,'fr_dash',1.0,0],[CU0+0.5,'fr_dash',1.0,0],[CU0+0.95,'fr_dash',1.0,0],[CU0+1.4,'fr_dash',1.0,0],   /* 🐈‍⬛ tiếng "nhoi nhoi" lướt đâm của Friend trong game — mỗi cú húc lồng 1 tiếng (trùng RAMS) */
+    [T.painOut+0.35,'ep3_dark',0.8,0],[T.fist+0.15,'ep3_glass',0.8,0],[T.beams,'ep3_charge',1.0,0],[SJ0,'ep3_breath',0.9,0],[T.join,'eg_necro',1.0,0],[CU0+0.05,'fr_dash',1.0,0],[CU0+0.5,'fr_dash',1.0,0],[CU0+0.95,'fr_dash',1.0,0],[CU0+1.4,'fr_dash',1.0,0],   /* 🐈‍⬛ tiếng "nhoi nhoi" lướt đâm của Friend trong game — mỗi cú húc lồng 1 tiếng (trùng RAMS) */
     [T.sealBreak,'ep3_glass',1.0,0],[T.cageBurst+0.05,'death_break',1.0,0],[T.dash,'soul_steal',0.9,0],
     [T.shake,'ep3_quake',1.0,0],[T.real,'ep3_titan',1.0,0],[T.grow+0.6,'ep3_rock',0.9,0],[T.out+0.15,'ep3_explode',1.0,0],[T.roar,'fr_titan_roar',1.0,0]];   /* (bỏ tiêu đề cuối + tiếng nổ theo yêu cầu 30/10) */
   for(const L of LINES){ let n=0; for(let i=0;i<L.txt.length;i++){ if(L.txt[i]===' ') continue; if((n++)%2) continue; SFX_PLAN.push([L.t+0.25+i/CPS,'ep3_blip',0.7,0]); } }   // tiếng "píp" chữ pixel (cách 1 chữ kêu 1 lần)
@@ -357,7 +359,13 @@
   // → NINJA CAT đứng phía sau: Mangekyou Sharingan loé sau lưng, xoay vòng (đúng hiệu ứng trong game) → Kamui hút Grumpy khỏi dung nham
   // → Kamui thứ 2 nhả Grumpy (cháy nửa người) nằm trên bậc đá → zoom vào mặt: khẽ cử động
   const NJ_SHAR=A('assets/img/ninjacat/NJ_SHARINGAN.webp');
-  let PAINS=null;
+  let PAINS=null, AVS=null;
+  // 🕶️ bóng thành viên ở cảnh Kamui cắt từ CHÍNH AVATAR (anh chê bóng áo choàng vuông vức 30/10): đen tuyền + viền tím, không lộ mặt · cỡ theo dáng từng meme · mắt (tỉ lệ khung ảnh)
+  const AVM=[{h:1.0,eye:[[0.45,0.21],[0.60,0.21]]},{h:0.9,eye:[[0.30,0.37],[0.72,0.37]]},{h:1.15,eye:[[0.27,0.40],[0.44,0.38]]},{h:1.45,eye:[[0.43,0.11],[0.60,0.11]]}];   // Ninja · Mewing · Infinity Doge · Doorbell Chud
+  function avSils(KIT){ if(AVS) return AVS; const ims=KIT.imgs().slice(4); AVS=ims.map(im=>{ const c=prep(im); if(!c) return null; const pad=8, o=mk(c.sw+pad*2,c.sh+pad*2), x=o.getContext('2d');
+      x.filter='blur(4px)'; x.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,pad,pad,c.sw,c.sh); x.filter='none'; x.globalCompositeOperation='source-in'; x.fillStyle='rgba(150,70,230,0.9)'; x.fillRect(0,0,o.width,o.height);
+      x.globalCompositeOperation='source-over'; const d=mk(c.sw,c.sh), y=d.getContext('2d'); y.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,0,0,c.sw,c.sh); y.globalCompositeOperation='source-in'; y.fillStyle='#07040c'; y.fillRect(0,0,c.sw,c.sh); x.drawImage(d,pad,pad);
+      return {c:o, pad, sw:c.sw, sh:c.sh}; }); if(AVS.some(a=>!a)) { const r=AVS; AVS=null; return r; } return AVS; }
   function painSil(){ if(PAINS) return PAINS; const c=prep(IMG.pain); if(!c) return null; const pad=10, o=mk(c.sw+pad*2,c.sh+pad*2), x=o.getContext('2d');
     x.filter='blur(5px)'; x.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,pad,pad,c.sw,c.sh); x.filter='none'; x.globalCompositeOperation='source-in'; x.fillStyle='rgba(150,70,230,0.9)'; x.fillRect(0,0,o.width,o.height);
     x.globalCompositeOperation='source-over'; const d=mk(c.sw,c.sh), y=d.getContext('2d'); y.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,0,0,c.sw,c.sh); y.globalCompositeOperation='source-in'; y.fillStyle='#07040c'; y.fillRect(0,0,c.sw,c.sh); x.drawImage(d,pad,pad);
@@ -384,15 +392,15 @@
     // 🪨 tảng đá lơ lửng (Ninja Cat đứng trên)
     const [fx,fy]=MEMK[FLOAT], bob=Math.sin(t*1.6)*4; { const a=eio(seg(t,K.peak+0.3,K.peak+0.6)); if(a>0){ g.save(); g.globalAlpha=a; const Pf=[[fx-46,fy+bob+4],[fx-20,fy+bob-3],[fx+26,fy+bob-1],[fx+50,fy+bob+6],[fx+30,fy+bob+40],[fx+4,fy+bob+70],[fx-28,fy+bob+38]]; rockPoly(Pf,'#140909','#2c1a16','#7a2a10',fx|0); g.restore(); } }
     // 👥 4 thành viên (bóng đen, mắt đỏ) — hiện ra NGAY TRONG lúc không gian tháo xoắn
-    const KIT=window._l2e2Kit, SL=KIT?sils(KIT):[];
-    MEMK.forEach(([x,y],i)=>{ const t0=K.peak+0.35+0.12*i, a=eio(seg(t,t0,t0+0.6)), sl=SL[i], fg=FIGS&&FIGS[i]; if(!sl || !fg || a<=0) return; const yy=i===FLOAT?y+bob:y, h=MU*1.02, w=h*fg.width/fg.height, k=w/fg.width, fl=x>PX;
+    const KIT=window._l2e2Kit, SL=KIT?avSils(KIT):[];
+    MEMK.forEach(([x,y],i)=>{ const t0=K.peak+0.35+0.12*i, a=eio(seg(t,t0,t0+0.6)), sl=SL[i]; if(!sl || a<=0) return; const yy=i===FLOAT?y+bob:y, h=MU*AVM[i].h, w=h*sl.sw/sl.sh, k=w/sl.sw, fl=x>PX;
       if(i===0 && t>=K.eye && NJ_SHAR.naturalWidth){   // 👁️ Mangekyou Sharingan sau lưng Ninja Cat (port _njDrawUnder trong game): loé lên, xoay vòng, quầng đỏ
         const u=seg(t,K.eye,K.arrive+0.6), al=Math.min(seg(t,K.eye,K.eye+0.2),1-seg(t,K.arrive+0.2,K.arrive+0.6)), R=h*0.85*(1+0.18*Math.min(1,u*3)), cx=x, cy=yy-h*0.5;
         if(al>0){ g.save(); g.globalAlpha=al; g.globalCompositeOperation='lighter'; const gr=g.createRadialGradient(cx,cy,0,cx,cy,R*1.5); gr.addColorStop(0,'rgba(255,40,40,0.55)'); gr.addColorStop(1,'rgba(160,0,0,0)');
           g.fillStyle=gr; g.beginPath(); g.arc(cx,cy,R*1.5,0,Math.PI*2); g.fill(); g.globalCompositeOperation='source-over'; g.translate(cx,cy); g.rotate(-(t-K.eye)*2.2); g.drawImage(NJ_SHAR,-R,-R,R*2,R*2); g.restore();
           if(t<K.eye+0.18) fullFill('rgba(255,30,30,A)',0.3*(1-seg(t,K.eye,K.eye+0.18))); } }   // loé đỏ
-      g.save(); g.globalAlpha=a; g.translate(x,yy); if(fl) g.scale(-1,1); g.drawImage(sl,-w/2-sl._pad*k,-h-sl._pad*k,sl.width*k,sl.height*k); g.restore();
-      const ek=a*(0.75+0.25*Math.sin(t*5+i)); g.save(); g.globalCompositeOperation='lighter'; glow(x-5,yy-h*0.8,7,ek,'255,40,30'); glow(x+5,yy-h*0.8,7,ek,'255,40,30'); g.restore(); });
+      g.save(); g.globalAlpha=a; g.translate(x,yy); if(fl) g.scale(-1,1); g.drawImage(sl.c,-w/2-sl.pad*k,-h-sl.pad*k,sl.c.width*k,sl.c.height*k); g.restore();
+      const ek=a*(0.75+0.25*Math.sin(t*5+i)); g.save(); g.globalCompositeOperation='lighter'; for(const [ex,ey] of AVM[i].eye){ const px=x+(fl?-1:1)*(ex-0.5)*w, py=yy-h+ey*h; glow(px,py,h*0.05,ek,'255,40,30'); glow(px,py,h*0.015,ek,'255,200,190'); } g.restore(); });
     // 🟣 PAIN lơ lửng giữa (bóng đen, mắt Rinnegan tím âm ỉ)
     const ps=painSil(); if(ps){ const a=eio(seg(t,K.peak+0.3,K.peak+0.9)), h=MU*1.15, py=PAINY+Math.sin(t*1.3)*4, w=h*ps.sw/ps.sh, s=h/ps.sh;
       g.save(); g.globalAlpha=a; actor(ps,PX,py,h,{}); g.restore();
@@ -677,6 +685,22 @@
       glow(fxy[0],fxy[1],VW*0.35*imp+30,0.5*imp,'255,200,120'); g.restore(); }
     g.restore();
     if(u<0.04 || u>0.96){ g.save(); g.setTransform(SC,0,0,SC,0,0); g.fillStyle=`rgba(255,240,230,${0.5*(u<0.04?1-u/0.04:(u-0.96)/0.04)})`; g.fillRect(0,0,VW,VH); g.restore(); } }   // chớp nhẹ lúc cắt vào/ra
+  // ✂️ CHIA ĐÔI MÀN (chéo): nửa trên Catvader giơ tay trong aura haki đỏ đen · nửa dưới Evil Gary trong aura độc xanh — trượt vào từ 2 phía
+  function joinSplit(t){ if(t<SJ0 || t>=SJ1) return; const u=(t-SJ0)/(SJ1-SJ0), sl=eout(Math.min(1,u*4)), push=1+0.06*u;
+    const P=[{im:prep(IMG.vaderHand),pre:'haki',bg:['#3a0608','#080103'],line:'255,60,60',clip:[[0,0],[VW,0],[VW,VH*0.36],[0,VH*0.64]],fx:VW*0.36,fy:VH*0.6,h:VH*0.5,fl:false,dx:-1},
+             {im:prep(IMG.egary),pre:'toxic',bg:['#0a2a0c','#020803'],line:'120,255,120',clip:[[0,VH*0.64],[VW,VH*0.36],[VW,VH],[0,VH]],fx:VW*0.56,fy:VH*0.95,h:VH*0.3,fl:true,dx:1}];
+    g.save(); g.setTransform(SC,0,0,SC,0,0); g.fillStyle='#000'; g.fillRect(0,0,VW,VH);
+    for(const p of P){ g.save(); g.beginPath(); p.clip.forEach((q,i)=>i?g.lineTo(q[0],q[1]):g.moveTo(q[0],q[1])); g.closePath(); g.clip(); g.translate(p.dx*(1-sl)*VW,0);
+      const cy=p.fy-p.h*0.5; let gr=g.createRadialGradient(p.fx,cy,10,p.fx,cy,VW*0.9); gr.addColorStop(0,p.bg[0]); gr.addColorStop(1,p.bg[1]); g.fillStyle=gr; g.fillRect(-VW,0,VW*3,VH);
+      g.save(); g.globalCompositeOperation='lighter'; for(let i=0;i<40;i++){ const a=hash(i+(p.dx>0?70:0))*Math.PI*2, r0=p.h*0.45+((t*900+hash(i+5)*900)%(VW*0.9)), L=30+60*hash(i+9);   // vạch tốc độ toả ra
+        g.strokeStyle=`rgba(${p.line},${0.25*(1-r0/(VW*1.2))})`; g.lineWidth=1.5+2*hash(i+3); g.beginPath(); g.moveTo(p.fx+Math.cos(a)*r0,cy+Math.sin(a)*r0); g.lineTo(p.fx+Math.cos(a)*(r0+L),cy+Math.sin(a)*(r0+L)); g.stroke(); } g.restore();
+      if(p.im){ const h=p.h*push, w=h*p.im.sw/p.im.sh;
+        if(window.VfxGL) VfxGL.drawAura(g,p.im.src,{preset:p.pre,sx:p.im.sx,sy:p.im.sy,sw:p.im.sw,sh:p.im.sh,x:p.fx,y:p.fy,w,h,t,k:1,flip:p.fl,seed:p.dx*3});
+        g.save(); g.translate(p.fx,p.fy); if(p.fl) g.scale(-1,1); g.drawImage(p.im.src,p.im.sx,p.im.sy,p.im.sw,p.im.sh,-w/2,-h,w,h); g.restore(); }
+      g.restore(); }
+    g.lineWidth=10; g.strokeStyle='#000'; g.beginPath(); g.moveTo(-10,VH*0.64+3); g.lineTo(VW+10,VH*0.36-3); g.stroke(); g.lineWidth=3; g.strokeStyle='rgba(255,255,255,0.9)'; g.stroke();   // đường chia chéo
+    if(u>0.93){ g.fillStyle=`rgba(0,0,0,${(u-0.93)/0.07})`; g.fillRect(0,0,VW,VH); }
+    g.restore(); }
   function scene5(t){
     const K=window._l2e2Kit; if(!K || !K.get().BG){ return; } const prevG=K.setG(g), C=K.C, G=K.get(), ST=G.ST, CG=C.CAGE, tt=T2+(t-T.cave), fc=prep(K.imgs()[1]);
     K.bg();
@@ -735,7 +759,7 @@
     K.fog(tt,0.6); K.motes(tt,0.7);
     K.setG(prevG);
     fullFill('rgba(14,6,26,A)',0.22);
-    friendCloseups(t);
+    friendCloseups(t); joinSplit(t);
     
   }
   // ───────────────────── 🎬 CẢNH 6 · NGOÀI NÚI: tượng Friend khổng lồ phá núi chui ra, đuôi kiểu Thập Vĩ mọc từ sau lưng lên tận trời ─────────────────────
