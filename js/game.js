@@ -14973,12 +14973,33 @@ function _skyDraw(vw,vh){   // vẽ trong toạ độ MÀN HÌNH (đã setTransf
   ctx.restore();
 }
 // mặt sân (toạ độ world 0..W × 0..H) — dùng chung cho mọi chế độ
+// 🌿 CỎ TÍM phủ mặt sân (anh gửi miếng cỏ xanh, bảo thay ô vuông + đổi tím nhạt hợp màu sân): cắt bỏ 2 mép tối của miếng cỏ,
+//    lật gương 2×2 thành miếng ghép LIỀN (không lộ đường nối), tô lại tím theo độ sáng từng sợi cỏ. Nằm phẳng sát nền, phủ vừa phải để không lấn meme / hiệu ứng.
+const FLOOR_GRASS=new Image(); FLOOR_GRASS.onload=()=>{ _floorCache=null; };   // ảnh về sau khi sân đã bake → bake lại có cỏ
+FLOOR_GRASS.src='assets/img/arena/GRASS.png';
+let _grassTile=null;
+// rải cỏ: đóng nhiều MẢNG cỏ (mép mờ dần) xoay/lật theo băm toạ độ, chồng lên nhau → không lộ lặp, không đường nối (không dùng Math.random)
+function _grassPaint(g,alpha){
+  if(!FLOOR_GRASS.naturalWidth) return false;
+  if(!_grassTile){ const sw=FLOOR_GRASS.naturalWidth, y0=4, sh=Math.max(8,FLOOR_GRASS.naturalHeight-12);   // bỏ hàng ngọn cỏ trên + bóng tối dưới của miếng gốc
+    const t=document.createElement('canvas'); t.width=sw; t.height=sh; const x=t.getContext('2d'); x.drawImage(FLOOR_GRASS,0,y0,sw,sh,0,0,sw,sh);
+    const id=x.getImageData(0,0,sw,sh), d=id.data; let lo=255, hi=0; const L=new Float32Array(d.length/4);
+    for(let i=0;i<L.length;i++){ const v=0.3*d[i*4]+0.59*d[i*4+1]+0.11*d[i*4+2]; L[i]=v; if(v<lo) lo=v; if(v>hi) hi=v; }
+    const A=[62,52,112], B=[140,124,204];   // tím đậm (kẽ cỏ) → tím nhạt (ngọn cỏ)
+    for(let i=0;i<L.length;i++){ const px=i%sw, py=(i/sw)|0, ex=Math.min(px,sw-1-px)/(sw*0.5), ey=Math.min(py,sh-1-py)/(sh*0.5), fe=Math.min(1,Math.min(ex,ey)*2.2);   // mép mảng mờ dần
+      const k=Math.pow((L[i]-lo)/Math.max(1,hi-lo),1.15); for(let c=0;c<3;c++) d[i*4+c]=Math.round(A[c]+(B[c]-A[c])*k); d[i*4+3]=Math.round(255*fe*fe*(3-2*fe)); }
+    x.putImageData(id,0,0); _grassTile=t; }
+  const u=W/480, T=_grassTile, s=0.62*u, pw=T.width*s, ph=T.height*s, step=Math.min(pw,ph)*0.55;
+  g.save(); g.globalAlpha=alpha;
+  for(let j=-1, row=0; j*step<H+ph; j++, row++) for(let i=-1; i*step<W+pw; i++){ const h1=_skH(i*53+j*97+1300), h2=_skH(i*29+j*61+1400);
+    const cx=(i+0.5+(h1-0.5)*0.9)*step, cy=(j+0.5+(h2-0.5)*0.9)*step;
+    g.save(); g.translate(cx,cy); g.rotate(h1*Math.PI*2); g.scale(h2<0.5?-1:1, 1); g.drawImage(T,-pw/2,-ph/2,pw,ph); g.restore(); }
+  g.restore(); return true;
+}
 function _paintFloorTop(g){ const u=W/480;
   g.save(); g.beginPath(); if(g.roundRect) g.roundRect(0,0,W,H,FLOOR_R*u); else g.rect(0,0,W,H); g.clip();   // bo góc sân
   let gr=g.createRadialGradient(W/2,H/2,Math.min(W,H)*0.12,W/2,H/2,Math.hypot(W,H)*0.58); gr.addColorStop(0,'#25224a'); gr.addColorStop(0.6,'#2b2752'); gr.addColorStop(1,'#3a3274'); g.fillStyle=gr; g.fillRect(0,0,W,H);
-  const T=60*u, nx=Math.ceil(W/T), ny=Math.ceil(H/T);   // ô đá rất mờ
-  for(let i=0;i<nx;i++) for(let j=0;j<ny;j++){ const k=_skH(i*31+j*17+500); g.fillStyle=k<0.5?`rgba(255,255,255,${0.018*k})`:`rgba(0,0,10,${0.05*(k-0.5)})`; g.fillRect(i*T,j*T,T,T); }
-  g.strokeStyle='rgba(210,200,255,0.05)'; g.lineWidth=1*u; g.beginPath(); for(let i=1;i<nx;i++){ g.moveTo(i*T,0); g.lineTo(i*T,H); } for(let j=1;j<ny;j++){ g.moveTo(0,j*T); g.lineTo(W,j*T); } g.stroke();
+  _grassPaint(g,0.42);   // 🌿 cỏ tím (thay lưới ô đá cũ)
   for(const [x0,y0,x1,y1,w] of [[0,0,0,1,W],[0,H,0,-1,W],[0,0,1,0,H],[W,0,-1,0,H]]){ const L=70*u, lg=g.createLinearGradient(x0,y0,x0+x1*L,y0+y1*L); lg.addColorStop(0,'rgba(120,150,255,0.26)'); lg.addColorStop(0.4,'rgba(170,110,255,0.10)'); lg.addColorStop(1,'rgba(150,110,255,0)');   // mép sân sáng tím-xanh như ảnh mẫu
     g.fillStyle=lg; if(x1===0) g.fillRect(0,Math.min(y0,y0+y1*L),W,L); else g.fillRect(Math.min(x0,x0+x1*L),0,L,H); }
   g.restore();
