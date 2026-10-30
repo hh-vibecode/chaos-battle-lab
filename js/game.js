@@ -734,7 +734,7 @@ const CHAR_DEFS = {
 huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:'#e0e0e0', hp:1000,  speed:5, size:43, skill:'Tích lực 0.5s rồi bắn luồng "HUH" bám mục tiêu (90 dmg, tầm 340, 25% choáng 1.5s). Chậm dần lại lúc tích lực (không đứng hẳn).' },
     popcat:     { key:'popcat',     defaultName:'Pop Cat',      emoji:'😺', color:'#ffb347', hp:1000,  speed:5, size:43, skill:'Há mồm POP là phả ra 1 vòng khói chữ O bay về phía địch, tầm phủ hết sàn. Vòng khói to dần như thổi vape, ra tới mép sàn thì tan như khói. Càng bắn càng nhanh.' },
     ricardo:    { key:'ricardo',    defaultName:'Ricardo Milos',emoji:'🕺', color:'#ff69b4', hp:1000, speed:5, size:45, skill:'Cứ vài giây lại đứng giữa spotlight uốn éo 4 điệu, mỗi lần nhảy xong +30 dame, đang nhảy thì đánh trúng cũng nửa phần trượt. Tụt dưới 35% máu là bật nhạc, thả quả cầu disco, sàn LED nhấp nháy rồi quẩy không nghỉ: cứ mỗi giây +10 dame, mỗi nhịp đổi một điệu giật đùng đùng, né nửa số đòn suốt tới cuối trận.' },
-    doge:       { key:'doge',       defaultName:'Doge',         emoji:'🐕', color:'#f4a460', hp:1000, speed:5, size:44, skill:'Bắn meme text (40 dmg, tầm 340). Sau 5 đòn ăn được → hóa Buff Doge trong 10s: hồi máu, +20% tốc chạy, +50% kích cỡ, cận chiến 120 dmg, và +20% máu tối đa VĨNH VIỄN (giữ nguyên sau khi hết buff). Hết giờ các buff khác tự trở lại bình thường. Từ lần biến hình THỨ 2: thức tỉnh HAKI VŨ TRANG (trận đứng hình 1s, 2 tay hoá đen bóng) — dạng buff từ đó chỉ đấm, 145 dame.' },
+    doge:       { key:'doge',       defaultName:'Doge',         emoji:'🐕', color:'#f4a460', hp:1000, speed:5, size:44, skill:'Bắn meme text (40 dmg, tầm 340). Sau 5 đòn ăn được → hóa Buff Doge trong 10s: hồi máu, +20% tốc chạy, +50% kích cỡ, và +20% máu tối đa VĨNH VIỄN (giữ nguyên sau khi hết buff). Hết giờ các buff khác tự trở lại bình thường. Ngay lần biến hình ĐẦU: thức tỉnh HAKI VŨ TRANG (trận đứng hình 1s, 2 tay hoá đen bóng) — dạng buff chỉ đấm haki, 145 dame.' },
     feuerkatze: { key:'feuerkatze', defaultName:'Adolf Catler', emoji:'🔥', color:'#ff7043', hp:1000,  speed:5, size:43, skill:'Chạm địch: 50 dmg tức thì + thiêu đốt 10 dmg mỗi 0.5s trong 4s (tổng 80 dmg đốt, cộng dồn 130 dmg cả combo). Hồi chiêu 0.5s giữa các đòn, cận chiến lao vào liên tục. Lửa đốt của nó bén khí độc: địch đang cháy mà đứng trong khí thì ăn DOT ×1.5 (15 dmg mỗi 0.5s). Không bao giờ để địch hạ gục: đòn lẽ ra giết nó thì nó khựng lại, giơ tay, kề súng vào thái dương và tự kết liễu. Khi máu tụt dưới 70%: đứng nghiêm giơ tay hát quốc ca (đứng im tới hết bài), 2 vòi từ tường trái/phải nhô ra trong 2.5s rồi mở van khí độc gắn giữa tường trái/phải, cả sàn ngập sương xanh — mọi meme và summon trong sân (trừ chính nó) ăn 10 dmg mỗi 0.5s, mỗi giây địch có 15% đứng hình ho sặc sụa 1s.' },
     cornelius: { key:'cornelius', defaultName:'Cornelius', emoji:'🍳', color:'#8d6e63', hp:1000, speed:5, size:44, skill:'Phi chảo liên tục vào địch gần nhất, mỗi chảo 60 dmg (1.3s/cái). Địch nào ăn đủ 8 chảo sẽ bị đánh dấu 🍳; lần tới Cornelius áp sát nó, một cái chảo khổng lồ hiện ra dưới chân nó kèm chữ LET HIM COOK — nó bị giữ trong chảo, lắc qua lắc lại giữa lửa và đồ ăn suốt 2.5s rồi ăn 300 dmg. Nấu xong thì đếm lại từ đầu.' },
     epicsaxguy: { key:'epicsaxguy', defaultName:'Epic Sax Guy', emoji:'🎷', color:'#ffb300', hp:1000, speed:5, size:53.2, skill:'Thổi sax theo chu kỳ: trước mỗi lần thổi 1s có 1 con Squirtle chui lên từ sàn ở chỗ ngẫu nhiên (không trùng chỗ con cũ, không giới hạn số con, ở lại tới hết trận). Cả bọn thổi cùng, mỗi nhịp mỗi Squirtle nện ra một luồng sóng âm bán kính 143: địch trong vùng ăn 23-46 dmg tuỳ cự ly, sát chân là ăn đủ 46. Lúc đang thổi: -20% tốc chạy, -35% sát thương nhận vào. Thổi xong nghỉ lấy hơi 1s. Nhạc sax phát nhanh ×1.1.' },
@@ -12530,7 +12530,7 @@ const CHAR_BLURB = {
   huhcat: "Charges up, then fires a piercing beam that homes in on its target.",
   popcat: "Pops its mouth and blows vape-style smoke rings at enemies, firing faster with every single pop.",
   ricardo: "Dances in the spotlight for damage, dodges half your hits mid-dance, and turns into a full disco at low health.",
-  doge: "Throws meme text from range. After enough hits it heals and transforms into a stronger buff form. From the second transformation on it awakens Armament Haki: jet-black arms and heavy punches.",
+  doge: "Throws meme text from range. After enough hits it heals and transforms into a stronger buff form, awakening Armament Haki right away: jet-black arms and heavy punches.",
   feuerkatze: "A relentless brawler that sets anything it touches on fire. Once wounded below 75% HP, he bolts gas valves into the arena walls and lets the whole floor choke on green fog.",
   germancat: "Stops to give a speech while its soldiers do the fighting, taking reduced damage throughout.",
   uiacat: "Stands still to wind up, then spins out at high speed with reduced damage taken. Below 25% HP it teleports away, goes Hiphop for good, and floods the floor with spinning clones.",
@@ -13949,7 +13949,7 @@ function _flCosFG(){
 //   • dạng buff: thở phồng ngực, thỉnh thoảng gồng cơ, bước đi nặng nề có bụi, hào quang vàng bốc lửa
 //   • đòn búa: ngả người lấy đà → bổ xuống (thân bẹp) → chỗ trúng: chớp + sao truyện tranh + "BONK!" + sóng + nứt đất + bụi
 //   • hết buff: xì hơi thu nhỏ lại + khói
-const DG_MORPH=70, DG_DEFLATE=30, DG_SLAM_DELAY=7;
+const DG_MORPH=70, DG_DEFLATE=30;
 const DG_WORDS=['wow','such strong','very buff','much power','so swole','many gains','amaze','very muscle'];
 const DG_COLS=['#ff4081','#00e5ff','#ffea00','#76ff03','#ff9100','#e040fb'];
 // 🖤 HAKI VŨ TRANG (từ LẦN BIẾN HÌNH THỨ 2): trận đóng băng 1s, 2 tay hoá đen bóng · dạng buff chỉ ĐẤM (không búa), 145 dame
@@ -13985,8 +13985,6 @@ function _dgFace(f){ const e=f.enemy; return e ? (e.x>=f.x?1:-1) : 1; }
 // gọi lúc biến hình / hết buff / vung búa
 function _dgOnTransform(f){ f._dgMorph=DG_MORPH; _dgFx({k:'morph', f, T:DG_MORPH+40}); }
 function _dgOnRevert(f){ f._dgDeflate=DG_DEFLATE; _dgFx({k:'poof', x:f.x, y:f.y, r:f.size*1.4, T:30, b:Array.from({length:12},()=>[Math.random()*Math.PI*2,0.4+Math.random()*0.6,0.35+Math.random()*0.4])}); }
-function _dgOnSlam(f,e){ f._dgAtk=28; _dgFx({k:'slam', x:e.x, y:e.y, s:Math.max(e.size,30), a:Math.random()*0.6-0.3, T:34+DG_SLAM_DELAY, d:DG_SLAM_DELAY,
-  cr:Array.from({length:9},(_,i)=>{ const a=i/9*Math.PI*2+Math.random()*0.5, pts=[[0,0]]; let x=0,y=0,aa=a; for(let k=0;k<4;k++){ aa+=(Math.random()-0.5)*0.7; const L=0.25+Math.random()*0.25; x+=Math.cos(aa)*L; y+=Math.sin(aa)*L*0.55; pts.push([x,y]); } return pts; })}); }
 const _dgSS=(x)=>{ x=Math.max(0,Math.min(1,x)); return x*x*(3-2*x); };                       // smoothstep: vào/ra êm
 const _dgOut=(x)=>1-Math.pow(1-Math.max(0,Math.min(1,x)),3);                                     // ease-out
 const _dgElastic=(x)=>{ x=Math.max(0,Math.min(1,x)); return 1-Math.exp(-5*x)*Math.cos(x*9); };   // nảy đàn hồi nhẹ rồi êm
@@ -14002,7 +14000,7 @@ function _dogeAnim(f){
     f._dgStep=(f._dgStep||0)+(0.11+spd*0.025)*f._dgMv; const ph=f._dgStep, mv=f._dgMv;
     o.oy-=Math.pow(Math.sin(ph),2)*f.size*0.06*mv; o.rot+=Math.sin(ph)*0.05*mv;
     const st=Math.floor(ph/Math.PI); if(st!==f._dgLastStep){ f._dgLastStep=st; if(mv>0.5) spawnParticles(f.x+(Math.random()-0.5)*f.size*0.6, f.y+f.size*0.85, '#d7c4a3', 2, false, false); }
-    // 🔨 vung búa: ngả ra sau (êm) → bổ xuống (nhanh, ra êm) → hồi về (êm)
+    // 🖤 lấy đà cú đấm haki: ngả ra sau (êm) → tung tới (nhanh, ra êm) → hồi về (êm)
     if((f._dgAtk||0)>0){ const a=1-f._dgAtk/28;
       let lean, push, sq;
       if(a<0.3){ const k=_dgSS(a/0.3); lean=-0.18*k; push=0; sq=-0.5*k; }
@@ -14141,25 +14139,6 @@ function _dogeFxDraw(){
           ctx.font=`bold ${Math.round(s*0.42)}px "Comic Sans MS","Comic Sans",cursive`; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.lineJoin='round';
           ctx.shadowColor='rgba(0,0,0,0.35)'; ctx.shadowBlur=6; ctx.lineWidth=2.4; ctx.strokeStyle='rgba(0,0,0,0.85)'; ctx.strokeText(W2.w,0,0); ctx.shadowBlur=0; ctx.fillStyle=W2.c; ctx.fillText(W2.w,0,0); ctx.restore(); }
       }
-    } else if(F.k==='slam'){
-      const t=F.t-F.d; if(t<0){ ctx.restore(); continue; }
-      const x=F.x, y=F.y, s=F.s;
-      if(t===0){ F.dust=Array.from({length:8},(_,q)=>[q/8*Math.PI*2+Math.random()*0.5, 0.6+Math.random()*0.6, 0.3+Math.random()*0.2]);
-        const _hi=getLibVfxImg('Effect_SmallHit_1_516x46'), _bl=getLibVfxImg('blast');   // 💥 sprite VFX thật trong kho: chớp nổ tia lửa vàng + bụi tung sát đất
-        if(_hi) playVFX(_hi,x,y,0,s*3.2,null,{durFrames:24});
-        if(_bl) playVFX(_bl,x,y+s*0.4,0,s*3.6,null,{durFrames:20}); }
-      for(const [a,sp,r] of F.dust){ const k=_dgOut(t/26), d=s*(0.4+1.2*k)*sp; _dgPuff(x+Math.cos(a)*d, y+s*0.45+Math.sin(a)*d*0.35-k*s*0.2, s*r*(0.6+0.9*k), 0.5*(1-_dgSS(t/30)), '225,210,185'); }
-      ctx.globalCompositeOperation='lighter';
-      _dgGlow(x,y,s*(1+0.9*_dgOut(t/10)),0.85*Math.pow(1-Math.min(1,t/12),2),'255,250,225');
-      { const v=t/24; if(v<1){ const R=s*(0.6+2.2*_dgOut(v)); _dgRing(x,y+s*0.3,R,R*0.5,0.7*Math.pow(1-v,1.5),s*0.06*(1-v)+1,'255,190,90'); } }
-      ctx.globalCompositeOperation='source-over';
-      if(t<26){   // 💬 chữ BONK! bật ra đàn hồi, có quầng sáng, mờ êm
-        const pop=_dgElastic(t/14)*(1-0.12*_dgSS((t-12)/14)), al=1-_dgSS((t-14)/12);
-        ctx.save(); ctx.globalAlpha=al; ctx.translate(x,y-s*0.95-t*0.4); ctx.rotate(F.a*0.5+Math.sin(t*0.5)*0.05*(1-t/26)); ctx.scale(pop,pop);
-        const px=Math.round(s*0.55); ctx.font=`900 ${px}px Impact,"Arial Black",sans-serif`; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.lineJoin='round';
-        ctx.shadowColor='rgba(255,120,0,0.75)'; ctx.shadowBlur=px*0.5; ctx.lineWidth=px*0.16; ctx.strokeStyle='#3a1500'; ctx.strokeText('BONK!',0,0); ctx.shadowBlur=0;
-        const tg=ctx.createLinearGradient(0,-px*0.5,0,px*0.5); tg.addColorStop(0,'#fff3c4'); tg.addColorStop(0.45,'#ffb300'); tg.addColorStop(1,'#e53935');
-        ctx.fillStyle=tg; ctx.fillText('BONK!',0,0); ctx.restore(); }
     } else if(F.k==='poof'){
       const p=F.t/F.T, k=_dgOut(p);
       for(const [a,sp,r] of F.b){ const d=F.r*(0.3+0.9*k)*sp; _dgPuff(F.x+Math.cos(a)*d, F.y+Math.sin(a)*d*0.7-k*F.r*0.4, F.r*r*(0.5+0.8*k), 0.6*(1-_dgSS(p)), p<0.2?'255,224,130':'232,226,214'); }
@@ -17129,7 +17108,7 @@ class Fighter {
     if(this._nyanHitCD>0) this._nyanHitCD--;
     this.rageFlash=Math.max(0,this.rageFlash-1);
     this.dogeTransformFlash=Math.max(0,this.dogeTransformFlash-1);
-    if(this.type==='doge') _dogeTick(this);   // 🐕 timer hoạt ảnh biến hình / vung búa / xì hơi
+    if(this.type==='doge') _dogeTick(this);   // 🐕 timer hoạt ảnh biến hình / lấy đà đấm / xì hơi
     if(this.type==='doge' && this.dogeBuffed && !this.dead){
       this._dogeBuffTimer=Math.max(0,(this._dogeBuffTimer||0)-1);
       if(this._dogeBuffTimer<=0) this._dogeRevert();
@@ -19199,18 +19178,6 @@ class Fighter {
         this.cooldown=30;
         this.actionState='attack'; this.actionTimer=28; this.attackAvatarTimer=28;
         playSample('cine_strongpunch',0.9);
-      } else if(this.dogeBuffed && this.cooldown<=0 && touching){
-        e.takeDamage(120,this); // dame x2
-        playSample('punch2',0.85);
-        for(const s of germanSoldiers){if(s.dead||s.hp<=0||s.team===this.team)continue;const sdx=s.x-this.x,sdy=s.y-this.y,sd=Math.sqrt(sdx*sdx+sdy*sdy)||1;if(sd<this.size+38+6){_dmgSoldier(s,120,'#f4a460',this.x,this.y,undefined,undefined,this.team);}}
-        _hitParticles(e.x,e.y,'#f4a460',4,false,true);
-        _hitParticles(e.x,e.y,'#ffffff',4,false,true);
-        addShake(6,8);
-        _dgOnSlam(this,e);   // 🔨 bổ búa: thân ngả lấy đà → bổ xuống · chỗ trúng: chớp + sao truyện tranh + BONK! + sóng + nứt đất
-        this.cooldown=30;
-        this.actionState='attack'; this.actionTimer=28; this.attackAvatarTimer=28;
-        playSample('punch2',0.85);
-        playSample('bonk',0.9);
       }
     }
 
@@ -21246,7 +21213,7 @@ class Fighter {
     this.dogeTransformFlash=40;
     addShake(10,20);
     this._dgTfN=(this._dgTfN||0)+1;
-    const _hakiNew = this._dgTfN>=2 && !this._dgHaki;   // 🖤 lần biến hình THỨ 2: thức tỉnh haki vũ trang (giữ cho mọi lần buff sau)
+    const _hakiNew = this._dgTfN>=1 && !this._dgHaki;   // 🖤 thức tỉnh haki vũ trang NGAY lần biến hình ĐẦU (anh đổi 30/10; trước là lần 2) — giữ cho mọi lần buff sau
     floatTexts.push({x:this.x,y:this.y-this.size-30,text:_hakiNew?'ARMAMENT HAKI':'MUCH POWER',color:_hakiNew?'#c9d3ff':'#f4a460',life:80,huge:true});
     floatTexts.push({x:this.x,y:this.y-this.size-16,text:'+20% MAX HP',color:'#44ff88',life:50,big:true});
     if(_hakiNew){ this._dgHaki=true; this._dgHakiOn=performance.now(); battleFreezeTimer=Math.max(battleFreezeTimer,DG_HAKI_FREEZE);
