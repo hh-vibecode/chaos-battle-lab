@@ -5363,7 +5363,7 @@ let loadingArrows=[]; // Loading Cat — mũi tên phép vĩnh viễn, xuyên qu
 // Vào trận 1s thì bắt đầu ĐẤM KHỞI ĐỘNG liên tục; cứ 0.5s khởi động, cú đấm kế tiếp +INC dame (gốc 50). Chạm địch (cả quân triệu hồi có máu)
 // là tung cú đấm đã tích. Đấm xong nghỉ 0.5s rồi khởi động lại, và INC của lượt sau +5 (10 → 15 → 20 … vô hạn).
 // >200 dame: choáng. VFX kiểu Râu Trắng (Gura Gura): quả cầu chấn động trắng + KHÔNG GIAN NỨT VỠ như kính — chia 3 bậc ≥100 · ≥180 · ≥250.
-const GC_PUNCH_IMG=new Image(); GC_PUNCH_IMG.onload=()=>{ GC_PUNCH_IMG._crop={sx:0,sy:0,sw:GC_PUNCH_IMG.naturalWidth,sh:GC_PUNCH_IMG.naturalHeight}; }; GC_PUNCH_IMG.src='assets/img/cine/CINE_GIGA_PUNCH.webp';   // 🗿 ảnh Gigachad đấm (phim)
+const GC_PUNCH=['GC_PUNCH_STRAIGHT','GC_PUNCH_HOOK'].map(n=>{ const im=new Image(); im._noMask=true; im._byH=1; im.onload=()=>{ im._crop={sx:0,sy:0,sw:im.naturalWidth,sh:im.naturalHeight}; }; im.src='assets/img/gigachad/'+n+'.webp'; return im; });   // 🗿 2 dáng đấm (anh gửi 30/10): đấm thẳng · đấm móc — luân phiên mỗi cú · đã tách nền, cắt ngang đùi như avatar khổng lồ · _byH: co theo CHIỀU CAO (ảnh rộng ngang, không thì thân bé đi)
 const BX_BASE=50, BX_STEP=30, BX_REST=30, BX_START=60, BX_INC0=10, BX_INC_ADD=5, BX_STUN_DMG=200, BX_STUN_T=60;
 let bxFx=[];
 // 🥊 20 khung KHỞI ĐỘNG (spritesheet user gửi, cắt đúng ô lưới → các khung trùng vị trí, không giật) · khung 1 = avatar / dáng đứng
@@ -18598,6 +18598,7 @@ class Fighter {
         for(const u of fighters){ if(u===e||u===this||u.dead||u.team===this.team) continue; if(Math.hypot(u.x-_gcHx,u.y-_gcHy)<=_gcR+u.size) u.takeDamage(_gcD,this); }
         for(const arr of _hpSummonArrays()) for(const u of arr){ if(!u||u.dead||u===e||u.team===this.team||(u.hp!==undefined&&u.hp<=0)) continue; if(Math.hypot(u.x-_gcHx,u.y-_gcHy)<=_gcR+(u.size||20)) _summonTakeDamage(u,_gcD,this); } }
       } finally{ _frBiteSilent=false; }
+      this._gcPunchN=(this._gcPunchN||0)+1;   // đổi dáng đấm cho cú sau
       _bxFxAt(this,_gcHx,_gcHy,_gcA,_gcD);   // 🥊 hiệu ứng + tiếng y hệt Boxing Cat theo bậc dame (≥250 = đấm max)
       this.cooldown=45;
       this.actionState='attack'; this.actionTimer=24; this.attackAvatarTimer=24;
@@ -21686,7 +21687,7 @@ class Fighter {
     // cho đúng ảnh này, không đụng gì tới facingDefault chung (avatar thường + đá song phi vẫn giữ nguyên).
     if(this.type==='chillguy' && this._cgUppercut && this.skill1AvatarTimer>0) facingLeft=!facingLeft;
     if(this.type==='doorbellchud' && DC_FR[0].naturalWidth) facingLeft=shouldFaceLeft;
-    if(this.type==='gigachad' && this.attackAvatarTimer>0 && GC_PUNCH_IMG.naturalWidth) facingLeft=shouldFaceLeft;   // 🗿 ảnh đấm (phim) nắm đấm chĩa sang PHẢI → lật về phía địch
+    if(this.type==='gigachad' && this.attackAvatarTimer>0 && GC_PUNCH[0].naturalWidth) facingLeft=shouldFaceLeft;   // 🗿 2 ảnh đấm đều đánh sang PHẢI → lật về phía địch
     if(this.type==='alottadameguy' && LD_FR[0].naturalWidth) facingLeft=shouldFaceLeft;
     if(this.type==='arabiccat' && AR_FR[0].naturalWidth) facingLeft=shouldFaceLeft;   // 🐱 tay xoa đèn thò về bên PHẢI ảnh → lật về phía địch
     if(this.type==='scaredhamster' && _hmPose(this).img) facingLeft=_hmPose(this).flip;   // 🐹 khung chạy ngang quay mặt PHẢI → lật theo hướng chạy
@@ -22160,7 +22161,7 @@ class Fighter {
       const _dli=Math.floor(tick/10)%DL_FR.length; this._dlFr=_dli; img=DL_FR[_dli].naturalWidth?DL_FR[_dli]:DL_FR[0];
     } else if(this.type==='poordog' && PD_FR[0].naturalWidth){ const _pi=_pdFrame(this); img=PD_FR[_pi].naturalWidth?PD_FR[_pi]:PD_FR[0];   // 🥣 nằm xuống từ từ / đứng dậy
     } else if(this.type==='azel' && AZ_V[0].naturalWidth){ const _zi=_azFrame(this); img=AZ_V[_zi].naturalWidth?AZ_V[_zi]:AZ_V[0];   // 🎧 chạy vòng 30 khung múa tay
-    } else if(this.type==='gigachad' && this.attackAvatarTimer>0 && GC_PUNCH_IMG.naturalWidth){ img=GC_PUNCH_IMG;   // 🗿 lúc đấm: ảnh đấm trong phim Memes Assemble
+    } else if(this.type==='gigachad' && this.attackAvatarTimer>0 && GC_PUNCH[(this._gcPunchN||0)%2].naturalWidth){ img=GC_PUNCH[(this._gcPunchN||0)%2];   // 🗿 lúc đấm: đấm thẳng / đấm móc luân phiên
     } else if(this.type==='boxingcat' && BX_FR[0].naturalWidth){
       // 🥊 đang đấm khởi động: chạy vòng 9 khung (~7.5 khung/giây) · nghỉ: đứng ở khung 1
       // chạy HẾT 1 vòng: bộ đếm riêng bắt đầu từ khung 1 khi khởi động; hết khởi động (đấm/nghỉ) thì vẫn chạy tiếp cho tròn vòng rồi mới đứng ở khung 1
@@ -22368,6 +22369,7 @@ class Fighter {
       } else if(crop){
         const asp=crop.sw/crop.sh;
         if(asp>=1){ dw=_d; dh=_d/asp; } else { dh=_d; dw=_d*asp; }
+        if(img._byH){ dh=_d*img._byH; dw=dh*asp; }   // ảnh dáng rộng ngang (Gigachad đấm): giữ thân to bằng avatar
         _sx=crop.sx; _sy=crop.sy; _sw=crop.sw; _sh=crop.sh;
       } else {
         const iw=img.naturalWidth||1,ih=img.naturalHeight||1,asp=iw/ih;
