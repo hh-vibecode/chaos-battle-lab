@@ -17,8 +17,7 @@
     d.classList.toggle('is-mobile', !!touch && Math.min(innerWidth,innerHeight)<900); }
   u(); addEventListener('resize',u); addEventListener('orientationchange',u); })();
 </script>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+<link href="css/fonts.css" rel="stylesheet">   <!-- 🔤 Press Start 2P + Montserrat tải sẵn trong repo (không cần mạng) -->
 <style>
 /* màn hình tải — viết thẳng vào trang để hiện NGAY, không chờ css/game.css */
 #bootScreen{position:fixed;inset:0;z-index:2147483647;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
@@ -36,7 +35,7 @@
 .mm-version{position:absolute;left:14px;bottom:12px;z-index:5;font:8px 'Press Start 2P',monospace;color:rgba(70,50,30,.6);pointer-events:none;letter-spacing:1px}
 #bootTip{font-size:9px;opacity:.75;min-height:12px;text-align:center;padding:0 16px}
 </style>
-<link rel="stylesheet" href="css/game.css?v=432">
+<link rel="stylesheet" href="css/game.css?v=433">
 
 </head>
 <body>
@@ -643,12 +642,12 @@
   </div>
 </div>
 
-<script>window.GAME_VERSION={build:432,at:"11:17 · 30/10/2026"};   // tools/release.py tự tăng số bản + ghi giờ mỗi lần đẩy lên</script>
-<script src="js/asset-groups.js?v=432"></script>
-<script src="js/boot.js?v=432"></script>
-<script src="js/vendor/proton/proton.min.js?v=432"></script>   <!-- 🎆 Proton — engine hạt 2D (MIT), bọc trong VfxGL.parts -->
-<script src="js/vendor/pixi-filters/glsl.js?v=432"></script>   <!-- 🧩 37 bộ lọc GLSL của pixi-filters (MIT) — chạy qua VfxGL.filter / VfxGL.fx -->
-<script src="js/vfx-gl.js?v=432"></script>   <!-- ✨ hiệu ứng sinh bằng shader (aura lửa, sóng bóp méo…) dùng chung game + phim — xem skill tao-vfx -->
+<script>window.GAME_VERSION={build:433,at:"11:37 · 30/10/2026"};   // tools/release.py tự tăng số bản + ghi giờ mỗi lần đẩy lên</script>
+<script src="js/asset-groups.js?v=433"></script>
+<script src="js/boot.js?v=433"></script>
+<script src="js/vendor/proton/proton.min.js?v=433"></script>   <!-- 🎆 Proton — engine hạt 2D (MIT), bọc trong VfxGL.parts -->
+<script src="js/vendor/pixi-filters/glsl.js?v=433"></script>   <!-- 🧩 37 bộ lọc GLSL của pixi-filters (MIT) — chạy qua VfxGL.filter / VfxGL.fx -->
+<script src="js/vfx-gl.js?v=433"></script>   <!-- ✨ hiệu ứng sinh bằng shader (aura lửa, sóng bóp méo…) dùng chung game + phim — xem skill tao-vfx -->
 <button id="mbMenuBtn" onclick="mbToggleMenu()" title="Menu">☰</button>
 </body>
 </html>
