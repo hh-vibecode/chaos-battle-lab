@@ -411,7 +411,7 @@ body {
 /* ============ BATTLE SCREEN ============ */
 #spaceCanvas { display:none; }  /* đã bỏ nền galaxy — trả lại nền sáng như cũ */
 #battleScreen {
-  background:#4574c6;  /* nền pastel sáng, be nhẹ */
+  background:radial-gradient(ellipse at 20% 15%, rgba(125,85,225,0.22), transparent 55%), radial-gradient(ellipse at 85% 70%, rgba(70,110,230,0.16), transparent 55%), linear-gradient(180deg,#332b5e,#28224d 50%,#1f1b40);  /* 🌌 30/10: trời vũ trụ tím than (canvas vẽ thêm sao lấp lánh + sao băng) */
   padding:0;
   justify-content:flex-start;
   align-items:center;
@@ -489,7 +489,7 @@ body {
 
 /* ============ FREE-FOR-ALL SCREEN ============ */
 #ffa3Screen {
-  background:#4574c6;
+  background:radial-gradient(ellipse at 20% 15%, rgba(125,85,225,0.22), transparent 55%), radial-gradient(ellipse at 85% 70%, rgba(70,110,230,0.16), transparent 55%), linear-gradient(180deg,#332b5e,#28224d 50%,#1f1b40);
   padding:0; justify-content:center; align-items:center;
 
   /* ---- kích thước MỌI THỨ suy ra từ đúng 1 con số: chiều cao sàn (--fa-h) ----
@@ -530,7 +530,7 @@ body {
 #ffa3Screen .rt-side-mech-row.ffa3-out .rt-side-mech-name { color:#cbd6e8 !important; text-shadow:none; }
 /* 👥 2vs2: tái dùng nguyên khung --fa-* của #ffa3Screen (.ffa3-layout/.ffa3-arena-slot đọc chung biến này) — chỉ khác tỉ lệ mặc định (JS ghi đè theo ARENA_DUO lúc vào trận) */
 #duoScreen {
-  background:#4574c6;
+  background:radial-gradient(ellipse at 20% 15%, rgba(125,85,225,0.22), transparent 55%), radial-gradient(ellipse at 85% 70%, rgba(70,110,230,0.16), transparent 55%), linear-gradient(180deg,#332b5e,#28224d 50%,#1f1b40);
   padding:0; justify-content:center; align-items:center;
   --fa-ar: 1.0435;   /* 741/710 — JS ghi đè lại theo ARENA_DUO lúc vào trận */
   --fa-arinv: 0.9583; /* 738/770 */
@@ -652,11 +652,13 @@ body {
 }
 .arena-wrap {
   border-radius:6px; overflow:hidden;
-  box-shadow:
-    0 0 0 5px #333,
-    0 0 0 9px #888,
-    0 0 0 13px #333,
-    0 8px 32px rgba(0,0,0,0.35);
+  box-shadow:   /* 🖼️ 30/10: viền NẠM tím như sân khung dọc — khe tối · vạch lavender · dải đá tím · đường phát sáng + quầng tím */
+    0 0 0 3px #120e26,
+    0 0 0 6px #d4c8ff,
+    0 0 0 11px #3a3172,
+    0 0 0 13px rgba(150,175,255,0.9),
+    0 0 26px 12px rgba(150,120,255,0.45),
+    0 18px 40px rgba(8,4,20,0.6);
   max-width:100%;
 }
 /* 🎥 Solo 1vs1 bật camera động: BỎ hẳn viền CSS bao ngoài, vì viền sàn giờ được vẽ THẲNG TRONG canvas và
@@ -717,7 +719,7 @@ html.fan-page, html.fan-page body { background:#000 !important; }
    hiện rõ hình vuông — đó chính là lỗi "sao t vẫn bị cái khung vuông". Nay cho phẳng cùng 1 màu.
    Video gốc cũng KHÔNG có thanh nền đen sau chữ: chỉ chữ trần + viền đen dày. Tất cả gói trong
    .cam-mode nên chỉ Solo 1vs1 đổi, các chế độ khác giữ nguyên. */
-#battleScreen.cam-mode { background:#4574c6; }
+#battleScreen.cam-mode { background:radial-gradient(ellipse at 20% 15%, rgba(125,85,225,0.22), transparent 55%), radial-gradient(ellipse at 85% 70%, rgba(70,110,230,0.16), transparent 55%), linear-gradient(180deg,#332b5e,#28224d 50%,#1f1b40); }
 #battleScreen.cam-mode .mech-info { display:none !important; }
 /* bản HTML của tiêu đề & CTA nằm NGOÀI canvas nên đứng yên tuyệt đối — ẩn đi, đã có bản vẽ trong world thay thế */
 #battleScreen.cam-mode .vs-label { display:none !important; }
@@ -728,7 +730,7 @@ html.fan-page, html.fan-page body { background:#000 !important; }
               -2px 0 0 #000, 2px 0 0 #000, 0 -2px 0 #000, 0 2px 0 #000;
 }
 #battleScreen.cam-mode .bottom-cta-msg { display:none !important; }
-#battleScreen.cam-mode .battle-settings { background:#4574c6; border-bottom-color:rgba(255,255,255,0.10); }
+#battleScreen.cam-mode .battle-settings { background:radial-gradient(ellipse at 20% 15%, rgba(125,85,225,0.22), transparent 55%), radial-gradient(ellipse at 85% 70%, rgba(70,110,230,0.16), transparent 55%), linear-gradient(180deg,#332b5e,#28224d 50%,#1f1b40); border-bottom-color:rgba(255,255,255,0.10); }
 #battleScreen.cam-mode .battle-settings .btn-back { background:rgba(255,255,255,0.14); color:#eaf7ff; border-color:rgba(255,255,255,0.28); }
 canvas { display:block; }
 #arena {
