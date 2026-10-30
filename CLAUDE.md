@@ -112,6 +112,7 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
 - Phim: chạy `node tools/sfx-audit.js <phim> <scratchpad>/audit` để soát (tiếng chưa khai, khoảng lặng đầu file, chồng tiếng, nghi có giọng).
 
 ## 💡 Ý tưởng chờ làm (anh dặn lưu lại)
+- (30/10/2026) ⚠️ **TWIST = hiệu ứng ĐỘC QUYỀN của Kamui** (cổng xoắn không gian) — KHÔNG dùng cho rung/áp lực/rút năng lượng hay cảnh nào khác.
 - (29/10/2026) **Thêm 1 meme dùng hiệu ứng TWIST** (`VfxGL.fx.twist` — xoáy ảnh quanh 1 điểm, bộ lọc pixi-filters). Anh xem bảng thử VFX và thích, bảo "lưu lại sau t dùng".
   Khi anh nhờ nghĩ / thêm meme mới (nhất là chủ đề xoáy, lốc, hố đen, thôi miên) → đề xuất meme này.
 

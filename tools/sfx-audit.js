@@ -15,7 +15,8 @@ const opt = (k, d) => { const i = A.indexOf(k); return i >= 0 ? A[i + 1] : d; };
 const T0 = +opt('--from', 0), T1 = +opt('--to', 1e9), SKIP = new Set((opt('--skip', '') || '').split(',').filter(Boolean));
 const FILMS = { war: { play: 'playCineWar', step: '_cineWarStep', canvas: '_cineWarCanvas', info: '_cineWarInfo' },
   l2e2: { play: 'playCineL2E2', step: '_cineL2E2Step', canvas: '_cineL2E2Canvas', info: '_cineL2E2Info', ready: '_cineL2E2Ready' },
-  l2e3: { play: 'playCineL2E3', step: '_cineL2E3Step', canvas: '_cineL2E3Canvas', info: '_cineL2E3Info', ready: '_cineL2E3Ready' } };
+  l2e3: { play: 'playCineL2E3', step: '_cineL2E3Step', canvas: '_cineL2E3Canvas', info: '_cineL2E3Info', ready: '_cineL2E3Ready' },
+  l2e4: { play: 'playCineL2E4', step: '_cineL2E3Step', canvas: '_cineL2E3Canvas', info: '_cineL2E3Info', ready: '_cineL2E3Ready' } };
 const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.mp3': 'audio/mpeg', '.wav': 'audio/wav', '.ogg': 'audio/ogg', '.woff2': 'font/woff2', '.ttf': 'font/ttf' };
 // phân tích 1 file tiếng: độ dài, onset (vượt mức -12dB so với đỉnh), đỉnh, tỉ lệ khung "có cao độ giọng người"
 function analyze(file) {

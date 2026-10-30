@@ -15,7 +15,8 @@ const WIDE = args.includes('--wide'), K4 = args.includes('--4k'), FPS = 30, SUB 
 const _sc = (() => { const i = args.indexOf('--scale'); return i >= 0 ? parseFloat(args[i + 1]) : null; })(), RK = K4 ? 2 : (_sc || 1);
 const FILMS = { war: { play: 'playCineWar', step: '_cineWarStep', canvas: '_cineWarCanvas', info: '_cineWarInfo' },
   l2e2: { play: 'playCineL2E2', step: '_cineL2E2Step', canvas: '_cineL2E2Canvas', info: '_cineL2E2Info', ready: '_cineL2E2Ready' },
-  l2e3: { play: 'playCineL2E3', step: '_cineL2E3Step', canvas: '_cineL2E3Canvas', info: '_cineL2E3Info', ready: '_cineL2E3Ready' } }, FM = FILMS[film] || { kit: film };   // phim khác = phim CINE-KIT (js/film-<id>.js)   // SUB: số bước mô phỏng / khung (hạt, rung… chạy theo nhịp 60Hz như lúc xem)
+  l2e3: { play: 'playCineL2E3', step: '_cineL2E3Step', canvas: '_cineL2E3Canvas', info: '_cineL2E3Info', ready: '_cineL2E3Ready' },
+  l2e4: { play: 'playCineL2E4', step: '_cineL2E3Step', canvas: '_cineL2E3Canvas', info: '_cineL2E3Info', ready: '_cineL2E3Ready' } }, FM = FILMS[film] || { kit: film };   // phim khác = phim CINE-KIT (js/film-<id>.js)   // SUB: số bước mô phỏng / khung (hạt, rung… chạy theo nhịp 60Hz như lúc xem)
 const opt = k => { const i = args.indexOf(k); return i >= 0 ? parseFloat(args[i + 1]) : null; };
 const sopt = k => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : null; }, INTRO = sopt('--intro') ? path.resolve(sopt('--intro')) : null;
 const PART = args.includes('--part'), JOBS = Math.max(1, opt('--jobs') || 3);   // ⚠️ anh dặn: chạy NHIỀU tiến trình làm MacBook vừa LAG vừa LÂU hơn → mặc định 3 (trước là 6). Đừng tăng nếu anh không yêu cầu.
