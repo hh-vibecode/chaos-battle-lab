@@ -24662,7 +24662,7 @@ function openCinema(folder){
   const LORE={ __top:{ title:'🎬 MEME CINEMA', back:null, items:[{id:'__lore1', ic:'📼', name:'Meme Lore 1', desc:'Memes Assemble I & II and the classic scenes', folder:true},
                                                               {id:'__lore2', ic:'🌑', name:'Meme Lore 2', desc:'Pain is coming… (Shorts 9:16)', folder:true},
                                                               {id:'__lab', ic:'🧪', name:'Anime Lab', desc:'Test scenes for the new anime film kit', folder:true}]},
-    __lore2:{ title:'🌑 MEME LORE 2', back:'', items:[{id:'__l2e0', ic:'🐹', name:'Ep 0 · The Truth', desc:"What really happened behind that window…", dur:28},
+    __lore2:{ title:'🌑 MEME LORE 2', back:'', items:[{id:'__l2e0', ic:'🐹', name:'Ep 0 · The Truth', desc:"What really happened behind that window…", dur:25},
                                                        {id:'__dpwindow', ic:'🪟', name:'Ep 1 · Depressed Cat Comes Home', desc:"He looks up at the window… This world shall know pain.", dur:23},
                                                        {id:'__l2e2', ic:'🗿', name:'Ep 2 · Into the Dark', desc:"A dark gate opens and Evil Gary falls into a cave… where something is waiting.", dur:25},
                                                        {id:'__l2e3', ic:'🌋', name:'Ep 3 · The High Ground', desc:"Grumpy fights his master, Supreme Cat, and falls into the lava… then the Meowcatsuki arrive.", dur:41},
