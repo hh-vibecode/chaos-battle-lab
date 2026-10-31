@@ -78,7 +78,7 @@ Mẫu đã duyệt:
 - `them-meme` (danh sách việc thêm meme mới) · `tach-nen-anh` (ảnh ChatGPT nền xanh → khung game) · `chay-thu` (chạy thử trận bằng Edge headless) · `phat-hanh` (đẩy bản mới không cần python)
   · `xuat-video` (CHỈ Mac: phim + trận đấu giả lập; chỉ quay lại đoạn bị sửa) · `dung-phim` (dựng phim anime bằng cine-kit) · `xem-video` (CHỈ Mac: video mẫu → bảng cảnh) · `tao-vfx` (VFX shader cho game + phim).
 - **Chuẩn video, áp cho cả phim lẫn trận đấu giả lập: 16:9 → 4K 3840×2160 · 9:16 DỌC → 3K 1620×2880 (anh chốt 30/10: dọc là 3K, phim dọc `--scale 1.5`).** Anh không nói khung → mặc định DỌC 3K.
-- 🏆 **Trận đấu giả lập LUÔN ưu tiên THẮNG SÁT** (anh dặn 30/10): chạy thử nhiều seed, gom ≥3 trận đúng bên thắng (`--want 3`) rồi lấy trận con thắng còn ÍT máu nhất (`tools/render-queue.sh`).
+- 🏆 **Trận đấu giả lập LUÔN ưu tiên THẮNG SÁT, video dài 20–25s** (anh dặn 30–31/10): chạy thử nhiều seed, gom ≥3 trận đúng bên thắng VÀ video ~20–25s (`--want 3 --dur 20-25`) rồi lấy trận con thắng còn ÍT máu nhất (`tools/render-queue.sh`).
 - **Xuất video trên MacBook: KHÔNG chạy nhiều tiến trình song song** — anh dặn chạy nhiều nhân làm máy vừa LAG vừa LÂU hơn.
   Nguyên nhân (anh xác nhận): TRÀN RAM — mỗi tiến trình là 1 trình duyệt giữ canvas 4K (~1–2GB), 6 cái → hết RAM, máy phải swap ra ổ đĩa.
   render-cine mặc định `--jobs 3` (đừng tăng), render-match không dùng `--par` > 2. Ghi nhớ quan trọng → ghi vào FILE TRONG REPO này

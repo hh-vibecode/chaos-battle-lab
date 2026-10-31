@@ -2,7 +2,7 @@
 # 🎬 HÀNG QUAY nhiều trận Solo 1vs1 (Mac). Danh sách: mỗi dòng "a|b|win|Tên A|Tên B"  (win = a | b · dòng bắt đầu bằng # bị bỏ qua)
 #   tools/render-queue.sh tools/match-lists/<file>.txt raw   → CHỈ chạy thử 10 trận/cặp (không quay) → KẾT QUẢ THÔ: <file>.raw.txt
 #                                                               (mỗi cặp: bên muốn thắng thắng mấy/10, trận sát nhất: seed · giây · máu còn)
-#   tools/render-queue.sh tools/match-lists/<file>.txt       → QUAY 3K (1620×2880 60fps — anh chốt 30/10: không cần 4K): mỗi cặp chạy thử ≥10 trận, gom ≥3 trận đúng bên thắng rồi lấy trận SÁT NHẤT (anh: luôn ưu tiên thắng sát)
+#   tools/render-queue.sh tools/match-lists/<file>.txt       → QUAY 3K (1620×2880 60fps — anh chốt 30/10: không cần 4K): mỗi cặp chạy thử ≥10 trận, gom ≥3 trận đúng bên thắng + video dài 20–25s rồi lấy trận SÁT NHẤT (anh: luôn ưu tiên thắng sát, độ dài 20–25s)
 #                                                               → ~/Desktop/<Tên A> vs <Tên B> - Meme Battle.mp4 (đã có file thì bỏ qua)
 #   Chạy 2 hàng song song được (anh cho phép): chia danh sách làm 2 file, chạy 2 lệnh.
 # ⚠️ node phải chạy với < /dev/null — không thì nó đọc lấn mất dòng kế tiếp của danh sách (30/10: cứ 1 trận chạy là trận sau hỏng tên).
@@ -24,7 +24,7 @@ while IFS='|' read -r A B WIN NA NB; do
     OUTF="$HOME/Desktop/$NA vs $NB - Meme Battle.mp4"
     [ -e "$OUTF" ] && { echo "=== bỏ qua (đã có) $NA vs $NB"; continue; }
     echo "=== $(date +%H:%M) $NA vs $NB (win $WIN)"
-    node tools/render-match.js "$OUTF" --a "$A" --b "$B" --win "$WIN" --min 10 --want 3 --tries 40 --w 1620 < /dev/null 2>&1 | grep -E "🏆|kết quả|✅|Error|không thấy"
+    node tools/render-match.js "$OUTF" --a "$A" --b "$B" --win "$WIN" --dur 20-25 --min 10 --want 3 --tries 60 --w 1620 < /dev/null 2>&1 | grep -E "🏆|kết quả|✅|Error|không thấy"
   fi
 done < "$LIST"
 [ "$MODE" = raw ] && echo "📝 kết quả thô: $RAW"
