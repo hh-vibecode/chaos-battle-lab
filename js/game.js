@@ -787,7 +787,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     mewingcat: { key:'mewingcat', defaultName:'Mewing Cat - Never Skip Mewing Day', emoji:'😤', color:'#8d6e63', hp:1000, speed:5, size:45, skill:'Không cận chiến. Mỗi 1s đổi giữa dáng thường và 1 trong 4 tư thế mewing ngẫu nhiên. Mỗi lần mewing triệu hồi tượng đá (50HP) lao từ mép sàn vào tấn công địch gần nhất, va trúng vỡ tan gây 60 dmg. Bốc trúng tư thế nào thì sáng ô đó; sáng đủ CẢ 4 tư thế khác nhau mới reset thanh và số tượng mỗi lần triệu hồi +1.' },
     smartguy: { key:'smartguy', defaultName:'Smart Guy', emoji:'🤓', color:'#5c6bc0', hp:1000, speed:5, size:44, skill:'Không cận chiến. Chốt ngay 1 chỉ số IQ ngẫu nhiên (60-200) làm dame bắn thẳng vào địch, chỉ hiệu ứng quay số trên đầu kéo dài ~1.6s (rút ngắn dần theo tốc suy nghĩ) trước khi bắn. Tỉ lệ ra đúng 200 gốc 1%. <80 (LOW IQ): +5% tỉ lệ ra 200 lần sau (không còn tự làm chậm). 80-150 (AVERAGE IQ): không hiệu ứng. >150 (HIGH IQ): bản thân +20% tốc suy nghĩ (roll nhanh hơn) + tỉ lệ roll ra đúng 200 lần sau +2%, cả 2 cộng dồn không giới hạn tới khi ra đúng 200 thì reset. Roll đúng 200: dame x2 = 400 + pháo hoa jackpot. Roll đúng 60: tự dame 60 + tự choáng 3s.' },
     aliencat: { key:'aliencat', defaultName:'Mr. Folk', emoji:'🥾', color:'#ffc400', hp:1000, speed:5, size:49.5, skill:'Chiếu 2 tia laze VÀNG thẳng từ 2 con mắt vào mục tiêu ở CỰ LY TẦM TRUNG — xa nhất gần gấp đôi tầm cận chiến, quá gần hoặc quá xa là mất khoá và phải gây lại từ đầu. Giữ được đúng cự ly càng lâu thì mỗi nhịp bắn càng đau: bắt đầu 10 dmg, cứ mỗi giây giữ được tia lại cộng thêm 20. Mỗi 8s triệu hồi 1 đĩa bay từ ngoài sân bay vào, dừng trên đầu địch gần nhất, dùng tia sóng âm hút địch lên xoay vòng tại chỗ trong 2s rồi bay đi mất.' },
-    wetcat: { key:'wetcat', defaultName:'Wet Cat', emoji:'🌧️', color:'#4fc3f7', hp:1000, speed:2.0125, size:45, skill:'Đi rất chậm, không đánh. Vào trận là trời đổ mưa quanh chỗ nó đứng; đi tới đâu vùng mưa lan tới đó (mưa ở lại cả trận), thỉnh thoảng sét giáng xuống trong vùng mưa. Địch đứng trong mưa mất 30 máu/s; cứ ở trong mưa đủ 4s là 25% bị sét đánh: 100 dame + choáng điện 1s, người giật sáng loé lòi xương.' },
+    wetcat: { key:'wetcat', defaultName:'Wet Cat', emoji:'🌧️', color:'#4fc3f7', hp:1000, speed:2.0125, size:45, skill:'Đi rất chậm, không đánh. Vào trận là trời đổ mưa quanh chỗ nó đứng; đi tới đâu vùng mưa lan tới đó (mưa ở lại cả trận), thỉnh thoảng sét giáng xuống trong vùng mưa. Địch đứng trong mưa mất 30 máu/s; cứ ở trong mưa đủ 2.5s là 50% bị sét đánh: 100 dame + choáng điện 1s, người giật sáng loé lòi xương.' },
     droolingcat: { key:'droolingcat', defaultName:'Drooling Cat', emoji:'🤤', color:'#4dd0e1', hp:1000, speed:2.0125, size:45, skill:'Đi rất chậm, không đánh. Dãi nhỏ từ mồm xuống chân liên tục, càng lúc càng nhanh, lâu thì thành dòng — đọng thành vũng nước to dần (giọt/dòng không gây dame). Địch đứng trong nước mất 20 máu mỗi 0.5s, Drooling Cat đứng trong nước hồi 10 máu/s. Từ giây 8: địch ngâm nước liên tục 3s bị piranha nhảy lên cắn 80. Từ giây 15: piranha thành cá mập — vây cá bơi chậm trong vũng, địch chạm vây bị cá ngoi lên cắn 200 và mất miếng thịt đúng chỗ bị cắn.' },
     electricguitarcat: { key:'electricguitarcat', defaultName:'Electric Guitar Cat', emoji:'🎸', color:'#ec407a', hp:1000, speed:5, size:43, skill:'Chơi guitar điện — bắn ra SÓNG ÂM theo đúng NHỊP & CAO ĐỘ thật của bài (màu theo nốt), y hệt cơ chế của Piano Cat. Mỗi luồng sóng 20 dame, đánh tới đâu nốt nhạc nảy tới đó. Tự đổi bài mỗi 8s. Bị đánh còn 30% máu là chơi tới mức đàn bốc cháy — sóng đàn đốt địch thêm 20 dame/s.' },
     scareddog: { key:'scareddog', defaultName:'Scared Dog', emoji:'🐶', color:'#795548', hp:1000, speed:5, size:44, skill:'Không tự tấn công — chỉ di chuyển né tránh bình thường. Sau 1s vào trận, triệu hồi 1 ma đen + 1 ma trắng bay lượn quanh (không có HP, không thể bị tiêu diệt, chỉ biến mất khi Scared Dog chết): mỗi ma di chuyển bằng 40% tốc của 1 meme thường, nảy tường y hệt meme, húc trúng địch (hoặc lính/tượng địch có HP) lại gần thì gây dame — ma trắng 20 dmg, ma đen là Giám Ngục: không lướt xuyên địch, địch lọt vào tầm hút nhỏ (≈1.5× tầm cận chiến, +10%) thì đứng chắn trước mặt HÚT LINH HỒN (nạn nhân tái nhợt, nhoè kéo về phía ma): mỗi 0.3s 1 nhịp, nhịp đầu 10 dmg + chậm 10%, rồi mỗi nhịp +5 dmg và +5% chậm (tối đa 90%), ra khỏi tầm thì reset. Ma trắng có hào quang hồi máu bán kính gấp đôi thân nó, Scared Dog đứng trong đó được hồi 20 HP/s.' },
@@ -6433,7 +6433,7 @@ function _dlTick(){
 const WC_TPS=60*GAME_SPEED*TIME_SCALE;
 const WC_RAIN_R=92;                       // bán kính mỗi đốm mưa dọc đường đi
 const WC_RAIN_DMG=20;                     // mỗi 0.5s → 40 máu/s
-const WC_ZAP_EVERY=4, WC_ZAP_P=0.25, WC_ZAP_DMG=100, WC_ZAP_STUN=1;
+const WC_ZAP_EVERY=2.5, WC_ZAP_P=0.5, WC_ZAP_DMG=100, WC_ZAP_STUN=1;
 const WC_CELL=32;
 let wcRain=[];          // {x,y,r,team,owner}
 let wcRainCells=[];     // ô lưới đã có mưa {x,y,team} — rải hạt mưa/gợn nước đều theo DIỆN TÍCH thay vì theo số đốm
@@ -7805,16 +7805,10 @@ function _wcRainOver(){
 // ⚡💀 BỊ SÉT ĐÁNH: giật đùng đùng, chớp qua lại giữa "phim X-quang" (thân tối, lòi bộ xương trắng) và thân sáng loá xanh điện.
 // Bộ xương dựng theo ĐÚNG hình avatar của con bị đánh: khung tối = hình bóng của nó; sọ đặt ở chỗ đầu (khối đặc nửa trên),
 // ảnh cao thì có thêm cột sống + xương sườn + tay. Mọi nét xương bị cắt gọn trong hình bóng → không thò ra ngoài người.
-function _wcBones(g,D,w,cr){
-  const st=Math.max(1,Math.floor(cr.sw/140));
-  let x0=1e9,y0=1e9,x1=-1,y1=-1;
-  for(let y=cr.sy|0;y<cr.sy+cr.sh;y+=st) for(let x=cr.sx|0;x<cr.sx+cr.sw;x+=st) if(D[(y*w+x)*4+3]>128){ if(x<x0)x0=x; if(x>x1)x1=x; if(y<y0)y0=y; if(y>y1)y1=y; }
-  if(x1<0) return;
-  const bw=x1-x0, bh=y1-y0; let sx=0,n=0;
-  for(let y=y0;y<y0+bh*0.45;y+=st) for(let x=x0;x<=x1;x+=st) if(D[(y*w+x)*4+3]>128){ sx+=x; n++; }
-  const hx=n?sx/n:x0+bw/2, tall=bh>bw*1.15;
-  const R=tall?Math.min(bw*0.36,bh*0.2):Math.min(bw*0.34,bh*0.34), hy=tall?y0+R*1.2:y0+bh*0.44, TAU=Math.PI*2;
-  g.save(); g.globalCompositeOperation='source-atop';
+// 🦴 (anh dặn 31/10) xương CHUẨN TỪNG MEME, không dùng chung: mỗi thân 1 bộ xương (Drooling 2 con = 2 bộ) · dáng ngang thì xương NẰM NGANG (Nyan...).
+//    Tự nhận dạng theo hình bóng; meme đặc biệt khai ở WC_BONE: n = số thân · pose 'h' ngang / 'v' đứng / 's' chỉ sọ · head 'l'/'r' = đầu nằm bên nào.
+const WC_BONE={ droolingcat:{n:2,pose:'v'}, nyancat:{pose:'h',head:'r'}, scaredhamster:{pose:'v'}, chonkydog:{pose:'h'}, azel:{pose:'v'} };
+function _wcSkull(g,hx,hy,R){ const TAU=Math.PI*2;
   g.shadowColor='#8fdcff'; g.shadowBlur=R*0.3; g.fillStyle='#eef5ff'; g.strokeStyle='#eef5ff';
   g.beginPath(); g.ellipse(hx,hy-R*0.08,R,R*0.9,0,0,TAU); g.fill();                          // sọ
   g.beginPath(); g.ellipse(hx,hy+R*0.66,R*0.62,R*0.36,0,0,TAU); g.fill();                      // hàm
@@ -7822,10 +7816,31 @@ function _wcBones(g,D,w,cr){
   for(const s of [-1,1]){ g.beginPath(); g.ellipse(hx+s*R*0.38,hy+R*0.02,R*0.25,R*0.29,s*0.2,0,TAU); g.fill(); }   // hốc mắt
   g.beginPath(); g.moveTo(hx,hy+R*0.24); g.lineTo(hx-R*0.11,hy+R*0.46); g.lineTo(hx+R*0.11,hy+R*0.46); g.closePath(); g.fill();   // mũi
   g.strokeStyle='#0d2350'; g.lineWidth=Math.max(1,R*0.045);
-  g.beginPath(); g.moveTo(hx-R*0.5,hy+R*0.68); g.lineTo(hx+R*0.5,hy+R*0.68); for(let i=-3;i<=3;i++){ g.moveTo(hx+i*R*0.14,hy+R*0.52); g.lineTo(hx+i*R*0.14,hy+R*0.86); } g.stroke();   // răng
+  g.beginPath(); g.moveTo(hx-R*0.5,hy+R*0.68); g.lineTo(hx+R*0.5,hy+R*0.68); for(let i=-3;i<=3;i++){ g.moveTo(hx+i*R*0.14,hy+R*0.52); g.lineTo(hx+i*R*0.14,hy+R*0.86); } g.stroke(); }   // răng
+function _wcBody(g,D,w,x0,x1,y0Lim,y1Lim,st,hint){ const on=(x,y)=>D[((y|0)*w+(x|0))*4+3]>128;
+  let y0=1e9,y1=-1; for(let y=y0Lim|0;y<=y1Lim;y+=st) for(let x=x0|0;x<=x1;x+=st) if(on(x,y)){ if(y<y0)y0=y; if(y>y1)y1=y; }
+  if(y1<0) return; const bw=x1-x0, bh=y1-y0, TAU=Math.PI*2;
+  const pose=hint.pose||(bh>bw*1.15?'v':bw>bh*1.3?'h':'s');
+  g.save(); g.globalCompositeOperation='source-atop'; g.lineCap='round';
+  if(pose==='h'){   // ➡️ thân NGANG: sọ ở đầu, cột sống chạy ngang, sườn dọc, 4 chân chĩa xuống, đuôi
+    const colH=x=>{ let n=0; for(let y=y0;y<=y1;y+=st) if(on(x,y)) n++; return n; }; let hl=0,hr=0; for(let i=0;i<6;i++){ hl+=colH(x0+bw*(0.04+i*0.04)); hr+=colH(x1-bw*(0.04+i*0.04)); }
+    const dir=hint.head==='l'?-1:hint.head==='r'?1:(hr>=hl?1:-1), R=Math.min(bh*0.34,bw*0.2), hx=dir>0?x1-R*1.15:x0+R*1.15;
+    const midY=x=>{ let a=0,n=0; for(let y=y0;y<=y1;y+=st) if(on(x,y)){ a+=y; n++; } return n?a/n:y0+bh/2; };
+    const hy=midY(hx), sy=midY(x0+bw/2), tailX=dir>0?x0+bw*0.04:x1-bw*0.04;
+    g.fillStyle='#eef5ff'; g.strokeStyle='#eef5ff'; g.shadowColor='#8fdcff'; g.shadowBlur=R*0.2;
+    const sx0=hx-dir*R*0.95, len=Math.abs(tailX-sx0);
+    for(let d=0;d<len;d+=R*0.26){ const x=sx0-dir*d; g.beginPath(); g.roundRect?g.roundRect(x-R*0.075,sy-R*0.12,R*0.15,R*0.24,R*0.05):g.rect(x-R*0.075,sy-R*0.12,R*0.15,R*0.24); g.fill(); }   // đốt sống
+    g.lineWidth=R*0.12; const ribH=Math.min(bh*0.36,R*1.15);
+    for(let i=0;i<6;i++){ const x=sx0-dir*(R*0.4+i*len*0.09); for(const s of [-1,1]){ g.beginPath(); g.moveTo(x,sy); g.quadraticCurveTo(x-dir*R*0.25,sy+s*ribH*0.9,x-dir*R*0.45,sy+s*ribH*0.75); g.stroke(); } }   // xương sườn
+    g.lineWidth=R*0.15; for(const u of [0.2,0.32,0.72,0.84]){ const x=sx0-dir*len*u; g.beginPath(); g.moveTo(x,sy+R*0.2); g.lineTo(x+dir*R*0.12,y1-R*0.08); g.stroke(); }   // 4 chân
+    _wcSkull(g,hx,hy,R); g.restore(); return; }
+  // ⬆️ thân ĐỨNG (hoặc chỉ sọ nếu dáng gần vuông): tâm đầu = trọng tâm nửa trên
+  let sx=0,n=0; for(let y=y0;y<y0+bh*0.45;y+=st) for(let x=x0|0;x<=x1;x+=st) if(on(x,y)){ sx+=x; n++; }
+  const hx=n?sx/n:x0+bw/2, tall=pose==='v', R=tall?Math.min(bw*0.36,bh*0.2):Math.min(bw*0.34,bh*0.34), hy=tall?y0+R*1.2:y0+bh*0.44;
+  _wcSkull(g,hx,hy,R);
   const top=hy+R*1.02, room=y1-top;
   if(tall && room>R*0.9){
-    g.shadowColor='#8fdcff'; g.shadowBlur=R*0.2; g.fillStyle='#eef5ff'; g.strokeStyle='#eef5ff'; g.lineCap='round';
+    g.shadowColor='#8fdcff'; g.shadowBlur=R*0.2; g.fillStyle='#eef5ff'; g.strokeStyle='#eef5ff';
     for(let y=top;y<y1-R*0.15;y+=R*0.24){ g.beginPath(); g.roundRect?g.roundRect(hx-R*0.12,y,R*0.24,R*0.15,R*0.05):g.rect(hx-R*0.12,y,R*0.24,R*0.15); g.fill(); }   // đốt sống
     const rw=Math.min(bw*0.42,R*1.35); g.lineWidth=R*0.12;
     for(let i=0;i<5 && top+R*0.35+i*R*0.3<y1-R*0.4;i++){ const y=top+R*0.35+i*R*0.3, ww=rw*(1-i*0.08);   // xương sườn
@@ -7833,9 +7848,16 @@ function _wcBones(g,D,w,cr){
     if(bw>R*2.4) for(const s of [-1,1]){ g.lineWidth=R*0.14; g.beginPath(); g.moveTo(hx+s*R*0.9,top+R*0.15); g.lineTo(hx+s*Math.min(bw*0.48,R*1.7),Math.min(y1,top+R*1.6)); g.stroke(); }   // tay
     if(room>R*2.6){ const py=Math.min(y1-R*0.3,top+R*2.2); g.beginPath(); g.ellipse(hx,py,R*0.55,R*0.25,0,0,TAU); g.fill(); }   // xương chậu
   }
-  g.restore();
-}
-function _wcXray(img){
+  g.restore(); }
+function _wcBones(g,D,w,cr,hint){ hint=hint||{};
+  const st=Math.max(1,Math.floor(cr.sw/140)); let x0=1e9,y0=1e9,x1=-1,y1=-1;
+  for(let y=cr.sy|0;y<cr.sy+cr.sh;y+=st) for(let x=cr.sx|0;x<cr.sx+cr.sw;x+=st) if(D[(y*w+x)*4+3]>128){ if(x<x0)x0=x; if(x>x1)x1=x; if(y<y0)y0=y; if(y>y1)y1=y; }
+  if(x1<0) return;
+  if(hint.n===2){ let cut=(x0+x1)/2, best=1e9;   // tách 2 thân ở cột ÍT điểm ảnh nhất quanh giữa hình
+    for(let x=x0+(x1-x0)*0.35|0;x<=x0+(x1-x0)*0.65;x+=st){ let c=0; for(let y=y0;y<=y1;y+=st) if(D[(y*w+x)*4+3]>128) c++; if(c<best){ best=c; cut=x; } }
+    _wcBody(g,D,w,x0,cut,y0,y1,st,hint); _wcBody(g,D,w,cut,x1,y0,y1,st,hint); return; }
+  _wcBody(g,D,w,x0,x1,y0,y1,st,hint); }
+function _wcXray(img,type){
   if(img._wcXr) return img._wcXr;
   const src=_stickerMask(img), w=src.naturalWidth||src.width, h=src.naturalHeight||src.height;
   if(!w || !h) return null;
@@ -7844,7 +7866,7 @@ function _wcXray(img){
   g.globalCompositeOperation='source-atop'; g.fillStyle='#0d2350'; g.fillRect(0,0,w,h);
   const cells=((img._frames||1)>1) ? Array.from({length:img._frames},(_,k)=>{ const fw=w/img._cols, fh=h/img._rows; return {sx:(k%img._cols)*fw, sy:Math.floor(k/img._cols)*fh, sw:fw, sh:fh}; })
                                    : [img._crop||{sx:0,sy:0,sw:w,sh:h}];
-  for(const cr of cells) _wcBones(g,D,w,cr);
+  for(const cr of cells) _wcBones(g,D,w,cr,WC_BONE[type]);
   return img._wcXr=c;
 }
 function _wcGlow(img){
@@ -7860,7 +7882,7 @@ function _wcDrawZap(u,img,sx,sy,sw,sh,dw,dh){
   const ph=Math.floor(performance.now()/60)%3;
   ctx.save();
   ctx.translate((Math.random()-0.5)*3,(Math.random()-0.5)*3);   // giật bần bật
-  if(ph<2){ const xr=_wcXray(base); if(xr) ctx.drawImage(xr,sx,sy,sw,sh,-dw/2,-dh/2,dw,dh); }
+  if(ph<2){ const xr=_wcXray(base,u.type); if(xr) ctx.drawImage(xr,sx,sy,sw,sh,-dw/2,-dh/2,dw,dh); }
   else { ctx.globalCompositeOperation='lighter'; ctx.globalAlpha=0.6; ctx.drawImage(_wcGlow(base),sx,sy,sw,sh,-dw/2,-dh/2,dw,dh); }
   ctx.restore();
   // tia điện chạy loằng ngoằng quanh người
@@ -12697,7 +12719,7 @@ const CHAR_BLURB = {
   scareddog: "Never attacks — just wanders. A black ghost and a white ghost do the fighting instead, ramming anyone who gets close; the white one also heals its owner up close.",
   calmdog: "A living time bomb. A 13s countdown ticks faster the more damage it takes, then howls for a 500 dmg blast across the whole arena — and the clock restarts.",
   chillguy: "No attack of its own — it absorbs hits and tallies them. A high enough tally awakens it, and a flying kick ends the fight.",
-  wetcat: "Brings its own storm. The rain follows wherever it walks and hurts enemies inside it; every 4s in the rain is a 25% chance of a lightning strike that zaps and stuns.",
+  wetcat: "Brings its own storm. The rain follows wherever it walks and hurts enemies inside it; every 2.5s in the rain is a 50% chance of a lightning strike that zaps and stuns.",
   droolingcat: "Drools nonstop until it pours. The drool pools into a lake that hurts enemies and heals Drooling Cat. A shark moves in once the lake covers a quarter of the floor.",
   duolingo: "Shoots greetings in five languages. A 23-second clock ticks over its head: run it down and Duo goes LAST CHANCE with laser eyes. Grab a streak freeze to stop the clock and lock Duo in ice.",
   azel: "Beatboxes his full dubstep track. Every beat is an attack: neon blade waves in the build-up, a flying number every time he raises a finger to count, WUB waves when he goes wild, and every bass drop shakes the floor around him.",
