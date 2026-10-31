@@ -44,7 +44,7 @@
   const LINES=[{t:TF.say,txt:"MASTER... WHY DIDN'T YOU TEACH ME HAKI?!"},{t:T.line1,txt:'GIVE UP, GRUMPY.'},{t:T.line2,txt:'I HAVE THE HIGH GROUND.'},{t:T.pl1,txt:'HE LEFT YOU TO BURN.'},{t:T.pl2,txt:'JOIN US... AND HE WILL KNOW PAIN.'}], CPS=30;   // chữ / giây (anh bảo chạy nhanh hơn: 18 → 30)
   const BOXES=[{t0:TF.say,t1:TF.sayOff,L:[0,0],who:'GRUMPY CAT',im:'grumpy',col:'#9fd3ff',bd:'#3a8bff',bg:['#0a2a4a','#020812'],face:[0.5,0.42],fz:0.62},
                {t0:T.line1,t1:T.boxOff,L:[1,2],who:'SUPREME CAT',im:'sup',col:'#c48cff',bd:'#8a5cff',bg:['#3a0a6a','#12021f'],face:[0.647,0.146],fz:0.38},
-               {t0:T.pl1,t1:T.pBoxOff,L:[3,4],who:'PAIN',im:'pain',col:'#ff8a5a',bd:'#ff3a2a',bg:['#4a0a0a','#120202'],face:null,fz:0.42}];   // 2 lượt hội thoại: Supreme · Pain
+               {t0:T.pl1,t1:T.pBoxOff,L:[3,4],who:'DEPRESSED CAT',im:'pain',col:'#ff8a5a',bd:'#ff3a2a',bg:['#4a0a0a','#120202'],face:null,fz:0.42}];   // 2 lượt hội thoại: Supreme · Pain
   const A=p=>{ const im=new Image(); im.src=p; return im; };
   const IMG={ grumpy:A('assets/avatars/grumpycat/avatarUrl.webp'), grumpyAtk:A('assets/avatars/grumpycat/attackAvatarUrl.webp'), sup:A('assets/avatars/supremearbiter/avatarUrl.webp'),
     vader:A('assets/avatars/catvader/avatarUrl.webp'), vaderHand:A('assets/avatars/catvader/skill2AvatarUrl.webp'), pain:A('assets/img/depressedcat/DP_PAIN_IMG.webp'),
@@ -648,8 +648,11 @@
     for(let a=0;a<N;a++) for(let b=0;b<N;b++){ const q=a*N+b, dl=hash(i*13+q)*0.35, v=clamp((u-dl)/0.85,0,1); if(v>=1) continue;
       const sx0=cx-FW/2+(a+0.5)*FW/N, sy0=cy-FH/2+(b+0.5)*FH/N, e=v*v*(3-2*v), mx=(sx0+kx)/2+(hash(q+i*7)-0.5)*260, my=Math.min(sy0,ky)-120-160*hash(q+3+i);
       const x=(1-e)*(1-e)*sx0+2*(1-e)*e*mx+e*e*kx, y=(1-e)*(1-e)*sy0+2*(1-e)*e*my+e*e*ky, sc=1-0.85*e, rot=(hash(q+9+i)-0.5)*8*e;
-      g.save(); g.globalCompositeOperation='lighter'; glow(x,y,FW/N*0.9*sc+4,0.5*(1-e*0.5),'255,60,50'); g.restore();
-      g.save(); g.translate(x,y); g.rotate(rot); g.scale(sc,sc); g.drawImage(fc.src,fc.sx+a*fc.sw/N,fc.sy+b*fc.sh/N,fc.sw/N,fc.sh/N,-FW/N/2,-FH/N/2,FW/N,FH/N); g.restore(); } }
+      const fa=1-eio(clamp((e-0.35)/0.45,0,1)); if(fa<=0.01) continue;   // 🌫️ (anh dặn 31/10) mảnh TAN BIẾN dần trên đường bay — không bám lên người tượng
+      g.save(); g.globalCompositeOperation='lighter'; glow(x,y,FW/N*0.9*sc+4,0.5*fa,'255,60,50');
+      for(let d=0;d<5;d++){ const dx=(hash(q*5+d+i*31)-0.5)*FW/N*(0.4+1.4*e), dy=(hash(q*5+d+i*31+7)-0.5)*FH/N*(0.4+1.4*e)-30*e; glow(x+dx,y+dy,3+5*hash(q+d),0.8*fa*e,'255,90,60'); }   // bụi đỏ bay ra khi tan
+      g.restore();
+      g.save(); g.globalAlpha=fa; g.translate(x,y); g.rotate(rot); g.scale(sc,sc); g.drawImage(fc.src,fc.sx+a*fc.sw/N,fc.sy+b*fc.sh/N,fc.sw/N,fc.sh/N,-FW/N/2,-FH/N/2,FW/N,FH/N); g.restore(); } }
   // 🔍 CẬN CẢNH (anh dặn 30/10): 1 con Friend to cả màn hình, đang bị rút năng lượng vẫn LAO ĐÂM liên tục vào lồng (kiểu lướt đâm "nhoi nhoi" trong game)
   //    mỗi cú húc: lao vụt về phía máy (để lại bóng mờ) → song sắt cong ra, phong ấn vàng loé lên chặn lại, toé lửa, rung màn → bị kéo giật về
   const RAMS=[0.05,0.5,0.95,1.4];   // giây trong cận cảnh (trùng 4 tiếng fr_dash)
@@ -701,6 +704,14 @@
     g.lineWidth=10; g.strokeStyle='#000'; g.beginPath(); g.moveTo(-10,VH*0.64+3); g.lineTo(VW+10,VH*0.36-3); g.stroke(); g.lineWidth=3; g.strokeStyle='rgba(255,255,255,0.9)'; g.stroke();   // đường chia chéo
     if(u>0.93){ g.fillStyle=`rgba(0,0,0,${(u-0.93)/0.07})`; g.fillRect(0,0,VW,VH); }
     g.restore(); }
+  // 👁️ tâm 2 mắt Friend trên ảnh avatar (tỉ lệ khung đã cắt sát — đo điểm ảnh vàng / hồng): vàng · hồng
+  const FR_EYES=[[0.595,0.227,'255,220,40'],[0.761,0.227,'255,110,200']], FR_EYE_R=0.05;
+  // mắt tượng sống lại: vòng mắt loé sáng chói 1 nhịp rồi giữ sáng · con ngươi đen đảo TRÁI → PHẢI → về GIỮA
+  function stEyes(ST,t,a){ const u=t-T.stEyes, flash=Math.exp(-u*5), on=Math.min(1,u/0.12), r=ST.w*FR_EYE_R;
+    const look=u<0.35?0:u<0.6?-1:u<0.95?1:u<1.15?-0.4:0, px=look*r*0.42;   // nhìn trái → phải → hơi trái → giữa
+    for(const [ex,ey,col] of FR_EYES){ const x=ST.x+ex*ST.w, y=ST.y+ey*ST.h;
+      g.save(); g.globalCompositeOperation='lighter'; glow(x,y,r*(2.2+5*flash),(0.75+0.25*flash)*on*a,col); glow(x,y,r*0.95,on*a,'255,250,235'); g.restore();
+      g.save(); g.globalAlpha=on*a; g.fillStyle='#0a0406'; const pr=r*0.36; g.beginPath(); g.roundRect(x+px-pr,y-pr,pr*2,pr*2,pr*0.35); g.fill(); g.restore(); } }
   function scene5(t){
     const K=window._l2e2Kit; if(!K || !K.get().BG){ return; } const prevG=K.setG(g), C=K.C, G=K.get(), ST=G.ST, CG=C.CAGE, tt=T2+(t-T.cave), fc=prep(K.imgs()[1]);
     K.bg();
@@ -712,9 +723,7 @@
     if(realK>0 && fr){ g.save(); g.globalAlpha=realK; g.drawImage(fr.src,fr.sx,fr.sy,fr.sw,fr.sh,ST.x,ST.y,ST.w,ST.h); g.restore(); }
     if(t>=T.real && t<T.real+1.0){ const u=seg(t,T.real,T.real+1.0); g.save(); g.globalCompositeOperation='lighter'; glow(C.STX,ST.y+ST.h*0.45,ST.h*0.8,0.6*Math.sin(u*Math.PI),'255,210,120'); g.restore();
       if(window.VfxGL){ const sd=Math.floor(t*16); for(let i=0;i<3;i++) VfxGL.boltSet(g,ST.x+hash(sd*3+i)*ST.w,ST.y+ST.h*0.1+hash(sd*3+i+1)*ST.h*0.5,Math.PI/2+(hash(sd+i)-0.5)*0.8,260,14,sd*5+i,{core:'#fff6d8',rim:'#ffb340',glow:'rgba(255,190,80,0.3)'}); } }   // ⚡ sét biến hình (thư viện sét chung)
-    const se=seg(t,T.stEyes,T.stEyes+0.35); if(se>0){ g.save(); g.globalCompositeOperation='lighter'; const r=ST.h*0.055*(1+0.3*Math.sin(t*9));
-      glow(ST.x+0.56*ST.w,ST.y+0.27*ST.h,r*2.2,0.9*se,'255,220,40'); glow(ST.x+0.71*ST.w,ST.y+0.27*ST.h,r*2.2,0.9*se,'255,110,200');
-      glow(ST.x+0.56*ST.w,ST.y+0.27*ST.h,r*0.7,se,'255,255,230'); glow(ST.x+0.71*ST.w,ST.y+0.27*ST.h,r*0.7,se,'255,240,250'); g.restore(); }
+    if(t>=T.stEyes && realK<1) stEyes(ST,t,1-realK);   // 👁️ 2 mắt tượng LOÉ SÁNG + con ngươi đảo như vừa sống lại (anh dặn 31/10)
     g.restore();
     K.hands(T2,1); if(t<T.cageBurst) K.cuffs(T2,1);
     K.flames(t);
@@ -796,11 +805,17 @@
   const PEAK=(()=>{ const out=[]; for(let i=0;i<8;i++){ const x0=MTOP[i*2][0], x1=MTOP[Math.min(16,i*2+2)][0], yb0=MTOP[i*2][1], yb1=MTOP[Math.min(16,i*2+2)][1], cx=(x0+x1)/2, ty=lerp(PEAKY,yb0,Math.abs(cx-270)/350);
     out.push({P:[[x0,yb0],[x1,yb1],[lerp(x0,x1,0.7),ty+10],[lerp(x0,x1,0.3),ty]],cx,cy:(yb0+ty)/2,vx:(cx-270)*1.6+(hash(i+1900)-0.5)*120,vy:-520-300*hash(i+1901),vr:(hash(i+1902)-0.5)*5}); } return out; })();
   // 🐉 ĐUÔI kiểu THẬP VĨ: 10 đuôi to mọc từ sau lưng Friend vươn thẳng lên tận trời — CHỈ hiện BÓNG (đen tuyền, viền đỏ mờ trăng máu)
-  const TAILS6=Array.from({length:10},(_,i)=>{ const u=i/9-0.5; return {u, a0:-Math.PI/2+u*1.5, bend:-u*0.9+(hash(i+2200)-0.5)*0.5, L:2300+500*hash(i+2201), w:120+40*hash(i+2202), dl:Math.abs(u)*0.5+hash(i+2203)*0.25, ph:hash(i+2204)*6}; });
+  // (anh dặn 31/10) đuôi TO, KHÔNG nhọn, CONG QUẮN về cuối, vươn qua khỏi trời · đầu mỗi đuôi là 1 BÀN TAY (kiểu Thập Vĩ)
+  const TAILS6=Array.from({length:10},(_,i)=>{ const u=i/9-0.5; return {u, a0:-Math.PI/2+u*1.5, bend:-u*0.9+(hash(i+2200)-0.5)*0.5, curl:(i%2?1:-1)*(2.6+1.6*hash(i+2205)), L:2900+700*hash(i+2201), w:200+70*hash(i+2202), dl:Math.abs(u)*0.5+hash(i+2203)*0.25, ph:hash(i+2204)*6, hand:i%3}; });
   function tail(bx,by,T6,k,t){ const N=34, L=T6.L*k, pts=[]; let x=bx, y=by, a=T6.a0;
-    for(let n=0;n<=N;n++){ const s=n/N; pts.push([x,y,a]); a+=(T6.bend+(s>0.78?T6.bend*2.4:0))/N+Math.sin(t*1.2+T6.ph+s*3.2)*0.05*s; x+=Math.cos(a)*L/N; y+=Math.sin(a)*L/N; }
-    const side=sg=>pts.map(([x,y,a],n)=>{ const s=n/N, w=T6.w*(1-s*0.92)*(0.6+0.4*k); return [x+Math.cos(a+sg*Math.PI/2)*w/2, y+Math.sin(a+sg*Math.PI/2)*w/2]; });
-    const P=side(1).concat(side(-1).reverse()); g.beginPath(); P.forEach((q,n)=>n?g.lineTo(q[0],q[1]):g.moveTo(q[0],q[1])); g.closePath(); }
+    for(let n=0;n<=N;n++){ const s=n/N; pts.push([x,y,a]); a+=T6.bend/N+(s>0.55?T6.curl*k*(s-0.55)*2.2/N:0)+Math.sin(t*1.2+T6.ph+s*3.2)*0.06*s; x+=Math.cos(a)*L/N; y+=Math.sin(a)*L/N; }   // nửa cuối cuộn quắn
+    const side=sg=>pts.map(([x,y,a],n)=>{ const s=n/N, w=T6.w*(1-s*0.3)*(0.6+0.4*k); return [x+Math.cos(a+sg*Math.PI/2)*w/2, y+Math.sin(a+sg*Math.PI/2)*w/2]; });   // gần như KHÔNG thon — đuôi to tới tận đầu
+    const P=side(1).concat(side(-1).reverse()); g.beginPath(); P.forEach((q,n)=>n?g.lineTo(q[0],q[1]):g.moveTo(q[0],q[1])); g.closePath(); return pts[N]; }
+  // ✋ bàn tay ở đầu đuôi: ảnh tay bóng đen có sẵn (ngón chĩa sang PHẢI) → xoay theo hướng đuôi, đen tuyền như đuôi
+  const TAILHAND=['HAND_grip','HAND_slap','HAND_lunge'].map(n=>A('assets/img/scaredhamster/'+n+'.webp'));
+  function tailHand(tip,T6,k){ const hc=prep(TAILHAND[T6.hand]); if(!hc || !tip) return; const L=T6.w*2.4*(0.6+0.4*k), Hh=L*hc.sh/hc.sw;
+    g.save(); g.translate(tip[0],tip[1]); g.rotate(tip[2]); g.drawImage(hc.src,hc.sx,hc.sy,hc.sw,hc.sh,-L*0.12,-Hh/2,L,Hh); g.restore(); }
+  const FR6_H=1750, FR6_BASE=1480;   // 🐈‍⬛ Friend cảnh cuối TO thêm ~52% (1150 → 1750, anh dặn 31/10): đỉnh tai gần chạm trăng máu (tâm y −430, bán kính 300); chân vẫn khuất sau núi (núi vẽ tới y 1500)
   let FRT=null;
   function frTint(fr){ if(FRT) return FRT; const o=mk(fr.sw,fr.sh), x=o.getContext('2d'); x.drawImage(fr.src,fr.sx,fr.sy,fr.sw,fr.sh,0,0,fr.sw,fr.sh);
     x.globalCompositeOperation='multiply'; x.fillStyle='rgba(200,90,90,0.35)'; x.fillRect(0,0,fr.sw,fr.sh); x.globalCompositeOperation='destination-in'; x.drawImage(fr.src,fr.sx,fr.sy,fr.sw,fr.sh,0,0,fr.sw,fr.sh); return FRT=o; }
@@ -808,16 +823,16 @@
     const K=window._l2e2Kit, fr=K&&prep(K.imgs()[1]);
     drawBG(BG5);
     // 🐉 đuôi Thập Vĩ (vẽ TRƯỚC Friend → mọc ra từ sau lưng)
-    if(fr && t>=T.hands){ const HS=1150, base=1150, bx=270, by=base-HS*0.42;
+    if(fr && t>=T.hands){ const HS=FR6_H, base=FR6_BASE, bx=270, by=base-HS*0.42;
       for(const T6 of TAILS6){ const k=eout(seg(t,T.hands+T6.dl,T.hands+T6.dl+1.6)); if(k<=0.01) continue; const x0=bx+T6.u*HS*0.5;
-        g.save(); tail(x0,by,T6,k,t); g.shadowColor='rgba(255,40,30,0.55)'; g.shadowBlur=26*SC*cam(t)[2]; g.fillStyle='#070103'; g.fill(); g.restore(); } }
+        g.save(); const tip=tail(x0,by,T6,k,t); g.shadowColor='rgba(255,40,30,0.55)'; g.shadowBlur=26*SC*cam(t)[2]; g.fillStyle='#070103'; g.fill(); tailHand(tip,T6,k); g.restore(); } }
     // 🐈‍⬛ Friend THẬT trồi lên từ lòng núi → thoát hẳn → gầm
-    if(fr){ const rise=eio(seg(t,T.rise,T.free)), HS=1150, WS=HS*fr.sw/fr.sh, roarK=t>=T.roar?Math.exp(-(t-T.roar)*2.2)*Math.sin(Math.min(1,(t-T.roar)*6)*Math.PI*0.5):0;
-      const base=lerp(1950,1150,rise)+(t<T.free?Math.sin(t*30)*5:0), sc=1+0.07*roarK, x0=270-WS*sc/2, y0=base-HS*sc;
+    if(fr){ const rise=eio(seg(t,T.rise,T.free)), HS=FR6_H, WS=HS*fr.sw/fr.sh, roarK=t>=T.roar?Math.exp(-(t-T.roar)*2.2)*Math.sin(Math.min(1,(t-T.roar)*6)*Math.PI*0.5):0;
+      const base=lerp(FR6_BASE+900,FR6_BASE,rise)+(t<T.free?Math.sin(t*30)*5:0), sc=1+0.07*roarK, x0=270-WS*sc/2, y0=base-HS*sc;
       g.save(); g.globalCompositeOperation='lighter'; glow(270,y0+HS*0.35,760,0.22*rise+0.3*roarK,'200,30,30'); g.restore();
       const FT=frTint(fr); g.drawImage(FT,0,0,FT.width,FT.height,x0,y0,WS*sc,HS*sc);   // ánh trăng máu nhuộm đỏ (nhuộm SẴN trên hình — trước đây nhuộm cả khung chữ nhật quanh Friend, lùi xa thấy rõ)
       g.save(); g.globalCompositeOperation='lighter'; const r=HS*0.05*(1+0.25*Math.sin(t*7)+0.8*roarK);
-      for(const [u,v,col] of [[0.56,0.27,'255,220,40'],[0.71,0.27,'255,110,200']]){ const ex=x0+u*WS*sc, ey=y0+v*HS*sc; glow(ex,ey,r*2.6,0.95,col); glow(ex,ey,r*0.8,1,'255,250,240'); } g.restore();
+      for(const [u,v,col] of FR_EYES){ const ex=x0+u*WS*sc, ey=y0+v*HS*sc; glow(ex,ey,r*2.6,0.95,col); glow(ex,ey,r*0.8,1,'255,250,240'); } g.restore();
       if(t>=T.roar){ const u=t-T.roar; g.save(); for(let k=0;k<4;k++){ const ph=u*0.9-k*0.25; if(ph<0||ph>1) continue;   // 🔊 sóng gầm toả ra
           g.strokeStyle=`rgba(255,80,60,${0.6*(1-ph)})`; g.lineWidth=18*(1-ph)+2; g.beginPath(); g.ellipse(270,y0+HS*0.62*sc,200+1500*ph,(200+1500*ph)*0.45,0,0,Math.PI*2); g.stroke(); } g.restore(); } }
     drawBG(MT);
