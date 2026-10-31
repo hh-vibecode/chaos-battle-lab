@@ -37,6 +37,12 @@ mỗi nhịp 1 tiếng · hiệu ứng skill trong phim phải giống trong gam
 - Va chạm: `post` shock (str ~24–34 px logic, w ~26) + chroma 2–3 giảm dần trong 0.5s + khung impact 2–4 khung — mạnh hơn hẳn vòng tròn vẽ tay.
 - Lao tới: zoom blur k 0.06–0.14 tâm ở mục tiêu.
 
+## 1b. Mặt nước — `VfxGL.water(src, mask, o)` (thêm 31/10, dùng cho vũng Drooling Cat)
+- src = ảnh chụp vùng canvas NGAY DƯỚI mặt nước (px thiết bị), mask = hình mặt nước (trắng, mép làm MỜ = độ sâu). Trả canvas → `drawImage` lại đúng chỗ.
+- Có sẵn: khúc xạ (sàn gợn méo theo sóng), hấp thụ màu (mép trong, giữa sâu), caustics đáy hồ, lấp lánh, ánh trời ở mép, vạch mép nước.
+  `o`: `t` giây · `k` (px thiết bị / đơn vị thế giới → sóng cùng cỡ mọi độ phân giải) · `deep`/`shallow` màu · `refr` độ méo · `alpha`.
+- Mẫu gắn trong game: `_dlPoolGL` (js/game.js) — chụp, dựng mask theo transform của ctx, gọi shader, dán lại; gợn/vây/máu vẽ chồng sau.
+
 ## 5. Thư viện 2D dùng chung (VfxGL, không cần WebGL) — thêm 29/10
 - **Sét manga/anime** `VfxGL.boltSet(ctx, x, y, góc, dài, dày, seed, {core, rim, glow, branches})` (1 tia chính + 2–4 tia nhỏ bám khớp gãy) / `VfxGL.bolt(...)` (1 tia).
   Mặc định haki: lõi đen + viền đỏ + quầng đỏ. Sét xanh: `{core:'#e8f6ff', rim:'#3aa0ff', glow:'rgba(80,170,255,0.3)'}`. Đổi `seed` mỗi 3–4 khung → giật hình kiểu anime.

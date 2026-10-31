@@ -7584,10 +7584,10 @@ function _dlDrawPool(){
   // 💧 giọt dãi đang chảy trên sàn về giữa: hạt nước + vệt ướt kéo theo sau
   for(const d of dlDrops){ if(!d.ground) continue;
     const tr=d.trail||[];
-    for(let j=0;j<tr.length;j+=2){ const k=(j/2+1)/(tr.length/2+1);
-      ctx.fillStyle=`rgba(150,225,255,${0.15+0.45*k})`; ctx.beginPath(); ctx.ellipse(tr[j],tr[j+1],d.r*(0.4+0.5*k),d.r*(0.4+0.5*k)*0.7,0,0,Math.PI*2); ctx.fill(); }
-    ctx.fillStyle='rgba(160,230,255,0.9)'; ctx.beginPath(); ctx.ellipse(d.x,d.y,d.r,d.r*0.75,0,0,Math.PI*2); ctx.fill();
-    ctx.fillStyle='rgba(255,255,255,0.85)'; ctx.beginPath(); ctx.arc(d.x-d.r*0.3,d.y-d.r*0.25,d.r*0.3,0,Math.PI*2); ctx.fill();
+    for(let j=0;j<tr.length;j+=2){ const k=(j/2+1)/(tr.length/2+1);   // vệt ƯỚT: sàn sẫm + bóng loáng nhẹ (không phải chấm xanh)
+      ctx.fillStyle=`rgba(10,40,80,${0.12+0.2*k})`; ctx.beginPath(); ctx.ellipse(tr[j],tr[j+1],d.r*(0.5+0.5*k),d.r*(0.5+0.5*k)*0.7,0,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle=`rgba(200,240,255,${0.08*k})`; ctx.beginPath(); ctx.ellipse(tr[j]-d.r*0.15,tr[j+1]-d.r*0.15,d.r*0.35*k,d.r*0.2*k,0,0,Math.PI*2); ctx.fill(); }
+    _dlDropBody(d.x,d.y,d.r,d.r*0.75);
   }
   if(!dlPools.length) return;
   const SS=_ARENA_SS, cw=Math.ceil(W*SS), ch=Math.ceil(H*SS);
@@ -7599,6 +7599,7 @@ function _dlDrawPool(){
   x0=Math.max(0,Math.floor(x0)); y0=Math.max(0,Math.floor(y0)); x1=Math.min(W,Math.ceil(x1)); y1=Math.min(H,Math.ceil(y1));
   if(x1<=x0 || y1<=y0) return;
   const bw=x1-x0, bh=y1-y0, tm=performance.now()/1000;
+  if(_dlPoolGL(x0,y0,x1,y1,tm)) return _dlPoolExtras();   // 💧 shader nước thật (VfxGL.water) — không có WebGL thì vẽ kiểu cũ bên dưới
   const g=_dlWaterCv.getContext('2d'), r=_dlRimCv.getContext('2d');
   for(const q of [g,r]){ q.setTransform(1,0,0,1,0,0); q.globalCompositeOperation='source-over'; q.globalAlpha=1; q.clearRect(x0*SS-2,y0*SS-2,bw*SS+4,bh*SS+4); q.setTransform(SS,0,0,SS,0,0); }
   // ① khuôn: hợp của mọi vũng
@@ -7646,6 +7647,53 @@ function _dlDrawPool(){
   for(const q of dlFish){ if(q.k!=='hop') continue; const u=q.t/q.T, x=q.x0+q.dx*u, y=q.y0-Math.sin(u*Math.PI)*22;
     _dlPiranha(x,y,15,Math.atan2(-Math.cos(u*Math.PI)*22*Math.PI/q.T,q.dx/q.T),0.3); }
 }
+// 💧 thân 1 giọt nước nằm trên sàn: trong suốt ở giữa, mép xanh đậm (khúc xạ), chấm phản chiếu + ánh phụ
+function _dlDropBody(x,y,rx,ry){ const gd=ctx.createRadialGradient(x-rx*0.2,y-ry*0.2,0,x,y,Math.max(rx,ry)); gd.addColorStop(0,'rgba(215,248,255,0.3)'); gd.addColorStop(0.65,'rgba(110,200,240,0.55)'); gd.addColorStop(1,'rgba(25,100,175,0.85)');
+  ctx.fillStyle=gd; ctx.beginPath(); ctx.ellipse(x,y,rx,ry,0,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='rgba(255,255,255,0.95)'; ctx.beginPath(); ctx.ellipse(x-rx*0.35,y-ry*0.3,rx*0.25,ry*0.2,-0.4,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='rgba(255,255,255,0.35)'; ctx.beginPath(); ctx.ellipse(x+rx*0.3,y+ry*0.45,rx*0.3,ry*0.12,0,0,Math.PI*2); ctx.fill(); }
+// 💧 VŨNG NƯỚC BẰNG SHADER (anh dặn 31/10: "giống nước nhất có thể", dùng skill tao-vfx): chụp mặt sàn ngay dưới vũng → mặt nạ hình vũng
+//    (mép làm MỜ = độ sâu) → VfxGL.water: khúc xạ sàn gợn méo theo sóng, nước trong ở mép / xanh sâu ở giữa, vân sáng đáy hồ, lấp lánh, ánh trời ở mép
+let _dlSnapCv=null, _dlMaskCv=null;
+function _dlPoolGL(x0,y0,x1,y1,tm){ if(!window.VfxGL || !VfxGL.water) return false;
+  const T=ctx.getTransform(), cv=ctx.canvas, sc=Math.hypot(T.a,T.b)||1, pad=20;
+  const a=T.transformPoint(new DOMPoint(x0-pad,y0-pad)), b=T.transformPoint(new DOMPoint(x1+pad,y1+pad));
+  const dx0=Math.max(0,Math.floor(Math.min(a.x,b.x))), dy0=Math.max(0,Math.floor(Math.min(a.y,b.y))), dw=Math.min(cv.width,Math.ceil(Math.max(a.x,b.x)))-dx0, dh=Math.min(cv.height,Math.ceil(Math.max(a.y,b.y)))-dy0;
+  if(dw<8 || dh<8) return true;   // vũng nằm ngoài khung hình
+  const S=_dlSnapCv||(_dlSnapCv=document.createElement('canvas')), M=_dlMaskCv||(_dlMaskCv=document.createElement('canvas'));
+  for(const c of [S,M]){ if(c.width!==dw||c.height!==dh){ c.width=dw; c.height=dh; } }
+  const sg=S.getContext('2d'); sg.setTransform(1,0,0,1,0,0); sg.clearRect(0,0,dw,dh); sg.drawImage(cv,dx0,dy0,dw,dh,0,0,dw,dh);   // mặt sàn dưới vũng
+  const mg=M.getContext('2d'); mg.setTransform(1,0,0,1,0,0); mg.clearRect(0,0,dw,dh); mg.setTransform(T.a,T.b,T.c,T.d,T.e-dx0,T.f-dy0);
+  const bl=Math.max(2,9*sc); mg.filter=`blur(${bl.toFixed(1)}px)`; mg.fillStyle='#fff'; for(const p of dlPools){ _dlBlobPath(mg,p,tm,-3); mg.fill(); }   // mép mờ → giữa "sâu" hơn
+  mg.filter='none'; mg.fillStyle='rgba(255,255,255,0.55)'; for(const p of dlPools){ if(p.R<14) continue; _dlBlobPath(mg,p,tm,-p.R*0.35); mg.fill(); }   // lòng hồ sâu hẳn
+  const out=VfxGL.water(S,M,{t:tm,k:sc,deep:'#0b4a86',shallow:'#86d8f2',refr:1});
+  if(!out) return false;
+  ctx.save(); ctx.setTransform(1,0,0,1,0,0); ctx.drawImage(out,dx0,dy0); ctx.restore();
+  return true; }
+// gợn tròn (giọt rơi, cá ngoi/lặn) · máu loang · vệt sóng sau vây · viền mép nước — vẽ chồng lên mặt nước shader, CẮT theo khuôn vũng
+function _dlPoolExtras(){ const tm=performance.now()/1000;
+  ctx.save(); ctx.beginPath(); for(const p of dlPools){ const N=44, R=Math.max(0,p.R); for(let i=0;i<=N;i++){ const a=i/N*Math.PI*2, w=1+0.035*Math.sin(a*3+tm*0.8+p.sd)+0.022*Math.sin(a*5-tm*1.2+p.sd*1.7)+0.012*Math.sin(a*9+tm*2+p.sd*0.3);
+    const x=p.x+Math.cos(a)*R*w, y=p.y+Math.sin(a)*R*w*DL_POOL_SQ; i?ctx.lineTo(x,y):ctx.moveTo(x,y); } ctx.closePath(); } ctx.clip();
+  for(const e of dlFx){ if(e.k!=='ring' || e.t<0) continue; const k=e.t/e.max, rr=e.r+18*(1-Math.pow(1-k,2));   // gợn: 2 vòng (sáng ngoài, tối trong) → có khối như sóng thật
+    ctx.lineWidth=1.4; ctx.strokeStyle=`rgba(240,253,255,${0.7*(1-k)})`; ctx.beginPath(); ctx.ellipse(e.x,e.y,rr,rr*DL_POOL_SQ,0,0,Math.PI*2); ctx.stroke();
+    ctx.lineWidth=1.1; ctx.strokeStyle=`rgba(5,40,80,${0.35*(1-k)})`; ctx.beginPath(); ctx.ellipse(e.x,e.y+1.2,rr*0.86,rr*0.86*DL_POOL_SQ,0,0,Math.PI*2); ctx.stroke(); }
+  for(const e of dlFx){ if(e.k!=='blood' || e.t<0) continue; const k=e.t/e.max, x=e.x+e.vx*e.t, y=e.y+e.vy*e.t, rr=e.r*(0.6+1.6*Math.pow(k,0.6)), al=0.42*(k<0.15?k/0.15:1)*(1-k);
+    const bg=ctx.createRadialGradient(x,y,0,x,y,rr); bg.addColorStop(0,`rgba(120,0,10,${al})`); bg.addColorStop(0.55,`rgba(150,10,20,${al*0.6})`); bg.addColorStop(1,'rgba(150,10,20,0)');
+    ctx.save(); ctx.translate(x,y); ctx.scale(1,DL_POOL_SQ*1.3); ctx.translate(-x,-y); ctx.fillStyle=bg; ctx.beginPath(); ctx.arc(x,y,rr,0,Math.PI*2); ctx.fill(); ctx.restore(); }
+  for(const u of fighters){ if(u.dead) continue; const fy=_dlFeetY(u); if(!_dlPoolAt(u.x,fy,-4)) continue;   // 🦶 đứng trong nước: vòng mép nước ôm chân + gợn lan ra đều như đang lội
+    const rx=(u.size||20)*0.75, ph=(tm*1.1+u.x*0.013)%1;
+    ctx.lineWidth=1.6; ctx.strokeStyle='rgba(235,250,255,0.6)'; ctx.beginPath(); ctx.ellipse(u.x,fy,rx,rx*DL_POOL_SQ*0.55,0,0,Math.PI*2); ctx.stroke();
+    ctx.lineWidth=1.1; ctx.strokeStyle=`rgba(235,250,255,${0.45*(1-ph)})`; ctx.beginPath(); ctx.ellipse(u.x,fy,rx*(1+ph*0.9),rx*(1+ph*0.9)*DL_POOL_SQ*0.55,0,0,Math.PI*2); ctx.stroke(); }
+  for(const n of dlFins) for(const w of n.wake){ const k=w.t/40, rr=4+k*16; ctx.lineWidth=1.2; ctx.strokeStyle=`rgba(240,253,255,${0.5*(1-k)})`; ctx.beginPath(); ctx.ellipse(w.x,w.y,rr,rr*DL_POOL_SQ,0,0,Math.PI*2); ctx.stroke(); }
+  ctx.restore();
+  // 🦈 vây cá mập rẽ nước + 🐟 piranha nhảy (như cũ)
+  for(const n of dlFins){ const im=SHK[0]; if(!im.naturalWidth) continue;
+    const fw=DL_FIN_K*16*2.5, fh=fw*im.naturalHeight/im.naturalWidth, up=Math.min(1,n.t/20)*0.62, bob=Math.sin(n.t*0.09)*1.2, mvR=Math.cos(n.ang)>0;
+    ctx.save(); ctx.translate(n.x,n.y+bob); if(!mvR) ctx.scale(-1,1); ctx.beginPath(); ctx.rect(-fw,-fh*2,fw*2,fh*2); ctx.clip(); ctx.drawImage(im,-fw*0.31,-fh*up,fw,fh); ctx.restore();
+    ctx.save(); ctx.translate(n.x,n.y+bob); ctx.strokeStyle='rgba(240,253,255,0.75)'; ctx.lineWidth=1.3; ctx.beginPath(); ctx.ellipse(0,1,fw*0.22,fw*0.05,0,0,Math.PI*2); ctx.stroke(); ctx.restore(); }   // bọt ôm chân vây
+  for(const q of dlFish){ if(q.k!=='hop') continue; const u=q.t/q.T, x=q.x0+q.dx*u, y=q.y0-Math.sin(u*Math.PI)*22;
+    _dlPiranha(x,y,15,Math.atan2(-Math.cos(u*Math.PI)*22*Math.PI/q.T,q.dx/q.T),0.3); }
+}
 // 🤤 vẽ SAU meme: giọt dãi đang rơi + dòng dãi từ mồm, piranha đang đớp, cá mập ngoi lên ngoạm
 function _dlDrawOver(){
   for(const f of fighters){
@@ -7674,9 +7722,10 @@ function _dlDrawOver(){
     if(d.ground) continue;
     if(d.owner && (d.owner._dlRate||0)>=DL_STREAM_RATE) continue;   // đã thành dòng/thác: nước chảy liền một dải, không còn giọt rơi riêng
     const st=Math.min(3,1+d.vy*0.25), r=d.r;
-    ctx.fillStyle='rgba(150,225,255,0.88)';
-    ctx.beginPath(); ctx.moveTo(d.x,d.y-r*st*1.4); ctx.quadraticCurveTo(d.x+r,d.y-r*0.3,d.x+r*0.9,d.y+r*0.3); ctx.arc(d.x,d.y+r*0.3,r*0.9,0,Math.PI); ctx.quadraticCurveTo(d.x-r,d.y-r*0.3,d.x,d.y-r*st*1.4); ctx.fill();
-    ctx.fillStyle='rgba(255,255,255,0.9)'; ctx.beginPath(); ctx.arc(d.x-r*0.3,d.y,r*0.3,0,Math.PI*2); ctx.fill();
+    const gd=ctx.createRadialGradient(d.x-r*0.2,d.y,0,d.x,d.y+r*0.2,r*1.2); gd.addColorStop(0,'rgba(215,248,255,0.35)'); gd.addColorStop(0.6,'rgba(110,200,240,0.6)'); gd.addColorStop(1,'rgba(30,110,185,0.9)');   // giọt TRONG: giữa trong, mép xanh đậm (khúc xạ)
+    ctx.fillStyle=gd; ctx.beginPath(); ctx.moveTo(d.x,d.y-r*st*1.4); ctx.quadraticCurveTo(d.x+r,d.y-r*0.3,d.x+r*0.9,d.y+r*0.3); ctx.arc(d.x,d.y+r*0.3,r*0.9,0,Math.PI); ctx.quadraticCurveTo(d.x-r,d.y-r*0.3,d.x,d.y-r*st*1.4); ctx.fill();
+    ctx.fillStyle='rgba(255,255,255,0.95)'; ctx.beginPath(); ctx.ellipse(d.x-r*0.35,d.y-r*0.05,r*0.22,r*0.34,-0.3,0,Math.PI*2); ctx.fill();   // chấm phản chiếu
+    ctx.fillStyle='rgba(255,255,255,0.4)'; ctx.beginPath(); ctx.ellipse(d.x+r*0.3,d.y+r*0.65,r*0.28,r*0.12,0,0,Math.PI*2); ctx.fill();   // ánh phụ đáy giọt
   }
   for(const q of dlFish){   // 🐟 piranha đớp: vọt vòng cung lên người địch → cắn bám lắc lắc → rơi lại xuống nước
     if(q.k!=='bite') continue;

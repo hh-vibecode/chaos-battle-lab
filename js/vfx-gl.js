@@ -108,6 +108,34 @@
     const z=fx.zoom; gl.uniform3f(pr.loc('zm'),z?z.x:0,z?h-z.y:0,z?z.k:0); gl.uniform1f(pr.loc('chroma'),fx.chroma||0);
     gl.uniform2f(pr.loc('heat'),fx.heat?fx.heat.k:0,fx.heat?fx.heat.t:0);
     return run(pr,w,h); }
+  // ───────── 💧 MẶT NƯỚC (anh dặn 31/10: Drooling Cat "giống nước nhất có thể") ─────────
+  // VfxGL.water(src, mask, o) → canvas cùng cỡ src. src = ảnh chụp mặt sàn NGAY DƯỚI vũng (px thiết bị), mask = hình vũng (trắng, mép làm MỜ → càng vào giữa càng "sâu").
+  //   khúc xạ: mặt sàn nhìn xuyên qua bị gợn méo theo sóng (nhiễu fbm 2 lớp trôi ngược chiều) · hấp thụ: mép trong, giữa xanh sâu
+  //   · vân sáng đáy hồ (caustics) chuyển động · lấp lánh phản chiếu theo pháp tuyến sóng · ánh trời ở mép (fresnel) · vạch sáng mép nước
+  //   o: {t giây, k (px thiết bị / 1 đơn vị thế giới), deep:'#hex', shallow:'#hex', refr (độ méo, mặc định 1), alpha}
+  const WATER_FS=NOISE+`
+    uniform sampler2D src, msk; uniform vec2 res; uniform float t, k, refr, alpha; uniform vec3 deep, shallow;
+    float hgt(vec2 p){ return fbm(p*.045+vec2(t*.22,t*.13))*.65+fbm(p*.09-vec2(t*.17,-t*.24))*.35; }
+    float caus(vec2 p){ vec2 q=p*.07; float v=0.; for(int i=0;i<3;i++){ q+=vec2(sin(q.y*1.7+t*.9),cos(q.x*1.5-t*.7))*.45; v+=pow(1.-abs(sin(q.x)+sin(q.y))*.5,6.); q*=1.6; } return v/3.; }
+    void main(){ vec2 px=uv*res; vec2 w=px/k;                                  // toạ độ thế giới → sóng cùng cỡ ở mọi độ phân giải
+      float m=texture2D(msk,uv).a; if(m<.004){ gl_FragColor=vec4(0.); return; }
+      float e=2.6, h=hgt(w), hx=hgt(w+vec2(e,0.))-h, hy=hgt(w+vec2(0.,e))-h; vec2 n=vec2(hx,hy)/e;   // pháp tuyến sóng (bước rộng → mịn, không lấm tấm)
+      float d=smoothstep(.0,.9,m);                                              // độ sâu (mép nông, giữa sâu)
+      vec2 off=n*refr*(6.+10.*d)*k/res; vec3 base=texture2D(src,uv-off).rgb;   // khúc xạ: lệch theo sóng, càng sâu càng méo
+      vec3 col=mix(base*mix(vec3(1.),shallow,.45)*1.08, deep, .12+.42*d);       // nước hấp thụ: TRONG ở mép (thấy rõ sàn), xanh dần vào giữa
+      col+=vec3(.75,.95,1.)*caus(w+n*30.)*.28*(1.-.45*d)*smoothstep(.05,.3,m);  // vân sáng đáy hồ
+      vec3 N=normalize(vec3(-n*22.,1.)); float sp=pow(max(dot(N,normalize(vec3(-.35,.55,.76))),0.),60.);   // lấp lánh theo hướng sáng chéo trên-trái
+      col+=vec3(1.)*sp*1.0;
+      col+=vec3(.55,.75,.95)*(1.-uv.y)*.06;                                     // phía xa (trên) hắt ánh trời sáng hơn chút
+      float fr=pow(1.-d,3.)*.22; col=mix(col,vec3(.72,.9,1.),fr);               // ánh trời phản chiếu ở mép
+      float rim=smoothstep(.03,.055,m)*(1.-smoothstep(.055,.09,m)); col+=vec3(.85,.97,1.)*rim*.3;   // vạch MẢNH sáng ở mép nước (mặt khum)
+      float a=smoothstep(.02,.06,m)*alpha; gl_FragColor=vec4(col*a,a); }`;
+  function water(src,mask,o){ if(!init()) return null; o=o||{}; const w=src.width, h=src.height, pr=prog('water',WATER_FS); gl.useProgram(pr.p);
+    gl.activeTexture(gl.TEXTURE0); tex('wsrc',src); gl.uniform1i(pr.loc('src'),0);
+    gl.activeTexture(gl.TEXTURE1); tex('wmsk',mask); gl.uniform1i(pr.loc('msk'),1); gl.activeTexture(gl.TEXTURE0);
+    gl.uniform2f(pr.loc('res'),w,h); gl.uniform1f(pr.loc('t'),o.t||0); gl.uniform1f(pr.loc('k'),o.k||1); gl.uniform1f(pr.loc('refr'),o.refr==null?1:o.refr); gl.uniform1f(pr.loc('alpha'),o.alpha==null?1:o.alpha);
+    gl.uniform3fv(pr.loc('deep'),hex(o.deep||'#0d4f86')); gl.uniform3fv(pr.loc('shallow'),hex(o.shallow||'#7fd3f0'));
+    return run(pr,w,h); }
   // ───────── ⚡ SÉT MANGA / ANIME (canvas 2D, không cần WebGL) ─────────
   // Dải sét GÃY GÓC gắt, ít khúc, thon nhọn 2 đầu (mẫu anh gửi: sét haki One Piece). Mặc định lõi ĐEN viền ĐỎ + quầng đỏ (haki);
   // đổi o.core / o.rim / o.glow cho sét khác (vd sét xanh: core '#e8f6ff', rim '#3aa0ff', glow 'rgba(80,170,255,0.3)').
@@ -226,5 +254,5 @@
         c.restore(); } }
     function clear(){ if(P){ P.destroy(); P=null; } }
     return {spawn,step,draw,clear,PRESETS:PR}; })();
-  window.VfxGL={ init, aura, drawAura, post, bolt, boltSet, puff, filter, fx, parts:PARTS, PRESETS:PRE };
+  window.VfxGL={ init, aura, drawAura, post, water, bolt, boltSet, puff, filter, fx, parts:PARTS, PRESETS:PRE };
 })();
