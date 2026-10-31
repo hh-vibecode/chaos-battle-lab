@@ -125,6 +125,12 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
   Anh: "giờ chỉ quay video, không dùng game trực tiếp → không sợ nặng, nâng cấp VFX thoải mái".
 - ⚠️ Hiệu ứng động của nền/sân KHÔNG dùng `Math.random` (băm theo `tick`/toạ độ — `_skH`) → không xáo chuỗi random có seed của trận (quay video phải khớp lúc chạy thử).
 
+## 🎬 Meme Lore 2 · Ep 0 "The Truth" (31/10) — `js/cine-lore2ep0.js`
+- Sự thật đằng sau cảnh cửa sổ Ep 1, KHÔNG thoại: hẻm tối (Hamster bị 2 tay bóng tối đuổi, vả vào góc) → Chill Guy đá gãy 1 tay, ôm Hamster chạy, bị cào lưng
+  → thềm nhà Ep 1 (mèo trắng đi làm về) → trong phòng băng bó, cúi ngó Hamster → bóng chồng trên cửa sổ → Depressed Cat hiểu lầm → nụ cười Friend trong khe hẻm tối.
+- Dựng trên engine Ep 1 (phố/nhà/cửa sổ/bó hoa/mặt bầm CHÉP sang để khớp từng nét) + xuất offline: `node tools/render-cine.js l2e0 out.mp4 --scale 1.5`.
+- Ảnh anh vẽ: `assets/img/cine/EP0_*` (KICK, RUN, DOWN, BANDAGE, WIFE_WALK, WIFE_HOLD). Chuột phải NHỎ (cao ~56 cạnh Chill Guy ~175).
+
 ## 🔊 Luật sound (anh dặn)
 - (30/10/2026) **KHÔNG mượn sound SIGNATURE của meme khác** (tiếng gầm, nhạc theme, giọng, câu cửa miệng) cho meme / nhân vật khác — vd Friend gầm KHÔNG được dùng tiếng gầm của Gigachad (`titan_roar`/`gigachad_roar`).
   Tiếng hit, vút, va chạm, nổ, vỡ kính, phép chung thì dùng chung được. Thiếu tiếng riêng → tìm mới (myinstants trước).

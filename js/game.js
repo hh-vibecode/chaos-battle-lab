@@ -24662,7 +24662,8 @@ function openCinema(folder){
   const LORE={ __top:{ title:'🎬 MEME CINEMA', back:null, items:[{id:'__lore1', ic:'📼', name:'Meme Lore 1', desc:'Memes Assemble I & II and the classic scenes', folder:true},
                                                               {id:'__lore2', ic:'🌑', name:'Meme Lore 2', desc:'Pain is coming… (Shorts 9:16)', folder:true},
                                                               {id:'__lab', ic:'🧪', name:'Anime Lab', desc:'Test scenes for the new anime film kit', folder:true}]},
-    __lore2:{ title:'🌑 MEME LORE 2', back:'', items:[{id:'__dpwindow', ic:'🪟', name:'Ep 1 · Depressed Cat Comes Home', desc:"He looks up at the window… This world shall know pain.", dur:23},
+    __lore2:{ title:'🌑 MEME LORE 2', back:'', items:[{id:'__l2e0', ic:'🐹', name:'Ep 0 · The Truth', desc:"What really happened behind that window…", dur:28},
+                                                       {id:'__dpwindow', ic:'🪟', name:'Ep 1 · Depressed Cat Comes Home', desc:"He looks up at the window… This world shall know pain.", dur:23},
                                                        {id:'__l2e2', ic:'🗿', name:'Ep 2 · Into the Dark', desc:"A dark gate opens and Evil Gary falls into a cave… where something is waiting.", dur:25},
                                                        {id:'__l2e3', ic:'🌋', name:'Ep 3 · The High Ground', desc:"Grumpy fights his master, Supreme Cat, and falls into the lava… then the Meowcatsuki arrive.", dur:41},
                                                        {id:'__l2e4', ic:'🖤', name:'Ep 4 · Rise of Catvader', desc:"Grumpy is reborn as Catvader… and the Meowcatsuki set Friend free.", dur:59}]},
@@ -24683,7 +24684,7 @@ function openCinema(folder){
     c.style.cssText='text-align:left;background:linear-gradient(160deg,rgba(255,255,255,0.10),rgba(255,255,255,0.03));border:1px solid rgba(255,255,255,0.18);border-radius:16px;padding:16px;color:#fff;cursor:pointer;display:flex;flex-direction:column;gap:8px;min-height:150px;transition:transform .12s,border-color .12s';
     c.onmouseenter=()=>{ c.style.transform='translateY(-3px)'; c.style.borderColor='#ffcc80'; }; c.onmouseleave=()=>{ c.style.transform=''; c.style.borderColor='rgba(255,255,255,0.18)'; };
     c.innerHTML=`<div style="font-size:38px">${it.ic}</div><div style="font-size:18px;font-weight:800">${it.name}</div><div style="font-size:13px;opacity:.75;line-height:1.35;flex:1">${it.desc}</div><div style="font-size:12px;opacity:.6">${it.folder?'📂 Open':'▶ '+it.dur+'s'}</div>`;
-    c.onclick=()=>{ _cineGalleryClose(); if(it.id.startsWith('ck:')) playCineKit(it.id.slice(3)); else if(it.id==='__lore1'||it.id==='__lore2'||it.id==='__lab') openCinema(it.id); else if(it.id==='__endgame') playCineEndgame(); else if(it.id==='__war') openCinema('__war'); else if(it.id==='__dpwindow') playCineDpWindow(); else if(it.id==='__l2e2') playCineL2E2(); else if(it.id==='__l2e3') playCineL2E3(); else if(it.id==='__l2e4') playCineL2E4(); else playScenePreset(it.id); };
+    c.onclick=()=>{ _cineGalleryClose(); if(it.id.startsWith('ck:')) playCineKit(it.id.slice(3)); else if(it.id==='__lore1'||it.id==='__lore2'||it.id==='__lab') openCinema(it.id); else if(it.id==='__endgame') playCineEndgame(); else if(it.id==='__war') openCinema('__war'); else if(it.id==='__dpwindow') playCineDpWindow(); else if(it.id==='__l2e2') playCineL2E2(); else if(it.id==='__l2e3') playCineL2E3(); else if(it.id==='__l2e0') playCineL2E0(); else if(it.id==='__l2e4') playCineL2E4(); else playScenePreset(it.id); };
     grid.appendChild(c); }
 }
 // 📂 thư mục Memes Assemble II: ô "cả phim" + từng cảnh nhỏ (danh sách do js/cine-war.js tự tính)
@@ -24760,6 +24761,10 @@ function playCineKit(id,opts){
 function playCineL2E3(opts){   // 🌋 Meme Lore 2 · Tập 3 "The High Ground" (js/cine-lore2ep3.js, chỉ tải khi bấm) · opts.offline/scale = xuất video
   if(window._cineL2E3) return window._cineL2E3(opts);
   const v=window.GAME_VERSION?'?v='+GAME_VERSION.build:'', s=document.createElement('script'); s.src='js/cine-lore2ep3.js'+v; s.onload=()=>window._cineL2E3&&window._cineL2E3(opts); document.body.appendChild(s);
+}
+function playCineL2E0(opts){   // 🐹 Meme Lore 2 · Tập 0 "The Truth" — sự thật đằng sau cảnh cửa sổ của Ep 1 (js/cine-lore2ep0.js, chỉ tải khi bấm)
+  if(window._cineL2E0) return window._cineL2E0(opts);
+  const v=window.GAME_VERSION?'?v='+GAME_VERSION.build:'', s=document.createElement('script'); s.src='js/cine-lore2ep0.js'+v; s.onload=()=>window._cineL2E0&&window._cineL2E0(opts); document.body.appendChild(s);
 }
 function playCineL2E4(opts){ return playCineL2E3(Object.assign({},opts,{part:2})); }   // 🖤 Meme Lore 2 · Tập 4 "Rise of Catvader" = phần sau của js/cine-lore2ep3.js (part 2)
 function playCineL2E2(opts){   // 🗿 Meme Lore 2 · Tập 2 "Into the Dark" (js/cine-lore2ep2.js, chỉ tải khi bấm) · opts.offline/scale = xuất video
