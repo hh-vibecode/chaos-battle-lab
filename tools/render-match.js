@@ -185,7 +185,8 @@ const ok = r => (!WIN || r.win === WIN) && (r.far || 0) >= FAR && (!DUR || (vdur
   ff.stdin.end(); await new Promise(r => ff.on('close', r));
   const res = await pg.evaluate(RESULT), info = await pg.evaluate(() => ({ aud: __aud, lufs: SND_LUFS, music: [...SND_MUSIC] }));
   await br.close(); srv.close();
-  console.log(`  kết quả: ${fmt(res)}`); if ((WIN || CLOSE != null) && !ok(res)) console.log('⚠️ trận quay ra KHÁC lúc chạy thử!');
+  const _fin = { ...res, t: res.t - (DUR ? DUR_OFF : 0) };   // kết quả cuối đã là độ dài video thật → bỏ phần cộng ước lượng khi in/so
+  console.log(`  kết quả: ${fmt(_fin)}`); if ((WIN || CLOSE != null || DUR) && !ok(_fin)) console.log('⚠️ trận quay ra KHÁC lúc chạy thử!');
   // 🔊 trộn tiếng
   const END = i / FPS, ev = new Map();
   for (const a of info.aud) { if (a.ev === 'play') ev.set(a.id + ':' + a.t, { ...a, end: END }); else for (const [, v] of ev) if (v.id === a.id && v.end === END && a.t >= v.t) v.end = a.t; }
