@@ -3502,32 +3502,12 @@ function _fxCrop(x,y,R,fn){ if(!window.VfxGL) return; const cv=ctx.canvas, T=ctx
   const o=fn(c,p.x-x0,p.y-y0,sc); if(!o) return; g.clearRect(0,0,w,h); g.drawImage(o,0,0);
   const gr=g.createRadialGradient(p.x-x0,p.y-y0,RR*0.6,p.x-x0,p.y-y0,RR); gr.addColorStop(0,'rgba(0,0,0,1)'); gr.addColorStop(1,'rgba(0,0,0,0)'); g.globalCompositeOperation='destination-in'; g.fillStyle=gr; g.fillRect(0,0,w,h); g.globalCompositeOperation='source-over';
   ctx.save(); ctx.setTransform(1,0,0,1,0,0); ctx.drawImage(c,x0,y0); ctx.restore(); }
-// 🎸 tư thế: loop 4 ảnh cũ, mỗi nốt đổi 1 ảnh, nhịp đều (anh dặn). Hết 1 vòng mà đang cao trào thì chen 1–2 ảnh mới rồi quay lại loop cũ.
-// EG_HYPE: 2 = cao trào, chen sau mỗi vòng · 1 = vào riff, chen cách 1 vòng · 0 = chỉ loop cũ.
-const EG_INSERT=['EG_SWAT','EG_YOWL','EG_SHAKE','EG_SCREAM','EG_MEOW','EG_CROUCH','EG_DOZE','EG_TIPTOE','EG_LOOK'];
-// ảnh tư thế (anh vẽ ChatGPT, 1/11): cùng 1 ô vuông 980px, cỡ đàn + mức chân khớp với 4 ảnh cũ (đo thân đàn) → đổi qua lại không nhảy cỡ, không nhảy vị trí
-const EG_POSES={}; for(const n of EG_INSERT){ const im=new Image(); im._noMask=true; im.onload=()=>{ im._crop={sx:0,sy:0,sw:im.naturalWidth,sh:im.naturalHeight}; }; im.src=`assets/img/electricguitarcat/${n}.webp`; EG_POSES[n]=im; }
+// 🎸 1 loop cố định 11 ảnh: 4 ảnh cũ đan xen 7 ảnh mới, mỗi nốt sang 1 ảnh cho nhịp đều (anh chốt, không chọn ngẫu nhiên, không theo cao trào).
+const EG_LOOP=['EG_O3','EG_CALM','EG_PEEK','EG_O1','EG_BANG','EG_SKY','EG_O2','EG_BACK','EG_KNEEL','EG_O4','EG_FIST'];
+// cả 11 ảnh (EG_O1–4 = 4 ảnh cũ dựng lại): cùng 1 ô vuông 980px, cùng chiều dài cây đàn, cùng mức chân → đổi qua lại không nhảy cỡ, không nhảy vị trí
+const EG_POSES={}; for(const n of EG_LOOP){ const im=new Image(); im._noMask=true; im.onload=()=>{ im._crop={sx:0,sy:0,sw:im.naturalWidth,sh:im.naturalHeight}; }; im.src=`assets/img/electricguitarcat/${n}.webp`; EG_POSES[n]=im; }
 const _egIsPose=img=>{ for(const n in EG_POSES) if(EG_POSES[n]===img) return true; return false; };
-// bản đồ cao trào từng bài, mỗi chữ số = 0.5s (dựng bằng tools/song-hype.py). Đo thời gian thực thì mấy giây đầu chưa có mốc so sánh, cả trận thành "cao trào".
-const EG_HYPE={
-  guitar_jojo:'000000000000000022222222222000000111112222211112222222200001111110000',   // 0/1/2: 43/21/34%
-  guitar_aot:'000000022222222222222222200000000000000000000011112221111111111111111000000000000000022222222221110000000000000022222222221111111100000222221111110000000002222222222222222222111111000000',   // 0/1/2: 41/23/34%
-  guitar_s1:'10000000000000000000000000000022222111111111111111111100000000000000022222222222222111112222222111222222222000001111122222222222222222222222',   // 0/1/2: 35/23/41%
-  guitar_unravel:'00000000000000000000000011111111111112222211111000000000000111222222222222222222',   // 0/1/2: 45/26/28%
-  guitar_deltarune:'000000000000111100000000000011122222222221111111100000002222222222222220000000000022211100000000000011111222',   // 0/1/2: 50/21/28%
-  guitar_bluebird:'00002222211111122222200000222222111111111111000000000000000000222222222000000',   // 0/1/2: 42/23/33%
-  piano_megalovania:'000000000000000000011110000000002222222222111222111111222222222111000000000000022221111122222211111222221111111',   // 0/1/2: 36/29/33%
-};
-function _egHypeTick(f){ const a=f._pianoAudio, m=EG_HYPE[f._pianoSong], t=(a && a!=='fail') ? a.currentTime||0 : 0; f._egTier=_egOnFire(f)?2:(m ? +(m[Math.min(m.length-1,Math.floor(t*2))]) : 1); }
-function _egNewPose(f){ const L=EG_INSERT.filter(n=>EG_POSES[n].naturalWidth && n!==f._egPn); if(!L.length) return null; f._egPn=L[Math.floor(_egH((f._egPickN=(f._egPickN||0)+1)*7.13+f.slotIdx)*L.length)]; return EG_POSES[f._egPn]; }
-function _egPosePick(f,i){ const old=[skill1AvatarImgs[i],skill2AvatarImgs[i],skill3AvatarImgs[i],attackAvatarImgs[i]].filter(Boolean); if(!old.length) return null;
-  const n=f._egIdx||0; if(f._egStep===undefined){ f._egStep=n; f._egOld=0; f._egIns=0; f._egLoops=0; return f._egPoseImg=old[0]; }
-  if(n===f._egStep) return f._egPoseImg;   // chỉ đổi ảnh đúng lúc sang nốt mới
-  f._egStep=n;
-  if(f._egIns>0){ f._egIns--; const p=_egNewPose(f); if(p) return f._egPoseImg=p; }
-  if(++f._egOld>=old.length){ f._egOld=0; f._egLoops++; const lv=f._egTier||0;
-    if(lv>=2 || (lv===1 && f._egLoops%2===0)){ const p=_egNewPose(f); if(p){ f._egIns=_egH(f._egPickN*3.1)<0.5?1:0; f._egOld=-1; return f._egPoseImg=p; } } }
-  return f._egPoseImg=old[f._egOld]; }
+function _egLoopImgs(i){ const L=EG_LOOP.map(k=>EG_POSES[k]).filter(im=>im.naturalWidth); return L.length ? L : [skill1AvatarImgs[i],skill2AvatarImgs[i],skill3AvatarImgs[i],attackAvatarImgs[i]].filter(Boolean); }
 function _egHit(p,x,y,sz){
   const col=p.waveColor||'#4dd0e1', sp=[];
   for(let i=0;i<6;i++){ const a=i/6*Math.PI*2+Math.random()*0.6, v=sz*(0.07+Math.random()*0.04); sp.push({x:0,y:0,vx:Math.cos(a)*v,vy:Math.sin(a)*v}); }
@@ -18781,9 +18761,8 @@ class Fighter {
         // nhạc dồn dập thì tay gảy nhanh, đoạn thưa thì gảy chậm, khớp đúng bài đang chơi.
         // Chọn ảnh THẲNG vào _egPose thay vì mượn 3 skillAvatarTimer (cách cũ hay bị đè khung, giật hình).
         const _egI=this.slotIdx;
-        _egHypeTick(this);
-        const _egPool=[skill1AvatarImgs[_egI], skill2AvatarImgs[_egI], skill3AvatarImgs[_egI], attackAvatarImgs[_egI]].filter(Boolean);
-        this._egPose = _egPosePick(this,_egI);
+        const _egPool=_egLoopImgs(_egI);
+        this._egPose = _egPool.length ? _egPool[(this._egIdx||0)%_egPool.length] : null;
         // nhạc đang tắt/đang bị khống chế → vẫn nhích chậm cho tay không đứng hình chết cứng
         if(_egPool.length && (!this._pianoAudio || this._pianoAudio==='fail' || this._pianoCCed)){
           this._egIdleT=(this._egIdleT||0)+1;
