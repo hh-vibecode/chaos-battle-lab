@@ -3505,14 +3505,17 @@ function _fxCrop(x,y,R,fn){ if(!window.VfxGL) return; const cv=ctx.canvas, T=ctx
   ctx.save(); ctx.setTransform(1,0,0,1,0,0); ctx.drawImage(c,x0,y0); ctx.restore(); }
 // 🎸 tư thế theo CAO TRÀO của bài: 0 đoạn nhẹ · 1 vào riff · 2 cao trào / solo. Mỗi mức lật vòng theo nhịp trong nhóm của nó.
 // Có ảnh mới → thêm tên ô vào đúng mức ở đây, không phải sửa chỗ nào khác.
-const EG_TIER_POSES=[['skill3','skill2'],['skill1','skill3'],['skill2','attack']];
+const EG_TIER_POSES=[['EG_DOZE','EG_LOOK','EG_TIPTOE','skill3'],['EG_MEOW','EG_SHAKE','EG_CROUCH','skill1'],['EG_SWAT','EG_YOWL','EG_HISS','EG_SCREAM','attack']];
+// ảnh tư thế (anh vẽ ChatGPT, 1/11): cùng 1 ô vuông, cùng tỉ lệ thân, chân sát đáy ô → đổi tư thế không nhảy cỡ, không nhảy vị trí
+const EG_POSES={}; for(const n of ['EG_DOZE','EG_LOOK','EG_TIPTOE','EG_MEOW','EG_SHAKE','EG_CROUCH','EG_SWAT','EG_YOWL','EG_HISS','EG_SCREAM']){ const im=new Image(); im._noMask=true; im.onload=()=>{ im._crop={sx:0,sy:0,sw:im.naturalWidth,sh:im.naturalHeight}; }; im.src=`assets/img/electricguitarcat/${n}.webp`; EG_POSES[n]=im; }
+const _egIsPose=img=>{ for(const n in EG_POSES) if(EG_POSES[n]===img) return true; return false; };
 // đo độ cao trào 0–1: độ to so với đoạn nhỏ nhất / to nhất vừa nghe trong bài + mật độ nốt 2s gần đây
 function _egHypeTick(f){ const b=f._pianoBuf; if(!b||!b.length) return; let L=0; const n=Math.min(70,b.length); for(let i=4;i<n;i++) L+=b[i]; L/=(n-4)*255;
   const e=f._egE=(f._egE===undefined?L:f._egE*0.97+L*0.03); f._egHi=Math.max(e,(f._egHi===undefined?e:f._egHi)-0.0004); f._egLo=Math.min(e,(f._egLo===undefined?e:f._egLo)+0.0004);
   const lv=(e-f._egLo)/Math.max(0.05,f._egHi-f._egLo), B=f._egBeats||[]; while(B.length && tick-B[0]>120) B.shift();
   const hype=f._egHype=0.55*lv+0.45*Math.max(0,Math.min(1,(B.length/2-2.5)/4.5)), want=_egOnFire(f)?2:(hype>0.62?2:hype>0.34?1:0);
   if(want===f._egTier) f._egTierT=0; else if(++f._egTierT>=(want>(f._egTier||0)?20:75) || f._egTier===undefined){ f._egTier=want; f._egTierT=0; } }   // lên mức nhanh, xuống mức chậm: không nhảy tư thế liên tục
-function _egPosePool(f,i){ const S={skill1:skill1AvatarImgs[i],skill2:skill2AvatarImgs[i],skill3:skill3AvatarImgs[i],attack:attackAvatarImgs[i]}, all=[S.skill1,S.skill2,S.skill3,S.attack].filter(Boolean), p=EG_TIER_POSES[f._egTier||0].map(k=>S[k]).filter(Boolean); return p.length?p:all; }
+function _egPosePool(f,i){ const S={skill1:skill1AvatarImgs[i],skill2:skill2AvatarImgs[i],skill3:skill3AvatarImgs[i],attack:attackAvatarImgs[i]}, all=[S.skill1,S.skill2,S.skill3,S.attack].filter(Boolean), p=EG_TIER_POSES[f._egTier||0].map(k=>S[k]||(EG_POSES[k]&&EG_POSES[k].naturalWidth?EG_POSES[k]:null)).filter(Boolean); return p.length?p:all; }
 // 🎸🔥 hào quang lửa bám dáng, vẽ SAU thân (ctx đang ở toạ độ riêng của ảnh, đã lật hướng)
 function _egFireAura(f,img,dw,dh,sx,sy,sw,sh){
   if(f._egFireAt===undefined){ f._egFireAt=tick; addShake(7,16); }   // vừa qua mốc 30%: bùng 1 phát
@@ -18799,7 +18802,7 @@ class Fighter {
         const _egI=this.slotIdx;
         _egHypeTick(this);
         const _egPool=_egPosePool(this,_egI);
-        this._egPose = _egPool.length ? _egPool[(this._egIdx||0)%_egPool.length] : null;
+        this._egPose = _egPool.length ? _egPool[((this._egIdx||0)>>1)%_egPool.length] : null;   // giữ mỗi tư thế 2 nhịp, đổi từng nhịp thì giật mắt
         // nhạc đang tắt/đang bị khống chế → vẫn nhích chậm cho tay không đứng hình chết cứng
         if(_egPool.length && (!this._pianoAudio || this._pianoAudio==='fail' || this._pianoCCed)){
           this._egIdleT=(this._egIdleT||0)+1;
@@ -22793,7 +22796,7 @@ class Fighter {
                    : (this.type==='scaredhamster' && img===HM_IMG.SCARED) ? 1/1.1   // 🐹 thân to thêm 10% nhưng dáng đứng sợ hãi giữ đúng cỡ cũ
                    : (this.type==='saiyanmarmot' && (img===MM_FR[2] || img===MM_FR[7])) ? 1.2*1.15   // 🦫 ảnh Super Saiyan có tóc dựng cao → phóng thêm 15% để THÂN vẫn đúng cỡ dạng thường
                    : (this.type==='saiyanmarmot' && MM_FR.includes(img)) ? 1.2   // 🦫 ảnh đứng thẳng rất gầy → hình to thêm 20% cho cân với meme khác (hitbox giữ nguyên)
-                   : (this.type==='electricguitarcat') ? 1.15  // 🎸 ảnh to hơn 15% (chỉ phần HÌNH, hitbox giữ nguyên cho cân bằng)
+                   : (this.type==='electricguitarcat') ? (_egIsPose(img) ? 1.15*1.3 : 1.15)  // 🎸 ảnh to hơn 15% (chỉ phần HÌNH, hitbox giữ nguyên cho cân bằng) · ảnh tư thế chừa khoảng trống trong ô nên bù thêm 30%
                    : (this.type==='pianocat' && img===attackAvatarImgs[i]) ? 1.1  // 🎹 khung 3 (Đánh đàn) nhìn bé hơn khung 1/2 → bù thêm 10%
                    : 1.0;
       const _rcSz = this.type==='ricardo' ? (img===avatarImgs[i] ? 1.1 : 1.05) : 1;   // 🕺 Ricardo: avatar thường to thêm 10%, mọi ảnh khác (nhảy/đánh) thêm 5% — chỉ phần HÌNH
