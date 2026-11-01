@@ -665,6 +665,7 @@ window.ASSET_GROUP={
 "assets/audio/piano_thousandmiles.mp3": "pianocat",
 "assets/audio/piano_takeonme.mp3": "pianocat",
 "assets/audio/piano_giorno.mp3": "pianocat",
+"assets/audio/piano_megalovania.mp3": "pianocat",
 "assets/audio/spell_1.mp3": "critical",
 "assets/audio/spell_2.mp3": "critical",
 "assets/audio/gunshot.mp3": "critical",
