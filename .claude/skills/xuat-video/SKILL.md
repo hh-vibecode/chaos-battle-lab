@@ -37,6 +37,11 @@ Phim có sẵn: `war`, `l2e2`, `l2e3` (bảng `FILMS` đầu file). Phim dựng 
 4. Bị đứt giữa chừng (tràn RAM…) → chạy lại y lệnh: đoạn đã xong được giữ. Máy lag / tràn RAM → `--jobs 2`.
 5. Ghép mở đầu: `--intro boss.mp4`.
 
+## 🔊 Tiếng khớp hình trong video trận (sửa 1/11 — anh hay kêu "sound bị chậm")
+- `tools/mix-plan.py` (render-match + render-duo): tiếng hiệu ứng TỰ bỏ qua khoảng lặng đầu file (145/326 file im >0.1s, 33 file >0.5s) → bật đúng khung gọi, trễ ~12ms.
+- Nhạc (`SND_MUSIC`) chạy ĐÚNG tốc thật + giữ cao độ (`atempo`), không cắt đầu — hình bám theo vị trí nhạc (Azel ×1.15; trước ép ×1 nên lệch 13%, tới 3.8s cuối trận).
+- Thấy lệch: đừng đoán — ghi log `__vt` / `__vpos(a)` bằng `--inject`, hoặc đo độ lên tiếng file: nguyên nhân thường là ở file âm thanh hoặc logic game gọi tiếng muộn.
+
 ## Trận đấu giả lập 1vs1 — `tools/render-match.js out.mp4 --a <key> --b <key>`
 - Mặc định: chạy thử 10 trận (`--best`), chọn trận SÁT NÚT nhất (con thắng còn ít máu nhất), quay 2K 9:16 60fps.
 - Nhanh hơn: `--hw`. `--par 2` (chạy thử 2 trận cùng lúc, kết quả y hệt) CHỈ khi máy đang rảnh — KHÔNG dùng `--par` lớn hơn (MacBook lag, chậm hơn).

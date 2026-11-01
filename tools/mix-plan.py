@@ -16,6 +16,15 @@ def load(f, tempo=1):
         cache[k] = np.frombuffer(raw, np.float32).reshape(-1, 2)
     return cache[k]
 
+# 🔇 khoảng lặng đầu file: 145/326 tiếng im >0.1s mới kêu (marmot_scream 0.48s, sm_omae 0.9s…) → game gọi đúng lúc mà nghe TRỄ.
+#    Tiếng hiệu ứng tự bỏ qua đoạn này (tới lúc tiếng đạt 10% đỉnh, chừa 12ms) · nhạc giữ nguyên vì hình bám theo vị trí nhạc
+heads = {}
+def head(f, src):
+    if f not in heads:
+        m = np.abs(src).mean(axis=1); w = int(0.01 * SR); e = np.sqrt(np.convolve(m * m, np.ones(w) / w, 'same')); pk = e.max()
+        heads[f] = min(1.6, max(0.0, np.argmax(e > pk * 0.1) / SR - 0.012)) if pk > 0 else 0.0
+    return heads[f]
+
 for p in plan['plan']:
     r = p['rate'] or 1
     keep = p.get('keep') and abs(r - 1) > 1e-4   # nhạc đổi tốc: dùng bản đã giãn, đọc ở tốc 1
@@ -26,7 +35,8 @@ for p in plan['plan']:
     if n <= 0:
         continue
     # vị trí đọc trong file (tiếng hiệu ứng: tốc r đổi cả cao độ · nhạc: đã giãn sẵn nên đọc tốc 1, điểm đầu ct cũng co theo r)
-    pos = p['ct'] / r * SR + np.arange(n) if keep else p['ct'] * SR + np.arange(n) * r
+    skip = head(p['f'], src) if not p.get('keep') and not p['loop'] and p['ct'] < 0.01 else 0
+    pos = p['ct'] / r * SR + np.arange(n) if keep else (p['ct'] + skip) * SR + np.arange(n) * r
     if p['loop']:
         pos = np.mod(pos, len(src) - 1)
     else:
