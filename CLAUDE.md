@@ -121,6 +121,8 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
   VFX cú đấm của Gigachad chỉ to ~2× nắm đấm (`GC_FIST_R`), đặt đúng nắm đấm trong ảnh; bậc thấp chỉ quả cầu tròn, không tối cả sân. Anh nói nếu cách này không ổn sẽ khoá size tối đa.
 - 😿 Depressed Cat — Shinra Tensei (31/10): sóng quét tới đâu SÀN TAN tới đó (`_skyRepaint`, không còn hố đất), tảng vỡ rơi xuống vũ trụ; hết cảnh nó lơ lửng 1s
   (`psAfter`) rồi cổng KAMUI (`_njKamuiAt`) xoáy nó đi mất (`_dpSuck` → `_dpGone`).
+- 🦟🎸 Mosquito Violin + Electric Guitar Cat (1/11): VFX bám NHẠC THẬT. Đọc phổ qua `_musicLv` / `_musicK` (dùng `f._pianoBuf` đã lấy sẵn, đừng gọi analyser lần 2; bản dựng video tính phổ từ file nhạc nên vẫn đúng).
+  Muỗi: `_mvDrawString` (dây rung, gảy theo nhịp, là ống máu, giọt máu trôi theo dây), `_mvDrawBow` (vệt vĩ), mvFx 'big' (nhịp mạnh: không gian gợn + tách màu). Guitar: `_egDrawWave` cỡ HÌNH theo `waveK` (hitbox + dame giữ nguyên), `_egWaveFx` (vạch phổ, sét nối luồng, lưỡi lửa), `_egFireAura` + `_egFireFx` (dưới 30%).
 - 🎧 Azel (31/10): đạn nâng cấp kiểu "dope" — dải đuôi neon (`_azRibbon`), tách màu RGB, thanh equalizer, sét lách tách, WUB/bass drop BÓP MÉO không gian (`_azWarp`).
   Anh: "giờ chỉ quay video, không dùng game trực tiếp → không sợ nặng, nâng cấp VFX thoải mái".
 - ⚠️ Hiệu ứng động của nền/sân KHÔNG dùng `Math.random` (băm theo `tick`/toạ độ — `_skH`) → không xáo chuỗi random có seed của trận (quay video phải khớp lúc chạy thử).

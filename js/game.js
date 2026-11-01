@@ -3463,7 +3463,7 @@ function _egCres(cx,R,span,th){ const n=20; ctx.beginPath();
   for(let i=n;i>=0;i--){ const a=-span+2*span*i/n, w=th*Math.cos(a/span*Math.PI/2); ctx.lineTo(cx+Math.cos(a)*(R-w), Math.sin(a)*(R-w)); }
   ctx.closePath(); ctx.fill(); }
 function _egDrawWave(p){
-  p.waveT=(p.waveT||0)+1; const t=p.waveT, col=p.waveColor||'#4dd0e1', S=p.size, a=Math.atan2(p.vy,p.vx), ca=Math.cos(a), sa=Math.sin(a);
+  p.waveT=(p.waveT||0)+1; const fire=_egOnFire(p.owner), t=p.waveT, col=fire?'#ff8a1e':(p.waveColor||'#4dd0e1'), S=p.size*(0.75+(p.waveK===undefined?0.25:p.waveK)), a=Math.atan2(p.vy,p.vx), ca=Math.cos(a), sa=Math.sin(a);   // cỡ HÌNH theo lực nhịp (trúng + dame giữ nguyên)
   if(!p._egSp) p._egSp=[];   // ✨ đốm lấp lánh nhỏ rơi lại phía sau
   if(t%3===0){ const bx=-S*(0.5+Math.random()*0.7), side=(Math.random()-0.5)*S*0.9;
     p._egSp.push({x:p.x+ca*bx-sa*side, y:p.y+sa*bx+ca*side, l:16, r:S*(0.05+Math.random()*0.04), rot:Math.random()*3}); }
@@ -3483,11 +3483,54 @@ function _egDrawWave(p){
     const g=ctx.createLinearGradient(cx+R-S*tk,0,cx+R,0); g.addColorStop(0,col); g.addColorStop(1,'#ffffff');
     ctx.globalAlpha=al; ctx.fillStyle=g; _egCres(cx,R,sp,S*tk); }
   ctx.restore();
+  _egWaveFx(p,S,a,col,fire);
 }
 const EG_FIRE_HP=0.3;   // 🎸🔥 còn ≤30% máu → đàn bốc cháy, sóng đàn đốt địch
 function _egOnFire(f){ return !!f && !f.dead && f.type==='electricguitarcat' && f.hp<=f.maxHp*EG_FIRE_HP; }
 function _egBurn(p,u){ if(!_egOnFire(p.owner) || !u || u.dead) return;   // 10 dame mỗi nhịp 0.5s = 20 dame/s, 3s — trúng lại thì đặt lại đủ 3s
   u.burn=Math.max(u.burn||0,180); u._burnDmg=10; u._burnSrc=p.owner; }
+const _egH=n=>{ const v=Math.sin(n*127.1)*43758.5453; return v-Math.floor(v); };   // băm theo số — hiệu ứng KHÔNG dùng Math.random (video phải khớp lúc chạy thử)
+// 🎼 độ to của bài đang chơi (0–1): đọc phổ máy dò nhịp đã lấy sẵn, không gọi analyser lần 2
+function _musicLv(f){ const b=f&&f._pianoBuf; if(!b||!b.length) return 0.5; let s=0; const n=Math.min(70,b.length); for(let i=4;i<n;i++) s+=b[i]; return Math.min(1,s/(n-4)/170); }
+// lực 1 nhịp so với mức nền của bài (0 nhẹ · 0.5 thường · 1 mạnh) — so với nền nên bài to hay nhỏ đều có nhịp mạnh/nhẹ
+function _musicK(f){ const b=f&&f._pianoBuf; if(!b||!b.length) return 0.5; let L=0; const n=Math.min(70,b.length); for(let i=4;i<n;i++) L+=b[i]; L/=(n-4)*255;   // không chặn trần như _musicLv: bài guitar rất to, chặn trần là mọi nhịp bằng nhau
+  const a=f._muAvg=(f._muAvg===undefined?L:f._muAvg*0.85+L*0.15); return Math.max(0,Math.min(1,0.5+(L-a)*6)); }
+// cắt 1 ô canvas quanh (x,y) → fn(ô cắt, tâm x, tâm y, hệ số phóng) trả canvas đã xử lý → dán lại, mép mờ dần
+function _fxCrop(x,y,R,fn){ if(!window.VfxGL) return; const cv=ctx.canvas, T=ctx.getTransform(), sc=Math.hypot(T.a,T.b)||1, p=T.transformPoint(new DOMPoint(x,y)), RR=Math.round(R*sc);
+  const x0=Math.max(0,Math.round(p.x-RR)), y0=Math.max(0,Math.round(p.y-RR)), w=Math.min(cv.width-x0,RR*2), h=Math.min(cv.height-y0,RR*2); if(w<8||h<8) return;
+  const c=_fxCrop.tmp||(_fxCrop.tmp=document.createElement('canvas')); c.width=w; c.height=h; const g=c.getContext('2d'); g.drawImage(cv,x0,y0,w,h,0,0,w,h);
+  const o=fn(c,p.x-x0,p.y-y0,sc); if(!o) return; g.clearRect(0,0,w,h); g.drawImage(o,0,0);
+  const gr=g.createRadialGradient(p.x-x0,p.y-y0,RR*0.6,p.x-x0,p.y-y0,RR); gr.addColorStop(0,'rgba(0,0,0,1)'); gr.addColorStop(1,'rgba(0,0,0,0)'); g.globalCompositeOperation='destination-in'; g.fillStyle=gr; g.fillRect(0,0,w,h); g.globalCompositeOperation='source-over';
+  ctx.save(); ctx.setTransform(1,0,0,1,0,0); ctx.drawImage(c,x0,y0); ctx.restore(); }
+// 🎸🔥 hào quang lửa bám dáng, vẽ SAU thân (ctx đang ở toạ độ riêng của ảnh, đã lật hướng)
+function _egFireAura(f,img,dw,dh,sx,sy,sw,sh){
+  if(f._egFireAt===undefined){ f._egFireAt=tick; addShake(7,16); }   // vừa qua mốc 30%: bùng 1 phát
+  const u=Math.min(1,(tick-f._egFireAt)/36);
+  if(window.VfxGL) VfxGL.drawAura(ctx,img,{preset:'fire',x:0,y:dh/2,w:dw,h:dh,sx,sy,sw,sh,t:tick/60,k:1-0.25*u}); }
+// 🎸🔥 tàn lửa bay, khí nóng gợn quanh người, sóng bóp méo lúc vừa bùng
+function _egFireFx(){ for(const f of fighters){ if(!_egOnFire(f) || f._egFireAt===undefined) continue;
+  const s=f.size, u=(tick-f._egFireAt)/36;
+  _fxCrop(f.x,f.y,s*2.4,(c,x,y,sc)=>VfxGL.post(c,{heat:{k:2.4*sc,t:tick/60}}));
+  if(u<1) _azWarp(f.x,f.y,s*5.5,s*5.5*(0.15+0.85*u),18*(1-u));
+  ctx.save(); ctx.globalCompositeOperation='lighter';
+  for(let i=0;i<12;i++){ const sp=0.5+_egH(i+3)*0.7, H=s*2.5, k=((tick*sp+_egH(i)*400)%H)/H, x=f.x+(_egH(i+7)-0.5)*s*1.7+Math.sin(tick*0.07+i)*s*0.14, y=f.y+s*0.8-k*H;
+    ctx.globalAlpha=Math.sin(k*Math.PI)*0.95; ctx.fillStyle=i%3?'#ff8a1e':'#ffe0a0'; ctx.beginPath(); ctx.arc(x,y,s*(0.02+_egH(i+5)*0.025),0,Math.PI*2); ctx.fill(); }
+  ctx.restore(); } }
+// 🎸 phần thêm của 1 luồng sóng: vạch phổ thật ở rìa · lưỡi lửa kéo sau (lúc đàn cháy) · sét dây đàn nối các luồng
+function _egWaveFx(p,S,a,col,fire){ const c=Math.cos(a), s=Math.sin(a), id=p.egId||0, b=p.owner&&p.owner._pianoBuf, R=S*0.82, n=26;
+  ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round';
+  if(fire) for(let i=0;i<16;i++){ const q=(i/15-0.5)*1.5, back=_egH(i+id)*S*1.5+Math.sin(tick*0.31+i)*S*0.12, r=S*(0.2+_egH(i+9)*0.2)*(1-back/(S*2.2)), lx=S*0.25-Math.abs(q)*S*0.4-back, ly=q*S*0.95, x=p.x+c*lx-s*ly, y=p.y+s*lx+c*ly;
+    VfxGL.puff(ctx,x,y,r*1.7,0.34,'255,70,10'); VfxGL.puff(ctx,x,y,r*0.8,0.5,'255,180,50'); }
+  ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(a); ctx.translate(S*0.3-R,0); ctx.lineWidth=Math.max(1,S*0.04); ctx.globalAlpha=0.85;
+  for(const pass of [0,1]){ ctx.strokeStyle=pass?'#ffffff':col; ctx.beginPath();
+    for(let i=0;i<n;i++){ if((i%3===0)!==!!pass) continue; const u=i/(n-1), an=-0.95+1.9*u, m=Math.abs(u-0.5)*2, v=b&&b.length?b[6+(m*44|0)]/255:_egH(i+id), h=S*(0.08+Math.pow(v,1.6)*0.6)*(1-m*0.45), ca=Math.cos(an), sa=Math.sin(an);
+      ctx.moveTo(ca*R,sa*R); ctx.lineTo(ca*(R+h),sa*(R+h)); }
+    ctx.stroke(); }
+  ctx.restore();
+  if(window.VfxGL){ const sd=(tick/3|0)+id, o=fire?{core:'#fff3d6',rim:'#ff7a1a',glow:'rgba(255,120,30,0.3)'}:{core:'#e8f6ff',rim:'#3aa0ff',glow:'rgba(80,170,255,0.32)'}, w=Math.max(1.5,S*0.055);
+    VfxGL.boltSet(ctx,p.x,p.y,a+Math.PI-0.62,S*1.6,w,sd,o); VfxGL.boltSet(ctx,p.x,p.y,a+Math.PI+0.62,S*1.6,w,sd+3,o);
+    const q=p.egPrev; if(q && !projectiles.includes(q)) p.egPrev=null; else if(q){ const d=Math.hypot(q.x-p.x,q.y-p.y); if(d<210) VfxGL.bolt(ctx,p.x,p.y,Math.atan2(q.y-p.y,q.x-p.x),d,Math.max(1.5,S*0.045),sd+9,Object.assign({branches:false},o)); } }
+  ctx.restore(); }
 function _egHit(p,x,y,sz){
   const col=p.waveColor||'#4dd0e1', sp=[];
   for(let i=0;i<6;i++){ const a=i/6*Math.PI*2+Math.random()*0.6, v=sz*(0.07+Math.random()*0.04); sp.push({x:0,y:0,vx:Math.cos(a)*v,vy:Math.sin(a)*v}); }
@@ -5234,11 +5277,44 @@ let mewingStatues=[]; // Mewing Cat: tượng đá triệu hồi mỗi lần mew
 let mvPulses=[];       // 🦟 Mosquito Violin: xung âm hình nhịp tim chạy dọc sợi dây tới kẻ địch
 let mvFx=[];           // 🩸 máu bắn tóe lúc rút + vòng đỏ lúc con muỗi nuốt máu về: {k,x,y,t,T,...}
 // mỗi nhịp của bài nhạc → bắn 1 xung vào TỪNG kẻ địch đang bị nối dây
+// 🎻 sợi dây = dây đàn thật: 1 đầu ở cây violin, 1 đầu cắm vào địch, rung theo độ to của nhạc; mỗi nhịp gảy 1 cái, sóng chạy dọc dây
+const _mvEnd=m=>{ const d=m._lastFoeFaceLeft?-1:1; return {x:m.x+d*m.size*0.28, y:m.y-m.size*0.42}; };
+const _mvUMax=(m,e)=>{ const a=_mvEnd(m), d=Math.hypot(e.x-a.x,e.y-a.y)||1; return Math.max(0.5,1-(e.size||20)*0.72/d); };   // dây dừng ở mép thân địch
+function _mvPt(m,e,u,bias){ const a=_mvEnd(m), dx=e.x-a.x, dy=e.y-a.y, d=Math.hypot(dx,dy)||1, t=tick/60, A=m.size*(0.1+(m._mvLv||0)*0.42)*(bias===undefined?1:bias);
+  let o=A*(Math.sin(Math.PI*u)*Math.sin(t*41)+0.5*Math.sin(2*Math.PI*u)*Math.sin(t*67+1)+0.28*Math.sin(3*Math.PI*u)*Math.sin(t*89+2));
+  if(bias===undefined && m._mvBeats) for(const q of m._mvBeats){ const k=(tick-q)/26; if(k<0||k>1) continue; o+=Math.exp(-Math.pow((u-1+k)/0.09,2))*(1-k)*A*2.1*Math.sin(Math.PI*u); }
+  return [a.x+dx*u-dy/d*o, a.y+dy*u+dx/d*o]; }
+function _mvLine(m,e,um,bias){ const n=56; ctx.beginPath(); for(let i=0;i<=n;i++){ const p=_mvPt(m,e,um*i/n,bias); i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]); } ctx.stroke(); }
+function _mvDrawString(m,e){ const s=m.size, R=s*0.075, um=_mvUMax(m,e), t=tick/60, a=_mvEnd(m), P=_mvPt(m,e,um), sd=m._mvBeatN||0, age=tick-((m._mvBeats&&m._mvBeats[m._mvBeats.length-1])||-99);
+  ctx.save(); ctx.lineCap='round'; ctx.lineJoin='round'; ctx.globalCompositeOperation='lighter';
+  ctx.strokeStyle='#ff1744'; ctx.lineWidth=1.6; ctx.globalAlpha=0.12; for(const b of [0.9,-0.9,0.5,-0.5]) _mvLine(m,e,um,b);   // bóng rung 2 phía
+  for(const [w,al] of [[s*0.55,0.07],[s*0.28,0.16]]){ ctx.lineWidth=w; ctx.globalAlpha=al; _mvLine(m,e,um); }
+  ctx.globalCompositeOperation='source-over'; ctx.globalAlpha=0.92; ctx.strokeStyle='#4a0008'; ctx.lineWidth=R*2; _mvLine(m,e,um);   // thành ống
+  const g=ctx.createLinearGradient(a.x,a.y,e.x,e.y); for(let i=0;i<=16;i++){ const u=i/16, v=0.5+0.5*Math.sin(u*26+t*17); g.addColorStop(u,`rgb(${150+v*105|0},${8+v*34|0},${20+v*30|0})`); }   // máu chảy về phía con muỗi
+  ctx.strokeStyle=g; ctx.lineWidth=R*1.4; ctx.globalAlpha=1; _mvLine(m,e,um);
+  ctx.globalCompositeOperation='lighter'; ctx.strokeStyle='#ffd9de'; ctx.lineWidth=Math.max(0.8,s*0.03); ctx.globalAlpha=0.9; _mvLine(m,e,um);
+  // chỗ cắm: vòng đập + gân đỏ loé theo nhịp
+  const es=e.size||20, ang=Math.atan2(a.y-e.y,a.x-e.x);
+  if(age<22 && window.VfxGL){ ctx.globalAlpha=1-age/22; for(let i=0;i<4;i++) VfxGL.bolt(ctx,P[0],P[1],ang+Math.PI+(i-1.5)*0.6,es*(0.6+_egH(i+1)*0.5),Math.max(1.2,es*0.04),i*7+sd,{core:'#ff5a6e',rim:'#c2001c',glow:'rgba(255,23,68,0.22)',branches:false}); }
+  for(let k=0;k<3;k++){ const u=(t*1.9+k/3)%1; ctx.globalAlpha=(1-u)*0.75; ctx.strokeStyle='#ff5252'; ctx.lineWidth=Math.max(1,es*0.05*(1-u)); ctx.beginPath(); ctx.arc(P[0],P[1],es*(0.12+u*0.65),0,Math.PI*2); ctx.stroke(); }
+  ctx.globalAlpha=1; if(window.VfxGL) VfxGL.puff(ctx,P[0],P[1],es*0.3,0.8,'255,50,80');
+  ctx.restore(); }
+// 🎻 vệt vĩ đàn: mỗi nhịp 1 lần kéo, đảo chiều lên/xuống như kéo đàn thật
+function _mvDrawBow(m){ const B=m._mvBeats; if(!B||!B.length) return; const k=(tick-B[B.length-1])/20; if(k<0||k>1) return;
+  const up=m._mvBeatN%2?1:-1, c=Math.min(1,k*2.4), s=m.size, L=s*1.7, dir=m._lastFoeFaceLeft?-1:1, head=(-0.5+c)*L*up, tail=(-0.5+Math.max(0,c-0.7))*L*up, n=26, e=_mvEnd(m);
+  ctx.save(); ctx.translate(e.x,e.y); ctx.scale(dir,1); ctx.rotate(-0.62); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round';
+  for(const [w,al,col] of [[s*0.42,0.13,'#ff2d55'],[s*0.2,0.3,'#ff5c7a'],[s*0.075,0.95,'#fff0f3']]){ ctx.strokeStyle=col; ctx.lineWidth=w; ctx.globalAlpha=al*(1-k*k); ctx.beginPath();
+    for(let i=0;i<=n;i++){ const u=i/n, x=tail+(head-tail)*u, y=-s*0.2*Math.sin(u*Math.PI); i?ctx.lineTo(x,y):ctx.moveTo(x,y); } ctx.stroke(); }
+  for(let i=0;i<9;i++){ const u=i/8, x=tail+(head-tail)*u+Math.sin(i*3.1)*4, y=-s*(0.3+_egH(i)*0.5)*k-s*0.1; ctx.globalAlpha=(1-k)*0.9; ctx.fillStyle=i%2?'#ffd1dc':'#ff5c7a'; ctx.beginPath(); ctx.arc(x,y,s*0.035*(1+_egH(i+4)),0,Math.PI*2); ctx.fill(); }
+  ctx.restore(); }
 function _mvPulse(f, freq){
   const L=f._mvLinks;
   if(!L || !L.length) return;
+  const _bt=f._mvBeats||(f._mvBeats=[]); _bt.push(tick); if(_bt.length>5) _bt.shift(); f._mvBeatN=(f._mvBeatN||0)+1;   // nhịp gần đây: dây bị gảy + vệt vĩ đàn
+  const _k=_musicK(f); let _mvBig=false;
   for(const t of L){
     if(!t || t.dead || (t.hp!==undefined && t.hp<=0)) continue;
+    if(!_mvBig && _k>0.82 && tick-(f._mvBigT===undefined?-999:f._mvBigT)>100){ _mvBig=true; f._mvBigT=tick; mvFx.push({k:'big', u:t, x:t.x, y:t.y, r:(t.size||20)*4.5, t:0, T:30}); }   // 🌀 nhịp mạnh nhất: không gian quanh địch gợn + tách màu
     // 🩸 mỗi nhịp: RÚT MÁU ngay tại kẻ địch, rồi cục máu chạy NGƯỢC dọc dây về con muỗi mới hồi máu
     const _hp0=t.hp;
     t.takeDamage(15, f);   // 🦟 mỗi nhịp 15 dame (giảm từ 20)
@@ -13785,10 +13861,12 @@ function _shootSonicWave(f, freq){
   const _base = e ? Math.atan2(e.y-f.y, e.x-f.x) : (f._lastAngle||(f.team===0?0:Math.PI));
   const ang=_base + (Math.random()-0.5)*0.22;
   const spd=7.4;
-  projectiles.push({ x:f.x+Math.cos(ang)*f.size*0.6, y:f.y-f.size*0.1+Math.sin(ang)*f.size*0.6,
+  const _w={ x:f.x+Math.cos(ang)*f.size*0.6, y:f.y-f.size*0.1+Math.sin(ang)*f.size*0.6,
     vx:Math.cos(ang)*spd, vy:Math.sin(ang)*spd,
     team:f.team, owner:f, dmg:20, size:30, life:120, isSonicWave:true,
-    waveColor:'hsl('+hue+',95%,62%)', waveAng:ang, waveT:0 });
+    waveColor:'hsl('+hue+',95%,62%)', waveAng:ang, waveT:0,
+    waveK:_musicK(f), egId:f._egWaveN=(f._egWaveN||0)+1, egPrev:f._egLastW||null };   // waveK = lực nhịp · egPrev = luồng trước, để sét nối sang
+  f._egLastW=_w; projectiles.push(_w);
   f.actionState='attack'; f.actionTimer=8;
 }
 function _shootNote(f, freq){
@@ -22776,6 +22854,7 @@ class Fighter {
       // VIỀN theo màu team (P1 xanh / P2 đỏ) — ĐÚNG VỊ TRÍ viền trắng cũ (viền stamp ở RÌA, KHÔNG đè màu lên mặt avatar), có toả glow nhẹ quanh viền
       // ⭐ Fan Battle: con của fan vẽ thành QUẢ BÓNG (xem bên dưới) và bóng đã có viền tròn riêng —
       // bỏ viền-theo-hình-nhân-vật ở đây, không thì cái bóng người to lù lù thò ra ngoài quả bóng.
+      if(this.type==='electricguitarcat' && _egOnFire(this)) _egFireAura(this,img,dw,dh,_sx,_sy,_sw,_sh);
       if(this.type==='doorbellchud' && !this.dead && DC_RG.includes(img) && img.naturalWidth){   // 😡 quầng lửa rage sau lưng, đập theo nhịp
         const _au=_dcAura(img), _k=dw/img.naturalWidth, _pl=1+0.05*Math.sin(tick*0.25), _pw=(dw+_au.pad*2*_k)*_pl, _ph=(dh+_au.pad*2*_k)*_pl;
         ctx.save(); ctx.globalAlpha=0.7+0.25*Math.sin(tick*0.25);
@@ -30044,6 +30123,7 @@ function loop(){
   _arDraw();   // 🧞 thần đèn Arabic Cat + quân triệu hồi đang là gà
   _rbDrawBits();   // 🧊 khối nhỏ văng ra lúc Rubik Cat xoay trúng màu
   _egDrawHits();   // 🎸💥 vòng sóng + tia điện lúc sóng đàn trúng
+  _egFireFx();   // 🎸🔥 tàn lửa + khí nóng lúc đàn cháy
   _smDraw();   // ⚔️🌊 vệt chém nước / gợn sàn / lướt dứt điểm Samurai Cheems
   _rcDrawOver();   // 🕺🪩 quả cầu disco + đèn quét + tim/lấp lánh/MISS Ricardo
   _cdgDraw();  // 🐶🗼 vòng bụi chấn động Chonky Dog
@@ -30054,14 +30134,9 @@ function loop(){
   // neon đỏ — không gradient, không shadowBlur.
   for(const _mf of fighters){
     if(_mf.type!=='mosquitoviolin' || _mf.dead || !_mf._mvLinks || !_mf._mvLinks.length) continue;
-    ctx.save();
-    ctx.lineCap='round';
-    for(const _t of _mf._mvLinks){
-      if(!_t || _t.dead) continue;
-      ctx.globalAlpha=0.45; ctx.strokeStyle='#8e0000'; ctx.lineWidth=1.3;   // dây bé, đỏ thẫm
-      ctx.beginPath(); ctx.moveTo(_mf.x,_mf.y); ctx.lineTo(_t.x,_t.y); ctx.stroke();
-    }
-    ctx.restore();
+    _mf._mvLv=(_mf._mvLv||0)*0.8+_musicLv(_mf)*0.2;
+    for(const _t of _mf._mvLinks){ if(_t && !_t.dead) _mvDrawString(_mf,_t); }
+    _mvDrawBow(_mf);
   }
   for(let i=mvPulses.length-1;i>=0;i--){
     const q=mvPulses[i];
@@ -30082,7 +30157,7 @@ function loop(){
     const ax=t.x, ay=t.y, bx=o.x, by=o.y;
     const dx=bx-ax, dy=by-ay, d=Math.hypot(dx,dy)||1;
     const ux=dx/d, uy=dy/d, nx=-uy, ny=ux;
-    const pos=q.t*d, px=ax+ux*pos, py=ay+uy*pos;
+    const pos=q.t*d, _pp=_mvPt(o,t,_mvUMax(o,t)*(1-q.t)), px=_pp[0], py=_pp[1];   // giọt máu trôi theo đúng dây đang rung
     const fade=Math.min(1, Math.sin(Math.min(1,q.t)*Math.PI)*1.6);
     const R=Math.max(3.2, o.size*0.2)*(1+0.08*Math.sin(q.t*40+q.seed));   // phập phồng nhẹ khi chạy
     ctx.save();
@@ -30091,7 +30166,7 @@ function loop(){
     const tl=Math.min(pos, d*0.3);
     for(const [w,al,c] of [[R*0.9,0.28,'#5d0000'],[R*0.45,0.55,'#b71c1c'],[R*0.16,0.6,'#ff8a80']]){
       ctx.globalAlpha=al*fade; ctx.strokeStyle=c; ctx.lineWidth=w;
-      ctx.beginPath(); ctx.moveTo(px-ux*tl, py-uy*tl); ctx.lineTo(px, py); ctx.stroke();
+      ctx.beginPath(); const _um=_mvUMax(o,t); for(let _i=0;_i<=8;_i++){ const _p=_mvPt(o,t,_um*(1-Math.max(0,q.t-(tl/d)*(1-_i/8)))); _i?ctx.lineTo(_p[0],_p[1]):ctx.moveTo(_p[0],_p[1]); } ctx.stroke();   // đuôi uốn theo dây
     }
     // mấy giọt nhỏ bám theo sau, lắc nhẹ sang 2 bên dây
     ctx.fillStyle='#8e0000';
@@ -30125,6 +30200,10 @@ function loop(){
       e.x+=e.vx; e.y+=e.vy; e.vx*=0.9; e.vy=e.vy*0.9+0.08;
       ctx.globalAlpha=1-k; ctx.fillStyle= k<0.5 ? '#c62828' : '#8e0000';
       ctx.beginPath(); ctx.arc(e.x,e.y,e.r*(1-k*0.4),0,Math.PI*2); ctx.fill();
+    } else if(e.k==='big'){
+      const u=e.u; if(u && !u.dead){ e.x=u.x; e.y=u.y; }
+      _azWarp(e.x,e.y,e.r,e.r*(0.15+0.85*k),13*(1-k));
+      _fxCrop(e.x,e.y,e.r,(c,x,y,sc)=>{ const a=2.6*sc*(1-k); return VfxGL.fx.rgbSplit(c,{red:[-a,0],green:[0,a*0.6],blue:[a,0]}); });
     } else if(e.k==='gulp'){
       const u=e.u; if(u && !u.dead){ e.x=u.x; e.y=u.y; }
       ctx.globalAlpha=(1-k)*0.8; ctx.strokeStyle='#ff5252'; ctx.lineWidth=Math.max(1.5,e.r*0.12*(1-k));
