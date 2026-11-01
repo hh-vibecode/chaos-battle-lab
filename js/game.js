@@ -3505,17 +3505,34 @@ function _fxCrop(x,y,R,fn){ if(!window.VfxGL) return; const cv=ctx.canvas, T=ctx
   ctx.save(); ctx.setTransform(1,0,0,1,0,0); ctx.drawImage(c,x0,y0); ctx.restore(); }
 // 🎸 tư thế theo CAO TRÀO của bài: 0 đoạn nhẹ · 1 vào riff · 2 cao trào / solo. Mỗi mức lật vòng theo nhịp trong nhóm của nó.
 // Có ảnh mới → thêm tên ô vào đúng mức ở đây, không phải sửa chỗ nào khác.
-const EG_TIER_POSES=[['EG_DOZE','EG_LOOK','EG_TIPTOE','skill3'],['EG_MEOW','EG_SHAKE','EG_CROUCH','skill1'],['EG_SWAT','EG_YOWL','EG_HISS','EG_SCREAM','attack']];
-// ảnh tư thế (anh vẽ ChatGPT, 1/11): cùng 1 ô vuông, cùng tỉ lệ thân, chân sát đáy ô → đổi tư thế không nhảy cỡ, không nhảy vị trí
+// [tên ảnh, trọng số, giữ bao nhiêu nhịp, chờ bao nhiêu giây mới được ra lại]: dáng gảy thường ra nhiều, dáng đặc biệt có thời gian chờ nên hiếm mới đắt.
+// Chọn ngẫu nhiên theo trọng số (băm theo số lần chọn), không chạy lần lượt.
+const EG_POSE_SET=[
+  [['skill3',5,2,0],['skill2',3,3,0],['EG_LOOK',3,3,0],['EG_DOZE',2,5,6],['EG_TIPTOE',1,4,9]],
+  [['skill1',5,2,0],['skill3',3,2,0],['EG_LOOK',3,2,0],['EG_MEOW',2,3,5],['EG_SHAKE',2,3,4],['EG_CROUCH',1,4,8]],
+  [['skill1',4,2,0],['skill2',3,2,0],['EG_SWAT',3,2,2],['attack',2,4,6],['EG_SHAKE',2,3,4],['EG_YOWL',2,4,7],['EG_SCREAM',1,5,10]] ];
+const EG_HISS_T=70;   // ảnh xù lông KHÔNG nằm trong bảng: chỉ hiện 1 lần lúc đàn vừa bốc cháy
+// ảnh tư thế (anh vẽ ChatGPT, 1/11): cùng 1 ô vuông 980px, cỡ đàn + mức chân khớp với 4 ảnh cũ (đo thân đàn) → đổi qua lại không nhảy cỡ, không nhảy vị trí
 const EG_POSES={}; for(const n of ['EG_DOZE','EG_LOOK','EG_TIPTOE','EG_MEOW','EG_SHAKE','EG_CROUCH','EG_SWAT','EG_YOWL','EG_HISS','EG_SCREAM']){ const im=new Image(); im._noMask=true; im.onload=()=>{ im._crop={sx:0,sy:0,sw:im.naturalWidth,sh:im.naturalHeight}; }; im.src=`assets/img/electricguitarcat/${n}.webp`; EG_POSES[n]=im; }
 const _egIsPose=img=>{ for(const n in EG_POSES) if(EG_POSES[n]===img) return true; return false; };
-// đo độ cao trào 0–1: độ to so với đoạn nhỏ nhất / to nhất vừa nghe trong bài + mật độ nốt 2s gần đây
-function _egHypeTick(f){ const b=f._pianoBuf; if(!b||!b.length) return; let L=0; const n=Math.min(70,b.length); for(let i=4;i<n;i++) L+=b[i]; L/=(n-4)*255;
-  const e=f._egE=(f._egE===undefined?L:f._egE*0.97+L*0.03); f._egHi=Math.max(e,(f._egHi===undefined?e:f._egHi)-0.0004); f._egLo=Math.min(e,(f._egLo===undefined?e:f._egLo)+0.0004);
-  const lv=(e-f._egLo)/Math.max(0.05,f._egHi-f._egLo), B=f._egBeats||[]; while(B.length && tick-B[0]>120) B.shift();
-  const hype=f._egHype=0.55*lv+0.45*Math.max(0,Math.min(1,(B.length/2-2.5)/4.5)), want=_egOnFire(f)?2:(hype>0.62?2:hype>0.34?1:0);
-  if(want===f._egTier) f._egTierT=0; else if(++f._egTierT>=(want>(f._egTier||0)?20:75) || f._egTier===undefined){ f._egTier=want; f._egTierT=0; } }   // lên mức nhanh, xuống mức chậm: không nhảy tư thế liên tục
-function _egPosePool(f,i){ const S={skill1:skill1AvatarImgs[i],skill2:skill2AvatarImgs[i],skill3:skill3AvatarImgs[i],attack:attackAvatarImgs[i]}, all=[S.skill1,S.skill2,S.skill3,S.attack].filter(Boolean), p=EG_TIER_POSES[f._egTier||0].map(k=>S[k]||(EG_POSES[k]&&EG_POSES[k].naturalWidth?EG_POSES[k]:null)).filter(Boolean); return p.length?p:all; }
+// bản đồ cao trào từng bài, mỗi chữ số = 0.5s (dựng bằng tools/song-hype.py). Đo thời gian thực thì mấy giây đầu chưa có mốc so sánh, cả trận thành "cao trào".
+const EG_HYPE={
+  guitar_jojo:'000000000000000022222222222000000111112222211112222222200001111110000',   // 0/1/2: 43/21/34%
+  guitar_aot:'000000022222222222222222200000000000000000000011112221111111111111111000000000000000022222222221110000000000000022222222221111111100000222221111110000000002222222222222222222111111000000',   // 0/1/2: 41/23/34%
+  guitar_s1:'10000000000000000000000000000022222111111111111111111100000000000000022222222222222111112222222111222222222000001111122222222222222222222222',   // 0/1/2: 35/23/41%
+  guitar_unravel:'00000000000000000000000011111111111112222211111000000000000111222222222222222222',   // 0/1/2: 45/26/28%
+  guitar_deltarune:'000000000000111100000000000011122222222221111111100000002222222222222220000000000022211100000000000011111222',   // 0/1/2: 50/21/28%
+  guitar_bluebird:'00002222211111122222200000222222111111111111000000000000000000222222222000000',   // 0/1/2: 42/23/33%
+  piano_megalovania:'000000000000000000011110000000002222222222111222111111222222222111000000000000022221111122222211111222221111111',   // 0/1/2: 36/29/33%
+};
+function _egHypeTick(f){ const a=f._pianoAudio, m=EG_HYPE[f._pianoSong], t=(a && a!=='fail') ? a.currentTime||0 : 0; f._egTier=_egOnFire(f)?2:(m ? +(m[Math.min(m.length-1,Math.floor(t*2))]) : 1); }
+function _egSlot(k,i){ return k==='skill1'?skill1AvatarImgs[i]:k==='skill2'?skill2AvatarImgs[i]:k==='skill3'?skill3AvatarImgs[i]:k==='attack'?attackAvatarImgs[i]:(EG_POSES[k]&&EG_POSES[k].naturalWidth?EG_POSES[k]:null); }
+function _egPosePick(f,i){
+  if(f._egFireAt!==undefined && tick-f._egFireAt<EG_HISS_T && EG_POSES.EG_HISS.naturalWidth) return EG_POSES.EG_HISS;
+  const n=f._egIdx||0; if(f._egPoseImg && n<f._egHold) return f._egPoseImg;
+  const cd=f._egCd||(f._egCd={}), L=EG_POSE_SET[f._egTier||0].filter(p=>p[0]!==f._egPn && _egSlot(p[0],i) && tick>=(cd[p[0]]||0)); if(!L.length) return f._egPoseImg||null;
+  let sum=0; for(const p of L) sum+=p[1]; let r=_egH((f._egPickN=(f._egPickN||0)+1)*7.13+f.slotIdx)*sum, c=L[0]; for(const p of L){ if((r-=p[1])<0){ c=p; break; } }
+  f._egPn=c[0]; f._egHold=n+c[2]; if(c[3]) cd[c[0]]=tick+c[3]*60; return f._egPoseImg=_egSlot(c[0],i); }
 // 🎸🔥 hào quang lửa bám dáng, vẽ SAU thân (ctx đang ở toạ độ riêng của ảnh, đã lật hướng)
 function _egFireAura(f,img,dw,dh,sx,sy,sw,sh){
   if(f._egFireAt===undefined){ f._egFireAt=tick; addShake(7,16); }   // vừa qua mốc 30%: bùng 1 phát
@@ -13692,7 +13709,7 @@ function _mlemSlowMul(f){ const n=f._mlemStacks||0; return n>0 ? Math.max(0.02, 
 // 🎸 Electric Guitar Cat dùng CHUNG engine phân tích nhạc của Piano Cat (FFT bắt onset + cao độ), chỉ khác
 // danh sách bài + thứ bắn ra. Danh sách guitar hiện TRỐNG → tự lùi về dùng nhạc piano cho cơ chế vẫn chạy đúng;
 // khi có file guitar thì chỉ cần nhúng vào AUDIO_SAMPLES rồi thêm key vào đây, không phải sửa gì thêm.
-const GUITAR_SONGS = ['guitar_jojo','guitar_aot','guitar_s1','guitar_unravel','guitar_deltarune','guitar_bluebird'];   // guitar_bluebird = Blue Bird (Naruto Shippuden OP3) cover
+const GUITAR_SONGS = ['guitar_jojo','guitar_aot','guitar_s1','guitar_unravel','guitar_deltarune','guitar_bluebird','piano_megalovania'];   // guitar_bluebird = Blue Bird (Naruto Shippuden OP3) cover
 // 😈 vệt vẽ của Evil Larry — cùng CƠ CHẾ với vệt dãi Wet Cat (đóng dấu từng đoạn ngắn vào 1 bitmap cache rồi
 // mỗi frame chỉ blit 1 lần), nhưng KHÁC hẳn về hình thức: Wet Cat là dải cyan mềm nhoè; đây là nét MÁU KHÔ
 // đỏ thẫm, mảnh và sắc hơn, có lõi đỏ tươi.
@@ -13881,7 +13898,7 @@ function _shootSonicWave(f, freq){
     team:f.team, owner:f, dmg:20, size:30, life:120, isSonicWave:true,
     waveColor:'hsl('+hue+',95%,62%)', waveAng:ang, waveT:0,
     waveK:_musicK(f), egId:f._egWaveN=(f._egWaveN||0)+1, egPrev:f._egLastW||null };   // waveK = lực nhịp · egPrev = luồng trước, để sét nối sang
-  f._egLastW=_w; projectiles.push(_w); (f._egBeats||(f._egBeats=[])).push(tick);
+  f._egLastW=_w; projectiles.push(_w);
   f.actionState='attack'; f.actionTimer=8;
 }
 function _shootNote(f, freq){
@@ -18801,8 +18818,8 @@ class Fighter {
         // Chọn ảnh THẲNG vào _egPose thay vì mượn 3 skillAvatarTimer (cách cũ hay bị đè khung, giật hình).
         const _egI=this.slotIdx;
         _egHypeTick(this);
-        const _egPool=_egPosePool(this,_egI);
-        this._egPose = _egPool.length ? _egPool[((this._egIdx||0)>>1)%_egPool.length] : null;   // giữ mỗi tư thế 2 nhịp, đổi từng nhịp thì giật mắt
+        const _egPool=[skill1AvatarImgs[_egI], skill2AvatarImgs[_egI], skill3AvatarImgs[_egI], attackAvatarImgs[_egI]].filter(Boolean);
+        this._egPose = _egPosePick(this,_egI) || (_egPool.length ? _egPool[(this._egIdx||0)%_egPool.length] : null);
         // nhạc đang tắt/đang bị khống chế → vẫn nhích chậm cho tay không đứng hình chết cứng
         if(_egPool.length && (!this._pianoAudio || this._pianoAudio==='fail' || this._pianoCCed)){
           this._egIdleT=(this._egIdleT||0)+1;
@@ -22796,7 +22813,7 @@ class Fighter {
                    : (this.type==='scaredhamster' && img===HM_IMG.SCARED) ? 1/1.1   // 🐹 thân to thêm 10% nhưng dáng đứng sợ hãi giữ đúng cỡ cũ
                    : (this.type==='saiyanmarmot' && (img===MM_FR[2] || img===MM_FR[7])) ? 1.2*1.15   // 🦫 ảnh Super Saiyan có tóc dựng cao → phóng thêm 15% để THÂN vẫn đúng cỡ dạng thường
                    : (this.type==='saiyanmarmot' && MM_FR.includes(img)) ? 1.2   // 🦫 ảnh đứng thẳng rất gầy → hình to thêm 20% cho cân với meme khác (hitbox giữ nguyên)
-                   : (this.type==='electricguitarcat') ? (_egIsPose(img) ? 1.15*1.3 : 1.15)  // 🎸 ảnh to hơn 15% (chỉ phần HÌNH, hitbox giữ nguyên cho cân bằng) · ảnh tư thế chừa khoảng trống trong ô nên bù thêm 30%
+                   : (this.type==='electricguitarcat') ? (_egIsPose(img) ? 2.35 : 1.15)  // 🎸 ảnh to hơn 15% (chỉ phần HÌNH, hitbox giữ nguyên cho cân bằng) · ảnh tư thế chừa khoảng trống trong ô nên phóng riêng
                    : (this.type==='pianocat' && img===attackAvatarImgs[i]) ? 1.1  // 🎹 khung 3 (Đánh đàn) nhìn bé hơn khung 1/2 → bù thêm 10%
                    : 1.0;
       const _rcSz = this.type==='ricardo' ? (img===avatarImgs[i] ? 1.1 : 1.05) : 1;   // 🕺 Ricardo: avatar thường to thêm 10%, mọi ảnh khác (nhảy/đánh) thêm 5% — chỉ phần HÌNH
