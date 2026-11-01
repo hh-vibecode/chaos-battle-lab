@@ -8,22 +8,25 @@ plan = json.load(open(sys.argv[1]))
 out = np.zeros((int(plan['dur'] * SR) + SR, 2), np.float32)
 cache = {}
 
-def load(f):
-    if f not in cache:
-        raw = subprocess.run(['ffmpeg', '-loglevel', 'error', '-i', f, '-f', 'f32le', '-ac', '2', '-ar', str(SR), '-'], capture_output=True).stdout
-        cache[f] = np.frombuffer(raw, np.float32).reshape(-1, 2)
-    return cache[f]
+def load(f, tempo=1):
+    k = (f, round(tempo, 4))
+    if k not in cache:
+        af = ['-af', f'atempo={tempo:.5f}'] if abs(tempo - 1) > 1e-4 else []   # giãn thời gian, GIỮ cao độ (Chrome mặc định preservesPitch)
+        raw = subprocess.run(['ffmpeg', '-loglevel', 'error', '-i', f, *af, '-f', 'f32le', '-ac', '2', '-ar', str(SR), '-'], capture_output=True).stdout
+        cache[k] = np.frombuffer(raw, np.float32).reshape(-1, 2)
+    return cache[k]
 
 for p in plan['plan']:
-    src = load(p['f'])
+    r = p['rate'] or 1
+    keep = p.get('keep') and abs(r - 1) > 1e-4   # nhạc đổi tốc: dùng bản đã giãn, đọc ở tốc 1
+    src = load(p['f'], r if keep else 1)
     if not len(src):
         continue
     n = int((p['end'] - p['t']) * SR)
     if n <= 0:
         continue
-    r = p['rate'] or 1
-    # vị trí đọc trong file gốc (tốc phát r: nhanh hơn thì cao giọng hơn, y như playbackRate của trình duyệt cũ)
-    pos = p['ct'] * SR + np.arange(n) * r
+    # vị trí đọc trong file (tiếng hiệu ứng: tốc r đổi cả cao độ · nhạc: đã giãn sẵn nên đọc tốc 1, điểm đầu ct cũng co theo r)
+    pos = p['ct'] / r * SR + np.arange(n) if keep else p['ct'] * SR + np.arange(n) * r
     if p['loop']:
         pos = np.mod(pos, len(src) - 1)
     else:

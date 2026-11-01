@@ -794,7 +794,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     boxingcat: { key:'boxingcat', defaultName:'Boxing Cat', emoji:'🥊', color:'#e53935', hp:1000, speed:5, size:44, skill:'' },
     poordog: { key:'poordog', defaultName:'Poor Dog', emoji:'🥣', color:'#c8a165', hp:1000, speed:5, size:39.6, skill:'' },
     ninjacat: { key:'ninjacat', defaultName:'Ninja Cat', emoji:'🥷', color:'#546e7a', hp:1000, speed:5, size:45, skill:'' },
-    saiyanmarmot: { key:'saiyanmarmot', defaultName:'Scream Marmot - The Last Saiyan', emoji:'🦫', color:'#ffca28', hp:1000, speed:5, size:46, skill:'Cận chiến ĐẨY: chạm địch là xô văng ra như mấy con marmot xô nhau (45 dame). Cứ đi 2s lại đứng gồng 1.5s; lần gồng thứ 3 hét AAAH dài 3s rồi hoá SUPER SAIYAN tới hết trận. Super Saiyan: mỗi lần chạm để đẩy thì khựng 0.5s rồi bắn địch thẳng vào tường cực nhanh, ghim vào tường (160 dame), tường chỗ đó nứt vỡ, rơi mảnh còn lại mép lởm chởm. Lỗ tường vỡ đủ to mà địch bị bắn trúng đúng chỗ đó → văng ra khỏi sàn, thua luôn.' },
+    saiyanmarmot: { key:'saiyanmarmot', defaultName:'Scream Marmot - The Last Saiyan', emoji:'🦫', color:'#ffca28', hp:1000, speed:5, size:40.5, skill:'Cận chiến ĐẨY: chạm địch là xô văng ra như mấy con marmot xô nhau (45 dame). Cứ đi 2s lại đứng gồng 1.5s; lần gồng thứ 3 hét AAAH dài 3s rồi hoá SUPER SAIYAN tới hết trận. Super Saiyan: mỗi lần chạm để đẩy thì khựng 0.5s rồi bắn địch thẳng vào tường cực nhanh, ghim vào tường (160 dame), tường chỗ đó nứt vỡ, rơi mảnh còn lại mép lởm chởm. Lỗ tường vỡ đủ to mà địch bị bắn trúng đúng chỗ đó → văng ra khỏi sàn, thua luôn.' },
     azel: { key:'azel', defaultName:'Azel', emoji:'🎧', color:'#26c6da', hp:1000, speed:4, size:46, skill:'Không đánh thường. Phát NGUYÊN clip beatbox dubstep của Azel (hình + tiếng, khớp nhịp, tốc ×1.15). Mỗi nhịp của bài = 1 đòn: đoạn build-up lưỡi sóng neon chém (14), đoạn đếm ngón tay: giơ ngón nào thì số đó (1→5) bật ra từ bàn tay bay tới địch (14), đoạn vung tay sóng WUB xuyên địch (14); nhịp bass mạnh = sóng chấn động quanh người 32 + hất văng. Trúng cả quân triệu hồi.' },
     duolingo: { key:'duolingo', defaultName:'Duolingo', emoji:'🦉', color:'#58cc02', hp:1000, speed:5, size:44, skill:'Bắn câu chào nhiều thứ tiếng, mỗi tiếng 1 kiểu bay (¡Hola! thẳng 35 · Bonjour~ lượn sóng 35 · こんにちは tách 3 chữ 15/chữ · HALLO! to chậm 50 + đẩy lùi · Привет nảy tường 30). Đồng hồ học muộn 23s: 23→12s dạng thường, 12→0s khoanh tay (bắn nhanh ×1.5, 2 tiếng/lần), mỗi lần trúng đồng hồ tụt 0.3s, hết giờ mà chưa thắng → dạng tối thượng LAST CHANCE tới hết trận: laser mắt quét 120/s, 3s/lần laser lớn 200, bắn 5 tiếng cùng lúc. Mỗi 4s rơi 1 Streak Freeze (tối đa 1 khối trên sàn, Duo không phá được): địch nhặt được thì đồng hồ dừng + Duo bị nhốt trong khối băng 2s.' },
     slapcat: { key:'slapcat', defaultName:'Slap Cat', emoji:'🐈', color:'#7c4dff', hp:1000, speed:5, size:44, skill:'Vừa chạy vừa tích lực, cứ 2s lại đứng khựng lại VẢ một phát. Cú vả mở 2 cổng không gian: một cổng ngay cạnh Slap Cat và một cổng SAU LƯNG đối thủ — tay thò qua cổng vả trúng địch dù nó đứng bất kỳ đâu trên sàn. Sát thương gốc 120, ĐỨNG CÀNG XA ĐÁNH CÀNG ĐAU (xa tối đa +100%). 30% tỉ lệ gây choáng.' },
@@ -10766,14 +10766,14 @@ function _mmImpact(q){
   u.takeDamage(MM_WALL_DMG,q.f||null,false,false,'','Blood Batch 1_Sprite');
   playSample('ar_stone_break',1.0); addShake(16,22); spawnParticles(wx,wy,'#9e9e9e',18,false,true);
   for(let k=0;k<10;k++) mmFx.push({k:'rock',x:wx+(Math.random()-0.5)*s,y:wy+(Math.random()-0.5)*s,vx:n[0]*(1+Math.random()*4)+(Math.random()-0.5)*3,vy:n[1]*(1+Math.random()*4)+(Math.random()-0.5)*3,r:1.5+Math.random()*3,rot:Math.random()*6,t:0,T:50});
+  _mmCrumble(b);   // 💥 (anh dặn 1/11) VỠ NGAY lúc va chạm: lỗ mở + đá văng + đúng 1 tiếng vỡ, không đợi hết ghim 1s
   if(u._njGen){ _mmRelease(q); q.done=true; }   // 🥷 Ninja tan thành khói lúc đập tường → thả ra
 }
 // địch rời tường → mảng tường nứt rơi ra sàn thành đống đá vụn, lỗ còn lại mép lởm chởm
 function _mmCrumble(b){ if(!b || !b.fresh) return; b.fresh=false; b.open=[[b.a0,b.a1]]; b.t=0;
   const n=_mmN(b.side), u=W/480, N=Math.min(14,Math.round((b.a1-b.a0)/7));
   for(let k=0;k<N;k++){ const al=b.a0+(b.a1-b.a0)*Math.random(), [x,y]=_mmWP(b.side,al,4*u*Math.random()), sp=0.8+Math.random()*2.2;
-    mmFx.push({k:'chunk',x,y,vx:n[0]*sp+(Math.random()-0.5)*0.8,vy:n[1]*sp+(Math.random()-0.5)*0.8,r:(2.5+Math.random()*4)*u,rot:Math.random()*6,vr:(Math.random()-0.5)*0.3,c:['#333333','#888888','#555555'][k%3],t:0,T:120,pts:Array.from({length:5},()=>0.6+Math.random()*0.5)}); }
-  playSample('ar_stone_break',0.5); }
+    mmFx.push({k:'chunk',x,y,vx:n[0]*sp+(Math.random()-0.5)*0.8,vy:n[1]*sp+(Math.random()-0.5)*0.8,r:(2.5+Math.random()*4)*u,rot:Math.random()*6,vr:(Math.random()-0.5)*0.3,c:['#333333','#888888','#555555'][k%3],t:0,T:120,pts:Array.from({length:5},()=>0.6+Math.random()*0.5)}); } }
 // mỗi tick (sau va chạm thân): giữ / bay / ghim / văng ra ngoài
 function _mmWorldTick(){
   for(let i=mmFly.length-1;i>=0;i--){ const q=mmFly[i], u=q.u; q.t++;
@@ -12543,7 +12543,7 @@ function _susEject(u, src){
 function _forceKill(u, src){
   if(!u || u.dead) return;
   _killSilent=true;
-  try{ u.takeDamage(Math.max(1, (u.hp||1)), src||null, false, false, '', null, false, true); }
+  try{ for(let i=0;i<14 && !u.dead;i++) u.takeDamage(Math.max(1, (u.hp||1)), src||null, false, false, '', null, false, true); }   // 🐕 đòn chết thẳng: lặp tới khi chết thật (Poor Dog nằm chỉ nhận 80%, Troll ác mộng 75%, Gigachad to 65% → 1 lần là sống sót rồi bị tường kéo về sân)
   finally{ _killSilent=false; }
 }
 let _ykReflecting=false;   // 🦭 đang trong lúc Yuki phản đòn → không cho phản tiếp, tránh 2 bên phản qua lại vô tận
@@ -18331,7 +18331,7 @@ class Fighter {
     if(this.type==='trollface' && !this.dead && !this._tfNightmare && this.hp>0 && this.hp<this.maxHp*0.3){
       this._tfNightmare=true;
       _tfShedShell(this);   // 🥚 avatar thường nứt 3 mảnh bong ra — PHẢI gọi TRƯỚC khi đổi size (mảnh cắt theo cỡ cũ)
-      this.size*=1.495; // 👹 hoá dạng ác mộng là to hẳn lên (1.3 rồi +15% nữa = 1.3×1.15) — đổi size THẬT nên cả hình lẫn tầm chạm/cắn đều lớn theo
+      this.size*=1.794; // 👹 hoá dạng ác mộng là to hẳn lên (1.3 → +15% → +20% theo anh dặn 1/11 = 1.3×1.15×1.2) — đổi size THẬT nên cả hình lẫn tầm chạm/cắn đều lớn theo
       this.flash=24; addShake(12,18); koZoom=Math.max(koZoom,0.7);
       spawnParticles(this.x,this.y,'#b0bec5',24,false,true);
       spawnParticles(this.x,this.y,'#37474f',18,false,true);

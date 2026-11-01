@@ -124,7 +124,7 @@ const RESULT = () => { const dead = t => fighters.filter(f => f.team === t).ever
   for (const a of ev.values()) { const m = a.key && info.lufs[a.key]; let g = m ? Math.max(0.05, Math.min(8, Math.pow(10, (-14 - m[0]) / 20))) : 1;
     g *= music.has(a.key) ? 1 : a.vol * a.loud * a.duck;
     const f = path.join(ROOT, a.path); if (!fs.existsSync(f) || a.end - a.t <= 0.02) continue;
-    plan.push({ f, t: a.t, end: a.end, ct: a.ct, loop: a.loop, rate: music.has(a.key) ? 1 : a.rate, g: g * 0.8 }); }
+    plan.push({ f, t: a.t, end: a.end, ct: a.ct, loop: a.loop, rate: a.rate, keep: music.has(a.key), g: g * 0.8 }); }   // nhạc: theo ĐÚNG tốc thật (hình bám nhạc theo tốc này, vd Azel ×1.15) + giữ cao độ như Chrome
   const planF = OUT + '.plan.json', wav = OUT + '.mix.wav'; fs.writeFileSync(planF, JSON.stringify({ dur: END, plan }));
   execFileSync('python3', [path.join(__dirname, 'mix-plan.py'), planF, wav], { stdio: 'inherit' });
   execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', tmpV, '-i', wav, '-filter_complex', '[1:a]alimiter=limit=0.95[a]', '-map', '0:v', '-map', '[a]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-shortest', OUT], { stdio: 'inherit' });
