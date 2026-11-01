@@ -3502,6 +3502,16 @@ function _fxCrop(x,y,R,fn){ if(!window.VfxGL) return; const cv=ctx.canvas, T=ctx
   const o=fn(c,p.x-x0,p.y-y0,sc); if(!o) return; g.clearRect(0,0,w,h); g.drawImage(o,0,0);
   const gr=g.createRadialGradient(p.x-x0,p.y-y0,RR*0.6,p.x-x0,p.y-y0,RR); gr.addColorStop(0,'rgba(0,0,0,1)'); gr.addColorStop(1,'rgba(0,0,0,0)'); g.globalCompositeOperation='destination-in'; g.fillStyle=gr; g.fillRect(0,0,w,h); g.globalCompositeOperation='source-over';
   ctx.save(); ctx.setTransform(1,0,0,1,0,0); ctx.drawImage(c,x0,y0); ctx.restore(); }
+// 🎸 tư thế theo CAO TRÀO của bài: 0 đoạn nhẹ · 1 vào riff · 2 cao trào / solo. Mỗi mức lật vòng theo nhịp trong nhóm của nó.
+// Có ảnh mới → thêm tên ô vào đúng mức ở đây, không phải sửa chỗ nào khác.
+const EG_TIER_POSES=[['skill3','skill2'],['skill1','skill3'],['skill2','attack']];
+// đo độ cao trào 0–1: độ to so với đoạn nhỏ nhất / to nhất vừa nghe trong bài + mật độ nốt 2s gần đây
+function _egHypeTick(f){ const b=f._pianoBuf; if(!b||!b.length) return; let L=0; const n=Math.min(70,b.length); for(let i=4;i<n;i++) L+=b[i]; L/=(n-4)*255;
+  const e=f._egE=(f._egE===undefined?L:f._egE*0.97+L*0.03); f._egHi=Math.max(e,(f._egHi===undefined?e:f._egHi)-0.0004); f._egLo=Math.min(e,(f._egLo===undefined?e:f._egLo)+0.0004);
+  const lv=(e-f._egLo)/Math.max(0.05,f._egHi-f._egLo), B=f._egBeats||[]; while(B.length && tick-B[0]>120) B.shift();
+  const hype=f._egHype=0.55*lv+0.45*Math.max(0,Math.min(1,(B.length/2-2.5)/4.5)), want=_egOnFire(f)?2:(hype>0.62?2:hype>0.34?1:0);
+  if(want===f._egTier) f._egTierT=0; else if(++f._egTierT>=(want>(f._egTier||0)?20:75) || f._egTier===undefined){ f._egTier=want; f._egTierT=0; } }   // lên mức nhanh, xuống mức chậm: không nhảy tư thế liên tục
+function _egPosePool(f,i){ const S={skill1:skill1AvatarImgs[i],skill2:skill2AvatarImgs[i],skill3:skill3AvatarImgs[i],attack:attackAvatarImgs[i]}, all=[S.skill1,S.skill2,S.skill3,S.attack].filter(Boolean), p=EG_TIER_POSES[f._egTier||0].map(k=>S[k]).filter(Boolean); return p.length?p:all; }
 // 🎸🔥 hào quang lửa bám dáng, vẽ SAU thân (ctx đang ở toạ độ riêng của ảnh, đã lật hướng)
 function _egFireAura(f,img,dw,dh,sx,sy,sw,sh){
   if(f._egFireAt===undefined){ f._egFireAt=tick; addShake(7,16); }   // vừa qua mốc 30%: bùng 1 phát
@@ -13866,7 +13876,7 @@ function _shootSonicWave(f, freq){
     team:f.team, owner:f, dmg:20, size:30, life:120, isSonicWave:true,
     waveColor:'hsl('+hue+',95%,62%)', waveAng:ang, waveT:0,
     waveK:_musicK(f), egId:f._egWaveN=(f._egWaveN||0)+1, egPrev:f._egLastW||null };   // waveK = lực nhịp · egPrev = luồng trước, để sét nối sang
-  f._egLastW=_w; projectiles.push(_w);
+  f._egLastW=_w; projectiles.push(_w); (f._egBeats||(f._egBeats=[])).push(tick);
   f.actionState='attack'; f.actionTimer=8;
 }
 function _shootNote(f, freq){
@@ -18785,7 +18795,8 @@ class Fighter {
         // nhạc dồn dập thì tay gảy nhanh, đoạn thưa thì gảy chậm, khớp đúng bài đang chơi.
         // Chọn ảnh THẲNG vào _egPose thay vì mượn 3 skillAvatarTimer (cách cũ hay bị đè khung, giật hình).
         const _egI=this.slotIdx;
-        const _egPool=[skill1AvatarImgs[_egI], skill2AvatarImgs[_egI], skill3AvatarImgs[_egI], attackAvatarImgs[_egI]].filter(Boolean);
+        _egHypeTick(this);
+        const _egPool=_egPosePool(this,_egI);
         this._egPose = _egPool.length ? _egPool[(this._egIdx||0)%_egPool.length] : null;
         // nhạc đang tắt/đang bị khống chế → vẫn nhích chậm cho tay không đứng hình chết cứng
         if(_egPool.length && (!this._pianoAudio || this._pianoAudio==='fail' || this._pianoCCed)){

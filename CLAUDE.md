@@ -123,6 +123,7 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
   (`psAfter`) rồi cổng KAMUI (`_njKamuiAt`) xoáy nó đi mất (`_dpSuck` → `_dpGone`).
 - 🦟🎸 Mosquito Violin + Electric Guitar Cat (1/11): VFX bám NHẠC THẬT. Đọc phổ qua `_musicLv` / `_musicK` (dùng `f._pianoBuf` đã lấy sẵn, đừng gọi analyser lần 2; bản dựng video tính phổ từ file nhạc nên vẫn đúng).
   Muỗi: `_mvDrawString` (dây rung, gảy theo nhịp, là ống máu, giọt máu trôi theo dây), `_mvDrawBow` (vệt vĩ), mvFx 'big' (nhịp mạnh: không gian gợn + tách màu). Guitar: `_egDrawWave` cỡ HÌNH theo `waveK` (hitbox + dame giữ nguyên), `_egWaveFx` (vạch phổ, sét nối luồng, lưỡi lửa), `_egFireAura` + `_egFireFx` (dưới 30%).
+- 🎸 Guitar Cat đổi tư thế theo CAO TRÀO bài (Ver 458): `_egHypeTick` đo mức 0/1/2 (độ to so với đoạn nhỏ/to nhất vừa nghe + mật độ nốt 2s; dưới 30% máu luôn mức 2), bảng `EG_TIER_POSES`. Anh đang vẽ thêm 12 tư thế (lệnh ở Desktop/guitar-cat-poses) → ảnh về thì thêm vào đúng mức của bảng.
 - 🎧 Azel (31/10): đạn nâng cấp kiểu "dope" — dải đuôi neon (`_azRibbon`), tách màu RGB, thanh equalizer, sét lách tách, WUB/bass drop BÓP MÉO không gian (`_azWarp`).
   Anh: "giờ chỉ quay video, không dùng game trực tiếp → không sợ nặng, nâng cấp VFX thoải mái".
 - ⚠️ Hiệu ứng động của nền/sân KHÔNG dùng `Math.random` (băm theo `tick`/toạ độ — `_skH`) → không xáo chuỗi random có seed của trận (quay video phải khớp lúc chạy thử).
