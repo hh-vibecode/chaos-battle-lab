@@ -196,7 +196,6 @@ window.ASSET_GROUP={
 "assets/img/electricguitarcat/EG_CROUCH.webp": "electricguitarcat",
 "assets/img/electricguitarcat/EG_SWAT.webp": "electricguitarcat",
 "assets/img/electricguitarcat/EG_YOWL.webp": "electricguitarcat",
-"assets/img/electricguitarcat/EG_HISS.webp": "electricguitarcat",
 "assets/img/electricguitarcat/EG_SCREAM.webp": "electricguitarcat",
 "assets/audio/cn_ready.mp3": "cornelius",
 "assets/audio/cn_pan_hit.mp3": "cornelius",

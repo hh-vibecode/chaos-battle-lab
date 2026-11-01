@@ -3502,17 +3502,11 @@ function _fxCrop(x,y,R,fn){ if(!window.VfxGL) return; const cv=ctx.canvas, T=ctx
   const o=fn(c,p.x-x0,p.y-y0,sc); if(!o) return; g.clearRect(0,0,w,h); g.drawImage(o,0,0);
   const gr=g.createRadialGradient(p.x-x0,p.y-y0,RR*0.6,p.x-x0,p.y-y0,RR); gr.addColorStop(0,'rgba(0,0,0,1)'); gr.addColorStop(1,'rgba(0,0,0,0)'); g.globalCompositeOperation='destination-in'; g.fillStyle=gr; g.fillRect(0,0,w,h); g.globalCompositeOperation='source-over';
   ctx.save(); ctx.setTransform(1,0,0,1,0,0); ctx.drawImage(c,x0,y0); ctx.restore(); }
-// 🎸 tư thế theo CAO TRÀO của bài: 0 đoạn nhẹ · 1 vào riff · 2 cao trào / solo. Mỗi mức lật vòng theo nhịp trong nhóm của nó.
-// Có ảnh mới → thêm tên ô vào đúng mức ở đây, không phải sửa chỗ nào khác.
-// [tên ảnh, trọng số, giữ bao nhiêu nhịp, chờ bao nhiêu giây mới được ra lại]: dáng gảy thường ra nhiều, dáng đặc biệt có thời gian chờ nên hiếm mới đắt.
-// Chọn ngẫu nhiên theo trọng số (băm theo số lần chọn), không chạy lần lượt.
-const EG_POSE_SET=[
-  [['skill3',5,2,0],['skill2',3,3,0],['EG_LOOK',3,3,0],['EG_DOZE',2,5,6],['EG_TIPTOE',1,4,9]],
-  [['skill1',5,2,0],['skill3',3,2,0],['EG_LOOK',3,2,0],['EG_MEOW',2,3,5],['EG_SHAKE',2,3,4],['EG_CROUCH',1,4,8]],
-  [['skill1',4,2,0],['skill2',3,2,0],['EG_SWAT',3,2,2],['attack',2,4,6],['EG_SHAKE',2,3,4],['EG_YOWL',2,4,7],['EG_SCREAM',1,5,10]] ];
-const EG_HISS_T=70;   // ảnh xù lông KHÔNG nằm trong bảng: chỉ hiện 1 lần lúc đàn vừa bốc cháy
+// 🎸 tư thế: loop 4 ảnh cũ, mỗi nốt đổi 1 ảnh, nhịp đều (anh dặn). Hết 1 vòng mà đang cao trào thì chen 1–2 ảnh mới rồi quay lại loop cũ.
+// EG_HYPE: 2 = cao trào, chen sau mỗi vòng · 1 = vào riff, chen cách 1 vòng · 0 = chỉ loop cũ.
+const EG_INSERT=['EG_SWAT','EG_YOWL','EG_SHAKE','EG_SCREAM','EG_MEOW','EG_CROUCH','EG_DOZE','EG_TIPTOE','EG_LOOK'];
 // ảnh tư thế (anh vẽ ChatGPT, 1/11): cùng 1 ô vuông 980px, cỡ đàn + mức chân khớp với 4 ảnh cũ (đo thân đàn) → đổi qua lại không nhảy cỡ, không nhảy vị trí
-const EG_POSES={}; for(const n of ['EG_DOZE','EG_LOOK','EG_TIPTOE','EG_MEOW','EG_SHAKE','EG_CROUCH','EG_SWAT','EG_YOWL','EG_HISS','EG_SCREAM']){ const im=new Image(); im._noMask=true; im.onload=()=>{ im._crop={sx:0,sy:0,sw:im.naturalWidth,sh:im.naturalHeight}; }; im.src=`assets/img/electricguitarcat/${n}.webp`; EG_POSES[n]=im; }
+const EG_POSES={}; for(const n of EG_INSERT){ const im=new Image(); im._noMask=true; im.onload=()=>{ im._crop={sx:0,sy:0,sw:im.naturalWidth,sh:im.naturalHeight}; }; im.src=`assets/img/electricguitarcat/${n}.webp`; EG_POSES[n]=im; }
 const _egIsPose=img=>{ for(const n in EG_POSES) if(EG_POSES[n]===img) return true; return false; };
 // bản đồ cao trào từng bài, mỗi chữ số = 0.5s (dựng bằng tools/song-hype.py). Đo thời gian thực thì mấy giây đầu chưa có mốc so sánh, cả trận thành "cao trào".
 const EG_HYPE={
@@ -3524,14 +3518,16 @@ const EG_HYPE={
   guitar_bluebird:'00002222211111122222200000222222111111111111000000000000000000222222222000000',   // 0/1/2: 42/23/33%
   piano_megalovania:'000000000000000000011110000000002222222222111222111111222222222111000000000000022221111122222211111222221111111',   // 0/1/2: 36/29/33%
 };
-function _egHypeTick(f){ if(_egOnFire(f) && f._egFireAt===undefined) f._egFireAt=tick; const a=f._pianoAudio, m=EG_HYPE[f._pianoSong], t=(a && a!=='fail') ? a.currentTime||0 : 0; f._egTier=_egOnFire(f)?2:(m ? +(m[Math.min(m.length-1,Math.floor(t*2))]) : 1); }
-function _egSlot(k,i){ return k==='skill1'?skill1AvatarImgs[i]:k==='skill2'?skill2AvatarImgs[i]:k==='skill3'?skill3AvatarImgs[i]:k==='attack'?attackAvatarImgs[i]:(EG_POSES[k]&&EG_POSES[k].naturalWidth?EG_POSES[k]:null); }
-function _egPosePick(f,i){
-  if(f._egFireAt!==undefined && tick-f._egFireAt<EG_HISS_T && EG_POSES.EG_HISS.naturalWidth) return EG_POSES.EG_HISS;
-  const n=f._egIdx||0; if(f._egPoseImg && n<f._egHold) return f._egPoseImg;
-  const cd=f._egCd||(f._egCd={}), L=EG_POSE_SET[f._egTier||0].filter(p=>p[0]!==f._egPn && _egSlot(p[0],i) && tick>=(cd[p[0]]||0)); if(!L.length) return f._egPoseImg||null;
-  let sum=0; for(const p of L) sum+=p[1]; let r=_egH((f._egPickN=(f._egPickN||0)+1)*7.13+f.slotIdx)*sum, c=L[0]; for(const p of L){ if((r-=p[1])<0){ c=p; break; } }
-  f._egPn=c[0]; f._egHold=n+c[2]; if(c[3]) cd[c[0]]=tick+c[3]*60; return f._egPoseImg=_egSlot(c[0],i); }
+function _egHypeTick(f){ const a=f._pianoAudio, m=EG_HYPE[f._pianoSong], t=(a && a!=='fail') ? a.currentTime||0 : 0; f._egTier=_egOnFire(f)?2:(m ? +(m[Math.min(m.length-1,Math.floor(t*2))]) : 1); }
+function _egNewPose(f){ const L=EG_INSERT.filter(n=>EG_POSES[n].naturalWidth && n!==f._egPn); if(!L.length) return null; f._egPn=L[Math.floor(_egH((f._egPickN=(f._egPickN||0)+1)*7.13+f.slotIdx)*L.length)]; return EG_POSES[f._egPn]; }
+function _egPosePick(f,i){ const old=[skill1AvatarImgs[i],skill2AvatarImgs[i],skill3AvatarImgs[i],attackAvatarImgs[i]].filter(Boolean); if(!old.length) return null;
+  const n=f._egIdx||0; if(f._egStep===undefined){ f._egStep=n; f._egOld=0; f._egIns=0; f._egLoops=0; return f._egPoseImg=old[0]; }
+  if(n===f._egStep) return f._egPoseImg;   // chỉ đổi ảnh đúng lúc sang nốt mới
+  f._egStep=n;
+  if(f._egIns>0){ f._egIns--; const p=_egNewPose(f); if(p) return f._egPoseImg=p; }
+  if(++f._egOld>=old.length){ f._egOld=0; f._egLoops++; const lv=f._egTier||0;
+    if(lv>=2 || (lv===1 && f._egLoops%2===0)){ const p=_egNewPose(f); if(p){ f._egIns=_egH(f._egPickN*3.1)<0.5?1:0; f._egOld=-1; return f._egPoseImg=p; } } }
+  return f._egPoseImg=old[f._egOld]; }
 function _egHit(p,x,y,sz){
   const col=p.waveColor||'#4dd0e1', sp=[];
   for(let i=0;i<6;i++){ const a=i/6*Math.PI*2+Math.random()*0.6, v=sz*(0.07+Math.random()*0.04); sp.push({x:0,y:0,vx:Math.cos(a)*v,vy:Math.sin(a)*v}); }
@@ -18787,7 +18783,7 @@ class Fighter {
         const _egI=this.slotIdx;
         _egHypeTick(this);
         const _egPool=[skill1AvatarImgs[_egI], skill2AvatarImgs[_egI], skill3AvatarImgs[_egI], attackAvatarImgs[_egI]].filter(Boolean);
-        this._egPose = _egPosePick(this,_egI) || (_egPool.length ? _egPool[(this._egIdx||0)%_egPool.length] : null);
+        this._egPose = _egPosePick(this,_egI);
         // nhạc đang tắt/đang bị khống chế → vẫn nhích chậm cho tay không đứng hình chết cứng
         if(_egPool.length && (!this._pianoAudio || this._pianoAudio==='fail' || this._pianoCCed)){
           this._egIdleT=(this._egIdleT||0)+1;
