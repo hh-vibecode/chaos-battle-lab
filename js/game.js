@@ -789,7 +789,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     aliencat: { key:'aliencat', defaultName:'Mr. Folk', emoji:'🥾', color:'#ffc400', hp:1000, speed:5, size:49.5, skill:'Chiếu 2 tia laze VÀNG thẳng từ 2 con mắt vào mục tiêu ở CỰ LY TẦM TRUNG — xa nhất gần gấp đôi tầm cận chiến, quá gần hoặc quá xa là mất khoá và phải gây lại từ đầu. Giữ được đúng cự ly càng lâu thì mỗi nhịp bắn càng đau: bắt đầu 10 dmg, cứ mỗi giây giữ được tia lại cộng thêm 20. Mỗi 8s triệu hồi 1 đĩa bay từ ngoài sân bay vào, dừng trên đầu địch gần nhất, dùng tia sóng âm hút địch lên xoay vòng tại chỗ trong 2s rồi bay đi mất.' },
     wetcat: { key:'wetcat', defaultName:'Wet Cat', emoji:'🌧️', color:'#4fc3f7', hp:1000, speed:2.0125, size:45, skill:'Đi rất chậm, không đánh. Vào trận là trời đổ mưa quanh chỗ nó đứng; đi tới đâu vùng mưa lan tới đó (mưa ở lại cả trận), thỉnh thoảng sét giáng xuống trong vùng mưa. Địch đứng trong mưa mất 30 máu/s; cứ ở trong mưa đủ 2.5s là 50% bị sét đánh: 100 dame + choáng điện 1s, người giật sáng loé lòi xương.' },
     droolingcat: { key:'droolingcat', defaultName:'Drooling Cat', emoji:'🤤', color:'#4dd0e1', hp:1000, speed:2.0125, size:45, skill:'Đi rất chậm, không đánh. Dãi nhỏ từ mồm xuống chân liên tục, càng lúc càng nhanh, lâu thì thành dòng — đọng thành vũng nước to dần (giọt/dòng không gây dame). Địch đứng trong nước mất 20 máu mỗi 0.5s, Drooling Cat đứng trong nước hồi 10 máu/s. Từ giây 8: địch ngâm nước liên tục 3s bị piranha nhảy lên cắn 80. Từ giây 15: piranha thành cá mập — vây cá bơi chậm trong vũng, địch chạm vây bị cá ngoi lên cắn 200 và mất miếng thịt đúng chỗ bị cắn.' },
-    electricguitarcat: { key:'electricguitarcat', defaultName:'Electric Guitar Cat', emoji:'🎸', color:'#ec407a', hp:1000, speed:5, size:43, skill:'Chơi guitar điện — bắn ra SÓNG ÂM theo đúng NHỊP & CAO ĐỘ thật của bài (màu theo nốt), y hệt cơ chế của Piano Cat. Mỗi luồng sóng 20 dame, đánh tới đâu nốt nhạc nảy tới đó. Tự đổi bài mỗi 8s. Bị đánh còn 30% máu là chơi tới mức đàn bốc cháy — sóng đàn đốt địch thêm 20 dame/s.' },
+    electricguitarcat: { key:'electricguitarcat', defaultName:'Electric Guitar Cat', emoji:'🎸', color:'#ec407a', hp:1000, speed:5, size:43, skill:'Chơi guitar điện — bắn ra SÓNG ÂM theo đúng NHỊP & CAO ĐỘ thật của bài (màu theo nốt), y hệt cơ chế của Piano Cat. Mỗi luồng sóng 15 dame, đánh tới đâu nốt nhạc nảy tới đó. Tự đổi bài mỗi 8s. Bị đánh còn 30% máu là chơi tới mức đàn bốc cháy — sóng đàn đốt địch thêm 20 dame/s.' },
     scareddog: { key:'scareddog', defaultName:'Scared Dog', emoji:'🐶', color:'#795548', hp:1000, speed:5, size:44, skill:'Không tự tấn công — chỉ di chuyển né tránh bình thường. Sau 1s vào trận, triệu hồi 1 ma đen + 1 ma trắng bay lượn quanh (không có HP, không thể bị tiêu diệt, chỉ biến mất khi Scared Dog chết): mỗi ma di chuyển bằng 40% tốc của 1 meme thường, nảy tường y hệt meme, húc trúng địch (hoặc lính/tượng địch có HP) lại gần thì gây dame — ma trắng 20 dmg, ma đen là Giám Ngục: không lướt xuyên địch, địch lọt vào tầm hút nhỏ (≈1.5× tầm cận chiến, +10%) thì đứng chắn trước mặt HÚT LINH HỒN (nạn nhân tái nhợt, nhoè kéo về phía ma): mỗi 0.3s 1 nhịp, nhịp đầu 10 dmg + chậm 10%, rồi mỗi nhịp +5 dmg và +5% chậm (tối đa 90%), ra khỏi tầm thì reset. Ma trắng có hào quang hồi máu bán kính gấp đôi thân nó, Scared Dog đứng trong đó được hồi 20 HP/s.' },
     boxingcat: { key:'boxingcat', defaultName:'Boxing Cat', emoji:'🥊', color:'#e53935', hp:1000, speed:5, size:44, skill:'' },
     poordog: { key:'poordog', defaultName:'Poor Dog', emoji:'🥣', color:'#c8a165', hp:1000, speed:5, size:39.6, skill:'' },
@@ -3464,7 +3464,7 @@ function _egCres(cx,R,span,th){ const n=20; ctx.beginPath();
   for(let i=n;i>=0;i--){ const a=-span+2*span*i/n, w=th*Math.cos(a/span*Math.PI/2); ctx.lineTo(cx+Math.cos(a)*(R-w), Math.sin(a)*(R-w)); }
   ctx.closePath(); ctx.fill(); }
 function _egDrawWave(p){
-  p.waveT=(p.waveT||0)+1; const fire=_egOnFire(p.owner), t=p.waveT, col=fire?'#ff8a1e':(p.waveColor||'#4dd0e1'), S=p.size*(0.75+(p.waveK===undefined?0.25:p.waveK)), a=Math.atan2(p.vy,p.vx), ca=Math.cos(a), sa=Math.sin(a);   // cỡ HÌNH theo lực nhịp (trúng + dame giữ nguyên)
+  p.waveT=(p.waveT||0)+1; const t=p.waveT, col=p.waveColor||'#4dd0e1', S=p.size, a=Math.atan2(p.vy,p.vx), ca=Math.cos(a), sa=Math.sin(a);
   if(!p._egSp) p._egSp=[];   // ✨ đốm lấp lánh nhỏ rơi lại phía sau
   if(t%3===0){ const bx=-S*(0.5+Math.random()*0.7), side=(Math.random()-0.5)*S*0.9;
     p._egSp.push({x:p.x+ca*bx-sa*side, y:p.y+sa*bx+ca*side, l:16, r:S*(0.05+Math.random()*0.04), rot:Math.random()*3}); }
@@ -3484,7 +3484,6 @@ function _egDrawWave(p){
     const g=ctx.createLinearGradient(cx+R-S*tk,0,cx+R,0); g.addColorStop(0,col); g.addColorStop(1,'#ffffff');
     ctx.globalAlpha=al; ctx.fillStyle=g; _egCres(cx,R,sp,S*tk); }
   ctx.restore();
-  _egWaveFx(p,S,a,col,fire);
 }
 const EG_FIRE_HP=0.3;   // 🎸🔥 còn ≤30% máu → đàn bốc cháy, sóng đàn đốt địch
 function _egOnFire(f){ return !!f && !f.dead && f.type==='electricguitarcat' && f.hp<=f.maxHp*EG_FIRE_HP; }
@@ -3525,7 +3524,7 @@ const EG_HYPE={
   guitar_bluebird:'00002222211111122222200000222222111111111111000000000000000000222222222000000',   // 0/1/2: 42/23/33%
   piano_megalovania:'000000000000000000011110000000002222222222111222111111222222222111000000000000022221111122222211111222221111111',   // 0/1/2: 36/29/33%
 };
-function _egHypeTick(f){ const a=f._pianoAudio, m=EG_HYPE[f._pianoSong], t=(a && a!=='fail') ? a.currentTime||0 : 0; f._egTier=_egOnFire(f)?2:(m ? +(m[Math.min(m.length-1,Math.floor(t*2))]) : 1); }
+function _egHypeTick(f){ if(_egOnFire(f) && f._egFireAt===undefined) f._egFireAt=tick; const a=f._pianoAudio, m=EG_HYPE[f._pianoSong], t=(a && a!=='fail') ? a.currentTime||0 : 0; f._egTier=_egOnFire(f)?2:(m ? +(m[Math.min(m.length-1,Math.floor(t*2))]) : 1); }
 function _egSlot(k,i){ return k==='skill1'?skill1AvatarImgs[i]:k==='skill2'?skill2AvatarImgs[i]:k==='skill3'?skill3AvatarImgs[i]:k==='attack'?attackAvatarImgs[i]:(EG_POSES[k]&&EG_POSES[k].naturalWidth?EG_POSES[k]:null); }
 function _egPosePick(f,i){
   if(f._egFireAt!==undefined && tick-f._egFireAt<EG_HISS_T && EG_POSES.EG_HISS.naturalWidth) return EG_POSES.EG_HISS;
@@ -3533,35 +3532,6 @@ function _egPosePick(f,i){
   const cd=f._egCd||(f._egCd={}), L=EG_POSE_SET[f._egTier||0].filter(p=>p[0]!==f._egPn && _egSlot(p[0],i) && tick>=(cd[p[0]]||0)); if(!L.length) return f._egPoseImg||null;
   let sum=0; for(const p of L) sum+=p[1]; let r=_egH((f._egPickN=(f._egPickN||0)+1)*7.13+f.slotIdx)*sum, c=L[0]; for(const p of L){ if((r-=p[1])<0){ c=p; break; } }
   f._egPn=c[0]; f._egHold=n+c[2]; if(c[3]) cd[c[0]]=tick+c[3]*60; return f._egPoseImg=_egSlot(c[0],i); }
-// 🎸🔥 hào quang lửa bám dáng, vẽ SAU thân (ctx đang ở toạ độ riêng của ảnh, đã lật hướng)
-function _egFireAura(f,img,dw,dh,sx,sy,sw,sh){
-  if(f._egFireAt===undefined){ f._egFireAt=tick; addShake(7,16); }   // vừa qua mốc 30%: bùng 1 phát
-  const u=Math.min(1,(tick-f._egFireAt)/36);
-  if(window.VfxGL) VfxGL.drawAura(ctx,img,{preset:'fire',x:0,y:dh/2,w:dw,h:dh,sx,sy,sw,sh,t:tick/60,k:1-0.25*u}); }
-// 🎸🔥 tàn lửa bay, khí nóng gợn quanh người, sóng bóp méo lúc vừa bùng
-function _egFireFx(){ for(const f of fighters){ if(!_egOnFire(f) || f._egFireAt===undefined) continue;
-  const s=f.size, u=(tick-f._egFireAt)/36;
-  _fxCrop(f.x,f.y,s*2.4,(c,x,y,sc)=>VfxGL.post(c,{heat:{k:2.4*sc,t:tick/60}}));
-  if(u<1) _azWarp(f.x,f.y,s*5.5,s*5.5*(0.15+0.85*u),18*(1-u));
-  ctx.save(); ctx.globalCompositeOperation='lighter';
-  for(let i=0;i<12;i++){ const sp=0.5+_egH(i+3)*0.7, H=s*2.5, k=((tick*sp+_egH(i)*400)%H)/H, x=f.x+(_egH(i+7)-0.5)*s*1.7+Math.sin(tick*0.07+i)*s*0.14, y=f.y+s*0.8-k*H;
-    ctx.globalAlpha=Math.sin(k*Math.PI)*0.95; ctx.fillStyle=i%3?'#ff8a1e':'#ffe0a0'; ctx.beginPath(); ctx.arc(x,y,s*(0.02+_egH(i+5)*0.025),0,Math.PI*2); ctx.fill(); }
-  ctx.restore(); } }
-// 🎸 phần thêm của 1 luồng sóng: vạch phổ thật ở rìa · lưỡi lửa kéo sau (lúc đàn cháy) · sét dây đàn nối các luồng
-function _egWaveFx(p,S,a,col,fire){ const c=Math.cos(a), s=Math.sin(a), id=p.egId||0, b=p.owner&&p.owner._pianoBuf, R=S*0.82, n=26;
-  ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round';
-  if(fire) for(let i=0;i<16;i++){ const q=(i/15-0.5)*1.5, back=_egH(i+id)*S*1.5+Math.sin(tick*0.31+i)*S*0.12, r=S*(0.2+_egH(i+9)*0.2)*(1-back/(S*2.2)), lx=S*0.25-Math.abs(q)*S*0.4-back, ly=q*S*0.95, x=p.x+c*lx-s*ly, y=p.y+s*lx+c*ly;
-    VfxGL.puff(ctx,x,y,r*1.7,0.34,'255,70,10'); VfxGL.puff(ctx,x,y,r*0.8,0.5,'255,180,50'); }
-  ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(a); ctx.translate(S*0.3-R,0); ctx.lineWidth=Math.max(1,S*0.04); ctx.globalAlpha=0.85;
-  for(const pass of [0,1]){ ctx.strokeStyle=pass?'#ffffff':col; ctx.beginPath();
-    for(let i=0;i<n;i++){ if((i%3===0)!==!!pass) continue; const u=i/(n-1), an=-0.95+1.9*u, m=Math.abs(u-0.5)*2, v=b&&b.length?b[6+(m*44|0)]/255:_egH(i+id), h=S*(0.08+Math.pow(v,1.6)*0.6)*(1-m*0.45), ca=Math.cos(an), sa=Math.sin(an);
-      ctx.moveTo(ca*R,sa*R); ctx.lineTo(ca*(R+h),sa*(R+h)); }
-    ctx.stroke(); }
-  ctx.restore();
-  if(window.VfxGL){ const sd=(tick/3|0)+id, o=fire?{core:'#fff3d6',rim:'#ff7a1a',glow:'rgba(255,120,30,0.3)'}:{core:'#e8f6ff',rim:'#3aa0ff',glow:'rgba(80,170,255,0.32)'}, w=Math.max(1.5,S*0.055);
-    VfxGL.boltSet(ctx,p.x,p.y,a+Math.PI-0.62,S*1.6,w,sd,o); VfxGL.boltSet(ctx,p.x,p.y,a+Math.PI+0.62,S*1.6,w,sd+3,o);
-    const q=p.egPrev; if(q && !projectiles.includes(q)) p.egPrev=null; else if(q){ const d=Math.hypot(q.x-p.x,q.y-p.y); if(d<210) VfxGL.bolt(ctx,p.x,p.y,Math.atan2(q.y-p.y,q.x-p.x),d,Math.max(1.5,S*0.045),sd+9,Object.assign({branches:false},o)); } }
-  ctx.restore(); }
 function _egHit(p,x,y,sz){
   const col=p.waveColor||'#4dd0e1', sp=[];
   for(let i=0;i<6;i++){ const a=i/6*Math.PI*2+Math.random()*0.6, v=sz*(0.07+Math.random()*0.04); sp.push({x:0,y:0,vx:Math.cos(a)*v,vy:Math.sin(a)*v}); }
@@ -13893,12 +13863,10 @@ function _shootSonicWave(f, freq){
   const _base = e ? Math.atan2(e.y-f.y, e.x-f.x) : (f._lastAngle||(f.team===0?0:Math.PI));
   const ang=_base + (Math.random()-0.5)*0.22;
   const spd=7.4;
-  const _w={ x:f.x+Math.cos(ang)*f.size*0.6, y:f.y-f.size*0.1+Math.sin(ang)*f.size*0.6,
+  projectiles.push({ x:f.x+Math.cos(ang)*f.size*0.6, y:f.y-f.size*0.1+Math.sin(ang)*f.size*0.6,
     vx:Math.cos(ang)*spd, vy:Math.sin(ang)*spd,
-    team:f.team, owner:f, dmg:20, size:30, life:120, isSonicWave:true,
-    waveColor:'hsl('+hue+',95%,62%)', waveAng:ang, waveT:0,
-    waveK:_musicK(f), egId:f._egWaveN=(f._egWaveN||0)+1, egPrev:f._egLastW||null };   // waveK = lực nhịp · egPrev = luồng trước, để sét nối sang
-  f._egLastW=_w; projectiles.push(_w);
+    team:f.team, owner:f, dmg:15, size:30, life:120, isSonicWave:true,
+    waveColor:'hsl('+hue+',95%,62%)', waveAng:ang, waveT:0 });
   f.actionState='attack'; f.actionTimer=8;
 }
 function _shootNote(f, freq){
@@ -22887,7 +22855,6 @@ class Fighter {
       // VIỀN theo màu team (P1 xanh / P2 đỏ) — ĐÚNG VỊ TRÍ viền trắng cũ (viền stamp ở RÌA, KHÔNG đè màu lên mặt avatar), có toả glow nhẹ quanh viền
       // ⭐ Fan Battle: con của fan vẽ thành QUẢ BÓNG (xem bên dưới) và bóng đã có viền tròn riêng —
       // bỏ viền-theo-hình-nhân-vật ở đây, không thì cái bóng người to lù lù thò ra ngoài quả bóng.
-      if(this.type==='electricguitarcat' && _egOnFire(this)) _egFireAura(this,img,dw,dh,_sx,_sy,_sw,_sh);
       if(this.type==='doorbellchud' && !this.dead && DC_RG.includes(img) && img.naturalWidth){   // 😡 quầng lửa rage sau lưng, đập theo nhịp
         const _au=_dcAura(img), _k=dw/img.naturalWidth, _pl=1+0.05*Math.sin(tick*0.25), _pw=(dw+_au.pad*2*_k)*_pl, _ph=(dh+_au.pad*2*_k)*_pl;
         ctx.save(); ctx.globalAlpha=0.7+0.25*Math.sin(tick*0.25);
@@ -30156,7 +30123,6 @@ function loop(){
   _arDraw();   // 🧞 thần đèn Arabic Cat + quân triệu hồi đang là gà
   _rbDrawBits();   // 🧊 khối nhỏ văng ra lúc Rubik Cat xoay trúng màu
   _egDrawHits();   // 🎸💥 vòng sóng + tia điện lúc sóng đàn trúng
-  _egFireFx();   // 🎸🔥 tàn lửa + khí nóng lúc đàn cháy
   _smDraw();   // ⚔️🌊 vệt chém nước / gợn sàn / lướt dứt điểm Samurai Cheems
   _rcDrawOver();   // 🕺🪩 quả cầu disco + đèn quét + tim/lấp lánh/MISS Ricardo
   _cdgDraw();  // 🐶🗼 vòng bụi chấn động Chonky Dog
