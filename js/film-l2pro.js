@@ -60,6 +60,7 @@
     return FEAT[id]=(L.length&&Rr.length)?[cen(L),cen(Rr)]:null; }
   const at=(R,f)=>R&&f?{x:R.x+(f.u-R.ax)*R.w*(R.flip?-1:1), y:R.y+(f.v-R.ay)*R.h}:null;
   const eyeY=()=>feat('fr','y',(r,g,b)=>r>200&&g>180&&b<110), eyeP=()=>feat('fr','p',(r,g,b)=>r>200&&g<175&&b>150);
+  const voidHole=()=>feat('vdA','hole',(r,g,b)=>b>140&&g>110&&r<120&&b>r+50);
   const voidEyes=()=>feat('vd','ring',(r,g,b)=>r>150&&g>150&&b<200&&r+g>360,true);
 
   // ───────── bầu trời ─────────
@@ -147,15 +148,38 @@
   // ───────── xúc tu bóng tối (khói đặc, không phải bộ phận vẽ tay) ─────────
   function tentacle(g,t,x0,y0,x1,y1,k,w,seed,o={}){ if(k<=0.001) return null; const dx=x1-x0, dy=y1-y0, L=Math.hypot(dx,dy)||1, nx=-dy/L, ny=dx/L, bend=(o.bend==null?0.22:o.bend)*L, N=50, P=[];
     for(let i=0;i<=N;i++){ const s=i/N*k, b=Math.sin(s*Math.PI)*bend, wv=Math.sin(s*9-t*(o.sp||2.4)+seed*3)*L*0.035*(0.3+s)*(o.wave==null?1:o.wave);
-      P.push([x0+dx*s+nx*(b+wv), y0+dy*s+ny*(b+wv), w*(1-0.86*s)]); }
+      P.push([x0+dx*s+nx*(b+wv), y0+dy*s+ny*(b+wv), w*(1-(o.taper==null?0.86:o.taper)*s)]); }
     g.save(); g.lineCap='round'; g.globalCompositeOperation='lighter';
     for(let i=0;i<=N;i+=2) blob(g,P[i][0],P[i][1],P[i][2]*2.6,o.glow||'130,50,255',0.13*(o.a==null?1:o.a));
     g.globalCompositeOperation='source-over'; g.globalAlpha=o.a==null?1:o.a;
     for(const [ex,col] of [[2.6,o.rim||'#5b24b8'],[0,'#06000c']]){ g.strokeStyle=col; for(let i=1;i<=N;i++){ g.lineWidth=P[i][2]+ex; g.beginPath(); g.moveTo(P[i-1][0],P[i-1][1]); g.lineTo(P[i][0],P[i][1]); g.stroke(); } }
     for(let j=0;j<8;j++){ const s=hash(seed*9+j)*k, i=Math.round(s/k*N), p=P[Math.min(N,i)], dr=(t*0.6+hash(seed+j))%1;   // khói bốc ra
       blob(g,p[0]+(hash(j+seed)-0.5)*20,p[1]-dr*40,p[2]*(1.5+dr*2),'14,0,28',(1-dr)*0.55*(o.a==null?1:o.a)); }
-    g.restore(); return P[N]; }
+    g.restore(); return P[N]; }   // [x, y, bề ngang ở đầu]
 
+  // ───────── 🌪️ BÃO TÀ ÁC: xoáy mây đen cuộn quanh đôi mắt Friend, mép loé tím, sét tím giật — vùng tối lan tràn ─────────
+  function storm(g,t,cx,cy,R,a){ if(a<=0.01) return; g.save();
+    let gr=g.createRadialGradient(cx,cy,R*0.1,cx,cy,R*1.15); gr.addColorStop(0,`rgba(0,0,0,${a})`); gr.addColorStop(0.75,`rgba(4,0,10,${0.92*a})`); gr.addColorStop(1,'rgba(4,0,10,0)');
+    g.fillStyle=gr; g.fillRect(cx-R*1.2,cy-R*1.2,R*2.4,R*2.4);
+    g.globalCompositeOperation='lighter';
+    for(let i=0;i<70;i++){ const s=i*1.37, rr=R*(0.35+0.75*hash(s)), an=hash(s+1)*TAU+t*(0.5-0.32*rr/R); blob(g,cx+Math.cos(an)*rr,cy+Math.sin(an)*rr*0.62,R*(0.1+0.12*hash(s+2)),i%5?'90,30,180':'170,50,140',0.2*a); }
+    for(let i=0;i<90;i++){ const f=i/90, an=f*9+t*0.6, rr=R*(0.15+0.85*f); blob(g,cx+Math.cos(an)*rr,cy+Math.sin(an)*rr*0.62,R*0.07*(1-f*0.5),'190,120,255',0.16*a*(1-f*0.6)); blob(g,cx+Math.cos(an+Math.PI)*rr,cy+Math.sin(an+Math.PI)*rr*0.62,R*0.07*(1-f*0.5),'190,120,255',0.16*a*(1-f*0.6)); }   // 2 cánh xoắn ốc sáng tím   // vành mây phát sáng tím
+    g.globalCompositeOperation='source-over';
+    for(let i=0;i<150;i++){ const s=i*2.11+5, rr=R*(0.12+0.95*Math.sqrt(hash(s))), an=hash(s+1)*TAU+t*(0.55-0.38*rr/R)+rr/R*2.2; blob(g,cx+Math.cos(an)*rr,cy+Math.sin(an)*rr*0.62,R*(0.09+0.13*hash(s+2)),'6,0,12',0.55*a); }   // dải mây đen xoắn ốc
+    g.globalCompositeOperation='lighter';
+    const pu=0.7+0.3*Math.sin(t*2.3); blob(g,cx-R*0.07,cy-R*0.04,R*0.07,'255,230,60',0.75*a*pu); blob(g,cx+R*0.07,cy-R*0.04,R*0.07,'255,110,200',0.75*a*pu);   // đôi mắt trong tâm bão
+    for(let j=0;j<3;j++){ const id=Math.floor(t*1.6+j*0.37), fr=(t*1.6+j*0.37)-id; if(hash(id*3.1+j)>0.55 || fr>0.22) continue;   // sét tím giật trong bão
+      const an=hash(id*5.3)*TAU, r0=R*(0.25+0.4*hash(id*7.1)); let x=cx+Math.cos(an)*r0, y=cy+Math.sin(an)*r0*0.62, d=an+(hash(id)-0.5); const al=a*(1-fr/0.22);
+      blob(g,x,y,R*0.35,'170,90,255',0.35*al); g.strokeStyle=`rgba(225,190,255,${al})`; g.lineWidth=2; g.beginPath(); g.moveTo(x,y);
+      for(let k=0;k<9;k++){ d+=(hash(id*11+k)-0.5)*1.2; x+=Math.cos(d)*R*0.07; y+=Math.sin(d)*R*0.05; g.lineTo(x,y); } g.stroke(); }
+    g.restore(); }
+  // cánh tay bóng tối (khói đặc) + bàn tay vuốt nhọn (ảnh tay bóng tối của Friend, cùng bộ với Ep 0) ở đầu
+  function shadowArm(g,t,x0,y0,x1,y1,k,w,seed,pose,o={}){ const tip=tentacle(g,t,x0,y0,x1,y1,k,w,seed,Object.assign({taper:0.35,wave:0.6},o)); if(!tip||k<0.05) return;
+    const c=K.prep(IM[pose]); if(!c) return; const M={handL:[167,90],handC:[107.5,91],handG:[118,90]}[pose]||[c.sh/2,90], sc=tip[2]*1.25/M[1];
+    const s0=Math.max(0,k-0.04), dx=x1-x0, dy=y1-y0, an=Math.atan2(dy,dx);
+    g.save(); g.translate(tip[0],tip[1]); g.rotate(an+(o.rot||0)); g.globalAlpha=o.a==null?1:o.a;
+    g.globalCompositeOperation='lighter'; g.drawImage(K.tinted(c,'#3a0f7a'),-6,-M[0]*sc-6,c.sw*sc+12,c.sh*sc+12);
+    g.globalCompositeOperation='source-over'; g.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,-4,-M[0]*sc,c.sw*sc,c.sh*sc); g.restore(); }
   // ───────── vật thể vũ trụ ─────────
   function rays(g,x,y,R,n,t,col,a,seed){ if(a<=0.01) return; g.save(); g.globalCompositeOperation='lighter';
     for(let i=0;i<n;i++){ const s=seed*5+i, ang=hash(s)*TAU+t*0.04*(hash(s+3)-0.5), wd=0.015+0.05*hash(s+1), len=R*(0.55+0.7*hash(s+2)), al=a*(0.25+0.75*hash(s+4))*(0.75+0.25*Math.sin(t*1.3+i));
@@ -257,7 +281,7 @@
   function sPierce(g,t){ const u=t-T.pierce, BURST=6.8, px=360, py=300, r=170, shk=u>BURST?0:Math.sin(t*40)*seg(u,2.6,6.8)*2;
     neb(g,'dark',7,-u*3,0,1.1,0.6); stars(g,t,{seed:3,px:u*4});
     g.save(); cam(g,480+shk,270,1+u*0.01);
-    pic(g,'frRage',860,170,470,{aura:{preset:'cursed',k:0.8,seed:4,res:420},rim:['140,60,255',0.6]});
+    pic(g,'fr',860,170,470,{aura:{preset:'cursed',k:0.8,seed:4,res:420},rim:['140,60,255',0.6]});
     const TEN=[{rx:730,ry:200,an:-0.25,d:0},{rx:800,ry:330,an:0.4,d:0.25},{rx:690,ry:80,an:-0.85,d:0.5}];
     if(u<BURST){
       planet(g,px,py,r,PL.home,t,{dark:seg(u,3,5.8),core:E.ein(seg(u,4,BURST))});
@@ -273,14 +297,19 @@
       ring(g,px,py,r*(1+k*3.2),6,'255,170,90',1-k); burst(g,px,py,T.pierce+BURST,t,60,520,'255,150,70',17,1.8);
       TEN.forEach((q,i)=>{ const back=E.eout(seg(u,BURST,BURST+2)); tentacle(g,t,q.rx,q.ry,lerp(px+Math.cos(q.an)*r*0.5,q.rx-120,back),lerp(py+Math.sin(q.an)*r*0.5,q.ry+40,back),1,26,i+1,{bend:0.2}); }); }
     g.restore(); }
-  function sDevour(g,t){ const u=t-T.devour, cx=480+u*14, edge=-260+u*130;
-    neb(g,'dark',9,-u*8,0,1.2,0.65); stars(g,t,{seed:4,px:u*14,dim:x=>clamp((x-(edge-cx+480))/90,0,1)});
+  function sDevour(g,t){ const u=t-T.devour, cx=480+u*14, SR=250+u*22, scx=cx-480+150+u*42, edge=scx+SR*0.85;
+    neb(g,'dark',9,-u*8,0,1.2,0.65); stars(g,t,{seed:4,px:u*14,dim:x=>clamp((x-(edge-cx+480)-40)/120,0,1)});
     g.save(); cam(g,cx,270,1);
+    storm(g,t,scx,270,SR,seg(u,0,1.2));
+    const gr=g.createLinearGradient(scx+SR*0.3,0,edge+120,0); gr.addColorStop(0,'rgba(2,0,6,0)'); gr.addColorStop(0.6,'rgba(2,0,6,0.6)'); gr.addColorStop(1,'rgba(2,0,6,0)'); g.fillStyle=gr; g.fillRect(scx+SR*0.3,-200,edge+120-scx-SR*0.3,VH+400);   // bóng tối tràn ra trước mép bão
     DEV.forEach((p,i)=>{ const crumb=u-(p.tk+1.4); if(crumb<0) planet(g,p.x,p.y,p.r,p.P,t,{dark:seg(u,p.tk,p.tk+0.7),dead:seg(u,p.tk+0.3,p.tk+1.3),core:seg(u,p.tk+0.6,p.tk+1.4)*0.6});
-      else if(crumb<3){ const k=E.eout(seg(crumb,0,2.5)); planetBurst(g,'dv'+i,p.x,p.y,p.r,p.P,t,k*0.8,{dark:1,dead:1}); g.save(); g.globalCompositeOperation='lighter'; blob(g,p.x,p.y,p.r*(1+k*2),'255,110,60',(1-k)*0.8); g.restore(); } });
-    const gr=g.createLinearGradient(edge-420,0,edge,0); gr.addColorStop(0,'rgba(0,0,0,0.98)'); gr.addColorStop(1,'rgba(0,0,0,0)'); g.fillStyle=gr; g.fillRect(cx-600,-200,edge-(cx-600),VH+400);
-    DEV.forEach((p,i)=>{ const k=E.eio(seg(u,p.tk-1.5,p.tk-0.1)), rel=seg(u,p.tk+1.4,p.tk+2.6); if(k<=0||rel>=1) return;
-      tentacle(g,t,edge-140,p.y+(hash(i*7)-0.5)*260,p.x+Math.cos(2.6+i)*p.r*0.4,p.y+Math.sin(2.6+i)*p.r*0.4,k*(1-rel*0.6),14+p.r*0.12,i+7,{bend:0.3*(i%2?1:-1)}); });
+      else if(crumb<3){ const k=E.eout(seg(crumb,0,2.5)), px=lerp(p.x,scx,E.ein(seg(crumb,0.4,3))), py=lerp(p.y,270,E.ein(seg(crumb,0.4,3)));   // vỡ rồi bị kéo vào bão
+        planetBurst(g,'dv'+i,px,py,p.r,p.P,t,k*0.8,{dark:1,dead:1}); g.save(); g.globalCompositeOperation='lighter'; blob(g,px,py,p.r*(1+k*2),'255,110,60',(1-k)*0.8); g.restore(); } });
+    for(let i=0;i<9;i++){ const s=i*3.7, y=270+(hash(s)-0.5)*SR*1.1, len=60+140*hash(s+1)+40*Math.sin(t*0.8+i);   // tua khói bò lan ra
+      tentacle(g,t,edge-40,y,edge+len,y+(hash(s+2)-0.5)*80,1,7+5*hash(s+3),i+60,{bend:0.4*(i%2?1:-1),wave:2,a:0.8,rim:'#22093f',glow:'60,20,120'}); }
+    DEV.forEach((p,i)=>{ const k=E.eio(seg(u,p.tk-1.6,p.tk-0.2)), rel=seg(u,p.tk+1.4,p.tk+2.6); if(k<=0||rel>=1) return;
+      const y0=270+(hash(i*7)-0.5)*300, grab=u>=p.tk-0.2, pose=!grab?'handL':u<p.tk+0.2?'handC':'handG';
+      shadowArm(g,t,scx+SR*0.45,270+(y0-270)*0.5,p.x-Math.cos(0.4+i)*p.r*0.2,p.y-p.r*0.15,k*(1-rel*0.7),9+p.r*0.08,i+7,pose,{bend:0.25*(i%2?1:-1),rim:'#2a0d55',glow:'90,30,180'}); });
     g.restore(); }
   function sEmbers(g,t){ const u=t-T.embers; bgFill(g,'#030106','#0d0306');
     stars(g,t,{seed:5,a:0.25,px:u*2});
@@ -365,16 +394,28 @@
     if(R){ const Y=at(R,eyeY()), P=at(R,eyeP()); g.save(); g.globalCompositeOperation='lighter'; if(Y) blob(g,Y.x,Y.y,26,'255,230,60',0.6); if(P) blob(g,P.x,P.y,26,'255,110,200',0.6); g.restore(); }
     WAR.orbs.forEach((o,i)=>{ g.save(); g.globalCompositeOperation='lighter'; blob(g,820+i*42,440-i*14,14,o.col,0.35+0.15*Math.sin(t*5+i)); g.restore(); });
     g.restore(); }
-  function sHole(g,t){ const u=t-T.hole, BX=690, BY=230, RR=E.eout(seg(u,0.25,2))*95, pull=E.eio(seg(u,0.6,4));
-    bgFill(g,'#020104','#060208'); stars(g,t,{seed:12,a:0.55});
-    g.save(); cam(g,520,280,1+0.04*seg(u,0,7));
-    const V=pic(g,'vd',260,170,400,{fadeB:0.3,rim:['170,150,255',0.4],tint:['#000',0.9]}); const VE=voidEyes();
-    if(V&&VE){ g.save(); g.globalCompositeOperation='lighter'; for(const e of VE){ const p=at(V,e), fl=1-seg(u,0,1.4); blob(g,p.x,p.y,40+160*fl,'255,255,220',0.6+0.4*fl); } g.restore(); }
-    blackHole(g,BX,BY,RR,t,1);
-    const fx=lerp(400,450,pull), fy=lerp(350,330,pull), th=Math.atan2(BY-fy,BX-fx), st=0.28*pull+0.05*Math.sin(t*9)*pull;
-    for(let i=0;i<6;i++){ const an=i/6*TAU+t*0.6; tentacle(g,t,fx+Math.cos(an)*60,fy+Math.sin(an)*60,BX+Math.cos(an+t)*RR*0.9,BY+Math.sin(an+t)*RR*0.4,pull,16,i+40,{bend:0.6,sp:5}); }
-    g.save(); g.translate(fx,fy); g.rotate(th); g.scale(1+st,1-st*0.35); g.rotate(-th);
-    const R=pic(g,'frRage',0,0,300,{aura:{preset:'cursed',k:1,seed:9,res:420},rim:['140,60,255',0.6],flip:true}); g.restore();
+  function sHole(g,t){ const u=t-T.hole, MX=650, MY=235, pull=E.eio(seg(u,0.4,3)), open=seg(u,0.25,0.45);
+    bgFill(g,'#020104','#060208'); stars(g,t,{seed:12,a:0.55,dim:(x,y)=>clamp(Math.hypot(x-MX,y-MY)/260,0,1)});
+    g.save(); cam(g,lerp(560,520,E.eio(seg(u,0,7))),lerp(270,280,E.eio(seg(u,0,7))),lerp(1.0,1.06,E.eio(seg(u,0,7))));
+    const hole=voidHole()||{u:0.39,v:0.5}, VH2=lerp(560,600,E.eout(seg(u,0,7)));
+    pic(g,'vd',MX,MY,VH2*0.8,{a:1-open,tint:['#000',0.85],ax:0.42,ay:0.55});
+    const V=pic(g,'vdA',MX,MY,VH2,{a:open,ax:hole.u,ay:hole.v,rim:['150,120,255',0.25]});
+    const MR=V?V.w*0.075:50;   // miệng = vòng tròn quanh hố
+    if(open>0){ g.save(); g.beginPath(); g.arc(MX,MY,MR*1.9,0,TAU); g.clip(); g.globalCompositeOperation='lighter';   // xoáy sáng trong miệng
+      for(let i=0;i<12;i++){ const rr=MR*(0.6+i*0.12); g.strokeStyle=`rgba(${i%2?'120,220,255':'190,120,255'},${0.35*open*(1-i/13)})`; g.lineWidth=MR*0.05; g.setLineDash([rr*0.5,rr*0.35]); g.lineDashOffset=-t*rr*(2.4-i*0.12);
+        g.beginPath(); g.ellipse(MX,MY,rr,rr*0.82,-0.2,0,TAU); g.stroke(); } g.setLineDash([]); g.restore();
+      g.save(); g.globalAlpha=open; g.fillStyle='#000'; g.beginPath(); g.arc(MX,MY,MR*0.55,0,TAU); g.fill(); g.strokeStyle='rgba(200,240,255,0.9)'; g.lineWidth=MR*0.05; g.stroke(); g.restore(); }
+    g.save(); g.globalCompositeOperation='lighter';   // ánh sáng, bụi bị hút vào miệng
+    for(let i=0;i<60;i++){ const s=i*1.9, an=hash(s)*TAU, ph=((t*(0.25+0.3*hash(s+1))+hash(s+2))%1), d=MR*(1.2+7*(1-ph)), d2=d-MR*(0.6+1.2*ph);
+      g.strokeStyle=`rgba(${i%3?'190,150,255':'255,255,255'},${0.5*ph*pull})`; g.lineWidth=1.3; g.beginPath(); g.moveTo(MX+Math.cos(an)*d,MY+Math.sin(an)*d*0.8); g.lineTo(MX+Math.cos(an+0.15)*d2,MY+Math.sin(an+0.15)*d2*0.8); g.stroke(); }
+    g.restore();
+    // Friend: gồng nhích lên trước CỰC CHẬM, thân bị kéo nhoè thành vệt về phía hố
+    const fx=lerp(330,300,seg(u,0,7)), fy=lerp(345,360,seg(u,0,7)), fh=lerp(290,310,seg(u,0,7)), dx=MX-fx, dy=MY-fy, sh=Math.sin(t*31)*2*pull;
+    for(let i=14;i>=1;i--){ const k=i/14, ex=0.85*pull*E.ein(k); pic(g,'fr',fx+dx*ex+sh,fy+dy*ex,fh*(1-0.55*k*pull),{a:(0.6*(1-k)+0.08)*pull,tint:['#5b24b8',0.35+0.6*k],sx:1+0.6*k*pull}); }
+    for(let j=0;j<10;j++){ const s=j*2.3, ph=((t*0.9+hash(s))%1), k=ph*0.75*pull, px=fx+dx*k+(hash(s+1)-0.5)*fh*0.5*(1-k), py=fy+dy*k+(hash(s+2)-0.5)*fh*0.5*(1-k);   // mảnh bóng tối bị xé khỏi thân
+      g.save(); g.globalAlpha=(1-ph)*pull; g.fillStyle='#07000f'; g.beginPath(); g.ellipse(px,py,fh*0.05*(1-ph*0.5),fh*0.025,Math.atan2(dy,dx),0,TAU); g.fill(); g.restore(); }
+    const R=pic(g,'fr',fx+sh,fy,fh,{aura:{preset:'cursed',k:0.55,seed:9,res:420},rim:['140,60,255',0.6]});
+    if(R){ const Y=at(R,eyeY()), P=at(R,eyeP()); g.save(); g.globalCompositeOperation='lighter'; if(Y) blob(g,Y.x,Y.y,26,'255,230,60',0.7); if(P) blob(g,P.x,P.y,26,'255,110,200',0.7); g.restore(); }
     g.restore(); }
   function friendCracked(id,t,k,h){ const c=K.prep(IM.fr); if(!c) return null; const w=h*c.sw/c.sh, S=Math.max(w,h)*1.1, [cv,x]=off(id,S);
     x.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,S/2-w/2,S/2-h/2,w,h);
@@ -386,7 +427,7 @@
   function sSeal(g,t){ const u=t-T.seal, ck=E.eio(seg(u,1,5.6)), Rs=lerp(980,240,ck), hit=t>=SEAL_HIT, hv=t-SEAL_HIT;
     bgFill(g,'#020104','#060208'); stars(g,t,{seed:13,a:0.5}); neb(g,'war',5,0,0,1.2,0.25);
     g.save(); cam(g,480,290,1+0.03*Math.sin(u*0.5));
-    blackHole(g,690,230,95*(1-seg(u,0,2)),t,1-seg(u,0,2));
+    blackHole(g,650,235,70*(1-seg(u,0,2)),t,1-seg(u,0,2));
     const PTS=[[480,60,'240,240,200',1],[190,340,'255,180,100',0],[770,340,'255,150,210',0],[480,470,'255,214,120',0]];
     const lk=seg(u,0.4,1.6); g.save(); g.globalCompositeOperation='lighter';
     for(let i=0;i<4;i++) for(let j=i+1;j<4;j++){ const a=PTS[i], b=PTS[j], ll=lk; beam(g,a[0],a[1],lerp(a[0],b[0],ll),lerp(a[1],b[1],ll),2.2,'255,230,180',0.5); }
@@ -526,7 +567,8 @@
     {src:A+'cine_heart.mp3',ra:T.black+0.5,rb:T.until+4,vol:0.8,fo:1}];
 
   CineKit.film({ id:'l2pro', title:'Meme Lore 2 · Prologue: The Dark Age', VW, VH, DUR,
-    imgs:{ fr:'assets/avatars/friend/avatarUrl.webp', frRage:'assets/avatars/friend/rageAvatarUrl.webp', vd:'assets/avatars/thevoid/avatarUrl.webp',
+    imgs:{ fr:'assets/avatars/friend/avatarUrl.webp', vdA:'assets/avatars/thevoid/attackAvatarUrl.webp',
+      handL:'assets/img/scaredhamster/HAND_lunge.webp', handC:'assets/img/scaredhamster/HAND_closing.webp', handG:'assets/img/scaredhamster/HAND_grip.webp', vd:'assets/avatars/thevoid/avatarUrl.webp',
       sup:'assets/avatars/supremearbiter/avatarUrl.webp', flower:'assets/avatars/flowercat/attackAvatarUrl.webp',   /* anh dặn: Flower Cat dùng ảnh lúc chạm bông hoa, không dùng ảnh gốc */ bread:'assets/img/cine/L2P_BREAD.png', butter:'assets/img/cine/L2P_BUTTER.png' },
     sfx, mus, shots:[{t0:0,t1:DUR,a:{}}],
     impact:t=>(t>=T.hole+0.3&&t<T.hole+0.36)?'inv':(t>=SEAL_HIT&&t<SEAL_HIT+0.07)?'bw':(t>=T.split&&t<T.split+0.05)?'inv':(t>=EYE_HIT&&t<EYE_HIT+0.07)?'red':(t>=EYE_HIT+0.07&&t<EYE_HIT+0.13)?'inv':0,
@@ -536,8 +578,8 @@
     world(F,t){ IM=F.I; TT=t; SCv=F.SC; { const fc=K.prep(IM.flower); if(fc && fc.fbL==null) fc.fbL=0.35; } const g=F.g; let fn=SCENES[0][1]; for(const s of SCENES) if(t>=s[0]) fn=s[1]; g.save(); fn(g,t); g.restore(); },
     post(F,t){ const fx={shocks:[],chroma:0}; const sh=(a,x,y,rm,d,str)=>{ if(t>=a&&t<a+d){ const u=(t-a)/d; fx.shocks.push({sx:x,sy:y,r:20+rm*E.eout(u),w:30,str:str*(1-u)}); fx.chroma=Math.max(fx.chroma,1-u); } };
       sh(T.pierce+6.8,360,300,520,0.9,26); sh(T.born+3.5,660,290,380,0.7,16); sh(BREAD_POP,480,280,460,0.8,22); sh(T.war+1.1,500,300,420,0.7,18); sh(T.war+6.9,520,300,380,0.6,16);
-      sh(T.hole+0.3,690,230,520,1.0,28); sh(SEAL_HIT,480,290,480,0.9,24); sh(T.split,480,290,620,1.0,28); sh(EYE_HIT,480,270,560,0.5,30);
-      if(t>=T.hole+0.3&&t<T.seal){ const R=E.eout(seg(t,T.hole+0.25,T.hole+2))*95; fx.shocks.push({sx:690,sy:230,r:R*1.7,w:R*0.7,str:R*0.16}); }   // hố đen bẻ cong ánh sáng quanh nó
+      sh(T.hole+0.3,650,235,520,1.0,28); sh(SEAL_HIT,480,290,480,0.9,24); sh(T.split,480,290,620,1.0,28); sh(EYE_HIT,480,270,560,0.5,30);
+      if(t>=T.hole+0.3&&t<T.seal){ const R=E.eout(seg(t,T.hole+0.25,T.hole+2))*70; fx.shocks.push({sx:650,sy:235,r:R*1.7,w:R*0.7,str:R*0.16}); }   // hố đen bẻ cong ánh sáng quanh nó
       if(t>=T.war+4&&t<T.war+6.5) fx.chroma=Math.max(fx.chroma,0.35);
       if(t>=T.until+4.6&&t<T.eye) fx.chroma=Math.max(fx.chroma,0.4);
       fx.shocks=fx.shocks.slice(0,4); return fx; },
