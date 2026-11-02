@@ -10809,8 +10809,8 @@ function _bcWorldTick(){
   B.t++;
   f.x=B.x0; f.y=B.y0; f.vx=f.vy=0;
   const k=Math.min(1,B.t/BC_SPIN_T);
-  if(B.t<BC_SPIN_T){ if(B.t%6===0) addShake(1+7*k,6); if(B.t===2) B.snd=playSample('bc_spin',0.9,(BC_SPIN_T+BC_SING_T)/60);   // 🔊 động cơ rít to dần đúng suốt màn quay
-    if(B.t===70 || B.t===118 || B.t===160) playSample('bc_zap',0.8);   // ⚡ điện chập lúc đèn bắt đầu nháy
+  if(B.t<BC_SPIN_T){ const I=_bcI(B.t); if(B.t%6===0 && I>0.15) addShake(1+11*I,6); if(B.t===2) B.snd=playSample('bc_spin',0.9,(BC_SPIN_T+BC_SING_T)/60);   // 🔊 động cơ rít to dần đúng suốt màn quay
+    if(B.t===Math.round(BC_SPIN_T*0.6) || B.t===Math.round(BC_SPIN_T*0.75) || B.t===Math.round(BC_SPIN_T*0.85) || B.t===Math.round(BC_SPIN_T*0.93)) playSample('bc_zap',0.6+0.4*I);   // ⚡ điện chập dày dần theo đèn chớp
     if(B.t===BC_SPIN_T-20) playSample('blackhole',0.9); }
   if(B.t===BC_SPIN_T+BC_SING_T){   // 💥 BIG BANG
     playSample('ep3_end_boom',1.0); playSample('cine_deep_impact',1.0); addShake(26,40);
@@ -10819,7 +10819,7 @@ function _bcWorldTick(){
     for(const u of _summonFoes(f.team)) _forceKill(u,f);
     try{ if(B.snd){ B.snd.pause(); } }catch(e){} bcBangT=tick;
     bcToasts=bcToasts.filter(q=>q.f!==f); B.fused=true; }
-  bcDark = B.t<BC_SPIN_T ? 0.55*k : 0;   // sau Big Bang là màn TRẮNG (_bcWhiteDraw), không còn sân tối
+  bcDark = B.t<BC_SPIN_T ? 0.65*_bcStage(B.t,0.25,1) : 0;   // sau Big Bang là màn TRẮNG (_bcWhiteDraw), không còn sân tối
   if(B.t>=BC_SPIN_T+BC_SING_T+BC_DARK_T){ B.px=0; bcPx=null; }
 }
 // 🍞 lát bánh mì bơ: lật quanh trục ngang (ph) — mặt bơ (cos>0) / mặt bánh nướng (cos<0)
@@ -10859,6 +10859,8 @@ function _bcDrawOver(){
 // ☀️ sau Big Bang: mọi thứ loé trắng tinh — không sàn, không viền, không chữ — chỉ còn Bread Cat dạng ổ bánh mì lơ lửng giữa nền trắng,
 //    thanh máu hiện ∞ (anh dặn 2/11)
 function _bcWhiteDraw(){ if(bcBangT==null) return; const v=tick-bcBangT, wk=Math.min(1,Math.max(0,(v-8)/34)); if(wk<=0) return;
+  if(wk>0.5){ for(const id of ['bottomCtaMsg','mechInfoWrap']){ const el=document.getElementById(id); if(el && el.style.display!=='none') el.style.display='none'; }   // 2 ô này trận sau tự bật lại lúc vào trận
+    for(const id of ['duoCtaMsg','ffa3CtaMsg']){ const el=document.getElementById(id); if(el && el.innerHTML) el.innerHTML=''; } }   // 2vs2 / LOS: chỉ xoá chữ, không ẩn ô (trận sau tự ghi lại)   // trắng HẾT: ẩn cả chữ HTML nổi ngoài khung (Like & Subscribe, info) — trận sau tự hiện lại
   ctx.save(); ctx.globalAlpha=wk; ctx.fillStyle='#ffffff'; ctx.fillRect(-W*2,-H*2,W*5,H*5);
   const fz=fighters.find(q=>q.type==='breadcat' && q._bc && q._bc.fused && !q.dead), im=BC_FR[2];
   if(fz && im.complete && im.naturalWidth){ const L=fz._lastSprite, h=((L&&L.dh)||fz.size*1.6)*1.15, w=h*im.naturalWidth/im.naturalHeight, ap=Math.min(1,Math.max(0,(v-30)/30));
@@ -10873,7 +10875,10 @@ function _bcWhiteDraw(){ if(bcBangT==null) return; const v=tick-bcBangT, wk=Math
 // 🌀 mèo + bánh xoay NGANG như con quay (quanh trục đứng — giống GIF anh gửi 2/11: con mèo cõng bánh mì được thả ra trong phòng):
 //   chậm: thấy rõ mặt trước/lưng lật qua lại · nhanh dần: nhoè thành 1 ĐĨA LÔNG ngang · đèn cả sân chớp tắt liên hồi (_bcStrobe)
 //   · giữa tâm loé CỘT SÁNG dọc + chấm loé ống kính · 2 vòng sáng elip ở 2 bên con quay · mưa tia lửa rơi · cuối cùng ánh XANH hắt lên → co lại → Big Bang
-const _bcOm=t=>0.06+0.0062*t, _bcTh=t=>0.06*t+0.0031*t*t;   // tốc quay (rad/tick) · góc quay
+const _bcOm=t=>0.045+0.95*Math.pow(t/BC_SPIN_T,2), _bcTh=t=>0.045*t+0.95*t*t*t/(3*BC_SPIN_T*BC_SPIN_T);   // tốc quay (rad/tick) · góc quay — chậm rãi lúc đầu, tăng theo bình phương
+// 📈 ĐỘ KHỦNG BỐ tăng dần 0→1 trong đúng 4s (anh dặn: bắt đầu từ xoay tròn đơn giản, càng lúc càng khủng bố tới giây thứ 4)
+//   ~0–1s chỉ xoay · 1–2s vòng sáng mờ hiện ra · 2–3s cột sáng + tia lửa + đèn bắt đầu chớp lác đác · 3–4s đèn chớp dồn dập, sân tối sầm, rung mạnh, hắt xanh
+const _bcI=t=>Math.pow(Math.min(1,t/BC_SPIN_T),1.7), _bcStage=(t,a,b)=>Math.min(1,Math.max(0,(_bcI(t)-a)/(b-a)));
 // 🧊 XOAY 3D giả kiểu "khối dày": ảnh có BỀ DÀY như ổ bánh thật (nhiều lớp xếp chồng theo chiều sâu), quay quanh trục đứng như con quay (GIF anh gửi).
 //   mặt gần máy = ảnh thật (quay ra sau thì tự lật gương), các lớp giữa = ảnh tối đi làm thân/cạnh phủ lông → nhìn nghiêng thấy khối dày, không mỏng dính.
 //   (đã thử dán quanh hình trụ: nhìn nghiêng bị bóp thành hình nơ → bỏ)
@@ -10890,17 +10895,17 @@ function _bcCyl(im,x,y,w,h,th,a,dim){ const K=20, T=w*0.32, c=Math.cos(th), s=Ma
     if(near){ const dk=Math.min(1,(1-Math.abs(c))*0.45+(dim?0.5:0)); if(dk>0.01){ ctx.globalAlpha=a*dk; ctx.drawImage(sil,-w/2,-h/2,w,h); } }   // mặt nghiêng khỏi ánh sáng thì tối dần
     else if(dim){ ctx.globalAlpha=a*0.5; ctx.drawImage(sil,-w/2,-h/2,w,h); }
     ctx.restore(); }); }
-function _bcStrobe(t){ if(t<70) return 0; const s=_bcH(Math.floor(t/4),77); return t>BC_SPIN_T-24 ? 1 : (s>0.55 ? 1 : 0); }   // 1 = đèn tắt (tối), 0 = loé
+function _bcStrobe(t){ const p=_bcStage(t,0.3,0.95); if(p<=0) return 0; if(t>BC_SPIN_T-18) return 1; const per=Math.max(3,Math.round(9-6*p)); return _bcH(Math.floor(t/per),77)<0.15+0.5*p ? 1 : 0; }   // 1 = đèn tắt: lác đác → dồn dập
 function _bcSpinDraw(f,B){ const t=B.t, k=Math.min(1,t/BC_SPIN_T), x=f.x, y=f.y-_bcLift(f), im=BC_FR[1]; if(!im.complete || !im.naturalWidth) return;
   const L=f._lastSprite, h=(L&&L.dh)||f.size*1.6, w=h*im.naturalWidth/im.naturalHeight;
   const sing=t>BC_SPIN_T ? Math.min(1,(t-BC_SPIN_T)/BC_SING_T) : 0, sc=1-sing*sing, th=_bcTh(t), om=_bcOm(t), smear=Math.min(1,Math.max(0,(om-0.35)/0.6));
-  const dark=_bcStrobe(t), lit=t>=70 && !dark, blue=Math.max(0,(t-(BC_SPIN_T-40))/40);
-  if(dark && t<BC_SPIN_T){ ctx.save(); ctx.globalAlpha=0.55; ctx.fillStyle='#000'; ctx.fillRect(-W,-H,W*3,H*3); ctx.restore(); }   // đèn cả sân tắt phụt (không tắt con quay)
+  const dark=_bcStrobe(t), lit=!dark, blue=_bcStage(t,0.75,1), I=_bcI(t), sRing=_bcStage(t,0.08,0.4), sPil=_bcStage(t,0.22,0.6), sSpk=_bcStage(t,0.3,0.8);
+  if(dark && t<BC_SPIN_T){ ctx.save(); ctx.globalAlpha=0.3+0.35*I; ctx.fillStyle='#000'; ctx.fillRect(-W,-H,W*3,H*3); ctx.restore(); }   // đèn cả sân tắt phụt (không tắt con quay)
   // vòng sáng elip của con quay: chỉ sáng 2 đầu trái/phải như vệt ánh sáng quét vòng
-  const rx=w*(0.62+0.25*smear)*sc, ry=h*0.3*sc;
-  if(t>40){ ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round';
+  const rx=w*(0.62+0.25*smear+0.35*I)*sc, ry=h*(0.3+0.12*I)*sc;
+  if(sRing>0){ ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round';
     for(const side of [0,Math.PI]) for(const [lw,c,al] of [[7,'140,200,255',0.18],[2.4,'220,240,255',0.85]]){
-      ctx.strokeStyle=`rgba(${c},${al*Math.min(1,(t-40)/40)*(lit?1:0.45)})`; ctx.lineWidth=lw; ctx.beginPath(); ctx.ellipse(x,y+h*0.1,rx,ry,0,side-0.75,side+0.75); ctx.stroke(); }
+      ctx.strokeStyle=`rgba(${c},${al*sRing*(lit?1:0.45)})`; ctx.lineWidth=lw*(0.6+0.8*I); ctx.beginPath(); ctx.ellipse(x,y+h*0.1,rx,ry,0,side-0.75,side+0.75); ctx.stroke(); }
     ctx.restore(); }
   // con quay: lật ngang theo cos(góc) — nhanh thì vẽ nhiều bóng mờ chồng nhau thành đĩa
   const G=1+Math.round(smear*2), dim=dark && t<BC_SPIN_T;   // con quay 3D: nhanh thì thêm vài bóng mờ lùi góc → nhoè theo vòng quay
@@ -10913,13 +10918,13 @@ function _bcSpinDraw(f,B){ const t=B.t, k=Math.min(1,t/BC_SPIN_T), x=f.x, y=f.y-
       ctx.fillStyle=i<hn?'#ff5252':'rgba(255,255,255,0.25)'; ctx.fill(); ctx.lineWidth=1.2; ctx.strokeStyle='rgba(0,0,0,0.6)'; ctx.stroke(); ctx.restore(); } }
   ctx.save(); ctx.globalCompositeOperation='lighter';
   // cột sáng dọc giữa tâm + chấm loé ống kính (loé mạnh khi đèn tắt)
-  if(t>55){ const on=Math.min(1,(t-55)/30)*(lit?0.75:1), pw=w*0.07*(1+0.5*Math.sin(t*0.9)), top=y-h*0.62, bot=y+h*0.55;
+  if(sPil>0){ const on=sPil*(lit?0.75:1), pw=w*(0.03+0.06*I)*(1+0.5*Math.sin(t*0.9)), top=y-h*0.62, bot=y+h*0.55;
     for(const [ww,c,al] of [[pw*3.2,'255,170,60',0.25],[pw*1.4,'255,215,140',0.7],[pw*0.5,'255,255,245',1]]){ const gr=ctx.createLinearGradient(0,top,0,bot); gr.addColorStop(0,`rgba(${c},0)`); gr.addColorStop(0.15,`rgba(${c},${al*on})`); gr.addColorStop(0.85,`rgba(${c},${al*on})`); gr.addColorStop(1,`rgba(${c},0)`);
       ctx.fillStyle=gr; ctx.fillRect(x-ww/2,top,ww,bot-top); }
     const fy=y-h*0.42, fr=f.size*(0.35+0.25*Math.sin(t*1.7))*on, fg=ctx.createRadialGradient(x,fy,0,x,fy,fr*3); fg.addColorStop(0,'rgba(255,255,255,1)'); fg.addColorStop(0.2,'rgba(255,250,230,0.6)'); fg.addColorStop(1,'rgba(255,230,180,0)');
     ctx.fillStyle=fg; ctx.fillRect(x-fr*3,fy-fr*3,fr*6,fr*6); ctx.fillStyle=`rgba(255,255,255,${0.8*on})`; ctx.fillRect(x-fr*4,fy-0.8,fr*8,1.6); ctx.fillRect(x-0.8,fy-fr*2.2,1.6,fr*4.4); }   // sao loé 4 cánh
   // mưa tia lửa rơi quanh con quay
-  if(t>65) for(let i=0;i<40;i++){ const ph=((t*0.018*(0.7+_bcH(i,51)*0.6))+_bcH(i,52))%1, sx2=x+(_bcH(i,53)-0.5)*rx*2.2, sy2=y-h*0.5+ph*h*1.6, al=(1-ph)*(lit?1:0.5)*Math.min(1,(t-65)/30);
+  if(sSpk>0) for(let i=0,nS=Math.round(8+42*sSpk);i<nS;i++){ const ph=((t*0.018*(0.7+_bcH(i,51)*0.6))+_bcH(i,52))%1, sx2=x+(_bcH(i,53)-0.5)*rx*2.2, sy2=y-h*0.5+ph*h*1.6, al=(1-ph)*(lit?1:0.5)*sSpk;
     ctx.strokeStyle=i%3?`rgba(255,220,160,${al})`:`rgba(190,225,255,${al})`; ctx.lineWidth=1.2; ctx.beginPath(); ctx.moveTo(sx2,sy2); ctx.lineTo(sx2,sy2+4+6*_bcH(i,54)); ctx.stroke(); }
   // ánh xanh hắt lên trước khi co lại
   if(blue>0){ const R=f.size*(2+3*blue), g2=ctx.createRadialGradient(x,y,0,x,y,R); g2.addColorStop(0,`rgba(120,200,255,${0.6*blue})`); g2.addColorStop(0.5,`rgba(60,140,255,${0.25*blue})`); g2.addColorStop(1,'rgba(40,110,255,0)');
