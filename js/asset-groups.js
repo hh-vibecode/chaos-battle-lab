@@ -243,6 +243,8 @@ window.ASSET_GROUP={
 "assets/img/breadcat/BC_IDLE.png": "breadcat",
 "assets/img/breadcat/BC_BUTTER.png": "breadcat",
 "assets/img/breadcat/BC_LOAF.png": "breadcat",
+"assets/audio/bc_spin.mp3": "breadcat",
+"assets/audio/bc_zap.mp3": "breadcat",
 "assets/img/saiyanmarmot/MM_SCREAM.png": "saiyanmarmot",
 "assets/img/saiyanmarmot/MM_OPEN1.png": "saiyanmarmot",
 "assets/img/saiyanmarmot/MM_OPEN2.png": "saiyanmarmot",

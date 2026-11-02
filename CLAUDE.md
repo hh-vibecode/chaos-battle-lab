@@ -145,8 +145,12 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
 ## 🍞 Bread Cat - The Infinity Cosmic Power (`breadcat`, 2/11/2026) — khối `BC_*` / `_bc*` trong js/game.js
 - Anh thiết kế: KHÔNG đánh thường. 1 lát bánh mì bơ (vẽ bằng code, giống lát nó cõng) trôi nảy khắp sân, LẬT liên tục mặt bơ ↔ mặt bánh; mèo đi theo lát bánh.
   Chạm mèo → +100 máu (bánh tan, 3s sau hiện chỗ khác). Chạm đúng LƯNG (phía sau hướng mặt, nửa trên) lúc MẶT BƠ ÚP → BREAD PARADOX (nghịch lý mèo bơ):
-  ảnh BC_BUTTER, cả sân đứng hình, xoay vô cực 200 tick + vệt ∞ + hút sáng → co thành 1 điểm → BIG BANG `_forceKill` mọi địch + `_summonFoes` → sân tối om (`bcDark`) tới hết trận.
-  Thắng (hoặc sau Big Bang) → ảnh DUNG HỢP ổ bánh mì BC_LOAF (chỉ dùng lúc này). Lúc nghịch lý: bất tử.
+  ảnh BC_BUTTER xoay NGANG như con quay (quanh trục đứng, giống GIF mẫu `cat-toast.gif` anh gửi: cảnh phim mèo cõng bánh mì quay tít, đèn chớp,
+  cột sáng, mưa tia lửa, vòng sáng 2 bên, hắt xanh). 3D giả = "khối dày" `_bcCyl` (20 lớp ảnh xếp theo chiều sâu, mặt gần = ảnh thật, lớp giữa = ảnh nhoè tối;
+  đã thử dán quanh hình trụ → nhìn nghiêng bị bóp hình nơ, bỏ). Phải xoay đủ 4s (216 + 24 tick co lại) mới nổ; đang xoay mà dính 3 đòn (DOT/cháy không tính)
+  → `_bcBreak` gãy nghịch lý (3 chấm đỏ đếm đòn trên đầu). Không còn bất tử, không đứng hình cả sân (anh dặn 2/11).
+  BIG BANG: xoá sổ mọi địch kiểu Hollow Purple (`_mwErased`, không xác) + `_summonFoes` → loé TRẮNG TINH (`_bcWhiteDraw`, không sàn/viền/chữ), chỉ còn
+  ổ bánh mì BC_LOAF lơ lửng, thanh máu ghi ∞ → hết trận. Tiếng: `bc_spin` (myinstants jet-engine-startup, rít to dần), `bc_zap` (điện chập lúc đèn nháy).
 - Ảnh anh gửi (Desktop): dạng thường mèo Xiêm nằm (BC_IDLE, quay mặt TRÁI), BC_BUTTER + BC_LOAF tách từ tấm 2 ảnh. Con số (100 máu, 3s, 200 tick xoay) em tự đặt.
 - Anh gửi TikTok mẫu effect (@ai.disruptor/video/7593888307130649859) — trình duyệt chạy ngầm trên Windows KHÔNG mở được video TikTok; Mac dùng skill `xem-video` để xem và chỉnh lại effect cho giống.
 
