@@ -464,7 +464,7 @@
     [137.3,142.4,'…and cast them across the meme multiverse.'],
     [144,148.6,'A new age began.'],
     [149,154.4,'Millions of years of light, peace and prosperity.']];
-  const PLATES=[[T.sup+1.4,T.sup+5.6,'SUPREME CAT','THE FIRST SUPREME MEME','255,214,120'],[BREAD_POP+0.6,T.flower-0.3,'BREAD CAT','THE SECOND SUPREME MEME','255,190,110'],[T.flower+1.2,T.line-0.4,'FLOWER CAT','THE THIRD SUPREME MEME','255,150,210']];
+  const PLATES=[[T.sup+1.4,T.sup+5.6,'SUPREME CAT','THE ONE CAT ABOVE ALL','255,214,120'],[BREAD_POP+0.6,T.flower-0.3,'BREAD CAT','THE INFINITY COSMIC POWER','255,190,110'],[T.flower+1.2,T.line-0.4,'FLOWER CAT','THE TRANSCENDENT ONE','255,150,210']];   // biệt danh = đúng biệt danh trong game (CHAR_DEFS defaultName)
   const SERIF='Georgia, "Times New Roman", serif', SANS='Montserrat, "Segoe UI", sans-serif';
   function words(txt){ return txt.replace(/\[\[([^\]]+)\]\]/g,m=>m.replace(/ /g,' ')).split(' ').map(w=>{ const parts=[]; let rest=w; const re=/\[\[([^|\]]+)\|(\w+)\]\]/;
       while(rest.length){ const m=rest.match(re); if(!m){ parts.push([rest,null]); break; } if(m.index) parts.push([rest.slice(0,m.index),null]); parts.push([m[1].replace(/ /g,' '),m[2]]); rest=rest.slice(m.index+m[0].length); }
@@ -527,7 +527,7 @@
 
   CineKit.film({ id:'l2pro', title:'Meme Lore 2 · Prologue: The Dark Age', VW, VH, DUR,
     imgs:{ fr:'assets/avatars/friend/avatarUrl.webp', frRage:'assets/avatars/friend/rageAvatarUrl.webp', vd:'assets/avatars/thevoid/avatarUrl.webp',
-      sup:'assets/avatars/supremearbiter/avatarUrl.webp', flower:'assets/avatars/flowercat/avatarUrl.webp', bread:'assets/img/cine/L2P_BREAD.png', butter:'assets/img/cine/L2P_BUTTER.png' },
+      sup:'assets/avatars/supremearbiter/avatarUrl.webp', flower:'assets/avatars/flowercat/attackAvatarUrl.webp',   /* anh dặn: Flower Cat dùng ảnh lúc chạm bông hoa, không dùng ảnh gốc */ bread:'assets/img/cine/L2P_BREAD.png', butter:'assets/img/cine/L2P_BUTTER.png' },
     sfx, mus, shots:[{t0:0,t1:DUR,a:{}}],
     impact:t=>(t>=T.hole+0.3&&t<T.hole+0.36)?'inv':(t>=SEAL_HIT&&t<SEAL_HIT+0.07)?'bw':(t>=T.split&&t<T.split+0.05)?'inv':(t>=EYE_HIT&&t<EYE_HIT+0.07)?'red':(t>=EYE_HIT+0.07&&t<EYE_HIT+0.13)?'inv':0,
     shake:t=>{ let s=0; const hit=(a,amp,d)=>{ if(t>=a&&t<a+d) s=Math.max(s,amp*(1-(t-a)/d)); };

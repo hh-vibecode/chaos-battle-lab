@@ -134,6 +134,14 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
 - Dựng trên engine Ep 1 (phố/nhà/cửa sổ/bó hoa/mặt bầm CHÉP sang để khớp từng nét) + xuất offline: `node tools/render-cine.js l2e0 out.mp4 --scale 1.5`.
 - Ảnh anh vẽ: `assets/img/cine/EP0_*` (KICK, RUN, DOWN, BANDAGE, WIFE_WALK, WIFE_HOLD). Chuột phải NHỎ (cao ~56 cạnh Chill Guy ~175).
 
+## 🍞 Bread Cat - The Infinity Cosmic Power (`breadcat`, 2/11/2026) — khối `BC_*` / `_bc*` trong js/game.js
+- Anh thiết kế: KHÔNG đánh thường. 1 lát bánh mì bơ (vẽ bằng code, giống lát nó cõng) trôi nảy khắp sân, LẬT liên tục mặt bơ ↔ mặt bánh; mèo đi theo lát bánh.
+  Chạm mèo → +100 máu (bánh tan, 3s sau hiện chỗ khác). Chạm đúng LƯNG (phía sau hướng mặt, nửa trên) lúc MẶT BƠ ÚP → BREAD PARADOX (nghịch lý mèo bơ):
+  ảnh BC_BUTTER, cả sân đứng hình, xoay vô cực 200 tick + vệt ∞ + hút sáng → co thành 1 điểm → BIG BANG `_forceKill` mọi địch + `_summonFoes` → sân tối om (`bcDark`) tới hết trận.
+  Thắng (hoặc sau Big Bang) → ảnh DUNG HỢP ổ bánh mì BC_LOAF (chỉ dùng lúc này). Lúc nghịch lý: bất tử.
+- Ảnh anh gửi (Desktop): dạng thường mèo Xiêm nằm (BC_IDLE, quay mặt TRÁI), BC_BUTTER + BC_LOAF tách từ tấm 2 ảnh. Con số (100 máu, 3s, 200 tick xoay) em tự đặt.
+- Anh gửi TikTok mẫu effect (@ai.disruptor/video/7593888307130649859) — trình duyệt chạy ngầm trên Windows KHÔNG mở được video TikTok; Mac dùng skill `xem-video` để xem và chỉnh lại effect cho giống.
+
 ## 🌌 Meme Lore 2 · Prologue "The Dark Age" (2/11/2026) — `js/film-l2pro.js` (cine-kit, id `l2pro`, 16:9, 170s)
 - Anh yêu cầu: phim dài 2:30–3:00, NGANG, kiểu visual novel (chữ dẫn truyện tiếng Anh ở dải đen dưới, hiện từng từ, tên có màu: Friend tím, Supreme vàng, The Void trắng)
   + hình minh hoạ vũ trụ. Anh dặn "phải hoành tráng, không là trông ngáo" → bóng to, máy trôi chậm, sao/tinh vân nhiều lớp, gợi tả hơn là đánh nhau lộ liễu.
