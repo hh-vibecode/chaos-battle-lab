@@ -134,6 +134,20 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
 - Dựng trên engine Ep 1 (phố/nhà/cửa sổ/bó hoa/mặt bầm CHÉP sang để khớp từng nét) + xuất offline: `node tools/render-cine.js l2e0 out.mp4 --scale 1.5`.
 - Ảnh anh vẽ: `assets/img/cine/EP0_*` (KICK, RUN, DOWN, BANDAGE, WIFE_WALK, WIFE_HOLD). Chuột phải NHỎ (cao ~56 cạnh Chill Guy ~175).
 
+## 🌌 Meme Lore 2 · Prologue "The Dark Age" (2/11/2026) — `js/film-l2pro.js` (cine-kit, id `l2pro`, 16:9, 170s)
+- Anh yêu cầu: phim dài 2:30–3:00, NGANG, kiểu visual novel (chữ dẫn truyện tiếng Anh ở dải đen dưới, hiện từng từ, tên có màu: Friend tím, Supreme vàng, The Void trắng)
+  + hình minh hoạ vũ trụ. Anh dặn "phải hoành tráng, không là trông ngáo" → bóng to, máy trôi chậm, sao/tinh vân nhiều lớp, gợi tả hơn là đánh nhau lộ liễu.
+- Mạch: Dark Age (sao → thế giới → Friend mở mắt sau hành tinh → xúc tu đâm lõi, hành tinh vỡ → nuốt từng thế giới) → tàn lửa cơn giận → 3 ngôi sao →
+  Supreme Cat · Bread Cat · Flower Cat (bảng tên bên TRÁI, nhân vật lệch PHẢI) → chiến tranh (vũ trụ bong bóng vỡ) → The Void mở mắt sau lưng Friend → hố đen phản bội
+  → phong ấn (4 điểm: 3 Supreme + mắt Void) → Friend vỡ 5 mảnh bay vào 5 vũ trụ → kỷ nguyên ánh sáng → "Until now……" → mảnh vỡ mở mắt + tên phim.
+- Không dùng máy quay 2.5D: `shots` giả, mỗi cảnh vẽ 2D toạ độ 960×540 với `cam()` riêng. Mốc giờ ở object `T`; chữ ở `LINES` / `PLATES`.
+- **Bread Cat**: anh gửi 1 tấm 2 ảnh (Desktop) — ảnh 1 mèo kẹp bánh mì bơ, ảnh 2 mèo ổ bánh mì. Anh: "nó xoay infinity rồi thành dạng 2, dùng ảnh 2".
+  → `L2P_BUTTER.png` (ảnh 1) chỉ dùng lúc xoay theo vệt ∞ rồi loé sáng; `L2P_BREAD.png` (ảnh 2) là dạng chính ở mọi cảnh sau.
+- Ảnh The Void có quầng trắng dưới đáy, Flower Cat là ảnh bán thân cắt mép trái + đáy → `pic(...,{fadeB})` làm mờ mép (cả viền sáng / tô màu đi theo ảnh đã mờ).
+- **cine-kit có nhạc nền** từ bản này: `def.mus=[{src,ra,rb,vol,off,fi,fo,loop}]` — xem trong game phát theo đồng hồ phim (tua / dừng đúng chỗ), xuất video render-cine trộn từ `info().mus`.
+  Nhạc phim này là TẠM (ghép cine_ambient_war / cine_horns / cine_epic / cine_heart). Cần 1 bản nhạc vũ trụ không bản quyền ~2:50 → tìm trên Mac (skill `tim-sound`), thay mảng `mus`.
+- Xuất: `node tools/render-cine.js l2pro out.mp4 --wide --4k --cache --webcodecs --hw` (Mac, jobs mặc định 3 — đừng tăng).
+
 ## 🔊 Luật sound (anh dặn)
 - (30/10/2026) **KHÔNG mượn sound SIGNATURE của meme khác** (tiếng gầm, nhạc theme, giọng, câu cửa miệng) cho meme / nhân vật khác — vd Friend gầm KHÔNG được dùng tiếng gầm của Gigachad (`titan_roar`/`gigachad_roar`).
   Tiếng hit, vút, va chạm, nổ, vỡ kính, phép chung thì dùng chung được. Thiếu tiếng riêng → tìm mới (myinstants trước).

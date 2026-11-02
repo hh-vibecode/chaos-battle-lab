@@ -193,6 +193,15 @@
     let cv=null, W2=null, w2=null, SC=1, raf=null, t0=0, paused=false, pauseT=0, played={}, markOnly=false, panel=null, overlay=null, ready=false, OFF=null;
     const curT=()=>paused?pauseT:(performance.now()-t0)/1000;
     const sfx=(i,k,v,d)=>{ if(played[i]) return; played[i]=1; if(markOnly) return; try{ playSample(k,v==null?1:v,d||null); }catch(e){} };
+    // 🎵 NHẠC NỀN: def.mus=[{src:'assets/audio/x.mp3', ra, rb (giây phim), vol, off (giây bắt đầu trong file), fi, fo (giây mờ vào/ra), loop}]
+    //    xem trong game: mỗi bản 1 thẻ Audio chạy theo đồng hồ phim (tua / dừng là ngắt rồi vào lại đúng chỗ) · xuất video: render-cine trộn từ info().mus
+    const MUS=(def.mus||[]).map(m=>({...m, el:null}));
+    function musTick(t){ if(OFF) return; for(const m of MUS){ const on=!paused && t>=m.ra && t<m.rb;
+        if(on && !m.el){ try{ const el=new Audio(m.src); el.loop=!!m.loop; el.currentTime=Math.max(0,(m.off||0)+(t-m.ra)); m.el=el; el.play().catch(()=>{});
+          if(m.loop) el.addEventListener('loadedmetadata',()=>{ if(el.duration) el.currentTime=((m.off||0)+Math.max(0,curT()-m.ra))%el.duration; },{once:true}); }catch(e){} }   // bản lặp: tua giữa chừng vẫn vào đúng chỗ trong vòng lặp
+        if(!on && m.el){ try{ m.el.pause(); }catch(e){} m.el=null; }
+        if(m.el){ const f=Math.min(m.fi?seg(t,m.ra,m.ra+m.fi):1, m.fo?1-seg(t,m.rb-m.fo,m.rb):1); try{ m.el.volume=clamp((m.vol==null?1:m.vol)*f,0,1); }catch(e){} } } }
+    function musStop(){ for(const m of MUS){ if(m.el){ try{ m.el.pause(); }catch(e){} m.el=null; } } }
     function renderAt(t){
       if(OFF) markOnly=true;
       (def.sfx||[]).forEach((s,i)=>{ if(t>=s[0] && t<DUR && t-s[0]<0.25) sfx('s'+i,s[1],s[2],s[3]); else if(t>=s[0]) played['s'+i]=1; });
@@ -222,10 +231,10 @@
       if(t<0.4) K.flash(F,1-t/0.4,'#000');
       if(t>DUR-0.6) K.flash(F,seg(t,DUR-0.6,DUR),'#000');
       markOnly=false; if(panel) panel.update(); }
-    function frame(now){ if(OFF) return; raf=requestAnimationFrame(frame); if(!ready) return; renderAt(Math.min(curT(),DUR)); }
-    function seek(s){ s=clamp(s,0,DUR); played={}; (def.sfx||[]).forEach((x,i)=>{ if(x[0]<s) played['s'+i]=1; }); try{ stopAllLongSfx(); }catch(e){} if(paused) pauseT=s; else t0=performance.now()-s*1000; }
-    function toggle(){ if(paused){ paused=false; t0=performance.now()-pauseT*1000; } else { pauseT=curT(); paused=true; try{ stopAllLongSfx(); }catch(e){} } }
-    function stop(){ if(raf) cancelAnimationFrame(raf); raf=null; try{ stopAllLongSfx(); }catch(e){} if(window._cinePanelRemove) _cinePanelRemove(); panel=null; if(overlay) overlay.remove(); overlay=null; }
+    function frame(now){ if(OFF) return; raf=requestAnimationFrame(frame); if(!ready) return; const t=Math.min(curT(),DUR); musTick(t); renderAt(t); }
+    function seek(s){ s=clamp(s,0,DUR); played={}; (def.sfx||[]).forEach((x,i)=>{ if(x[0]<s) played['s'+i]=1; }); try{ stopAllLongSfx(); }catch(e){} musStop(); if(paused) pauseT=s; else t0=performance.now()-s*1000; }
+    function toggle(){ if(paused){ paused=false; t0=performance.now()-pauseT*1000; } else { pauseT=curT(); paused=true; try{ stopAllLongSfx(); }catch(e){} musStop(); } }
+    function stop(){ if(raf) cancelAnimationFrame(raf); raf=null; try{ stopAllLongSfx(); }catch(e){} musStop(); if(window._cinePanelRemove) _cinePanelRemove(); panel=null; if(overlay) overlay.remove(); overlay=null; }
     function play(opts){ if(overlay) return; const SCALE=(opts&&opts.scale)||1;
       overlay=document.createElement('div'); overlay.style.cssText='position:fixed;inset:0;z-index:99999;background:#000;display:flex;align-items:center;justify-content:center;';
       cv=K.mk(VW*2*SCALE,VH*2*SCALE); SC=cv.width/VW; cv.style.cssText=`height:100vh;max-width:100vw;aspect-ratio:${VW}/${VH};object-fit:contain;`;
@@ -236,7 +245,7 @@
       try{ stopAllBattleMusic(); }catch(e){}
       Promise.all(Object.values(I).map(im=>im.decode?im.decode().catch(()=>{}):0)).then(()=>{ if(!overlay) return; for(const im of Object.values(I)) K.prep(im); ready=true; paused=false; played={}; t0=performance.now(); });
       paused=false; played={}; t0=performance.now(); if(!OFF) raf=requestAnimationFrame(frame); }
-    const api={ play, stop, ready:()=>ready, step:R=>{ if(OFF && ready) renderAt(R); }, canvas:()=>cv, info:()=>({dur:DUR, sfx:(def.sfx||[]).map(([a,k,v,d])=>[a,k,v,d]), mus:[]}), def };
+    const api={ play, stop, ready:()=>ready, step:R=>{ if(OFF && ready) renderAt(R); }, canvas:()=>cv, info:()=>({dur:DUR, sfx:(def.sfx||[]).map(([a,k,v,d])=>[a,k,v,d]), mus:(def.mus||[]).map(m=>({src:m.src, ra:m.ra, rb:m.rb, vol:m.vol==null?1:m.vol, off:m.off||0, fi:m.fi||0, fo:m.fo||0, loop:!!m.loop})), slow:def.slow||[]}), def };
     K.films[id]=api; return api; };
   window.CineKit=K;
 })();
