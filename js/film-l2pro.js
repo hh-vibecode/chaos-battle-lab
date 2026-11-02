@@ -67,7 +67,6 @@
     return FEAT[id]=(L.length&&Rr.length)?[cen(L),cen(Rr)]:null; }
   const at=(R,f)=>R&&f?{x:R.x+(f.u-R.ax)*R.w*(R.flip?-1:1), y:R.y+(f.v-R.ay)*R.h}:null;
   const eyeY=()=>feat('fr','y',(r,g,b)=>r>200&&g>180&&b<110), eyeP=()=>feat('fr','p',(r,g,b)=>r>200&&g<175&&b>150);
-  const voidHole=()=>feat('vdA','hole',(r,g,b)=>b>140&&g>110&&r<120&&b>r+50);
   const voidEyes=()=>feat('vd','ring',(r,g,b)=>r>150&&g>150&&b<200&&r+g>360,true);
 
   // ───────── bầu trời ─────────
@@ -436,9 +435,9 @@
   function sHole(g,t){ const u=t-T.hole, MX=650, MY=235, pull=E.eio(seg(u,0.4,3)), open=seg(u,0.25,0.45);
     bgFill(g,'#020104','#060208'); stars(g,t,{seed:12,a:0.55,dim:(x,y)=>clamp(Math.hypot(x-MX,y-MY)/260,0,1)});
     g.save(); cam(g,lerp(560,520,E.eio(seg(u,0,7))),lerp(270,280,E.eio(seg(u,0,7))),lerp(1.0,1.06,E.eio(seg(u,0,7))));
-    const hole=voidHole()||{u:0.39,v:0.5}, VH2=lerp(560,600,E.eout(seg(u,0,7)));
+    const hole={u:0.3264,v:0.4954}   /* tâm miệng đo từ vành lợi hồng của ảnh mới */, VH2=lerp(560,600,E.eout(seg(u,0,7)));
     pic(g,'vd',MX,MY,VH2*0.8,{a:1-open,tint:['#000',0.85],ax:0.42,ay:0.55});
-    const V=pic(g,'vdA',MX,MY,VH2,{sharp:1,a:open,ax:hole.u,ay:hole.v,rim:['150,120,255',0.25]});
+    const V=pic(g,'vdA',MX,MY,VH2,{a:open,ax:hole.u,ay:hole.v,rim:['150,120,255',0.25]});
     const MR=V?V.w*0.075:50;   // miệng = vòng tròn quanh hố
     if(open>0) blackHole(g,MX,MY,MR*1.05*E.eout(seg(u,0.25,1.6)),t,open);   // hố đen cũ (đĩa bồi tụ cam vàng quay) nằm ngay trong miệng The Void
     g.save(); g.globalCompositeOperation='lighter';   // ánh sáng, bụi bị hút vào miệng
@@ -617,7 +616,7 @@
     {src:A+'cine_heart.mp3',ra:T.black+0.5,rb:T.until+4,vol:0.8,fo:1}];
 
   CineKit.film({ id:'l2pro', title:'Meme Lore 2 · Prologue: The Dark Age', VW, VH, DUR,
-    imgs:{ fr:'assets/avatars/friend/avatarUrl.webp', vdA:'assets/avatars/thevoid/attackAvatarUrl.webp',
+    imgs:{ fr:'assets/avatars/friend/avatarUrl.webp', vdA:'assets/img/cine/L2P_VOID_MOUTH.png',   /* anh vẽ lại bằng ChatGPT (nét cao, miệng trống — hố đen do code vẽ), nền đen đã tách */
       handL:'assets/img/scaredhamster/HAND_lunge.webp', handC:'assets/img/scaredhamster/HAND_closing.webp', handG:'assets/img/scaredhamster/HAND_grip.webp', vd:'assets/avatars/thevoid/avatarUrl.webp',
       sup:'assets/avatars/supremearbiter/avatarUrl.webp', flower:'assets/avatars/flowercat/attackAvatarUrl.webp',   /* anh dặn: Flower Cat dùng ảnh lúc chạm bông hoa, không dùng ảnh gốc */ bread:'assets/img/cine/L2P_BREAD.png', butter:'assets/img/cine/L2P_BUTTER.png' },
     sfx, mus, shots:[{t0:0,t1:DUR,a:{}}],
