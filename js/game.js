@@ -10879,22 +10879,19 @@ const _bcOm=t=>0.045+0.95*Math.pow(t/BC_SPIN_T,2), _bcTh=t=>0.045*t+0.95*t*t*t/(
 // 📈 ĐỘ KHỦNG BỐ tăng dần 0→1 trong đúng 4s (anh dặn: bắt đầu từ xoay tròn đơn giản, càng lúc càng khủng bố tới giây thứ 4)
 //   ~0–1s chỉ xoay · 1–2s vòng sáng mờ hiện ra · 2–3s cột sáng + tia lửa + đèn bắt đầu chớp lác đác · 3–4s đèn chớp dồn dập, sân tối sầm, rung mạnh, hắt xanh
 const _bcI=t=>Math.pow(Math.min(1,t/BC_SPIN_T),1.7), _bcStage=(t,a,b)=>Math.min(1,Math.max(0,(_bcI(t)-a)/(b-a)));
-// 🧊 XOAY 3D giả kiểu "khối dày": ảnh có BỀ DÀY như ổ bánh thật (nhiều lớp xếp chồng theo chiều sâu), quay quanh trục đứng như con quay (GIF anh gửi).
-//   mặt gần máy = ảnh thật (quay ra sau thì tự lật gương), các lớp giữa = ảnh tối đi làm thân/cạnh phủ lông → nhìn nghiêng thấy khối dày, không mỏng dính.
-//   (đã thử dán quanh hình trụ: nhìn nghiêng bị bóp thành hình nơ → bỏ)
+// 🧊 XOAY 3D THẬT quanh TRỤC NGANG (trục X) như GÀ QUAY XIÊN QUE (anh chốt 2/11): lưng lật lên trước, 90° thấy nóc bánh mì, 180° lộn ngược, 270° thấy bụng/chân.
+//   Ảnh BC_BUTTER được "thổi phồng" thành khối 3D (tools/x/inflate3d.html: viền ảnh → vòm phồng, mặt sau = ảnh lật) rồi chụp sẵn 48 góc của 1 vòng
+//   → assets/img/breadcat/BC_SPIN.png (lưới 8 cột × 6 hàng, ô 256px, bề ngang con mèo trong ô = BC_SPIN_OBJW px). Đổi ảnh thì chạy lại tool đó.
+//   (đã thử: lật thẻ phẳng → 90° thành vạch mỏng; xếp lớp dày → lộ sọc/bóng đen dày; quấn hình trụ → hình nơ. Đều bỏ.)
+const BC_SPIN=(()=>{ const im=new Image(); im.src='assets/img/breadcat/BC_SPIN.png'; return im; })(), BC_SPIN_N=48, BC_SPIN_FW=256, BC_SPIN_COLS=8, BC_SPIN_OBJW=206.45;
 function _bcSil(im){ if(im._bcSil) return im._bcSil; const c=document.createElement('canvas'); c.width=im.naturalWidth; c.height=im.naturalHeight; const x=c.getContext('2d');
   x.drawImage(im,0,0); x.globalCompositeOperation='source-in'; x.fillStyle='#000'; x.fillRect(0,0,c.width,c.height); return im._bcSil=c; }
-function _bcSide(im){ if(im._bcSide) return im._bcSide; const c=document.createElement('canvas'); c.width=im.naturalWidth; c.height=im.naturalHeight; const x=c.getContext('2d');
-  x.filter="blur("+Math.round(c.width*0.025)+"px)"; x.drawImage(im,0,0); x.filter="none"; x.globalCompositeOperation="destination-in"; x.drawImage(im,0,0);   // cạnh = ảnh nhoè mịn (không sọc lông) giữ đúng dáng
-  x.globalCompositeOperation="source-over"; x.globalAlpha=0.5; x.drawImage(_bcSil(im),0,0); return im._bcSide=c; }   // rồi tối đi một nửa
-function _bcCyl(im,x,y,w,h,th,a,dim){ const K=20, T=w*0.32, c=Math.cos(th), s=Math.sin(th), side=_bcSide(im), sil=_bcSil(im);
-  const minS=2.2*T*Math.abs(s)/((K-1)*w), sx=(c<0?-1:1)*Math.max(Math.abs(c),minS), L=[];   // mỗi lớp rộng ≥2 lần khoảng cách giữa 2 lớp → chồng kín, thân liền không sọc
-  for(let i=0;i<K;i++){ const z=-T/2+T*i/(K-1); L.push({z,d:z*c}); } L.sort((p,q)=>p.d-q.d);
-  L.forEach((l,j)=>{ const near=j===L.length-1; ctx.save(); ctx.translate(x+l.z*s,y); ctx.scale(sx,1); ctx.globalAlpha=a;
-    ctx.drawImage(near?im:side,-w/2,-h/2,w,h);
-    if(near){ const dk=Math.min(1,(1-Math.abs(c))*0.45+(dim?0.5:0)); if(dk>0.01){ ctx.globalAlpha=a*dk; ctx.drawImage(sil,-w/2,-h/2,w,h); } }   // mặt nghiêng khỏi ánh sáng thì tối dần
-    else if(dim){ ctx.globalAlpha=a*0.5; ctx.drawImage(sil,-w/2,-h/2,w,h); }
-    ctx.restore(); }); }
+function _bcCyl(im,x,y,w,h,th,a,dim){
+  if(BC_SPIN.complete && BC_SPIN.naturalWidth){ const TP=Math.PI*2, k=((Math.round(((th%TP)+TP)%TP/TP*BC_SPIN_N))%BC_SPIN_N), S=w*BC_SPIN_FW/BC_SPIN_OBJW;
+    ctx.save(); ctx.globalAlpha=a; if(dim) ctx.filter='brightness(0.5)';
+    ctx.drawImage(BC_SPIN,(k%BC_SPIN_COLS)*BC_SPIN_FW,Math.floor(k/BC_SPIN_COLS)*BC_SPIN_FW,BC_SPIN_FW,BC_SPIN_FW,x-S/2,y-S/2,S,S); ctx.restore(); return; }
+  const c=Math.cos(th), sy=(c<0?-1:1)*Math.max(Math.abs(c),0.04);   // dự phòng khi chưa tải xong ảnh: lật phẳng
+  ctx.save(); ctx.translate(x,y); ctx.scale(1,sy); ctx.globalAlpha=a; ctx.drawImage(im,-w/2,-h/2,w,h); ctx.restore(); }
 function _bcStrobe(t){ const p=_bcStage(t,0.3,0.95); if(p<=0) return 0; if(t>BC_SPIN_T-18) return 1; const per=Math.max(3,Math.round(9-6*p)); return _bcH(Math.floor(t/per),77)<0.15+0.5*p ? 1 : 0; }   // 1 = đèn tắt: lác đác → dồn dập
 function _bcSpinDraw(f,B){ const t=B.t, k=Math.min(1,t/BC_SPIN_T), x=f.x, y=f.y-_bcLift(f), im=BC_FR[1]; if(!im.complete || !im.naturalWidth) return;
   const L=f._lastSprite, h=(L&&L.dh)||f.size*1.6, w=h*im.naturalWidth/im.naturalHeight;

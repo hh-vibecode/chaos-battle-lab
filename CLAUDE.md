@@ -145,9 +145,12 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
 ## 🍞 Bread Cat - The Infinity Cosmic Power (`breadcat`, 2/11/2026) — khối `BC_*` / `_bc*` trong js/game.js
 - Anh thiết kế: KHÔNG đánh thường. 1 lát bánh mì bơ (vẽ bằng code, giống lát nó cõng) trôi nảy khắp sân, LẬT liên tục mặt bơ ↔ mặt bánh; mèo đi theo lát bánh.
   Chạm mèo → +100 máu (bánh tan, 3s sau hiện chỗ khác). Chạm đúng LƯNG (phía sau hướng mặt, nửa trên) lúc MẶT BƠ ÚP → BREAD PARADOX (nghịch lý mèo bơ):
-  ảnh BC_BUTTER xoay NGANG như con quay (quanh trục đứng, giống GIF mẫu `cat-toast.gif` anh gửi: cảnh phim mèo cõng bánh mì quay tít, đèn chớp,
-  cột sáng, mưa tia lửa, vòng sáng 2 bên, hắt xanh). 3D giả = "khối dày" `_bcCyl` (20 lớp ảnh xếp theo chiều sâu, mặt gần = ảnh thật, lớp giữa = ảnh nhoè tối;
-  đã thử dán quanh hình trụ → nhìn nghiêng bị bóp hình nơ, bỏ). Phải xoay đủ 4s (216 + 24 tick co lại) mới nổ; đang xoay mà dính 3 đòn (DOT/cháy không tính)
+  mèo cõng bánh mì xoay 3D quanh TRỤC NGANG (trục X) như GÀ QUAY XIÊN QUE (anh chốt 2/11, em từng hiểu nhầm thành con quay trục đứng): 90° thấy nóc bánh mì,
+  180° lộn ngược, 270° thấy bụng/chân. Hiệu ứng theo GIF mẫu `cat-toast.gif` (đèn chớp, cột sáng, mưa tia lửa, vòng sáng 2 bên, hắt xanh), TĂNG DẦN trong 4s (`_bcI`, `_bcStage`):
+  0–1s chỉ xoay chậm → 1–2s vòng sáng → 2–3s cột sáng + tia lửa + đèn chớp lác đác → 3–4s chớp dồn dập, sân tối, rung mạnh, hắt xanh.
+  3D thật: `tools/x/inflate3d.html` thổi phồng ảnh 2D thành khối (viền ảnh → vòm phồng, mặt sau = ảnh lật, không cần mạng/tài khoản) rồi chụp sẵn 48 góc →
+  `assets/img/breadcat/BC_SPIN.png` (lưới 8 cột, ô 256px, `_bcCyl` chọn khung theo góc). Đã thử + bỏ: lật thẻ phẳng (90° thành vạch), xếp lớp dày (sọc/bóng đen dày), quấn hình trụ (hình nơ).
+  Cần 1 meme/đồ vật xoay 3D khác → dùng lại tool này (`?src=...&axis=x|y&n=48&fw=256&depth=0.6`). Phải xoay đủ 4s (216 + 24 tick co lại) mới nổ; đang xoay mà dính 3 đòn (DOT/cháy không tính)
   → `_bcBreak` gãy nghịch lý (3 chấm đỏ đếm đòn trên đầu). Không còn bất tử, không đứng hình cả sân (anh dặn 2/11).
   BIG BANG: xoá sổ mọi địch kiểu Hollow Purple (`_mwErased`, không xác) + `_summonFoes` → loé TRẮNG TINH (`_bcWhiteDraw`, không sàn/viền/chữ), chỉ còn
   ổ bánh mì BC_LOAF lơ lửng, thanh máu ghi ∞ → hết trận. Tiếng: `bc_spin` (myinstants jet-engine-startup, rít to dần), `bc_zap` (điện chập lúc đèn nháy).
