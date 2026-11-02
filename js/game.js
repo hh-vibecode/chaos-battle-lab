@@ -10766,7 +10766,7 @@ let mmFly=[], mmWall=[], mmFx=[];
 //   → trắng tinh, chỉ còn ảnh DUNG HỢP ổ bánh mì (BC_LOAF) máu ∞.
 const BC_FR=['BC_IDLE','BC_BUTTER','BC_LOAF'].map(n=>{ const im=new Image(); im._noMask=true;
   im.onload=()=>{ im._crop={sx:0,sy:0,sw:im.naturalWidth,sh:im.naturalHeight}; }; im.onerror=()=>{ im._missing=true; }; im.src='assets/img/breadcat/'+n+'.png'; return im; });
-const BC_HEAL=100, BC_DROP_T=180, BC_FIRST=60, BC_FALL_T=240, BC_MAX_TOASTS=4, BC_SPIN_T=216, BC_SING_T=24, BC_BREAK_HITS=3, BC_DARK_T=90;
+const BC_HEAL=100, BC_DROP_T=180, BC_FIRST=60, BC_FALL_T=240, BC_MAX_TOASTS=4, BC_SPIN_T=216, BC_SING_T=24, BC_BREAK_HITS=3, BC_JAM_T=30, BC_DARK_T=90;
 let bcToasts=[], bcFx=[], bcDark=0, bcPx=null, bcBangT=null;   // bcBangT = tick nổ Big Bang → sau đó trắng xoá, chỉ còn ổ bánh mì   // bcPx = nghịch lý đang diễn → cả sân dừng lại · bcDark = độ tối của sân (sau Big Bang giữ tối tới hết trận)
 const _bcH=(a,b)=>{ const v=Math.sin(a*127.1+b*311.7)*43758.5453; return v-Math.floor(v); };   // băm cho hiệu ứng vẽ (không đụng chuỗi random của trận)
 const _bcR=f=>f.size*0.55;   // bán kính lát bánh
@@ -10783,6 +10783,11 @@ function _bcTick(f){
   for(const T of bcToasts) if(T.f===f && !T.st){ T.t++; T.ph+=0.055; if(T.t>BC_FALL_T-50){ const tg=0.75+Math.PI*2*Math.round((T.ph-0.75)/(Math.PI*2)); T.ph+=(tg-T.ph)*0.14; T.rot*=0.97; }   /* gần chạm sàn: lật dần về nằm phẳng, không giật */ if(T.t>=BC_FALL_T){ T.st=1; T.t=0; T.ph=0.75; T.lt=tick; bcFx.push({k:'pop',x:T.x,y:T.y,t:0,T:22}); playSample('hit_light',0.4); } }
   if(f.dead) return;
   if(--B.cd<=0){ B.cd=BC_DROP_T; _bcDrop(f); }
+  if(B.jam>0){ B.jam--;   // ⚙️ khựng 0.5s như máy hỏng: giật giật tại chỗ, phụt khói + tia lửa, hết thì đi tiếp bình thường
+    if(!f._mmHeld){ f.x=B.jx+(B.jam>0?(tick%4<2?1.8:-1.8)*(0.4+0.6*B.jam/BC_JAM_T):0); f.y=B.jy; f.vx=f.vy=0; }
+    if(B.jam%3===0) for(let i=0;i<2;i++){ const q=tick+i*7; bcFx.push({k:'smoke',x:f.x+(_bcH(q,1)-0.5)*f.size*1.2,y:f.y-f.size*(0.2+0.5*_bcH(q,2)),vx:(_bcH(q,3)-0.5)*0.7,vy:-0.7-0.9*_bcH(q,4),r:f.size*(0.3+0.25*_bcH(q,5)),sd:q,t:0,T:44+Math.floor(26*_bcH(q,6))}); }
+    if(B.jam%8===0) bcFx.push({k:'sparks',x:f.x+(_bcH(tick,8)-0.5)*f.size,y:f.y-f.size*0.4,s:tick,t:0,T:16});
+    return; }
   if(B.px || f._isHardCC()) return;
   const r=_bcR(f), T=bcToasts.find(q=>q.f===f && q.st && Math.hypot(q.x-f.x,q.y-f.y)<=f.size*0.95+r*0.6); if(!T) return;
   bcToasts.splice(bcToasts.indexOf(T),1);
@@ -10792,11 +10797,11 @@ function _bcTick(f){
 function _bcParadox(f){ const B=f._bc; B.px=1; B.t=0; B.hits=0; B.x0=f.x; B.y0=f.y; bcPx={f}; f.vx=f.vy=0;
   playSample('ep3_charge',1.0); addShake(6,10);
   floatTexts.push({x:f.x,y:f.y-f.size-34,text:'BREAD PARADOX',color:'#ffd54f',life:120,huge:true}); }
-// 💥 bị đánh trúng 3 lần lúc đang xoay: con quay khựng lại, lát bánh văng khỏi lưng thành vụn, về dạng thường rồi đi nhặt lát khác
-function _bcBreak(f){ const B=f._bc; if(!B || !B.px) return; B.px=0; B.t=0; B.hits=0; bcPx=null; bcDark=0;
+// 💥 bị đánh trúng 3 lần lúc đang xoay: về ảnh gốc, lát bánh văng thành vụn, khựng 0.5s bốc khói như máy hỏng (B.jam) rồi đi tiếp, nhặt lát khác
+function _bcBreak(f){ const B=f._bc; if(!B || !B.px) return; B.px=0; B.t=0; B.hits=0; bcPx=null; bcDark=0; B.jam=BC_JAM_T; B.jx=f.x; B.jy=f.y; f.vx=f.vy=0;
   try{ if(B.snd){ B.snd.pause(); B.snd.currentTime=0; } }catch(e){} B.snd=null;
   bcFx.push({k:'crumbs',x:f.x,y:f.y-f.size*0.4,t:0,T:40,s:tick}); bcFx.push({k:'crumbs',x:f.x+f.size*0.3,y:f.y-f.size*0.2,t:0,T:40,s:tick+7});
-  playSample('cine_impact',0.9); addShake(8,10);
+  playSample('cine_impact',0.9); playSample('bc_zap',0.8); addShake(8,10);
   floatTexts.push({x:f.x,y:f.y-f.size-30,text:'PARADOX BROKEN',color:'#ffab91',life:80,big:true}); }
 // mỗi tick thế giới (sau va chạm thân): hiệu ứng + diễn nghịch lý
 function _bcWorldTick(){
@@ -10866,6 +10871,10 @@ function _bcDrawOver(){
     if(p.k==='pop'){ ctx.save(); ctx.strokeStyle=`rgba(255,224,130,${1-u})`; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(p.x,p.y,6+u*30,0,Math.PI*2); ctx.stroke(); ctx.restore(); }
     else if(p.k==='crumbs'){ ctx.save(); for(let i=0;i<12;i++){ const a=_bcH(p.s,i)*Math.PI*2, d=(8+22*_bcH(i,p.s))*Math.min(1,u*2), x=p.x+Math.cos(a)*d, y=p.y+Math.sin(a)*d+u*u*14;
         ctx.globalAlpha=1-u; ctx.fillStyle=i%3?'#e9c88f':'#a8611f'; ctx.fillRect(x-1.5,y-1.5,3,3); } ctx.restore(); }
+    else if(p.k==='smoke'){ const x=p.x+p.vx*p.t+Math.sin(p.t*0.09+p.sd)*2, y=p.y+p.vy*p.t, R0=p.r*(1+1.7*u), a=0.85*Math.min(1,p.t/4)*(1-u*u), g=ctx.createRadialGradient(x,y,0,x,y,R0);   // khói máy hỏng: xám đậm bốc lên, loang rồi tan
+      g.addColorStop(0,`rgba(62,60,66,${a})`); g.addColorStop(0.65,`rgba(88,86,92,${a*0.55})`); g.addColorStop(1,'rgba(110,108,114,0)'); ctx.save(); ctx.fillStyle=g; ctx.fillRect(x-R0,y-R0,2*R0,2*R0); ctx.restore(); }
+    else if(p.k==='sparks'){ ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round'; for(let i=0;i<6;i++){ const a=_bcH(p.s,i+20)*Math.PI*2, d=(3+16*_bcH(i,p.s))*Math.sqrt(u), x=p.x+Math.cos(a)*d, y=p.y+Math.sin(a)*d+u*u*10;
+        ctx.strokeStyle=`rgba(255,214,130,${1-u})`; ctx.lineWidth=1.3; ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x+Math.cos(a)*3,y+Math.sin(a)*3); ctx.stroke(); } ctx.restore(); }
     else if(p.k==='bang') _bcBangDraw(p); }
   if(bcPx){ const f=bcPx.f, B=f._bc; if(B.t<BC_SPIN_T+BC_SING_T) _bcSpinDraw(f,B); }
   _bcWhiteDraw();
@@ -18286,7 +18295,7 @@ class Fighter {
     if(_pdSprawled(this)){ this.vx*=0.88; this.vy*=0.88; this.x+=this.vx; this.y+=this.vy; return; }   // 🍌 nằm sõng soài: trượt nốt đà rồi nằm im
     if(this.type==='ninjacat' && this._njGen){ this.vx=0; this.vy=0; return; }
     if(this.type==='saiyanmarmot' && _mmIsBusy(this)){ this.vx=0; this.vy=0; return; }
-    if(this.type==='breadcat' && this._bc && this._bc.px){ this.vx=0; this.vy=0; return; }   // 🍞 đang xoay vô cực   // 🦫 đang gồng / hét biến hình / khựng dồn khí
+    if(this.type==='breadcat' && this._bc && (this._bc.px||this._bc.jam>0)){ this.vx=0; this.vy=0; return; }   // 🍞 đang xoay vô cực / khựng lại vì gãy nghịch lý   // 🦫 đang gồng / hét biến hình / khựng dồn khí
     if(this.type==='catvader' && this._cvForce && this._cvForce.t<CV_FORCE_HOLD){ this.vx=0; this.vy=0; return; }   // ⚔️ đang mở vùng Force: đứng yên, khỏi tự lao vào đạn
     if(this.type==='mechaniccat' && this._gd && (this._gd.work>0||this._gd.board>0||this._gd.slashT>0||this._gd.aimT>0)){ this.vx=0; this.vy=0; return; }   // 🤖 đang lắp / phóng vào buồng lái / Gundam đang chém-ngắm
     if(this.type==='poordog' && this._pd && this._pd.st==='lie'){ this.vx=0; this.vy=0; return; }   // 🥣 đang nằm   // 👁️ đang tan biến / đâm sau lưng
