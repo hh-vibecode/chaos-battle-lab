@@ -143,8 +143,9 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
 - Ảnh anh vẽ: `assets/img/cine/EP0_*` (KICK, RUN, DOWN, BANDAGE, WIFE_WALK, WIFE_HOLD). Chuột phải NHỎ (cao ~56 cạnh Chill Guy ~175).
 
 ## 🍞 Bread Cat - The Infinity Cosmic Power (`breadcat`, 2/11/2026) — khối `BC_*` / `_bc*` trong js/game.js
-- Anh thiết kế: KHÔNG đánh thường. 1 lát bánh mì bơ (vẽ bằng code, giống lát nó cõng) trôi nảy khắp sân, LẬT liên tục mặt bơ ↔ mặt bánh; mèo đi theo lát bánh.
-  Chạm mèo → +100 máu (bánh tan, 3s sau hiện chỗ khác). Chạm đúng LƯNG (phía sau hướng mặt, nửa trên) lúc MẶT BƠ ÚP → BREAD PARADOX (nghịch lý mèo bơ):
+- Anh thiết kế: KHÔNG đánh thường. Cơ chế chốt 2/11 (thay bản bánh trôi nảy + đập trúng lưng): mỗi 3s (`BC_DROP_T`, kể cả lúc đang xoay) 1 lát bánh mì bơ (vẽ bằng code)
+  RƠI TỪ THIÊN ĐƯỜNG rất chậm (4s, `BC_FALL_T`) xuống 1 điểm bất kì: cột sáng mềm từ đỉnh khung, bóng to dần trên sàn, bụi vàng, đung đưa như lá. Tối đa 4 lát nằm trên sàn (lát cũ tan).
+  Mèo đi tới lát gần nhất ĐÃ CHẠM SÀN (không đuổi lát đang rơi); nhặt được → +100 máu (giữ từ bản cũ, em tự giữ) rồi MỚI xoay → BREAD PARADOX (nghịch lý mèo bơ):
   mèo cõng bánh mì xoay 3D quanh TRỤC NGANG (trục X) như GÀ QUAY XIÊN QUE (anh chốt 2/11, em từng hiểu nhầm thành con quay trục đứng): 90° thấy nóc bánh mì,
   180° lộn ngược, 270° thấy bụng/chân. Hiệu ứng theo GIF mẫu `cat-toast.gif` (đèn chớp, cột sáng, mưa tia lửa, vòng sáng 2 bên, hắt xanh), TĂNG DẦN trong 4s (`_bcI`, `_bcStage`):
   0–1s chỉ xoay chậm → 1–2s vòng sáng → 2–3s cột sáng + tia lửa + đèn chớp lác đác → 3–4s chớp dồn dập, sân tối, rung mạnh, hắt xanh.

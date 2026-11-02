@@ -795,7 +795,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     poordog: { key:'poordog', defaultName:'Poor Dog', emoji:'🥣', color:'#c8a165', hp:1000, speed:5, size:39.6, skill:'' },
     ninjacat: { key:'ninjacat', defaultName:'Ninja Cat', emoji:'🥷', color:'#546e7a', hp:1000, speed:5, size:45, skill:'' },
     saiyanmarmot: { key:'saiyanmarmot', defaultName:'Scream Marmot - The Last Saiyan', emoji:'🦫', color:'#ffca28', hp:1000, speed:5, size:40.5, skill:'Cận chiến ĐẨY: chạm địch là xô văng ra như mấy con marmot xô nhau (45 dame). Cứ đi 2s lại đứng gồng 1.5s; lần gồng thứ 3 hét AAAH dài 3s rồi hoá SUPER SAIYAN tới hết trận. Super Saiyan: mỗi lần chạm để đẩy thì khựng 0.5s rồi bắn địch thẳng vào tường cực nhanh, ghim vào tường (160 dame), tường chỗ đó nứt vỡ, rơi mảnh còn lại mép lởm chởm. Lỗ tường vỡ đủ to mà địch bị bắn trúng đúng chỗ đó → văng ra khỏi sàn, thua luôn.' },
-    breadcat: { key:'breadcat', defaultName:'Bread Cat - The Infinity Cosmic Power', emoji:'🍞', color:'#e0a96d', hp:1000, speed:5, size:44, skill:'KHÔNG có đòn đánh thường. Trong sân luôn có 1 lát bánh mì bơ trôi nảy khắp sân, lật liên tục mặt bơ ↔ mặt bánh; mèo tự đi theo lát bánh. Bánh chạm mèo → hồi 100 máu, 3s sau bánh mới hiện chỗ khác. Bánh đập đúng LƯNG mèo lúc mặt bơ úp xuống → BREAD PARADOX: bánh dính lên lưng, cả sân đứng hình, mèo lơ lửng xoay vô cực, co lại thành 1 điểm rồi BIG BANG kết liễu mọi địch (cả quân triệu hồi), sân tối om. Thắng thì hoá ổ bánh mì.' },
+    breadcat: { key:'breadcat', defaultName:'Bread Cat - The Infinity Cosmic Power', emoji:'🍞', color:'#e0a96d', hp:1000, speed:5, size:44, skill:'KHÔNG có đòn đánh thường. Mỗi 3s 1 lát bánh mì bơ từ thiên đường rơi xuống 1 điểm bất kì trên sàn. Mèo đi tới nhặt: +100 máu rồi bắt đầu BREAD PARADOX: xoay 3D ngày càng khủng bố trong 4s (dính 3 đòn là gãy, phải đi nhặt lát khác). Xoay đủ 4s → BIG BANG xoá sổ mọi địch (cả quân triệu hồi), cả màn trắng tinh, chỉ còn mèo ổ bánh mì với máu vô hạn.' },
     azel: { key:'azel', defaultName:'Azel', emoji:'🎧', color:'#26c6da', hp:1000, speed:4, size:46, skill:'Không đánh thường. Phát NGUYÊN clip beatbox dubstep của Azel (hình + tiếng, khớp nhịp, tốc ×1.15). Mỗi nhịp của bài = 1 đòn: đoạn build-up lưỡi sóng neon chém (14), đoạn đếm ngón tay: giơ ngón nào thì số đó (1→5) bật ra từ bàn tay bay tới địch (14), đoạn vung tay sóng WUB xuyên địch (14); nhịp bass mạnh = sóng chấn động quanh người 32 + hất văng. Trúng cả quân triệu hồi.' },
     duolingo: { key:'duolingo', defaultName:'Duolingo', emoji:'🦉', color:'#58cc02', hp:1000, speed:5, size:44, skill:'Bắn câu chào nhiều thứ tiếng, mỗi tiếng 1 kiểu bay (¡Hola! thẳng 35 · Bonjour~ lượn sóng 35 · こんにちは tách 3 chữ 15/chữ · HALLO! to chậm 50 + đẩy lùi · Привет nảy tường 30). Đồng hồ học muộn 23s: 23→12s dạng thường, 12→0s khoanh tay (bắn nhanh ×1.5, 2 tiếng/lần), mỗi lần trúng đồng hồ tụt 0.3s, hết giờ mà chưa thắng → dạng tối thượng LAST CHANCE tới hết trận: laser mắt quét 120/s, 3s/lần laser lớn 200, bắn 5 tiếng cùng lúc. Mỗi 4s rơi 1 Streak Freeze (tối đa 1 khối trên sàn, Duo không phá được): địch nhặt được thì đồng hồ dừng + Duo bị nhốt trong khối băng 2s.' },
     slapcat: { key:'slapcat', defaultName:'Slap Cat', emoji:'🐈', color:'#7c4dff', hp:1000, speed:5, size:44, skill:'Vừa chạy vừa tích lực, cứ 2s lại đứng khựng lại VẢ một phát. Cú vả mở 2 cổng không gian: một cổng ngay cạnh Slap Cat và một cổng SAU LƯNG đối thủ — tay thò qua cổng vả trúng địch dù nó đứng bất kỳ đâu trên sàn. Sát thương gốc 120, ĐỨNG CÀNG XA ĐÁNH CÀNG ĐAU (xa tối đa +100%). 30% tỉ lệ gây choáng.' },
@@ -10760,43 +10760,40 @@ const MM_WALK_T=120, MM_CHARGE_T=90, MM_SSJ_T=180, MM_PUSH_DMG=45, MM_PUSH_CD=45
       MM_HOLD_T=30, MM_FLY_SPD=34, MM_PIN_T=60, MM_WALL_DMG=160, MM_SSJ_CD=60, MM_OUT_T=34, MM_HOLE_OUT=0.8;   // lỗ phải trùm ±0.8×size quanh điểm đập (= rộng ≥1.6×size)
 let mmFly=[], mmWall=[], mmFx=[];
 // ===================== 🍞 BREAD CAT — "The Infinity Cosmic Power" (anh thiết kế 2/11/2026) =====================
-// KHÔNG có đòn đánh thường. Trong sân luôn có 1 lát BÁNH MÌ BƠ (giống lát nó cõng) trôi nảy khắp sân, LẬT liên tục mặt bơ ↔ mặt bánh.
-// Mèo tự đi theo lát bánh. Bánh chạm mèo → +100 máu, bánh tan rồi 3s sau hiện lại chỗ khác.
-// Bánh đập đúng LƯNG mèo (nửa trên, phía sau theo hướng mặt) đúng lúc MẶT BƠ ÚP XUỐNG (đang lộ mặt bánh) → BREAD PARADOX:
+// KHÔNG có đòn đánh thường. Mỗi 3s 1 lát BÁNH MÌ BƠ rơi từ thiên đường xuống 1 điểm bất kì trên sàn. Mèo đi nhặt: +100 máu rồi mới bắt đầu BREAD PARADOX:
 //   nghịch lý mèo bơ (mèo luôn tiếp đất bằng chân, bánh bơ luôn úp mặt bơ → không bên nào chịu chạm đất → xoay mãi):
-//   bánh dính lên lưng (ảnh BC_BUTTER), cả sân đứng hình, mèo lơ lửng xoay nhanh dần, hút sáng vào, co lại thành 1 điểm
-//   → BIG BANG kết liễu MỌI địch (cả quân triệu hồi) → sân tối om thành vũ trụ mới. Thắng → ảnh DUNG HỢP ổ bánh mì (BC_LOAF, chỉ dùng lúc thắng).
+//   xoay 3D quanh trục ngang, khủng bố dần trong 4s (dính 3 đòn là gãy) → co lại 1 điểm → BIG BANG xoá sổ mọi địch (cả quân triệu hồi)
+//   → trắng tinh, chỉ còn ảnh DUNG HỢP ổ bánh mì (BC_LOAF) máu ∞.
 const BC_FR=['BC_IDLE','BC_BUTTER','BC_LOAF'].map(n=>{ const im=new Image(); im._noMask=true;
   im.onload=()=>{ im._crop={sx:0,sy:0,sw:im.naturalWidth,sh:im.naturalHeight}; }; im.onerror=()=>{ im._missing=true; }; im.src='assets/img/breadcat/'+n+'.png'; return im; });
-const BC_HEAL=100, BC_RESPAWN=180, BC_FIRST=90, BC_SPD=2.1, BC_SPIN_T=216, BC_SING_T=24, BC_BREAK_HITS=3, BC_DARK_T=90;
+const BC_HEAL=100, BC_DROP_T=180, BC_FIRST=60, BC_FALL_T=240, BC_MAX_TOASTS=4, BC_SPIN_T=216, BC_SING_T=24, BC_BREAK_HITS=3, BC_DARK_T=90;
 let bcToasts=[], bcFx=[], bcDark=0, bcPx=null, bcBangT=null;   // bcBangT = tick nổ Big Bang → sau đó trắng xoá, chỉ còn ổ bánh mì   // bcPx = nghịch lý đang diễn → cả sân dừng lại · bcDark = độ tối của sân (sau Big Bang giữ tối tới hết trận)
 const _bcH=(a,b)=>{ const v=Math.sin(a*127.1+b*311.7)*43758.5453; return v-Math.floor(v); };   // băm cho hiệu ứng vẽ (không đụng chuỗi random của trận)
 const _bcR=f=>f.size*0.55;   // bán kính lát bánh
 const _bcLift=f=>{ const B=f._bc; return B&&B.px ? Math.min(1,B.t/40)*f.size*0.9 : 0; };
 function _bcFrame(f){ const B=f._bc; if((B&&B.fused) || koWinner===f) return 2; return (B&&B.px) ? 1 : 0; }
+// 🍞 cơ chế anh chốt 2/11: mỗi 3s 1 lát bánh mì bơ RƠI TỪ THIÊN ĐƯỜNG xuống 1 điểm bất kì trên sàn (kể cả lúc đang xoay); nằm trên sàn chờ nhặt (tối đa 4 lát, lát cũ nhất tan đi).
+//   Mèo đi tới lát gần nhất ĐÃ CHẠM SÀN; nhặt được → +100 máu rồi mới bắt đầu xoay (Bread Paradox). Bị đánh gãy thì đi nhặt lát khác.
+function _bcDrop(f){ const m=W*0.1, x=m+Math.random()*(W-2*m), y=m+Math.random()*(H-2*m), lay=bcToasts.filter(q=>q.f===f && q.st);
+  if(lay.length>=BC_MAX_TOASTS){ const o=lay[0]; bcToasts.splice(bcToasts.indexOf(o),1); bcFx.push({k:'crumbs',x:o.x,y:o.y,t:0,T:34,s:tick}); }
+  bcToasts.push({f,x,y,t:0,st:0,ph:Math.random()*6,rot:(Math.random()-0.5)*0.5,sd:Math.random()*6}); playSample('ep3_shine',0.45); }
 function _bcTick(f){
   const B=f._bc||(f._bc={cd:BC_FIRST,fused:false,px:0,t:0});
-  if(B.px || B.fused) return;
-  const T=bcToasts.find(q=>q.f===f);
-  if(!T){ if(f.dead || --B.cd>0) return; const m=W*0.1; let x=W/2, y=H/2;
-    for(let k=0;k<12;k++){ x=m+Math.random()*(W-2*m); y=m+Math.random()*(H-2*m); if(Math.hypot(x-f.x,y-f.y)>W*0.3) break; }
-    const a=Math.random()*Math.PI*2, sp=BC_SPD*W/480; bcToasts.push({f,x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,ph:Math.random()*6,rot:0,t:0}); bcFx.push({k:'pop',x,y,t:0,T:22}); return; }
-  T.t++; T.ph+=0.15; T.rot=Math.sin(T.t*0.03)*0.35; T.x+=T.vx; T.y+=T.vy; const r=_bcR(f);
-  if(T.x<r){ T.x=r; T.vx=Math.abs(T.vx); } if(T.x>W-r){ T.x=W-r; T.vx=-Math.abs(T.vx); } if(T.y<r){ T.y=r; T.vy=Math.abs(T.vy); } if(T.y>H-r){ T.y=H-r; T.vy=-Math.abs(T.vy); }
+  if(B.fused) return;
+  for(const T of bcToasts) if(T.f===f && !T.st){ T.t++; T.ph+=0.055; if(T.t>BC_FALL_T-50){ const tg=0.75+Math.PI*2*Math.round((T.ph-0.75)/(Math.PI*2)); T.ph+=(tg-T.ph)*0.14; T.rot*=0.97; }   /* gần chạm sàn: lật dần về nằm phẳng, không giật */ if(T.t>=BC_FALL_T){ T.st=1; T.t=0; T.ph=0.75; T.lt=tick; bcFx.push({k:'pop',x:T.x,y:T.y,t:0,T:22}); playSample('hit_light',0.4); } }
   if(f.dead) return;
-  const dx=T.x-f.x, dy=T.y-f.y; if(Math.hypot(dx,dy)>f.size*0.95+r*0.6) return;
+  if(--B.cd<=0){ B.cd=BC_DROP_T; _bcDrop(f); }
+  if(B.px || f._isHardCC()) return;
+  const r=_bcR(f), T=bcToasts.find(q=>q.f===f && q.st && Math.hypot(q.x-f.x,q.y-f.y)<=f.size*0.95+r*0.6); if(!T) return;
   bcToasts.splice(bcToasts.indexOf(T),1);
-  const faceL=f._lastFoeFaceLeft!==undefined?f._lastFoeFaceLeft:f.vx<0;   // ảnh quay mặt về phía địch → lưng là phía bên kia
-  const back=(faceL?dx>f.size*0.1:dx<-f.size*0.1) && dy<f.size*0.15, butterDown=Math.cos(T.ph)<0;
-  if(back && butterDown){ _bcParadox(f); return; }
   const amt=Math.min(BC_HEAL,Math.max(0,f.maxHp-f.hp)); if(amt>0){ f.hp+=amt; _healFloat(f.x,f.y-f.size*0.6,f.size,amt,f); _healSfx(amt); }
-  bcFx.push({k:'crumbs',x:T.x,y:T.y,t:0,T:34,s:T.t}); B.cd=BC_RESPAWN;
+  _bcParadox(f);
 }
 function _bcParadox(f){ const B=f._bc; B.px=1; B.t=0; B.hits=0; B.x0=f.x; B.y0=f.y; bcPx={f}; f.vx=f.vy=0;
   playSample('ep3_charge',1.0); addShake(6,10);
   floatTexts.push({x:f.x,y:f.y-f.size-34,text:'BREAD PARADOX',color:'#ffd54f',life:120,huge:true}); }
-// 💥 bị đánh trúng 3 lần lúc đang xoay: con quay khựng lại, lát bánh văng khỏi lưng thành vụn, về dạng thường (3s sau bánh mới)
-function _bcBreak(f){ const B=f._bc; if(!B || !B.px) return; B.px=0; B.t=0; B.hits=0; B.cd=BC_RESPAWN; bcPx=null; bcDark=0;
+// 💥 bị đánh trúng 3 lần lúc đang xoay: con quay khựng lại, lát bánh văng khỏi lưng thành vụn, về dạng thường rồi đi nhặt lát khác
+function _bcBreak(f){ const B=f._bc; if(!B || !B.px) return; B.px=0; B.t=0; B.hits=0; bcPx=null; bcDark=0;
   try{ if(B.snd){ B.snd.pause(); B.snd.currentTime=0; } }catch(e){} B.snd=null;
   bcFx.push({k:'crumbs',x:f.x,y:f.y-f.size*0.4,t:0,T:40,s:tick}); bcFx.push({k:'crumbs',x:f.x+f.size*0.3,y:f.y-f.size*0.2,t:0,T:40,s:tick+7});
   playSample('cine_impact',0.9); addShake(8,10);
@@ -10835,7 +10832,22 @@ function _bcToastDraw(x,y,r,ph,rot){ const c=Math.cos(ph), sy=Math.max(0.07,Math
   if(sy<0.6){ ctx.globalAlpha=(0.6-sy)*0.6; slice(1); ctx.fillStyle='#000'; ctx.fill(); }
   ctx.restore(); }
 // DƯỚI meme: sân tối dần → tối om sau Big Bang (vũ trụ mới: sao lấp lánh + bụi tinh vân) + quầng sáng sau lưng ổ bánh mì
+let _bcBeamC=null;
+function _bcBeam(){ if(_bcBeamC) return _bcBeamC; const w=64, h=256, c=document.createElement('canvas'); c.width=w; c.height=h; const x=c.getContext('2d'), id=x.createImageData(w,h), d=id.data;
+  for(let j=0;j<h;j++) for(let i=0;i<w;i++){ const u=(i/(w-1)-0.5)/0.24, v=j/(h-1), al=Math.exp(-u*u)*Math.min(1,v*2)*Math.min(1,(1-v)*14), core=Math.exp(-u*u*6), o=(j*w+i)*4;   // cột sáng mềm: 2 mép + đầu + đuôi đều mờ dần, không có mép cắt
+    d[o]=255; d[o+1]=232+23*core; d[o+2]=170+85*core; d[o+3]=255*al; } x.putImageData(id,0,0); return _bcBeamC=c; }
+const _bcFallE=k=>1-Math.pow(1-k,1.35);   // rơi RẤT chậm, đều, nhẹ dần khi gần chạm sàn (anh dặn)
 function _bcDrawUnder(){
+  for(const T of bcToasts){ const r=_bcR(T.f);
+    if(T.st){ ctx.save(); const pu=0.5+0.5*Math.sin(tick*0.07+T.sd), g=ctx.createRadialGradient(T.x,T.y,0,T.x,T.y,r*2); g.addColorStop(0,`rgba(255,226,150,${0.2+0.14*pu})`); g.addColorStop(1,'rgba(255,226,150,0)'); ctx.globalCompositeOperation='lighter'; ctx.fillStyle=g; ctx.fillRect(T.x-r*2,T.y-r*2,r*4,r*4); ctx.restore();   // quầng thơm mời nhặt
+      _bcToastDraw(T.x,T.y,r,T.ph,T.rot); continue; }
+    const k=T.t/BC_FALL_T, a=Math.min(1,T.t/16)*(1-Math.pow(k,6)*0.6), top=-H*1.1, bh=T.y-top+r*0.5;
+    ctx.save(); ctx.fillStyle=`rgba(0,0,0,${0.34*k})`; ctx.beginPath(); ctx.ellipse(T.x,T.y+r*0.25,r*(0.5+0.75*k),r*(0.22+0.3*k),0,0,Math.PI*2); ctx.fill();   // bóng lát bánh to dần trên sàn
+    ctx.globalCompositeOperation='lighter'; ctx.globalAlpha=0.16*a; ctx.drawImage(_bcBeam(),T.x-r*4,top,r*8,bh); ctx.globalAlpha=0.3*a; ctx.drawImage(_bcBeam(),T.x-r*1.7,top,r*3.4,bh);   // cột sáng từ thiên đường
+    ctx.globalAlpha=1; const g=ctx.createRadialGradient(T.x,T.y,0,T.x,T.y,r*2.6); g.addColorStop(0,`rgba(255,240,190,${0.26*a})`); g.addColorStop(1,'rgba(255,240,190,0)'); ctx.save(); ctx.translate(T.x,T.y); ctx.scale(1,0.45); ctx.translate(-T.x,-T.y); ctx.fillStyle=g; ctx.fillRect(T.x-r*2.6,T.y-r*2.6,r*5.2,r*5.2); ctx.restore();   // vũng sáng nơi chân cột
+    for(let i=0;i<18;i++){ const ph=((tick*0.008*(0.7+_bcH(i,91)*0.6))+_bcH(i,92)+T.sd)%1, px=T.x+(_bcH(i,93)-0.5)*r*2.6+Math.sin(tick*0.05+i)*3, py=T.y-r*0.3-(1-ph)*(T.y+H*0.5), sz=0.8+1.8*_bcH(i,94), al=a*Math.sin(ph*Math.PI)*(0.4+0.6*_bcH(i,95));   // bụi vàng rơi trong cột
+      ctx.fillStyle=`rgba(255,244,200,${al})`; ctx.fillRect(px-sz/2,py-sz/2,sz,sz); }
+    ctx.restore(); }
   if(bcDark>0){ ctx.save(); ctx.globalAlpha=bcDark; ctx.fillStyle='#000'; ctx.fillRect(-W,-H,W*3,H*3);
     const fz=fighters.find(f=>f.type==='breadcat' && f._bc && f._bc.fused);
     if(fz){ ctx.globalCompositeOperation='lighter';
@@ -10847,7 +10859,9 @@ function _bcDrawUnder(){
 }
 // TRÊN meme: lát bánh · vụn bánh · mèo xoay vô cực · Big Bang
 function _bcDrawOver(){
-  for(const T of bcToasts) _bcToastDraw(T.x,T.y,_bcR(T.f),T.ph,T.rot);
+  for(const T of bcToasts) if(T.st){ if(T.lt===tick) _bcToastDraw(T.x,T.y,_bcR(T.f),T.ph,T.rot); } else { const k=T.t/BC_FALL_T, r=_bcR(T.f), e=_bcFallE(k), x=T.x+Math.sin(T.t*0.03+T.sd)*r*0.9*(1-k), y=T.y-(1-e)*(T.y+H*0.62), g=ctx.createRadialGradient(x,y,0,x,y,r*2.2);   // lát bánh rơi đung đưa như chiếc lá
+    ctx.save(); ctx.globalCompositeOperation='lighter'; g.addColorStop(0,'rgba(255,240,190,0.55)'); g.addColorStop(1,'rgba(255,240,190,0)'); ctx.fillStyle=g; ctx.fillRect(x-r*2.2,y-r*2.2,r*4.4,r*4.4); ctx.restore();
+    _bcToastDraw(x,y,r,T.ph,T.rot+Math.sin(T.t*0.025+T.sd)*0.4); }
   for(const p of bcFx){ const u=p.t/p.T;
     if(p.k==='pop'){ ctx.save(); ctx.strokeStyle=`rgba(255,224,130,${1-u})`; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(p.x,p.y,6+u*30,0,Math.PI*2); ctx.stroke(); ctx.restore(); }
     else if(p.k==='crumbs'){ ctx.save(); for(let i=0;i<12;i++){ const a=_bcH(p.s,i)*Math.PI*2, d=(8+22*_bcH(i,p.s))*Math.min(1,u*2), x=p.x+Math.cos(a)*d, y=p.y+Math.sin(a)*d+u*u*14;
@@ -12904,7 +12918,7 @@ const CHAR_FACTS = {
 // giới thiệu ngắn 2-3 dòng cho màn chờ (tiếng Anh, game full English) — viết tay dựa trên cơ chế thật, không tự động cắt câu
 const CHAR_BLURB = {
   boxingcat: "Shadow-boxes to warm up — every jab adds to the damage counter over its head. The moment it touches an enemy it throws the punch with everything stored: from 100 the air quakes like Whitebeard, and from 250 the whole screen cracks.",
-  breadcat: "No basic attack. A slice of buttered toast flips around the arena and Bread Cat follows it: when it touches Bread Cat it heals 100 HP. If it lands butter-side down on Bread Cat's back, the Buttered Cat Paradox begins: it spins forever, collapses into a single point and sets off a Big Bang that wipes out every enemy.",
+  breadcat: "No basic attack. Every 3s a slice of buttered toast falls from heaven onto a random spot. Picking one up heals 100 HP and starts the Buttered Cat Paradox: it spins for 4s, getting more terrifying each second. Hit it 3 times to break the spin; if it survives, the Big Bang erases every enemy.",
   saiyanmarmot: "Melee shover: touches the enemy to shove them away like fighting marmots (45). Every 2s of walking it stops and powers up for 1.5s; the 3rd time it screams for 3s and goes Super Saiyan for good. Super Saiyan: every shove freezes for 0.5s, then blasts the enemy straight into the wall and pins them there (160), breaking off a chunk of wall. Hit the same broken spot and the hole can get big enough to send the enemy flying out of the arena — instant win.",
   ninjacat: "Melee ninja. Up close it draws a Kusanagi and slashes for 75; at range it throws kunai for 30. The first time it drops to 60% HP and again at 30%, the next hit passes straight through it — a Mangekyou Sharingan flashes, a Kamui vortex swallows it and spits it out behind the enemy, running them through for 150. If the enemy's back is against a wall it holds the trick, and strikes the moment there is room behind them.",
   poordog: "Never attacks and walks very slowly. Every 2s it slowly lies down for 3s. Hit it while it lies there and you lose karma equal to the damage — every 100 karma lost makes bad luck hit you 10% harder. Every 4s one bad-luck event strikes in turn (0.3s sooner each time it gets hit), walking or lying: banana peels, a runaway truck, lightning, a falling grand piano, a flower pot dropped on your head. It takes 20% less damage while lying down. Lose 100+ karma and junk starts flying at the back of your head.",
@@ -18676,7 +18690,7 @@ class Fighter {
     if(this.type==='supremearbiter' && this._saSpot){ const sp=this._saSpot, dx=sp.x-this.x, dy=sp.y-this.y, d=Math.hypot(dx,dy)||1;
       if(this._saOnSpot){ this.vx*=0.6; this.vy*=0.6; this.x+=this.vx+dx*0.12; this.y+=this.vy+dy*0.12; return; }
       const v=Math.min(d,effectiveTop*0.55); this.vx=dx/d*v; this.vy=dy/d*v; this.x+=this.vx; this.y+=this.vy; return; }
-    if(this.type==='breadcat'){ const T=bcToasts.find(q=>q.f===this); if(T){ const dx=T.x-this.x, dy=T.y-this.y, d=Math.hypot(dx,dy)||1, v=effectiveTop*0.6;   // 🍞 lững thững đi theo lát bánh
+    if(this.type==='breadcat'){ let T=null, bd=1e9; for(const q of bcToasts) if(q.f===this && q.st){ const dd=Math.hypot(q.x-this.x,q.y-this.y); if(dd<bd){ bd=dd; T=q; } } if(T){ const dx=T.x-this.x, dy=T.y-this.y, d=Math.hypot(dx,dy)||1, v=effectiveTop*0.6;   // 🍞 lững thững đi theo lát bánh
       this.vx+=(dx/d*v-this.vx)*0.08; this.vy+=(dy/d*v-this.vy)*0.08; this.x+=this.vx; this.y+=this.vy; return; } }
     if(spd<effectiveTop*0.55){
       const angle = (this._lastAngle !== undefined) ? this._lastAngle : Math.random()*Math.PI*2;
