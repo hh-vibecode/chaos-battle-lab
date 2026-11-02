@@ -44,6 +44,14 @@ Mẫu đã duyệt:
 >
 > 🎸 **Electric Guitar Cat**: fires sound waves on every beat of the song. Below **30% HP** the guitar catches fire, and every wave sets you on fire.
 
+## ⚠️ GHÉP NỐI PHẢI KHÉO — không bao giờ để lộ mối ghép (anh dặn 2/11/2026, áp cho MỌI phim + VFX game)
+- Mọi chỗ 2 thứ gặp nhau (cánh tay ↔ bàn tay, vật ↔ bóng tối nó chui ra, ảnh cắt ↔ nền, hiệu ứng ↔ nhân vật, cảnh ↔ cảnh) phải có
+  PHƯƠNG ÁN xử lý trước khi vẽ, không ghép đại: cùng nét/chất liệu ở chỗ nối (đúng bề ngang, đúng hướng, cùng kiểu vệt sáng),
+  gốc chìm dần vào bóng tối / khói phủ lên mép (KHÔNG có mép cắt thẳng), ảnh bị cắt mép thì mờ dần mép, vật không vắt ngang vật khác vô lý.
+- Ví dụ đã sửa: tay bóng tối trong Prologue lúc đầu là ống trơn viền tím + ảnh bàn tay dán vào đầu → anh chê "như gắn vào";
+  giờ cánh tay vẽ CÙNG NÉT ảnh tay (chép `_hmArmSprite`), cổ tay khớp bề ngang ảnh, gốc tay khói bão phủ dày → mỏng dần (`shadowArm(...,{root})` trong js/film-l2pro.js).
+- Bớt chi tiết thừa khi cảnh rối (anh bỏ hết xúc tu phụ ở cảnh bão: "lộn xộn quá"). Xong cảnh nào phải chụp khung soi kỹ CHỖ NỐI trước khi báo xong.
+
 ## Phim (Meme Cinema) — TỈ LỆ là quan trọng nhất
 - Giữ tỉ lệ nhất quán giữa vật thể khổng lồ và meme nhỏ ở MỌI góc máy: meme thường ~100–170, Gigachad khổng lồ ~1000, quỷ khổng lồ rộng ~2000, bom vĩ thú đường kính ~860 (đơn vị thế giới trong js/cine-war.js).
 - Muốn vật khổng lồ trông to thì đưa máy quay lại gần / đổi góc, KHÔNG phóng to meme nhỏ lên cho vừa khung (làm vật khổng lồ trông bé đi). Chỉ phóng to khi kịch bản bảo nhân vật hoá to (vd Chonky to gấp 3 con quỷ).

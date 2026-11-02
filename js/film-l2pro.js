@@ -197,17 +197,20 @@
     g.globalCompositeOperation='lighter'; for(let i=0;i<n;i+=6) blob(g,C[i].x,C[i].y,Wd[i]*3.2,o.glow||'90,30,180',0.1);   // quầng tím mờ — bám đều cả cánh tay lẫn bàn tay
     blob(g,rx,ry,off*1.6,o.glow||'90,30,180',0.14);
     g.globalCompositeOperation='source-over'; blob(g,x0,y0,wd*1.6,'4,0,8',0.9);   // gốc tay chìm vào bóng tối
-    g.fillStyle='#050505'; g.beginPath();
+    g.globalAlpha=A; g.fillStyle='#050505'; g.beginPath();
     for(let i=0;i<n;i++){ const j=Math.sin(S[i]*0.17+seed*5)*wd*0.02; const x=C[i].x+N[i].x*(Wd[i]+j), y=C[i].y+N[i].y*(Wd[i]+j); i?g.lineTo(x,y):g.moveTo(x,y); }
     for(let i=n-1;i>=0;i--){ const j=Math.sin(S[i]*0.15+seed*9)*wd*0.02; g.lineTo(C[i].x-N[i].x*(Wd[i]+j), C[i].y-N[i].y*(Wd[i]+j)); }
     g.closePath(); g.fill();
     g.lineCap='round'; const step=wd*0.42, rows=[-0.62,-0.34,-0.08,0.2,0.46,0.7];   // vệt sáng chạy dọc thớ tay — cùng nét với ảnh bàn tay
-    for(let r=0;r<rows.length;r++) for(let b=0;b*step<L-wd*0.2;b++){ const hv=hash(b*7.3+r*13.1+seed*29); if(hv<0.62) continue;
+    for(let r=0;r<rows.length;r++) for(let b=0;b*step<L-wd*0.2;b++){ const hv=hash(b*7.3+r*13.1+seed*29); if(hv<0.74) continue;
       const s0=b*step+hash(b+7+r*3)*step*0.5, s1=s0+wd*(0.14+0.22*hash(b+r*5+3)); if(s0<wd*0.9) continue;
       let i0=0; while(i0<n-1 && S[i0]<s0) i0++; let i1=i0; while(i1<n-1 && S[i1]<s1) i1++; if(i1<=i0) continue;
-      const cc=165+(hv*40|0); g.strokeStyle=`rgba(${cc},${cc},${cc+5},${0.2+0.35*hv})`; g.lineWidth=Math.max(0.6,wd*(0.012+0.018*hv));
+      const cc=165+(hv*40|0); g.strokeStyle=`rgba(${cc},${cc},${cc+5},${0.12+0.22*hv})`; g.lineWidth=Math.max(0.6,wd*(0.012+0.018*hv));
       g.beginPath(); for(let i=i0;i<=i1;i++){ const ow=rows[r]*Wd[i]; const x=C[i].x+N[i].x*ow, y=C[i].y+N[i].y*ow; i>i0?g.lineTo(x,y):g.moveTo(x,y); } g.stroke(); }
-    g.translate(W0.x,W0.y); g.rotate(ang); g.scale(sc,sc*(o.mir||1)); g.drawImage(im,0,-m.wy,m.w,m.h);   // bàn tay: cổ tay đặt đúng đầu cánh tay
+    if(o.root){ const cut=Math.min(L*0.7,o.root);   // gốc tay chìm dần vào bóng tối: khói đen phủ dày ở gốc, mỏng dần ra phía cổ tay — không có mép cắt
+      for(let i=0;i<n;i+=2){ if(S[i]>cut) break; const f=S[i]/cut, dr=Math.sin(t*1.3+i*0.7+seed)*wd*0.4; blob(g,C[i].x+dr,C[i].y-dr*0.6,Wd[i]*2.4+wd*(2.2-1.6*f),'5,0,10',0.95*Math.pow(1-f,1.3)); }
+      for(let j=0;j<6;j++){ const ph=(t*0.35+hash(seed*7+j))%1, i=Math.min(n-1,Math.floor(n*Math.min(0.9,cut/L)*hash(seed+j*3))), q=C[i]; blob(g,q.x+(hash(j+seed)-0.5)*wd*3,q.y-ph*wd*4,wd*(1.4+2*ph),'10,2,20',0.5*(1-ph)); } }   // khói bốc nhẹ
+    g.globalAlpha=A; g.globalCompositeOperation='source-over'; g.translate(W0.x,W0.y); g.rotate(ang); g.scale(sc,sc*(o.mir||1)); g.drawImage(im,0,-m.wy,m.w,m.h);   // bàn tay: cổ tay đặt đúng đầu cánh tay
     g.restore(); }
   // ───────── vật thể vũ trụ ─────────
   function rays(g,x,y,R,n,t,col,a,seed){ if(a<=0.01) return; g.save(); g.globalCompositeOperation='lighter';
@@ -332,13 +335,14 @@
     storm(g,t,scx,270,SR,seg(u,0,1.2));
     const gr=g.createLinearGradient(scx+SR*0.3,0,edge+120,0); gr.addColorStop(0,'rgba(2,0,6,0)'); gr.addColorStop(0.6,'rgba(2,0,6,0.6)'); gr.addColorStop(1,'rgba(2,0,6,0)'); g.fillStyle=gr; g.fillRect(scx+SR*0.3,-200,edge+120-scx-SR*0.3,VH+400);   // bóng tối tràn ra trước mép bão
     DEV.forEach((p,i)=>{ const crumb=u-(p.tk+1.4); if(crumb<0) planet(g,p.x,p.y,p.r,p.P,t,{dark:seg(u,p.tk,p.tk+0.7),dead:seg(u,p.tk+0.3,p.tk+1.3),core:seg(u,p.tk+0.6,p.tk+1.4)*0.6});
-      else if(crumb<3){ const k=E.eout(seg(crumb,0,2.5)), px=lerp(p.x,scx,E.ein(seg(crumb,0.4,3))), py=lerp(p.y,270,E.ein(seg(crumb,0.4,3)));   // vỡ rồi bị kéo vào bão
-        planetBurst(g,'dv'+i,px,py,p.r,p.P,t,k*0.8,{dark:1,dead:1}); g.save(); g.globalCompositeOperation='lighter'; blob(g,px,py,p.r*(1+k*2),'255,110,60',(1-k)*0.8); g.restore(); } });
-    for(let i=0;i<9;i++){ const s=i*3.7, y=270+(hash(s)-0.5)*SR*1.1, len=60+140*hash(s+1)+40*Math.sin(t*0.8+i);   // tua khói bò lan ra
-      tentacle(g,t,edge-40,y,edge+len,y+(hash(s+2)-0.5)*80,1,7+5*hash(s+3),i+60,{bend:0.4*(i%2?1:-1),wave:2,a:0.8,rim:'#22093f',glow:'60,20,120'}); }
+      else if(crumb<3){ const k=E.ein(seg(crumb,0,2.6)), px=lerp(p.x,scx,k), py=lerp(p.y,270,k), r2=p.r*(1-0.88*k);   // co lại, bị hút vào tâm bão
+        if(r2>1) planet(g,px,py,r2,p.P,t,{dark:1,dead:1,core:0.7*(1-k)});
+        g.save(); g.globalCompositeOperation='lighter'; for(let j=0;j<22;j++){ const h=i*31+j, dd=(hash(h)*0.6+0.15)*p.r*(1+crumb*1.5), aa=Math.atan2(py-270,px-scx)+(hash(h+1)-0.5)*1.6;   // bụi cháy kéo thành vệt về phía bão
+          blob(g,px+Math.cos(aa)*dd,py+Math.sin(aa)*dd,1.5+2.5*hash(h+2),hash(h+3)>0.6?'255,190,110':'255,100,50',(1-k)*0.8); } g.restore(); } });
     DEV.forEach((p,i)=>{ const k=E.eio(seg(u,p.tk-1.6,p.tk-0.2)), rel=seg(u,p.tk+1.4,p.tk+2.6); if(k<=0||rel>=1) return;
       const y0=270+(hash(i*7)-0.5)*300, grab=u>=p.tk-0.2, pose=!grab?'handL':u<p.tk+0.2?'handC':'handG';
-      shadowArm(g,t,scx+SR*0.45,270+(y0-270)*0.5,p.x-Math.cos(0.4+i)*p.r*0.2,p.y-p.r*0.15,k*(1-rel*0.7),9+p.r*0.08,i+7,pose,{bend:0.25*(i%2?1:-1),rim:'#2a0d55',glow:'90,30,180'}); });
+      const da=Math.atan2(p.y-270,p.x-scx), tx=p.x-Math.cos(da)*p.r*0.35, ty=p.y-Math.sin(da)*p.r*0.35;   // tay mọc từ mép bão về ĐÚNG hướng hành tinh của nó, không vắt qua hành tinh khác
+      shadowArm(g,t,scx+Math.cos(da)*SR*0.3,270+Math.sin(da)*SR*0.3*0.62,tx,ty,k*(1-rel*0.7),11+p.r*0.1,i+7,pose,{bend:0.07*(i%2?1:-1),glow:'90,30,180',root:SR*0.62}); });
     g.restore(); }
   function sEmbers(g,t){ const u=t-T.embers; bgFill(g,'#030106','#0d0306');
     stars(g,t,{seed:5,a:0.25,px:u*2});
