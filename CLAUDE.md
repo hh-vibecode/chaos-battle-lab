@@ -163,6 +163,12 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
 - **cine-kit có nhạc nền** từ bản này: `def.mus=[{src,ra,rb,vol,off,fi,fo,loop}]` — xem trong game phát theo đồng hồ phim (tua / dừng đúng chỗ), xuất video render-cine trộn từ `info().mus`.
   Nhạc phim này là TẠM (ghép cine_ambient_war / cine_horns / cine_epic / cine_heart). Cần 1 bản nhạc vũ trụ không bản quyền ~2:50 → tìm trên Mac (skill `tim-sound`), thay mảng `mus`.
 - Xuất: `node tools/render-cine.js l2pro out.mp4 --wide --4k --cache --webcodecs --hw` (Mac, jobs mặc định 3 — đừng tăng).
+- 🎙️ **LỒNG TIẾNG** (2/11): MiniMax Audio (minimax.io/audio, anh đã đăng nhập, gói free 10.000 credit) qua tiện ích Claude in Chrome,
+  giọng **"Dota Voice"** (My Voices của anh), model speech-2.8-hd. Cách nhanh: dán CẢ kịch bản 1 lần, giữa các câu `<#2#>` (lặng 2s) → 1 file
+  → tải MP3 (nút tải → MP3; Chrome có thể để tên `.tmp` trong Downloads — file vẫn đủ, kiểm đầu file `ID3`) → `assets/audio/vo/l2pro_narration.mp3`
+  → dò quãng lặng ≥1s bằng WebAudio trong trình duyệt chạy thử → mảng `SEG`; mỗi câu là 1 mục `mus` có `off` = chỗ bắt đầu trong file (`VO`, `VO_AT` trong film-l2pro.js).
+  Tiện ích Chrome chỉ nối khi đăng nhập claude.ai CÙNG tài khoản với Claude Code. Làm xong ĐÓNG tab đã mở (anh dặn).
+  Giọng TTS hay lỗi đọc → anh nhắc "nghe chuẩn ngữ pháp": Claude không tự nghe được, phải nhờ anh nghe lại bản đọc.
 
 ## 🔊 Luật sound (anh dặn)
 - (30/10/2026) **KHÔNG mượn sound SIGNATURE của meme khác** (tiếng gầm, nhạc theme, giọng, câu cửa miệng) cho meme / nhân vật khác — vd Friend gầm KHÔNG được dùng tiếng gầm của Gigachad (`titan_roar`/`gigachad_roar`).

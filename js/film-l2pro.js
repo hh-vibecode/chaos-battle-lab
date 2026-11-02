@@ -527,23 +527,23 @@
     g.translate(-ox*s,-oy*s); g.scale(s,s); g.fillRect(0,0,(VW+512)*(SCv||1),(VH+512)*(SCv||1)); g.restore(); }
   // ───────── chữ ─────────
   const NC={fr:'200,130,255', sp:'255,214,120', vd:'235,235,255'};
-  const LINES=[[2,8.6,'Long, long ago… in the Dark Age of the Multiverse.'],
-    [11,17.6,'Countless worlds lived beneath the same silent stars.'],
-    [20.2,27.6,'[[Friend|fr]] was not yet a meme. It was a cosmic entity.'],
-    [30,37,'It drifted from world to world, piercing their cores with its tentacles…'],
-    [39,46,'…devouring entire civilizations and races.'],
-    [48,55.6,'For thousands of years, the rage of memes grew into power…'],
-    [57.6,62.6,'…and gave birth to three [[Supreme Memes|sp]].'],
-    [82.6,86.2,'Together, they rose against [[Friend|fr]].'],
-    [87.2,92.6,'A war of nearly ten years.'],
-    [95.6,102.4,'Hundreds of universes were destroyed.'],
-    [105,113.4,'Until [[The Void|vd]], [[Friend|fr]]’s oldest companion, could no longer bear its greed…'],
-    [115.8,120.6,'…and betrayed it.'],
-    [122.6,129.8,'Together, they sealed [[Friend|fr]] away…'],
-    [132.6,136.9,'…split its mind into five fragments with clouded memories…'],
-    [137.3,142.4,'…and cast them across the meme multiverse.'],
-    [144,148.6,'A new age began.'],
-    [149,154.4,'Millions of years of light, peace and prosperity.']];
+  const LINES=[[1.8,9.6,'Long, long ago… in the Dark Age of the Multiverse.'],
+    [11.2,16.8,'Countless worlds lived beneath the same silent stars.'],
+    [20.4,26,'[[Friend|fr]] was not yet a meme. It was a cosmic entity.'],
+    [30.2,37,'It drifted from world to world, piercing their cores with its tentacles…'],
+    [39.4,43.8,'…devouring entire civilizations and races.'],
+    [48.4,55.3,'For thousands of years, the rage of memes grew into power…'],
+    [58,62.2,'…and gave birth to three [[Supreme Memes|sp]].'],
+    [83,86.2,'Together, they rose against [[Friend|fr]].'],
+    [87.6,91,'A war of nearly ten years.'],
+    [96.2,99.4,'Hundreds of universes were destroyed.'],
+    [105.2,113.6,'Until [[The Void|vd]], [[Friend|fr]]’s oldest companion, could no longer bear its greed…'],
+    [116,118.4,'…and betrayed it.'],
+    [123,126.8,'Together, they sealed [[Friend|fr]] away…'],
+    [131.9,137.2,'…split its mind into five fragments with clouded memories…'],
+    [137.6,142,'…and cast them across the meme multiverse.'],
+    [144.4,147.2,'A new age began.'],
+    [149.2,154.8,'Millions of years of light, peace and prosperity.']];
   const PLATES=[[T.sup+1.4,T.sup+5.6,'SUPREME CAT','THE ONE CAT ABOVE ALL','255,214,120'],[BREAD_POP+0.6,T.flower-0.3,'BREAD CAT','THE INFINITY COSMIC POWER','255,190,110'],[T.flower+1.2,T.line-0.4,'FLOWER CAT','THE TRANSCENDENT ONE','255,150,210']];   // biệt danh = đúng biệt danh trong game (CHAR_DEFS defaultName)
   const SERIF='Georgia, "Times New Roman", serif', SANS='Montserrat, "Segoe UI", sans-serif';
   function words(txt){ return txt.replace(/\[\[([^\]]+)\]\]/g,m=>m.replace(/ /g,' ')).split(' ').map(w=>{ const parts=[]; let rest=w; const re=/\[\[([^|\]]+)\|(\w+)\]\]/;
@@ -598,11 +598,18 @@
     [T.split,'ep3_explode',1],[T.split+0.3,'ep3_whoosh',0.8],...SPLIT.map((s,i)=>[T.split+6+i*0.35,'cine_impact',0.6]),
     [T.light+0.5,'ep3_shine',0.6],[T.light+4,'ep3_shine',0.4],[T.until+0.1,'ep3_dark',0.7],[EYE_OPEN,'cine_drop',1],[EYE_HIT,'ep3_end_boom',1],[EYE_HIT,'fr_titan_roar',0.7]];
   // nhạc tạm (ghép từ tiếng có sẵn) — thay bằng 1 bản nhạc dài là xong
-  const mus=[{src:A+'cine_ambient_war.mp3',ra:0,rb:T.embers,vol:0.35,loop:true,fi:2,fo:1.5},
-    {src:A+'cine_horns.mp3',ra:T.born-0.5,rb:T.line+1.5,vol:0.55,fi:1,fo:1.5},
-    {src:A+'cine_epic.mp3',ra:T.line,rb:T.war+11.5,vol:0.6,fo:1.5},
-    {src:A+'cine_ambient_war.mp3',ra:T.war+3,rb:T.light-0.2,vol:0.45,loop:true,fi:2,fo:2},
-    {src:A+'cine_epic.mp3',ra:T.light,rb:T.black,vol:0.42,fi:1.5,fo:2},
+  // 🎙️ LỒNG TIẾNG (2/11/2026): MiniMax Audio, giọng "Dota Voice" của anh, speech-2.8-hd, đọc 1 lần cả 18 câu (<#2#> giữa các câu)
+  //   → assets/audio/vo/l2pro_narration.mp3 (119.3s). SEG = [đầu, cuối] từng câu trong file (dò quãng lặng ≥1s), VO_AT = giây phim bắt đầu đọc.
+  //   Đổi lời / đọc lại: tạo lại file, dò lại SEG, sửa LINES cho khớp.
+  const VO_SRC='assets/audio/vo/l2pro_narration.mp3';
+  const SEG=[[0.16,7.94],[10.42,15.46],[18.14,23.12],[25.78,31.88],[34.54,38.3],[40.98,47.26],[49.9,53.28],[55.98,58.46],[61.02,63.7],[66.32,68.52],[71.18,78.98],[81.68,83.28],[85.88,88.92],[91.54,96.72],[99.46,103.22],[105.8,107.9],[110.46,115.52],[118.2,119.26]];
+  const VO_AT=[...LINES.map(L=>L[0]), T.until+0.75];   // câu 18 "Until now…" đọc lúc chữ Until now bắt đầu hiện
+  const VO=SEG.map(([a,b],i)=>({src:VO_SRC, ra:VO_AT[i], rb:VO_AT[i]+(b-a)+0.12, off:Math.max(0,a-0.06), vol:1}));
+  const mus=[...VO, {src:A+'cine_ambient_war.mp3',ra:0,rb:T.embers,vol:0.24,loop:true,fi:2,fo:1.5},
+    {src:A+'cine_horns.mp3',ra:T.born-0.5,rb:T.line+1.5,vol:0.4,fi:1,fo:1.5},
+    {src:A+'cine_epic.mp3',ra:T.line,rb:T.war+11.5,vol:0.42,fo:1.5},
+    {src:A+'cine_ambient_war.mp3',ra:T.war+3,rb:T.light-0.2,vol:0.3,loop:true,fi:2,fo:2},
+    {src:A+'cine_epic.mp3',ra:T.light,rb:T.black,vol:0.3,fi:1.5,fo:2},
     {src:A+'cine_heart.mp3',ra:T.black+0.5,rb:T.until+4,vol:0.8,fo:1}];
 
   CineKit.film({ id:'l2pro', title:'Meme Lore 2 · Prologue: The Dark Age', VW, VH, DUR,
