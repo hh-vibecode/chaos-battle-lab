@@ -29,18 +29,19 @@
   // ───────── ảnh nhân vật ─────────
   const RIM={};
   function rimOf(c,col,src){ const key=col+(src?'|f':''); c.rim=c.rim||{}; if(c.rim[key]) return c.rim[key]; const S=0.3, P=Math.round(Math.max(c.sw,c.sh)*S*0.1);
-    let tt; if(src){ tt=K.mk(c.sw,c.sh); const y=tt.getContext('2d'); y.drawImage(src,0,0); y.globalCompositeOperation='source-in'; y.fillStyle=`rgb(${col})`; y.fillRect(0,0,c.sw,c.sh); } else tt=K.tinted(c,`rgb(${col})`);   // ảnh đã mờ đáy → viền sáng cũng theo
+    let tt; if(src){ tt=K.mk(c.sw,c.sh); const y=tt.getContext('2d'); y.drawImage(src,0,0,c.sw,c.sh); y.globalCompositeOperation='source-in'; y.fillStyle=`rgb(${col})`; y.fillRect(0,0,c.sw,c.sh); } else tt=K.tinted(c,`rgb(${col})`);   // ảnh đã mờ đáy → viền sáng cũng theo
     const cw=Math.round(c.sw*S)+2*P, ch=Math.round(c.sh*S)+2*P, r=K.mk(cw,ch), x=r.getContext('2d');
     x.filter=`blur(${Math.max(2,P*0.45)}px)`; x.drawImage(tt,P,P,cw-2*P,ch-2*P); x.drawImage(tt,P,P,cw-2*P,ch-2*P); return c.rim[key]={cv:r,P,S}; }
   // vẽ ảnh: (x,y) = điểm neo (ax,ay theo tỉ lệ ảnh, mặc định giữa) · o: a, flip, rot, sx, sy, aura{preset|c0..,k}, rim:[col,a], tint:[col,a], comp
   function pic(g,key,x,y,h,o={}){ const c=K.prep(IM[key]); if(!c) return null; const w=h*c.sw/c.sh, a=o.a==null?1:o.a, ax=o.ax==null?0.5:o.ax, ay=o.ay==null?0.5:o.ay;
-    const R={c,w,h,x,y,ax,ay,flip:!!o.flip}; if(a<=0.003 && !o.auraOnly) return R; const src=o.fadeB?fadeB(c,o.fadeB):null;
+    const R={c,w,h,x,y,ax,ay,flip:!!o.flip}; if(a<=0.003 && !o.auraOnly) return R; const src=o.fadeB?fadeB(c,o.fadeB):o.sharp?sharpOf(c):null;
     g.save(); g.translate(x,y); if(o.rot) g.rotate(o.rot); g.scale((o.flip?-1:1)*(o.sx||1),o.sy||1);
-    if(o.aura && window.VfxGL){ const Au=o.aura; VfxGL.drawAura(g,src||c.src,Object.assign({res:380},Au,{sx:src?0:c.sx,sy:src?0:c.sy,sw:c.sw,sh:c.sh,x:(0.5-ax)*w,y:(1-ay)*h,w,h,t:TT+(Au.seed||0),k:(Au.k==null?1:Au.k)*(o.auraOnly?1:a)})); }
+    if(o.aura && window.VfxGL){ const Au=o.aura; VfxGL.drawAura(g,src||c.src,Object.assign({res:380},Au,{sx:src?0:c.sx,sy:src?0:c.sy,sw:src?src.width:c.sw,sh:src?src.height:c.sh,x:(0.5-ax)*w,y:(1-ay)*h,w,h,t:TT+(Au.seed||0),k:(Au.k==null?1:Au.k)*(o.auraOnly?1:a)})); }
     if(o.auraOnly){ g.restore(); return R; }
     if(o.rim){ const Rm=rimOf(c,o.rim[0],src), k=w/(c.sw*Rm.S); g.globalCompositeOperation='lighter'; g.globalAlpha=a*o.rim[1]; g.drawImage(Rm.cv,-ax*w-Rm.P*k,-ay*h-Rm.P*k,Rm.cv.width*k,Rm.cv.height*k); }
+    g.imageSmoothingEnabled=!(o.pixel || key==='fr');   // Friend là ảnh pixel: phóng to giữ nét ô vuông, không nhoè
     g.globalCompositeOperation=o.comp||'source-over'; g.globalAlpha=a; if(src) g.drawImage(src,-ax*w,-ay*h,w,h); else g.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,-ax*w,-ay*h,w,h);
-    if(o.tint && o.tint[1]>0.003){ g.globalCompositeOperation='source-over'; g.globalAlpha=a*Math.min(1,o.tint[1]); let tc=K.tinted(c,o.tint[0]); if(src){ c.ft=c.ft||{}; tc=c.ft[o.tint[0]]||(c.ft[o.tint[0]]=(()=>{ const q=K.mk(c.sw,c.sh), y=q.getContext('2d'); y.drawImage(src,0,0); y.globalCompositeOperation='source-in'; y.fillStyle=o.tint[0]; y.fillRect(0,0,c.sw,c.sh); return q; })()); }
+    if(o.tint && o.tint[1]>0.003){ g.globalCompositeOperation='source-over'; g.globalAlpha=a*Math.min(1,o.tint[1]); let tc=K.tinted(c,o.tint[0]); if(src){ c.ft=c.ft||{}; tc=c.ft[o.tint[0]]||(c.ft[o.tint[0]]=(()=>{ const q=K.mk(c.sw,c.sh), y=q.getContext('2d'); y.drawImage(src,0,0,c.sw,c.sh); y.globalCompositeOperation='source-in'; y.fillStyle=o.tint[0]; y.fillRect(0,0,c.sw,c.sh); return q; })()); }
       g.drawImage(tc,-ax*w,-ay*h,w,h); }
     g.restore(); return R; }
   // ảnh bán thân (Flower Cat) bị cắt ngang đáy → mờ dần phần đáy để không lộ mép thẳng
@@ -48,6 +49,12 @@
     x.globalCompositeOperation='destination-out'; const gr=x.createLinearGradient(0,c.sh*(1-f),0,c.sh); gr.addColorStop(0,'rgba(0,0,0,0)'); gr.addColorStop(1,'rgba(0,0,0,1)'); x.fillStyle=gr; x.fillRect(0,0,c.sw,c.sh);
     if(c.fbL){ const gl=x.createLinearGradient(0,0,c.sw*c.fbL,0); gl.addColorStop(0,'rgba(0,0,0,1)'); gl.addColorStop(1,'rgba(0,0,0,0)'); x.fillStyle=gl; x.fillRect(0,0,c.sw*c.fbL,c.sh); }   // ảnh cắt cả mép trái
     return c.fb[f]=r; }
+  // ảnh nguồn nhỏ mà phải phóng rất to (The Void 573×435 trong cảnh miệng khổng lồ): phóng ×2 lọc chất lượng cao + làm sắc cạnh (unsharp mask) — tính 1 lần
+  function sharpOf(c){ if(c.sharp) return c.sharp; const W2=c.sw*2, H2=c.sh*2, a=K.mk(W2,H2), x=a.getContext('2d'); x.imageSmoothingQuality='high'; x.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,0,0,W2,H2);
+    const b=K.mk(W2,H2), y=b.getContext('2d'); y.filter='blur(2.2px)'; y.drawImage(a,0,0);
+    const A=x.getImageData(0,0,W2,H2), B=y.getImageData(0,0,W2,H2).data, d=A.data, AMT=1.1;
+    for(let i=0;i<d.length;i+=4) for(let k=0;k<3;k++){ const v=d[i+k]+(d[i+k]-B[i+k])*AMT; d[i+k]=v<0?0:v>255?255:v; }
+    x.putImageData(A,0,0); return c.sharp=a; }
   // tìm điểm đặc trưng trên ảnh (mắt vàng / hồng của Friend, vòng mắt The Void) — tính 1 lần
   const FEAT={};
   function feat(key,name,pred,split){ const id=key+'|'+name; if(FEAT[id]!==undefined) return FEAT[id]; const c=K.prep(IM[key]); if(!c) return null;
@@ -431,12 +438,9 @@
     g.save(); cam(g,lerp(560,520,E.eio(seg(u,0,7))),lerp(270,280,E.eio(seg(u,0,7))),lerp(1.0,1.06,E.eio(seg(u,0,7))));
     const hole=voidHole()||{u:0.39,v:0.5}, VH2=lerp(560,600,E.eout(seg(u,0,7)));
     pic(g,'vd',MX,MY,VH2*0.8,{a:1-open,tint:['#000',0.85],ax:0.42,ay:0.55});
-    const V=pic(g,'vdA',MX,MY,VH2,{a:open,ax:hole.u,ay:hole.v,rim:['150,120,255',0.25]});
+    const V=pic(g,'vdA',MX,MY,VH2,{sharp:1,a:open,ax:hole.u,ay:hole.v,rim:['150,120,255',0.25]});
     const MR=V?V.w*0.075:50;   // miệng = vòng tròn quanh hố
-    if(open>0){ g.save(); g.beginPath(); g.arc(MX,MY,MR*1.9,0,TAU); g.clip(); g.globalCompositeOperation='lighter';   // xoáy sáng trong miệng
-      for(let i=0;i<12;i++){ const rr=MR*(0.6+i*0.12); g.strokeStyle=`rgba(${i%2?'120,220,255':'190,120,255'},${0.35*open*(1-i/13)})`; g.lineWidth=MR*0.05; g.setLineDash([rr*0.5,rr*0.35]); g.lineDashOffset=-t*rr*(2.4-i*0.12);
-        g.beginPath(); g.ellipse(MX,MY,rr,rr*0.82,-0.2,0,TAU); g.stroke(); } g.setLineDash([]); g.restore();
-      g.save(); g.globalAlpha=open; g.fillStyle='#000'; g.beginPath(); g.arc(MX,MY,MR*0.55,0,TAU); g.fill(); g.strokeStyle='rgba(200,240,255,0.9)'; g.lineWidth=MR*0.05; g.stroke(); g.restore(); }
+    if(open>0) blackHole(g,MX,MY,MR*1.05*E.eout(seg(u,0.25,1.6)),t,open);   // hố đen cũ (đĩa bồi tụ cam vàng quay) nằm ngay trong miệng The Void
     g.save(); g.globalCompositeOperation='lighter';   // ánh sáng, bụi bị hút vào miệng
     for(let i=0;i<60;i++){ const s=i*1.9, an=hash(s)*TAU, ph=((t*(0.25+0.3*hash(s+1))+hash(s+2))%1), d=MR*(1.2+7*(1-ph)), d2=d-MR*(0.6+1.2*ph);
       g.strokeStyle=`rgba(${i%3?'190,150,255':'255,255,255'},${0.5*ph*pull})`; g.lineWidth=1.3; g.beginPath(); g.moveTo(MX+Math.cos(an)*d,MY+Math.sin(an)*d*0.8); g.lineTo(MX+Math.cos(an+0.15)*d2,MY+Math.sin(an+0.15)*d2*0.8); g.stroke(); }
@@ -449,7 +453,7 @@
     const R=pic(g,'fr',fx+sh,fy,fh,{aura:{preset:'cursed',k:0.55,seed:9,res:420},rim:['140,60,255',0.6]});
     if(R){ const Y=at(R,eyeY()), P=at(R,eyeP()); g.save(); g.globalCompositeOperation='lighter'; if(Y) blob(g,Y.x,Y.y,26,'255,230,60',0.7); if(P) blob(g,P.x,P.y,26,'255,110,200',0.7); g.restore(); }
     g.restore(); }
-  function friendCracked(id,t,k,h){ const c=K.prep(IM.fr); if(!c) return null; const w=h*c.sw/c.sh, S=Math.max(w,h)*1.1, [cv,x]=off(id,S);
+  function friendCracked(id,t,k,h){ const c=K.prep(IM.fr); if(!c) return null; const w=h*c.sw/c.sh, S=Math.max(w,h)*1.1, [cv,x]=off(id,S); x.imageSmoothingEnabled=false;
     x.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,S/2-w/2,S/2-h/2,w,h);
     if(k>0){ x.globalCompositeOperation='source-atop'; x.lineCap='round';
       for(let b=0;b<9;b++){ let px=S/2+(hash(b*3)-0.5)*w*0.2, py=S/2+(hash(b*5)-0.5)*h*0.2, a=b/9*TAU+hash(b)*0.6; const L=Math.max(w,h)*0.6*clamp(k*1.3-b*0.04,0,1), pts=[[px,py]];
@@ -509,7 +513,7 @@
     const c=K.prep(IM.fr), ey=eyeY(), ep=eyeP();
     if(c&&ey&&ep&&t>=EYE_OPEN){ const d=Math.abs(ep.u-ey.u)*c.sw, mu=(ey.u+ep.u)/2*c.sw, mv=(ey.v+ep.v)/2*c.sh, bw=d*2.3, bh=d*1.9, sx=c.sx+mu-bw/2, sy=c.sy+mv-d*0.55;
       const scl=72/d, W=bw*scl, H=bh*scl, ox=480-W/2, oy=262-d*0.55*scl, op=E.eout(seg(t,EYE_OPEN,EYE_OPEN+0.14)), grin=seg(t,EYE_OPEN+0.5,EYE_OPEN+0.9);
-      const [mc,mx]=off('eye',Math.max(W,H)); mx.drawImage(c.src,sx,sy,bw,bh,0,0,W,H);   // mép ảnh cắt mờ dần vào bóng tối của mảnh vỡ
+      const [mc,mx]=off('eye',Math.max(W,H)); mx.imageSmoothingEnabled=false; mx.drawImage(c.src,sx,sy,bw,bh,0,0,W,H);   // mép ảnh cắt mờ dần vào bóng tối của mảnh vỡ
       mx.globalCompositeOperation='destination-in'; const mg=mx.createRadialGradient(W/2,H*0.42,Math.min(W,H)*0.25,W/2,H*0.42,Math.max(W,H)*0.55); mg.addColorStop(0,'#000'); mg.addColorStop(1,'rgba(0,0,0,0)'); mx.fillStyle=mg; mx.fillRect(0,0,W,H);
       g.save(); g.beginPath(); g.rect(ox,oy+d*0.55*scl-(d*0.32*scl)*op,W,(d*0.64*scl)*op+(H-d*0.55*scl-d*0.32*scl)*grin); g.clip(); g.globalCompositeOperation='lighter'; const S=Math.max(W,H); g.drawImage(mc,ox,oy,S,S); g.restore();
       g.save(); g.globalCompositeOperation='lighter'; const ex=ox+(ey.u*c.sw-(mu-bw/2))*scl, eyy=oy+(ey.v*c.sh-(mv-d*0.55))*scl, px=ox+(ep.u*c.sw-(mu-bw/2))*scl;
@@ -625,7 +629,6 @@
     post(F,t){ const fx={shocks:[],chroma:0}; const sh=(a,x,y,rm,d,str)=>{ if(t>=a&&t<a+d){ const u=(t-a)/d; fx.shocks.push({sx:x,sy:y,r:20+rm*E.eout(u),w:30,str:str*(1-u)}); fx.chroma=Math.max(fx.chroma,1-u); } };
       sh(T.pierce+6.8,360,300,520,0.9,26); sh(T.born+3.5,660,290,380,0.7,16); sh(BREAD_POP,480,280,460,0.8,22); sh(T.war+1.1,500,300,420,0.7,18); sh(T.war+6.9,520,300,380,0.6,16);
       sh(T.hole+0.3,650,235,520,1.0,28); sh(SEAL_HIT,480,290,480,0.9,24); sh(T.split,480,290,620,1.0,28); sh(EYE_HIT,480,270,560,0.5,30);
-      if(t>=T.hole+0.3&&t<T.seal){ const R=E.eout(seg(t,T.hole+0.25,T.hole+2))*70; fx.shocks.push({sx:650,sy:235,r:R*1.7,w:R*0.7,str:R*0.16}); }   // hố đen bẻ cong ánh sáng quanh nó
       if(t>=T.war+4&&t<T.war+6.5) fx.chroma=Math.max(fx.chroma,0.35);
       if(t>=T.until+4.6&&t<T.eye) fx.chroma=Math.max(fx.chroma,0.4);
       fx.shocks=fx.shocks.slice(0,4); return fx; },
