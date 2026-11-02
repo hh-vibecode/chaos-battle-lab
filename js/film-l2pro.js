@@ -333,7 +333,6 @@
     neb(g,'dark',9,-u*8,0,1.2,0.65); stars(g,t,{seed:4,px:u*14,dim:x=>clamp((x-(edge-cx+480)-40)/120,0,1)});
     g.save(); cam(g,cx,270,1);
     storm(g,t,scx,270,SR,seg(u,0,1.2));
-    const gr=g.createLinearGradient(scx+SR*0.3,0,edge+120,0); gr.addColorStop(0,'rgba(2,0,6,0)'); gr.addColorStop(0.6,'rgba(2,0,6,0.6)'); gr.addColorStop(1,'rgba(2,0,6,0)'); g.fillStyle=gr; g.fillRect(scx+SR*0.3,-200,edge+120-scx-SR*0.3,VH+400);   // bóng tối tràn ra trước mép bão
     DEV.forEach((p,i)=>{ const crumb=u-(p.tk+1.4); if(crumb<0) planet(g,p.x,p.y,p.r,p.P,t,{dark:seg(u,p.tk,p.tk+0.7),dead:seg(u,p.tk+0.3,p.tk+1.3),core:seg(u,p.tk+0.6,p.tk+1.4)*0.6});
       else if(crumb<3){ const k=E.ein(seg(crumb,0,2.6)), px=lerp(p.x,scx,k), py=lerp(p.y,270,k), r2=p.r*(1-0.88*k);   // co lại, bị hút vào tâm bão
         if(r2>1) planet(g,px,py,r2,p.P,t,{dark:1,dead:1,core:0.7*(1-k)});
@@ -519,6 +518,13 @@
   const SCENES=[[0,sTitle],[T.worlds,sWorlds],[T.reveal,sReveal],[T.pierce,sPierce],[T.devour,sDevour],[T.embers,sEmbers],[T.born,sBorn],[T.sup,sSupreme],[T.bread,sBread],[T.flower,sFlower],
     [T.line,sLine],[T.war,sWar],[T.voidS,sVoid],[T.hole,sHole],[T.seal,sSeal],[T.split,sSplit],[T.light,sLight],[T.black,sBlack],[T.until,sUntil],[T.eye,sEye]];
 
+  // 🎞️ hạt nhiễu (film grain) phủ cả khung, rất mờ: các dải tối chuyển màu (gradient) không còn bị vỡ thành sọc dọc/ngang
+  let GRAIN=null;
+  function grain(g,t){ if(!GRAIN){ const c=K.mk(256,256), x=c.getContext('2d'), id=x.createImageData(256,256);
+      for(let i=0;i<256*256;i++){ const v=hash(i*0.731+0.13)*255|0; id.data[i*4]=id.data[i*4+1]=id.data[i*4+2]=v; id.data[i*4+3]=255; } x.putImageData(id,0,0); GRAIN=c; }
+    const f=Math.floor(t*24), ox=hash(f)*256, oy=hash(f+0.5)*256, s=1/(SCv||1);   // mỗi khung 1 vị trí khác → hạt "sống", 1 hạt = 1 điểm ảnh thật
+    g.save(); g.globalAlpha=0.05; g.globalCompositeOperation='overlay'; g.fillStyle=g.createPattern(GRAIN,'repeat');
+    g.translate(-ox*s,-oy*s); g.scale(s,s); g.fillRect(0,0,(VW+512)*(SCv||1),(VH+512)*(SCv||1)); g.restore(); }
   // ───────── chữ ─────────
   const NC={fr:'200,130,255', sp:'255,214,120', vd:'235,235,255'};
   const LINES=[[2,8.6,'Long, long ago… in the Dark Age of the Multiverse.'],
@@ -620,6 +626,7 @@
       for(const [a,c,col] of FLASH) if(t>=a&&t<a+c) K.flash(F,(1-(t-a)/c)*0.85,`rgb(${col})`);
       let dp=0; for(const [a,d] of DIPS){ if(t>=a-d&&t<a+d) dp=Math.max(dp,1-Math.abs(t-a)/d); } if(t>=T.black-0.8&&t<T.until) dp=Math.max(dp,seg(t,T.black-0.8,T.black+0.4)); if(t>=EYE_HIT+0.25) dp=1;
       if(dp>0) K.flash(F,dp,'#000');
+      grain(g,t);   // hạt nhiễu mờ: phá vệt sọc của các dải tối chuyển màu + chất phim
       K.letterbox(F,0.9);
       titleCard(g,t); for(const L of LINES) narr(g,t,L); for(const P of PLATES) plate(g,t,P); untilNow(g,t); endTitle(g,t); } });
 })();
