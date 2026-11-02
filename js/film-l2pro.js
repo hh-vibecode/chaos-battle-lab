@@ -173,13 +173,42 @@
       blob(g,x,y,R*0.35,'170,90,255',0.35*al); g.strokeStyle=`rgba(225,190,255,${al})`; g.lineWidth=2; g.beginPath(); g.moveTo(x,y);
       for(let k=0;k<9;k++){ d+=(hash(id*11+k)-0.5)*1.2; x+=Math.cos(d)*R*0.07; y+=Math.sin(d)*R*0.05; g.lineTo(x,y); } g.stroke(); }
     g.restore(); }
-  // cánh tay bóng tối (khói đặc) + bàn tay vuốt nhọn (ảnh tay bóng tối của Friend, cùng bộ với Ep 0) ở đầu
-  function shadowArm(g,t,x0,y0,x1,y1,k,w,seed,pose,o={}){ const tip=tentacle(g,t,x0,y0,x1,y1,k,w,seed,Object.assign({taper:0.35,wave:0.6},o)); if(!tip||k<0.05) return;
-    const c=K.prep(IM[pose]); if(!c) return; const M={handL:[167,90],handC:[107.5,91],handG:[118,90]}[pose]||[c.sh/2,90], sc=tip[2]*1.25/M[1];
-    const s0=Math.max(0,k-0.04), dx=x1-x0, dy=y1-y0, an=Math.atan2(dy,dx);
-    g.save(); g.translate(tip[0],tip[1]); g.rotate(an+(o.rot||0)); g.globalAlpha=o.a==null?1:o.a;
-    g.globalCompositeOperation='lighter'; g.drawImage(K.tinted(c,'#3a0f7a'),-6,-M[0]*sc-6,c.sw*sc+12,c.sh*sc+12);
-    g.globalCompositeOperation='source-over'; g.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,-4,-M[0]*sc,c.sw*sc,c.sh*sc); g.restore(); }
+  // cánh tay bóng tối LIỀN 1 KHỐI với bàn tay (anh dặn 2/11: tay và cánh tay phải cùng 1 thể, không như gắn vào)
+  // = chép cách vẽ _hmArmSprite của Scared Hamster trong game: thân đen bóng, mép run nét vẽ tay, vệt sáng ngắn chạy dọc thớ tay,
+  //   đoạn cuối THẲNG theo hướng cổ tay của ảnh + bề ngang đúng bằng cổ tay ảnh → nối không thấy mối. Ảnh tay: cổ tay vào từ mép TRÁI.
+  const HAND_META={handL:{w:382,h:315,wy:167,ww:90,fo:134}, handC:{w:333,h:238,wy:107.5,ww:91,fo:117}, handG:{w:333,h:238,wy:107.5,ww:91,fo:117}};
+  function shadowArm(g,t,x0,y0,x1,y1,k,wd,seed,pose,o={}){ if(k<=0.02) return; const im=IM[pose], m=HAND_META[pose]; if(!im||!im.complete||!im.naturalWidth||!m) return;
+    const sc=wd/(m.ww*0.97), dx=x1-x0, dy=y1-y0, L0=Math.hypot(dx,dy)||1, ang=Math.atan2(dy,dx), ux=dx/L0, uy=dy/L0, nx=-uy, ny=ux;
+    const rx=x0+dx*k, ry=y0+dy*k, off=m.fo*sc, W0={x:rx-ux*off, y:ry-uy*off}, Lf=wd*1.3, bend=(o.bend||0.2)*L0*k;
+    const P=[{x:x0,y:y0}, {x:lerp(x0,W0.x,0.5)+nx*bend+Math.sin(t*1.7+seed)*wd*0.6, y:lerp(y0,W0.y,0.5)+ny*bend+Math.cos(t*1.3+seed)*wd*0.6}, {x:W0.x-ux*Lf, y:W0.y-uy*Lf}, {x:W0.x+ux*wd*0.12, y:W0.y+uy*wd*0.12}];
+    if(Math.hypot(W0.x-x0,W0.y-y0)<Lf*1.5) P.splice(1,1);
+    const D=[]; for(let i=0;i<P.length-1;i++){ const p0=P[Math.max(0,i-1)], p1=P[i], p2=P[i+1], p3=P[Math.min(P.length-1,i+2)], sg=Math.max(2,Math.ceil(Math.hypot(p2.x-p1.x,p2.y-p1.y)/4));
+      for(let j=0;j<sg;j++){ const q=j/sg, q2=q*q, q3=q2*q;
+        D.push({x:0.5*(2*p1.x+(-p0.x+p2.x)*q+(2*p0.x-5*p1.x+4*p2.x-p3.x)*q2+(-p0.x+3*p1.x-3*p2.x+p3.x)*q3), y:0.5*(2*p1.y+(-p0.y+p2.y)*q+(2*p0.y-5*p1.y+4*p2.y-p3.y)*q2+(-p0.y+3*p1.y-3*p2.y+p3.y)*q3)}); } }
+    D.push(P[P.length-1]); const n=D.length; if(n<2) return;
+    const S=[0]; for(let i=1;i<n;i++) S.push(S[i-1]+Math.hypot(D[i].x-D[i-1].x,D[i].y-D[i-1].y)); const L=S[n-1]||1;
+    const C=[], N=[], Wd=[];
+    for(let i=0;i<n;i++){ const p=D[Math.max(0,i-1)], q=D[Math.min(n-1,i+1)], ddx=q.x-p.x, ddy=q.y-p.y, l=Math.hypot(ddx,ddy)||1, mx=-ddy/l, my=ddx/l;
+      const s=S[i], toW=L-s, damp=Math.min(1,s/(wd*1.5))*clamp((toW-Lf*1.1)/(Lf*1.5),0,1), ow=wd*0.22*damp*Math.sin(t*2.2+(1-s/L)*4.5+seed);
+      C.push({x:D[i].x+mx*ow, y:D[i].y+my*ow}); N.push({x:mx,y:my});
+      const flare=1+0.6*Math.max(0,1-s/(wd*2)), mid=1+0.12*Math.sin(Math.PI*Math.min(1,s/Math.max(1,L-Lf))), wr=Math.min(1,toW/Lf), jit=(Math.sin(s*0.09+seed*3)*0.55+Math.sin(s*0.23+seed*7)*0.3)*wd*0.035;
+      Wd.push(wd*0.5*(wr*flare*mid+(1-wr))+jit*wr); }
+    const A=o.a==null?1:o.a; g.save(); g.globalAlpha=A;
+    g.globalCompositeOperation='lighter'; for(let i=0;i<n;i+=6) blob(g,C[i].x,C[i].y,Wd[i]*3.2,o.glow||'90,30,180',0.1);   // quầng tím mờ — bám đều cả cánh tay lẫn bàn tay
+    blob(g,rx,ry,off*1.6,o.glow||'90,30,180',0.14);
+    g.globalCompositeOperation='source-over'; blob(g,x0,y0,wd*1.6,'4,0,8',0.9);   // gốc tay chìm vào bóng tối
+    g.fillStyle='#050505'; g.beginPath();
+    for(let i=0;i<n;i++){ const j=Math.sin(S[i]*0.17+seed*5)*wd*0.02; const x=C[i].x+N[i].x*(Wd[i]+j), y=C[i].y+N[i].y*(Wd[i]+j); i?g.lineTo(x,y):g.moveTo(x,y); }
+    for(let i=n-1;i>=0;i--){ const j=Math.sin(S[i]*0.15+seed*9)*wd*0.02; g.lineTo(C[i].x-N[i].x*(Wd[i]+j), C[i].y-N[i].y*(Wd[i]+j)); }
+    g.closePath(); g.fill();
+    g.lineCap='round'; const step=wd*0.42, rows=[-0.62,-0.34,-0.08,0.2,0.46,0.7];   // vệt sáng chạy dọc thớ tay — cùng nét với ảnh bàn tay
+    for(let r=0;r<rows.length;r++) for(let b=0;b*step<L-wd*0.2;b++){ const hv=hash(b*7.3+r*13.1+seed*29); if(hv<0.62) continue;
+      const s0=b*step+hash(b+7+r*3)*step*0.5, s1=s0+wd*(0.14+0.22*hash(b+r*5+3)); if(s0<wd*0.9) continue;
+      let i0=0; while(i0<n-1 && S[i0]<s0) i0++; let i1=i0; while(i1<n-1 && S[i1]<s1) i1++; if(i1<=i0) continue;
+      const cc=165+(hv*40|0); g.strokeStyle=`rgba(${cc},${cc},${cc+5},${0.2+0.35*hv})`; g.lineWidth=Math.max(0.6,wd*(0.012+0.018*hv));
+      g.beginPath(); for(let i=i0;i<=i1;i++){ const ow=rows[r]*Wd[i]; const x=C[i].x+N[i].x*ow, y=C[i].y+N[i].y*ow; i>i0?g.lineTo(x,y):g.moveTo(x,y); } g.stroke(); }
+    g.translate(W0.x,W0.y); g.rotate(ang); g.scale(sc,sc*(o.mir||1)); g.drawImage(im,0,-m.wy,m.w,m.h);   // bàn tay: cổ tay đặt đúng đầu cánh tay
+    g.restore(); }
   // ───────── vật thể vũ trụ ─────────
   function rays(g,x,y,R,n,t,col,a,seed){ if(a<=0.01) return; g.save(); g.globalCompositeOperation='lighter';
     for(let i=0;i<n;i++){ const s=seed*5+i, ang=hash(s)*TAU+t*0.04*(hash(s+3)-0.5), wd=0.015+0.05*hash(s+1), len=R*(0.55+0.7*hash(s+2)), al=a*(0.25+0.75*hash(s+4))*(0.75+0.25*Math.sin(t*1.3+i));
