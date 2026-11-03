@@ -210,11 +210,22 @@
       const shk=def.shake?def.shake(t):0, sx=shk?(hash(Math.floor(t*60))-0.5)*2*shk:0, sy=shk?(hash(Math.floor(t*60)+7)-0.5)*2*shk:0;
       const F={t,cam,B,VW,VH,g:w2,list:[],shadows:[],under:[],I,DUR,SC};
       w2.setTransform(SC,0,0,SC,0,0); w2.fillStyle='#000'; w2.fillRect(0,0,VW,VH);
-      w2.translate(VW/2+sx,VH/2+sy); w2.rotate(B.roll); w2.translate(-VW/2,-VH/2);
-      if(def.theme) K.drawWorldBg(F,typeof def.theme==='function'?def.theme(t):def.theme);
-      if(def.world) def.world(F,t);
-      drawShadows(F); for(const fn of F.under) fn();
-      F.list.sort((a,b)=>b.d-a.d); for(const it of F.list) it.fn();
+      // 🎞️ CHIA KHUNG kiểu anime: def.panels(t) → [{cam:{...}, clip:[[x,y],…] (tỉ lệ 0–1 của khung)}] — mỗi ô 1 máy quay riêng, cả thế giới vẽ lại trong ô đó.
+      //    Không có panels → 1 máy như cũ. Tâm ảnh của mỗi ô tự dời về giữa ô (oy), mép ô vẽ vạch trắng-đen ở screen().
+      const PNL=def.panels?def.panels(t):null;
+      const views=PNL&&PNL.length?PNL:[{cam:null,clip:null}];
+      for(const v of views){ const c2=v.cam?Object.assign({},cam,v.cam):cam, B2=v.cam?camBasis(c2,VW,VH):B;
+        if(v.clip && !(v.cam && v.cam.oy!=null)){ const ys=v.clip.map(p=>p[1]); B2.cy=VH*(Math.min(...ys)+Math.max(...ys))/2+(c2.oy||0)*VH; }
+        const Fv=v.cam||v.clip?Object.assign(F,{cam:c2,B:B2,list:[],shadows:[],under:[]}):F; Fv.panel=v;
+        w2.save(); w2.setTransform(SC,0,0,SC,0,0);
+        if(v.clip){ w2.beginPath(); v.clip.forEach((p,i)=>i?w2.lineTo(p[0]*VW,p[1]*VH):w2.moveTo(p[0]*VW,p[1]*VH)); w2.closePath(); w2.clip(); }
+        w2.translate(VW/2+sx,VH/2+sy); w2.rotate(B2.roll); w2.translate(-VW/2,-VH/2);
+        if(def.theme) K.drawWorldBg(Fv,typeof def.theme==='function'?def.theme(t):def.theme);
+        if(def.world) def.world(Fv,t);
+        drawShadows(Fv); for(const fn of Fv.under) fn();
+        Fv.list.sort((a,b)=>b.d-a.d); for(const it of Fv.list) it.fn();
+        w2.restore(); }
+      F.panels=PNL&&PNL.length?PNL:null;
       const g=cv.getContext('2d'); g.setTransform(1,0,0,1,0,0);
       F.shx=sx; F.shy=sy;
       let SRC=W2; if(def.post && window.VfxGL){ const fx=def.post(F,t); if(fx){ const px=v=>v*SC, cvt=p=>K.toPx(F,p);   // toạ độ logic → điểm ảnh thật

@@ -25158,7 +25158,7 @@ function openCinema(folder){
                                                        {id:'__l2e2', ic:'🗿', name:'Ep 2 · Into the Dark', desc:"A dark gate opens and Evil Gary falls into a cave… where something is waiting.", dur:25},
                                                        {id:'__l2e3', ic:'🌋', name:'Ep 3 · The High Ground', desc:"Grumpy fights his master, Supreme Cat, and falls into the lava… then the Meowcatsuki arrive.", dur:41},
                                                        {id:'__l2e4', ic:'🖤', name:'Ep 4 · Rise of Catvader', desc:"Grumpy is reborn as Catvader… and the Meowcatsuki set Friend free.", dur:59}]},
-    __lab:{ title:'🧪 ANIME LAB', back:'', items:[{id:'ck:mvd', ic:'😤', name:'Mewing Cat vs Depressed Cat', desc:'Statues vs storm, Gojo vs Pain, Hollow Purple vs Shinra Tensei: an even fight.', dur:29},{id:'ck:dvc', ic:'⚔️', name:'Test · Buff Doge vs Samurai Cheems', desc:'Anime fight test: orbiting camera, high angles, smoke, slashes, impact frames.', dur:8}]} };
+    __lab:{ title:'🧪 ANIME LAB', back:'', items:[{id:'ck:mvd', ic:'😤', name:'Mewing Cat vs Depressed Cat', desc:'Statues vs storm, Gojo vs Pain, Hollow Purple vs Shinra Tensei: an even fight.', dur:23},{id:'ck:dvc', ic:'⚔️', name:'Test · Buff Doge vs Samurai Cheems', desc:'Anime fight test: orbiting camera, high angles, smoke, slashes, impact frames.', dur:8}]} };
   const L=LORE[folder||'__top'];
   const ov=document.createElement('div'); ov.id='cinemaGallery';
   ov.style.cssText='position:fixed;inset:0;z-index:9000;background:radial-gradient(ellipse at top,#2a1b3d,#0b0712 70%);overflow:auto;padding:28px 16px 40px;font-family:system-ui,Arial,sans-serif;color:#fff;';

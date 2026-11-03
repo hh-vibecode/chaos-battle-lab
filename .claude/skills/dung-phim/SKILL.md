@@ -24,6 +24,10 @@ Cảnh đánh nào cũng phải có đủ các mẹo dưới đây — đây là
 9. **Tư thế = ảnh riêng (cách 1, anh chốt)**: mỗi nhân vật cần bộ ảnh THỦ THẾ / LẤY ĐÀ / RA ĐÒN / TRÚNG ĐÒN / NÉ (anh vẽ ChatGPT), đổi ảnh theo nhịp đòn
    — mẫu lệnh 10 tư thế ở cuối file này. Lệnh vẽ LUÔN ghi "real cat anatomy, round cat paws with paw pads, no human hands/fingers" + hướng mặt cố định (con trái nhìn PHẢI, con phải nhìn TRÁI).
 10. **Khung dọc 9:16 hẹp**: 2 nhân vật cách nhau ~400 đơn vị thì máy cần dist ≳ 900 mới lọt cả 2 — soi khung trước khi báo xong.
+11. **KHÔNG bó vào khung giữa** (anh chê 3/11): đặt nhân vật lệch 1/3 khung (`ox` ±0.08–0.14), nghiêng máy (`roll`), đổi phía máy theo từng đòn, máy bám theo vật đang bay.
+12. **Cắt dày, chiêu ra NHANH**: mỗi shot 0.25–1s ở đoạn cao trào; gồng chiêu ≤0.5s, cắt xen 2 bên (gồng A → gồng B → bắn A → bắn B → toàn cảnh va nhau); tránh vật bay chậm 2–3s.
+13. **CHIA KHUNG CHÉO** (`def.panels(t)` trong cine-kit: mỗi ô 1 máy riêng, `clip` đa giác tỉ lệ khung) cho 2 việc xảy ra cùng lúc:
+    2 con biến hình đồng thời, 2 con bị hất văng mỗi con nửa khung (máy bám theo con đó) → rồi MỞ RA toàn cảnh rộng. Kẻ đường chéo trắng-đen ở `screen()`. Mẫu: `panels()` + `splitLine()` trong js/film-mvd.js.
 
 ## Quy trình
 1. **Kịch bản → bảng phân cảnh** (gửi anh duyệt TRƯỚC khi code): mỗi shot 1 dòng — giây, cỡ cảnh + góc máy, hành động (có lý do), hiệu ứng, tiếng.
