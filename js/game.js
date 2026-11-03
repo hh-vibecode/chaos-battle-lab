@@ -761,7 +761,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     evillarry:  { key:'evillarry',  defaultName:'Evil Larry',    emoji:'😈', color:'#9c27b0', hp:1000, speed:5, size:39.6, skill:'Không đánh ai. Vào trận là lầm lũi đi VẼ hình ngôi sao quỷ khổng lồ trên sàn (5 nét sao rồi tới vòng tròn bao quanh). Vẽ xong hình thì nghi lễ hoàn tất: MỌI kẻ địch VÀ chính Larry cùng nhận 6666 sát thương chuẩn.' },
     pianocat:   { key:'pianocat',   defaultName:'Piano Cat',     emoji:'🎹', color:'#8e24aa', hp:1000, speed:5, size:43, skill:'Chơi piano — bắn nốt nhạc theo NHỊP & CAO ĐỘ thật của bài (màu theo nốt), mỗi nốt trúng địch gây 15 sát thương. Nốt tự bám mục tiêu gần nhất (kể cả quân triệu hồi) nên không bao giờ trượt. Tự đổi sang bài khác mỗi 8s.' },
     grumpycat:  { key:'grumpycat',  defaultName:'Grumpy Cat',    emoji:'😾', color:'#607d8b', hp:1000, speed:5, size:43, skill:'Slap cận chiến hất văng. Mỗi đòn +12 nộ, ăn đòn +6 nộ. Đủ 100 nộ → RAGE: +50% tốc đánh, +35% tốc chạy, +30% size & tầm đánh, miễn khống chế cứng, slap x2 đẩy lùi, avatar nhấp nháy đỏ, đánh trúng phóng VFX Chidori.' },
-    catvader:   { key:'catvader',   defaultName:'Catvader',     emoji:'⚔️', color:'#d32f2f', hp:1000, speed:5, size:43, skill:'Vào trận rút lightsaber luôn. Địch ở gần chém melee 80 dame, địch ở xa kiếm tự bay tới chém 60 dame, 40% gây cháy 20 dame/giây trong 4s. Mỗi 5s hồi 1 lượt Force: đạn địch bay vào gần → mở vùng aura đỏ 0.75s (Catvader đứng yên), MỌI loại đạn địch trong vùng chậm siêu chậm như bị bẻ cong thời gian, hết 0.75s đẩy hết ngược về phía địch (đúng dame gốc của từng viên).' },
+    catvader:   { key:'catvader',   defaultName:'Catvader',     emoji:'⚔️', color:'#d32f2f', hp:1000, speed:5, size:43, skill:'Vào trận rút lightsaber luôn. Địch ở gần chém melee 80 dame, địch ở xa kiếm tự bay tới chém 60 dame, 40% gây cháy 20 dame/giây trong 4s. Mỗi 5s hồi 1 lượt Force: đạn địch bay vào gần → mở vùng aura đỏ 1s (Catvader đứng yên), MỌI loại đạn địch trong vùng đứng yên giữa không trung, hết 1s đẩy hết ngược về phía địch (đúng dame gốc của từng viên).' },
     bibilabu:   { key:'bibilabu',   defaultName:'Bibilabu',     emoji:'🐕', color:'#a0522d', hp:1000, speed:5, size:55, skill:'Cầm kiếm + khiên. Tích luỹ sức mạnh theo thời gian (thanh vạch dưới máu, mỗi 0.5s +1 vạch, tối đa 10 vạch, từ vạch 8 trở lên chuyển đỏ). Vào tầm cận chiến thì chém: dame = 50 + 15×số vạch hiện có, đẩy bay xa/gần tuỳ số vạch, đủ vạch đỏ (≥8) mới gây choáng 1.5s. Chém xong tích lại từ đầu, tốc đánh phụ thuộc hoàn toàn vào tốc tích vạch. Đủ 10 vạch (đỏ) còn +30% tốc chạy.' },
     applecat:   { key:'applecat',   defaultName:'Apple Cat',    emoji:'🍎', color:'#e53935', hp:1000, speed:5, size:43, skill:'Ngay khi vào trận và mỗi 4s, thả 1 quả táo nảy khắp sân — va trúng đối thủ gây 70 dame rồi bật ngược lại như va tường, không đẩy lùi đối thủ.' },
     cheems:     { key:'cheems',     defaultName:'Cheems',      emoji:'🔨', color:'#c9a86a', hp:1000, speed:5, size:47, skill:'Cận chiến, gõ chày: dame gốc 20, tốc đánh 3, 15% tỉ lệ gây choáng 0.75s mỗi đòn. Mỗi lần gõ trúng: dame +3.5 cộng dồn (làm tròn xuống số nguyên khi gây dame thật), chày to thêm 3.5% (tầm đánh cũng tăng theo), tối đa 15 lần cộng dồn (dame tối đa 72). Càng đánh càng mạnh, tới khi đạt giới hạn.' },
@@ -11140,14 +11140,14 @@ function _mmFrame(f){ const M=f._mm||{}; let st=null;   // 🦫 4 khung ảnh m�
   return MM_FR[k].naturalWidth?k:1; }
 // ===================== ⚔️ CATVADER — THE FORCE: GIỮ ĐẠN GIỮA KHÔNG TRUNG =====================
 // Kiểu VÙNG BẺ CONG THỜI GIAN (Twisted Timeflow của Zilean, Tốc Chiến) + Neo chặn đạn (Matrix):
-// Mỗi 5s hồi 1 lượt. Có đạn địch bay vào vùng quanh người → toả AURA ĐỎ trong 0.75s, Catvader ĐỨNG YÊN (khỏi tự lao vào đạn).
-// MỌI viên đạn địch đang ở / bay vào vùng đều chậm SIÊU CHẬM (≈5% tốc), đổi sang phe Catvader; hết 0.75s đẩy hết ngược về
+// Mỗi 5s hồi 1 lượt. Có đạn địch bay vào vùng quanh người → toả AURA ĐỎ trong 1s, Catvader ĐỨNG YÊN (khỏi tự lao vào đạn).
+// MỌI viên đạn địch đang ở / bay vào vùng đều ĐỨNG YÊN giữa không trung, đổi sang phe Catvader; hết 1s đẩy hết ngược về
 // phía địch (bay nhanh hơn 35%, đúng dame gốc), rồi Catvader đi lại bình thường.
 // Bắt được MỌI hệ đạn: mảng projectiles chung (kunai, Morse, Beluga, nốt nhạc...) giữ nguyên hình gốc; búa Stalin dùng chế độ
 // "bị gạt ngược" sẵn có; các hệ riêng khác (CV_SYS: chảo, táo, hoa, mũi tên Loading, batarang, dao boomerang, cầu code Hecker,
 // chữ Duolingo, đờm/mầm Cough Cat, lọ độc Sus Dog) → cuối khung hình CHỤP đúng hình viên đạn trên canvas (tách nền sân),
 // gỡ khỏi hệ cũ, thay bằng 1 viên đạn của Catvader mang đúng hình đó. Không bắt quả đất Gary / liềm Stalin (vật nảy cả trận, mất là hỏng skill).
-const CV_FORCE_CD=300, CV_FORCE_HOLD=45, CV_FORCE_SPD=1.35, CV_SLOW=0.05;   // 5s hồi · vùng mở 0.75s (rộng 1/4 diện tích sân, xem _cvR) · đẩy về nhanh hơn 35% · trong vùng còn 5% tốc
+const CV_FORCE_CD=300, CV_FORCE_HOLD=60, CV_FORCE_SPD=1.35, CV_SLOW=0.0005;   // 5s hồi · vùng mở 1s (anh dặn 3/11; rộng 1/4 diện tích sân, xem _cvR) · đẩy về nhanh hơn 35% · trong vùng ĐỨNG YÊN (0.0005 chứ không 0: giữ hướng mũi đạn)
 const CV_SYS=[
   {arr:()=>cnPans,          dmg:()=>CN_PAN_DMG},
   {arr:()=>apples,          ok:o=>!o._garyEarth && !o._stalinSickle, dmg:o=>o.dmg||70},
@@ -12998,7 +12998,7 @@ const CHAR_BLURB = {
   evillarry: "Ignores everyone and walks a pentagram onto the floor — a summoning circle. Completing it SACRIFICES every living thing in the arena, itself included, to whatever is listening.",
   pianocat: "Plays piano and fires a homing musical note on every beat of the song (locks onto the nearest target, including summons, and never misses), switching tracks as it goes.",
   grumpycat: "Builds rage from every hit dealt and taken; a full bar unlocks a far stronger rage form.",
-  catvader: "Ignites a lightsaber and either fights up close or throws it and calls it back. Every 5s it stands still and opens a red Force aura for 0.75s: every enemy projectile inside slows to a crawl, then gets hurled back at the enemy.",
+  catvader: "Ignites a lightsaber and either fights up close or throws it and calls it back. Every 5s it stands still and opens a red Force aura for 1s: every enemy projectile inside freezes in mid-air, then gets hurled back at the enemy.",
   bibilabu: "Quietly powers up between slaps until a single hit is enough to end the fight.",
   applecat: "Keeps an apple bouncing around the arena that damages anyone it collides with.",
   cheems: "Every bonk makes its bat larger, hitting harder and reaching further.",
