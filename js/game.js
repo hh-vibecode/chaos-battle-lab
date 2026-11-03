@@ -18248,7 +18248,6 @@ class Fighter {
       // doAbility() (nơi tính lại vị trí kiếm) bị bỏ qua hoàn toàn lúc choáng nên kiếm sẽ đứng im nếu không bù thủ công ở đây,
       // trong khi thân người vẫn bị đẩy/kéo đi → kiếm bị "rớt lại" phía sau. Bù đúng bằng đúng khoảng người vừa dịch chuyển.
       // CHỈ áp dụng lúc idle — lúc kiếm đang bay đi/về (out/back) thì để yên, không có gì để "bám" vào cả.
-      if(this.type==='catvader' && this._cvSaberState==='idle' && this._cvSaberX!=null){ this._cvSaberX+=(this.x-_preStunX); this._cvSaberY+=(this.y-_preStunY); }
       return;
     }
     // 😏 đang bị Troll Face NGẬM trong người → ghim cứng trong bụng nó, KHÔNG moveLogic và KHÔNG doAbility:
@@ -18932,6 +18931,7 @@ class Fighter {
   // ⚔️ CATVADER: kiếm đang bay ra/bay về (state 'out'/'back') là vật đã tách khỏi người, bay ĐỘC LẬP —
   // choáng/slip/confuse... là chuyện riêng của Catvader (không tự tung đòn mới được), kiếm vẫn phải bay tiếp/quay về bình thường
   _cvSaberFlightTick(){
+    if(this._cvSaberState==='idle' && this._cvSabOx!=null){ this._cvSaberX=this.x+this._cvSabOx; this._cvSaberY=this.y+this._cvSabOy; }   // kiếm trên tay luôn bám thân (cả lúc choáng, bị đẩy, thắng trận)
     if(this.type!=='catvader' || this.dead || !this._cvDrawn || this._cvIgniteT>0) return;
     if(this._cvSaberState==='out'){
       const _tg=this._cvSaberTarget;
@@ -19901,6 +19901,7 @@ class Fighter {
         this._cvMeleeLungeT=Math.max(0,(this._cvMeleeLungeT||0)-1);
         const _lungeP=this._cvMeleeLungeT/10;
         this._cvSaberX=_idleX+_bx*this.size*0.6*_lungeP; this._cvSaberY=_idleY+_by*this.size*0.6*_lungeP;
+        this._cvSabOx=this._cvSaberX-this.x; this._cvSabOy=this._cvSaberY-this.y;   // kiếm cầm tay = vị trí SO VỚI THÂN → choáng / bị đẩy / nhảy mừng thắng kiếm vẫn đi theo
         this._cvSaberAngle=Math.atan2(_by,_bx)+Math.sin(Date.now()/450)*0.35; // lơ lửng đung đưa nhẹ
         if((this._cvSwingT||0)>0){ const _p=1-(--this._cvSwingT)/12, _e=_p*_p*(3-2*_p); this._cvSaberAngle=Math.atan2(_by,_bx)+(this._cvSwingSide||1)*(1.35-2.7*_e); }   // vung 1 nhát rộng ~150°
         this._cvMeleeCD=Math.max(0,(this._cvMeleeCD||0)-1);
@@ -24180,7 +24181,8 @@ class Fighter {
     }
     // ⚔️ CATVADER: lightsaber bay lơ lửng — PLACEHOLDER tự vẽ (glow blade đỏ), chờ ảnh thật để thay vào chỗ này
     if(this.type==='catvader' && this._cvDrawn && this._cvSaberX!=null){
-      const _sbx=this._cvSaberX, _sby=this._cvSaberY, _sbA=this._cvSaberAngle||0, _L=s*1.6;
+      const _cvHeld=(this._cvSaberState==='idle'||this._cvSaberState===undefined) && this._cvSabOx!=null;   // đang cầm: vẽ theo đúng chỗ thân đang vẽ (gồm nhún, nghiêng, nhảy mừng)
+      const _sbx=_cvHeld?this.x+offX+this._cvSabOx:this._cvSaberX, _sby=_cvHeld?this.y+offY-_bounce+this._cvSabOy:this._cvSaberY, _sbA=this._cvSaberAngle||0, _L=s*1.6;
       _cvTrail(this,_sbx,_sby,_sbx+Math.cos(_sbA)*_L,_sby+Math.sin(_sbA)*_L,s);
       _cvBlade(_sbx,_sby,_sbA,_L,s*0.13);
     }
