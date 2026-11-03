@@ -193,7 +193,7 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
 ## 🧪 Anime Lab · Mewing Cat vs Depressed Cat (3/11/2026) — `js/film-mvd.js` (cine-kit, id `mvd`, 9:16, 28.5s)
 - Anh: fight 25–30s cực cháy, chuyển cảnh anime, tung chiêu liên tục, kết bằng 2 chiêu cuối hất 2 con lùi — NGANG TÀI NGANG SỨC. Chiêu bám game:
   Mewing (tư thế mewing → tượng Moai, dạng Gojo, HOLLOW PURPLE) vs Depressed (mây/mưa/sét, dạng Pain, SHINRA TENSEI, mưa đứng hình khi hoá Pain).
-- Ảnh: bán thân có sẵn cho 0–20s; 4 ảnh toàn thân anh vẽ ChatGPT (3/11, chân mèo thật) `assets/img/cine/MVD_*`: GOJO_BLAST (đệm chân 95.1%/40%), PAIN_PUSH (4.1%/34.5%), GOJO_KB, PAIN_KB
+- Ảnh: bán thân có sẵn cho 0–20s; 4 ảnh toàn thân anh vẽ ChatGPT (3/11, chân mèo thật) `assets/img/cine/MVD_*`: GOJO_BLAST (đệm chân 95.1%/40%), PAIN_PUSH (2 chân đẩy, đệm chân trước 3.9%/33.9%; ảnh 1 chân bị lỗi tư thế → anh vẽ lại), GOJO_KB, PAIN_KB
   → Hollow Purple sinh ở đệm chân Gojo, tường Shinra từ đệm chân Pain, hất văng dùng ảnh KB; đứng dậy cuối phim dùng ảnh thường (anh bỏ ảnh thở dốc: "vẫn nhẹ nhàng"). Lệnh vẽ luôn ghi rõ chân mèo thật, không tay người.
 - Khung dọc hẹp: hất văng chỉ tới ±170 (máy dist 740), cảnh kết 2 con tiến lại ±128 rồi quay chính diện.
 

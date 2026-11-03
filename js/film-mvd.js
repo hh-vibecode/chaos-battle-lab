@@ -134,7 +134,7 @@
           if(fly>0) K.smoke(F,{x:x-40,z:0,t0:T.s13,n:6,spread:30,rise:10,life:0.5,size:20,seed:120,a:0.35,tint:'150,90,220'}); } }
       // SHINRA TENSEI: vòng dồn lực co vào quanh Pain, rồi bức tường đẩy lao sang trái
       if(t>=T.s12 && t<T.s13){ for(let i=0;i<3;i++){ const ph=((t-T.s12)*1.6+i/3)%1; K.ring(F,d.x-40,0,300*(1-ph)+20,8,ph*0.8,'235,225,255'); } }
-      if(t>=T.s13 && t<T.hit+0.05){ const fly=ein(seg(t,T.s13,T.hit)), _dbc=K.prep(I.dB), _dbw=_dbc?H*1.15*_dbc.sw/_dbc.sh:100, xw=lerp(DX+(0.041-0.5)*_dbw-10,0,fly), P=K.proj(F.B,xw,H*1.15*0.655,0);
+      if(t>=T.s13 && t<T.hit+0.05){ const fly=ein(seg(t,T.s13,T.hit)), _dbc=K.prep(I.dB), _dbw=_dbc?H*1.15*_dbc.sw/_dbc.sh:100, xw=lerp(DX+(0.039-0.5)*_dbw-10,0,fly), P=K.proj(F.B,xw,H*1.15*0.661,0);
         if(P) F.list.push({d:P.d-40, fn:()=>{ const g=F.g, ry=150*P.s, rx=46*P.s; g.save(); g.globalCompositeOperation='lighter';
           const gr=g.createRadialGradient(P.x,P.y,0,P.x,P.y,ry); gr.addColorStop(0,'rgba(255,255,255,0)'); gr.addColorStop(0.7,'rgba(220,215,255,0.18)'); gr.addColorStop(0.92,'rgba(255,255,255,0.7)'); gr.addColorStop(1,'rgba(255,255,255,0)');
           g.translate(P.x,P.y); g.scale(rx/ry,1); g.translate(-P.x,-P.y); g.fillStyle=gr; g.beginPath(); g.arc(P.x,P.y,ry,0,Math.PI*2); g.fill(); g.restore(); }});
