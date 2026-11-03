@@ -28,6 +28,9 @@ Cảnh đánh nào cũng phải có đủ các mẹo dưới đây — đây là
 12. **Cắt dày, chiêu ra NHANH**: mỗi shot 0.25–1s ở đoạn cao trào; gồng chiêu ≤0.5s, cắt xen 2 bên (gồng A → gồng B → bắn A → bắn B → toàn cảnh va nhau); tránh vật bay chậm 2–3s.
 13. **CHIA KHUNG CHÉO** (`def.panels(t)` trong cine-kit: mỗi ô 1 máy riêng, `clip` đa giác tỉ lệ khung) cho 2 việc xảy ra cùng lúc:
     2 con biến hình đồng thời, 2 con bị hất văng mỗi con nửa khung (máy bám theo con đó) → rồi MỞ RA toàn cảnh rộng. Kẻ đường chéo trắng-đen ở `screen()`. Mẫu: `panels()` + `splitLine()` trong js/film-mvd.js.
+14. **Chưởng phải có lực + MÔI TRƯỜNG CHỊU ẢNH HƯỞNG** (anh dặn 3/11): ánh chưởng hắt màu xuống nền (`glow`), vết cháy xém tối tồn tại lâu (`scorch` — KHÔNG vẽ vết nứt đất),
+    tảng đá sàn bật tung (`slabs`), mưa bị sóng xung kích thổi bạt / bị đẩy ra (Shinra) (`BLASTS` trong screen), bụi + hạt sáng bị HÚT vào lúc gồng (`suck`),
+    mây bị vụ nổ cuối thổi tung, trời quang ra; chưởng to + có vệt đuôi; rung + sóng méo + loé ở cả lúc BẮN chứ không chỉ lúc trúng. Mẫu: js/film-mvd.js.
 
 ## Quy trình
 1. **Kịch bản → bảng phân cảnh** (gửi anh duyệt TRƯỚC khi code): mỗi shot 1 dòng — giây, cỡ cảnh + góc máy, hành động (có lý do), hiệu ứng, tiếng.
