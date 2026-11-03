@@ -603,10 +603,10 @@
     [T.split,'l2p_shatter',0.9],[T.split+6,'l2p_whoosh',0.5],[T.split+7.4,'l2p_chime',0.4],
     [T.light+0.5,'l2p_shimmer',0.45],[EYE_OPEN,'cine_drop',0.8],[EYE_HIT,'fr_titan_roar',0.7]].map(e=>[Math.max(0,e[0]-(ON[e[1]]||0)),e[1],e[2]]);
   // 🎙️ LỒNG TIẾNG (2/11/2026): MiniMax Audio, giọng "Dota Voice" của anh, speech-2.8-hd, đọc 1 lần cả 18 câu (<#2#> giữa các câu)
-  //   → assets/audio/vo/l2pro_narration.mp3 (119.3s). SEG = [đầu, cuối] từng câu trong file (dò quãng lặng ≥1s), VO_AT = giây phim bắt đầu đọc.
+  //   → assets/audio/vo/l2pro_narration.mp3 (119.3s, file gốc giữ lại để làm lại). SEG = [đầu, cuối] từng câu trong file đang dùng, VO_AT = giây phim bắt đầu đọc.
   //   Đổi lời / đọc lại: tạo lại file, dò lại SEG, sửa LINES cho khớp.
-  const VO_SRC='assets/audio/vo/l2pro_narration_125.mp3', VO_K=1.25;   // anh dặn 3/11: đọc nhanh hơn ×1.25 (atempo, giữ cao độ) — SEG vẫn ghi theo file gốc, chia VO_K khi dùng
-  const SEG=[[0.16,7.94],[10.42,15.46],[18.14,23.12],[25.78,31.88],[34.54,38.3],[40.98,47.26],[49.9,53.28],[55.98,58.46],[61.02,63.7],[66.32,68.52],[71.18,78.98],[81.68,83.28],[85.88,88.92],[91.54,96.72],[99.46,103.22],[105.8,107.9],[110.46,115.52],[118.2,119.26]];
+  const VO_SRC='assets/audio/vo/l2pro_narration_fast.wav', VO_K=1;   // anh dặn 3/11: giọng kéo dài TỪNG CHỮ → làm lại từ file gốc: cắt khoảng ngắt giữa câu (≥0.22s → 0.22s) + nén TỪNG CÂU bằng WSOLA (giữ cao độ) về tốc độ riêng 130–150 từ/phút, KHÔNG đều nhau: câu kịch tính ~130, câu kể ~140–150 (anh chốt); "Until now…" giữ nguyên
+  const SEG=[[0.3,4.902],[6.103,9.515],[10.715,15.143],[16.343,21.277],[22.477,24.735],[25.935,30.152],[31.352,34.362],[35.563,37.75],[38.95,41.365],[42.565,44.595],[45.795,51.343],[52.543,53.908],[55.108,57.33],[58.53,62.188],[63.388,66.345],[67.545,69.365],[70.565,74.082],[75.282,76.382]];   // vị trí từng câu trong l2pro_narration_fast.wav (ghép cách nhau 1.2s)
   const VO_AT=[...LINES.map(L=>L[0]), T.until+0.75];   // câu 18 "Until now…" đọc lúc chữ Until now bắt đầu hiện
   const VO=SEG.map(([a,b],i)=>({src:VO_SRC, ra:VO_AT[i], rb:VO_AT[i]+(b-a)/VO_K+0.12, off:Math.max(0,a/VO_K-0.05), vol:1, vo:true}));
   // 🎼 nhạc nền TỰ VIẾT cho phim (anh dặn 3/11: nhạc sử thi mới, không bản quyền) — dàn nhạc CC0 VSCO 2 CE, bám đúng mốc T · dựng bằng score.py (scratchpad) → assets/audio/l2pro_score.mp3

@@ -182,6 +182,8 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
   → tải MP3 (nút tải → MP3; Chrome có thể để tên `.tmp` trong Downloads — file vẫn đủ, kiểm đầu file `ID3`) → `assets/audio/vo/l2pro_narration.mp3`
   → dò quãng lặng ≥1s bằng WebAudio trong trình duyệt chạy thử → mảng `SEG`; mỗi câu là 1 mục `mus` có `off` = chỗ bắt đầu trong file (`VO`, `VO_AT` trong film-l2pro.js).
   Tiện ích Chrome chỉ nối khi đăng nhập claude.ai CÙNG tài khoản với Claude Code. Làm xong ĐÓNG tab đã mở (anh dặn).
+  Tốc độ (3/11): giọng Dota Voice kéo dài TỪNG CHỮ → file đang dùng `l2pro_narration_fast.wav` = file gốc cắt ngắt giữa câu + nén từng câu (WSOLA, giữ cao độ, làm trong trình duyệt)
+  về 130–150 từ/phút, mỗi câu 1 tốc độ (anh: "không đều trong khoảng 130–150 là hợp lý"). Lần sau tạo giọng mới: chỉnh Speed ~1.3 ngay trên MiniMax cho tự nhiên hơn.
   Giọng TTS hay lỗi đọc → anh nhắc "nghe chuẩn ngữ pháp": Claude không tự nghe được, phải nhờ anh nghe lại bản đọc.
 
 ## 🔊 Luật sound (anh dặn)
