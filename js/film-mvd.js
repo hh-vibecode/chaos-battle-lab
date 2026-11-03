@@ -27,7 +27,7 @@
     {t0:T.s7,  t1:T.s8, a:{tx:-110,ty:30,tz:0,dist:720,yaw:-28,pitch:58,fov:46}, b:{tx:-140,ty:30,tz:0,dist:660,yaw:-12,pitch:54,fov:46}},
     {t0:T.s8,  t1:T.s9, a:{tx:MX,ty:85,tz:0,dist:240,yaw:20,pitch:-10,roll:6,fov:46}, b:{tx:MX,ty:90,tz:0,dist:195,yaw:14,pitch:-12,roll:8,fov:46}, ease:'eout'},
     {t0:T.s9,  t1:T.s10,a:{tx:DX,ty:85,tz:0,dist:250,yaw:-20,pitch:-6,roll:-5,fov:46}, b:{tx:DX,ty:88,tz:0,dist:205,yaw:-14,pitch:-8,roll:-7,fov:46}, ease:'eout'},
-    {t0:T.s10, t1:T.s11,a:{tx:0,ty:70,tz:0,dist:560,yaw:0,pitch:8,fov:48}, b:{tx:0,ty:70,tz:0,dist:690,yaw:6,pitch:10,fov:48}},
+    {t0:T.s10, t1:T.s11,a:{tx:0,ty:70,tz:0,dist:900,yaw:0,pitch:8,fov:48}, b:{tx:0,ty:70,tz:0,dist:680,yaw:6,pitch:9,fov:48}},
     {t0:T.s11, t1:T.s12,a:{tx:MX+45,ty:72,tz:0,dist:330,yaw:20,pitch:4,roll:4,fov:46}, b:{tx:MX+45,ty:74,tz:0,dist:305,yaw:26,pitch:4,roll:5,fov:46}},
     {t0:T.s12, t1:T.s13,a:{tx:DX-40,ty:72,tz:0,dist:320,yaw:-20,pitch:4,roll:-4,fov:46}, b:{tx:DX-40,ty:74,tz:0,dist:295,yaw:-26,pitch:4,roll:-5,fov:46}},
     {t0:T.s13, t1:T.s14,a:{tx:0,ty:70,tz:0,dist:840,yaw:0,pitch:6,fov:50}, b:{tx:0,ty:70,tz:0,dist:810,yaw:0,pitch:6,fov:50}},
@@ -36,7 +36,14 @@
   ];
   const faceFlip=(F,x,ox)=>{ const a=K.proj(F.B,x,0,0), b=K.proj(F.B,ox,0,0); return a&&b ? b.x>a.x : x<ox; };
   // ── vị trí 2 con theo thời gian ──
-  const KB0=T.hit+0.08, KB1=T.hit+1.4;   // bị hất văng: bay ra mép sân rồi trượt dừng
+  const KB0=T.hit+0.16, KB1=T.hit+1.4;
+  // ⏸️ HIT-STOP: trúng đòn là nhân vật + tượng ĐỨNG HÌNH vài khung (hiệu ứng, máy, rung vẫn chạy) → đòn có lực
+  const HSTOP=[[9.2,0.1],[17.6,0.1],[18.8,0.13],[T.hit,0.16]];
+  const hs=t=>{ for(const [a,d] of HSTOP) if(t>=a && t<a+d) return a; return t; };
+  const backOut=k=>{ const c=1.9, u=k-1; return 1+(c+1)*u*u*u+c*u*u; };   // vượt quá đích rồi lùi về (đà sau đòn)
+  // lao vào: 35% đầu LÙI LẤY ĐÀ 18 đơn vị, 65% sau bung ra rất nhanh
+  const dash=(tq,a,b,x0,x1)=>{ const k=seg(tq,a,b), dir=Math.sign(x1-x0); if(k<0.35) return {x:x0-dir*18*eout(k/0.35), fast:false};
+    return {x:lerp(x0-dir*18,x1,ein((k-0.35)/0.65)), fast:k>0.45}; };   // bị hất văng: bay ra mép sân rồi trượt dừng
   function mew(t){ const tq=K.twos(t); let x=MX, z=0, y=0, lean=0, sm=null, im='mN';
     if(t>=T.s3 && t<T.s5) im=['mS1','mS2','mS3'][Math.min(2,Math.floor((t-T.s3)/0.85))];
     else if(t>=T.s5 && t<T.s8) im=(Math.floor(t*2.5)%3===0)?'mS2':'mN';
@@ -45,7 +52,7 @@
     if(t>=T.s8+0.6) im='mG';
     if(t>=T.s11 && t<KB0) im='mB'; if(t>=KB0 && t<KB1+0.6) im='mK';
     if(t>=T.s10 && t<T.s11){ const C=[[17.2,17.6,MX,-55],[17.6,18.1,-55,-165],[18.4,18.8,-165,-55],[19.4,20,-55,MX]];
-      for(const [a,b,x0,x1] of C) if(t>=a && t<b){ const k=(x1>x0?ein:eout)(seg(tq,a,b)); x=lerp(x0,x1,k); if(x1>x0) sm={dx:600,dy:0,dz:0,n:6}; }
+      for(const [a,b,x0,x1] of C) if(t>=a && t<b){ if(x1>x0){ const D=dash(tq,a,b,x0,x1); x=D.x; if(D.fast) sm={dx:700,dy:0,dz:0,n:6}; } else x=lerp(x0,x1,backOut(seg(tq,a,b))); }
       if(t>=17.6 && t<17.62) x=-55; if(t>=18.8 && t<19.4) x=-55+Math.sin(t*60)*3; }
     if(t>=KB0){ const k=eout(seg(tq,KB0,KB1)); x=lerp(MX+50,-170,k); lean=t<KB1+0.6?0:-12*(1-seg(t,T.s15+0.2,T.s15+1.0)); if(t<KB1) y=26*Math.sin(Math.PI*Math.min(1,seg(t,KB0,KB1)*1.15)); if(k<0.9) sm={dx:-500,dy:0,dz:0,n:6}; if(t>=T.s15) x=lerp(-170,-128,eout(seg(tq,T.s15,T.s15+1.1))); }   // đứng dậy, tiến lại đối mặt
     return {x,z,y,lean,sm,im}; }
@@ -54,12 +61,12 @@
     if(t>=T.s9+0.6) im='dP';
     if(t>=T.s12-0.25 && t<KB0) im='dB'; if(t>=KB0 && t<KB1+0.6) im='dK';
     if(t>=T.s10 && t<T.s11){ const C=[[17.2,17.6,DX,55],[17.6,18.1,55,165],[18.4,18.8,165,55],[19.4,20,55,DX]];
-      for(const [a,b,x0,x1] of C) if(t>=a && t<b){ const k=(x1<x0?ein:eout)(seg(tq,a,b)); x=lerp(x0,x1,k); if(x1<x0) sm={dx:-600,dy:0,dz:0,n:6}; }
+      for(const [a,b,x0,x1] of C) if(t>=a && t<b){ if(x1<x0){ const D=dash(tq,a,b,x0,x1); x=D.x; if(D.fast) sm={dx:-700,dy:0,dz:0,n:6}; } else x=lerp(x0,x1,backOut(seg(tq,a,b))); }
       if(t>=18.8 && t<19.4) x=55-Math.sin(t*60)*3; }
     if(t>=KB0){ const k=eout(seg(tq,KB0,KB1)); x=lerp(DX-50,170,k); lean=t<KB1+0.6?0:12*(1-seg(t,T.s15+0.3,T.s15+1.1)); if(t<KB1) y=26*Math.sin(Math.PI*Math.min(1,seg(t,KB0,KB1)*1.15)); if(k<0.9) sm={dx:500,dy:0,dz:0,n:6}; if(t>=T.s15) x=lerp(170,128,eout(seg(tq,T.s15+0.1,T.s15+1.2))); }
     return {x,z,y,lean,sm,im}; }
   // vị trí tượng
-  function statue(S,t){ const u=t-S.t0; if(u<0 || t>=S.end+0.02) return null; const fly=S.hit?0.85:2.6, k=eio(seg(t,S.t0,S.t0+fly));
+  function statue(S,t){ t=hs(t); const u=t-S.t0; if(u<0 || t>=S.end+0.02) return null; const fly=S.hit?0.85:2.6, k0=seg(t,S.t0,S.t0+fly), k=S.hit?(k0<0.3?-0.06*eout(k0/0.3):-0.06+1.06*ein((k0-0.3)/0.7)):eio(k0);
     return {x:lerp(MX+40,DX-55,k)-(S.hit?0:lerp(0,95,k)), z:S.z*(1-(S.hit?k:0)), y:30+18*Math.sin(u*3)+(1-seg(u,0,0.35))*-30, k}; }
   // cầu năng lượng (cộng sáng)
   function orb(F,x,y,z,r,col,a){ if(a<=0.01) return; const P=K.proj(F.B,x,y,z); if(!P) return; const R=r*P.s;
@@ -93,7 +100,7 @@
     shake:t=>{ let s=0; const h=(a,amp,d)=>{ if(t>=a&&t<a+d) s=Math.max(s,amp*(1-(t-a)/d)); };
       h(6.6,7,0.4); h(7.3,7,0.4); h(9.2,12,0.5); for(const b of [10.6,11.4,12.2]) h(b,5,0.3); h(17.6,10,0.4); h(18.8,12,0.5); h(T.hit,22,0.9); h(KB1,6,0.4);
       if(t>=18.8&&t<19.4) s=Math.max(s,2.5); if(t>=T.s11&&t<T.hit) s=Math.max(s,1.2+2.5*seg(t,T.s11,T.hit)); if(t>=T.s9+0.6&&t<T.s10) s=Math.max(s,1.5); return s; },
-    world(F,t){ const I=F.I, m=mew(t), d=dep(t);
+    world(F,t){ const I=F.I, m=mew(hs(t)), d=dep(hs(t));
       const HT={mG:H*1.18,dP:H*1.12,mB:H*1.15,dB:H*1.15,mK:H*0.95,dK:H*0.95}, mh=HT[m.im]||H, dh=HT[d.im]||H;
       const mAura=(t>=T.s8+0.45)?{preset:'ki',k:t<T.s8+0.9?seg(t,T.s8+0.45,T.s8+0.9):(t>=T.s11&&t<T.hit?1:0.7),seed:3}:null;
       const dAura=(t>=T.s9+0.45)?{preset:'cursed',k:t<T.s9+0.9?seg(t,T.s9+0.45,T.s9+0.9):(t>=T.s12&&t<T.hit?1:0.7),seed:9}:null;

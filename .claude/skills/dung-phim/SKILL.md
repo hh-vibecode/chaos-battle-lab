@@ -9,6 +9,22 @@ description: Quy trình DỰNG PHIM anime / cảnh combat cho Meme Cinema bằng
 bộ nhớ: mỗi nhịp 1 hành động có lý do, không VFX nứt đất, mỗi nhịp 1 tiếng, skill của meme phải giống trong game.
 Mẫu đầy đủ: `js/film-dvc.js` (Buff Doge vs Samurai Cheems, ~7.6s) — copy file này rồi sửa.
 
+## ⚔️ MẸO CẢNH COMBAT (học từ phim người que đánh nhau — Animator vs Animation, Xiao Xiao; anh dặn 3/11/2026 ÁP CHO MỌI CẢNH ĐÁNH)
+Cảnh đánh nào cũng phải có đủ các mẹo dưới đây — đây là thứ làm đòn "có lực", thiếu là trông đều đều, nhạt:
+1. **Lấy đà (anticipation)**: trước mỗi cú lao/đấm, LÙI ngược hướng 2–4 khung (~0.1–0.15s) rồi mới bung ra. Mẫu: hàm `dash()` trong `js/film-mvd.js`
+   (35% đầu lùi 18 đơn vị, 65% sau `ein` lao tới).
+2. **Khung nhoè (smear)**: chỉ bật `smear` ở đoạn NHANH NHẤT của cú lao (1–3 khung), không nhoè suốt.
+3. **Khựng khi trúng đòn (hit-stop)** — quan trọng nhất: đúng khung chạm, NHÂN VẬT + vật thể ĐỨNG HÌNH 0.1–0.16s, còn hiệu ứng / máy quay / rung vẫn chạy;
+   kèm khung impact (`impact()` 'inv'/'bw'/'red'), loé trắng, rung, sóng méo. Mẫu: mảng `HSTOP` + hàm `hs(t)` trong film-mvd.js, gọi `mew(hs(t))`.
+4. **Đà sau đòn (follow-through)**: đánh xong / bị đẩy lùi thì VƯỢT quá điểm dừng rồi mới về (`backOut`), không dừng phắt.
+5. **Nhịp không đều**: chậm → chậm → cực nhanh → khựng. Không để mọi động tác cùng tốc độ.
+6. **Biên đạo rõ**: mỗi pha có tấn công → đỡ/né → phản đòn; 2 bên luân phiên chiếm ưu thế (trận ngang sức thì cuối cùng hoà).
+7. **Hiệu ứng ít mà đúng chỗ**: vệt, bụi, tia lửa, chữ tượng thanh ĐÚNG khung chạm; máy lia theo đòn, zoom nhẹ lúc trúng.
+8. **Tiếng khớp từng khung**: vút lúc vung (đầu đoạn nhanh), bốp đúng khung chạm, không lệch.
+9. **Tư thế = ảnh riêng (cách 1, anh chốt)**: mỗi nhân vật cần bộ ảnh THỦ THẾ / LẤY ĐÀ / RA ĐÒN / TRÚNG ĐÒN / NÉ (anh vẽ ChatGPT), đổi ảnh theo nhịp đòn
+   — mẫu lệnh 10 tư thế ở cuối file này. Lệnh vẽ LUÔN ghi "real cat anatomy, round cat paws with paw pads, no human hands/fingers" + hướng mặt cố định (con trái nhìn PHẢI, con phải nhìn TRÁI).
+10. **Khung dọc 9:16 hẹp**: 2 nhân vật cách nhau ~400 đơn vị thì máy cần dist ≳ 900 mới lọt cả 2 — soi khung trước khi báo xong.
+
 ## Quy trình
 1. **Kịch bản → bảng phân cảnh** (gửi anh duyệt TRƯỚC khi code): mỗi shot 1 dòng — giây, cỡ cảnh + góc máy, hành động (có lý do), hiệu ứng, tiếng.
    Anh gửi video mẫu → chạy skill `xem-video` trước, bám nhịp cắt + góc máy của mẫu.
@@ -42,3 +58,12 @@ Plain solid green background (#00FF00), no shadow on the background, no text, ch
 ```
 - 1 tư thế / 1 ảnh (hoặc nhiều tư thế cách xa nhau trên 1 tấm nền xanh — `tach-nen-anh` tự tách).
 - Cùng 1 phim: nhắc lại đúng câu tả phong cách ở mọi lệnh để nét vẽ đồng nhất; gửi kèm ảnh khung trước cho ChatGPT làm mẫu.
+
+## Mẫu lệnh ChatGPT bộ 5 tư thế đánh tay đôi (mỗi nhân vật)
+Gửi kèm ảnh toàn thân sẵn có của nhân vật làm mẫu; ảnh đầu ổn thì gửi kèm ảnh đó ở các lệnh sau.
+Đoạn chung dán CUỐI mọi lệnh: "IMPORTANT: it is a real cat with real CAT ANATOMY: four cat legs, round cat paws with paw pads, no human hands, no fingers, no human arms or legs, no human body. Keep exactly the same character, the same realistic photo look and the same dramatic anime-style rim lighting as the reference image. No energy effects, no smoke, no motion lines, no particles. Plain solid green background (#00FF00), no shadow on the background, no text, the whole cat fully visible, not cut off at the edges."
+- THỦ THẾ: "full body, side view facing RIGHT/LEFT, in a calm fighting guard stance: low and balanced, both front paws raised loosely in front of its chest, ready."
+- LẤY ĐÀ: "winding up for a strike: body coiled and twisted backward, weight on the back leg, one front paw pulled far back, the other paw forward to aim."
+- RA ĐÒN: "in the middle of a powerful lunging paw strike: body stretched forward, back leg fully extended pushing off, one front paw thrust straight forward with claws out."
+- TRÚNG ĐÒN: "just after being hit hard in the face: head snapped back, body bending backward, front paws flung up, one hind leg lifted off the ground."
+- NÉ: "dodging an attack: ducking very low and leaning sideways, body almost flat to the ground, front paws touching the floor."
