@@ -795,7 +795,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     poordog: { key:'poordog', defaultName:'Poor Dog', emoji:'🥣', color:'#c8a165', hp:1000, speed:5, size:39.6, skill:'' },
     ninjacat: { key:'ninjacat', defaultName:'Ninja Cat', emoji:'🥷', color:'#546e7a', hp:1000, speed:5, size:45, skill:'' },
     saiyanmarmot: { key:'saiyanmarmot', defaultName:'Scream Marmot - The Last Saiyan', emoji:'🦫', color:'#ffca28', hp:1000, speed:5, size:40.5, skill:'Cận chiến ĐẨY: chạm địch là xô văng ra như mấy con marmot xô nhau (45 dame). Cứ đi 2s lại đứng gồng 1.5s; lần gồng thứ 3 hét AAAH dài 3s rồi hoá SUPER SAIYAN tới hết trận. Super Saiyan: mỗi lần chạm để đẩy thì khựng 0.5s rồi bắn địch thẳng vào tường cực nhanh, ghim vào tường (160 dame), tường chỗ đó nứt vỡ, rơi mảnh còn lại mép lởm chởm. Lỗ tường vỡ đủ to mà địch bị bắn trúng đúng chỗ đó → văng ra khỏi sàn, thua luôn.' },
-    breadcat: { key:'breadcat', defaultName:'Bread Cat - The Infinity Cosmic Power', emoji:'🍞', color:'#e0a96d', hp:1000, speed:5, size:44, skill:'KHÔNG có đòn đánh thường. Mỗi 3s 1 lát bánh mì bơ từ thiên đường rơi xuống 1 điểm bất kì trên sàn. Mèo đi tới nhặt: +100 máu rồi bắt đầu BREAD PARADOX: xoay 3D ngày càng khủng bố trong 4s (dính 3 đòn là gãy, phải đi nhặt lát khác). Xoay đủ 4s → BIG BANG xoá sổ mọi địch (cả quân triệu hồi), cả màn trắng tinh, chỉ còn mèo ổ bánh mì với máu vô hạn.' },
+    breadcat: { key:'breadcat', defaultName:'Bread Cat - The Infinity Cosmic Power', emoji:'🍞', color:'#e0a96d', hp:1000, speed:5, size:44, skill:'KHÔNG có đòn đánh thường. Mỗi 3s 1 lát bánh mì bơ từ thiên đường rơi xuống 1 điểm bất kì trên sàn. Mèo đi tới nhặt: +100 máu rồi bắt đầu BREAD PARADOX: xoay 3D ngày càng khủng bố trong 5s (dính 3 đòn là gãy, phải đi nhặt lát khác). Xoay đủ 5s → sét xé sân thành 5 tảng lớn, vỡ vụn, mảnh vụn và mọi địch bị cuốn vào tâm xoáy → BIG BANG xoá sổ mọi địch (cả quân triệu hồi), cả màn trắng tinh, chỉ còn mèo ổ bánh mì với máu vô hạn.' },
     azel: { key:'azel', defaultName:'Azel', emoji:'🎧', color:'#26c6da', hp:1000, speed:4, size:46, skill:'Không đánh thường. Phát NGUYÊN clip beatbox dubstep của Azel (hình + tiếng, khớp nhịp, tốc ×1.15). Mỗi nhịp của bài = 1 đòn: đoạn build-up lưỡi sóng neon chém (14), đoạn đếm ngón tay: giơ ngón nào thì số đó (1→5) bật ra từ bàn tay bay tới địch (14), đoạn vung tay sóng WUB xuyên địch (14); nhịp bass mạnh = sóng chấn động quanh người 32 + hất văng. Trúng cả quân triệu hồi.' },
     duolingo: { key:'duolingo', defaultName:'Duolingo', emoji:'🦉', color:'#58cc02', hp:1000, speed:5, size:44, skill:'Bắn câu chào nhiều thứ tiếng, mỗi tiếng 1 kiểu bay (¡Hola! thẳng 35 · Bonjour~ lượn sóng 35 · こんにちは tách 3 chữ 15/chữ · HALLO! to chậm 50 + đẩy lùi · Привет nảy tường 30). Đồng hồ học muộn 23s: 23→12s dạng thường, 12→0s khoanh tay (bắn nhanh ×1.5, 2 tiếng/lần), mỗi lần trúng đồng hồ tụt 0.3s, hết giờ mà chưa thắng → dạng tối thượng LAST CHANCE tới hết trận: laser mắt quét 120/s, 3s/lần laser lớn 200, bắn 5 tiếng cùng lúc. Mỗi 4s rơi 1 Streak Freeze (tối đa 1 khối trên sàn, Duo không phá được): địch nhặt được thì đồng hồ dừng + Duo bị nhốt trong khối băng 2s.' },
     slapcat: { key:'slapcat', defaultName:'Slap Cat', emoji:'🐈', color:'#7c4dff', hp:1000, speed:5, size:44, skill:'Vừa chạy vừa tích lực, cứ 2s lại đứng khựng lại VẢ một phát. Cú vả mở 2 cổng không gian: một cổng ngay cạnh Slap Cat và một cổng SAU LƯNG đối thủ — tay thò qua cổng vả trúng địch dù nó đứng bất kỳ đâu trên sàn. Sát thương gốc 120, ĐỨNG CÀNG XA ĐÁNH CÀNG ĐAU (xa tối đa +100%). 30% tỉ lệ gây choáng.' },
@@ -10766,8 +10766,10 @@ let mmFly=[], mmWall=[], mmFx=[];
 //   → trắng tinh, chỉ còn ảnh DUNG HỢP ổ bánh mì (BC_LOAF) máu ∞.
 const BC_FR=['BC_IDLE','BC_BUTTER','BC_LOAF'].map(n=>{ const im=new Image(); im._noMask=true;
   im.onload=()=>{ im._crop={sx:0,sy:0,sw:im.naturalWidth,sh:im.naturalHeight}; }; im.onerror=()=>{ im._missing=true; }; im.src='assets/img/breadcat/'+n+'.png'; return im; });
-const BC_HEAL=100, BC_DROP_T=180, BC_FIRST=60, BC_FALL_T=240, BC_MAX_TOASTS=4, BC_SPIN_T=216, BC_SING_T=24, BC_BREAK_HITS=3, BC_JAM_T=30, BC_DARK_T=90;
+const BC_HEAL=100, BC_DROP_T=180, BC_FIRST=60, BC_FALL_T=240, BC_MAX_TOASTS=4, BC_SPIN_T=300, BC_RIFT_T=264, BC_SING_T=24, BC_BREAK_HITS=3, BC_JAM_T=30, BC_DARK_T=90;
 let bcToasts=[], bcFx=[], bcDark=0, bcPx=null, bcBangT=null;   // bcBangT = tick nổ Big Bang → sau đó trắng xoá, chỉ còn ổ bánh mì   // bcPx = nghịch lý đang diễn → cả sân dừng lại · bcDark = độ tối của sân (sau Big Bang giữ tối tới hết trận)
+// 🌀 BC_SPIN_T = 5s xoay THẬT (60 tick/s — trước 216 tick = 3.6s, anh thấy ngắn) · BC_RIFT_T ≈ 4.4s XÉ SÂN (anh dặn 3/11): sét → sân nứt 5 tảng lớn → vỡ vụn → mảnh vụn + meme địch bị cuốn vào tâm xoáy → co về 1 điểm (BC_SING_T) → Big Bang
+const BC_BANG_AT=BC_SPIN_T+BC_RIFT_T+BC_SING_T;
 const _bcH=(a,b)=>{ const v=Math.sin(a*127.1+b*311.7)*43758.5453; return v-Math.floor(v); };   // băm cho hiệu ứng vẽ (không đụng chuỗi random của trận)
 const _bcR=f=>f.size*0.55;   // bán kính lát bánh
 const _bcLift=f=>{ const B=f._bc; return B&&B.px ? Math.min(1,B.t/40)*f.size*0.9 : 0; };
@@ -10782,7 +10784,7 @@ function _bcTick(f){
   if(B.fused) return;
   for(const T of bcToasts) if(T.f===f && !T.st){ T.t++; T.ph+=0.055; if(T.t>BC_FALL_T-50){ const tg=0.75+Math.PI*2*Math.round((T.ph-0.75)/(Math.PI*2)); T.ph+=(tg-T.ph)*0.14; T.rot*=0.97; }   /* gần chạm sàn: lật dần về nằm phẳng, không giật */ if(T.t>=BC_FALL_T){ T.st=1; T.t=0; T.ph=0.75; T.lt=tick; bcFx.push({k:'pop',x:T.x,y:T.y,t:0,T:22}); playSample('hit_light',0.4); } }
   if(f.dead) return;
-  if(--B.cd<=0){ B.cd=BC_DROP_T; _bcDrop(f); }
+  if(--B.cd<=0 && !(B.px && B.t>=BC_SPIN_T)){ B.cd=BC_DROP_T; _bcDrop(f); }   // đang xé sân thì không rơi lát mới
   if(B.jam>0){ B.jam--;   // ⚙️ khựng 0.5s như máy hỏng: giật giật tại chỗ, phụt khói + tia lửa, hết thì đi tiếp bình thường
     if(!f._mmHeld){ f.x=B.jx+(B.jam>0?(tick%4<2?1.8:-1.8)*(0.4+0.6*B.jam/BC_JAM_T):0); f.y=B.jy; f.vx=f.vy=0; }
     if(B.jam%3===0) for(let i=0;i<2;i++){ const q=tick+i*7; bcFx.push({k:'smoke',x:f.x+(_bcH(q,1)-0.5)*f.size*1.2,y:f.y-f.size*(0.2+0.5*_bcH(q,2)),vx:(_bcH(q,3)-0.5)*0.7,vy:-0.7-0.9*_bcH(q,4),r:f.size*(0.3+0.25*_bcH(q,5)),sd:q,t:0,T:44+Math.floor(26*_bcH(q,6))}); }
@@ -10797,6 +10799,74 @@ function _bcTick(f){
 function _bcParadox(f){ const B=f._bc; B.px=1; B.t=0; B.hits=0; B.x0=f.x; B.y0=f.y; bcPx={f}; f.vx=f.vy=0;
   playSample('ep3_charge',1.0); addShake(6,10);
   floatTexts.push({x:f.x,y:f.y-f.size-34,text:'BREAD PARADOX',color:'#ffd54f',life:120,huge:true}); }
+// ⚡🌀 XÉ SÂN sau khi xoay đủ 5s (rt = tick trong pha xé sân, 0..BC_RIFT_T)
+function _bcConvexClip(P,Q){ let out=P; for(let i=0;i<Q.length;i++){ const a=Q[i], b=Q[(i+1)%Q.length], inn=p=>(b[0]-a[0])*(p[1]-a[1])-(b[1]-a[1])*(p[0]-a[0])>=0, inp=out; out=[];
+    for(let j=0;j<inp.length;j++){ const p=inp[j], q=inp[(j+1)%inp.length], pi=inn(p), qi=inn(q);
+      if(pi) out.push(p); if(pi!==qi){ const dx=q[0]-p[0], dy=q[1]-p[1], ex=b[0]-a[0], ey=b[1]-a[1], d=dx*ey-dy*ex; if(Math.abs(d)>1e-9){ const t=((a[0]-p[0])*ey-(a[1]-p[1])*ex)/d; out.push([p[0]+dx*t,p[1]+dy*t]); } } }
+    if(out.length<3) return []; } return out; }
+const _bcCW=P=>{ let a=0; for(let i=0;i<P.length;i++){ const p=P[i], q=P[(i+1)%P.length]; a+=p[0]*q[1]-q[0]*p[1]; } return a<0 ? P.slice().reverse() : P; };
+function _bcRiftInit(f,B){ const cx=f.x, cy=f.y-_bcLift(f), R={cx,cy,slabs:[],pieces:[],foes:null,snap:null,M:null};
+  if(window.d3 && d3.Delaunay){ const S=[]; for(let i=0;i<5;i++){ const a=i/5*Math.PI*2+_bcH(i,401)*0.8, r=Math.min(W,H)*(0.28+0.18*_bcH(i,402)); S.push([cx+Math.cos(a)*r,cy+Math.sin(a)*r]); }
+    const vor=d3.Delaunay.from(S).voronoi([0,0,W,H]);
+    for(let i=0;i<5;i++){ const P=_bcCW(vor.cellPolygon(i).slice(0,-1)); const c=P.reduce((s,p)=>[s[0]+p[0]/P.length,s[1]+p[1]/P.length],[0,0]); R.slabs.push({P,c,a:Math.atan2(c[1]-cy,c[0]-cx)});
+      const xs=P.map(p=>p[0]), ys=P.map(p=>p[1]), x0=Math.min(...xs), x1=Math.max(...xs), y0=Math.min(...ys), y1=Math.max(...ys), sd=[];   // tảng lớn → vỡ thành ~6 mảnh
+      for(let k=0;k<7;k++) sd.push([x0+(x1-x0)*_bcH(i*13+k,403), y0+(y1-y0)*_bcH(i*13+k,404)]);
+      const v2=d3.Delaunay.from(sd).voronoi([x0-1,y0-1,x1+1,y1+1]);
+      for(let k=0;k<sd.length;k++){ const cell=v2.cellPolygon(k); if(!cell) continue; const Q=_bcConvexClip(_bcCW(cell.slice(0,-1)),P); if(Q.length<3) continue;
+        const qc=Q.reduce((s,p)=>[s[0]+p[0]/Q.length,s[1]+p[1]/Q.length],[0,0]), d=Math.hypot(qc[0]-cx,qc[1]-cy);
+        R.pieces.push({Q,c:qc,slab:i,a0:Math.atan2(qc[1]-cy,qc[0]-cx),r0:d,dl:Math.round(d/Math.max(W,H)*40+_bcH(i*13+k,405)*14),vr:(_bcH(i*13+k,406)-0.5)*0.12}); } } }
+  B.rift=R; }
+function _bcRiftTick(f,B,rt){
+  if(rt===0){ _bcRiftInit(f,B); playSample('bc_zap',1.0); addShake(14,20); }
+  const R=B.rift; if(!R) return;
+  if(rt===12) playSample('l2p_rumble',0.8);
+  if(rt===40){ playSample('l2p_crack',1.0); addShake(18,16); for(const q of bcToasts.filter(q=>q.f===f)) bcFx.push({k:'crumbs',x:q.x,y:q.y,t:0,T:34,s:tick}); bcToasts=bcToasts.filter(q=>q.f!==f); }   // sân nứt: lát bánh trên sàn vụn tan
+  if(rt>=46 && rt<=96 && rt%5===1){ const k=(rt-46)/5|0, side=['t','l','r'][k%3], i=(k*7)%GC_EDGE_N; f._gcFloorT=tick; _gcEdgeBreak(side,i,f); }   // viền sân gãy dần (không kèm nứt sàn riêng)
+  if(rt===100){ playSample('l2p_shatter',0.9); addShake(14,14); }
+  if(rt===110) playSample('l2p_riser',0.8);
+  if(rt===130){ playSample('blackhole',0.95);
+    R.foes=[...fighters.filter(u=>u!==f && !u.dead && u.team!==f.team), ..._summonFoes(f.team)].map(u=>({u,a0:Math.atan2(u.y-R.cy,u.x-R.cx),r0:Math.hypot(u.x-R.cx,u.y-R.cy),dl:Math.round(_bcH(u.x,u.y)*20)}));
+    R.items=[bananaPeels,pdPeels].flatMap(A=>A.map(o=>({A,o,a0:Math.atan2(o.y-R.cy,o.x-R.cx),r0:Math.hypot(o.x-R.cx,o.y-R.cy),dl:Math.round(_bcH(o.x,o.y)*25)}))); }   // đồ vật địch để lại trên sân (vỏ chuối…) cũng bị cuốn vào
+  if(R.foes) for(const q of R.foes){ const u=q.u; if(!u || u.dead) continue; const s=Math.min(1,Math.max(0,(rt-130-q.dl)/100)), e=s*s*(3-2*s);   // meme địch bị cuốn xoáy vào tâm
+    const r=q.r0*Math.pow(1-e,1.3), a=q.a0+e*Math.PI*2.6; u.x=R.cx+Math.cos(a)*r; u.y=R.cy+Math.sin(a)*r; u.vx=u.vy=0; u.stun=Math.max(u.stun||0,4); u._bcSuckK=e; if(e>=0.97) u._bcGone=true; }
+  if(R.items) for(const q of R.items){ const o=q.o; if(q.A.indexOf(o)<0) continue; const s=Math.min(1,Math.max(0,(rt-130-q.dl)/90)), e=s*s*(3-2*s), r=q.r0*Math.pow(1-e,1.3), a=q.a0+e*Math.PI*2.6;
+    o.x=R.cx+Math.cos(a)*r; o.y=R.cy+Math.sin(a)*r; if(e>=0.95) q.A.splice(q.A.indexOf(o),1); }
+  if(rt>40 && rt%5===0) addShake(3+6*Math.min(1,rt/150),6);
+}
+const _bcPieceS=(R,p,rt)=>{ const s=Math.min(1,Math.max(0,(rt-130-p.dl)/95)); return s*s*(3-2*s); };
+// dưới meme: vũ trụ lộ ra + vòng xoáy + các tảng / mảnh sân đang bị cuốn vào
+function _bcRiftUnder(f,B){ const R=B.rift; if(!R) return; const rt=B.t-BC_SPIN_T;
+  if(!R.snap){ const c=document.createElement('canvas'); c.width=ctx.canvas.width; c.height=ctx.canvas.height; c.getContext('2d').drawImage(ctx.canvas,0,0); R.snap=c; R.M=ctx.getTransform(); R.Mi=R.M.inverse(); }   // chụp đúng mặt sân lúc bắt đầu xé
+  if(rt<40) return;
+  _skyRepaint(()=>{ ctx.beginPath(); ctx.rect(-W,-H,W*3,H*3); });   // bên dưới sân là vũ trụ
+  const vg=Math.min(1,Math.max(0,(rt-60)/120)), coll=Math.min(1,Math.max(0,(rt-236)/28));   // 🌀 vòng xoáy (vẽ bằng code, KHÔNG dùng twist — twist là của Kamui)
+  if(vg>0){ const cx=R.cx, cy=R.cy, Rm=Math.max(W,H)*(0.18+0.42*vg)*(1-0.85*coll); ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round';
+    for(let arm=0;arm<3;arm++){ const ph=arm/3*Math.PI*2-tick*0.11; ctx.beginPath();
+      for(let j=0;j<=40;j++){ const u=j/40, r=Rm*Math.pow(1-u,1.4)+4, a=ph+u*Math.PI*2.3; j?ctx.lineTo(cx+Math.cos(a)*r,cy+Math.sin(a)*r*0.8):ctx.moveTo(cx+Math.cos(a)*r,cy+Math.sin(a)*r*0.8); }
+      const g=ctx.createRadialGradient(cx,cy,0,cx,cy,Rm); g.addColorStop(0,'rgba(255,240,200,0.9)'); g.addColorStop(0.35,'rgba(255,190,90,0.55)'); g.addColorStop(0.75,'rgba(170,90,255,0.3)'); g.addColorStop(1,'rgba(120,60,255,0)');
+      ctx.strokeStyle=g; ctx.globalAlpha=vg; ctx.lineWidth=3+5*vg; ctx.stroke(); ctx.lineWidth=1.2; ctx.strokeStyle='rgba(255,255,255,0.5)'; ctx.stroke(); }
+    ctx.restore(); ctx.save(); const cr=Rm*0.16, g2=ctx.createRadialGradient(cx,cy,cr*0.6,cx,cy,cr*1.6); g2.addColorStop(0,'rgba(0,0,0,1)'); g2.addColorStop(0.62,'rgba(0,0,0,1)'); g2.addColorStop(0.75,'rgba(255,214,140,0.9)'); g2.addColorStop(1,'rgba(255,214,140,0)');
+    ctx.globalAlpha=vg; ctx.fillStyle=g2; ctx.beginPath(); ctx.arc(cx,cy,cr*1.6,0,Math.PI*2); ctx.fill(); ctx.restore(); }
+  const split=rt>=100, sepK=Math.min(1,(rt-40)/30);
+  const draw=(P,c,tx,ty,rot,sc,rim)=>{ ctx.save(); ctx.translate(tx,ty); ctx.rotate(rot); ctx.scale(sc,sc); ctx.translate(-c[0],-c[1]); ctx.beginPath(); P.forEach((p,k)=>k?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.closePath();
+    ctx.save(); ctx.clip(); ctx.transform(R.Mi.a,R.Mi.b,R.Mi.c,R.Mi.d,R.Mi.e,R.Mi.f); ctx.drawImage(R.snap,0,0); ctx.restore();
+    ctx.lineWidth=1.6/Math.max(0.2,sc); ctx.strokeStyle=`rgba(255,${200+40*rim|0},140,${0.35+0.5*rim})`; ctx.stroke(); ctx.restore(); };
+  if(!split){ for(const S of R.slabs){ const d=6+10*sepK, bob=Math.sin(tick*0.07+S.a)*2*sepK; draw(S.P,S.c,S.c[0]+Math.cos(S.a)*d,S.c[1]+Math.sin(S.a)*d+bob,Math.sin(S.a*3)*0.04*sepK,1,1-sepK*0.5); } }
+  else for(const p of R.pieces){ const S=R.slabs[p.slab], e=_bcPieceS(R,p,rt), dS=16+8*Math.min(1,(rt-100)/30), bx=S.c[0]+Math.cos(S.a)*dS-R.cx, by=S.c[1]+Math.sin(S.a)*dS-R.cy, ox=(p.c[0]-S.c[0])*0.12*Math.min(1,(rt-100)/30), oy=(p.c[1]-S.c[1])*0.12*Math.min(1,(rt-100)/30);
+    if(e>=0.985) continue; const r0=Math.hypot(p.c[0]+bx-p.c[0]+ox+ (p.c[0]-R.cx) - (p.c[0]-R.cx) ,0)*0+Math.hypot(p.c[0]-R.cx+ (bx-(S.c[0]-R.cx)) +ox, p.c[1]-R.cy+(by-(S.c[1]-R.cy))+oy), a0=Math.atan2(p.c[1]-R.cy+(by-(S.c[1]-R.cy))+oy, p.c[0]-R.cx+(bx-(S.c[0]-R.cx))+ox);
+    const r=r0*Math.pow(1-e,1.25), a=a0+e*Math.PI*2.8; draw(p.Q,p.c,R.cx+Math.cos(a)*r,R.cy+Math.sin(a)*r,p.vr*(rt-100)*(0.3+e),Math.max(0.02,1-Math.pow(e,1.4)),0.4+0.6*e); }
+}
+// trên meme: sét toả ra từ con quay + vết nứt sáng dọc ranh giới các tảng
+function _bcRiftOver(f,B){ const R=B.rift; if(!R) return; const rt=B.t-BC_SPIN_T; if(rt>=BC_RIFT_T) return;
+  ctx.save(); ctx.globalCompositeOperation='lighter';
+  if(rt<70){ const k=Math.min(1,rt/40); ctx.lineCap='round';
+    for(const S of R.slabs){ ctx.beginPath(); S.P.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.closePath(); ctx.setLineDash([Math.max(1,k*400),400]);
+      ctx.strokeStyle=`rgba(255,220,150,${0.8*(1-Math.max(0,(rt-50)/20))})`; ctx.lineWidth=2.4; ctx.stroke(); ctx.strokeStyle=`rgba(255,255,255,${0.9*(1-Math.max(0,(rt-50)/20))})`; ctx.lineWidth=1; ctx.stroke(); }
+    ctx.setLineDash([]); }
+  if(rt<210 && window.VfxGL && VfxGL.boltSet){ const n=Math.round(2+4*Math.min(1,rt/90)), sd=(tick/3|0); ctx.globalAlpha=0.8;
+    for(let i=0;i<n;i++){ const a=_bcH(i,sd)*Math.PI*2, L=Math.max(W,H)*(0.35+0.4*_bcH(i+7,sd));
+      VfxGL.boltSet(ctx,R.cx,R.cy,a,L,2.2,sd*11+i,{core:'#fffaf0',rim:'#ffc35c',glow:'rgba(190,120,255,0.28)'}); } ctx.globalAlpha=1; }
+  ctx.restore(); }
 // 💥 bị đánh trúng 3 lần lúc đang xoay: về ảnh gốc, lát bánh văng thành vụn, khựng 0.5s bốc khói như máy hỏng (B.jam) rồi đi tiếp, nhặt lát khác
 function _bcBreak(f){ const B=f._bc; if(!B || !B.px) return; B.px=0; B.t=0; B.hits=0; bcPx=null; bcDark=0; B.jam=BC_JAM_T; B.jx=f.x; B.jy=f.y; f.vx=f.vy=0;
   try{ if(B.snd){ B.snd.pause(); B.snd.currentTime=0; } }catch(e){} B.snd=null;
@@ -10811,18 +10881,19 @@ function _bcWorldTick(){
   B.t++;
   f.x=B.x0; f.y=B.y0; f.vx=f.vy=0;
   const k=Math.min(1,B.t/BC_SPIN_T);
-  if(B.t<BC_SPIN_T){ const I=_bcI(B.t); if(B.t%6===0 && I>0.15) addShake(1+11*I,6); if(B.t===2) B.snd=playSample('bc_spin',0.9,(BC_SPIN_T+BC_SING_T)/60);   // 🔊 động cơ rít to dần đúng suốt màn quay
+  if(B.t<BC_SPIN_T){ const I=_bcI(B.t); if(B.t%6===0 && I>0.15) addShake(1+11*I,6); if(B.t===2) B.snd=playSample('bc_spin',0.9,BC_BANG_AT/60);   // 🔊 động cơ rít to dần đúng suốt màn quay
     if(B.t===Math.round(BC_SPIN_T*0.6) || B.t===Math.round(BC_SPIN_T*0.75) || B.t===Math.round(BC_SPIN_T*0.85) || B.t===Math.round(BC_SPIN_T*0.93)) playSample('bc_zap',0.6+0.4*I);   // ⚡ điện chập dày dần theo đèn chớp
-    if(B.t===BC_SPIN_T-20) playSample('blackhole',0.9); }
-  if(B.t===BC_SPIN_T+BC_SING_T){   // 💥 BIG BANG
+  }
+  if(B.t>=BC_SPIN_T && B.t<BC_SPIN_T+BC_RIFT_T) _bcRiftTick(f,B,B.t-BC_SPIN_T);
+  if(B.t===BC_BANG_AT){   // 💥 BIG BANG
     playSample('ep3_end_boom',1.0); playSample('cine_deep_impact',1.0); addShake(26,40);
     bcFx.push({k:'bang',x:f.x,y:f.y-f.size*0.9,t:0,T:170});
     for(const u of fighters) if(u!==f && !u.dead && u.team!==f.team){ u._mwErased=true; try{ _stopFighterSfx(u); }catch(e){} _forceKill(u,f); if(!u.dead){ u.hp=0; u.dead=true; u._deathTick=tick; } }   // xoá sổ như Hollow Purple: không xác, không mảnh vỡ
     for(const u of _summonFoes(f.team)) _forceKill(u,f);
     try{ if(B.snd){ B.snd.pause(); } }catch(e){} bcBangT=tick;
-    bcToasts=bcToasts.filter(q=>q.f!==f); B.fused=true; }
+    bcToasts=bcToasts.filter(q=>q.f!==f); bananaPeels.length=0; pdPeels.length=0; B.fused=true; }   // trắng xoá: không còn đồ vật nào trên sân
   bcDark = B.t<BC_SPIN_T ? 0.65*_bcStage(B.t,0.25,1) : 0;   // sau Big Bang là màn TRẮNG (_bcWhiteDraw), không còn sân tối
-  if(B.t>=BC_SPIN_T+BC_SING_T+BC_DARK_T){ B.px=0; bcPx=null; }
+  if(B.t>=BC_BANG_AT+BC_DARK_T){ B.px=0; bcPx=null; }
 }
 // 🍞 lát bánh mì bơ: lật quanh trục ngang (ph) — mặt bơ (cos>0) / mặt bánh nướng (cos<0)
 function _bcToastDraw(x,y,r,ph,rot){ const c=Math.cos(ph), sy=Math.max(0.07,Math.abs(c)), w=r*1.9, h=r*1.9;
@@ -10843,6 +10914,7 @@ function _bcBeam(){ if(_bcBeamC) return _bcBeamC; const w=64, h=256, c=document.
     d[o]=255; d[o+1]=232+23*core; d[o+2]=170+85*core; d[o+3]=255*al; } x.putImageData(id,0,0); return _bcBeamC=c; }
 const _bcFallE=k=>1-Math.pow(1-k,1.35);   // rơi RẤT chậm, đều, nhẹ dần khi gần chạm sàn (anh dặn)
 function _bcDrawUnder(){
+  if(bcPx){ const f=bcPx.f, B=f._bc; if(B && B.rift && B.t<BC_BANG_AT+10) _bcRiftUnder(f,B); }
   for(const T of bcToasts){ const r=_bcR(T.f);
     if(T.st){ ctx.save(); const pu=0.5+0.5*Math.sin(tick*0.07+T.sd), g=ctx.createRadialGradient(T.x,T.y,0,T.x,T.y,r*2); g.addColorStop(0,`rgba(255,226,150,${0.2+0.14*pu})`); g.addColorStop(1,'rgba(255,226,150,0)'); ctx.globalCompositeOperation='lighter'; ctx.fillStyle=g; ctx.fillRect(T.x-r*2,T.y-r*2,r*4,r*4); ctx.restore();   // quầng thơm mời nhặt
       _bcToastDraw(T.x,T.y,r,T.ph,T.rot); continue; }
@@ -10876,15 +10948,15 @@ function _bcDrawOver(){
     else if(p.k==='sparks'){ ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round'; for(let i=0;i<6;i++){ const a=_bcH(p.s,i+20)*Math.PI*2, d=(3+16*_bcH(i,p.s))*Math.sqrt(u), x=p.x+Math.cos(a)*d, y=p.y+Math.sin(a)*d+u*u*10;
         ctx.strokeStyle=`rgba(255,214,130,${1-u})`; ctx.lineWidth=1.3; ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x+Math.cos(a)*3,y+Math.sin(a)*3); ctx.stroke(); } ctx.restore(); }
     else if(p.k==='bang') _bcBangDraw(p); }
-  if(bcPx){ const f=bcPx.f, B=f._bc; if(B.t<BC_SPIN_T+BC_SING_T) _bcSpinDraw(f,B); }
+  if(bcPx){ const f=bcPx.f, B=f._bc; if(B.rift && B.t<BC_BANG_AT) _bcRiftOver(f,B); if(B.t<BC_BANG_AT) _bcSpinDraw(f,B); }
   _bcWhiteDraw();
 }
 // ☀️ sau Big Bang: mọi thứ loé trắng tinh — không sàn, không viền, không chữ — chỉ còn Bread Cat dạng ổ bánh mì lơ lửng giữa nền trắng,
 //    thanh máu hiện ∞ (anh dặn 2/11)
-function _bcWhiteDraw(){ if(bcBangT==null) return; const v=tick-bcBangT, wk=Math.min(1,Math.max(0,(v-8)/34)); if(wk<=0) return;
+function _bcWhiteDraw(){ if(bcBangT==null) return; const v=tick-bcBangT, wk=1;   // trắng xoá NGAY (anh dặn 3/11: nổ là xung quanh trắng xoá) — chậm thì sân nguyên vẹn hiện lại
   if(wk>0.5){ for(const id of ['bottomCtaMsg','mechInfoWrap']){ const el=document.getElementById(id); if(el && el.style.display!=='none') el.style.display='none'; }   // 2 ô này trận sau tự bật lại lúc vào trận
     for(const id of ['duoCtaMsg','ffa3CtaMsg']){ const el=document.getElementById(id); if(el && el.innerHTML) el.innerHTML=''; } }   // 2vs2 / LOS: chỉ xoá chữ, không ẩn ô (trận sau tự ghi lại)   // trắng HẾT: ẩn cả chữ HTML nổi ngoài khung (Like & Subscribe, info) — trận sau tự hiện lại
-  ctx.save(); ctx.globalAlpha=wk; ctx.fillStyle='#ffffff'; ctx.fillRect(-W*2,-H*2,W*5,H*5);
+  ctx.save(); ctx.save(); ctx.setTransform(1,0,0,1,0,0); ctx.globalAlpha=wk; ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,ctx.canvas.width,ctx.canvas.height); ctx.restore();   // phủ CẢ khung hình (cả tiêu đề, chữ dưới)
   const fz=fighters.find(q=>q.type==='breadcat' && q._bc && q._bc.fused && !q.dead), im=BC_FR[2];
   if(fz && im.complete && im.naturalWidth){ const L=fz._lastSprite, h=((L&&L.dh)||fz.size*1.6)*1.15, w=h*im.naturalWidth/im.naturalHeight, ap=Math.min(1,Math.max(0,(v-30)/30));
     const bx=fz.x, by=fz.y-fz.size*0.35+Math.sin(v*0.045)*fz.size*0.14, rot=Math.sin(v*0.028)*0.05;
@@ -10918,7 +10990,7 @@ function _bcCyl(im,x,y,w,h,th,a,dim){
 function _bcStrobe(t){ const p=_bcStage(t,0.3,0.95); if(p<=0) return 0; if(t>BC_SPIN_T-18) return 1; const per=Math.max(3,Math.round(9-6*p)); return _bcH(Math.floor(t/per),77)<0.15+0.5*p ? 1 : 0; }   // 1 = đèn tắt: lác đác → dồn dập
 function _bcSpinDraw(f,B){ const t=B.t, k=Math.min(1,t/BC_SPIN_T), x=f.x, y=f.y-_bcLift(f), im=BC_FR[1]; if(!im.complete || !im.naturalWidth) return;
   const L=f._lastSprite, h=(L&&L.dh)||f.size*1.6, w=h*im.naturalWidth/im.naturalHeight;
-  const sing=t>BC_SPIN_T ? Math.min(1,(t-BC_SPIN_T)/BC_SING_T) : 0, sc=1-sing*sing, th=_bcTh(t), om=_bcOm(t), smear=Math.min(1,Math.max(0,(om-0.35)/0.6));
+  const sing=t>BC_SPIN_T+BC_RIFT_T ? Math.min(1,(t-BC_SPIN_T-BC_RIFT_T)/BC_SING_T) : 0, sc=1-sing*sing, th=_bcTh(t), om=_bcOm(t), smear=Math.min(1,Math.max(0,(om-0.35)/0.6));
   const dark=_bcStrobe(t), lit=!dark, blue=_bcStage(t,0.75,1), I=_bcI(t), sRing=_bcStage(t,0.08,0.4), sPil=_bcStage(t,0.22,0.6), sSpk=_bcStage(t,0.3,0.8);
   if(dark && t<BC_SPIN_T){ ctx.save(); ctx.globalAlpha=0.3+0.35*I; ctx.fillStyle='#000'; ctx.fillRect(-W,-H,W*3,H*3); ctx.restore(); }   // đèn cả sân tắt phụt (không tắt con quay)
   // vòng sáng elip của con quay: chỉ sáng 2 đầu trái/phải như vệt ánh sáng quét vòng
@@ -12962,7 +13034,7 @@ const CHAR_FACTS = {
 // giới thiệu ngắn 2-3 dòng cho màn chờ (tiếng Anh, game full English) — viết tay dựa trên cơ chế thật, không tự động cắt câu
 const CHAR_BLURB = {
   boxingcat: "Shadow-boxes to warm up — every jab adds to the damage counter over its head. The moment it touches an enemy it throws the punch with everything stored: from 100 the air quakes like Whitebeard, and from 250 the whole screen cracks.",
-  breadcat: "No basic attack. Every 3s a slice of buttered toast falls from heaven onto a random spot. Picking one up heals 100 HP and starts the Buttered Cat Paradox: it spins for 4s, getting more terrifying each second. Hit it 3 times to break the spin; if it survives, the Big Bang erases every enemy.",
+  breadcat: "No basic attack. Every 3s a slice of buttered toast falls from heaven onto a random spot. Picking one up heals 100 HP and starts the Buttered Cat Paradox: it spins for 5s, getting more terrifying each second. Hit it 3 times to break the spin; if it survives, lightning tears the arena apart, everything is pulled into its vortex and the Big Bang erases every enemy.",
   saiyanmarmot: "Melee shover: touches the enemy to shove them away like fighting marmots (45). Every 2s of walking it stops and powers up for 1.5s; the 3rd time it screams for 3s and goes Super Saiyan for good. Super Saiyan: every shove freezes for 0.5s, then blasts the enemy straight into the wall and pins them there (160), breaking off a chunk of wall. Hit the same broken spot and the hole can get big enough to send the enemy flying out of the arena — instant win.",
   ninjacat: "Melee ninja. Up close it draws a Kusanagi and slashes for 75; at range it throws kunai for 30. The first time it drops to 60% HP and again at 30%, the next hit passes straight through it — a Mangekyou Sharingan flashes, a Kamui vortex swallows it and spits it out behind the enemy, running them through for 150. If the enemy's back is against a wall it holds the trick, and strikes the moment there is room behind them.",
   poordog: "Never attacks and walks very slowly. Every 2s it slowly lies down for 3s. Hit it while it lies there and you lose karma equal to the damage — every 100 karma lost makes bad luck hit you 10% harder. Every 4s one bad-luck event strikes in turn (0.3s sooner each time it gets hit), walking or lying: banana peels, a runaway truck, lightning, a falling grand piano, a flower pot dropped on your head. It takes 20% less damage while lying down. Lose 100+ karma and junk starts flying at the back of your head.",
@@ -18733,8 +18805,7 @@ class Fighter {
     if(this.type==='supremearbiter' && this._saSpot){ const sp=this._saSpot, dx=sp.x-this.x, dy=sp.y-this.y, d=Math.hypot(dx,dy)||1;
       if(this._saOnSpot){ this.vx*=0.6; this.vy*=0.6; this.x+=this.vx+dx*0.12; this.y+=this.vy+dy*0.12; return; }
       const v=Math.min(d,effectiveTop*0.55); this.vx=dx/d*v; this.vy=dy/d*v; this.x+=this.vx; this.y+=this.vy; return; }
-    if(this.type==='breadcat'){ let T=null, bd=1e9; for(const q of bcToasts) if(q.f===this && q.st){ const dd=Math.hypot(q.x-this.x,q.y-this.y); if(dd<bd){ bd=dd; T=q; } } if(T){ const dx=T.x-this.x, dy=T.y-this.y, d=Math.hypot(dx,dy)||1, v=effectiveTop*0.6;   // 🍞 lững thững đi theo lát bánh
-      this.vx+=(dx/d*v-this.vx)*0.08; this.vy+=(dy/d*v-this.vy)*0.08; this.x+=this.vx; this.y+=this.vy; return; } }
+    // 🍞 Bread Cat đi lang thang NGẪU NHIÊN như meme thường (anh dặn 3/11 — trước đi thẳng tới lát bánh trông như bị hút), đi ngang qua lát bánh thì nhặt
     if(spd<effectiveTop*0.55){
       const angle = (this._lastAngle !== undefined) ? this._lastAngle : Math.random()*Math.PI*2;
       this.vx=Math.cos(angle)*effectiveTop*0.5; this.vy=Math.sin(angle)*effectiveTop*0.5;
@@ -21693,7 +21764,7 @@ class Fighter {
   }
   _takeDamageCore(dmg,attacker,isHuh=false,isBurn=false,dotIcon='',hitFx=null,isDot=false,isTrue=false){
     if(this.dead) return;
-    if(this.type==='breadcat' && this._bc && this._bc.px && !isDot && !isBurn && dmg>0 && this._bc.t<BC_SPIN_T+BC_SING_T && !this._bc.fused){   // 🍞 đang xoay: dính 3 đòn là gãy nghịch lý
+    if(this.type==='breadcat' && this._bc && this._bc.px && !isDot && !isBurn && dmg>0 && this._bc.t<BC_SPIN_T && !this._bc.fused){   /* xoay đủ 5s rồi thì không ngắt được nữa */   // 🍞 đang xoay: dính 3 đòn là gãy nghịch lý
       this._bc.hits=(this._bc.hits||0)+1; if(this._bc.hits>=BC_BREAK_HITS) _bcBreak(this); }
     if(_sdGone(this)) return;   // 🌑 Sus Dog đang ở trong bóng tối (rời sàn): không dính đòn nào
     // ⚔️ JONINN CHEEMS ĐỠ ĐÒN không phải đạn bay (cận chiến, AOE, tia...): cùng luật gạt — 30% / đang trong 1s đỡ liên tục, hết 1s nghỉ 4s.
@@ -22229,7 +22300,7 @@ class Fighter {
   }
 
   draw(){
-    if(this._mwErased || this._dpGone) return;   // 🌀 _dpGone: Depressed Cat đã bị Kamui xoáy đi
+    if(this._mwErased || this._dpGone || this._bcGone) return;   // 🍞 _bcGone: đã bị cuốn vào tâm xoáy Bread Cat · 🌀 _dpGone: Depressed Cat đã bị Kamui xoáy đi
     if(this.type==='infinitydoge' && this._idMito) return;   // 🟠 đang tách kiểu slime: vẽ bằng _idMitoDraw   // 🟣 đã bị Hollow Purple xoá sổ — không còn gì để vẽ
     _arPin(this);   // 🗿 đang là tượng: luôn vẽ đúng chỗ bị hoá
     // 😏 đang bị Troll Face NGẬM trong mồm → biến mất hẳn khỏi sàn: không vẽ thân, không vẽ cả thanh máu,
@@ -22237,7 +22308,7 @@ class Fighter {
     if(this._tfSwallowed) return;
     if(this.type==='susdog' && this._sdHide && _sdHideK(this)>=0.999) return;   // 🌑 đã lẩn HẲN vào bóng tối ban đêm: biến mất (cả thân lẫn thanh máu)
     if(this.type==='evilgary' && this._egExit) return;
-    if(this.type==='breadcat' && this._bc && this._bc.px && this._bc.t<BC_SPIN_T+BC_SING_T) return;   // 🍞 đang xoay vô cực: thân do _bcSpinDraw vẽ   // 🏆 đang xoay–chìm vào ngôi sao: thân do _egDrawExit vẽ
+    if(this.type==='breadcat' && this._bc && this._bc.px && this._bc.t<BC_BANG_AT) return;   // 🍞 đang xoay vô cực: thân do _bcSpinDraw vẽ   // 🏆 đang xoay–chìm vào ngôi sao: thân do _egDrawExit vẽ
     // (đã bỏ đuôi cầu vồng sống bám sau mông Nyan theo yêu cầu — chỉ còn cầu vồng của skill)
     // Commander Cat: đứng sát mép arena quan sát (vô hình hitbox, chỉ vẽ ở mép) — mép ĐÚNG PHE của nó (team 0 = trái, team 1 = phải), không cố định trái
     if(this.type==='commandercat'){
@@ -22309,6 +22380,7 @@ class Fighter {
     if(this.type==='vampirecat' && (this._vampSmoke||0)>0){ this._vampSmoke--; ctx.globalAlpha=0.12; }
     const s=this.size*((this.type==='boxingcat')?1.22:(this.type==='poordog')?1.3:(this.type==='chonkydog')?1.1:(this.type==='vampirecat'&&this._vampBatForm)?1.2:(this.type==='doge'&&this.dogeBuffed)?1.1:(this.type==='feuerkatze'&&(this._fkSaluteNow||0)>0)?1.1:(this.type==='germancat'&&this.germanSpeechTimer>0)?1.4:(this.type==='evillarry'&&this.actionState==='attack')?1.2:(this.type==='grumpycat'&&this._rageActive)?1.3:(this.type==='maxwell'&&(this._mwPhase==='spin'||this._mwPhase==='reveal'))?1.2:(this.type==='uiacat'&&this.oiiaSpinTimer>0)?1.265:(this.type==='capybara'&&this._cbFused)?0.9:(this.type==='capybara'&&!this._cbFused&&!this._cbIsKnife)?0.8:1)*(1-(this._rbShrinkFrac||0)); // bị Rubik Cat hút vào hố đen thì thu nhỏ dần về 0 thay vì vỡ mảnh vụn
     let scaleX=1,scaleY=1,offX=0,offY=0,rotation=0;
+    if(this._bcSuckK){ const z=Math.max(0.03,1-this._bcSuckK); scaleX*=z; scaleY*=z; }   // 🍞 đang bị hút vào tâm xoáy: nhỏ dần
     // 😏 đang bị Troll Face ngậm → thu nhỏ lại còn 45%, nhìn như đang nằm gọn trong bụng nó
     // 😏 Troll Face đang ngậm địch: phình to thêm 30% (chỉ phần HÌNH, hitbox giữ nguyên). Riêng 0.5–0.7s ĐẦU
     // (_tfMorphT) là cú ĐỚP kiểu jumpscare: vọt to hẳn lên rồi xẹp dần về mức 1.3, đồng thời CHỒM người lên và
@@ -25936,7 +26008,7 @@ function loop(){
   // nhạc nền (tên sample cũ là "flyingcat_theme" nhưng giờ đã chuyển sang dùng cho Catvader)
   if(!_flyingCatTheme && fighters.some(f=>f.type==='catvader' && !f.dead)){
     _flyingCatTheme = AUDIO_SAMPLES['flyingcat_theme']?.cloneNode();
-    if(_flyingCatTheme){ _flyingCatTheme.loop=true; _flyingCatTheme.volume=0.65; _registerBgMusic(_flyingCatTheme,0.65); _mixRoute(_flyingCatTheme); _flyingCatTheme.play().catch(()=>{}); }
+    if(_flyingCatTheme){ _flyingCatTheme.loop=true; _flyingCatTheme.volume=0.35; _registerBgMusic(_flyingCatTheme,0.35);   /* anh dặn 3/11: nhạc nền Catvader nhỏ vừa đủ, nhường tiếng meme (video: render-match còn nén theo tiếng đánh nhau) */ _mixRoute(_flyingCatTheme); _flyingCatTheme.play().catch(()=>{}); }
   }
   // 🔥 Tiếng cháy: loop liên tục khi còn ít nhất 1 char đang burn, tắt khi hết
   const _anyBurning = fighters.some(f=>!f.dead && (f.burn||0)>0);

@@ -14,6 +14,8 @@ const http = require('http'), fs = require('fs'), path = require('path');
 const ROOT = path.resolve(__dirname, '..');
 const args = process.argv.slice(2), OUT = path.resolve(args[0] || 'match.mp4');
 const opt = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; };
+// 🎵 nhạc NỀN (không phải đòn đánh của meme): nhỏ hẳn + tự NÉN XUỐNG khi có tiếng đánh nhau (anh dặn 3/11: nhường tiếng meme, giảm rủi ro bản quyền)
+const BG_DUCK = new Set(['flyingcat_theme']), BG_LEVEL = { flyingcat_theme: 0.45 };
 const A = opt('--a'), B = opt('--b'), FPS = +opt('--fps', 60), OFPS = +opt('--ofps', 50), VW = +opt('--w', 1440), VH = Math.round(VW * 16 / 9);
 const WANT = +opt('--want', 5), MIN = +opt('--min', 0);   // --min: chạy thử ÍT NHẤT bấy nhiêu trận rồi mới chọn   // --win/--close: gom đủ bấy nhiêu trận đúng ý rồi chọn trận sát nhất
 const INJECT = opt('--inject', null) ? fs.readFileSync(opt('--inject'), 'utf8') : null;   // --inject f.js: JS nạp vào trang ngay sau START (kịch bản riêng cho 1 video, KHÔNG đổi game)
@@ -195,7 +197,7 @@ const ok = r => (!WIN || r.win === WIN) && (r.far || 0) >= FAR && (!DUR || (vdur
   for (const a of ev.values()) { const m = a.key && info.lufs[a.key]; let g = m ? Math.max(0.05, Math.min(8, Math.pow(10, (-14 - m[0]) / 20))) : 1;
     g *= music.has(a.key) ? 1 : a.vol * a.loud * a.duck;
     const f = path.join(ROOT, a.path); if (!fs.existsSync(f) || a.end - a.t <= 0.02) continue;
-    plan.push({ f, t: a.t, end: a.end, ct: a.ct, loop: a.loop, rate: a.rate, keep: music.has(a.key), g: g * 0.8 }); }   // nhạc: theo ĐÚNG tốc thật (hình bám nhạc theo tốc này, vd Azel ×1.15) + giữ cao độ như Chrome
+    plan.push({ f, t: a.t, end: a.end, ct: a.ct, loop: a.loop, rate: a.rate, keep: music.has(a.key), duck: BG_DUCK.has(a.key), g: g * 0.8 * (BG_LEVEL[a.key] || 1) }); }   // nhạc: theo ĐÚNG tốc thật (hình bám nhạc theo tốc này, vd Azel ×1.15) + giữ cao độ như Chrome
   const planF = OUT + '.plan.json', wav = OUT + '.mix.wav'; fs.writeFileSync(planF, JSON.stringify({ dur: END, plan }));
   execFileSync('python3', [path.join(__dirname, 'mix-plan.py'), planF, wav], { stdio: 'inherit' });
   execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', tmpV, '-i', wav, '-filter_complex', '[1:a]alimiter=limit=0.95[a]', '-map', '0:v', '-map', '[a]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-shortest', OUT], { stdio: 'inherit' });

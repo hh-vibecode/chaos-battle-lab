@@ -6,6 +6,7 @@ import numpy as np
 SR = 48000
 plan = json.load(open(sys.argv[1]))
 out = np.zeros((int(plan['dur'] * SR) + SR, 2), np.float32)
+bg = np.zeros_like(out); fx = np.zeros_like(out)   # bg = nhạc nền cần nhường (duck) · fx = tiếng đánh nhau (không phải nhạc) dùng làm tín hiệu nén
 cache = {}
 
 def load(f, tempo=1):
@@ -46,8 +47,14 @@ for p in plan['plan']:
     i0 = pos.astype(np.int64); fr = (pos - i0)[:, None].astype(np.float32)
     seg = src[i0] * (1 - fr) + src[i0 + 1] * fr
     s = int(p['t'] * SR); e = min(len(out), s + len(seg))
-    out[s:e] += seg[:e - s] * p['g']
+    x = seg[:e - s] * p['g']
+    (bg if p.get('duck') else out)[s:e] += x
+    if not p.get('keep'): fx[s:e] += x
 
+if bg.any():   # 🎚️ nén nhạc nền theo tiếng đánh nhau: có tiếng là nhỏ xuống (tối đa −10dB), hết tiếng to lại từ từ
+    m = np.abs(fx).max(axis=1); h = int(0.01 * SR); m = np.maximum.reduceat(m, np.arange(0, len(m), h)); env = np.zeros_like(m); a, r = np.exp(-1 / 3), np.exp(-1 / 45); v = 0.0
+    for i, x in enumerate(m): v = x + (v - x) * (a if x > v else r); env[i] = v
+    gain = np.clip(1 / (1 + (env / 0.06) ** 1.2), 0.32, 1.0); out += bg * np.repeat(gain, h)[:len(bg), None]
 out = out[:int(plan['dur'] * SR)]
 raw = np.clip(out, -4, 4).astype(np.float32).tobytes()
 subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-f', 'f32le', '-ac', '2', '-ar', str(SR), '-i', '-', sys.argv[2]], input=raw, check=True)
