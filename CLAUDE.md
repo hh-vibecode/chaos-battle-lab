@@ -1,6 +1,9 @@
 # Chaos Battle Lab — ghi chú quan trọng
 
-## ⚠️ Tin nhắn KHÔNG liên quan game / phim → HỎI LẠI, KHÔNG LÀM (anh dặn 3/11/2026)- Anh hay gõ nhầm câu của app khác vào phiên này (vd hỏi "công nợ NCC nội địa / KiotViet" = app Kế toán). Gặp câu không thuộc Chaos Battle Lab →  chỉ hỏi lại 1 câu ngắn ("câu này của app nào, anh muốn em xử lý ở đây không?"), KHÔNG tự đọc repo khác, KHÔNG làm gì thêm.
+## ⚠️ Tin nhắn KHÔNG liên quan game / phim → HỎI LẠI, KHÔNG LÀM (anh dặn 3/11/2026)
+- Anh hay gõ nhầm câu của app khác vào phiên này (vd hỏi "công nợ NCC nội địa / KiotViet" = app Kế toán). Gặp câu không thuộc Chaos Battle Lab →
+  chỉ hỏi lại 1 câu ngắn ("câu này của app nào, anh muốn em xử lý ở đây không?"), KHÔNG tự đọc repo khác, KHÔNG làm gì thêm.
+
 ## ⚠️ QUY TẮC BẮT BUỘC: quân triệu hồi CÓ MÁU = 1 meme
 
 Mọi vật triệu hồi có máu (cũ hay mới thêm sau này) phải được đối xử **y hệt 1 meme bình thường**:
