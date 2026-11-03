@@ -299,6 +299,10 @@
     [T.painOut+0.35,'ep3_dark',0.8,0],[T.fist+0.15,'ep3_glass',0.8,0],[T.beams,'ep3_charge',1.0,0],[SJ0,'ep3_breath',0.9,0],[T.join,'eg_necro',1.0,0],[CU0+0.05,'fr_dash',1.0,0],[CU0+0.5,'fr_dash',1.0,0],[CU0+0.95,'fr_dash',1.0,0],[CU0+1.4,'fr_dash',1.0,0],   /* 🐈‍⬛ tiếng "nhoi nhoi" lướt đâm của Friend trong game — mỗi cú húc lồng 1 tiếng (trùng RAMS) */
     [T.sealBreak,'ep3_glass',1.0,0],[T.cageBurst+0.05,'death_break',1.0,0],[T.dash,'soul_steal',0.9,0],
     [T.shake,'ep3_quake',1.0,0],[T.real,'ep3_titan',1.0,0],[T.grow+0.6,'ep3_rock',0.9,0],[T.out+0.15,'ep3_explode',1.0,0],[T.roar,'fr_titan_roar',1.0,0],[T.stEyes,'fr_song',0.55,DUR-T.stEyes]];   /* (bỏ tiêu đề cuối + tiếng nổ theo yêu cầu 30/10) */
+  // 🦶 đầu TẬP 4: bước chân 2 lính khiêng cáng — đúng lúc chân chạm đất (dáng nhún |sin(t·7+ph)| = 0), 3 tiếng sỏi khác nhau xen kẽ · 🛏️ cáng kẽo kẹt lúc đặt Grumpy lên
+  { const ST=[]; for(const [a,b] of [[T.carry0,T.lift],[T.carry,T.fade2+0.5]]) for(const ph of [0,1.6]) for(let k=Math.ceil((a*7+ph)/Math.PI); (k*Math.PI-ph)/7<b; k++) ST.push((k*Math.PI-ph)/7);
+    ST.sort((x,y)=>x-y); let last=-9, n=0; for(const t of ST){ if(t-last<0.15) continue; last=t; SFX_PLAN.push([t,'ep4_step'+(1+(n++)%3),0.6,0]); }
+    SFX_PLAN.push([T.lift+0.45,'ep4_creak',0.75,0]); }
   for(const L of LINES){ let n=0; for(let i=0;i<L.txt.length;i++){ if(L.txt[i]===' ') continue; if((n++)%2) continue; SFX_PLAN.push([L.t+0.25+i/CPS,'ep3_blip',0.7,0]); } }   // tiếng "píp" chữ pixel (cách 1 chữ kêu 1 lần)
   // ⏱️ GIỜ GHI TRONG LỊCH = lúc muốn NGHE THẤY trên hình. File nào có khoảng lặng đầu (đo bằng tools/sfx-audit.js) thì phát sớm lên đúng bấy nhiêu.
   const SND_ONSET={hit_heavy:0.15, cine_heavy_slow:0.26, cine_haki_hit:0.26,   /* tiếng va chạm: canh theo ĐỈNH */ sa_menacing:0.36, ep3_dark:0.22, ep3_breath:0.2, ep3_glass:0.36, ep3_charge:0.18, ep3_quake:0.14, ep3_titan:0.14, soul_steal:1.32, flyingcat_theme:0.56, fr_titan_roar:0.14};
