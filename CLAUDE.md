@@ -86,7 +86,7 @@ Mẫu đã duyệt:
 - `them-meme` (danh sách việc thêm meme mới) · `tach-nen-anh` (ảnh ChatGPT nền xanh → khung game) · `chay-thu` (chạy thử trận bằng Edge headless) · `phat-hanh` (đẩy bản mới không cần python)
   · `xuat-video` (CHỈ Mac: phim + trận đấu giả lập; chỉ quay lại đoạn bị sửa) · `dung-phim` (dựng phim anime bằng cine-kit) · `xem-video` (CHỈ Mac: video mẫu → bảng cảnh) · `tao-vfx` (VFX shader cho game + phim).
 - 🎞️ **MỌI video xuất ra mặc định 50fps — dọc hay ngang, phim hay trận** (anh chốt 3/11, note kỹ). Đã đặt sẵn: render-match / render-duo `--ofps 50` (game chạy 1 tick/khung theo luật 60 tick/s → VẪN giả lập 60, chỉ chụp khung sang ô 1/50s mới, bỏ đều 1/6 — KHÔNG hạ `--fps` giả lập, sẽ làm trận chậm 17% + lệch nhạc), render-cine `--fps` mặc định 50.
-- **Chuẩn video, áp cho cả phim lẫn trận đấu giả lập: 16:9 → 4K 3840×2160 · 9:16 DỌC → 3K 1620×2880 (anh chốt 30/10: dọc là 3K, phim dọc `--scale 1.5`).** Anh không nói khung → mặc định DỌC 3K.
+- **🎬 PHIM luôn xuất 4K, ngang lẫn dọc (anh chốt 3/11): 16:9 → 3840×2160 · 9:16 → 2160×3840 — render-cine mặc định đã là 4K, KHÔNG thêm `--scale 1.5`. TRẬN ĐẤU giả lập: 9:16 DỌC 3K 1620×2880 (anh chốt 30/10, render-match `--w 1620`).** Anh không nói khung → mặc định DỌC 3K.
 - 🏆 **Trận đấu giả lập LUÔN ưu tiên THẮNG SÁT, video dài 20–25s** (anh dặn 30–31/10): chạy thử nhiều seed, gom ≥3 trận đúng bên thắng VÀ video ~20–25s (`--want 3 --dur 20-25`) rồi lấy trận con thắng còn ÍT máu nhất (`tools/render-queue.sh`).
 - ⛔ **CHỈ XUẤT video / phim khi anh BẢO RÕ** (anh dặn 3/11: "t bảo m xuất đâu, ai cho m tự ý làm"). Sửa xong phim thì báo + để anh tự quyết có xuất không; đừng tự chạy render-cine / render-match.
 - **Xuất video trên MacBook: KHÔNG chạy nhiều tiến trình song song** — anh dặn chạy nhiều nhân làm máy vừa LAG vừa LÂU hơn.
@@ -141,7 +141,7 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
 ## 🎬 Meme Lore 2 · Ep 0 "The Truth" (31/10) — `js/cine-lore2ep0.js`
 - Sự thật đằng sau cảnh cửa sổ Ep 1, KHÔNG thoại: hẻm tối (Hamster bị 2 tay bóng tối đuổi, vả vào góc) → Chill Guy đá gãy 1 tay, ôm Hamster chạy, bị cào lưng
   → thềm nhà Ep 1 (mèo trắng đi làm về) → trong phòng băng bó, cúi ngó Hamster → bóng chồng trên cửa sổ → Depressed Cat hiểu lầm → nụ cười Friend trong khe hẻm tối.
-- Dựng trên engine Ep 1 (phố/nhà/cửa sổ/bó hoa/mặt bầm CHÉP sang để khớp từng nét) + xuất offline: `node tools/render-cine.js l2e0 out.mp4 --scale 1.5`.
+- Dựng trên engine Ep 1 (phố/nhà/cửa sổ/bó hoa/mặt bầm CHÉP sang để khớp từng nét) + xuất offline: `node tools/render-cine.js l2e0 out.mp4` (mặc định 4K).
 - Ảnh anh vẽ: `assets/img/cine/EP0_*` (KICK, RUN, DOWN, BANDAGE, WIFE_WALK, WIFE_HOLD). Chuột phải NHỎ (cao ~56 cạnh Chill Guy ~175).
 
 ## 🍞 Bread Cat - The Infinity Cosmic Power (`breadcat`, 2/11/2026) — khối `BC_*` / `_bc*` trong js/game.js

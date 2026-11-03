@@ -15,7 +15,7 @@ Nguyên tắc: **xem thử rẻ → sửa → chỉ quay lại đoạn bị sử
 | Khung | Độ phân giải | Phim (render-cine) | Trận đấu |
 |---|---|---|---|
 | 16:9 ngang | **4K 3840×2160** | `--wide --4k` | (Boss Raid — xem "Cần làm") |
-| 9:16 dọc | **3K 1620×2880** (anh chốt 30/10) | `--scale 1.5` | `render-match --w 1620` (render-queue.sh đã đặt sẵn) |
+| 9:16 dọc | phim **4K 2160×3840** (anh chốt 3/11: phim luôn 4K) · trận **3K 1620×2880** | phim: mặc định (không cờ) | `render-match --w 1620` (render-queue.sh đã đặt sẵn) |
 Anh không nói khung nào → mặc định DỌC 3K (anh: "dọc 3k chứ").
 
 ## Phim Meme Cinema — `tools/render-cine.js <film> <out.mp4> ...`
@@ -24,7 +24,7 @@ Phim có sẵn: `war`, `l2e2`, `l2e3` (bảng `FILMS` đầu file). Phim dựng 
 2. **Bản thật — công thức NHANH NHẤT**:
    - ⚠️ **Mac: KHÔNG dùng `--webcodecs`** (30/10: đoạn 600 khung ra video chỉ 1.4s — dấu thời gian sai, phim 40s thành 3.5s). `--hw` cũng chưa kiểm trên Mac. Dùng lệnh mặc định dưới.
    - 16:9: `node tools/render-cine.js l2e3 out/l2e3-16x9-4k.mp4 --wide --4k --cache`
-   - 9:16: `node tools/render-cine.js l2e3 out/l2e3-9x16-3k.mp4 --scale 1.5 --cache`
+   - 9:16: `node tools/render-cine.js l2e3 out/l2e3-9x16-4k.mp4 --cache` (render-cine mặc định 4K)
    - Xong luôn soát độ dài: `ffprobe -v error -show_entries format=duration -of csv=p=0 <file>` phải khớp độ dài phim.
    - `--cache`: cắt phim thành đoạn 20s (`--chunk`) lưu ở `<out>.chunks/` và GIỮ LẠI.
    - `--webcodecs`: trình duyệt tự nén H.264 (phần cứng VideoToolbox, không có thì nén phần mềm của trình duyệt) → bỏ khâu JPEG 4K +

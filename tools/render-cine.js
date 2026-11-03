@@ -12,7 +12,7 @@ const http = require('http'), fs = require('fs'), path = require('path');
 const ROOT = path.resolve(__dirname, '..');
 const args = process.argv.slice(2), film = args[0] || 'war', OUT = path.resolve(args[1] || `cine-${film}.mp4`);
 const WIDE = args.includes('--wide'), K4 = args.includes('--4k'), FPS = (i => i >= 0 ? +args[i + 1] : 50)(args.indexOf('--fps')), SUB = 2;   // 🎞️ mặc định 50fps (anh chốt 3/11, mọi video dọc lẫn ngang) · --fps N để đổi
-const _sc = (() => { const i = args.indexOf('--scale'); return i >= 0 ? parseFloat(args[i + 1]) : null; })(), RK = K4 ? 2 : (_sc || 1);
+const _sc = (() => { const i = args.indexOf('--scale'); return i >= 0 ? parseFloat(args[i + 1]) : null; })(), RK = K4 ? 2 : (_sc || 2);   // 🎬 PHIM LUÔN 4K (anh chốt 3/11): mặc định ×2 = 3840×2160 ngang / 2160×3840 dọc · --scale 0.5 để xem thử nhanh
 const FILMS = { war: { play: 'playCineWar', step: '_cineWarStep', canvas: '_cineWarCanvas', info: '_cineWarInfo' },
   l2e2: { play: 'playCineL2E2', step: '_cineL2E2Step', canvas: '_cineL2E2Canvas', info: '_cineL2E2Info', ready: '_cineL2E2Ready' },
   l2e3: { play: 'playCineL2E3', step: '_cineL2E3Step', canvas: '_cineL2E3Canvas', info: '_cineL2E3Info', ready: '_cineL2E3Ready' },
