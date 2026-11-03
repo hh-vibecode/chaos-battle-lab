@@ -196,11 +196,12 @@
     // 🎵 NHẠC NỀN: def.mus=[{src:'assets/audio/x.mp3', ra, rb (giây phim), vol, off (giây bắt đầu trong file), fi, fo (giây mờ vào/ra), loop}]
     //    xem trong game: mỗi bản 1 thẻ Audio chạy theo đồng hồ phim (tua / dừng là ngắt rồi vào lại đúng chỗ) · xuất video: render-cine trộn từ info().mus
     const MUS=(def.mus||[]).map(m=>({...m, el:null}));
-    function musTick(t){ if(OFF) return; for(const m of MUS){ const on=!paused && t>=m.ra && t<m.rb;
+    // 🎙️ m.vo = lồng tiếng: lúc đang đọc thì các bản nhạc khác tự hạ xuống (xuất video: render-cine nén theo giọng đọc)
+    function musTick(t){ if(OFF) return; const voOn=MUS.some(m=>m.vo && t>=m.ra && t<m.rb); for(const m of MUS){ const on=!paused && t>=m.ra && t<m.rb;
         if(on && !m.el){ try{ const el=new Audio(m.src); el.loop=!!m.loop; el.currentTime=Math.max(0,(m.off||0)+(t-m.ra)); m.el=el; el.play().catch(()=>{});
           if(m.loop) el.addEventListener('loadedmetadata',()=>{ if(el.duration) el.currentTime=((m.off||0)+Math.max(0,curT()-m.ra))%el.duration; },{once:true}); }catch(e){} }   // bản lặp: tua giữa chừng vẫn vào đúng chỗ trong vòng lặp
         if(!on && m.el){ try{ m.el.pause(); }catch(e){} m.el=null; }
-        if(m.el){ const f=Math.min(m.fi?seg(t,m.ra,m.ra+m.fi):1, m.fo?1-seg(t,m.rb-m.fo,m.rb):1); try{ m.el.volume=clamp((m.vol==null?1:m.vol)*f,0,1); }catch(e){} } } }
+        if(m.el){ const f=Math.min(m.fi?seg(t,m.ra,m.ra+m.fi):1, m.fo?1-seg(t,m.rb-m.fo,m.rb):1); try{ m.el.volume=clamp((m.vol==null?1:m.vol)*f*(voOn && !m.vo?0.4:1),0,1); }catch(e){} } } }
     function musStop(){ for(const m of MUS){ if(m.el){ try{ m.el.pause(); }catch(e){} m.el=null; } } }
     function renderAt(t){
       if(OFF) markOnly=true;
@@ -245,7 +246,7 @@
       try{ stopAllBattleMusic(); }catch(e){}
       Promise.all(Object.values(I).map(im=>im.decode?im.decode().catch(()=>{}):0)).then(()=>{ if(!overlay) return; for(const im of Object.values(I)) K.prep(im); ready=true; paused=false; played={}; t0=performance.now(); });
       paused=false; played={}; t0=performance.now(); if(!OFF) raf=requestAnimationFrame(frame); }
-    const api={ play, stop, ready:()=>ready, step:R=>{ if(OFF && ready) renderAt(R); }, canvas:()=>cv, info:()=>({dur:DUR, sfx:(def.sfx||[]).map(([a,k,v,d])=>[a,k,v,d]), mus:(def.mus||[]).map(m=>({src:m.src, ra:m.ra, rb:m.rb, vol:m.vol==null?1:m.vol, off:m.off||0, fi:m.fi||0, fo:m.fo||0, loop:!!m.loop})), slow:def.slow||[]}), def };
+    const api={ play, stop, ready:()=>ready, step:R=>{ if(OFF && ready) renderAt(R); }, canvas:()=>cv, info:()=>({dur:DUR, sfx:(def.sfx||[]).map(([a,k,v,d])=>[a,k,v,d]), mus:(def.mus||[]).map(m=>({src:m.src, ra:m.ra, rb:m.rb, vol:m.vol==null?1:m.vol, off:m.off||0, fi:m.fi||0, fo:m.fo||0, loop:!!m.loop, vo:!!m.vo})), slow:def.slow||[]}), def };
     K.films[id]=api; return api; };
   window.CineKit=K;
 })();

@@ -6,7 +6,7 @@
 //   ACT 2 (47–104)  tàn lửa cơn giận → 3 ngôi sao → Supreme Cat · Bread Cat (mèo bơ xoay vô cực → hoá ổ bánh mì) · Flower Cat → cuộc chiến ~10 năm
 //   ACT 3 (104–143) The Void mở mắt sau lưng Friend → hố đen phản bội → phong ấn → vỡ 5 mảnh bay vào 5 vũ trụ
 //   ACT 4 (143–170) kỷ nguyên ánh sáng → đen → "Until now……" → mảnh vỡ mở mắt
-// Nhạc tạm ghép từ tiếng có sẵn (def.mus) — thay bằng 1 bản nhạc vũ trụ không bản quyền dài ~2:50 là xong.
+// Nhạc nền: bản tự viết cho phim (assets/audio/l2pro_score.mp3), giọng đọc ×1.25, nhạc + tiếng tự hạ khi đang đọc.
 (function(){
   if(!window.CineKit || CineKit.films.l2pro) return;
   const K=CineKit, {seg,lerp,clamp,hash}=K, E=K.EASE, TAU=Math.PI*2, VW=960, VH=540, DUR=170;
@@ -586,34 +586,32 @@
     [T.hole+0.3,0.4,'255,255,255'],[SEAL_HIT,0.45,'255,250,235'],[T.split,0.5,'230,210,255'],[EYE_HIT,0.25,'255,255,255']];
 
   // ───────── tiếng ─────────
-  const sfx=[[0.4,'ep3_dark',0.6],[3.1,'cine_deep_impact',0.7],[T.worlds+5,'ep3_dark',0.5],[T.reveal+3.6,'fr_titan_roar',0.9],[T.reveal+3.6,'thunder_big',0.55],
-    [T.pierce+0.6,'ep3_whoosh',0.7],[T.pierce+2.6,'ep3_rock',0.9],[T.pierce+3.1,'ep3_quake',0.8],[T.pierce+4.4,'ep3_charge',0.6],[T.pierce+6.8,'ep3_explode',1],[T.pierce+6.8,'cine_deep_impact',0.8],
-    [T.devour+0.6,'fr_thunder',0.5],...DEV.map(p=>[T.devour+p.tk+1.4,'ep3_boom',0.5]),
-    [T.embers+5,'ep3_charge',0.5],...BORN.map(b=>[T.born+b[3],'ep3_shine',0.8]),[T.born+3.5,'cine_deep_impact',0.7],
-    [T.sup+0.2,'thunder_big',0.45],[T.sup+1.4,'ep3_shine',0.6],
-    [T.bread+0.2,'ep3_whoosh',0.7],[T.bread+1.3,'ep3_charge',0.7],[BREAD_POP,'cine_deep_impact',0.9],[BREAD_POP,'ep3_shine',0.7],
-    [T.flower+0.3,'flower_transcend',0.9],[T.line+0.3,'cine_conq_haki',0.6],
-    [T.war+1.1,'ep3_explode',0.9],[T.war+1.5,'thunder_big',0.7],[T.war+4.1,'fr_titan_roar',0.9],[T.war+4.6,'ep3_boom',0.6],[T.war+6.9,'ep3_explode',0.8],[T.war+7.7,'cine_deep_impact',0.7],
-    ...BUBS.filter(b=>b.pop).slice(0,8).map((b,i)=>[b.pop,i%3?'ep3_glass':'ep3_boom',0.45]),[T.war+14,'fr_thunder',0.6],[T.war+16,'ep3_quake',0.6],
-    [T.voidS+0.5,'ep3_dark',0.7],[T.voidS+2,'cine_drop',1],
-    [T.hole+0.3,'blackhole',0.9],[T.hole+0.3,'ep3_end_boom',1],[T.hole+0.3,'thunder_big',0.6],[T.hole+2,'ep3_quake',0.6],
-    [T.seal+1,'ep3_chain',0.8],[T.seal+3,'ep3_charge',0.7],[SEAL_HIT,'cine_deep_impact',1],[SEAL_HIT,'ep3_glass',0.6],[SEAL_HIT+1.5,'ep3_chain',0.6],
-    [T.split,'ep3_explode',1],[T.split+0.3,'ep3_whoosh',0.8],...SPLIT.map((s,i)=>[T.split+6+i*0.35,'cine_impact',0.6]),
-    [T.light+0.5,'ep3_shine',0.6],[T.light+4,'ep3_shine',0.4],[T.until+0.1,'ep3_dark',0.7],[EYE_OPEN,'cine_drop',1],[EYE_HIT,'ep3_end_boom',1],[EYE_HIT,'fr_titan_roar',0.7]];
-  // nhạc tạm (ghép từ tiếng có sẵn) — thay bằng 1 bản nhạc dài là xong
+  // 🔊 anh dặn 3/11: bớt chật, đa dạng, không lạm dụng tiếng cũ — mỗi sự kiện 1 tiếng riêng, giãn cách; nhát đánh lớn đã có trong nhạc nền (kèn đồng + gong) nên không chồng thêm tiếng nổ cũ.
+  //   l2p_* = 7 tiếng tự tổng hợp + 4 tiếng chung myinstants. Tiếng có quãng lặng đầu thì phát sớm lên (ON).
+  const ON={l2p_tentacle:0.12, l2p_chains:1.32, l2p_chime:0.2, fr_titan_roar:0.14, cine_conq_haki:1.12};
+  const sfx=[[0.4,'l2p_rumble',0.5],[T.worlds+0.3,'l2p_shimmer',0.45],
+    [T.reveal+0.6,'l2p_riser',0.45],[T.reveal+3.6,'fr_titan_roar',0.9],
+    [T.pierce+0.6,'l2p_whoosh',0.7],[T.pierce+1.8,'l2p_tentacle',0.8],[T.pierce+2.6,'l2p_crack',0.9],[T.pierce+6.8,'l2p_explode',0.85],
+    ...DEV.slice(0,3).map((p,i)=>[T.devour+p.tk+1.4,'l2p_sub',0.4+0.05*i]),[T.devour+4.2,'l2p_tentacle',0.55],
+    [T.embers+0.5,'l2p_rumble',0.3],...BORN.map(b=>[T.born+b[3],'l2p_chime',0.6]),
+    [T.sup+1.4,'l2p_shimmer',0.5],[T.bread+0.2,'l2p_whoosh',0.55],[BREAD_POP,'l2p_sub',0.6],
+    [T.flower+0.3,'flower_transcend',0.8],[T.line+0.3,'cine_conq_haki',0.5],
+    [T.war+1.1,'l2p_explode',0.65],[T.war+4.1,'fr_titan_roar',0.75],[T.war+6.9,'l2p_sub',0.6],
+    ...BUBS.filter(b=>b.pop).slice(0,4).map((b,i)=>[b.pop,i%2?'l2p_crack':'l2p_shatter',0.3]),[T.war+14,'l2p_rumble',0.5],
+    [T.voidS+0.5,'l2p_rumble',0.6],[T.voidS+2,'cine_drop',0.8],[T.hole+0.3,'blackhole',0.8],
+    [T.seal+1,'l2p_chains',0.85],[SEAL_HIT-3.0,'l2p_riser',0.55],[SEAL_HIT,'l2p_sub',0.75],
+    [T.split,'l2p_shatter',0.9],[T.split+6,'l2p_whoosh',0.5],[T.split+7.4,'l2p_chime',0.4],
+    [T.light+0.5,'l2p_shimmer',0.45],[EYE_OPEN,'cine_drop',0.8],[EYE_HIT,'fr_titan_roar',0.7]].map(e=>[Math.max(0,e[0]-(ON[e[1]]||0)),e[1],e[2]]);
   // 🎙️ LỒNG TIẾNG (2/11/2026): MiniMax Audio, giọng "Dota Voice" của anh, speech-2.8-hd, đọc 1 lần cả 18 câu (<#2#> giữa các câu)
   //   → assets/audio/vo/l2pro_narration.mp3 (119.3s). SEG = [đầu, cuối] từng câu trong file (dò quãng lặng ≥1s), VO_AT = giây phim bắt đầu đọc.
   //   Đổi lời / đọc lại: tạo lại file, dò lại SEG, sửa LINES cho khớp.
-  const VO_SRC='assets/audio/vo/l2pro_narration.mp3';
+  const VO_SRC='assets/audio/vo/l2pro_narration_125.mp3', VO_K=1.25;   // anh dặn 3/11: đọc nhanh hơn ×1.25 (atempo, giữ cao độ) — SEG vẫn ghi theo file gốc, chia VO_K khi dùng
   const SEG=[[0.16,7.94],[10.42,15.46],[18.14,23.12],[25.78,31.88],[34.54,38.3],[40.98,47.26],[49.9,53.28],[55.98,58.46],[61.02,63.7],[66.32,68.52],[71.18,78.98],[81.68,83.28],[85.88,88.92],[91.54,96.72],[99.46,103.22],[105.8,107.9],[110.46,115.52],[118.2,119.26]];
   const VO_AT=[...LINES.map(L=>L[0]), T.until+0.75];   // câu 18 "Until now…" đọc lúc chữ Until now bắt đầu hiện
-  const VO=SEG.map(([a,b],i)=>({src:VO_SRC, ra:VO_AT[i], rb:VO_AT[i]+(b-a)+0.12, off:Math.max(0,a-0.06), vol:1}));
-  const mus=[...VO, {src:A+'cine_ambient_war.mp3',ra:0,rb:T.embers,vol:0.24,loop:true,fi:2,fo:1.5},
-    {src:A+'cine_horns.mp3',ra:T.born-0.5,rb:T.line+1.5,vol:0.4,fi:1,fo:1.5},
-    {src:A+'cine_epic.mp3',ra:T.line,rb:T.war+11.5,vol:0.42,fo:1.5},
-    {src:A+'cine_ambient_war.mp3',ra:T.war+3,rb:T.light-0.2,vol:0.3,loop:true,fi:2,fo:2},
-    {src:A+'cine_epic.mp3',ra:T.light,rb:T.black,vol:0.3,fi:1.5,fo:2},
-    {src:A+'cine_heart.mp3',ra:T.black+0.5,rb:T.until+4,vol:0.8,fo:1}];
+  const VO=SEG.map(([a,b],i)=>({src:VO_SRC, ra:VO_AT[i], rb:VO_AT[i]+(b-a)/VO_K+0.12, off:Math.max(0,a/VO_K-0.05), vol:1, vo:true}));
+  // 🎼 nhạc nền TỰ VIẾT cho phim (anh dặn 3/11: nhạc sử thi mới, không bản quyền) — dàn nhạc CC0 VSCO 2 CE, bám đúng mốc T · dựng bằng score.py (scratchpad) → assets/audio/l2pro_score.mp3
+  //    lồng tiếng (vo:true): lúc đang đọc nhạc + tiếng hiệu ứng tự hạ xuống, đọc xong tự to lại
+  const mus=[...VO, {src:A+'l2pro_score.mp3',ra:0,rb:DUR,vol:0.8,fo:1.5}];
 
   CineKit.film({ id:'l2pro', title:'Meme Lore 2 · Prologue: The Dark Age', VW, VH, DUR,
     imgs:{ fr:'assets/avatars/friend/avatarUrl.webp', vdA:'assets/img/cine/L2P_VOID_MOUTH.png',   /* anh vẽ lại bằng ChatGPT (nét cao, miệng trống — hố đen do code vẽ), nền đen đã tách */

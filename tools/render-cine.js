@@ -129,7 +129,7 @@ const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css
   }
   // 4) tiếng: trộn lại đúng lịch SFX + nhạc nền (chuẩn hoá -14 LUFS y như trong game)
   const lufsGain = k => { const m = info.lufs[k]; if (!m) return 1; return Math.max(0.05, Math.min(8, Math.pow(10, (-14 - m[0]) / 20))); };
-  const inputs = [], filters = []; let n = 0;
+  const inputs = [], filters = [], VOI = []; let n = 0;
   const musOn = R => info.mus.some(m => R >= m.ra && R < m.rb);
   for (const [R, k, v, d] of info.sfx) { if (R < T0 - 0.05 || R >= T1 || !info.src[k]) continue;
     let gn = v * lufsGain(k); if (!info.music.includes(k) && musOn(R)) gn *= 0.75;
@@ -142,8 +142,14 @@ const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css
     if (m.fi && a - m.ra < m.fi) f += `,afade=t=in:st=0:d=${(m.fi - (a - m.ra)).toFixed(3)}`;
     if (m.fo && m.rb <= T1) f += `,afade=t=out:st=${Math.max(0, len - m.fo).toFixed(3)}:d=${m.fo}`;
     for (const [sa, sb] of info.slow) if (sb > a && sa < b) f += `,volume=enable='between(t,${(sa - a).toFixed(3)},${(sb - a).toFixed(3)})':volume=0.55`;   // slow-mo: nhạc lặng xuống
+    if (m.vo) VOI.push(n);
     filters.push(f + `,adelay=${Math.round((a - T0) * 1000)}|${Math.round((a - T0) * 1000)},aformat=channel_layouts=stereo[a${n}]`); n++; }
-  const mix = filters.join(';') + ';' + [...Array(n).keys()].map(i => `[a${i}]`).join('') + `amix=inputs=${n}:normalize=0:dropout_transition=0,alimiter=limit=0.95,atrim=0:${(T1 - T0).toFixed(3)}[out]`;
+  // 🎙️ có lồng tiếng (mus.vo): nhạc + tiếng hiệu ứng tự NÉN XUỐNG theo giọng đọc (sidechain), đọc xong tự to lại — anh dặn 3/11: giọng không được bị lấn
+  const BG = [...Array(n).keys()].filter(i => !VOI.includes(i)), lab = L => L.map(i => `[a${i}]`).join(''), TR = `atrim=0:${(T1 - T0).toFixed(3)}`;
+  const mix = filters.join(';') + ';' + (VOI.length && BG.length
+    ? `${lab(BG)}amix=inputs=${BG.length}:normalize=0:dropout_transition=0[bg];${lab(VOI)}amix=inputs=${VOI.length}:normalize=0:dropout_transition=0,asplit=2[vo1][vo2];`
+      + `[bg][vo1]sidechaincompress=threshold=0.012:ratio=8:attack=60:release=650:knee=4[bgd];[bgd][vo2]amix=inputs=2:normalize=0:dropout_transition=0,alimiter=limit=0.95,${TR}[out]`
+    : `${lab([...Array(n).keys()])}amix=inputs=${n}:normalize=0:dropout_transition=0,alimiter=limit=0.95,${TR}[out]`);
   const tmpF = OUT + '.filter.txt'; fs.writeFileSync(tmpF, mix);
   execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', tmpV, ...inputs, '-filter_complex_script', tmpF, '-map', '0:v', '-map', '[out]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-shortest', OUT], { stdio: 'inherit' });
   fs.unlinkSync(tmpV); fs.unlinkSync(tmpF);
