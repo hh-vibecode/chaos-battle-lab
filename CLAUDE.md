@@ -85,6 +85,7 @@ Mẫu đã duyệt:
 ## Skill của repo (`.claude/skills/`, thêm 28/10/2026)
 - `them-meme` (danh sách việc thêm meme mới) · `tach-nen-anh` (ảnh ChatGPT nền xanh → khung game) · `chay-thu` (chạy thử trận bằng Edge headless) · `phat-hanh` (đẩy bản mới không cần python)
   · `xuat-video` (CHỈ Mac: phim + trận đấu giả lập; chỉ quay lại đoạn bị sửa) · `dung-phim` (dựng phim anime bằng cine-kit) · `xem-video` (CHỈ Mac: video mẫu → bảng cảnh) · `tao-vfx` (VFX shader cho game + phim).
+- 🎞️ **MỌI video xuất ra mặc định 50fps — dọc hay ngang, phim hay trận** (anh chốt 3/11, note kỹ). Đã đặt sẵn: render-match / render-duo `--ofps 50` (game chạy 1 tick/khung theo luật 60 tick/s → VẪN giả lập 60, chỉ chụp khung sang ô 1/50s mới, bỏ đều 1/6 — KHÔNG hạ `--fps` giả lập, sẽ làm trận chậm 17% + lệch nhạc), render-cine `--fps` mặc định 50.
 - **Chuẩn video, áp cho cả phim lẫn trận đấu giả lập: 16:9 → 4K 3840×2160 · 9:16 DỌC → 3K 1620×2880 (anh chốt 30/10: dọc là 3K, phim dọc `--scale 1.5`).** Anh không nói khung → mặc định DỌC 3K.
 - 🏆 **Trận đấu giả lập LUÔN ưu tiên THẮNG SÁT, video dài 20–25s** (anh dặn 30–31/10): chạy thử nhiều seed, gom ≥3 trận đúng bên thắng VÀ video ~20–25s (`--want 3 --dur 20-25`) rồi lấy trận con thắng còn ÍT máu nhất (`tools/render-queue.sh`).
 - ⛔ **CHỈ XUẤT video / phim khi anh BẢO RÕ** (anh dặn 3/11: "t bảo m xuất đâu, ai cho m tự ý làm"). Sửa xong phim thì báo + để anh tự quyết có xuất không; đừng tự chạy render-cine / render-match.

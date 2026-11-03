@@ -11,7 +11,7 @@ const { spawn, execFileSync } = require('child_process');
 const http = require('http'), fs = require('fs'), path = require('path');
 const ROOT = path.resolve(__dirname, '..');
 const args = process.argv.slice(2), film = args[0] || 'war', OUT = path.resolve(args[1] || `cine-${film}.mp4`);
-const WIDE = args.includes('--wide'), K4 = args.includes('--4k'), FPS = 30, SUB = 2;
+const WIDE = args.includes('--wide'), K4 = args.includes('--4k'), FPS = (i => i >= 0 ? +args[i + 1] : 50)(args.indexOf('--fps')), SUB = 2;   // 🎞️ mặc định 50fps (anh chốt 3/11, mọi video dọc lẫn ngang) · --fps N để đổi
 const _sc = (() => { const i = args.indexOf('--scale'); return i >= 0 ? parseFloat(args[i + 1]) : null; })(), RK = K4 ? 2 : (_sc || 1);
 const FILMS = { war: { play: 'playCineWar', step: '_cineWarStep', canvas: '_cineWarCanvas', info: '_cineWarInfo' },
   l2e2: { play: 'playCineL2E2', step: '_cineL2E2Step', canvas: '_cineL2E2Canvas', info: '_cineL2E2Info', ready: '_cineL2E2Ready' },

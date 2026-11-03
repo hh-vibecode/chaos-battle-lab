@@ -14,7 +14,7 @@ const http = require('http'), fs = require('fs'), path = require('path');
 const ROOT = path.resolve(__dirname, '..');
 const args = process.argv.slice(2), OUT = path.resolve(args[0] || 'match.mp4');
 const opt = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; };
-const A = opt('--a'), B = opt('--b'), FPS = +opt('--fps', 60), VW = +opt('--w', 1440), VH = Math.round(VW * 16 / 9);
+const A = opt('--a'), B = opt('--b'), FPS = +opt('--fps', 60), OFPS = +opt('--ofps', 50), VW = +opt('--w', 1440), VH = Math.round(VW * 16 / 9);
 const WANT = +opt('--want', 5), MIN = +opt('--min', 0);   // --min: chạy thử ÍT NHẤT bấy nhiêu trận rồi mới chọn   // --win/--close: gom đủ bấy nhiêu trận đúng ý rồi chọn trận sát nhất
 const INJECT = opt('--inject', null) ? fs.readFileSync(opt('--inject'), 'utf8') : null;   // --inject f.js: JS nạp vào trang ngay sau START (kịch bản riêng cho 1 video, KHÔNG đổi game)
 const FAR = +opt('--far', 0);
@@ -172,13 +172,14 @@ const ok = r => (!WIN || r.win === WIN) && (r.far || 0) >= FAR && (!DUR || (vdur
   const cdp = await pg.context().newCDPSession(pg);
   const rc = await pg.evaluate(() => { const r = document.getElementById('arena').getBoundingClientRect(); return { x: r.x, y: r.y, width: r.width, height: r.height }; });
   const tmpV = OUT + '.video.mp4';
-  const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(FPS), '-c:v', 'mjpeg', '-i', '-', '-vf', `scale=${VW}:${VH}:flags=lanczos`, ...VENC, '-pix_fmt', 'yuv420p', '-r', String(FPS), tmpV], { stdio: ['pipe', 'inherit', 'inherit'] });
+  const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(OFPS), '-c:v', 'mjpeg', '-i', '-', '-vf', `scale=${VW}:${VH}:flags=lanczos`, ...VENC, '-pix_fmt', 'yuv420p', '-r', String(OFPS), tmpV], { stdio: ['pipe', 'inherit', 'inherit'] });
   let i = 0, hold = 0;
   for (;;) {
-    const fin = await pg.evaluate(STEP, { n: 1, FPS, stopAt: Math.round(TAIL * FPS) });
-    const { data } = await cdp.send('Page.captureScreenshot', { format: 'jpeg', quality: 93, clip: { ...rc, scale: 1 }, optimizeForSpeed: true });
-    if (!ff.stdin.write(Buffer.from(data, 'base64'))) await new Promise(r => ff.stdin.once('drain', r));
-    if (++i % 600 === 0) console.log(`  ${(i / FPS).toFixed(0)}s video · ${((Date.now() - T0) / 1000).toFixed(0)}s`);
+    const fin = await pg.evaluate(STEP, { n: 1, FPS, stopAt: Math.round(TAIL * FPS) }); i++;
+    // 🎞️ game chạy 1 tick/khung (luật game = 60 tick/s) → GIẢ LẬP luôn 60, video xuất OFPS (mặc định 50 — anh chốt 3/11): chỉ chụp khung nào sang ô 1/50s mới (bỏ đều 1/6)
+    if (Math.floor(i * OFPS / FPS) > Math.floor((i - 1) * OFPS / FPS)) { const { data } = await cdp.send('Page.captureScreenshot', { format: 'jpeg', quality: 93, clip: { ...rc, scale: 1 }, optimizeForSpeed: true });
+      if (!ff.stdin.write(Buffer.from(data, 'base64'))) await new Promise(r => ff.stdin.once('drain', r)); }
+    if (i % 600 === 0) console.log(`  ${(i / FPS).toFixed(0)}s video · ${((Date.now() - T0) / 1000).toFixed(0)}s`);
     if (fin && ++hold > FPS * 0.6) break;   // trận dừng hẳn (zoom con thắng xong) → giữ khung cuối 0.6s
     if (i > MAXSEC * FPS) break;
   }

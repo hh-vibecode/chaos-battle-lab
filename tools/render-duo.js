@@ -11,7 +11,7 @@ const ROOT = path.resolve(__dirname, '..');
 const args = process.argv.slice(2), OUT = path.resolve(args[0] || 'duo.mp4');
 const opt = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; };
 const TEAM_A = opt('--a', 'evilgary,evillarry').split(','), TEAM_B = opt('--b', 'feuerkatze,stalincat').split(',');
-const WIN = +opt('--win', 1), DOMAIN = +opt('--domain', 3), SEEDS = +opt('--seeds', 40), FPS = +opt('--fps', 60), VW = +opt('--w', 1440);
+const WIN = +opt('--win', 1), DOMAIN = +opt('--domain', 3), SEEDS = +opt('--seeds', 40), FPS = +opt('--fps', 60), OFPS = +opt('--ofps', 50), VW = +opt('--w', 1440);
 const VH = Math.round(VW * 16 / 9), FIXED = opt('--seed', null), PAR = +opt('--par', 4), MAXSEC = +opt('--max', 150);
 const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.gif': 'image/gif', '.mp3': 'audio/mpeg', '.ogg': 'audio/ogg', '.wav': 'audio/wav', '.svg': 'image/svg+xml', '.woff2': 'font/woff2', '.ttf': 'font/ttf' };
 
@@ -102,13 +102,13 @@ const RESULT = () => { const dead = t => fighters.filter(f => f.team === t).ever
   console.log(`🎬 quay seed ${seed} · ${VW}x${VH} @${FPS}fps`);
   const pg = await openMatch(br, PORT, seed);
   const tmpV = OUT + '.video.mp4';
-  const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(FPS), '-c:v', 'mjpeg', '-i', '-', '-c:v', 'libx264', '-preset', 'medium', '-crf', '17', '-pix_fmt', 'yuv420p', '-s', `${VW}x${VH}`, '-r', String(FPS), tmpV], { stdio: ['pipe', 'inherit', 'inherit'] });
+  const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(OFPS), '-c:v', 'mjpeg', '-i', '-', '-c:v', 'libx264', '-preset', 'medium', '-crf', '17', '-pix_fmt', 'yuv420p', '-s', `${VW}x${VH}`, '-r', String(OFPS), tmpV], { stdio: ['pipe', 'inherit', 'inherit'] });
   const t0 = Date.now(); let i = 0, hold = 0;
   for (;;) {
-    const fin = await pg.evaluate(STEP, { n: 1, FPS, DOMAIN });
-    const b64 = await pg.evaluate(() => document.getElementById('arena').toDataURL('image/jpeg', 0.94).split(',')[1]);
-    if (!ff.stdin.write(Buffer.from(b64, 'base64'))) await new Promise(r => ff.stdin.once('drain', r));
-    if (++i % 300 === 0) console.log(`  khung ${i} · ${(i / FPS).toFixed(1)}s video · ${((Date.now() - t0) / 1000).toFixed(0)}s`);
+    const fin = await pg.evaluate(STEP, { n: 1, FPS, DOMAIN }); i++;
+    if (Math.floor(i * OFPS / FPS) > Math.floor((i - 1) * OFPS / FPS)) { const b64 = await pg.evaluate(() => document.getElementById('arena').toDataURL('image/jpeg', 0.94).split(',')[1]);   // giả lập 60, video OFPS (mặc định 50)
+      if (!ff.stdin.write(Buffer.from(b64, 'base64'))) await new Promise(r => ff.stdin.once('drain', r)); }
+    if (i % 300 === 0) console.log(`  khung ${i} · ${(i / FPS).toFixed(1)}s video · ${((Date.now() - t0) / 1000).toFixed(0)}s`);
     if (fin && ++hold > FPS * 0.6) break;   // trận dừng hẳn (zoom xong) → giữ khung cuối thêm 0.6s
     if (i > MAXSEC * FPS) break;
   }
