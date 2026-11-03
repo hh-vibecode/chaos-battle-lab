@@ -196,7 +196,7 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
 - Ảnh: bán thân có sẵn cho 0–20s; 4 ảnh toàn thân anh vẽ ChatGPT (3/11, chân mèo thật) `assets/img/cine/MVD_*`: GOJO_BLAST (đệm chân 95.1%/40%), PAIN_PUSH (2 chân đẩy, đệm chân trước 3.9%/33.9%; ảnh 1 chân bị lỗi tư thế → anh vẽ lại), GOJO_KB, PAIN_KB
   → Hollow Purple sinh ở đệm chân Gojo, tường Shinra từ đệm chân Pain, hất văng dùng ảnh KB; đứng dậy cuối phim dùng ảnh thường (anh bỏ ảnh thở dốc: "vẫn nhẹ nhàng"). Lệnh vẽ luôn ghi rõ chân mèo thật, không tay người.
 - Khung dọc hẹp: hất văng chỉ tới ±170 (máy dist 740), cảnh kết 2 con tiến lại ±128 rồi quay chính diện.
-- Đã áp MẸO COMBAT (skill `dung-phim`): hit-stop `HSTOP`/`hs()`, lấy đà `dash()`, đà sau đòn `backOut`. Đang chờ anh vẽ 10 tư thế tay đôi (lệnh ở `Desktop/anh-mau-tay-doi/LENH-CHATGPT.txt`) để thay đoạn 17–20s.
+- Đã áp MẸO COMBAT (skill `dung-phim`): hit-stop `HSTOP`/`hs()`, lấy đà `dash()`, đà sau đòn `backOut`. Đoạn tay đôi 17–20s dùng 10 tư thế anh vẽ (`MVD_G1–G5` Gojo, `MVD_P1–P5` Pain: thủ thế / lấy đà / ra đòn / trúng đòn / né; G3 là bản vẽ lại vì bản trên tấm lỗi tay), biên đạo bằng keyframe `TRK` + `track()`: va ngang → Pain lao, Gojo cúi né → Gojo phản đòn → Pain trả đòn → tách ra. Tấm nhiều tư thế đứng sát nhau → tách theo VÙNG LIỀN KHỐI (không cắt cột được).
 
 ## 🔊 Luật sound (anh dặn)
 - (30/10/2026) **KHÔNG mượn sound SIGNATURE của meme khác** (tiếng gầm, nhạc theme, giọng, câu cửa miệng) cho meme / nhân vật khác — vd Friend gầm KHÔNG được dùng tiếng gầm của Gigachad (`titan_roar`/`gigachad_roar`).

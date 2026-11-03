@@ -27,7 +27,7 @@
     {t0:T.s7,  t1:T.s8, a:{tx:-110,ty:30,tz:0,dist:720,yaw:-28,pitch:58,fov:46}, b:{tx:-140,ty:30,tz:0,dist:660,yaw:-12,pitch:54,fov:46}},
     {t0:T.s8,  t1:T.s9, a:{tx:MX,ty:85,tz:0,dist:240,yaw:20,pitch:-10,roll:6,fov:46}, b:{tx:MX,ty:90,tz:0,dist:195,yaw:14,pitch:-12,roll:8,fov:46}, ease:'eout'},
     {t0:T.s9,  t1:T.s10,a:{tx:DX,ty:85,tz:0,dist:250,yaw:-20,pitch:-6,roll:-5,fov:46}, b:{tx:DX,ty:88,tz:0,dist:205,yaw:-14,pitch:-8,roll:-7,fov:46}, ease:'eout'},
-    {t0:T.s10, t1:T.s11,a:{tx:0,ty:70,tz:0,dist:900,yaw:0,pitch:8,fov:48}, b:{tx:0,ty:70,tz:0,dist:680,yaw:6,pitch:9,fov:48}},
+    {t0:T.s10, t1:T.s11,a:{tx:0,ty:70,tz:0,dist:900,yaw:0,pitch:8,fov:48}, b:{tx:-40,ty:70,tz:0,dist:700,yaw:6,pitch:9,fov:48}},
     {t0:T.s11, t1:T.s12,a:{tx:MX+45,ty:72,tz:0,dist:330,yaw:20,pitch:4,roll:4,fov:46}, b:{tx:MX+45,ty:74,tz:0,dist:305,yaw:26,pitch:4,roll:5,fov:46}},
     {t0:T.s12, t1:T.s13,a:{tx:DX-40,ty:72,tz:0,dist:320,yaw:-20,pitch:4,roll:-4,fov:46}, b:{tx:DX-40,ty:74,tz:0,dist:295,yaw:-26,pitch:4,roll:-5,fov:46}},
     {t0:T.s13, t1:T.s14,a:{tx:0,ty:70,tz:0,dist:840,yaw:0,pitch:6,fov:50}, b:{tx:0,ty:70,tz:0,dist:810,yaw:0,pitch:6,fov:50}},
@@ -38,7 +38,17 @@
   // ── vị trí 2 con theo thời gian ──
   const KB0=T.hit+0.16, KB1=T.hit+1.4;
   // ⏸️ HIT-STOP: trúng đòn là nhân vật + tượng ĐỨNG HÌNH vài khung (hiệu ứng, máy, rung vẫn chạy) → đòn có lực
-  const HSTOP=[[9.2,0.1],[17.6,0.1],[18.8,0.13],[T.hit,0.16]];
+  const HSTOP=[[9.2,0.1],[17.6,0.1],[18.8,0.12],[19.25,0.12],[T.hit,0.16]];
+  // 🥊 ĐÁNH TAY ĐÔI 17–20s — biên đạo theo mẹo combat (skill dung-phim): thủ thế → LẤY ĐÀ → RA ĐÒN (nhoè) → chạm (hit-stop) → đà sau đòn.
+  //   17.6 va nhau ngang ngửa · 18.25 Pain lao tới, Gojo CÚI NÉ · 18.8 Gojo phản đòn trúng Pain · 19.25 Pain trả đòn trúng Gojo → 2 bên tách ra (ngang tài)
+  //   key = [giây, x, tư thế, kiểu chuyển tới key này, nhoè]
+  const TRK={ m:[[17.0,MX,'G1'],[17.2,MX,'G1'],[17.35,MX-18,'G2','eout'],[17.6,-58,'G3','ein',1],[17.95,-150,'G1','back'],[18.3,-150,'G1'],[18.42,-162,'G5','eout'],[18.6,-162,'G5'],
+      [18.66,-175,'G2','eout'],[18.8,-120,'G3','ein',1],[19.05,-130,'G1','eout'],[19.25,-130,'G1'],[19.5,-205,'G4','back'],[19.75,MX,'G1','eout'],[20.0,MX,'G1']],
+    d:[[17.0,DX,'P1'],[17.2,DX,'P1'],[17.35,DX+18,'P2','eout'],[17.6,58,'P3','ein',1],[17.95,150,'P1','back'],[18.1,150,'P1'],[18.25,168,'P2','eout'],[18.45,-40,'P3','ein',1],
+      [18.6,-45,'P3','eout'],[18.8,-45,'P3'],[19.0,40,'P4','back'],[19.1,55,'P2','eout'],[19.25,-55,'P3','ein',1],[19.6,150,'P1','back'],[19.9,DX,'P1','eout'],[20.0,DX,'P1']] };
+  const HTP={G1:140,G2:136,G3:127,G4:143,G5:87,P1:140,P2:132,P3:121,P4:137,P5:65};   // cao theo đúng tỉ lệ trên tấm vẽ (tư thế cúi né thấp hơn)
+  function track(K0,tq){ for(let i=1;i<K0.length;i++){ const A=K0[i-1], B=K0[i]; if(tq<B[0]){ const k=seg(tq,A[0],B[0]), e=B[3]==='ein'?ein(k):B[3]==='eout'?eout(k):B[3]==='back'?backOut(k):k;
+        return {x:lerp(A[1],B[1],e), im:B[2], fast:!!B[4] && k>0.3, dir:Math.sign(B[1]-A[1])}; } } const L=K0[K0.length-1]; return {x:L[1], im:L[2], fast:false, dir:0}; }
   const hs=t=>{ for(const [a,d] of HSTOP) if(t>=a && t<a+d) return a; return t; };
   const backOut=k=>{ const c=1.9, u=k-1; return 1+(c+1)*u*u*u+c*u*u; };   // vượt quá đích rồi lùi về (đà sau đòn)
   // lao vào: 35% đầu LÙI LẤY ĐÀ 18 đơn vị, 65% sau bung ra rất nhanh
@@ -51,18 +61,18 @@
       for(let i=0;i<D.length-1;i++){ const [a,x0,z0]=D[i], [b,x1,z1]=D[i+1]; if(t>=a && t<b){ const k=eout(seg(tq,a,a+0.18)); x=lerp(x0,x1,k); z=lerp(z0,z1,k); if(k<0.95) sm={dx:(x1-x0)*6,dy:0,dz:(z1-z0)*6,n:5}; } } }
     if(t>=T.s8+0.6) im='mG';
     if(t>=T.s11 && t<KB0) im='mB'; if(t>=KB0 && t<KB1+0.6) im='mK';
-    if(t>=T.s10 && t<T.s11){ const C=[[17.2,17.6,MX,-55],[17.6,18.1,-55,-165],[18.4,18.8,-165,-55],[19.4,20,-55,MX]];
-      for(const [a,b,x0,x1] of C) if(t>=a && t<b){ if(x1>x0){ const D=dash(tq,a,b,x0,x1); x=D.x; if(D.fast) sm={dx:700,dy:0,dz:0,n:6}; } else x=lerp(x0,x1,backOut(seg(tq,a,b))); }
-      if(t>=17.6 && t<17.62) x=-55; if(t>=18.8 && t<19.4) x=-55+Math.sin(t*60)*3; }
+    if(t>=T.s10 && t<T.s11){ const P=track(TRK.m,tq); x=P.x; im=P.im; if(P.fast) sm={dx:700*P.dir,dy:0,dz:0,n:6}; }
+
+
     if(t>=KB0){ const k=eout(seg(tq,KB0,KB1)); x=lerp(MX+50,-170,k); lean=t<KB1+0.6?0:-12*(1-seg(t,T.s15+0.2,T.s15+1.0)); if(t<KB1) y=26*Math.sin(Math.PI*Math.min(1,seg(t,KB0,KB1)*1.15)); if(k<0.9) sm={dx:-500,dy:0,dz:0,n:6}; if(t>=T.s15) x=lerp(-170,-128,eout(seg(tq,T.s15,T.s15+1.1))); }   // đứng dậy, tiến lại đối mặt
     return {x,z,y,lean,sm,im}; }
   function dep(t){ const tq=K.twos(t); let x=DX, z=0, y=0, lean=0, sm=null, im='dN';
     if(t>=9.2 && t<T.s7){ const k=eout(seg(tq,9.2,9.5)), b=seg(tq,9.6,10); x=lerp(DX,DX+70,k)-70*eio(b); lean=10*(1-b)*k; }
     if(t>=T.s9+0.6) im='dP';
     if(t>=T.s12-0.25 && t<KB0) im='dB'; if(t>=KB0 && t<KB1+0.6) im='dK';
-    if(t>=T.s10 && t<T.s11){ const C=[[17.2,17.6,DX,55],[17.6,18.1,55,165],[18.4,18.8,165,55],[19.4,20,55,DX]];
-      for(const [a,b,x0,x1] of C) if(t>=a && t<b){ if(x1<x0){ const D=dash(tq,a,b,x0,x1); x=D.x; if(D.fast) sm={dx:-700,dy:0,dz:0,n:6}; } else x=lerp(x0,x1,backOut(seg(tq,a,b))); }
-      if(t>=18.8 && t<19.4) x=55-Math.sin(t*60)*3; }
+    if(t>=T.s10 && t<T.s11){ const P=track(TRK.d,tq); x=P.x; im=P.im; if(P.fast) sm={dx:700*P.dir,dy:0,dz:0,n:6}; }
+
+
     if(t>=KB0){ const k=eout(seg(tq,KB0,KB1)); x=lerp(DX-50,170,k); lean=t<KB1+0.6?0:12*(1-seg(t,T.s15+0.3,T.s15+1.1)); if(t<KB1) y=26*Math.sin(Math.PI*Math.min(1,seg(t,KB0,KB1)*1.15)); if(k<0.9) sm={dx:500,dy:0,dz:0,n:6}; if(t>=T.s15) x=lerp(170,128,eout(seg(tq,T.s15+0.1,T.s15+1.2))); }
     return {x,z,y,lean,sm,im}; }
   // vị trí tượng
@@ -83,7 +93,8 @@
   CineKit.film({ id:'mvd', title:'Anime Lab · Mewing Cat vs Depressed Cat', DUR:T.DUR,
     imgs:{ mN:'assets/avatars/mewingcat/avatarUrl.webp', mS1:'assets/avatars/mewingcat/skill1AvatarUrl.webp', mS2:'assets/avatars/mewingcat/skill2AvatarUrl.webp', mS3:'assets/avatars/mewingcat/skill3AvatarUrl.webp',
       mG:'assets/img/mewingcat/MEW_GOJO_IMG.webp', dN:'assets/avatars/depressedcat/avatarUrl.webp', dP:'assets/img/depressedcat/DP_PAIN_IMG.webp',
-      mB:'assets/img/cine/MVD_GOJO_BLAST.png', dB:'assets/img/cine/MVD_PAIN_PUSH.png', mK:'assets/img/cine/MVD_GOJO_KB.png', dK:'assets/img/cine/MVD_PAIN_KB.png',
+      mB:'assets/img/cine/MVD_GOJO_BLAST.png', G1:'assets/img/cine/MVD_G1.png', G2:'assets/img/cine/MVD_G2.png', G3:'assets/img/cine/MVD_G3.png', G4:'assets/img/cine/MVD_G4.png', G5:'assets/img/cine/MVD_G5.png',
+      P1:'assets/img/cine/MVD_P1.png', P2:'assets/img/cine/MVD_P2.png', P3:'assets/img/cine/MVD_P3.png', P4:'assets/img/cine/MVD_P4.png', P5:'assets/img/cine/MVD_P5.png', dB:'assets/img/cine/MVD_PAIN_PUSH.png', mK:'assets/img/cine/MVD_GOJO_KB.png', dK:'assets/img/cine/MVD_PAIN_KB.png',
       st1:'assets/img/mewingcat/MEWING_STONE_1_IMG.webp', st2:'assets/img/mewingcat/MEWING_STONE_2_IMG.webp', st3:'assets/img/mewingcat/MEWING_STONE_3_IMG.webp',
       cA:'assets/img/depressedcat/DP_CLOUD_A.webp', cB:'assets/img/depressedcat/DP_CLOUD_B.webp' },
     sfx:[[0.2,'l2p_rumble',0.5],[T.c1,'sm_schwing',0.7],[T.c2,'l2p_whoosh',0.6],[T.s3,'mewing_song',0.5,2.4],[4.2,'ar_stone_on',0.8],[4.75,'ar_stone_on',0.8],
@@ -91,17 +102,17 @@
       [8.35,'fr_dash',0.8],[9.2,'cine_strongpunch',1],[9.2,'mewing_statue_break',0.8],
       [10.45,'l2p_whoosh',0.6],[10.6,'thunder_big',0.7],[11.25,'l2p_whoosh',0.6],[11.4,'holy_thunder',0.7],[12.05,'l2p_whoosh',0.6],[12.2,'thunder_big',0.8],
       [T.s8+0.55,'ep3_charge',0.9],[T.s8+0.6,'sm_schwing',0.8],[T.s9+0.55,'dp_akatsuki',0.9],[T.s9+0.6,'dp_cloak',0.7],
-      [17.25,'fr_dash',0.8],[17.6,'cine_haki_hit',1],[18.45,'fr_dash',0.8],[18.8,'cine_haki_hit',1],[18.85,'lightsaber_clash_06',0.7],
+      [17.36,'fr_dash',0.8],[17.6,'cine_haki_hit',1],[18.26,'fr_dash',0.8],[18.34,'l2p_whoosh',0.7],[18.67,'fr_dash',0.7],[18.8,'cine_strongpunch',1],[19.11,'fr_dash',0.7],[19.25,'cine_haki_hit',1],[19.27,'lightsaber_clash_06',0.6],
       [21.05,'mw_gojo',1],[T.s12+0.05,'ps_shinra',1],[T.s13,'l2p_riser',0.7],
       [T.hit,'ep3_explode',1],[T.hit,'cine_deep_impact',1],[T.hit,'l2p_explode',0.9],[KB1-0.1,'cine_impact',0.8],[KB1,'ep3_quake',0.6],[27.0,'cine_drop',0.5]],
     mus:[{src:'assets/audio/cine_horns.mp3',ra:0,rb:T.DUR,vol:0.32,fi:1,fo:1.5}],
     theme:t=>t<T.s5?dusk:storm, shots,
-    impact:t=>(t>=6.6&&t<6.67)||(t>=7.3&&t<7.36)?'bw':(t>=9.2&&t<9.26)?'inv':(t>=17.6&&t<17.66)?'bw':(t>=18.8&&t<18.86)?'inv':(t>=T.hit&&t<T.hit+0.07)?'red':(t>=T.hit+0.07&&t<T.hit+0.14)?'inv':(t>=T.hit+0.14&&t<T.hit+0.2)?'bw':0,
+    impact:t=>(t>=6.6&&t<6.67)||(t>=7.3&&t<7.36)?'bw':(t>=9.2&&t<9.26)?'inv':(t>=17.6&&t<17.66)?'bw':(t>=18.8&&t<18.86)?'inv':(t>=19.25&&t<19.31)?'bw':(t>=T.hit&&t<T.hit+0.07)?'red':(t>=T.hit+0.07&&t<T.hit+0.14)?'inv':(t>=T.hit+0.14&&t<T.hit+0.2)?'bw':0,
     shake:t=>{ let s=0; const h=(a,amp,d)=>{ if(t>=a&&t<a+d) s=Math.max(s,amp*(1-(t-a)/d)); };
-      h(6.6,7,0.4); h(7.3,7,0.4); h(9.2,12,0.5); for(const b of [10.6,11.4,12.2]) h(b,5,0.3); h(17.6,10,0.4); h(18.8,12,0.5); h(T.hit,22,0.9); h(KB1,6,0.4);
-      if(t>=18.8&&t<19.4) s=Math.max(s,2.5); if(t>=T.s11&&t<T.hit) s=Math.max(s,1.2+2.5*seg(t,T.s11,T.hit)); if(t>=T.s9+0.6&&t<T.s10) s=Math.max(s,1.5); return s; },
+      h(6.6,7,0.4); h(7.3,7,0.4); h(9.2,12,0.5); for(const b of [10.6,11.4,12.2]) h(b,5,0.3); h(17.6,10,0.4); h(18.8,12,0.5); h(19.25,11,0.45); h(T.hit,22,0.9); h(KB1,6,0.4);
+      if(t>=T.s11&&t<T.hit) s=Math.max(s,1.2+2.5*seg(t,T.s11,T.hit)); if(t>=T.s9+0.6&&t<T.s10) s=Math.max(s,1.5); return s; },
     world(F,t){ const I=F.I, m=mew(hs(t)), d=dep(hs(t));
-      const HT={mG:H*1.18,dP:H*1.12,mB:H*1.15,dB:H*1.15,mK:H*0.95,dK:H*0.95}, mh=HT[m.im]||H, dh=HT[d.im]||H;
+      const HT={...HTP, mG:H*1.18,dP:H*1.12,mB:H*1.15,dB:H*1.15,mK:H*0.95,dK:H*0.95}, mh=HT[m.im]||H, dh=HT[d.im]||H;
       const mAura=(t>=T.s8+0.45)?{preset:'ki',k:t<T.s8+0.9?seg(t,T.s8+0.45,T.s8+0.9):(t>=T.s11&&t<T.hit?1:0.7),seed:3}:null;
       const dAura=(t>=T.s9+0.45)?{preset:'cursed',k:t<T.s9+0.9?seg(t,T.s9+0.45,T.s9+0.9):(t>=T.s12&&t<T.hit?1:0.7),seed:9}:null;
       const flashM=(t>=T.s8+0.55&&t<T.s8+0.7)?1:0, flashD=(t>=T.s9+0.55&&t<T.s9+0.7)?1:0;
@@ -128,10 +139,10 @@
       for(const [tt,x,col,sd] of [[T.s8+0.55,MX,'120,190,255',91],[T.s9+0.55,DX,'170,90,255',92]]) if(t>=tt){ const u=seg(t,tt,tt+0.7);
         K.ring(F,x,0,20+260*eout(u),12,1-u,col); K.smoke(F,{x,z:0,t0:tt,n:14,spread:180,rise:70,life:1.4,size:46,seed:sd,swirl:2,a:0.55}); }
       // đụng nhau 2 lần
-      for(const [tt,sd] of [[17.6,101],[18.8,102]]) if(t>=tt){ const u=seg(t,tt,tt+0.5);
-        K.ring(F,0,0,30+360*eout(u),14,1-u,'220,200,255'); K.sparks(F,{x:0,y:75,z:0,t0:tt,n:26,speed:520,life:0.6,seed:sd,col:'200,170,255'}); K.smoke(F,{x:0,z:0,t0:tt,n:12,spread:200,rise:40,life:1.3,size:44,seed:sd,a:0.6}); }
-      if(t>=18.8&&t<19.4){ for(let i=0;i<3;i++) K.sparks(F,{x:0,y:75,z:0,t0:18.8+i*0.2,n:12,speed:380,life:0.45,seed:110+i,col:'170,200,255'});
-        const ph=((t-18.8)%0.2)/0.2; K.ring(F,0,0,20+150*eout(ph),7,(1-ph)*0.7,'200,170,255'); }
+      for(const [tt,sd,cx] of [[17.6,101,0],[18.8,102,-82],[19.25,103,-92]]) if(t>=tt){ const u=seg(t,tt,tt+0.5);
+        K.ring(F,cx,0,30+360*eout(u),14,1-u,'220,200,255'); K.sparks(F,{x:cx,y:75,z:0,t0:tt,n:26,speed:520,life:0.6,seed:sd,col:'200,170,255'}); K.smoke(F,{x:cx,z:0,t0:tt,n:12,spread:200,rise:40,life:1.3,size:44,seed:sd,a:0.6}); }
+      if(t>=18.3&&t<18.75){ const u=seg(t,18.3,18.75); K.smoke(F,{x:-150,z:0,t0:18.32,n:6,spread:60,rise:10,life:0.6,size:26,seed:115,a:0.45*(1-u)}); }   // bụi lúc Gojo cúi né
+
       // HOLLOW PURPLE: cầu xanh + cầu đỏ dồn vào → cầu tím (trước mặt Mewing)
       const HP0=T.s11+0.1, HPm=T.s11+0.95;
       const _mbc=K.prep(I.mB), _mbw=_mbc?H*1.15*_mbc.sw/_mbc.sh:100;
@@ -157,10 +168,10 @@
       // bụi lắng cuối phim
       if(t>=T.s15) K.smoke(F,{x:0,z:40,t0:T.s15,n:16,spread:700,rise:20,life:3,size:60,seed:160,a:0.35}); },
     post(F,t){ const fx={shocks:[]}; const sh=(a,x,y,rm,d,str)=>{ if(t>=a&&t<a+d){ const u=(t-a)/d; fx.shocks.push({x,y,z:0,r:20+rm*eout(u),w:26,str:str*(1-u)}); fx.chroma=Math.max(fx.chroma||0,2*(1-u)); } };
-      sh(9.2,DX-30,60,320,0.5,20); sh(17.6,0,70,340,0.5,22); sh(18.8,0,70,380,0.55,26); sh(T.hit,0,80,620,0.9,36);
+      sh(9.2,DX-30,60,320,0.5,20); sh(17.6,0,70,340,0.5,22); sh(18.8,-82,70,380,0.55,26); sh(19.25,-92,70,360,0.5,24); sh(T.hit,0,80,620,0.9,36);
       if(t>=T.s8+0.55&&t<T.s9) fx.heat={k:2.5,t}; if(t>=T.s9+0.55&&t<T.s10) fx.heat={k:2.5,t};
       if(t>=T.s11+0.95&&t<T.s12){ fx.shocks.push({x:MX+55,y:88,z:0,r:60+20*Math.sin(t*20),w:30,str:10}); fx.chroma=Math.max(fx.chroma||0,1); }
-      if((t>=17.2&&t<17.6)||(t>=18.4&&t<18.8)) fx.zoom={x:0,y:80,z:0,k:0.08};
+      for(const [a,b,cx] of [[17.4,17.6,0],[18.3,18.45,-60],[18.68,18.8,-82],[19.13,19.25,-92]]) if(t>=a&&t<b) fx.zoom={x:cx,y:80,z:0,k:0.08};
       if(t>=T.s13&&t<T.hit){ fx.zoom={x:0,y:80,z:0,k:0.1*seg(t,T.s13,T.hit)}; fx.chroma=Math.max(fx.chroma||0,1.5*seg(t,T.s13,T.hit)); }
       if(t>=KB0&&t<KB1) fx.zoom={x:0,y:80,z:0,k:0.06};
       return fx; },
@@ -179,12 +190,13 @@
       if(t>=T.s8+0.5&&t<T.s9) K.speedLines(F,{k:0.6,n:60,r0:0.36,col:'rgba(150,200,255,0.8)'});
       if(t>=T.s9+0.5&&t<T.s10) K.speedLines(F,{k:0.6,n:60,r0:0.36,col:'rgba(20,0,30,0.85)'});
       if(t>=T.s11&&t<T.s13) K.speedLines(F,{k:0.45+0.4*seg(t,T.s11,T.s13),n:80,r0:0.34,col:t<T.s12?'rgba(200,170,255,0.8)':'rgba(255,255,255,0.8)'});
-      if((t>=8.3&&t<9.2)||(t>=17.2&&t<17.6)||(t>=18.4&&t<18.8)) K.panLines(F,{k:0.9,ang:0,n:30});
+      if((t>=8.3&&t<9.2)||(t>=17.4&&t<17.6)||(t>=18.3&&t<18.45)||(t>=18.68&&t<18.8)||(t>=19.13&&t<19.25)) K.panLines(F,{k:0.9,ang:0,n:30});
       if(t>=KB0&&t<KB1) K.panLines(F,{k:1-seg(t,KB0,KB1),ang:0,n:34});
       // chữ
       K.sfxText(F,'BONK!',VW*0.62,VH*0.33,{t0:9.2,life:0.7,px:80,rot:-10});
       K.sfxText(F,'DON!',VW*0.5,VH*0.3,{t0:17.6,life:0.55,px:84,rot:-8});
-      K.sfxText(F,'DOOON!!',VW*0.5,VH*0.3,{t0:18.8,life:0.65,px:84,rot:8,col:'#c9a7ff'});
+      K.sfxText(F,'BAM!',VW*0.4,VH*0.3,{t0:18.8,life:0.5,px:84,rot:8,col:'#9fd0ff'});
+      K.sfxText(F,'DOOON!!',VW*0.45,VH*0.3,{t0:19.25,life:0.6,px:84,rot:-6,col:'#c9a7ff'});
       K.sfxText(F,'HOLLOW PURPLE',VW*0.5,VH*0.2,{t0:T.s11+0.3,life:0.85,px:44,rot:-4,col:'#c9a7ff'});
       K.sfxText(F,'SHINRA TENSEI',VW*0.5,VH*0.2,{t0:T.s12+0.4,life:0.9,px:44,rot:4,col:'#ffffff'});
       if(t>=T.hit&&t<T.hit+0.06) K.flash(F,0.9,'#fff'); if(t>=T.hit+0.2&&t<T.hit+0.6) K.flash(F,0.5*(1-seg(t,T.hit+0.2,T.hit+0.6)),'#e9dcff');
