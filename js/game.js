@@ -13159,7 +13159,7 @@ const CHAR_BLURB = {
 // không rối mắt. Giữ nguyên CHAR_BLURB dài cho các chế độ khác (1vs1 / Tournament / 3-Way).
 const CHAR_BLURB_SHORT = {
   saiyanmarmot: "AAAAAAAH! Power level: through the wall.",
-  breadcat: "It's not a bug. It's butter bread cat paradox.",
+  breadcat: "It's not a bug. It's bread cat paradox.",
   poordog: "Kick a poor dog. Karma kicks back.",
   ninjacat: "Don't look into its eyes.",
   duolingo: "Your streak or your life.",
