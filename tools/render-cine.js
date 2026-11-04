@@ -40,7 +40,7 @@ const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css
     fs.readFile(f, (e, d) => { if (e) { r.writeHead(404); r.end(); return; } r.writeHead(200, { 'Content-Type': MIME[path.extname(f)] || 'application/octet-stream' }); r.end(d); }); });
   await new Promise(r => srv.listen(0, '127.0.0.1', r)); const PORT = srv.address().port;
   const W = Math.round((WIDE ? 1920 : 1080) * RK), H = Math.round((WIDE ? 1080 : 1920) * RK);
-  const br = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required'] });
+  const br = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required', ...(args.includes('--cpu') ? [] : ['--enable-gpu', '--use-angle=metal', '--ignore-gpu-blocklist'])] });   // ⚡ bật GPU thật (trước chạy WebGL bằng CPU → shader cực chậm) · --cpu để thử lại kiểu cũ
   const pg = await br.newPage({ viewport: WIDE ? { width: 1280, height: 720 } : { width: 720, height: 1280 } });
   pg.on('pageerror', e => console.log('⚠️', e.message.slice(0, 160)));
   await pg.goto(`http://127.0.0.1:${PORT}/`);
