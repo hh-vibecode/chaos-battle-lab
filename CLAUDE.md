@@ -163,7 +163,7 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
   ⚠️ Anh chê bản đầu "mỗi tia sáng": VFX nhạc phải RÕ HẲN khuông nhạc + nốt nhạc, vàng phát sáng đậm như ảnh mẫu (khuông nhạc lửa vàng); ong không được hiện ra tại chỗ.
   `VB_N=22` ô chia đều chu vi (`_vbSlot`), điền xen kẽ `(k*7)%22` (anh muốn 20–25 con dàn đều). Khởi động phát nhanh `rate:10.05/9` cho trọn 9s (anh dặn; đo: 0.5s → 9.5s).
   → `vb_bumblebee` (Flight of the Bumblebee, Katica Illényi — anh gửi): vòng sáng ra hiệu + `vb_rush`, mỗi nhịp thả 1 con chờ lâu nhất (ùa vào từ mọi phía),
-  ong tốc 1.5 (anh hạ 4/11 từ 2; meme thường 5; tốc là TỔNG quãng bay/tick kể cả giật ngang + tách đàn), phải CHẠM thân mới CHÍCH THEO NHỊP (`_vbBeat`), chích xong khựng 0.5s (`VB_HOLD_T`). Hết bài → khởi động lại, gọi ong bù ô trống (vòng 'ended' trong `_playPianoSong`).
+  ong tốc 1.5 (anh hạ 4/11 từ 2; meme thường 5; tốc là TỔNG quãng bay/tick kể cả giật ngang + tách đàn), phải CHẠM thân mới CHÍCH THEO NHỊP (`_vbBeat`), chích xong khựng 0.3s (`VB_HOLD_T`=18 tick; anh đổi từ 0.5s). Hết bài → khởi động lại, gọi ong bù ô trống (vòng 'ended' trong `_playPianoSong`).
 - ⚠️ Ong con `vbBees` = ĐÒN TẤN CÔNG, KHÔNG phải quân triệu hồi có máu (ANH CHỐT 4/11; bản 504–505 em từng cho 30 máu → sai): không máu, không bị nhắm /
   đánh trúng, bay xuyên mọi thứ → KHÔNG đưa vào `_hpSummonArrays` / `get enemy()`. Khởi động lại chỉ gọi bù khi chưa đủ 22. Chủ chết → cả đàn tan.
   Ong = ĐẠN (anh chốt 4/11): Samurai Cheems chém bật (`_smCanParry` lúc chích → `st:'back'` lao về chích Violin Bee, dame tính cho Cheems),
