@@ -155,7 +155,8 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
 - Dựng trên engine Ep 1 (phố/nhà/cửa sổ/bó hoa/mặt bầm CHÉP sang để khớp từng nét) + xuất offline: `node tools/render-cine.js l2e0 out.mp4` (mặc định 4K).
 - Ảnh anh vẽ: `assets/img/cine/EP0_*` (KICK, RUN, DOWN, BANDAGE, WIFE_WALK, WIFE_HOLD). Chuột phải NHỎ (cao ~56 cạnh Chill Guy ~175).
 
-## 🐝 Violin Bee (`violinbee`, 4/11/2026) — khối `VB_*` / `_vb*` trong js/game.js (cạnh `_stopPiano`)
+## 🐝 Violin Bumblebee (`violinbee`, 4/11/2026; lúc đầu tên Violin Bee) — khối `VB_*` / `_vb*` trong js/game.js (cạnh `_stopPiano`)
+- Tên hiển thị (anh dặn 4/11): 2 meme violin để chữ Violin ĐỨNG ĐẦU — **Violin Bumblebee** + **Violin Mosquito** (trước là Mosquito Violin; key `mosquitoviolin` giữ nguyên). Roster đã lưu tên cũ tự đổi (dòng `roster.forEach` cạnh Saiyan Marmot).
 - Meme NHẠC, chạy chung engine `_playPianoSong` (FFT bắt nhịp). Không đánh thường. 2 pha (`f._vbPhase`): khởi động `vb_warmup` (~10s, anh gửi) →
   mỗi nốt `_vbBeat` → `_vbCall`: luồng sáng vàng mang nốt nhạc (anh dặn "toả luồng với nốt nhạc kiểu kéo ong tới") bay từ cây đàn ra 1 ô NGOÀI mép sân
   → hiện 1 ong con đứng chờ. `VB_N=22` ô chia đều chu vi (`_vbSlot`), điền xen kẽ `(k*7)%22` (anh muốn 20–25 con dàn đều). Hết bài thiếu con nào gọi bù ngay.
