@@ -14129,7 +14129,7 @@ const PIANO_CFG = {
   violin_3:           { mult:1.42, gap:7 },
   violin_4:           { mult:1.42, gap:7 },
   violin_5:           { mult:1.42, gap:7 }, // He's a Pirate (Pirates of the Caribbean) — Taylor Davis cover
-  vb_warmup:          { mult:1.3, gap:20 }, // 🐝 khởi động violin — mỗi nốt gọi 1 ong, giãn ≥0.33s cho luồng sáng không dồn cục
+  vb_warmup:          { mult:1.3, gap:18, rate:10.05/9 }, // phát nhanh lên cho trọn 9s (file gốc 10.05s, anh dặn 4/11) // 🐝 khởi động violin — mỗi nốt gọi 1 ong, giãn ≥0.33s cho luồng sáng không dồn cục
   vb_bumblebee:       { mult:1.45, gap:6 }, // 🐝 Flight of the Bumblebee — dồn dập, mỗi nhịp thả 1 ong
   tribe_1:            { mult:1.5, gap:5 },  // 🥁 tribal fast — dồn dập
   tribe_2:            { mult:1.48, gap:6 }, // 🥁 tribal bongos/congas/darbouk
@@ -14245,8 +14245,8 @@ function _vbStaff(f){
 function _vbBeat(f){
   f._vbIdx=(f._vbIdx||0)+1;   // lật khung kéo đàn theo nhịp
   if(f._vbPhase!=='song'){ _vbStaff(f); _vbCall(f); }
-  else if(f._vbIdx%3===0) _vbStaff(f);
   else {   // ra hiệu: mỗi nhịp thả con đang chờ lâu nhất (cũng là thứ tự xen kẽ quanh sân)
+    vbFx.push({k:'ring', f, t:0, T:32, a:Math.random()*Math.PI*2});   // Bumblebee: sóng âm + nốt quanh cây đàn (VFX cũ anh chốt) — khuông nhạc CHỈ để gọi ong lúc khởi động
     let pick=null; for(const b of vbBees) if(b.owner===f && b.st==='edge' && b.born>8 && (!pick || b.ord<pick.ord)) pick=b;
     if(pick){ pick.st='rush'; pick.atk=0; }
   }
@@ -14348,6 +14348,10 @@ function _vbDraw(){
     ctx.fillStyle='rgba(255,170,40,0.55)'; ctx.fillText(NOTE[i%3],x+1*u,y+1*u); ctx.fillStyle='#fff3c4'; ctx.fillText(NOTE[i%3],x,y); };
   for(const q of vbFx){
     if(q.k==='staff') _vbDrawStaff(q,u);
+    else if(q.k==='ring'){ const f=q.f; if(!f) continue; const p=q.t/q.T, cx=f.x, cy=f.y-f.size*0.2;
+      for(let j=0;j<3;j++){ const r=f.size*(0.7+p*2.4)+j*7*u; ctx.globalAlpha=(1-p)*(0.75-j*0.2); ctx.lineWidth=(3.2-j*0.8)*u; ctx.strokeStyle=j?'rgba(255,180,50,1)':'#fff1bf';
+        for(const sd of [0,Math.PI]){ ctx.beginPath(); ctx.arc(cx,cy,r,q.a+sd-0.55,q.a+sd+0.55); ctx.stroke(); } }
+      note(cx+Math.cos(q.a)*f.size*(0.9+p*1.8), cy+Math.sin(q.a)*f.size*(0.9+p*1.8)-p*14*u, 14*u, 1-p, q.t+(q.a*3|0)); }
 else if(q.k==='signal'){ const f=q.f; if(!f) continue; const p=q.t/q.T, R=Math.hypot(W,H)*Math.pow(p,0.7);
       for(const [lw,c,a] of [[16,'rgba(255,150,30,1)',0.25],[5,'rgba(255,210,90,1)',0.6],[1.6,'#fff6dc',1]]){ ctx.globalAlpha=(1-p)*a; ctx.lineWidth=lw*u; ctx.strokeStyle=c; ctx.beginPath(); ctx.arc(f.x,f.y,R,0,Math.PI*2); ctx.stroke(); }
     } else if(q.k==='sting'){ const p=q.t/q.T; ctx.globalAlpha=1-p; ctx.strokeStyle='#fff4c9'; ctx.lineWidth=1.6*u;

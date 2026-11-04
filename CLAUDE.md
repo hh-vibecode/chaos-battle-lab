@@ -159,9 +159,9 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
 - Tên hiển thị (anh dặn 4/11): 2 meme violin để chữ Violin ĐỨNG ĐẦU — **Violin Bumblebee** + **Violin Mosquito** (trước là Mosquito Violin; key `mosquitoviolin` giữ nguyên). Roster đã lưu tên cũ tự đổi (dòng `roster.forEach` cạnh Saiyan Marmot).
 - Meme NHẠC, chạy chung engine `_playPianoSong` (FFT bắt nhịp). Không đánh thường. 2 pha (`f._vbPhase`): khởi động `vb_warmup` (~10s, anh gửi) →
   mỗi nốt `_vbBeat` → `_vbStaff` (AURA KHUÔNG NHẠC: 5 dòng kẻ vàng rực uốn lượn + nốt nhạc to rõ, toả ra mọi hướng theo góc vàng, bay XUYÊN hết canvas
-  rồi mờ — vẽ `_vbDrawStaff`; Bumblebee: 1 dải / 3 nhịp) + `_vbCall` (1 ong con BAY TỪ NGOÀI KHUNG HÌNH vào, `st:'arrive'`, xuất phát cách ô `VB_IN_FROM`).
+  rồi mờ — vẽ `_vbDrawStaff`; CHỈ lúc khởi động để gọi ong, anh dặn — Bumblebee dùng VFX cũ: vòng sóng âm + nốt quanh cây đàn mỗi nhịp, `ring`) + `_vbCall` (1 ong con BAY TỪ NGOÀI KHUNG HÌNH vào, `st:'arrive'`, xuất phát cách ô `VB_IN_FROM`).
   ⚠️ Anh chê bản đầu "mỗi tia sáng": VFX nhạc phải RÕ HẲN khuông nhạc + nốt nhạc, vàng phát sáng đậm như ảnh mẫu (khuông nhạc lửa vàng); ong không được hiện ra tại chỗ.
-  `VB_N=22` ô chia đều chu vi (`_vbSlot`), điền xen kẽ `(k*7)%22` (anh muốn 20–25 con dàn đều). Đo 4/11: khởi động ~10s, 22 con đứng đủ ở ~11.7s, con đầu ùa vào ~12.5s.
+  `VB_N=22` ô chia đều chu vi (`_vbSlot`), điền xen kẽ `(k*7)%22` (anh muốn 20–25 con dàn đều). Khởi động phát nhanh `rate:10.05/9` cho trọn 9s (anh dặn; đo: 0.5s → 9.5s).
   → `vb_bumblebee` (Flight of the Bumblebee, Katica Illényi — anh gửi): vòng sáng ra hiệu + `vb_rush`, mỗi nhịp thả 1 con chờ lâu nhất (ùa vào từ mọi phía),
   ong tốc 1.5 (anh hạ 4/11 từ 2; meme thường 5; tốc là TỔNG quãng bay/tick kể cả giật ngang + tách đàn), phải CHẠM thân mới CHÍCH THEO NHỊP (`_vbBeat`), chích xong khựng 0.5s (`VB_HOLD_T`). Hết bài → khởi động lại, gọi ong bù ô trống (vòng 'ended' trong `_playPianoSong`).
 - ⚠️ Ong con `vbBees` = ĐÒN TẤN CÔNG, KHÔNG phải quân triệu hồi có máu (ANH CHỐT 4/11; bản 504–505 em từng cho 30 máu → sai): không máu, không bị nhắm /
