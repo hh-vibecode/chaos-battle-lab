@@ -592,17 +592,19 @@
   const sfx=[[T.reveal+3.6,'fr_titan_roar',0.65],[T.pierce+2.6,'l2p_crack',0.55],[T.pierce+6.8,'l2p_explode',0.55],
     [T.born+BORN[0][3],'l2p_chime',0.5],[BREAD_POP,'l2p_shimmer',0.4],[T.flower+0.3,'flower_transcend',0.55],
     [T.war+1.1,'l2p_explode',0.5],[T.war+4.1,'fr_titan_roar',0.55],
-    [T.hole+0.3,'blackhole',0.55],[T.seal+1,'l2p_chains',0.55],[T.split,'l2p_shatter',0.55],[EYE_HIT,'fr_titan_roar',0.65]].map(e=>[Math.max(0,e[0]-(ON[e[1]]||0)),e[1],e[2]]);
+    [T.hole+0.3,'blackhole',0.55],[T.seal+1,'l2p_chains',0.55],[T.split,'l2p_shatter',0.55],[EYE_HIT,'fr_titan_roar',0.65]].map(e=>[Math.max(0,e[0]-(ON[e[1]]||0)),e[1],e[2]*1.1]);   // 4/11: tiếng hiệu ứng +10%
   // 🎙️ LỒNG TIẾNG (2/11/2026): MiniMax Audio, giọng "Dota Voice" của anh, speech-2.8-hd, đọc 1 lần cả 18 câu (<#2#> giữa các câu)
   //   → assets/audio/vo/l2pro_narration.mp3 (119.3s, file gốc giữ lại để làm lại). SEG = [đầu, cuối] từng câu trong file đang dùng, VO_AT = giây phim bắt đầu đọc.
   //   Đổi lời / đọc lại: tạo lại file, dò lại SEG, sửa LINES cho khớp.
   const VO_SRC='assets/audio/vo/l2pro_narration_fast_n.mp3', VO_K=1;   // _n = cùng file đã chuẩn hoá −16 LUFS (bản gốc chỉ −34 LUFS, nhạc nền lấn) ·   // anh dặn 3/11: giọng kéo dài TỪNG CHỮ → làm lại từ file gốc: cắt khoảng ngắt giữa câu (≥0.22s → 0.22s) + nén TỪNG CÂU bằng WSOLA (giữ cao độ) về tốc độ riêng 130–150 từ/phút, KHÔNG đều nhau: câu kịch tính ~130, câu kể ~140–150 (anh chốt); "Until now…" giữ nguyên
   const SEG=[[0.3,4.902],[6.103,9.515],[10.715,15.143],[16.343,21.277],[22.477,24.735],[25.935,30.152],[31.352,34.362],[35.563,37.75],[38.95,41.365],[42.565,44.595],[45.795,51.343],[52.543,53.908],[55.108,57.33],[58.53,62.188],[63.388,66.345],[67.545,69.365],[70.565,74.082],[75.282,76.382]];   // vị trí từng câu trong l2pro_narration_fast.wav (ghép cách nhau 1.2s)
   const VO_AT=[...LINES.map(L=>L[0]), T.until+0.75];   // câu 18 "Until now…" đọc lúc chữ Until now bắt đầu hiện
-  const VO=SEG.map(([a,b],i)=>({src:VO_SRC, ra:VO_AT[i], rb:VO_AT[i]+(b-a)/VO_K+0.12, off:Math.max(0,a/VO_K-0.05), vol:1}));
+  // anh dặn 4/11: KHÔNG cắt sát cuối câu (nghe cụt) → giữ thêm đuôi tối đa 0.7s (file cách câu 1.2s nên không lẫn câu sau) rồi tắt dần, không chạm câu kế · giọng 0.9 (giảm 10%)
+  const VO=SEG.map(([a,b],i)=>{ const end=VO_AT[i]+(b-a)/VO_K, nx=i+1<VO_AT.length?VO_AT[i+1]:DUR, tail=Math.max(0.12,Math.min(0.7,nx-end-0.05));
+    return {src:VO_SRC, ra:VO_AT[i], rb:end+tail, off:Math.max(0,a/VO_K-0.05), vol:0.9, fo:Math.min(0.35,tail)}; });
   // 🎼 nhạc nền TỰ VIẾT cho phim (anh dặn 3/11: nhạc sử thi mới, không bản quyền) — dàn nhạc CC0 VSCO 2 CE, bám đúng mốc T · dựng bằng score.py (scratchpad) → assets/audio/l2pro_score.mp3
   //    anh dặn 4/11: KHÔNG tự hạ / tăng nhạc nữa — nhạc nền để CỐ ĐỊNH ~−27 LUFS (giọng −16), lúc nào cũng nghe rõ giọng
-  const mus=[...VO, {src:A+'l2pro_score.mp3',ra:0,rb:DUR,vol:0.23,fo:1.5}];
+  const mus=[...VO, {src:A+'l2pro_score.mp3',ra:0,rb:DUR,vol:0.253,fo:1.5}];   // 4/11: nhạc +10%
 
   CineKit.film({ id:'l2pro', title:'Meme Lore 2 · Prologue: The Dark Age', VW, VH, DUR,
     imgs:{ fr:'assets/avatars/friend/avatarUrl.webp', vdA:'assets/img/cine/L2P_VOID_MOUTH.png',   /* anh vẽ lại bằng ChatGPT (nét cao, miệng trống — hố đen do code vẽ), nền đen đã tách */
