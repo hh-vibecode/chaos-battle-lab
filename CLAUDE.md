@@ -169,7 +169,7 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
   Ong = ĐẠN (anh chốt 4/11): Samurai Cheems chém bật (`_smCanParry` lúc chích → `st:'back'` lao về chích Violin Bee, dame tính cho Cheems),
   Catvader bắt (1 dòng `vbBees` trong `CV_SYS`), The Void hút + nuốt (`_vbSuck` gọi trong khối nuốt đạn của hố đen). Mất con nào thì lần khởi động sau gọi bù.
   (Lúc làm đã đổi 9 chỗ liệt kê cứng 9 loại triệu hồi sang `_hpSummonArrays()` — giữ.)
-- Dame chích = 10 (ANH CHỐT 4/11), chỉ chích đúng nhịp, mỗi con ≥1s/phát (`VB_STING_CD`). Em tự đặt: Violin Bee 1000 máu tốc 4.5.
+- Dame chích = 10 (ANH CHỐT 4/11), chỉ chích đúng nhịp, mỗi con ≥1s/phát (`VB_STING_CD`). Em tự đặt: Violin Bee 1000 máu tốc 4.5. Size 37.8 (anh giảm 10% từ 42, 4/11); ong con = size ong chúa × 0.3 nên nhỏ theo.
 - Ảnh: `assets/img/violinbee/VB_1..6` (6 khung kéo đàn, lật theo nhịp; avatar = khung 1 theo lời anh), `VB_BEE1..4` bay + `VB_BEE5` chích (quay mặt PHẢI).
   Anh muốn ong con "giống ong nhất có thể", sợ lật sprite trông giả → KHÔNG lật 4 khung bay nữa: 1 ảnh thân (`VB_BEE_BASE`) + `_vbSplit` tách CÁNH ra
   (màng cánh bán trong suốt → đóng hình lấp gân → giữ mảng lớn nhất) rồi vỗ bằng code: cánh rõ đổi pha mỗi khung + 2 bóng cánh mờ = vệt nhoè.
