@@ -812,7 +812,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     // 🎯 CỌC GỖ (di sản của chế độ Meme Spotlight đã gỡ, giữ lại vì vô hại): không phải nhân vật thật, không AI/tấn công, chỉ dùng làm mục tiêu tập luyện — xem toàn bộ cơ chế bất tử/đứng yên ở các chỗ check this.type==='trainingdummy'
     trainingdummy: { key:'trainingdummy', defaultName:'Training Dummy', emoji:'🎯', color:'#8d6e63', hp:1000, speed:0, size:45, skill:'Cọc gỗ tập luyện — đứng yên, bất tử, nhận dame/hiệu ứng như nhân vật thật để test kỹ năng.' },
     damdamdidi: { key:'damdamdidi', defaultName:'Damdam Didi Cat', emoji:'💃', color:'#ff4fa3', hp:1000, speed:5, size:45, skill:'Nhại theo trào lưu mèo lắc đầu "dam dam didi didi" từng viral khắp mạng — mỗi lượt nhảy 4s rồi nghỉ 2s (nhạc tạm dừng, nhảy lại thì phát tiếp đoạn đang dở), vừa nhảy vừa liên tục quăng arrow dance về phía địch theo điệu. Trúng liên tục thì càng lúc càng sung, đòn sau luôn mạnh hơn đòn trước.' },
-    violinbee: { key:'violinbee', defaultName:'Violin Bumblebee', emoji:'🐝', color:'#f2b705', hp:1000, speed:4.5, size:42, skill:'Không đánh thường. Vào trận kéo bản khởi động: mỗi nốt toả ra 1 luồng sáng vàng mang nốt nhạc, gọi 1 ong con tới đứng chờ sát mép ngoài sân (đủ 22 con dàn đều quanh sân). Khởi động xong chơi Flight of the Bumblebee: ra hiệu tấn công, mỗi nhịp 1 con ong ùa vào sân (từ mọi phía), ong con bay tốc 2 tới địch gần nhất và chích theo nhịp nhạc (10 dame/phát, mỗi con tối đa 1 phát/giây). Ong con tính như ĐẠN: không có máu, không bị đánh trúng, bay xuyên mọi thứ — nhưng Samurai Cheems chém bật được (ong lao ngược về chích Violin Bumblebee), Catvader bắt được bằng vùng Force, hố đen The Void hút và nuốt được. Hết bài thì khởi động lại, gọi ong bù vào chỗ trống.' },
+    violinbee: { key:'violinbee', defaultName:'Violin Bumblebee', emoji:'🐝', color:'#f2b705', hp:1000, speed:4.5, size:42, skill:'Không đánh thường. Vào trận kéo bản khởi động: mỗi nốt toả ra 1 luồng sáng vàng mang nốt nhạc, gọi 1 ong con tới đứng chờ sát mép ngoài sân (đủ 22 con dàn đều quanh sân). Khởi động xong chơi Flight of the Bumblebee: ra hiệu tấn công, mỗi nhịp 1 con ong ùa vào sân (từ mọi phía), ong con bay tốc 1.5 tới địch gần nhất và chích theo nhịp nhạc (10 dame/phát, mỗi con tối đa 1 phát/giây, chích xong khựng 0.5s). Ong con tính như ĐẠN: không có máu, không bị đánh trúng, bay xuyên mọi thứ — nhưng Samurai Cheems chém bật được (ong lao ngược về chích Violin Bumblebee), Catvader bắt được bằng vùng Force, hố đen The Void hút và nuốt được. Hết bài thì khởi động lại, gọi ong bù vào chỗ trống.' },
     bongocat: { key:'bongocat', defaultName:'Bongo Cat', emoji:'🥁', color:'#c98a4b', hp:1000, speed:5, size:44, skill:'Vào trận khởi động vài nhịp gõ tay không rồi mới bốc lên chơi hẳn 1 bài trống bộ lạc theo đúng beat của bài, cứ hết bài lại nhảy sang bài khác. Mỗi nhịp gõ dội ra 1 vòng sóng âm nhỏ quanh thân, càng đứng gần nó ăn dame càng đau.' },
     stalincat: { key:'stalincat', defaultName:'Stalin Cat', emoji:'☭', color:'#c62828', hp:1000, speed:5, size:45, skill:'Cầm búa quăng thẳng vào địch (đẩy lùi, có thể gây choáng), búa rơi tại chỗ và phải nhặt lại, để lâu thì tự bay về. Liềm nảy khắp sân gây chảy máu. Liềm chạm trúng búa thì bắt chéo, chói loà rồi MỞ RA DOMAIN (chỉ 1 lần mỗi trận): cả sân lấp lánh, địch cháy liên tục, Stalin hồi máu, chạy nhanh hơn, thu búa nhanh hơn và liềm xoay nhanh hơn.' },
     dawae: { key:'dawae', defaultName:'Da Wae', emoji:'🚪', color:'#4a7c3c', hp:1000, speed:5, size:46, skill:'Cứ 3.5s lại gọi ra 1 đàn 20 Da Wae nhỏ (bản thu nhỏ của chính nó), chạy vòng vèo theo hình sóng qua sân ở 70% tốc thường, CUỐN THEO bất kỳ ai chúng chạm phải (kéo lê đi đúng theo đường chạy của đàn, không phải chỉ đẩy lùi). Chạm lần đầu gây 150 sát thương. Trong lúc bị cuốn đi mà va phải tường thì mỗi lần va nhận 40 sát thương — dưới 100 máu mà va tường thì bị lôi thẳng xuyên qua tường ra khỏi sàn, thua ngay lập tức.' },
@@ -14195,8 +14195,9 @@ function _playPianoSong(f, key){
   }
 }
 // 🐝 ===== VIOLIN BEE (khối VB_* / _vb*) =====
-// Khởi động (vb_warmup ~10s): mỗi nốt bắt được → 1 LUỒNG SÁNG VÀNG mang nốt nhạc toả từ cây đàn ra 1 ô ngoài mép sân, tới nơi thì
-//   1 ong con hiện ra đứng chờ (VB_N ô chia đều theo chu vi, điền xen kẽ nên lúc nào trông cũng đều). Hết bài còn thiếu thì gọi nốt cho đủ.
+// Kéo đàn → AURA KHUÔNG NHẠC (5 dòng kẻ vàng phát sáng, uốn lượn, mang nốt nhạc to rõ) toả từ cây đàn ra mọi hướng, bay XUYÊN hết canvas rồi
+//   mờ mất (anh dặn 4/11: phải rõ khuông + nốt, không phải tia sáng). Khởi động (vb_warmup ~10s): mỗi nốt bắt được → 1 dải khuông + gọi 1 ong con
+//   BAY TỪ NGOÀI KHUNG HÌNH vào đứng chờ sát mép ngoài sân (VB_N ô chia đều theo chu vi, điền xen kẽ). Hết bài còn thiếu thì gọi nốt cho đủ.
 // Hết khởi động → Flight of the Bumblebee (vb_bumblebee): vòng sáng ra hiệu, mỗi nhịp thả 1 con đang chờ (thứ tự xen kẽ → ùa vào từ mọi
 //   phía), ong con bay tốc 2 (meme thường 5) tới địch gần nhất, chạm địch thì CHÍCH THEO NHỊP. Hết bài → khởi động lại, gọi ong bù ô trống.
 // Ong con = ĐÒN TẤN CÔNG (anh chốt 4/11): KHÔNG có máu, không bị nhắm / đánh trúng, bay xuyên mọi thứ → KHÔNG nằm trong _hpSummonArrays.
@@ -14205,7 +14206,8 @@ const VB_FR=[1,2,3,4,5,6].map(n=>{ const im=new Image(); im._noMask=true;   // 6
   im.onload=()=>{ im._crop={sx:0,sy:0,sw:im.naturalWidth,sh:im.naturalHeight}; }; im.src='assets/img/violinbee/VB_'+n+'.png'; return im; });
 const VB_BEE_FR=[1,2,3,4,5].map(n=>{ const im=new Image(); im.src='assets/img/violinbee/VB_BEE'+n+'.png'; return im; });   // ong con: 4 khung bay + khung 5 chích (quay mặt PHẢI, tâm thân 0.52/0.59)
 const VB_VIS_MUL=1.55;   // khung chừa chỗ cho cánh → phóng phần HÌNH cho thân bằng cỡ meme khác (hitbox giữ nguyên)
-const VB_N=22, VB_STING=10, VB_STING_CD=60, VB_BEE_SPD=2, VB_STREAM_T=28;   // chích 10 dame (anh chốt 4/11), mỗi con tối đa 1 phát/giây, chỉ chích đúng nhịp
+const VB_N=22, VB_STING=10, VB_STING_CD=60, VB_BEE_SPD=1.5, VB_HOLD_T=30, VB_IN_FROM=320, VB_IN_SPD=7;   // tốc ong 1.5 (anh hạ 4/11, trước 2) · chích xong khựng 0.5s   // chích 10 dame (anh chốt 4/11), mỗi con tối đa 1 phát/giây, chỉ chích đúng nhịp
+const VB_STAFF_L=260, VB_STAFF_SP=5.5, VB_STAFF_MAX=12;   // dải khuông nhạc: dài · tốc bay (đơn vị W/480) · tối đa cùng lúc
 const VB_BEE_BASE=2, VB_WING_YCUT=0.55;   // ong con: 1 ảnh thân (VB_BEE3) + cánh tách ra vỗ bằng code · cánh chỉ tính ở phần trên tỉ lệ này (dưới là đuôi lông trắng)
 const VB_SONGS={warm:['vb_warmup'], song:['vb_bumblebee']};
 let vbBees=[], vbFx=[], _vbLoop=null;
@@ -14216,29 +14218,34 @@ function _vbSlot(i){   // ô thứ i trên vành chữ nhật NGOÀI mép sân, 
 }
 const _vbOrder=k=>(k*7)%VB_N;   // điền / thả xen kẽ (7 và 22 nguyên tố cùng nhau) → rải đều, ùa ra từ đủ mọi phía
 function _vbReset(){ vbBees=[]; vbFx=[]; if(_vbLoop){ try{ _vbLoop.pause(); }catch(e){} _vbLoop=null; } }
-function _vbAlive(f){ let n=0; for(const b of vbBees) if(b.owner===f) n++; for(const q of vbFx) if(q.k==='stream' && q.f===f) n++; return n; }
-function _vbFreeSlot(f){   // ô trống kế tiếp theo thứ tự xen kẽ (ô có ong đang chờ / luồng đang bay tới thì bỏ qua)
-  const used=new Set(); for(const b of vbBees) if(b.owner===f && b.st==='edge') used.add(b.slot);
-  for(const q of vbFx) if(q.k==='stream' && q.f===f) used.add(q.slot);
+function _vbAlive(f){ let n=0; for(const b of vbBees) if(b.owner===f) n++; return n; }
+function _vbFreeSlot(f){   // ô trống kế tiếp theo thứ tự xen kẽ (ô có ong đang chờ / đang bay tới thì bỏ qua)
+  const used=new Set(); for(const b of vbBees) if(b.owner===f && (b.st==='edge' || b.st==='arrive')) used.add(b.slot);
   for(let k=0;k<VB_N;k++){ const kk=((f._vbFill||0)+k)%VB_N, s=_vbOrder(kk); if(!used.has(s)){ f._vbFill=kk+1; return s; } }
   return -1;
 }
-function _vbCall(f, delay){   // 1 nốt → 1 luồng nốt nhạc bay ra 1 ô ngoài mép sân
-  if(_vbAlive(f)>=VB_N) return; const s=_vbFreeSlot(f); if(s<0) return;
-  vbFx.push({k:'stream', f, slot:s, t:-(delay||0), T:VB_STREAM_T, seed:Math.random()*9, side:Math.random()<0.5?-1:1});
-}
-function _vbSpawn(f, slot){
-  const [x,y]=_vbSlot(slot), sz=Math.max(9,f.size*0.3);
+// 1 nốt → 1 ong con BAY TỪ NGOÀI KHUNG HÌNH vào ô của nó sát mép ngoài sân (xuất phát xa ra ngoài theo hướng tâm sân → ô)
+function _vbCall(f, delay){
+  if(_vbAlive(f)>=VB_N) return; const slot=_vbFreeSlot(f); if(slot<0) return;
+  const [hx,hy]=_vbSlot(slot), u=_vbU(), dx=hx-W/2, dy=hy-H/2, d=Math.hypot(dx,dy)||1, sz=Math.max(9,f.size*0.3);
+  const side=(Math.random()-0.5)*160*u, x=hx+dx/d*VB_IN_FROM*u-dy/d*side, y=hy+dy/d*VB_IN_FROM*u+dx/d*side;
   f._vbSeq=(f._vbSeq||0)+1;
-  vbBees.push({ team:f.team, owner:f, x, y, size:sz, st:'edge', slot, ord:f._vbSeq, hx:x, hy:y, born:0, cd:0, atk:0, seed:Math.random()*9, dirX:(x<W/2?1:-1) });   // ĐÒN TẤN CÔNG: không máu, không bị đánh, bay xuyên
-  vbFx.push({k:'pop', x, y, t:0, T:20});
-  playSample('vb_buzz', 0.3, 0.7);
+  vbBees.push({ team:f.team, owner:f, x, y, size:sz, st:'arrive', wait:delay||0, slot, ord:f._vbSeq, hx, hy, born:0, cd:0, atk:0, seed:Math.random()*9, dirX:(hx>=x?1:-1) });   // ĐÒN TẤN CÔNG: không máu, không bị đánh, bay xuyên
+  if(!delay) playSample('vb_buzz', 0.3, 0.7);
+}
+// 🎼 1 dải AURA KHUÔNG NHẠC toả từ cây đàn ra 1 hướng (lần lượt xoay theo góc vàng → rải đều khắp các phía), bay xuyên hết canvas rồi tắt
+function _vbStaff(f){
+  if(vbFx.filter(q=>q.k==='staff').length>=VB_STAFF_MAX) return;
+  const u=_vbU(); f._vbStaffA=(f._vbStaffA??Math.random()*6.3)+2.39996;
+  const L=VB_STAFF_L*u, sp=VB_STAFF_SP*u, T=Math.ceil((Math.hypot(W,H)+L)/sp), SYM=['♪','♫','♩','♬'];
+  const notes=[]; for(let k=0;k<4;k++) notes.push({p:0.12+k*0.21+Math.random()*0.06, j:Math.floor(Math.random()*5)-2, sym:SYM[(Math.random()*4)|0], big:Math.random()<0.35?1:0, wob:Math.random()*6});
+  vbFx.push({k:'staff', x0:f.x, y0:f.y-f.size*0.15, a:f._vbStaffA, t:0, T, L, sp, seed:Math.random()*9, notes});
 }
 // 🎻 1 nhịp nhạc thật (khởi động hoặc Bumblebee)
 function _vbBeat(f){
   f._vbIdx=(f._vbIdx||0)+1;   // lật khung kéo đàn theo nhịp
-  vbFx.push({k:'ring', f, t:0, T:32, a:Math.random()*Math.PI*2});
-  if(f._vbPhase!=='song') _vbCall(f);
+  if(f._vbPhase!=='song'){ _vbStaff(f); _vbCall(f); }
+  else if(f._vbIdx%3===0) _vbStaff(f);
   else {   // ra hiệu: mỗi nhịp thả con đang chờ lâu nhất (cũng là thứ tự xen kẽ quanh sân)
     let pick=null; for(const b of vbBees) if(b.owner===f && b.st==='edge' && b.born>8 && (!pick || b.ord<pick.ord)) pick=b;
     if(pick){ pick.st='rush'; pick.atk=0; }
@@ -14249,7 +14256,7 @@ function _vbBeat(f){
     const t=b.tgt; if(!t || t.dead || !(t.hp>0)) continue;
     if(Math.hypot(t.x-b.x,t.y-b.y) < b.size*1.1+(t.size||20)+2*u){   // phải CHẠM thân thật mới chích (bản đầu tầm ~83px → chưa đuổi kịp vẫn chích được)
       if(_smCanParry(t)){ _smParryFx(t,b.x,b.y); b.st='back'; b.by=t; b.team=t.team; continue; }   // ⚔️ ong = ĐẠN: Cheems chém bật → lao ngược về chích Violin Bee
-      t.takeDamage(VB_STING, f); b.cd=VB_STING_CD; b.atk=12;
+      t.takeDamage(VB_STING, f); b.cd=VB_STING_CD; b.atk=12; b.hold=VB_HOLD_T;   // chích xong KHỰNG 0.5s (anh dặn) → địch có lúc thoát ra
       vbFx.push({k:'sting', x:b.x+(t.x-b.x)*0.6, y:b.y+(t.y-b.y)*0.6, t:0, T:14, a:Math.atan2(t.y-b.y,t.x-b.x)});
       if(tick-(f._vbStingSnd||-99)>=5){ f._vbStingSnd=tick; playSample('vb_sting', 0.5); }
     }
@@ -14258,31 +14265,36 @@ function _vbBeat(f){
 // 🎼 hết 1 bài: khởi động xong → gọi nốt cho đủ đàn + ra hiệu tấn công; hết Bumblebee → khởi động lại
 // 🕳️ hố đen The Void hút ong con (= đạn): càng gần càng kéo mạnh + xoáy vòng, vào tới lõi thì bị nuốt
 function _vbSuck(x,y,team,PR,EAT){
-  for(let i=vbBees.length-1;i>=0;i--){ const b=vbBees[i]; if(b.team===team || b.st==='edge') continue;
+  for(let i=vbBees.length-1;i>=0;i--){ const b=vbBees[i]; if(b.team===team || b.st==='edge' || b.st==='arrive') continue;
     const dx=x-b.x, dy=y-b.y, d=Math.hypot(dx,dy)||1; if(d>PR) continue;
     const k=1-d/PR, sp=Math.min(d,1.2+k*k*8); b.x+=dx/d*sp-dy/d*sp*0.45*k; b.y+=dy/d*sp+dx/d*sp*0.45*k; b.mv=sp; b.dirX=dx>=0?1:-1;
     if(d<EAT){ spawnParticles(b.x,b.y,'#9c27b0',5); vbBees.splice(i,1); } }
 }
 function _vbSongEnded(f, key){
   if(key==='vb_warmup'){
-    for(let k=0; _vbAlive(f)<VB_N && k<VB_N; k++) _vbCall(f, k*2);
+    for(let k=0; _vbAlive(f)<VB_N && k<VB_N; k++) _vbCall(f, k*4);   // còn thiếu → bay vào nốt, nối đuôi nhau
     f._vbPhase='song'; vbFx.push({k:'signal', f, t:0, T:46}); playSample('vb_rush', 0.8); addShake(3,8);
   } else f._vbPhase='warm';
 }
 function _vbWorldTick(){
-  for(let i=vbFx.length-1;i>=0;i--){ const q=vbFx[i]; q.t++;
-    if(q.t<q.T) continue; vbFx.splice(i,1);
-    if(q.k==='stream' && q.f && !q.f.dead) _vbSpawn(q.f, q.slot); }
+  for(let i=vbFx.length-1;i>=0;i--){ const q=vbFx[i]; q.t++; if(q.t>=q.T) vbFx.splice(i,1); }
   const u=_vbU(), sp=VB_BEE_SPD*MOVE_MULT*_soloMoveMul(); let rushN=0;
   for(let i=vbBees.length-1;i>=0;i--){ const b=vbBees[i];
     if(!b.owner || b.owner.dead){ spawnParticles(b.x,b.y,'#ffc107',6,false,true); vbBees.splice(i,1); continue; }   // chủ đàn gục → cả đàn tan
     b.born++; b.cd=Math.max(0,b.cd-1); b.atk=Math.max(0,b.atk-1);
-    if(b.st==='edge'){ b.x+=(b.hx-b.x)*0.08; b.y+=(b.hy-b.y)*0.08; b.dirX=(W/2>=b.x)?1:-1; continue; }   // lơ lửng chờ tại ô
+    if(b.st==='arrive'){   // bay từ ngoài khung hình vào ô chờ (giật ngang kiểu ong), tới nơi thì đứng chờ
+      if(b.wait>0){ b.wait--; if(b.wait===0) playSample('vb_buzz', 0.3, 0.7); b.born=0; continue; }
+      if(--b.dartT<=0 || b.dartT!==b.dartT){ b.dartT=10+Math.floor(Math.random()*14); b.dz=(Math.random()*2-1)*2.2; } b.dw=(b.dw||0)+((b.dz||0)-(b.dw||0))*0.3;
+      const dx=b.hx-b.x, dy=b.hy-b.y, d=Math.hypot(dx,dy)||1, v=Math.min(d,VB_IN_SPD*u), w2=Math.min(1,d/(60*u))*b.dw;
+      b.x+=dx/d*v-dy/d*w2; b.y+=dy/d*v+dx/d*w2; b.dirX=dx>=0?1:-1; b.mv=v*0.4;
+      if(d<3*u){ b.st='edge'; b.born=0; } continue; }
+    if(b.st==='edge'){ b.x+=(b.hx-b.x)*0.08; b.y+=(b.hy-b.y)*0.08; b.dirX=(W/2>=b.x)?1:-1; b.mv=0; continue; }   // lơ lửng chờ tại ô
     rushN++;
     if(b.st==='back'){   // ⚔️ bị Cheems chém bật: lao thẳng (nhanh gấp 5) về chích chính Violin Bee, dame tính cho Cheems, rồi tan
       const o=b.owner, dx=o.x-b.x, dy=o.y-b.y, d=Math.hypot(dx,dy)||1; b.x+=dx/d*Math.min(d,sp*5); b.y+=dy/d*Math.min(d,sp*5); b.dirX=dx>=0?1:-1; b.mv=sp*5; b.atk=12;
       if(d<o.size+b.size){ o.takeDamage(VB_STING, b.by); vbFx.push({k:'sting', x:b.x, y:b.y, t:0, T:14, a:Math.atan2(dy,dx)}); playSample('vb_sting', 0.5); vbBees.splice(i,1); }
       continue; }
+    if((b.hold||0)>0){ b.hold--; b.mv=(b.mv||0)*0.8; continue; }   // vừa chích: khựng tại chỗ (vẫn rung cánh, không bay theo)
     const t=_findClosestEnemy(b.team,b.x,b.y); b.tgt=t; if(!t) continue;
     // 🐝 bay kiểu ong: không lượn sin đều mà GIẬT ĐỔI HƯỚNG ngang từng quãng ngắn (0.2–0.45s)
     if(--b.dartT<=0 || b.dartT!==b.dartT){ b.dartT=12+Math.floor(Math.random()*16); b.dz=(Math.random()*2-1)*1.1; }
@@ -14305,7 +14317,29 @@ function _vbWorldTick(){
     if(_vbLoop) _vbLoop.volume=Math.min(0.6, 0.16+rushN*0.02);
   } else if(_vbLoop){ try{ _vbLoop.pause(); _longSfx.delete(_vbLoop); }catch(e){} _vbLoop=null; }
 }
-// ✨ luồng sáng vàng + nốt nhạc (khởi động), sóng âm quanh cây đàn mỗi nhịp, vòng ra hiệu, chích, ong hiện ra; rồi tới đàn ong
+// 🎼 1 dải AURA KHUÔNG NHẠC: 5 dòng kẻ song song uốn lượn (giãn dần khi bay xa), sáng vàng — đuôi mờ, đầu sáng trắng;
+//    nốt nhạc to rõ nằm TRÊN dòng kẻ, chạy theo dải. Bay xuyên hết canvas, 0.5s cuối mờ dần.
+function _vbDrawStaff(q,u){
+  const sH=q.t*q.sp, sT=Math.max(0,sH-q.L), ca=Math.cos(q.a), sa=Math.sin(q.a), nx=-sa, ny=ca;
+  const fade=Math.min(1,q.t/10)*Math.min(1,(q.T-q.t)/30);
+  const at=(s,j)=>{ const wv=Math.sin(s/(55*u)+q.seed+q.t*0.05)*(8*u+s*0.06), g=j*5.4*u*(1+s/(700*u)); return [q.x0+ca*s+nx*(wv+g), q.y0+sa*s+ny*(wv+g)]; };
+  const [tx,ty]=at(sT,0), [hx,hy]=at(sH,0), gr=ctx.createLinearGradient(tx,ty,hx,hy);
+  gr.addColorStop(0,'rgba(255,120,10,0)'); gr.addColorStop(0.25,'rgba(255,150,30,0.75)'); gr.addColorStop(0.75,'rgba(255,200,70,1)'); gr.addColorStop(1,'rgba(255,240,180,1)');   // vàng rực như ảnh mẫu
+  const N=28;
+  for(let j=-2;j<=2;j++){ ctx.beginPath(); for(let k=0;k<=N;k++){ const [x,y]=at(sT+(sH-sT)*k/N,j); k?ctx.lineTo(x,y):ctx.moveTo(x,y); }
+    ctx.strokeStyle=gr; ctx.globalAlpha=fade*0.14; ctx.lineWidth=15*u; ctx.stroke();   // quầng rộng
+    ctx.globalAlpha=fade*0.45; ctx.lineWidth=6*u; ctx.stroke();                         // quầng sáng
+    ctx.globalAlpha=fade; ctx.lineWidth=1.9*u; ctx.stroke(); }                          // nét kẻ khuông rõ
+  ctx.textAlign='center'; ctx.textBaseline='middle';
+  for(const n of q.notes){ const s=sH-q.L*n.p; if(s<sT+4*u || s<12*u) continue;
+    const [x,y]=at(s,n.j), sz=(21+n.big*9)*u*(1+s/(900*u)), al=fade*Math.min(1,(s-sT)/(q.L*0.25)), ry=y-sz*0.32+Math.sin(q.t*0.12+n.wob)*2*u;
+    ctx.globalAlpha=al*0.35; ctx.font='bold '+Math.round(sz*1.9)+'px serif'; ctx.fillStyle='rgba(255,110,10,1)'; ctx.fillText(n.sym,x,ry);   // quầng cam rộng
+    ctx.globalAlpha=al*0.7; ctx.font='bold '+Math.round(sz*1.35)+'px serif'; ctx.fillStyle='rgba(255,170,40,1)'; ctx.fillText(n.sym,x,ry);   // quầng vàng
+    ctx.globalAlpha=al; ctx.font='bold '+Math.round(sz)+'px serif'; ctx.fillStyle='#ffe9a6'; ctx.fillText(n.sym,x,ry); }        // nốt vàng rõ
+  const g2=ctx.createRadialGradient(hx,hy,0,hx,hy,16*u); g2.addColorStop(0,'rgba(255,245,210,0.9)'); g2.addColorStop(1,'rgba(255,160,30,0)');
+  ctx.globalAlpha=fade; ctx.fillStyle=g2; ctx.beginPath(); ctx.arc(hx,hy,16*u,0,Math.PI*2); ctx.fill();   // đầu dải loé sáng
+}
+// ✨ aura khuông nhạc, vòng ra hiệu, chích; rồi tới đàn ong
 function _vbDraw(){
   if(!vbBees.length && !vbFx.length) return;
   const u=_vbU(), NOTE=['♪','♫','♬'];
@@ -14313,24 +14347,9 @@ function _vbDraw(){
   const note=(x,y,sz,a,i)=>{ ctx.globalAlpha=a; ctx.font='bold '+Math.round(sz)+'px serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
     ctx.fillStyle='rgba(255,170,40,0.55)'; ctx.fillText(NOTE[i%3],x+1*u,y+1*u); ctx.fillStyle='#fff3c4'; ctx.fillText(NOTE[i%3],x,y); };
   for(const q of vbFx){
-    if(q.k==='stream'){ if(q.t<0 || !q.f) continue;
-      const f=q.f, [x1,y1]=_vbSlot(q.slot), x0=f.x, y0=f.y-f.size*0.2, L=Math.hypot(x1-x0,y1-y0)||1, nx=-(y1-y0)/L, ny=(x1-x0)/L;
-      const p=Math.min(1,q.t/q.T), head=1-Math.pow(1-p,2), tail=Math.max(0,head-0.5), bend=q.side*L*0.18;
-      const at=s=>{ const c=4*s*(1-s)*bend, rip=Math.sin(s*Math.PI*5+q.t*0.6+q.seed)*5*u*(1-s*0.5); return [x0+(x1-x0)*s+nx*(c+rip), y0+(y1-y0)*s+ny*(c+rip)]; };
-      const path=()=>{ ctx.beginPath(); for(let k=0;k<=20;k++){ const [x,y]=at(tail+(head-tail)*k/20); k?ctx.lineTo(x,y):ctx.moveTo(x,y); } };
-      for(const [lw,c] of [[20,'rgba(255,130,20,0.14)'],[9,'rgba(255,180,50,0.38)'],[4,'rgba(255,215,110,0.6)'],[1.8,'rgba(255,250,225,1)']]){ ctx.globalAlpha=1; ctx.lineWidth=lw*u; ctx.strokeStyle=c; path(); ctx.stroke(); }
-      const [hx,hy]=at(head), g=ctx.createRadialGradient(hx,hy,0,hx,hy,14*u); g.addColorStop(0,'rgba(255,240,190,0.9)'); g.addColorStop(1,'rgba(255,160,30,0)');
-      ctx.globalAlpha=1; ctx.fillStyle=g; ctx.beginPath(); ctx.arc(hx,hy,14*u,0,Math.PI*2); ctx.fill();
-      for(let j=0;j<3;j++){ const s=Math.max(tail,head-j*0.14); const [x,y]=at(s); note(x+Math.sin(q.t*0.3+j)*3*u, y-6*u-j*2*u, (13-j*2)*u, 0.95-j*0.25, j+(q.slot|0)); }
-    } else if(q.k==='ring'){ const f=q.f; if(!f) continue; const p=q.t/q.T, cx=f.x, cy=f.y-f.size*0.2;
-      for(let j=0;j<3;j++){ const r=f.size*(0.7+p*2.4)+j*7*u; ctx.globalAlpha=(1-p)*(0.75-j*0.2); ctx.lineWidth=(3.2-j*0.8)*u; ctx.strokeStyle=j?'rgba(255,180,50,1)':'#fff1bf';
-        for(const sd of [0,Math.PI]){ ctx.beginPath(); ctx.arc(cx,cy,r,q.a+sd-0.55,q.a+sd+0.55); ctx.stroke(); } }
-      note(cx+Math.cos(q.a)*f.size*(0.9+p*1.8), cy+Math.sin(q.a)*f.size*(0.9+p*1.8)-p*14*u, 14*u, 1-p, q.t+(q.a*3|0));
-    } else if(q.k==='signal'){ const f=q.f; if(!f) continue; const p=q.t/q.T, R=Math.hypot(W,H)*Math.pow(p,0.7);
+    if(q.k==='staff') _vbDrawStaff(q,u);
+else if(q.k==='signal'){ const f=q.f; if(!f) continue; const p=q.t/q.T, R=Math.hypot(W,H)*Math.pow(p,0.7);
       for(const [lw,c,a] of [[16,'rgba(255,150,30,1)',0.25],[5,'rgba(255,210,90,1)',0.6],[1.6,'#fff6dc',1]]){ ctx.globalAlpha=(1-p)*a; ctx.lineWidth=lw*u; ctx.strokeStyle=c; ctx.beginPath(); ctx.arc(f.x,f.y,R,0,Math.PI*2); ctx.stroke(); }
-    } else if(q.k==='pop'){ const p=q.t/q.T, g=ctx.createRadialGradient(q.x,q.y,0,q.x,q.y,22*u*(0.5+p));
-      g.addColorStop(0,'rgba(255,235,170,'+(0.85*(1-p))+')'); g.addColorStop(1,'rgba(255,160,30,0)'); ctx.globalAlpha=1; ctx.fillStyle=g; ctx.beginPath(); ctx.arc(q.x,q.y,22*u*(0.5+p),0,Math.PI*2); ctx.fill();
-      ctx.globalAlpha=1-p; ctx.lineWidth=2*u; ctx.strokeStyle='#ffd36b'; ctx.beginPath(); ctx.arc(q.x,q.y,(8+20*p)*u,0,Math.PI*2); ctx.stroke();
     } else if(q.k==='sting'){ const p=q.t/q.T; ctx.globalAlpha=1-p; ctx.strokeStyle='#fff4c9'; ctx.lineWidth=1.6*u;
       for(let j=0;j<5;j++){ const a=q.a+Math.PI+(j-2)*0.45, r0=3*u+p*6*u, r1=r0+7*u*(1-p*0.5); ctx.beginPath(); ctx.moveTo(q.x+Math.cos(a)*r0,q.y+Math.sin(a)*r0); ctx.lineTo(q.x+Math.cos(a)*r1,q.y+Math.sin(a)*r1); ctx.stroke(); }
     }
@@ -14340,7 +14359,8 @@ function _vbDraw(){
     const fr=b.atk>0 ? VB_BEE_FR[4] : VB_BEE_FR[VB_BEE_BASE], S=(fr.complete && fr.naturalWidth) ? _vbSplit(fr) : null;
     // 🐝 lơ lửng như ong thật: rung thân tần số cao (vài px) + nhún chậm; bay thì chúi đầu theo đà
     const jx=(Math.sin(b.born*1.7+b.seed)*0.9+Math.sin(b.born*3.3+b.seed*2)*0.5)*u, jy=(Math.sin(b.born*2.3+b.seed*3)*0.9+Math.sin(b.born*0.11+b.seed)*(b.st==='edge'?2.5:1.2))*u;
-    const pop=Math.min(1,b.born/10), h=b.size*3.4;
+    if(b.st==='arrive' && b.wait>0) continue;   // chưa tới lượt bay vào
+    const pop=b.st==='arrive'?1:Math.min(1,0.85+b.born/60), h=b.size*3.4;
     if(b.inside){ ctx.save(); ctx.globalAlpha=0.22*pop; ctx.fillStyle='#000'; ctx.beginPath(); ctx.ellipse(b.x,b.y+b.size*1.9,b.size*0.85,b.size*0.28,0,0,Math.PI*2); ctx.fill(); ctx.restore(); }   // bóng dưới sàn (đang bay cao hơn sàn)
     ctx.save(); ctx.translate(b.x+jx,b.y+jy); if(b.dirX<0) ctx.scale(-1,1); ctx.scale(pop,pop);
     ctx.rotate(b.atk>0 ? 0.3*Math.sin(b.atk/12*Math.PI) : Math.min(0.22,(b.mv||0)*0.12));   // chúi kim xuống lúc chích / chúi đầu khi bay tới
