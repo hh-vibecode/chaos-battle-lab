@@ -161,8 +161,11 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
 - Ong con `vbBees` = quân triệu hồi CÓ MÁU (đã vào `_hpSummonArrays`, `get enemy()`, đốt cháy, hút hố đen). Riêng lúc đứng chờ NGOÀI mép (`st:'edge'`) thì
   `get enemy()` / `_findClosestEnemy` bỏ qua (ngoài tầm với, không thì địch đứng dí tường) — vẫn ăn nổ vùng. Chủ chết → cả đàn tan.
   Đồng thời đã đổi 9 chỗ liệt kê cứng 9 loại triệu hồi sang `_hpSummonArrays()`.
-- Số em tự đặt (anh chưa cho): ong 30 máu, chích 2 dame, mỗi con ≥1s/phát (`VB_STING_CD`), Violin Bee 1000 máu tốc 4.5.
+- Dame chích = 10 (ANH CHỐT 4/11), chỉ chích đúng nhịp, mỗi con ≥1s/phát (`VB_STING_CD`). Em tự đặt: ong 30 máu, Violin Bee 1000 máu tốc 4.5.
 - Ảnh: `assets/img/violinbee/VB_1..6` (6 khung kéo đàn, lật theo nhịp; avatar = khung 1 theo lời anh), `VB_BEE1..4` bay + `VB_BEE5` chích (quay mặt PHẢI).
+  Anh muốn ong con "giống ong nhất có thể", sợ lật sprite trông giả → KHÔNG lật 4 khung bay nữa: 1 ảnh thân (`VB_BEE_BASE`) + `_vbSplit` tách CÁNH ra
+  (màng cánh bán trong suốt → đóng hình lấp gân → giữ mảng lớn nhất) rồi vỗ bằng code: cánh rõ đổi pha mỗi khung + 2 bóng cánh mờ = vệt nhoè.
+  Thêm rung thân tần số cao, bay giật đổi hướng (`dartT`), chúi đầu theo đà, bóng dưới sàn.
   Cả 2 bộ đã căn CÙNG KHỔ + tâm thân trùng nhau (tâm = điểm trung bình pixel đặc) → lật khung không giật; ong vẽ ở `_vbDraw` (tâm 0.52/0.59).
 - Tiếng: `vb_buzz` (ong hiện), `vb_rush` (ra hiệu), `vb_swarm` (vo ve LẶP khi có ong đang đánh, to theo số con), `vb_sting` — cắt từ myinstants trong trình duyệt ra WAV.
   SND_LUFS của 6 tiếng là ƯỚC LƯỢNG từ RMS (Windows không chạy được tim-sound) → lên Mac đo lại bằng `tools/sfx-find.py measure`.
