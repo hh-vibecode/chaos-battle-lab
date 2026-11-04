@@ -6,7 +6,7 @@
 //   ACT 2 (47–104)  tàn lửa cơn giận → 3 ngôi sao → Supreme Cat · Bread Cat (mèo bơ xoay vô cực → hoá ổ bánh mì) · Flower Cat → cuộc chiến ~10 năm
 //   ACT 3 (104–143) The Void mở mắt sau lưng Friend → hố đen phản bội → phong ấn → vỡ 5 mảnh bay vào 5 vũ trụ
 //   ACT 4 (143–170) kỷ nguyên ánh sáng → đen → "Until now……" → mảnh vỡ mở mắt
-// Nhạc nền: bản tự viết cho phim (assets/audio/l2pro_score.mp3), giọng đọc ×1.25, nhạc + tiếng tự hạ khi đang đọc.
+// Nhạc nền: bản tự viết cho phim (assets/audio/l2pro_score.mp3) ở mức cố định dưới giọng đọc; mỗi lúc chỉ 1 tiếng hiệu ứng.
 (function(){
   if(!window.CineKit || CineKit.films.l2pro) return;
   const K=CineKit, {seg,lerp,clamp,hash}=K, E=K.EASE, TAU=Math.PI*2, VW=960, VH=540, DUR=170;
@@ -586,32 +586,23 @@
     [T.hole+0.3,0.4,'255,255,255'],[SEAL_HIT,0.45,'255,250,235'],[T.split,0.5,'230,210,255'],[EYE_HIT,0.25,'255,255,255']];
 
   // ───────── tiếng ─────────
-  // 🔊 anh dặn 3/11: bớt chật, đa dạng, không lạm dụng tiếng cũ — mỗi sự kiện 1 tiếng riêng, giãn cách; nhát đánh lớn đã có trong nhạc nền (kèn đồng + gong) nên không chồng thêm tiếng nổ cũ.
-  //   l2p_* = 7 tiếng tự tổng hợp + 4 tiếng chung myinstants. Tiếng có quãng lặng đầu thì phát sớm lên (ON).
-  const ON={l2p_tentacle:0.12, l2p_chains:1.32, l2p_chime:0.2, fr_titan_roar:0.14, cine_conq_haki:1.12};
-  const sfx=[[0.4,'l2p_rumble',0.5],[T.worlds+0.3,'l2p_shimmer',0.45],
-    [T.reveal+0.6,'l2p_riser',0.45],[T.reveal+3.6,'fr_titan_roar',0.9],
-    [T.pierce+0.6,'l2p_whoosh',0.7],[T.pierce+1.8,'l2p_tentacle',0.8],[T.pierce+2.6,'l2p_crack',0.9],[T.pierce+6.8,'l2p_explode',0.85],
-    ...DEV.slice(0,3).map((p,i)=>[T.devour+p.tk+1.4,'l2p_sub',0.4+0.05*i]),[T.devour+4.2,'l2p_tentacle',0.55],
-    [T.embers+0.5,'l2p_rumble',0.3],...BORN.map(b=>[T.born+b[3],'l2p_chime',0.6]),
-    [T.sup+1.4,'l2p_shimmer',0.5],[T.bread+0.2,'l2p_whoosh',0.55],[BREAD_POP,'l2p_sub',0.6],
-    [T.flower+0.3,'flower_transcend',0.8],[T.line+0.3,'cine_conq_haki',0.5],
-    [T.war+1.1,'l2p_explode',0.65],[T.war+4.1,'fr_titan_roar',0.75],[T.war+6.9,'l2p_sub',0.6],
-    ...BUBS.filter(b=>b.pop).slice(0,4).map((b,i)=>[b.pop,i%2?'l2p_crack':'l2p_shatter',0.3]),[T.war+14,'l2p_rumble',0.5],
-    [T.voidS+0.5,'l2p_rumble',0.6],[T.voidS+2,'cine_drop',0.8],[T.hole+0.3,'blackhole',0.8],
-    [T.seal+1,'l2p_chains',0.85],[SEAL_HIT-3.0,'l2p_riser',0.55],[SEAL_HIT,'l2p_sub',0.75],
-    [T.split,'l2p_shatter',0.9],[T.split+6,'l2p_whoosh',0.5],[T.split+7.4,'l2p_chime',0.4],
-    [T.light+0.5,'l2p_shimmer',0.45],[EYE_OPEN,'cine_drop',0.8],[EYE_HIT,'fr_titan_roar',0.7]].map(e=>[Math.max(0,e[0]-(ON[e[1]]||0)),e[1],e[2]]);
+  // 🔊 anh dặn 4/11: NHẠC NỀN + MỖI LÚC CHỈ 1 TIẾNG HIỆU ỨNG, chỉ ở nhịp chính của truyện, âm lượng đều — KHÔNG tiếng rơi / sub-drop / riser / whoosh / tiếng nền ầm ì
+  //   (nhát đánh lớn đã có sẵn trong nhạc nền). Tiếng có quãng lặng đầu thì phát sớm lên (ON).
+  const ON={l2p_chains:1.32, l2p_chime:0.2, fr_titan_roar:0.14};
+  const sfx=[[T.reveal+3.6,'fr_titan_roar',0.65],[T.pierce+2.6,'l2p_crack',0.55],[T.pierce+6.8,'l2p_explode',0.55],
+    [T.born+BORN[0][3],'l2p_chime',0.5],[BREAD_POP,'l2p_shimmer',0.4],[T.flower+0.3,'flower_transcend',0.55],
+    [T.war+1.1,'l2p_explode',0.5],[T.war+4.1,'fr_titan_roar',0.55],
+    [T.hole+0.3,'blackhole',0.55],[T.seal+1,'l2p_chains',0.55],[T.split,'l2p_shatter',0.55],[EYE_HIT,'fr_titan_roar',0.65]].map(e=>[Math.max(0,e[0]-(ON[e[1]]||0)),e[1],e[2]]);
   // 🎙️ LỒNG TIẾNG (2/11/2026): MiniMax Audio, giọng "Dota Voice" của anh, speech-2.8-hd, đọc 1 lần cả 18 câu (<#2#> giữa các câu)
   //   → assets/audio/vo/l2pro_narration.mp3 (119.3s, file gốc giữ lại để làm lại). SEG = [đầu, cuối] từng câu trong file đang dùng, VO_AT = giây phim bắt đầu đọc.
   //   Đổi lời / đọc lại: tạo lại file, dò lại SEG, sửa LINES cho khớp.
-  const VO_SRC='assets/audio/vo/l2pro_narration_fast.wav', VO_K=1;   // anh dặn 3/11: giọng kéo dài TỪNG CHỮ → làm lại từ file gốc: cắt khoảng ngắt giữa câu (≥0.22s → 0.22s) + nén TỪNG CÂU bằng WSOLA (giữ cao độ) về tốc độ riêng 130–150 từ/phút, KHÔNG đều nhau: câu kịch tính ~130, câu kể ~140–150 (anh chốt); "Until now…" giữ nguyên
+  const VO_SRC='assets/audio/vo/l2pro_narration_fast_n.mp3', VO_K=1;   // _n = cùng file đã chuẩn hoá −16 LUFS (bản gốc chỉ −34 LUFS, nhạc nền lấn) ·   // anh dặn 3/11: giọng kéo dài TỪNG CHỮ → làm lại từ file gốc: cắt khoảng ngắt giữa câu (≥0.22s → 0.22s) + nén TỪNG CÂU bằng WSOLA (giữ cao độ) về tốc độ riêng 130–150 từ/phút, KHÔNG đều nhau: câu kịch tính ~130, câu kể ~140–150 (anh chốt); "Until now…" giữ nguyên
   const SEG=[[0.3,4.902],[6.103,9.515],[10.715,15.143],[16.343,21.277],[22.477,24.735],[25.935,30.152],[31.352,34.362],[35.563,37.75],[38.95,41.365],[42.565,44.595],[45.795,51.343],[52.543,53.908],[55.108,57.33],[58.53,62.188],[63.388,66.345],[67.545,69.365],[70.565,74.082],[75.282,76.382]];   // vị trí từng câu trong l2pro_narration_fast.wav (ghép cách nhau 1.2s)
   const VO_AT=[...LINES.map(L=>L[0]), T.until+0.75];   // câu 18 "Until now…" đọc lúc chữ Until now bắt đầu hiện
-  const VO=SEG.map(([a,b],i)=>({src:VO_SRC, ra:VO_AT[i], rb:VO_AT[i]+(b-a)/VO_K+0.12, off:Math.max(0,a/VO_K-0.05), vol:1, vo:true}));
+  const VO=SEG.map(([a,b],i)=>({src:VO_SRC, ra:VO_AT[i], rb:VO_AT[i]+(b-a)/VO_K+0.12, off:Math.max(0,a/VO_K-0.05), vol:1}));
   // 🎼 nhạc nền TỰ VIẾT cho phim (anh dặn 3/11: nhạc sử thi mới, không bản quyền) — dàn nhạc CC0 VSCO 2 CE, bám đúng mốc T · dựng bằng score.py (scratchpad) → assets/audio/l2pro_score.mp3
-  //    lồng tiếng (vo:true): lúc đang đọc nhạc + tiếng hiệu ứng tự hạ xuống, đọc xong tự to lại
-  const mus=[...VO, {src:A+'l2pro_score.mp3',ra:0,rb:DUR,vol:0.8,fo:1.5}];
+  //    anh dặn 4/11: KHÔNG tự hạ / tăng nhạc nữa — nhạc nền để CỐ ĐỊNH ~−27 LUFS (giọng −16), lúc nào cũng nghe rõ giọng
+  const mus=[...VO, {src:A+'l2pro_score.mp3',ra:0,rb:DUR,vol:0.23,fo:1.5}];
 
   CineKit.film({ id:'l2pro', title:'Meme Lore 2 · Prologue: The Dark Age', VW, VH, DUR,
     imgs:{ fr:'assets/avatars/friend/avatarUrl.webp', vdA:'assets/img/cine/L2P_VOID_MOUTH.png',   /* anh vẽ lại bằng ChatGPT (nét cao, miệng trống — hố đen do code vẽ), nền đen đã tách */
