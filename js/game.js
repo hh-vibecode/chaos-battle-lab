@@ -14247,7 +14247,7 @@ function _vbBeat(f){
   for(const b of vbBees){   // chích THEO NHỊP: con nào đang bám địch thì chích
     if(b.owner!==f || b.st!=='rush' || b.cd>0) continue;
     const t=b.tgt; if(!t || t.dead || !(t.hp>0)) continue;
-    if(Math.hypot(t.x-b.x,t.y-b.y) < b.size*1.6+(t.size||20)+6*u){   // tầm với phủ cả lớp vây ngoài
+    if(Math.hypot(t.x-b.x,t.y-b.y) < b.size*1.1+(t.size||20)+2*u){   // phải CHẠM thân thật mới chích (bản đầu tầm ~83px → chưa đuổi kịp vẫn chích được)
       if(_smCanParry(t)){ _smParryFx(t,b.x,b.y); b.st='back'; b.by=t; b.team=t.team; continue; }   // ⚔️ ong = ĐẠN: Cheems chém bật → lao ngược về chích Violin Bee
       t.takeDamage(VB_STING, f); b.cd=VB_STING_CD; b.atk=12;
       vbFx.push({k:'sting', x:b.x+(t.x-b.x)*0.6, y:b.y+(t.y-b.y)*0.6, t:0, T:14, a:Math.atan2(t.y-b.y,t.x-b.x)});
@@ -14289,10 +14289,12 @@ function _vbWorldTick(){
     b.dw=(b.dw||0)+((b.dz||0)-(b.dw||0))*0.3;
     const dx=t.x-b.x, dy=t.y-b.y, wob=b.dw, x0=b.x, y0=b.y;
     // 🐝 mỗi con 1 chỗ riêng trên VÒNG VÂY quanh địch (2 lớp xen kẽ, vòng xoay chậm) → đàn ong bủa vây chứ không dồn 1 cục
-    const rr=(t.size||20)+b.size*(b.ord%2?1.5:0.5), ang=b.seed*0.7+b.born*0.012*(b.ord%2?1:-1);
-    const px=t.x+Math.cos(ang)*rr-b.x, py=t.y+Math.sin(ang)*rr-b.y, pd=Math.hypot(px,py)||1, st=Math.min(sp,pd);
-    b.x+=px/pd*st-py/pd*wob; b.y+=py/pd*st+px/pd*wob;
-    for(const o of vbBees){ if(o===b || o.st!=='rush') continue; const ex=b.x-o.x, ey=b.y-o.y, e=Math.hypot(ex,ey); if(e>0 && e<b.size*1.5){ b.x+=ex/e*0.7; b.y+=ey/e*0.7; } }   // tách đàn, không chồng 1 chỗ
+    const rr=(t.size||20)+b.size*(b.ord%2?0.9:0.3), ang=b.seed*0.7+b.born*0.012*(b.ord%2?1:-1);
+    const px=t.x+Math.cos(ang)*rr-b.x, py=t.y+Math.sin(ang)*rr-b.y, pd=Math.hypot(px,py)||1;
+    // ⚠️ tốc 2 là TỔNG quãng bay mỗi tick: hướng tới chỗ vây + giật ngang + tách đàn cộng lại rồi mới cắt về đúng tốc (trước đây cộng dồn → ong nhanh hơn tốc đặt, bám dai)
+    let mx=px/pd*Math.min(sp,pd)-py/pd*wob*0.6, my=py/pd*Math.min(sp,pd)+px/pd*wob*0.6;
+    for(const o of vbBees){ if(o===b || o.st!=='rush') continue; const ex=b.x-o.x, ey=b.y-o.y, e=Math.hypot(ex,ey); if(e>0 && e<b.size*1.4){ mx+=ex/e*0.35; my+=ey/e*0.35; } }   // tách đàn, không chồng 1 chỗ
+    const ml=Math.hypot(mx,my); if(ml>sp){ mx=mx/ml*sp; my=my/ml*sp; } b.x+=mx; b.y+=my;
     b.dirX=dx>=0?1:-1; b.mv=(b.mv||0)*0.8+Math.hypot(b.x-x0,b.y-y0)*0.2;   // đà bay (để chúi đầu)
     if(b.inside){ b.x=Math.max(b.size,Math.min(W-b.size,b.x)); b.y=Math.max(b.size,Math.min(H-b.size,b.y)); }
     else if(b.x>b.size && b.x<W-b.size && b.y>b.size && b.y<H-b.size) b.inside=true;
