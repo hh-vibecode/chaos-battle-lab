@@ -27,6 +27,9 @@ Khi làm việc với code:
 ## Info / mô tả meme
 - Dòng info hiện trong trận (`CHAR_BLURB_SHORT` trong js/game.js) là **1 câu đùa ngắn (≤8 từ)**, KHÔNG mô tả kỹ năng.
 - Câu phải **đồng nhất giữa meme và skill**: vừa bám câu chuyện / nguồn gốc meme trên internet (câu thoại gốc, sự tích), vừa gợi đúng skill của nó trong game — vd Supreme Arbiter "It's over Anakin, I have the high ground." (đứng cao hơn địch), Fine Dog "This is fine. (The whole arena is on fire.)", Trollface "Swallowed. Spat into a wall. Problem?". Thêm meme / đổi skill thì viết lại info theo đúng quy tắc này.
+- ⚠️ **Anh chê info của Claude HAY BỊ NHẠT** (4/11/2026, Violin Bee "Every note calls a bee. Wait for the Bumblebee." bị chê). Câu tả lại skill cho gọn KHÔNG phải câu đùa.
+  Câu đùa phải có MIẾNG CHỐT bất ngờ (twist / phóng đại / nói ngược / gọi thẳng nỗi sợ của người xem), vd "Bring an EpiPen. Bring twenty-two.".
+  Luôn nháp ≥5 câu, tự loại câu chỉ mô tả, đưa anh 3–4 câu mạnh nhất để chọn.
 - CTA "❤️ Like and Subscribe / to support your meme-bros" CHỈ hiện khi trận kết thúc có người thắng; trong trận luôn hiện info.
 
 ## Comment YouTube giới thiệu nhân vật

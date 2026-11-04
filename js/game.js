@@ -13239,7 +13239,7 @@ const CHAR_BLURB_SHORT = {
   wetcat: "It got rained on. Now it's your turn.",
   droolingcat: "Drools so much the sharks moved in.",
   damdamdidi: "Dam dam didi. The combo never stops.",
-  violinbee: "Every note calls a bee. Wait for the Bumblebee.",
+  violinbee: "Rimsky-Korsakov wrote it. The bees took it literally.",
   bongocat: "Bongo Cat found a real drum track.",
   stalincat: "Hammer meets sickle. The arena becomes ours.",
   dawae: "Do you know da wae? They'll show you.",
