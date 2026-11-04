@@ -158,10 +158,12 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
   → hiện 1 ong con đứng chờ. `VB_N=22` ô chia đều chu vi (`_vbSlot`), điền xen kẽ `(k*7)%22` (anh muốn 20–25 con dàn đều). Hết bài thiếu con nào gọi bù ngay.
   → `vb_bumblebee` (Flight of the Bumblebee, Katica Illényi — anh gửi): vòng sáng ra hiệu + `vb_rush`, mỗi nhịp thả 1 con chờ lâu nhất (ùa vào từ mọi phía),
   ong tốc 2 (anh đặt; meme thường 5), chạm địch thì CHÍCH THEO NHỊP (`_vbBeat`). Hết bài → khởi động lại, gọi ong bù ô trống (vòng 'ended' trong `_playPianoSong`).
-- Ong con `vbBees` = quân triệu hồi CÓ MÁU (đã vào `_hpSummonArrays`, `get enemy()`, đốt cháy, hút hố đen). Riêng lúc đứng chờ NGOÀI mép (`st:'edge'`) thì
-  `get enemy()` / `_findClosestEnemy` bỏ qua (ngoài tầm với, không thì địch đứng dí tường) — vẫn ăn nổ vùng. Chủ chết → cả đàn tan.
-  Đồng thời đã đổi 9 chỗ liệt kê cứng 9 loại triệu hồi sang `_hpSummonArrays()`.
-- Dame chích = 10 (ANH CHỐT 4/11), chỉ chích đúng nhịp, mỗi con ≥1s/phát (`VB_STING_CD`). Em tự đặt: ong 30 máu, Violin Bee 1000 máu tốc 4.5.
+- ⚠️ Ong con `vbBees` = ĐÒN TẤN CÔNG, KHÔNG phải quân triệu hồi có máu (ANH CHỐT 4/11; bản 504–505 em từng cho 30 máu → sai): không máu, không bị nhắm /
+  đánh trúng, bay xuyên mọi thứ → KHÔNG đưa vào `_hpSummonArrays` / `get enemy()`. Khởi động lại chỉ gọi bù khi chưa đủ 22. Chủ chết → cả đàn tan.
+  Ong = ĐẠN (anh chốt 4/11): Samurai Cheems chém bật (`_smCanParry` lúc chích → `st:'back'` lao về chích Violin Bee, dame tính cho Cheems),
+  Catvader bắt (1 dòng `vbBees` trong `CV_SYS`), The Void hút + nuốt (`_vbSuck` gọi trong khối nuốt đạn của hố đen). Mất con nào thì lần khởi động sau gọi bù.
+  (Lúc làm đã đổi 9 chỗ liệt kê cứng 9 loại triệu hồi sang `_hpSummonArrays()` — giữ.)
+- Dame chích = 10 (ANH CHỐT 4/11), chỉ chích đúng nhịp, mỗi con ≥1s/phát (`VB_STING_CD`). Em tự đặt: Violin Bee 1000 máu tốc 4.5.
 - Ảnh: `assets/img/violinbee/VB_1..6` (6 khung kéo đàn, lật theo nhịp; avatar = khung 1 theo lời anh), `VB_BEE1..4` bay + `VB_BEE5` chích (quay mặt PHẢI).
   Anh muốn ong con "giống ong nhất có thể", sợ lật sprite trông giả → KHÔNG lật 4 khung bay nữa: 1 ảnh thân (`VB_BEE_BASE`) + `_vbSplit` tách CÁNH ra
   (màng cánh bán trong suốt → đóng hình lấp gân → giữ mảng lớn nhất) rồi vỗ bằng code: cánh rõ đổi pha mỗi khung + 2 bóng cánh mờ = vệt nhoè.

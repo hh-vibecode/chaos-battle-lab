@@ -812,7 +812,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     // 🎯 CỌC GỖ (di sản của chế độ Meme Spotlight đã gỡ, giữ lại vì vô hại): không phải nhân vật thật, không AI/tấn công, chỉ dùng làm mục tiêu tập luyện — xem toàn bộ cơ chế bất tử/đứng yên ở các chỗ check this.type==='trainingdummy'
     trainingdummy: { key:'trainingdummy', defaultName:'Training Dummy', emoji:'🎯', color:'#8d6e63', hp:1000, speed:0, size:45, skill:'Cọc gỗ tập luyện — đứng yên, bất tử, nhận dame/hiệu ứng như nhân vật thật để test kỹ năng.' },
     damdamdidi: { key:'damdamdidi', defaultName:'Damdam Didi Cat', emoji:'💃', color:'#ff4fa3', hp:1000, speed:5, size:45, skill:'Nhại theo trào lưu mèo lắc đầu "dam dam didi didi" từng viral khắp mạng — mỗi lượt nhảy 4s rồi nghỉ 2s (nhạc tạm dừng, nhảy lại thì phát tiếp đoạn đang dở), vừa nhảy vừa liên tục quăng arrow dance về phía địch theo điệu. Trúng liên tục thì càng lúc càng sung, đòn sau luôn mạnh hơn đòn trước.' },
-    violinbee: { key:'violinbee', defaultName:'Violin Bee', emoji:'🐝', color:'#f2b705', hp:1000, speed:4.5, size:42, skill:'Không đánh thường. Vào trận kéo bản khởi động: mỗi nốt toả ra 1 luồng sáng vàng mang nốt nhạc, gọi 1 ong con tới đứng chờ sát mép ngoài sân (đủ 22 con dàn đều quanh sân). Khởi động xong chơi Flight of the Bumblebee: ra hiệu tấn công, mỗi nhịp 1 con ong ùa vào sân (từ mọi phía), ong con bay tốc 2 tới địch gần nhất và chích theo nhịp nhạc (10 dame/phát, mỗi con tối đa 1 phát/giây). Ong con có 30 máu, ăn đòn như 1 meme. Hết bài thì khởi động lại, gọi ong bù vào chỗ trống.' },
+    violinbee: { key:'violinbee', defaultName:'Violin Bee', emoji:'🐝', color:'#f2b705', hp:1000, speed:4.5, size:42, skill:'Không đánh thường. Vào trận kéo bản khởi động: mỗi nốt toả ra 1 luồng sáng vàng mang nốt nhạc, gọi 1 ong con tới đứng chờ sát mép ngoài sân (đủ 22 con dàn đều quanh sân). Khởi động xong chơi Flight of the Bumblebee: ra hiệu tấn công, mỗi nhịp 1 con ong ùa vào sân (từ mọi phía), ong con bay tốc 2 tới địch gần nhất và chích theo nhịp nhạc (10 dame/phát, mỗi con tối đa 1 phát/giây). Ong con tính như ĐẠN: không có máu, không bị đánh trúng, bay xuyên mọi thứ — nhưng Samurai Cheems chém bật được (ong lao ngược về chích Violin Bee), Catvader bắt được bằng vùng Force, hố đen The Void hút và nuốt được. Hết bài thì khởi động lại, gọi ong bù vào chỗ trống.' },
     bongocat: { key:'bongocat', defaultName:'Bongo Cat', emoji:'🥁', color:'#c98a4b', hp:1000, speed:5, size:44, skill:'Vào trận khởi động vài nhịp gõ tay không rồi mới bốc lên chơi hẳn 1 bài trống bộ lạc theo đúng beat của bài, cứ hết bài lại nhảy sang bài khác. Mỗi nhịp gõ dội ra 1 vòng sóng âm nhỏ quanh thân, càng đứng gần nó ăn dame càng đau.' },
     stalincat: { key:'stalincat', defaultName:'Stalin Cat', emoji:'☭', color:'#c62828', hp:1000, speed:5, size:45, skill:'Cầm búa quăng thẳng vào địch (đẩy lùi, có thể gây choáng), búa rơi tại chỗ và phải nhặt lại, để lâu thì tự bay về. Liềm nảy khắp sân gây chảy máu. Liềm chạm trúng búa thì bắt chéo, chói loà rồi MỞ RA DOMAIN (chỉ 1 lần mỗi trận): cả sân lấp lánh, địch cháy liên tục, Stalin hồi máu, chạy nhanh hơn, thu búa nhanh hơn và liềm xoay nhanh hơn.' },
     dawae: { key:'dawae', defaultName:'Da Wae', emoji:'🚪', color:'#4a7c3c', hp:1000, speed:5, size:46, skill:'Cứ 3.5s lại gọi ra 1 đàn 20 Da Wae nhỏ (bản thu nhỏ của chính nó), chạy vòng vèo theo hình sóng qua sân ở 70% tốc thường, CUỐN THEO bất kỳ ai chúng chạm phải (kéo lê đi đúng theo đường chạy của đàn, không phải chỉ đẩy lùi). Chạm lần đầu gây 150 sát thương. Trong lúc bị cuốn đi mà va phải tường thì mỗi lần va nhận 40 sát thương — dưới 100 máu mà va tường thì bị lôi thẳng xuyên qua tường ra khỏi sàn, thua ngay lập tức.' },
@@ -11258,6 +11258,7 @@ const CV_SYS=[
   {arr:()=>duoWords,        dmg:o=>o.dmg||35, r:o=>(o.r||11)*1.8},
   {arr:()=>coughBlobs,      dmg:()=>30, pos:o=>({x:o.x, y:o.y-Math.sin((1-o.t/o.tMax)*Math.PI)*20})},
   {arr:()=>coughGerms,      ok:o=>o.flyT>0, dmg:()=>20, pos:o=>({x:o.x, y:o.y-Math.sin((1-o.flyT/o.flyMax)*Math.PI)*24})},
+  {arr:()=>vbBees,          ok:o=>o.st==='rush', dmg:()=>VB_STING, r:o=>o.size*1.7},   // 🐝 ong con Violin Bee (đang chờ ngoài mép thì chưa tính là đạn)
   {arr:()=>sdProjs,         ok:o=>o.hostile && !o._smBy && o.to, team:o=>o.src&&o.src.team, dmg:()=>40,
     pos:o=>{ const u=Math.min(1,o.t/o.T); return {x:o.from.x+(o.to.x-o.from.x)*u, y:o.from.y+(o.to.y-o.from.y)*u}; }},
 ];
@@ -12199,7 +12200,7 @@ function _darkDraw(){
   ctx.restore();
 }
 function _summonBurnTick(){
-  for(const _arr of [mewingStatues, capybaraKnives, dogeClones, evilSouls, vbBees]) for(const u of _arr){   // (lính German/Commander + Doge Knight tự đốt trong vòng riêng)
+  for(const _arr of [mewingStatues, capybaraKnives, dogeClones, evilSouls]) for(const u of _arr){   // (lính German/Commander + Doge Knight tự đốt trong vòng riêng)
     if(!u || u.dead || !(u.hp>0) || !(u.burn>0)) continue;
     u.burn--; u.burnTickCD=Math.max(0,(u.burnTickCD||0)-1);
     if(u.burnTickCD<=0){ _summonTakeDamage(u, u._burnDmg||20, u._burnSrc||null, false, true, '🔥', null); u.burnTickCD=30; spawnParticles(u.x,u.y,'#ff7043',5,true); } }
@@ -14197,12 +14198,13 @@ function _playPianoSong(f, key){
 //   1 ong con hiện ra đứng chờ (VB_N ô chia đều theo chu vi, điền xen kẽ nên lúc nào trông cũng đều). Hết bài còn thiếu thì gọi nốt cho đủ.
 // Hết khởi động → Flight of the Bumblebee (vb_bumblebee): vòng sáng ra hiệu, mỗi nhịp thả 1 con đang chờ (thứ tự xen kẽ → ùa vào từ mọi
 //   phía), ong con bay tốc 2 (meme thường 5) tới địch gần nhất, chạm địch thì CHÍCH THEO NHỊP. Hết bài → khởi động lại, gọi ong bù ô trống.
-// Ong con = quân triệu hồi CÓ MÁU (vbBees trong _hpSummonArrays). Đang chờ ngoài mép thì chưa bị nhắm (ngoài tầm với), vẫn ăn nổ vùng.
+// Ong con = ĐÒN TẤN CÔNG (anh chốt 4/11): KHÔNG có máu, không bị nhắm / đánh trúng, bay xuyên mọi thứ → KHÔNG nằm trong _hpSummonArrays.
+//   Không chết → cả đàn đánh tới hết trận; khởi động lại chỉ gọi bù khi chưa đủ VB_N con. Chủ chết thì tan.
 const VB_FR=[1,2,3,4,5,6].map(n=>{ const im=new Image(); im._noMask=true;   // 6 khung kéo đàn, cùng khổ + thân trùng tâm → lật theo nhịp không giật
   im.onload=()=>{ im._crop={sx:0,sy:0,sw:im.naturalWidth,sh:im.naturalHeight}; }; im.src='assets/img/violinbee/VB_'+n+'.png'; return im; });
 const VB_BEE_FR=[1,2,3,4,5].map(n=>{ const im=new Image(); im.src='assets/img/violinbee/VB_BEE'+n+'.png'; return im; });   // ong con: 4 khung bay + khung 5 chích (quay mặt PHẢI, tâm thân 0.52/0.59)
 const VB_VIS_MUL=1.55;   // khung chừa chỗ cho cánh → phóng phần HÌNH cho thân bằng cỡ meme khác (hitbox giữ nguyên)
-const VB_N=22, VB_BEE_HP=30, VB_STING=10, VB_STING_CD=60, VB_BEE_SPD=2, VB_STREAM_T=28;   // chích 10 dame (anh chốt 4/11), mỗi con tối đa 1 phát/giây, chỉ chích đúng nhịp
+const VB_N=22, VB_STING=10, VB_STING_CD=60, VB_BEE_SPD=2, VB_STREAM_T=28;   // chích 10 dame (anh chốt 4/11), mỗi con tối đa 1 phát/giây, chỉ chích đúng nhịp
 const VB_BEE_BASE=2, VB_WING_YCUT=0.55;   // ong con: 1 ảnh thân (VB_BEE3) + cánh tách ra vỗ bằng code · cánh chỉ tính ở phần trên tỉ lệ này (dưới là đuôi lông trắng)
 const VB_SONGS={warm:['vb_warmup'], song:['vb_bumblebee']};
 let vbBees=[], vbFx=[], _vbLoop=null;
@@ -14213,7 +14215,7 @@ function _vbSlot(i){   // ô thứ i trên vành chữ nhật NGOÀI mép sân, 
 }
 const _vbOrder=k=>(k*7)%VB_N;   // điền / thả xen kẽ (7 và 22 nguyên tố cùng nhau) → rải đều, ùa ra từ đủ mọi phía
 function _vbReset(){ vbBees=[]; vbFx=[]; if(_vbLoop){ try{ _vbLoop.pause(); }catch(e){} _vbLoop=null; } }
-function _vbAlive(f){ let n=0; for(const b of vbBees) if(b.owner===f && !b.dead && b.hp>0) n++; for(const q of vbFx) if(q.k==='stream' && q.f===f) n++; return n; }
+function _vbAlive(f){ let n=0; for(const b of vbBees) if(b.owner===f) n++; for(const q of vbFx) if(q.k==='stream' && q.f===f) n++; return n; }
 function _vbFreeSlot(f){   // ô trống kế tiếp theo thứ tự xen kẽ (ô có ong đang chờ / luồng đang bay tới thì bỏ qua)
   const used=new Set(); for(const b of vbBees) if(b.owner===f && b.st==='edge') used.add(b.slot);
   for(const q of vbFx) if(q.k==='stream' && q.f===f) used.add(q.slot);
@@ -14227,9 +14229,7 @@ function _vbCall(f, delay){   // 1 nốt → 1 luồng nốt nhạc bay ra 1 ô 
 function _vbSpawn(f, slot){
   const [x,y]=_vbSlot(slot), sz=Math.max(9,f.size*0.3);
   f._vbSeq=(f._vbSeq||0)+1;
-  vbBees.push({ team:f.team, owner:f, x, y, vx:0, vy:0, size:sz, hp:VB_BEE_HP, maxHp:VB_BEE_HP, flash:0, stun:0, dead:false,
-    st:'edge', slot, ord:f._vbSeq, hx:x, hy:y, born:0, cd:0, atk:0, seed:Math.random()*9, dirX:(x<W/2?1:-1),
-    takeDamage(dmg,attacker,isHuh,isBurn,dotIcon,hitFx){ _summonTakeDamage(this, dmg, attacker, isHuh, isBurn, dotIcon, hitFx); } });
+  vbBees.push({ team:f.team, owner:f, x, y, size:sz, st:'edge', slot, ord:f._vbSeq, hx:x, hy:y, born:0, cd:0, atk:0, seed:Math.random()*9, dirX:(x<W/2?1:-1) });   // ĐÒN TẤN CÔNG: không máu, không bị đánh, bay xuyên
   vbFx.push({k:'pop', x, y, t:0, T:20});
   playSample('vb_buzz', 0.3, 0.7);
 }
@@ -14239,14 +14239,15 @@ function _vbBeat(f){
   vbFx.push({k:'ring', f, t:0, T:32, a:Math.random()*Math.PI*2});
   if(f._vbPhase!=='song') _vbCall(f);
   else {   // ra hiệu: mỗi nhịp thả con đang chờ lâu nhất (cũng là thứ tự xen kẽ quanh sân)
-    let pick=null; for(const b of vbBees) if(b.owner===f && b.st==='edge' && !b.dead && b.born>8 && (!pick || b.ord<pick.ord)) pick=b;
+    let pick=null; for(const b of vbBees) if(b.owner===f && b.st==='edge' && b.born>8 && (!pick || b.ord<pick.ord)) pick=b;
     if(pick){ pick.st='rush'; pick.atk=0; }
   }
   const u=_vbU();
   for(const b of vbBees){   // chích THEO NHỊP: con nào đang bám địch thì chích
-    if(b.owner!==f || b.st!=='rush' || b.dead || b.stun>0 || b.cd>0) continue;
+    if(b.owner!==f || b.st!=='rush' || b.cd>0) continue;
     const t=b.tgt; if(!t || t.dead || !(t.hp>0)) continue;
     if(Math.hypot(t.x-b.x,t.y-b.y) < b.size*1.6+(t.size||20)+6*u){   // tầm với phủ cả lớp vây ngoài
+      if(_smCanParry(t)){ _smParryFx(t,b.x,b.y); b.st='back'; b.by=t; b.team=t.team; continue; }   // ⚔️ ong = ĐẠN: Cheems chém bật → lao ngược về chích Violin Bee
       t.takeDamage(VB_STING, f); b.cd=VB_STING_CD; b.atk=12;
       vbFx.push({k:'sting', x:b.x+(t.x-b.x)*0.6, y:b.y+(t.y-b.y)*0.6, t:0, T:14, a:Math.atan2(t.y-b.y,t.x-b.x)});
       if(tick-(f._vbStingSnd||-99)>=5){ f._vbStingSnd=tick; playSample('vb_sting', 0.5); }
@@ -14254,6 +14255,13 @@ function _vbBeat(f){
   }
 }
 // 🎼 hết 1 bài: khởi động xong → gọi nốt cho đủ đàn + ra hiệu tấn công; hết Bumblebee → khởi động lại
+// 🕳️ hố đen The Void hút ong con (= đạn): càng gần càng kéo mạnh + xoáy vòng, vào tới lõi thì bị nuốt
+function _vbSuck(x,y,team,PR,EAT){
+  for(let i=vbBees.length-1;i>=0;i--){ const b=vbBees[i]; if(b.team===team || b.st==='edge') continue;
+    const dx=x-b.x, dy=y-b.y, d=Math.hypot(dx,dy)||1; if(d>PR) continue;
+    const k=1-d/PR, sp=Math.min(d,1.2+k*k*8); b.x+=dx/d*sp-dy/d*sp*0.45*k; b.y+=dy/d*sp+dx/d*sp*0.45*k; b.mv=sp; b.dirX=dx>=0?1:-1;
+    if(d<EAT){ spawnParticles(b.x,b.y,'#9c27b0',5); vbBees.splice(i,1); } }
+}
 function _vbSongEnded(f, key){
   if(key==='vb_warmup'){
     for(let k=0; _vbAlive(f)<VB_N && k<VB_N; k++) _vbCall(f, k*2);
@@ -14266,13 +14274,14 @@ function _vbWorldTick(){
     if(q.k==='stream' && q.f && !q.f.dead) _vbSpawn(q.f, q.slot); }
   const u=_vbU(), sp=VB_BEE_SPD*MOVE_MULT*_soloMoveMul(); let rushN=0;
   for(let i=vbBees.length-1;i>=0;i--){ const b=vbBees[i];
-    if(!b.owner || b.owner.dead) b.hp=0;   // chủ đàn gục → cả đàn tan
-    if(b.dead || b.hp<=0){ spawnParticles(b.x,b.y,'#ffc107',6,false,true); vbBees.splice(i,1); continue; }
-    b.born++; b.flash=Math.max(0,b.flash-1); b.stun=Math.max(0,(b.stun||0)-1); b.cd=Math.max(0,b.cd-1); b.atk=Math.max(0,b.atk-1);
-    b.x+=b.vx; b.y+=b.vy; b.vx*=0.85; b.vy*=0.85;   // đẩy lùi / hút từ skill khác
+    if(!b.owner || b.owner.dead){ spawnParticles(b.x,b.y,'#ffc107',6,false,true); vbBees.splice(i,1); continue; }   // chủ đàn gục → cả đàn tan
+    b.born++; b.cd=Math.max(0,b.cd-1); b.atk=Math.max(0,b.atk-1);
     if(b.st==='edge'){ b.x+=(b.hx-b.x)*0.08; b.y+=(b.hy-b.y)*0.08; b.dirX=(W/2>=b.x)?1:-1; continue; }   // lơ lửng chờ tại ô
     rushN++;
-    if(b.stun>0) continue;
+    if(b.st==='back'){   // ⚔️ bị Cheems chém bật: lao thẳng (nhanh gấp 5) về chích chính Violin Bee, dame tính cho Cheems, rồi tan
+      const o=b.owner, dx=o.x-b.x, dy=o.y-b.y, d=Math.hypot(dx,dy)||1; b.x+=dx/d*Math.min(d,sp*5); b.y+=dy/d*Math.min(d,sp*5); b.dirX=dx>=0?1:-1; b.mv=sp*5; b.atk=12;
+      if(d<o.size+b.size){ o.takeDamage(VB_STING, b.by); vbFx.push({k:'sting', x:b.x, y:b.y, t:0, T:14, a:Math.atan2(dy,dx)}); playSample('vb_sting', 0.5); vbBees.splice(i,1); }
+      continue; }
     const t=_findClosestEnemy(b.team,b.x,b.y); b.tgt=t; if(!t) continue;
     // 🐝 bay kiểu ong: không lượn sin đều mà GIẬT ĐỔI HƯỚNG ngang từng quãng ngắn (0.2–0.45s)
     if(--b.dartT<=0 || b.dartT!==b.dartT){ b.dartT=12+Math.floor(Math.random()*16); b.dz=(Math.random()*2-1)*1.1; }
@@ -14333,7 +14342,6 @@ function _vbDraw(){
     ctx.save(); ctx.translate(b.x+jx,b.y+jy); if(b.dirX<0) ctx.scale(-1,1); ctx.scale(pop,pop);
     ctx.rotate(b.atk>0 ? 0.3*Math.sin(b.atk/12*Math.PI) : Math.min(0.22,(b.mv||0)*0.12));   // chúi kim xuống lúc chích / chúi đầu khi bay tới
     if(S){ const w=h*S.w/S.h, k=h/S.h, ox=-w*0.52, oy=-h*0.59, pvx=ox+S.pv[0]*k, pvy=oy+S.pv[1]*k;
-      if(b.flash>0 && b.flash%4<2) ctx.filter='brightness(2.2)';
       // 🪽 cánh vỗ ~200 lần/giây ngoài đời → trên màn hình là 1 vệt nhoè: vài bóng cánh mờ quét quanh gốc cánh + 1 cánh rõ đổi pha mỗi khung
       const ph=b.born*2.2+b.seed, wingAt=(a,sy,al)=>{ ctx.save(); ctx.globalAlpha=al*pop; ctx.translate(pvx,pvy); ctx.rotate(a); ctx.scale(1,sy); ctx.translate(-pvx,-pvy); ctx.drawImage(S.wing,ox,oy,w,h); ctx.restore(); };
       wingAt(-0.55+Math.sin(ph*1.3)*0.12,0.75,0.22); wingAt(0.3+Math.cos(ph*1.7)*0.12,0.6,0.22);
@@ -16298,7 +16306,7 @@ function _findClosestEnemy(team,x,y){
   // trước đây THIẾU dogeKnights/mewingStatues/capybaraKnives — khiến Knife Cat và mọi hệ thống dùng chung hàm này
   // (Holy Cat, Loading Cat, holyBeams...) không bao giờ target/gây dame được lên 3 loại triệu hồi này, dù chúng có HP thật
   for(const _arr of _hpSummonArrays()){
-    for(const s of _arr){ if(s.team===team||s.dead||s.hp<=0||s.st==="edge") continue; const d=(s.x-x)**2+(s.y-y)**2; if(d<bestD){bestD=d;best=s;} }   // 🐝 ong con đang chờ ngoài mép sân: chưa nhắm được
+    for(const s of _arr){ if(s.team===team||s.dead||s.hp<=0) continue; const d=(s.x-x)**2+(s.y-y)**2; if(d<bestD){bestD=d;best=s;} }
   }
   return best;
 }
@@ -17635,7 +17643,6 @@ class Fighter {
     for(const k of dogeClones){ if(k.team===this.team||k.dead||k.hp<=0) continue; const d=Math.sqrt((k.x-this.x)**2+(k.y-this.y)**2); if(d<bestD){best=k;bestD=d;} }
     for(const k of mspClones){ if(k.team===this.team||k.dead||k.hp<=0) continue; const d=Math.sqrt((k.x-this.x)**2+(k.y-this.y)**2); if(d<bestD){best=k;bestD=d;} }   // 🪓 bản sao Magicspeller
     for(const k of evilSouls){ if(k.team===this.team||k.dead||k.hp<=0) continue; const d=Math.sqrt((k.x-this.x)**2+(k.y-this.y)**2); if(d<bestD){best=k;bestD=d;} }   // 😈 linh hồn Evil Gary
-    for(const k of vbBees){ if(k.team===this.team||k.dead||k.hp<=0||k.st!=="rush") continue; const d=Math.sqrt((k.x-this.x)**2+(k.y-this.y)**2); if(d<bestD){best=k;bestD=d;} }   // 🐝 ong con Violin Bee (đang chờ ngoài mép sân thì chưa nhắm được — ngoài tầm với)
     // 👑 King Cheems đang khiên bất tử → BẮT BUỘC đổi mục tiêu sang Doge Knight của nó (không chết được nếu còn Knight sống)
     if(best && best.type==='kingcheems' && best._kcShielded){
       let bestKnight=null, bestKnightD=Infinity;
@@ -25999,7 +26006,7 @@ const _MELEE_TYPES = new Set(['ricardo','feuerkatze','uiacat','screamcat','banan
 // ⚠️ QUY TẮC BẮT BUỘC (xem CLAUDE.md): quân triệu hồi CÓ MÁU = 1 MEME — mọi skill (đánh đơn, vùng, va chạm, vệt, bẫy, DOT)
 //    và mọi hiệu ứng (choáng, chậm, đẩy, hút...) đều phải tác động lên chúng. Thêm loại mới → thêm vào đây + get enemy().
 //    Skill lặp `fighters` thì lặp kèm _summonFoes(team) / _hitSummonsArea(...).
-function _hpSummonArrays(){ return [commanderSoldiers, germanSoldiers, dogeKnights, mewingStatues, capybaraKnives, cryCats, dogeClones, mspClones, evilSouls, vbBees]; }
+function _hpSummonArrays(){ return [commanderSoldiers, germanSoldiers, dogeKnights, mewingStatues, capybaraKnives, cryCats, dogeClones, mspClones, evilSouls]; }
 // ghì 1 thân về trong lòng sàn; thân to hơn nửa sàn thì kẹp về giữa thay vì dán cứng vào 1 mép
 function _bfClamp(u){
   if(!u._bfReal) return;
@@ -27932,7 +27939,7 @@ function loop(){
         if(d<bestD){ bestD=d; target=f; }
       }
       // cũng phải lao vào được các đơn vị triệu hồi khác (lính/hiệp sĩ/dao...) — trước đây chỉ quét fighters nên né hẳn được các summon này
-      for(const _arr of [commanderSoldiers, germanSoldiers, dogeKnights, capybaraKnives, cryCats, dogeClones, mspClones, evilSouls, vbBees]){
+      for(const _arr of [commanderSoldiers, germanSoldiers, dogeKnights, capybaraKnives, cryCats, dogeClones, mspClones, evilSouls]){
         for(const s of _arr){
           if(s.team===ms.team || s.dead || s.hp<=0) continue;
           const d=(s.x-ms.x)**2+(s.y-ms.y)**2;
@@ -28908,7 +28915,7 @@ function loop(){
       if(tick%15===0){ const pd=Math.round((d2<_bhT1?30:d2<_bhT2?8:2)*_bd); _dmgSoldier(s,pd,'#9c27b0',undefined,undefined,undefined,undefined,bh.team); }
     });
     // 🌀 hút cả lính Commander/clone Naruto/bản thể Drooling/tượng đá Mewing — coi như char thường, không riêng gì lính German
-    for(const _arr of [commanderSoldiers, dogeKnights, mewingStatues, capybaraKnives, cryCats, dogeClones, mspClones, evilSouls, vbBees]){
+    for(const _arr of [commanderSoldiers, dogeKnights, mewingStatues, capybaraKnives, cryCats, dogeClones, mspClones, evilSouls]){
       for(const s of _arr){
         if(s.team===bh.team||s.dead||s.hp<=0) continue;
         const dx2=bh.x-s.x, dy2=bh.y-s.y, d2=Math.sqrt(dx2*dx2+dy2*dy2)||1;
@@ -28923,7 +28930,8 @@ function loop(){
         const sp=Math.max(2,Math.hypot(p.vx,p.vy)), k=1-d/PR, pull=0.25+k*k*1.6;   // càng gần càng bị bẻ mạnh + xoáy vòng
         p.vx=(p.vx+dx/d*sp*pull*0.35+(-dy/d)*sp*0.12*k); p.vy=(p.vy+dy/d*sp*pull*0.35+(dx/d)*sp*0.12*k); const ns=Math.hypot(p.vx,p.vy)||1; p.vx=p.vx/ns*sp; p.vy=p.vy/ns*sp;
         if(p.angle!==undefined) p.angle=Math.atan2(p.vy,p.vx);
-        if(d<EAT){ if(p.spawnX!=null && Math.hypot(p.x-p.spawnX,p.y-p.spawnY)>180) bhFarEat++; spawnParticles(p.x,p.y,'#9c27b0',5); arr.splice(pi,1); } } }   // bhFarEat: chỉ để công cụ quay chọn trận có cảnh đạn bay xa rồi bị nuốt
+        if(d<EAT){ if(p.spawnX!=null && Math.hypot(p.x-p.spawnX,p.y-p.spawnY)>180) bhFarEat++; spawnParticles(p.x,p.y,'#9c27b0',5); arr.splice(pi,1); } }
+      _vbSuck(bh.x,bh.y,bh.team,PR,EAT); }   // 🐝 ong con Violin Bee cũng là đạn → bị xoáy vào tâm rồi nuốt   // bhFarEat: chỉ để công cụ quay chọn trận có cảnh đạn bay xa rồi bị nuốt
     // draw black hole — dùng sprite-sheet GIF thật (đã chroma-key bỏ nền, giữ lõi đen)
     ctx.save();
     ctx.globalAlpha=Math.min(1,t*2);
