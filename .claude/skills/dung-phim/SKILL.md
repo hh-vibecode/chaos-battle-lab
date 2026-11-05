@@ -32,6 +32,63 @@ Cảnh đánh nào cũng phải có đủ các mẹo dưới đây — đây là
     tảng đá sàn bật tung (`slabs`), mưa bị sóng xung kích thổi bạt / bị đẩy ra (Shinra) (`BLASTS` trong screen), bụi + hạt sáng bị HÚT vào lúc gồng (`suck`),
     mây bị vụ nổ cuối thổi tung, trời quang ra; chưởng to + có vệt đuôi; rung + sóng méo + loé ở cả lúc BẮN chứ không chỉ lúc trúng. Mẫu: js/film-mvd.js.
 
+## 🎥 TƯ DUY ĐẠO DIỄN cho cảnh ĐỨNG / HỘI THOẠI / RA MẮT NHÓM (anh chê 5/11: "đứng 1 hàng chán, tư duy đơn giản" — gửi ảnh mẫu Akatsuki)
+Cảnh không đánh nhau vẫn phải có ý đồ máy quay. Trước khi code, viết ra cho từng shot: GÓC (thấp / cao / ngang), CỠ (toàn / trung / cận / đặc tả), AI Ở TIỀN CẢNH.
+1. **Không bao giờ xếp nhân vật thành 1 hàng ngang cùng độ cao.** Mỗi người 1 độ cao + 1 tư thế: đứng trên bệ/cột, ngồi trên gờ, ngồi xổm,
+   tựa cột; thủ lĩnh ở chỗ CAO NHẤT, giữa khung.
+2. **3 lớp cảnh**: tiền cảnh (1 nhân vật / gờ tường sát máy, to, tối), trung cảnh (nhóm chính), hậu cảnh (trăng, thành phố). Lớp sau trôi chậm hơn → chiều sâu.
+3. **Góc thấp ngước lên** cho nhóm phản diện / ra mắt: đường chân trời thấp, trăng to làm hào quang SAU ĐẦU thủ lĩnh, viền sáng (rim light) đỏ.
+4. **Mỗi câu thoại = 1 góc máy riêng**: thiết lập toàn cảnh (cẩu máy lên) → trung cảnh người nói → qua vai người nghe → góc ngước người khác phản ứng
+   → cận / đặc tả mắt ở câu then chốt → kéo lùi toàn cảnh ở câu chốt. Cắt cứng giữa các shot, trong shot máy luôn trôi nhẹ (đẩy vào / lia).
+5. **Không để ảnh tĩnh nguyên tấm** (anh dặn): nhân vật lúc nói chuyện phải có chuyển động — thở, áo / băng đầu bay trong gió, cựa đầu.
+   Cách: tách lớp từng nhân vật để nhún / nghiêng riêng, hoặc xin anh sprite sheet ChatGPT (ảnh động loop nhiều khung).
+6. **Giấu danh tính đúng lúc**: bóng đen viền đỏ, tên "UNKNOWN …" khi chưa ra mắt; lộ màu đúng nhịp nhạc / tiếng (vine boom).
+7. Mỗi nhân vật 1 khung riêng khi giới thiệu (ảnh tách riêng từng con), ảnh nhóm chỉ để khung chốt cuối.
+Anh gửi ảnh / clip mẫu → phân tích bố cục (góc, lớp, độ cao, nguồn sáng) rồi GHI THÊM luật vào mục này.
+
+## ✅ TỰ SOÁT TRƯỚC KHI BÁO XONG — BẮT BUỘC (anh dặn 5/11: "làm nhiều phim rồi, phải tự rút ra, không cần anh sửa")
+Dựng xong 1 cảnh / 1 bản: chụp BẢNG KHUNG (≥1 khung / 1.5s, mỗi shot ≥2 khung) → đọc kỹ → chấm TỪNG dòng dưới đây → sửa hết → chụp lại → mới báo.
+Mỗi dòng là 1 lần anh đã phải chê. Báo anh thì ghi rõ dòng nào chưa đạt và vì sao (vd chờ ảnh).
+**Bố cục / máy quay**
+- [ ] Không shot nào bó giữa khung đều đều; có lệch 1/3, nghiêng máy, đổi phía (mvd 3/11).
+- [ ] Không nhân vật nào đứng thành 1 hàng cùng độ cao; có tiền – trung – hậu cảnh (fin1 5/11).
+- [ ] Mỗi ~10s có ≥3 cỡ cảnh khác nhau (toàn / trung / cận / đặc tả); không shot tĩnh > 3s.
+- [ ] Đối thoại: mỗi câu 1 góc máy; người nói rõ là ai (fin1 5/11).
+- [ ] Mặt / đầu nhân vật chính KHÔNG bị cắt khỏi khung, không bị letterbox / phụ đề che (fin1: Friend lọt khung trên, Banana Cat lọt mép dưới).
+- [ ] Khung dọc / ngang: nhân vật 2 bên mép không bị cắt nửa người.
+**Chuyển động**
+- [ ] Không ảnh tĩnh nguyên tấm đứng im: luôn có thở / nhún / gió / máy trôi (fin1 5/11).
+- [ ] Combat đủ 14 mẹo ở trên (lấy đà, hit-stop, follow-through, nhịp không đều…); chiêu ra NHANH, gồng ≤0.5s (mvd 3/11).
+- [ ] Đòn có lực VÀ môi trường phản ứng (bụi, cháy xém, mưa bị thổi…) (mvd 3/11).
+**Hình / ghép nối**
+- [ ] Soi CHỖ NỐI: cánh tay ↔ bàn tay, vật ↔ bóng tối, ảnh cắt ↔ nền — không mép cắt thẳng, không "dán vào" (Prologue 2/11).
+- [ ] Tỉ lệ to / nhỏ đúng (vật khổng lồ vs meme) ở mọi góc máy.
+- [ ] Ảnh pixel (Friend) giữ nét điểm ảnh, không nhoè; ảnh nhỏ phóng to phải làm sắc (Prologue).
+- [ ] Không rối mắt: bớt chi tiết thừa khi cảnh đã nhiều thứ (Prologue: bỏ xúc tu phụ).
+**Chữ / tiếng**
+- [ ] Chữ không tràn khung, không bị vật khác che sai chỗ; font hợp thể loại (fin1: MEOWKATSUKI tràn, anh đòi font anime).
+- [ ] Mỗi nhịp chính 1 tiếng, không chồng tiếng; nhạc nền không lấn giọng (Prologue 4/11).
+- [ ] Thoại: tiếng Anh chuẩn ngữ pháp; không tự lộ thông tin anh muốn giấu (tên "UNKNOWN" khi chưa ra mắt).
+**Rút từ lịch sử sửa Meme Lore 1 + 2 (git log Ver 56–521)**
+- [ ] Nhân vật HOÀ vào cảnh, không "dán lên": ánh môi trường (đỏ cháy / xanh đêm), viền sáng từ nguồn sáng, tối dần về chân (MA2 Ver 298).
+- [ ] Bóng đen giấu danh tính phải ĐEN THẬT (không lộ lông / màu loang), chỉ chừa thứ cố ý (mây đỏ áo, mắt) (Ep2 Ver 355–356).
+- [ ] Mắt / chi tiết đặc trưng đúng chuẩn meme gốc (Rinnegan có vòng tròn đồng tâm, mắt đặt đúng vòng mắt tượng) (Ver 356, 450).
+- [ ] Tên trên hộp thoại đúng tên meme (DEPRESSED CAT, không phải PAIN) (Ver 450).
+- [ ] Không lộ phần thừa / lỗi che khuất: chân khổng lồ thò dưới núi, máy vượt mép nền lộ vùng trống (Ver 454, 193).
+- [ ] Nền có không khí: khói / sương thấp, tàn lửa, cột khói, trăng thấp — mỗi phần phim 1 bảng màu riêng rõ ràng (MA2 Ver 249–251, 263).
+- [ ] Có QUÃNG LẶNG sau nhịp lớn, chuyển cảnh mờ về đen rồi hiện dần ở chỗ đổi không khí; đánh đọc được, không rối (Ep3/4 Ver 428, MA2 Ver 263).
+- [ ] Cảnh ra mắt / khổng lồ phải HOÀNH TRÁNG: khung rộng, vật to gấp nhiều lần, góc thấp (Ep2 Ver 355, MA2 Ver 217).
+- [ ] Bám video / phác thảo mẫu anh gửi đúng từng nhịp (lấy đà như clip mẫu, dàn cảnh như sketch) (MA2 Ver 216, 295).
+- [ ] Tiếng: va chạm đúng khung chạm đất (không kêu lúc còn trên không), 1 tiếng / 1 cú (không 2 tiếng chồng), cắt khoảng lặng đầu file,
+      KHÔNG để giọng người / câu thoại lạ trong tiếng hiệu ứng (Ep2 Ver 372, 379; MA2 Ver 233; Ver 161).
+- [ ] Mạch truyện khớp các tập trước (phong ấn 1 lần, thứ tự sự kiện) (MA2 Ver 228).
+- [ ] Nền tối chuyển màu không bị sọc (thêm hạt nhiễu) (Prologue Ver 470).
+**Nội dung**
+- [ ] Đúng ý anh từng câu (đọc lại tin nhắn của anh, đánh dấu từng yêu cầu đã làm).
+- [ ] Hình tạm / chờ ảnh: ghi rõ khi báo, không để anh tưởng là bản chốt.
+- [ ] Không tự xuất video khi anh chưa bảo.
+Anh chê điều gì MỚI → thêm 1 dòng vào bảng này ngay trong phiên (ghi phim + ngày).
+
 ## Quy trình
 1. **Kịch bản → bảng phân cảnh** (gửi anh duyệt TRƯỚC khi code): mỗi shot 1 dòng — giây, cỡ cảnh + góc máy, hành động (có lý do), hiệu ứng, tiếng.
    Anh gửi video mẫu → chạy skill `xem-video` trước, bám nhịp cắt + góc máy của mẫu.
