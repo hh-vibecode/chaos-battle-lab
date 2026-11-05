@@ -185,6 +185,16 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
   SND_LUFS của 6 tiếng là ƯỚC LƯỢNG từ RMS (Windows không chạy được tim-sound) → lên Mac đo lại bằng `tools/sfx-find.py measure`.
 - ⚠️ Bản thu Katica Illényi có bản quyền biểu diễn → video YouTube có thể dính Content ID (bản nhạc gốc Rimsky-Korsakov thì đã hết bản quyền).
 
+## 🎬 Meme Lore · FINAL — Part 1 (5/11/2026) — `js/film-fin1.js` (cine-kit, id `fin1`, 16:9, 51s; Meme Cinema → MEME LORE 2 → "Final · Part 1")
+- Anh kể (Final làm 2 tập, ngang 16:9): phố bình yên + meme quen trên phố → em bé mua kem, bóng đen trùm cả khu, ngẩng lên khóc thét rơi kem → FRIEND che kín trời
+  giữa các toà cao tầng → tay bóng tối đâm xuyên nhà, phá huỷ (10–15s, nhiều khung cắt) → nóc nhà: 5 bóng Akatsuki (Depressed · Doorbell Chud · Ninja Cat · Bat Cat · Mlem Cat).
+- Dựng kiểu Prologue (2D 960×540, mỗi cảnh 1 hàm `sc*` + `cam()`), mốc ở `T`. Thành phố / xe / quầy kem / khói lửa vẽ bằng code (seed cố định); tay bóng tối = `shadowArm` chép từ film-l2pro.
+- ⚠️ NGƯỜI DÂN + EM BÉ + người bán kem đang là HÌNH TẠM bằng khối (`person`, `kid`) — chờ ảnh anh vẽ (Desktop `Final_EP1_anh_can_ve/PROMPT.txt`). Anh muốn kiểu
+  nhân vật người trong Shin cậu bé bút chì → em viết lệnh vẽ nhân vật GỐC cùng kiểu nét đơn giản (không chép nhân vật Shin vì bản quyền). 4 meme Akatsuki (trừ Depressed) đang dùng ảnh gốc.
+- Tiếng mới (myinstants): `fin_city` (xe cộ), `fin_crowd` (đám đông la hét), `fin_kidcry`, `fin_collapse` (nhà sập), `fin_icecream` (nhạc xe kem) — phát qua `mus` (đường dẫn thẳng, không khai AUDIO_SAMPLES).
+- 💡 (5/11) ChatGPT giờ vẽ được SPRITE SHEET / GIF nhiều khung theo lưới đều → khi cần nhân vật CHUYỂN ĐỘNG (đi, chạy, khóc, vỗ cánh…) xin anh sprite sheet
+  (cùng cỡ, cùng đường chân, cách đều, nền xanh) thay vì 1–2 ảnh tĩnh; mẫu lệnh ở cuối PROMPT.txt trên.
+
 ## 👁️ Friend Raid (5/11/2026, event Friend) — `js/raid-friend.js` (khối `RF` / `_rf*`), nạp bằng thẻ script trong index.html
 - Menu chính → thẻ "Friend Raid" → mượn picker 2vs2 chọn 4 meme → khung DỌC 9:16 của 2vs2 (`duoCtx` gắn cờ `.raid`, `_rfOn()`); Friend = Fighter slot 4 team 1,
   `type='frraid'`, do `_rfWorldTick` điều khiển hết (game.js chỉ có các móc `if(_rfOn())…` / `frraid` / `_rfEaten`). Meme raid 2000 máu (em đặt, giống 2vs2).
