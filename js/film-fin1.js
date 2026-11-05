@@ -8,6 +8,7 @@
 //    5 meme Akatsuki: Depressed Cat dùng ảnh Akatsuki có sẵn, 4 con kia tạm dùng ảnh gốc (chờ ảnh khoác áo Akatsuki).
 (function(){
   if(!window.CineKit || CineKit.films.fin1) return;
+  try{ const _f=new FontFace('Shojumaru','url(assets/fonts/Shojumaru.ttf)'); _f.load().then(ff=>document.fonts.add(ff)).catch(()=>{}); }catch(e){}   // 🈴 font tiêu đề kiểu anime (OFL) cho logo MEOWKATSUKI — anh dặn dùng font anime
   const K=CineKit, {seg,lerp,clamp,hash}=K, E=K.EASE, TAU=Math.PI*2, VW=960, VH=540;
   const T={ street:0, stand:7, shadow:11, cry:14, splat:15.7, reveal:16.5, roar:18.4, title:19.8, d1:22.5, d2:24.5, d3:26.3, d4:28, d5:30, d6:32, d7:34, roof:37, line:46.6, booms:55.6, group:58.8, akaT:59.2, DUR:69.2 };
   const DUR=T.DUR;
@@ -265,14 +266,13 @@
   const AKA_CX=[150,445,757,1070,1290];
   function akaGroup(g,t,cx,base,h,lit){ pic(g,'akaG',cx,base,h,{dark:1-lit*0.92,rim:['255,60,60',0.7-0.25*lit]}); }
   // 5 KHUNG CHÉO trượt vào theo 5 tiếng vine boom (vẽ toạ độ màn hình): mỗi khung cận mặt 1 con + tên
-  const AKA_FACE=[[232,150,330],[430,420,330],[790,420,380],[1070,190,330],[1290,330,330]];   // tâm mặt (x,y) + cỡ khung cắt trên ảnh nhóm
-  function akaStrips(g,t){ if(t<T.booms||t>=T.group+0.25) return; const c=K.prep(IM.akaG); if(!c) return; const sx0=c.sw/AKA_W, sy0=c.sh/AKA_H, SK=70, Wd=VW/5;
+  const AKA_ONE=[['aChud',0.5,0.1],['aBat',0.55,0.2],['dp',0.6,0.3],['aNinja',0.6,0.24],['aMlem',0.55,0.24]];   // ảnh riêng + tâm mặt (tỉ lệ ảnh)
+  function akaStrips(g,t){ if(t<T.booms||t>=T.group+0.25) return; const SK=70, Wd=VW/5;
     for(let i=0;i<5;i++){ const a=T.booms+i*0.6, k=E.eout3(seg(t,a,a+0.22)); if(k<=0) continue; const dir=i%2?1:-1, oy=(1-k)*VH*1.1*dir;
       const xL=i*Wd, eL=i===0?-SK:0, eR=i===4?SK:0, P=[[xL+SK*0.5+eL,0],[xL+Wd+SK*0.5+eR,0],[xL+Wd-SK*0.5+eR,VH],[xL-SK*0.5+eL,VH]];   // khung đầu / cuối phủ kín mép màn hình
       g.save(); g.translate(0,oy); g.beginPath(); P.forEach(([x,y],j)=>j?g.lineTo(x,y):g.moveTo(x,y)); g.closePath(); g.clip();
       const bg=g.createLinearGradient(0,0,0,VH); bg.addColorStop(0,'#2a0408'); bg.addColorStop(1,'#0a0103'); g.fillStyle=bg; g.fillRect(xL-SK,0,Wd+SK*2,VH);
-      const [fx,fy,fs]=AKA_FACE[i], sh=fs*1.6, sw=sh*(Wd+SK)/VH;   // cắt quanh mặt, cao ~1.6 khung mặt
-      g.drawImage(c.src,c.sx+(fx-sw/2)*sx0,c.sy+(fy-sh*0.32)*sy0,sw*sx0,sh*sy0,xL-SK*0.5,0,Wd+SK,VH);
+      const [key,fx,fy]=AKA_ONE[i], c=K.prep(IM[key]); if(c){ const dw=(Wd+SK)*1.25, dh=dw*c.sh/c.sw; g.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,xL+Wd/2-fx*dw,VH*0.3-fy*dh,dw,dh); }   // mặt nằm ~1/3 trên khung
       const vg=g.createLinearGradient(0,VH*0.55,0,VH); vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,'rgba(0,0,0,0.85)'); g.fillStyle=vg; g.fillRect(xL-SK,0,Wd+SK*2,VH);
       if(t<a+0.08){ g.globalCompositeOperation='lighter'; g.globalAlpha=1-(t-a)/0.08; g.fillStyle='#ff5a4a'; g.fillRect(xL-SK,0,Wd+SK*2,VH); g.globalCompositeOperation='source-over'; g.globalAlpha=1; }
       g.restore();
@@ -309,27 +309,104 @@
   const SPK={'MLEM CAT':{col:'255,214,120',eyes:[],eye:'255,230,150',cx:560},   // anh dặn: lúc thoại chỉ là bóng đen, KHÔNG loé mắt Mlem — riêng Depressed loé Rinnegan
    'DEPRESSED CAT':{col:'190,150,255',eyes:[[736,405],[852,405]],eye:'170,110,255',cx:480}};
   const speaking=t=>{ for(const d of DIALOG) if(t>=d[0]-0.2&&t<d[1]+0.15) return d; return null; };
+  // 🏙️ NÓC NHÀ = ẢNH POSE anh vẽ (FIN_AKA_POSE 1671×931, góc ngước, 5 con trên bệ đá) phủ kín khung (world 0..960 × 5.7..540).
+  //    Tách lớp từng con (vùng chữ nhật, vẽ sau đè trước) để THỞ / nghiêng / gật đầu khi nói; dải băng đầu Ninja bay phần phật; bệ đá đứng yên ở lớp trước.
+  const PK=960/1671, PY0=10*PK;   // ảnh px → world
+  const PL=[   // [tên, vùng x,y,w,h (px ảnh), điểm neo chân (px ảnh), pha]
+    ['NINJA',1150,0,521,900,1480,900,0.3],['MLEM',940,440,460,460,1170,840,1.7],['DEPRESSED',560,0,520,700,830,600,2.9],['CHUD',0,0,340,900,170,880,4.1],['BAT',220,330,440,570,450,860,5.3]];
+  const STONE=[[0,790,1671,141],[600,560,460,260]];   // bờ tường + bệ đá: lớp trước, đứng yên
+  const RIB=[1150,280,150,150];                          // dải băng đầu Ninja (bay theo gió) — vùng chỉ có băng, không dính đầu
+  const _PC={};
+  function _pc(){ if(_PC.ok) return _PC; const im=IM.pose; if(!im||!im.complete||!im.naturalWidth) return null; const w=im.naturalWidth, h=im.naturalHeight;
+    const mk=f=>{ const c=K.mk(w,h), x=c.getContext('2d'); f(x); return c; }, tint=(src,col)=>mk(x=>{ x.drawImage(src,0,0); x.globalCompositeOperation='source-in'; x.fillStyle=col; x.fillRect(0,0,w,h); });
+    const o=mk(x=>x.drawImage(im,0,0)), n=mk(x=>{ x.drawImage(im,0,0); x.clearRect(...RIB); });
+    return Object.assign(_PC,{ok:1,o,n,dO:tint(o,'#050206'),dN:tint(n,'#050206'),rO:tint(o,'rgb(255,50,40)'),rN:tint(n,'rgb(255,50,40)')}); }
+  // lit: 0 = bóng đen viền đỏ, 1 = đủ màu · talk: con đang nói (gật đầu nhẹ)
+  function drawPose(g,t,lit,talk,sc){ const P=_pc(); if(!P) return; const dark=1-lit; g.save(); if(sc){ g.translate(480,545); g.scale(sc,sc); g.translate(-480,-545); }
+    const blit=(src,x,y,w,h)=>g.drawImage(src,x,y,w,h,x*PK,PY0+y*PK,w*PK,h*PK);
+    const layer=(x,y,w,h,ori)=>{ const B=ori?P.o:P.n, D=ori?P.dO:P.dN, R=ori?P.rO:P.rN;
+      if(dark<0.99) blit(B,x,y,w,h); if(dark>0.01){ g.save(); g.globalAlpha=dark; blit(D,x,y,w,h); g.restore(); } };
+    if(dark>0.01){ g.save(); g.globalAlpha=dark; for(const [dx,dy] of [[-1.6,0],[1.6,0],[0,-1.6],[0,1]]) g.drawImage(P.rO,dx,PY0+dy,960,P.rO.height*PK); g.restore(); }   // viền đỏ: 1 lần từ nguyên ảnh
+    for(const [nm,x,y,w,h,ax,ay,ph] of PL){ const spk=talk===nm, br=1+0.009*Math.sin(t*2.1+ph), rot=0.005*Math.sin(t*1.3+ph)+(spk?0.012*Math.sin(t*5.5):0);
+      g.save(); g.translate(ax*PK,PY0+ay*PK); g.rotate(rot); g.scale(1,br); g.translate(-ax*PK,-(PY0+ay*PK)); layer(x,y,w,h,false);
+      if(nm==='NINJA'){ const n=12, sw=RIB[2]/n; for(let i=0;i<n;i++){ const fx=RIB[0]+i*sw, amp=(1-(i+0.5)/n)*7, dy=Math.sin(t*9-i*0.7)*amp+Math.sin(t*14-i*1.3)*amp*0.35;   // đầu tự do (trái) bay mạnh, sát đầu đứng yên
+          g.save(); g.translate(0,dy); layer(fx,RIB[1],sw+0.6,RIB[3],true); g.restore(); } }
+      g.restore(); }
+    for(const [x,y,w,h] of STONE) layer(x,y,w,h,false);   // bệ đá: lớp trước, đứng yên (đè lên chân)
+    g.restore(); }
+  // 🌑 NỀN (anh dặn: ĐEN là chính, kiểu tranh vẽ): bóng toà nhà đen viền đỏ chụm lên trời 2 bên (góc ngước), trăng máu sau đầu thủ lĩnh,
+  //    MÂY MÁU đỏ viền sáng trôi trên nền đen (hoạ tiết mây Akatsuki) · dưới bờ tường là mặt tường toà nhà (để cẩu máy lên)
+  function bloodCloud(g,x,y,s,a){ if(a<=0) return; g.save(); g.globalAlpha=a; g.translate(x,y); g.scale(s,s);
+    const L=[[-60,10,30],[-28,-14,38],[12,-20,34],[46,-4,30],[74,14,22],[-8,18,34],[30,18,30]];
+    g.fillStyle='rgba(255,220,220,0.85)'; for(const [lx,ly,r] of L){ g.beginPath(); g.arc(lx,ly,r+4,0,TAU); g.fill(); }
+    g.fillStyle='#a3101a'; for(const [lx,ly,r] of L){ g.beginPath(); g.arc(lx,ly,r,0,TAU); g.fill(); }
+    g.strokeStyle='rgba(255,200,200,0.55)'; g.lineWidth=3; for(const [lx,ly,r] of [[-28,-6,18],[12,-12,16],[46,4,14]]){ g.beginPath(); g.arc(lx,ly+6,r,Math.PI*1.1,Math.PI*1.9); g.stroke(); }
+    g.restore(); }
+  function roofSky(g,t,noTower){ g.fillStyle='#050203'; g.fillRect(-1500,-1200,4000,3200);
+    { const gr=g.createLinearGradient(0,-200,0,560); gr.addColorStop(0,'rgba(60,4,8,0)'); gr.addColorStop(0.55,'rgba(80,6,10,0.55)'); gr.addColorStop(1,'rgba(130,14,16,0.9)'); g.fillStyle=gr; g.fillRect(-1500,-200,4000,760); }   // sương máu sau lưng nhóm: bóng đen nổi lên trên nền đỏ
+    g.save(); g.globalCompositeOperation='lighter'; blob(g,500,90,360,'170,16,14',0.55); g.restore();
+    const mg=g.createRadialGradient(470,50,20,500,90,150); mg.addColorStop(0,'#b8301f'); mg.addColorStop(0.6,'#82101a'); mg.addColorStop(1,'#3e0406'); g.fillStyle=mg; g.beginPath(); g.arc(500,90,150,0,TAU); g.fill();   // trăng máu
+    g.fillStyle='rgba(50,0,4,0.4)'; for(let i=0;i<8;i++){ g.beginPath(); g.arc(500+(H(i,71)-0.5)*215,90+(H(i,72)-0.5)*215,8+18*H(i,73),0,TAU); g.fill(); }
+    for(let i=0;i<6;i++){ const x=((i*260+t*16)%1700)-370, y=-20+70*H(i,74)+(i%2)*160; if(noTower && x>250 && x<710 && y<330) continue; bloodCloud(g,x,y,0.55+0.4*H(i,75),0.92); }   // pose cuối: không cho mây đè lên logo   // mây máu trôi
+    // bóng toà nhà 2 bên: đen kịt, viền đỏ, vài ô cửa đỏ mờ — chụm về đỉnh khung (góc ngước)
+    if(!noTower) for(const side of [-1,1]) for(let k=0;k<2;k++){ const bx=480+side*(560-k*80), w=140-k*20, base=1200, top=-260+k*90, tw=w*0.55, tx=bx+side*-60*(k+1);
+      g.fillStyle='#020101'; g.beginPath(); g.moveTo(bx-w/2,base); g.lineTo(tx-tw/2,top); g.lineTo(tx+tw/2,top); g.lineTo(bx+w/2,base); g.closePath(); g.fill();
+      g.strokeStyle='rgba(220,30,30,0.7)'; g.lineWidth=1.2; g.stroke();
+      for(let r=0;r<14;r++) for(let q=0;q<3;q++) if(H(k*17+r+side*5,q)<0.18){ const f=r/14, xa=lerp(bx-w/2,tx-tw/2,f), xb=lerp(bx+w/2,tx+tw/2,f), yy=lerp(base,top,f); g.fillStyle='rgba(200,20,20,0.5)'; g.fillRect(lerp(xa,xb,0.2+q*0.25),yy-8,(xb-xa)*0.12,6); } }
+    g.save(); g.globalCompositeOperation='lighter'; for(let i=0;i<34;i++){ const ph=((t*0.06*(0.5+H(i,75)))+H(i,76))%1, x=960*H(i,77)+Math.sin(t+i)*14, y=560-ph*620; g.globalAlpha=Math.sin(ph*Math.PI)*0.8; g.fillStyle='#ff3a2a'; g.fillRect(x,y,2,2); } g.restore();   // tàn đỏ bay lên
+    g.fillStyle='#070304'; g.fillRect(-300,520,1600,1100); g.strokeStyle='rgba(200,25,25,0.6)'; g.lineWidth=2; g.strokeRect(-300,520,1600,1100);   // mặt tường toà nhà dưới bờ tường
+    for(let j=0;j<12;j++) for(let i=0;i<14;i++) if(H(i+50,j)<0.3){ g.fillStyle='rgba(180,20,20,0.45)'; g.fillRect(-120+i*90,580+j*70,40,30); } }
+  // 🔴 LOGO MEOWKATSUKI theo mẫu anh gửi (logo Akatsuki): chữ cong theo vòng cung trên · vòng 10 nhẫn chữ Hán · mây đỏ giữa có chữ 猫 · EST. 2 bên ·
+  //    ORGANIZATION + MEME HUNTERS bên dưới — toàn đỏ trên đen, hiện kiểu đóng dấu
+  const RINGS=['零','青','白','朱','空','南','北','三','玉','亥'];
+  function emblem(g,t,cx,cy,R,a0){ const v=t-T.akaT; if(v<0) return; const RED='#c41a22';
+    g.save(); g.globalAlpha=a0==null?1:a0;
+    g.save(); g.globalCompositeOperation='lighter'; blob(g,cx,cy,R*1.6,'150,10,15',0.5*seg(v,0,0.5)); g.restore();
+    // chữ cong: mỗi chữ xoay theo góc trên vòng cung, đập vào lần lượt
+    const TX='MEOWKATSUKI', n=TX.length, a0r=-Math.PI*0.86, a1r=-Math.PI*0.14;
+    g.font=`${Math.round(R*0.3)}px Shojumaru, ${SANS}`; g.textAlign='center'; g.textBaseline='middle';
+    for(let i=0;i<n;i++){ const k=seg(v,i*0.04,i*0.04+0.14); if(k<=0) continue; const an=lerp(a0r,a1r,i/(n-1)), sc=lerp(1.8,1,E.eout(k)), rr=R*1.12;
+      g.save(); g.translate(cx+Math.cos(an)*rr,cy+Math.sin(an)*rr); g.rotate(an+Math.PI/2); g.scale(sc,sc); g.globalAlpha*=k; g.fillStyle=RED; g.fillText(TX[i],0,0); g.restore(); }
+    // vòng 10 nhẫn chữ Hán
+    for(let i=0;i<10;i++){ const k=E.eout(seg(v,0.45+i*0.05,0.6+i*0.05)); if(k<=0) continue; const an=-Math.PI/2+i*TAU/10+0.31, x=cx+Math.cos(an)*R*0.72, y=cy+Math.sin(an)*R*0.72, r=R*0.13*k;
+      g.save(); g.translate(x,y); g.rotate(an+Math.PI/2); g.fillStyle=RED; g.beginPath(); g.ellipse(0,0,r,r*1.15,0,0,TAU); g.fill();
+      g.fillStyle='#120204'; g.beginPath(); g.ellipse(0,0,r*0.68,r*0.78,0,0,TAU); g.fill();
+      g.fillStyle=RED; g.font=`900 ${Math.round(r*0.95)}px serif`; g.fillText(RINGS[i],0,1); g.restore(); }
+    // mây đỏ giữa + 猫
+    const ck=E.eout(seg(v,0.25,0.6)); if(ck>0){ g.save(); g.translate(cx,cy); g.scale(R/160*ck,R/160*ck);
+      const L=[[-48,8,26],[-22,-14,32],[12,-18,30],[42,-2,26],[-4,16,30],[26,16,26]]; g.fillStyle=RED; for(const [lx,ly,r] of L){ g.beginPath(); g.arc(lx,ly,r,0,TAU); g.fill(); }
+      g.fillStyle='#120204'; g.font='900 40px serif'; g.fillText('猫',0,2); g.restore(); }
+    const tk=seg(v,1.0,1.4); if(tk>0){ g.globalAlpha=(a0==null?1:a0)*tk; g.fillStyle=RED; g.font=`${Math.round(R*0.15)}px Shojumaru, ${SANS}`;
+      g.fillText('EST.',cx-R*1.02,cy+R*0.36); g.fillText('2026',cx+R*1.02,cy+R*0.36);
+ }
+    g.restore(); }
+  // 🎥 GÓC MÁY từng câu thoại (cắt cứng giữa các shot, trong shot máy trôi): [đầu, cuối, cx0,cy0,z0, cx1,cy1,z1, nghiêng]
+  const ROOF_SHOTS=[[37.0,39.2, 480,700,1.0, 480,285,1.0, 0],       // cẩu máy từ tường toà nhà lên: lộ cả nhóm trên bệ đá, trăng máu sau đầu thủ lĩnh
+    [39.2,40.5, 660,360,1.8, 656,356,1.92, 0.04],                     // Mlem hỏi (trung cảnh)
+    [40.5,43.1, 300,330,1.65, 318,322,1.78, -0.03],                   // Bat Cat tiền cảnh trái, cả nhóm phía sau
+    [43.1,46.3, 790,215,1.85, 786,208,2.0, -0.06],                     // góc ngước Ninja, băng đầu bay
+    [46.3,48.9, 480,190,1.55, 484,170,1.8, 0],                        // thủ lĩnh trên bệ đá, trăng máu làm hào quang
+    [48.9,52.2, 494,100,3.3, 494,98,3.6, 0],                          // cận mắt Rinnegan
+    [52.2,55.7, 484,170,2.0, 480,285,1.0, 0]];                        // kéo lùi toàn cảnh: "…know pain"
+  const _talkNm=t=>{ const d=speaking(t); return d?(d[2]==='MLEM CAT'?'MLEM':'DEPRESSED'):null; };
   function scRoof(g,t){ const u=t-T.roof;
-    if(t<T.group){ let wm=0; for(const d of DIALOG) if(d[2]==='MLEM CAT') wm=Math.max(wm,E.eio(seg(t,d[0]-0.6,d[0]+0.6))*(1-E.eio(seg(t,d[1]+0.2,d[1]+1.2))));
-      const z=lerp(0.98,1.2,E.eio(seg(u,0,T.booms-T.roof))), cx=lerp(480,560,wm);   // máy trôi nhẹ về phía người đang nói (tính thẳng theo giây → xuất video không lệch)
-      cam(g,cx,300,z); sky(g,t,0.1,1);
-      g.save(); g.globalCompositeOperation='lighter'; blob(g,700,120,140,'255,60,40',0.5); g.restore(); g.fillStyle='#ff3a2a'; g.beginPath(); g.arc(700,120,46,0,TAU); g.fill();   // trăng máu
-      skyline(g,cx,0.4,470,7,50,200,300,60,80,'#1c1116','rgba(255,140,80,0.5)',0.18,{});
-      for(let i=0;i<8;i++) smoke(g,(i*160+u*30)%1200-100,420-60*H(i,3),140,0.35);
-      g.fillStyle='#120b0e'; g.fillRect(-200,440,1400,400); g.fillStyle='#2a1c20'; g.fillRect(-200,436,1400,8);   // mép nóc nhà
-      akaGroup(g,t,480,452,330,0);   // vẫn là 5 bóng đen
-      const s=330/AKA_H, x0=480-AKA_W*s/2, y0=452-330;
-      for(const [nm,P] of Object.entries(SPK)){ let k=0; for(const d of DIALOG) if(d[2]===nm) k=Math.max(k,seg(t,d[0]-0.3,d[0]+0.2)*(1-seg(t,d[1],d[1]+0.4)));
-        if(nm==='DEPRESSED CAT' && t>=T.line) k=Math.max(k,seg(t,T.line-0.3,T.line+0.2));   // Depressed đã mở Rinnegan thì giữ tới lúc 5 khung trượt vào
-        if(k<=0) continue; k*=0.75+0.25*Math.sin(t*9);
-        for(const [ex,ey] of P.eyes){ g.save(); g.globalCompositeOperation='lighter'; blob(g,x0+ex*s,y0+ey*s,18,P.eye,k); blob(g,x0+ex*s,y0+ey*s,6,'255,250,240',k); g.restore(); } } }
-    else { const v=t-T.group; cam(g,480,285,lerp(1.18,1.0,E.eout(seg(v,0,2.5))),(t>T.akaT&&t<T.akaT+0.6)?(hash(Math.floor(t*40))-0.5)*0.012:0); sky(g,t,0.1,1);
-      friendSky(g,480,250,700,0.55,0.7);
-      skyline(g,480,0.4,470,7,50,200,300,60,80,'#1c1116','rgba(255,140,80,0.5)',0.18,{});
-      for(let i=0;i<10;i++) fire(g,40+i*100,470,50,t,i*5);
-      g.fillStyle='#120b0e'; g.fillRect(-200,440,1400,400); g.fillStyle='#2a1c20'; g.fillRect(-200,436,1400,8);
-      meowkatsuki(g,t,480,176);            // LỚP DƯỚI CÙNG: chữ sau lưng (đầu cả nhóm đè lên chân chữ 1 chút)
-      akaGroup(g,t,480,460,300,1); } }   // ảnh pose cả nhóm
+    if(t<T.group){ let S=ROOF_SHOTS[0]; for(const q of ROOF_SHOTS) if(t>=q[0]) S=q; const k=E.eio(seg(t,S[0],S[1]));
+      cam(g,lerp(S[2],S[5],k),lerp(S[3],S[6],k),lerp(S[4],S[7],k),S[8]); roofSky(g,t); drawPose(g,t,0,_talkNm(t));
+      let e=0; for(const d of DIALOG) if(d[2]==='DEPRESSED CAT') e=Math.max(e,seg(t,d[0]-0.3,d[0]+0.2)); if(e>0){ e*=0.8+0.2*Math.sin(t*9);   // Rinnegan loé trong bóng đen
+        for(const [ex,ey] of [[815,155],[905,155]]){ g.save(); g.globalCompositeOperation='lighter'; blob(g,ex*PK,PY0+ey*PK,9,'170,110,255',e); blob(g,ex*PK,PY0+ey*PK,3,'240,230,255',e); g.restore(); } } }
+    else { const v=t-T.group; cam(g,480,265,lerp(1.12,1.0,E.eout(seg(v,0,2.5))),(t>T.akaT&&t<T.akaT+0.6)?(hash(Math.floor(t*40))-0.5)*0.012:0);
+      roofSky(g,t,true);
+      emblem(g,t,480,175,128);   // LỚP DƯỚI CÙNG: logo MEOWKATSUKI sau lưng — thủ lĩnh đứng đè lên dưới logo
+      drawPoseFaded(g,t,0.72); } }
+  let _OB=null;
+  function drawPoseFaded(g,t,sc){ const Q=Math.max(1,SCv||1), w=Math.ceil(960*Q), h=Math.ceil(545*Q);
+    if(!_OB||_OB.width!==w) _OB=K.mk(w,h); const o=_OB.getContext('2d'); o.setTransform(1,0,0,1,0,0); o.globalAlpha=1; o.globalCompositeOperation='source-over'; o.clearRect(0,0,w,h);
+    o.setTransform(Q,0,0,Q,0,0); drawPose(o,t,1,null);
+    o.globalCompositeOperation='destination-out'; const FW=120;
+    for(const [xa,xb] of [[0,FW],[960,960-FW]]){ const gr=o.createLinearGradient(xa,0,xb,0); gr.addColorStop(0,'rgba(0,0,0,1)'); gr.addColorStop(1,'rgba(0,0,0,0)'); o.fillStyle=gr; o.fillRect(Math.min(xa,xb),0,FW,545); }
+    { const gr=o.createLinearGradient(0,545,0,465); gr.addColorStop(0,'rgba(0,0,0,1)'); gr.addColorStop(1,'rgba(0,0,0,0)'); o.fillStyle=gr; o.fillRect(0,465,960,80); }
+    o.globalCompositeOperation='source-over';
+    g.save(); g.translate(480,545); g.scale(sc,sc); g.translate(-480,-545); g.drawImage(_OB,0,0,960,545); g.restore(); }
   const SCENES=[[0,scStreet],[T.stand,scStand],[T.shadow,scShadow],[T.cry,scCry],[T.reveal,scReveal],[T.d1,scD1],[T.d2,scD2],[T.d3,scD3],[T.d4,scD4],[T.d5,scD5],[T.d6,scD6],[T.d7,scD7],[T.roof,scRoof]];
 
   // ───────── chữ ─────────
@@ -338,7 +415,7 @@
     g.save(); g.shadowColor='rgba(170,60,255,0.95)'; g.shadowBlur=24*SCv; spaced(g,'FRIEND',VW/2,300+(1-k)*20,`900 96px ${SERIF}`,30,'#f4ecff',k*out); g.restore(); }
   function akaLine(g,t){ const D=speaking(t); if(!D || t>=T.booms) return; const [a,b,nm,line]=D, al=seg(t,a-0.2,a)*(1-seg(t,b,b+0.15));
     g.save(); g.textAlign='center'; g.textBaseline='middle'; g.globalAlpha=al;
-    g.font=`800 12px ${SANS}`; g.letterSpacing='4px'; g.fillStyle=`rgb(${SPK[nm].col})`; g.shadowColor=`rgba(${SPK[nm].col},0.9)`; g.shadowBlur=10*SCv; g.fillText(nm,VW/2,VH-78);
+    g.font=`800 12px ${SANS}`; g.letterSpacing='4px'; g.fillStyle=`rgb(${SPK[nm].col})`; g.shadowColor=`rgba(${SPK[nm].col},0.9)`; g.shadowBlur=10*SCv; g.fillText('UNKNOWN MEME',VW/2,VH-78);   // anh dặn: lúc thoại chưa lộ tên thành viên
     g.shadowBlur=0; g.letterSpacing='1px'; g.font=`italic 600 21px ${SERIF}`; const ws=line.split(' '), n=Math.min(ws.length,Math.floor(Math.max(0,t-a)/0.11)+1);
     g.fillStyle='#f4ecff'; g.fillText(ws.slice(0,n).join(' '),VW/2,VH-52); g.restore(); }
   function endCard(g,t){ const v=t-(T.DUR-3.2); if(v<0) return; const k=seg(v,0,0.8);
@@ -366,7 +443,7 @@
     imgs:{ fr:'assets/avatars/friend/avatarUrl.webp', hFist:'assets/img/scaredhamster/HAND_fist.webp', hLunge:'assets/img/scaredhamster/HAND_lunge.webp', hClose:'assets/img/scaredhamster/HAND_closing.webp',
       chill:'assets/img/chillguy/CHILLGUY_AVATAR_IMG.webp', doge:'assets/avatars/doge/avatarUrl.webp', cheems:'assets/avatars/cheems/avatarUrl.webp', capy:'assets/avatars/capybara/avatarUrl.webp',
       dogeS:'assets/img/cine/CINE_DOGE_SCARED.webp', dp:'assets/img/depressedcat/DP_PAIN_IMG.webp', chud:'assets/avatars/doorbellchud/avatarUrl.webp', ninja:'assets/avatars/ninjacat/avatarUrl.webp',
-      bat:'assets/avatars/batcat/avatarUrl.webp', mlem:'assets/avatars/mlemcat/avatarUrl.webp', akaG:'assets/img/cine/FIN_AKA_GROUP.png',
+      bat:'assets/avatars/batcat/avatarUrl.webp', mlem:'assets/avatars/mlemcat/avatarUrl.webp', akaG:'assets/img/cine/FIN_AKA_GROUP.png', pose:'assets/img/cine/FIN_AKA_POSE.png', aChud:'assets/img/cine/FIN_AKA_CHUD.png', aBat:'assets/img/cine/FIN_AKA_BAT.png', aNinja:'assets/img/cine/FIN_AKA_NINJA.png', aMlem:'assets/img/cine/FIN_AKA_MLEM.png',
       ban:'assets/avatars/bananacat/avatarUrl.webp', banCry:'assets/avatars/bananacat/attackAvatarUrl.webp', corn:'assets/avatars/cornelius/avatarUrl.webp',
       ...Object.fromEntries(CROWD.map((k,i)=>['c'+i,'assets/avatars/'+k+'/avatarUrl.webp'])) },
     sfx, mus, shots:[{t0:0,t1:DUR,a:{}}],
@@ -383,6 +460,6 @@
       if(t>=T.roof-0.4&&t<T.roof+0.6) K.flash(F,1-Math.abs(t-T.roof)/0.6,'#000');
       if(t>=T.group&&t<T.group+0.35) K.flash(F,1-(t-T.group)/0.35,'#fff');   // 5 khung → ảnh nhóm
       if(t>=T.DUR-3.4) K.flash(F,seg(t,T.DUR-3.4,T.DUR-2.8),'#000');
-      K.letterbox(F,0.9);
+      K.letterbox(F,0.9*(1-seg(t,T.group,T.group+0.6)));
       friendTitle(g,t); akaLine(g,t); akaStrips(g,t); endCard(g,t); } });
 })();
