@@ -196,6 +196,8 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
   Ninja + Mlem thay bằng 2 con ở ảnh 4 (Mlem ảnh 5 sai dáng). Đoạn nóc nhà (anh biên đạo): 5 bóng đen nói chuyện (bong bóng "…") → Depressed Cat nói
   "Let's go. Let this world… and this universe… know pain." (mắt Rinnegan loé tím, phụ đề hiện dần) → 5 tiếng `vine_boom` + 5 KHUNG CHÉO trượt vào cận mặt từng con
   (`akaStrips`, tâm mặt `AKA_FACE`) → loé trắng ra ảnh cả nhóm, chữ MEOWKATSUKI đập vào SAU LƯNG (lớp dưới cùng, cả nhóm đè lên chân chữ — anh dặn) + mây Akatsuki 2 bên, giữ ~6s.
+  THOẠI (anh viết, `DIALOG`, phụ đề tiếng Anh em dịch): Mlem hỏi 3 câu (thả nó ra lúc này? Godly Memes biến mất hàng ngàn năm, hút đủ sức mạnh thì không ai cản nổi) →
+  Depressed đáp (giữ 1 mảnh linh hồn, chưa hoàn thiện thì luôn bị ta chi phối) → "know pain". Lúc thoại CẢ 5 LÀ BÓNG ĐEN, chỉ Depressed loé mắt Rinnegan (anh dặn bỏ mắt Mlem); HẾT THOẠI mới hiện màu từng khung.
 - Tiếng mới (myinstants): `fin_city` (xe cộ), `fin_crowd` (đám đông la hét), `fin_collapse` (nhà sập), `fin_icecream` (nhạc xe kem) — phát qua `mus` (đường dẫn thẳng, không khai AUDIO_SAMPLES).
 - 💡 (5/11) ChatGPT giờ vẽ được SPRITE SHEET / GIF nhiều khung theo lưới đều → khi cần nhân vật CHUYỂN ĐỘNG (đi, chạy, khóc, vỗ cánh…) xin anh sprite sheet
   (cùng cỡ, cùng đường chân, cách đều, nền xanh) thay vì 1–2 ảnh tĩnh; mẫu lệnh ở cuối PROMPT.txt trên.

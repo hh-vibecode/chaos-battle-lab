@@ -9,7 +9,7 @@
 (function(){
   if(!window.CineKit || CineKit.films.fin1) return;
   const K=CineKit, {seg,lerp,clamp,hash}=K, E=K.EASE, TAU=Math.PI*2, VW=960, VH=540;
-  const T={ street:0, stand:7, shadow:11, cry:14, splat:15.7, reveal:16.5, roar:18.4, title:19.8, d1:22.5, d2:24.5, d3:26.3, d4:28, d5:30, d6:32, d7:34, roof:37, line:41.4, booms:45.4, group:48.6, akaT:49, DUR:59 };
+  const T={ street:0, stand:7, shadow:11, cry:14, splat:15.7, reveal:16.5, roar:18.4, title:19.8, d1:22.5, d2:24.5, d3:26.3, d4:28, d5:30, d6:32, d7:34, roof:37, line:46.6, booms:55.6, group:58.8, akaT:59.2, DUR:69.2 };
   const DUR=T.DUR;
   let IM={}, SCv=1, TT=0;
   const SERIF='Georgia, "Times New Roman", serif', SANS='Montserrat, "Segoe UI", sans-serif';
@@ -299,10 +299,19 @@
     g.restore();
     const ck=E.eout(seg(v,0.55,1.1)); akaCloud(g,cx-TW/2-60-30*(1-ck),cy-4,0.95,ck); akaCloud(g,cx+TW/2+60+30*(1-ck),cy-4,0.95,ck);   // mây Akatsuki 2 bên
   }
-  // bong bóng "…" nói chuyện trên đầu các bóng đen
-  const TALK=[[37.6,0],[38.5,3],[39.3,1],[40.1,4],[40.8,2]];
+  // 💬 THOẠI (anh viết 5/11): Mlem hỏi → Depressed đáp → "know pain". [đầu, cuối, ai nói, câu]
+  const DIALOG=[[37.9,40.4,'MLEM CAT',"Leader… is this truly the right time to release it?"],
+    [40.6,43.0,'MLEM CAT',"The Godly Memes have been gone for thousands of years."],
+    [43.2,46.1,'MLEM CAT',"Once it absorbs enough power, no one will be able to stop it."],
+    [46.6,48.8,'DEPRESSED CAT',"We hold a fragment of its soul."],
+    [49.0,52.1,'DEPRESSED CAT',"As long as it remains incomplete… it will always be under our control."],
+    [52.4,55.4,'DEPRESSED CAT',"Let's go. Let this world… and this universe… know pain."]];
+  const SPK={'MLEM CAT':{col:'255,214,120',eyes:[],eye:'255,230,150',cx:560},   // anh dặn: lúc thoại chỉ là bóng đen, KHÔNG loé mắt Mlem — riêng Depressed loé Rinnegan
+   'DEPRESSED CAT':{col:'190,150,255',eyes:[[736,405],[852,405]],eye:'170,110,255',cx:480}};
+  const speaking=t=>{ for(const d of DIALOG) if(t>=d[0]-0.2&&t<d[1]+0.15) return d; return null; };
   function scRoof(g,t){ const u=t-T.roof;
-    if(t<T.group){ const z=lerp(0.95,1.18,E.eio(seg(u,0,T.booms-T.roof))), cx=lerp(470,500,seg(u,0,8));
+    if(t<T.group){ let wm=0; for(const d of DIALOG) if(d[2]==='MLEM CAT') wm=Math.max(wm,E.eio(seg(t,d[0]-0.6,d[0]+0.6))*(1-E.eio(seg(t,d[1]+0.2,d[1]+1.2))));
+      const z=lerp(0.98,1.2,E.eio(seg(u,0,T.booms-T.roof))), cx=lerp(480,560,wm);   // máy trôi nhẹ về phía người đang nói (tính thẳng theo giây → xuất video không lệch)
       cam(g,cx,300,z); sky(g,t,0.1,1);
       g.save(); g.globalCompositeOperation='lighter'; blob(g,700,120,140,'255,60,40',0.5); g.restore(); g.fillStyle='#ff3a2a'; g.beginPath(); g.arc(700,120,46,0,TAU); g.fill();   // trăng máu
       skyline(g,cx,0.4,470,7,50,200,300,60,80,'#1c1116','rgba(255,140,80,0.5)',0.18,{});
@@ -310,11 +319,10 @@
       g.fillStyle='#120b0e'; g.fillRect(-200,440,1400,400); g.fillStyle='#2a1c20'; g.fillRect(-200,436,1400,8);   // mép nóc nhà
       akaGroup(g,t,480,452,330,0);   // vẫn là 5 bóng đen
       const s=330/AKA_H, x0=480-AKA_W*s/2, y0=452-330;
-      for(const [a,i] of TALK){ const k=seg(t,a,a+0.15)*(1-seg(t,a+0.9,a+1.05)); if(k<=0) continue; const bx=x0+AKA_FACE[i][0]*s+18, by=y0+(AKA_FACE[i][1]-150)*s;
-        g.save(); g.globalAlpha=k; g.fillStyle='rgba(255,240,240,0.92)'; g.beginPath(); g.roundRect(bx-4,by-22,44,22,10); g.fill(); g.beginPath(); g.moveTo(bx+4,by); g.lineTo(bx-2,by+8); g.lineTo(bx+12,by); g.fill();
-        g.fillStyle='#2a0a0a'; for(let d=0;d<3;d++){ const on=((t-a)*6|0)%4>d; if(on){ g.beginPath(); g.arc(bx+8+d*10,by-11,2.6,0,TAU); g.fill(); } } g.restore(); }
-      if(t>=T.line-0.3){ const k=seg(t,T.line-0.3,T.line+0.4)*(0.75+0.25*Math.sin(t*9));   // Depressed Cat nói: mắt Rinnegan loé tím trong bóng đen
-        for(const ex of [736,852]){ g.save(); g.globalCompositeOperation='lighter'; blob(g,x0+ex*s,y0+405*s,18,'170,110,255',k); blob(g,x0+ex*s,y0+405*s,6,'235,220,255',k); g.restore(); } } }
+      for(const [nm,P] of Object.entries(SPK)){ let k=0; for(const d of DIALOG) if(d[2]===nm) k=Math.max(k,seg(t,d[0]-0.3,d[0]+0.2)*(1-seg(t,d[1],d[1]+0.4)));
+        if(nm==='DEPRESSED CAT' && t>=T.line) k=Math.max(k,seg(t,T.line-0.3,T.line+0.2));   // Depressed đã mở Rinnegan thì giữ tới lúc 5 khung trượt vào
+        if(k<=0) continue; k*=0.75+0.25*Math.sin(t*9);
+        for(const [ex,ey] of P.eyes){ g.save(); g.globalCompositeOperation='lighter'; blob(g,x0+ex*s,y0+ey*s,18,P.eye,k); blob(g,x0+ex*s,y0+ey*s,6,'255,250,240',k); g.restore(); } } }
     else { const v=t-T.group; cam(g,480,285,lerp(1.18,1.0,E.eout(seg(v,0,2.5))),(t>T.akaT&&t<T.akaT+0.6)?(hash(Math.floor(t*40))-0.5)*0.012:0); sky(g,t,0.1,1);
       friendSky(g,480,250,700,0.55,0.7);
       skyline(g,480,0.4,470,7,50,200,300,60,80,'#1c1116','rgba(255,140,80,0.5)',0.18,{});
@@ -328,14 +336,11 @@
   function spaced(g,txt,x,y,font,ls,col,a){ g.save(); g.font=font; g.letterSpacing=ls+'px'; g.textAlign='center'; g.textBaseline='middle'; g.globalAlpha=a; g.fillStyle=col; g.fillText(txt,x+ls/2,y); g.restore(); }
   function friendTitle(g,t){ if(t<T.title||t>T.d1) return; const k=seg(t,T.title,T.title+0.5), out=1-seg(t,T.d1-0.4,T.d1);
     g.save(); g.shadowColor='rgba(170,60,255,0.95)'; g.shadowBlur=24*SCv; spaced(g,'FRIEND',VW/2,300+(1-k)*20,`900 96px ${SERIF}`,30,'#f4ecff',k*out); g.restore(); }
-  // câu thoại: tên màu tím + chữ hiện dần từng từ ở dải dưới
-  const LINE=[[T.line,"Let's go."],[T.line+1.0,"Let this world… and this universe…"],[T.line+2.6,"…know pain."]];
-  function akaLine(g,t){ if(t<T.line||t>=T.booms) return; const out=1-seg(t,T.booms-0.25,T.booms);
-    g.save(); g.textAlign='center'; g.textBaseline='middle'; g.globalAlpha=out;
-    g.font=`800 12px ${SANS}`; g.letterSpacing='4px'; g.fillStyle='rgb(190,150,255)'; g.shadowColor='rgba(150,90,255,0.9)'; g.shadowBlur=10*SCv; g.fillText('DEPRESSED CAT',VW/2,VH-78);
-    g.shadowBlur=0; g.letterSpacing='1px'; g.font=`italic 600 22px ${SERIF}`; let txt='';
-    for(const [a,l] of LINE){ if(t<a) break; const ws=l.split(' '), n=Math.min(ws.length,Math.floor((t-a)/0.16)+1); txt=(txt?txt+' ':'')+ws.slice(0,n).join(' '); }
-    g.fillStyle='#f4ecff'; g.fillText(txt,VW/2,VH-52); g.restore(); }
+  function akaLine(g,t){ const D=speaking(t); if(!D || t>=T.booms) return; const [a,b,nm,line]=D, al=seg(t,a-0.2,a)*(1-seg(t,b,b+0.15));
+    g.save(); g.textAlign='center'; g.textBaseline='middle'; g.globalAlpha=al;
+    g.font=`800 12px ${SANS}`; g.letterSpacing='4px'; g.fillStyle=`rgb(${SPK[nm].col})`; g.shadowColor=`rgba(${SPK[nm].col},0.9)`; g.shadowBlur=10*SCv; g.fillText(nm,VW/2,VH-78);
+    g.shadowBlur=0; g.letterSpacing='1px'; g.font=`italic 600 21px ${SERIF}`; const ws=line.split(' '), n=Math.min(ws.length,Math.floor(Math.max(0,t-a)/0.11)+1);
+    g.fillStyle='#f4ecff'; g.fillText(ws.slice(0,n).join(' '),VW/2,VH-52); g.restore(); }
   function endCard(g,t){ const v=t-(T.DUR-3.2); if(v<0) return; const k=seg(v,0,0.8);
     spaced(g,'MEME LORE',VW/2,226,`800 14px ${SANS}`,12,'rgb(255,200,200)',k);
     g.save(); g.shadowColor='rgba(255,40,60,0.9)'; g.shadowBlur=16*SCv; spaced(g,'FINAL',VW/2,272,`400 58px ${SERIF}`,18,'#fff2f2',seg(v,0.3,1.1)); g.restore();
