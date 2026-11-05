@@ -264,6 +264,7 @@ window.ASSET_GROUP={
 "assets/audio/vb_swarm.wav": "violinbee",
 "assets/audio/vb_rush.wav": "violinbee",
 "assets/audio/vb_sting.wav": "violinbee",
+"assets/audio/rf_world_revolving.mp3": "friend",
 "assets/img/saiyanmarmot/MM_SCREAM.png": "saiyanmarmot",
 "assets/img/saiyanmarmot/MM_OPEN1.png": "saiyanmarmot",
 "assets/img/saiyanmarmot/MM_OPEN2.png": "saiyanmarmot",

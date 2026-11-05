@@ -185,6 +185,23 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
   SND_LUFS của 6 tiếng là ƯỚC LƯỢNG từ RMS (Windows không chạy được tim-sound) → lên Mac đo lại bằng `tools/sfx-find.py measure`.
 - ⚠️ Bản thu Katica Illényi có bản quyền biểu diễn → video YouTube có thể dính Content ID (bản nhạc gốc Rimsky-Korsakov thì đã hết bản quyền).
 
+## 👁️ Friend Raid (5/11/2026, event Friend) — `js/raid-friend.js` (khối `RF` / `_rf*`), nạp bằng thẻ script trong index.html
+- Menu chính → thẻ "Friend Raid" → mượn picker 2vs2 chọn 4 meme → khung DỌC 9:16 của 2vs2 (`duoCtx` gắn cờ `.raid`, `_rfOn()`); Friend = Fighter slot 4 team 1,
+  `type='frraid'`, do `_rfWorldTick` điều khiển hết (game.js chỉ có các móc `if(_rfOn())…` / `frraid` / `_rfEaten`). Meme raid 2000 máu (em đặt, giống 2vs2).
+- Bối cảnh (anh chốt): nền nửa trên trời đỏ + TRĂNG MÁU, nửa dưới thung lũng khói lửa + vực sâu (`_rfSky`); sân = TẢNG ĐÁ XÁM TRÒN lơ lửng (`_rfFloor`),
+  tường tròn (`_rfCircleWall`). Friend phase 1 BÁM GÓC trên-phải (`_rfPerch`). Camera đứng yên (nhánh `_rfOn()` trong `_camUpdate`).
+- Phase 1 (anh thiết kế): Friend bất tử; 2 tay bóng tối 2000 máu (`rfHands`, nằm trong `_hpSummonArrays`): tích lực 2s (vòng cảnh báo bám con mồi, 0.6s cuối khoá)
+  → nện 200 dame vùng cỡ nắm tay; nện 2 lần → nằm sàn 5s, CHỈ lúc nằm mới đánh được (`_untarget` lúc bay — get enemy/_findClosestEnemy/_summonFoes bỏ qua).
+  Tay + cánh tay vẽ bằng đúng bộ tay Scared Hamster (`_hmArmSprite` + `HAND_*`, hàm `_rfArm`).
+- Phase 2: gầm (`fr_titan_roar`) → ra giữa sân → 10 tay sau lưng đâm lên trời; 5000 máu. Skill 1 mỗi 3s: 3 vùng cảnh báo 2s → tay từ trời nện 100.
+  Skill 2 (em đặt: lần đầu sau 7s, rồi mỗi 10s): há mồm hút chậm 1.5s → meme sát miệng bị nuốt (`_rfEaten`), nhai 5s × 50 dame/s rồi nhổ ra.
+- Chiêu giết ngay / khống chế lên Friend + tay → đổi thành dame 10% máu tối đa (anh dặn: "đổi thẳng ra dame trực tiếp"): `_forceKill` chặn sẵn,
+  còn mọi đường khác (gán hp=0/dead, `_mwErased`, `_tfSwallowed`, `_mmHeld`, `_bcGone`…) do `_rfGuard` mỗi tick phát hiện qua máu "thật" `_rfHp` rồi hoàn lại. Phase 1 Friend bất tử → chỉ hoàn lại.
+- HUD (anh: kiểu rogue-lite / Deltarune): thanh boss trên cùng (phase 1 hiện 2 thanh tay, phase 2 1 thanh), 4 ô đồng đội dưới đáy, thanh máu có vệt trắng tụt trễ (`_rfHud`).
+- Tiếng: phase 1 `rf_world_revolving` (The World Revolving — Deltarune, myinstants bản full 101s, CÓ BẢN QUYỀN Toby Fox → video dễ dính Content ID), phase 2 `fr_song`.
+  Trong raid tiếng meme khác ×0.45, nhạc theme meme khác tắt (`_rfSndVol` trong playSample; meme nhạc vẫn bắt nhịp nhưng câm — `_playPianoSong`).
+- Ảnh CHỜ ANH (prompt ở Desktop `FriendRaid_anh_can_ve/PROMPT.txt`): `assets/img/friend/RF_MOUTH.png` (há mồm to: hút + gầm), `RF_CHEW1/2.png` (nhai). Chưa có thì dùng tạm khung cười.
+
 ## 🍞 Bread Cat - The Infinity Cosmic Power (`breadcat`, 2/11/2026) — khối `BC_*` / `_bc*` trong js/game.js
 - Anh thiết kế: KHÔNG đánh thường. Cơ chế chốt 2/11 (thay bản bánh trôi nảy + đập trúng lưng): mỗi 3s (`BC_DROP_T`, kể cả lúc đang xoay) 1 lát bánh mì bơ (vẽ bằng code)
   RƠI TỪ THIÊN ĐƯỜNG rất chậm (4s, `BC_FALL_T`) xuống 1 điểm bất kì: cột sáng mềm từ đỉnh khung, bóng to dần trên sàn, bụi vàng, đung đưa như lá. Tối đa 4 lát nằm trên sàn (lát cũ tan).
