@@ -189,9 +189,14 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
 - Anh kể (Final làm 2 tập, ngang 16:9): phố bình yên + meme quen trên phố → em bé mua kem, bóng đen trùm cả khu, ngẩng lên khóc thét rơi kem → FRIEND che kín trời
   giữa các toà cao tầng → tay bóng tối đâm xuyên nhà, phá huỷ (10–15s, nhiều khung cắt) → nóc nhà: 5 bóng Akatsuki (Depressed · Doorbell Chud · Ninja Cat · Bat Cat · Mlem Cat).
 - Dựng kiểu Prologue (2D 960×540, mỗi cảnh 1 hàm `sc*` + `cam()`), mốc ở `T`. Thành phố / xe / quầy kem / khói lửa vẽ bằng code (seed cố định); tay bóng tối = `shadowArm` chép từ film-l2pro.
-- ⚠️ NGƯỜI DÂN + EM BÉ + người bán kem đang là HÌNH TẠM bằng khối (`person`, `kid`) — chờ ảnh anh vẽ (Desktop `Final_EP1_anh_can_ve/PROMPT.txt`). Anh muốn kiểu
-  nhân vật người trong Shin cậu bé bút chì → em viết lệnh vẽ nhân vật GỐC cùng kiểu nét đơn giản (không chép nhân vật Shin vì bản quyền). 4 meme Akatsuki (trừ Depressed) đang dùng ảnh gốc.
-- Tiếng mới (myinstants): `fin_city` (xe cộ), `fin_crowd` (đám đông la hét), `fin_kidcry`, `fin_collapse` (nhà sập), `fin_icecream` (nhạc xe kem) — phát qua `mus` (đường dẫn thẳng, không khai AUDIO_SAMPLES).
+- ⚠️ Anh dặn (5/11): BỎ HẾT NGƯỜI — dân phố toàn MEME. `CROWD` = ~30 meme trong game (avatar), đi kiểu nhún nhảy (`person`), chạy loạn có giọt mồ hôi.
+  Em bé mua kem = BANANA CAT (avatarUrl thường → attackAvatarUrl khóc tuôn nước mắt, tiếng `cry_banana_cat`), bán kem = CORNELIUS nằm trên quầy.
+  Ảnh meme từ mạng thường dính nền, Windows không tách được → dùng meme có sẵn trong game; cần meme mới cụ thể thì xin anh ảnh nền xanh.
+- MEOWKATSUKI (tên nhóm, anh đặt): ảnh nhóm `assets/img/cine/FIN_AKA_GROUP.png` = ghép từ 2 ảnh anh vẽ — Chud · Bat · Depressed lấy từ ảnh 5 con,
+  Ninja + Mlem thay bằng 2 con ở ảnh 4 (Mlem ảnh 5 sai dáng). Đoạn nóc nhà (anh biên đạo): 5 bóng đen nói chuyện (bong bóng "…") → Depressed Cat nói
+  "Let's go. Let this world… and this universe… know pain." (mắt Rinnegan loé tím, phụ đề hiện dần) → 5 tiếng `vine_boom` + 5 KHUNG CHÉO trượt vào cận mặt từng con
+  (`akaStrips`, tâm mặt `AKA_FACE`) → loé trắng ra ảnh cả nhóm, chữ MEOWKATSUKI đập vào SAU LƯNG (lớp dưới cùng, cả nhóm đè lên chân chữ — anh dặn) + mây Akatsuki 2 bên, giữ ~6s.
+- Tiếng mới (myinstants): `fin_city` (xe cộ), `fin_crowd` (đám đông la hét), `fin_collapse` (nhà sập), `fin_icecream` (nhạc xe kem) — phát qua `mus` (đường dẫn thẳng, không khai AUDIO_SAMPLES).
 - 💡 (5/11) ChatGPT giờ vẽ được SPRITE SHEET / GIF nhiều khung theo lưới đều → khi cần nhân vật CHUYỂN ĐỘNG (đi, chạy, khóc, vỗ cánh…) xin anh sprite sheet
   (cùng cỡ, cùng đường chân, cách đều, nền xanh) thay vì 1–2 ảnh tĩnh; mẫu lệnh ở cuối PROMPT.txt trên.
 

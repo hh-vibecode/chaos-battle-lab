@@ -4,12 +4,12 @@
 // đâm xuyên các toà nhà, phá huỷ mọi thứ (10–15s, cắt nhiều khung) → trên 1 nóc nhà, 5 bóng Akatsuki lộ diện:
 // Depressed Cat · Doorbell Chud · Ninja Cat · Bat Cat · Mlem Cat.
 // Cách dựng giống Prologue (film-l2pro.js): không dùng máy quay 2.5D, mỗi cảnh vẽ 2D toạ độ 960×540 với cam() riêng.
-// ⚠️ Người dân + em bé + người bán kem đang là HÌNH TẠM (khối đơn giản) — chờ ảnh anh vẽ (Desktop/Final_EP1_anh_can_ve/PROMPT.txt).
+// Dân phố = ~30 meme trong game (anh dặn: bỏ người, toàn meme). Em bé mua kem = Banana Cat (ảnh thường + ảnh khóc), bán kem = Cornelius.
 //    5 meme Akatsuki: Depressed Cat dùng ảnh Akatsuki có sẵn, 4 con kia tạm dùng ảnh gốc (chờ ảnh khoác áo Akatsuki).
 (function(){
   if(!window.CineKit || CineKit.films.fin1) return;
   const K=CineKit, {seg,lerp,clamp,hash}=K, E=K.EASE, TAU=Math.PI*2, VW=960, VH=540;
-  const T={ street:0, stand:7, shadow:11, cry:14, splat:15.7, reveal:16.5, roar:18.4, title:19.8, d1:22.5, d2:24.5, d3:26.3, d4:28, d5:30, d6:32, d7:34, roof:37, rev:40.5, wide:46.5, DUR:51 };
+  const T={ street:0, stand:7, shadow:11, cry:14, splat:15.7, reveal:16.5, roar:18.4, title:19.8, d1:22.5, d2:24.5, d3:26.3, d4:28, d5:30, d6:32, d7:34, roof:37, line:41.4, booms:45.4, group:48.6, akaT:49, DUR:59 };
   const DUR=T.DUR;
   let IM={}, SCv=1, TT=0;
   const SERIF='Georgia, "Times New Roman", serif', SANS='Montserrat, "Segoe UI", sans-serif';
@@ -74,34 +74,18 @@
     g.fillStyle='#bfe0f5'; g.fillRect(-w*0.24,-h*1.06,w*0.2,h*0.34); g.fillRect(0.0,-h*1.06,w*0.2,h*0.34);
     g.fillStyle='#1b1b1b'; for(const q of [-0.3,0.3]){ g.beginPath(); g.arc(q*w,-h*0.18,h*0.24,0,TAU); g.fill(); }
     g.fillStyle='#fff6b0'; g.fillRect(w*0.44,-h*0.62,w*0.06,h*0.14); g.restore(); }
-  // ⚠️ NGƯỜI TẠM (chờ ảnh anh vẽ): khối đơn giản — đầu tròn + thân + chân bước theo nhịp
-  const SKIN=['#f2c9a0','#e8b48a','#c98d60','#ffd9b8'], SHIRT=['#e57373','#64b5f6','#81c784','#ffb74d','#ba68c8','#4db6ac','#f06292','#90a4ae'];
-  function person(g,x,y,h,i,ph,o={}){ const run=o.run, s=h/100, dir=o.dir||1; const sw=Math.sin(ph)*(run?0.9:0.45);
-    g.save(); g.translate(x,y); g.scale(dir,1); if(run) g.rotate(0.18);
-    g.fillStyle='rgba(0,0,0,0.18)'; g.beginPath(); g.ellipse(0,0,18*s,4*s,0,0,TAU); g.fill();
-    g.strokeStyle='#2b2b33'; g.lineWidth=7*s; g.lineCap='round';
-    g.beginPath(); g.moveTo(0,-38*s); g.lineTo(Math.sin(sw)*22*s,-2*s); g.moveTo(0,-38*s); g.lineTo(-Math.sin(sw)*22*s,-2*s); g.stroke();   // chân
-    g.fillStyle=o.shirt||SHIRT[i%SHIRT.length]; g.beginPath(); g.roundRect(-13*s,-80*s,26*s,46*s,9*s); g.fill();          // thân
-    g.strokeStyle=o.skin||SKIN[i%SKIN.length]; g.lineWidth=6*s; const ar=run?-1.9:0.35*Math.sin(ph+Math.PI);
-    g.beginPath(); g.moveTo(0,-72*s); g.lineTo(Math.sin(ar)*24*s,-72*s+Math.cos(ar)*24*s); g.stroke();                        // tay
-    g.fillStyle=o.skin||SKIN[i%SKIN.length]; g.beginPath(); g.arc(0,-92*s,14*s,0,TAU); g.fill();                              // đầu
-    g.fillStyle=o.hair||'#2a1c14'; g.beginPath(); g.arc(0,-96*s,14*s,Math.PI*1.05,Math.PI*1.95); g.fill();
-    g.fillStyle='#111'; g.fillRect(6*s,-94*s,3*s,3*s);                                                                         // mắt (nhìn theo hướng đi)
-    if(o.scream){ g.fillStyle='#4a0c0c'; g.beginPath(); g.ellipse(7*s,-84*s,3.5*s,5*s,0,0,TAU); g.fill(); }
-    g.restore(); }
-  // em bé TẠM (áo đỏ, quần vàng) — ice: 0 không cầm / 1 cầm kem; look: ngước lên
-  function kid(g,x,y,h,o={}){ const s=h/100; g.save(); g.translate(x,y);
-    g.fillStyle='rgba(0,0,0,0.2)'; g.beginPath(); g.ellipse(0,0,20*s,5*s,0,0,TAU); g.fill();
-    g.fillStyle='#f2c9a0'; g.fillRect(-10*s,-30*s,7*s,30*s); g.fillRect(3*s,-30*s,7*s,30*s);
-    g.fillStyle='#fdd835'; g.beginPath(); g.roundRect(-14*s,-46*s,28*s,20*s,6*s); g.fill();
-    g.fillStyle='#e53935'; g.beginPath(); g.roundRect(-15*s,-74*s,30*s,32*s,9*s); g.fill();
-    const hy=o.look?-108*s:-100*s; g.fillStyle='#f2c9a0'; g.beginPath(); g.arc(0,hy,26*s,0,TAU); g.fill();
-    g.fillStyle='#1d1d1d'; g.beginPath(); g.arc(0,hy-6*s,26*s,Math.PI*1.08,Math.PI*1.92); g.fill();
-    if(o.cry){ g.fillStyle='#5a1010'; g.beginPath(); g.ellipse(0,hy+10*s,11*s,13*s,0,0,TAU); g.fill(); g.fillStyle='#7ec8ff';
-      for(const q of [-1,1]){ const tt=(TT*3+(q>0?0.5:0))%1; g.globalAlpha=1-tt; g.beginPath(); g.ellipse(q*14*s,hy-2*s+tt*30*s,3*s,6*s,0,0,TAU); g.fill(); g.globalAlpha=1; } }
-    else { g.fillStyle='#111'; g.fillRect(-10*s,hy-2*s,4*s,o.look?7*s:4*s); g.fillRect(6*s,hy-2*s,4*s,o.look?7*s:4*s); g.strokeStyle='#5a2a1a'; g.lineWidth=2*s; g.beginPath(); g.arc(0,hy+6*s,6*s,0.2,Math.PI-0.2); g.stroke(); }
-    if(o.ice){ g.save(); g.translate(18*s,-64*s); iceCone(g,s); g.restore(); }
-    g.restore(); }
+  // 🐾 DÂN PHỐ = MEME (anh dặn 5/11: bỏ hết người, dân toàn là meme) — ảnh meme trong game, đi kiểu nhún nhảy như trong trận
+  const CROWD=['popcat','gary','grumpycat','huhcat','kermit','maxwell','nyancat','pakistanguy','rickroll','smartguy','yellingwomen','windguy','pianocat','bongocat','uiacat',
+    'applecat','yuki','calmdog','scareddog','poordog','wetcat','snoozecat','clappingcat','beluga','mewingcat','flowercat','dawae','trollface','gigachad','evillarry'];
+  function person(g,x,y,h,i,ph,o={}){ const key='c'+(i%CROWD.length), run=o.run, dir=o.dir||1, hop=Math.abs(Math.sin(ph*(run?1.2:0.8)))*(run?16:7)*(h/100);
+    g.save(); g.globalAlpha=0.2; g.fillStyle='#000'; g.beginPath(); g.ellipse(x,y,h*0.24,h*0.05,0,0,TAU); g.fill(); g.restore();
+    pic(g,key,x,y-hop,h*0.82,{flip:dir<0, rot:run?-dir*0.14+Math.sin(ph*1.2)*0.08:Math.sin(ph*0.8)*0.05});
+    if(run && o.scream){ g.save(); g.fillStyle='#7ec8ff'; for(let k=0;k<2;k++){ const f=(TT*2.4+k*0.5+i*0.13)%1; g.globalAlpha=1-f; g.beginPath(); g.ellipse(x+dir*h*0.25+k*6,y-h*0.75-hop+f*14,2.4,4,0,0,TAU); g.fill(); } g.restore(); } }   // giọt mồ hôi lúc chạy loạn
+  // Banana Cat đi mua kem (ảnh thường) → ngước nhìn trời → khóc tuôn nước mắt (ảnh khóc có sẵn) — ice: đang cầm kem
+  function kid(g,x,y,h,o={}){ const hh=h*(o.cry?1.55:1.3), hop=o.walk?Math.abs(Math.sin(TT*9))*5:0;
+    g.save(); g.globalAlpha=0.2; g.fillStyle='#000'; g.beginPath(); g.ellipse(x,y,hh*0.22,hh*0.05,0,0,TAU); g.fill(); g.restore();
+    pic(g,o.cry?'banCry':'ban',x,y-hop,hh,{rot:o.look?-0.1:0});
+    if(o.ice){ g.save(); g.translate(x+hh*0.33,y-hh*0.3-hop); iceCone(g,hh/120); g.restore(); } }
   function iceCone(g,s,rot){ g.save(); if(rot) g.rotate(rot); g.fillStyle='#d79b54'; g.beginPath(); g.moveTo(-8*s,0); g.lineTo(8*s,0); g.lineTo(0,24*s); g.closePath(); g.fill();
     g.fillStyle='#ffd1e1'; g.beginPath(); g.arc(0,-6*s,10*s,0,TAU); g.fill(); g.fillStyle='#fff3c4'; g.beginPath(); g.arc(-3*s,-14*s,7*s,0,TAU); g.fill(); g.restore(); }
   function stand(g,x,y){ g.fillStyle='#ffffff'; g.fillRect(x-70,y-70,140,70); g.fillStyle='#7ecbff'; g.fillRect(x-70,y-40,140,8);
@@ -184,8 +168,8 @@
   function scStand(g,t){ const u=t-T.stand, y0=400, cx=1440+u*6, z=1.45;
     cam(g,cx,330,z); sky(g,t,0,0); skyline(g,cx,0.5,y0-8,7,50,180,260,60,80,'#7d93ad','#fff4c2',0.3); shops(g,y0,800,2200); street(g,y0);
     stand(g,1500,y0+30);
-    person(g,1585,y0+34,104,3,0,{dir:-1,shirt:'#ffffff'});   // người bán kem (TẠM)
-    const walk=1-seg(u,0,1.4), kx=1430-walk*120, hasIce=u>1.6; kid(g,kx,y0+40,70,{ice:hasIce});
+    pic(g,'corn',1560,y0-36,58,{flip:true});   // người bán kem = Cornelius nằm trên quầy
+    const walk=1-seg(u,0,1.4), kx=1430-walk*120, hasIce=u>1.6; kid(g,kx,y0+40,70,{ice:hasIce,walk:walk>0});
     if(u>1.2&&u<1.7){ g.save(); g.translate(lerp(1565,kx+14,seg(u,1.2,1.7)),y0-26); iceCone(g,0.7); g.restore(); }
     if(hasIce){ const h=Math.abs(Math.sin((u-1.6)*6))*6*(1-seg(u,2.6,3.4)); }
     person(g,1250+u*30,y0+30,96,5,K.twos(t)*7,{dir:1}); person(g,1700-u*35,y0+36,92,1,K.twos(t)*7+2,{dir:-1}); }
@@ -194,17 +178,17 @@
     sky(g,t,k*0.7,0); skyline(g,cx,0.2,y0-20,3,60,140,240,40,60,'#9fb6cf','rgba(255,255,255,0.35)',0.25,{cw:4,ch:6,gx:4,gy:6}); skyline(g,cx,0.5,y0-8,7,50,180,260,60,80,'#7d93ad','#fff4c2',0.3);
     shops(g,y0,600,2400); street(g,y0); stand(g,1500,y0+30);
     const look=u>1.2; kid(g,1450,y0+40,70,{ice:true,look});
-    person(g,1585,y0+34,104,3,0,{dir:-1,shirt:'#ffffff'});
+    pic(g,'corn',1560,y0-36,58,{flip:true});
     for(let i=0;i<6;i++){ const x=1150+i*110, f=u<1+i*0.12; person(g,x+(f?u*30:30+i*3),y0+28+(i%2)*14,94,i+2,f?K.twos(t)*7:0,{dir:i%2?-1:1}); }
     // bóng đen trùm từ phải sang trái, mép mềm
     const ex=lerp(2600,600,k); const gr=g.createLinearGradient(ex-260,0,ex+40,0); gr.addColorStop(0,'rgba(10,4,16,0)'); gr.addColorStop(1,'rgba(10,4,16,0.78)');
     g.fillStyle=gr; g.fillRect(ex-260,-600,300,1400); g.fillStyle='rgba(10,4,16,0.78)'; g.fillRect(ex+40,-600,3000,1400); }
   function scCry(g,t){ const u=t-T.cry, y0=400;
-    if(t<T.splat){ const z=2.6, cx=1450, cy=lerp(338,348,u);
+    if(t<T.splat){ const z=2.6, cx=1450, cy=lerp(372,380,u);
       cam(g,cx,cy,z,(hash(Math.floor(t*30))-0.5)*0.01*(u>0.4?1:0)); sky(g,t,0.75,0); shops(g,y0,1100,1800); street(g,y0);
       g.fillStyle='rgba(10,4,16,0.7)'; g.fillRect(800,-600,1400,1400);
       const cr=u>0.4; kid(g,1450,y0+40,70,{look:!cr,cry:cr,ice:!cr});
-      if(cr){ const f=seg(u,0.45,1.6), cy2=y0-26+f*f*70; g.save(); g.translate(1464,cy2); iceCone(g,0.7,f*4); g.restore(); } }
+      if(cr){ const f=seg(u,0.45,1.6), cy2=y0-26+f*f*70; g.save(); g.translate(1480,cy2); iceCone(g,0.7,f*4); g.restore(); } }
     else { const v=t-T.splat; cam(g,1460,y0+48,3.4); street(g,y0); g.fillStyle='rgba(10,4,16,0.65)'; g.fillRect(1200,200,600,400);
       g.fillStyle='#ffd1e1'; g.beginPath(); g.ellipse(1462,y0+50,14+8*E.eout(seg(v,0,0.2)),5,0,0,TAU); g.fill(); g.fillStyle='#fff3c4'; g.beginPath(); g.ellipse(1456,y0+49,8,3,0,0,TAU); g.fill();
       g.save(); g.translate(1474,y0+44); iceCone(g,0.7,2.2); g.restore();
@@ -273,34 +257,85 @@
     for(let i=0;i<6;i++){ const x=60+i*170, y=320+60*H(i,8); shadowArm(g,t,x+(i-2.5)*60,-260,x,y,1,36+10*H(i,9),i*2.1,'hFist',{root:180}); }
     for(let i=0;i<10;i++){ const x=40+i*100; fire(g,x,y0-30*H(i,1),60,t,i*3); smoke(g,x,y0-160-80*H(i,2),120,0.4); }
     g.fillStyle='#0b0507'; g.fillRect(-200,y0,1400,200); }
-  // nóc nhà: 5 bóng Akatsuki
-  const AKA=[['dp','DEPRESSED CAT',235],['chud','DOORBELL CHUD',240],['ninja','NINJA CAT',185],['bat','BAT CAT',190],['mlem','MLEM CAT',165]];
-  function akaRow(g,t,cx,base,sc,reveal){ const xs=[-2,-1,0,1,2];
-    for(let i=0;i<5;i++){ const [key,,h]=AKA[i], x=cx+xs[i]*168*sc, lit=reveal?seg(t,T.rev+i*1.1,T.rev+i*1.1+0.4):0;
-      pic(g,key,x,base,h*sc,{dark:1-lit*0.85,rim:['255,60,60',0.7]}); } }
+  // nóc nhà: 5 bóng Akatsuki — ẢNH NHÓM anh vẽ (FIN_AKA_GROUP: Chud · Bat · Depressed từ ảnh 5 con, Ninja + Mlem thay bằng 2 con ở ảnh 4, anh dặn 5/11)
+  //   lộ diện lần lượt TRÁI → PHẢI: mỗi con 1 vùng cắt (toạ độ ảnh nhóm 1472×987)
+  const AKA_W=1472, AKA_H=987;
+  const AKA=[['DOORBELL CHUD',[[0,0],[300,0],[300,987],[0,987]]],['BAT CAT',[[300,0],[590,0],[590,987],[300,987]]],['DEPRESSED CAT',[[590,0],[925,0],[925,987],[590,987]]],
+    ['NINJA CAT',[[925,0],[1235,0],[1235,215],[1095,215],[1095,987],[925,987]]],['MLEM CAT',[[1235,0],[1472,0],[1472,987],[1095,987],[1095,215],[1235,215]]]];
+  const AKA_CX=[150,445,757,1070,1290];
+  function akaGroup(g,t,cx,base,h,lit){ pic(g,'akaG',cx,base,h,{dark:1-lit*0.92,rim:['255,60,60',0.7-0.25*lit]}); }
+  // 5 KHUNG CHÉO trượt vào theo 5 tiếng vine boom (vẽ toạ độ màn hình): mỗi khung cận mặt 1 con + tên
+  const AKA_FACE=[[232,150,330],[430,420,330],[790,420,380],[1070,190,330],[1290,330,330]];   // tâm mặt (x,y) + cỡ khung cắt trên ảnh nhóm
+  function akaStrips(g,t){ if(t<T.booms||t>=T.group+0.25) return; const c=K.prep(IM.akaG); if(!c) return; const sx0=c.sw/AKA_W, sy0=c.sh/AKA_H, SK=70, Wd=VW/5;
+    for(let i=0;i<5;i++){ const a=T.booms+i*0.6, k=E.eout3(seg(t,a,a+0.22)); if(k<=0) continue; const dir=i%2?1:-1, oy=(1-k)*VH*1.1*dir;
+      const xL=i*Wd, eL=i===0?-SK:0, eR=i===4?SK:0, P=[[xL+SK*0.5+eL,0],[xL+Wd+SK*0.5+eR,0],[xL+Wd-SK*0.5+eR,VH],[xL-SK*0.5+eL,VH]];   // khung đầu / cuối phủ kín mép màn hình
+      g.save(); g.translate(0,oy); g.beginPath(); P.forEach(([x,y],j)=>j?g.lineTo(x,y):g.moveTo(x,y)); g.closePath(); g.clip();
+      const bg=g.createLinearGradient(0,0,0,VH); bg.addColorStop(0,'#2a0408'); bg.addColorStop(1,'#0a0103'); g.fillStyle=bg; g.fillRect(xL-SK,0,Wd+SK*2,VH);
+      const [fx,fy,fs]=AKA_FACE[i], sh=fs*1.6, sw=sh*(Wd+SK)/VH;   // cắt quanh mặt, cao ~1.6 khung mặt
+      g.drawImage(c.src,c.sx+(fx-sw/2)*sx0,c.sy+(fy-sh*0.32)*sy0,sw*sx0,sh*sy0,xL-SK*0.5,0,Wd+SK,VH);
+      const vg=g.createLinearGradient(0,VH*0.55,0,VH); vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,'rgba(0,0,0,0.85)'); g.fillStyle=vg; g.fillRect(xL-SK,0,Wd+SK*2,VH);
+      if(t<a+0.08){ g.globalCompositeOperation='lighter'; g.globalAlpha=1-(t-a)/0.08; g.fillStyle='#ff5a4a'; g.fillRect(xL-SK,0,Wd+SK*2,VH); g.globalCompositeOperation='source-over'; g.globalAlpha=1; }
+      g.restore();
+      g.save(); g.translate(0,oy); g.strokeStyle='#ffffff'; g.lineWidth=3; g.beginPath(); g.moveTo(P[0][0],P[0][1]); g.lineTo(P[3][0],P[3][1]); g.stroke();   // vạch trắng ngăn khung
+      g.font=`800 13px ${SANS}`; g.letterSpacing='3px'; g.textAlign='center'; g.fillStyle='#ffecec'; g.shadowColor='rgba(255,40,40,0.9)'; g.shadowBlur=10*SCv; g.fillText(AKA[i][0],xL+Wd/2-SK*0.25,VH*0.84); g.restore(); } }
+  // 🔴 chữ MEOWKATSUKI giới thiệu nhóm — nằm LỚP DƯỚI CÙNG sau lưng cả nhóm (anh dặn: bọn nó đè lên chữ 1 chút), đập vào từng chữ + mây đỏ Akatsuki 2 bên
+  function akaCloud(g,x,y,s,a){ if(a<=0) return; g.save(); g.globalAlpha=a; g.translate(x,y); g.scale(s,s);
+    const lobes=[[-34,6,20],[-12,-10,24],[14,-12,22],[34,4,18],[0,10,22]];
+    g.fillStyle='#ffffff'; for(const [lx,ly,r] of lobes){ g.beginPath(); g.arc(lx,ly,r+5,0,TAU); g.fill(); }
+    g.fillStyle='#c8141e'; for(const [lx,ly,r] of lobes){ g.beginPath(); g.arc(lx,ly,r,0,TAU); g.fill(); }
+    g.strokeStyle='rgba(255,255,255,0.9)'; g.lineWidth=2.5; for(const [lx,ly,r] of [[-12,-10,12],[14,-12,11]]){ g.beginPath(); g.arc(lx,ly+4,r,Math.PI*1.1,Math.PI*1.9); g.stroke(); }
+    g.restore(); }
+  function meowkatsuki(g,t,cx,cy){ const v=t-T.akaT; if(v<0) return; const TX='MEOWKATSUKI', n=TX.length;
+    g.save(); g.font=`italic 900 64px ${SANS}`; g.textBaseline='middle'; g.letterSpacing='3px'; const tw=g.measureText(TX).width; const cws=[...TX].map(ch=>g.measureText(ch).width+4), TW=cws.reduce((a,b)=>a+b,0); let x=cx-TW/2;
+    // vầng đỏ phía sau chữ
+    g.save(); g.globalCompositeOperation='lighter'; blob(g,cx,cy,tw*0.7,'200,20,30',0.45*seg(v,0,0.4)); g.restore();
+    for(let i=0;i<n;i++){ const ch=TX[i], cw=g.measureText(ch).width+4, d=i*0.045, k=seg(v,d,d+0.16), sc=lerp(2.4,1,E.eout(k)), a=k;
+      if(a>0){ g.save(); g.translate(x+cw/2,cy); g.scale(sc,sc); g.globalAlpha=a; g.lineJoin='round';
+        g.lineWidth=12; g.strokeStyle='#0a0204'; g.strokeText(ch,-cw/2+2,4);
+        g.lineWidth=5.5; g.strokeStyle='#ffffff'; g.strokeText(ch,-cw/2+2,0);
+        const gr=g.createLinearGradient(0,-34,0,34); gr.addColorStop(0,'#ff4a3a'); gr.addColorStop(0.55,'#c8141e'); gr.addColorStop(1,'#6a0610'); g.fillStyle=gr; g.fillText(ch,-cw/2+2,0);
+        if(k<1){ g.globalCompositeOperation='lighter'; g.globalAlpha=(1-k)*0.8; g.fillStyle='#fff'; g.fillText(ch,-cw/2+2,0); }   // loé trắng lúc chữ đập xuống
+        g.restore(); } x+=cw; }
+    g.restore();
+    const ck=E.eout(seg(v,0.55,1.1)); akaCloud(g,cx-TW/2-60-30*(1-ck),cy-4,0.95,ck); akaCloud(g,cx+TW/2+60+30*(1-ck),cy-4,0.95,ck);   // mây Akatsuki 2 bên
+  }
+  // bong bóng "…" nói chuyện trên đầu các bóng đen
+  const TALK=[[37.6,0],[38.5,3],[39.3,1],[40.1,4],[40.8,2]];
   function scRoof(g,t){ const u=t-T.roof;
-    if(t<T.wide){ const z=lerp(0.95,1.12,E.eio(seg(u,0,T.wide-T.roof))), cx=lerp(470,500,seg(u,0,9));
+    if(t<T.group){ const z=lerp(0.95,1.18,E.eio(seg(u,0,T.booms-T.roof))), cx=lerp(470,500,seg(u,0,8));
       cam(g,cx,300,z); sky(g,t,0.1,1);
       g.save(); g.globalCompositeOperation='lighter'; blob(g,700,120,140,'255,60,40',0.5); g.restore(); g.fillStyle='#ff3a2a'; g.beginPath(); g.arc(700,120,46,0,TAU); g.fill();   // trăng máu
       skyline(g,cx,0.4,470,7,50,200,300,60,80,'#1c1116','rgba(255,140,80,0.5)',0.18,{});
       for(let i=0;i<8;i++) smoke(g,(i*160+u*30)%1200-100,420-60*H(i,3),140,0.35);
       g.fillStyle='#120b0e'; g.fillRect(-200,440,1400,400); g.fillStyle='#2a1c20'; g.fillRect(-200,436,1400,8);   // mép nóc nhà
-      akaRow(g,t,480,440,1,true);
-      for(let i=0;i<5;i++){ const lt=T.rev+i*1.1; if(t>lt&&t<lt+0.12){ g.save(); g.globalCompositeOperation='lighter'; blob(g,480+(i-2)*168,330,260,'255,80,60',0.6*(1-(t-lt)/0.12)); g.restore(); } } }
-    else { const v=t-T.wide; cam(g,480,280,lerp(1.25,1.0,E.eout(seg(v,0,3)))); sky(g,t,0.1,1);
-      friendSky(g,480,60,780,0.85,0.9);
+      akaGroup(g,t,480,452,330,0);   // vẫn là 5 bóng đen
+      const s=330/AKA_H, x0=480-AKA_W*s/2, y0=452-330;
+      for(const [a,i] of TALK){ const k=seg(t,a,a+0.15)*(1-seg(t,a+0.9,a+1.05)); if(k<=0) continue; const bx=x0+AKA_FACE[i][0]*s+18, by=y0+(AKA_FACE[i][1]-150)*s;
+        g.save(); g.globalAlpha=k; g.fillStyle='rgba(255,240,240,0.92)'; g.beginPath(); g.roundRect(bx-4,by-22,44,22,10); g.fill(); g.beginPath(); g.moveTo(bx+4,by); g.lineTo(bx-2,by+8); g.lineTo(bx+12,by); g.fill();
+        g.fillStyle='#2a0a0a'; for(let d=0;d<3;d++){ const on=((t-a)*6|0)%4>d; if(on){ g.beginPath(); g.arc(bx+8+d*10,by-11,2.6,0,TAU); g.fill(); } } g.restore(); }
+      if(t>=T.line-0.3){ const k=seg(t,T.line-0.3,T.line+0.4)*(0.75+0.25*Math.sin(t*9));   // Depressed Cat nói: mắt Rinnegan loé tím trong bóng đen
+        for(const ex of [736,852]){ g.save(); g.globalCompositeOperation='lighter'; blob(g,x0+ex*s,y0+405*s,18,'170,110,255',k); blob(g,x0+ex*s,y0+405*s,6,'235,220,255',k); g.restore(); } } }
+    else { const v=t-T.group; cam(g,480,285,lerp(1.18,1.0,E.eout(seg(v,0,2.5))),(t>T.akaT&&t<T.akaT+0.6)?(hash(Math.floor(t*40))-0.5)*0.012:0); sky(g,t,0.1,1);
+      friendSky(g,480,250,700,0.55,0.7);
       skyline(g,480,0.4,470,7,50,200,300,60,80,'#1c1116','rgba(255,140,80,0.5)',0.18,{});
       for(let i=0;i<10;i++) fire(g,40+i*100,470,50,t,i*5);
       g.fillStyle='#120b0e'; g.fillRect(-200,440,1400,400); g.fillStyle='#2a1c20'; g.fillRect(-200,436,1400,8);
-      akaRow(g,t,480,440,1.05,false); } }
+      meowkatsuki(g,t,480,176);            // LỚP DƯỚI CÙNG: chữ sau lưng (đầu cả nhóm đè lên chân chữ 1 chút)
+      akaGroup(g,t,480,460,300,1); } }   // ảnh pose cả nhóm
   const SCENES=[[0,scStreet],[T.stand,scStand],[T.shadow,scShadow],[T.cry,scCry],[T.reveal,scReveal],[T.d1,scD1],[T.d2,scD2],[T.d3,scD3],[T.d4,scD4],[T.d5,scD5],[T.d6,scD6],[T.d7,scD7],[T.roof,scRoof]];
 
   // ───────── chữ ─────────
   function spaced(g,txt,x,y,font,ls,col,a){ g.save(); g.font=font; g.letterSpacing=ls+'px'; g.textAlign='center'; g.textBaseline='middle'; g.globalAlpha=a; g.fillStyle=col; g.fillText(txt,x+ls/2,y); g.restore(); }
   function friendTitle(g,t){ if(t<T.title||t>T.d1) return; const k=seg(t,T.title,T.title+0.5), out=1-seg(t,T.d1-0.4,T.d1);
     g.save(); g.shadowColor='rgba(170,60,255,0.95)'; g.shadowBlur=24*SCv; spaced(g,'FRIEND',VW/2,300+(1-k)*20,`900 96px ${SERIF}`,30,'#f4ecff',k*out); g.restore(); }
-  function akaNames(g,t){ if(t<T.rev||t>T.wide) return; for(let i=0;i<5;i++){ const a=T.rev+i*1.1, k=seg(t,a,a+0.3)*(1-seg(t,a+1.0,a+1.2)); if(k<=0) continue;
-      g.save(); g.shadowColor='rgba(255,40,40,0.9)'; g.shadowBlur=14*SCv; spaced(g,AKA[i][1],VW/2,470,`800 28px ${SANS}`,8,'#ffeaea',k); g.restore(); } }
+  // câu thoại: tên màu tím + chữ hiện dần từng từ ở dải dưới
+  const LINE=[[T.line,"Let's go."],[T.line+1.0,"Let this world… and this universe…"],[T.line+2.6,"…know pain."]];
+  function akaLine(g,t){ if(t<T.line||t>=T.booms) return; const out=1-seg(t,T.booms-0.25,T.booms);
+    g.save(); g.textAlign='center'; g.textBaseline='middle'; g.globalAlpha=out;
+    g.font=`800 12px ${SANS}`; g.letterSpacing='4px'; g.fillStyle='rgb(190,150,255)'; g.shadowColor='rgba(150,90,255,0.9)'; g.shadowBlur=10*SCv; g.fillText('DEPRESSED CAT',VW/2,VH-78);
+    g.shadowBlur=0; g.letterSpacing='1px'; g.font=`italic 600 22px ${SERIF}`; let txt='';
+    for(const [a,l] of LINE){ if(t<a) break; const ws=l.split(' '), n=Math.min(ws.length,Math.floor((t-a)/0.16)+1); txt=(txt?txt+' ':'')+ws.slice(0,n).join(' '); }
+    g.fillStyle='#f4ecff'; g.fillText(txt,VW/2,VH-52); g.restore(); }
   function endCard(g,t){ const v=t-(T.DUR-3.2); if(v<0) return; const k=seg(v,0,0.8);
     spaced(g,'MEME LORE',VW/2,226,`800 14px ${SANS}`,12,'rgb(255,200,200)',k);
     g.save(); g.shadowColor='rgba(255,40,60,0.9)'; g.shadowBlur=16*SCv; spaced(g,'FINAL',VW/2,272,`400 58px ${SERIF}`,18,'#fff2f2',seg(v,0.3,1.1)); g.restore();
@@ -309,13 +344,13 @@
   // ───────── tiếng ─────────
   const A='assets/audio/';
   const sfx=[[T.roar-0.14,'fr_titan_roar',0.8],[T.d1+0.55,'l2p_explode',0.55],[T.d1+1.3,'cine_deep_impact',0.5],[T.d3+0.25,'ep3_glass',0.7],[T.d3+0.27,'l2p_crack',0.5],
-    [T.d4+0.42,'cine_deep_impact',0.8],[T.d5+0.4,'l2p_explode',0.45],[T.d6+0.3,'l2p_crack',0.6],[T.splat,'cine_impact',0.25]];
-  for(let i=0;i<5;i++) sfx.push([T.rev+i*1.1,'cine_haki_hit',0.45]);
+    [T.d4+0.42,'cine_deep_impact',0.8],[T.d5+0.4,'l2p_explode',0.45],[T.d6+0.3,'l2p_crack',0.6],[T.splat,'cine_impact',0.25],[T.cry+0.4,'cry_banana_cat',0.95]];   // Banana Cat khóc
+  for(let i=0;i<5;i++) sfx.push([T.booms+i*0.6,'vine_boom',0.85]);   // 5 tiếng vine boom = 5 khung trượt vào
+  sfx.push([T.akaT,'cine_deep_impact',0.8]);   // MEOWKATSUKI đập xuống
   const mus=[
     {src:A+'fin_icecream.mp3', ra:0, rb:T.shadow+0.6, vol:0.32, fo:1.2},                         // nhạc xe kem leng keng: phố bình yên
     {src:A+'fin_city.mp3', ra:0, rb:T.shadow+1, vol:0.3, loop:true, fo:1},                      // tiếng xe cộ
     {src:A+'cine_heart.mp3', ra:T.shadow+0.4, rb:T.reveal+0.4, vol:0.7, fi:0.4, fo:0.4},         // tim đập lúc bóng đen trùm xuống
-    {src:A+'fin_kidcry.mp3', ra:T.cry+0.4, rb:T.reveal+1.2, vol:0.7, fo:0.6},                      // em bé khóc thét
     {src:A+'cine_ambient_war.mp3', ra:T.reveal, rb:T.roof+0.8, vol:0.55, fi:1, fo:1.2},
     {src:A+'fin_crowd.mp3', ra:T.d1+0.6, rb:T.d7+1, vol:0.45, loop:true, fi:0.5, fo:1},           // đám đông la hét
     {src:A+'fin_collapse.mp3', ra:T.d6+0.6, rb:T.d7+1.5, vol:0.6, fo:0.8},                        // toà nhà sập
@@ -326,11 +361,13 @@
     imgs:{ fr:'assets/avatars/friend/avatarUrl.webp', hFist:'assets/img/scaredhamster/HAND_fist.webp', hLunge:'assets/img/scaredhamster/HAND_lunge.webp', hClose:'assets/img/scaredhamster/HAND_closing.webp',
       chill:'assets/img/chillguy/CHILLGUY_AVATAR_IMG.webp', doge:'assets/avatars/doge/avatarUrl.webp', cheems:'assets/avatars/cheems/avatarUrl.webp', capy:'assets/avatars/capybara/avatarUrl.webp',
       dogeS:'assets/img/cine/CINE_DOGE_SCARED.webp', dp:'assets/img/depressedcat/DP_PAIN_IMG.webp', chud:'assets/avatars/doorbellchud/avatarUrl.webp', ninja:'assets/avatars/ninjacat/avatarUrl.webp',
-      bat:'assets/avatars/batcat/avatarUrl.webp', mlem:'assets/avatars/mlemcat/avatarUrl.webp' },
+      bat:'assets/avatars/batcat/avatarUrl.webp', mlem:'assets/avatars/mlemcat/avatarUrl.webp', akaG:'assets/img/cine/FIN_AKA_GROUP.png',
+      ban:'assets/avatars/bananacat/avatarUrl.webp', banCry:'assets/avatars/bananacat/attackAvatarUrl.webp', corn:'assets/avatars/cornelius/avatarUrl.webp',
+      ...Object.fromEntries(CROWD.map((k,i)=>['c'+i,'assets/avatars/'+k+'/avatarUrl.webp'])) },
     sfx, mus, shots:[{t0:0,t1:DUR,a:{}}],
     impact:t=>(t>=T.roar&&t<T.roar+0.05)?'inv':(t>=T.d4+0.42&&t<T.d4+0.48)?'bw':(t>=T.d3+0.25&&t<T.d3+0.3)?'inv':0,
     shake:t=>{ let s=0; const hit=(a,amp,d)=>{ if(t>=a&&t<a+d) s=Math.max(s,amp*(1-(t-a)/d)); };
-      hit(T.roar,12,1.6); hit(T.d1+0.55,8,0.8); hit(T.d1+1.3,7,0.8); hit(T.d3+0.25,10,0.6); hit(T.d4+0.42,14,0.9); hit(T.d5+0.4,6,0.8); hit(T.d6+1.6,10,1.2); hit(T.splat,3,0.2);
+      hit(T.roar,12,1.6); hit(T.d1+0.55,8,0.8); hit(T.d1+1.3,7,0.8); hit(T.d3+0.25,10,0.6); hit(T.d4+0.42,14,0.9); hit(T.d5+0.4,6,0.8); hit(T.d6+1.6,10,1.2); hit(T.splat,3,0.2); hit(T.akaT,9,0.7);
       if(t>=T.d1&&t<T.roof) s=Math.max(s,1.5); return s; },
     world(F,t){ IM=F.I; TT=t; SCv=F.SC; const g=F.g; let fn=SCENES[0][1]; for(const s of SCENES) if(t>=s[0]) fn=s[1]; g.save(); fn(g,t); g.restore(); },
     post(F,t){ const fx={shocks:[],chroma:0}; const sh=(a,x,y,rm,d,str)=>{ if(t>=a&&t<a+d){ const u=(t-a)/d; fx.shocks.push({sx:x,sy:y,r:20+rm*E.eout(u),w:30,str:str*(1-u)}); fx.chroma=Math.max(fx.chroma,1-u); } };
@@ -339,7 +376,8 @@
       // cắt cảnh tàn phá: loé trắng ngắn ở mỗi khung mới
       for(const a of [T.d1,T.d2,T.d3,T.d4,T.d5,T.d6,T.d7]) if(t>=a&&t<a+0.06) K.flash(F,0.5*(1-(t-a)/0.06),'#fff');
       if(t>=T.roof-0.4&&t<T.roof+0.6) K.flash(F,1-Math.abs(t-T.roof)/0.6,'#000');
+      if(t>=T.group&&t<T.group+0.35) K.flash(F,1-(t-T.group)/0.35,'#fff');   // 5 khung → ảnh nhóm
       if(t>=T.DUR-3.4) K.flash(F,seg(t,T.DUR-3.4,T.DUR-2.8),'#000');
       K.letterbox(F,0.9);
-      friendTitle(g,t); akaNames(g,t); endCard(g,t); } });
+      friendTitle(g,t); akaLine(g,t); akaStrips(g,t); endCard(g,t); } });
 })();
