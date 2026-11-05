@@ -9900,7 +9900,7 @@ function _mwPurpleDraw(){
 // Thần đèn chui ra từ VÒI cây đèn mèo đang xoa, đuôi nối dải khói vào vòi (kiểu Genie Disney), hết lượt chui ngược vào đèn.
 // Mục tiêu = f.enemy (gần nhất, TÍNH CẢ quân triệu hồi có máu) — gà/sét/đấm đều dính lên quân triệu hồi như meme thường.
 const AR_MOVES=['bolt','punch','chicken','stone','minis'];   // ⚡ sét · 👊 nắm đấm · 🐔 hoá gà · 🗿 hoá tượng · 🧞🗡️ gọi 2 thần đèn nhỏ — chia ĐỀU 20%
-const AR_MINI_HP=100, AR_MINI_DMG=50, AR_MINI_HEAL=50, AR_MINI_IMG=new Image(); AR_MINI_IMG.src='assets/img/arabiccat/AR_MINIGENIE_IMG.webp';   // 🧞 thần đèn nhỏ cầm mã tấu (kiếm user gửi, đã bỏ bàn tay người) — quay mặt PHẢI
+const AR_MINI_HP=100, AR_MINI_DMG=75,   /* anh dặn 5/11: mọi dame Arabic Cat +50% */ AR_MINI_HEAL=50, AR_MINI_IMG=new Image(); AR_MINI_IMG.src='assets/img/arabiccat/AR_MINIGENIE_IMG.webp';   // 🧞 thần đèn nhỏ cầm mã tấu (kiếm user gửi, đã bỏ bàn tay người) — quay mặt PHẢI
 // 🧞 THẦN ĐÈN NHỎ — vẽ "sống": thân (ảnh genie không kiếm) + KIẾM TÁCH RIÊNG cầm ở tay phải.
 //   thân lơ lửng nhấp nhô, đuôi uốn lượn như khói (cắt lát ngang, lệch theo sóng), người nghiêng theo đà lao tới;
 //   chém = giơ kiếm lấy đà → bổ xuống kèm vệt chém sáng → thu về. To hơn bản cũ 15%, kiếm to hơn 20%.
@@ -9947,9 +9947,9 @@ function _arDrawMini(k){
     ctx.drawImage(B,0,sy,iw,ih/N+1,-bw/2+off,y,bw,bh/N+0.6); }
   ctx.restore();
   return true; }
-const AR_STONE_P=0.2, AR_STONE_S=2, AR_STONE_DMG=100, AR_KB_T=20, AR_KB_DECAY=0.9;   // 🗿 hoá tượng 20% · 2s · vỡ ra mất 100 · 👊 bay văng 20 tick, mỗi tick còn 90% tốc
+const AR_STONE_P=0.2, AR_STONE_S=2, AR_STONE_DMG=150, AR_KB_T=20, AR_KB_DECAY=0.9;   // 🗿 hoá tượng 20% · 2s · vỡ ra mất 100 · 👊 bay văng 20 tick, mỗi tick còn 90% tốc
 const AR_AFTER_S=0.55;   // ra đòn xong chỉ nán lại 0.25s rồi chui về đèn (0.3s) — không đứng chờ đủ 2s nữa
-const AR_CD_S=3, AR_GENIE_S=2, AR_CHICK_P=0.2, AR_CHICK_S=3, AR_BOLT_DMG=100, AR_PUNCH_DMG=150, AR_PUNCH_KB=24;   // đấm văng 24 > tát Grumpy Cat 18
+const AR_CD_S=2.55, AR_GENIE_S=2, AR_CHICK_P=0.2, AR_CHICK_S=3, AR_BOLT_DMG=150, AR_PUNCH_DMG=225, AR_PUNCH_KB=24;   // anh dặn 5/11: dame +50% (sét 100→150, đấm 150→225, tượng vỡ 100→150, thần đèn nhỏ 50→75) · hồi chiêu −15% (3s→2.55s)   // đấm văng 24 > tát Grumpy Cat 18
 const AR_NEAR=150, AR_ACT_S=0.6, AR_CHICK_SPD=2.4, AR_GENIE_H=3.45, AR_EMERGE_S=0.35, AR_RETURN_S=0.3;   // AR_NEAR = khe hở giữa 2 thân (px) dưới mức này là "gần" · AR_GENIE_H = cao dáng thường / size mèo
 // 🧞 3 dáng thần đèn user gửi (đã canh cùng tỉ lệ theo chỏm mũ vàng): 0 thường · 1 bắn sét (duỗi tay) · 2 phù phép (hai tay)
 //    ảnh đã CẮT bỏ khúc đuôi cuộn (mép cắt mờ dần): tail = điểm giữa mép cắt (nối dải khói từ vòi đèn vào), tw = bề rộng đuôi ở đó,
@@ -10809,15 +10809,15 @@ function _bcConvexClip(P,Q){ let out=P; for(let i=0;i<Q.length;i++){ const a=Q[i
     if(out.length<3) return []; } return out; }
 const _bcCW=P=>{ let a=0; for(let i=0;i<P.length;i++){ const p=P[i], q=P[(i+1)%P.length]; a+=p[0]*q[1]-q[0]*p[1]; } return a<0 ? P.slice().reverse() : P; };
 function _bcRiftInit(f,B){ const cx=f.x, cy=f.y-_bcLift(f), R={cx,cy,slabs:[],pieces:[],foes:null,snap:null,M:null};
-  if(window.d3 && d3.Delaunay){ const S=[]; for(let i=0;i<5;i++){ const a=i/5*Math.PI*2+_bcH(i,401)*0.8, r=Math.min(W,H)*(0.28+0.18*_bcH(i,402)); S.push([cx+Math.cos(a)*r,cy+Math.sin(a)*r]); }
+  if(window.d3 && d3.Delaunay){ const S=[]; for(let i=0;i<5;i++){ const a=i/5*Math.PI*2+_bcH(i,401)*0.8, r=Math.min(W,H)*(0.28+0.18*_bcH(i,402)); S.push([Math.min(W-6,Math.max(6,cx+Math.cos(a)*r)),Math.min(H-6,Math.max(6,cy+Math.sin(a)*r))]); }   // mèo sát mép: điểm chia vẫn phải nằm trong sân
     const vor=d3.Delaunay.from(S).voronoi([0,0,W,H]);
-    for(let i=0;i<5;i++){ const P=_bcCW(vor.cellPolygon(i).slice(0,-1)); const c=P.reduce((s,p)=>[s[0]+p[0]/P.length,s[1]+p[1]/P.length],[0,0]); R.slabs.push({P,c,a:Math.atan2(c[1]-cy,c[0]-cx)});
+    for(let i=0;i<5;i++){ const cell0=vor.cellPolygon(i); if(!cell0) continue; const P=_bcCW(cell0.slice(0,-1)); if(P.length<3) continue; const c=P.reduce((s,p)=>[s[0]+p[0]/P.length,s[1]+p[1]/P.length],[0,0]); R.slabs.push({P,c,a:Math.atan2(c[1]-cy,c[0]-cx)});
       const xs=P.map(p=>p[0]), ys=P.map(p=>p[1]), x0=Math.min(...xs), x1=Math.max(...xs), y0=Math.min(...ys), y1=Math.max(...ys), sd=[];   // tảng lớn → vỡ thành ~6 mảnh
       for(let k=0;k<7;k++) sd.push([x0+(x1-x0)*_bcH(i*13+k,403), y0+(y1-y0)*_bcH(i*13+k,404)]);
       const v2=d3.Delaunay.from(sd).voronoi([x0-1,y0-1,x1+1,y1+1]);
       for(let k=0;k<sd.length;k++){ const cell=v2.cellPolygon(k); if(!cell) continue; const Q=_bcConvexClip(_bcCW(cell.slice(0,-1)),P); if(Q.length<3) continue;
         const qc=Q.reduce((s,p)=>[s[0]+p[0]/Q.length,s[1]+p[1]/Q.length],[0,0]), d=Math.hypot(qc[0]-cx,qc[1]-cy);
-        R.pieces.push({Q,c:qc,slab:i,a0:Math.atan2(qc[1]-cy,qc[0]-cx),r0:d,dl:Math.round(d/Math.max(W,H)*40+_bcH(i*13+k,405)*14),vr:(_bcH(i*13+k,406)-0.5)*0.12}); } } }
+        R.pieces.push({Q,c:qc,slab:R.slabs.length-1,a0:Math.atan2(qc[1]-cy,qc[0]-cx),r0:d,dl:Math.round(d/Math.max(W,H)*40+_bcH(i*13+k,405)*14),vr:(_bcH(i*13+k,406)-0.5)*0.12}); } } }
   B.rift=R; }
 function _bcRiftTick(f,B,rt){
   if(rt===0){ _bcRiftInit(f,B); playSample('bc_zap',1.0); addShake(14,20); }
@@ -10891,8 +10891,9 @@ function _bcWorldTick(){
   if(B.t===BC_BANG_AT+BC_STAR_T){ playSample('ep3_end_boom',1.0); playSample('cine_deep_impact',1.0); addShake(26,40); bcBangT=tick; }   // 💥 vì sao BÙNG NỔ → trắng
   if(B.t===BC_BANG_AT){   // 🌟 hút xong: tối đen, sinh ra 1 vì sao (vũ trụ mới) — xoá sổ mọi địch còn sót
     playSample('blackhole',0.7); playSample('ep3_charge',0.8); bcStarT=tick;
-    for(const u of fighters) if(u!==f && !u.dead && u.team!==f.team){ u._mwErased=true; try{ _stopFighterSfx(u); }catch(e){} _forceKill(u,f); if(!u.dead){ u.hp=0; u.dead=true; u._deathTick=tick; } }   // xoá sổ như Hollow Purple: không xác, không mảnh vỡ
-    for(const u of _summonFoes(f.team)) _forceKill(u,f);
+    // xoá sổ như Hollow Purple: không xác, không mảnh vỡ · anh dặn 5/11: XUYÊN MỌI skill bất tử / cứu mạng / tách thân (dùng cờ của Sus Cat — _susEject)
+    for(const u of fighters) if(u!==f && !u.dead && u.team!==f.team){ u._mwErased=true; try{ _stopFighterSfx(u); }catch(e){} _susEject(u,f); if(!u.dead){ u.hp=0; u.dead=true; u._deathTick=tick; } }
+    for(const u of _summonFoes(f.team)){ _susEject(u,f); if(!u.dead){ u.hp=0; u.dead=true; } }
     try{ if(B.snd){ B.snd.pause(); } }catch(e){}
     bcToasts=bcToasts.filter(q=>q.f!==f); bananaPeels.length=0; pdPeels.length=0; B.fused=true; }   // trắng xoá: không còn đồ vật nào trên sân
   bcDark = B.t<BC_SPIN_T ? 0.65*_bcStage(B.t,0.25,1) : 0;   // sau Big Bang là màn TRẮNG (_bcWhiteDraw), không còn sân tối
@@ -13050,7 +13051,7 @@ const CHAR_FACTS = {
   berserkcat:[ "Berserk Cat's sword weighs more than Berserk Cat. Nobody has told it.", "It has never taken a nap. Naps are for cats who have not seen things.", "Every scratch only makes it angrier. The vet has stopped taking its appointments.", "The sword is called Dragon Slayer. The cat has never met a dragon. It is still waiting." ],
   friend:[ "Friend is not your friend. Friend has never been anyone's friend.", "Every bite makes Friend a little healthier and a lot hungrier. The next bite always comes sooner.", "When the lights go out, Friend is already there. Friend was always there.", "Friend says hi. Friend has not blinked since 2014." ],
   chonkydog:[ "Chonky Dog is not fat. Chonky Dog is structurally ambitious.", "Every four seconds Chonky Dog becomes a building. Every four seconds, the building falls down.", "Chonky Dog has flattened more opponents than it has ever chased.", "Chonky Dog's insurance company has a whole department just for it." ],
-  arabiccat:[ "Arabic Cat rubs the lamp every 3 seconds. The genie has filed a complaint.", "The genie grants one wish per visit. Yours is not on the list.", "Being turned into a chicken is technically a wish. Just not yours.", "The lamp brings its own entrance music. The genie insists on it.", "Nobody has read the genie's contract. It lasts exactly 2 seconds." ],
+  arabiccat:[ "Arabic Cat rubs the lamp every couple of seconds. The genie has filed a complaint.", "The genie grants one wish per visit. Yours is not on the list.", "Being turned into a chicken is technically a wish. Just not yours.", "The lamp brings its own entrance music. The genie insists on it.", "Nobody has read the genie's contract. It lasts exactly 2 seconds." ],
   alottadameguy:[ "A Lotta Dame Guy once sawed a boat in half to prove a point. Nobody remembers the point.", "The chainsaw always needs exactly two pulls. He has rehearsed the first one failing.", "Every 250 damage he takes is technically a product demonstration.", "His gloves are yellow so the stains are easier to see.", "He did not bring the knife to fight. He brought it to open the chainsaw box.", "He fixes his own wounds with Flex Seal. The doctor says that is not a thing." ],
   doorbellchud:[ "Doorbell Chud has rung every doorbell on the street. Nobody has ever answered.", "The bell survives exactly four rings. Nobody has ever made it to five.", "The doorbell cord was not designed as a weapon. Doorbell Chud disagreed.", "Doorbell Chud does not wait for you to come to the door. The door comes to you.", "Ding dong. That was not a greeting." ],
   cornelius:[ "Cornelius has never cooked anything that did not scream first.", "The frying pans are not for throwing. Cornelius disagrees.", "Cornelius counts to eight very patiently. Then he cooks.", "Nobody has ever sent a dish back to Cornelius." ],
@@ -13068,7 +13069,7 @@ const CHAR_BLURB = {
   saiyanmarmot: "Melee shover: touches the enemy to shove them away like fighting marmots (45). Every 2s of walking it stops and powers up for 1.5s; the 3rd time it screams for 3s and goes Super Saiyan for good. Super Saiyan: every shove freezes for 0.5s, then blasts the enemy straight into the wall and pins them there (160), breaking off a chunk of wall. Hit the same broken spot and the hole can get big enough to send the enemy flying out of the arena — instant win.",
   ninjacat: "Melee ninja. Up close it draws a Kusanagi and slashes for 75; at range it throws kunai for 30. The first time it drops to 60% HP and again at 30%, the next hit passes straight through it — a Mangekyou Sharingan flashes, a Kamui vortex swallows it and spits it out behind the enemy, running them through for 150. If the enemy's back is against a wall it holds the trick, and strikes the moment there is room behind them.",
   poordog: "Never attacks and walks very slowly. Every 2s it slowly lies down for 3s. Hit it while it lies there and you lose karma equal to the damage — every 100 karma lost makes bad luck hit you 10% harder. Every 4s one bad-luck event strikes in turn (0.3s sooner each time it gets hit), walking or lying: banana peels, a runaway truck, lightning, a falling grand piano, a flower pot dropped on your head. It takes 20% less damage while lying down. Lose 100+ karma and junk starts flying at the back of your head.",
-  arabiccat: "Every 3s it rubs the lamp and the genie comes out for 2s with one random move: a lightning bolt (100), a giant fist (150), turning the enemy into a chicken, turning them to stone, or summoning 2 mini genies with scimitars.",
+  arabiccat: "Every 2.5s it rubs the lamp and the genie comes out for 2s with one random move: a lightning bolt (150), a giant fist (225), turning the enemy into a chicken, turning them to stone, or summoning 2 mini genies with scimitars.",
   // 📋 Mô tả hiện dưới sàn / 2 panel bên: TÓM TẮT KỸ NĂNG, viết thẳng, KHÔNG pha trò và KHÔNG kèm chỉ số chi tiết
   // KHÔNG nhồi số dame/thời gian/tỉ lệ vào — chỉ làm rối mắt người xem.
   // ⚠️ Bản CHAR_BLURB_SHORT (dòng hiện DƯỚI SÀN ở 1vs1) tối đa 8 TỪ, dài hơn là chữ bị co nhỏ lại.
