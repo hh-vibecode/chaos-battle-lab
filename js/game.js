@@ -10776,6 +10776,8 @@ const BC_BANG_AT=BC_SPIN_T+BC_RIFT_T+BC_SING_T, BC_STAR_T=168, BC_FLASH_T=20;   
 const _bcH=(a,b)=>{ const v=Math.sin(a*127.1+b*311.7)*43758.5453; return v-Math.floor(v); };   // băm cho hiệu ứng vẽ (không đụng chuỗi random của trận)
 const _bcR=f=>f.size*0.55;   // bán kính lát bánh
 const _bcLift=f=>{ const B=f._bc; return B&&B.px ? Math.min(1,B.t/40)*f.size*0.9 : 0; };
+// 🍞 meme địch đứng im từ lúc Bread Cat xoay đủ 5s (xé sân → vì sao → Big Bang)
+function _bcFrozen(u){ if(!bcPx || u.dead) return false; const f=bcPx.f, B=f&&f._bc; return !!(B && B.px && B.t>=BC_SPIN_T && u!==f && u.team!==f.team); }
 function _bcFrame(f){ const B=f._bc; if((B&&B.fused) || koWinner===f) return 2; return (B&&B.px) ? 1 : 0; }
 // 🍞 cơ chế anh chốt 2/11: mỗi 3s 1 lát bánh mì bơ RƠI TỪ THIÊN ĐƯỜNG xuống 1 điểm bất kì trên sàn (kể cả lúc đang xoay); nằm trên sàn chờ nhặt (tối đa 4 lát, lát cũ nhất tan đi).
 //   Mèo đi tới lát gần nhất ĐÃ CHẠM SÀN; nhặt được → +100 máu rồi mới bắt đầu xoay (Bread Paradox). Bị đánh gãy thì đi nhặt lát khác.
@@ -17719,6 +17721,7 @@ class Fighter {
   //    cưa, chuông…) và mọi luật tự xoá choáng (Chonky to, Grumpy nộ, Berserk <30%) đều bị bỏ qua; phần chung (cháy/độc, đếm giờ,
   //    đếm ngược vỡ tượng) vẫn chạy. Ăn dame thì tạm trả lại đúng loại thật (takeDamage bên dưới) để hồi sinh/biến hình vẫn đúng.
   update(){
+    if(_bcFrozen(this)){ this.vx=this.vy=0; return; }   // 🍞 Bread Cat xoay đủ 5s → meme địch ĐÓNG BĂNG tới khi bị hút / xoá sổ (anh dặn 5/11)
     if(_arLocked(this)){ const t=this.type; this._realType=t; this.type='__locked__';
       try{ return this._updateCore(); } finally { this.type=t; this._realType=null; } }
     return this._updateCore();
@@ -22014,6 +22017,7 @@ class Fighter {
   }
   _takeDamageCore(dmg,attacker,isHuh=false,isBurn=false,dotIcon='',hitFx=null,isDot=false,isTrue=false){
     if(this.dead) return;
+    if(this.type==='breadcat' && this._bc && (this._bc.fused || (this._bc.px && this._bc.t>=BC_SPIN_T))) return;   // 🍞 đã vào trạng thái PHÁ HUỶ (xoay đủ 5s) / thành ổ bánh mì: không nhận dame, không hiện số dame (anh dặn 5/11)
     if(this.type==='breadcat' && this._bc && this._bc.px && !isDot && !isBurn && dmg>0 && this._bc.t<BC_SPIN_T && !this._bc.fused){   /* xoay đủ 5s rồi thì không ngắt được nữa */   // 🍞 đang xoay: dính 3 đòn là gãy nghịch lý
       this._bc.hits=(this._bc.hits||0)+1; if(this._bc.hits>=BC_BREAK_HITS) _bcBreak(this); }
     if(_sdGone(this)) return;   // 🌑 Sus Dog đang ở trong bóng tối (rời sàn): không dính đòn nào
