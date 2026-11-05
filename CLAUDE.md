@@ -1,5 +1,11 @@
 # Chaos Battle Lab — ghi chú quan trọng
 
+## ⛔⛔ QUY TẮC SỐ 0 — ƯU TIÊN CAO NHẤT (anh dặn 5/11/2026): LUÔN LÀM TRÊN BẢN MỚI NHẤT
+Anh làm trên NHIỀU MÁY (Mac + Windows) đẩy cùng lên `main` → bản trên máy này rất hay bị cũ.
+- **ĐẦU MỖI PHIÊN, trước khi làm bất cứ việc gì:** `git fetch origin` → `git status` / `git rev-list --left-right --count HEAD...origin/main` → thua thì `git pull --ff-only origin main` (đang có file sửa dở: `git stash` → pull → `git stash pop`).
+- **TRƯỚC MỖI LẦN XUẤT VIDEO / PHIM / CHẠY THỬ TRẬN và trước mỗi lần sửa code:** kiểm tra lại y như trên — phiên dài thì máy khác có thể đã đẩy bản mới giữa chừng (5/11 đã quay 3 video trên code cũ, thiếu 10 bản mới → phải quay lại).
+- Đang chạy render thì KHÔNG pull/stash giữa chừng (mỗi trận thử mở lại game.js) — dừng render trước, kéo bản mới, rồi chạy lại.
+
 ## ⚠️ Tin nhắn KHÔNG liên quan game / phim → HỎI LẠI, KHÔNG LÀM (anh dặn 3/11/2026)
 - Anh hay gõ nhầm câu của app khác vào phiên này (vd hỏi "công nợ NCC nội địa / KiotViet" = app Kế toán). Gặp câu không thuộc Chaos Battle Lab →
   chỉ hỏi lại 1 câu ngắn ("câu này của app nào, anh muốn em xử lý ở đây không?"), KHÔNG tự đọc repo khác, KHÔNG làm gì thêm.
