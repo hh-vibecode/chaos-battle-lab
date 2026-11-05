@@ -10781,11 +10781,11 @@ function _bcFrame(f){ const B=f._bc; if((B&&B.fused) || koWinner===f) return 2; 
 //   Mèo đi tới lát gần nhất ĐÃ CHẠM SÀN; nhặt được → +100 máu rồi mới bắt đầu xoay (Bread Paradox). Bị đánh gãy thì đi nhặt lát khác.
 function _bcDrop(f){ const m=W*0.1, x=m+Math.random()*(W-2*m), y=m+Math.random()*(H-2*m), lay=bcToasts.filter(q=>q.f===f && q.st);
   if(lay.length>=BC_MAX_TOASTS){ const o=lay[0]; bcToasts.splice(bcToasts.indexOf(o),1); bcFx.push({k:'crumbs',x:o.x,y:o.y,t:0,T:34,s:tick}); }
-  bcToasts.push({f,x,y,t:0,st:0,ph:Math.random()*6,rot:(Math.random()-0.5)*0.5,sd:Math.random()*6}); playSample('ep3_shine',0.45); }
+  bcToasts.push({f,x,y,t:0,st:0,ph:Math.random()*6,rot:(Math.random()-0.5)*0.5,sd:Math.random()*6}); playSample('ep3_shine',0.15);   /* anh dặn 5/11: lát bánh rơi kêu nhỏ thôi */ }
 function _bcTick(f){
   const B=f._bc||(f._bc={cd:BC_FIRST,fused:false,px:0,t:0});
   if(B.fused) return;
-  for(const T of bcToasts) if(T.f===f && !T.st){ T.t++; T.ph+=0.055; if(T.t>BC_FALL_T-50){ const tg=0.75+Math.PI*2*Math.round((T.ph-0.75)/(Math.PI*2)); T.ph+=(tg-T.ph)*0.14; T.rot*=0.97; }   /* gần chạm sàn: lật dần về nằm phẳng, không giật */ if(T.t>=BC_FALL_T){ T.st=1; T.t=0; T.ph=0.75; T.lt=tick; bcFx.push({k:'pop',x:T.x,y:T.y,t:0,T:22}); playSample('hit_light',0.4); } }
+  for(const T of bcToasts) if(T.f===f && !T.st){ T.t++; T.ph+=0.055; if(T.t>BC_FALL_T-50){ const tg=0.75+Math.PI*2*Math.round((T.ph-0.75)/(Math.PI*2)); T.ph+=(tg-T.ph)*0.14; T.rot*=0.97; }   /* gần chạm sàn: lật dần về nằm phẳng, không giật */ if(T.t>=BC_FALL_T){ T.st=1; T.t=0; T.ph=0.75; T.lt=tick; bcFx.push({k:'pop',x:T.x,y:T.y,t:0,T:22}); playSample('hit_light',0.2); } }
   if(f.dead) return;
   if(--B.cd<=0 && !(B.px && B.t>=BC_SPIN_T)){ B.cd=BC_DROP_T; _bcDrop(f); }   // đang xé sân thì không rơi lát mới
   if(B.jam>0){ B.jam--;   // ⚙️ khựng 0.5s như máy hỏng: giật giật tại chỗ, phụt khói + tia lửa, hết thì đi tiếp bình thường
@@ -10800,7 +10800,7 @@ function _bcTick(f){
   _bcParadox(f);
 }
 function _bcParadox(f){ const B=f._bc; B.px=1; B.t=0; B.hits=0; B.x0=f.x; B.y0=f.y; bcPx={f}; f.vx=f.vy=0;
-  playSample('ep3_charge',1.0); addShake(6,10);
+  playSample('l2p_shimmer',0.45); addShake(6,10);   /* 5/11: bỏ tiếng gồng kiểu Saiyan */
   floatTexts.push({x:f.x,y:f.y-f.size-34,text:'BREAD PARADOX',color:'#ffd54f',life:120,huge:true}); }
 // ⚡🌀 XÉ SÂN sau khi xoay đủ 5s (rt = tick trong pha xé sân, 0..BC_RIFT_T)
 function _bcConvexClip(P,Q){ let out=P; for(let i=0;i<Q.length;i++){ const a=Q[i], b=Q[(i+1)%Q.length], inn=p=>(b[0]-a[0])*(p[1]-a[1])-(b[1]-a[1])*(p[0]-a[0])>=0, inp=out; out=[];
@@ -10820,14 +10820,13 @@ function _bcRiftInit(f,B){ const cx=f.x, cy=f.y-_bcLift(f), R={cx,cy,slabs:[],pi
         R.pieces.push({Q,c:qc,slab:R.slabs.length-1,a0:Math.atan2(qc[1]-cy,qc[0]-cx),r0:d,dl:Math.round(d/Math.max(W,H)*40+_bcH(i*13+k,405)*14),vr:(_bcH(i*13+k,406)-0.5)*0.12}); } } }
   B.rift=R; }
 function _bcRiftTick(f,B,rt){
-  if(rt===0){ _bcRiftInit(f,B); playSample('bc_zap',1.0); addShake(14,20); }
+  if(rt===0){ _bcRiftInit(f,B); addShake(14,20); }
   const R=B.rift; if(!R) return;
-  if(rt===12) playSample('l2p_rumble',0.8);
-  if(rt===40){ playSample('l2p_crack',1.0); addShake(18,16); for(const q of bcToasts.filter(q=>q.f===f)) bcFx.push({k:'crumbs',x:q.x,y:q.y,t:0,T:34,s:tick}); bcToasts=bcToasts.filter(q=>q.f!==f); }   // sân nứt: lát bánh trên sàn vụn tan
-  if(rt>=46 && rt<=96 && rt%5===1){ const k=(rt-46)/5|0, side=['t','l','r'][k%3], i=(k*7)%GC_EDGE_N; f._gcFloorT=tick; _gcEdgeBreak(side,i,f); }   // viền sân gãy dần (không kèm nứt sàn riêng)
-  if(rt===100){ playSample('l2p_shatter',0.9); addShake(14,14); }
-  if(rt===110) playSample('l2p_riser',0.8);
-  if(rt===130){ playSample('blackhole',0.95);
+  if(rt===12) playSample('l2p_rumble',0.6);   // 🔊 xé sân: chỉ 3 tiếng đơn giản — ầm · nứt · hút
+  if(rt===40){ playSample('l2p_crack',0.7); addShake(18,16); for(const q of bcToasts.filter(q=>q.f===f)) bcFx.push({k:'crumbs',x:q.x,y:q.y,t:0,T:34,s:tick}); bcToasts=bcToasts.filter(q=>q.f!==f); }   // sân nứt: lát bánh trên sàn vụn tan
+  if(rt>=46 && rt<=96 && rt%5===1){ const k=(rt-46)/5|0, side=['t','l','r'][k%3], i=(k*7)%GC_EDGE_N; f._gcFloorT=tick; f._gcSndT=tick; _gcEdgeBreak(side,i,f); }   // viền gãy không kêu riêng   // viền sân gãy dần (không kèm nứt sàn riêng)
+  if(rt===100) addShake(14,14);
+  if(rt===130){ playSample('blackhole',0.6);
     R.foes=[...fighters.filter(u=>u!==f && !u.dead && u.team!==f.team), ..._summonFoes(f.team)].map(u=>({u,a0:Math.atan2(u.y-R.cy,u.x-R.cx),r0:Math.hypot(u.x-R.cx,u.y-R.cy),dl:Math.round(_bcH(u.x,u.y)*20)}));
     R.items=[bananaPeels,pdPeels].flatMap(A=>A.map(o=>({A,o,a0:Math.atan2(o.y-R.cy,o.x-R.cx),r0:Math.hypot(o.x-R.cx,o.y-R.cy),dl:Math.round(_bcH(o.x,o.y)*25)}))); }   // đồ vật địch để lại trên sân (vỏ chuối…) cũng bị cuốn vào
   if(R.foes) for(const q of R.foes){ const u=q.u; if(!u || u.dead) continue; const s=Math.min(1,Math.max(0,(rt-130-q.dl)/100)), e=s*s*(3-2*s);   // meme địch bị cuốn xoáy vào tâm
@@ -10874,7 +10873,7 @@ function _bcRiftOver(f,B){ const R=B.rift; if(!R) return; const rt=B.t-BC_SPIN_T
 function _bcBreak(f){ const B=f._bc; if(!B || !B.px) return; B.px=0; B.t=0; B.hits=0; bcPx=null; bcDark=0; B.jam=BC_JAM_T; B.jx=f.x; B.jy=f.y; f.vx=f.vy=0;
   try{ if(B.snd){ B.snd.pause(); B.snd.currentTime=0; } }catch(e){} B.snd=null;
   bcFx.push({k:'crumbs',x:f.x,y:f.y-f.size*0.4,t:0,T:40,s:tick}); bcFx.push({k:'crumbs',x:f.x+f.size*0.3,y:f.y-f.size*0.2,t:0,T:40,s:tick+7});
-  playSample('cine_impact',0.9); playSample('bc_zap',0.8); addShake(8,10);
+  playSample('hit_heavy',0.7);   /* tiếng gãy kêu NGAY (cine_impact to nhất ở 0.96s → nghe trễ) */ addShake(8,10);
   floatTexts.push({x:f.x,y:f.y-f.size-30,text:'PARADOX BROKEN',color:'#ffab91',life:80,big:true}); }
 // mỗi tick thế giới (sau va chạm thân): hiệu ứng + diễn nghịch lý
 function _bcWorldTick(){
@@ -10884,13 +10883,13 @@ function _bcWorldTick(){
   B.t++;
   f.x=B.x0; f.y=B.y0; f.vx=f.vy=0;
   const k=Math.min(1,B.t/BC_SPIN_T);
-  if(B.t<BC_SPIN_T){ const I=_bcI(B.t); if(B.t%6===0 && I>0.15) addShake(1+11*I,6); if(B.t===2) B.snd=playSample('bc_spin',0.9,BC_BANG_AT/60);   // 🔊 động cơ rít to dần đúng suốt màn quay
-    if(B.t===Math.round(BC_SPIN_T*0.6) || B.t===Math.round(BC_SPIN_T*0.75) || B.t===Math.round(BC_SPIN_T*0.85) || B.t===Math.round(BC_SPIN_T*0.93)) playSample('bc_zap',0.6+0.4*I);   // ⚡ điện chập dày dần theo đèn chớp
+  if(B.t<BC_SPIN_T){ const I=_bcI(B.t); if(B.t%6===0 && I>0.15) addShake(1+11*I,6); if(B.t===2) B.snd=playSample('bc_spin',0.65,BC_BANG_AT/60);   // 🔊 động cơ rít to dần đúng suốt màn quay
+    if(B.t===Math.round(BC_SPIN_T*0.75)-36 || B.t===Math.round(BC_SPIN_T*0.93)-36) playSample('bc_zap',0.35+0.25*I);   // bc_zap to nhất ở 0.6s → phát sớm 36 tick cho đỉnh rơi đúng mốc   // ⚡ 2 tiếng chập điện là đủ (anh chê lộn xộn 5/11)   // ⚡ điện chập dày dần theo đèn chớp
   }
   if(B.t>=BC_SPIN_T && B.t<BC_SPIN_T+BC_RIFT_T) _bcRiftTick(f,B,B.t-BC_SPIN_T);
-  if(B.t===BC_BANG_AT+BC_STAR_T){ playSample('ep3_end_boom',1.0); playSample('cine_deep_impact',1.0); addShake(26,40); bcBangT=tick; }   // 💥 vì sao BÙNG NỔ → trắng
+  if(B.t===BC_BANG_AT+BC_STAR_T){ playSample('ep3_end_boom',0.8); addShake(26,40); bcBangT=tick; }   // 💥 1 tiếng nổ duy nhất   // 💥 vì sao BÙNG NỔ → trắng
   if(B.t===BC_BANG_AT){   // 🌟 hút xong: tối đen, sinh ra 1 vì sao (vũ trụ mới) — xoá sổ mọi địch còn sót
-    playSample('blackhole',0.7); playSample('ep3_charge',0.8); bcStarT=tick;
+    playSample('l2p_rumble',0.5); bcStarT=tick;   // 🔊 trước nổ: 1 tiếng ầm dâng vừa phải (bỏ tiếng gồng Saiyan)
     // xoá sổ như Hollow Purple: không xác, không mảnh vỡ · anh dặn 5/11: XUYÊN MỌI skill bất tử / cứu mạng / tách thân (dùng cờ của Sus Cat — _susEject)
     for(const u of fighters) if(u!==f && !u.dead && u.team!==f.team){ u._mwErased=true; try{ _stopFighterSfx(u); }catch(e){} _susEject(u,f); if(!u.dead){ u.hp=0; u.dead=true; u._deathTick=tick; } }
     for(const u of _summonFoes(f.team)){ _susEject(u,f); if(!u.dead){ u.hp=0; u.dead=true; } }
