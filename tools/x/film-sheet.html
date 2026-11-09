@@ -1,0 +1,39 @@
+<!doctype html><meta charset="utf-8"><title>film sheet</title>
+<body style="background:#111;color:#ddd;font:12px monospace"><pre id="log"></pre>
+<script>
+// 🎞️ BẢNG KHUNG cho phim CINE-KIT (tự soát trước khi báo anh — skill dung-phim mục "TỰ SOÁT"). Không xuất video, chỉ chụp khung.
+// URL: tools/x/film-sheet.html?id=fin1c2&file=fin1&a=0&b=20&step=0.5&w=480&cols=5   (a/b giây của PHIM id; t=1.2,3.4,... = mốc tuỳ chọn thay a/b/step)
+// Chạy ngầm (Mac + PC): node tools/x/cdp.js --launch --steps <file> --out <dir>, bước:
+//   goto tools/x/film-sheet.html?id=... · waitfor window.__done · eval window.__done · evalsave <tên> window.__png
+const Q = new URLSearchParams(location.search), ID = Q.get('id'), FILE = Q.get('file') || ID;
+const log = s => { document.getElementById('log').textContent += s + '\n'; };
+const load = src => new Promise(r => { const s = document.createElement('script'); s.src = src; s.onload = () => r(true); s.onerror = () => r(false); document.body.appendChild(s); });
+(async () => {
+  try {
+    for (const f of ['cine-kit', 'vfx-gl', 'cine-cam', 'vfx-manga']) await load('../../js/' + f + '.js');
+    try { const ff = new FontFace('Shojumaru', 'url(../../assets/fonts/Shojumaru.ttf)'); document.fonts.add(await ff.load()); } catch (e) {}
+    if (!(await load('../../js/film-' + FILE + '.js'))) throw new Error('không tải được js/film-' + FILE + '.js');
+    await new Promise(r => setTimeout(r, 60));   // CineKitFx gắn chậm
+    const film = CineKit.films[ID]; if (!film) throw new Error('không có phim ' + ID);
+    const VW = film.def.VW || 960, VH = film.def.VH || 540, DUR = film.info().dur;
+    const TW = +(Q.get('w') || 480), TH = Math.round(TW * VH / VW), COLS = +(Q.get('cols') || 5), LH = 18;
+    const c = CineKit.mk(TW, TH), W = CineKit.mk(TW, TH); film._bind(c, W, true);
+    // ảnh nằm trong assets/ của repo: trang ở tools/x/ → sửa đường dẫn tương đối
+    const base = new URL('../../', location.href).href;
+    for (const k in film.def.imgs) if (!/^(https?:|data:|\/)/.test(film.def.imgs[k])) film.def.imgs[k] = base + film.def.imgs[k];
+    await film._load();
+    let ts = Q.get('t') ? Q.get('t').split(',').map(Number) : [];
+    if (!ts.length) { const a = +(Q.get('a') || 0), b = Math.min(DUR - 0.01, +(Q.get('b') || DUR)), st = +(Q.get('step') || 0.5); for (let t = a; t <= b + 1e-6; t += st) ts.push(+t.toFixed(3)); }
+    const rows = Math.ceil(ts.length / COLS), S = CineKit.mk(COLS * TW, rows * (TH + LH)), g = S.getContext('2d');
+    g.fillStyle = '#000'; g.fillRect(0, 0, S.width, S.height); const errs = [];
+    for (let i = 0; i < ts.length; i++) {
+      try { film._render(ts[i]); } catch (e) { errs.push(ts[i] + 's: ' + e.message); }
+      const x = (i % COLS) * TW, y = Math.floor(i / COLS) * (TH + LH);
+      g.drawImage(c, x, y + LH, TW, TH); g.fillStyle = '#ddd'; g.font = '12px monospace'; g.fillText(ID + ' ' + ts[i].toFixed(2) + 's', x + 4, y + 13);
+    }
+    window.__png = S.toDataURL('image/png');   // cdp.js evalsave chỉ nhận PNG
+    window.__done = (errs.length ? 'LỖI ' + errs.slice(0, 3).join(' | ') : 'OK') + ` ${ID} · ${ts.length} khung · dài ${DUR.toFixed(1)}s`;
+  } catch (e) { window.__done = 'LỖI ' + e.message; }
+  log(window.__done);
+})();
+</script>

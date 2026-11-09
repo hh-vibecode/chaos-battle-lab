@@ -209,6 +209,13 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
   → Friend xuất hiện kéo theo trăng máu, trời tối dần… · Gojo mở lãnh địa: GIƠ TAY (chân trước) ra phía trước, BĂNG MẮT nhếch chéo lên lộ 1 mắt giống mắt Gojo ·
   tên chiêu: CHỮ TIẾNG ANH trên màn hình + TIẾNG NHẬT đọc tên chiêu (sound) · trận ~60–70s · nhạc: nhạc anime đánh nhau EPIC, không ngại bản quyền (dính thì anh tự thay).
   Chờ: anh gửi link YouTube mẫu sau.
+  🔧 NÂNG CẤP 9/11 (theo meme-anime-lab/playbook): thành phố dựng lại đúng TỈ LỆ (MEME_H=32, tầng 84–100, nhà phố 3–5 tầng, cao tầng 15–40) · Friend lộ diện = bộ ba
+  (cực cận răng→mắt bật sáng · góc giun trời đỏ ngược sáng · cận Banana Cat) · ĐUÔI quật thay nắm tay (kiểu Cửu Vĩ, clip kaiju-b) · tĩnh trước phá · hậu quả ·
+  nóc nhà: bỏ thở / nghiêng TỪNG Ô (làm vỡ kính Chud) → cả ảnh thở đồng nhất · Rinnegan vẽ rõ (vòng đồng tâm) trong bóng đen.
+  CẢNH 4 Gojo vs Pain = `js/film-fin1c4.js` (2.5D, 46s, nạp vào tập sau fin1c3) — bản đầu, CHƯA ĐẠT: shot Pain bay lên (18–19.5s) quá tối,
+  Shinra góc chim (23.5–25.5s) mới là vòng tròn chưa ra cảnh xoá nửa thành phố, nhiều shot ẢNH TẠM. Soát khung: `tools/x/film-sheet.html?id=<id>&file=<file>`.
+  🖼️ CHỜ ẢNH Gojo vs Pain (xin 9/11, lệnh ChatGPT trong `prompts/fin1-gojo-pain.txt`): G6 mở lãnh địa (giơ chân trước, băng mắt nhếch lộ 1 mắt) · G7 bị hất văng ·
+  G9 đối diện cuối (xước) · P6 bay lên trời cast Shinra Tensei · P7 đáp đất · P8 đỡ Hollow Purple bằng trường lực · P9 đối diện cuối. Có sẵn dùng lại: MVD_G1–5 / MVD_P1–5 (5 tư thế tay đôi), MVD_GOJO_BLAST, MVD_PAIN_PUSH, MVD_*_KB.
 - Anh kể (Final làm 2 tập, ngang 16:9): phố bình yên + meme quen trên phố → em bé mua kem, bóng đen trùm cả khu, ngẩng lên khóc thét rơi kem → FRIEND che kín trời
   giữa các toà cao tầng → tay bóng tối đâm xuyên nhà, phá huỷ (10–15s, nhiều khung cắt) → nóc nhà: 5 bóng Akatsuki (Depressed · Doorbell Chud · Ninja Cat · Bat Cat · Mlem Cat).
 - Dựng kiểu Prologue (2D 960×540, mỗi cảnh 1 hàm `sc*` + `cam()`), mốc ở `T`. Thành phố / xe / quầy kem / khói lửa vẽ bằng code (seed cố định); tay bóng tối = `shadowArm` chép từ film-l2pro.

@@ -96,7 +96,10 @@ Anh chê điều gì MỚI → thêm 1 dòng vào bảng này ngay trong phiên 
 ## Quy trình
 1. **Kịch bản → bảng phân cảnh** (gửi anh duyệt TRƯỚC khi code): mỗi shot 1 dòng — giây, cỡ cảnh + góc máy, hành động (có lý do), hiệu ứng, tiếng.
    Anh gửi video mẫu → chạy skill `xem-video` trước, bám nhịp cắt + góc máy của mẫu.
-2. **Danh sách ảnh cần vẽ**: tận dụng ảnh có sẵn (`assets/img/cine/`, `assets/avatars/<meme>/`). Thiếu tư thế → viết CÂU LỆNH ChatGPT cho anh (mẫu dưới),
+2. 🖼️ **XIN ẢNH SỚM** (anh dặn 9/11/2026: "ảnh tạo không phải 1 phát là ưng"): ngay khi có kịch bản / bảng phân cảnh, liệt kê MỌI ảnh cần vẽ
+   + câu lệnh ChatGPT và gửi anh TRƯỚC, rồi mới dựng phần không cần ảnh (máy quay, nền, VFX) bằng ảnh tạm. Không đợi dựng xong mới xin.
+   Ảnh đang chờ ghi vào CLAUDE.md mục phim đó ("CHỜ ẢNH …") để máy kia (PC / Mac) biết.
+   **Danh sách ảnh cần vẽ**: tận dụng ảnh có sẵn (`assets/img/cine/`, `assets/avatars/<meme>/`). Thiếu tư thế → viết CÂU LỆNH ChatGPT cho anh (mẫu dưới),
    anh gửi ảnh về → skill `tach-nen-anh` (nền xanh → webp cắt sát) → để ở `assets/img/cine/`.
 3. **Dựng**: `js/film-<id>.js` gọi `CineKit.film({...})`; thêm 1 mục vào thư mục `__lab` (Anime Lab) hoặc thư mục phim trong `openCinema()` (js/game.js) với `id:'ck:<id>'`.
 4. **Xem thử**: chụp khung bằng playwright (gọi `playCineKit('<id>',{offline:true,scale:0.5})`, `CineKit.films.<id>.step(t)`, `canvas().toDataURL()`),

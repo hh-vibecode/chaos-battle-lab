@@ -1,0 +1,32 @@
+LỆNH CHATGPT — ẢNH CẦN VẼ CHO GOJO CAT vs PAIN CAT (Final Part 1, cảnh 4–5) — xin anh 9/11/2026
+Mỗi lệnh = 1 ảnh. GỬI KÈM ảnh mẫu ghi ở đầu mỗi lệnh (để giữ đúng mặt + nét vẽ). Ảnh đầu ổn thì gửi kèm luôn ảnh đó ở các lệnh sau cùng nhân vật.
+Hướng mặt CỐ ĐỊNH: GOJO bên TRÁI nhìn sang PHẢI · PAIN bên PHẢI nhìn sang TRÁI (trừ khi lệnh ghi khác).
+Vẽ xong gửi lại em → em tách nền xanh → assets/img/cine/FIN_G6.png … Chưa ưng thì cứ vẽ lại, em dựng phần khác bằng ảnh tạm trong lúc chờ.
+
+ĐOẠN CHUNG — dán vào CUỐI mọi lệnh:
+IMPORTANT: it is a real cat with real CAT ANATOMY: four cat legs, round cat paws with paw pads, no human hands, no fingers, no human arms or legs, no human body. Keep exactly the same character, the same realistic photo look and the same dramatic anime-style rim lighting as the reference image. No energy effects, no smoke, no motion lines, no particles. Plain solid green background (#00FF00), no shadow on the background, no text, the whole cat fully visible, not cut off at the edges.
+
+──────── GOJO CAT (Mewing Cat bịt mắt kiểu Gojo) — ảnh mẫu: assets/img/cine/MVD_G1.png (hoặc assets/img/mewingcat/MEW_GOJO_IMG.webp)
+G6 · MỞ LÃNH ĐỊA (anh chốt: giơ chân trước ra phía trước, băng mắt nhếch chéo lên lộ 1 mắt)
+Full body, seen from a low angle slightly below, facing the viewer, standing calm and confident on its hind legs. One front paw raised and stretched straight forward toward the viewer, paw pad open, as if casting a spell. The black blindfold is pulled diagonally up on one side, revealing ONE glowing bright blue eye; the other eye stays covered. Slight confident smirk.
+
+G7 · BỊ ALMIGHTY PUSH HẤT VĂNG
+Full body, side view, the cat flying backward through the air to the LEFT after being blasted by an invisible force: back arched, head thrown back, all four legs flung forward toward the RIGHT, fur and clothes blown toward the right, eyes squeezed in pain.
+
+G9 · ĐỐI DIỆN CUỐI (sau trận, ngang tài ngang sức)
+Full body, side view facing RIGHT, standing in a calm low fighting stance, slightly out of breath, small scratches on the body and torn clothes edges, blindfold slightly loose, a confident smirk.
+
+──────── PAIN CAT (Depressed Cat áo Akatsuki, mắt Rinnegan) — ảnh mẫu: assets/img/cine/MVD_P1.png (hoặc assets/img/depressedcat/DP_PAIN_IMG.webp)
+P6 · BAY LÊN TRỜI CAST SHINRA TENSEI
+Full body, seen from far below looking up (worm's-eye view), the cat floating high in the sky, body upright and still, both front legs spread wide open to the sides, cloak hanging down and gently flowing, looking straight down at the viewer with cold purple ringed (Rinnegan) eyes.
+
+P7 · ĐÁP ĐẤT NHÌN KẾT QUẢ
+Full body, side view facing LEFT, just landed in a low crouch: one front paw touching the ground, the other leg bent, cloak settling around it, head raised calmly looking forward to the left with purple ringed (Rinnegan) eyes.
+
+P8 · ĐỠ HOLLOW PURPLE BẰNG TRƯỜNG LỰC (khó khăn)
+Full body, side view facing LEFT, both front paws thrust straight forward toward the left as if holding back a huge force, body leaning forward and straining hard, hind legs braced and sliding backward, cloak blown backward to the right, teeth clenched, purple ringed (Rinnegan) eyes wide.
+
+P9 · ĐỐI DIỆN CUỐI (sau trận)
+Full body, side view facing LEFT, standing tall and still, breathing hard, cloak torn at the edges, small scratches, cold stare with purple ringed (Rinnegan) eyes.
+
+──────── CÓ SẴN, DÙNG LẠI (không cần vẽ): MVD_G1–5 / MVD_P1–5 (thủ thế · lấy đà · ra đòn · trúng đòn · né), MVD_GOJO_BLAST (bắn Tím), MVD_PAIN_PUSH (Almighty Push), MVD_GOJO_KB / MVD_PAIN_KB.
