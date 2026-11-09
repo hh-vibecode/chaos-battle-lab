@@ -439,7 +439,9 @@
     {src:A+'cine_epic.mp3', ra:T.d1, rb:T.roof, vol:0.6, fi:0.3, fo:1.0},
     {src:A+'dp_akatsuki.mp3', ra:T.roof, rb:DUR, vol:0.75, fi:1.2, fo:1.5} ];                     // theme Akatsuki: 5 bóng lộ diện
 
-  CineKit.film({ id:'fin1', title:'Meme Lore · Final — Part 1', VW, VH, DUR,
+  // 🧩 (9/11/2026) Tập chia CẢNH: MAIN là bản vẽ cả tập theo giây gốc; mỗi cảnh = 1 phim con cắt 1 khoảng giây của MAIN (fin1c1, fin1c2, fin1c3),
+  //    tập 'fin1' = K.seq nối các cảnh + nhạc nền theo giây cả tập. Cảnh MỚI (Gojo vs Pain…) viết file riêng rồi thêm id vào FIN1_PARTS.
+  const MAIN=({ id:'fin1', title:'Meme Lore · Final — Part 1', VW, VH, DUR,
     imgs:{ fr:'assets/avatars/friend/avatarUrl.webp', hFist:'assets/img/scaredhamster/HAND_fist.webp', hLunge:'assets/img/scaredhamster/HAND_lunge.webp', hClose:'assets/img/scaredhamster/HAND_closing.webp',
       chill:'assets/img/chillguy/CHILLGUY_AVATAR_IMG.webp', doge:'assets/avatars/doge/avatarUrl.webp', cheems:'assets/avatars/cheems/avatarUrl.webp', capy:'assets/avatars/capybara/avatarUrl.webp',
       dogeS:'assets/img/cine/CINE_DOGE_SCARED.webp', dp:'assets/img/depressedcat/DP_PAIN_IMG.webp', chud:'assets/avatars/doorbellchud/avatarUrl.webp', ninja:'assets/avatars/ninjacat/avatarUrl.webp',
@@ -462,4 +464,19 @@
       if(t>=T.DUR-3.4) K.flash(F,seg(t,T.DUR-3.4,T.DUR-2.8),'#000');
       K.letterbox(F,0.9*(1-seg(t,T.group,T.group+0.6)));
       friendTitle(g,t); akaLine(g,t); akaStrips(g,t); endCard(g,t); } });
+
+  // ── CẢNH: [id, tên, giây đầu, giây cuối (theo MAIN), ảnh dùng (dò bằng window.__ckImgLog, quét 0.1s/khung 9/11; null = tất cả)] ──
+  const CUTS=[
+    ['fin1c1','Final 1 · Cảnh 1 · Phố bình yên', 0, T.reveal, ['ban','banCry','corn','chill','doge','cheems','capy',...Array.from({length:14},(_,i)=>'c'+i)]],
+    ['fin1c2','Final 1 · Cảnh 2 · Friend phá thành phố', T.reveal, T.roof, ['fr','hFist','dogeS',...Array.from({length:14},(_,i)=>'c'+i)]],
+    ['fin1c3','Final 1 · Cảnh 3 · Nóc nhà Meowkatsuki', T.roof, T.DUR, ['pose','dp','aChud','aBat','aNinja','aMlem']]];
+  const pick=keys=>keys?Object.fromEntries(keys.map(k=>[k,MAIN.imgs[k]])):MAIN.imgs;
+  CUTS.forEach(([id,title,a,b,keys],i)=>CineKit.film({ id, title, VW, VH, DUR:b-a, imgs:pick(keys), fadeIn:i===0, fadeOut:i===CUTS.length-1,
+    sfx:MAIN.sfx.filter(s=>s[0]>=a&&s[0]<b).map(s=>[s[0]-a,...s.slice(1)]),
+    mus:MAIN.mus.filter(m=>m.rb>a&&m.ra<b).map(m=>({...m, ra:Math.max(0,m.ra-a), rb:Math.min(b,m.rb)-a, off:(m.off||0)+Math.max(0,a-m.ra), fi:m.ra>=a?m.fi:0, fo:m.rb<=b?m.fo:0})),   // chỉ dùng khi xem LẺ cảnh
+    shots:[{t0:0,t1:b-a,a:{}}],
+    impact:t=>MAIN.impact(t+a), shake:t=>MAIN.shake(t+a), world:(F,t)=>MAIN.world(F,t+a), post:(F,t)=>MAIN.post(F,t+a), screen:(F,t)=>MAIN.screen(F,t+a) }));
+  // TẬP: thứ tự cảnh. Thêm cảnh mới: tạo js/film-<id>.js (CineKit.film, fadeIn/fadeOut:false), nạp trước dòng này, thêm id vào đây (+ nhạc nền vào mus nếu cần).
+  window.FIN1_PARTS=window.FIN1_PARTS||CUTS.map(c=>c[0]);
+  CineKit.seq({ id:'fin1', title:MAIN.title, VW, VH, parts:window.FIN1_PARTS, mus:MAIN.mus });
 })();

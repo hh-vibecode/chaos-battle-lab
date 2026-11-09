@@ -103,6 +103,15 @@ Anh chê điều gì MỚI → thêm 1 dòng vào bảng này ngay trong phiên 
    ghép bảng khung → Read. Hoặc anh mở Meme Cinema → 🧪 Anime Lab.
 5. **Xuất** (chỉ khi anh bảo): `node tools/render-cine.js <id> out.mp4 --scale 1.3333` (9:16 2K) — phim cine-kit tự nhận, không cần thêm vào `FILMS`. Xem skill `xuat-video`.
 
+## 🧩 TẬP DÀI = NHIỀU CẢNH (anh chốt 9/11/2026) — `CineKit.seq`
+- Mỗi CẢNH là 1 `CineKit.film({id, DUR, imgs CHỈ ảnh cảnh đó, sfx, fadeIn:false/fadeOut:false nếu nằm giữa tập …})`.
+  TẬP = `CineKit.seq({id, title, VW, VH, parts:[id cảnh…], mus:[nhạc nền theo giây CẢ TẬP]})` → trong game xem liền 1 mạch, 1 thanh tua.
+- Xuất (Mac): `render-cine <idTập>` = cả tập · `render-cine <idCảnh>` = RIÊNG cảnh đó (chỉ nạp ảnh cảnh đó) → sửa cảnh nào xuất lại cảnh đó, rồi ghép.
+  Mỗi cảnh cần tệp `js/film-<idCảnh>.js` (playCineKit tải theo tên); cảnh nằm chung code thì tệp đó chỉ cần tải file chung (mẫu `js/film-fin1c1.js`).
+- Ảnh chỉ TẢI khi phim phát. Dò cảnh dùng ảnh nào: đặt `window.__ckImgLog=new Set()` rồi step cả tập (mẫu: danh sách ảnh trong `CUTS` ở film-fin1.js).
+- Final Part 1: `fin1` = fin1c1 (phố, 0–16.5s) + fin1c2 (Friend phá, 16.5–37s) + fin1c3 (nóc nhà, 37–69.2s), cắt từ bản vẽ chung `MAIN` trong film-fin1.js.
+  Thêm cảnh mới (Gojo vs Pain…): file riêng `js/film-<id>.js` + thêm id vào `FIN1_PARTS` (sau fin1c3).
+
 ## CINE-KIT — cái gì ở đâu (js/cine-kit.js)
 - Thế giới 2.5D: x phải, y lên, z sâu; đất y=0; 1 meme cao 100 (Buff Doge 200). Nhân vật = ảnh phẳng quay về máy, chân chạm đất, có bóng.
 - **Máy quay** `shots:[{t0,t1,a:{…},b:{…},ease}]`: `tx,ty,tz` điểm nhìn · `dist` · `yaw` (0 = đứng phía −z; −90 = đứng bên TRÁI nhìn sang phải; 180 = sau lưng)

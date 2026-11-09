@@ -189,7 +189,10 @@
   //         impact(t) → 0 / 'bw' / 'inv' / 'red' (khung impact) , shake(t) → biên độ rung (px logic),
 //         post(F,t) → hậu kỳ shader (js/vfx-gl.js): {shocks:[{x,y,z | sx,sy, r,w,str}], zoom:{x,y,z | sx,sy, k}, chroma, heat:{k,t}} (đơn vị logic) }
   K.film=def=>{ const id=def.id, VW=def.VW||540, VH=def.VH||960, DUR=def.DUR;
-    const I={}; for(const [k,p] of Object.entries(def.imgs||{})){ const im=new Image(); im.src=p; I[k]=im; }
+    // ảnh chỉ TẢI khi phim phát (play / tập gọi _load) → tập nhiều cảnh: xuất riêng 1 cảnh chỉ nạp ảnh của cảnh đó (đỡ tràn RAM)
+    const I={}, IP=def.imgs||{}; for(const k of Object.keys(IP)) I[k]=new Image(); let imgsOn=false;
+    const loadImgs=()=>{ if(imgsOn) return; imgsOn=true; for(const [k,p] of Object.entries(IP)) I[k].src=p; };
+    const decodeImgs=()=>{ loadImgs(); return Promise.all(Object.values(I).map(im=>im.decode?im.decode().catch(()=>{}):0)).then(()=>{ for(const im of Object.values(I)) K.prep(im); }); };
     let cv=null, W2=null, w2=null, SC=1, raf=null, t0=0, paused=false, pauseT=0, played={}, markOnly=false, panel=null, overlay=null, ready=false, OFF=null;
     const curT=()=>paused?pauseT:(performance.now()-t0)/1000;
     const sfx=(i,k,v,d)=>{ if(played[i]) return; played[i]=1; if(markOnly) return; try{ playSample(k,v==null?1:v,d||null); }catch(e){} };
@@ -208,7 +211,7 @@
       (def.sfx||[]).forEach((s,i)=>{ if(t>=s[0] && t<DUR && t-s[0]<0.25) sfx('s'+i,s[1],s[2],s[3]); else if(t>=s[0]) played['s'+i]=1; });
       const cam=K.camAt(def.shots,t), B=camBasis(cam,VW,VH);
       const shk=def.shake?def.shake(t):0, sx=shk?(hash(Math.floor(t*60))-0.5)*2*shk:0, sy=shk?(hash(Math.floor(t*60)+7)-0.5)*2*shk:0;
-      const F={t,cam,B,VW,VH,g:w2,list:[],shadows:[],under:[],I,DUR,SC};
+      const F={t,cam,B,VW,VH,g:w2,list:[],shadows:[],under:[],I:window.__ckImgLog?new Proxy(I,{get:(o,k)=>{ window.__ckImgLog.add(id+':'+String(k)); return o[k]; }}):I,DUR,SC};   // __ckImgLog: dò cảnh nào dùng ảnh nào
       w2.setTransform(SC,0,0,SC,0,0); w2.fillStyle='#000'; w2.fillRect(0,0,VW,VH);
       // 🎞️ CHIA KHUNG kiểu anime: def.panels(t) → [{cam:{...}, clip:[[x,y],…] (tỉ lệ 0–1 của khung)}] — mỗi ô 1 máy quay riêng, cả thế giới vẽ lại trong ô đó.
       //    Không có panels → 1 máy như cũ. Tâm ảnh của mỗi ô tự dời về giữa ô (oy), mép ô vẽ vạch trắng-đen ở screen().
@@ -240,8 +243,8 @@
       else g.drawImage(SRC,0,0);
       F.g=g; g.setTransform(SC,0,0,SC,0,0);
       if(def.screen) def.screen(F,t);
-      if(t<0.4) K.flash(F,1-t/0.4,'#000');
-      if(t>DUR-0.6) K.flash(F,seg(t,DUR-0.6,DUR),'#000');
+      if(def.fadeIn!==false && t<0.4) K.flash(F,1-t/0.4,'#000');            // cảnh giữa tập: fadeIn/fadeOut:false → nối cứng với cảnh trước / sau
+      if(def.fadeOut!==false && t>DUR-0.6) K.flash(F,seg(t,DUR-0.6,DUR),'#000');
       markOnly=false; if(panel) panel.update(); }
     function frame(now){ if(OFF) return; raf=requestAnimationFrame(frame); if(!ready) return; const t=Math.min(curT(),DUR); musTick(t); renderAt(t); }
     function seek(s){ s=clamp(s,0,DUR); played={}; (def.sfx||[]).forEach((x,i)=>{ if(x[0]<s) played['s'+i]=1; }); try{ stopAllLongSfx(); }catch(e){} musStop(); if(paused) pauseT=s; else t0=performance.now()-s*1000; }
@@ -255,9 +258,54 @@
       if(window._cinePanelMake && !OFF) panel=_cinePanelMake(overlay,{ title:def.title, dur:()=>DUR, t:()=>ready?Math.min(curT(),DUR):0, playing:()=>ready && !paused && curT()<DUR,
         toggle:()=>{ if(!ready) return; if(!paused && curT()>=DUR) seek(0); else toggle(); }, seek:s=>{ if(ready) seek(s); }, replay:()=>{ if(!ready) return; paused=false; seek(0); }, close:()=>stop() });
       try{ stopAllBattleMusic(); }catch(e){}
-      Promise.all(Object.values(I).map(im=>im.decode?im.decode().catch(()=>{}):0)).then(()=>{ if(!overlay) return; for(const im of Object.values(I)) K.prep(im); ready=true; paused=false; played={}; t0=performance.now(); });
+      decodeImgs().then(()=>{ if(!overlay) return; ready=true; paused=false; played={}; t0=performance.now(); });
       paused=false; played={}; t0=performance.now(); if(!OFF) raf=requestAnimationFrame(frame); }
-    const api={ play, stop, ready:()=>ready, step:R=>{ if(OFF && ready) renderAt(R); }, canvas:()=>cv, info:()=>({dur:DUR, sfx:(def.sfx||[]).map(([a,k,v,d])=>[a,k,v,d]), mus:(def.mus||[]).map(m=>({src:m.src, ra:m.ra, rb:m.rb, vol:m.vol==null?1:m.vol, off:m.off||0, fi:m.fi||0, fo:m.fo||0, loop:!!m.loop, vo:!!m.vo})), slow:def.slow||[]}), def };
+    const api={ play, stop, ready:()=>ready, step:R=>{ if(OFF && ready) renderAt(R); }, canvas:()=>cv, info:()=>({dur:DUR, sfx:(def.sfx||[]).map(([a,k,v,d])=>[a,k,v,d]), mus:K._musInfo(def.mus), slow:def.slow||[]}), def,
+      // dùng bởi K.seq (tập nhiều cảnh): vẽ lên canvas của tập, tải ảnh, đặt lại tiếng khi tua
+      _bind:(c,W,off)=>{ cv=c; W2=W; w2=W.getContext('2d'); SC=c.width/VW; OFF=off?{}:null; }, _load:decodeImgs, _render:t=>renderAt(t),
+      _seek:s=>{ played={}; (def.sfx||[]).forEach((x,i)=>{ if(x[0]<s) played['s'+i]=1; }); } };
+    K.films[id]=api; return api; };
+  K._musInfo=list=>(list||[]).map(m=>({src:m.src, ra:m.ra, rb:m.rb, vol:m.vol==null?1:m.vol, off:m.off||0, fi:m.fi||0, fo:m.fo||0, loop:!!m.loop, vo:!!m.vo}));
+
+  // ───────── TẬP = nhiều CẢNH nối nhau (anh chốt 9/11/2026: tập dài chia mỗi cảnh 1 phim) ─────────
+  // K.seq({ id, title, VW, VH, parts:['idCảnh1','idCảnh2',…] (đã CineKit.film trước), mus:[…] (nhạc nền / lồng tiếng theo giây CẢ TẬP) })
+  // · Xem trong game: phát liền mạch, 1 thanh tua cả tập. Tiếng hiệu ứng (sfx) lấy từ từng cảnh; nhạc nền của TẬP (cảnh tự có mus riêng chỉ dùng khi xem lẻ cảnh đó).
+  // · Xuất: render-cine <idTập> = cả tập (y như 1 phim) · render-cine <idCảnh> = chỉ cảnh đó (chỉ nạp ảnh cảnh đó) → sửa cảnh nào xuất lại cảnh đó.
+  // · Cảnh giữa tập nên đặt fadeIn/fadeOut:false để nối cứng; chuyển cảnh mềm thì tự vẽ trong cảnh.
+  K.seq=def=>{ const id=def.id, VW=def.VW||540, VH=def.VH||960;
+    const parts=()=>def.parts.map(p=>K.films[p]);
+    const offs=[]; let DUR=0; for(const f of parts()){ offs.push(DUR); DUR+=f.info().dur; }
+    const at=t=>{ let i=0; for(let j=0;j<offs.length;j++) if(t>=offs[j]) i=j; return i; };
+    let cv=null, W2=null, raf=null, t0=0, paused=false, pauseT=0, panel=null, overlay=null, ready=false, OFF=null;
+    const curT=()=>paused?pauseT:(performance.now()-t0)/1000;
+    const MUS=(def.mus||[]).map(m=>({...m, el:null}));
+    function musTick(t){ if(OFF) return; const voOn=MUS.some(m=>m.vo && t>=m.ra && t<m.rb); for(const m of MUS){ const on=!paused && t>=m.ra && t<m.rb;
+        if(on && !m.el){ try{ const el=new Audio(m.src); el.loop=!!m.loop; el.currentTime=Math.max(0,(m.off||0)+(t-m.ra)); m.el=el; el.play().catch(()=>{});
+          if(m.loop) el.addEventListener('loadedmetadata',()=>{ if(el.duration) el.currentTime=((m.off||0)+Math.max(0,curT()-m.ra))%el.duration; },{once:true}); }catch(e){} }
+        if(!on && m.el){ try{ m.el.pause(); }catch(e){} m.el=null; }
+        if(m.el){ const f=Math.min(m.fi?seg(t,m.ra,m.ra+m.fi):1, m.fo?1-seg(t,m.rb-m.fo,m.rb):1); try{ m.el.volume=clamp((m.vol==null?1:m.vol)*f*(voOn && !m.vo?0.4:1),0,1); }catch(e){} } } }
+    function musStop(){ for(const m of MUS){ if(m.el){ try{ m.el.pause(); }catch(e){} m.el=null; } } }
+    function renderAt(t){ t=clamp(t,0,DUR-1e-4); const i=at(t); parts()[i]._render(t-offs[i]); if(panel) panel.update(); }
+    function frame(){ if(OFF) return; raf=requestAnimationFrame(frame); if(!ready) return; const t=Math.min(curT(),DUR); musTick(t); renderAt(t); }
+    function seek(s){ s=clamp(s,0,DUR); parts().forEach((f,i)=>f._seek(s-offs[i])); try{ stopAllLongSfx(); }catch(e){} musStop(); if(paused) pauseT=s; else t0=performance.now()-s*1000; }
+    function toggle(){ if(paused){ paused=false; t0=performance.now()-pauseT*1000; } else { pauseT=curT(); paused=true; try{ stopAllLongSfx(); }catch(e){} musStop(); } }
+    function stop(){ if(raf) cancelAnimationFrame(raf); raf=null; try{ stopAllLongSfx(); }catch(e){} musStop(); if(window._cinePanelRemove) _cinePanelRemove(); panel=null; if(overlay) overlay.remove(); overlay=null; }
+    function play(opts){ if(overlay) return; const SCALE=(opts&&opts.scale)||1;
+      overlay=document.createElement('div'); overlay.style.cssText='position:fixed;inset:0;z-index:99999;background:#000;display:flex;align-items:center;justify-content:center;';
+      cv=K.mk(VW*2*SCALE,VH*2*SCALE); cv.style.cssText=`height:100vh;max-width:100vw;aspect-ratio:${VW}/${VH};object-fit:contain;`;
+      W2=K.mk(cv.width,cv.height); overlay.appendChild(cv); document.body.appendChild(overlay);
+      OFF=opts&&opts.offline?{}:null;
+      if(window._cinePanelMake && !OFF) panel=_cinePanelMake(overlay,{ title:def.title, dur:()=>DUR, t:()=>ready?Math.min(curT(),DUR):0, playing:()=>ready && !paused && curT()<DUR,
+        toggle:()=>{ if(!ready) return; if(!paused && curT()>=DUR) seek(0); else toggle(); }, seek:s=>{ if(ready) seek(s); }, replay:()=>{ if(!ready) return; paused=false; seek(0); }, close:()=>stop() });
+      try{ stopAllBattleMusic(); }catch(e){}
+      parts().forEach(f=>{ f._bind(cv,W2,!!OFF); f._seek(0); });
+      Promise.all(parts().map(f=>f._load())).then(()=>{ if(!overlay) return; ready=true; paused=false; t0=performance.now(); });
+      paused=false; t0=performance.now(); if(!OFF) raf=requestAnimationFrame(frame); }
+    const api={ play, stop, ready:()=>ready, step:R=>{ if(OFF && ready) renderAt(R); }, canvas:()=>cv, def, parts:def.parts, offsets:()=>offs.slice(),
+      info:()=>{ const I={dur:DUR, sfx:[], mus:K._musInfo(def.mus), slow:[]};
+        parts().forEach((f,i)=>{ const o=offs[i], d=f.info(); for(const s of d.sfx) if(s[0]<d.dur) I.sfx.push([s[0]+o,s[1],s[2],s[3]]);
+          for(const s of d.slow||[]) I.slow.push(Array.isArray(s)?s.map((v,j)=>j<2?v+o:v):s); });
+        return I; } };
     K.films[id]=api; return api; };
   window.CineKit=K;
 })();

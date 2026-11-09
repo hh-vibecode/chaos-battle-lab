@@ -195,7 +195,8 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
   Kịch bản anh viết: cận chiến đa dạng, nhịp không đều → Pain dùng Almighty Push hất Gojo văng xa → Pain bay thẳng lên trời cast SHINRA TENSEI, nổ xoá nửa thành phố;
   lúc Pain cast, Gojo kịp mở LÃNH ĐỊA (infinity domain) bọc mình, tránh vụ nổ → Pain đáp đất xem kết quả → HOLLOW PURPLE bất ngờ lao ra từ khói bụi, Pain đỡ khó khăn bằng trường lực
   → dồn hết sức Almighty Push hất quả cầu lên trời, nổ tím trên không → 2 bên đối diện, ngang tài ngang sức. Anh muốn "wow", sát nguyên tác, nền thành phố phong phú, chiêu thể hiện huỷ diệt diện rộng.
-  Kế hoạch: tập dài → CHIA mỗi cảnh 1 file + tập = danh sách cảnh (xuất lại riêng cảnh bị sửa, mỗi cảnh chỉ nạp ảnh của nó); fin1 hiện tại tách thành cảnh 1–3 (phố / Friend phá / nóc nhà), Gojo vs Pain = cảnh 4–5.
+  ĐÃ CHIA CẢNH (9/11, `CineKit.seq`, xem skill dung-phim mục "TẬP DÀI = NHIỀU CẢNH"): `fin1` = fin1c1 phố 0–16.5s · fin1c2 Friend phá 16.5–37s · fin1c3 nóc nhà 37–69.2s;
+  Gojo vs Pain = cảnh 4–5 (file riêng, thêm id vào `FIN1_PARTS`). Xuất lại riêng cảnh bị sửa: `render-cine fin1c2 …` (cách ghép các cảnh đã xuất CHƯA làm — làm trên Mac).
   Anh chốt (9/11): đặt SAU cảnh nóc nhà · tách fin1 thành cảnh ngay (anh sẽ thêm cảnh trước vào sau) · thành phố của Final, bối cảnh ĐA DẠNG theo mạch: bình yên trời sáng (nền riêng)
   → Friend xuất hiện kéo theo trăng máu, trời tối dần… · Gojo mở lãnh địa: GIƠ TAY (chân trước) ra phía trước, BĂNG MẮT nhếch chéo lên lộ 1 mắt giống mắt Gojo ·
   tên chiêu: CHỮ TIẾNG ANH trên màn hình + TIẾNG NHẬT đọc tên chiêu (sound) · trận ~60–70s · nhạc: nhạc anime đánh nhau EPIC, không ngại bản quyền (dính thì anh tự thay).
