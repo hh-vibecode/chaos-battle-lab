@@ -73,6 +73,9 @@ Mẫu đã duyệt:
 ## Phân việc ảnh / hiệu ứng (anh dặn 27/10/2026)
 - Ảnh NHÂN VẬT (thân, tóc, tư thế) do anh tự vẽ bằng ChatGPT rồi gửi. Claude CHỈ làm hiệu ứng / VFX / skill bằng code (hào quang, tia điện, nứt tường...).
   KHÔNG tự vẽ bộ phận nhân vật bằng code (đã làm tóc Goku cho Saiyan Marmot → anh bắt gỡ).
+- 🎨 **CẬP NHẬT 9/11/2026 — Claude tự vẽ ảnh bằng GPT** (skill `ve-anh-gpt`, `tools/x/gpt-image.sh`, Codex CLI dùng gói ChatGPT anh đã đăng nhập, cài trên Windows ở `~/.codex-cli/pkg/`):
+  MEME MỚI: anh vẫn đưa **ảnh meme gốc** → em **vẽ lại đúng con đó trên phông xanh + tăng chất lượng** → **thêm tư thế CHỈ khi cần** (lấy ảnh vừa vẽ làm ảnh mẫu) → tách nền → gửi anh duyệt.
+  Thử 9/11 với Grumpy Cat: giữ đúng mặt, tư thế toàn thân chân mèo thật, 45s–3 phút/ảnh. Vẫn KHÔNG vẽ bộ phận nhân vật bằng code. Nền / đồ vật / logo / texture phim cũng vẽ được bằng GPT.
 
 ## Nhật ký gần đây (cho phiên sau nắm) — Ver 394, 27/10/2026
 - 🦫 **Scream Marmot - The Last Saiyan** (`saiyanmarmot`; đổi tên 31/10, trước là Saiyan Marmot): code khối `MM_*` / `_mm*` trong js/game.js.
@@ -97,7 +100,7 @@ Mẫu đã duyệt:
 
 ## Skill của repo (`.claude/skills/`, thêm 28/10/2026)
 - `them-meme` (danh sách việc thêm meme mới) · `tach-nen-anh` (ảnh ChatGPT nền xanh → khung game) · `chay-thu` (chạy thử trận bằng Edge headless) · `phat-hanh` (đẩy bản mới không cần python)
-  · `xuat-video` (CHỈ Mac: phim + trận đấu giả lập; chỉ quay lại đoạn bị sửa) · `dung-phim` (dựng phim anime bằng cine-kit) · `xem-video` (CHỈ Mac: video mẫu → bảng cảnh) · `tao-vfx` (VFX shader cho game + phim).
+  · `xuat-video` (CHỈ Mac: phim + trận đấu giả lập; chỉ quay lại đoạn bị sửa) · `dung-phim` (dựng phim anime bằng cine-kit) · `xem-video` (CHỈ Mac: video mẫu → bảng cảnh) · `tao-vfx` (VFX shader cho game + phim) · `ve-anh-gpt` (em tự vẽ ảnh GPT qua Codex: meme gốc → phông xanh nét + tư thế mới).
 - 🎞️ **MỌI video xuất ra mặc định 50fps — dọc hay ngang, phim hay trận** (anh chốt 3/11, note kỹ). Đã đặt sẵn: render-match / render-duo `--ofps 50` (game chạy 1 tick/khung theo luật 60 tick/s → VẪN giả lập 60, chỉ chụp khung sang ô 1/50s mới, bỏ đều 1/6 — KHÔNG hạ `--fps` giả lập, sẽ làm trận chậm 17% + lệch nhạc), render-cine `--fps` mặc định 50.
 - **🎬 PHIM luôn xuất 4K, ngang lẫn dọc (anh chốt 3/11): 16:9 → 3840×2160 · 9:16 → 2160×3840 — render-cine mặc định đã là 4K, KHÔNG thêm `--scale 1.5`. TRẬN ĐẤU giả lập: 9:16 DỌC 3K 1620×2880 (anh chốt 30/10, render-match `--w 1620`).** Anh không nói khung → mặc định DỌC 3K.
 - 🏆 **Trận đấu giả lập LUÔN ưu tiên THẮNG SÁT, video dài 20–25s** (anh dặn 30–31/10): chạy thử nhiều seed, gom ≥3 trận đúng bên thắng VÀ video ~20–25s (`--want 3 --dur 20-25`) rồi lấy trận con thắng còn ÍT máu nhất (`tools/render-queue.sh`).
