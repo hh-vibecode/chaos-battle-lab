@@ -26,7 +26,11 @@
 // 18.0–19.8  GÓC GIUN: Pain bay thẳng lên trời, trăng máu sau lưng · riser
 // 19.8–21.0  ngang tầm Pain giữa trời, thành phố nhỏ bên dưới · dang tay · chữ SHINRA TENSEI · ps_shinra
 // 21.0–21.5  cận Gojo trong đống đổ nát ngẩng lên
-// 21.5–22.6  Gojo MỞ LÃNH ĐỊA (giơ chân trước, băng mắt nhếch — ẢNH CHỜ G6) · xoáy xanh-tím · vòm sao nở ra · chữ DOMAIN EXPANSION · INFINITE VOID
+// 21.5–22.1  BÀNH TRƯỚNG LÃNH ĐỊA ① góc thấp: Gojo giơ chân trước kết ấn (ẢNH CHỜ G6), quanh tối dần, xoáy xanh-tím
+// 22.1–22.8  ② CỰC CẬN MẮT: băng mắt đen nhếch chéo lên, lộ mắt mèo xanh phát sáng (tự vẽ) · schwing
+// 22.8–23.1  ③ co lại (nền đen, chấm sáng co) · 23.1 âm bản · ④ 23.1–24.5 HƯ KHÔNG bung từ Gojo, viền sáng nuốt màn hình, sao lao vút, chữ DOMAIN EXPANSION + 領域展開 dọc
+// 24.5–25.8  ⑤ BÊN TRONG Vô Lượng Không Xứ: vũ trụ, vòng sáng đồng tâm, dòng thông tin vô tận, Gojo lơ lửng · 無量空処 / INFINITE VOID
+// 25.8–26.6  ⑥ TỪ NGOÀI: vòm sao trồi lên giữa đống đổ nát (sóng + mảnh + khói) — từ đây MỌI MỐC DƯỚI LÙI +4.0s (cảnh 50s)
 // 22.6–22.9  CO LẠI: nền đen + chấm sáng co lại
 // 22.9–24.8  GÓC CHIM từ rất cao: sóng Shinra lan tròn, nhà đổ rạp từ tâm ra ngoài (nổ + khói + mảnh) · âm bản đỏ · explode + quake
 // 24.8–25.8  sát đất cạnh vòm của Gojo: tường sóng ập tới, mảnh bay về máy, vòm sao đứng vững → trắng xoá
@@ -52,9 +56,11 @@
   if(!window.CineKit || CineKit.films.fin1c4) return;
   const K=CineKit, {seg,lerp,clamp,hash}=K, E=K.EASE, eio=E.eio, eout=E.eout, ein=E.ein, C=K.cam||null, TAU=Math.PI*2;
   const FX=()=>window.CineKitFx;
+  // 9/11: chèn chuỗi BÀNH TRƯỚNG LÃNH ĐỊA (dom → dEye → dImp → dVoid → dIn → dOut, ~5.1s) → mọi mốc từ imp trở đi lùi +4.0s (cảnh 46s → 50s)
   const T={ cuG:2.2, cuP:2.9, dash:3.6, clash:4.05, sep:13.0, pushC:13.8, push:14.45, crash:15.3, still:17.0, rise:18.0, cast:19.8, gUp:21.0, dom:21.5,
-    imp:22.6, sh:22.9, wave:24.8, rest:25.8, land:28.0, look:29.6, smoke:30.6, fire:31.4, block:31.9, heave:34.6, up:35.2, imp2:35.9, boom:36.2,
-    rest2:38.0, face:39.2, cuG2:41.6, cuP2:42.3, split:43.0, wide:44.6, DUR:46.0 };
+    dEye:22.1, dImp:22.8, dVoid:23.1, dIn:24.5, dOut:25.8,
+    imp:26.6, sh:26.9, wave:28.8, rest:29.8, land:32.0, look:33.6, smoke:34.6, fire:35.4, block:35.9, heave:38.6, up:39.2, imp2:39.9, boom:40.2,
+    rest2:42.0, face:43.2, cuG2:45.6, cuP2:46.3, split:47.0, wide:48.6, DUR:50.0 };
   const H=120, PCX=240;                 // H = cỡ chuẩn 1 con · PCX = chỗ Pain cast (tâm Shinra)
   const STY=300;                        // 1 tầng nhà = 300 đơn vị (≈2.5× meme)
   const CRASH_X=-2650;                  // Gojo đâm vào toà nhà cuối đại lộ
@@ -169,6 +175,67 @@
     F.list.push({d:P.d-35, fn:()=>{ const g=F.g, Ry=ry*P.s, Rx=Ry*0.32; g.save(); g.globalCompositeOperation='lighter'; g.translate(P.x,P.y); g.scale(Rx/Ry,1);
       const gr=g.createRadialGradient(0,0,0,0,0,Ry); gr.addColorStop(0,'rgba(255,255,255,0)'); gr.addColorStop(0.68,`rgba(220,215,255,${0.18*a})`); gr.addColorStop(0.92,`rgba(255,255,255,${0.75*a})`); gr.addColorStop(1,'rgba(255,255,255,0)');
       g.fillStyle=gr; g.beginPath(); g.arc(0,0,Ry,0,TAU); g.fill(); g.restore(); }}); }
+  // 🌌 BÀNH TRƯỚNG LÃNH ĐỊA — VÔ LƯỢNG KHÔNG XỨ (anh dặn 9/11 "siêu cấp ngầu lòi"; nhịp theo meme-anime-lab fight-1 đoạn F: kết ấn → mắt → co lại → bung → bên trong → từ ngoài)
+  const KANJI='"Hiragino Mincho ProN","Yu Mincho","MS Mincho","Noto Serif JP",serif';
+  function starfield(g,VW,VH,t,n,speed,seed,a){ const cx=VW/2, cy=VH*0.55; g.save(); g.globalCompositeOperation='lighter';
+    for(let i=0;i<n;i++){ const an=hash(seed+i*1.37)*TAU, ph=(hash(seed+i*2.11)+t*speed*(0.25+0.3*hash(seed+i*3.7)))%1, r=Math.pow(ph,2.2)*VW*0.85, x=cx+Math.cos(an)*r, y=cy+Math.sin(an)*r*0.8, sz=0.6+2.6*ph;
+      g.globalAlpha=a*Math.min(1,ph*3)*(0.5+0.5*hash(seed+i)); const col=i%7===0?'#b9d8ff':i%11===0?'#e2c6ff':'#ffffff';
+      if(speed>0.9&&ph>0.35){ g.strokeStyle=col; g.lineWidth=sz*0.7; g.beginPath(); g.moveTo(x,y); g.lineTo(cx+Math.cos(an)*r*0.84,cy+Math.sin(an)*r*0.8*0.84); g.stroke(); }   // sao lao vút thành vệt
+      else { g.fillStyle=col; g.fillRect(x-sz/2,y-sz/2,sz,sz); } } g.restore(); }
+  function voidBG(g,VW,VH,t){ g.save(); const gr=g.createRadialGradient(VW/2,VH*0.55,0,VW/2,VH*0.55,VW*0.75); gr.addColorStop(0,'#1c2c70'); gr.addColorStop(0.35,'#0b0f2e'); gr.addColorStop(1,'#020208'); g.fillStyle=gr; g.fillRect(0,0,VW,VH);
+    g.globalCompositeOperation='lighter'; for(let i=0;i<5;i++){ const an=t*0.25+i*1.3, x=VW/2+Math.cos(an)*VW*0.28, y=VH/2+Math.sin(an*1.3)*VH*0.25, R=VW*(0.25+0.1*hash(i*9.1));   // tinh vân trôi
+      const ng=g.createRadialGradient(x,y,0,x,y,R); ng.addColorStop(0,i%2?'rgba(120,80,255,0.24)':'rgba(60,150,255,0.24)'); ng.addColorStop(1,'rgba(0,0,0,0)'); g.fillStyle=ng; g.fillRect(x-R,y-R,2*R,2*R); }
+    g.restore(); }
+  function gojoInVoid(F,g,t,sc,glow){ const c=K.prep(F.I[pick(F,'G6')]); if(!c) return; const VW=F.VW, VH=F.VH, h=VH*sc, w=h*c.sw/c.sh, cy=VH*0.56+Math.sin(t*2.2)*VH*0.01;
+    g.save(); g.globalCompositeOperation='lighter'; const gr=g.createRadialGradient(VW/2,cy,0,VW/2,cy,h*0.8); gr.addColorStop(0,`rgba(120,190,255,${0.5*glow})`); gr.addColorStop(1,'rgba(120,190,255,0)'); g.fillStyle=gr; g.fillRect(VW/2-h,cy-h,2*h,2*h);
+    g.globalCompositeOperation='source-over'; g.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,VW/2-w/2,cy-h/2,w,h); g.restore(); }
+  // CỰC CẬN MẮT: băng mắt đen nhếch CHÉO lên, lộ mắt mèo xanh phát sáng (tự vẽ; anh gửi ảnh vẽ tay G10 thì thay)
+  function sixEye(g,VW,VH,t,u){ g.save(); g.fillStyle='#0c0c12'; g.fillRect(0,0,VW,VH);
+    const z=1+0.12*u, cx=VW/2, cy=VH*0.54, W=VW*0.34*z, Hh=VH*0.32*z;
+    g.strokeStyle='rgba(220,225,235,0.16)'; g.lineWidth=2; for(let i=0;i<110;i++){ const an=hash(i*3.3)*TAU, r0=W*(0.55+0.5*hash(i*1.9)); g.beginPath(); g.moveTo(cx+Math.cos(an)*r0,cy+Math.sin(an)*r0*0.7); g.lineTo(cx+Math.cos(an)*(r0+30*z),cy+Math.sin(an)*(r0+30*z)*0.7); g.stroke(); }   // lông quanh mắt
+    const lid=()=>{ g.beginPath(); g.moveTo(cx-W,cy); g.quadraticCurveTo(cx,cy-Hh*1.15,cx+W,cy-Hh*0.1); g.quadraticCurveTo(cx,cy+Hh*1.05,cx-W,cy); g.closePath(); };
+    g.save(); lid(); g.clip(); const ir=Hh*0.95, ig=g.createRadialGradient(cx-ir*0.15,cy-ir*0.2,ir*0.05,cx,cy,ir); ig.addColorStop(0,'#f2fdff'); ig.addColorStop(0.3,'#8ee6ff'); ig.addColorStop(0.7,'#2a8cf0'); ig.addColorStop(1,'#0b2a6e');
+    g.fillStyle='#dfe8f4'; g.fillRect(cx-W,cy-Hh*1.2,2*W,Hh*2.4); g.fillStyle=ig; g.beginPath(); g.arc(cx,cy,ir,0,TAU); g.fill();
+    g.strokeStyle='rgba(255,255,255,0.35)'; g.lineWidth=1.2; for(let i=0;i<48;i++){ const an=i/48*TAU; g.beginPath(); g.moveTo(cx+Math.cos(an)*ir*0.25,cy+Math.sin(an)*ir*0.25); g.lineTo(cx+Math.cos(an)*ir*0.92,cy+Math.sin(an)*ir*0.92); g.stroke(); }   // tia mống mắt
+    g.strokeStyle='rgba(10,30,90,0.8)'; g.lineWidth=ir*0.06; g.beginPath(); g.arc(cx,cy,ir*0.97,0,TAU); g.stroke();
+    g.fillStyle='#04060f'; g.beginPath(); g.ellipse(cx,cy,ir*0.09,ir*0.62,0,0,TAU); g.fill();   // con ngươi mèo dọc
+    g.fillStyle='#fff'; g.beginPath(); g.ellipse(cx-ir*0.35,cy-ir*0.4,ir*0.16,ir*0.11,-0.5,0,TAU); g.fill(); g.beginPath(); g.arc(cx+ir*0.3,cy+ir*0.35,ir*0.05,0,TAU); g.fill();
+    g.restore();
+    g.strokeStyle='#05050a'; g.lineWidth=7*z; lid(); g.stroke();   // viền mắt
+    g.globalCompositeOperation='lighter'; const lg=g.createRadialGradient(cx,cy,0,cx,cy,W*1.4); lg.addColorStop(0,`rgba(90,190,255,${0.3+0.3*u})`); lg.addColorStop(1,'rgba(90,190,255,0)'); g.fillStyle=lg; g.fillRect(0,0,VW,VH);
+    for(let i=0;i<30;i++){ const ph=(t*0.9+hash(i*5.7))%1, an=hash(i*2.9)*TAU, r=W*(0.6+ph*1.2); g.globalAlpha=(1-ph)*0.9; g.fillStyle='#cfefff'; g.fillRect(cx+Math.cos(an)*r,cy+Math.sin(an)*r*0.6,2,2); } g.globalAlpha=1;
+    g.globalCompositeOperation='source-over';
+    const lift=eout(seg(u,0.05,0.55)), yA=lerp(cy+Hh*1.5,cy-Hh*1.5,lift), yB=lerp(cy+Hh*1.3,cy-Hh*0.7,lift);   // BĂNG MẮT: mép dưới trái cao hơn phải (nhếch chéo)
+    g.fillStyle='#08080c'; g.beginPath(); g.moveTo(-20,-20); g.lineTo(VW+20,-20); g.lineTo(VW+20,yB); g.lineTo(-20,yA); g.closePath(); g.fill();
+    g.strokeStyle='rgba(90,100,130,0.7)'; g.lineWidth=2.5; g.beginPath(); g.moveTo(-20,yA); g.lineTo(VW+20,yB); g.stroke();
+    g.strokeStyle='rgba(40,44,60,0.75)'; g.lineWidth=1.5; for(let i=1;i<7;i++){ g.beginPath(); g.moveTo(-20,yA-i*24); g.lineTo(VW+20,yB-i*24); g.stroke(); }   // nếp vải
+    g.restore(); }
+  function kanjiV(g,VW,VH,t,t0,txt,col){ const u=t-t0; if(u<0) return; g.save(); g.font=`900 60px ${KANJI}`; g.textAlign='center'; g.textBaseline='middle';
+    for(let i=0;i<txt.length;i++){ const k=eout(seg(u,i*0.07,i*0.07+0.2)); if(k<=0) continue; const y=VH*0.16+i*70, x=VW*0.87; g.globalAlpha=k; g.save(); g.translate(x,y); g.scale(lerp(2,1,k),lerp(2,1,k));
+      g.lineWidth=9; g.strokeStyle='#020208'; g.strokeText(txt[i],0,0); g.shadowColor=`rgba(${col},0.95)`; g.shadowBlur=20; g.fillStyle='#ffffff'; g.fillText(txt[i],0,0); g.restore(); } g.restore(); }
+  function kanjiBig(g,VW,VH,t,t0,kj,en){ const u=t-t0; if(u<0) return; const k=eout(seg(u,0,0.25)); g.save(); g.textAlign='center'; g.textBaseline='middle'; g.globalAlpha=k;
+    g.font=`900 ${Math.round(lerp(150,108,k))}px ${KANJI}`; g.letterSpacing='16px'; g.shadowColor='rgba(120,190,255,0.95)'; g.shadowBlur=30; g.fillStyle='rgba(255,255,255,0.93)'; g.fillText(kj,VW/2,VH*0.19);
+    g.shadowBlur=0; g.letterSpacing='14px'; g.font='900 24px Montserrat,"Segoe UI",sans-serif'; g.lineWidth=6; g.strokeStyle='#020208'; g.strokeText(en,VW/2,VH*0.87); g.fillStyle='rgb(150,210,255)'; g.fillText(en,VW/2,VH*0.87); g.restore(); }
+  function domainFX(F,t){ const g=F.g, VW=F.VW, VH=F.VH;
+    if(t>=T.dom&&t<T.dEye){ const u=seg(t,T.dom,T.dEye); g.save(); const gr=g.createRadialGradient(VW/2,VH*0.5,VH*0.2,VW/2,VH*0.5,VW*0.7); gr.addColorStop(0,'rgba(0,0,10,0)'); gr.addColorStop(1,`rgba(0,0,10,${0.8*u})`); g.fillStyle=gr; g.fillRect(0,0,VW,VH); g.restore();   // ① kết ấn: tối dần
+      if(FX()){ const P=K.proj(F.B,CRASH_X+60,90,0); FX().swirl(F,t,{cx:P?P.x:VW/2,cy:P?P.y:VH/2,r:VW*0.6,colA:'80,160,255',colB:'170,90,255',a:0.4*u}); } }
+    if(t>=T.dEye&&t<T.dImp) sixEye(g,VW,VH,t,seg(t,T.dEye,T.dImp));   // ② cực cận mắt
+    if(C) C.implode(F,t,T.dImp,{d:T.dVoid-T.dImp});                   // ③ co lại
+    if(t>=T.dVoid&&t<T.dIn){ const u=seg(t,T.dVoid,T.dIn), R=VW*1.2*eout(Math.min(1,u*1.5)), cx=VW/2, cy=VH*0.55;   // ④ BÀNH TRƯỚNG: hư không bung từ Gojo, nuốt màn hình
+      g.save(); g.beginPath(); g.arc(cx,cy,Math.max(1,R),0,TAU); g.clip(); voidBG(g,VW,VH,t); starfield(g,VW,VH,t,170,1.8,11,1);
+      if(FX()) FX().swirl(F,t,{cx,cy,r:VW*0.7,colA:'60,150,255',colB:'160,90,255',a:0.55}); gojoInVoid(F,g,t,0.6,1); g.restore();
+      g.save(); g.globalCompositeOperation='lighter'; g.strokeStyle='rgba(150,210,255,0.95)'; g.lineWidth=10*(1-u)+3; g.beginPath(); g.arc(cx,cy,R,0,TAU); g.stroke();
+      g.strokeStyle='rgba(200,160,255,0.6)'; g.lineWidth=26*(1-u)+4; g.beginPath(); g.arc(cx,cy,R*0.97,0,TAU); g.stroke(); g.restore();
+      if(u<0.45) K.speedLines(F,{k:0.8,n:90,r0:0.25,col:'rgba(200,230,255,0.9)'});
+      kanjiV(g,VW,VH,t,T.dVoid+0.2,'領域展開','110,180,255'); }
+    if(t>=T.dIn&&t<T.dOut){ const u=seg(t,T.dIn,T.dOut), cx=VW/2, cy=VH*0.55; voidBG(g,VW,VH,t); starfield(g,VW,VH,t,280,2.8+2*u,23,1);   // ⑤ BÊN TRONG Vô Lượng Không Xứ
+      g.save(); g.globalCompositeOperation='lighter';
+      for(let i=0;i<6;i++){ const ph=(u*1.4+i/6)%1, R=VW*0.08+VW*1.1*ph*ph; g.strokeStyle=`rgba(${i%2?'170,140,255':'120,200,255'},${0.5*(1-ph)})`; g.lineWidth=2+6*(1-ph); g.beginPath(); g.ellipse(cx,cy,R,R*0.42,0,0,TAU); g.stroke(); }   // vòng sáng đồng tâm
+      for(let i=0;i<44;i++){ const ph=(t*1.8+hash(i*4.3))%1, y=VH*hash(i*6.1), L=VW*(0.15+0.35*hash(i*2.2)), x=VW*(1.2-1.7*ph); g.strokeStyle=`rgba(220,240,255,${0.5*Math.sin(Math.PI*ph)})`; g.lineWidth=1; g.beginPath(); g.moveTo(x,y); g.lineTo(x+L,y); g.stroke(); }   // dòng thông tin vô tận
+      g.restore(); gojoInVoid(F,g,t,0.8-0.08*u,1.3);
+      kanjiBig(g,VW,VH,t,T.dIn+0.1,'無量空処','INFINITE VOID'); }
+    if(t>=T.dOut&&t<T.dOut+0.15) K.flash(F,0.75*(1-seg(t,T.dOut,T.dOut+0.15)),'#cfe8ff');   // ⑥ từ ngoài: chớp lúc vòm trồi lên
+  }
   // tên chiêu: CHỮ TIẾNG ANH to, nghiêng, viền màu phe
   function skillName(g,F,t,t0,dur,big,sub,col){ const u=t-t0; if(u<0||u>dur) return; const k=eout(seg(u,0,0.18)), out=1-seg(u,dur-0.2,dur), VW=F.VW, VH=F.VH;
     g.save(); g.globalAlpha=out; g.translate(VW*0.5,VH*0.78); g.rotate(-0.05); g.scale(lerp(1.6,1,k),lerp(1.6,1,k)); g.textAlign='center'; g.textBaseline='middle'; g.lineJoin='round';
@@ -203,7 +270,9 @@
     S(T.rise,T.cast,{tx:PCX,ty:1600,tz:0,dist:1600,yaw:-20,pitch:-70,fov:58},{tx:PCX,ty:3000,tz:0,dist:3000,yaw:-28,pitch:-70,fov:58}),   // máy ở mặt đất nhìn ngược lên: Pain nhỏ dần giữa khe các toà    // GÓC GIUN theo Pain bay lên
     S(T.cast,T.gUp,{tx:PCX,ty:SKYY+40,tz:0,dist:620,yaw:24,pitch:26,fov:50,oy:-0.14},{tx:PCX,ty:SKYY+40,tz:0,dist:560,yaw:30,pitch:28,fov:50,oy:-0.14}),   // trên đầu Pain nhìn xuống: thành phố nhỏ bên dưới
     S(T.gUp,T.dom,{tx:CRASH_X+60,ty:70,tz:0,dist:200,yaw:30,pitch:-16,fov:44},{tx:CRASH_X+60,ty:74,tz:0,dist:185,yaw:32,pitch:-16,fov:44}),
-    S(T.dom,T.imp,{tx:CRASH_X+60,ty:100,tz:0,dist:330,yaw:0,pitch:-18,fov:46},{tx:CRASH_X+60,ty:110,tz:0,dist:520,yaw:0,pitch:-14,fov:46},'eout'),
+    S(T.dom,T.dEye,{tx:CRASH_X+60,ty:95,tz:0,dist:280,yaw:-8,pitch:-20,fov:44,roll:4},{tx:CRASH_X+60,ty:100,tz:0,dist:240,yaw:-4,pitch:-20,fov:44,roll:5},'eout'),   // góc thấp: Gojo giơ chân trước kết ấn
+    S(T.dEye,T.dOut,{tx:CRASH_X+60,ty:100,tz:0,dist:300,yaw:0,pitch:-14,fov:46}),   // dưới lớp mắt / hư không vẽ trên màn hình (vòng bung lộ thế giới quanh Gojo)
+    S(T.dOut,T.imp,{tx:CRASH_X+300,ty:520,tz:0,dist:2700,yaw:90,pitch:-7,fov:56},{tx:CRASH_X+300,ty:560,tz:0,dist:2450,yaw:92,pitch:-8,fov:56}),   // TỪ NGOÀI: vòm sao trồi lên giữa đống đổ nát
     S(T.imp,T.sh,{tx:PCX+900,ty:0,tz:600,dist:11000,yaw:-18,pitch:60,fov:52}),
     S(T.sh,T.wave,{tx:PCX+900,ty:0,tz:600,dist:11000,yaw:-18,pitch:60,fov:52},{tx:PCX+900,ty:0,tz:600,dist:12500,yaw:-10,pitch:63,fov:52},'lin'),        // GÓC CHIM: nhà đổ rạp từ tâm ra
     S(T.wave,T.rest,{tx:CRASH_X+200,ty:220,tz:0,dist:1700,yaw:-55,pitch:-3,fov:56,ox:-0.15},{tx:CRASH_X+200,ty:230,tz:0,dist:1620,yaw:-57,pitch:-3,fov:56,ox:-0.15},'lin'),   // sát đất cạnh vòm, nhìn về tâm
@@ -212,10 +281,10 @@
     S(T.look,T.smoke,{tx:PCX,ty:105,tz:0,dist:190,yaw:-20,pitch:-2,fov:40,ox:0.1},{tx:PCX,ty:105,tz:0,dist:150,yaw:-20,pitch:-2,fov:40,ox:0.1},'lin'),
     S(T.smoke,T.fire,{tx:HP_X,ty:120,tz:0,dist:1950,yaw:80,pitch:0,fov:44,ox:-0.05},{tx:HP_X,ty:120,tz:0,dist:1800,yaw:80,pitch:0,fov:44,ox:-0.05}),   // qua vai Pain nhìn vào khói
     S(T.fire,T.block,{tx:PCX-200,ty:110,tz:0,dist:420,yaw:84,pitch:0,fov:56},{tx:PCX-60,ty:110,tz:0,dist:300,yaw:84,pitch:0,fov:56},'ein'),
-    S(T.block,32.6,{tx:PCX+60,ty:90,tz:0,dist:900,yaw:0,pitch:6,fov:46},{tx:PCX+140,ty:90,tz:0,dist:860,yaw:4,pitch:6,fov:46}),
-    S(32.6,33.2,{tx:PCX+120,ty:100,tz:0,dist:210,yaw:-34,pitch:-6,roll:-8,fov:46,ox:0.08},{tx:PCX+170,ty:100,tz:0,dist:200,yaw:-36,pitch:-6,roll:-9,fov:46,ox:0.08}),
-    S(33.2,33.8,{tx:PCX+150,ty:110,tz:0,dist:320,yaw:60,pitch:4,roll:7,fov:56},{tx:PCX+190,ty:110,tz:0,dist:300,yaw:64,pitch:4,roll:8,fov:56}),
-    S(33.8,T.heave,{tx:PCX+250,ty:90,tz:0,dist:1300,yaw:-10,pitch:10,fov:46},{tx:PCX+300,ty:90,tz:0,dist:1250,yaw:-12,pitch:10,fov:46}),
+    S(T.block,36.6,{tx:PCX+60,ty:90,tz:0,dist:900,yaw:0,pitch:6,fov:46},{tx:PCX+140,ty:90,tz:0,dist:860,yaw:4,pitch:6,fov:46}),
+    S(36.6,37.2,{tx:PCX+120,ty:100,tz:0,dist:210,yaw:-34,pitch:-6,roll:-8,fov:46,ox:0.08},{tx:PCX+170,ty:100,tz:0,dist:200,yaw:-36,pitch:-6,roll:-9,fov:46,ox:0.08}),
+    S(37.2,37.8,{tx:PCX+150,ty:110,tz:0,dist:320,yaw:60,pitch:4,roll:7,fov:56},{tx:PCX+190,ty:110,tz:0,dist:300,yaw:64,pitch:4,roll:8,fov:56}),
+    S(37.8,T.heave,{tx:PCX+250,ty:90,tz:0,dist:1300,yaw:-10,pitch:10,fov:46},{tx:PCX+300,ty:90,tz:0,dist:1250,yaw:-12,pitch:10,fov:46}),
     S(T.heave,T.up,{tx:530,ty:100,tz:0,dist:240,yaw:-24,pitch:-14,roll:-6,fov:48},{tx:530,ty:100,tz:0,dist:220,yaw:-26,pitch:-16,roll:-7,fov:48}),
     S(T.up,T.imp2,{tx:470,ty:500,tz:0,dist:800,yaw:-20,pitch:-60,fov:58},{tx:470,ty:1600,tz:0,dist:1100,yaw:-26,pitch:-64,fov:58}),
     S(T.imp2,T.rest2,{tx:200,ty:300,tz:0,dist:2400,yaw:-20,pitch:-34,fov:62},{tx:200,ty:320,tz:0,dist:2300,yaw:-16,pitch:-33,fov:62}),    // GÓC GIUN từ hố nhìn nổ tím trên trời
@@ -227,7 +296,7 @@
     S(T.wide,T.DUR,{tx:0,ty:160,tz:0,dist:1500,yaw:0,pitch:-3,fov:48},{tx:0,ty:200,tz:0,dist:2100,yaw:0,pitch:-2,fov:48},'eout') ];
 
   const HITS=[[T.clash,0,'220,200,255'],[5.3,100,'140,200,255'],[6.9,-60,'140,200,255'],[8.45,-115,'210,150,255'],[10.35,0,'255,230,255'],[11.95,60,'160,200,255']];
-  const IMP=C?C.negFrames([5.3,6.9,8.45,11.95,T.heave+0.25],0.07,'inv',[T.clash,10.35,T.push,T.sh,T.boom]):()=>0;
+  const IMP=C?C.negFrames([5.3,6.9,8.45,11.95,T.dVoid,T.heave+0.25],0.07,'inv',[T.clash,10.35,T.push,T.sh,T.boom]):()=>0;
   const at=(t,a,d)=>t>=a&&t<a+d;
 
   CineKit.film({ id:'fin1c4', title:'Final 1 · Cảnh 4 · Gojo Cat vs Pain Cat', DUR:T.DUR, VW:960, VH:540, fadeIn:false, fadeOut:true,
@@ -240,7 +309,7 @@
       [5.1,'fr_dash',0.7],[5.3,'cine_strongpunch',1],[6.2,'l2p_whoosh',0.6],[6.9,'cine_haki_hit',0.9],[8.2,'fr_dash',0.7],[8.45,'cine_strongpunch',1],
       [10.12,'fr_dash',0.8],[10.35,'cine_impact',1],[10.36,'cine_haki_hit',0.9],[11.72,'fr_dash',0.7],[11.95,'cine_strongpunch',0.9],
       [T.pushC+0.05,'ps_shinra',1],[T.push,'cine_deep_impact',0.9],[T.push+0.1,'l2p_whoosh',0.8],[T.crash+0.05,'ep3_explode',0.8],[T.crash+0.1,'mewing_statue_break',0.7],
-      [T.rise,'l2p_riser',0.7],[T.cast+0.1,'ps_shinra',1],[T.dom+0.05,'mw_gojo',0.5],[T.dom+0.1,'l2p_shimmer',0.7],[T.imp,'cine_drop',0.6],
+      [T.rise,'l2p_riser',0.7],[T.cast+0.1,'ps_shinra',1],[T.dom+0.05,'mw_gojo',0.5],[T.dom+0.1,'l2p_shimmer',0.7],[T.dEye,'sm_schwing',0.6],[T.dImp,'cine_drop',0.6],[T.dVoid,'cine_deep_impact',1],[T.dVoid+0.05,'l2p_shimmer',0.9],[T.dIn,'l2p_riser',0.5],[T.dOut,'ep3_quake',0.6],[T.dOut,'cine_haki_hit',0.7],[T.imp,'cine_drop',0.6],
       [T.sh,'ep3_explode',1],[T.sh,'cine_deep_impact',1],[T.sh+0.25,'ep3_quake',0.8],[T.sh+0.6,'l2p_explode',0.7],[T.wave+0.3,'l2p_rumble',0.8],
       [T.land+0.95,'cine_impact',0.8],[T.smoke+0.1,'mw_gojo',1],[T.fire,'l2p_riser',0.6],[T.block,'cine_haki_hit',1],[T.block+0.5,'mw_gojo_travel',0.6,2.6],
       [T.heave,'ps_shinra',0.9],[T.heave+0.25,'cine_deep_impact',1],[T.up,'l2p_whoosh',0.7],[T.boom,'ep3_explode',1],[T.boom,'l2p_explode',0.9],[T.boom+0.3,'ep3_quake',0.6],
@@ -251,7 +320,7 @@
     impact:t=>{ if(at(t,T.rest-0.18,0.18)) return 0; return IMP(t); },
     shake:t=>{ let s=0; const h=(a,amp,d)=>{ if(t>=a&&t<a+d) s=Math.max(s,amp*(1-(t-a)/d)); };
       h(T.clash,12,0.45); h(5.3,9,0.35); h(6.9,9,0.35); h(8.45,10,0.4); h(10.35,18,0.6); h(11.95,9,0.35); h(T.push,16,0.5); h(T.crash,14,0.9);
-      h(T.sh,26,1.6); h(T.wave,18,1.0); h(T.land+0.95,10,0.5); h(T.block,12,0.5); h(T.heave+0.25,16,0.6); h(T.boom,22,1.4);
+      h(T.dVoid,14,0.8); h(T.dOut,12,0.7); h(T.sh,26,1.6); h(T.wave,18,1.0); h(T.land+0.95,10,0.5); h(T.block,12,0.5); h(T.heave+0.25,16,0.6); h(T.boom,22,1.4);
       if(t>=T.cast&&t<T.imp) s=Math.max(s,1.5+2*seg(t,T.cast,T.imp)); if(t>=T.block&&t<T.heave) s=Math.max(s,3.5); return s; },
     world(F,t){ const I=F.I, th=theme(t); const g0=gojo(hs(t)), p0=pain(hs(t));
       for(const b of BL) drawBuilding(F,b,t,th);
@@ -278,8 +347,10 @@
       if(t>=T.rise&&t<T.cast){ const u=seg(t,T.rise,T.rise+0.8); K.ring(F,PCX,0,40+500*eout(u),24,1-u,'235,225,255'); K.smoke(F,{x:PCX,z:0,t0:T.rise,n:14,spread:600,rise:60,life:1.6,size:120,seed:210,a:0.55}); }
       if(t>=T.cast&&t<T.sh){ for(let i=0;i<3;i++){ const ph=((t-T.cast)*1.6+i/3)%1; orb(F,PCX,SKYY+60,0,30+300*(1-ph),'235,225,255',0.35*ph); } }
       // LÃNH ĐỊA của Gojo: vòm sao nở ra quanh Gojo, giữ tới khi ra khỏi khói
-      const domR=t<T.dom?0:520*eout(seg(t,T.dom+0.4,T.imp)), domA=t<T.dom+0.4?0:t<T.rest+1.5?1:1-seg(t,T.rest+1.5,T.smoke);
+      const domR=t<T.dOut?0:900*eout(seg(t,T.dOut,T.dOut+0.55)), domA=t<T.dOut?0:t<T.rest+1.5?1:1-seg(t,T.rest+1.5,T.smoke);
       if(domA>0) dome(F,CRASH_X+60,0,domR,domA,t);
+      if(t>=T.dOut&&t<T.dOut+1.2){ const u=seg(t,T.dOut,T.dOut+0.9); K.ring(F,CRASH_X+60,0,60+1400*eout(u),40,1-u,'150,200,255'); K.debris(F,{x:CRASH_X+60,y:60,z:0,t0:T.dOut,n:26,speed:1500,life:1.4,size:46,seed:271,col:'#3a3448'});
+        K.smoke(F,{x:CRASH_X+60,z:0,t0:T.dOut,n:14,spread:1400,rise:200,life:1.8,size:260,seed:272,a:0.55,tint:'90,100,140'}); }
       // SHINRA TENSEI: sóng tròn lan từ tâm (Pain trên trời) — vòng sáng + bụi trên mặt đất
       if(t>=T.sh&&t<T.rest+0.5){ const r=4300*(t-T.sh); for(let i=0;i<3;i++){ const rr=r-i*220; if(rr>0) K.ring(F,PCX,0,rr,260-i*60,(1-seg(t,T.sh,T.rest))*(1-i*0.25),'255,248,235'); }
         orb(F,PCX,SKYY,0,260+120*Math.sin(t*10),'255,250,240',1-seg(t,T.sh,T.sh+1.2)); }
@@ -313,7 +384,7 @@
       return fx; },
     screen(F,t){ const g=F.g, VW=F.VW, VH=F.VH;
       // xoáy màu lúc Gojo mở lãnh địa (vẽ dưới chữ) — tâm ở Gojo trên màn hình
-      if(FX()&&t>=T.dom&&t<T.imp){ const P=K.proj(F.B,CRASH_X+60,90,0); FX().swirl(F,t,{cx:P?P.x:VW/2,cy:P?P.y:VH/2,r:VW*0.75,colA:'80,160,255',colB:'170,90,255',a:0.55*seg(t,T.dom,T.dom+0.3)}); }
+      domainFX(F,t);   // 🌌 bành trướng lãnh địa (vẽ dưới chữ)
       if(t>=T.smoke-0.2&&t<T.fire+0.1){ const k=seg(t,T.smoke-0.2,T.fire); g.save(); g.globalCompositeOperation='lighter';
         for(const [dz,col,ph] of [[-110,'90,170,255',30],[110,'255,70,80',33]]){ const P=K.proj(F.B,HP_X+40,150,dz*(1-k)); if(!P) continue; const R=Math.max(30,(60+40*k)*P.s*3)*(1+0.12*Math.sin(t*ph));
           const gr=g.createRadialGradient(P.x,P.y,0,P.x,P.y,R); gr.addColorStop(0,`rgba(255,255,255,${0.9*k})`); gr.addColorStop(0.25,`rgba(${col},${0.85*k})`); gr.addColorStop(1,`rgba(${col},0)`); g.fillStyle=gr; g.fillRect(P.x-R,P.y-R,2*R,2*R); }
@@ -342,7 +413,7 @@
       // tên chiêu (chữ tiếng Anh)
       skillName(g,F,t,T.pushC+0.05,0.75,'ALMIGHTY PUSH',null,'240,235,255');
       skillName(g,F,t,T.cast+0.1,1.05,'SHINRA TENSEI',null,'255,120,110');
-      skillName(g,F,t,T.dom+0.15,1.0,'DOMAIN EXPANSION','INFINITE VOID','110,180,255');
+      skillName(g,F,t,T.dVoid+0.15,1.2,'DOMAIN EXPANSION',null,'110,180,255');
       skillName(g,F,t,T.smoke+0.12,0.75,'HOLLOW PURPLE',null,'190,120,255');
       skillName(g,F,t,T.heave+0.02,0.7,'ALMIGHTY PUSH',null,'240,235,255');
       K.sfxText(F,'DON!',VW*0.5,VH*0.3,{t0:T.clash,life:0.5,px:84,rot:-8});

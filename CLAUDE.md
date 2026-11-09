@@ -212,7 +212,7 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
   🔧 NÂNG CẤP 9/11 (theo meme-anime-lab/playbook): thành phố dựng lại đúng TỈ LỆ (MEME_H=32, tầng 84–100, nhà phố 3–5 tầng, cao tầng 15–40) · Friend lộ diện = bộ ba
   (cực cận răng→mắt bật sáng · góc giun trời đỏ ngược sáng · cận Banana Cat) · ĐUÔI quật thay nắm tay (kiểu Cửu Vĩ, clip kaiju-b) · tĩnh trước phá · hậu quả ·
   nóc nhà: bỏ thở / nghiêng TỪNG Ô (làm vỡ kính Chud) → cả ảnh thở đồng nhất · Rinnegan vẽ rõ (vòng đồng tâm) trong bóng đen.
-  CẢNH 4 Gojo vs Pain = `js/film-fin1c4.js` (2.5D, 46s, nạp vào tập sau fin1c3) — Ver 528 đã sửa: Pain bay lên trời đỏ ngược sáng, Shinra góc chim thấy nhà đổ rạp (giảm sương). CÒN: nhiều shot ẢNH TẠM. (cũ:
+  CẢNH 4 Gojo vs Pain = `js/film-fin1c4.js` (2.5D, 50s — Ver 529 thêm chuỗi BÀNH TRƯỚNG LÃNH ĐỊA 5s: kết ấn → cực cận mắt lộ dưới băng → co lại → hư không bung + 領域展開 → bên trong 無量空処 → vòm trồi lên giữa đổ nát; nạp vào tập sau fin1c3) — Ver 528 đã sửa: Pain bay lên trời đỏ ngược sáng, Shinra góc chim thấy nhà đổ rạp (giảm sương). CÒN: nhiều shot ẢNH TẠM. (cũ:
   Shinra góc chim (23.5–25.5s) mới là vòng tròn chưa ra cảnh xoá nửa thành phố, nhiều shot ẢNH TẠM. Soát khung: `tools/x/film-sheet.html?id=<id>&file=<file>`.
   🖼️ CHỜ ẢNH Gojo vs Pain (xin 9/11, lệnh ChatGPT trong `prompts/fin1-gojo-pain.txt`): G6 mở lãnh địa (giơ chân trước, băng mắt nhếch lộ 1 mắt) · G7 bị hất văng ·
   G9 đối diện cuối (xước) · P6 bay lên trời cast Shinra Tensei · P7 đáp đất · P8 đỡ Hollow Purple bằng trường lực · P9 đối diện cuối. Có sẵn dùng lại: MVD_G1–5 / MVD_P1–5 (5 tư thế tay đôi), MVD_GOJO_BLAST, MVD_PAIN_PUSH, MVD_*_KB.
