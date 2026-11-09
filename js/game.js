@@ -25490,7 +25490,7 @@ function playCineDpWindow(){   // 🪟 phim ngắn Depressed Cat về nhà (js/c
 function playCineKit(id,opts){
   const v=window.GAME_VERSION?'?v='+GAME_VERSION.build:'';
   const load=src=>new Promise(r=>{ const s=document.createElement('script'); s.src=src+v; s.onload=r; s.onerror=r; document.body.appendChild(s); });
-  return Promise.all([window.CineKit?0:load('js/cine-kit.js'), window.VfxGL?0:load('js/vfx-gl.js'), window.PIXI_FILTERS_GLSL?0:load('js/vendor/pixi-filters/glsl.js'), window.Proton?0:load('js/vendor/proton/proton.min.js')]).then(()=>CineKit.cam?0:load('js/cine-cam.js')).then(()=>CineKit.films[id]?0:load('js/film-'+id+'.js'))   // cine-cam = CineKit.cam (góc máy + hiệu ứng làm sẵn): sau cine-kit, trước phim
+  return Promise.all([window.CineKit?0:load('js/cine-kit.js'), window.CineKitFx?0:load('js/vfx-manga.js'), window.VfxGL?0:load('js/vfx-gl.js'), window.PIXI_FILTERS_GLSL?0:load('js/vendor/pixi-filters/glsl.js'), window.Proton?0:load('js/vendor/proton/proton.min.js')]).then(()=>CineKit.cam?0:load('js/cine-cam.js')).then(()=>CineKit.films[id]?0:load('js/film-'+id+'.js'))   // cine-cam = CineKit.cam (góc máy + hiệu ứng làm sẵn): sau cine-kit, trước phim
     .then(()=>new Promise(r=>{ let n=0; (function w(){ if(CineKit.films[id] || n++>100) return r(); setTimeout(w,50); })(); }))   // cảnh của 1 tập (vd fin1c2): tệp cảnh tải tiếp file tập → chờ phim đăng ký xong
     .then(()=>{ const f=CineKit.films[id]; if(f) f.play(opts); return !!f; });
 }
