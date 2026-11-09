@@ -74,7 +74,9 @@ Mẫu đã duyệt:
 - Ảnh NHÂN VẬT (thân, tóc, tư thế) do anh tự vẽ bằng ChatGPT rồi gửi. Claude CHỈ làm hiệu ứng / VFX / skill bằng code (hào quang, tia điện, nứt tường...).
   KHÔNG tự vẽ bộ phận nhân vật bằng code (đã làm tóc Goku cho Saiyan Marmot → anh bắt gỡ).
 - 🎨 **CẬP NHẬT 9/11/2026 — Claude tự vẽ ảnh bằng GPT** (skill `ve-anh-gpt`, `tools/x/gpt-image.sh`, Codex CLI dùng gói ChatGPT anh đã đăng nhập, cài trên Windows ở `~/.codex-cli/pkg/`):
-  MEME MỚI: anh vẫn đưa **ảnh meme gốc** → em **vẽ lại đúng con đó trên phông xanh + tăng chất lượng** → **thêm tư thế CHỈ khi cần** (lấy ảnh vừa vẽ làm ảnh mẫu) → tách nền → gửi anh duyệt.
+  MEME MỚI: anh vẫn đưa **ảnh meme gốc** → em **vẽ lại đúng con đó trên phông xanh + tăng chất lượng** → tách nền → gửi anh duyệt.
+  ⭐ VIỆC CHÍNH (anh nhấn 9/11): **XOÁ PHÔNG + TĂNG CHẤT LƯỢNG ẢNH**. Thêm tư thế / khung khác là TUỲ TỪNG MEME: dựa theo CƠ CHẾ skill của con đó
+  + làm theo HƯỚNG DẪN của anh (anh mô tả tư thế nào thì vẽ tư thế đó) — KHÔNG tự vẽ thêm tư thế ngoài ý anh / ngoài cơ chế cần.
   Thử 9/11 với Grumpy Cat: giữ đúng mặt, tư thế toàn thân chân mèo thật, 45s–3 phút/ảnh. Vẫn KHÔNG vẽ bộ phận nhân vật bằng code. Nền / đồ vật / logo / texture phim cũng vẽ được bằng GPT.
 
 ## Nhật ký gần đây (cho phiên sau nắm) — Ver 394, 27/10/2026

@@ -8,7 +8,9 @@ description: Claude TỰ VẼ ẢNH bằng GPT Image qua Codex CLI (gói ChatGPT
 ## Quy trình anh chốt (9/11/2026) cho MEME MỚI
 1. Anh đưa **ảnh meme gốc** (ảnh mạng, mờ, dính nền cũng được).
 2. Em **vẽ lại đúng con đó trên phông xanh + tăng chất lượng** (`--ref ảnh_gốc --green`).
-3. Chỉ khi cần thì **thêm tư thế** — LẤY ẢNH VỪA VẼ Ở BƯỚC 2 làm `--ref` (không lấy ảnh gốc mờ) để mọi tư thế cùng một bản vẽ.
+   ⭐ ĐÂY LÀ VIỆC CHÍNH (anh nhấn 9/11): xoá phông + tăng chất lượng. Làm tốt bước này là đủ cho đa số meme.
+3. Thêm tư thế là TUỲ TỪNG MEME: chỉ vẽ tư thế mà CƠ CHẾ skill của con đó cần, theo đúng HƯỚNG DẪN anh mô tả — không tự vẽ thêm ngoài ý anh.
+   Khi vẽ thì **thêm tư thế** — LẤY ẢNH VỪA VẼ Ở BƯỚC 2 làm `--ref` (không lấy ảnh gốc mờ) để mọi tư thế cùng một bản vẽ.
 4. Tách nền → khung game: skill `tach-nen-anh` (`tools/x/gkey.js`). Gửi anh bảng ảnh duyệt trước khi nối vào code.
 Anh vẫn là người duyệt cuối; ảnh anh tự vẽ gửi tới thì dùng ảnh anh, không vẽ đè.
 
