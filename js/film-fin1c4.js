@@ -79,7 +79,7 @@
   function drawBuilding(F,b,t,th){ const B=F.B, k=t>=b.ta?eout(seg(t,b.ta,b.ta+0.55)):0, h=b.h*(1-0.93*k);   // k = độ đổ (sóng Shinra)
     const crashShake=(b.crash&&t>=T.push+0.95&&t<T.push+1.6)?(hash(Math.floor(t*40))-0.5)*30:0;
     const pc=K.proj(B,b.cx,h*0.5,b.cz); if(!pc) return;
-    F.list.push({d:pc.d+Math.max(b.x1-b.x0,b.z1-b.z0)*0.35, fn:()=>{ const g=F.g, cam=B.pos, fogK=clamp((pc.d-2500)/9000,0,0.85), fog=th.fogRGB;
+    F.list.push({d:pc.d+Math.max(b.x1-b.x0,b.z1-b.z0)*0.35, fn:()=>{ const g=F.g, cam=B.pos, fogK=clamp((pc.d-2500)/9000,0,0.85)*((t>=T.imp&&t<T.wave)?0.22:1), fog=th.fogRGB;
       const base=th.bld(b), lit=k<0.2&&t<T.sh+0.2;
       const P=(x,y,z)=>K.proj(B,x+crashShake,y,z);
       const face=(a,b2,c,d,shade,win,wpx)=>{ if(!a||!b2||!c||!d) return; const col=fogMix(base.map(v=>v*shade),fog,fogK);
@@ -107,7 +107,8 @@
   const TH_NIGHT=mkTh(['#12020a','#4e0c12','#c2421c'],'70,24,22',['78,70,70','70,62,64','28,22,24'],b=>[46+18*b.hue,34+8*b.hue,40+10*b.hue],{x:-80,y:0.55,r:70,col:'rgba(200,44,30,A)'});
   const TH_DUST =mkTh(['#2a1208','#6b3a22','#b07040'],'110,78,56',['96,78,62','88,70,56','40,30,24'],b=>[70+14*b.hue,56+8*b.hue,48],{x:-80,y:0.55,r:70,col:'rgba(220,120,70,A)'});
   const TH_CLEAR=mkTh(['#120a26','#4a2a62','#b48ac0'],'86,62,98',['92,80,90','84,72,84','34,26,34'],b=>[58+12*b.hue,48,62],{x:-80,y:0.55,r:70,col:'rgba(235,200,255,A)'});
-  const theme=t=>t<T.sh+0.4?TH_NIGHT:t<T.boom+0.6?TH_DUST:TH_CLEAR;
+  const TH_RISE=mkTh(['#b8321c','#e0582a','#ff9a52'],'150,50,30',['78,70,70','70,62,64','28,22,24'],b=>[30+10*b.hue,22,26],{x:-80,y:0.55,r:90,col:'rgba(255,90,50,A)'});
+  const theme=t=>(t>=T.rise&&t<T.cast)?TH_RISE:t<T.sh+0.4?TH_NIGHT:t<T.boom+0.6?TH_DUST:TH_CLEAR;
 
   // ───────── TAY ĐÔI (tư thế + vị trí theo khung khoá; [giây, x, ảnh, kiểu chuyển, nhoè]) ─────────
   const backOut=k=>{ const c=1.9, u=k-1; return 1+(c+1)*u*u*u+c*u*u; };
@@ -203,8 +204,8 @@
     S(T.cast,T.gUp,{tx:PCX,ty:SKYY+40,tz:0,dist:620,yaw:24,pitch:26,fov:50,oy:-0.14},{tx:PCX,ty:SKYY+40,tz:0,dist:560,yaw:30,pitch:28,fov:50,oy:-0.14}),   // trên đầu Pain nhìn xuống: thành phố nhỏ bên dưới
     S(T.gUp,T.dom,{tx:CRASH_X+60,ty:70,tz:0,dist:200,yaw:30,pitch:-16,fov:44},{tx:CRASH_X+60,ty:74,tz:0,dist:185,yaw:32,pitch:-16,fov:44}),
     S(T.dom,T.imp,{tx:CRASH_X+60,ty:100,tz:0,dist:330,yaw:0,pitch:-18,fov:46},{tx:CRASH_X+60,ty:110,tz:0,dist:520,yaw:0,pitch:-14,fov:46},'eout'),
-    S(T.imp,T.sh,{tx:PCX,ty:0,tz:0,dist:16000,yaw:0,pitch:76,fov:50}),
-    S(T.sh,T.wave,{tx:PCX,ty:0,tz:0,dist:16000,yaw:0,pitch:76,fov:50},{tx:PCX,ty:0,tz:0,dist:16800,yaw:6,pitch:78,fov:50},'lin'),        // GÓC CHIM: nhà đổ rạp từ tâm ra
+    S(T.imp,T.sh,{tx:PCX+900,ty:0,tz:600,dist:11000,yaw:-18,pitch:60,fov:52}),
+    S(T.sh,T.wave,{tx:PCX+900,ty:0,tz:600,dist:11000,yaw:-18,pitch:60,fov:52},{tx:PCX+900,ty:0,tz:600,dist:12500,yaw:-10,pitch:63,fov:52},'lin'),        // GÓC CHIM: nhà đổ rạp từ tâm ra
     S(T.wave,T.rest,{tx:CRASH_X+200,ty:220,tz:0,dist:1700,yaw:-55,pitch:-3,fov:56,ox:-0.15},{tx:CRASH_X+200,ty:230,tz:0,dist:1620,yaw:-57,pitch:-3,fov:56,ox:-0.15},'lin'),   // sát đất cạnh vòm, nhìn về tâm
     S(T.rest,T.land,{tx:0,ty:300,tz:0,dist:5200,yaw:-35,pitch:20,fov:50},{tx:0,ty:300,tz:0,dist:5000,yaw:-32,pitch:19,fov:50}),
     S(T.land,T.look,{tx:PCX,ty:420,tz:0,dist:900,yaw:-25,pitch:-18,fov:52},{tx:PCX,ty:180,tz:0,dist:820,yaw:-22,pitch:-6,fov:50}),
