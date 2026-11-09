@@ -7,6 +7,7 @@ description: Quy trình DỰNG PHIM anime / cảnh combat cho Meme Cinema bằng
 
 📚 **THƯ VIỆN CẢNH MẪU** (9/11/2026): repo riêng `hh-vibecode/meme-anime-lab`, thư mục `../meme-anime-lab` (cạnh chaos-battle-lab trong `0.van-phong-ao`).
 Anh nạp clip anime → bảng cảnh + luật đạo diễn + công thức code ở `meme-anime-lab/playbook/`. TRƯỚC KHI lên bảng phân cảnh phim mới: `git pull` repo đó rồi đọc `playbook/`.
+🔧 Công cụ ngoài anh gửi (Blender / Unity add-on…) = THAM KHẢO rồi TỰ DỰNG LẠI trong cine-kit, không cài vào quy trình (anh chốt 9/11). Đang chờ: bộ góc máy làm sẵn `CineKit.cam.*`.
 
 Đọc trước: `CLAUDE.md` (tỉ lệ cỡ nhân vật, phân việc ảnh — ảnh nhân vật do ANH vẽ ChatGPT, Claude chỉ làm chuyển động + VFX bằng code),
 bộ nhớ: mỗi nhịp 1 hành động có lý do, không VFX nứt đất, mỗi nhịp 1 tiếng, skill của meme phải giống trong game.
