@@ -70,6 +70,7 @@ Mỗi dòng là 1 lần anh đã phải chê. Báo anh thì ghi rõ dòng nào c
 - [ ] Ảnh pixel (Friend) giữ nét điểm ảnh, không nhoè; ảnh nhỏ phóng to phải làm sắc (Prologue).
 - [ ] Không rối mắt: bớt chi tiết thừa khi cảnh đã nhiều thứ (Prologue: bỏ xúc tu phụ).
 **Chữ / tiếng**
+- [ ] Chữ trên màn hình CHỈ tiếng Anh — KHÔNG chữ Hán / Nhật (tiếng Nhật chỉ là GIỌNG đọc tên chiêu) (fin1c4 9/11: lỡ để 領域展開 / 無量空処, anh chê).
 - [ ] Chữ không tràn khung, không bị vật khác che sai chỗ; font hợp thể loại (fin1: MEOWKATSUKI tràn, anh đòi font anime).
 - [ ] Mỗi nhịp chính 1 tiếng, không chồng tiếng; nhạc nền không lấn giọng (Prologue 4/11).
 - [ ] Thoại: tiếng Anh chuẩn ngữ pháp; không tự lộ thông tin anh muốn giấu (tên "UNKNOWN" khi chưa ra mắt).
