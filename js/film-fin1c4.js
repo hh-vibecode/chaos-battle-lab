@@ -352,7 +352,7 @@
       [T.face,'l2p_rumble',0.4],[T.split,'sm_schwing',0.7],[T.wide,'cine_drop',0.4]],
     mus:[{src:'assets/audio/pain_theme.mp3',ra:0,rb:T.DUR,vol:0.5,fi:0.6,fo:2.0}],
     theme:t=>theme(t), shots,
-    panels:t=>C?C.splitFace(t,T.split,T.wide-T.split,{tx:-560,ty:95,tz:0,dist:175,yaw:20,pitch:-4,fov:40},{tx:560,ty:95,tz:0,dist:175,yaw:-20,pitch:-4,fov:40}):null,
+    panels:t=>C?C.splitFace(t,T.split,T.wide-T.split,{tx:-490,ty:78,tz:0,dist:190,yaw:16,pitch:-4,fov:40,ox:-0.25},{tx:505,ty:105,tz:0,dist:190,yaw:-16,pitch:-4,fov:40,ox:0.25})   /* 9/11: ảnh nghiêng (G9/P9) → mỗi ô hiện TRỌN ĐẦU 1 con, tâm máy dời vào giữa ô (ox ±0.25) */:null,
     impact:t=>{ if(at(t,T.rest-0.18,0.18)) return 0; return IMP(t); },
     shake:t=>{ let s=0; const h=(a,amp,d)=>{ if(t>=a&&t<a+d) s=Math.max(s,amp*(1-(t-a)/d)); };
       h(T.clash,12,0.45); h(5.3,9,0.35); h(6.9,9,0.35); h(8.45,10,0.4); h(10.35,18,0.6); h(11.95,9,0.35); h(T.push,16,0.5); h(T.crash,14,0.9);

@@ -97,9 +97,11 @@ Anh chê điều gì MỚI → thêm 1 dòng vào bảng này ngay trong phiên 
 ## Quy trình
 1. **Kịch bản → bảng phân cảnh** (gửi anh duyệt TRƯỚC khi code): mỗi shot 1 dòng — giây, cỡ cảnh + góc máy, hành động (có lý do), hiệu ứng, tiếng.
    Anh gửi video mẫu → chạy skill `xem-video` trước, bám nhịp cắt + góc máy của mẫu.
-2. 🖼️ **XIN ẢNH SỚM** (anh dặn 9/11/2026: "ảnh tạo không phải 1 phát là ưng"): ngay khi có kịch bản / bảng phân cảnh, liệt kê MỌI ảnh cần vẽ
-   + câu lệnh ChatGPT và gửi anh TRƯỚC, rồi mới dựng phần không cần ảnh (máy quay, nền, VFX) bằng ảnh tạm. Không đợi dựng xong mới xin.
-   Ảnh đang chờ ghi vào CLAUDE.md mục phim đó ("CHỜ ẢNH …") để máy kia (PC / Mac) biết.
+2. 🖼️ **TỰ VẼ ẢNH NGAY, SONG SONG** (anh dặn 9/11/2026, nhắc nhiều lần: "trong lúc sửa đã phải tạo ảnh sẵn, đến đoạn ấy thay vào luôn"; "ảnh tạo không phải 1 phát là ưng"):
+   có kịch bản / bảng phân cảnh là liệt kê MỌI ảnh cần → TỰ VẼ bằng skill `ve-anh-gpt` (`tools/x/gpt-image.sh --ref <ảnh gốc nhân vật> --green`) CHẠY NỀN
+   ngay lúc bắt đầu dựng — KHÔNG hỏi anh, KHÔNG chờ, KHÔNG viết lệnh bắt anh tự vẽ. Nháp 1 ảnh soát đạt rồi vẽ loạt (2–3 ảnh song song, `timeout 420`).
+   Vẽ xong: Read soát (đúng mặt, chân mèo, đúng hướng) → skill `tach-nen-anh` (`tools/x/gkey.js`) → thay ẢNH TẠM trong phim. Ảnh anh tự gửi thì dùng ảnh anh.
+   Ảnh còn chờ / chưa đạt ghi CLAUDE.md mục phim ("CHỜ ẢNH") cho máy kia biết.
    **Danh sách ảnh cần vẽ**: tận dụng ảnh có sẵn (`assets/img/cine/`, `assets/avatars/<meme>/`). Thiếu tư thế → viết CÂU LỆNH ChatGPT cho anh (mẫu dưới),
    anh gửi ảnh về → skill `tach-nen-anh` (nền xanh → webp cắt sát) → để ở `assets/img/cine/`.
 3. **Dựng**: `js/film-<id>.js` gọi `CineKit.film({...})`; thêm 1 mục vào thư mục `__lab` (Anime Lab) hoặc thư mục phim trong `openCinema()` (js/game.js) với `id:'ck:<id>'`.
