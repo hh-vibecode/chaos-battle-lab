@@ -196,7 +196,10 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
   lúc Pain cast, Gojo kịp mở LÃNH ĐỊA (infinity domain) bọc mình, tránh vụ nổ → Pain đáp đất xem kết quả → HOLLOW PURPLE bất ngờ lao ra từ khói bụi, Pain đỡ khó khăn bằng trường lực
   → dồn hết sức Almighty Push hất quả cầu lên trời, nổ tím trên không → 2 bên đối diện, ngang tài ngang sức. Anh muốn "wow", sát nguyên tác, nền thành phố phong phú, chiêu thể hiện huỷ diệt diện rộng.
   Kế hoạch: tập dài → CHIA mỗi cảnh 1 file + tập = danh sách cảnh (xuất lại riêng cảnh bị sửa, mỗi cảnh chỉ nạp ảnh của nó); fin1 hiện tại tách thành cảnh 1–3 (phố / Friend phá / nóc nhà), Gojo vs Pain = cảnh 4–5.
-  Chờ: anh nạp clip mẫu (meme-anime-lab) + trả lời: thành phố/giờ trong ngày, cách Gojo mở lãnh địa bằng chân mèo, chữ hay giọng đọc tên chiêu, độ dài, nhạc.
+  Anh chốt (9/11): đặt SAU cảnh nóc nhà · tách fin1 thành cảnh ngay (anh sẽ thêm cảnh trước vào sau) · thành phố của Final, bối cảnh ĐA DẠNG theo mạch: bình yên trời sáng (nền riêng)
+  → Friend xuất hiện kéo theo trăng máu, trời tối dần… · Gojo mở lãnh địa: GIƠ TAY (chân trước) ra phía trước, BĂNG MẮT nhếch chéo lên lộ 1 mắt giống mắt Gojo ·
+  tên chiêu: CHỮ TIẾNG ANH trên màn hình + TIẾNG NHẬT đọc tên chiêu (sound) · trận ~60–70s · nhạc: nhạc anime đánh nhau EPIC, không ngại bản quyền (dính thì anh tự thay).
+  Chờ: anh gửi link YouTube mẫu sau.
 - Anh kể (Final làm 2 tập, ngang 16:9): phố bình yên + meme quen trên phố → em bé mua kem, bóng đen trùm cả khu, ngẩng lên khóc thét rơi kem → FRIEND che kín trời
   giữa các toà cao tầng → tay bóng tối đâm xuyên nhà, phá huỷ (10–15s, nhiều khung cắt) → nóc nhà: 5 bóng Akatsuki (Depressed · Doorbell Chud · Ninja Cat · Bat Cat · Mlem Cat).
 - Dựng kiểu Prologue (2D 960×540, mỗi cảnh 1 hàm `sc*` + `cam()`), mốc ở `T`. Thành phố / xe / quầy kem / khói lửa vẽ bằng code (seed cố định); tay bóng tối = `shadowArm` chép từ film-l2pro.
