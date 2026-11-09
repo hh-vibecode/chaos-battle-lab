@@ -14,6 +14,11 @@ description: Claude TỰ VẼ ẢNH bằng GPT Image qua Codex CLI (gói ChatGPT
 4. Tách nền → khung game: skill `tach-nen-anh` (`tools/x/gkey.js`). Gửi anh bảng ảnh duyệt trước khi nối vào code.
 Anh vẫn là người duyệt cuối; ảnh anh tự vẽ gửi tới thì dùng ảnh anh, không vẽ đè.
 
+## ⛔ KHÔNG PHÁ VỠ NGUYÊN GỐC MEME (anh dặn 9/11)
+- Giữ đúng mặt, dáng, cơ thể, màu, đồ vật của meme gốc. KHÔNG thêm tay / ngón / chân người, không thêm chi thừa, không thêm quần áo / đạo cụ ngoài ảnh gốc
+  (trừ khi anh dặn rõ, vd áo Akatsuki cho dạng Pain). Mèo = 4 chân mèo, đệm chân tròn.
+- `gpt-image.sh` đã TỰ KÈM câu cấm này mỗi khi có `--ref`. Vẽ xong vẫn phải SOI ảnh: lộ tay người / dáng lạ → vẽ lại, không đưa anh ảnh lỗi.
+
 ## Lệnh
 ```bash
 bash tools/x/gpt-image.sh "<câu lệnh tiếng Anh>" <ra.png> [--ref a.png]... [--green] [--size 1024x1024] [--effort low]

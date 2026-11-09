@@ -42,7 +42,9 @@ if [[ -n "${refs[*]:-}" ]]; then   # (viết kiểu này để bash 3.2 của Ma
   ref_note="
 REFERENCE IMAGES are attached. Pass them to the image_generation tool as reference/input images (do not just describe them).
 Keep the SAME character identity as the reference: same species, face, eye shape, fur/skin colors and markings, proportions, outfit and props.
-Do not redesign or 'improve' the character's look; only redraw it cleaner and sharper as instructed."
+Do not redesign or 'improve' the character's look; only redraw it cleaner and sharper as instructed.
+NEVER break the original meme: keep its original body and anatomy exactly (an animal keeps real animal anatomy — e.g. a cat has four cat legs and round cat paws with paw pads).
+Do NOT add human hands, fingers, human arms, human legs or any human body parts, and do not add extra limbs, clothes or props that are not in the reference."
 fi
 size_line=""; [[ -n "$size" ]] && size_line="
 SIZE: ${size}"
