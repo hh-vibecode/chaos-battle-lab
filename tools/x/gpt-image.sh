@@ -44,7 +44,9 @@ REFERENCE IMAGES are attached. Pass them to the image_generation tool as referen
 Keep the SAME character identity as the reference: same species, face, eye shape, fur/skin colors and markings, proportions, outfit and props.
 Do not redesign or 'improve' the character's look; only redraw it cleaner and sharper as instructed.
 NEVER break the original meme: keep its original body and anatomy exactly (an animal keeps real animal anatomy — e.g. a cat has four cat legs and round cat paws with paw pads).
-Do NOT add human hands, fingers, human arms, human legs or any human body parts, and do not add extra limbs, clothes or props that are not in the reference."
+Do NOT add human hands, fingers, human arms, human legs or any human body parts, and do not add extra limbs, clothes or props that are not in the reference.
+The ONLY things you may change are the VIEWING ANGLE and the POSE (when the prompt asks for them). Everything else stays identical to the reference.
+Do not add any detail that the prompt does not explicitly ask for: no accessories, no extra markings, no new colors, no decorations, no effects, no background objects."
 fi
 size_line=""; [[ -n "$size" ]] && size_line="
 SIZE: ${size}"

@@ -15,6 +15,8 @@ description: Claude TỰ VẼ ẢNH bằng GPT Image qua Codex CLI (gói ChatGPT
 Anh vẫn là người duyệt cuối; ảnh anh tự vẽ gửi tới thì dùng ảnh anh, không vẽ đè.
 
 ## ⛔ KHÔNG PHÁ VỠ NGUYÊN GỐC MEME (anh dặn 9/11)
+- BẢN CHẤT: vẽ lại CHỈ được đổi **GÓC NHÌN** và **TƯ THẾ**. Mọi thứ khác giữ y ảnh gốc; KHÔNG vẽ thêm chi tiết nào anh không yêu cầu
+  (phụ kiện, vết / hoa văn mới, màu mới, trang trí, hiệu ứng, đồ vật nền).
 - Giữ đúng mặt, dáng, cơ thể, màu, đồ vật của meme gốc. KHÔNG thêm tay / ngón / chân người, không thêm chi thừa, không thêm quần áo / đạo cụ ngoài ảnh gốc
   (trừ khi anh dặn rõ, vd áo Akatsuki cho dạng Pain). Mèo = 4 chân mèo, đệm chân tròn.
 - `gpt-image.sh` đã TỰ KÈM câu cấm này mỗi khi có `--ref`. Vẽ xong vẫn phải SOI ảnh: lộ tay người / dáng lạ → vẽ lại, không đưa anh ảnh lỗi.
