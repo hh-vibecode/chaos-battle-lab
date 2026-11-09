@@ -133,6 +133,8 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
 - **Góc máy + hiệu ứng LÀM SẴN (9/11):** `js/cine-cam.js` → `CineKit.cam.*` (slideAlong, orbit, wormHold, birdToWorm, pushIn, whip, dollyZoom, chargeFollow, scaleJump, mirror;
   ease holdSnap/overshoot/brake; implode, wipeBlob, wipeLeaves, speedTunnel, restBeat, negFrames, splitFace) — số lấy từ clip anime đã học ở repo meme-anime-lab (`playbook/`).
   playCineKit tự tải. Cách dùng: skill `dung-phim` mục "CineKit.cam". Tự kiểm: `tools/x/cine-cam-test.html`.
+- **Hiệu ứng MANGA làm sẵn (9/11, Ver 526):** `js/vfx-manga.js` → `CineKitFx` (smear, swirl, halftone, mangaBW, blast, rimLight; canvas 2D). playCineKit tự tải.
+  Cách dùng: skill `dung-phim` mục "CineKitFx". Tự kiểm: `tools/x/vfx-manga-test.html`.
 - **Chờ anh:** xem bài thử trong Anime Lab rồi quyết hướng; nếu chốt "anime vẽ tay kiểu tiết kiệm" → anh vẽ khung chính bằng ChatGPT theo mẫu lệnh trong skill `dung-phim`.
 - **Chưa làm / để sau:** ToonCrafter (nội suy khung chèn giữa), Wan 2.x image→video trên Hugging Face (miễn phí), Kling (~10$/tháng, có API).
   Chuyển phim cũ (js/cine-*.js) sang cine-kit — chưa cần, chỉ dùng cho phim mới.

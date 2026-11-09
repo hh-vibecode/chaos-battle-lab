@@ -141,7 +141,16 @@ shots: C.seq(C.chargeFollow(0,{d:0.5,hold:0.3}), C.scaleJump(0.8), C.birdToWorm(
 impact: C.negFrames([T.hit], 0.07, 'inv', [T.boom+0.3]),
 screen(F,t){ C.implode(F,t,T.boom); C.wipeLeaves(F,t,T.boom+2.0,0.2); C.restBeat(F,t,T.boom+2.1,1.5); },
 ```
-Chưa có (làm sau, `vfx-gl`): smear dọc thật, xoáy màu kết ấn, lớp halftone manga, lửa nổ khối manga, rim light ngược sáng.
+## 🖌️ CineKitFx — hiệu ứng MANGA làm sẵn (js/vfx-manga.js, Ver 526, 9/11/2026, canvas 2D — chạy cả PC / Mac / xuất video offline)
+`playCineKit` tự tải. Trong film dùng `const FX=window.CineKitFx;` (`CineKit.fx` gắn chậm ~20ms). Gọi trong `screen(F,t)`, toạ độ = đơn vị logic phim.
+Tự kiểm + xem ảnh: `tools/x/vfx-manga-test.html`. Nguồn + khi nào dùng: `../meme-anime-lab/playbook/cong-thuc.md`.
+- `FX.smear(F,img,x,y,w,h,{dx,dy,n,streak,lines})` — ảnh kéo thành VỆT SỌC khi đập / lao ((x,y,w,h) = vị trí đầu, (dx,dy) = đuôi vệt). ~10ms
+- `FX.swirl(F,t,{cx,cy,r,colA,colB,colC,arms,speed})` — xoáy màu sau lưng lúc kết ấn / mở lãnh địa; vẽ TRƯỚC nhân vật. ~12ms
+- `FX.halftone(F,{mode:'flat' hoặc 'luma',dot,col,paper})` — chấm manga phủ khung / vùng. 10–14ms
+- `FX.mangaBW(F,{keep:'#2878ff',tol,scale})` — cả khung thành đen trắng, CHỈ GIỮ 1 màu nhấn của phe đang ra đòn; gọi CUỐI `screen`. ~22ms (nặng nhất, chỉ bật trong shot cần)
+- `FX.blast(F,{x,y,z,t0,life,size})` — lửa nổ khối đặc viền đen → khói nâu (có `z` = điểm thế giới, xếp sâu cùng sprite). <1ms
+- `FX.rimLight(F,img,x,y,w,h,{col,dir,dark})` — quái NGƯỢC SÁNG: khối tối + viền sáng (bỏ `dir` = sáng bao quanh, `dir:-90` = từ trên). ~11ms
+(ms đo trên CPU trình duyệt chạy ngầm 1280×720 — chưa đo GPU thật.) Còn chờ: lưới biến dạng ảnh 2D thật (dẹt / thở / nghiêng) trong `vfx-gl`.
 
 ## Mẫu câu lệnh ChatGPT cho 1 khung chính (anh dán vào ChatGPT)
 ```
