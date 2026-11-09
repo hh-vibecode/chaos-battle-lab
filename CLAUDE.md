@@ -191,6 +191,12 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
 - ⚠️ Bản thu Katica Illényi có bản quyền biểu diễn → video YouTube có thể dính Content ID (bản nhạc gốc Rimsky-Korsakov thì đã hết bản quyền).
 
 ## 🎬 Meme Lore · FINAL — Part 1 (5/11/2026) — `js/film-fin1.js` (cine-kit, id `fin1`, 16:9, 51s; Meme Cinema → MEME LORE 2 → "Final · Part 1")
+- 🧩 (9/11, anh chốt) Trận **Mewing/Gojo Cat vs Depressed/Pain Cat** là 1–2 CẢNH NẰM TRONG Final Part 1 (không phải phim riêng). Bản cũ `js/film-mvd.js` (9:16, 23s, Anime Lab) chỉ để tham khảo.
+  Kịch bản anh viết: cận chiến đa dạng, nhịp không đều → Pain dùng Almighty Push hất Gojo văng xa → Pain bay thẳng lên trời cast SHINRA TENSEI, nổ xoá nửa thành phố;
+  lúc Pain cast, Gojo kịp mở LÃNH ĐỊA (infinity domain) bọc mình, tránh vụ nổ → Pain đáp đất xem kết quả → HOLLOW PURPLE bất ngờ lao ra từ khói bụi, Pain đỡ khó khăn bằng trường lực
+  → dồn hết sức Almighty Push hất quả cầu lên trời, nổ tím trên không → 2 bên đối diện, ngang tài ngang sức. Anh muốn "wow", sát nguyên tác, nền thành phố phong phú, chiêu thể hiện huỷ diệt diện rộng.
+  Kế hoạch: tập dài → CHIA mỗi cảnh 1 file + tập = danh sách cảnh (xuất lại riêng cảnh bị sửa, mỗi cảnh chỉ nạp ảnh của nó); fin1 hiện tại tách thành cảnh 1–3 (phố / Friend phá / nóc nhà), Gojo vs Pain = cảnh 4–5.
+  Chờ: anh nạp clip mẫu (meme-anime-lab) + trả lời: thành phố/giờ trong ngày, cách Gojo mở lãnh địa bằng chân mèo, chữ hay giọng đọc tên chiêu, độ dài, nhạc.
 - Anh kể (Final làm 2 tập, ngang 16:9): phố bình yên + meme quen trên phố → em bé mua kem, bóng đen trùm cả khu, ngẩng lên khóc thét rơi kem → FRIEND che kín trời
   giữa các toà cao tầng → tay bóng tối đâm xuyên nhà, phá huỷ (10–15s, nhiều khung cắt) → nóc nhà: 5 bóng Akatsuki (Depressed · Doorbell Chud · Ninja Cat · Bat Cat · Mlem Cat).
 - Dựng kiểu Prologue (2D 960×540, mỗi cảnh 1 hàm `sc*` + `cam()`), mốc ở `T`. Thành phố / xe / quầy kem / khói lửa vẽ bằng code (seed cố định); tay bóng tối = `shadowArm` chép từ film-l2pro.
