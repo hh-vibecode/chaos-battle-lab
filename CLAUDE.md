@@ -99,6 +99,9 @@ Mẫu đã duyệt:
 - 🥷 **Ninja Cat**: Sharingan không bao giờ đâm vào mặt nữa — lưng địch sát tường thì NHỊN (`_njWait`, giữ lượt), địch có chỗ sau lưng là cast ngay; đã tan khói mà địch lùi sát tường thì ẩn chờ thêm ≤1.5s rồi hiện lại, trả lượt.
   Lúc đâm khoá hướng nhìn địch (`_njFaceBy` / `_njFaceL` ở chỗ tính `shouldFaceLeft`) để nó không quay lại nhìn Ninja.
 - 🧪 Máy Windows của anh không có node/python: chạy thử trận + phát hành bằng skill `chay-thu` / `phat-hanh` (công cụ `tools/x/`). Cổng 9333 thường bị trình duyệt của PHIÊN KHÁC chiếm → dùng 9455.
+- 💾 PC (9/11/2026): ổ C GẦN ĐẦY → mọi thứ để Ổ D. Dữ liệu thật của `0.van-phong-ao` ở `D:\0.van-phong-ao`; trên Desktop là LỐI TẮT (junction) trỏ sang D
+  (anh chạy `D:\tools\hoan-tat-chuyen-o-D.cmd` sau khi đóng VS Code — chép nốt, xoá bản ổ C, tạo lối tắt) → mở VS Code / lịch sử chat Claude theo đường dẫn Desktop như cũ.
+  Công cụ cài thêm ở `D:\tools\` (codex-cli, codex-home, yt-dlp + deno). File lớn (video, ảnh nháp) KHÔNG để ổ C.
 
 ## Skill của repo (`.claude/skills/`, thêm 28/10/2026)
 - `them-meme` (danh sách việc thêm meme mới) · `tach-nen-anh` (ảnh ChatGPT nền xanh → khung game) · `chay-thu` (chạy thử trận bằng Edge headless) · `phat-hanh` (đẩy bản mới không cần python)

@@ -38,7 +38,8 @@ bash tools/x/gpt-image.sh "<câu lệnh tiếng Anh>" <ra.png> [--ref a.png]... 
 - Phim: nền / đồ vật / logo / texture VFX không cần `--green`; ghi khung (`--size 1536x1024` cho 16:9).
 
 ## Cài đặt (đã xong trên Windows của anh 9/11)
-- Windows: gói đầy đủ `codex-package-x86_64-pc-windows-msvc.tar.gz` từ github.com/openai/codex/releases (kiểm sha256 với `digest` của API) giải nén vào `~/.codex-cli/pkg/`
+- PC Windows (ổ C gần đầy → để Ổ D, 9/11): Codex ở `D:\tools\codex-cli\pkg\`, dữ liệu Codex (đăng nhập + ảnh vẽ ra) ở `D:\tools\codex-home` (script tự đặt CODEX_HOME).
+- Windows cài mới: gói đầy đủ `codex-package-x86_64-pc-windows-msvc.tar.gz` từ github.com/openai/codex/releases (kiểm sha256 với `digest` của API) giải nén vào `D:\tools\codex-cli\pkg\`
   — PHẢI là gói đủ: bản `codex.exe` lẻ thiếu `codex-code-mode-host.exe` → công cụ vẽ không chạy.
 - Mac: `brew install codex`.
 - Đăng nhập 1 lần — ANH tự làm trên trình duyệt: `codex login` (em có thể chạy lệnh để mở trang, anh đăng nhập). Kiểm: `codex login status` → "Logged in using ChatGPT".

@@ -6,7 +6,7 @@
 #
 # --ref   ảnh tham chiếu (meme gốc / tư thế mẫu), lặp được. Codex nhìn ảnh rồi mới gọi công cụ vẽ.
 # --green thêm yêu cầu nền xanh lá phẳng #00FF00, nhân vật trọn khung, không bóng đổ → đưa thẳng vào skill tach-nen-anh.
-# Mất ~2–6 phút / ảnh → chạy nền. Codex tìm ở: $CODEX_BIN → ~/.codex-cli/pkg/bin/codex.exe (gói đủ codex-package: cần cả codex-code-mode-host.exe) (Windows) → PATH (Mac: brew install codex).
+# Mất ~2–6 phút / ảnh → chạy nền. Codex tìm ở: $CODEX_BIN → D:/tools/codex-cli/pkg/bin/codex.exe → ~/.codex-cli/pkg/bin/codex.exe (PC: công cụ để Ổ D vì ổ C gần đầy; gói đủ codex-package: cần cả codex-code-mode-host.exe) (Windows) → PATH (Mac: brew install codex).
 # Đăng nhập 1 lần (anh tự làm): codex login
 set -euo pipefail
 
@@ -26,9 +26,12 @@ while [[ $# -gt 0 ]]; do
 done
 
 codex="${CODEX_BIN:-}"
-if [[ -z "$codex" && -x "$HOME/.codex-cli/pkg/bin/codex.exe" ]]; then codex="$HOME/.codex-cli/pkg/bin/codex.exe"; fi
+for c in /d/tools/codex-cli/pkg/bin/codex.exe "$HOME/.codex-cli/pkg/bin/codex.exe"; do if [[ -z "$codex" && -x "$c" ]]; then codex="$c"; fi; done
 if [[ -z "$codex" ]]; then codex="$(command -v codex || true)"; fi
-if [[ -z "$codex" ]]; then echo "gpt-image: chưa cài codex (Mac: brew install codex · Windows: ~/.codex-cli/pkg/bin/codex.exe (gói đủ codex-package: cần cả codex-code-mode-host.exe))" >&2; exit 127; fi
+if [[ -z "$codex" ]]; then echo "gpt-image: chưa cài codex (Mac: brew install codex · PC: D:/tools/codex-cli/pkg/bin/codex.exe, gói đủ codex-package)" >&2; exit 127; fi
+# PC: dữ liệu Codex (đăng nhập + ảnh vẽ ra) để ở D:/tools/codex-home (ổ C gần đầy, chuyển 9/11/2026)
+if [[ -z "${CODEX_HOME:-}" && -d /d/tools/codex-home ]]; then export CODEX_HOME="D:/tools/codex-home"; fi
+codex_home_u="${CODEX_HOME:-$HOME/.codex}"; if command -v cygpath >/dev/null 2>&1; then codex_home_u="$(cygpath -u "$codex_home_u")"; fi
 
 topath() { if command -v cygpath >/dev/null 2>&1; then cygpath -m "$1"; else echo "$1"; fi; }   # exe Windows không hiểu /c/...
 abs() { (cd "$(dirname "$1")" && echo "$(pwd)/$(basename "$1")"); }
@@ -67,7 +70,7 @@ t0=$(date +%s)
 # Codex tự lưu ảnh vào ~/.codex/generated_images/<session id>/ (Windows chạy chế độ chỉ đọc → không bắt nó ghi file) → lấy ảnh mới nhất ở đó
 "$codex" exec --skip-git-repo-check -s workspace-write -c model_reasoning_effort="$effort" -C "$(topath "$workdir")" "$full_prompt" ${img_args[@]+"${img_args[@]}"} </dev/null >"$log" 2>&1 || true
 sid="$(grep -m1 -oE 'session id: [0-9a-f-]+' "$log" | sed 's/session id: //' || true)"
-gen="${CODEX_HOME:-$HOME/.codex}/generated_images/$sid"
+gen="$codex_home_u/generated_images/$sid"
 img=""; [[ -n "$sid" && -d "$gen" ]] && img="$(ls -t "$gen"/*.png 2>/dev/null | head -n 1 || true)"
 [[ -n "$img" ]] || img="$(ls -t "$workdir"/*.png 2>/dev/null | head -n 1 || true)"
 if [[ -z "$img" || ! -f "$img" ]]; then
