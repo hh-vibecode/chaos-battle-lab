@@ -126,6 +126,23 @@ Anh chê điều gì MỚI → thêm 1 dòng vào bảng này ngay trong phiên 
 - Ảnh gốc nhìn sang trái/phải → hàm `faceFlip` trong film-dvc.js tự lật theo vị trí đối thủ TRÊN MÀN HÌNH (máy bay vòng ra sau thì tự đổi).
 - Muốn có góc nhìn sau lưng → cần ảnh "quay lưng" riêng (vd `CINE_SM_BACK`); không có thì tránh shot đó.
 
+## 🎥 CineKit.cam — góc máy + nhịp + hiệu ứng LÀM SẴN (js/cine-cam.js, 9/11/2026, số lấy từ meme-anime-lab/playbook)
+`playCineKit` tự tải sau cine-kit. Trong film: `const C=CineKit.cam;`. Tự kiểm: trang `tools/x/cine-cam-test.html` (`window.__done` = "OK …").
+- **Góc máy** (trả MẢNG shot, ghép bằng `C.seq(...)`; `C.check(shots)` soát): `slideAlong` (lướt dọc thân quái 2.75s) · `orbit` (xoay quanh combo, `cut:0.15` = đổi góc kiểu cắt)
+  · `wormHold` (góc giun đứng yên 2s đọc tỉ lệ) · `birdToWorm` (nổ: góc chim → góc giun, 0.9s/shot) · `pushIn` (đẩy rất chậm vào mặt) · `whip` (lia giật, kèm `C.whipFx` trong screen)
+  · `dollyZoom` (giữ cỡ nhân vật, nền giãn) · `chargeFollow` (lao theo đòn nhịp brake + khựng) · `scaleJump` (combo rất xa ↔ nắm đấm che khung ↔ xoay) · `mirror` (2 phe cùng bố cục, `flip`).
+- **Nhịp** (đã đăng ký vào `K.EASE` → `ease:'holdSnap'`): `holdSnap` (giữ rồi bật) · `overshoot` (vượt rồi bật lại) · `brake` (hãm gấp); hàm tự chỉnh: `C.ease.holdSnapK(h)` …
+- **Hiệu ứng** (gọi trong `screen(F,t)`, trả true khi đang chạy): `implode` (nền đen + chấm co lại 0.3s trước nổ) · `wipeBlob` (màu loang che kín ở giữa) · `wipeLeaves` (bóng lá quét, che kín ở giữa)
+  · `speedTunnel` (đường hầm tốc độ trắng dần 0.8s) · `restBeat` (khoảng thở nền nâu + bóng lá 1.5s) · `whipFx` · `splitTint` (phủ màu 2 nửa) · `splitFace` (cho `def.panels`).
+  `impact: C.negFrames([giây…], 0.07, 'inv', [đòn mạnh…])` = khung âm bản đúng 1 khung vẽ.
+```js
+const C=CineKit.cam, T={hit:2.0, boom:4.0};
+shots: C.seq(C.chargeFollow(0,{d:0.5,hold:0.3}), C.scaleJump(0.8), C.birdToWorm(T.boom+0.3)),
+impact: C.negFrames([T.hit], 0.07, 'inv', [T.boom+0.3]),
+screen(F,t){ C.implode(F,t,T.boom); C.wipeLeaves(F,t,T.boom+2.0,0.2); C.restBeat(F,t,T.boom+2.1,1.5); },
+```
+Chưa có (làm sau, `vfx-gl`): smear dọc thật, xoáy màu kết ấn, lớp halftone manga, lửa nổ khối manga, rim light ngược sáng.
+
 ## Mẫu câu lệnh ChatGPT cho 1 khung chính (anh dán vào ChatGPT)
 ```
 Draw <nhân vật: tả đúng meme gốc, vd "the Buff Doge meme (muscular shiba inu with the doge face)">, full body, <tư thế/hành động cụ thể>,

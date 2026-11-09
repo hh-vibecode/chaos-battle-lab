@@ -1,0 +1,71 @@
+<!doctype html><meta charset="utf-8"><title>cine-cam test</title>
+<body style="background:#111;color:#ddd;font:12px monospace"><pre id="log"></pre>
+<script src="../../js/cine-kit.js"></script>
+<script src="../../js/cine-cam.js"></script>
+<script>
+// Tự kiểm js/cine-cam.js (CineKit.cam): node tools/x/cdp.js --launch --steps <file> --out <dir>, các bước:
+//   goto tools/x/cine-cam-test.html · waitfor window.__done · eval window.__done · evalsave cine-cam-sheet window.__png
+// __done = "OK ..." khi: đủ hàm, mọi góc máy ra shot hợp lệ + camAt ra số hữu hạn, mọi hiệu ứng vẽ không lỗi, wipe che kín ≥99% ở giữa.
+(async () => {
+  const log = s => { document.getElementById('log').textContent += s + '\n'; };
+  const err = [];
+  try {
+    const K = window.CineKit, C = K && K.cam;
+    if (!C) throw new Error('CineKit.cam chưa gắn');
+    const need = ['seq','check','slideAlong','orbit','wormHold','birdToWorm','pushIn','whip','dollyZoom','chargeFollow','scaleJump','mirror',
+      'negFrames','implode','wipeBlob','wipeLeaves','speedTunnel','restBeat','whipFx','splitFace','splitTint'];
+    for (const k of need) if (typeof C[k] !== 'function') err.push('thiếu hàm ' + k);
+    for (const k of ['holdSnap','overshoot','brake']) { const f = K.EASE[k]; if (!f) { err.push('thiếu ease ' + k); continue; }
+      if (Math.abs(f(0)) > 1e-6 || Math.abs(f(1) - 1) > 1e-6) err.push('ease ' + k + ' đầu/cuối sai'); }
+    if (!(K.EASE.overshoot(0.6) > 1)) err.push('overshoot không vượt 1');
+    if (!(K.EASE.holdSnap(0.5) < 0.1)) err.push('holdSnap không giữ');
+    // góc máy
+    const cams = ['slideAlong','orbit','wormHold','birdToWorm','pushIn','whip','dollyZoom','chargeFollow','scaleJump','mirror'];
+    const variants = { orbit: [{}, { cut: 0.15 }], mirror: [{}, { flip: true }] };
+    let nShots = 0;
+    for (const k of cams) for (const o of (variants[k] || [{}])) {
+      const sh = C[k](1, o); if (!Array.isArray(sh) || !sh.length) { err.push(k + ': không ra shot'); continue; }
+      nShots += sh.length; const e = C.check(sh); if (e.length) err.push(k + ': ' + e.join(', '));
+      const s0 = sh[0].t0, s1 = sh[sh.length - 1].t1;
+      for (let t = s0; t <= s1; t += 0.05) { const c = K.camAt(sh, t); for (const kk of ['dist']) if (c[kk] != null && !isFinite(c[kk])) err.push(k + ': camAt ' + kk + ' lỗi ở ' + t); }
+    }
+    const all = C.seq(C.wormHold(0), C.pushIn(2), C.scaleJump(3.6)); if (C.check(all).length) err.push('seq: ' + C.check(all).join(','));
+    // dolly zoom giữ cỡ: dist·tan(fov/2) không đổi 2 đầu
+    { const s = C.dollyZoom(0, { dist: 300, fov0: 40, fov1: 80 })[0], k0 = s.a.dist * Math.tan(20 * Math.PI / 180), k1 = s.b.dist * Math.tan(40 * Math.PI / 180); if (Math.abs(k0 - k1) > 1e-6) err.push('dollyZoom không giữ cỡ'); }
+    // negFrames
+    { const f = C.negFrames([2], 0.07, 'inv', [5]); if (f(2.03) !== 'inv' || f(2.1) !== 0 || f(5.01) !== 'red' || f(5.1) !== 'inv') err.push('negFrames sai'); }
+    // splitFace
+    { const p = C.splitFace(1.5, 1, 1, { tx: -1 }, { tx: 1 }); if (!p || p.length !== 2 || C.splitFace(3, 1, 1) !== null) err.push('splitFace sai'); }
+
+    // ───── vẽ bảng khung ─────
+    const TW = 320, TH = 180, COLS = 4;
+    const tests = [
+      ['implode u.1', (F, t) => C.implode(F, t, 0), 0.03], ['implode u.8', (F, t) => C.implode(F, t, 0), 0.24],
+      ['wipeBlob u.25', (F, t) => C.wipeBlob(F, t, 0, 0.2), 0.05], ['wipeBlob u.5', (F, t) => C.wipeBlob(F, t, 0, 0.2), 0.1],
+      ['wipeBlob u.75', (F, t) => C.wipeBlob(F, t, 0, 0.2), 0.15], ['wipeLeaves u.3', (F, t) => C.wipeLeaves(F, t, 0, 0.2), 0.06],
+      ['wipeLeaves u.5', (F, t) => C.wipeLeaves(F, t, 0, 0.2), 0.1], ['wipeLeaves u.7', (F, t) => C.wipeLeaves(F, t, 0, 0.2), 0.14],
+      ['speedTunnel u.15', (F, t) => C.speedTunnel(F, t, 0, 0.8), 0.12], ['speedTunnel u.6', (F, t) => C.speedTunnel(F, t, 0, 0.8), 0.48],
+      ['speedTunnel u.95', (F, t) => C.speedTunnel(F, t, 0, 0.8), 0.76], ['restBeat 0.4s', (F, t) => C.restBeat(F, t, 0, 1.5), 0.4],
+      ['restBeat 1.2s', (F, t) => C.restBeat(F, t, 0, 1.5), 1.2], ['splitTint', (F, t) => C.splitTint(F, t, 0, 1), 0.5],
+      ['whipFx u.5', (F, t) => C.whipFx(F, t, 0, 0.25), 0.125], ['(nền thử)', () => true, 0],
+    ];
+    const rows = Math.ceil(tests.length / COLS), sheet = document.createElement('canvas'); sheet.width = COLS * TW; sheet.height = rows * (TH + 16);
+    const sg = sheet.getContext('2d'); sg.fillStyle = '#000'; sg.fillRect(0, 0, sheet.width, sheet.height);
+    const bg = (g) => { const gr = g.createLinearGradient(0, 0, TW, TH); gr.addColorStop(0, '#2fd16a'); gr.addColorStop(1, '#2a6cf0'); g.fillStyle = gr; g.fillRect(0, 0, TW, TH);
+      g.fillStyle = '#fff'; g.font = 'bold 22px sans-serif'; g.fillText('SHOT A', 20, 40); g.fillStyle = '#ff3'; g.beginPath(); g.arc(TW * 0.7, TH * 0.6, 30, 0, Math.PI * 2); g.fill(); };
+    const cover = (fn, t) => { const c = document.createElement('canvas'); c.width = TW; c.height = TH; const g = c.getContext('2d'); g.fillStyle = '#00ff00'; g.fillRect(0, 0, TW, TH);
+      fn({ g, VW: TW, VH: TH, t, SC: 1 }, t); const d = g.getImageData(0, 0, TW, TH).data; let n = 0; for (let i = 0; i < d.length; i += 4) if (d[i] < 10 && d[i + 1] > 245 && d[i + 2] < 10) n++; return 1 - n / (TW * TH); };
+    const cB = cover((F, t) => C.wipeBlob(F, t, 0, 0.2), 0.1), cL = cover((F, t) => C.wipeLeaves(F, t, 0, 0.2), 0.1);
+    if (cB < 0.99) err.push('wipeBlob giữa chỉ che ' + (cB * 100).toFixed(1) + '%');
+    if (cL < 0.99) err.push('wipeLeaves giữa chỉ che ' + (cL * 100).toFixed(1) + '%');
+    tests.forEach(([name, fn, t], i) => {
+      const c = document.createElement('canvas'); c.width = TW; c.height = TH; const g = c.getContext('2d'); bg(g);
+      try { const on = fn({ g, VW: TW, VH: TH, t, SC: 1 }, t); if (on === false) err.push(name + ': trả false (không chạy)'); } catch (e) { err.push(name + ': ' + e.message); }
+      const x = (i % COLS) * TW, y = Math.floor(i / COLS) * (TH + 16); sg.drawImage(c, x, y + 16); sg.fillStyle = '#ccc'; sg.font = '12px monospace'; sg.fillText(name, x + 4, y + 12);
+    });
+    window.__png = sheet.toDataURL('image/png');
+    window.__done = err.length ? 'LỖI ' + err.join(' | ') : `OK ${need.length} hàm · ${nShots} shot thử · 3 ease · che kín wipeBlob ${(cB * 100).toFixed(1)}% wipeLeaves ${(cL * 100).toFixed(1)}% · ${tests.length} khung vẽ`;
+  } catch (e) { window.__done = 'LỖI ' + e.message; }
+  log(window.__done);
+})();
+</script>
