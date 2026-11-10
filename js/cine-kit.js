@@ -97,14 +97,68 @@
   K.sprite=(F,o)=>{ const c=K.prep(o.img); if(!c) return; const P=K.proj(F.B,o.x,o.y||0,o.z); if(!P) return;
     F.list.push({d:P.d, fn:()=>drawSprite(F,c,o,P)});
     if(o.shadow!==false) F.shadows.push({x:o.x,z:o.z,r:(o.h*c.sw/c.sh)*0.42,a:0.38*clamp(1-(o.y||0)/(o.h*1.5),0,1)}); };
+  // ───────── SỨC SỐNG: lưới biến dạng LIÊN TỤC cả ảnh (không cắt ô → mặt / kính / chữ chỉ dịch + giãn rất nhẹ, không vỡ) ─────────
+  // o.life = {breath, sway, wind, squash, stretch, ang, dir, seed, fps, nx, ny}; bỏ trống = K.LIFE (nhẹ, mọi sprite); life:false = tắt.
+  //   breath  thở: ngực/thân phồng ngang + nhấc nhẹ thân trên, chân đứng yên (1 = ~2% ngang ngực, chu kỳ 3.2s)
+  //   sway    lắc / nghiêng quanh chân, cong dần lên trên (1 ≈ 1° ở đỉnh, chu kỳ 4.1s)
+  //   wind    áo / tóc / đuôi phất: lệch theo gió + sóng chạy lên, tăng theo (chiều cao)² và ra mép ảnh; dir = ±1 hướng gió TRÊN MÀN HÌNH
+  //   squash  >0 dẹt (chạm đất: thấp xuống, xoè ngang — chân dẹt nhiều, đầu ít), <0 kéo dài dọc (đang rơi). Dùng K.squash(t,tLand,dur)
+  //   stretch 0–1 kéo dài theo hướng lao (hướng lấy từ smear; hoặc ang = độ trên màn hình, 0 = sang phải, 90 = xuống)
+  //   fps 12 (mặc định, giật như vẽ tay; 0 = mượt) · seed lệch pha (mặc định theo ảnh) · lưới nx×ny = 6×10
+  K.LIFE={breath:0.5, sway:0.4, wind:0.25};
+  // giá trị squash cho 1 lần tiếp đất ở tLand: trước đó `pre` giây kéo dài (−0.6), chạm đất dẹt 1 (giữ `hold` giây), nảy lại rồi tắt sau `dur`
+  K.squash=(t,tLand,dur,pre,hold)=>{ dur=dur||0.45; pre=pre==null?0.12:pre; hold=hold==null?0.05:hold;
+    if(t<tLand-pre||t>=tLand+hold+dur) return 0; if(t<tLand) return pre>0?-0.6*seg(t,tLand-pre,tLand):0; if(t<tLand+hold) return 1;
+    const u=(t-tLand-hold)/dur; return Math.exp(-3.5*u)*Math.cos(u*Math.PI*2.4)*(1-u); };
+  let MESH=null, MESHW=null;   // 2 canvas dùng chung (vẽ xong dùng ngay trong drawSprite) — chỉ nới, không thu
+  const grow=(cv,W,H)=>(!cv||cv.width<W||cv.height<H)?K.mk(Math.max(W,cv?cv.width:0),Math.max(H,cv?cv.height:0)):cv;
+  const sstep=(a,b,x)=>{ const k=clamp((x-a)/(b-a),0,1); return k*k*(3-2*k); };
+  function lifeOf(o){ if(o.life===false) return null; const L=Object.assign({},K.LIFE); if(o.life) for(const k in o.life) if(o.life[k]!=null) L[k]=o.life[k]; return L; }
+  // dựng ảnh đã biến dạng vào canvas chung: trả {img,W,H,ax,ay,R} — (ax,ay) = chân giữa ảnh, R = px canvas / 1 chiều cao ảnh
+  function lifeMesh(F,c,L,h,flip){ const fps=L.fps==null?12:L.fps, tt=fps?K.twos(F.t,fps):F.t, ph=(L.seed!=null?L.seed:hash(c.sw*0.131+c.sh*0.071))*6.283;
+    const nx=L.nx||6, ny=L.ny||10, asp=c.sw/c.sh, br=(L.breath||0)*0.02*Math.sin(tt*6.283/3.2+ph), sw=(L.sway||0)*0.018*Math.sin(tt*6.283/4.1+ph*1.7),
+      wd=(L.wind||0)*0.03*(L.dir||1)*(flip?-1:1), sa=0.32*(L.squash||0), sb=0.25*(L.squash||0), NV=(nx+1)*(ny+1), V=new Float64Array(NV*2);
+    let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;
+    for(let j=0;j<=ny;j++){ const Y=1-j/ny, bump=Math.exp(-Math.pow((Y-0.6)/0.22,2)), Ys=Y-sa*(Y-0.35*Y*Y)+br*0.35*sstep(0.15,0.7,Y), Y2=Y*Y, Y15=Math.pow(Y,1.5);
+      for(let i=0;i<=nx;i++){ const u=i/nx, e=Math.abs(2*u-1);
+        let X=(u-0.5)*asp*(1+sb*(1-0.5*Y))*(1+br*bump)+sw*Y15;
+        if(wd) X+=wd*Y2*(0.35+0.65*e*e)*(0.55+0.45*(0.6*Math.sin(tt*5.65-Y*2.2+ph)+0.4*Math.sin(tt*10.7-Y*3.5+u*1.3+ph*2)));
+        const n=(j*(nx+1)+i)*2; V[n]=X; V[n+1]=-Ys; if(X<x0)x0=X; if(X>x1)x1=X; if(-Ys<y0)y0=-Ys; if(-Ys>y1)y1=-Ys; } }
+    const r=Math.min(1,h*(F.SC||1)/c.sh), R=c.sh*r, W=Math.ceil((x1-x0)*R)+6, H=Math.ceil((y1-y0)*R)+6, ox=3-x0*R, oy=3-y0*R;
+    MESH=grow(MESH,W,H); const x=MESH.getContext('2d'); x.setTransform(1,0,0,1,0,0); x.clearRect(0,0,W,H);
+    for(let n=0;n<NV*2;n+=2){ V[n]=V[n]*R+ox; V[n+1]=V[n+1]*R+oy; }
+    const cw=c.sw/nx, ch=c.sh/ny, pad=Math.max(1.5,1.2/r), SW=c.src.width, SH=c.src.height;
+    const tri=(sx0,sy0,sx1,sy1,sx2,sy2,a,b,d,bx,by,bw,bh)=>{ const d0x=V[a],d0y=V[a+1],d1x=V[b],d1y=V[b+1],d2x=V[d],d2y=V[d+1];
+      const a1=sx1-sx0,b1=sy1-sy0,a2=sx2-sx0,b2=sy2-sy0,det=a1*b2-a2*b1; if(!det) return;
+      const e1x=d1x-d0x,e1y=d1y-d0y,e2x=d2x-d0x,e2y=d2y-d0y, ma=(e1x*b2-e2x*b1)/det, mc=(e2x*a1-e1x*a2)/det, mb=(e1y*b2-e2y*b1)/det, md=(e2y*a1-e1y*a2)/det;
+      const cx=(d0x+d1x+d2x)/3, cy=(d0y+d1y+d2y)/3, ex=(px,py)=>{ const dx=px-cx, dy=py-cy, l=Math.hypot(dx,dy)||1; return [px+dx/l*0.6, py+dy/l*0.6]; };   // chồng mép 0.6px chống khe
+      const p0=ex(d0x,d0y), p1=ex(d1x,d1y), p2=ex(d2x,d2y);
+      x.save(); x.beginPath(); x.moveTo(p0[0],p0[1]); x.lineTo(p1[0],p1[1]); x.lineTo(p2[0],p2[1]); x.closePath(); x.clip();
+      x.setTransform(ma,mb,mc,md,d0x-ma*sx0-mc*sy0,d0y-mb*sx0-md*sy0); x.drawImage(c.src,bx,by,bw,bh,bx,by,bw,bh); x.restore(); };
+    for(let j=0;j<ny;j++) for(let i=0;i<nx;i++){ const sx=c.sx+i*cw, sy=c.sy+j*ch, A=(j*(nx+1)+i)*2, B=A+2, C=A+(nx+1)*2+2, D=A+(nx+1)*2;
+      const bx=Math.max(0,sx-pad), by=Math.max(0,sy-pad), bw=Math.min(SW,sx+cw+pad)-bx, bh=Math.min(SH,sy+ch+pad)-by;
+      tri(sx,sy,sx+cw,sy,sx+cw,sy+ch,A,B,C,bx,by,bw,bh); tri(sx,sy,sx+cw,sy+ch,sx,sy+ch,A,C,D,bx,by,bw,bh); }
+    return {img:MESH,W,H,ax:ox,ay:oy,R}; }
   function drawSprite(F,c,o,P){ const g=F.g, h=o.h*P.s, w=h*c.sw/c.sh;
-    const one=(x,y,a,img)=>{ g.save(); g.globalAlpha=a; g.translate(x,y); if(o.lean) g.rotate(o.lean*D2R); g.scale(o.flip?-1:1,1);
-      if(img) g.drawImage(img,-w/2,-h,w,h); else g.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,-w/2,-h,w,h); g.restore(); };
+    const L=h>=24?lifeOf(o):null, M=(L&&(L.breath||L.sway||L.wind||L.squash))?lifeMesh(F,c,L,h,o.flip):null, q=M?h/M.R:1;
+    // kéo dài theo hướng lao: 1 phép affine quanh giữa thân (trước khi nghiêng / lật ảnh)
+    let st=null; if(L&&L.stretch>0){ let A=L.ang!=null?L.ang*D2R:null;
+      if(A==null&&o.smear){ const S=o.smear, Q=K.proj(F.B,o.x-S.dx,(o.y||0)-(S.dy||0),o.z-(S.dz||0)); if(Q&&Math.hypot(P.x-Q.x,P.y-Q.y)>1) A=Math.atan2(P.y-Q.y,P.x-Q.x); }
+      if(A!=null){ const k=clamp(L.stretch,0,1), s1=1+0.45*k, s2=1/Math.sqrt(s1), cs=Math.cos(A), sn=Math.sin(A);
+        st=[cs*cs*s1+sn*sn*s2, cs*sn*(s1-s2), cs*sn*(s1-s2), sn*sn*s1+cs*cs*s2]; } }
+    const one=(x,y,a,img)=>{ g.save(); g.globalAlpha=a; g.translate(x,y);
+      if(st){ g.translate(0,-h/2); g.transform(st[0],st[1],st[2],st[3],0,0); g.translate(0,h/2); }
+      if(o.lean) g.rotate(o.lean*D2R); g.scale(o.flip?-1:1,1);
+      if(M) g.drawImage(img||M.img,0,0,M.W,M.H,-M.ax*q,-M.ay*q,M.W*q,M.H*q);
+      else if(img) g.drawImage(img,-w/2,-h,w,h); else g.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,-w/2,-h,w,h); g.restore(); };
     if(o.aura) K.auraAt(F,c,P.x,P.y,w,h,o);
     if(o.smear){ const S=o.smear, Q=K.proj(F.B,o.x-S.dx,(o.y||0)-(S.dy||0),o.z-(S.dz||0)); if(Q){ const n=S.n||5;
       for(let i=n;i>=1;i--){ const k=i/(n+1); one(lerp(P.x,Q.x,k),lerp(P.y,Q.y,k),(o.a==null?1:o.a)*0.32*(1-k),null); } } }
     one(P.x,P.y,o.a==null?1:o.a,null);
-    if(o.white>0) one(P.x,P.y,clamp(o.white,0,1),K.tinted(c,'#fff'));
+    if(o.white>0){ let wi;
+      if(M){ MESHW=grow(MESHW,M.W,M.H); const x=MESHW.getContext('2d'); x.save(); x.globalCompositeOperation='copy'; x.drawImage(M.img,0,0,M.W,M.H,0,0,M.W,M.H);
+        x.globalCompositeOperation='source-in'; x.fillStyle='#fff'; x.fillRect(0,0,M.W,M.H); x.restore(); wi=MESHW; } else wi=K.tinted(c,'#fff');
+      one(P.x,P.y,clamp(o.white,0,1),wi); }
     o._scr={x:P.x,y:P.y,w,h}; }
   // hào quang lửa theo đúng bóng nhân vật: nhiều lớp bóng màu phóng to rung + lưỡi lửa bốc lên
   K.auraAt=(F,c,x,y,w,h,o)=>{ const g=F.g, A=o.aura, col=A.col, k=A.k==null?1:A.k, t=F.t; if(k<=0.01) return;

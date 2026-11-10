@@ -29,6 +29,9 @@ function stop() {
   if (!fs.existsSync(PIDF)) return console.log('no test browser recorded');
   const pid = +fs.readFileSync(PIDF, 'utf8');
   try { if (process.platform === 'win32') execSync(`taskkill /PID ${pid} /T /F`, { stdio: 'ignore' }); else process.kill(-pid, 'SIGTERM'); } catch (e) { try { process.kill(pid); } catch (e2) {} }
+  // 10/11: Edge/Chrome tự đẻ tiến trình mới (mã khác) nên giết theo PID là chưa đủ → giết mọi tiến trình có --user-data-dir đúng hồ sơ này (không đụng trình duyệt khác)
+  try { if (process.platform === 'win32') { const pf = PROFILE.replace(/'/g, "''"); execSync(`powershell -NoProfile -Command "Get-CimInstance Win32_Process | Where-Object { $_.CommandLine -and $_.CommandLine.Contains('${pf}') -and $_.ProcessId -ne ${process.pid} } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }"`, { stdio: 'ignore', timeout: 20000 }); }
+        else execSync(`pkill -f -- ${JSON.stringify('--user-data-dir=' + PROFILE)}`, { stdio: 'ignore' }); } catch (e) {}
   fs.rmSync(PIDF, { force: true }); console.log('stopped test browser pid', pid);
 }
 

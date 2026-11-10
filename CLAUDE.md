@@ -239,6 +239,7 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
   POSE CUỐI: logo MEOWKATSUKI theo mẫu logo Akatsuki anh gửi (`emblem`: chữ cong font anime Shojumaru `assets/fonts/Shojumaru.ttf` OFL, vòng 10 nhẫn chữ Hán, mây đỏ chữ 猫, EST. 2026)
   ở lớp dưới cùng, nhóm thu 0.72 đứng đè lên, mép ảnh pose LÀM MỜ THẬT vào nền (`drawPoseFaded`), bỏ dải đen trên/dưới.
 - Tiếng mới (myinstants): `fin_city` (xe cộ), `fin_crowd` (đám đông la hét), `fin_collapse` (nhà sập), `fin_icecream` (nhạc xe kem) — phát qua `mus` (đường dẫn thẳng, không khai AUDIO_SAMPLES).
+- 🗣️ Giọng Nhật tên chiêu cảnh 4 (10/11, VOICEVOX Engine 0.26.1 directml ở `D:\tools\voicevox`, giọng **玄野武宏 ノーマル**): `mw_ryoiki_tenkai` 領域展開 · `mw_muryokusho` 無量空処 · `mw_murasaki` 虚式「茈」 — dùng phim nào có 3 tiếng này thì BẮT BUỘC ghi vào mô tả video: **`VOICEVOX:玄野武宏`** (điều khoản VirVox: thương mại OK nếu có credit, ghi trong video hoặc mô tả; cấm dùng làm hại hình ảnh nhân vật / huấn luyện model giọng).
 - 💡 (5/11) ChatGPT giờ vẽ được SPRITE SHEET / GIF nhiều khung theo lưới đều → khi cần nhân vật CHUYỂN ĐỘNG (đi, chạy, khóc, vỗ cánh…) xin anh sprite sheet
   (cùng cỡ, cùng đường chân, cách đều, nền xanh) thay vì 1–2 ảnh tĩnh; mẫu lệnh ở cuối PROMPT.txt trên.
 

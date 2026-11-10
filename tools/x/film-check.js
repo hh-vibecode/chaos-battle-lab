@@ -16,7 +16,7 @@ if (!FILE) { const own = path.join(ROOT, 'js', 'film-' + ID + '.js'); FILE = fs.
 const q = new URLSearchParams({ id: ID, file: FILE, w: opt('--w', '320'), cols: opt('--cols', '6') });
 if (opt('--t')) q.set('t', opt('--t')); else { q.set('step', opt('--step', '0.5')); if (opt('--a')) q.set('a', opt('--a')); if (opt('--b')) q.set('b', opt('--b')); }
 const NODE = process.execPath, ENV = Object.assign({}, process.env, { ELECTRON_RUN_AS_NODE: '1' });
-const PROFILE = path.join(os.tmpdir(), 'film-check-profile'), steps = path.join(OUT, '.steps.txt'), png = path.join(OUT, ID + '.png'), log = path.join(OUT, '.cdp.log');
+const PROFILE = path.join(os.tmpdir(), 'film-check-profile-' + PORT), steps = path.join(OUT, '.steps.txt'), png = path.join(OUT, ID + '.png'), log = path.join(OUT, '.cdp.log');
 fs.writeFileSync(steps, `goto tools/x/film-sheet.html?${q}\nwaitfor window.__done\nwaitfor window.__done\nwaitfor window.__done\neval window.__done\nevalsave ${ID} window.__png\n`);
 try { fs.rmSync(png, { force: true }); } catch (e) {}
 const kids = [];

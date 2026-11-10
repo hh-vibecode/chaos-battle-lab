@@ -26,7 +26,7 @@ const old = fs.existsSync(OUT) ? JSON.parse(fs.readFileSync(OUT, 'utf8')).tieng 
 // nơi đang dùng: phim cine-kit + phim cũ (js/*.js) — tìm 'key' trong ngoặc
 const used = {}; for (const f of fs.readdirSync(path.join(ROOT, 'js')).filter(f => f.endsWith('.js'))) { const s = fs.readFileSync(path.join(ROOT, 'js', f), 'utf8'); for (const m of s.matchAll(/['"]([a-z0-9]+_[a-z0-9_]+)['"]/g)) (used[m[1]] = used[m[1]] || new Set()).add(f.replace(/\.js$/, '')); }
 const T = {};
-for (const ln of game.split('\n')) { const ms = [...ln.matchAll(/([a-zA-Z0-9_]+)\s*:\s*'(assets\/audio\/[^']+)'/g)]; if (!ms.length) continue; const cm = ln.match(/\/\/\s*(.*)$/), note = cm ? cm[1].trim() : '';
+for (const ln of game.split(/\r?\n/)) { const ms = [...ln.matchAll(/([a-zA-Z0-9_]+)\s*:\s*'(assets\/audio\/[^']+)'/g)]; if (!ms.length) continue; const cm = ln.match(/\/\/\s*(.*)$/), note = cm ? cm[1].trim() : '';
   for (const m of ms) { const k = m[1], o = old[k] || {}, desc = o.tay ? o.moTa : (ms.length === 1 ? note : ''), hay = k.replace(/_/g, ' ') + ' ' + desc;
     const p = k.includes('_') ? k.split('_')[0] : null, loai = o.tay ? o.loai : MUS.has(k) ? 'nhạc' : FIX[k] || (TYPES.find(([, re]) => re.test(hay)) || ['?'])[0];
     T[k] = { file: m[2], dai: mp3dur(path.join(ROOT, m[2])), moTa: desc, loai, chu: p && !GENERIC.includes(p) ? p : null, nhac: MUS.has(k), dung: [...(used[k] || [])].filter(f => f !== 'game').sort(), tai: o.tai || null, ...(o.tay ? { tay: true } : {}) }; } }

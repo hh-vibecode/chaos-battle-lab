@@ -954,7 +954,7 @@
   "soul_steal": {
    "file": "assets/audio/soul_steal.mp3",
    "dai": 3.98,
-   "moTa": "",
+   "moTa": "👻 Giám Ngục (ma đen Scared Dog) hút hồn — user gửi",
    "loai": "?",
    "chu": "soul",
    "nhac": false,
@@ -1043,7 +1043,7 @@
   "dn_theme": {
    "file": "assets/audio/dn_theme.mp3",
    "dai": 5.07,
-   "moTa": "",
+   "moTa": "📓 nhạc Death Note — phát suốt lúc Maxwell cầm sổ (death-note-writing-theme-c.mp3)",
    "loai": "nhạc",
    "chu": "dn",
    "nhac": false,
@@ -1053,7 +1053,7 @@
   "mw_gojo": {
    "file": "assets/audio/mw_gojo.mp3",
    "dai": 1.78,
-   "moTa": "",
+   "moTa": "🟣 Hollow Purple: dung hợp + bắn (gojo.mp3)",
    "loai": "năng lượng",
    "chu": "mw",
    "nhac": false,
@@ -1066,7 +1066,7 @@
   "mw_gojo_travel": {
    "file": "assets/audio/mw_gojo_travel.mp3",
    "dai": 3.94,
-   "moTa": "",
+   "moTa": "🟣 Hollow Purple: cầu tím càn quét (gojo 2.mp3 nối x4 crossfade, phát loop)",
    "loai": "năng lượng",
    "chu": "mw",
    "nhac": false,
@@ -1078,37 +1078,58 @@
   "mw_ryoiki_tenkai": {
    "file": "assets/audio/mw_ryoiki_tenkai.mp3",
    "dai": 1.23,
-   "moTa": "",
-   "loai": "?",
+   "moTa": "🗣️ giọng Gojo đọc \"領域展開\" (Ryōiki Tenkai, chậm trầm) — VOICEVOX:玄野武宏 (ノーマル, tốc 0.72, cao -0.1) · BẮT BUỘC ghi \"VOICEVOX:玄野武宏\" ở mô tả video",
+   "loai": "giọng",
    "chu": "mw",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 86%",
+    "Speech synthesizer 3%",
+    "Male speech, man speaking 3%",
+    "Narration, monologue 1%",
+    "Sound effect 1%",
+    "Television 0%"
+   ]
   },
   "mw_muryokusho": {
    "file": "assets/audio/mw_muryokusho.mp3",
    "dai": 0.97,
-   "moTa": "",
-   "loai": "?",
+   "moTa": "🗣️ giọng Gojo đọc \"無量空処\" (Muryōkūsho) — VOICEVOX:玄野武宏 (ノーマル, tốc 0.86, cao -0.1) · ghi nguồn như trên",
+   "loai": "giọng",
    "chu": "mw",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 86%",
+    "Speech synthesizer 3%",
+    "Male speech, man speaking 2%",
+    "Narration, monologue 1%",
+    "Sound effect 1%",
+    "Television 0%"
+   ]
   },
   "mw_murasaki": {
    "file": "assets/audio/mw_murasaki.mp3",
    "dai": 1.67,
-   "moTa": "",
-   "loai": "?",
+   "moTa": "🗣️ giọng Gojo đọc \"虚式「茈」\" = きょしき、むらさき (Hollow Purple) — VOICEVOX:玄野武宏 (ノーマル, tốc 0.86, cao -0.1) · ghi nguồn như trên",
+   "loai": "giọng",
    "chu": "mw",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 75%",
+    "Speech synthesizer 15%",
+    "Male speech, man speaking 3%",
+    "Narration, monologue 2%",
+    "Sound effect 1%",
+    "Single-lens reflex camera 0%"
+   ]
   },
   "ar_mini_die": {
    "file": "assets/audio/ar_mini_die.mp3",
    "dai": 1.22,
-   "moTa": "",
+   "moTa": "🧞✨ thần đèn nhỏ bị tiêu diệt (export_ofoct_uz3AV4x)",
    "loai": "?",
    "chu": "ar",
    "nhac": false,
@@ -1118,7 +1139,7 @@
   "ar_clone": {
    "file": "assets/audio/ar_clone.mp3",
    "dai": 1.38,
-   "moTa": "",
+   "moTa": "🧞🧞 2 thần đèn nhỏ xuất hiện (naruto_shadow_clones)",
    "loai": "?",
    "chu": "ar",
    "nhac": false,
@@ -1128,8 +1149,8 @@
   "ar_stone_on": {
    "file": "assets/audio/ar_stone_on.mp3",
    "dai": 0.29,
-   "moTa": "",
-   "loai": "?",
+   "moTa": "🗿 thần đèn hoá đá (kalsstockmedia horror jump scare 4)",
+   "loai": "vỡ",
    "chu": "ar",
    "nhac": false,
    "dung": [
@@ -1140,7 +1161,7 @@
   "ar_stone_break": {
    "file": "assets/audio/ar_stone_break.mp3",
    "dai": 0.5,
-   "moTa": "",
+   "moTa": "🗿 tượng xi măng vỡ (e-break-rock)",
    "loai": "vỡ",
    "chu": "ar",
    "nhac": false,
@@ -1184,7 +1205,7 @@
   "marmot_scream_ssj": {
    "file": "assets/audio/marmot_scream_ssj.mp3",
    "dai": 3.03,
-   "moTa": "",
+   "moTa": "😱 lần hét cuối trước khi biến Super Saiyan: 4 nhịp to dần (nhịp cuối ngắn nhất), lấy hơi ngắn giữa các nhịp, dài đúng 3s = MM_SSJ_T (cắt từ marmot_scream)",
    "loai": "giọng",
    "chu": "marmot",
    "nhac": false,
@@ -1304,7 +1325,7 @@
   "piano_megalovania": {
    "file": "assets/audio/piano_megalovania.mp3",
    "dai": 56.01,
-   "moTa": "",
+   "moTa": "Undertale MEGALOVANIA, metal cover RichaadEB & ThunderScott (file anh cắt sẵn giây 4–60)",
    "loai": "nhạc",
    "chu": "piano",
    "nhac": true,
@@ -1791,8 +1812,8 @@
   "sc_terror": {
    "file": "assets/audio/sc_terror.mp3",
    "dai": 30.25,
-   "moTa": "",
-   "loai": "?",
+   "moTa": "🎻 nền ghê rợn khối 'Quỷ trỗi dậy' từ lúc zoom (terror-fx.mp3, cắt 0.72s im lặng đầu)",
+   "loai": "nền",
    "chu": "sc",
    "nhac": false,
    "dung": [
@@ -1803,7 +1824,7 @@
   "sc_laugh": {
    "file": "assets/audio/sc_laugh.mp3",
    "dai": 2.56,
-   "moTa": "",
+   "moTa": "😈 tiếng cười lúc bay đi, khối 'Quỷ trỗi dậy' (evil-sounds-laugh.mp3, nguyên bản 2.5s)",
    "loai": "giọng",
    "chu": "sc",
    "nhac": false,
@@ -1813,7 +1834,7 @@
   "sc_wing": {
    "file": "assets/audio/sc_wing.mp3",
    "dai": 0.76,
-   "moTa": "",
+   "moTa": "🦇 tiếng bung cánh khối 'Quỷ trỗi dậy' (wing-flap.mp3, nguyên bản)",
    "loai": "?",
    "chu": "sc",
    "nhac": false,
@@ -1826,7 +1847,7 @@
   "dc_bell": {
    "file": "assets/audio/dc_bell.mp3",
    "dai": 0.94,
-   "moTa": "",
+   "moTa": "🔔 Doorbell Chud giật dây — mỗi cú giật 1 tiếng (2 cú/lượt) (door-bell-soundbible.mp3, bản user đã cắt ngắn ~0.9s)",
    "loai": "?",
    "chu": "dc",
    "nhac": false,
@@ -1836,8 +1857,8 @@
   "sm_fin": {
    "file": "assets/audio/sm_fin.mp3",
    "dai": 0.89,
-   "moTa": "",
-   "loai": "?",
+   "moTa": "⚔️ mỗi nét chém kết liễu hiện trên người địch (finnish slash.mp3)",
+   "loai": "vút",
    "chu": "sm",
    "nhac": false,
    "dung": [
@@ -1848,8 +1869,8 @@
   "sm_nani": {
    "file": "assets/audio/sm_nani.mp3",
    "dai": 0.89,
-   "moTa": "",
-   "loai": "?",
+   "moTa": "⚔️ địch kêu \"Nani?!\" trước khi bị chém (nani_aIc0958.mp3, 0.83s)",
+   "loai": "vút",
    "chu": "sm",
    "nhac": false,
    "dung": [],
@@ -1858,8 +1879,8 @@
   "sm_drip": {
    "file": "assets/audio/sm_drip.mp3",
    "dai": 4.02,
-   "moTa": "",
-   "loai": "?",
+   "moTa": "💧 Samurai Cheems — giọt nước rơi trước kết liễu (water-droplet-yes.mp3, giọt chạm ở ~0.28s)",
+   "loai": "rơi",
    "chu": "sm",
    "nhac": false,
    "dung": [],
@@ -1868,7 +1889,7 @@
   "sm_slash": {
    "file": "assets/audio/sm_slash.mp3",
    "dai": 0.97,
-   "moTa": "",
+   "moTa": "⚔️ Samurai Cheems chém cận chiến (water-slash.mp3)",
    "loai": "vút",
    "chu": "sm",
    "nhac": false,
@@ -1880,7 +1901,7 @@
   "eg_bgm": {
    "file": "assets/audio/eg_bgm.mp3",
    "dai": 10.61,
-   "moTa": "",
+   "moTa": "🪦 graveyard-cut.mp3 — nhạc nền Evil Gary (lặp suốt lúc nó còn trên sân)",
    "loai": "nhạc",
    "chu": "eg",
    "nhac": true,
@@ -1890,8 +1911,8 @@
   "sa_phase1": {
    "file": "assets/audio/sa_phase1.mp3",
    "dai": 8.41,
-   "moTa": "",
-   "loai": "?",
+   "moTa": "😼 phase 1.mp3 — nhạc nền Supreme Arbiter, lặp; điểm cao ngạo càng cao càng to",
+   "loai": "nhạc",
    "chu": "sa",
    "nhac": false,
    "dung": [
@@ -1902,7 +1923,7 @@
   "dp_rain": {
    "file": "assets/audio/dp_rain.mp3",
    "dai": 15.91,
-   "moTa": "",
+   "moTa": "🌧️ raininggggg.mp3 — tiếng mưa lặp theo nấc thời tiết Depressed Cat (mưa nhỏ: chậm + nhỏ, mưa to: đủ tốc + to)",
    "loai": "nền",
    "chu": "dp",
    "nhac": false,
@@ -1915,7 +1936,7 @@
   "ps_shinra": {
    "file": "assets/audio/ps_shinra.mp3",
    "dai": 4.99,
-   "moTa": "",
+   "moTa": "🌀 pain-shinra-tensei-ha.mp3 — giọng Pain \"Shinra Tensei\" (0→1.45s) rồi tiếng nổ lực đẩy (từ 1.95s)",
    "loai": "giọng",
    "chu": "ps",
    "nhac": false,
@@ -1935,7 +1956,7 @@
   "dp_happy": {
    "file": "assets/audio/dp_happy.mp3",
    "dai": 2.56,
-   "moTa": "",
+   "moTa": "😸 happy-happy-happy-cat.mp3 — phim Depressed Cat Comes Home: ôm hoa đi trên phố",
    "loai": "?",
    "chu": "dp",
    "nhac": false,
@@ -1972,7 +1993,7 @@
   "hm_scared": {
    "file": "assets/audio/hm_scared.mp3",
    "dai": 0.5,
-   "moTa": "",
+   "moTa": "🐹 scared-girl-anime.mp3 — hamster hoảng sợ nép vào góc",
    "loai": "?",
    "chu": "hm",
    "nhac": false,
@@ -1984,8 +2005,8 @@
   "hm_claw1": {
    "file": "assets/audio/hm_claw1.mp3",
    "dai": 1.54,
-   "moTa": "",
-   "loai": "?",
+   "moTa": "🐹 sanity/hit_response_sanitycreature_1.mp3 (đã cắt lặng đầu) — tay bóng tối vồ trúng",
+   "loai": "va chạm",
    "chu": "hm",
    "nhac": false,
    "dung": [
@@ -1996,8 +2017,8 @@
   "hm_claw2": {
    "file": "assets/audio/hm_claw2.mp3",
    "dai": 1.46,
-   "moTa": "",
-   "loai": "?",
+   "moTa": "🐹 sanity/hit_response_sanitycreature_2.mp3 (đã cắt lặng đầu)   // 🐹 sanity/nightlight_layer1.mp3 — tiếng 2 bàn tay bóng tối đang bò (lặp)",
+   "loai": "va chạm",
    "chu": "hm",
    "nhac": false,
    "dung": [
@@ -2009,7 +2030,7 @@
   "hm_musicbox": {
    "file": "assets/audio/hm_musicbox.mp3",
    "dai": 9.9,
-   "moTa": "",
+   "moTa": "🐹 Don't Starve OST - Night hand music box — nhạc nền lặp suốt lúc tay bóng tối còn trên sàn   // 🐹 stalker.mp3 — Scared Hamster thắng: bóng tối vây quanh, mắt mở ra khắp nơi",
    "loai": "nhạc",
    "chu": "hm",
    "nhac": true,
@@ -2021,7 +2042,7 @@
   "eg_necro": {
    "file": "assets/audio/eg_necro.mp3",
    "dai": 1.92,
-   "moTa": "",
+   "moTa": "😈 necromancy.mp3 — Evil Gary đủ 5 cánh sao: đứng hình, quỷ hiện sau lưng bung cánh",
    "loai": "?",
    "chu": "eg",
    "nhac": false,
@@ -2035,8 +2056,8 @@
   "br_tick": {
    "file": "assets/audio/br_tick.mp3",
    "dai": 3.06,
-   "moTa": "",
-   "loai": "?",
+   "moTa": "⏱️ ticking-bomb — phi tiêu nổ Bat Cat nhấp nháy chờ nổ (dài đúng 3s = đúng thời gian ngòi)",
+   "loai": "nổ",
    "chu": "br",
    "nhac": false,
    "dung": [],
@@ -2045,7 +2066,7 @@
   "br_boom": {
    "file": "assets/audio/br_boom.mp3",
    "dai": 1.67,
-   "moTa": "",
+   "moTa": "💣 creeper_explosion cắt từ ĐÚNG tiếng nổ (bỏ 1.37s xì châm ngòi đầu file) — phi tiêu nổ Bat Cat nổ là vang ngay",
    "loai": "nổ",
    "chu": "br",
    "nhac": false,
@@ -2057,7 +2078,7 @@
   "hl_choir": {
    "file": "assets/audio/hl_choir.mp3",
    "dai": 11.62,
-   "moTa": "",
+   "moTa": "👼 angelchoirmarktreekort.mp3 — hợp xướng thiên thần lúc Holy Cat hoá thiên thần (phát 1 lần, không lặp)",
    "loai": "?",
    "chu": "hl",
    "nhac": false,
@@ -2069,7 +2090,7 @@
   "hl_laser": {
    "file": "assets/audio/hl_laser.mp3",
    "dai": 1.44,
-   "moTa": "",
+   "moTa": "👼 open-laser.mp3 — tiếng cột laze Holy Cat thiên thần (lặp suốt lúc chiếu; đã cắt đoạn nhỏ dần ở cuối cho lặp liền)",
    "loai": "năng lượng",
    "chu": "hl",
    "nhac": false,
@@ -2081,7 +2102,7 @@
   "drv_train": {
    "file": "assets/audio/drv_train.mp3",
    "dai": 6.71,
-   "moTa": "",
+   "moTa": "🚂 train-online-audio-converter.mp3 — tàu hoả Driver Cat (phát lúc tàu tới, nhỏ dần khi tàu ra khỏi sân)",
    "loai": "nền",
    "chu": "drv",
    "nhac": false,
@@ -2091,7 +2112,7 @@
   "drv_bus": {
    "file": "assets/audio/drv_bus.mp3",
    "dai": 1.52,
-   "moTa": "",
+   "moTa": "🚌 battlebus.mp3 — còi xe bus Driver Cat (lấy tiếng còi đầu 0.28–1.74s)",
    "loai": "?",
    "chu": "drv",
    "nhac": false,
@@ -2101,7 +2122,7 @@
   "ld_shout": {
    "file": "assets/audio/ld_shout.mp3",
    "dai": 1.75,
-   "moTa": "",
+   "moTa": "😤 now-thats.mp3 — A Lotta Dame Guy hét khi ăn đủ 250 dame (đã cắt lặng đầu)",
    "loai": "giọng",
    "chu": "ld",
    "nhac": false,
@@ -2111,7 +2132,7 @@
   "ar_music": {
    "file": "assets/audio/ar_music.mp3",
    "dai": 9.82,
-   "moTa": "",
+   "moTa": "🐱 Arabian cat (ft. Panjabi MC) — nhạc lắc lư lặp của Arabic Cat (đã cắt 0.23s lặng đầu)",
    "loai": "nhạc",
    "chu": "ar",
    "nhac": true,
@@ -2121,7 +2142,7 @@
   "ld_spray": {
    "file": "assets/audio/ld_spray.mp3",
    "dai": 0.86,
-   "moTa": "",
+   "moTa": "🧴 spray-first-aid.mp3 — mỗi lần xịt Flex Seal",
    "loai": "?",
    "chu": "ld",
    "nhac": false,
@@ -2131,7 +2152,7 @@
   "ld_heal1": {
    "file": "assets/audio/ld_heal1.mp3",
    "dai": 2.22,
-   "moTa": "",
+   "moTa": "🧴 lot dame heal 1.mp3 — câu thoại lúc xịt hồi máu (luân phiên với heal2)",
    "loai": "?",
    "chu": "ld",
    "nhac": false,
@@ -2141,7 +2162,7 @@
   "ld_heal2": {
    "file": "assets/audio/ld_heal2.mp3",
    "dai": 1.75,
-   "moTa": "",
+   "moTa": "🧴 lot dame heal 2.mp3",
    "loai": "?",
    "chu": "ld",
    "nhac": false,
@@ -2151,7 +2172,7 @@
   "ld_stab": {
    "file": "assets/audio/ld_stab.mp3",
    "dai": 0.5,
-   "moTa": "",
+   "moTa": "🔪 ouch.mp3 — A Lotta Dame Guy đâm dao bấm",
    "loai": "?",
    "chu": "ld",
    "nhac": false,
@@ -2161,8 +2182,8 @@
   "ld_start": {
    "file": "assets/audio/ld_start.mp3",
    "dai": 1.72,
-   "moTa": "",
-   "loai": "?",
+   "moTa": "🪚 chainsaw-sound-effects.mp3 — ghép lại cho 2 cú giật gọn trong 1s (cú 1 ở 0s, cú 2 ở ~0.45s) rồi nổ máy",
+   "loai": "nổ",
    "chu": "ld",
    "nhac": false,
    "dung": [],
@@ -2171,8 +2192,8 @@
   "ld_saw": {
    "file": "assets/audio/ld_saw.mp3",
    "dai": 3.96,
-   "moTa": "",
-   "loai": "?",
+   "moTa": "🪚 chainsaw-on.mp3 — tiếng cưa lúc đang xẻ (đã cắt đầu/đuôi để lặp liền)",
+   "loai": "máy móc",
    "chu": "ld",
    "nhac": false,
    "dung": [],
@@ -2181,7 +2202,7 @@
   "sm_schwing": {
    "file": "assets/audio/sm_schwing.mp3",
    "dai": 1.52,
-   "moTa": "",
+   "moTa": "⚔️ katana-schwing.mp3 — Joninn Cheems lướt xuyên qua địch (đã cắt lặng đầu/đuôi)",
    "loai": "vút",
    "chu": "sm",
    "nhac": false,
@@ -2195,7 +2216,7 @@
   "sm_parry": {
    "file": "assets/audio/sm_parry.mp3",
    "dai": 0.65,
-   "moTa": "",
+   "moTa": "⚔️ Samurai Cheems gạt bật 1 viên đạn (sword-deflected.mp3)",
    "loai": "?",
    "chu": "sm",
    "nhac": false,
@@ -2205,7 +2226,7 @@
   "sm_form": {
    "file": "assets/audio/sm_form.mp3",
    "dai": 1.8,
-   "moTa": "",
+   "moTa": "⚔️ Samurai Cheems chuyển sang form kết liễu (suprised-barbie.mp3)",
    "loai": "?",
    "chu": "sm",
    "nhac": false,
@@ -2215,7 +2236,7 @@
   "sm_omae": {
    "file": "assets/audio/sm_omae.mp3",
    "dai": 2.93,
-   "moTa": "",
+   "moTa": "⚔️ Samurai Cheems kết liễu — \"Omae wa mou shindeiru\" (omae-wa-mou-shindeiru.mp3, 2.88s)",
    "loai": "?",
    "chu": "sm",
    "nhac": false,
@@ -2225,7 +2246,7 @@
   "sc_motor": {
    "file": "assets/audio/sc_motor.mp3",
    "dai": 10.34,
-   "moTa": "",
+   "moTa": "🛵 Scooter Cat chạy xe bình thường — tiếng máy lặp (motor.mp3, có 2 đoạn vặn ga ~3.85s và ~9.55s)",
    "loai": "?",
    "chu": "sc",
    "nhac": false,
@@ -2235,7 +2256,7 @@
   "sc_gas": {
    "file": "assets/audio/sc_gas.mp3",
    "dai": 25.26,
-   "moTa": "",
+   "moTa": "🛵🎵 Scooter Cat dưới 50% máu — nhạc nền Gas Gas Gas (gas-gas-gaslq.mp3)",
    "loai": "nhạc",
    "chu": "sc",
    "nhac": true,
@@ -2245,7 +2266,7 @@
   "sc_drift": {
    "file": "assets/audio/sc_drift.mp3",
    "dai": 1.31,
-   "moTa": "",
+   "moTa": "🛵 Scooter Cat drift (drift-sound-effect_56hbeZG.mp3)",
    "loai": "?",
    "chu": "sc",
    "nhac": false,
@@ -2255,7 +2276,7 @@
   "dc_chain": {
    "file": "assets/audio/dc_chain.mp3",
    "dai": 0.52,
-   "moTa": "",
+   "moTa": "➰ Doorbell Chud quật dây trúng địch (chain attack.mp3)",
    "loai": "máy móc",
    "chu": "dc",
    "nhac": false,
@@ -2265,7 +2286,7 @@
   "dc_rock": {
    "file": "assets/audio/dc_rock.mp3",
    "dai": 1.7,
-   "moTa": "",
+   "moTa": "🔔💥 Doorbell Chud giật lần cuối — chuông VỠ (rock-broken-sound.mp3)",
    "loai": "vỡ",
    "chu": "dc",
    "nhac": false,
@@ -2275,8 +2296,8 @@
   "dc_rage": {
    "file": "assets/audio/dc_rage.mp3",
    "dai": 2.66,
-   "moTa": "",
-   "loai": "?",
+   "moTa": "😡 Doorbell Chud hét phẫn nộ sau khi chuông vỡ (rage.mp3, ĐỦ 2.6s, phát đúng tốc gốc)",
+   "loai": "giọng",
    "chu": "dc",
    "nhac": false,
    "dung": [],
@@ -2298,7 +2319,7 @@
   "cine_drop": {
    "file": "assets/audio/cine_drop.mp3",
    "dai": 2.01,
-   "moTa": "",
+   "moTa": "🎬 phim: tiếng vật rơi từ trên cao xuống (user gửi, đã cắt khoảng lặng)",
    "loai": "rơi",
    "chu": null,
    "nhac": false,
@@ -2371,8 +2392,8 @@
   "zoro_blade": {
    "file": "assets/audio/zoro_blade.mp3",
    "dai": 1.91,
-   "moTa": "",
-   "loai": "?",
+   "moTa": "🎬 phim: tiếng chém kiếm kiểu Zoro (user gửi, đã cắt khoảng lặng cuối)",
+   "loai": "vút",
    "chu": "zoro",
    "nhac": false,
    "dung": [
@@ -2535,8 +2556,8 @@
   "pd_truck_crash": {
    "file": "assets/audio/pd_truck_crash.mp3",
    "dai": 1.78,
-   "moTa": "",
-   "loai": "?",
+   "moTa": "🚚 Poor Dog: xe tải đâm (myinstants car-crash-short, cắt 1.7s)   // 🎹 Poor Dog: đàn piano rơi đập vỡ (user gửi) — cú đập ở 0.09s",
+   "loai": "nhạc",
    "chu": "pd",
    "nhac": false,
    "dung": [],
@@ -3379,7 +3400,7 @@
   "ninja_kunai": {
    "file": "assets/audio/ninja_kunai.mp3",
    "dai": 0.57,
-   "moTa": "",
+   "moTa": "🥷 Ninja Cat ném kunai (ninja-star-throw — user gửi, đã cắt khoảng lặng)",
    "loai": "?",
    "chu": "ninja",
    "nhac": false,
@@ -3389,7 +3410,7 @@
   "morse_dot": {
    "file": "assets/audio/morse_dot.mp3",
    "dai": 0.13,
-   "moTa": "",
+   "moTa": "📡 Morse Code Cat: bíp ngắn (dấu chấm)",
    "loai": "?",
    "chu": "morse",
    "nhac": false,
@@ -3399,7 +3420,7 @@
   "morse_dash": {
    "file": "assets/audio/morse_dash.mp3",
    "dai": 0.26,
-   "moTa": "",
+   "moTa": "📡 bíp dài (dấu gạch)",
    "loai": "vút",
    "chu": "morse",
    "nhac": false,
@@ -3409,7 +3430,7 @@
   "bx_whitebeard": {
    "file": "assets/audio/bx_whitebeard.mp3",
    "dai": 0.89,
-   "moTa": "",
+   "moTa": "🥊 Boxing Cat: cú đấm Râu Trắng (user gửi)",
    "loai": "va chạm",
    "chu": "bx",
    "nhac": false,
@@ -3419,7 +3440,7 @@
   "flower_jarona": {
    "file": "assets/audio/flower_jarona.mp3",
    "dai": 1.34,
-   "moTa": "",
+   "moTa": "🌸 Flower Cat: bông hoa SẮP chạm vào nó (Deltarune — user gửi)",
    "loai": "?",
    "chu": "flower",
    "nhac": false,
@@ -3499,7 +3520,7 @@
   "pain_theme": {
    "file": "assets/audio/pain_theme.mp3",
    "dai": 21.79,
-   "moTa": "",
+   "moTa": "🎵 Pain's Theme (Girei — user gửi) — phim Meme Lore 2 tập 2 từ lúc khung cảnh lớn mở ra",
    "loai": "nhạc",
    "chu": "pain",
    "nhac": true,
@@ -3511,8 +3532,8 @@
   "dp_akatsuki": {
    "file": "assets/audio/dp_akatsuki.mp3",
    "dai": 8.25,
-   "moTa": "",
-   "loai": "?",
+   "moTa": "🎵 theme Akatsuki (user gửi) — phim Depressed Cat từ lúc mất điện tới hết",
+   "loai": "nhạc",
    "chu": "dp",
    "nhac": false,
    "dung": [
@@ -3531,7 +3552,7 @@
   "dp_cloak": {
    "file": "assets/audio/dp_cloak.mp3",
    "dai": 1.18,
-   "moTa": "",
+   "moTa": "🧥 Depressed Cat (phim): tung áo Akatsuki vụt lên + khoác vào phạch 1 cái",
    "loai": "vút",
    "chu": "dp",
    "nhac": false,
@@ -3591,7 +3612,7 @@
   "sc_tasty": {
    "file": "assets/audio/sc_tasty.mp3",
    "dai": 1.1,
-   "moTa": "",
+   "moTa": "👿 câu thoại bóng quỷ khối 'Quỷ trỗi dậy' (candy-crush-tasty, cắt 0.5s im lặng đầu)",
    "loai": "?",
    "chu": "sc",
    "nhac": false,
@@ -3601,7 +3622,7 @@
   "fr_dash": {
    "file": "assets/audio/fr_dash.mp3",
    "dai": 0.47,
-   "moTa": "",
+   "moTa": "💨 Friend lướt đâm trúng địch (angry-nyon.mp3, nguyên bản 0.39s)",
    "loai": "vút",
    "chu": "fr",
    "nhac": false,
@@ -3615,7 +3636,7 @@
   "fr_song": {
    "file": "assets/audio/fr_song.mp3",
    "dai": 40.49,
-   "moTa": "",
+   "moTa": "🎵 nhạc của Friend, phát từ lúc địch bị đánh dấu (MEOW! THATS RIGHT!, nguyên bản 40s, lặp)",
    "loai": "nhạc",
    "chu": "fr",
    "nhac": true,
@@ -3629,7 +3650,7 @@
   "fr_bite": {
    "file": "assets/audio/fr_bite.mp3",
    "dai": 0.29,
-   "moTa": "",
+   "moTa": "🦷 Friend ngoạm trong bóng đêm (bite-2_qdWg7LP, nguyên bản 0.26s)",
    "loai": "?",
    "chu": "fr",
    "nhac": false,
@@ -3642,7 +3663,7 @@
   "fr_chew": {
    "file": "assets/audio/fr_chew.mp3",
    "dai": 1.85,
-   "moTa": "",
+   "moTa": "🍖 nhai nuốt cảnh chân thân Friend (chewing-flesh.mp3: bỏ 0.22s im đầu, cắt còn 1.8s + nhỏ dần 0.15s cuối)",
    "loai": "?",
    "chu": "fr",
    "nhac": false,
@@ -3654,8 +3675,8 @@
   "thunder_big": {
    "file": "assets/audio/thunder_big.mp3",
    "dai": 6.61,
-   "moTa": "",
-   "loai": "năng lượng",
+   "moTa": "⚡ thunder-sound-effect.mp3 (đã cắt 0.58s lặng đầu) — sét lớn 1 lần trong CẢNH PHIM (phim Depressed Cat, Supreme Cat thắng, chân thân Friend); sét ngắn holy_thunder để cho đòn đánh",
+   "loai": "vỡ",
    "chu": "thunder",
    "nhac": false,
    "dung": [
@@ -3670,7 +3691,7 @@
   "fr_thunder": {
    "file": "assets/audio/fr_thunder.mp3",
    "dai": 6.61,
-   "moTa": "",
+   "moTa": "⚡ sét lúc chân thân Friend hiện ra (thunder-sound-effect_nnJumIi.mp3, nguyên bản)",
    "loai": "năng lượng",
    "chu": "fr",
    "nhac": false,
@@ -3682,8 +3703,8 @@
   "bk_clang": {
    "file": "assets/audio/bk_clang.mp3",
    "dai": 1.25,
-   "moTa": "",
-   "loai": "?",
+   "moTa": "⚔️ Berserk Cat chém trúng (clangberserk.mp3, nguyên bản)",
+   "loai": "vút",
    "chu": "bk",
    "nhac": false,
    "dung": [
@@ -3694,7 +3715,7 @@
   "sd_howl": {
    "file": "assets/audio/sd_howl.mp3",
    "dai": 5.54,
-   "moTa": "",
+   "moTa": "🐺🌕 sói hú lúc trăng lên (wolf-howling.mp3, chỉ cắt 0.42s im lặng đầu, giữ nguyên đuôi)",
    "loai": "?",
    "chu": "sd",
    "nhac": false,
@@ -3704,7 +3725,7 @@
   "heal_one": {
    "file": "assets/audio/heal_one.mp3",
    "dai": 0.5,
-   "moTa": "",
+   "moTa": "💚 tiếng hồi máu CHUNG cho mọi lần hồi 1 cục (undertale-healing.mp3, nguyên bản)",
    "loai": "?",
    "chu": "heal",
    "nhac": false,
@@ -3714,7 +3735,7 @@
   "tf_gulp": {
    "file": "assets/audio/tf_gulp.mp3",
    "dai": 0.31,
-   "moTa": "",
+   "moTa": "😏 Troll Face ĐỚP đối thủ (gulp-gulp-drinking.mp3, nguyên bản không cắt)",
    "loai": "?",
    "chu": "tf",
    "nhac": false,
@@ -3724,7 +3745,7 @@
   "tf_nightmare": {
    "file": "assets/audio/tf_nightmare.mp3",
    "dai": 4.56,
-   "moTa": "",
+   "moTa": "👹 Troll Face hoá dạng ác mộng (prowler-sound-effect-hd.mp3, chỉ cắt 0.2s im lặng đầu)",
    "loai": "?",
    "chu": "tf",
    "nhac": false,

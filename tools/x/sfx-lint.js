@@ -49,7 +49,7 @@ const mus = (parts ? (def.mus || []) : (def.mus || [])).map(m => ({ src: m.src, 
 
 // ───────── danh mục tiếng của game (AUDIO_SAMPLES + chú thích) ─────────
 const game = fs.readFileSync(path.join(ROOT, 'js/game.js'), 'utf8'), CAT = {};
-for (const ln of game.split('\n')) { const ms = [...ln.matchAll(/([a-zA-Z0-9_]+)\s*:\s*'(assets\/audio\/[^']+)'/g)]; if (!ms.length) continue;   // 1 dòng có thể khai nhiều tiếng
+for (const ln of game.split(/\r?\n/)) { const ms = [...ln.matchAll(/([a-zA-Z0-9_]+)\s*:\s*'(assets\/audio\/[^']+)'/g)]; if (!ms.length) continue;   // 1 dòng có thể khai nhiều tiếng
   const cm = ln.match(/\/\/\s*(.*)$/), note = cm ? cm[1].trim() : ''; for (const m of ms) CAT[m[1]] = { file: m[2], note: ms.length === 1 ? note : (note ? '(dòng chung) ' + note : '') }; }
 // ───────── độ dài mp3: cộng từng khung (đúng cả VBR) ─────────
 const BR1 = [0, 32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320], BR2 = [0, 8, 16, 24, 32, 40, 48, 56, 64, 80, 96, 112, 128, 144, 160], SR = { 3: [44100, 48000, 32000], 2: [22050, 24000, 16000], 0: [11025, 12000, 8000] };
