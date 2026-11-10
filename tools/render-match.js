@@ -129,7 +129,8 @@ const RESULT = () => ({ t: __vt, win: koWinner ? (koWinner.slotIdx === 0 ? 'a' :
   hp: fighters.map(f => [f.type, Math.max(0, Math.round(f.hp)), f.maxHp]), far: typeof bhFarEat !== 'undefined' ? bhFarEat : 0, dir: typeof __director === 'function' ? __director() : '' });
 const fmt = r => `${r.win ? (r.win === 'a' ? A : B) + ' thắng' : 'hoà/chưa xong'} lúc ${r.t.toFixed(1)}s · ${r.hp.map(h => h[0] + ' ' + h[1] + '/' + h[2]).join(' · ')}${FAR ? ' · nuốt đạn xa ' + (r.far || 0) : ''}${r.dir ? ' · ' + r.dir : ''}${DUR ? ' · video ~' + vdur(r).toFixed(1) + 's' : ''}`;
 const vdur = r => r.t + DUR_OFF;
-const ok = r => (!WIN || r.win === WIN) && (r.far || 0) >= FAR && (!DUR || (vdur(r) >= DUR[0] && vdur(r) <= DUR[1])) && (CLOSE == null || (r.win && (() => { const h = r.hp[r.win === 'a' ? 0 : 1]; return h[1] > 0 && h[1] / h[2] <= CLOSE; })()));
+const DIROK = opt('--dirok', null) ? new RegExp(opt('--dirok')) : null;   // --dirok <regex>: chỉ nhận trận mà dòng __director() (từ --inject) khớp mẫu — vd Bread Cat bị huỷ đúng 2 lần: --dirok 'breaks=2'
+const ok = r => (!DIROK || DIROK.test(r.dir || '')) && (!WIN || r.win === WIN) && (r.far || 0) >= FAR && (!DUR || (vdur(r) >= DUR[0] && vdur(r) <= DUR[1])) && (CLOSE == null || (r.win && (() => { const h = r.hp[r.win === 'a' ? 0 : 1]; return h[1] > 0 && h[1] / h[2] <= CLOSE; })()));
 
 (async () => {
   const srv = http.createServer((q, r) => { const f = path.join(ROOT, decodeURIComponent(q.url.split('?')[0])).replace(/\/$/, '/index.html');

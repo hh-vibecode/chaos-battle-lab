@@ -51,6 +51,7 @@ Phim có sẵn: `war`, `l2e2`, `l2e3` (bảng `FILMS` đầu file). Phim dựng 
 - Nhanh hơn: `--hw`. `--par 2` (chạy thử 2 trận cùng lúc, kết quả y hệt) CHỈ khi máy đang rảnh — KHÔNG dùng `--par` lớn hơn (MacBook lag, chậm hơn).
 - Ý muốn của anh: `--win a|b` (bên trái/phải thắng), `--close 0.25` (thắng còn ≤25% máu). Đã có seed ưng → `--seed N` (bỏ qua chạy thử).
 - Chỉ xem kết quả, không quay: `--sim 10`.
+- Trận phải có DIỄN BIẾN riêng (vd Bread Cat bị huỷ đúng 2 lần mới thắng, Mewing xoá địch bằng Hollow Purple): `--inject f.js` định nghĩa `window.__director=()=>'breaks='+N` (móc vào hàm game qua `window._bcBreak=...`) + `--dirok 'breaks=2$'` → chỉ nhận trận có dòng đạo diễn khớp mẫu.
 - Ví dụ: `node tools/render-match.js out/marmot-vs-ninja.mp4 --a saiyanmarmot --b ninjacat --hw`
 2vs2: `tools/render-duo.js out.mp4 --a k1,k2 --b k3,k4 [--win 0|1] [--seed N]` (xem đầu file). Boss Raid: `tools/render-boss.js out.mp4 [--sec 13]`.
 
