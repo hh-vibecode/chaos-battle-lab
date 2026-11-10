@@ -3621,7 +3621,7 @@ function _slDomainTick(f){
 }
 // ☭ có Stalin nào đang mở domain không (dùng cho phần vẽ sân lấp lánh + tốc xoay của liềm)
 function _slDomainOwner(){
-  for(const f of fighters){ if(f.type==='stalincat' && !f.dead && f._slDomainT>0) return f; }
+  for(const f of fighters){ if(f.type==='stalincat' && !f.dead && !f._mwErased && f._slDomainT>0) return f; }
   return null;
 }
 // ☭ STALIN CAT — vòng đời BÚA (búa không nảy như liềm nữa, đây là quản lý trạng thái riêng):
@@ -4291,13 +4291,13 @@ let saWin=null, saBolts=[]; const SA_WIN_Z=5;
 function _saFoes(f){ return [...fighters.filter(o=>o.team!==f.team && !o.dead), ..._summonFoes(f.team)]; }
 function _saG(f){ return Math.max(0,Math.min(1,(f._saSmug||0)/100)); }
 // độ nặng trọng lực đang đè lên u = mức tự mãn cao nhất của các Arbiter KHÁC phe còn sống
-function _saGravOn(u){ let g=0; if(!u) return 0; for(const f of fighters){ if(f.type==='supremearbiter' && !f.dead && f.team!==u.team && f.y < u.y-f.size*0.5) g=Math.max(g,_saG(f)); } return g; }
+function _saGravOn(u){ let g=0; if(!u) return 0; for(const f of fighters){ if(f.type==='supremearbiter' && !f.dead && !f._mwErased && f.team!==u.team && f.y < u.y-f.size*0.5) g=Math.max(g,_saG(f)); } return g; }
 // 🐢 làm chậm: mỗi giây Arbiter đứng trên đầu con nào là con đó +SA_SLOW_STEP chậm, cộng dồn giữ nguyên (không tụt), tối đa SA_SLOW_MAX
-function _saSlowMul(u){ if(!u || !(u._saSlw>0)) return 1; for(const f of fighters){ if(f.type==='supremearbiter' && !f.dead && f.team!==u.team && f._saOnSpot) return 1-u._saSlw; } return 1; }   // chỉ chậm khi Supreme Cat ĐANG đứng trong spotlight
+function _saSlowMul(u){ if(!u || !(u._saSlw>0)) return 1; for(const f of fighters){ if(f.type==='supremearbiter' && !f.dead && !f._mwErased && f.team!==u.team && f._saOnSpot) return 1-u._saSlw; } return 1; }   // chỉ chậm khi Supreme Cat ĐANG đứng trong spotlight
 // 🔊 nhạc cao ngạo: lặp suốt lúc Arbiter còn sống, âm lượng = điểm cao ngạo (0 → im, đầy → to nhất)
 let _saSfx=null;
 function _saSoundTick(){
-  let g=-1; for(const f of fighters) if(f.type==='supremearbiter' && !f.dead) g=Math.max(g,_saG(f));
+  let g=-1; for(const f of fighters) if(f.type==='supremearbiter' && !f.dead && !f._mwErased) g=Math.max(g,_saG(f));
   if(g<0){ if(_saSfx){ _stopLoopAudio(_saSfx); _saSfx=null; } return; }
   if(!_saSfx){ const a=AUDIO_SAMPLES['sa_phase1']; if(!a) return;
     try{ const c=a.cloneNode(); c.loop=true; c.volume=0; _mixRoute(c); c.play().catch(()=>{}); _saSfx=c; }catch(e){ return; } }
@@ -4426,7 +4426,7 @@ function _saDrawAura(f,gf){
   ctx.restore();
 }
 function _saDrawGravity(){
-  let g=0; for(const f of fighters) if(f.type==='supremearbiter' && !f.dead) g=Math.max(g,_saG(f));
+  let g=0; for(const f of fighters) if(f.type==='supremearbiter' && !f.dead && !f._mwErased) g=Math.max(g,_saG(f));
   ctx.save(); ctx.beginPath(); ctx.rect(0,0,W,H); ctx.clip();   // chỉ trong lòng sàn
   if(g>=0.03){ ctx.fillStyle=`rgba(22,6,34,${0.24*g})`; ctx.fillRect(0,0,W,H);
     const vg=ctx.createRadialGradient(W/2,H/2,Math.min(W,H)*0.3,W/2,H/2,Math.max(W,H)*0.75);   // tối dần mép
@@ -6101,7 +6101,7 @@ function _azCountShot(f,n,round){
 // mỗi tick: đạn bay + trúng (gọi từ vòng tick chính) · Azel chết thì tắt nhạc
 function _azWorldTick(){
   for(const f of fighters) if(f.type==='azel' && f.dead && f._azAudio) _azStop(f);
-  for(let i=azFx.length-1;i>=0;i--){ const e=azFx[i]; e.t++; if(e.t>=e.T){ azFx.splice(i,1); continue; }
+  for(let i=azFx.length-1;i>=0;i--){ const e=azFx[i]; e.t++; if(e.t>=e.T || (e.owner && (e.owner.dead || e.owner._mwErased))){ azFx.splice(i,1); continue; }   // Azel chết / bị xoá → đạn đang bay tan theo
     if(e.k==='drop' || e.k==='pop' || e.k==='hit') continue;
     if(e.tr){ e.tr.unshift(e.x,e.y); if(e.tr.length>32) e.tr.length=32; }   // 16 điểm đuôi cho dải neon
     const sp=e.k==='wub'?AZ_SPD*0.8:e.k==='count'?(e.t<6?1.5:AZ_SPD*1.05):AZ_SPD; e.x+=Math.cos(e.a)*sp; e.y+=Math.sin(e.a)*sp; if(e.k==='wub') e.r=Math.min(40,e.r+0.5);
@@ -6132,7 +6132,7 @@ function _azEqRing(f){
   ctx.restore();
 }
 function _azDrawUnder(){
-  for(const f of fighters) if(f.type==='azel' && !f.dead && (f._azAudio||f._azT0!==undefined)) _azEqRing(f);
+  for(const f of fighters) if(f.type==='azel' && !f.dead && !f._mwErased && (f._azAudio||f._azT0!==undefined)) _azEqRing(f);
   for(const e of azFx){ if(e.k!=='drop') continue; const u=e.t/e.T, ease=1-Math.pow(1-u,3), R=e.R*(0.2+0.9*ease), fa=1-u;
     ctx.save(); ctx.globalCompositeOperation='lighter';
     const g=ctx.createRadialGradient(e.x,e.y,R*0.45,e.x,e.y,R); g.addColorStop(0,'rgba(224,64,251,0)'); g.addColorStop(0.8,`rgba(224,64,251,${0.32*fa})`); g.addColorStop(0.96,`rgba(255,255,255,${0.5*fa})`); g.addColorStop(1,'rgba(128,222,234,0)');
@@ -6170,7 +6170,8 @@ function _azSparks(e,fade,cols){ const n=e.tr.length>>1; ctx.lineCap='round';
     const x=e.tr[j*2]+Math.cos(a)*d, y=e.tr[j*2+1]+Math.sin(a)*d, L=3+sp*2.2; ctx.strokeStyle=`rgba(${cols[((b%cols.length)+cols.length)%cols.length]},${0.9*fa})`; ctx.lineWidth=1.6;
     ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x-Math.cos(a)*L,y-Math.sin(a)*L); ctx.stroke(); } }
 function _azDrawOver(){
-  for(const e of azFx){ const fade=Math.max(0,Math.min(1,(e.T-e.t)/10));
+  for(const e of azFx){ if(e.owner && (e.owner.dead || e.owner._mwErased)) continue;   // chủ chết / bị xoá (kể cả lúc thời gian đang dừng) → không vẽ
+    const fade=Math.max(0,Math.min(1,(e.T-e.t)/10));
     if(e.k==='chop'){ ctx.save(); ctx.globalCompositeOperation='lighter';
       _azRibbon(e.tr,24,[[0,`rgba(255,255,255,${0.7*fade})`],[0.2,`rgba(128,222,234,${0.55*fade})`],[0.65,`rgba(224,64,251,${0.32*fade})`],[1,'rgba(224,64,251,0)']]);
       _azSparks(e,fade,['128,222,234','224,64,251','255,255,255']);
@@ -7275,7 +7276,7 @@ function _fkDrawSuicide(){
   ctx.restore();
 }
 function _fkOwner(){
-  for(const f of fighters){ if(f.type==='feuerkatze' && !f.dead && f.hp<f.maxHp*0.70) return f; }
+  for(const f of fighters){ if(f.type==='feuerkatze' && !f.dead && !f._mwErased && f.hp<f.maxHp*0.70) return f; }
   return null;
 }
 // vị trí miệng van (chỗ khí phun ra) của 2 cạnh trái/phải
@@ -9743,7 +9744,10 @@ function _mwPurpleTick(){
         if(dist<mwPurple.R*0.55){ d.dead=true; } }
       if(d.dead || d.t>=d.T){ mwShards.splice(i,1); } } }
   for(let i=mwBits.length-1;i>=0;i--){ const b=mwBits[i]; b.t++;
+    if(b.k==='dust' && (!mwPurple || mwPurple.done)) b.T=Math.min(b.T,b.t+10);   // cầu đi khỏi → bụi còn sót tan nhanh, không đọng lại
     if(b.k==='mote'){ b.x+=(b.tx-b.x)*0.07; b.y+=(b.ty-b.y)*0.07; }
+    else if(b.k==='dust' && mwPurple && mwPurple.fired && !mwPurple.done){ const q2=mwPurple, ox=q2.sx+Math.cos(q2.ang)*q2.len, oy=q2.sy+Math.sin(q2.ang)*q2.len, dx=ox-b.x, dy=oy-b.y, d=Math.hypot(dx,dy)||1, pull=0.6+b.t*0.06;   // 🌪️ bụi tan rã bị CUỐN vào cầu tím (không đọng lại chỗ meme vừa bị xoá)
+      b.vx=b.vx*0.88+dx/d*pull+(-dy/d)*pull*0.8; b.vy=b.vy*0.88+dy/d*pull+(dx/d)*pull*0.8; b.x+=b.vx; b.y+=b.vy; if(d<q2.R*0.5) b.t=b.T; }
     else { b.x+=b.vx; b.y+=b.vy; b.vx*=0.95; b.vy*=0.95; if(b.k==='chunk'){ b.vy+=0.12; b.rot+=b.vr; } }
     if(b.t>=b.T) mwBits.splice(i,1); }
 }
@@ -32868,7 +32872,7 @@ function _fdGetLayer(){
 }
 function _fineDogDrawFire(){
   let dog=null;
-  for(const f of fighters){ if(f.type==='finedog' && !f.dead){ dog=f; break; } }
+  for(const f of fighters){ if(f.type==='finedog' && !f.dead && !f._mwErased){ dog=f; break; } }
   if(!dog) return;
   if(!FD_FIRE_IMG.complete || !FD_FIRE_IMG.naturalWidth) return;
   if((dog._fdWait||0) < FD_LIGHT_DELAY) return;   // ⏳ chưa hết 2s chờ thì chưa có lửa để vẽ
