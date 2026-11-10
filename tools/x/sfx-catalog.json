@@ -6,11 +6,22 @@
    "file": "assets/audio/wg_truck_horn.mp3",
    "dai": 2.35,
    "moTa": "",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "wg",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Foghorn 56%",
+    "Speech 16%",
+    "Vehicle horn, car horn, honking 5%",
+    "Air horn, truck horn 4%",
+    "Outside, urban or manmade 3%",
+    "Music 2%"
+   ],
+   "speech": 0.158,
+   "musicScore": 0.018,
+   "loaiTuTai": true,
+   "giong": false
   },
   "wg_jockey_hit": {
    "file": "assets/audio/wg_jockey_hit.mp3",
@@ -20,7 +31,17 @@
    "chu": "wg",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Sound effect 19%",
+    "Breaking 17%",
+    "Bang 13%",
+    "Crack 8%",
+    "Slap, smack 4%",
+    "Smash, crash 4%"
+   ],
+   "speech": 0.006,
+   "musicScore": 0.005,
+   "giong": false
   },
   "wg_chicken": {
    "file": "assets/audio/wg_chicken.mp3",
@@ -30,17 +51,38 @@
    "chu": "wg",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Chicken, rooster 63%",
+    "Cluck 22%",
+    "Fowl 13%",
+    "Crowing, cock-a-doodle-doo 1%",
+    "Bird 0%",
+    "Livestock, farm animals, working animals 0%"
+   ],
+   "speech": 0,
+   "musicScore": 0,
+   "giong": false
   },
   "wg_tornado": {
    "file": "assets/audio/wg_tornado.mp3",
    "dai": 19.07,
    "moTa": "",
-   "loai": "?",
+   "loai": "rung",
    "chu": "wg",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Thunder 51%",
+    "Thunderstorm 37%",
+    "Rain 5%",
+    "Eruption 2%",
+    "Rain on surface 1%",
+    "Explosion 1%"
+   ],
+   "speech": 0,
+   "musicScore": 0.004,
+   "loaiTuTai": true,
+   "giong": false
   },
   "wg_dragon_roar": {
    "file": "assets/audio/wg_dragon_roar.mp3",
@@ -50,7 +92,17 @@
    "chu": "wg",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Rumble 49%",
+    "Sound effect 14%",
+    "Whoosh, swoosh, swish 7%",
+    "Music 5%",
+    "Rustle 1%",
+    "Reverberation 1%"
+   ],
+   "speech": 0.004,
+   "musicScore": 0.046,
+   "giong": false
   },
   "wg_blade_impact": {
    "file": "assets/audio/wg_blade_impact.mp3",
@@ -60,17 +112,38 @@
    "chu": "wg",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Bang 26%",
+    "Smash, crash 10%",
+    "Breaking 9%",
+    "Whoosh, swoosh, swish 7%",
+    "Shatter 7%",
+    "Sound effect 6%"
+   ],
+   "speech": 0.024,
+   "musicScore": 0.006,
+   "giong": false
   },
   "wg_blade_throw": {
    "file": "assets/audio/wg_blade_throw.mp3",
    "dai": 0.91,
    "moTa": "",
-   "loai": "?",
+   "loai": "va chạm",
    "chu": "wg",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Clang 61%",
+    "Ding 15%",
+    "Chink, clink 4%",
+    "Sound effect 3%",
+    "Breaking 2%",
+    "Dishes, pots, and pans 1%"
+   ],
+   "speech": 0.005,
+   "musicScore": 0.003,
+   "loaiTuTai": true,
+   "giong": false
   },
   "wg_axe_whoosh": {
    "file": "assets/audio/wg_axe_whoosh.mp3",
@@ -83,7 +156,17 @@
     "cine-endgame",
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Whoosh, swoosh, swish 56%",
+    "Sound effect 13%",
+    "Bang 5%",
+    "Music 3%",
+    "Whack, thwack 2%",
+    "Zipper (clothing) 2%"
+   ],
+   "speech": 0.013,
+   "musicScore": 0.025,
+   "giong": false
   },
   "wg_cow_moo": {
    "file": "assets/audio/wg_cow_moo.mp3",
@@ -93,7 +176,17 @@
    "chu": "wg",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Moo 36%",
+    "Livestock, farm animals, working animals 33%",
+    "Cattle, bovinae 31%",
+    "Cowbell 0%",
+    "Speech 0%",
+    "Music 0%"
+   ],
+   "speech": 0,
+   "musicScore": 0,
+   "giong": false
   },
   "wg_dragon_impact": {
    "file": "assets/audio/wg_dragon_impact.mp3",
@@ -105,17 +198,38 @@
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Explosion 49%",
+    "Whoosh, swoosh, swish 22%",
+    "Burst, pop 15%",
+    "Sound effect 4%",
+    "Bang 2%",
+    "Eruption 1%"
+   ],
+   "speech": 0.003,
+   "musicScore": 0.008,
+   "giong": false
   },
   "wg_chicken_spawn": {
    "file": "assets/audio/wg_chicken_spawn.mp3",
    "dai": 2.64,
    "moTa": "",
-   "loai": "?",
+   "loai": "nhạc",
    "chu": "wg",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 74%",
+    "Ringtone 8%",
+    "Video game music 5%",
+    "Soundtrack music 2%",
+    "Sound effect 1%",
+    "Funny music 1%"
+   ],
+   "speech": 0.002,
+   "musicScore": 0.744,
+   "loaiTuTai": true,
+   "giong": false
   },
   "uia_remix_hiphop": {
    "file": "assets/audio/uia_remix_hiphop.mp3",
@@ -125,7 +239,17 @@
    "chu": "uia",
    "nhac": true,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 81%",
+    "Electronic music 7%",
+    "Electronic dance music 4%",
+    "Dubstep 4%",
+    "Drum and bass 1%",
+    "Techno 0%"
+   ],
+   "speech": 0.004,
+   "musicScore": 0.81,
+   "giong": false
   },
   "fd_crackle": {
    "file": "assets/audio/fd_crackle.mp3",
@@ -135,7 +259,17 @@
    "chu": "fd",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Fire 40%",
+    "Rain 8%",
+    "Rain on surface 8%",
+    "Static 4%",
+    "Eruption 4%",
+    "Crackle 3%"
+   ],
+   "speech": 0.001,
+   "musicScore": 0.007,
+   "giong": false
   },
   "fd_roar": {
    "file": "assets/audio/fd_roar.mp3",
@@ -147,7 +281,17 @@
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Rain on surface 36%",
+    "Rain 26%",
+    "Thunderstorm 8%",
+    "Raindrop 6%",
+    "Thunder 5%",
+    "Boom 4%"
+   ],
+   "speech": 0.008,
+   "musicScore": 0.009,
+   "giong": false
   },
   "uia_tele_dbz": {
    "file": "assets/audio/uia_tele_dbz.mp3",
@@ -160,17 +304,38 @@
     "cine-endgame",
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Drill 14%",
+    "Music 13%",
+    "Speech 8%",
+    "Whoosh, swoosh, swish 6%",
+    "Tools 5%",
+    "Power tool 4%"
+   ],
+   "speech": 0.082,
+   "musicScore": 0.125,
+   "giong": false
   },
   "capy_fuse": {
    "file": "assets/audio/capy_fuse.mp3",
    "dai": 5.28,
    "moTa": "",
-   "loai": "?",
+   "loai": "nhạc",
    "chu": "capy",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 59%",
+    "Yell 10%",
+    "Speech 9%",
+    "Bellow 6%",
+    "Whoop 3%",
+    "Groan 3%"
+   ],
+   "speech": 0.098,
+   "musicScore": 0.588,
+   "loaiTuTai": true,
+   "giong": false
   },
   "holy_thunder": {
    "file": "assets/audio/holy_thunder.mp3",
@@ -184,7 +349,17 @@
     "cine-war",
     "film-mvd"
    ],
-   "tai": null
+   "tai": [
+    "Explosion 51%",
+    "Artillery fire 19%",
+    "Burst, pop 15%",
+    "Gunshot, gunfire 6%",
+    "Bang 2%",
+    "Sound effect 1%"
+   ],
+   "speech": 0.005,
+   "musicScore": 0.004,
+   "giong": false
   },
   "ninja_slash": {
    "file": "assets/audio/ninja_slash.mp3",
@@ -196,7 +371,17 @@
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Whoosh, swoosh, swish 33%",
+    "Shatter 16%",
+    "Bang 11%",
+    "Sound effect 10%",
+    "Breaking 5%",
+    "Burst, pop 3%"
+   ],
+   "speech": 0.011,
+   "musicScore": 0.015,
+   "giong": false
   },
   "ninja_sub": {
    "file": "assets/audio/ninja_sub.mp3",
@@ -206,17 +391,38 @@
    "chu": "ninja",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Chink, clink 27%",
+    "Breaking 23%",
+    "Glass 6%",
+    "Speech 4%",
+    "Burst, pop 2%",
+    "Sound effect 2%"
+   ],
+   "speech": 0.038,
+   "musicScore": 0.016,
+   "giong": false
   },
   "fight": {
    "file": "assets/audio/fight.mp3",
    "dai": 3.13,
    "moTa": "",
-   "loai": "?",
+   "loai": "giọng",
    "chu": null,
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 69%",
+    "Male speech, man speaking 6%",
+    "Whoosh, swoosh, swish 6%",
+    "Zipper (clothing) 4%",
+    "Sound effect 3%",
+    "Speech synthesizer 2%"
+   ],
+   "speech": 0.686,
+   "musicScore": 0.003,
+   "loaiTuTai": true,
+   "giong": false
   },
   "uiacat_spin": {
    "file": "assets/audio/uiacat_spin.mp3",
@@ -228,7 +434,17 @@
    "dung": [
     "cine-endgame"
    ],
-   "tai": null
+   "tai": [
+    "Sound effect 18%",
+    "Yodeling 7%",
+    "Speech 7%",
+    "Music 6%",
+    "Chuckle, chortle 6%",
+    "Giggle 6%"
+   ],
+   "speech": 0.065,
+   "musicScore": 0.06,
+   "giong": false
   },
   "uia_teleport": {
    "file": "assets/audio/uia_teleport.mp3",
@@ -238,7 +454,17 @@
    "chu": "uia",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Whoosh, swoosh, swish 41%",
+    "Sound effect 31%",
+    "Bang 12%",
+    "Burst, pop 2%",
+    "Music 1%",
+    "Scrape 1%"
+   ],
+   "speech": 0.003,
+   "musicScore": 0.01,
+   "giong": false
   },
   "oiia_remix": {
    "file": "assets/audio/oiia_remix.mp3",
@@ -248,7 +474,17 @@
    "chu": "oiia",
    "nhac": true,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 41%",
+    "Electronic music 11%",
+    "Speech 11%",
+    "Techno 9%",
+    "Trance music 4%",
+    "Electronic dance music 1%"
+   ],
+   "speech": 0.106,
+   "musicScore": 0.414,
+   "giong": false
   },
   "cry_banana_cat": {
    "file": "assets/audio/cry_banana_cat.mp3",
@@ -267,7 +503,10 @@
     "Crying, sobbing 3%",
     "Babbling 3%",
     "Baby laughter 2%"
-   ]
+   ],
+   "speech": 0.081,
+   "musicScore": 0.01,
+   "giong": false
   },
   "vine_boom": {
    "file": "assets/audio/vine_boom.mp3",
@@ -283,7 +522,17 @@
     "cine-war",
     "film-fin1"
    ],
-   "tai": null
+   "tai": [
+    "Explosion 49%",
+    "Bang 23%",
+    "Burst, pop 20%",
+    "Sound effect 2%",
+    "Music 2%",
+    "Whoosh, swoosh, swish 1%"
+   ],
+   "speech": 0.005,
+   "musicScore": 0.015,
+   "giong": false
   },
   "sad_cat_cry": {
    "file": "assets/audio/sad_cat_cry.mp3",
@@ -295,27 +544,59 @@
    "dung": [
     "cine-dpwindow"
    ],
-   "tai": null
+   "tai": [
+    "Cat 32%",
+    "Animal 29%",
+    "Domestic animals, pets 28%",
+    "Meow 9%",
+    "Caterwaul 1%",
+    "Speech 0%"
+   ],
+   "speech": 0.002,
+   "musicScore": 0,
+   "giong": false
   },
   "germancat_speech": {
    "file": "assets/audio/germancat_speech.mp3",
    "dai": 4.13,
    "moTa": "",
-   "loai": "?",
+   "loai": "nhạc",
    "chu": "germancat",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 53%",
+    "Speech 43%",
+    "Slap, smack 1%",
+    "Television 0%",
+    "Ice cream truck, ice cream van 0%",
+    "Whoop 0%"
+   ],
+   "speech": 0.432,
+   "musicScore": 0.527,
+   "loaiTuTai": true,
+   "giong": false
   },
   "huh_sample": {
    "file": "assets/audio/huh_sample.mp3",
    "dai": 0.37,
    "moTa": "",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "huh",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 75%",
+    "Male speech, man speaking 6%",
+    "Narration, monologue 2%",
+    "Mantra 2%",
+    "Male singing 1%",
+    "Sound effect 1%"
+   ],
+   "speech": 0.753,
+   "musicScore": 0.012,
+   "loaiTuTai": true,
+   "giong": false
   },
   "punch1": {
    "file": "assets/audio/punch1.mp3",
@@ -325,7 +606,17 @@
    "chu": null,
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Silence 14%",
+    "Sound effect 9%",
+    "Music 8%",
+    "Speech 4%",
+    "Male speech, man speaking 3%",
+    "Television 2%"
+   ],
+   "speech": 0.039,
+   "musicScore": 0.081,
+   "giong": false
   },
   "punch2": {
    "file": "assets/audio/punch2.mp3",
@@ -335,17 +626,38 @@
    "chu": null,
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Whack, thwack 39%",
+    "Slap, smack 27%",
+    "Bang 11%",
+    "Whip 4%",
+    "Sound effect 4%",
+    "Burst, pop 3%"
+   ],
+   "speech": 0.002,
+   "musicScore": 0.005,
+   "giong": false
   },
   "popcat": {
    "file": "assets/audio/popcat.mp3",
    "dai": 0.29,
    "moTa": "",
-   "loai": "?",
+   "loai": "giọng",
    "chu": null,
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 15%",
+    "Music 12%",
+    "Animal 7%",
+    "Plop 6%",
+    "Sound effect 5%",
+    "Finger snapping 3%"
+   ],
+   "speech": 0.146,
+   "musicScore": 0.117,
+   "loaiTuTai": true,
+   "giong": false
   },
   "rickroll_song": {
    "file": "assets/audio/rickroll_song.mp3",
@@ -355,7 +667,17 @@
    "chu": "rickroll",
    "nhac": true,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 82%",
+    "Techno 1%",
+    "Exciting music 1%",
+    "Television 1%",
+    "Soundtrack music 1%",
+    "Video game music 1%"
+   ],
+   "speech": 0.005,
+   "musicScore": 0.824,
+   "giong": false
   },
   "ricardo_music": {
    "file": "assets/audio/ricardo_music.mp3",
@@ -368,47 +690,101 @@
     "cine-endgame",
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Music 32%",
+    "Speech 8%",
+    "Electronic music 4%",
+    "Animal 3%",
+    "Dubstep 2%",
+    "Techno 2%"
+   ],
+   "speech": 0.081,
+   "musicScore": 0.316,
+   "giong": false
   },
   "bonk": {
    "file": "assets/audio/bonk.mp3",
    "dai": 0.5,
    "moTa": "",
-   "loai": "?",
+   "loai": "nhạc",
    "chu": null,
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 43%",
+    "Sound effect 13%",
+    "Wood block 6%",
+    "Percussion 6%",
+    "Speech 3%",
+    "Musical instrument 3%"
+   ],
+   "speech": 0.027,
+   "musicScore": 0.434,
+   "loaiTuTai": true,
+   "giong": false
   },
   "ko": {
    "file": "assets/audio/ko.mp3",
    "dai": 5.75,
    "moTa": "",
-   "loai": "?",
+   "loai": "giọng",
    "chu": null,
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 45%",
+    "Burst, pop 10%",
+    "Whoosh, swoosh, swish 8%",
+    "Music 7%",
+    "Bang 6%",
+    "Explosion 5%"
+   ],
+   "speech": 0.453,
+   "musicScore": 0.074,
+   "loaiTuTai": true,
+   "giong": false
   },
   "nein": {
    "file": "assets/audio/nein.mp3",
    "dai": 0.55,
    "moTa": "",
-   "loai": "?",
+   "loai": "giọng",
    "chu": null,
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 79%",
+    "Quack 9%",
+    "Male speech, man speaking 1%",
+    "Yell 1%",
+    "Groan 1%",
+    "Duck 1%"
+   ],
+   "speech": 0.787,
+   "musicScore": 0.006,
+   "loaiTuTai": true,
+   "giong": false
   },
   "snooze": {
    "file": "assets/audio/snooze.mp3",
    "dai": 1.07,
    "moTa": "",
-   "loai": "?",
+   "loai": "giọng",
    "chu": null,
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Grunt 12%",
+    "Vehicle 9%",
+    "Music 7%",
+    "Speech 7%",
+    "Sound effect 6%",
+    "Motorcycle 5%"
+   ],
+   "speech": 0.066,
+   "musicScore": 0.074,
+   "loaiTuTai": true,
+   "giong": false
   },
   "scream_attack": {
    "file": "assets/audio/scream_attack.mp3",
@@ -418,17 +794,38 @@
    "chu": "scream",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Meow 47%",
+    "Cat 18%",
+    "Domestic animals, pets 11%",
+    "Animal 10%",
+    "Speech 2%",
+    "Explosion 1%"
+   ],
+   "speech": 0.023,
+   "musicScore": 0.009,
+   "giong": false
   },
   "car_horn": {
    "file": "assets/audio/car_horn.mp3",
    "dai": 0.89,
    "moTa": "",
-   "loai": "?",
+   "loai": "nền",
    "chu": "car",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Vehicle horn, car horn, honking 83%",
+    "Vehicle 3%",
+    "Toot 3%",
+    "Outside, urban or manmade 2%",
+    "Car 2%",
+    "Air horn, truck horn 1%"
+   ],
+   "speech": 0.004,
+   "musicScore": 0.001,
+   "loaiTuTai": true,
+   "giong": false
   },
   "naruto_intro": {
    "file": "assets/audio/naruto_intro.mp3",
@@ -438,7 +835,17 @@
    "chu": "naruto",
    "nhac": true,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 77%",
+    "Punk rock 4%",
+    "Progressive rock 3%",
+    "Heavy metal 3%",
+    "Musical instrument 2%",
+    "Angry music 1%"
+   ],
+   "speech": 0.002,
+   "musicScore": 0.766,
+   "giong": false
   },
   "beluga_typing": {
    "file": "assets/audio/beluga_typing.mp3",
@@ -448,41 +855,84 @@
    "chu": "beluga",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Computer keyboard 60%",
+    "Typing 39%",
+    "Typewriter 0%",
+    "Music 0%",
+    "Inside, small room 0%",
+    "Speech 0%"
+   ],
+   "speech": 0,
+   "musicScore": 0,
+   "giong": false
   },
   "beluga_text": {
    "file": "assets/audio/beluga_text.mp3",
    "dai": 0.53,
    "moTa": "",
-   "loai": "?",
+   "loai": "năng lượng",
    "chu": "beluga",
    "nhac": false,
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Ringtone 26%",
+    "Sound effect 20%",
+    "Music 7%",
+    "Beep, bleep 5%",
+    "Ding 5%",
+    "Clang 4%"
+   ],
+   "speech": 0.036,
+   "musicScore": 0.067,
+   "loaiTuTai": true,
+   "giong": false
   },
   "blackhole": {
    "file": "assets/audio/blackhole.mp3",
    "dai": 2.57,
    "moTa": "",
-   "loai": "?",
+   "loai": "nhạc",
    "chu": null,
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 24%",
+    "Sound effect 9%",
+    "Speech 9%",
+    "Vehicle 7%",
+    "Car 4%",
+    "Accelerating, revving, vroom 4%"
+   ],
+   "speech": 0.093,
+   "musicScore": 0.24,
+   "loaiTuTai": true,
+   "giong": false
   },
   "kermit_pull": {
    "file": "assets/audio/kermit_pull.mp3",
    "dai": 0.5,
    "moTa": "",
-   "loai": "?",
+   "loai": "nổ",
    "chu": "kermit",
    "nhac": false,
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Explosion 26%",
+    "Burst, pop 22%",
+    "Speech 6%",
+    "Music 4%",
+    "Bang 3%",
+    "Whoosh, swoosh, swish 2%"
+   ],
+   "speech": 0.062,
+   "musicScore": 0.036,
+   "loaiTuTai": true,
+   "giong": false
   },
   "maxwell_dance": {
    "file": "assets/audio/maxwell_dance.mp3",
@@ -494,7 +944,17 @@
    "dung": [
     "cine-endgame"
    ],
-   "tai": null
+   "tai": [
+    "Music 89%",
+    "Funny music 3%",
+    "Video game music 2%",
+    "Soundtrack music 1%",
+    "Background music 1%",
+    "Theme music 1%"
+   ],
+   "speech": 0,
+   "musicScore": 0.891,
+   "giong": false
   },
   "king_laser": {
    "file": "assets/audio/king_laser.mp3",
@@ -504,17 +964,38 @@
    "chu": "king",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Sound effect 28%",
+    "Music 21%",
+    "Squeak 8%",
+    "Scratch 6%",
+    "Cacophony 2%",
+    "Boing 2%"
+   ],
+   "speech": 0.012,
+   "musicScore": 0.213,
+   "giong": false
   },
   "yw_attack": {
    "file": "assets/audio/yw_attack.mp3",
    "dai": 0.55,
    "moTa": "",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "yw",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Hiccup 23%",
+    "Gasp 18%",
+    "Speech 13%",
+    "Sneeze 9%",
+    "Throat clearing 6%",
+    "Sigh 4%"
+   ],
+   "speech": 0.127,
+   "musicScore": 0.017,
+   "loaiTuTai": true,
+   "giong": false
   },
   "kermit_wave_scream": {
    "file": "assets/audio/kermit_wave_scream.mp3",
@@ -524,7 +1005,17 @@
    "chu": "kermit",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 23%",
+    "Groan 10%",
+    "Grunt 7%",
+    "Music 4%",
+    "Screaming 4%",
+    "Whimper 4%"
+   ],
+   "speech": 0.233,
+   "musicScore": 0.04,
+   "giong": false
   },
   "nyan_theme": {
    "file": "assets/audio/nyan_theme.mp3",
@@ -534,17 +1025,38 @@
    "chu": "nyan",
    "nhac": true,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 73%",
+    "Zing 6%",
+    "Ringtone 2%",
+    "Music of Asia 2%",
+    "Singing 1%",
+    "Electronic music 1%"
+   ],
+   "speech": 0.004,
+   "musicScore": 0.731,
+   "giong": false
   },
   "king_knight_summon": {
    "file": "assets/audio/king_knight_summon.mp3",
    "dai": 1.3,
    "moTa": "",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "king",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 76%",
+    "Sneeze 4%",
+    "Male speech, man speaking 4%",
+    "Slap, smack 2%",
+    "Sigh 1%",
+    "Inside, small room 1%"
+   ],
+   "speech": 0.761,
+   "musicScore": 0.004,
+   "loaiTuTai": true,
+   "giong": false
   },
   "king_knight_hit": {
    "file": "assets/audio/king_knight_hit.mp3",
@@ -554,7 +1066,17 @@
    "chu": "king",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Bang 26%",
+    "Smash, crash 10%",
+    "Breaking 9%",
+    "Whoosh, swoosh, swish 7%",
+    "Shatter 7%",
+    "Sound effect 6%"
+   ],
+   "speech": 0.024,
+   "musicScore": 0.006,
+   "giong": false
   },
   "mf_laser": {
    "file": "assets/audio/mf_laser.mp3",
@@ -564,27 +1086,59 @@
    "chu": "mf",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Frog 82%",
+    "Croak 13%",
+    "Animal 1%",
+    "Music 1%",
+    "Speech 1%",
+    "Sound effect 0%"
+   ],
+   "speech": 0.005,
+   "musicScore": 0.006,
+   "giong": false
   },
   "tf_chew": {
    "file": "assets/audio/tf_chew.mp3",
    "dai": 1.88,
    "moTa": "",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "tf",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 85%",
+    "Male speech, man speaking 3%",
+    "Grunt 1%",
+    "Speech synthesizer 1%",
+    "Narration, monologue 1%",
+    "Slap, smack 1%"
+   ],
+   "speech": 0.845,
+   "musicScore": 0.005,
+   "loaiTuTai": true,
+   "giong": false
   },
   "sus_meeting": {
    "file": "assets/audio/sus_meeting.mp3",
    "dai": 1.57,
    "moTa": "",
-   "loai": "?",
+   "loai": "năng lượng",
    "chu": "sus",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Sound effect 28%",
+    "Vehicle horn, car horn, honking 9%",
+    "Gong 8%",
+    "Siren 5%",
+    "Music 5%",
+    "Echo 4%"
+   ],
+   "speech": 0.021,
+   "musicScore": 0.045,
+   "loaiTuTai": true,
+   "giong": false
   },
   "fk_anthem": {
    "file": "assets/audio/fk_anthem.mp3",
@@ -594,7 +1148,17 @@
    "chu": "fk",
    "nhac": true,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 62%",
+    "Choir 20%",
+    "Chant 3%",
+    "Singing 2%",
+    "Mantra 2%",
+    "Male singing 2%"
+   ],
+   "speech": 0.006,
+   "musicScore": 0.618,
+   "giong": false
   },
   "violin_5": {
    "file": "assets/audio/violin_5.mp3",
@@ -604,29 +1168,61 @@
    "chu": "violin",
    "nhac": true,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 62%",
+    "Theme music 11%",
+    "Violin, fiddle 9%",
+    "Musical instrument 5%",
+    "Bowed string instrument 2%",
+    "Background music 1%"
+   ],
+   "speech": 0.003,
+   "musicScore": 0.616,
+   "giong": false
   },
   "cdg_grow": {
    "file": "assets/audio/cdg_grow.mp3",
    "dai": 0.94,
    "moTa": "",
-   "loai": "?",
+   "loai": "nhạc",
    "chu": "cdg",
    "nhac": false,
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Music 48%",
+    "Sound effect 9%",
+    "Cacophony 7%",
+    "Ringtone 4%",
+    "Funny music 3%",
+    "Video game music 3%"
+   ],
+   "speech": 0.021,
+   "musicScore": 0.481,
+   "loaiTuTai": true,
+   "giong": false
   },
   "mlem_freeze": {
    "file": "assets/audio/mlem_freeze.mp3",
    "dai": 1.13,
    "moTa": "",
-   "loai": "?",
+   "loai": "vỡ",
    "chu": "mlem",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Crumpling, crinkling 25%",
+    "Tearing 12%",
+    "Crushing 10%",
+    "Crunch 9%",
+    "Inside, small room 8%",
+    "Crack 6%"
+   ],
+   "speech": 0.03,
+   "musicScore": 0.016,
+   "loaiTuTai": true,
+   "giong": false
   },
   "guitar_bluebird": {
    "file": "assets/audio/guitar_bluebird.mp3",
@@ -636,17 +1232,38 @@
    "chu": "guitar",
    "nhac": true,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 65%",
+    "Progressive rock 10%",
+    "Heavy metal 8%",
+    "Guitar 2%",
+    "Musical instrument 2%",
+    "Plucked string instrument 2%"
+   ],
+   "speech": 0.002,
+   "musicScore": 0.645,
+   "giong": false
   },
   "cn_ready": {
    "file": "assets/audio/cn_ready.mp3",
    "dai": 1.72,
    "moTa": "",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "cn",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 79%",
+    "Male speech, man speaking 3%",
+    "Slap, smack 2%",
+    "Typewriter 1%",
+    "Run 1%",
+    "Chop 1%"
+   ],
+   "speech": 0.792,
+   "musicScore": 0.003,
+   "loaiTuTai": true,
+   "giong": false
   },
   "cn_pan_hit": {
    "file": "assets/audio/cn_pan_hit.mp3",
@@ -656,19 +1273,40 @@
    "chu": "cn",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Clang 87%",
+    "Ding 9%",
+    "Sound effect 1%",
+    "Bang 1%",
+    "Whack, thwack 0%",
+    "Ping 0%"
+   ],
+   "speech": 0.001,
+   "musicScore": 0.001,
+   "giong": false
   },
   "cn_cook": {
    "file": "assets/audio/cn_cook.mp3",
    "dai": 2.59,
    "moTa": "",
-   "loai": "?",
+   "loai": "nền",
    "chu": "cn",
    "nhac": false,
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Water 26%",
+    "Slosh 8%",
+    "Animal 5%",
+    "Liquid 5%",
+    "Speech 4%",
+    "Water tap, faucet 3%"
+   ],
+   "speech": 0.043,
+   "musicScore": 0.01,
+   "loaiTuTai": true,
+   "giong": false
   },
   "sax_breath": {
    "file": "assets/audio/sax_breath.mp3",
@@ -678,7 +1316,17 @@
    "chu": "sax",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Sigh 44%",
+    "Gasp 40%",
+    "Snort 9%",
+    "Speech 2%",
+    "Breathing 2%",
+    "Male speech, man speaking 1%"
+   ],
+   "speech": 0.02,
+   "musicScore": 0.002,
+   "giong": false
   },
   "sax_song": {
    "file": "assets/audio/sax_song.mp3",
@@ -688,7 +1336,17 @@
    "chu": "sax",
    "nhac": true,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 77%",
+    "Dance music 2%",
+    "Electronic music 1%",
+    "Disco 1%",
+    "Speech 1%",
+    "Techno 1%"
+   ],
+   "speech": 0.007,
+   "musicScore": 0.768,
+   "giong": false
   },
   "gas_leak": {
    "file": "assets/audio/gas_leak.wav",
@@ -700,7 +1358,17 @@
    "dung": [
     "cine-lore2ep3"
    ],
-   "tai": null
+   "tai": [
+    "Spray 23%",
+    "Static 22%",
+    "Hiss 10%",
+    "Steam 7%",
+    "White noise 7%",
+    "Snake 5%"
+   ],
+   "speech": 0.008,
+   "musicScore": 0.018,
+   "giong": false
   },
   "sus_typing": {
    "file": "assets/audio/sus_typing.mp3",
@@ -710,7 +1378,17 @@
    "chu": "sus",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Computer keyboard 64%",
+    "Typing 34%",
+    "Sound effect 0%",
+    "Typewriter 0%",
+    "Speech 0%",
+    "Music 0%"
+   ],
+   "speech": 0.002,
+   "musicScore": 0.002,
+   "giong": false
   },
   "cough_meme": {
    "file": "assets/audio/cough_meme.mp3",
@@ -720,19 +1398,40 @@
    "chu": "cough",
    "nhac": true,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Throat clearing 73%",
+    "Cough 24%",
+    "Music 0%",
+    "Speech 0%",
+    "Sound effect 0%",
+    "Inside, small room 0%"
+   ],
+   "speech": 0.003,
+   "musicScore": 0.003,
+   "giong": false
   },
   "flower_transcend": {
    "file": "assets/audio/flower_transcend.mp3",
    "dai": 1.93,
    "moTa": "",
-   "loai": "?",
+   "loai": "nhạc",
    "chu": "flower",
    "nhac": false,
    "dung": [
     "film-l2pro"
    ],
-   "tai": null
+   "tai": [
+    "Music 41%",
+    "Cacophony 11%",
+    "Speech 7%",
+    "Sound effect 5%",
+    "Static 3%",
+    "Buzz 2%"
+   ],
+   "speech": 0.071,
+   "musicScore": 0.409,
+   "loaiTuTai": true,
+   "giong": false
   },
   "loading_sound": {
    "file": "assets/audio/loading_sound.mp3",
@@ -744,19 +1443,40 @@
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Ringtone 38%",
+    "Telephone dialing, DTMF 13%",
+    "Telephone bell ringing 12%",
+    "Music 9%",
+    "Telephone 6%",
+    "Beep, bleep 6%"
+   ],
+   "speech": 0.009,
+   "musicScore": 0.088,
+   "giong": false
   },
   "loading_arrow_fly": {
    "file": "assets/audio/loading_arrow_fly.mp3",
    "dai": 0.89,
    "moTa": "",
-   "loai": "?",
+   "loai": "năng lượng",
    "chu": "loading",
    "nhac": false,
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Sound effect 39%",
+    "Mosquito 5%",
+    "Whoosh, swoosh, swish 4%",
+    "Music 4%",
+    "Steam whistle 3%",
+    "Fly, housefly 3%"
+   ],
+   "speech": 0.021,
+   "musicScore": 0.035,
+   "loaiTuTai": true,
+   "giong": false
   },
   "spidercat_hit": {
    "file": "assets/audio/spidercat_hit.mp3",
@@ -766,7 +1486,17 @@
    "chu": "spidercat",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Sound effect 28%",
+    "Music 21%",
+    "Squeak 8%",
+    "Scratch 6%",
+    "Cacophony 2%",
+    "Boing 2%"
+   ],
+   "speech": 0.012,
+   "musicScore": 0.213,
+   "giong": false
   },
   "violin_sad": {
    "file": "assets/audio/violin_sad.mp3",
@@ -779,7 +1509,17 @@
     "cine-dpwindow",
     "cine-lore2ep0"
    ],
-   "tai": null
+   "tai": [
+    "Music 78%",
+    "Violin, fiddle 9%",
+    "Musical instrument 5%",
+    "Sad music 2%",
+    "Bowed string instrument 1%",
+    "Piano 1%"
+   ],
+   "speech": 0,
+   "musicScore": 0.779,
+   "giong": false
   },
   "violin_1": {
    "file": "assets/audio/violin_1.mp3",
@@ -789,7 +1529,17 @@
    "chu": "violin",
    "nhac": true,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Violin, fiddle 29%",
+    "Music 26%",
+    "Musical instrument 24%",
+    "Dubstep 6%",
+    "Bowed string instrument 4%",
+    "String section 2%"
+   ],
+   "speech": 0.003,
+   "musicScore": 0.263,
+   "giong": false
   },
   "violin_2": {
    "file": "assets/audio/violin_2.mp3",
@@ -799,7 +1549,17 @@
    "chu": "violin",
    "nhac": true,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 47%",
+    "Violin, fiddle 24%",
+    "Musical instrument 16%",
+    "Speech 2%",
+    "Bowed string instrument 1%",
+    "Exciting music 1%"
+   ],
+   "speech": 0.021,
+   "musicScore": 0.469,
+   "giong": false
   },
   "death_break": {
    "file": "assets/audio/death_break.mp3",
@@ -815,7 +1575,17 @@
     "cine-war",
     "raid-friend"
    ],
-   "tai": null
+   "tai": [
+    "Chink, clink 25%",
+    "Music 19%",
+    "Sound effect 7%",
+    "Ringtone 6%",
+    "Coin (dropping) 5%",
+    "Chime 5%"
+   ],
+   "speech": 0.014,
+   "musicScore": 0.189,
+   "giong": false
   },
   "violin_3": {
    "file": "assets/audio/violin_3.mp3",
@@ -825,7 +1595,17 @@
    "chu": "violin",
    "nhac": true,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 43%",
+    "Violin, fiddle 16%",
+    "Musical instrument 10%",
+    "Bowed string instrument 10%",
+    "String section 9%",
+    "Pizzicato 1%"
+   ],
+   "speech": 0.004,
+   "musicScore": 0.431,
+   "giong": false
   },
   "violin_4": {
    "file": "assets/audio/violin_4.mp3",
@@ -835,27 +1615,59 @@
    "chu": "violin",
    "nhac": true,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 85%",
+    "Violin, fiddle 5%",
+    "Musical instrument 3%",
+    "Sad music 1%",
+    "Tender music 1%",
+    "Wedding music 1%"
+   ],
+   "speech": 0.001,
+   "musicScore": 0.846,
+   "giong": false
   },
   "larry_eye": {
    "file": "assets/audio/larry_eye.mp3",
    "dai": 3.13,
    "moTa": "",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "larry",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 47%",
+    "Sound effect 10%",
+    "Grunt 8%",
+    "Music 7%",
+    "Whoop 2%",
+    "Bellow 2%"
+   ],
+   "speech": 0.473,
+   "musicScore": 0.067,
+   "loaiTuTai": true,
+   "giong": false
   },
   "hecker_calc": {
    "file": "assets/audio/hecker_calc.mp3",
    "dai": 12.2,
    "moTa": "",
-   "loai": "?",
+   "loai": "nhạc",
    "chu": "hecker",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 66%",
+    "Musical instrument 7%",
+    "Ringtone 5%",
+    "Inside, small room 3%",
+    "Wind instrument, woodwind instrument 1%",
+    "Whistle 1%"
+   ],
+   "speech": 0.006,
+   "musicScore": 0.655,
+   "loaiTuTai": true,
+   "giong": false
   },
   "hecker_hit": {
    "file": "assets/audio/hecker_hit.mp3",
@@ -865,17 +1677,38 @@
    "chu": "hecker",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 34%",
+    "Bang 33%",
+    "Sound effect 17%",
+    "Television 4%",
+    "Soundtrack music 1%",
+    "Explosion 1%"
+   ],
+   "speech": 0.002,
+   "musicScore": 0.335,
+   "giong": false
   },
   "yuki_bounce": {
    "file": "assets/audio/yuki_bounce.mp3",
    "dai": 0.84,
    "moTa": "",
-   "loai": "?",
+   "loai": "nhạc",
    "chu": "yuki",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Boing 70%",
+    "Music 15%",
+    "Sound effect 5%",
+    "Fart 1%",
+    "Cacophony 1%",
+    "Speech 1%"
+   ],
+   "speech": 0.007,
+   "musicScore": 0.149,
+   "loaiTuTai": true,
+   "giong": false
   },
   "yuki_hit": {
    "file": "assets/audio/yuki_hit.mp3",
@@ -885,7 +1718,17 @@
    "chu": "yuki",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Sound effect 43%",
+    "Grunt 15%",
+    "Roar 9%",
+    "Music 8%",
+    "Animal 2%",
+    "Whoosh, swoosh, swish 1%"
+   ],
+   "speech": 0.008,
+   "musicScore": 0.078,
+   "giong": false
   },
   "cry_meow": {
    "file": "assets/audio/cry_meow.mp3",
@@ -895,27 +1738,59 @@
    "chu": "cry",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 84%",
+    "Lullaby 5%",
+    "Meow 1%",
+    "Female singing 1%",
+    "Child singing 1%",
+    "Synthetic singing 1%"
+   ],
+   "speech": 0.003,
+   "musicScore": 0.837,
+   "giong": false
   },
   "fan_roulette": {
    "file": "assets/audio/fan_roulette.mp3",
    "dai": 3.84,
    "moTa": "",
-   "loai": "?",
+   "loai": "nhạc",
    "chu": "fan",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 37%",
+    "Ringtone 28%",
+    "Vehicle horn, car horn, honking 16%",
+    "Video game music 2%",
+    "Sound effect 1%",
+    "Vehicle 1%"
+   ],
+   "speech": 0.008,
+   "musicScore": 0.369,
+   "loaiTuTai": true,
+   "giong": false
   },
   "fan_slot": {
    "file": "assets/audio/fan_slot.mp3",
    "dai": 15.18,
    "moTa": "",
-   "loai": "?",
+   "loai": "nhạc",
    "chu": "fan",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 65%",
+    "House music 8%",
+    "Electronic dance music 8%",
+    "Trance music 4%",
+    "Dance music 3%",
+    "Electronic music 3%"
+   ],
+   "speech": 0,
+   "musicScore": 0.654,
+   "loaiTuTai": true,
+   "giong": false
   },
   "larry_hit": {
    "file": "assets/audio/larry_hit.mp3",
@@ -927,41 +1802,84 @@
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Sound effect 14%",
+    "Scrape 13%",
+    "Speech 9%",
+    "Sneeze 5%",
+    "Zipper (clothing) 4%",
+    "Roar 4%"
+   ],
+   "speech": 0.094,
+   "musicScore": 0.006,
+   "giong": false
   },
   "larry_horn": {
    "file": "assets/audio/larry_horn.mp3",
    "dai": 25.36,
    "moTa": "",
-   "loai": "?",
+   "loai": "nhạc",
    "chu": "larry",
    "nhac": false,
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Gong 56%",
+    "Music 21%",
+    "Ambient music 11%",
+    "Singing bowl 2%",
+    "Electronic music 2%",
+    "Sonar 2%"
+   ],
+   "speech": 0,
+   "musicScore": 0.208,
+   "loaiTuTai": true,
+   "giong": false
   },
   "scareddog_ghost": {
    "file": "assets/audio/scareddog_ghost.mp3",
    "dai": 3.06,
    "moTa": "",
-   "loai": "?",
+   "loai": "năng lượng",
    "chu": "scareddog",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Sound effect 50%",
+    "Sonar 19%",
+    "Music 9%",
+    "Whoosh, swoosh, swish 4%",
+    "Whale vocalization 3%",
+    "Echo 2%"
+   ],
+   "speech": 0.002,
+   "musicScore": 0.089,
+   "loaiTuTai": true,
+   "giong": false
   },
   "soul_steal": {
    "file": "assets/audio/soul_steal.mp3",
    "dai": 3.98,
    "moTa": "👻 Giám Ngục (ma đen Scared Dog) hút hồn — user gửi",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "soul",
    "nhac": false,
    "dung": [
     "cine-lore2ep3"
    ],
-   "tai": null
+   "tai": [
+    "Sigh 36%",
+    "Sound effect 15%",
+    "Snort 12%",
+    "Whoosh, swoosh, swish 8%",
+    "Breathing 7%",
+    "Gasp 6%"
+   ],
+   "speech": 0.011,
+   "musicScore": 0.01,
+   "loaiTuTai": true,
+   "giong": false
   },
   "larry_whisper2": {
    "file": "assets/audio/larry_whisper2.mp3",
@@ -971,17 +1889,38 @@
    "chu": "larry",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Fixed-wing aircraft, airplane 10%",
+    "Jet engine 9%",
+    "Vehicle 8%",
+    "Hiss 7%",
+    "Aircraft 5%",
+    "Aircraft engine 4%"
+   ],
+   "speech": 0.033,
+   "musicScore": 0.038,
+   "giong": false
   },
   "larry_whisper": {
    "file": "assets/audio/larry_whisper.mp3",
    "dai": 4.37,
    "moTa": "",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "larry",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Whispering 52%",
+    "Speech 39%",
+    "Inside, small room 1%",
+    "Rub 1%",
+    "Scrape 0%",
+    "Scissors 0%"
+   ],
+   "speech": 0.391,
+   "musicScore": 0.004,
+   "loaiTuTai": true,
+   "giong": false
   },
   "mosquito_violin": {
    "file": "assets/audio/mosquito_violin.mp3",
@@ -993,39 +1932,82 @@
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Mosquito 39%",
+    "Insect 38%",
+    "Fly, housefly 23%",
+    "Cricket 0%",
+    "Bee, wasp, etc. 0%",
+    "Hammer 0%"
+   ],
+   "speech": 0,
+   "musicScore": 0,
+   "giong": false
   },
   "infdoge_bonk": {
    "file": "assets/audio/infdoge_bonk.mp3",
    "dai": 0.34,
    "moTa": "",
-   "loai": "?",
+   "loai": "nhạc",
    "chu": "infdoge",
    "nhac": false,
    "dung": [
     "cine-endgame"
    ],
-   "tai": null
+   "tai": [
+    "Music 24%",
+    "Drum 22%",
+    "Percussion 14%",
+    "Wood block 9%",
+    "Sound effect 5%",
+    "Bass drum 4%"
+   ],
+   "speech": 0.008,
+   "musicScore": 0.24,
+   "loaiTuTai": true,
+   "giong": false
   },
   "calmdog_howl": {
    "file": "assets/audio/calmdog_howl.mp3",
    "dai": 1.3,
    "moTa": "",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "calmdog",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 86%",
+    "Sneeze 2%",
+    "Male speech, man speaking 2%",
+    "Slap, smack 1%",
+    "Animal 1%",
+    "Inside, small room 1%"
+   ],
+   "speech": 0.855,
+   "musicScore": 0.002,
+   "loaiTuTai": true,
+   "giong": false
   },
   "smartguy_roll": {
    "file": "assets/audio/smartguy_roll.mp3",
    "dai": 7.16,
    "moTa": "",
-   "loai": "?",
+   "loai": "nhạc",
    "chu": "smartguy",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Ringtone 48%",
+    "Music 15%",
+    "Telephone bell ringing 7%",
+    "Sound effect 5%",
+    "Telephone 4%",
+    "Coin (dropping) 2%"
+   ],
+   "speech": 0.005,
+   "musicScore": 0.146,
+   "loaiTuTai": true,
+   "giong": false
   },
   "mewing_statue_break": {
    "file": "assets/audio/mewing_statue_break.mp3",
@@ -1038,7 +2020,17 @@
     "cine-war",
     "film-mvd"
    ],
-   "tai": null
+   "tai": [
+    "Crack 15%",
+    "Sound effect 12%",
+    "Whack, thwack 11%",
+    "Grunt 11%",
+    "Slap, smack 6%",
+    "Breaking 5%"
+   ],
+   "speech": 0.029,
+   "musicScore": 0.008,
+   "giong": false
   },
   "dn_theme": {
    "file": "assets/audio/dn_theme.mp3",
@@ -1048,7 +2040,17 @@
    "chu": "dn",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 72%",
+    "Bell 6%",
+    "Church bell 3%",
+    "Jingle bell 1%",
+    "Speech 1%",
+    "Tubular bells 1%"
+   ],
+   "speech": 0.01,
+   "musicScore": 0.723,
+   "giong": false
   },
   "mw_gojo": {
    "file": "assets/audio/mw_gojo.mp3",
@@ -1061,7 +2063,17 @@
     "film-fin1c4",
     "film-mvd"
    ],
-   "tai": null
+   "tai": [
+    "Speech 29%",
+    "Music 29%",
+    "Shatter 4%",
+    "Sound effect 4%",
+    "Burst, pop 2%",
+    "Smash, crash 2%"
+   ],
+   "speech": 0.294,
+   "musicScore": 0.288,
+   "giong": false
   },
   "mw_gojo_travel": {
    "file": "assets/audio/mw_gojo_travel.mp3",
@@ -1073,7 +2085,17 @@
    "dung": [
     "film-fin1c4"
    ],
-   "tai": null
+   "tai": [
+    "Explosion 26%",
+    "Sound effect 9%",
+    "Burst, pop 8%",
+    "Speech 6%",
+    "Eruption 6%",
+    "Music 4%"
+   ],
+   "speech": 0.059,
+   "musicScore": 0.04,
+   "giong": false
   },
   "mw_ryoiki_tenkai": {
    "file": "assets/audio/mw_ryoiki_tenkai.mp3",
@@ -1090,7 +2112,10 @@
     "Narration, monologue 1%",
     "Sound effect 1%",
     "Television 0%"
-   ]
+   ],
+   "speech": 0.863,
+   "musicScore": 0.003,
+   "giong": false
   },
   "mw_muryokusho": {
    "file": "assets/audio/mw_muryokusho.mp3",
@@ -1107,7 +2132,10 @@
     "Narration, monologue 1%",
     "Sound effect 1%",
     "Television 0%"
-   ]
+   ],
+   "speech": 0.862,
+   "musicScore": 0.003,
+   "giong": false
   },
   "mw_murasaki": {
    "file": "assets/audio/mw_murasaki.mp3",
@@ -1124,27 +2152,52 @@
     "Narration, monologue 2%",
     "Sound effect 1%",
     "Single-lens reflex camera 0%"
-   ]
+   ],
+   "speech": 0.752,
+   "musicScore": 0.001,
+   "giong": false
   },
   "ar_mini_die": {
    "file": "assets/audio/ar_mini_die.mp3",
    "dai": 1.22,
    "moTa": "🧞✨ thần đèn nhỏ bị tiêu diệt (export_ofoct_uz3AV4x)",
-   "loai": "?",
+   "loai": "va chạm",
    "chu": "ar",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Bang 31%",
+    "Burst, pop 7%",
+    "Sound effect 7%",
+    "Whoosh, swoosh, swish 5%",
+    "Explosion 5%",
+    "Speech 3%"
+   ],
+   "speech": 0.033,
+   "musicScore": 0.023,
+   "loaiTuTai": true,
+   "giong": false
   },
   "ar_clone": {
    "file": "assets/audio/ar_clone.mp3",
    "dai": 1.38,
    "moTa": "🧞🧞 2 thần đèn nhỏ xuất hiện (naruto_shadow_clones)",
-   "loai": "?",
+   "loai": "nổ",
    "chu": "ar",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Explosion 21%",
+    "Burst, pop 20%",
+    "Sound effect 8%",
+    "Bang 6%",
+    "Music 5%",
+    "Speech 3%"
+   ],
+   "speech": 0.034,
+   "musicScore": 0.045,
+   "loaiTuTai": true,
+   "giong": false
   },
   "ar_stone_on": {
    "file": "assets/audio/ar_stone_on.mp3",
@@ -1156,7 +2209,17 @@
    "dung": [
     "film-mvd"
    ],
-   "tai": null
+   "tai": [
+    "Slam 26%",
+    "Explosion 19%",
+    "Door 8%",
+    "Burst, pop 6%",
+    "Speech 5%",
+    "Bang 5%"
+   ],
+   "speech": 0.049,
+   "musicScore": 0.019,
+   "giong": false
   },
   "ar_stone_break": {
    "file": "assets/audio/ar_stone_break.mp3",
@@ -1168,7 +2231,17 @@
    "dung": [
     "film-mvd"
    ],
-   "tai": null
+   "tai": [
+    "Explosion 23%",
+    "Burst, pop 10%",
+    "Breaking 9%",
+    "Vehicle 5%",
+    "Crack 5%",
+    "Speech 4%"
+   ],
+   "speech": 0.043,
+   "musicScore": 0.012,
+   "giong": false
   },
   "mewing_song": {
    "file": "assets/audio/mewing_song.mp3",
@@ -1180,7 +2253,17 @@
    "dung": [
     "film-mvd"
    ],
-   "tai": null
+   "tai": [
+    "Music 44%",
+    "Marimba, xylophone 14%",
+    "Glockenspiel 11%",
+    "Mallet percussion 6%",
+    "Jingle bell 3%",
+    "Percussion 3%"
+   ],
+   "speech": 0.001,
+   "musicScore": 0.436,
+   "giong": false
   },
   "marmot_scream": {
    "file": "assets/audio/marmot_scream.mp3",
@@ -1190,17 +2273,38 @@
    "chu": "marmot",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 23%",
+    "Screaming 13%",
+    "Yell 9%",
+    "Whoop 6%",
+    "Groan 4%",
+    "Sound effect 3%"
+   ],
+   "speech": 0.226,
+   "musicScore": 0.013,
+   "giong": false
   },
   "marmot_ssj": {
    "file": "assets/audio/marmot_ssj.mp3",
    "dai": 4.25,
    "moTa": "",
-   "loai": "?",
+   "loai": "nổ",
    "chu": "marmot",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Eruption 19%",
+    "Explosion 18%",
+    "Static 9%",
+    "Sound effect 7%",
+    "Music 7%",
+    "Speech 3%"
+   ],
+   "speech": 0.034,
+   "musicScore": 0.07,
+   "loaiTuTai": true,
+   "giong": false
   },
   "marmot_scream_ssj": {
    "file": "assets/audio/marmot_scream_ssj.mp3",
@@ -1210,17 +2314,38 @@
    "chu": "marmot",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Screaming 22%",
+    "Groan 17%",
+    "Grunt 15%",
+    "Sound effect 8%",
+    "Gasp 8%",
+    "Yell 4%"
+   ],
+   "speech": 0.216,
+   "musicScore": 0.019,
+   "giong": false
   },
   "pewpew": {
    "file": "assets/audio/pewpew.mp3",
    "dai": 0.71,
    "moTa": "",
-   "loai": "?",
+   "loai": "giọng",
    "chu": null,
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 20%",
+    "Grunt 19%",
+    "Meow 9%",
+    "Gasp 7%",
+    "Animal 5%",
+    "Groan 3%"
+   ],
+   "speech": 0.197,
+   "musicScore": 0.012,
+   "loaiTuTai": true,
+   "giong": false
   },
   "commander_anthem": {
    "file": "assets/audio/commander_anthem.mp3",
@@ -1230,17 +2355,38 @@
    "chu": "commander",
    "nhac": true,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 43%",
+    "Gunshot, gunfire 7%",
+    "Artillery fire 6%",
+    "Fireworks 5%",
+    "Boom 4%",
+    "Firecracker 3%"
+   ],
+   "speech": 0.017,
+   "musicScore": 0.431,
+   "giong": false
   },
   "bat_grapple": {
    "file": "assets/audio/bat_grapple.mp3",
    "dai": 3.82,
    "moTa": "",
-   "loai": "?",
+   "loai": "nhạc",
    "chu": "bat",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 60%",
+    "Speech 15%",
+    "Gasp 4%",
+    "Oink 3%",
+    "Grunt 2%",
+    "Snort 2%"
+   ],
+   "speech": 0.152,
+   "musicScore": 0.597,
+   "loaiTuTai": true,
+   "giong": false
   },
   "flyingcat_theme": {
    "file": "assets/audio/flyingcat_theme.mp3",
@@ -1252,7 +2398,17 @@
    "dung": [
     "cine-lore2ep3"
    ],
-   "tai": null
+   "tai": [
+    "Music 78%",
+    "Theme music 15%",
+    "Soundtrack music 1%",
+    "Timpani 1%",
+    "Scary music 1%",
+    "Angry music 0%"
+   ],
+   "speech": 0.001,
+   "musicScore": 0.784,
+   "giong": false
   },
   "flyingcat_laser": {
    "file": "assets/audio/flyingcat_laser.mp3",
@@ -1262,19 +2418,40 @@
    "chu": "flyingcat",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Sound effect 37%",
+    "Music 22%",
+    "Bang 9%",
+    "Electronic music 5%",
+    "Techno 2%",
+    "Dubstep 1%"
+   ],
+   "speech": 0.008,
+   "musicScore": 0.224,
+   "giong": false
   },
   "burn_loop": {
    "file": "assets/audio/burn_loop.mp3",
    "dai": 0.67,
    "moTa": "",
-   "loai": "?",
+   "loai": "vút",
    "chu": "burn",
    "nhac": false,
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Whip 11%",
+    "Whoosh, swoosh, swish 10%",
+    "Sound effect 8%",
+    "Speech 7%",
+    "Gunshot, gunfire 6%",
+    "Fusillade 5%"
+   ],
+   "speech": 0.071,
+   "musicScore": 0.041,
+   "loaiTuTai": true,
+   "giong": false
   },
   "hit_light": {
    "file": "assets/audio/hit_light.mp3",
@@ -1284,7 +2461,17 @@
    "chu": null,
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Sound effect 19%",
+    "Breaking 17%",
+    "Bang 13%",
+    "Crack 8%",
+    "Slap, smack 4%",
+    "Smash, crash 4%"
+   ],
+   "speech": 0.006,
+   "musicScore": 0.005,
+   "giong": false
   },
   "hit_mid": {
    "file": "assets/audio/hit_mid.mp3",
@@ -1296,7 +2483,17 @@
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Whack, thwack 51%",
+    "Slap, smack 11%",
+    "Sound effect 10%",
+    "Bang 7%",
+    "Whoosh, swoosh, swish 3%",
+    "Whip 2%"
+   ],
+   "speech": 0.004,
+   "musicScore": 0.002,
+   "giong": false
   },
   "hit_heavy": {
    "file": "assets/audio/hit_heavy.mp3",
@@ -1310,7 +2507,17 @@
     "cine-lore2ep3",
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Explosion 37%",
+    "Bang 15%",
+    "Burst, pop 13%",
+    "Gunshot, gunfire 7%",
+    "Sound effect 4%",
+    "Artillery fire 4%"
+   ],
+   "speech": 0.011,
+   "musicScore": 0.006,
+   "giong": false
   },
   "piano_rush": {
    "file": "assets/audio/piano_rush.mp3",
@@ -1320,7 +2527,17 @@
    "chu": "piano",
    "nhac": true,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 58%",
+    "Harpsichord 15%",
+    "Piano 9%",
+    "Keyboard (musical) 7%",
+    "Electric piano 4%",
+    "Musical instrument 1%"
+   ],
+   "speech": 0,
+   "musicScore": 0.58,
+   "giong": false
   },
   "piano_megalovania": {
    "file": "assets/audio/piano_megalovania.mp3",
@@ -1330,7 +2547,17 @@
    "chu": "piano",
    "nhac": true,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 78%",
+    "Heavy metal 4%",
+    "Electric guitar 3%",
+    "Musical instrument 3%",
+    "Guitar 2%",
+    "Plucked string instrument 2%"
+   ],
+   "speech": 0,
+   "musicScore": 0.779,
+   "giong": false
   },
   "titan_roar": {
    "file": "assets/audio/titan_roar.mp3",
@@ -1340,7 +2567,17 @@
    "chu": "titan",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 30%",
+    "Vehicle 13%",
+    "Car 9%",
+    "Car passing by 6%",
+    "Motorboat, speedboat 4%",
+    "Explosion 2%"
+   ],
+   "speech": 0.02,
+   "musicScore": 0.295,
+   "giong": false
   },
   "piano_stilldre": {
    "file": "assets/audio/piano_stilldre.mp3",
@@ -1350,7 +2587,17 @@
    "chu": "piano",
    "nhac": true,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 52%",
+    "Speech 12%",
+    "Piano 5%",
+    "Keyboard (musical) 5%",
+    "Electric piano 2%",
+    "Harpsichord 2%"
+   ],
+   "speech": 0.124,
+   "musicScore": 0.519,
+   "giong": false
   },
   "piano_thousandmiles": {
    "file": "assets/audio/piano_thousandmiles.mp3",
@@ -1360,7 +2607,17 @@
    "chu": "piano",
    "nhac": true,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 63%",
+    "Piano 11%",
+    "Keyboard (musical) 9%",
+    "Harpsichord 7%",
+    "Musical instrument 3%",
+    "Electric piano 2%"
+   ],
+   "speech": 0,
+   "musicScore": 0.634,
+   "giong": false
   },
   "piano_takeonme": {
    "file": "assets/audio/piano_takeonme.mp3",
@@ -1370,7 +2627,17 @@
    "chu": "piano",
    "nhac": true,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 85%",
+    "Exciting music 2%",
+    "Progressive rock 2%",
+    "Rock and roll 1%",
+    "Video game music 1%",
+    "Soundtrack music 1%"
+   ],
+   "speech": 0,
+   "musicScore": 0.847,
+   "giong": false
   },
   "piano_giorno": {
    "file": "assets/audio/piano_giorno.mp3",
@@ -1382,57 +2649,122 @@
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Music 40%",
+    "Piano 28%",
+    "Keyboard (musical) 18%",
+    "Electric piano 6%",
+    "Musical instrument 4%",
+    "Harpsichord 1%"
+   ],
+   "speech": 0,
+   "musicScore": 0.396,
+   "giong": false
   },
   "spell_1": {
    "file": "assets/audio/spell_1.mp3",
    "dai": 0.52,
    "moTa": "",
-   "loai": "?",
+   "loai": "nổ",
    "chu": "spell",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Explosion 23%",
+    "Burst, pop 14%",
+    "Bang 14%",
+    "Artillery fire 7%",
+    "Sound effect 5%",
+    "Speech 5%"
+   ],
+   "speech": 0.047,
+   "musicScore": 0.029,
+   "loaiTuTai": true,
+   "giong": false
   },
   "spell_2": {
    "file": "assets/audio/spell_2.mp3",
    "dai": 0.5,
    "moTa": "",
-   "loai": "?",
+   "loai": "nổ",
    "chu": "spell",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Explosion 26%",
+    "Burst, pop 22%",
+    "Speech 6%",
+    "Music 4%",
+    "Bang 3%",
+    "Whoosh, swoosh, swish 2%"
+   ],
+   "speech": 0.062,
+   "musicScore": 0.036,
+   "loaiTuTai": true,
+   "giong": false
   },
   "gunshot": {
    "file": "assets/audio/gunshot.mp3",
    "dai": 0.73,
    "moTa": "",
-   "loai": "?",
+   "loai": "nổ",
    "chu": null,
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Gunshot, gunfire 37%",
+    "Artillery fire 12%",
+    "Fusillade 12%",
+    "Machine gun 5%",
+    "Explosion 5%",
+    "Speech 3%"
+   ],
+   "speech": 0.034,
+   "musicScore": 0.008,
+   "loaiTuTai": true,
+   "giong": false
   },
   "who_would_win": {
    "file": "assets/audio/who_would_win.mp3",
    "dai": 1.39,
    "moTa": "",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "who",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 83%",
+    "Male speech, man speaking 7%",
+    "Narration, monologue 2%",
+    "Music 1%",
+    "Sound effect 1%",
+    "Television 1%"
+   ],
+   "speech": 0.828,
+   "musicScore": 0.013,
+   "loaiTuTai": true,
+   "giong": false
   },
   "resensuken_sound": {
    "file": "assets/audio/resensuken_sound.mp3",
    "dai": 2.51,
    "moTa": "",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "resensuken",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 79%",
+    "Music 2%",
+    "Spray 2%",
+    "Vehicle 2%",
+    "Vacuum cleaner 1%",
+    "Jet engine 1%"
+   ],
+   "speech": 0.785,
+   "musicScore": 0.023,
+   "loaiTuTai": true,
+   "giong": false
   },
   "ultimate_charge_2": {
    "file": "assets/audio/ultimate_charge_2.mp3",
@@ -1448,7 +2780,17 @@
     "cine-lore2ep3",
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Sine wave 14%",
+    "Music 12%",
+    "Sound effect 11%",
+    "Electronic music 7%",
+    "Throbbing 6%",
+    "Pulse 6%"
+   ],
+   "speech": 0.015,
+   "musicScore": 0.122,
+   "giong": false
   },
   "lightsaber_whoosh_01": {
    "file": "assets/audio/lightsaber_whoosh_01.mp3",
@@ -1460,7 +2802,17 @@
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Music 46%",
+    "Sound effect 14%",
+    "Whoosh, swoosh, swish 7%",
+    "Bang 5%",
+    "Speech 2%",
+    "Static 1%"
+   ],
+   "speech": 0.015,
+   "musicScore": 0.461,
+   "giong": false
   },
   "lightsaber_clash_06": {
    "file": "assets/audio/lightsaber_clash_06.mp3",
@@ -1474,19 +2826,40 @@
     "film-dvc",
     "film-mvd"
    ],
-   "tai": null
+   "tai": [
+    "Sound effect 15%",
+    "Single-lens reflex camera 11%",
+    "Music 11%",
+    "Creak 8%",
+    "Crack 7%",
+    "Breaking 3%"
+   ],
+   "speech": 0.013,
+   "musicScore": 0.105,
+   "giong": false
   },
   "lightsaber_on": {
    "file": "assets/audio/lightsaber_on.mp3",
    "dai": 2.85,
    "moTa": "",
-   "loai": "?",
+   "loai": "năng lượng",
    "chu": "lightsaber",
    "nhac": false,
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Sound effect 20%",
+    "Whoosh, swoosh, swish 15%",
+    "Music 6%",
+    "Bang 6%",
+    "Whip 4%",
+    "Burst, pop 4%"
+   ],
+   "speech": 0.005,
+   "musicScore": 0.06,
+   "loaiTuTai": true,
+   "giong": false
   },
   "catvader_breathe": {
    "file": "assets/audio/catvader_breathe.mp3",
@@ -1496,37 +2869,80 @@
    "chu": "catvader",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Snort 51%",
+    "Gasp 9%",
+    "Speech 8%",
+    "Music 5%",
+    "Breathing 3%",
+    "Animal 2%"
+   ],
+   "speech": 0.08,
+   "musicScore": 0.046,
+   "giong": false
   },
   "chidorii": {
    "file": "assets/audio/chidorii.mp3",
    "dai": 1.82,
    "moTa": "",
-   "loai": "?",
+   "loai": "giọng",
    "chu": null,
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 58%",
+    "Whistle 8%",
+    "Music 6%",
+    "Rattle 3%",
+    "Maraca 3%",
+    "Rattle (instrument) 2%"
+   ],
+   "speech": 0.576,
+   "musicScore": 0.062,
+   "loaiTuTai": true,
+   "giong": false
   },
   "commander_solider_1": {
    "file": "assets/audio/commander_solider_1.mp3",
    "dai": 1.54,
    "moTa": "",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "commander",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 36%",
+    "Grunt 11%",
+    "Scratch 9%",
+    "Sound effect 7%",
+    "Boing 3%",
+    "Music 2%"
+   ],
+   "speech": 0.356,
+   "musicScore": 0.023,
+   "loaiTuTai": true,
+   "giong": false
   },
   "commander_solider_2": {
    "file": "assets/audio/commander_solider_2.mp3",
    "dai": 4.36,
    "moTa": "",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "commander",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Quack 66%",
+    "Speech 20%",
+    "Duck 9%",
+    "Animal 1%",
+    "Speech synthesizer 1%",
+    "Fowl 0%"
+   ],
+   "speech": 0.204,
+   "musicScore": 0.001,
+   "loaiTuTai": true,
+   "giong": false
   },
   "commander_solider_3": {
    "file": "assets/audio/commander_solider_3.mp3",
@@ -1536,81 +2952,168 @@
    "chu": "commander",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Quack 58%",
+    "Speech 7%",
+    "Duck 6%",
+    "Sound effect 5%",
+    "Crow 4%",
+    "Animal 4%"
+   ],
+   "speech": 0.074,
+   "musicScore": 0.008,
+   "giong": false
   },
   "bibilabu_sound": {
    "file": "assets/audio/bibilabu_sound.mp3",
    "dai": 1.06,
    "moTa": "",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "bibilabu",
    "nhac": false,
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Speech 79%",
+    "Speech synthesizer 7%",
+    "Male speech, man speaking 2%",
+    "Narration, monologue 1%",
+    "Sound effect 1%",
+    "Inside, small room 1%"
+   ],
+   "speech": 0.794,
+   "musicScore": 0.003,
+   "loaiTuTai": true,
+   "giong": false
   },
   "countdown_321": {
    "file": "assets/audio/countdown_321.wav",
    "dai": 0.31,
    "moTa": "",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "countdown",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 53%",
+    "Sigh 14%",
+    "Male speech, man speaking 13%",
+    "Grunt 4%",
+    "Groan 3%",
+    "Narration, monologue 2%"
+   ],
+   "speech": 0.532,
+   "musicScore": 0.004,
+   "loaiTuTai": true,
+   "giong": false
   },
   "rt_podium_win": {
    "file": "assets/audio/rt_podium_win.mp3",
    "dai": 2.64,
    "moTa": "",
-   "loai": "?",
+   "loai": "nhạc",
    "chu": "rt",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 74%",
+    "Ringtone 8%",
+    "Video game music 5%",
+    "Soundtrack music 2%",
+    "Sound effect 1%",
+    "Funny music 1%"
+   ],
+   "speech": 0.002,
+   "musicScore": 0.744,
+   "loaiTuTai": true,
+   "giong": false
   },
   "choose_your_champion": {
    "file": "assets/audio/choose_your_champion.wav",
    "dai": 0.8,
    "moTa": "",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "choose",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 85%",
+    "Male speech, man speaking 5%",
+    "Narration, monologue 2%",
+    "Grunt 1%",
+    "Gasp 1%",
+    "Sigh 1%"
+   ],
+   "speech": 0.846,
+   "musicScore": 0.002,
+   "loaiTuTai": true,
+   "giong": false
   },
   "are_you_ready": {
    "file": "assets/audio/are_you_ready.wav",
    "dai": 0.41,
    "moTa": "",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "are",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 60%",
+    "Sigh 18%",
+    "Gasp 5%",
+    "Male speech, man speaking 4%",
+    "Sneeze 2%",
+    "Groan 1%"
+   ],
+   "speech": 0.597,
+   "musicScore": 0.007,
+   "loaiTuTai": true,
+   "giong": false
   },
   "apple_bop": {
    "file": "assets/audio/apple_bop.mp3",
    "dai": 0.79,
    "moTa": "",
-   "loai": "?",
+   "loai": "vỡ",
    "chu": "apple",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Crack 32%",
+    "Sound effect 13%",
+    "Whack, thwack 13%",
+    "Bang 6%",
+    "Chop 4%",
+    "Breaking 3%"
+   ],
+   "speech": 0.008,
+   "musicScore": 0.005,
+   "loaiTuTai": true,
+   "giong": false
   },
   "cheems_bongo": {
    "file": "assets/audio/cheems_bongo.mp3",
    "dai": 0.5,
    "moTa": "",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "cheems",
    "nhac": false,
    "dung": [
     "cine-endgame"
    ],
-   "tai": null
+   "tai": [
+    "Grunt 35%",
+    "Sound effect 27%",
+    "Gasp 5%",
+    "Speech 4%",
+    "Burping, eructation 3%",
+    "Roar 2%"
+   ],
+   "speech": 0.04,
+   "musicScore": 0.015,
+   "loaiTuTai": true,
+   "giong": false
   },
   "eating_minecraft": {
    "file": "assets/audio/eating_minecraft.mp3",
@@ -1620,7 +3123,17 @@
    "chu": "eating",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Sawing 23%",
+    "Scrape 12%",
+    "Zipper (clothing) 11%",
+    "Rub 10%",
+    "Sound effect 5%",
+    "Scratch 4%"
+   ],
+   "speech": 0.011,
+   "musicScore": 0.003,
+   "giong": false
   },
   "creeper_explosion": {
    "file": "assets/audio/creeper_explosion.mp3",
@@ -1632,57 +3145,122 @@
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Explosion 30%",
+    "Burst, pop 28%",
+    "Bang 8%",
+    "Sound effect 4%",
+    "Breaking 3%",
+    "Gunshot, gunfire 3%"
+   ],
+   "speech": 0.016,
+   "musicScore": 0.004,
+   "giong": false
   },
   "pakistan_disappointed": {
    "file": "assets/audio/pakistan_disappointed.mp3",
    "dai": 1.67,
    "moTa": "",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "pakistan",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 82%",
+    "Screaming 5%",
+    "Bellow 3%",
+    "Yell 3%",
+    "Whoop 1%",
+    "Bleat 1%"
+   ],
+   "speech": 0.822,
+   "musicScore": 0.001,
+   "loaiTuTai": true,
+   "giong": false
   },
   "bow_shoot": {
    "file": "assets/audio/bow_shoot.mp3",
    "dai": 0.55,
    "moTa": "",
-   "loai": "?",
+   "loai": "va chạm",
    "chu": "bow",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Whack, thwack 26%",
+    "Slap, smack 16%",
+    "Sound effect 11%",
+    "Chop 9%",
+    "Arrow 3%",
+    "Bang 3%"
+   ],
+   "speech": 0.009,
+   "musicScore": 0.008,
+   "loaiTuTai": true,
+   "giong": false
   },
   "mc_sfx_railgun": {
    "file": "assets/audio/mc_sfx_railgun.mp3",
    "dai": 0.73,
    "moTa": "",
-   "loai": "?",
+   "loai": "nổ",
    "chu": "mc",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Gunshot, gunfire 37%",
+    "Artillery fire 12%",
+    "Fusillade 12%",
+    "Machine gun 5%",
+    "Explosion 5%",
+    "Speech 3%"
+   ],
+   "speech": 0.034,
+   "musicScore": 0.008,
+   "loaiTuTai": true,
+   "giong": false
   },
   "mc_sfx_machinegun": {
    "file": "assets/audio/mc_sfx_machinegun.mp3",
    "dai": 1.54,
    "moTa": "",
-   "loai": "?",
+   "loai": "nổ",
    "chu": "mc",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Machine gun 50%",
+    "Gunshot, gunfire 16%",
+    "Speech 7%",
+    "Music 2%",
+    "Sound effect 2%",
+    "Artillery fire 2%"
+   ],
+   "speech": 0.074,
+   "musicScore": 0.023,
+   "loaiTuTai": true,
+   "giong": false
   },
   "mc_sfx_missile": {
    "file": "assets/audio/mc_sfx_missile.mp3",
    "dai": 1.85,
    "moTa": "",
-   "loai": "?",
+   "loai": "vút",
    "chu": "mc",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Whoosh, swoosh, swish 20%",
+    "Sound effect 13%",
+    "Scrape 7%",
+    "Flap 6%",
+    "Static 5%",
+    "Spray 3%"
+   ],
+   "speech": 0.006,
+   "musicScore": 0.004,
+   "loaiTuTai": true,
+   "giong": false
   },
   "mc_sfx_laser": {
    "file": "assets/audio/mc_sfx_laser.mp3",
@@ -1692,27 +3270,59 @@
    "chu": "mc",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Bang 50%",
+    "Sound effect 28%",
+    "Whack, thwack 3%",
+    "Music 2%",
+    "Gunshot, gunfire 2%",
+    "Slap, smack 1%"
+   ],
+   "speech": 0.004,
+   "musicScore": 0.021,
+   "giong": false
   },
   "mc_sfx_craft": {
    "file": "assets/audio/mc_sfx_craft.mp3",
    "dai": 6.43,
    "moTa": "",
-   "loai": "?",
+   "loai": "va chạm",
    "chu": "mc",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Bang 18%",
+    "Explosion 11%",
+    "Sound effect 10%",
+    "Crack 9%",
+    "Burst, pop 6%",
+    "Music 6%"
+   ],
+   "speech": 0.023,
+   "musicScore": 0.059,
+   "loaiTuTai": true,
+   "giong": false
   },
   "ac_ufo_illuminati": {
    "file": "assets/audio/ac_ufo_illuminati.mp3",
    "dai": 4.41,
    "moTa": "",
-   "loai": "?",
+   "loai": "nhạc",
    "chu": "ac",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 48%",
+    "Whistling 16%",
+    "Whistle 14%",
+    "Ringtone 1%",
+    "Theme music 1%",
+    "Background music 1%"
+   ],
+   "speech": 0.008,
+   "musicScore": 0.478,
+   "loaiTuTai": true,
+   "giong": false
   },
   "gary_titan_roar": {
    "file": "assets/audio/gary_titan_roar.mp3",
@@ -1722,7 +3332,17 @@
    "chu": "gary",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 30%",
+    "Vehicle 13%",
+    "Car 9%",
+    "Car passing by 6%",
+    "Motorboat, speedboat 4%",
+    "Explosion 2%"
+   ],
+   "speech": 0.02,
+   "musicScore": 0.295,
+   "giong": false
   },
   "guitar_s1": {
    "file": "assets/audio/guitar_s1.mp3",
@@ -1734,7 +3354,17 @@
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Music 44%",
+    "Guitar 9%",
+    "Plucked string instrument 8%",
+    "Musical instrument 8%",
+    "Electric guitar 4%",
+    "Bagpipes 4%"
+   ],
+   "speech": 0.005,
+   "musicScore": 0.444,
+   "giong": false
   },
   "guitar_unravel": {
    "file": "assets/audio/guitar_unravel.mp3",
@@ -1744,7 +3374,17 @@
    "chu": "guitar",
    "nhac": true,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 58%",
+    "Guitar 9%",
+    "Plucked string instrument 9%",
+    "Musical instrument 6%",
+    "Tapping (guitar technique) 6%",
+    "Electric guitar 4%"
+   ],
+   "speech": 0.002,
+   "musicScore": 0.577,
+   "giong": false
   },
   "guitar_aot": {
    "file": "assets/audio/guitar_aot.mp3",
@@ -1754,7 +3394,17 @@
    "chu": "guitar",
    "nhac": true,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 62%",
+    "Progressive rock 8%",
+    "Heavy metal 7%",
+    "Punk rock 3%",
+    "Grunge 3%",
+    "Rock music 2%"
+   ],
+   "speech": 0.002,
+   "musicScore": 0.619,
+   "giong": false
   },
   "guitar_jojo": {
    "file": "assets/audio/guitar_jojo.mp3",
@@ -1767,7 +3417,17 @@
     "cine-endgame",
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Music 48%",
+    "Plucked string instrument 8%",
+    "Musical instrument 7%",
+    "Guitar 7%",
+    "Electric guitar 6%",
+    "Speech 3%"
+   ],
+   "speech": 0.032,
+   "musicScore": 0.483,
+   "giong": false
   },
   "damdamdidi": {
    "file": "assets/audio/damdamdidi.mp3",
@@ -1777,7 +3437,17 @@
    "chu": null,
    "nhac": true,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 81%",
+    "Disco 4%",
+    "Dance music 4%",
+    "House music 2%",
+    "Pop music 2%",
+    "Electronic music 1%"
+   ],
+   "speech": 0,
+   "musicScore": 0.813,
+   "giong": false
   },
   "dawae_voice": {
    "file": "assets/audio/dawae_voice.mp3",
@@ -1787,27 +3457,59 @@
    "chu": "dawae",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 90%",
+    "Speech synthesizer 4%",
+    "Male speech, man speaking 2%",
+    "Narration, monologue 1%",
+    "Television 0%",
+    "Sound effect 0%"
+   ],
+   "speech": 0.904,
+   "musicScore": 0,
+   "giong": false
   },
   "dawae_run": {
    "file": "assets/audio/dawae_run.mp3",
    "dai": 2.74,
    "moTa": "",
-   "loai": "?",
+   "loai": "nhạc",
    "chu": "dawae",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 62%",
+    "Speech 26%",
+    "Animal 2%",
+    "Oink 1%",
+    "Horse 1%",
+    "Drip 1%"
+   ],
+   "speech": 0.263,
+   "musicScore": 0.624,
+   "loaiTuTai": true,
+   "giong": false
   },
   "mlem_lick": {
    "file": "assets/audio/mlem_lick.mp3",
    "dai": 0.26,
    "moTa": "",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "mlem",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 55%",
+    "Quack 7%",
+    "Fart 4%",
+    "Sound effect 3%",
+    "Music 2%",
+    "Boing 2%"
+   ],
+   "speech": 0.55,
+   "musicScore": 0.023,
+   "loaiTuTai": true,
+   "giong": false
   },
   "sc_terror": {
    "file": "assets/audio/sc_terror.mp3",
@@ -1819,7 +3521,17 @@
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Music 79%",
+    "Scary music 11%",
+    "Ambient music 3%",
+    "Gong 2%",
+    "Singing bowl 1%",
+    "Soundtrack music 1%"
+   ],
+   "speech": 0,
+   "musicScore": 0.787,
+   "giong": false
   },
   "sc_laugh": {
    "file": "assets/audio/sc_laugh.mp3",
@@ -1829,20 +3541,41 @@
    "chu": "sc",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Snicker 71%",
+    "Chuckle, chortle 11%",
+    "Laughter 3%",
+    "Sound effect 2%",
+    "Giggle 1%",
+    "Animal 1%"
+   ],
+   "speech": 0.006,
+   "musicScore": 0.004,
+   "giong": false
   },
   "sc_wing": {
    "file": "assets/audio/sc_wing.mp3",
    "dai": 0.76,
    "moTa": "🦇 tiếng bung cánh khối 'Quỷ trỗi dậy' (wing-flap.mp3, nguyên bản)",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "sc",
    "nhac": false,
    "dung": [
     "cine-endgame",
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Grunt 16%",
+    "Sound effect 12%",
+    "Bang 9%",
+    "Whoosh, swoosh, swish 8%",
+    "Smash, crash 4%",
+    "Explosion 4%"
+   ],
+   "speech": 0.02,
+   "musicScore": 0.009,
+   "loaiTuTai": true,
+   "giong": false
   },
   "dc_bell": {
    "file": "assets/audio/dc_bell.mp3",
@@ -1852,7 +3585,17 @@
    "chu": "dc",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Doorbell 56%",
+    "Ding-dong 16%",
+    "Ding 5%",
+    "Bell 4%",
+    "Music 3%",
+    "Speech 3%"
+   ],
+   "speech": 0.026,
+   "musicScore": 0.026,
+   "giong": false
   },
   "sm_fin": {
    "file": "assets/audio/sm_fin.mp3",
@@ -1864,7 +3607,17 @@
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Speech 31%",
+    "Sound effect 12%",
+    "Music 7%",
+    "Breaking 4%",
+    "Clang 3%",
+    "Scrape 2%"
+   ],
+   "speech": 0.306,
+   "musicScore": 0.073,
+   "giong": false
   },
   "sm_nani": {
    "file": "assets/audio/sm_nani.mp3",
@@ -1874,7 +3627,17 @@
    "chu": "sm",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 19%",
+    "Groan 14%",
+    "Bleat 13%",
+    "Grunt 13%",
+    "Sheep 7%",
+    "Sound effect 6%"
+   ],
+   "speech": 0.187,
+   "musicScore": 0.031,
+   "giong": false
   },
   "sm_drip": {
    "file": "assets/audio/sm_drip.mp3",
@@ -1884,7 +3647,17 @@
    "chu": "sm",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Sound effect 38%",
+    "Sonar 13%",
+    "Drip 8%",
+    "Music 7%",
+    "Plop 5%",
+    "Beep, bleep 3%"
+   ],
+   "speech": 0.012,
+   "musicScore": 0.067,
+   "giong": false
   },
   "sm_slash": {
    "file": "assets/audio/sm_slash.mp3",
@@ -1896,7 +3669,17 @@
    "dung": [
     "film-dvc"
    ],
-   "tai": null
+   "tai": [
+    "Music 29%",
+    "Bang 12%",
+    "Sound effect 10%",
+    "Whoosh, swoosh, swish 9%",
+    "Smash, crash 6%",
+    "Breaking 3%"
+   ],
+   "speech": 0.023,
+   "musicScore": 0.29,
+   "giong": false
   },
   "eg_bgm": {
    "file": "assets/audio/eg_bgm.mp3",
@@ -1906,7 +3689,17 @@
    "chu": "eg",
    "nhac": true,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Vehicle 14%",
+    "Fixed-wing aircraft, airplane 11%",
+    "Train 10%",
+    "Rail transport 9%",
+    "Aircraft 5%",
+    "Railroad car, train wagon 5%"
+   ],
+   "speech": 0.007,
+   "musicScore": 0.026,
+   "giong": false
   },
   "sa_phase1": {
    "file": "assets/audio/sa_phase1.mp3",
@@ -1918,7 +3711,17 @@
    "dung": [
     "cine-lore2ep3"
    ],
-   "tai": null
+   "tai": [
+    "Music 49%",
+    "Scary music 30%",
+    "Sound effect 3%",
+    "Soundtrack music 2%",
+    "Speech 2%",
+    "Field recording 1%"
+   ],
+   "speech": 0.016,
+   "musicScore": 0.486,
+   "giong": false
   },
   "dp_rain": {
    "file": "assets/audio/dp_rain.mp3",
@@ -1931,7 +3734,17 @@
     "cine-dpwindow",
     "film-mvd"
    ],
-   "tai": null
+   "tai": [
+    "Rain 37%",
+    "Thunderstorm 37%",
+    "Thunder 19%",
+    "Rain on surface 6%",
+    "Raindrop 1%",
+    "Music 0%"
+   ],
+   "speech": 0,
+   "musicScore": 0,
+   "giong": false
   },
   "ps_shinra": {
    "file": "assets/audio/ps_shinra.mp3",
@@ -1951,19 +3764,33 @@
     "Whoosh, swoosh, swish 6%",
     "Music 3%",
     "Bang 3%"
-   ]
+   ],
+   "speech": 0.6,
+   "musicScore": 0.03,
+   "giong": false
   },
   "dp_happy": {
    "file": "assets/audio/dp_happy.mp3",
    "dai": 2.56,
    "moTa": "😸 happy-happy-happy-cat.mp3 — phim Depressed Cat Comes Home: ôm hoa đi trên phố",
-   "loai": "?",
+   "loai": "nhạc",
    "chu": "dp",
    "nhac": false,
    "dung": [
     "cine-dpwindow"
    ],
-   "tai": null
+   "tai": [
+    "Music 67%",
+    "Ukulele 3%",
+    "Tap 2%",
+    "Speech 2%",
+    "Singing 2%",
+    "Clapping 2%"
+   ],
+   "speech": 0.021,
+   "musicScore": 0.669,
+   "loaiTuTai": true,
+   "giong": false
   },
   "hm_stalker": {
    "file": "assets/audio/hm_stalker.mp3",
@@ -1975,20 +3802,41 @@
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Music 53%",
+    "Sound effect 22%",
+    "Grunt 3%",
+    "Speech 2%",
+    "Echo 2%",
+    "Reverberation 1%"
+   ],
+   "speech": 0.019,
+   "musicScore": 0.532,
+   "giong": false
   },
   "hm_crawl": {
    "file": "assets/audio/hm_crawl.mp3",
    "dai": 6.19,
    "moTa": "",
-   "loai": "?",
+   "loai": "nhạc",
    "chu": "hm",
    "nhac": false,
    "dung": [
     "cine-lore2ep0",
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Music 25%",
+    "Rain on surface 4%",
+    "Crackle 4%",
+    "Bicycle 3%",
+    "Typing 2%",
+    "Rain 2%"
+   ],
+   "speech": 0.017,
+   "musicScore": 0.25,
+   "loaiTuTai": true,
+   "giong": false
   },
   "hm_scared": {
    "file": "assets/audio/hm_scared.mp3",
@@ -2000,7 +3848,17 @@
    "dung": [
     "cine-lore2ep0"
    ],
-   "tai": null
+   "tai": [
+    "Squawk 21%",
+    "Rodents, rats, mice 11%",
+    "Owl 7%",
+    "Speech 7%",
+    "Animal 6%",
+    "Domestic animals, pets 6%"
+   ],
+   "speech": 0.065,
+   "musicScore": 0.05,
+   "giong": false
   },
   "hm_claw1": {
    "file": "assets/audio/hm_claw1.mp3",
@@ -2012,7 +3870,17 @@
    "dung": [
     "cine-lore2ep0"
    ],
-   "tai": null
+   "tai": [
+    "Sigh 32%",
+    "Gasp 15%",
+    "Snort 13%",
+    "Whoosh, swoosh, swish 11%",
+    "Sound effect 5%",
+    "Sneeze 3%"
+   ],
+   "speech": 0.027,
+   "musicScore": 0.005,
+   "giong": false
   },
   "hm_claw2": {
    "file": "assets/audio/hm_claw2.mp3",
@@ -2025,7 +3893,17 @@
     "cine-lore2ep0",
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Sigh 53%",
+    "Gasp 26%",
+    "Snort 8%",
+    "Sound effect 2%",
+    "Speech 2%",
+    "Male speech, man speaking 2%"
+   ],
+   "speech": 0.017,
+   "musicScore": 0.002,
+   "giong": false
   },
   "hm_musicbox": {
    "file": "assets/audio/hm_musicbox.mp3",
@@ -2037,13 +3915,23 @@
    "dung": [
     "cine-lore2ep0"
    ],
-   "tai": null
+   "tai": [
+    "Glockenspiel 23%",
+    "Music 21%",
+    "Marimba, xylophone 16%",
+    "Mallet percussion 16%",
+    "Chime 4%",
+    "Ding-dong 4%"
+   ],
+   "speech": 0.004,
+   "musicScore": 0.209,
+   "giong": false
   },
   "eg_necro": {
    "file": "assets/audio/eg_necro.mp3",
    "dai": 1.92,
    "moTa": "😈 necromancy.mp3 — Evil Gary đủ 5 cánh sao: đứng hình, quỷ hiện sau lưng bung cánh",
-   "loai": "?",
+   "loai": "nhạc",
    "chu": "eg",
    "nhac": false,
    "dung": [
@@ -2051,7 +3939,18 @@
     "cine-lore2ep3",
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Music 65%",
+    "Sound effect 5%",
+    "Bang 5%",
+    "Whoosh, swoosh, swish 3%",
+    "Explosion 2%",
+    "Television 2%"
+   ],
+   "speech": 0.012,
+   "musicScore": 0.648,
+   "loaiTuTai": true,
+   "giong": false
   },
   "br_tick": {
    "file": "assets/audio/br_tick.mp3",
@@ -2061,7 +3960,17 @@
    "chu": "br",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Dial tone 52%",
+    "Busy signal 27%",
+    "Sound effect 6%",
+    "Music 3%",
+    "Beep, bleep 3%",
+    "Telephone dialing, DTMF 1%"
+   ],
+   "speech": 0.004,
+   "musicScore": 0.03,
+   "giong": false
   },
   "br_boom": {
    "file": "assets/audio/br_boom.mp3",
@@ -2073,19 +3982,40 @@
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Bang 29%",
+    "Burst, pop 15%",
+    "Explosion 13%",
+    "Gunshot, gunfire 9%",
+    "Sound effect 8%",
+    "Slam 3%"
+   ],
+   "speech": 0.018,
+   "musicScore": 0.005,
+   "giong": false
   },
   "hl_choir": {
    "file": "assets/audio/hl_choir.mp3",
    "dai": 11.62,
    "moTa": "👼 angelchoirmarktreekort.mp3 — hợp xướng thiên thần lúc Holy Cat hoá thiên thần (phát 1 lần, không lặp)",
-   "loai": "?",
+   "loai": "nhạc",
    "chu": "hl",
    "nhac": false,
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Music 67%",
+    "Choir 7%",
+    "A capella 3%",
+    "Vocal music 2%",
+    "Gospel music 2%",
+    "Singing 2%"
+   ],
+   "speech": 0.006,
+   "musicScore": 0.668,
+   "loaiTuTai": true,
+   "giong": false
   },
   "hl_laser": {
    "file": "assets/audio/hl_laser.mp3",
@@ -2097,7 +4027,17 @@
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Music 55%",
+    "Electronic music 6%",
+    "Speech 4%",
+    "Sound effect 3%",
+    "Dubstep 3%",
+    "Techno 1%"
+   ],
+   "speech": 0.043,
+   "musicScore": 0.545,
+   "giong": false
   },
   "drv_train": {
    "file": "assets/audio/drv_train.mp3",
@@ -2107,17 +4047,38 @@
    "chu": "drv",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Steam whistle 62%",
+    "Steam 10%",
+    "Hiss 6%",
+    "Train whistle 5%",
+    "Music 3%",
+    "Train 1%"
+   ],
+   "speech": 0.008,
+   "musicScore": 0.026,
+   "giong": false
   },
   "drv_bus": {
    "file": "assets/audio/drv_bus.mp3",
    "dai": 1.52,
    "moTa": "🚌 battlebus.mp3 — còi xe bus Driver Cat (lấy tiếng còi đầu 0.28–1.74s)",
-   "loai": "?",
+   "loai": "nền",
    "chu": "drv",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Vehicle horn, car horn, honking 58%",
+    "Vehicle 16%",
+    "Car 6%",
+    "Toot 4%",
+    "Sound effect 3%",
+    "Music 2%"
+   ],
+   "speech": 0.009,
+   "musicScore": 0.021,
+   "loaiTuTai": true,
+   "giong": false
   },
   "ld_shout": {
    "file": "assets/audio/ld_shout.mp3",
@@ -2127,7 +4088,17 @@
    "chu": "ld",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 81%",
+    "Music 4%",
+    "Male speech, man speaking 3%",
+    "Television 1%",
+    "Grunt 1%",
+    "Slap, smack 1%"
+   ],
+   "speech": 0.814,
+   "musicScore": 0.041,
+   "giong": false
   },
   "ar_music": {
    "file": "assets/audio/ar_music.mp3",
@@ -2137,7 +4108,17 @@
    "chu": "ar",
    "nhac": true,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 74%",
+    "Mandolin 6%",
+    "Musical instrument 6%",
+    "Plucked string instrument 2%",
+    "Banjo 1%",
+    "Traditional music 1%"
+   ],
+   "speech": 0.001,
+   "musicScore": 0.742,
+   "giong": false
   },
   "ld_spray": {
    "file": "assets/audio/ld_spray.mp3",
@@ -2147,37 +4128,80 @@
    "chu": "ld",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Spray 40%",
+    "Static 19%",
+    "White noise 8%",
+    "Hiss 6%",
+    "Steam 5%",
+    "Speech 3%"
+   ],
+   "speech": 0.026,
+   "musicScore": 0.012,
+   "giong": false
   },
   "ld_heal1": {
    "file": "assets/audio/ld_heal1.mp3",
    "dai": 2.22,
    "moTa": "🧴 lot dame heal 1.mp3 — câu thoại lúc xịt hồi máu (luân phiên với heal2)",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "ld",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 36%",
+    "Rain on surface 27%",
+    "Rain 16%",
+    "Raindrop 10%",
+    "Water 2%",
+    "Frying (food) 1%"
+   ],
+   "speech": 0.359,
+   "musicScore": 0.005,
+   "loaiTuTai": true,
+   "giong": false
   },
   "ld_heal2": {
    "file": "assets/audio/ld_heal2.mp3",
    "dai": 1.75,
    "moTa": "🧴 lot dame heal 2.mp3",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "ld",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 37%",
+    "Rain on surface 25%",
+    "Rain 16%",
+    "Raindrop 13%",
+    "Water 1%",
+    "Stream 1%"
+   ],
+   "speech": 0.366,
+   "musicScore": 0.006,
+   "loaiTuTai": true,
+   "giong": false
   },
   "ld_stab": {
    "file": "assets/audio/ld_stab.mp3",
    "dai": 0.5,
    "moTa": "🔪 ouch.mp3 — A Lotta Dame Guy đâm dao bấm",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "ld",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Gasp 24%",
+    "Speech 18%",
+    "Grunt 17%",
+    "Sigh 11%",
+    "Groan 10%",
+    "Music 3%"
+   ],
+   "speech": 0.178,
+   "musicScore": 0.03,
+   "loaiTuTai": true,
+   "giong": false
   },
   "ld_start": {
    "file": "assets/audio/ld_start.mp3",
@@ -2187,7 +4211,17 @@
    "chu": "ld",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Chainsaw 21%",
+    "Accelerating, revving, vroom 17%",
+    "Vehicle 12%",
+    "Clatter 7%",
+    "Power tool 4%",
+    "Engine 4%"
+   ],
+   "speech": 0.03,
+   "musicScore": 0.008,
+   "giong": false
   },
   "ld_saw": {
    "file": "assets/audio/ld_saw.mp3",
@@ -2197,7 +4231,17 @@
    "chu": "ld",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Power tool 18%",
+    "Tools 14%",
+    "Chainsaw 11%",
+    "Sawing 9%",
+    "Wood 7%",
+    "Rub 4%"
+   ],
+   "speech": 0.037,
+   "musicScore": 0.016,
+   "giong": false
   },
   "sm_schwing": {
    "file": "assets/audio/sm_schwing.mp3",
@@ -2211,47 +4255,101 @@
     "film-dvc",
     "film-mvd"
    ],
-   "tai": null
+   "tai": [
+    "Ding 55%",
+    "Clang 41%",
+    "Ping 1%",
+    "Sound effect 1%",
+    "Chink, clink 1%",
+    "Dishes, pots, and pans 0%"
+   ],
+   "speech": 0.001,
+   "musicScore": 0,
+   "giong": false
   },
   "sm_parry": {
    "file": "assets/audio/sm_parry.mp3",
    "dai": 0.65,
    "moTa": "⚔️ Samurai Cheems gạt bật 1 viên đạn (sword-deflected.mp3)",
-   "loai": "?",
+   "loai": "va chạm",
    "chu": "sm",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Ding 55%",
+    "Clang 40%",
+    "Ping 1%",
+    "Sound effect 1%",
+    "Whack, thwack 0%",
+    "Speech 0%"
+   ],
+   "speech": 0.002,
+   "musicScore": 0.001,
+   "loaiTuTai": true,
+   "giong": false
   },
   "sm_form": {
    "file": "assets/audio/sm_form.mp3",
    "dai": 1.8,
    "moTa": "⚔️ Samurai Cheems chuyển sang form kết liễu (suprised-barbie.mp3)",
-   "loai": "?",
+   "loai": "nền",
    "chu": "sm",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Vehicle horn, car horn, honking 26%",
+    "Sound effect 21%",
+    "Music 20%",
+    "Television 8%",
+    "Ringtone 4%",
+    "Beep, bleep 1%"
+   ],
+   "speech": 0.01,
+   "musicScore": 0.197,
+   "loaiTuTai": true,
+   "giong": false
   },
   "sm_omae": {
    "file": "assets/audio/sm_omae.mp3",
    "dai": 2.93,
    "moTa": "⚔️ Samurai Cheems kết liễu — \"Omae wa mou shindeiru\" (omae-wa-mou-shindeiru.mp3, 2.88s)",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "sm",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 84%",
+    "Male speech, man speaking 3%",
+    "Narration, monologue 2%",
+    "Television 2%",
+    "Speech synthesizer 1%",
+    "Tick 1%"
+   ],
+   "speech": 0.838,
+   "musicScore": 0.002,
+   "loaiTuTai": true,
+   "giong": false
   },
   "sc_motor": {
    "file": "assets/audio/sc_motor.mp3",
    "dai": 10.34,
    "moTa": "🛵 Scooter Cat chạy xe bình thường — tiếng máy lặp (motor.mp3, có 2 đoạn vặn ga ~3.85s và ~9.55s)",
-   "loai": "?",
+   "loai": "nền",
    "chu": "sc",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Vehicle 42%",
+    "Lawn mower 13%",
+    "Motorcycle 13%",
+    "Engine 12%",
+    "Idling 4%",
+    "Accelerating, revving, vroom 3%"
+   ],
+   "speech": 0.003,
+   "musicScore": 0,
+   "loaiTuTai": true,
+   "giong": false
   },
   "sc_gas": {
    "file": "assets/audio/sc_gas.mp3",
@@ -2261,17 +4359,38 @@
    "chu": "sc",
    "nhac": true,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 55%",
+    "Music of Asia 4%",
+    "Pop music 4%",
+    "Singing 4%",
+    "Electronic music 4%",
+    "Dance music 3%"
+   ],
+   "speech": 0.017,
+   "musicScore": 0.553,
+   "giong": false
   },
   "sc_drift": {
    "file": "assets/audio/sc_drift.mp3",
    "dai": 1.31,
    "moTa": "🛵 Scooter Cat drift (drift-sound-effect_56hbeZG.mp3)",
-   "loai": "?",
+   "loai": "năng lượng",
    "chu": "sc",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Squeal 40%",
+    "Sound effect 23%",
+    "Skidding 10%",
+    "Tire squeal 4%",
+    "Whoosh, swoosh, swish 3%",
+    "Car 2%"
+   ],
+   "speech": 0.014,
+   "musicScore": 0.014,
+   "loaiTuTai": true,
+   "giong": false
   },
   "dc_chain": {
    "file": "assets/audio/dc_chain.mp3",
@@ -2281,7 +4400,17 @@
    "chu": "dc",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Breaking 24%",
+    "Chink, clink 16%",
+    "Cash register 14%",
+    "Speech 8%",
+    "Glass 4%",
+    "Smash, crash 3%"
+   ],
+   "speech": 0.078,
+   "musicScore": 0.014,
+   "giong": false
   },
   "dc_rock": {
    "file": "assets/audio/dc_rock.mp3",
@@ -2291,7 +4420,17 @@
    "chu": "dc",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Explosion 30%",
+    "Burst, pop 24%",
+    "Bang 12%",
+    "Smash, crash 3%",
+    "Gunshot, gunfire 3%",
+    "Fusillade 3%"
+   ],
+   "speech": 0.015,
+   "musicScore": 0.005,
+   "giong": false
   },
   "dc_rage": {
    "file": "assets/audio/dc_rage.mp3",
@@ -2301,20 +4440,41 @@
    "chu": "dc",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 27%",
+    "Animal 9%",
+    "Slap, smack 6%",
+    "Domestic animals, pets 5%",
+    "Chicken, rooster 4%",
+    "Fowl 3%"
+   ],
+   "speech": 0.265,
+   "musicScore": 0.004,
+   "giong": false
   },
   "clap_tele": {
    "file": "assets/audio/clap_tele.mp3",
    "dai": 0.97,
    "moTa": "",
-   "loai": "?",
+   "loai": "nhạc",
    "chu": "clap",
    "nhac": false,
    "dung": [
     "cine-dpwindow",
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Drill 14%",
+    "Music 13%",
+    "Speech 8%",
+    "Whoosh, swoosh, swish 6%",
+    "Tools 5%",
+    "Power tool 4%"
+   ],
+   "speech": 0.082,
+   "musicScore": 0.125,
+   "loaiTuTai": true,
+   "giong": false
   },
   "cine_drop": {
    "file": "assets/audio/cine_drop.mp3",
@@ -2336,7 +4496,10 @@
     "Explosion 3%",
     "Sound effect 3%",
     "Burst, pop 3%"
-   ]
+   ],
+   "speech": 0.085,
+   "musicScore": 0.478,
+   "giong": false
   },
   "demon_roar1": {
    "file": "assets/audio/demon_roar1.mp3",
@@ -2348,7 +4511,17 @@
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Roar 82%",
+    "Sound effect 7%",
+    "Animal 5%",
+    "Roaring cats (lions, tigers) 1%",
+    "Grunt 1%",
+    "Groan 1%"
+   ],
+   "speech": 0.002,
+   "musicScore": 0.002,
+   "giong": false
   },
   "demon_roar2": {
    "file": "assets/audio/demon_roar2.mp3",
@@ -2360,7 +4533,17 @@
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Roar 80%",
+    "Sound effect 9%",
+    "Animal 3%",
+    "Grunt 2%",
+    "Roaring cats (lions, tigers) 1%",
+    "Groan 1%"
+   ],
+   "speech": 0.002,
+   "musicScore": 0.002,
+   "giong": false
   },
   "demon_roar3": {
    "file": "assets/audio/demon_roar3.mp3",
@@ -2372,7 +4555,17 @@
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Roar 67%",
+    "Sound effect 14%",
+    "Animal 4%",
+    "Grunt 2%",
+    "Car 1%",
+    "Groan 1%"
+   ],
+   "speech": 0.004,
+   "musicScore": 0.004,
+   "giong": false
   },
   "cine_impact": {
    "file": "assets/audio/cine_impact.mp3",
@@ -2387,7 +4580,17 @@
     "film-fin1c4",
     "film-mvd"
    ],
-   "tai": null
+   "tai": [
+    "Explosion 64%",
+    "Burst, pop 18%",
+    "Music 9%",
+    "Bang 2%",
+    "Eruption 1%",
+    "Sound effect 1%"
+   ],
+   "speech": 0.006,
+   "musicScore": 0.094,
+   "giong": false
   },
   "zoro_blade": {
    "file": "assets/audio/zoro_blade.mp3",
@@ -2399,7 +4602,17 @@
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Clang 32%",
+    "Ding 24%",
+    "Sound effect 6%",
+    "Speech 5%",
+    "Chink, clink 4%",
+    "Music 2%"
+   ],
+   "speech": 0.047,
+   "musicScore": 0.022,
+   "giong": false
   },
   "cine_impact_jr1": {
    "file": "assets/audio/cine_impact_jr1.mp3",
@@ -2412,19 +4625,40 @@
     "cine-war",
     "film-dvc"
    ],
-   "tai": null
+   "tai": [
+    "Explosion 76%",
+    "Burst, pop 19%",
+    "Eruption 1%",
+    "Bang 1%",
+    "Sound effect 1%",
+    "Music 0%"
+   ],
+   "speech": 0.001,
+   "musicScore": 0.004,
+   "giong": false
   },
   "cine_flesh": {
    "file": "assets/audio/cine_flesh.mp3",
    "dai": 0.55,
    "moTa": "",
-   "loai": "?",
+   "loai": "nổ",
    "chu": null,
    "nhac": false,
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Burst, pop 16%",
+    "Explosion 15%",
+    "Breaking 14%",
+    "Slosh 10%",
+    "Water 7%",
+    "Crack 6%"
+   ],
+   "speech": 0.036,
+   "musicScore": 0.03,
+   "loaiTuTai": true,
+   "giong": false
   },
   "cine_deep_impact": {
    "file": "assets/audio/cine_deep_impact.mp3",
@@ -2440,7 +4674,17 @@
     "film-mvd",
     "raid-friend"
    ],
-   "tai": null
+   "tai": [
+    "Rumble 63%",
+    "Music 9%",
+    "Explosion 5%",
+    "Sound effect 3%",
+    "Bang 2%",
+    "Burst, pop 2%"
+   ],
+   "speech": 0.004,
+   "musicScore": 0.093,
+   "giong": false
   },
   "cine_strongpunch": {
    "file": "assets/audio/cine_strongpunch.mp3",
@@ -2455,7 +4699,17 @@
     "film-fin1c4",
     "film-mvd"
    ],
-   "tai": null
+   "tai": [
+    "Smash, crash 22%",
+    "Whack, thwack 17%",
+    "Sound effect 15%",
+    "Whoosh, swoosh, swish 10%",
+    "Burst, pop 4%",
+    "Bang 4%"
+   ],
+   "speech": 0.008,
+   "musicScore": 0.013,
+   "giong": false
   },
   "cine_haki": {
    "file": "assets/audio/cine_haki.mp3",
@@ -2468,7 +4722,17 @@
     "cine-war",
     "film-dvc"
    ],
-   "tai": null
+   "tai": [
+    "Music 48%",
+    "Sound effect 16%",
+    "Electronic music 9%",
+    "Whoosh, swoosh, swish 3%",
+    "Speech 2%",
+    "Dubstep 1%"
+   ],
+   "speech": 0.018,
+   "musicScore": 0.483,
+   "giong": false
   },
   "cine_conq_haki": {
    "file": "assets/audio/cine_conq_haki.mp3",
@@ -2480,25 +4744,46 @@
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Music 48%",
+    "Sound effect 9%",
+    "Whoosh, swoosh, swish 4%",
+    "Television 4%",
+    "Static 3%",
+    "Scratch 2%"
+   ],
+   "speech": 0.008,
+   "musicScore": 0.478,
+   "giong": false
   },
   "cv_win": {
    "file": "assets/audio/cv_win.mp3",
    "dai": 4.05,
    "moTa": "",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "cv",
    "nhac": false,
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Speech 86%",
+    "Male speech, man speaking 4%",
+    "Sigh 2%",
+    "Gasp 2%",
+    "Grunt 1%",
+    "Sound effect 1%"
+   ],
+   "speech": 0.858,
+   "musicScore": 0.001,
+   "loaiTuTai": true,
+   "giong": false
   },
   "cine_heavy_slow": {
    "file": "assets/audio/cine_heavy_slow.mp3",
    "dai": 1.87,
    "moTa": "",
-   "loai": "?",
+   "loai": "nổ",
    "chu": null,
    "nhac": false,
    "dung": [
@@ -2506,7 +4791,18 @@
     "cine-war",
     "film-fin1c4"
    ],
-   "tai": null
+   "tai": [
+    "Explosion 56%",
+    "Burst, pop 22%",
+    "Bang 10%",
+    "Sound effect 5%",
+    "Music 1%",
+    "Gunshot, gunfire 1%"
+   ],
+   "speech": 0.002,
+   "musicScore": 0.013,
+   "loaiTuTai": true,
+   "giong": false
   },
   "cine_haki_hit": {
    "file": "assets/audio/cine_haki_hit.mp3",
@@ -2529,19 +4825,33 @@
     "Explosion 10%",
     "Burst, pop 5%",
     "Music 3%"
-   ]
+   ],
+   "speech": 0.005,
+   "musicScore": 0.025,
+   "giong": false
   },
   "clap_cat": {
    "file": "assets/audio/clap_cat.mp3",
    "dai": 0.55,
    "moTa": "",
-   "loai": "?",
+   "loai": "vút",
    "chu": "clap",
    "nhac": false,
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Whip 35%",
+    "Gunshot, gunfire 16%",
+    "Bang 7%",
+    "Artillery fire 5%",
+    "Burst, pop 5%",
+    "Machine gun 3%"
+   ],
+   "speech": 0.017,
+   "musicScore": 0.01,
+   "loaiTuTai": true,
+   "giong": false
   },
   "pd_piano": {
    "file": "assets/audio/pd_piano.mp3",
@@ -2551,7 +4861,17 @@
    "chu": "pd",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Clang 18%",
+    "Smash, crash 12%",
+    "Sound effect 11%",
+    "Ding 5%",
+    "Artillery fire 4%",
+    "Gunshot, gunfire 4%"
+   ],
+   "speech": 0.011,
+   "musicScore": 0.008,
+   "giong": false
   },
   "pd_truck_crash": {
    "file": "assets/audio/pd_truck_crash.mp3",
@@ -2561,17 +4881,38 @@
    "chu": "pd",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Tire squeal 23%",
+    "Skidding 20%",
+    "Vehicle 15%",
+    "Sound effect 11%",
+    "Car 10%",
+    "Whir 3%"
+   ],
+   "speech": 0.008,
+   "musicScore": 0.009,
+   "giong": false
   },
   "pd_slip": {
    "file": "assets/audio/pd_slip.mp3",
    "dai": 0.37,
    "moTa": "",
-   "loai": "?",
+   "loai": "năng lượng",
    "chu": "pd",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Sound effect 27%",
+    "Music 9%",
+    "Squeak 8%",
+    "Scratch 7%",
+    "Zipper (clothing) 4%",
+    "Speech 4%"
+   ],
+   "speech": 0.039,
+   "musicScore": 0.087,
+   "loaiTuTai": true,
+   "giong": false
   },
   "pd_fall": {
    "file": "assets/audio/pd_fall.mp3",
@@ -2583,27 +4924,59 @@
    "dung": [
     "cine-lore2ep2"
    ],
-   "tai": null
+   "tai": [
+    "Sound effect 27%",
+    "Music 18%",
+    "Gasp 6%",
+    "Whoosh, swoosh, swish 5%",
+    "Scratch 4%",
+    "Grunt 3%"
+   ],
+   "speech": 0.021,
+   "musicScore": 0.177,
+   "giong": false
   },
   "pd_pot": {
    "file": "assets/audio/pd_pot.mp3",
    "dai": 1.67,
    "moTa": "",
-   "loai": "?",
+   "loai": "vỡ",
    "chu": "pd",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Breaking 89%",
+    "Glass 5%",
+    "Chink, clink 2%",
+    "Sound effect 1%",
+    "Crack 1%",
+    "Music 0%"
+   ],
+   "speech": 0.002,
+   "musicScore": 0.003,
+   "loaiTuTai": true,
+   "giong": false
   },
   "duo_correct": {
    "file": "assets/audio/duo_correct.mp3",
    "dai": 0.81,
    "moTa": "",
-   "loai": "?",
+   "loai": "nhạc",
    "chu": null,
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 39%",
+    "Ding-dong 16%",
+    "Doorbell 12%",
+    "Ding 12%",
+    "Clang 2%",
+    "Ping 2%"
+   ],
+   "speech": 0.008,
+   "musicScore": 0.385,
+   "loaiTuTai": true,
+   "giong": false
   },
   "azel_beat": {
    "file": "assets/audio/azel_beat.mp3",
@@ -2613,7 +4986,17 @@
    "chu": "azel",
    "nhac": true,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 61%",
+    "Electronic music 6%",
+    "Electronic dance music 3%",
+    "House music 2%",
+    "Fly, housefly 2%",
+    "Insect 2%"
+   ],
+   "speech": 0.011,
+   "musicScore": 0.614,
+   "giong": false
   },
   "ep3_blip": {
    "file": "assets/audio/ep3_blip.mp3",
@@ -2626,7 +5009,17 @@
     "cine-lore2ep3",
     "raid-friend"
    ],
-   "tai": null
+   "tai": [
+    "Beep, bleep 18%",
+    "Speech 11%",
+    "Ringtone 10%",
+    "Sound effect 10%",
+    "Music 8%",
+    "Frog 3%"
+   ],
+   "speech": 0.105,
+   "musicScore": 0.077,
+   "giong": false
   },
   "ep3_shine": {
    "file": "assets/audio/ep3_shine.mp3",
@@ -2639,7 +5032,17 @@
     "cine-lore2ep3",
     "film-fin1c4"
    ],
-   "tai": null
+   "tai": [
+    "Sound effect 35%",
+    "Whistle 25%",
+    "Whistling 5%",
+    "Hiss 3%",
+    "Whoosh, swoosh, swish 3%",
+    "Boing 2%"
+   ],
+   "speech": 0.006,
+   "musicScore": 0.016,
+   "giong": false
   },
   "ep3_glass": {
    "file": "assets/audio/ep3_glass.mp3",
@@ -2659,7 +5062,10 @@
     "Shatter 7%",
     "Speech 2%",
     "Sound effect 2%"
-   ]
+   ],
+   "speech": 0.023,
+   "musicScore": 0.007,
+   "giong": false
   },
   "ep3_charge": {
    "file": "assets/audio/ep3_charge.mp3",
@@ -2673,7 +5079,17 @@
     "film-fin1c4",
     "film-mvd"
    ],
-   "tai": null
+   "tai": [
+    "Explosion 48%",
+    "Burst, pop 17%",
+    "Music 4%",
+    "Boing 4%",
+    "Sound effect 3%",
+    "Bang 3%"
+   ],
+   "speech": 0.026,
+   "musicScore": 0.041,
+   "giong": false
   },
   "ep3_quake": {
    "file": "assets/audio/ep3_quake.mp3",
@@ -2687,19 +5103,40 @@
     "film-fin1c4",
     "film-mvd"
    ],
-   "tai": null
+   "tai": [
+    "Explosion 72%",
+    "Burst, pop 17%",
+    "Eruption 3%",
+    "Sound effect 2%",
+    "Bang 1%",
+    "Boom 1%"
+   ],
+   "speech": 0.003,
+   "musicScore": 0.006,
+   "giong": false
   },
   "ep3_titan": {
    "file": "assets/audio/ep3_titan.mp3",
    "dai": 3.87,
    "moTa": "",
-   "loai": "?",
+   "loai": "nổ",
    "chu": null,
    "nhac": false,
    "dung": [
     "cine-lore2ep3"
    ],
-   "tai": null
+   "tai": [
+    "Explosion 71%",
+    "Burst, pop 20%",
+    "Sound effect 2%",
+    "Music 2%",
+    "Eruption 1%",
+    "Bang 1%"
+   ],
+   "speech": 0.004,
+   "musicScore": 0.017,
+   "loaiTuTai": true,
+   "giong": false
   },
   "ep3_explode": {
    "file": "assets/audio/ep3_explode.mp3",
@@ -2720,7 +5157,10 @@
     "Music 1%",
     "Speech 0%",
     "Sound effect 0%"
-   ]
+   ],
+   "speech": 0.002,
+   "musicScore": 0.006,
+   "giong": false
   },
   "ep3_chain": {
    "file": "assets/audio/ep3_chain.mp3",
@@ -2730,7 +5170,17 @@
    "chu": null,
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Explosion 49%",
+    "Burst, pop 26%",
+    "Bang 8%",
+    "Sound effect 4%",
+    "Breaking 4%",
+    "Smash, crash 1%"
+   ],
+   "speech": 0.006,
+   "musicScore": 0.01,
+   "giong": false
   },
   "ep3_pain4": {
    "file": "assets/audio/ep3_pain4.mp3",
@@ -2742,7 +5192,17 @@
    "dung": [
     "cine-lore2ep3"
    ],
-   "tai": null
+   "tai": [
+    "Music 55%",
+    "Choir 24%",
+    "Mantra 4%",
+    "Chant 3%",
+    "Singing 2%",
+    "Gospel music 2%"
+   ],
+   "speech": 0.003,
+   "musicScore": 0.549,
+   "giong": false
   },
   "ep3_kamui": {
    "file": "assets/audio/ep3_kamui.mp3",
@@ -2755,7 +5215,17 @@
     "cine-lore2ep3",
     "film-fin1c4"
    ],
-   "tai": null
+   "tai": [
+    "Whoosh, swoosh, swish 38%",
+    "Sound effect 14%",
+    "Speech 5%",
+    "Music 5%",
+    "Sigh 4%",
+    "Explosion 4%"
+   ],
+   "speech": 0.048,
+   "musicScore": 0.048,
+   "giong": false
   },
   "ep3_end_boom": {
    "file": "assets/audio/ep3_end_boom.mp3",
@@ -2767,7 +5237,17 @@
    "dung": [
     "cine-lore2ep3"
    ],
-   "tai": null
+   "tai": [
+    "Explosion 20%",
+    "Heart murmur 11%",
+    "Hum 10%",
+    "Heart sounds, heartbeat 10%",
+    "Sound effect 8%",
+    "Throbbing 8%"
+   ],
+   "speech": 0.012,
+   "musicScore": 0.021,
+   "giong": false
   },
   "fr_titan_roar": {
    "file": "assets/audio/fr_titan_roar.mp3",
@@ -2782,17 +5262,38 @@
     "film-l2pro",
     "raid-friend"
    ],
-   "tai": null
+   "tai": [
+    "Roar 95%",
+    "Sound effect 3%",
+    "Roaring cats (lions, tigers) 1%",
+    "Animal 1%",
+    "Wild animals 0%",
+    "Music 0%"
+   ],
+   "speech": 0.001,
+   "musicScore": 0.001,
+   "giong": false
   },
   "bc_spin": {
    "file": "assets/audio/bc_spin.mp3",
    "dai": 17.58,
    "moTa": "",
-   "loai": "?",
+   "loai": "nền",
    "chu": "bc",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Jet engine 46%",
+    "Aircraft 14%",
+    "Vehicle 14%",
+    "Fixed-wing aircraft, airplane 5%",
+    "Engine 3%",
+    "Car 2%"
+   ],
+   "speech": 0.003,
+   "musicScore": 0.005,
+   "loaiTuTai": true,
+   "giong": false
   },
   "bc_zap": {
    "file": "assets/audio/bc_zap.mp3",
@@ -2802,7 +5303,17 @@
    "chu": "bc",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Scrape 18%",
+    "Breaking 8%",
+    "Crackle 6%",
+    "Burst, pop 6%",
+    "Explosion 5%",
+    "Speech 5%"
+   ],
+   "speech": 0.049,
+   "musicScore": 0.021,
+   "giong": false
   },
   "vb_warmup": {
    "file": "assets/audio/vb_warmup6.mp3",
@@ -2822,7 +5333,17 @@
    "chu": "vb",
    "nhac": true,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 30%",
+    "Bowed string instrument 16%",
+    "Musical instrument 12%",
+    "Violin, fiddle 10%",
+    "Cello 9%",
+    "Double bass 6%"
+   ],
+   "speech": 0.015,
+   "musicScore": 0.297,
+   "giong": false
   },
   "vb_buzz": {
    "file": "assets/audio/vb_buzz.wav",
@@ -2832,7 +5353,17 @@
    "chu": "vb",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Mosquito 40%",
+    "Fly, housefly 17%",
+    "Insect 14%",
+    "Vehicle 6%",
+    "Sound effect 5%",
+    "Motorboat, speedboat 2%"
+   ],
+   "speech": 0.015,
+   "musicScore": 0.005,
+   "giong": false
   },
   "vb_swarm": {
    "file": "assets/audio/vb_swarm.wav",
@@ -2842,7 +5373,17 @@
    "chu": "vb",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Fly, housefly 43%",
+    "Insect 32%",
+    "Mosquito 10%",
+    "Bee, wasp, etc. 10%",
+    "Speech 1%",
+    "Music 1%"
+   ],
+   "speech": 0.007,
+   "musicScore": 0.006,
+   "giong": false
   },
   "vb_rush": {
    "file": "assets/audio/vb_rush.wav",
@@ -2852,17 +5393,38 @@
    "chu": "vb",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Bee, wasp, etc. 27%",
+    "Insect 25%",
+    "Fly, housefly 23%",
+    "Vehicle 6%",
+    "Speech 2%",
+    "Buzz 2%"
+   ],
+   "speech": 0.022,
+   "musicScore": 0.003,
+   "giong": false
   },
   "vb_sting": {
    "file": "assets/audio/vb_sting.wav",
    "dai": 0.03,
    "moTa": "",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "vb",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Grunt 21%",
+    "Burping, eructation 8%",
+    "Speech 7%",
+    "Sound effect 5%",
+    "Plop 5%",
+    "Oink 5%"
+   ],
+   "speech": 0.067,
+   "musicScore": 0.008,
+   "loaiTuTai": true,
+   "giong": false
   },
   "rf_world_revolving": {
    "file": "assets/audio/rf_world_revolving.mp3",
@@ -2874,7 +5436,17 @@
    "dung": [
     "raid-friend"
    ],
-   "tai": null
+   "tai": [
+    "Music 81%",
+    "Video game music 8%",
+    "Theme music 2%",
+    "Soundtrack music 1%",
+    "Background music 1%",
+    "Funny music 1%"
+   ],
+   "speech": 0,
+   "musicScore": 0.814,
+   "giong": false
   },
   "ep3_lava": {
    "file": "assets/audio/ep3_lava.mp3",
@@ -2886,7 +5458,17 @@
    "dung": [
     "cine-lore2ep3"
    ],
-   "tai": null
+   "tai": [
+    "Slap, smack 14%",
+    "Sound effect 11%",
+    "Stomach rumble 8%",
+    "Gurgling 8%",
+    "Slosh 4%",
+    "Whack, thwack 3%"
+   ],
+   "speech": 0.024,
+   "musicScore": 0.025,
+   "giong": false
   },
   "ep3_rock": {
    "file": "assets/audio/ep3_rock.mp3",
@@ -2899,7 +5481,17 @@
     "cine-lore2ep3",
     "film-fin1c4"
    ],
-   "tai": null
+   "tai": [
+    "Clip-clop 44%",
+    "Animal 29%",
+    "Horse 21%",
+    "Neigh, whinny 1%",
+    "Speech 1%",
+    "Livestock, farm animals, working animals 0%"
+   ],
+   "speech": 0.006,
+   "musicScore": 0.001,
+   "giong": false
   },
   "ep3_whoosh": {
    "file": "assets/audio/ep3_whoosh.mp3",
@@ -2913,20 +5505,41 @@
     "film-fin1",
     "film-fin1c4"
    ],
-   "tai": null
+   "tai": [
+    "Whoosh, swoosh, swish 56%",
+    "Sound effect 11%",
+    "Zipper (clothing) 2%",
+    "Explosion 2%",
+    "Burst, pop 1%",
+    "Bang 1%"
+   ],
+   "speech": 0.007,
+   "musicScore": 0.008,
+   "giong": false
   },
   "ep3_dark": {
    "file": "assets/audio/ep3_dark.mp3",
    "dai": 4.26,
    "moTa": "",
-   "loai": "?",
+   "loai": "vút",
    "chu": null,
    "nhac": false,
    "dung": [
     "cine-lore2ep0",
     "cine-lore2ep3"
    ],
-   "tai": null
+   "tai": [
+    "Whoosh, swoosh, swish 35%",
+    "Snort 10%",
+    "Sound effect 7%",
+    "Explosion 6%",
+    "Music 5%",
+    "White noise 2%"
+   ],
+   "speech": 0.009,
+   "musicScore": 0.049,
+   "loaiTuTai": true,
+   "giong": false
   },
   "ep3_ratchet": {
    "file": "assets/audio/ep3_ratchet.mp3",
@@ -2938,7 +5551,17 @@
    "dung": [
     "cine-lore2ep3"
    ],
-   "tai": null
+   "tai": [
+    "Scrape 16%",
+    "Wood 14%",
+    "Rub 7%",
+    "Sound effect 7%",
+    "Snoring 6%",
+    "Rattle 3%"
+   ],
+   "speech": 0.023,
+   "musicScore": 0.008,
+   "giong": false
   },
   "ep3_klunk": {
    "file": "assets/audio/ep3_klunk.mp3",
@@ -2950,49 +5573,103 @@
    "dung": [
     "cine-lore2ep3"
    ],
-   "tai": null
+   "tai": [
+    "Sound effect 19%",
+    "Knock 15%",
+    "Thunk 8%",
+    "Music 6%",
+    "Slam 4%",
+    "Whack, thwack 4%"
+   ],
+   "speech": 0.018,
+   "musicScore": 0.058,
+   "giong": false
   },
   "ep4_step1": {
    "file": "assets/audio/ep4_step1.mp3",
    "dai": 0.42,
    "moTa": "",
-   "loai": "?",
+   "loai": "vỡ",
    "chu": "ep4",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Breaking 19%",
+    "Crack 18%",
+    "Sound effect 6%",
+    "Speech 6%",
+    "Crackle 4%",
+    "Clapping 3%"
+   ],
+   "speech": 0.056,
+   "musicScore": 0.01,
+   "loaiTuTai": true,
+   "giong": false
   },
   "ep4_step2": {
    "file": "assets/audio/ep4_step2.mp3",
    "dai": 0.42,
    "moTa": "",
-   "loai": "?",
+   "loai": "năng lượng",
    "chu": "ep4",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Sound effect 17%",
+    "Gunshot, gunfire 8%",
+    "Bang 8%",
+    "Scrape 5%",
+    "Breaking 5%",
+    "Crack 5%"
+   ],
+   "speech": 0.037,
+   "musicScore": 0.007,
+   "loaiTuTai": true,
+   "giong": false
   },
   "ep4_step3": {
    "file": "assets/audio/ep4_step3.mp3",
    "dai": 0.42,
    "moTa": "",
-   "loai": "?",
+   "loai": "vỡ",
    "chu": "ep4",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Breaking 22%",
+    "Crack 13%",
+    "Crackle 8%",
+    "Speech 4%",
+    "Slosh 3%",
+    "Sound effect 3%"
+   ],
+   "speech": 0.042,
+   "musicScore": 0.015,
+   "loaiTuTai": true,
+   "giong": false
   },
   "ep4_creak": {
    "file": "assets/audio/ep4_creak.mp3",
    "dai": 1.25,
    "moTa": "",
-   "loai": "?",
+   "loai": "năng lượng",
    "chu": "ep4",
    "nhac": false,
    "dung": [
     "cine-lore2ep3"
    ],
-   "tai": null
+   "tai": [
+    "Creak 21%",
+    "Sound effect 11%",
+    "Mechanisms 11%",
+    "Door 4%",
+    "Vehicle 2%",
+    "Gears 2%"
+   ],
+   "speech": 0.013,
+   "musicScore": 0.017,
+   "loaiTuTai": true,
+   "giong": false
   },
   "l2p_whoosh": {
    "file": "assets/audio/l2p_whoosh.mp3",
@@ -3013,7 +5690,10 @@
     "Static 2%",
     "Music 2%",
     "Hiss 2%"
-   ]
+   ],
+   "speech": 0.002,
+   "musicScore": 0.022,
+   "giong": false
   },
   "l2p_sub": {
    "file": "assets/audio/l2p_sub.mp3",
@@ -3025,7 +5705,17 @@
    "dung": [
     "film-fin1c4"
    ],
-   "tai": null
+   "tai": [
+    "Sound effect 17%",
+    "Music 10%",
+    "Vehicle 7%",
+    "Car 7%",
+    "Bang 6%",
+    "Accelerating, revving, vroom 4%"
+   ],
+   "speech": 0.017,
+   "musicScore": 0.096,
+   "giong": false
   },
   "l2p_shimmer": {
    "file": "assets/audio/l2p_shimmer.mp3",
@@ -3038,7 +5728,17 @@
     "film-fin1c4",
     "film-l2pro"
    ],
-   "tai": null
+   "tai": [
+    "Ding 18%",
+    "Chime 16%",
+    "Ringtone 11%",
+    "Music 8%",
+    "Wind chime 8%",
+    "Jingle, tinkle 5%"
+   ],
+   "speech": 0.005,
+   "musicScore": 0.081,
+   "giong": false
   },
   "l2p_riser": {
    "file": "assets/audio/l2p_riser.mp3",
@@ -3052,7 +5752,17 @@
     "film-mvd",
     "raid-friend"
    ],
-   "tai": null
+   "tai": [
+    "Sine wave 65%",
+    "Chirp tone 8%",
+    "White noise 4%",
+    "Music 3%",
+    "Sound effect 3%",
+    "Static 2%"
+   ],
+   "speech": 0.003,
+   "musicScore": 0.026,
+   "giong": false
   },
   "l2p_rumble": {
    "file": "assets/audio/l2p_rumble.mp3",
@@ -3066,7 +5776,17 @@
     "film-mvd",
     "raid-friend"
    ],
-   "tai": null
+   "tai": [
+    "Heart murmur 45%",
+    "Heart sounds, heartbeat 10%",
+    "Explosion 7%",
+    "Whoosh, swoosh, swish 4%",
+    "Music 4%",
+    "Thunderstorm 3%"
+   ],
+   "speech": 0.006,
+   "musicScore": 0.04,
+   "giong": false
   },
   "l2p_crack": {
    "file": "assets/audio/l2p_crack.mp3",
@@ -3080,7 +5800,17 @@
     "film-l2pro",
     "raid-friend"
    ],
-   "tai": null
+   "tai": [
+    "Sound effect 39%",
+    "Bang 21%",
+    "Breaking 5%",
+    "Coin (dropping) 4%",
+    "Music 3%",
+    "Burst, pop 2%"
+   ],
+   "speech": 0.011,
+   "musicScore": 0.03,
+   "giong": false
   },
   "l2p_shatter": {
    "file": "assets/audio/l2p_shatter.mp3",
@@ -3092,7 +5822,17 @@
    "dung": [
     "film-l2pro"
    ],
-   "tai": null
+   "tai": [
+    "Ding 53%",
+    "Clang 43%",
+    "Sound effect 1%",
+    "Ping 1%",
+    "Chink, clink 0%",
+    "Music 0%"
+   ],
+   "speech": 0.002,
+   "musicScore": 0.002,
+   "giong": false
   },
   "l2p_explode": {
    "file": "assets/audio/l2p_explode.mp3",
@@ -3107,7 +5847,17 @@
     "film-l2pro",
     "film-mvd"
    ],
-   "tai": null
+   "tai": [
+    "Explosion 77%",
+    "Burst, pop 19%",
+    "Eruption 2%",
+    "Music 0%",
+    "Sound effect 0%",
+    "Artillery fire 0%"
+   ],
+   "speech": 0.001,
+   "musicScore": 0.004,
+   "giong": false
   },
   "l2p_tentacle": {
    "file": "assets/audio/l2p_tentacle.mp3",
@@ -3117,7 +5867,17 @@
    "chu": null,
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Ping 44%",
+    "Chop 8%",
+    "Skateboard 6%",
+    "Tap 2%",
+    "Speech 2%",
+    "Walk, footsteps 2%"
+   ],
+   "speech": 0.019,
+   "musicScore": 0.002,
+   "giong": false
   },
   "l2p_chains": {
    "file": "assets/audio/l2p_chains.mp3",
@@ -3129,7 +5889,17 @@
    "dung": [
     "film-l2pro"
    ],
-   "tai": null
+   "tai": [
+    "Chink, clink 24%",
+    "Breaking 23%",
+    "Dishes, pots, and pans 10%",
+    "Cutlery, silverware 8%",
+    "Smash, crash 8%",
+    "Glass 3%"
+   ],
+   "speech": 0.009,
+   "musicScore": 0.017,
+   "giong": false
   },
   "l2p_chime": {
    "file": "assets/audio/l2p_chime.mp3",
@@ -3142,17 +5912,38 @@
     "film-fin1c4",
     "film-l2pro"
    ],
-   "tai": null
+   "tai": [
+    "Ding 87%",
+    "Clang 5%",
+    "Bell 2%",
+    "Bicycle bell 1%",
+    "Music 1%",
+    "Ping 1%"
+   ],
+   "speech": 0.002,
+   "musicScore": 0.01,
+   "giong": false
   },
   "ep3_arm": {
    "file": "assets/audio/ep3_arm.mp3",
    "dai": 2.06,
    "moTa": "",
-   "loai": "?",
+   "loai": "nhạc",
    "chu": null,
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 38%",
+    "Television 9%",
+    "Buzzer 5%",
+    "Speech 3%",
+    "Sound effect 3%",
+    "Buzz 2%"
+   ],
+   "speech": 0.033,
+   "musicScore": 0.383,
+   "loaiTuTai": true,
+   "giong": false
   },
   "ep3_hydraulic": {
    "file": "assets/audio/ep3_hydraulic.mp3",
@@ -3164,7 +5955,17 @@
    "dung": [
     "cine-lore2ep3"
    ],
-   "tai": null
+   "tai": [
+    "Printer 39%",
+    "Vehicle 3%",
+    "Sliding door 3%",
+    "Wood 3%",
+    "Power windows, electric windows 3%",
+    "Sound effect 2%"
+   ],
+   "speech": 0.015,
+   "musicScore": 0.012,
+   "giong": false
   },
   "ep3_breath": {
    "file": "assets/audio/ep3_breath.mp3",
@@ -3176,7 +5977,17 @@
    "dung": [
     "cine-lore2ep3"
    ],
-   "tai": null
+   "tai": [
+    "Snort 35%",
+    "Gasp 27%",
+    "Sigh 11%",
+    "Sound effect 7%",
+    "Breathing 4%",
+    "Speech 2%"
+   ],
+   "speech": 0.018,
+   "musicScore": 0.008,
+   "giong": false
   },
   "ep3_force": {
    "file": "assets/audio/ep3_force.mp3",
@@ -3189,7 +6000,17 @@
     "cine-lore2ep3",
     "film-fin1c4"
    ],
-   "tai": null
+   "tai": [
+    "Grunt 59%",
+    "Sound effect 11%",
+    "Roar 6%",
+    "Speech 3%",
+    "Groan 3%",
+    "Gasp 2%"
+   ],
+   "speech": 0.034,
+   "musicScore": 0.013,
+   "giong": false
   },
   "ep3_choke": {
    "file": "assets/audio/ep3_choke.mp3",
@@ -3201,7 +6022,17 @@
    "dung": [
     "cine-lore2ep3"
    ],
-   "tai": null
+   "tai": [
+    "Throat clearing 79%",
+    "Cough 7%",
+    "Speech 4%",
+    "Gasp 2%",
+    "Sneeze 1%",
+    "Wheeze 1%"
+   ],
+   "speech": 0.037,
+   "musicScore": 0.001,
+   "giong": false
   },
   "ep3_boom": {
    "file": "assets/audio/ep3_boom.mp3",
@@ -3211,7 +6042,17 @@
    "chu": null,
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Explosion 21%",
+    "Heart murmur 13%",
+    "Heart sounds, heartbeat 10%",
+    "Hum 10%",
+    "Throbbing 8%",
+    "Sound effect 7%"
+   ],
+   "speech": 0.01,
+   "musicScore": 0.024,
+   "giong": false
   },
   "id_split": {
    "file": "assets/audio/id_split.mp3",
@@ -3221,49 +6062,103 @@
    "chu": "id",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Plop 32%",
+    "Burping, eructation 10%",
+    "Speech 5%",
+    "Sound effect 5%",
+    "Fart 2%",
+    "Inside, small room 2%"
+   ],
+   "speech": 0.049,
+   "musicScore": 0.015,
+   "giong": false
   },
   "sa_spot_on": {
    "file": "assets/audio/sa_spot_on.mp3",
    "dai": 2.27,
    "moTa": "",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "sa",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 44%",
+    "Bang 22%",
+    "Sound effect 5%",
+    "Explosion 5%",
+    "Burst, pop 5%",
+    "Artillery fire 4%"
+   ],
+   "speech": 0.435,
+   "musicScore": 0.017,
+   "loaiTuTai": true,
+   "giong": false
   },
   "sa_menacing": {
    "file": "assets/audio/sa_menacing.mp3",
    "dai": 2.06,
    "moTa": "",
-   "loai": "?",
+   "loai": "va chạm",
    "chu": "sa",
    "nhac": false,
    "dung": [
     "cine-lore2ep3"
    ],
-   "tai": null
+   "tai": [
+    "Ding 31%",
+    "Clang 24%",
+    "Sound effect 12%",
+    "Bang 11%",
+    "Whoosh, swoosh, swish 6%",
+    "Burst, pop 1%"
+   ],
+   "speech": 0.004,
+   "musicScore": 0.01,
+   "loaiTuTai": true,
+   "giong": false
   },
   "sa_pathetic": {
    "file": "assets/audio/sa_pathetic.mp3",
    "dai": 2.64,
    "moTa": "",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "sa",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 85%",
+    "Throat clearing 3%",
+    "Male speech, man speaking 1%",
+    "Ping 1%",
+    "Sigh 1%",
+    "Slam 1%"
+   ],
+   "speech": 0.845,
+   "musicScore": 0.002,
+   "loaiTuTai": true,
+   "giong": false
   },
   "duo_win": {
    "file": "assets/audio/duo_win.mp3",
    "dai": 2.4,
    "moTa": "",
-   "loai": "?",
+   "loai": "nhạc",
    "chu": null,
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 50%",
+    "Television 47%",
+    "Theme music 1%",
+    "Video game music 0%",
+    "Soundtrack music 0%",
+    "Sound effect 0%"
+   ],
+   "speech": 0.001,
+   "musicScore": 0.495,
+   "loaiTuTai": true,
+   "giong": false
   },
   "nj_sharingan": {
    "file": "assets/audio/nj_sharingan.mp3",
@@ -3275,7 +6170,17 @@
    "dung": [
     "cine-lore2ep3"
    ],
-   "tai": null
+   "tai": [
+    "Speech 9%",
+    "Music 9%",
+    "Hiss 7%",
+    "Burst, pop 5%",
+    "Vehicle 4%",
+    "Breaking 3%"
+   ],
+   "speech": 0.094,
+   "musicScore": 0.085,
+   "giong": false
   },
   "pd_whimper": {
    "file": "assets/audio/pd_whimper.mp3",
@@ -3285,47 +6190,101 @@
    "chu": "pd",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Animal 48%",
+    "Domestic animals, pets 18%",
+    "Dog 15%",
+    "Whimper (dog) 3%",
+    "Canidae, dogs, wolves 3%",
+    "Squeak 2%"
+   ],
+   "speech": 0.019,
+   "musicScore": 0.004,
+   "giong": false
   },
   "pd_th_pan": {
    "file": "assets/audio/pd_th_pan.mp3",
    "dai": 1.07,
    "moTa": "",
-   "loai": "?",
+   "loai": "va chạm",
    "chu": "pd",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Clang 89%",
+    "Ding 4%",
+    "Vehicle horn, car horn, honking 3%",
+    "Bell 0%",
+    "Sound effect 0%",
+    "Music 0%"
+   ],
+   "speech": 0.002,
+   "musicScore": 0.003,
+   "loaiTuTai": true,
+   "giong": false
   },
   "pd_th_slap": {
    "file": "assets/audio/pd_th_slap.mp3",
    "dai": 0.76,
    "moTa": "",
-   "loai": "?",
+   "loai": "vút",
    "chu": "pd",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Whip 57%",
+    "Slap, smack 37%",
+    "Sound effect 1%",
+    "Burst, pop 1%",
+    "Whack, thwack 1%",
+    "Music 0%"
+   ],
+   "speech": 0.001,
+   "musicScore": 0.003,
+   "loaiTuTai": true,
+   "giong": false
   },
   "az_salt": {
    "file": "assets/audio/az_salt.mp3",
    "dai": 1.07,
    "moTa": "",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "az",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 44%",
+    "Music 16%",
+    "Slap, smack 14%",
+    "Male speech, man speaking 3%",
+    "Finger snapping 2%",
+    "Musical instrument 1%"
+   ],
+   "speech": 0.444,
+   "musicScore": 0.164,
+   "loaiTuTai": true,
+   "giong": false
   },
   "duo_wrong": {
    "file": "assets/audio/duo_wrong.mp3",
    "dai": 0.94,
    "moTa": "",
-   "loai": "?",
+   "loai": "nhạc",
    "chu": null,
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Ding-dong 29%",
+    "Music 23%",
+    "Doorbell 13%",
+    "Ringtone 9%",
+    "Clang 6%",
+    "Ding 6%"
+   ],
+   "speech": 0.007,
+   "musicScore": 0.232,
+   "loaiTuTai": true,
+   "giong": false
   },
   "duo_mibombo": {
    "file": "assets/audio/duo_mibombo.mp3",
@@ -3335,7 +6294,17 @@
    "chu": null,
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 80%",
+    "Yell 5%",
+    "Screaming 4%",
+    "Whimper 2%",
+    "Whoop 2%",
+    "Groan 1%"
+   ],
+   "speech": 0.801,
+   "musicScore": 0.004,
+   "giong": true
   },
   "duo_eye_laser": {
    "file": "assets/audio/duo_eye_laser.mp3",
@@ -3345,7 +6314,17 @@
    "chu": null,
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Frog 39%",
+    "Sound effect 21%",
+    "Boing 10%",
+    "Sidetone 4%",
+    "Croak 3%",
+    "Music 2%"
+   ],
+   "speech": 0.003,
+   "musicScore": 0.015,
+   "giong": false
   },
   "duo_big_laser": {
    "file": "assets/audio/duo_big_laser.mp3",
@@ -3355,7 +6334,17 @@
    "chu": null,
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Sound effect 20%",
+    "Whoosh, swoosh, swish 17%",
+    "Bang 16%",
+    "Burst, pop 11%",
+    "Explosion 10%",
+    "Music 6%"
+   ],
+   "speech": 0.013,
+   "musicScore": 0.061,
+   "giong": false
   },
   "duo_ice_break": {
    "file": "assets/audio/duo_ice_break.mp3",
@@ -3365,17 +6354,38 @@
    "chu": null,
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Explosion 36%",
+    "Burst, pop 19%",
+    "Sound effect 5%",
+    "Breaking 4%",
+    "Shatter 4%",
+    "Whoosh, swoosh, swish 3%"
+   ],
+   "speech": 0.022,
+   "musicScore": 0.015,
+   "giong": false
   },
   "dl_shark_bite": {
    "file": "assets/audio/dl_shark_bite.mp3",
    "dai": 0.73,
    "moTa": "",
-   "loai": "?",
+   "loai": "vỡ",
    "chu": "dl",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Breaking 53%",
+    "Crack 22%",
+    "Smash, crash 6%",
+    "Bang 2%",
+    "Sound effect 2%",
+    "Speech 1%"
+   ],
+   "speech": 0.01,
+   "musicScore": 0.002,
+   "loaiTuTai": true,
+   "giong": false
   },
   "dl_drip": {
    "file": "assets/audio/dl_drip.mp3",
@@ -3385,17 +6395,38 @@
    "chu": "dl",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Plop 92%",
+    "Sound effect 2%",
+    "Music 1%",
+    "Speech 1%",
+    "Drip 1%",
+    "Boing 0%"
+   ],
+   "speech": 0.007,
+   "musicScore": 0.014,
+   "giong": false
   },
   "dl_pour": {
    "file": "assets/audio/dl_pour.mp3",
    "dai": 6.45,
    "moTa": "",
-   "loai": "?",
+   "loai": "nền",
    "chu": "dl",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Water tap, faucet 52%",
+    "Water 20%",
+    "Sink (filling or washing) 14%",
+    "Fill (with liquid) 3%",
+    "Bathtub (filling or washing) 2%",
+    "Liquid 1%"
+   ],
+   "speech": 0.004,
+   "musicScore": 0.002,
+   "loaiTuTai": true,
+   "giong": false
   },
   "ninja_kunai": {
    "file": "assets/audio/ninja_kunai.mp3",
@@ -3405,17 +6436,38 @@
    "chu": "ninja",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Chink, clink 14%",
+    "Scrape 10%",
+    "Breaking 8%",
+    "Sound effect 7%",
+    "Cutlery, silverware 7%",
+    "Dishes, pots, and pans 6%"
+   ],
+   "speech": 0.046,
+   "musicScore": 0.003,
+   "giong": false
   },
   "morse_dot": {
    "file": "assets/audio/morse_dot.mp3",
    "dai": 0.13,
    "moTa": "📡 Morse Code Cat: bíp ngắn (dấu chấm)",
-   "loai": "?",
+   "loai": "năng lượng",
    "chu": "morse",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Beep, bleep 44%",
+    "Dial tone 7%",
+    "Music 6%",
+    "Frog 5%",
+    "Busy signal 4%",
+    "Speech 4%"
+   ],
+   "speech": 0.042,
+   "musicScore": 0.057,
+   "loaiTuTai": true,
+   "giong": false
   },
   "morse_dash": {
    "file": "assets/audio/morse_dash.mp3",
@@ -3425,7 +6477,17 @@
    "chu": "morse",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Beep, bleep 48%",
+    "Sine wave 22%",
+    "Busy signal 7%",
+    "Dial tone 4%",
+    "Chirp tone 3%",
+    "Music 2%"
+   ],
+   "speech": 0.01,
+   "musicScore": 0.023,
+   "giong": false
   },
   "bx_whitebeard": {
    "file": "assets/audio/bx_whitebeard.mp3",
@@ -3435,47 +6497,101 @@
    "chu": "bx",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 30%",
+    "Sound effect 9%",
+    "Music 6%",
+    "Grunt 6%",
+    "Animal 3%",
+    "Vehicle 3%"
+   ],
+   "speech": 0.297,
+   "musicScore": 0.058,
+   "giong": false
   },
   "flower_jarona": {
    "file": "assets/audio/flower_jarona.mp3",
    "dai": 1.34,
    "moTa": "🌸 Flower Cat: bông hoa SẮP chạm vào nó (Deltarune — user gửi)",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "flower",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 55%",
+    "Sound effect 6%",
+    "Grunt 6%",
+    "Sigh 3%",
+    "Male speech, man speaking 3%",
+    "Bang 2%"
+   ],
+   "speech": 0.553,
+   "musicScore": 0.003,
+   "loaiTuTai": true,
+   "giong": false
   },
   "morse_dot1": {
    "file": "assets/audio/morse_dot1.mp3",
    "dai": 0.16,
    "moTa": "",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "morse",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 16%",
+    "Music 6%",
+    "Sound effect 5%",
+    "Chink, clink 5%",
+    "Fowl 4%",
+    "Ping 4%"
+   ],
+   "speech": 0.16,
+   "musicScore": 0.057,
+   "loaiTuTai": true,
+   "giong": false
   },
   "morse_dot2": {
    "file": "assets/audio/morse_dot2.mp3",
    "dai": 0.24,
    "moTa": "",
-   "loai": "?",
+   "loai": "nhạc",
    "chu": "morse",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Chink, clink 11%",
+    "Music 10%",
+    "Sound effect 10%",
+    "Speech 10%",
+    "Beep, bleep 6%",
+    "Coin (dropping) 4%"
+   ],
+   "speech": 0.102,
+   "musicScore": 0.104,
+   "loaiTuTai": true,
+   "giong": false
   },
   "morse_dot3": {
    "file": "assets/audio/morse_dot3.mp3",
    "dai": 0.24,
    "moTa": "",
-   "loai": "?",
+   "loai": "năng lượng",
    "chu": "morse",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Chink, clink 22%",
+    "Sound effect 13%",
+    "Speech 9%",
+    "Glass 5%",
+    "Coin (dropping) 3%",
+    "Music 3%"
+   ],
+   "speech": 0.089,
+   "musicScore": 0.033,
+   "loaiTuTai": true,
+   "giong": false
   },
   "morse_dash1": {
    "file": "assets/audio/morse_dash1.mp3",
@@ -3485,7 +6601,17 @@
    "chu": "morse",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Cowbell 20%",
+    "Chink, clink 9%",
+    "Coin (dropping) 8%",
+    "Sound effect 7%",
+    "Music 6%",
+    "Beep, bleep 6%"
+   ],
+   "speech": 0.021,
+   "musicScore": 0.062,
+   "giong": false
   },
   "morse_dash2": {
    "file": "assets/audio/morse_dash2.mp3",
@@ -3495,7 +6621,17 @@
    "chu": "morse",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Coin (dropping) 96%",
+    "Rattle 1%",
+    "Cash register 0%",
+    "Sound effect 0%",
+    "Telephone bell ringing 0%",
+    "Music 0%"
+   ],
+   "speech": 0.001,
+   "musicScore": 0.001,
+   "giong": false
   },
   "morse_dash3": {
    "file": "assets/audio/morse_dash3.mp3",
@@ -3505,7 +6641,17 @@
    "chu": "morse",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Cowbell 47%",
+    "Alarm clock 9%",
+    "Sound effect 8%",
+    "Music 4%",
+    "Coin (dropping) 2%",
+    "Speech 2%"
+   ],
+   "speech": 0.02,
+   "musicScore": 0.039,
+   "giong": false
   },
   "morse_dash4": {
    "file": "assets/audio/morse_dash4.mp3",
@@ -3515,7 +6661,17 @@
    "chu": "morse",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Coin (dropping) 35%",
+    "Cowbell 10%",
+    "Chink, clink 7%",
+    "Music 6%",
+    "Speech 3%",
+    "Cash register 2%"
+   ],
+   "speech": 0.026,
+   "musicScore": 0.062,
+   "giong": false
   },
   "pain_theme": {
    "file": "assets/audio/pain_theme.mp3",
@@ -3527,7 +6683,17 @@
    "dung": [
     "cine-lore2ep2"
    ],
-   "tai": null
+   "tai": [
+    "Music 77%",
+    "Choir 5%",
+    "Mantra 4%",
+    "Singing 3%",
+    "Chant 2%",
+    "Classical music 1%"
+   ],
+   "speech": 0,
+   "musicScore": 0.77,
+   "giong": false
   },
   "dp_akatsuki": {
    "file": "assets/audio/dp_akatsuki.mp3",
@@ -3547,7 +6713,10 @@
     "Choir 5%",
     "Sound effect 1%",
     "Male singing 1%"
-   ]
+   ],
+   "speech": 0.008,
+   "musicScore": 0.222,
+   "giong": false
   },
   "dp_cloak": {
    "file": "assets/audio/dp_cloak.mp3",
@@ -3561,7 +6730,17 @@
     "film-fin1c4",
     "film-mvd"
    ],
-   "tai": null
+   "tai": [
+    "Machine gun 14%",
+    "Sound effect 7%",
+    "Firecracker 6%",
+    "Burst, pop 6%",
+    "Gunshot, gunfire 5%",
+    "Flap 5%"
+   ],
+   "speech": 0.035,
+   "musicScore": 0.007,
+   "giong": false
   },
   "gp_break": {
    "file": "assets/audio/gp_break.mp3",
@@ -3571,19 +6750,40 @@
    "chu": "gp",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Explosion 41%",
+    "Burst, pop 25%",
+    "Breaking 13%",
+    "Bang 3%",
+    "Sound effect 2%",
+    "Smash, crash 2%"
+   ],
+   "speech": 0.008,
+   "musicScore": 0.002,
+   "giong": false
   },
   "gp_souls": {
    "file": "assets/audio/gp_souls.mp3",
    "dai": 5.64,
    "moTa": "",
-   "loai": "?",
+   "loai": "nhạc",
    "chu": "gp",
    "nhac": false,
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Music 15%",
+    "Sound effect 12%",
+    "Sonar 12%",
+    "Speech 5%",
+    "Snort 4%",
+    "Chant 3%"
+   ],
+   "speech": 0.048,
+   "musicScore": 0.148,
+   "loaiTuTai": true,
+   "giong": false
   },
   "gp_meow": {
    "file": "assets/audio/gp_meow.mp3",
@@ -3595,7 +6795,17 @@
    "dung": [
     "cine-lore2ep2"
    ],
-   "tai": null
+   "tai": [
+    "Animal 40%",
+    "Domestic animals, pets 31%",
+    "Howl 12%",
+    "Dog 9%",
+    "Canidae, dogs, wolves 5%",
+    "Meow 1%"
+   ],
+   "speech": 0.002,
+   "musicScore": 0.001,
+   "giong": false
   },
   "gp_evil_laugh": {
    "file": "assets/audio/gp_evil_laugh.mp3",
@@ -3607,17 +6817,38 @@
    "dung": [
     "cine-endgame"
    ],
-   "tai": null
+   "tai": [
+    "Speech 86%",
+    "Oink 8%",
+    "Grunt 1%",
+    "Inside, small room 1%",
+    "Pig 1%",
+    "Biting 1%"
+   ],
+   "speech": 0.855,
+   "musicScore": 0.001,
+   "giong": false
   },
   "sc_tasty": {
    "file": "assets/audio/sc_tasty.mp3",
    "dai": 1.1,
    "moTa": "👿 câu thoại bóng quỷ khối 'Quỷ trỗi dậy' (candy-crush-tasty, cắt 0.5s im lặng đầu)",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "sc",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Grunt 55%",
+    "Speech 27%",
+    "Sound effect 8%",
+    "Male speech, man speaking 2%",
+    "Music 1%",
+    "Speech synthesizer 1%"
+   ],
+   "speech": 0.273,
+   "musicScore": 0.009,
+   "loaiTuTai": true,
+   "giong": false
   },
   "fr_dash": {
    "file": "assets/audio/fr_dash.mp3",
@@ -3631,7 +6862,17 @@
     "film-dvc",
     "film-mvd"
    ],
-   "tai": null
+   "tai": [
+    "Grunt 44%",
+    "Speech 13%",
+    "Sound effect 11%",
+    "Gasp 5%",
+    "Groan 5%",
+    "Music 2%"
+   ],
+   "speech": 0.129,
+   "musicScore": 0.022,
+   "giong": false
   },
   "fr_song": {
    "file": "assets/audio/fr_song.mp3",
@@ -3645,20 +6886,41 @@
     "cine-lore2ep3",
     "raid-friend"
    ],
-   "tai": null
+   "tai": [
+    "Music 81%",
+    "Electronic music 3%",
+    "Video game music 3%",
+    "Techno 2%",
+    "Trance music 2%",
+    "Soundtrack music 1%"
+   ],
+   "speech": 0.001,
+   "musicScore": 0.811,
+   "giong": false
   },
   "fr_bite": {
    "file": "assets/audio/fr_bite.mp3",
    "dai": 0.29,
    "moTa": "🦷 Friend ngoạm trong bóng đêm (bite-2_qdWg7LP, nguyên bản 0.26s)",
-   "loai": "?",
+   "loai": "nổ",
    "chu": "fr",
    "nhac": false,
    "dung": [
     "cine-war",
     "raid-friend"
    ],
-   "tai": null
+   "tai": [
+    "Gunshot, gunfire 38%",
+    "Artillery fire 14%",
+    "Machine gun 13%",
+    "Sound effect 5%",
+    "Fusillade 4%",
+    "Music 3%"
+   ],
+   "speech": 0.032,
+   "musicScore": 0.033,
+   "loaiTuTai": true,
+   "giong": false
   },
   "fr_chew": {
    "file": "assets/audio/fr_chew.mp3",
@@ -3670,7 +6932,17 @@
    "dung": [
     "raid-friend"
    ],
-   "tai": null
+   "tai": [
+    "Crunch 65%",
+    "Biting 10%",
+    "Chewing, mastication 6%",
+    "Tearing 6%",
+    "Inside, small room 3%",
+    "Speech 3%"
+   ],
+   "speech": 0.025,
+   "musicScore": 0.004,
+   "giong": false
   },
   "thunder_big": {
    "file": "assets/audio/thunder_big.mp3",
@@ -3686,7 +6958,17 @@
     "cine-war",
     "film-mvd"
    ],
-   "tai": null
+   "tai": [
+    "Thunder 42%",
+    "Thunderstorm 30%",
+    "Explosion 11%",
+    "Eruption 5%",
+    "Rain 4%",
+    "Burst, pop 2%"
+   ],
+   "speech": 0.001,
+   "musicScore": 0.001,
+   "giong": false
   },
   "fr_thunder": {
    "file": "assets/audio/fr_thunder.mp3",
@@ -3698,7 +6980,17 @@
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Thunder 38%",
+    "Thunderstorm 21%",
+    "Explosion 18%",
+    "Eruption 5%",
+    "Artillery fire 3%",
+    "Burst, pop 3%"
+   ],
+   "speech": 0.002,
+   "musicScore": 0.002,
+   "giong": false
   },
   "bk_clang": {
    "file": "assets/audio/bk_clang.mp3",
@@ -3710,57 +7002,122 @@
    "dung": [
     "cine-endgame"
    ],
-   "tai": null
+   "tai": [
+    "Clang 54%",
+    "Ding 35%",
+    "Sound effect 2%",
+    "Music 2%",
+    "Speech 1%",
+    "Vehicle 0%"
+   ],
+   "speech": 0.008,
+   "musicScore": 0.019,
+   "giong": false
   },
   "sd_howl": {
    "file": "assets/audio/sd_howl.mp3",
    "dai": 5.54,
    "moTa": "🐺🌕 sói hú lúc trăng lên (wolf-howling.mp3, chỉ cắt 0.42s im lặng đầu, giữ nguyên đuôi)",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "sd",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Howl 45%",
+    "Canidae, dogs, wolves 17%",
+    "Siren 13%",
+    "Civil defense siren 11%",
+    "Animal 6%",
+    "Domestic animals, pets 3%"
+   ],
+   "speech": 0.001,
+   "musicScore": 0.001,
+   "loaiTuTai": true,
+   "giong": false
   },
   "heal_one": {
    "file": "assets/audio/heal_one.mp3",
    "dai": 0.5,
    "moTa": "💚 tiếng hồi máu CHUNG cho mọi lần hồi 1 cục (undertale-healing.mp3, nguyên bản)",
-   "loai": "?",
+   "loai": "năng lượng",
    "chu": "heal",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Sound effect 31%",
+    "Music 9%",
+    "Slosh 4%",
+    "Plop 4%",
+    "Burst, pop 2%",
+    "Water 2%"
+   ],
+   "speech": 0.017,
+   "musicScore": 0.085,
+   "loaiTuTai": true,
+   "giong": false
   },
   "tf_gulp": {
    "file": "assets/audio/tf_gulp.mp3",
    "dai": 0.31,
    "moTa": "😏 Troll Face ĐỚP đối thủ (gulp-gulp-drinking.mp3, nguyên bản không cắt)",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "tf",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Oink 25%",
+    "Speech 11%",
+    "Stomach rumble 6%",
+    "Animal 4%",
+    "Music 3%",
+    "Grunt 3%"
+   ],
+   "speech": 0.108,
+   "musicScore": 0.034,
+   "loaiTuTai": true,
+   "giong": false
   },
   "tf_nightmare": {
    "file": "assets/audio/tf_nightmare.mp3",
    "dai": 4.56,
    "moTa": "👹 Troll Face hoá dạng ác mộng (prowler-sound-effect-hd.mp3, chỉ cắt 0.2s im lặng đầu)",
-   "loai": "?",
+   "loai": "rung",
    "chu": "tf",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Rumble 48%",
+    "Car 9%",
+    "Roar 7%",
+    "Vehicle 7%",
+    "Sound effect 6%",
+    "Accelerating, revving, vroom 3%"
+   ],
+   "speech": 0.005,
+   "musicScore": 0.017,
+   "loaiTuTai": true,
+   "giong": false
   },
   "vamp_bite1": {
    "file": "assets/audio/vamp_bite1.mp3",
    "dai": 0.34,
    "moTa": "",
-   "loai": "?",
+   "loai": "vỡ",
    "chu": "vamp",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Crack 25%",
+    "Crushing 17%",
+    "Crackle 8%",
+    "Crumpling, crinkling 7%",
+    "Speech 5%",
+    "Breaking 3%"
+   ],
+   "speech": 0.052,
+   "musicScore": 0.009,
+   "loaiTuTai": true,
+   "giong": false
   },
   "vamp_bite2": {
    "file": "assets/audio/vamp_bite2.mp3",
@@ -3770,37 +7127,80 @@
    "chu": "vamp",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Burping, eructation 81%",
+    "Speech 3%",
+    "Grunt 2%",
+    "Oink 1%",
+    "Crack 1%",
+    "Sheep 1%"
+   ],
+   "speech": 0.031,
+   "musicScore": 0.004,
+   "giong": false
   },
   "vamp_bat_fly": {
    "file": "assets/audio/vamp_bat_fly.mp3",
    "dai": 3.03,
    "moTa": "",
-   "loai": "?",
+   "loai": "nền",
    "chu": "vamp",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Raindrop 39%",
+    "Rain on surface 26%",
+    "Rain 14%",
+    "Liquid 3%",
+    "Water 3%",
+    "Speech 1%"
+   ],
+   "speech": 0.011,
+   "musicScore": 0.002,
+   "loaiTuTai": true,
+   "giong": false
   },
   "dawae_run2": {
    "file": "assets/audio/dawae_run2.mp3",
    "dai": 3.03,
    "moTa": "",
-   "loai": "?",
+   "loai": "năng lượng",
    "chu": "dawae",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Sound effect 24%",
+    "Gunshot, gunfire 8%",
+    "Clip-clop 6%",
+    "Machine gun 6%",
+    "Animal 5%",
+    "Flap 5%"
+   ],
+   "speech": 0.006,
+   "musicScore": 0.003,
+   "loaiTuTai": true,
+   "giong": false
   },
   "wg_think": {
    "file": "assets/audio/wg_think.mp3",
    "dai": 1.31,
    "moTa": "",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "wg",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Groan 38%",
+    "Grunt 17%",
+    "Sigh 12%",
+    "Sound effect 10%",
+    "Speech 5%",
+    "Fart 2%"
+   ],
+   "speech": 0.05,
+   "musicScore": 0.008,
+   "loaiTuTai": true,
+   "giong": false
   },
   "music_hit": {
    "file": "assets/audio/music_hit.mp3",
@@ -3810,47 +7210,101 @@
    "chu": "music",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Sound effect 16%",
+    "Bang 15%",
+    "Music 14%",
+    "Speech 5%",
+    "Slap, smack 5%",
+    "Slam 3%"
+   ],
+   "speech": 0.054,
+   "musicScore": 0.142,
+   "giong": false
   },
   "bongo_prep1": {
    "file": "assets/audio/bongo_prep1.mp3",
    "dai": 0.65,
    "moTa": "",
-   "loai": "?",
+   "loai": "va chạm",
    "chu": "bongo",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Clang 29%",
+    "Sound effect 10%",
+    "Musical instrument 5%",
+    "Vehicle horn, car horn, honking 4%",
+    "Music 4%",
+    "Ding 4%"
+   ],
+   "speech": 0.01,
+   "musicScore": 0.043,
+   "loaiTuTai": true,
+   "giong": false
   },
   "bongo_prep2": {
    "file": "assets/audio/bongo_prep2.mp3",
    "dai": 0.86,
    "moTa": "",
-   "loai": "?",
+   "loai": "va chạm",
    "chu": "bongo",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Clang 25%",
+    "Vehicle horn, car horn, honking 12%",
+    "Ding 11%",
+    "Sound effect 5%",
+    "Musical instrument 3%",
+    "Music 3%"
+   ],
+   "speech": 0.025,
+   "musicScore": 0.031,
+   "loaiTuTai": true,
+   "giong": false
   },
   "bongo_prep3": {
    "file": "assets/audio/bongo_prep3.mp3",
    "dai": 0.99,
    "moTa": "",
-   "loai": "?",
+   "loai": "va chạm",
    "chu": "bongo",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Clang 38%",
+    "Vehicle horn, car horn, honking 22%",
+    "Ding 7%",
+    "Sound effect 5%",
+    "Air horn, truck horn 3%",
+    "Boing 2%"
+   ],
+   "speech": 0.008,
+   "musicScore": 0.016,
+   "loaiTuTai": true,
+   "giong": false
   },
   "bongo_prep4": {
    "file": "assets/audio/bongo_prep4.mp3",
    "dai": 1.15,
    "moTa": "",
-   "loai": "?",
+   "loai": "nhạc",
    "chu": "bongo",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Musical instrument 18%",
+    "Clang 14%",
+    "Music 10%",
+    "Plucked string instrument 6%",
+    "Sound effect 4%",
+    "Guitar 4%"
+   ],
+   "speech": 0.01,
+   "musicScore": 0.098,
+   "loaiTuTai": true,
+   "giong": false
   },
   "tribe_1": {
    "file": "assets/audio/tribe_1.mp3",
@@ -3862,7 +7316,17 @@
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Music 60%",
+    "Wood block 20%",
+    "Percussion 6%",
+    "Drum 5%",
+    "Musical instrument 2%",
+    "Bass drum 1%"
+   ],
+   "speech": 0.001,
+   "musicScore": 0.601,
+   "giong": false
   },
   "tribe_2": {
    "file": "assets/audio/tribe_2.mp3",
@@ -3872,7 +7336,17 @@
    "chu": "tribe",
    "nhac": true,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Wood block 41%",
+    "Music 38%",
+    "Percussion 13%",
+    "Drum 4%",
+    "Musical instrument 2%",
+    "Cowbell 0%"
+   ],
+   "speech": 0.001,
+   "musicScore": 0.383,
+   "giong": false
   },
   "tribe_3": {
    "file": "assets/audio/tribe_3.mp3",
@@ -3882,7 +7356,17 @@
    "chu": "tribe",
    "nhac": true,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 59%",
+    "Wood block 24%",
+    "Percussion 8%",
+    "Drum 2%",
+    "Musical instrument 1%",
+    "Tabla 1%"
+   ],
+   "speech": 0.001,
+   "musicScore": 0.593,
+   "giong": false
   },
   "guitar_deltarune": {
    "file": "assets/audio/guitar_deltarune.mp3",
@@ -3892,17 +7376,38 @@
    "chu": "guitar",
    "nhac": true,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 86%",
+    "Musical instrument 3%",
+    "Guitar 2%",
+    "Electric guitar 2%",
+    "Plucked string instrument 2%",
+    "Strum 1%"
+   ],
+   "speech": 0,
+   "musicScore": 0.86,
+   "giong": false
   },
   "stalin_hammer_return": {
    "file": "assets/audio/stalin_hammer_return.mp3",
    "dai": 0.81,
    "moTa": "",
-   "loai": "?",
+   "loai": "nhạc",
    "chu": "stalin",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 17%",
+    "Sound effect 10%",
+    "Whoosh, swoosh, swish 7%",
+    "Speech 6%",
+    "Scrape 5%",
+    "Single-lens reflex camera 3%"
+   ],
+   "speech": 0.062,
+   "musicScore": 0.173,
+   "loaiTuTai": true,
+   "giong": false
   },
   "stalin_hammer_hit": {
    "file": "assets/audio/stalin_hammer_hit.mp3",
@@ -3914,7 +7419,17 @@
    "dung": [
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Clang 89%",
+    "Ding 8%",
+    "Sound effect 1%",
+    "Bang 0%",
+    "Breaking 0%",
+    "Chink, clink 0%"
+   ],
+   "speech": 0,
+   "musicScore": 0.001,
+   "giong": false
   },
   "stalin_sickle_hit": {
    "file": "assets/audio/stalin_sickle_hit.mp3",
@@ -3924,7 +7439,17 @@
    "chu": "stalin",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Bang 26%",
+    "Smash, crash 10%",
+    "Breaking 9%",
+    "Whoosh, swoosh, swish 7%",
+    "Shatter 7%",
+    "Sound effect 6%"
+   ],
+   "speech": 0.024,
+   "musicScore": 0.006,
+   "giong": false
   },
   "stalin_domain": {
    "file": "assets/audio/stalin_domain.mp3",
@@ -3934,7 +7459,17 @@
    "chu": "stalin",
    "nhac": true,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Music 82%",
+    "Electronic music 5%",
+    "Techno 4%",
+    "Trance music 3%",
+    "Speech 2%",
+    "Electronica 1%"
+   ],
+   "speech": 0.019,
+   "musicScore": 0.821,
+   "giong": false
   },
   "chillguy_kick": {
    "file": "assets/audio/chillguy_kick.mp3",
@@ -3948,7 +7483,17 @@
     "cine-lore2ep0",
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Groan 23%",
+    "Sigh 19%",
+    "Grunt 14%",
+    "Speech 11%",
+    "Gasp 8%",
+    "Yell 4%"
+   ],
+   "speech": 0.111,
+   "musicScore": 0.006,
+   "giong": false
   },
   "gigachad_roar": {
    "file": "assets/audio/gigachad_roar.mp3",
@@ -3961,17 +7506,38 @@
     "cine-endgame",
     "cine-war"
    ],
-   "tai": null
+   "tai": [
+    "Music 30%",
+    "Vehicle 13%",
+    "Car 9%",
+    "Car passing by 6%",
+    "Motorboat, speedboat 4%",
+    "Explosion 2%"
+   ],
+   "speech": 0.02,
+   "musicScore": 0.295,
+   "giong": false
   },
   "chillguy_uppercut": {
    "file": "assets/audio/chillguy_uppercut.mp3",
    "dai": 0.86,
    "moTa": "",
-   "loai": "?",
+   "loai": "giọng",
    "chu": "chillguy",
    "nhac": false,
    "dung": [],
-   "tai": null
+   "tai": [
+    "Speech 71%",
+    "Male speech, man speaking 5%",
+    "Music 4%",
+    "Grunt 2%",
+    "Sound effect 2%",
+    "Narration, monologue 1%"
+   ],
+   "speech": 0.711,
+   "musicScore": 0.038,
+   "loaiTuTai": true,
+   "giong": false
   }
  }
 }

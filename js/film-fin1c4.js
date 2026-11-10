@@ -428,7 +428,7 @@
       [11.72,'ep3_whoosh',0.7,null,'Gojo vung đòn'],[11.95,'cine_strongpunch',0.9,null,'Gojo đấm, Pain đỡ trượt lùi'],
       [T.pushC+0.05,'ep3_force',1,null,'Pain gồng ALMIGHTY PUSH, vòng lực co vào'],
       [T.push,'cine_deep_impact',0.9,null,'bức tường lực trúng Gojo'],[T.push+0.2,'l2p_whoosh',0.8,null,'Gojo bị hất văng xa (đường hầm tốc độ)'],
-      [T.crash+0.05,'cine_heavy_slow',0.9,null,'Gojo đâm sầm vào toà nhà cuối đại lộ'],[T.crash+0.4,'ep3_rock',0.6,null,'gạch đá toà nhà đổ xuống'],
+      [T.crash+0.05,'cine_heavy_slow',0.9,null,'Gojo đâm sầm vào toà nhà, nổ tung khoét lỗ thủng lớn'],[T.crash+0.4,'ep3_rock',0.6,null,'gạch đá toà nhà đổ xuống'],
       [T.rise,'l2p_riser',0.7,null,'Pain bay thẳng lên trời'],
       [T.cast+0.1,'ps_shinra',1,1.5,'Pain dang tay hô "Shinra Tensei" (chỉ phần giọng)'],
       [T.dom+0.05,'mw_ryoiki_tenkai',1,null,'Gojo kết ấn, hô "Ryōiki Tenkai" (giọng Nhật VOICEVOX)'],
