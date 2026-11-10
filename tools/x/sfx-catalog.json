@@ -260,7 +260,14 @@
    "dung": [
     "film-fin1"
    ],
-   "tai": null
+   "tai": [
+    "Baby cry, infant cry 67%",
+    "Speech 8%",
+    "Whimper 7%",
+    "Crying, sobbing 3%",
+    "Babbling 3%",
+    "Baby laughter 2%"
+   ]
   },
   "vine_boom": {
    "file": "assets/audio/vine_boom.mp3",
@@ -1066,6 +1073,36 @@
    "dung": [
     "film-fin1c4"
    ],
+   "tai": null
+  },
+  "mw_ryoiki_tenkai": {
+   "file": "assets/audio/mw_ryoiki_tenkai.mp3",
+   "dai": 1.23,
+   "moTa": "",
+   "loai": "?",
+   "chu": "mw",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "mw_muryokusho": {
+   "file": "assets/audio/mw_muryokusho.mp3",
+   "dai": 0.97,
+   "moTa": "",
+   "loai": "?",
+   "chu": "mw",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "mw_murasaki": {
+   "file": "assets/audio/mw_murasaki.mp3",
+   "dai": 1.67,
+   "moTa": "",
+   "loai": "?",
+   "chu": "mw",
+   "nhac": false,
+   "dung": [],
    "tai": null
   },
   "ar_mini_die": {
@@ -1886,7 +1923,14 @@
     "film-fin1c4",
     "film-mvd"
    ],
-   "tai": null
+   "tai": [
+    "Speech 60%",
+    "Explosion 9%",
+    "Burst, pop 7%",
+    "Whoosh, swoosh, swish 6%",
+    "Music 3%",
+    "Bang 3%"
+   ]
   },
   "dp_happy": {
    "file": "assets/audio/dp_happy.mp3",
@@ -2264,7 +2308,14 @@
     "film-fin1c4",
     "film-mvd"
    ],
-   "tai": null
+   "tai": [
+    "Music 48%",
+    "Speech 9%",
+    "Vehicle 3%",
+    "Explosion 3%",
+    "Sound effect 3%",
+    "Burst, pop 3%"
+   ]
   },
   "demon_roar1": {
    "file": "assets/audio/demon_roar1.mp3",
@@ -2431,7 +2482,8 @@
    "nhac": false,
    "dung": [
     "cine-lore2ep3",
-    "cine-war"
+    "cine-war",
+    "film-fin1c4"
    ],
    "tai": null
   },
@@ -2449,7 +2501,14 @@
     "film-fin1c4",
     "film-mvd"
    ],
-   "tai": null
+   "tai": [
+    "Whoosh, swoosh, swish 33%",
+    "Bang 23%",
+    "Sound effect 14%",
+    "Explosion 10%",
+    "Burst, pop 5%",
+    "Music 3%"
+   ]
   },
   "clap_cat": {
    "file": "assets/audio/clap_cat.mp3",
@@ -2572,7 +2631,14 @@
     "cine-lore2ep3",
     "film-fin1"
    ],
-   "tai": null
+   "tai": [
+    "Breaking 47%",
+    "Glass 22%",
+    "Chink, clink 8%",
+    "Shatter 7%",
+    "Speech 2%",
+    "Sound effect 2%"
+   ]
   },
   "ep3_charge": {
    "file": "assets/audio/ep3_charge.mp3",
@@ -2626,7 +2692,14 @@
     "film-fin1c4",
     "film-mvd"
    ],
-   "tai": null
+   "tai": [
+    "Explosion 76%",
+    "Burst, pop 19%",
+    "Eruption 3%",
+    "Music 1%",
+    "Speech 0%",
+    "Sound effect 0%"
+   ]
   },
   "ep3_chain": {
    "file": "assets/audio/ep3_chain.mp3",
@@ -2671,8 +2744,7 @@
    "chu": null,
    "nhac": false,
    "dung": [
-    "cine-lore2ep3",
-    "film-fin1c4"
+    "cine-lore2ep3"
    ],
    "tai": null
   },
@@ -2913,7 +2985,14 @@
     "film-fin1c4",
     "film-mvd"
    ],
-   "tai": null
+   "tai": [
+    "Whoosh, swoosh, swish 48%",
+    "Sound effect 16%",
+    "Whip 11%",
+    "Static 2%",
+    "Music 2%",
+    "Hiss 2%"
+   ]
   },
   "l2p_sub": {
    "file": "assets/audio/l2p_sub.mp3",
@@ -2922,7 +3001,9 @@
    "loai": "rung",
    "chu": null,
    "nhac": false,
-   "dung": [],
+   "dung": [
+    "film-fin1c4"
+   ],
    "tai": null
   },
   "l2p_shimmer": {
@@ -3438,7 +3519,14 @@
     "cine-dpwindow",
     "film-mvd"
    ],
-   "tai": null
+   "tai": [
+    "Chant 32%",
+    "Mantra 27%",
+    "Music 22%",
+    "Choir 5%",
+    "Sound effect 1%",
+    "Male singing 1%"
+   ]
   },
   "dp_cloak": {
    "file": "assets/audio/dp_cloak.mp3",

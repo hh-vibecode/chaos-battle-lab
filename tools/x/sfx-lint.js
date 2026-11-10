@@ -77,6 +77,8 @@ const CATF = path.join(__dirname, 'sfx-catalog.json'), CATJ = fs.existsSync(CATF
 const NEED = { 'rơi': /rơi|rớt|ngã|đáp|lao xuống|sụp xuống|fall/i, 'giọng': /hô|gầm|khóc|hét|nói|giọng|cười|thét|kêu|rên|thở/i, 'vỡ': /vỡ|gãy|nứt|kính|đá|gạch|sập|đổ/i, 'nổ': /nổ|lửa|bùng|cháy|explo|blast/i };
 if (CATJ) for (const r of rows) { const c = CATJ[r.key]; if (!c || !r.label || !(c.loai in NEED)) continue; if (!NEED[c.loai].test(r.label)) { r.fl && r.fl.push('🎯 LỆCH NGHĨA'); F('🎯', r.t, `${r.key} là tiếng loại "${c.loai}" nhưng nhãn là "${r.label}" — đổi tiếng hoặc sửa nhãn cho đúng hình`); } }
 else F('ℹ️', 0, 'chưa có tools/x/sfx-catalog.json → bỏ qua soát nghĩa (chạy tools/x/sfx-catalog.js)');
+// 🗣️ CÓ GIỌNG: "tai máy" (tools/x/sfx-tag.js) nghe thấy giọng người trong tiếng hiệu ứng (speech ≥ 0.35) — anh ghét giọng lạ lẫn trong SE; giọng của chính nhân vật có mặt thì được
+if (CATJ) for (const r of rows) { const c = CATJ[r.key]; if (!c || !c.giong) continue; const p = r.key.includes('_') ? r.key.split('_')[0] : null; if (p && casts.has(p)) continue; r.fl && r.fl.push('🗣️ CÓ GIỌNG'); F('🗣️', r.t, `${r.key}: tai máy nghe thấy giọng người (${Math.round(c.speech * 100)}%) — nghe lại / đổi tiếng`); }
 const noLabel = rows.filter(r => !r.label).length; if (noLabel) F('🏷️', 0, `${noLabel}/${rows.length} tiếng chưa có NHÃN sự kiện (phần tử thứ 5 của mỗi dòng sfx)`);
 if (!anyCast) F('🏷️', 0, 'phim chưa khai `cast` (tiền tố tiếng của nhân vật có mặt) → mọi tiếng có tiền tố meme đều bị coi là mượn');
 // nhạc
@@ -92,7 +94,7 @@ for (const rel of [...new Set(filmFiles)]) { fs.readFileSync(path.join(ROOT, rel
 // ───────── báo cáo ─────────
 const L = [];
 L.push(`# Soát tiếng: ${ID} — dài ${DUR.toFixed(1)}s · ${rows.length} tiếng · ${mus.length} nhạc · cast [${[...casts].join(', ') || 'CHƯA KHAI'}]`, '');
-const ORD = ['❌', '⏹️', '🎯', '👤', '🔁', '👥', '🈲', '🏷️', '🔇', 'ℹ️']; flags.sort((a, b) => ORD.indexOf(a.lv) - ORD.indexOf(b.lv) || a.t - b.t);
+const ORD = ['❌', '⏹️', '🎯', '🗣️', '👤', '🔁', '👥', '🈲', '🏷️', '🔇', 'ℹ️']; flags.sort((a, b) => ORD.indexOf(a.lv) - ORD.indexOf(b.lv) || a.t - b.t);
 const bad = flags.filter(f => !['ℹ️', '🔇', '🏷️'].includes(f.lv)).length;
 L.push(`## Lỗi (${bad} phải sửa · ${flags.length - bad} lưu ý)`); for (const f of flags) L.push(`- ${f.lv} ${f.t ? fmt(f.t) + ' ' : ''}${f.msg}`); if (!flags.length) L.push('- sạch');
 L.push('', '## Nhạc / nền', '| phát | file | dài file | lặp | cờ |', '|---|---|---|---|---|');

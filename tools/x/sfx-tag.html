@@ -1,0 +1,26 @@
+<!doctype html><meta charset="utf-8"><title>sfx tag</title>
+<body style="background:#111;color:#ddd;font:12px monospace"><pre id="log"></pre>
+<script type="module">
+// 👂 "TAI MÁY" — gắn nhãn âm thanh cho kho tiếng bằng AST (AudioSet 527 nhãn) qua transformers.js, chạy trong trình duyệt (CPU / WASM). Dùng qua tools/x/sfx-tag.js.
+// URL: tools/x/sfx-tag.html?keys=a,b,c (bỏ trống = cả tools/x/sfx-catalog.json) · ra: window.__out = JSON {key:{top:[[nhãn,điểm]…], speech, music}} · window.__done
+import { pipeline, env } from 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@4.3.2';
+const log = s => { document.getElementById('log').textContent += s + '\n'; };
+env.allowLocalModels = false;
+(async () => {
+  try {
+    const cat = await (await fetch('/tools/x/sfx-catalog.json')).json(), Q = new URLSearchParams(location.search);
+    const keys = Q.get('keys') ? Q.get('keys').split(',') : Object.keys(cat.tieng);
+    log('tải model AST…'); const clf = await pipeline('audio-classification', 'Xenova/ast-finetuned-audioset-10-10-0.4593', { dtype: 'q8', device: 'wasm' });
+    const ac = new AudioContext(), out = {};
+    for (let i = 0; i < keys.length; i++) { const k = keys[i], it = cat.tieng[k]; window.__prog = `${i}/${keys.length} ${k}`; if (!it) continue;
+      try { const buf = await (await fetch('/' + it.file)).arrayBuffer(); const ab = await ac.decodeAudioData(buf), sec = Math.min(10.24, ab.duration);
+        const oc = new OfflineAudioContext(1, Math.max(1600, Math.ceil(16000 * sec)), 16000), src = oc.createBufferSource(); src.buffer = ab; src.connect(oc.destination); src.start(0);
+        const pcm = (await oc.startRendering()).getChannelData(0);
+        const r = await clf(pcm, { top_k: 527 }), get = re => r.filter(x => re.test(x.label)).reduce((m, x) => Math.max(m, x.score), 0);
+        out[k] = { top: r.slice(0, 6).map(x => [x.label, Math.round(x.score * 1000) / 1000]), speech: Math.round(get(/^(Speech|Male speech|Female speech|Child speech|Conversation|Narration|Shout|Yell|Screaming|Children shouting|Battle cry)/) * 1000) / 1000, music: Math.round(get(/^Music$/) * 1000) / 1000 };
+      } catch (e) { out[k] = { err: String(e.message || e).slice(0, 120) }; } }
+    window.__out = JSON.stringify(out); window.__done = 'OK ' + Object.keys(out).length + ' tiếng';
+  } catch (e) { window.__done = 'LỖI ' + (e.message || e); }
+  log(window.__done);
+})();
+</script>

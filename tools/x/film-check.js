@@ -1,7 +1,8 @@
 // 🎬 SOÁT PHIM 1 LỆNH (Mac + Windows, Node thuần): bảng khung + soát tiếng, KHÔNG BAO GIỜ treo (giới hạn cứng, luôn tắt trình duyệt + máy chủ).
 //   node tools/x/film-check.js <idPhim> [--file <film-*.js>] [--t 1.2,3.4 | --a 0 --b 20 --step 0.5] [--w 320] [--cols 6] [--out <thư mục>] [--no-sfx] [--max 240]
 //   Windows: powershell -NoProfile -ExecutionPolicy Bypass -File tools/node.ps1 tools/x/film-check.js fin1c4 --t 21.6,23.5 --out <scratchpad>/chk
-// Ra: <out>/<id>.png (bảng khung — Read để soát) + <out>/<id>-sfx.md (báo cáo sfx-lint) + dòng tóm tắt. Mã thoát 0 = sạch, 1 = có lỗi tiếng, 2 = không chụp được.
+// Ra: <out>/<id>.png (bảng khung — Read để soát) + <out>/<id>-sfx.md (báo cáo sfx-lint) + <out>/<id>-shots.md (film-lint, nếu có js/shots/<id>.json) + dòng tóm tắt.
+//   Mã thoát 0 = sạch, 1 = có lỗi tiếng / lỗi nhịp, 2 = không chụp được.
 // Vì sao có file này: 9/11 lệnh `cdp.js --launch … | grep` không thoát (trình duyệt con giữ ống stdout) → treo 3 tiếng. Ở đây mọi tiến trình con chạy
 //   với stdout ra FILE, chờ ảnh xuất hiện rồi tự tắt; quá --max giây thì giết hết và báo lỗi.
 const fs = require('fs'), path = require('path'), os = require('os'), { spawn, spawnSync } = require('child_process');
@@ -19,7 +20,7 @@ const PROFILE = path.join(os.tmpdir(), 'film-check-profile'), steps = path.join(
 fs.writeFileSync(steps, `goto tools/x/film-sheet.html?${q}\nwaitfor window.__done\nwaitfor window.__done\nwaitfor window.__done\neval window.__done\nevalsave ${ID} window.__png\n`);
 try { fs.rmSync(png, { force: true }); } catch (e) {}
 const kids = [];
-const run = (file, a, outFile) => { const fd = fs.openSync(outFile || (process.platform === 'win32' ? 'NUL' : '/dev/null'), 'w'); const p = spawn(NODE, [path.join(ROOT, file), ...a], { cwd: ROOT, env: ENV, stdio: ['ignore', fd, fd], windowsHide: true }); kids.push(p); return p; };
+const run = (file, a, outFile) => { const fd = fs.openSync(outFile || os.devNull, 'w'); const p = spawn(NODE, [path.join(ROOT, file), ...a], { cwd: ROOT, env: ENV, stdio: ['ignore', fd, fd], windowsHide: true }); kids.push(p); return p; };
 const stopAll = () => { spawnSync(NODE, [path.join(ROOT, 'tools/x/cdp.js'), '--stop', '--profile', PROFILE], { cwd: ROOT, env: ENV, stdio: 'ignore', timeout: 20000 });
   spawnSync(NODE, [path.join(ROOT, 'tools/x/serve.js'), '--stop', '--port', String(PORT)], { cwd: ROOT, env: ENV, stdio: 'ignore', timeout: 20000 });
   for (const k of kids) { try { k.kill(); } catch (e) {} } };
@@ -38,7 +39,12 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   if (!has('--no-sfx')) { const target = opt('--sfx-id', ID), rep = path.join(OUT, ID + '-sfx.md');
     const r = spawnSync(NODE, [path.join(ROOT, 'tools/x/sfx-lint.js'), target, '--out', rep], { cwd: ROOT, env: ENV, encoding: 'utf8', timeout: 60000 });
     sfx = { code: r.status, line: (r.stderr || '').trim().split('\n').pop() || 'không chạy được sfx-lint' }; }
+  // 📐 soát nhịp theo bảng phân cảnh js/shots/<id>.json (Bước 6) — có file thì chạy, báo cáo <out>/<id>-shots.md
+  let shot = { code: 0, line: 'chưa có js/shots/' + ID + '.json' };
+  if (fs.existsSync(path.join(ROOT, 'js', 'shots', ID + '.json'))) { const rep = path.join(OUT, ID + '-shots.md');
+    const r = spawnSync(NODE, [path.join(ROOT, 'tools/x/film-lint.js'), ID, '--file', FILE, '--out', rep], { cwd: ROOT, env: ENV, encoding: 'utf8', timeout: 60000 });
+    shot = { code: r.status, line: (r.stderr || '').trim().split('\n').pop() || 'không chạy được film-lint' }; }
   const secs = ((Date.now() - t0) / 1000).toFixed(0);
-  console.log(`${ok ? '🖼️ ' + png : '❌ KHÔNG CHỤP ĐƯỢC (' + (done || 'hết ' + MAX + 's') + ') — xem ' + log}\n🔊 ${sfx.line}\n${done ? 'trang: ' + done + '\n' : ''}⏱️ ${secs}s`);
-  process.exit(!ok ? 2 : sfx.code ? 1 : 0);
+  console.log(`${ok ? '🖼️ ' + png : '❌ KHÔNG CHỤP ĐƯỢC (' + (done || 'hết ' + MAX + 's') + ') — xem ' + log}\n🔊 ${sfx.line}\n📐 ${shot.line}\n${done ? 'trang: ' + done + '\n' : ''}⏱️ ${secs}s`);
+  process.exit(!ok ? 2 : (sfx.code || shot.code) ? 1 : 0);
 })().catch(e => { console.error('lỗi: ' + e.message); process.exit(2); });
