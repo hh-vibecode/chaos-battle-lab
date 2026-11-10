@@ -129,6 +129,8 @@ const RESULT = () => ({ t: __vt, win: koWinner ? (koWinner.slotIdx === 0 ? 'a' :
   hp: fighters.map(f => [f.type, Math.max(0, Math.round(f.hp)), f.maxHp]), far: typeof bhFarEat !== 'undefined' ? bhFarEat : 0, dir: typeof __director === 'function' ? __director() : '' });
 const fmt = r => `${r.win ? (r.win === 'a' ? A : B) + ' thắng' : 'hoà/chưa xong'} lúc ${r.t.toFixed(1)}s · ${r.hp.map(h => h[0] + ' ' + h[1] + '/' + h[2]).join(' · ')}${FAR ? ' · nuốt đạn xa ' + (r.far || 0) : ''}${r.dir ? ' · ' + r.dir : ''}${DUR ? ' · video ~' + vdur(r).toFixed(1) + 's' : ''}`;
 const vdur = r => r.t + DUR_OFF;
+const PDUR = opt('--pdur', null) ? opt('--pdur').split('-').map(Number) : null;   // --pdur 20-25: video trong khoảng chỉ là ưu tiên PHỤ (anh dặn 10/11: thắng là được · trận SÁT trước, độ dài sau) — chỉ để chọn giữa các trận sát ngang nhau (máu còn lệch < 2%)
+const inP = r => !PDUR || (vdur(r) >= PDUR[0] && vdur(r) <= PDUR[1]);
 const DIROK = opt('--dirok', null) ? new RegExp(opt('--dirok')) : null;   // --dirok <regex>: chỉ nhận trận mà dòng __director() (từ --inject) khớp mẫu — vd Bread Cat bị huỷ đúng 2 lần: --dirok 'breaks=2'
 const ok = r => (!DIROK || DIROK.test(r.dir || '')) && (!WIN || r.win === WIN) && (r.far || 0) >= FAR && (!DUR || (vdur(r) >= DUR[0] && vdur(r) <= DUR[1])) && (CLOSE == null || (r.win && (() => { const h = r.hp[r.win === 'a' ? 0 : 1]; return h[1] > 0 && h[1] / h[2] <= CLOSE; })()));
 
@@ -150,14 +152,15 @@ const ok = r => (!DIROK || DIROK.test(r.dir || '')) && (!WIN || r.win === WIN) &
     fs.writeFileSync(OUT + '.sim.json', JSON.stringify(rows));
     console.log(`✅ chạy thử xong ${SIM} trận · ${((Date.now() - T0) / 1000).toFixed(0)}s`); await br.close(); srv.close(); return; }
   // 🔎 dò trước kết quả (chỉ khi có yêu cầu thắng/thua) — chạy nhanh ở độ phân giải thấp, KHÔNG quay
-  if (SEED == null && (WIN || CLOSE != null || FAR || DUR)) {
+  if (SEED == null && (WIN || CLOSE != null || FAR || DUR || PDUR)) {
     const hits = [];   // gom các trận đúng ý, đủ WANT trận (hoặc hết TRIES) thì lấy trận SÁT SAO NHẤT (con thắng còn ít máu nhất)
-    for (let k = 0; k < TRIES && (k < MIN || hits.length < WANT); k += PAR) {   // mỗi đợt PAR trận song song, xong đợt mới xét đủ chưa
+    const enough = k => k >= MIN && hits.length >= WANT;
+    for (let k = 0; k < TRIES && !enough(k); k += PAR) {   // mỗi đợt PAR trận song song, xong đợt mới xét đủ chưa
       await pool(Array.from({ length: Math.min(PAR, TRIES - k) }, (_, j) => (base + (k + j) * 7919) >>> 0), 360, (j, sd, r) => {
-        console.log(`  thử #${k + j + 1} seed ${sd}: ${fmt(r)}${ok(r) ? '  ✔' : ''}`);
+        console.log(`  thử #${k + j + 1} seed ${sd}: ${fmt(r)}${ok(r) ? (inP(r) ? '  ✔' : '  ✔ (ngoài khoảng ưu tiên)') : ''}`);
         if (ok(r)) { const h = r.hp[r.win === 'a' ? 0 : 1]; hits.push({ sd, k: h[1] / h[2], r }); } });
     }
-    if (hits.length) { hits.sort((x, y) => x.k - y.k); SEED = hits[0].sd; console.log(`🏆 ${hits.length} trận đúng ý · chọn trận sát sao nhất: seed ${SEED} · ${fmt(hits[0].r)}`); }
+    if (hits.length) { hits.sort((x, y) => (Math.abs(x.k - y.k) < 0.02 ? inP(y.r) - inP(x.r) : 0) || (x.k - y.k)); SEED = hits[0].sd; console.log(`🏆 ${hits.length} trận đúng ý · chọn trận sát sao nhất: seed ${SEED} · ${fmt(hits[0].r)}`); }
     if (SEED == null) { console.log(`❌ ${TRIES} lần thử chưa ra trận đúng ý`); await br.close(); srv.close(); process.exit(1); }
   }
   // 🏆 mặc định: chạy thử BEST trận, lấy trận sát sao nhất (con thắng còn ÍT máu nhất, phải có người thắng)
