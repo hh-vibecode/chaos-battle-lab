@@ -6057,7 +6057,7 @@ const _azAllAudio=new Set();
 let _azId=0;
 function _azReset(){ azFx=[]; _azId=0; }
 // vị trí đang phát của clip (giây) — theo tiếng nếu đang phát, không thì theo đồng hồ game
-function _azClipT(f){ const a=f._azAudio; return (a && a!=='fail' && !a.paused) ? (a.currentTime||0)%AZ_LEN : ((tick-(f._azT0||0))/60*AZ_RATE)%AZ_LEN; }
+function _azClipT(f){ const a=f._azAudio; return (a && a!=='fail' && (!a.paused || a._mwHush)) ? (a.currentTime||0)%AZ_LEN : ((tick-(f._azT0||0))/60*AZ_RATE)%AZ_LEN; }
 function _azFrame(f){ return Math.floor(_azClipT(f)*AZ_FPS)%AZ_N; }
 function _azStartAudio(f){ if(f._azAudio || f._azOff) return; f._azT0=tick; const a=AUDIO_SAMPLES['azel_beat']?.cloneNode(); if(!a){ f._azAudio='fail'; return; }
   a.loop=true; a.volume=0.9; a.playbackRate=AZ_RATE; _registerBgMusic(a,0.9); _mixRoute(a); a._azOwner=f; _azAllAudio.add(a); a.play().catch(()=>{}); f._azAudio=a; f._azBi=0; f._azCi=0; f._azLast=0; }
@@ -6070,7 +6070,7 @@ setInterval(_azGuard,250);
 function _azTick(f){
   if(f._introLock>0) return;
   _azStartAudio(f);
-  const a=f._azAudio; if(a && a!=='fail' && a.paused && !isPaused) a.play().catch(()=>{});   // vừa bị máy canh dừng lúc chuyển cảnh → trận chạy tiếp thì phát tiếp
+  const a=f._azAudio; if(a && a!=='fail' && a.paused && !isPaused && !a._mwHush) a.play().catch(()=>{});   // vừa bị máy canh dừng lúc chuyển cảnh → trận chạy tiếp thì phát tiếp
   const ct=_azClipT(f);
   if(ct+0.05<(f._azLast||0)){ f._azBi=0; f._azCi=0; }   // clip vừa lặp lại từ đầu
   f._azLast=ct;
@@ -9607,18 +9607,20 @@ function _mwHoleBuild(T){
     add(a,n); if(Math.abs(Math.abs(n)-R)<R*0.45) add(a+sp*0.43,n+sp*0.5);   // mép rãnh: mảnh nhỏ dày hơn → răng cưa lởm chởm
   } }
   const xs=pts.map(p=>p[0]), ys=pts.map(p=>p[1]), vor=d3.Delaunay.from(pts).voronoi([Math.min(...xs)-R,Math.min(...ys)-R,Math.max(...xs)+R,Math.max(...ys)+R]);
-  T.cells=[]; T.cracks=[];
+  T.cells=[]; T.cracks=[]; const EM=14*W/480, inF=(x,y)=>x>=0 && x<=W && y>=0 && y<=H;
   meta.forEach(([a,n,kk],i)=>{ const d=a<0?Math.hypot(a,n):Math.abs(n); if(d>wid(Math.max(0,a))*(0.82+0.36*h(kk+9e4))) return;
-    const poly=vor.cellPolygon(i); if(!poly) return; const P=poly.slice(0,-1); if(P.length<3) return;
+    const poly=vor.cellPolygon(i); if(!poly) return; const P=_flClip(poly.slice(0,-1),-EM,-EM,W+EM,H+EM); if(P.length<3) return;   // chỉ trong SÀN (+ viền sàn): ngoài sàn vốn là vũ trụ, không có gì để vỡ
     const px=P.map(p=>p[0]), py=P.map(p=>p[1]), bx=Math.min(...px), by=Math.min(...py), side=n<0?-1:1;
     T.cells.push({P, bx, by, bw:Math.max(...px)-bx, bh:Math.max(...py)-by, cx:pts[i][0], cy:pts[i][1], al:a, t0:null, dl:Math.abs(n)/R*4+h(kk+7e4)*2,
       vz:0.012+0.012*h(kk+1e5), r:0, vr:(h(kk+2e5)-0.5)*0.14, dx:(nx*side*(0.6+0.8*h(kk+3e5))+ca*0.3), dy:(ny*side*(0.6+0.8*h(kk+3e5))+sa*0.3)}); });
   for(let a=0,j=0;a<Lmax;a+=R*(0.45+0.5*h(j+4e5)),j++) for(const side of [-1,1]){   // ⚡ vết nứt toả ra từ mép rãnh
     if(h(j*2+(side>0)+5e5)<0.3) continue; const L=R*(0.45+0.9*h(j*2+(side>0)+6e5));
     let x=T.x+ca*a+nx*side*wid(a)*0.92, y=T.y+sa*a+ny*side*wid(a)*0.92, dir=Math.atan2(ny*side,nx*side)+(h(j+7e5)-0.5)*1.4; const P=[[x,y]];
-    for(let m=0;m<5;m++){ dir+=(h(j*7+m+8e5)-0.5)*0.9; x+=Math.cos(dir)*L/5; y+=Math.sin(dir)*L/5; P.push([x,y]); }
-    const br=[]; if(h(j+9e5)<0.55){ const b=P[2]; let bd=dir+(h(j+9.5e5)<0.5?-1:1)*0.8, bxx=b[0], byy=b[1]; br.push([bxx,byy]); for(let m=0;m<3;m++){ bd+=(h(j*5+m+1e6)-0.5)*0.8; bxx+=Math.cos(bd)*L/7; byy+=Math.sin(bd)*L/7; br.push([bxx,byy]); } }
-    T.cracks.push({al:a, P, br}); }
+    if(!inF(x,y)) continue;   // mép rãnh nằm ngoài sàn → không nứt
+    for(let m=0;m<5;m++){ dir+=(h(j*7+m+8e5)-0.5)*0.9; x+=Math.cos(dir)*L/5; y+=Math.sin(dir)*L/5; if(!inF(x,y)) break; P.push([x,y]); }   // nứt tới mép sàn thì dừng
+    if(P.length<2) continue;
+    const br=[]; if(P.length>3 && h(j+9e5)<0.55){ const b=P[2]; let bd=dir+(h(j+9.5e5)<0.5?-1:1)*0.8, bxx=b[0], byy=b[1]; br.push([bxx,byy]); for(let m=0;m<3;m++){ bd+=(h(j*5+m+1e6)-0.5)*0.8; bxx+=Math.cos(bd)*L/7; byy+=Math.sin(bd)*L/7; if(!inF(bxx,byy)) break; br.push([bxx,byy]); } }
+    T.cracks.push({al:a, P, br:br.length>1?br:[]}); }
 }
 // 🚧 chỗ thủng KHÔNG đi vào được (anh dặn 10/11): meme tới sát mép rãnh thì dội lại như chạm tường
 function _mwInHole(x,y){ const T=mwHole; if(!T || !T.cells) return false; const front=T.len+T.R*0.55;
@@ -9687,9 +9689,20 @@ function _mwPurpleStart(f){
   f._mwGojo=true;
   if(f._mewMusic){ _stopLoopAudio(f._mewMusic); f._mewMusic=null; }   // 🔇 tắt nhạc mewing (gọi tượng) suốt chiêu
   mwPurple={f, e, t0:performance.now(), ang:Math.atan2(e.y-f.y,e.x-f.x), R:f.size*1.45, fired:false, done:false, kill:[]};
+  mwPurple.hush=_mwHush(f);   // 🔇 mọi tiếng của meme khác dừng hẳn — chỉ còn Mewing Cat
   battleFreezeTimer=Math.max(battleFreezeTimer,3);
   playSample('ultimate_charge_2',1.0); addShake(4,8);
 }
+// 🔇 Gojo Cat cast (anh dặn 10/11): TẠM DỪNG mọi tiếng lặp / nhạc của meme khác (nhạc meme âm nhạc, clip Azel… — hình của chúng chạy theo
+//   tiếng nên cũng đứng hình; thời gian trận thì battleFreezeTimer đã dừng). Hết cảnh: meme còn sống phát tiếp đúng chỗ dở, meme bị xoá thì thôi.
+const _mwGlobalLoops=()=>[_flyingCatTheme,_burnLoop,_narutoIntroAudio,_fkGasSfx,_fkAnthemSfx,_egBgm,_saSfx,_dpRainSfx,_wcRainSfx,_dlPourSfx,_duoLzSfx,_hmBoxSfx,_hmCrawlSfx,_hlSfx];
+function _mwHush(f){ const out=[], add=(a,o,k)=>{ if(a instanceof HTMLMediaElement && !a.paused && !a.ended){ try{ a.pause(); a._mwHush=true; out.push([a,o,k]); }catch(e){} } };
+  for(const u of fighters){ if(u===f) continue; for(const k in u){ const a=u[k]; if(a instanceof HTMLMediaElement) add(a,u,k); } }
+  _mwGlobalLoops().forEach(a=>add(a,null,null));
+  return out; }
+function _mwUnhush(q){ const G=_mwGlobalLoops(); for(const [a,o,k] of (q.hush||[])){ a._mwHush=false;
+    if(o ? (o.dead || o._mwErased || o[k]!==a) : !G.includes(a)) continue;   // chủ đã bị xoá / tiếng đã bị thay → không bật lại
+    try{ a.play().catch(()=>{}); }catch(e){} } q.hush=null; }
 function _mwFinger(q){ const f=q.f, L=f._lastSprite; if(!L || L.img!==MEW_GOJO_IMG) return _mwHand(q);
   const fl=(L.fl!==undefined?L.fl:L.flip); return [f.x+(fl?-1:1)*(0.47-0.5)*L.dw, f.y+(0.63-0.5)*L.dh]; }
 function _mwHand(q){ const f=q.f; return [f.x+Math.cos(q.ang)*f.size*1.15, f.y+Math.sin(q.ang)*f.size*1.15-f.size*0.08]; }
@@ -9698,7 +9711,7 @@ function _mwDust(x,y,s,n){ for(let i=0;i<n;i++){ const a=Math.random()*Math.PI*2
 function _mwPurpleTick(){
   const q=mwPurple; if(!q) return;
   const now=performance.now(), ms=now-q.t0, f=q.f;
-  if(!f || f.dead){ mwPurple=null; if(f) f._mwGojo=false; battleFreezeTimer=0; _mwTravelStop(); return; }
+  if(!f || f.dead){ _mwUnhush(q); mwPurple=null; if(f) f._mwGojo=false; battleFreezeTimer=0; _mwTravelStop(); return; }
   battleFreezeTimer=Math.max(battleFreezeTimer,3);   // ⏸️ thời gian đứng yên suốt cảnh
   const [hx,hy]=_mwHand(q);
   if(!q.fired && ms<MW_STOP_MS && Math.random()<0.6){ const a=Math.random()*Math.PI*2, d=f.size*(2+Math.random()*3);   // hạt năng lượng lơ lửng bị hút về tay
@@ -9734,6 +9747,7 @@ function _mwPurpleTick(){
     _mwTravelStop();   // ✅ kết thúc: thời gian chạy lại, chốt chết các meme đã bị xoá
     battleFreezeTimer=0; mwPurple=null; mwShards=[];
     for(const u of q.kill){ _stopFighterSfx(u); _forceKill(u,f); if(!u.dead){ u.hp=0; u.dead=true; u._deathTick=tick; } }
+    _mwUnhush(q);   // 🔊 meme còn sống phát tiếp
     f._mwGojo=!fighters.some(u=>u!==f && u.team!==f.team && !u.dead);   // 🏆 thắng bằng Hollow Purple → giữ luôn dáng Gojo
   }
   { const o=mwPurple && mwPurple.fired && !mwPurple.done ? [mwPurple.sx+Math.cos(mwPurple.ang)*mwPurple.len, mwPurple.sy+Math.sin(mwPurple.ang)*mwPurple.len] : null;
@@ -9937,7 +9951,7 @@ function _mwPurpleDraw(){
       for(const u of (q.shatter||[])){ _mwCutShards(u.x,u.y,u.size*1.15,22,ox,oy); u._mwErased=true; } q.shatter=[];
       for(const [x,y,sz] of (q.shatterAt||[])) _mwCutShards(x,y,sz*1.15,14,ox,oy); q.shatterAt=[];
       if(!q.lastCut || q.len-q.lastCut>3){ q.lastCut=q.len;
-        for(let k=0;k<7;k++){ const a=q.ang+(Math.random()-0.5)*2.4, rr=R*(1.0+Math.random()*0.35); _mwCutShards(ox+Math.cos(a)*rr, oy+Math.sin(a)*rr, 10+Math.random()*12, 1, ox, oy); } }
+        for(let k=0;k<7;k++){ const a=q.ang+(Math.random()-0.5)*2.4, rr=R*(1.0+Math.random()*0.35), px=ox+Math.cos(a)*rr, py=oy+Math.sin(a)*rr; if(px>=0 && px<=W && py>=0 && py<=H) _mwCutShards(px, py, 10+Math.random()*12, 1, ox, oy); } }   // chỉ vỡ mặt SÀN
       // 🌀 BÓP MÉO KHÔNG GIAN quanh cầu: vẽ lại chính khung hình theo từng vành đồng tâm — xoắn + hút vào tâm mạnh dần
       _mwWarp(ox,oy,R*2.6,tm);
       _mwDrawShards();
