@@ -356,7 +356,7 @@
       [11.72,'ep3_whoosh',0.7,null,'Gojo vung đòn'],[11.95,'cine_strongpunch',0.9,null,'Gojo đấm, Pain đỡ trượt lùi'],
       [T.pushC+0.05,'ep3_force',1,null,'Pain gồng ALMIGHTY PUSH, vòng lực co vào'],
       [T.push,'cine_deep_impact',0.9,null,'bức tường lực trúng Gojo'],[T.push+0.2,'l2p_whoosh',0.8,null,'Gojo bị hất văng xa (đường hầm tốc độ)'],
-      [T.crash+0.05,'ep3_explode',0.8,null,'Gojo đâm vào toà nhà cuối đại lộ'],[T.crash+0.4,'ep3_rock',0.6,null,'gạch đá toà nhà đổ xuống'],
+      [T.crash+0.05,'cine_heavy_slow',0.9,null,'Gojo đâm sầm vào toà nhà cuối đại lộ'],[T.crash+0.4,'ep3_rock',0.6,null,'gạch đá toà nhà đổ xuống'],
       [T.rise,'l2p_riser',0.7,null,'Pain bay thẳng lên trời'],
       [T.cast+0.1,'ps_shinra',1,1.5,'Pain dang tay hô "Shinra Tensei" (chỉ phần giọng)'],
       [T.dom+0.1,'l2p_shimmer',0.7,null,'Gojo kết ấn mở lãnh địa trên nền trắng'],
@@ -377,7 +377,7 @@
       [T.boom,'ep3_explode',1,null,'NỔ TÍM trên không'],[T.boom+0.3,'ep3_quake',0.6,null,'rung dội xuống mặt đất'],
       [T.face,'l2p_rumble',0.4,null,'2 bên đối diện giữa hố, gió bụi'],
       [T.split,'ep3_shine',0.7,null,'mặt chia đôi loé'],
-      [T.wide,'ep3_end_boom',0.4,null,'toàn cảnh kết, tối dần']],
+      [T.wide,'l2p_sub',0.4,null,'toàn cảnh kết, nền trầm, tối dần']],
     mus:[{src:'assets/audio/pain_theme.mp3',ra:0,rb:T.DUR,vol:0.5,loop:true,fi:0.6,fo:2.0}],   // file 21.8s < 50s cảnh → lặp (10/11)
     theme:t=>theme(t), shots,
     panels:t=>C?C.splitFace(t,T.split,T.wide-T.split,{tx:-490,ty:78,tz:0,dist:190,yaw:16,pitch:-4,fov:40,ox:-0.25},{tx:505,ty:105,tz:0,dist:190,yaw:-16,pitch:-4,fov:40,ox:0.25})   /* 9/11: ảnh nghiêng (G9/P9) → mỗi ô hiện TRỌN ĐẦU 1 con, tâm máy dời vào giữa ô (ox ±0.25) */:null,

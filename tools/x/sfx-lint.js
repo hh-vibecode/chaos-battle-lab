@@ -72,6 +72,11 @@ for (const r of rows) { count[r.key] = (count[r.key] || 0) + 1; const c = CAT[r.
 for (const [k, n] of Object.entries(count)) { const p = pre(k), owned = p && !GENERIC.includes(p); if (n > 1 && owned && !(k in sfxOk)) { const ts = rows.filter(r => r.key === k).map(r => fmt(r.t)).join(', '); F('🔁', rows.find(r => r.key === k).t, `${k} dùng ${n} lần (${ts}) — ${(CAT[k] && CAT[k].note.slice(0, 80)) || ''}`); rows.filter(r => r.key === k).forEach(r => r.fl && r.fl.push('🔁 LẶP ×' + n)); }
   else if (n > 3) F('ℹ️', rows.find(r => r.key === k).t, `${k} dùng ${n} lần — nghe lặp, cân nhắc đổi tiếng khác cho vài chỗ`); }
 for (let i = 1; i < rows.length; i++) if (rows[i].t - rows[i - 1].t < 0.15 && rows[i].key !== rows[i - 1].key) { rows[i].fl && rows[i].fl.push('👥 CHỒNG'); F('👥', rows[i].t, `${rows[i - 1].key} + ${rows[i].key} bắt đầu cách nhau ${(rows[i].t - rows[i - 1].t).toFixed(2)}s`); }
+// 🎯 LỆCH NGHĨA: tiếng có loại RÕ NGHĨA trong tools/x/sfx-catalog.json (rơi / giọng / vỡ / nổ) mà NHÃN không nói tới việc đó (10/11: anh chê tiếng rơi gắn chỗ không có gì rơi)
+const CATF = path.join(__dirname, 'sfx-catalog.json'), CATJ = fs.existsSync(CATF) ? JSON.parse(fs.readFileSync(CATF, 'utf8')).tieng || {} : null;
+const NEED = { 'rơi': /rơi|rớt|ngã|đáp|lao xuống|sụp xuống|fall/i, 'giọng': /hô|gầm|khóc|hét|nói|giọng|cười|thét|kêu|rên|thở/i, 'vỡ': /vỡ|gãy|nứt|kính|đá|gạch|sập|đổ/i, 'nổ': /nổ|lửa|bùng|cháy|explo|blast/i };
+if (CATJ) for (const r of rows) { const c = CATJ[r.key]; if (!c || !r.label || !(c.loai in NEED)) continue; if (!NEED[c.loai].test(r.label)) { r.fl && r.fl.push('🎯 LỆCH NGHĨA'); F('🎯', r.t, `${r.key} là tiếng loại "${c.loai}" nhưng nhãn là "${r.label}" — đổi tiếng hoặc sửa nhãn cho đúng hình`); } }
+else F('ℹ️', 0, 'chưa có tools/x/sfx-catalog.json → bỏ qua soát nghĩa (chạy tools/x/sfx-catalog.js)');
 const noLabel = rows.filter(r => !r.label).length; if (noLabel) F('🏷️', 0, `${noLabel}/${rows.length} tiếng chưa có NHÃN sự kiện (phần tử thứ 5 của mỗi dòng sfx)`);
 if (!anyCast) F('🏷️', 0, 'phim chưa khai `cast` (tiền tố tiếng của nhân vật có mặt) → mọi tiếng có tiền tố meme đều bị coi là mượn');
 // nhạc
@@ -87,7 +92,7 @@ for (const rel of [...new Set(filmFiles)]) { fs.readFileSync(path.join(ROOT, rel
 // ───────── báo cáo ─────────
 const L = [];
 L.push(`# Soát tiếng: ${ID} — dài ${DUR.toFixed(1)}s · ${rows.length} tiếng · ${mus.length} nhạc · cast [${[...casts].join(', ') || 'CHƯA KHAI'}]`, '');
-const ORD = ['❌', '⏹️', '👤', '🔁', '👥', '🈲', '🏷️', '🔇', 'ℹ️']; flags.sort((a, b) => ORD.indexOf(a.lv) - ORD.indexOf(b.lv) || a.t - b.t);
+const ORD = ['❌', '⏹️', '🎯', '👤', '🔁', '👥', '🈲', '🏷️', '🔇', 'ℹ️']; flags.sort((a, b) => ORD.indexOf(a.lv) - ORD.indexOf(b.lv) || a.t - b.t);
 const bad = flags.filter(f => !['ℹ️', '🔇', '🏷️'].includes(f.lv)).length;
 L.push(`## Lỗi (${bad} phải sửa · ${flags.length - bad} lưu ý)`); for (const f of flags) L.push(`- ${f.lv} ${f.t ? fmt(f.t) + ' ' : ''}${f.msg}`); if (!flags.length) L.push('- sạch');
 L.push('', '## Nhạc / nền', '| phát | file | dài file | lặp | cờ |', '|---|---|---|---|---|');

@@ -1,0 +1,3868 @@
+{
+ "ghiChu": "Sinh bởi tools/x/sfx-catalog.js — sửa tay loai/moTa thì thêm \"tay\":true để lần chạy sau giữ nguyên",
+ "ngay": "2026-11-10",
+ "tieng": {
+  "wg_truck_horn": {
+   "file": "assets/audio/wg_truck_horn.mp3",
+   "dai": 2.35,
+   "moTa": "",
+   "loai": "?",
+   "chu": "wg",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "wg_jockey_hit": {
+   "file": "assets/audio/wg_jockey_hit.mp3",
+   "dai": 1.12,
+   "moTa": "",
+   "loai": "va chạm",
+   "chu": "wg",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "wg_chicken": {
+   "file": "assets/audio/wg_chicken.mp3",
+   "dai": 2.38,
+   "moTa": "",
+   "loai": "?",
+   "chu": "wg",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "wg_tornado": {
+   "file": "assets/audio/wg_tornado.mp3",
+   "dai": 19.07,
+   "moTa": "",
+   "loai": "?",
+   "chu": "wg",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "wg_dragon_roar": {
+   "file": "assets/audio/wg_dragon_roar.mp3",
+   "dai": 7.75,
+   "moTa": "",
+   "loai": "giọng",
+   "chu": "wg",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "wg_blade_impact": {
+   "file": "assets/audio/wg_blade_impact.mp3",
+   "dai": 1.28,
+   "moTa": "",
+   "loai": "va chạm",
+   "chu": "wg",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "wg_blade_throw": {
+   "file": "assets/audio/wg_blade_throw.mp3",
+   "dai": 0.91,
+   "moTa": "",
+   "loai": "?",
+   "chu": "wg",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "wg_axe_whoosh": {
+   "file": "assets/audio/wg_axe_whoosh.mp3",
+   "dai": 0.5,
+   "moTa": "",
+   "loai": "vút",
+   "chu": "wg",
+   "nhac": false,
+   "dung": [
+    "cine-endgame",
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "wg_cow_moo": {
+   "file": "assets/audio/wg_cow_moo.mp3",
+   "dai": 1.67,
+   "moTa": "",
+   "loai": "?",
+   "chu": "wg",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "wg_dragon_impact": {
+   "file": "assets/audio/wg_dragon_impact.mp3",
+   "dai": 2.9,
+   "moTa": "",
+   "loai": "va chạm",
+   "chu": "wg",
+   "nhac": false,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "wg_chicken_spawn": {
+   "file": "assets/audio/wg_chicken_spawn.mp3",
+   "dai": 2.64,
+   "moTa": "",
+   "loai": "?",
+   "chu": "wg",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "uia_remix_hiphop": {
+   "file": "assets/audio/uia_remix_hiphop.mp3",
+   "dai": 41.4,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "uia",
+   "nhac": true,
+   "dung": [],
+   "tai": null
+  },
+  "fd_crackle": {
+   "file": "assets/audio/fd_crackle.mp3",
+   "dai": 79.54,
+   "moTa": "",
+   "loai": "vỡ",
+   "chu": "fd",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "fd_roar": {
+   "file": "assets/audio/fd_roar.mp3",
+   "dai": 15.2,
+   "moTa": "",
+   "loai": "giọng",
+   "chu": "fd",
+   "nhac": false,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "uia_tele_dbz": {
+   "file": "assets/audio/uia_tele_dbz.mp3",
+   "dai": 0.97,
+   "moTa": "",
+   "loai": "máy móc",
+   "chu": "uia",
+   "nhac": false,
+   "dung": [
+    "cine-endgame",
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "capy_fuse": {
+   "file": "assets/audio/capy_fuse.mp3",
+   "dai": 5.28,
+   "moTa": "",
+   "loai": "?",
+   "chu": "capy",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "holy_thunder": {
+   "file": "assets/audio/holy_thunder.mp3",
+   "dai": 1.07,
+   "moTa": "",
+   "loai": "năng lượng",
+   "chu": "holy",
+   "nhac": false,
+   "dung": [
+    "cine-endgame",
+    "cine-war",
+    "film-mvd"
+   ],
+   "tai": null
+  },
+  "ninja_slash": {
+   "file": "assets/audio/ninja_slash.mp3",
+   "dai": 1.88,
+   "moTa": "",
+   "loai": "vút",
+   "chu": "ninja",
+   "nhac": false,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "ninja_sub": {
+   "file": "assets/audio/ninja_sub.mp3",
+   "dai": 2.01,
+   "moTa": "",
+   "loai": "rung",
+   "chu": "ninja",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "fight": {
+   "file": "assets/audio/fight.mp3",
+   "dai": 3.13,
+   "moTa": "",
+   "loai": "?",
+   "chu": null,
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "uiacat_spin": {
+   "file": "assets/audio/uiacat_spin.mp3",
+   "dai": 1.52,
+   "moTa": "",
+   "loai": "máy móc",
+   "chu": "uiacat",
+   "nhac": false,
+   "dung": [
+    "cine-endgame"
+   ],
+   "tai": null
+  },
+  "uia_teleport": {
+   "file": "assets/audio/uia_teleport.mp3",
+   "dai": 1.7,
+   "moTa": "",
+   "loai": "máy móc",
+   "chu": "uia",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "oiia_remix": {
+   "file": "assets/audio/oiia_remix.mp3",
+   "dai": 6.77,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "oiia",
+   "nhac": true,
+   "dung": [],
+   "tai": null
+  },
+  "cry_banana_cat": {
+   "file": "assets/audio/cry_banana_cat.mp3",
+   "dai": 1.75,
+   "moTa": "",
+   "loai": "giọng",
+   "chu": "cry",
+   "nhac": false,
+   "dung": [
+    "film-fin1"
+   ],
+   "tai": null
+  },
+  "vine_boom": {
+   "file": "assets/audio/vine_boom.mp3",
+   "dai": 1.33,
+   "moTa": "",
+   "loai": "va chạm",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "cine-dpwindow",
+    "cine-endgame",
+    "cine-lore2ep0",
+    "cine-war",
+    "film-fin1"
+   ],
+   "tai": null
+  },
+  "sad_cat_cry": {
+   "file": "assets/audio/sad_cat_cry.mp3",
+   "dai": 3.07,
+   "moTa": "",
+   "loai": "giọng",
+   "chu": "sad",
+   "nhac": false,
+   "dung": [
+    "cine-dpwindow"
+   ],
+   "tai": null
+  },
+  "germancat_speech": {
+   "file": "assets/audio/germancat_speech.mp3",
+   "dai": 4.13,
+   "moTa": "",
+   "loai": "?",
+   "chu": "germancat",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "huh_sample": {
+   "file": "assets/audio/huh_sample.mp3",
+   "dai": 0.37,
+   "moTa": "",
+   "loai": "?",
+   "chu": "huh",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "punch1": {
+   "file": "assets/audio/punch1.mp3",
+   "dai": 0.55,
+   "moTa": "",
+   "loai": "va chạm",
+   "chu": null,
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "punch2": {
+   "file": "assets/audio/punch2.mp3",
+   "dai": 0.42,
+   "moTa": "",
+   "loai": "va chạm",
+   "chu": null,
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "popcat": {
+   "file": "assets/audio/popcat.mp3",
+   "dai": 0.29,
+   "moTa": "",
+   "loai": "?",
+   "chu": null,
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "rickroll_song": {
+   "file": "assets/audio/rickroll_song.mp3",
+   "dai": 6.35,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "rickroll",
+   "nhac": true,
+   "dung": [],
+   "tai": null
+  },
+  "ricardo_music": {
+   "file": "assets/audio/ricardo_music.mp3",
+   "dai": 8.59,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "ricardo",
+   "nhac": true,
+   "dung": [
+    "cine-endgame",
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "bonk": {
+   "file": "assets/audio/bonk.mp3",
+   "dai": 0.5,
+   "moTa": "",
+   "loai": "?",
+   "chu": null,
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "ko": {
+   "file": "assets/audio/ko.mp3",
+   "dai": 5.75,
+   "moTa": "",
+   "loai": "?",
+   "chu": null,
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "nein": {
+   "file": "assets/audio/nein.mp3",
+   "dai": 0.55,
+   "moTa": "",
+   "loai": "?",
+   "chu": null,
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "snooze": {
+   "file": "assets/audio/snooze.mp3",
+   "dai": 1.07,
+   "moTa": "",
+   "loai": "?",
+   "chu": null,
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "scream_attack": {
+   "file": "assets/audio/scream_attack.mp3",
+   "dai": 0.63,
+   "moTa": "",
+   "loai": "giọng",
+   "chu": "scream",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "car_horn": {
+   "file": "assets/audio/car_horn.mp3",
+   "dai": 0.89,
+   "moTa": "",
+   "loai": "?",
+   "chu": "car",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "naruto_intro": {
+   "file": "assets/audio/naruto_intro.mp3",
+   "dai": 10.08,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "naruto",
+   "nhac": true,
+   "dung": [],
+   "tai": null
+  },
+  "beluga_typing": {
+   "file": "assets/audio/beluga_typing.mp3",
+   "dai": 10.11,
+   "moTa": "",
+   "loai": "?",
+   "chu": "beluga",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "beluga_text": {
+   "file": "assets/audio/beluga_text.mp3",
+   "dai": 0.53,
+   "moTa": "",
+   "loai": "?",
+   "chu": "beluga",
+   "nhac": false,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "blackhole": {
+   "file": "assets/audio/blackhole.mp3",
+   "dai": 2.57,
+   "moTa": "",
+   "loai": "?",
+   "chu": null,
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "kermit_pull": {
+   "file": "assets/audio/kermit_pull.mp3",
+   "dai": 0.5,
+   "moTa": "",
+   "loai": "?",
+   "chu": "kermit",
+   "nhac": false,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "maxwell_dance": {
+   "file": "assets/audio/maxwell_dance.mp3",
+   "dai": 28.89,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "maxwell",
+   "nhac": true,
+   "dung": [
+    "cine-endgame"
+   ],
+   "tai": null
+  },
+  "king_laser": {
+   "file": "assets/audio/king_laser.mp3",
+   "dai": 0.29,
+   "moTa": "",
+   "loai": "năng lượng",
+   "chu": "king",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "yw_attack": {
+   "file": "assets/audio/yw_attack.mp3",
+   "dai": 0.55,
+   "moTa": "",
+   "loai": "?",
+   "chu": "yw",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "kermit_wave_scream": {
+   "file": "assets/audio/kermit_wave_scream.mp3",
+   "dai": 1.07,
+   "moTa": "",
+   "loai": "giọng",
+   "chu": "kermit",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "nyan_theme": {
+   "file": "assets/audio/nyan_theme.mp3",
+   "dai": 16.74,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "nyan",
+   "nhac": true,
+   "dung": [],
+   "tai": null
+  },
+  "king_knight_summon": {
+   "file": "assets/audio/king_knight_summon.mp3",
+   "dai": 1.3,
+   "moTa": "",
+   "loai": "?",
+   "chu": "king",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "king_knight_hit": {
+   "file": "assets/audio/king_knight_hit.mp3",
+   "dai": 1.28,
+   "moTa": "",
+   "loai": "va chạm",
+   "chu": "king",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "mf_laser": {
+   "file": "assets/audio/mf_laser.mp3",
+   "dai": 0.48,
+   "moTa": "",
+   "loai": "năng lượng",
+   "chu": "mf",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "tf_chew": {
+   "file": "assets/audio/tf_chew.mp3",
+   "dai": 1.88,
+   "moTa": "",
+   "loai": "?",
+   "chu": "tf",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "sus_meeting": {
+   "file": "assets/audio/sus_meeting.mp3",
+   "dai": 1.57,
+   "moTa": "",
+   "loai": "?",
+   "chu": "sus",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "fk_anthem": {
+   "file": "assets/audio/fk_anthem.mp3",
+   "dai": 2.64,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "fk",
+   "nhac": true,
+   "dung": [],
+   "tai": null
+  },
+  "violin_5": {
+   "file": "assets/audio/violin_5.mp3",
+   "dai": 28.24,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "violin",
+   "nhac": true,
+   "dung": [],
+   "tai": null
+  },
+  "cdg_grow": {
+   "file": "assets/audio/cdg_grow.mp3",
+   "dai": 0.94,
+   "moTa": "",
+   "loai": "?",
+   "chu": "cdg",
+   "nhac": false,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "mlem_freeze": {
+   "file": "assets/audio/mlem_freeze.mp3",
+   "dai": 1.13,
+   "moTa": "",
+   "loai": "?",
+   "chu": "mlem",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "guitar_bluebird": {
+   "file": "assets/audio/guitar_bluebird.mp3",
+   "dai": 39,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "guitar",
+   "nhac": true,
+   "dung": [],
+   "tai": null
+  },
+  "cn_ready": {
+   "file": "assets/audio/cn_ready.mp3",
+   "dai": 1.72,
+   "moTa": "",
+   "loai": "?",
+   "chu": "cn",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "cn_pan_hit": {
+   "file": "assets/audio/cn_pan_hit.mp3",
+   "dai": 0.94,
+   "moTa": "",
+   "loai": "va chạm",
+   "chu": "cn",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "cn_cook": {
+   "file": "assets/audio/cn_cook.mp3",
+   "dai": 2.59,
+   "moTa": "",
+   "loai": "?",
+   "chu": "cn",
+   "nhac": false,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "sax_breath": {
+   "file": "assets/audio/sax_breath.mp3",
+   "dai": 1.46,
+   "moTa": "",
+   "loai": "giọng",
+   "chu": "sax",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "sax_song": {
+   "file": "assets/audio/sax_song.mp3",
+   "dai": 7.55,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "sax",
+   "nhac": true,
+   "dung": [],
+   "tai": null
+  },
+  "gas_leak": {
+   "file": "assets/audio/gas_leak.wav",
+   "dai": 1.53,
+   "moTa": "",
+   "loai": "?",
+   "chu": "gas",
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep3"
+   ],
+   "tai": null
+  },
+  "sus_typing": {
+   "file": "assets/audio/sus_typing.mp3",
+   "dai": 3.06,
+   "moTa": "",
+   "loai": "?",
+   "chu": "sus",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "cough_meme": {
+   "file": "assets/audio/cough_meme.mp3",
+   "dai": 6.06,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "cough",
+   "nhac": true,
+   "dung": [],
+   "tai": null
+  },
+  "flower_transcend": {
+   "file": "assets/audio/flower_transcend.mp3",
+   "dai": 1.93,
+   "moTa": "",
+   "loai": "?",
+   "chu": "flower",
+   "nhac": false,
+   "dung": [
+    "film-l2pro"
+   ],
+   "tai": null
+  },
+  "loading_sound": {
+   "file": "assets/audio/loading_sound.mp3",
+   "dai": 2.77,
+   "moTa": "",
+   "loai": "?",
+   "chu": "loading",
+   "nhac": false,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "loading_arrow_fly": {
+   "file": "assets/audio/loading_arrow_fly.mp3",
+   "dai": 0.89,
+   "moTa": "",
+   "loai": "?",
+   "chu": "loading",
+   "nhac": false,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "spidercat_hit": {
+   "file": "assets/audio/spidercat_hit.mp3",
+   "dai": 0.29,
+   "moTa": "",
+   "loai": "va chạm",
+   "chu": "spidercat",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "violin_sad": {
+   "file": "assets/audio/violin_sad.mp3",
+   "dai": 9.43,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "violin",
+   "nhac": true,
+   "dung": [
+    "cine-dpwindow",
+    "cine-lore2ep0"
+   ],
+   "tai": null
+  },
+  "violin_1": {
+   "file": "assets/audio/violin_1.mp3",
+   "dai": 10.61,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "violin",
+   "nhac": true,
+   "dung": [],
+   "tai": null
+  },
+  "violin_2": {
+   "file": "assets/audio/violin_2.mp3",
+   "dai": 6.02,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "violin",
+   "nhac": true,
+   "dung": [],
+   "tai": null
+  },
+  "death_break": {
+   "file": "assets/audio/death_break.mp3",
+   "dai": 0.76,
+   "moTa": "",
+   "loai": "vỡ",
+   "chu": "death",
+   "nhac": false,
+   "dung": [
+    "cine-endgame",
+    "cine-lore2ep0",
+    "cine-lore2ep3",
+    "cine-war",
+    "raid-friend"
+   ],
+   "tai": null
+  },
+  "violin_3": {
+   "file": "assets/audio/violin_3.mp3",
+   "dai": 9.12,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "violin",
+   "nhac": true,
+   "dung": [],
+   "tai": null
+  },
+  "violin_4": {
+   "file": "assets/audio/violin_4.mp3",
+   "dai": 6.86,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "violin",
+   "nhac": true,
+   "dung": [],
+   "tai": null
+  },
+  "larry_eye": {
+   "file": "assets/audio/larry_eye.mp3",
+   "dai": 3.13,
+   "moTa": "",
+   "loai": "?",
+   "chu": "larry",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "hecker_calc": {
+   "file": "assets/audio/hecker_calc.mp3",
+   "dai": 12.2,
+   "moTa": "",
+   "loai": "?",
+   "chu": "hecker",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "hecker_hit": {
+   "file": "assets/audio/hecker_hit.mp3",
+   "dai": 1.04,
+   "moTa": "",
+   "loai": "va chạm",
+   "chu": "hecker",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "yuki_bounce": {
+   "file": "assets/audio/yuki_bounce.mp3",
+   "dai": 0.84,
+   "moTa": "",
+   "loai": "?",
+   "chu": "yuki",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "yuki_hit": {
+   "file": "assets/audio/yuki_hit.mp3",
+   "dai": 1.1,
+   "moTa": "",
+   "loai": "va chạm",
+   "chu": "yuki",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "cry_meow": {
+   "file": "assets/audio/cry_meow.mp3",
+   "dai": 6.3,
+   "moTa": "",
+   "loai": "giọng",
+   "chu": "cry",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "fan_roulette": {
+   "file": "assets/audio/fan_roulette.mp3",
+   "dai": 3.84,
+   "moTa": "",
+   "loai": "?",
+   "chu": "fan",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "fan_slot": {
+   "file": "assets/audio/fan_slot.mp3",
+   "dai": 15.18,
+   "moTa": "",
+   "loai": "?",
+   "chu": "fan",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "larry_hit": {
+   "file": "assets/audio/larry_hit.mp3",
+   "dai": 1.36,
+   "moTa": "",
+   "loai": "va chạm",
+   "chu": "larry",
+   "nhac": false,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "larry_horn": {
+   "file": "assets/audio/larry_horn.mp3",
+   "dai": 25.36,
+   "moTa": "",
+   "loai": "?",
+   "chu": "larry",
+   "nhac": false,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "scareddog_ghost": {
+   "file": "assets/audio/scareddog_ghost.mp3",
+   "dai": 3.06,
+   "moTa": "",
+   "loai": "?",
+   "chu": "scareddog",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "soul_steal": {
+   "file": "assets/audio/soul_steal.mp3",
+   "dai": 3.98,
+   "moTa": "",
+   "loai": "?",
+   "chu": "soul",
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep3"
+   ],
+   "tai": null
+  },
+  "larry_whisper2": {
+   "file": "assets/audio/larry_whisper2.mp3",
+   "dai": 15.12,
+   "moTa": "",
+   "loai": "?",
+   "chu": "larry",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "larry_whisper": {
+   "file": "assets/audio/larry_whisper.mp3",
+   "dai": 4.37,
+   "moTa": "",
+   "loai": "?",
+   "chu": "larry",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "mosquito_violin": {
+   "file": "assets/audio/mosquito_violin.mp3",
+   "dai": 11.11,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "mosquito",
+   "nhac": false,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "infdoge_bonk": {
+   "file": "assets/audio/infdoge_bonk.mp3",
+   "dai": 0.34,
+   "moTa": "",
+   "loai": "?",
+   "chu": "infdoge",
+   "nhac": false,
+   "dung": [
+    "cine-endgame"
+   ],
+   "tai": null
+  },
+  "calmdog_howl": {
+   "file": "assets/audio/calmdog_howl.mp3",
+   "dai": 1.3,
+   "moTa": "",
+   "loai": "?",
+   "chu": "calmdog",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "smartguy_roll": {
+   "file": "assets/audio/smartguy_roll.mp3",
+   "dai": 7.16,
+   "moTa": "",
+   "loai": "?",
+   "chu": "smartguy",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "mewing_statue_break": {
+   "file": "assets/audio/mewing_statue_break.mp3",
+   "dai": 0.76,
+   "moTa": "",
+   "loai": "vỡ",
+   "chu": "mewing",
+   "nhac": false,
+   "dung": [
+    "cine-war",
+    "film-mvd"
+   ],
+   "tai": null
+  },
+  "dn_theme": {
+   "file": "assets/audio/dn_theme.mp3",
+   "dai": 5.07,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "dn",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "mw_gojo": {
+   "file": "assets/audio/mw_gojo.mp3",
+   "dai": 1.78,
+   "moTa": "",
+   "loai": "năng lượng",
+   "chu": "mw",
+   "nhac": false,
+   "dung": [
+    "film-fin1c4",
+    "film-mvd"
+   ],
+   "tai": null
+  },
+  "mw_gojo_travel": {
+   "file": "assets/audio/mw_gojo_travel.mp3",
+   "dai": 3.94,
+   "moTa": "",
+   "loai": "năng lượng",
+   "chu": "mw",
+   "nhac": false,
+   "dung": [
+    "film-fin1c4"
+   ],
+   "tai": null
+  },
+  "ar_mini_die": {
+   "file": "assets/audio/ar_mini_die.mp3",
+   "dai": 1.22,
+   "moTa": "",
+   "loai": "?",
+   "chu": "ar",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "ar_clone": {
+   "file": "assets/audio/ar_clone.mp3",
+   "dai": 1.38,
+   "moTa": "",
+   "loai": "?",
+   "chu": "ar",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "ar_stone_on": {
+   "file": "assets/audio/ar_stone_on.mp3",
+   "dai": 0.29,
+   "moTa": "",
+   "loai": "?",
+   "chu": "ar",
+   "nhac": false,
+   "dung": [
+    "film-mvd"
+   ],
+   "tai": null
+  },
+  "ar_stone_break": {
+   "file": "assets/audio/ar_stone_break.mp3",
+   "dai": 0.5,
+   "moTa": "",
+   "loai": "vỡ",
+   "chu": "ar",
+   "nhac": false,
+   "dung": [
+    "film-mvd"
+   ],
+   "tai": null
+  },
+  "mewing_song": {
+   "file": "assets/audio/mewing_song.mp3",
+   "dai": 4.94,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "mewing",
+   "nhac": true,
+   "dung": [
+    "film-mvd"
+   ],
+   "tai": null
+  },
+  "marmot_scream": {
+   "file": "assets/audio/marmot_scream.mp3",
+   "dai": 1.91,
+   "moTa": "",
+   "loai": "giọng",
+   "chu": "marmot",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "marmot_ssj": {
+   "file": "assets/audio/marmot_ssj.mp3",
+   "dai": 4.25,
+   "moTa": "",
+   "loai": "?",
+   "chu": "marmot",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "marmot_scream_ssj": {
+   "file": "assets/audio/marmot_scream_ssj.mp3",
+   "dai": 3.03,
+   "moTa": "",
+   "loai": "giọng",
+   "chu": "marmot",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "pewpew": {
+   "file": "assets/audio/pewpew.mp3",
+   "dai": 0.71,
+   "moTa": "",
+   "loai": "?",
+   "chu": null,
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "commander_anthem": {
+   "file": "assets/audio/commander_anthem.mp3",
+   "dai": 15.75,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "commander",
+   "nhac": true,
+   "dung": [],
+   "tai": null
+  },
+  "bat_grapple": {
+   "file": "assets/audio/bat_grapple.mp3",
+   "dai": 3.82,
+   "moTa": "",
+   "loai": "?",
+   "chu": "bat",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "flyingcat_theme": {
+   "file": "assets/audio/flyingcat_theme.mp3",
+   "dai": 22.32,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "flyingcat",
+   "nhac": true,
+   "dung": [
+    "cine-lore2ep3"
+   ],
+   "tai": null
+  },
+  "flyingcat_laser": {
+   "file": "assets/audio/flyingcat_laser.mp3",
+   "dai": 0.82,
+   "moTa": "",
+   "loai": "năng lượng",
+   "chu": "flyingcat",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "burn_loop": {
+   "file": "assets/audio/burn_loop.mp3",
+   "dai": 0.67,
+   "moTa": "",
+   "loai": "?",
+   "chu": "burn",
+   "nhac": false,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "hit_light": {
+   "file": "assets/audio/hit_light.mp3",
+   "dai": 1.12,
+   "moTa": "",
+   "loai": "va chạm",
+   "chu": null,
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "hit_mid": {
+   "file": "assets/audio/hit_mid.mp3",
+   "dai": 0.91,
+   "moTa": "",
+   "loai": "va chạm",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "hit_heavy": {
+   "file": "assets/audio/hit_heavy.mp3",
+   "dai": 1.58,
+   "moTa": "",
+   "loai": "va chạm",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep0",
+    "cine-lore2ep3",
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "piano_rush": {
+   "file": "assets/audio/piano_rush.mp3",
+   "dai": 31.06,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "piano",
+   "nhac": true,
+   "dung": [],
+   "tai": null
+  },
+  "piano_megalovania": {
+   "file": "assets/audio/piano_megalovania.mp3",
+   "dai": 56.01,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "piano",
+   "nhac": true,
+   "dung": [],
+   "tai": null
+  },
+  "titan_roar": {
+   "file": "assets/audio/titan_roar.mp3",
+   "dai": 6.16,
+   "moTa": "",
+   "loai": "giọng",
+   "chu": "titan",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "piano_stilldre": {
+   "file": "assets/audio/piano_stilldre.mp3",
+   "dai": 20.11,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "piano",
+   "nhac": true,
+   "dung": [],
+   "tai": null
+  },
+  "piano_thousandmiles": {
+   "file": "assets/audio/piano_thousandmiles.mp3",
+   "dai": 7.26,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "piano",
+   "nhac": true,
+   "dung": [],
+   "tai": null
+  },
+  "piano_takeonme": {
+   "file": "assets/audio/piano_takeonme.mp3",
+   "dai": 33.78,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "piano",
+   "nhac": true,
+   "dung": [],
+   "tai": null
+  },
+  "piano_giorno": {
+   "file": "assets/audio/piano_giorno.mp3",
+   "dai": 40.05,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "piano",
+   "nhac": true,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "spell_1": {
+   "file": "assets/audio/spell_1.mp3",
+   "dai": 0.52,
+   "moTa": "",
+   "loai": "?",
+   "chu": "spell",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "spell_2": {
+   "file": "assets/audio/spell_2.mp3",
+   "dai": 0.5,
+   "moTa": "",
+   "loai": "?",
+   "chu": "spell",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "gunshot": {
+   "file": "assets/audio/gunshot.mp3",
+   "dai": 0.73,
+   "moTa": "",
+   "loai": "?",
+   "chu": null,
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "who_would_win": {
+   "file": "assets/audio/who_would_win.mp3",
+   "dai": 1.39,
+   "moTa": "",
+   "loai": "?",
+   "chu": "who",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "resensuken_sound": {
+   "file": "assets/audio/resensuken_sound.mp3",
+   "dai": 2.51,
+   "moTa": "",
+   "loai": "?",
+   "chu": "resensuken",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "ultimate_charge_2": {
+   "file": "assets/audio/ultimate_charge_2.mp3",
+   "dai": 1.57,
+   "moTa": "",
+   "loai": "năng lượng",
+   "chu": "ultimate",
+   "nhac": false,
+   "dung": [
+    "cine-dpwindow",
+    "cine-endgame",
+    "cine-lore2ep2",
+    "cine-lore2ep3",
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "lightsaber_whoosh_01": {
+   "file": "assets/audio/lightsaber_whoosh_01.mp3",
+   "dai": 0.98,
+   "moTa": "",
+   "loai": "vút",
+   "chu": "lightsaber",
+   "nhac": false,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "lightsaber_clash_06": {
+   "file": "assets/audio/lightsaber_clash_06.mp3",
+   "dai": 1.15,
+   "moTa": "",
+   "loai": "va chạm",
+   "chu": "lightsaber",
+   "nhac": false,
+   "dung": [
+    "cine-war",
+    "film-dvc",
+    "film-mvd"
+   ],
+   "tai": null
+  },
+  "lightsaber_on": {
+   "file": "assets/audio/lightsaber_on.mp3",
+   "dai": 2.85,
+   "moTa": "",
+   "loai": "?",
+   "chu": "lightsaber",
+   "nhac": false,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "catvader_breathe": {
+   "file": "assets/audio/catvader_breathe.mp3",
+   "dai": 1.1,
+   "moTa": "",
+   "loai": "giọng",
+   "chu": "catvader",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "chidorii": {
+   "file": "assets/audio/chidorii.mp3",
+   "dai": 1.82,
+   "moTa": "",
+   "loai": "?",
+   "chu": null,
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "commander_solider_1": {
+   "file": "assets/audio/commander_solider_1.mp3",
+   "dai": 1.54,
+   "moTa": "",
+   "loai": "?",
+   "chu": "commander",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "commander_solider_2": {
+   "file": "assets/audio/commander_solider_2.mp3",
+   "dai": 4.36,
+   "moTa": "",
+   "loai": "?",
+   "chu": "commander",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "commander_solider_3": {
+   "file": "assets/audio/commander_solider_3.mp3",
+   "dai": 2.61,
+   "moTa": "",
+   "loai": "?",
+   "chu": "commander",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "bibilabu_sound": {
+   "file": "assets/audio/bibilabu_sound.mp3",
+   "dai": 1.06,
+   "moTa": "",
+   "loai": "?",
+   "chu": "bibilabu",
+   "nhac": false,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "countdown_321": {
+   "file": "assets/audio/countdown_321.wav",
+   "dai": 0.31,
+   "moTa": "",
+   "loai": "?",
+   "chu": "countdown",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "rt_podium_win": {
+   "file": "assets/audio/rt_podium_win.mp3",
+   "dai": 2.64,
+   "moTa": "",
+   "loai": "?",
+   "chu": "rt",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "choose_your_champion": {
+   "file": "assets/audio/choose_your_champion.wav",
+   "dai": 0.8,
+   "moTa": "",
+   "loai": "?",
+   "chu": "choose",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "are_you_ready": {
+   "file": "assets/audio/are_you_ready.wav",
+   "dai": 0.41,
+   "moTa": "",
+   "loai": "?",
+   "chu": "are",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "apple_bop": {
+   "file": "assets/audio/apple_bop.mp3",
+   "dai": 0.79,
+   "moTa": "",
+   "loai": "?",
+   "chu": "apple",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "cheems_bongo": {
+   "file": "assets/audio/cheems_bongo.mp3",
+   "dai": 0.5,
+   "moTa": "",
+   "loai": "?",
+   "chu": "cheems",
+   "nhac": false,
+   "dung": [
+    "cine-endgame"
+   ],
+   "tai": null
+  },
+  "eating_minecraft": {
+   "file": "assets/audio/eating_minecraft.mp3",
+   "dai": 1.73,
+   "moTa": "",
+   "loai": "?",
+   "chu": "eating",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "creeper_explosion": {
+   "file": "assets/audio/creeper_explosion.mp3",
+   "dai": 3.11,
+   "moTa": "",
+   "loai": "nổ",
+   "chu": "creeper",
+   "nhac": false,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "pakistan_disappointed": {
+   "file": "assets/audio/pakistan_disappointed.mp3",
+   "dai": 1.67,
+   "moTa": "",
+   "loai": "?",
+   "chu": "pakistan",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "bow_shoot": {
+   "file": "assets/audio/bow_shoot.mp3",
+   "dai": 0.55,
+   "moTa": "",
+   "loai": "?",
+   "chu": "bow",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "mc_sfx_railgun": {
+   "file": "assets/audio/mc_sfx_railgun.mp3",
+   "dai": 0.73,
+   "moTa": "",
+   "loai": "?",
+   "chu": "mc",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "mc_sfx_machinegun": {
+   "file": "assets/audio/mc_sfx_machinegun.mp3",
+   "dai": 1.54,
+   "moTa": "",
+   "loai": "?",
+   "chu": "mc",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "mc_sfx_missile": {
+   "file": "assets/audio/mc_sfx_missile.mp3",
+   "dai": 1.85,
+   "moTa": "",
+   "loai": "?",
+   "chu": "mc",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "mc_sfx_laser": {
+   "file": "assets/audio/mc_sfx_laser.mp3",
+   "dai": 0.6,
+   "moTa": "",
+   "loai": "năng lượng",
+   "chu": "mc",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "mc_sfx_craft": {
+   "file": "assets/audio/mc_sfx_craft.mp3",
+   "dai": 6.43,
+   "moTa": "",
+   "loai": "?",
+   "chu": "mc",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "ac_ufo_illuminati": {
+   "file": "assets/audio/ac_ufo_illuminati.mp3",
+   "dai": 4.41,
+   "moTa": "",
+   "loai": "?",
+   "chu": "ac",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "gary_titan_roar": {
+   "file": "assets/audio/gary_titan_roar.mp3",
+   "dai": 6.16,
+   "moTa": "",
+   "loai": "giọng",
+   "chu": "gary",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "guitar_s1": {
+   "file": "assets/audio/guitar_s1.mp3",
+   "dai": 70.48,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "guitar",
+   "nhac": true,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "guitar_unravel": {
+   "file": "assets/audio/guitar_unravel.mp3",
+   "dai": 40.07,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "guitar",
+   "nhac": true,
+   "dung": [],
+   "tai": null
+  },
+  "guitar_aot": {
+   "file": "assets/audio/guitar_aot.mp3",
+   "dai": 93.41,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "guitar",
+   "nhac": true,
+   "dung": [],
+   "tai": null
+  },
+  "guitar_jojo": {
+   "file": "assets/audio/guitar_jojo.mp3",
+   "dai": 34.87,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "guitar",
+   "nhac": true,
+   "dung": [
+    "cine-endgame",
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "damdamdidi": {
+   "file": "assets/audio/damdamdidi.mp3",
+   "dai": 17.42,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": null,
+   "nhac": true,
+   "dung": [],
+   "tai": null
+  },
+  "dawae_voice": {
+   "file": "assets/audio/dawae_voice.mp3",
+   "dai": 1.23,
+   "moTa": "",
+   "loai": "giọng",
+   "chu": "dawae",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "dawae_run": {
+   "file": "assets/audio/dawae_run.mp3",
+   "dai": 2.74,
+   "moTa": "",
+   "loai": "?",
+   "chu": "dawae",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "mlem_lick": {
+   "file": "assets/audio/mlem_lick.mp3",
+   "dai": 0.26,
+   "moTa": "",
+   "loai": "?",
+   "chu": "mlem",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "sc_terror": {
+   "file": "assets/audio/sc_terror.mp3",
+   "dai": 30.25,
+   "moTa": "",
+   "loai": "?",
+   "chu": "sc",
+   "nhac": false,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "sc_laugh": {
+   "file": "assets/audio/sc_laugh.mp3",
+   "dai": 2.56,
+   "moTa": "",
+   "loai": "giọng",
+   "chu": "sc",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "sc_wing": {
+   "file": "assets/audio/sc_wing.mp3",
+   "dai": 0.76,
+   "moTa": "",
+   "loai": "?",
+   "chu": "sc",
+   "nhac": false,
+   "dung": [
+    "cine-endgame",
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "dc_bell": {
+   "file": "assets/audio/dc_bell.mp3",
+   "dai": 0.94,
+   "moTa": "",
+   "loai": "?",
+   "chu": "dc",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "sm_fin": {
+   "file": "assets/audio/sm_fin.mp3",
+   "dai": 0.89,
+   "moTa": "",
+   "loai": "?",
+   "chu": "sm",
+   "nhac": false,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "sm_nani": {
+   "file": "assets/audio/sm_nani.mp3",
+   "dai": 0.89,
+   "moTa": "",
+   "loai": "?",
+   "chu": "sm",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "sm_drip": {
+   "file": "assets/audio/sm_drip.mp3",
+   "dai": 4.02,
+   "moTa": "",
+   "loai": "?",
+   "chu": "sm",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "sm_slash": {
+   "file": "assets/audio/sm_slash.mp3",
+   "dai": 0.97,
+   "moTa": "",
+   "loai": "vút",
+   "chu": "sm",
+   "nhac": false,
+   "dung": [
+    "film-dvc"
+   ],
+   "tai": null
+  },
+  "eg_bgm": {
+   "file": "assets/audio/eg_bgm.mp3",
+   "dai": 10.61,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "eg",
+   "nhac": true,
+   "dung": [],
+   "tai": null
+  },
+  "sa_phase1": {
+   "file": "assets/audio/sa_phase1.mp3",
+   "dai": 8.41,
+   "moTa": "",
+   "loai": "?",
+   "chu": "sa",
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep3"
+   ],
+   "tai": null
+  },
+  "dp_rain": {
+   "file": "assets/audio/dp_rain.mp3",
+   "dai": 15.91,
+   "moTa": "",
+   "loai": "nền",
+   "chu": "dp",
+   "nhac": false,
+   "dung": [
+    "cine-dpwindow",
+    "film-mvd"
+   ],
+   "tai": null
+  },
+  "ps_shinra": {
+   "file": "assets/audio/ps_shinra.mp3",
+   "dai": 4.99,
+   "moTa": "",
+   "loai": "giọng",
+   "chu": "ps",
+   "nhac": false,
+   "dung": [
+    "film-fin1c4",
+    "film-mvd"
+   ],
+   "tai": null
+  },
+  "dp_happy": {
+   "file": "assets/audio/dp_happy.mp3",
+   "dai": 2.56,
+   "moTa": "",
+   "loai": "?",
+   "chu": "dp",
+   "nhac": false,
+   "dung": [
+    "cine-dpwindow"
+   ],
+   "tai": null
+  },
+  "hm_stalker": {
+   "file": "assets/audio/hm_stalker.mp3",
+   "dai": 3.47,
+   "moTa": "",
+   "loai": "giọng",
+   "chu": "hm",
+   "nhac": false,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "hm_crawl": {
+   "file": "assets/audio/hm_crawl.mp3",
+   "dai": 6.19,
+   "moTa": "",
+   "loai": "?",
+   "chu": "hm",
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep0",
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "hm_scared": {
+   "file": "assets/audio/hm_scared.mp3",
+   "dai": 0.5,
+   "moTa": "",
+   "loai": "?",
+   "chu": "hm",
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep0"
+   ],
+   "tai": null
+  },
+  "hm_claw1": {
+   "file": "assets/audio/hm_claw1.mp3",
+   "dai": 1.54,
+   "moTa": "",
+   "loai": "?",
+   "chu": "hm",
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep0"
+   ],
+   "tai": null
+  },
+  "hm_claw2": {
+   "file": "assets/audio/hm_claw2.mp3",
+   "dai": 1.46,
+   "moTa": "",
+   "loai": "?",
+   "chu": "hm",
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep0",
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "hm_musicbox": {
+   "file": "assets/audio/hm_musicbox.mp3",
+   "dai": 9.9,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "hm",
+   "nhac": true,
+   "dung": [
+    "cine-lore2ep0"
+   ],
+   "tai": null
+  },
+  "eg_necro": {
+   "file": "assets/audio/eg_necro.mp3",
+   "dai": 1.92,
+   "moTa": "",
+   "loai": "?",
+   "chu": "eg",
+   "nhac": false,
+   "dung": [
+    "cine-endgame",
+    "cine-lore2ep3",
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "br_tick": {
+   "file": "assets/audio/br_tick.mp3",
+   "dai": 3.06,
+   "moTa": "",
+   "loai": "?",
+   "chu": "br",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "br_boom": {
+   "file": "assets/audio/br_boom.mp3",
+   "dai": 1.67,
+   "moTa": "",
+   "loai": "nổ",
+   "chu": "br",
+   "nhac": false,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "hl_choir": {
+   "file": "assets/audio/hl_choir.mp3",
+   "dai": 11.62,
+   "moTa": "",
+   "loai": "?",
+   "chu": "hl",
+   "nhac": false,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "hl_laser": {
+   "file": "assets/audio/hl_laser.mp3",
+   "dai": 1.44,
+   "moTa": "",
+   "loai": "năng lượng",
+   "chu": "hl",
+   "nhac": false,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "drv_train": {
+   "file": "assets/audio/drv_train.mp3",
+   "dai": 6.71,
+   "moTa": "",
+   "loai": "nền",
+   "chu": "drv",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "drv_bus": {
+   "file": "assets/audio/drv_bus.mp3",
+   "dai": 1.52,
+   "moTa": "",
+   "loai": "?",
+   "chu": "drv",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "ld_shout": {
+   "file": "assets/audio/ld_shout.mp3",
+   "dai": 1.75,
+   "moTa": "",
+   "loai": "giọng",
+   "chu": "ld",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "ar_music": {
+   "file": "assets/audio/ar_music.mp3",
+   "dai": 9.82,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "ar",
+   "nhac": true,
+   "dung": [],
+   "tai": null
+  },
+  "ld_spray": {
+   "file": "assets/audio/ld_spray.mp3",
+   "dai": 0.86,
+   "moTa": "",
+   "loai": "?",
+   "chu": "ld",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "ld_heal1": {
+   "file": "assets/audio/ld_heal1.mp3",
+   "dai": 2.22,
+   "moTa": "",
+   "loai": "?",
+   "chu": "ld",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "ld_heal2": {
+   "file": "assets/audio/ld_heal2.mp3",
+   "dai": 1.75,
+   "moTa": "",
+   "loai": "?",
+   "chu": "ld",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "ld_stab": {
+   "file": "assets/audio/ld_stab.mp3",
+   "dai": 0.5,
+   "moTa": "",
+   "loai": "?",
+   "chu": "ld",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "ld_start": {
+   "file": "assets/audio/ld_start.mp3",
+   "dai": 1.72,
+   "moTa": "",
+   "loai": "?",
+   "chu": "ld",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "ld_saw": {
+   "file": "assets/audio/ld_saw.mp3",
+   "dai": 3.96,
+   "moTa": "",
+   "loai": "?",
+   "chu": "ld",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "sm_schwing": {
+   "file": "assets/audio/sm_schwing.mp3",
+   "dai": 1.52,
+   "moTa": "",
+   "loai": "vút",
+   "chu": "sm",
+   "nhac": false,
+   "dung": [
+    "cine-war",
+    "film-dvc",
+    "film-mvd"
+   ],
+   "tai": null
+  },
+  "sm_parry": {
+   "file": "assets/audio/sm_parry.mp3",
+   "dai": 0.65,
+   "moTa": "",
+   "loai": "?",
+   "chu": "sm",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "sm_form": {
+   "file": "assets/audio/sm_form.mp3",
+   "dai": 1.8,
+   "moTa": "",
+   "loai": "?",
+   "chu": "sm",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "sm_omae": {
+   "file": "assets/audio/sm_omae.mp3",
+   "dai": 2.93,
+   "moTa": "",
+   "loai": "?",
+   "chu": "sm",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "sc_motor": {
+   "file": "assets/audio/sc_motor.mp3",
+   "dai": 10.34,
+   "moTa": "",
+   "loai": "?",
+   "chu": "sc",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "sc_gas": {
+   "file": "assets/audio/sc_gas.mp3",
+   "dai": 25.26,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "sc",
+   "nhac": true,
+   "dung": [],
+   "tai": null
+  },
+  "sc_drift": {
+   "file": "assets/audio/sc_drift.mp3",
+   "dai": 1.31,
+   "moTa": "",
+   "loai": "?",
+   "chu": "sc",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "dc_chain": {
+   "file": "assets/audio/dc_chain.mp3",
+   "dai": 0.52,
+   "moTa": "",
+   "loai": "máy móc",
+   "chu": "dc",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "dc_rock": {
+   "file": "assets/audio/dc_rock.mp3",
+   "dai": 1.7,
+   "moTa": "",
+   "loai": "vỡ",
+   "chu": "dc",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "dc_rage": {
+   "file": "assets/audio/dc_rage.mp3",
+   "dai": 2.66,
+   "moTa": "",
+   "loai": "?",
+   "chu": "dc",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "clap_tele": {
+   "file": "assets/audio/clap_tele.mp3",
+   "dai": 0.97,
+   "moTa": "",
+   "loai": "?",
+   "chu": "clap",
+   "nhac": false,
+   "dung": [
+    "cine-dpwindow",
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "cine_drop": {
+   "file": "assets/audio/cine_drop.mp3",
+   "dai": 2.01,
+   "moTa": "",
+   "loai": "rơi",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep3",
+    "cine-war",
+    "film-fin1c4",
+    "film-mvd"
+   ],
+   "tai": null
+  },
+  "demon_roar1": {
+   "file": "assets/audio/demon_roar1.mp3",
+   "dai": 4.88,
+   "moTa": "",
+   "loai": "giọng",
+   "chu": "demon",
+   "nhac": false,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "demon_roar2": {
+   "file": "assets/audio/demon_roar2.mp3",
+   "dai": 4.94,
+   "moTa": "",
+   "loai": "giọng",
+   "chu": "demon",
+   "nhac": false,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "demon_roar3": {
+   "file": "assets/audio/demon_roar3.mp3",
+   "dai": 4.73,
+   "moTa": "",
+   "loai": "giọng",
+   "chu": "demon",
+   "nhac": false,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "cine_impact": {
+   "file": "assets/audio/cine_impact.mp3",
+   "dai": 2.98,
+   "moTa": "",
+   "loai": "va chạm",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "cine-war",
+    "film-fin1",
+    "film-fin1c4",
+    "film-mvd"
+   ],
+   "tai": null
+  },
+  "zoro_blade": {
+   "file": "assets/audio/zoro_blade.mp3",
+   "dai": 1.91,
+   "moTa": "",
+   "loai": "?",
+   "chu": "zoro",
+   "nhac": false,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "cine_impact_jr1": {
+   "file": "assets/audio/cine_impact_jr1.mp3",
+   "dai": 4.51,
+   "moTa": "",
+   "loai": "va chạm",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "cine-war",
+    "film-dvc"
+   ],
+   "tai": null
+  },
+  "cine_flesh": {
+   "file": "assets/audio/cine_flesh.mp3",
+   "dai": 0.55,
+   "moTa": "",
+   "loai": "?",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "cine_deep_impact": {
+   "file": "assets/audio/cine_deep_impact.mp3",
+   "dai": 6.95,
+   "moTa": "",
+   "loai": "va chạm",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "cine-war",
+    "film-fin1",
+    "film-fin1c4",
+    "film-mvd",
+    "raid-friend"
+   ],
+   "tai": null
+  },
+  "cine_strongpunch": {
+   "file": "assets/audio/cine_strongpunch.mp3",
+   "dai": 1.49,
+   "moTa": "",
+   "loai": "va chạm",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "cine-war",
+    "film-dvc",
+    "film-fin1c4",
+    "film-mvd"
+   ],
+   "tai": null
+  },
+  "cine_haki": {
+   "file": "assets/audio/cine_haki.mp3",
+   "dai": 3.94,
+   "moTa": "",
+   "loai": "năng lượng",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "cine-war",
+    "film-dvc"
+   ],
+   "tai": null
+  },
+  "cine_conq_haki": {
+   "file": "assets/audio/cine_conq_haki.mp3",
+   "dai": 3.32,
+   "moTa": "",
+   "loai": "năng lượng",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "cv_win": {
+   "file": "assets/audio/cv_win.mp3",
+   "dai": 4.05,
+   "moTa": "",
+   "loai": "?",
+   "chu": "cv",
+   "nhac": false,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "cine_heavy_slow": {
+   "file": "assets/audio/cine_heavy_slow.mp3",
+   "dai": 1.87,
+   "moTa": "",
+   "loai": "?",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep3",
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "cine_haki_hit": {
+   "file": "assets/audio/cine_haki_hit.mp3",
+   "dai": 2.43,
+   "moTa": "",
+   "loai": "va chạm",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep3",
+    "cine-war",
+    "film-dvc",
+    "film-fin1c4",
+    "film-mvd"
+   ],
+   "tai": null
+  },
+  "clap_cat": {
+   "file": "assets/audio/clap_cat.mp3",
+   "dai": 0.55,
+   "moTa": "",
+   "loai": "?",
+   "chu": "clap",
+   "nhac": false,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "pd_piano": {
+   "file": "assets/audio/pd_piano.mp3",
+   "dai": 1.54,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "pd",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "pd_truck_crash": {
+   "file": "assets/audio/pd_truck_crash.mp3",
+   "dai": 1.78,
+   "moTa": "",
+   "loai": "?",
+   "chu": "pd",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "pd_slip": {
+   "file": "assets/audio/pd_slip.mp3",
+   "dai": 0.37,
+   "moTa": "",
+   "loai": "?",
+   "chu": "pd",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "pd_fall": {
+   "file": "assets/audio/pd_fall.mp3",
+   "dai": 0.99,
+   "moTa": "",
+   "loai": "rơi",
+   "chu": "pd",
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep2"
+   ],
+   "tai": null
+  },
+  "pd_pot": {
+   "file": "assets/audio/pd_pot.mp3",
+   "dai": 1.67,
+   "moTa": "",
+   "loai": "?",
+   "chu": "pd",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "duo_correct": {
+   "file": "assets/audio/duo_correct.mp3",
+   "dai": 0.81,
+   "moTa": "",
+   "loai": "?",
+   "chu": null,
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "azel_beat": {
+   "file": "assets/audio/azel_beat.mp3",
+   "dai": 33.36,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "azel",
+   "nhac": true,
+   "dung": [],
+   "tai": null
+  },
+  "ep3_blip": {
+   "file": "assets/audio/ep3_blip.mp3",
+   "dai": 0.18,
+   "moTa": "",
+   "loai": "máy móc",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep3",
+    "raid-friend"
+   ],
+   "tai": null
+  },
+  "ep3_shine": {
+   "file": "assets/audio/ep3_shine.mp3",
+   "dai": 1.96,
+   "moTa": "",
+   "loai": "năng lượng",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep3",
+    "film-fin1c4"
+   ],
+   "tai": null
+  },
+  "ep3_glass": {
+   "file": "assets/audio/ep3_glass.mp3",
+   "dai": 1.96,
+   "moTa": "",
+   "loai": "vỡ",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep3",
+    "film-fin1"
+   ],
+   "tai": null
+  },
+  "ep3_charge": {
+   "file": "assets/audio/ep3_charge.mp3",
+   "dai": 3.06,
+   "moTa": "",
+   "loai": "năng lượng",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep3",
+    "film-fin1c4",
+    "film-mvd"
+   ],
+   "tai": null
+  },
+  "ep3_quake": {
+   "file": "assets/audio/ep3_quake.mp3",
+   "dai": 2.38,
+   "moTa": "",
+   "loai": "rung",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep3",
+    "film-fin1c4",
+    "film-mvd"
+   ],
+   "tai": null
+  },
+  "ep3_titan": {
+   "file": "assets/audio/ep3_titan.mp3",
+   "dai": 3.87,
+   "moTa": "",
+   "loai": "?",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep3"
+   ],
+   "tai": null
+  },
+  "ep3_explode": {
+   "file": "assets/audio/ep3_explode.mp3",
+   "dai": 3.66,
+   "moTa": "",
+   "loai": "nổ",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep3",
+    "film-fin1c4",
+    "film-mvd"
+   ],
+   "tai": null
+  },
+  "ep3_chain": {
+   "file": "assets/audio/ep3_chain.mp3",
+   "dai": 1.46,
+   "moTa": "",
+   "loai": "máy móc",
+   "chu": null,
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "ep3_pain4": {
+   "file": "assets/audio/ep3_pain4.mp3",
+   "dai": 4.08,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": null,
+   "nhac": true,
+   "dung": [
+    "cine-lore2ep3"
+   ],
+   "tai": null
+  },
+  "ep3_kamui": {
+   "file": "assets/audio/ep3_kamui.mp3",
+   "dai": 2.32,
+   "moTa": "",
+   "loai": "năng lượng",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep3",
+    "film-fin1c4"
+   ],
+   "tai": null
+  },
+  "ep3_end_boom": {
+   "file": "assets/audio/ep3_end_boom.mp3",
+   "dai": 2.56,
+   "moTa": "",
+   "loai": "nổ",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep3",
+    "film-fin1c4"
+   ],
+   "tai": null
+  },
+  "fr_titan_roar": {
+   "file": "assets/audio/fr_titan_roar.mp3",
+   "dai": 3.55,
+   "moTa": "",
+   "loai": "giọng",
+   "chu": "fr",
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep3",
+    "film-fin1",
+    "film-l2pro",
+    "raid-friend"
+   ],
+   "tai": null
+  },
+  "bc_spin": {
+   "file": "assets/audio/bc_spin.mp3",
+   "dai": 17.58,
+   "moTa": "",
+   "loai": "?",
+   "chu": "bc",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "bc_zap": {
+   "file": "assets/audio/bc_zap.mp3",
+   "dai": 1.15,
+   "moTa": "",
+   "loai": "năng lượng",
+   "chu": "bc",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "vb_warmup": {
+   "file": "assets/audio/vb_warmup6.mp3",
+   "dai": null,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "vb",
+   "nhac": true,
+   "dung": [],
+   "tai": null
+  },
+  "vb_bumblebee": {
+   "file": "assets/audio/vb_bumblebee.mp3",
+   "dai": 55.04,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "vb",
+   "nhac": true,
+   "dung": [],
+   "tai": null
+  },
+  "vb_buzz": {
+   "file": "assets/audio/vb_buzz.wav",
+   "dai": 0.28,
+   "moTa": "",
+   "loai": "?",
+   "chu": "vb",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "vb_swarm": {
+   "file": "assets/audio/vb_swarm.wav",
+   "dai": 0.6,
+   "moTa": "",
+   "loai": "?",
+   "chu": "vb",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "vb_rush": {
+   "file": "assets/audio/vb_rush.wav",
+   "dai": 0.9,
+   "moTa": "",
+   "loai": "?",
+   "chu": "vb",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "vb_sting": {
+   "file": "assets/audio/vb_sting.wav",
+   "dai": 0.03,
+   "moTa": "",
+   "loai": "?",
+   "chu": "vb",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "rf_world_revolving": {
+   "file": "assets/audio/rf_world_revolving.mp3",
+   "dai": 101.2,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "rf",
+   "nhac": true,
+   "dung": [
+    "raid-friend"
+   ],
+   "tai": null
+  },
+  "ep3_lava": {
+   "file": "assets/audio/ep3_lava.mp3",
+   "dai": 2.46,
+   "moTa": "",
+   "loai": "nền",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep3"
+   ],
+   "tai": null
+  },
+  "ep3_rock": {
+   "file": "assets/audio/ep3_rock.mp3",
+   "dai": 3.55,
+   "moTa": "",
+   "loai": "vỡ",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep3",
+    "film-fin1c4"
+   ],
+   "tai": null
+  },
+  "ep3_whoosh": {
+   "file": "assets/audio/ep3_whoosh.mp3",
+   "dai": 0.65,
+   "moTa": "",
+   "loai": "vút",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep3",
+    "film-fin1",
+    "film-fin1c4"
+   ],
+   "tai": null
+  },
+  "ep3_dark": {
+   "file": "assets/audio/ep3_dark.mp3",
+   "dai": 4.26,
+   "moTa": "",
+   "loai": "?",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep0",
+    "cine-lore2ep3"
+   ],
+   "tai": null
+  },
+  "ep3_ratchet": {
+   "file": "assets/audio/ep3_ratchet.mp3",
+   "dai": 0.76,
+   "moTa": "",
+   "loai": "máy móc",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep3"
+   ],
+   "tai": null
+  },
+  "ep3_klunk": {
+   "file": "assets/audio/ep3_klunk.mp3",
+   "dai": 0.71,
+   "moTa": "",
+   "loai": "va chạm",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep3"
+   ],
+   "tai": null
+  },
+  "ep4_step1": {
+   "file": "assets/audio/ep4_step1.mp3",
+   "dai": 0.42,
+   "moTa": "",
+   "loai": "?",
+   "chu": "ep4",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "ep4_step2": {
+   "file": "assets/audio/ep4_step2.mp3",
+   "dai": 0.42,
+   "moTa": "",
+   "loai": "?",
+   "chu": "ep4",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "ep4_step3": {
+   "file": "assets/audio/ep4_step3.mp3",
+   "dai": 0.42,
+   "moTa": "",
+   "loai": "?",
+   "chu": "ep4",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "ep4_creak": {
+   "file": "assets/audio/ep4_creak.mp3",
+   "dai": 1.25,
+   "moTa": "",
+   "loai": "?",
+   "chu": "ep4",
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep3"
+   ],
+   "tai": null
+  },
+  "l2p_whoosh": {
+   "file": "assets/audio/l2p_whoosh.mp3",
+   "dai": 2.27,
+   "moTa": "",
+   "loai": "vút",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "film-fin1",
+    "film-fin1c4",
+    "film-mvd"
+   ],
+   "tai": null
+  },
+  "l2p_sub": {
+   "file": "assets/audio/l2p_sub.mp3",
+   "dai": 3.47,
+   "moTa": "",
+   "loai": "rung",
+   "chu": null,
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "l2p_shimmer": {
+   "file": "assets/audio/l2p_shimmer.mp3",
+   "dai": 2.66,
+   "moTa": "",
+   "loai": "năng lượng",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "film-fin1c4",
+    "film-l2pro"
+   ],
+   "tai": null
+  },
+  "l2p_riser": {
+   "file": "assets/audio/l2p_riser.mp3",
+   "dai": 3.06,
+   "moTa": "",
+   "loai": "năng lượng",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "film-fin1c4",
+    "film-mvd",
+    "raid-friend"
+   ],
+   "tai": null
+  },
+  "l2p_rumble": {
+   "file": "assets/audio/l2p_rumble.mp3",
+   "dai": 3.55,
+   "moTa": "",
+   "loai": "rung",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "film-fin1c4",
+    "film-mvd",
+    "raid-friend"
+   ],
+   "tai": null
+  },
+  "l2p_crack": {
+   "file": "assets/audio/l2p_crack.mp3",
+   "dai": 1.67,
+   "moTa": "",
+   "loai": "vỡ",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "film-fin1",
+    "film-l2pro",
+    "raid-friend"
+   ],
+   "tai": null
+  },
+  "l2p_shatter": {
+   "file": "assets/audio/l2p_shatter.mp3",
+   "dai": 2.46,
+   "moTa": "",
+   "loai": "vỡ",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "film-l2pro"
+   ],
+   "tai": null
+  },
+  "l2p_explode": {
+   "file": "assets/audio/l2p_explode.mp3",
+   "dai": 4.08,
+   "moTa": "",
+   "loai": "nổ",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "film-fin1",
+    "film-fin1c4",
+    "film-l2pro",
+    "film-mvd"
+   ],
+   "tai": null
+  },
+  "l2p_tentacle": {
+   "file": "assets/audio/l2p_tentacle.mp3",
+   "dai": 3.16,
+   "moTa": "",
+   "loai": "?",
+   "chu": null,
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "l2p_chains": {
+   "file": "assets/audio/l2p_chains.mp3",
+   "dai": 3.06,
+   "moTa": "",
+   "loai": "máy móc",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "film-l2pro"
+   ],
+   "tai": null
+  },
+  "l2p_chime": {
+   "file": "assets/audio/l2p_chime.mp3",
+   "dai": 4.08,
+   "moTa": "",
+   "loai": "năng lượng",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "film-fin1c4",
+    "film-l2pro"
+   ],
+   "tai": null
+  },
+  "ep3_arm": {
+   "file": "assets/audio/ep3_arm.mp3",
+   "dai": 2.06,
+   "moTa": "",
+   "loai": "?",
+   "chu": null,
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "ep3_hydraulic": {
+   "file": "assets/audio/ep3_hydraulic.mp3",
+   "dai": 2.66,
+   "moTa": "",
+   "loai": "máy móc",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep3"
+   ],
+   "tai": null
+  },
+  "ep3_breath": {
+   "file": "assets/audio/ep3_breath.mp3",
+   "dai": 4.36,
+   "moTa": "",
+   "loai": "giọng",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep3"
+   ],
+   "tai": null
+  },
+  "ep3_force": {
+   "file": "assets/audio/ep3_force.mp3",
+   "dai": 0.97,
+   "moTa": "",
+   "loai": "năng lượng",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep3",
+    "film-fin1c4"
+   ],
+   "tai": null
+  },
+  "ep3_choke": {
+   "file": "assets/audio/ep3_choke.mp3",
+   "dai": 3.97,
+   "moTa": "",
+   "loai": "giọng",
+   "chu": null,
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep3"
+   ],
+   "tai": null
+  },
+  "ep3_boom": {
+   "file": "assets/audio/ep3_boom.mp3",
+   "dai": 2.87,
+   "moTa": "",
+   "loai": "nổ",
+   "chu": null,
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "id_split": {
+   "file": "assets/audio/id_split.mp3",
+   "dai": 0.55,
+   "moTa": "",
+   "loai": "?",
+   "chu": "id",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "sa_spot_on": {
+   "file": "assets/audio/sa_spot_on.mp3",
+   "dai": 2.27,
+   "moTa": "",
+   "loai": "?",
+   "chu": "sa",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "sa_menacing": {
+   "file": "assets/audio/sa_menacing.mp3",
+   "dai": 2.06,
+   "moTa": "",
+   "loai": "?",
+   "chu": "sa",
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep3"
+   ],
+   "tai": null
+  },
+  "sa_pathetic": {
+   "file": "assets/audio/sa_pathetic.mp3",
+   "dai": 2.64,
+   "moTa": "",
+   "loai": "?",
+   "chu": "sa",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "duo_win": {
+   "file": "assets/audio/duo_win.mp3",
+   "dai": 2.4,
+   "moTa": "",
+   "loai": "?",
+   "chu": null,
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "nj_sharingan": {
+   "file": "assets/audio/nj_sharingan.mp3",
+   "dai": 1.72,
+   "moTa": "",
+   "loai": "?",
+   "chu": "nj",
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep3"
+   ],
+   "tai": null
+  },
+  "pd_whimper": {
+   "file": "assets/audio/pd_whimper.mp3",
+   "dai": 1.67,
+   "moTa": "",
+   "loai": "?",
+   "chu": "pd",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "pd_th_pan": {
+   "file": "assets/audio/pd_th_pan.mp3",
+   "dai": 1.07,
+   "moTa": "",
+   "loai": "?",
+   "chu": "pd",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "pd_th_slap": {
+   "file": "assets/audio/pd_th_slap.mp3",
+   "dai": 0.76,
+   "moTa": "",
+   "loai": "?",
+   "chu": "pd",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "az_salt": {
+   "file": "assets/audio/az_salt.mp3",
+   "dai": 1.07,
+   "moTa": "",
+   "loai": "?",
+   "chu": "az",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "duo_wrong": {
+   "file": "assets/audio/duo_wrong.mp3",
+   "dai": 0.94,
+   "moTa": "",
+   "loai": "?",
+   "chu": null,
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "duo_mibombo": {
+   "file": "assets/audio/duo_mibombo.mp3",
+   "dai": 2.4,
+   "moTa": "",
+   "loai": "nổ",
+   "chu": null,
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "duo_eye_laser": {
+   "file": "assets/audio/duo_eye_laser.mp3",
+   "dai": 3.66,
+   "moTa": "",
+   "loai": "năng lượng",
+   "chu": null,
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "duo_big_laser": {
+   "file": "assets/audio/duo_big_laser.mp3",
+   "dai": 1.91,
+   "moTa": "",
+   "loai": "năng lượng",
+   "chu": null,
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "duo_ice_break": {
+   "file": "assets/audio/duo_ice_break.mp3",
+   "dai": 1.96,
+   "moTa": "",
+   "loai": "vỡ",
+   "chu": null,
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "dl_shark_bite": {
+   "file": "assets/audio/dl_shark_bite.mp3",
+   "dai": 0.73,
+   "moTa": "",
+   "loai": "?",
+   "chu": "dl",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "dl_drip": {
+   "file": "assets/audio/dl_drip.mp3",
+   "dai": 0.5,
+   "moTa": "",
+   "loai": "?",
+   "chu": "dl",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "dl_pour": {
+   "file": "assets/audio/dl_pour.mp3",
+   "dai": 6.45,
+   "moTa": "",
+   "loai": "?",
+   "chu": "dl",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "ninja_kunai": {
+   "file": "assets/audio/ninja_kunai.mp3",
+   "dai": 0.57,
+   "moTa": "",
+   "loai": "?",
+   "chu": "ninja",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "morse_dot": {
+   "file": "assets/audio/morse_dot.mp3",
+   "dai": 0.13,
+   "moTa": "",
+   "loai": "?",
+   "chu": "morse",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "morse_dash": {
+   "file": "assets/audio/morse_dash.mp3",
+   "dai": 0.26,
+   "moTa": "",
+   "loai": "vút",
+   "chu": "morse",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "bx_whitebeard": {
+   "file": "assets/audio/bx_whitebeard.mp3",
+   "dai": 0.89,
+   "moTa": "",
+   "loai": "va chạm",
+   "chu": "bx",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "flower_jarona": {
+   "file": "assets/audio/flower_jarona.mp3",
+   "dai": 1.34,
+   "moTa": "",
+   "loai": "?",
+   "chu": "flower",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "morse_dot1": {
+   "file": "assets/audio/morse_dot1.mp3",
+   "dai": 0.16,
+   "moTa": "",
+   "loai": "?",
+   "chu": "morse",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "morse_dot2": {
+   "file": "assets/audio/morse_dot2.mp3",
+   "dai": 0.24,
+   "moTa": "",
+   "loai": "?",
+   "chu": "morse",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "morse_dot3": {
+   "file": "assets/audio/morse_dot3.mp3",
+   "dai": 0.24,
+   "moTa": "",
+   "loai": "?",
+   "chu": "morse",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "morse_dash1": {
+   "file": "assets/audio/morse_dash1.mp3",
+   "dai": 0.5,
+   "moTa": "",
+   "loai": "vút",
+   "chu": "morse",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "morse_dash2": {
+   "file": "assets/audio/morse_dash2.mp3",
+   "dai": 0.42,
+   "moTa": "",
+   "loai": "vút",
+   "chu": "morse",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "morse_dash3": {
+   "file": "assets/audio/morse_dash3.mp3",
+   "dai": 0.5,
+   "moTa": "",
+   "loai": "vút",
+   "chu": "morse",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "morse_dash4": {
+   "file": "assets/audio/morse_dash4.mp3",
+   "dai": 0.37,
+   "moTa": "",
+   "loai": "vút",
+   "chu": "morse",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "pain_theme": {
+   "file": "assets/audio/pain_theme.mp3",
+   "dai": 21.79,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "pain",
+   "nhac": true,
+   "dung": [
+    "cine-lore2ep2"
+   ],
+   "tai": null
+  },
+  "dp_akatsuki": {
+   "file": "assets/audio/dp_akatsuki.mp3",
+   "dai": 8.25,
+   "moTa": "",
+   "loai": "?",
+   "chu": "dp",
+   "nhac": false,
+   "dung": [
+    "cine-dpwindow",
+    "film-mvd"
+   ],
+   "tai": null
+  },
+  "dp_cloak": {
+   "file": "assets/audio/dp_cloak.mp3",
+   "dai": 1.18,
+   "moTa": "",
+   "loai": "vút",
+   "chu": "dp",
+   "nhac": false,
+   "dung": [
+    "cine-dpwindow",
+    "film-fin1c4",
+    "film-mvd"
+   ],
+   "tai": null
+  },
+  "gp_break": {
+   "file": "assets/audio/gp_break.mp3",
+   "dai": 1.2,
+   "moTa": "",
+   "loai": "vỡ",
+   "chu": "gp",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "gp_souls": {
+   "file": "assets/audio/gp_souls.mp3",
+   "dai": 5.64,
+   "moTa": "",
+   "loai": "?",
+   "chu": "gp",
+   "nhac": false,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "gp_meow": {
+   "file": "assets/audio/gp_meow.mp3",
+   "dai": 0.94,
+   "moTa": "",
+   "loai": "giọng",
+   "chu": "gp",
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep2"
+   ],
+   "tai": null
+  },
+  "gp_evil_laugh": {
+   "file": "assets/audio/gp_evil_laugh.mp3",
+   "dai": 2.14,
+   "moTa": "",
+   "loai": "giọng",
+   "chu": "gp",
+   "nhac": false,
+   "dung": [
+    "cine-endgame"
+   ],
+   "tai": null
+  },
+  "sc_tasty": {
+   "file": "assets/audio/sc_tasty.mp3",
+   "dai": 1.1,
+   "moTa": "",
+   "loai": "?",
+   "chu": "sc",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "fr_dash": {
+   "file": "assets/audio/fr_dash.mp3",
+   "dai": 0.47,
+   "moTa": "",
+   "loai": "vút",
+   "chu": "fr",
+   "nhac": false,
+   "dung": [
+    "cine-lore2ep3",
+    "film-dvc",
+    "film-mvd"
+   ],
+   "tai": null
+  },
+  "fr_song": {
+   "file": "assets/audio/fr_song.mp3",
+   "dai": 40.49,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "fr",
+   "nhac": true,
+   "dung": [
+    "cine-lore2ep0",
+    "cine-lore2ep3",
+    "raid-friend"
+   ],
+   "tai": null
+  },
+  "fr_bite": {
+   "file": "assets/audio/fr_bite.mp3",
+   "dai": 0.29,
+   "moTa": "",
+   "loai": "?",
+   "chu": "fr",
+   "nhac": false,
+   "dung": [
+    "cine-war",
+    "raid-friend"
+   ],
+   "tai": null
+  },
+  "fr_chew": {
+   "file": "assets/audio/fr_chew.mp3",
+   "dai": 1.85,
+   "moTa": "",
+   "loai": "?",
+   "chu": "fr",
+   "nhac": false,
+   "dung": [
+    "raid-friend"
+   ],
+   "tai": null
+  },
+  "thunder_big": {
+   "file": "assets/audio/thunder_big.mp3",
+   "dai": 6.61,
+   "moTa": "",
+   "loai": "năng lượng",
+   "chu": "thunder",
+   "nhac": false,
+   "dung": [
+    "cine-dpwindow",
+    "cine-lore2ep2",
+    "cine-lore2ep3",
+    "cine-war",
+    "film-mvd"
+   ],
+   "tai": null
+  },
+  "fr_thunder": {
+   "file": "assets/audio/fr_thunder.mp3",
+   "dai": 6.61,
+   "moTa": "",
+   "loai": "năng lượng",
+   "chu": "fr",
+   "nhac": false,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "bk_clang": {
+   "file": "assets/audio/bk_clang.mp3",
+   "dai": 1.25,
+   "moTa": "",
+   "loai": "?",
+   "chu": "bk",
+   "nhac": false,
+   "dung": [
+    "cine-endgame"
+   ],
+   "tai": null
+  },
+  "sd_howl": {
+   "file": "assets/audio/sd_howl.mp3",
+   "dai": 5.54,
+   "moTa": "",
+   "loai": "?",
+   "chu": "sd",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "heal_one": {
+   "file": "assets/audio/heal_one.mp3",
+   "dai": 0.5,
+   "moTa": "",
+   "loai": "?",
+   "chu": "heal",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "tf_gulp": {
+   "file": "assets/audio/tf_gulp.mp3",
+   "dai": 0.31,
+   "moTa": "",
+   "loai": "?",
+   "chu": "tf",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "tf_nightmare": {
+   "file": "assets/audio/tf_nightmare.mp3",
+   "dai": 4.56,
+   "moTa": "",
+   "loai": "?",
+   "chu": "tf",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "vamp_bite1": {
+   "file": "assets/audio/vamp_bite1.mp3",
+   "dai": 0.34,
+   "moTa": "",
+   "loai": "?",
+   "chu": "vamp",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "vamp_bite2": {
+   "file": "assets/audio/vamp_bite2.mp3",
+   "dai": 0.29,
+   "moTa": "",
+   "loai": "?",
+   "chu": "vamp",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "vamp_bat_fly": {
+   "file": "assets/audio/vamp_bat_fly.mp3",
+   "dai": 3.03,
+   "moTa": "",
+   "loai": "?",
+   "chu": "vamp",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "dawae_run2": {
+   "file": "assets/audio/dawae_run2.mp3",
+   "dai": 3.03,
+   "moTa": "",
+   "loai": "?",
+   "chu": "dawae",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "wg_think": {
+   "file": "assets/audio/wg_think.mp3",
+   "dai": 1.31,
+   "moTa": "",
+   "loai": "?",
+   "chu": "wg",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "music_hit": {
+   "file": "assets/audio/music_hit.mp3",
+   "dai": 0.21,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "music",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "bongo_prep1": {
+   "file": "assets/audio/bongo_prep1.mp3",
+   "dai": 0.65,
+   "moTa": "",
+   "loai": "?",
+   "chu": "bongo",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "bongo_prep2": {
+   "file": "assets/audio/bongo_prep2.mp3",
+   "dai": 0.86,
+   "moTa": "",
+   "loai": "?",
+   "chu": "bongo",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "bongo_prep3": {
+   "file": "assets/audio/bongo_prep3.mp3",
+   "dai": 0.99,
+   "moTa": "",
+   "loai": "?",
+   "chu": "bongo",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "bongo_prep4": {
+   "file": "assets/audio/bongo_prep4.mp3",
+   "dai": 1.15,
+   "moTa": "",
+   "loai": "?",
+   "chu": "bongo",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "tribe_1": {
+   "file": "assets/audio/tribe_1.mp3",
+   "dai": 11.08,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "tribe",
+   "nhac": true,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "tribe_2": {
+   "file": "assets/audio/tribe_2.mp3",
+   "dai": 14.39,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "tribe",
+   "nhac": true,
+   "dung": [],
+   "tai": null
+  },
+  "tribe_3": {
+   "file": "assets/audio/tribe_3.mp3",
+   "dai": 20.48,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "tribe",
+   "nhac": true,
+   "dung": [],
+   "tai": null
+  },
+  "guitar_deltarune": {
+   "file": "assets/audio/guitar_deltarune.mp3",
+   "dai": 54.26,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "guitar",
+   "nhac": true,
+   "dung": [],
+   "tai": null
+  },
+  "stalin_hammer_return": {
+   "file": "assets/audio/stalin_hammer_return.mp3",
+   "dai": 0.81,
+   "moTa": "",
+   "loai": "?",
+   "chu": "stalin",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "stalin_hammer_hit": {
+   "file": "assets/audio/stalin_hammer_hit.mp3",
+   "dai": 0.91,
+   "moTa": "",
+   "loai": "va chạm",
+   "chu": "stalin",
+   "nhac": false,
+   "dung": [
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "stalin_sickle_hit": {
+   "file": "assets/audio/stalin_sickle_hit.mp3",
+   "dai": 1.28,
+   "moTa": "",
+   "loai": "va chạm",
+   "chu": "stalin",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "stalin_domain": {
+   "file": "assets/audio/stalin_domain.mp3",
+   "dai": 42.42,
+   "moTa": "",
+   "loai": "nhạc",
+   "chu": "stalin",
+   "nhac": true,
+   "dung": [],
+   "tai": null
+  },
+  "chillguy_kick": {
+   "file": "assets/audio/chillguy_kick.mp3",
+   "dai": 0.86,
+   "moTa": "",
+   "loai": "va chạm",
+   "chu": "chillguy",
+   "nhac": false,
+   "dung": [
+    "cine-endgame",
+    "cine-lore2ep0",
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "gigachad_roar": {
+   "file": "assets/audio/gigachad_roar.mp3",
+   "dai": 6.16,
+   "moTa": "",
+   "loai": "giọng",
+   "chu": "gigachad",
+   "nhac": false,
+   "dung": [
+    "cine-endgame",
+    "cine-war"
+   ],
+   "tai": null
+  },
+  "chillguy_uppercut": {
+   "file": "assets/audio/chillguy_uppercut.mp3",
+   "dai": 0.86,
+   "moTa": "",
+   "loai": "?",
+   "chu": "chillguy",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  }
+ }
+}
