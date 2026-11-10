@@ -493,14 +493,17 @@
   //      mảnh văng theo hướng quét, lửa + khói bốc từ đống đổ (kaiju-b #8 nhìn từ trên)
   const D5_T=[{px:-140,py:-220,a0:0.1,a1:1.3,d:0.0,dur:0.5,sd:2.1},{px:1100,py:-220,a0:Math.PI-0.1,a1:Math.PI-1.3,d:0.32,dur:0.5,sd:4.4}];   // gốc sát mép trên → thấy rõ THÂN đuôi, không chỉ chóp
   const d5Ang=(s,uu)=>s.a0+(s.a1-s.a0)*E.eio(seg(uu,s.d,s.d+s.dur));
+  // 10/11: góc chim = PHÔNG VẼ thành phố cháy nhìn từ trên (FIN_BG_TOP, GPT) thay khối hộp; vẫn giữ tương tác: chỗ đuôi quét qua bung mảnh / khói / lửa đúng lúc
   function scD5(g,t){ const u=t-T.d5; cam(g,480,260,1.05,0.0); sky(g,t,0.2,0.85);
+    { const c=K.prep(IM.bgTop); if(c){ const z=1.08+0.05*seg(u,0,2), W=1040*z, Hh=W*c.sh/c.sw; g.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,480-W/2+u*6,260-Hh/2,W,Hh); } }
+    const PAINT=!!K.prep(IM.bgTop);
     for(let j=0;j<6;j++) for(let i=0;i<9;i++){ const x=-60+i*130+(j%2)*60, y=120+j*80, h0=40+70*H(i,j), w=90, cx=x+w/2, cy=y-h0*0.5;
       let hu=null, sw=null; for(const s of D5_T){ const a=Math.atan2(cy-s.py,cx-s.px), dd=Math.hypot(cx-s.px,cy-s.py); if(dd<260||dd>1000) continue;
         if(s.a1>s.a0?(a>s.a0&&a<s.a1):(a<s.a0&&a>s.a1)){ const q=passU(uu=>d5Ang(s,uu),s.d,s.d+s.dur,a); if(hu==null||q<hu){ hu=q; sw=a+(s.a1>s.a0?Math.PI/2:-Math.PI/2); } } }
       const v=hu==null?-1:u-hu, h=v>0?h0*lerp(1,0.18,E.eout(seg(v,0,0.18))):h0;   // san phẳng đúng lúc đuôi qua
-      g.fillStyle=`hsl(15,10%,${14+8*H(j,i)}%)`; g.fillRect(x,y-h,w,h); g.fillStyle=`hsl(15,10%,${24+8*H(j,i)}%)`; g.beginPath(); g.moveTo(x,y-h); g.lineTo(x+18,y-h-12); g.lineTo(x+w+18,y-h-12); g.lineTo(x+w,y-h); g.closePath(); g.fill();
+      if(!PAINT){ g.fillStyle=`hsl(15,10%,${14+8*H(j,i)}%)`; g.fillRect(x,y-h,w,h); g.fillStyle=`hsl(15,10%,${24+8*H(j,i)}%)`; g.beginPath(); g.moveTo(x,y-h); g.lineTo(x+18,y-h-12); g.lineTo(x+w+18,y-h-12); g.lineTo(x+w,y-h); g.closePath(); g.fill(); }   // ảnh chưa tải → khối hộp dự phòng
       if(v>0){ chunks(g,cx,y-h,v,10,i*7+j,260,'#5a4a46',sw,1.4,1.2); smoke(g,cx,y-h-10,30+v*80,0.55*(1-seg(v,0.6,1.4)),'50,36,36'); fire(g,cx,y-h-6,36,t,i*9+j); }
-      else if(H(i+20,j)<0.15) fire(g,cx,y-h-6,26,t,i*9+j); }
+      else if(!PAINT && H(i+20,j)<0.15) fire(g,cx,y-h-6,26,t,i*9+j); }
     for(const s of D5_T){ if(u<s.d-0.2) continue; const a=u<s.d?s.a0-(s.a1-s.a0)*0.12*E.eout(seg(u,s.d-0.2,s.d)):d5Ang(s,u), lift=u>s.d+s.dur?(u-s.d-s.dur)*400:0;   // lấy đà ngược 0.2s → quét
       shadowTail(g,t,tailPts(s.px,s.py-lift,a,1050,(s.a1>s.a0?-1:1)*0.3,t,s.sd,0.06),165,s.sd,{wf:2.6}); }
     g.save(); g.globalCompositeOperation='lighter'; blob(g,480,520,600,'255,90,30',0.3); g.restore(); }
@@ -764,7 +767,7 @@
       dogeS:'assets/img/cine/CINE_DOGE_SCARED.webp', dp:'assets/img/depressedcat/DP_PAIN_IMG.webp', chud:'assets/avatars/doorbellchud/avatarUrl.webp', ninja:'assets/avatars/ninjacat/avatarUrl.webp',
       bat:'assets/avatars/batcat/avatarUrl.webp', mlem:'assets/avatars/mlemcat/avatarUrl.webp', akaG:'assets/img/cine/FIN_AKA_GROUP.png', pose:'assets/img/cine/FIN_AKA_POSE.png', aChud:'assets/img/cine/FIN_AKA_CHUD.png', aBat:'assets/img/cine/FIN_AKA_BAT.png', aNinja:'assets/img/cine/FIN_AKA_NINJA.png', aMlem:'assets/img/cine/FIN_AKA_MLEM.png',
       ban:'assets/avatars/bananacat/avatarUrl.webp', banCry:'assets/avatars/bananacat/attackAvatarUrl.webp', corn:'assets/avatars/cornelius/avatarUrl.webp',
-      bgDay:'assets/img/cine/FIN_BG_DAY.webp', bgRed:'assets/img/cine/FIN_BG_RED.webp',   // Bước 4: phông vẽ GPT (cảnh 1 phố bình yên · cảnh 2 trăng máu)
+      bgDay:'assets/img/cine/FIN_BG_DAY.webp', bgRed:'assets/img/cine/FIN_BG_RED.webp', bgTop:'assets/img/cine/FIN_BG_TOP.webp',   // Bước 4: phông vẽ GPT (cảnh 1 phố bình yên · cảnh 2 trăng máu)
       ...Object.fromEntries(CROWD.map((k,i)=>['c'+i,'assets/avatars/'+k+'/avatarUrl.webp'])) },
     sfx, mus, shots:[{t0:0,t1:DUR,a:{}}],
     impact:t=>{ const on=(a,d)=>t>=a&&t<a+(d||0.07);
@@ -789,7 +792,7 @@
   // ── CẢNH: [id, tên, giây đầu, giây cuối (theo MAIN), ảnh dùng (dò bằng window.__ckImgLog, quét 0.1s/khung 9/11; null = tất cả)] ──
   const CUTS=[
     ['fin1c1','Final 1 · Cảnh 1 · Phố bình yên', 0, T.reveal, ['fr','ban','banCry','corn','chill','doge','cheems','capy','bgDay',...Array.from({length:14},(_,i)=>'c'+i)]],
-    ['fin1c2','Final 1 · Cảnh 2 · Friend phá thành phố', T.reveal, T.roof, ['fr','hFist','dogeS','banCry','bgRed',...Array.from({length:14},(_,i)=>'c'+i)]],
+    ['fin1c2','Final 1 · Cảnh 2 · Friend phá thành phố', T.reveal, T.roof, ['fr','hFist','dogeS','banCry','bgRed','bgTop',...Array.from({length:14},(_,i)=>'c'+i)]],
     ['fin1c3','Final 1 · Cảnh 3 · Nóc nhà Meowkatsuki', T.roof, T.DUR, ['pose','dp','aChud','aBat','aNinja','aMlem']]];
   const pick=keys=>keys?Object.fromEntries(keys.map(k=>[k,MAIN.imgs[k]])):MAIN.imgs;
   CUTS.forEach(([id,title,a,b,keys],i)=>CineKit.film({ id, title, VW, VH, cast:['cry','fr','dp'],   // tiền tố tiếng của nhân vật có mặt (Banana Cat, Friend, Depressed) — sfx-lint
