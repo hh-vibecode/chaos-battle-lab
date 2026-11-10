@@ -73,6 +73,10 @@ Mỗi dòng là 1 lần anh đã phải chê. Báo anh thì ghi rõ dòng nào c
 - [ ] Chữ trên màn hình CHỈ tiếng Anh — KHÔNG chữ Hán / Nhật (tiếng Nhật chỉ là GIỌNG đọc tên chiêu) (fin1c4 9/11: lỡ để 領域展開 / 無量空処, anh chê).
 - [ ] Chữ không tràn khung, không bị vật khác che sai chỗ; font hợp thể loại (fin1: MEOWKATSUKI tràn, anh đòi font anime).
 - [ ] Mỗi nhịp chính 1 tiếng, không chồng tiếng; nhạc nền không lấn giọng (Prologue 4/11).
+- [ ] 🔊 **`tools/x/sfx-lint.js <idTập>` ra 0 lỗi** (chạy được cả PC lẫn Mac, không cần nghe) — BẮT BUỘC trước khi báo (anh chê fin1 10/11: giọng "Shinra Tensei" dùng 3 lần
+      cho 1 chiêu, tiếng rơi gắn chỗ không có gì rơi, mượn tiếng Friend / Samurai cho Gojo–Pain, nhạc Akatsuki 8s xếp cho cảnh 32s nên tắt giữa chừng).
+      Phim mới phải khai `cast:[tiền tố tiếng của nhân vật có mặt]` và mỗi dòng sfx có NHÃN thứ 5 = việc đang xảy ra trên hình; đọc bảng tiếng, so NHÃN với
+      chú thích "tiếng này thật ra là gì". Giọng đọc tên chiêu / tiếng riêng của chiêu: chiêu ra 1 lần → kêu 1 lần. Nhạc: file ngắn hơn đoạn phát thì `loop:true` hoặc đổi bản dài.
 - [ ] Thoại: tiếng Anh chuẩn ngữ pháp; không tự lộ thông tin anh muốn giấu (tên "UNKNOWN" khi chưa ra mắt).
 **Rút từ lịch sử sửa Meme Lore 1 + 2 (git log Ver 56–521)**
 - [ ] Nhân vật HOÀ vào cảnh, không "dán lên": ánh môi trường (đỏ cháy / xanh đêm), viền sáng từ nguồn sáng, tối dần về chân (MA2 Ver 298).
