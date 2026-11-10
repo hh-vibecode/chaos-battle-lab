@@ -300,9 +300,10 @@
   function ring(g,x,y,t,R,col){ if(t<0||t>1) return; g.save(); g.globalAlpha=(1-t)*0.8; g.strokeStyle=col||'rgba(255,240,220,1)'; g.lineWidth=10*(1-t); g.beginPath(); g.ellipse(x,y,R*E.eout(t),R*E.eout(t)*0.28,0,0,TAU); g.stroke(); g.restore(); }
 
   // ───────── CẢNH ─────────
-  // nền thành phố TRỜI SÁNG (cảnh 1): tháp xa mờ sương (par 0.12, mỗi tầng 11) → cao tầng trung cảnh có chi tiết (par 0.32, mỗi tầng 22, 15–40 tầng)
-  function cityBack(g,cx,y0){ skyline(g,cx,0.12,y0-60,3,70,230,300,46,60,'#a3bcd8','rgba(255,255,255,0.55)',0.12,{far:1,fl:11,haze:0.4,hazeCol:'#d8e7f6',band:'rgba(70,95,130,0.22)',gap:30});
-    skyline(g,cx,0.32,y0-30,7,46,340,560,78,70,'#8ea7c2','#fff4c2',0.16,{fl:22,det:1,haze:0.16,hazeCol:'#d0e1f3',gap:90}); }
+  // nền thành phố TRỜI SÁNG (cảnh 1): tháp xa mờ sương (par 0.12, mỗi tầng 11, THẤP + THƯA — phông vẽ đã có thành phố xa) → cao tầng trung cảnh có chi tiết
+  //   (par 0.32, mỗi tầng 22, 15–34 tầng, THƯA: khe rộng để lộ trời + nhà xa trong phông FIN_BG_DAY — anh dặn 10/11: ~35–45% khung mở đầu là trời)
+  function cityBack(g,cx,y0){ skyline(g,cx,0.12,y0-60,3,70,160,200,46,60,'#a3bcd8','rgba(255,255,255,0.55)',0.12,{far:1,fl:11,haze:0.5,hazeCol:'#d8e7f6',band:'rgba(70,95,130,0.22)',gap:150});
+    skyline(g,cx,0.32,y0-30,7,46,340,420,78,70,'#8ea7c2','#fff4c2',0.16,{fl:22,det:1,haze:0.2,hazeCol:'#d0e1f3',gap:340}); }
   // phố bình yên: dân phố = meme NHỎ (≈ MEME_H) đi 2 chiều ở nhiều độ sâu trên vỉa hè (xa nhỏ hơn, vẽ trước) · xe + buýt chạy đúng làn
   const TL_N=22, TL_ORDER=Array.from({length:TL_N},(_,i)=>i).sort((a,b)=>H(8,a)-H(8,b));
   function townLife(g,t,y0,dark,panic){ const tw=K.twos(t);
@@ -313,14 +314,15 @@
       person(g,x,yy,96+10*H(j,74),j+3,tw*16+j,{dir:-1,run:true,scream:true}); }
     for(const lane of [1,-1]) for(let i=0;i<8;i++){ const dir=i%2?1:-1; if(dir!==lane) continue; const v=panic?0:(110+30*H(i,61)), x=((i*530+dir*tw*v)%4200+4200)%4200-800, y=y0+(dir>0?LANE_A:LANE_B);
       if(i===4) bus(g,x,y,dir); else car(g,x,y,104,CARC[i%CARC.length],dir); } }
-  function scStreet(g,t){ const k=seg(t,0,7), cx=lerp(300,980,E.eio(k)), y0=400, tw=K.twos(t);
-    cam(g,cx,lerp(232,318,E.eio(k)),lerp(0.76,1.0,E.eio(k))); sky(g,t,0,0,y0-50); cityBack(g,cx,y0);   // toàn cảnh rộng (thấy trời + cao tầng) → đẩy dần vào mặt phố
-    shops(g,y0,cx-800,cx+800); propsBack(g,y0,cx-800,cx+800); street(g,y0);
+  function scStreet(g,t){ const k=seg(t,0,7), kz=E.eio(seg(t,2.2,7)), cx=lerp(300,980,E.eio(k)), y0=400, tw=K.twos(t);
+    cam(g,cx,lerp(130,318,kz),lerp(0.52,1.0,kz)); sky(g,t,0,0,y0-385); cityBack(g,cx,y0);   // toàn cảnh rộng GIỮ ~2s, máy hơi NGƯỚC (trời ~40% khung, thấy làn xe gần, khung có viền điện ảnh) → đẩy dần vào mặt phố
+    // hy = y0-385: chân dãy tháp trong phông vẽ nằm ngay trên mái dãy cửa hàng → khe giữa các nhà lộ thành phố xa của phông
+    shops(g,y0,cx-1000,cx+1000); propsBack(g,y0,cx-1000,cx+1000); street(g,y0);
     // meme quen trên phố (cùng cỡ dân phố): Chill Guy thong thả · Doge ngồi ghế · Cheems trước tiệm · Capy chờ xe buýt
     pic(g,'chill',700+tw*24,y0+30,36); pic(g,'doge',985,y0+14,24); pic(g,'cheems',1262,y0+20,22); pic(g,'capy',640,y0+12,20,{flip:true});
     townLife(g,t,y0,0,false);
     stand(g,1500,y0+30); pic(g,'corn',1508,y0-22,20,{flip:true});
-    propsFront(g,y0,cx-800,cx+800); }
+    propsFront(g,y0,cx-1000,cx+1000); }
   // trung cảnh: Banana Cat đi tới xe kem, Cornelius đưa kem — máy ZOOM (meme vẫn nhỏ, tủ kính / mái hiên phía sau to hơn nhiều)
   function scStand(g,t){ const u=t-T.stand, y0=400, cx=1482+u*3, z=3.7;
     cam(g,cx,y0-12,z); sky(g,t,0,0,y0-50); shops(g,y0,1200,1800); propsBack(g,y0,1200,1800); street(g,y0);

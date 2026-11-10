@@ -72,9 +72,17 @@
     const c=document.createElement('canvas'); c.width=w; c.height=h; const x=c.getContext('2d');
     x.filter=`blur(${Math.max(3,res*0.07)}px)`; x.drawImage(img,sx,sy,sw,sh,sw*k*PADX,sh*k*PADT,sw*k,sh*k); x.drawImage(img,sx,sy,sw,sh,sw*k*PADX,sh*k*PADT,sw*k,sh*k); x.filter='none';
     m={c,w,h,PADX,PADT,PADB}; if(MASKS.size>120){ const k0=MASKS.keys().next().value, m0=MASKS.get(k0); if(m0&&m0.tex&&gl) gl.deleteTexture(m0.tex); MASKS.delete(k0); } MASKS.set(key,m); return m; }
+  // mặt nạ ĐỘNG (ảnh nguồn đổi theo khung — vd sprite biến dạng lưới của cine-kit): 1 canvas + 1 texture mỗi `key`, chỉ vẽ lại + tải lại khi `ver` đổi
+  const DYN=new Map();
+  function maskDyn(key,ver,img,sx,sy,sw,sh,res){ let m=DYN.get(key); if(m&&m.ver===ver) return m; const PADX=.38, PADT=.62, PADB=.08;
+    if(!m){ if(DYN.size>=24){ const k0=DYN.keys().next().value, m0=DYN.get(k0); if(m0.tex&&gl) gl.deleteTexture(m0.tex); DYN.delete(k0); } m={c:document.createElement('canvas'),PADX,PADT,PADB}; DYN.set(key,m); }
+    const k=res/Math.max(sw,sh), w=Math.round(sw*k*(1+2*PADX)), h=Math.round(sh*k*(1+PADT+PADB)), c=m.c;
+    if(c.width!==w||c.height!==h){ c.width=w; c.height=h; } const x=c.getContext('2d'); x.clearRect(0,0,w,h);
+    x.filter=`blur(${Math.max(3,res*0.07)}px)`; x.drawImage(img,sx,sy,sw,sh,sw*k*PADX,sh*k*PADT,sw*k,sh*k); x.drawImage(img,sx,sy,sw,sh,sw*k*PADX,sh*k*PADT,sw*k,sh*k); x.filter='none';
+    m.w=w; m.h=h; m.ver=ver; m.up=false; return m; }
   // trả {canvas, dx,dy,dw,dh} theo khung nhân vật (x,y = điểm giữa CHÂN, w,h = cỡ vẽ ảnh) — dark: vẽ source-over, sáng: vẽ 'lighter'
   function aura(img,o){ if(!init()) return null; const P=Object.assign({},PRE[o.preset||'ssj']||PRE.ssj,o);
-    const sx=o.sx||0, sy=o.sy||0, sw=o.sw||img.width, sh=o.sh||img.height, res=o.res||400, M=maskOf(img,sx,sy,sw,sh,res);
+    const sx=o.sx||0, sy=o.sy||0, sw=o.sw||img.width, sh=o.sh||img.height, res=o.res||400, M=o.dyn!=null?maskDyn(o.dyn,o.ver,img,sx,sy,sw,sh,res):maskOf(img,sx,sy,sw,sh,res);
     const pr=prog('aura',AURA_FS); gl.useProgram(pr.p);
     gl.activeTexture(gl.TEXTURE0); if(!M.tex){ M.tex=gl.createTexture(); M.up=false; } bindMask(M);
     gl.uniform1i(pr.loc('mask'),0);

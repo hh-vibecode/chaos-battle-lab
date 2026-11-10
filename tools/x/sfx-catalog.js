@@ -6,7 +6,7 @@
 // Giữ lại `loai` / `tai` / `moTa` đã sửa tay ở lần chạy trước (khoá `tay:true`).
 const fs = require('fs'), path = require('path'), ROOT = path.resolve(__dirname, '..', '..'), OUT = path.join(__dirname, 'sfx-catalog.json');
 const args = process.argv.slice(2), FIND = args.includes('--find') ? args[args.indexOf('--find') + 1] : null;
-const GENERIC = ['cine', 'ep3', 'l2p', 'fin', 'vine', 'duo', 'ui', 'sfx', 'hit', 'boom', 'whoosh'];
+const GENERIC = ['cine', 'ep3', 'l2p', 'fin', 'vine', 'duo', 'ui', 'sfx', 'hit', 'boom', 'whoosh', 'sn', 'kn', 'se'];
 // loại tiếng: [tên loại, regex trên key + mô tả]
 const TYPES = [['nhạc', /music|theme|song|anthem|bgm|piano|guitar|violin|remix|beat|nhạc/i], ['giọng', /voice|giọng|scream|cry|khóc|laugh|cười|shout|hét|roar|gầm|talk|nói|say|meow|moan|sigh|breath|thở|choke|cough/i],
   ['rơi', /drop|fall|rơi|whistle/i], ['vỡ', /glass|kính|crack|nứt|shatter|vỡ|break|rock|đá|rubble/i], ['nổ', /explode|explosion|nổ|boom|blast|bomb/i],

@@ -16,7 +16,7 @@ const fs = require('fs'), path = require('path'), vm = require('vm');
 const ROOT = path.resolve(__dirname, '..', '..'), args = process.argv.slice(2), opt = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; };
 const ID = args[0], FILE = opt('--file', null), OUT = opt('--out', null);
 if (!ID || ID.startsWith('--')) { console.error('cách dùng: sfx-lint.js <idPhim> [--file tên] [--out bao-cao.md]'); process.exit(2); }
-const GENERIC = ['cine', 'ep3', 'l2p', 'fin', 'vine', 'duo', 'ui', 'sfx', 'hit', 'boom', 'whoosh'];   // tiền tố tiếng DÙNG CHUNG cho phim
+const GENERIC = ['cine', 'ep3', 'l2p', 'fin', 'vine', 'duo', 'ui', 'sfx', 'hit', 'boom', 'whoosh', 'sn', 'kn', 'se'];   // tiền tố tiếng DÙNG CHUNG cho phim
 
 // ───────── máy ảo: đủ để chạy phần khai báo của cine-kit + film (không vẽ) ─────────
 const noop = () => {}, ctxProxy = new Proxy(function () {}, { get: (t, k) => k === 'canvas' ? { width: 1, height: 1 } : k === 'measureText' ? () => ({ width: 10 }) : k === 'getImageData' ? () => ({ data: new Uint8ClampedArray(4) }) : k === 'createLinearGradient' || k === 'createRadialGradient' || k === 'createPattern' ? () => ({ addColorStop: noop, setTransform: noop }) : noop, set: () => true });

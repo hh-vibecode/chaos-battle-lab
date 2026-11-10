@@ -71,7 +71,8 @@
   const TEMP={ G6:'mG', G7:'mK', G9:'G1', P6:'dP', P7:'P1', P8:'dB', P9:'P1' };
   const pick=(F,k)=>{ const im=F.I[k]; return (im && im.complete && im.naturalWidth) ? k : (TEMP[k]||k); };
   const HTP={G1:140,G2:136,G3:127,G4:143,G5:87,P1:140,P2:132,P3:121,P4:137,P5:65, mG:H*1.18, dP:H*1.12, mB:H*1.15, dB:H*1.15, mK:H*0.95, dK:H*0.95,
-    G6:H*1.2, G7:H*0.95, G9:140, P6:H*1.15, P7:130, P8:H*1.15, P9:140};
+    G6:H*1.2, G7:H*0.95, G9:140, P6:H*1.15, P7:130, P8:H*1.15, P9:140,
+    GP1:140, GP2:138, GP3:138, GP4:138, GD1:140, GD2:117, GD3:128, PP1:136, PP2:139, PP3:139, PP4:140};   // sprite sheet đòn (10/11): cao theo px trong sheet × tỉ lệ khung đứng thủ thế = G1/P1
 
   // ───────── THÀNH PHỐ 2.5D: đại lộ dọc trục x (Gojo trái, Pain phải), nhà 2 bên |z| ≥ 1100, toà chắn cuối đường bên trái ─────────
   const BL=[];
@@ -191,17 +192,25 @@
       [11.6,-200,'G1'],[11.7,-215,'G2','eout'],[11.95,0,'G3','ein',1],[12.1,0,'G3'],[12.6,-220,'G1','back'],[13.8,-240,'G1','eout']],
     d:[[0,420,'P1'],[T.dash,420,'P1'],[3.75,440,'P2','eout'],[4.05,58,'P3','ein',1],[4.2,58,'P3'],[4.55,170,'P1','back'],
       [5.25,170,'P1'],[5.3,150,'P4'],[5.7,300,'P4','back'],[6.0,280,'P1','eout'],
-      [6.15,295,'P2','eout'],[6.45,-110,'P3','ein',1],[6.85,-60,'P3','eout'],[6.9,-40,'P4'],[7.3,120,'P4','back'],[7.7,140,'P1','eout'],
+      [6.15,295,'P2','eout'],[6.45,-30,'P3','ein',1],[6.85,15,'P3','eout'],[6.9,40,'P4'],[7.3,120,'P4','back'],[7.7,140,'P1','eout'],
       [8.15,150,'P2','eout'],[8.45,-60,'P3','ein',1],[8.6,-60,'P3'],[9.1,160,'P1','back'],
       [10.0,180,'P1'],[10.1,200,'P2','eout'],[10.35,58,'P3','ein',1],[10.53,58,'P3'],[10.95,200,'P1','back'],
       [11.9,200,'P1'],[11.95,115,'P2'],[12.3,230,'P2','back'],[12.8,240,'P1','eout'],[13.8,240,'P1']] };
+  // 🥊 SPRITE SHEET ĐÒN (10/11, vẽ GPT): đấm 4 khung GP1–4 / PP1–4 (lấy đà → vung → CHẠM → thu về) + Gojo né 3 khung GD1–3 (6.23–6.65, né cú 6.45 của Pain).
+  //   [mốc chạm, hết giữ đòn, số khung lấy đà, số khung thu về]; khung 12 hình/giây ĐẶT PHA theo mốc chạm → khung CHẠM bật đúng mốc va / hit-stop (hs giữ t = mốc)
+  const PUN={ m:[[T.clash,4.2,2,2],[5.3,5.45,2,2],[6.9,7.05,1,2],[10.35,10.53,2,2],[11.95,12.1,2,2]],
+              d:[[T.clash,4.2,2,2],[6.45,6.9,2,0],[8.45,8.6,2,2],[10.35,10.53,2,2]] };
+  function punchIm(L,t,pre){ for(const [h,e,nA,nR] of L){ const k=Math.floor((t-h)*12+1e-6), nH=Math.round((e-h)*12);
+      if(k>=-2-nA && k<-2) return pre+'1'; if(k>=-2 && k<0) return pre+'2';
+      if(k>=0 && (k<nH || (!nR && t<e))) return pre+'3'; if(k>=nH && k<nH+nR) return pre+'4'; } return null; }
+  function dodgeIm(t){ const k=Math.floor((t-6.9)*12+1e-6); return k>=-8&&k<-6?'GD1':k>=-6&&k<-4?'GD2':k===-4?'GD3':null; }
   const HSTOP=[[T.clash,0.14],[5.3,0.12],[6.9,0.12],[8.45,0.12],[10.35,0.18],[11.95,0.14],[T.push,0.12]];
   const hs=t=>{ for(const [a,d] of HSTOP) if(t>=a&&t<a+d) return a; return t; };
   function track(K0,tq){ for(let i=1;i<K0.length;i++){ const A=K0[i-1], B=K0[i]; if(tq<B[0]){ const k=seg(tq,A[0],B[0]), e=B[3]==='ein'?ein(k):B[3]==='eout'?eout(k):B[3]==='back'?backOut(k):k;
         return {x:lerp(A[1],B[1],e), im:B[2], fast:!!B[4]&&k>0.3, dir:Math.sign(B[1]-A[1])}; } } const L=K0[K0.length-1]; return {x:L[1], im:L[2], fast:false, dir:0}; }
   // GOJO: tay đôi → bị hất văng (14.45–15.4) → nằm trong đống đổ nát (crash) → lãnh địa → nấp trong khói bắn Hollow Purple → đối diện
   function gojo(t){ const tq=K.twos(t); let x=-420, y=0, z=0, im='G1', sm=null, lean=0;
-    if(t<T.push){ const P=track(TRK.m,tq); x=P.x; im=P.im; if(P.fast) sm={dx:900*P.dir,dy:0,dz:0,n:6}; }
+    if(t<T.push){ const P=track(TRK.m,tq); x=P.x; im=dodgeIm(t)||punchIm(PUN.m,t,'GP')||P.im; if(P.fast) sm={dx:900*P.dir,dy:0,dz:0,n:6}; }
     if(t>=T.pushC && t<T.push) { x=-240; im='G1'; }
     if(t>=T.push && t<T.gUp){ const k=eout(seg(tq,T.push,T.push+0.95)); x=lerp(-240,CRASH_X-280,k); y=820*Math.min(1,k*1.3)*(1-0.05*k); /* bay thẳng vào giữa lỗ thủng (10/11) */ im='G7'; if(k<0.9) sm={dx:-2600,dy:0,dz:0,n:7}; if(t>=T.crash) { im='G4'; y=0; lean=-20; } }
     if(t>=T.gUp && t<T.dom){ x=CRASH_X+60; im='G1'; }
@@ -211,7 +220,7 @@
     return {x,y,z,im,sm,lean}; }
   // PAIN: tay đôi → gồng push → đứng nhìn → bay lên cast → đáp đất → đỡ Hollow Purple (trượt lùi) → hất lên → đối diện
   function pain(t){ const tq=K.twos(t); let x=420, y=0, z=0, im='P1', sm=null, lean=0;
-    if(t<T.pushC){ const P=track(TRK.d,tq); x=P.x; im=P.im; if(P.fast) sm={dx:900*P.dir,dy:0,dz:0,n:6}; }
+    if(t<T.pushC){ const P=track(TRK.d,tq); x=P.x; im=punchIm(PUN.d,t,'PP')||P.im; if(P.fast) sm={dx:900*P.dir,dy:0,dz:0,n:6}; }
     if(t>=T.pushC && t<T.still){ x=240; im=t<T.push+0.6?'dB':'P1'; }
     if(t>=T.still && t<T.rise){ x=240; im='P1'; }
     if(t>=T.rise && t<T.land){ x=PCX; const k=E.eio?E.eio(seg(tq,T.rise,T.cast-0.2)):seg(tq,T.rise,T.cast); y=t<T.rest?SKYY*Math.pow(k,0.85):SKYY; im='P6';
@@ -409,6 +418,9 @@
   CineKit.film({ id:'fin1c4', title:'Final 1 · Cảnh 4 · Gojo Cat vs Pain Cat', DUR:T.DUR, VW:960, VH:540, fadeIn:true, fadeOut:true,   /* 10/11: phim riêng, không còn nối sau nóc nhà */
     imgs:{ G1:'assets/img/cine/MVD_G1.png', G2:'assets/img/cine/MVD_G2.png', G3:'assets/img/cine/MVD_G3.png', G4:'assets/img/cine/MVD_G4.png', G5:'assets/img/cine/MVD_G5.png',
       P1:'assets/img/cine/MVD_P1.png', P2:'assets/img/cine/MVD_P2.png', P3:'assets/img/cine/MVD_P3.png', P4:'assets/img/cine/MVD_P4.png', P5:'assets/img/cine/MVD_P5.png',
+      GP1:'assets/img/cine/FIN_G_PUNCH_1.png', GP2:'assets/img/cine/FIN_G_PUNCH_2.png', GP3:'assets/img/cine/FIN_G_PUNCH_3.png', GP4:'assets/img/cine/FIN_G_PUNCH_4.png',
+      GD1:'assets/img/cine/FIN_G_DODGE_1.png', GD2:'assets/img/cine/FIN_G_DODGE_2.png', GD3:'assets/img/cine/FIN_G_DODGE_3.png',
+      PP1:'assets/img/cine/FIN_P_PUNCH_1.png', PP2:'assets/img/cine/FIN_P_PUNCH_2.png', PP3:'assets/img/cine/FIN_P_PUNCH_3.png', PP4:'assets/img/cine/FIN_P_PUNCH_4.png',
       mB:'assets/img/cine/MVD_GOJO_BLAST.png', dB:'assets/img/cine/MVD_PAIN_PUSH.png', mK:'assets/img/cine/MVD_GOJO_KB.png', dK:'assets/img/cine/MVD_PAIN_KB.png',
       mG:'assets/img/mewingcat/MEW_GOJO_IMG.webp', dP:'assets/img/depressedcat/DP_PAIN_IMG.webp',
       G6:'assets/img/cine/FIN_G6.png', G7:'assets/img/cine/FIN_G7.png', G9:'assets/img/cine/FIN_G9.png', P6:'assets/img/cine/FIN_P6.png', P7:'assets/img/cine/FIN_P7.png', P8:'assets/img/cine/FIN_P8.png', P9:'assets/img/cine/FIN_P9.png',

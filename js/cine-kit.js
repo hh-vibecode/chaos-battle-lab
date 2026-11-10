@@ -118,12 +118,13 @@
   function lifeMesh(F,c,L,h,flip){ const fps=L.fps==null?12:L.fps, tt=fps?K.twos(F.t,fps):F.t, ph=(L.seed!=null?L.seed:hash(c.sw*0.131+c.sh*0.071))*6.283;
     const nx=L.nx||6, ny=L.ny||10, asp=c.sw/c.sh, br=(L.breath||0)*0.02*Math.sin(tt*6.283/3.2+ph), sw=(L.sway||0)*0.018*Math.sin(tt*6.283/4.1+ph*1.7),
       wd=(L.wind||0)*0.03*(L.dir||1)*(flip?-1:1), sa=0.32*(L.squash||0), sb=0.25*(L.squash||0), NV=(nx+1)*(ny+1), V=new Float64Array(NV*2);
-    let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;
+    let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9,dev=0;   // dev = độ lệch lớn nhất so với ảnh gốc (đơn vị chiều cao ảnh) → aura chỉ theo lưới khi lệch rõ
     for(let j=0;j<=ny;j++){ const Y=1-j/ny, bump=Math.exp(-Math.pow((Y-0.6)/0.22,2)), Ys=Y-sa*(Y-0.35*Y*Y)+br*0.35*sstep(0.15,0.7,Y), Y2=Y*Y, Y15=Math.pow(Y,1.5);
       for(let i=0;i<=nx;i++){ const u=i/nx, e=Math.abs(2*u-1);
         let X=(u-0.5)*asp*(1+sb*(1-0.5*Y))*(1+br*bump)+sw*Y15;
         if(wd) X+=wd*Y2*(0.35+0.65*e*e)*(0.55+0.45*(0.6*Math.sin(tt*5.65-Y*2.2+ph)+0.4*Math.sin(tt*10.7-Y*3.5+u*1.3+ph*2)));
-        const n=(j*(nx+1)+i)*2; V[n]=X; V[n+1]=-Ys; if(X<x0)x0=X; if(X>x1)x1=X; if(-Ys<y0)y0=-Ys; if(-Ys>y1)y1=-Ys; } }
+        const n=(j*(nx+1)+i)*2; V[n]=X; V[n+1]=-Ys; if(X<x0)x0=X; if(X>x1)x1=X; if(-Ys<y0)y0=-Ys; if(-Ys>y1)y1=-Ys;
+        const dv=Math.max(Math.abs(X-(u-0.5)*asp),Math.abs(Ys-Y)); if(dv>dev) dev=dv; } }
     const r=Math.min(1,h*(F.SC||1)/c.sh), R=c.sh*r, W=Math.ceil((x1-x0)*R)+6, H=Math.ceil((y1-y0)*R)+6, ox=3-x0*R, oy=3-y0*R;
     MESH=grow(MESH,W,H); const x=MESH.getContext('2d'); x.setTransform(1,0,0,1,0,0); x.clearRect(0,0,W,H);
     for(let n=0;n<NV*2;n+=2){ V[n]=V[n]*R+ox; V[n+1]=V[n+1]*R+oy; }
@@ -138,7 +139,8 @@
     for(let j=0;j<ny;j++) for(let i=0;i<nx;i++){ const sx=c.sx+i*cw, sy=c.sy+j*ch, A=(j*(nx+1)+i)*2, B=A+2, C=A+(nx+1)*2+2, D=A+(nx+1)*2;
       const bx=Math.max(0,sx-pad), by=Math.max(0,sy-pad), bw=Math.min(SW,sx+cw+pad)-bx, bh=Math.min(SH,sy+ch+pad)-by;
       tri(sx,sy,sx+cw,sy,sx+cw,sy+ch,A,B,C,bx,by,bw,bh); tri(sx,sy,sx+cw,sy+ch,sx,sy+ch,A,C,D,bx,by,bw,bh); }
-    return {img:MESH,W,H,ax:ox,ay:oy,R}; }
+    // ver = chữ ký hình lưới (đổi thì mặt nạ aura shader dựng lại; không đổi — vd giữa 2 nhịp 12 hình/giây — thì dùng lại)
+    return {img:MESH,W,H,ax:ox,ay:oy,R,dev,ver:[tt,ph,L.breath,L.sway,L.wind,L.squash,L.dir,flip?1:0,nx,ny,W,H].join('|')}; }
   function drawSprite(F,c,o,P){ const g=F.g, h=o.h*P.s, w=h*c.sw/c.sh;
     const L=h>=24?lifeOf(o):null, M=(L&&(L.breath||L.sway||L.wind||L.squash))?lifeMesh(F,c,L,h,o.flip):null, q=M?h/M.R:1;
     // kéo dài theo hướng lao: 1 phép affine quanh giữa thân (trước khi nghiêng / lật ảnh)
@@ -151,7 +153,10 @@
       if(o.lean) g.rotate(o.lean*D2R); g.scale(o.flip?-1:1,1);
       if(M) g.drawImage(img||M.img,0,0,M.W,M.H,-M.ax*q,-M.ay*q,M.W*q,M.H*q);
       else if(img) g.drawImage(img,-w/2,-h,w,h); else g.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,-w/2,-h,w,h); g.restore(); };
-    if(o.aura) K.auraAt(F,c,P.x,P.y,w,h,o);
+    // hào quang theo ĐÚNG hình đang vẽ: cùng phép kéo dài + nghiêng; lưới lệch rõ (dẹt / gió mạnh) → bóng lấy từ ảnh đã biến dạng
+    if(o.aura){ g.save(); g.translate(P.x,P.y); if(st){ g.translate(0,-h/2); g.transform(st[0],st[1],st[2],st[3],0,0); g.translate(0,h/2); } if(o.lean) g.rotate(o.lean*D2R);
+      if(M&&M.dev>0.025) K.auraAt(F,c,(o.flip?-1:1)*(M.W/2-M.ax)*q,(M.H-M.ay)*q,M.W*q,M.H*q,o,M); else K.auraAt(F,c,0,0,w,h,o);
+      g.restore(); }
     if(o.smear){ const S=o.smear, Q=K.proj(F.B,o.x-S.dx,(o.y||0)-(S.dy||0),o.z-(S.dz||0)); if(Q){ const n=S.n||5;
       for(let i=n;i>=1;i--){ const k=i/(n+1); one(lerp(P.x,Q.x,k),lerp(P.y,Q.y,k),(o.a==null?1:o.a)*0.32*(1-k),null); } } }
     one(P.x,P.y,o.a==null?1:o.a,null);
@@ -161,13 +166,18 @@
       one(P.x,P.y,clamp(o.white,0,1),wi); }
     o._scr={x:P.x,y:P.y,w,h}; }
   // hào quang lửa theo đúng bóng nhân vật: nhiều lớp bóng màu phóng to rung + lưỡi lửa bốc lên
-  K.auraAt=(F,c,x,y,w,h,o)=>{ const g=F.g, A=o.aura, col=A.col, k=A.k==null?1:A.k, t=F.t; if(k<=0.01) return;
+  // M (tuỳ chọn) = ảnh lưới đã biến dạng từ lifeMesh: bóng / mặt nạ lấy từ đó thay vì ảnh gốc (x,y,w,h khi đó là khung của canvas lưới)
+  let AUID=0;
+  K.auraAt=(F,c,x,y,w,h,o,M)=>{ const g=F.g, A=o.aura, col=A.col, k=A.k==null?1:A.k, t=F.t; if(k<=0.01) return;
     // ✨ có preset → lửa sinh bằng shader (js/vfx-gl.js): mềm, cuộn liên tục, bám dáng người. Không có WebGL → kiểu vẽ tay cũ bên dưới
-    if(A.preset && window.VfxGL && VfxGL.drawAura(g,c.src,Object.assign({},A,{sx:c.sx,sy:c.sy,sw:c.sw,sh:c.sh,x,y,w,h,t:t+(A.seed||0),k,flip:o.flip}))) return;
-    const sil=K.tinted(c,`rgb(${col})`);
+    if(A.preset && window.VfxGL && VfxGL.drawAura(g,M?M.img:c.src,Object.assign({},A,M?{sx:0,sy:0,sw:M.W,sh:M.H,dyn:'ck'+(c._id||(c._id=++AUID)),ver:M.ver,res:Math.min(A.res||400,260)}:{sx:c.sx,sy:c.sy,sw:c.sw,sh:c.sh},
+      {x,y,w,h,t:t+(A.seed||0),k,flip:o.flip}))) return;
+    let sil, SW=c.sw, SH=c.sh;
+    if(M){ MESHW=grow(MESHW,M.W,M.H); const xx=MESHW.getContext('2d'); xx.save(); xx.globalCompositeOperation='copy'; xx.drawImage(M.img,0,0,M.W,M.H,0,0,M.W,M.H);
+      xx.globalCompositeOperation='source-in'; xx.fillStyle=`rgb(${col})`; xx.fillRect(0,0,M.W,M.H); xx.restore(); sil=MESHW; SW=M.W; SH=M.H; } else sil=K.tinted(c,`rgb(${col})`);
     g.save(); g.globalCompositeOperation='lighter';
     for(let i=0;i<3;i++){ const sc=1.06+0.07*i+0.03*Math.sin(t*23+i*2), j=(Math.sin(t*31+i)*0.012)*w;
-      g.globalAlpha=k*(0.42-0.11*i); g.save(); g.translate(x+j,y+h*0.02); g.scale((o.flip?-1:1)*sc,sc+0.04*i); g.drawImage(sil,-w/2,-h,w,h); g.restore(); }
+      g.globalAlpha=k*(0.42-0.11*i); g.save(); g.translate(x+j,y+h*0.02); g.scale((o.flip?-1:1)*sc,sc+0.04*i); g.drawImage(sil,0,0,SW,SH,-w/2,-h,w,h); g.restore(); }
     const n=14; for(let i=0;i<n;i++){ const u=(i+0.5)/n, ph=(t*2.2+hash(i*3.1))%1, bx=x+(u-0.5)*w*0.95, by=y-h*(0.15+0.7*Math.sin(u*Math.PI)*0.9), L=h*(0.12+0.22*hash(i))*(1-ph)*k;
       g.globalAlpha=k*0.75*(1-ph); g.fillStyle=`rgb(${col})`; g.beginPath(); g.moveTo(bx-w*0.035,by); g.quadraticCurveTo(bx+Math.sin(t*9+i)*w*0.05,by-L*0.6,bx+Math.sin(t*7+i)*w*0.03,by-L-ph*h*0.25); g.quadraticCurveTo(bx+w*0.02,by-L*0.4,bx+w*0.035,by); g.fill(); }
     g.restore(); };

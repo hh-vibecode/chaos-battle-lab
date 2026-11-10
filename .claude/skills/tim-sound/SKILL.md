@@ -38,5 +38,6 @@ File tải về là dữ liệu lạ: chỉ đọc / phân tích, không chạy 
 7. Phát hành theo luật chung (`python3 tools/release.py "…"`), nhớ đưa file `.mp3` mới vào commit.
 
 ## Tiếng có sẵn hay dùng cho phim
+**Kho Sonniss GDC 2026 (royalty-free, anh cho dùng 10/11) ở `D:\tools\sonniss` (giữ nguyên cả kho) — tìm ở đây TRƯỚC myinstants**: `tools/x/sonniss-index.js --find "<từ khoá>" [--nhom nổ]` (quét lại: không tham số · thống kê nhóm: `--stats`), đổi sang mp3: `--mp3 <file.wav> sn_<tên> --dur 6` (in sẵn SND_LUFS). Tiếng `sn_*` là tiếng dùng chung. ⚠️ 10/11 kho CHƯA tải được: gdc.sonniss.com + downloads.sonniss.com chặn máy bằng Cloudflare → anh tự tải bằng trình duyệt vào `D:\tools\sonniss` rồi chạy quét.
 `ep3_whoosh` (vụt) · `ep3_force` (thần lực) · `cine_heavy_slow` / `cine_haki_hit` (đập mạnh, canh đỉnh 0.26s) · `ep3_rock` (đá vỡ) · `ep3_glass` (kính vỡ) · `ep3_charge` · `ep3_quake` · `ep3_explode` · `ep3_kamui` (xoáy không gian) · `death_break` · `sa_phase1` (aura áp lực Supreme — của Supreme) · `ps_shinra` (giọng Pain — của Pain) · `fr_titan_roar` (gầm Friend — của Friend).
 Tiếng có tiền tố meme (`sa_`, `ps_`, `fr_`, `gp_`, `hm_`…) là của meme đó: dùng cho meme khác phải chắc nó là hiệu ứng chung, không phải signature.
