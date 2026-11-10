@@ -6079,6 +6079,7 @@ function _azTick(f){
   while((f._azCi||0)<AZ_COUNT.length && AZ_COUNT[f._azCi][0]<=ct){ const c=AZ_COUNT[f._azCi++]; if(ct-c[0]<0.3 && !cc) _azCountShot(f,c[1],c[2]); }
 }
 function _azFoes(f){ return [...fighters.filter(o=>!o.dead && o.team!==f.team), ..._summonFoes(f.team)]; }
+function _azTarget(f){ let b=null, bd=1e9; for(const u of _azFoes(f)){ const d=Math.hypot(u.x-f.x,u.y-f.y); if(d<bd){ bd=d; b=u; } } return b; }   // 🎯 con GẦN NHẤT — cả quân triệu hồi (anh dặn 10/11)
 function _azHit(u,dmg,f){ if(fighters.includes(u)) u.takeDamage(dmg,f); else _summonTakeDamage(u,dmg,f); }
 function _azAttack(f,bt,strong){
   if(strong){   // 🔊 bass drop: sóng chấn động quanh người
@@ -6086,13 +6087,13 @@ function _azAttack(f,bt,strong){
     for(const u of _azFoes(f)){ const d=Math.hypot(u.x-f.x,u.y-f.y); if(d>AZ_DROP_R+(u.size||20)) continue; _azHit(u,AZ_DROP,f);
       if(!u.dead && fighters.includes(u)){ const a=Math.atan2(u.y-f.y,u.x-f.x); u.vx=(u.vx||0)+Math.cos(a)*9; u.vy=(u.vy||0)+Math.sin(a)*9; } }
     floatTexts.push({x:f.x,y:f.y-f.size-28,text:'WUB!',color:'#e040fb',life:40,big:true}); return; }
-  const e=_sdFoe(f); if(!e) return;
+  const e=_azTarget(f); if(!e) return;
   const a=Math.atan2(e.y-f.y,e.x-f.x), kind=bt<21?'chop':'wub';
   azFx.push({k:kind,id:++_azId,x:f.x+Math.cos(a)*f.size*0.7,y:f.y-f.size*0.15+Math.sin(a)*f.size*0.7,a,t:0,T:75,team:f.team,owner:f,hit:new Set(),r:kind==='wub'?22:16,tr:[],flip:Math.random()<0.5?-1:1});
 }
 // ✋ con số bật ra từ đúng bàn tay đang giơ ngón rồi bay tới địch
 function _azCountShot(f,n,round){
-  const e=_sdFoe(f); const S=f._lastSprite, fl=S?S.fl:false, dw=S?S.dw:f.size*2*AZ_FR_K, dh=S?S.dh:dw/2.37;
+  const e=_azTarget(f); const S=f._lastSprite, fl=S?S.fl:false, dw=S?S.dw:f.size*2*AZ_FR_K, dh=S?S.dh:dw/2.37;
   const hp=AZ_HAND[round], hx=f.x+(fl?-hp[0]:hp[0])*dw, hy=f.y+hp[1]*dh;
   azFx.push({k:'pop',x:hx,y:hy,t:0,T:16,n,owner:f});
   const a=e?Math.atan2(e.y-hy,e.x-hx):(fl?Math.PI:0);
@@ -9607,9 +9608,9 @@ function _mwHoleBuild(T){
     add(a,n); if(Math.abs(Math.abs(n)-R)<R*0.45) add(a+sp*0.43,n+sp*0.5);   // mép rãnh: mảnh nhỏ dày hơn → răng cưa lởm chởm
   } }
   const xs=pts.map(p=>p[0]), ys=pts.map(p=>p[1]), vor=d3.Delaunay.from(pts).voronoi([Math.min(...xs)-R,Math.min(...ys)-R,Math.max(...xs)+R,Math.max(...ys)+R]);
-  T.cells=[]; T.cracks=[]; const EM=14*W/480, inF=(x,y)=>x>=0 && x<=W && y>=0 && y<=H;
+  T.cells=[]; T.cracks=[]; const inF=(x,y)=>x>=0 && x<=W && y>=0 && y<=H;
   meta.forEach(([a,n,kk],i)=>{ const d=a<0?Math.hypot(a,n):Math.abs(n); if(d>wid(Math.max(0,a))*(0.82+0.36*h(kk+9e4))) return;
-    const poly=vor.cellPolygon(i); if(!poly) return; const P=_flClip(poly.slice(0,-1),-EM,-EM,W+EM,H+EM); if(P.length<3) return;   // chỉ trong SÀN (+ viền sàn): ngoài sàn vốn là vũ trụ, không có gì để vỡ
+    const poly=vor.cellPolygon(i); if(!poly) return; const P=poly.slice(0,-1); if(P.length<3) return;   // rãnh đi XUYÊN ra ngoài sàn: cạnh sàn + chữ tên nằm trên đường cầu bị khoét vỡ theo (anh dặn 10/11)
     const px=P.map(p=>p[0]), py=P.map(p=>p[1]), bx=Math.min(...px), by=Math.min(...py), side=n<0?-1:1;
     T.cells.push({P, bx, by, bw:Math.max(...px)-bx, bh:Math.max(...py)-by, cx:pts[i][0], cy:pts[i][1], al:a, t0:null, dl:Math.abs(n)/R*4+h(kk+7e4)*2,
       vz:0.012+0.012*h(kk+1e5), r:0, vr:(h(kk+2e5)-0.5)*0.14, dx:(nx*side*(0.6+0.8*h(kk+3e5))+ca*0.3), dy:(ny*side*(0.6+0.8*h(kk+3e5))+sa*0.3)}); });
@@ -9649,8 +9650,10 @@ function _mwDrawHole(){
   if(!open.length) return;
   // 2) lỗ xuyên sàn: gộp mọi mảnh đã vỡ → 1 lần tô trời (1 path → không lộ đường ráp giữa các mảnh) + chiều sâu vực
   _skyRepaint(()=>{ ctx.beginPath(); for(const s of open){ s.P.forEach((p,j)=>j?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.closePath(); } });
+  const EM=14*u; ctx.save(); ctx.beginPath(); ctx.rect(-EM,-EM,W+EM*2,H+EM*2); ctx.clip();   // thành đá + mép cắt sáng CHỈ trong sàn (ngoài sàn là trời trống, không có thành đá)
   if(T.shade && T.shadeN===open.length) ctx.drawImage(T.shade[0],T.shade[1],T.shade[2],T.shade[3],T.shade[4]);
   else { const r=_flHoleShade(open,u,true); if(r){ const c=T.shadeC||(T.shadeC=document.createElement('canvas')); c.width=r[0].width; c.height=r[0].height; c.getContext('2d').drawImage(r[0],0,0); T.shade=[c,r[1],r[2],r[3],r[4]]; T.shadeN=open.length; } }
+  ctx.restore();
   // 3) mảnh đá vỡ: cắt từ chính mặt sân, toác ra rồi RƠI xuống vũ trụ (nhỏ dần theo chiều sâu, xoay, tối dần, văng nhẹ ra 2 bên)
   if(!_floorCache) _floorCache=_floorBuild(); const F=_floorCache, S=_ARENA_SS;
   const now=performance.now();   // ⏱️ tính theo ĐỒNG HỒ (như cầu tím) chứ không đếm khung → máy chậm / xuất video vẫn khớp nhịp cầu
@@ -9951,7 +9954,7 @@ function _mwPurpleDraw(){
       for(const u of (q.shatter||[])){ _mwCutShards(u.x,u.y,u.size*1.15,22,ox,oy); u._mwErased=true; } q.shatter=[];
       for(const [x,y,sz] of (q.shatterAt||[])) _mwCutShards(x,y,sz*1.15,14,ox,oy); q.shatterAt=[];
       if(!q.lastCut || q.len-q.lastCut>3){ q.lastCut=q.len;
-        for(let k=0;k<7;k++){ const a=q.ang+(Math.random()-0.5)*2.4, rr=R*(1.0+Math.random()*0.35), px=ox+Math.cos(a)*rr, py=oy+Math.sin(a)*rr; if(px>=0 && px<=W && py>=0 && py<=H) _mwCutShards(px, py, 10+Math.random()*12, 1, ox, oy); } }   // chỉ vỡ mặt SÀN
+        for(let k=0;k<7;k++){ const a=q.ang+(Math.random()-0.5)*2.4, rr=R*(1.0+Math.random()*0.35); _mwCutShards(ox+Math.cos(a)*rr, oy+Math.sin(a)*rr, 10+Math.random()*12, 1, ox, oy); } }   // mặt sàn / cạnh sàn / chữ tên chỗ cầu chạm vỡ ra
       // 🌀 BÓP MÉO KHÔNG GIAN quanh cầu: vẽ lại chính khung hình theo từng vành đồng tâm — xoắn + hút vào tâm mạnh dần
       _mwWarp(ox,oy,R*2.6,tm);
       _mwDrawShards();
@@ -22120,6 +22123,7 @@ class Fighter {
   }
   _takeDamageCore(dmg,attacker,isHuh=false,isBurn=false,dotIcon='',hitFx=null,isDot=false,isTrue=false){
     if(this.dead) return;
+    if(_fkDoomedFoe(this)) return;   // 🔫 Catler đã rút súng = Catler THUA (anh dặn 10/11): phe kia không còn chết vì lửa / khí độc / đòn nào nữa
     if(this.type==='breadcat' && this._bc && (this._bc.fused || (this._bc.px && this._bc.t>=BC_SPIN_T))) return;   // 🍞 đã vào trạng thái PHÁ HUỶ (xoay đủ 5s) / thành ổ bánh mì: không nhận dame, không hiện số dame (anh dặn 5/11)
     if(this.type==='breadcat' && this._bc && this._bc.px && !isDot && !isBurn && dmg>0 && this._bc.t<BC_SPIN_T && !this._bc.fused){   /* xoay đủ 5s rồi thì không ngắt được nữa */   // 🍞 đang xoay: dính 3 đòn là gãy nghịch lý
       this._bc.hits=(this._bc.hits||0)+1; if(this._bc.hits>=BC_BREAK_HITS) _bcBreak(this); }
@@ -22132,6 +22136,7 @@ class Fighter {
       _smParryFx(this,_ax,_ay,true); return;
     }
     if(this.type==='ninjacat' && dmg>0 && !isBurn && !isDot && !isTrue && attacker && attacker!==this && attacker.team!==this.team && _njGenGuard(this,attacker)) return;   // 👁️ ảo thuật: đòn xuyên qua (Kamui)
+    if(this.type==='feuerkatze' && dmg>0 && _fkSalute>0 && (this._fkSaluteNow||0)>0 && _fkSuicideF!==this) dmg*=0.2;   // 🫡 đang chào cờ hát quốc ca: giảm 80% dame từ MỌI nguồn (anh dặn 10/11)
     // 🔢 CHUẨN HOÁ số dame về SỐ NGUYÊN ngay tại nguồn DUY NHẤT này — mọi đòn dame trong toàn bộ game (bất kể nhân vật/công
     // thức nào tính ra số lẻ) đều đi qua đúng 1 hàm takeDamage(), nên chặn ở đây là chặn được TẤT CẢ, không cần sửa từng
     // công thức riêng lẻ ở từng nhân vật. Làm tròn TRƯỚC khi trừ máu/hiện số nổi, không phải làm tròn sau khi hiển thị.
