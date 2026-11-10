@@ -109,8 +109,9 @@ Anh chê điều gì MỚI → thêm 1 dòng vào bảng này ngay trong phiên 
    **Danh sách ảnh cần vẽ**: tận dụng ảnh có sẵn (`assets/img/cine/`, `assets/avatars/<meme>/`). Thiếu tư thế → viết CÂU LỆNH ChatGPT cho anh (mẫu dưới),
    anh gửi ảnh về → skill `tach-nen-anh` (nền xanh → webp cắt sát) → để ở `assets/img/cine/`.
 3. **Dựng**: `js/film-<id>.js` gọi `CineKit.film({...})`; thêm 1 mục vào thư mục `__lab` (Anime Lab) hoặc thư mục phim trong `openCinema()` (js/game.js) với `id:'ck:<id>'`.
-4. **Xem thử**: chụp khung bằng playwright (gọi `playCineKit('<id>',{offline:true,scale:0.5})`, `CineKit.films.<id>.step(t)`, `canvas().toDataURL()`),
-   ghép bảng khung → Read. Hoặc anh mở Meme Cinema → 🧪 Anime Lab.
+4. **Xem thử = 1 LỆNH** `tools/x/film-check.js <id> [--t 1.2,3.4 | --step 0.5] [--out <scratchpad>/chk] [--sfx-id <idTập>]` (Mac: `node …`, PC: `powershell -NoProfile -ExecutionPolicy Bypass -File tools/node.ps1 …`)
+   → bảng khung `<out>/<id>.png` (Read) + báo cáo tiếng `<out>/<id>-sfx.md`; ~6–60s, giới hạn cứng 240s, LUÔN tự tắt trình duyệt + máy chủ (10/11 — trước đó lệnh cdp chạy tay treo 3 tiếng).
+   KHÔNG chạy `cdp.js --launch … | grep` bằng tay nữa. Chụp nhỏ (`--w 320`) và chỉ các mốc vừa sửa để đỡ tốn. Hoặc anh mở Meme Cinema xem trong game.
 5. **Xuất** (chỉ khi anh bảo): `node tools/render-cine.js <id> out.mp4 --scale 1.3333` (9:16 2K) — phim cine-kit tự nhận, không cần thêm vào `FILMS`. Xem skill `xuat-video`.
 
 ## 🧩 TẬP DÀI = NHIỀU CẢNH (anh chốt 9/11/2026) — `CineKit.seq`
