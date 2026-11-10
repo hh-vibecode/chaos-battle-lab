@@ -9592,8 +9592,80 @@ function _psDrawDust(){
 }
 const MW_SND_VOL=1.6;   // 🔊 2 tiếng Gojo to hơn mức chuẩn + mọi tiếng khác lặn xuống trong lúc phát (user: "bé quá k nghe thấy gì")
 let mwHole=null; frRem=null; dpRainK=0; dpRipples=[]; dpWx={cloud:0, rain:0, storm:0, nextBolt:0, bolt:null, nextFlash:0, flash:null}; psCine=null; psAfter=null; psWipe=null; psShards=[]; psDust=[]; psCrater=null;   // 🕳️ lỗ khoét xuyên sàn/viền sàn/chữ theo đường cầu tím đi qua (giữ tới hết trận)
-// 🕳️ vẽ NGAY SAU sàn + chữ, TRƯỚC nhân vật: tô lại màu nền theo đường cầu đi → viền sàn & chữ bị khoét mất, mép lởm chởm như bị bẻ gãy
+// 🕳️ RÃNH CÀY (anh dặn 10/11: "cày nham nhở, phá vỡ phần nó đi qua ở sàn, lộ canvas viền sao ở sau"): đường cầu tím chia sẵn thành
+//   mảnh đá Voronoi (d3) — mép rãnh lởm chởm theo từng mảnh + bề rộng phình/thắt; cầu tới đâu mảnh VỠ RƠI xuống vũ trụ tới đó
+//   (cắt từ CHÍNH mặt sân, văng nhẹ ra 2 bên), lộ bầu trời sao; vết nứt toả ra 2 mép loé tím rồi sẫm lại; thành đá dày ở mép xa (_flHoleShade).
+//   Giữ tới hết trận. Không dùng Math.random (băm _skH) → không xáo chuỗi random có seed của trận.
+function _mwHoleBuild(T){
+  const R=T.R, ca=Math.cos(T.ang), sa=Math.sin(T.ang), nx=-sa, ny=ca, sd=Math.floor(T.x*13.7+T.y*7.3+T.ang*977), h=k=>_skH(sd+k*1.618);
+  let Lmax=0; for(;Lmax<20000;Lmax+=10){ const x=T.x+ca*Lmax, y=T.y+sa*Lmax; if(x<-W*0.7||x>W*1.7||y<-H*0.7||y>H*1.7) break; }
+  const wid=a=>R*(1+0.2*Math.sin(a/R*1.3+h(1)*6.3)+0.12*Math.sin(a/R*3.9+h(2)*6.3));   // rãnh phình / thắt dọc đường
+  const pts=[], meta=[], sp=R*0.36; let k=10;
+  for(let a=-R*1.6;a<Lmax+R*1.2;a+=sp*0.87){ for(let n=-R*2;n<=R*2.001;n+=sp){
+    const add=(aa,nn)=>{ k++; const ja=aa+(h(k)-0.5)*sp*0.8, jn=nn+(h(k+5e4)-0.5)*sp*0.8; pts.push([T.x+ca*ja+nx*jn, T.y+sa*ja+ny*jn]); meta.push([ja,jn,k]); };
+    add(a,n); if(Math.abs(Math.abs(n)-R)<R*0.45) add(a+sp*0.43,n+sp*0.5);   // mép rãnh: mảnh nhỏ dày hơn → răng cưa lởm chởm
+  } }
+  const xs=pts.map(p=>p[0]), ys=pts.map(p=>p[1]), vor=d3.Delaunay.from(pts).voronoi([Math.min(...xs)-R,Math.min(...ys)-R,Math.max(...xs)+R,Math.max(...ys)+R]);
+  T.cells=[]; T.cracks=[];
+  meta.forEach(([a,n,kk],i)=>{ const d=a<0?Math.hypot(a,n):Math.abs(n); if(d>wid(Math.max(0,a))*(0.82+0.36*h(kk+9e4))) return;
+    const poly=vor.cellPolygon(i); if(!poly) return; const P=poly.slice(0,-1); if(P.length<3) return;
+    const px=P.map(p=>p[0]), py=P.map(p=>p[1]), bx=Math.min(...px), by=Math.min(...py), side=n<0?-1:1;
+    T.cells.push({P, bx, by, bw:Math.max(...px)-bx, bh:Math.max(...py)-by, cx:pts[i][0], cy:pts[i][1], al:a, t0:null, dl:Math.abs(n)/R*4+h(kk+7e4)*2,
+      vz:0.012+0.012*h(kk+1e5), r:0, vr:(h(kk+2e5)-0.5)*0.14, dx:(nx*side*(0.6+0.8*h(kk+3e5))+ca*0.3), dy:(ny*side*(0.6+0.8*h(kk+3e5))+sa*0.3)}); });
+  for(let a=0,j=0;a<Lmax;a+=R*(0.45+0.5*h(j+4e5)),j++) for(const side of [-1,1]){   // ⚡ vết nứt toả ra từ mép rãnh
+    if(h(j*2+(side>0)+5e5)<0.3) continue; const L=R*(0.45+0.9*h(j*2+(side>0)+6e5));
+    let x=T.x+ca*a+nx*side*wid(a)*0.92, y=T.y+sa*a+ny*side*wid(a)*0.92, dir=Math.atan2(ny*side,nx*side)+(h(j+7e5)-0.5)*1.4; const P=[[x,y]];
+    for(let m=0;m<5;m++){ dir+=(h(j*7+m+8e5)-0.5)*0.9; x+=Math.cos(dir)*L/5; y+=Math.sin(dir)*L/5; P.push([x,y]); }
+    const br=[]; if(h(j+9e5)<0.55){ const b=P[2]; let bd=dir+(h(j+9.5e5)<0.5?-1:1)*0.8, bxx=b[0], byy=b[1]; br.push([bxx,byy]); for(let m=0;m<3;m++){ bd+=(h(j*5+m+1e6)-0.5)*0.8; bxx+=Math.cos(bd)*L/7; byy+=Math.sin(bd)*L/7; br.push([bxx,byy]); } }
+    T.cracks.push({al:a, P, br}); }
+}
+// 🚧 chỗ thủng KHÔNG đi vào được (anh dặn 10/11): meme tới sát mép rãnh thì dội lại như chạm tường
+function _mwInHole(x,y){ const T=mwHole; if(!T || !T.cells) return false; const front=T.len+T.R*0.55;
+  for(const s of T.cells){ if(s.al>=front || x<s.bx || x>s.bx+s.bw || y<s.by || y>s.by+s.bh) continue; const P=s.P; let ins=false;
+    for(let i=0,j=P.length-1;i<P.length;j=i++){ if((P[i][1]>y)!==(P[j][1]>y) && x<(P[j][0]-P[i][0])*(y-P[i][1])/(P[j][1]-P[i][1])+P[i][0]) ins=!ins; } if(ins) return true; }
+  return false; }
+function _mwHoleBlock(f){ if(!mwHole || !mwHole.cells) return; const r=f.size*0.45;
+  const hit=_mwInHole(f.x,f.y) || _mwInHole(f.x+r,f.y) || _mwInHole(f.x-r,f.y) || _mwInHole(f.x,f.y+r) || _mwInHole(f.x,f.y-r);
+  if(!hit){ f._mwOkX=f.x; f._mwOkY=f.y; return; }
+  if(f._mwOkX==null) return;   // chưa có chỗ đứng hợp lệ (vd đang bị hất qua) → không ghim bừa
+  f.x=f._mwOkX; f.y=f._mwOkY; f.vx=-f.vx*0.85; f.vy=-f.vy*0.85; f._vertBounceCount=0; }
+function _mwCrackPath(P,k){ const n=Math.max(1,Math.ceil((P.length-1)*k)); ctx.moveTo(P[0][0],P[0][1]); for(let i=1;i<=n && i<P.length;i++) ctx.lineTo(P[i][0],P[i][1]); }
 function _mwDrawHole(){
+  const T=mwHole; if(!T || T.len<=0) return;
+  if(!T.cells && window.d3 && d3.Delaunay) _mwHoleBuild(T);
+  if(!T.cells) return _mwDrawHoleSmooth();
+  const u=W/480, front=T.len+T.R*0.55, open=[];
+  for(const s of T.cells) if(s.al<front) open.push(s);
+  // 1) nứt trên mặt sân quanh rãnh: loé tím lúc vừa toác rồi sẫm lại thành vết nứt tối
+  ctx.save(); ctx.lineCap='round'; ctx.lineJoin='round';
+  for(const c of T.cracks){ if(c.al>front) continue; const g=(front-c.al)/T.R, k=Math.min(1,g/0.9), glow=Math.max(0,1-g/5);
+    ctx.beginPath(); _mwCrackPath(c.P,k); if(c.br.length && k>0.5) _mwCrackPath(c.br,(k-0.5)*2);
+    ctx.strokeStyle='rgba(12,6,28,0.8)'; ctx.lineWidth=1.8*u; ctx.stroke();
+    if(glow>0){ ctx.globalCompositeOperation='lighter'; ctx.strokeStyle=`rgba(200,150,255,${(0.85*glow).toFixed(3)})`; ctx.lineWidth=1.1*u; ctx.shadowColor='rgba(170,100,255,0.9)'; ctx.shadowBlur=7*u; ctx.stroke(); ctx.shadowBlur=0; ctx.globalCompositeOperation='source-over'; } }
+  ctx.restore();
+  if(!open.length) return;
+  // 2) lỗ xuyên sàn: gộp mọi mảnh đã vỡ → 1 lần tô trời (1 path → không lộ đường ráp giữa các mảnh) + chiều sâu vực
+  _skyRepaint(()=>{ ctx.beginPath(); for(const s of open){ s.P.forEach((p,j)=>j?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.closePath(); } });
+  if(T.shade && T.shadeN===open.length) ctx.drawImage(T.shade[0],T.shade[1],T.shade[2],T.shade[3],T.shade[4]);
+  else { const r=_flHoleShade(open,u,true); if(r){ const c=T.shadeC||(T.shadeC=document.createElement('canvas')); c.width=r[0].width; c.height=r[0].height; c.getContext('2d').drawImage(r[0],0,0); T.shade=[c,r[1],r[2],r[3],r[4]]; T.shadeN=open.length; } }
+  // 3) mảnh đá vỡ: cắt từ chính mặt sân, toác ra rồi RƠI xuống vũ trụ (nhỏ dần theo chiều sâu, xoay, tối dần, văng nhẹ ra 2 bên)
+  if(!_floorCache) _floorCache=_floorBuild(); const F=_floorCache, S=_ARENA_SS;
+  const now=performance.now();   // ⏱️ tính theo ĐỒNG HỒ (như cầu tím) chứ không đếm khung → máy chậm / xuất video vẫn khớp nhịp cầu
+  for(const s of open){ if(s.gone) continue; if(s.t0==null) s.t0=now; const t=(now-s.t0)/16.667, tt=t-s.dl;   // t, tt: đơn vị "khung 60fps"
+    if(!s.c){ const P=_flClip(s.P,-F.ML,-F.MT,W+F.ML,H+F.MB); if(P.length<3){ s.gone=true; continue; } s.on=s.cx>=0 && s.cx<=W && s.cy>=0 && s.cy<=H;   // mảnh trên mặt sân (ngoài sân = chỉ có trời → không viền)
+      const c=document.createElement('canvas'); c.width=Math.ceil(s.bw*S)+2; c.height=Math.ceil(s.bh*S)+2; const g=c.getContext('2d'); g.scale(S,S); g.translate(-s.bx,-s.by);
+      g.beginPath(); P.forEach((p,j)=>j?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1])); g.closePath(); g.clip(); g.drawImage(F.c,-F.ML,-F.MT,W+F.ML*2,H+F.MT+F.MB);
+      if(s.on){ g.strokeStyle='rgba(16,8,34,0.45)'; g.lineWidth=1.4*u; g.stroke(); } s.c=c; }   // mép mảnh sẫm nhẹ (không viền sáng → không thành lưới)
+    const m=Math.max(0,tt), z=s.vz*m+0.0025*m*m, sc=1/(1+z*1.6), fade=1-Math.min(1,z/6); if(sc<0.06 || fade<=0){ s.gone=true; s.c=null; continue; }
+    const x=s.cx+s.dx*m*u, y=s.cy+z*38*u+s.dy*m*u, dark=Math.min(0.7,z*0.4), w=s.c.width/S, hh=s.c.height/S;
+    ctx.save(); ctx.translate(x,y); ctx.rotate(s.vr*m); ctx.scale(sc,sc);
+    if(m>0){ ctx.globalAlpha=Math.min(1,sc*1.5)*0.9*fade; ctx.filter=`brightness(${(0.35*(1-dark)).toFixed(3)})`; ctx.drawImage(s.c,s.bx-s.cx,s.by-s.cy+5*u,w,hh); }   // bề dày mảnh (mặt dưới tối)
+    ctx.filter=`brightness(${(1-dark).toFixed(3)})`; ctx.globalAlpha=Math.min(1,sc*1.5)*fade; ctx.drawImage(s.c,s.bx-s.cx,s.by-s.cy,w,hh); ctx.filter='none';
+    if(t<10 && s.on){ ctx.globalCompositeOperation='lighter'; ctx.globalAlpha=1-t/10; ctx.strokeStyle='rgba(225,190,255,1)'; ctx.lineWidth=1.5*u; ctx.beginPath(); s.P.forEach((p,j)=>j?ctx.lineTo(p[0]-s.cx,p[1]-s.cy):ctx.moveTo(p[0]-s.cx,p[1]-s.cy)); ctx.closePath(); ctx.stroke(); }   // ⚡ mép vỡ loé tím lúc vừa toác
+    ctx.restore(); }
+}
+// (kiểu cũ — chỉ dùng khi thiếu d3): rãnh trơn tô trời theo đường cầu
+function _mwDrawHoleSmooth(){
   const T=mwHole; if(!T || T.len<=0) return;
   const cx=Math.cos(T.ang), cy=Math.sin(T.ang), nx=-cy, ny=cx, step=8, N=Math.max(2,Math.ceil(T.len/step));
   const w=(i,sd)=>T.R*(1+0.16*(T.seed[(i*2+sd)%T.seed.length]-0.5));
@@ -15827,7 +15899,8 @@ function _bgRepaint(pathFn){ _skyRepaint(pathFn); ctx.save(); pathFn(); ctx.clip
 
 // 🕳️ tô chiều sâu cho LỖ (hợp nhất mọi mảnh đã bong): vực tối hơn · mép tối dần vào trong · thành đá dày ở mép XA · đường mép cắt sáng — chỉ theo VIỀN NGOÀI của cả lỗ
 const _flCv=[null,null,null,null];
-function _flHoleShade(list,u){ let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9; for(const s of list){ x0=Math.min(x0,s.bx); y0=Math.min(y0,s.by); x1=Math.max(x1,s.bx+s.bw); y1=Math.max(y1,s.by+s.bh); }
+// sky=true: lòng lỗ giữ NGUYÊN bầu trời sao như nền quanh sàn (không tô tối vực, không tối mép)
+function _flHoleShade(list,u,sky){ let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9; for(const s of list){ x0=Math.min(x0,s.bx); y0=Math.min(y0,s.by); x1=Math.max(x1,s.bx+s.bw); y1=Math.max(y1,s.by+s.bh); }
   const pad=20*u; x0-=pad; y0-=pad; x1+=pad; y1+=pad; const k=_ARENA_SS*0.75, cw=Math.ceil((x1-x0)*k), ch=Math.ceil((y1-y0)*k); if(cw<4||ch<4) return;
   const C=_flCv.map((c,i)=>{ c=c||(_flCv[i]=document.createElement('canvas')); if(c.width!==cw||c.height!==ch){ c.width=cw; c.height=ch; } const g=c.getContext('2d'); g.setTransform(1,0,0,1,0,0); g.globalCompositeOperation='source-over'; g.filter='none'; g.clearRect(0,0,cw,ch); return c; });
   const [M,A,B,O]=C, gm=M.getContext('2d'); gm.setTransform(k,0,0,k,-x0*k,-y0*k); gm.fillStyle='#fff'; gm.beginPath(); for(const s of list){ s.P.forEach((p,j)=>j?gm.lineTo(p[0],p[1]):gm.moveTo(p[0],p[1])); gm.closePath(); } gm.fill();
@@ -15837,12 +15910,12 @@ function _flHoleShade(list,u){ let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9; for(const s of
       ga.globalCompositeOperation='destination-out'; ga.drawImage(B,0,0); }
     else { ga.globalCompositeOperation='destination-out'; ga.drawImage(M,dx*k,dy*k); }
     return ga; };
-  go.globalCompositeOperation='source-over'; go.drawImage(M,0,0); go.globalCompositeOperation='source-in'; go.fillStyle='rgba(6,4,18,0.45)'; go.fillRect(0,0,cw,ch); go.globalCompositeOperation='source-over';   // vực tối hơn trời ngoài sân
-  let ga=band(10*u); ga.globalCompositeOperation='source-in'; ga.fillStyle='rgba(0,0,0,0.5)'; ga.fillRect(0,0,cw,ch); go.filter=`blur(${(4*u*k).toFixed(1)}px)`; go.drawImage(A,0,0); go.filter='none';   // mép tối dần như miệng vực
+  let ga; if(!sky){ go.globalCompositeOperation='source-over'; go.drawImage(M,0,0); go.globalCompositeOperation='source-in'; go.fillStyle='rgba(6,4,18,0.45)'; go.fillRect(0,0,cw,ch); go.globalCompositeOperation='source-over';   // vực tối hơn trời ngoài sân
+  ga=band(10*u); ga.globalCompositeOperation='source-in'; ga.fillStyle='rgba(0,0,0,0.5)'; ga.fillRect(0,0,cw,ch); go.filter=`blur(${(4*u*k).toFixed(1)}px)`; go.drawImage(A,0,0); go.filter='none'; }   // mép tối dần như miệng vực
   ga=band(null,0,15*u); ga.globalCompositeOperation='source-in'; const wg=ga.createLinearGradient(0,0,0,ch); wg.addColorStop(0,'#55489a'); wg.addColorStop(1,'#241e48'); ga.fillStyle=wg; ga.fillRect(0,0,cw,ch); go.drawImage(A,0,0);   // thành đá dày ở mép XA
   ga=band(null,0,4*u); ga.globalCompositeOperation='source-in'; ga.fillStyle='rgba(30,24,60,0.9)'; ga.fillRect(0,0,cw,ch); go.drawImage(A,0,0);   // chân thành đá tối
   ga=band(1.4*u); ga.globalCompositeOperation='source-in'; ga.fillStyle='rgba(215,200,255,0.6)'; ga.fillRect(0,0,cw,ch); go.drawImage(A,0,0);   // đường mép cắt sáng
-  ctx.drawImage(O,x0,y0,x1-x0,y1-y0); }
+  ctx.drawImage(O,x0,y0,x1-x0,y1-y0); return [O,x0,y0,x1-x0,y1-y0]; }
 function _floorFxDraw(){ if(!flBreaks.length) return; const u=W/480;
   for(let i=flBreaks.length-1;i>=0;i--){ const B=flBreaks[i]; B.t++; if(B.t>B.crack+B.hold+B.heal+30){ flBreaks.splice(i,1); continue; } }
   // 1) lỗ: gộp mọi mảnh đã bong → 1 lần tô trời
@@ -19252,6 +19325,7 @@ class Fighter {
     if(this.y+sB>H){ this.y=H-sB; this.vy=-Math.abs(this.vy)*D; this.vx*=D; this._vertBounceCount=isVertical?(this._vertBounceCount||0)+1:0; this._meleeBounceStreak=(this._meleeBounceStreak||0)+1; if(this.type==='flyingcat') this.topSpeed*=1.05; else if(this.type==='nyancat') this.topSpeed*=1.03; _spiderWall(); _spkWallHit(this,2);
       if(this._screamPushed&&impactSpd>5){ const sd=Math.round(impactSpd*3.5); this.takeDamage(sd,null,false,true); _wc(this.x,H-s,-Math.PI/2); _slipHitVfx(this.x,H,-Math.PI/2); (sd<=50?playSample('hit_light',0.15):sd<=150?playSample('hit_mid',0.3):playSample('hit_heavy',0.35)); this._screamPushed=false; }
     }
+    _mwHoleBlock(this);   // 🕳️ rãnh Hollow Purple = vật cản
     // 🛵 SCOOTER CAT va tường → bẻ lái quay đầu về phía SÂN RỘNG (giữa tâm sân và góc xa xe nhất), không cắm đầu vào góc cũ như meme khác
     if(this.type==='scootercat' && !this._scDrift && (this.x!==_bx0 || this.y!==_by0)){
       let fx=0, fy=0, fd=-1; for(const [cx,cy] of [[0,0],[W,0],[0,H],[W,H]]){ const d=(cx-this.x)**2+(cy-this.y)**2; if(d>fd){ fd=d; fx=cx; fy=cy; } }
