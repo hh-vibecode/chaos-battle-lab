@@ -370,10 +370,17 @@
     S(8.9,9.4,{tx:-80,ty:70,tz:0,dist:1150,yaw:24,pitch:6,fov:44},{tx:-60,ty:70,tz:0,dist:1100,yaw:22,pitch:6,fov:44}),                     // 10/11 cắt đôi: xa, đổi phía — Gojo trượt lùi
     S(9.4,9.9,{tx:-60,ty:75,tz:0,dist:520,yaw:0,pitch:4,fov:46},{tx:-50,ty:75,tz:0,dist:450,yaw:0,pitch:4,fov:46},'ein'),
     S(9.9,10.35,{tx:-290,ty:70,tz:0,dist:250,yaw:30,pitch:-12,roll:-5,fov:48,ox:-0.08},{tx:-240,ty:72,tz:0,dist:235,yaw:34,pitch:-12,roll:-6,fov:48,ox:-0.08},'ein'),   // cận góc thấp: Gojo lấy đà lao đi
-    S(10.35,10.95,{tx:0,ty:80,tz:0,dist:260,yaw:-12,pitch:-4,roll:6,fov:54},{tx:0,ty:80,tz:0,dist:250,yaw:-8,pitch:-4,roll:7,fov:54}),
+    // 10/11 học fight-1 (TransNetV2): VA NHAU MẠNH = khựng NHIỀU GÓC (2 góc × ~0.09s trong hit-stop) rồi mới bật ra
+    S(10.35,10.44,{tx:0,ty:80,tz:0,dist:260,yaw:-12,pitch:-4,roll:6,fov:54}),
+    S(10.44,10.53,{tx:0,ty:70,tz:0,dist:200,yaw:55,pitch:-18,roll:-10,fov:58}),
+    S(10.53,10.95,{tx:0,ty:80,tz:0,dist:300,yaw:-20,pitch:2,roll:6,fov:54},{tx:0,ty:80,tz:0,dist:280,yaw:-16,pitch:2,roll:7,fov:54}),
     S(10.95,11.45,{tx:-90,ty:70,tz:0,dist:1100,yaw:30,pitch:10,fov:44},{tx:-80,ty:70,tz:0,dist:850,yaw:26,pitch:9,fov:44},'ein'),
-    S(11.45,11.95,{tx:-60,ty:78,tz:0,dist:460,yaw:-22,pitch:2,fov:46},{tx:-40,ty:78,tz:0,dist:420,yaw:-24,pitch:2,fov:46},'ein'),             // trung, đổi phía: Gojo lấy đà vung đòn
-    S(11.95,12.45,{tx:110,ty:80,tz:0,dist:280,yaw:-30,pitch:0,roll:-8,fov:48},{tx:140,ty:80,tz:0,dist:270,yaw:-33,pitch:0,roll:-9,fov:48}),
+    // COMBO đổi góc (fight-1 1:36.0–1:37.8: 0.15–0.3s/góc, nối bằng 1 khung nhoè): Gojo dồn tới — sau lưng thấp → ngang xa → Gojo tiền cảnh lao vào Pain
+    S(11.45,11.62,{tx:-190,ty:60,tz:0,dist:230,yaw:38,pitch:-16,roll:-6,fov:52},{tx:-200,ty:60,tz:0,dist:215,yaw:42,pitch:-16,roll:-7,fov:52}),
+    S(11.62,11.78,{tx:-40,ty:78,tz:0,dist:560,yaw:-6,pitch:4,fov:46},{tx:-20,ty:78,tz:0,dist:520,yaw:-6,pitch:4,fov:46},'lin'),
+    S(11.78,11.95,{tx:60,ty:88,tz:0,dist:380,yaw:-50,pitch:-2,fov:50,ox:0.18},{tx:40,ty:88,tz:0,dist:350,yaw:-48,pitch:-2,fov:50,ox:0.18},'ein'),
+    S(11.95,12.12,{tx:110,ty:80,tz:0,dist:280,yaw:-30,pitch:0,roll:-8,fov:48},{tx:120,ty:80,tz:0,dist:276,yaw:-31,pitch:0,roll:-8,fov:48}),
+    S(12.12,12.45,{tx:150,ty:75,tz:0,dist:420,yaw:40,pitch:-8,roll:6,fov:50},{tx:180,ty:75,tz:0,dist:400,yaw:42,pitch:-8,roll:7,fov:50}),
     S(12.45,13.0,{tx:20,ty:70,tz:0,dist:680,yaw:26,pitch:-10,fov:48},{tx:30,ty:72,tz:0,dist:650,yaw:28,pitch:-10,fov:48}),                    // trung góc thấp, đổi phía: Pain trượt lùi, 2 bên tách
     S(T.sep,T.pushC,{tx:0,ty:90,tz:0,dist:900,yaw:0,pitch:3,fov:46},{tx:0,ty:90,tz:0,dist:1050,yaw:0,pitch:3,fov:46}),
     S(T.pushC,T.push,{tx:240,ty:88,tz:0,dist:220,yaw:-30,pitch:-8,roll:-6,fov:42,ox:0.1},{tx:240,ty:88,tz:0,dist:190,yaw:-34,pitch:-8,roll:-7,fov:42,ox:0.1}),
@@ -414,6 +421,21 @@
   const HITS=[[T.clash,0,'220,200,255'],[5.3,100,'140,200,255'],[6.9,-60,'140,200,255'],[8.45,-115,'210,150,255'],[10.35,0,'255,230,255'],[11.95,60,'160,200,255']];
   const IMP=C?C.negFrames([5.3,6.9,8.45,11.95,T.push+0.95,T.land+0.95,T.heave+0.25],0.07,'inv',[T.clash,10.35,T.push,T.sh,T.boom]):()=>0;
   const at=(t,a,d)=>t>=a&&t<a+d;
+  // ───────── CHUYỂN CẢNH che khung (10/11, học fight-1 qua TransNetV2 — meme-anime-lab/playbook/luat.md mục Chuyển cảnh) ─────────
+  const SMEAR=[[5.45,1],[8.9,-1],[11.62,1],[11.78,1],[12.45,1]];   // [giây cắt, hướng ngang trên màn hình]
+  let SMC=null;
+  function smearFrame(F,k){ const c=F.g.canvas, g=F.g; if(!SMC) SMC=document.createElement('canvas'); if(SMC.width!==c.width||SMC.height!==c.height){ SMC.width=c.width; SMC.height=c.height; }
+    SMC.getContext('2d').drawImage(c,0,0); g.save(); g.setTransform(1,0,0,1,0,0); const N=9, W=c.width*k;
+    for(let i=1;i<=N;i++){ g.globalAlpha=1/(i+1); const o=W*(i/N-0.35); g.drawImage(SMC,o-Math.abs(W)*0.04,-c.height*0.02,c.width*1.08,c.height*1.04); }
+    g.restore(); K.panLines(F,{k:0.9,ang:0,n:34}); }
+  function glassWipe(F,t,a,d){ if(t<a||t>=a+d) return; const g=F.g, VW=F.VW, VH=F.VH, u=seg(t,a,a+d), cx=VW*0.62, cy=VH*0.5, M=g.getTransform();
+    for(let i=0;i<34;i++){ const ang=hash(i*4.3)*TAU, f=Math.max(0,u*1.35-0.25*hash(i*2.9)); if(f<=0) continue;
+      const dist=(0.05+1.25*f*f)*VW*(0.35+0.65*hash(i*7.1)), x=cx+Math.cos(ang)*dist, y=cy+Math.sin(ang)*dist*0.7, s=(40+520*f*f)*(0.5+hash(i*5.5));
+      g.save(); g.translate(x,y); g.rotate(f*4*(hash(i*1.7)-0.5)+ang); g.beginPath(); const nv=3+(i%2);
+      for(let v=0;v<nv;v++){ const aa=v/nv*TAU+hash(i*11+v)*0.9, rr=s*(0.55+0.45*hash(i*13+v)); if(v) g.lineTo(Math.cos(aa)*rr,Math.sin(aa)*rr*0.8); else g.moveTo(Math.cos(aa)*rr,Math.sin(aa)*rr*0.8); } g.closePath();
+      g.fillStyle=i%3?'rgba(214,232,240,0.9)':'rgba(150,180,200,0.92)'; g.fill(); g.lineWidth=2.5; g.strokeStyle='rgba(20,24,30,0.85)'; g.stroke();
+      g.strokeStyle='rgba(255,255,255,0.9)'; g.lineWidth=1.5; g.beginPath(); g.moveTo(-s*0.3,-s*0.2); g.lineTo(s*0.2,s*0.1); g.stroke(); g.restore(); }
+    g.setTransform(M); }
 
   CineKit.film({ id:'fin1c4', title:'Final 1 · Cảnh 4 · Gojo Cat vs Pain Cat', DUR:T.DUR, VW:960, VH:540, fadeIn:true, fadeOut:true,   /* 10/11: phim riêng, không còn nối sau nóc nhà */
     imgs:{ G1:'assets/img/cine/MVD_G1.png', G2:'assets/img/cine/MVD_G2.png', G3:'assets/img/cine/MVD_G3.png', G4:'assets/img/cine/MVD_G4.png', G5:'assets/img/cine/MVD_G5.png',
@@ -438,6 +460,7 @@
       [8.2,'ep3_whoosh',0.7,null,'Pain vung đòn'],[8.45,'cine_strongpunch',1,null,'Pain đấm trúng, Gojo văng lùi'],
       [10.12,'ep3_whoosh',0.8,null,'2 bên lao vào nhau lần 2'],[10.35,'cine_impact',1,null,'VA NHAU MẠNH, âm bản đỏ'],
       [11.72,'ep3_whoosh',0.7,null,'Gojo vung đòn'],[11.95,'cine_strongpunch',0.9,null,'Gojo đấm, Pain đỡ trượt lùi'],
+      [12.8,'se_glass',0.75,null,'Pain trượt lùi vào kính cửa hàng, kính vỡ tung, mảnh kính che khung'],
       [T.pushC+0.05,'ep3_force',1,null,'Pain gồng ALMIGHTY PUSH, vòng lực co vào'],
       [T.push,'cine_deep_impact',0.9,null,'bức tường lực trúng Gojo'],[T.push+0.2,'l2p_whoosh',0.8,null,'Gojo bị hất văng xa (đường hầm tốc độ)'],
       [T.crash+0.05,'cine_heavy_slow',0.9,null,'Gojo đâm sầm vào toà nhà, nổ tung khoét lỗ thủng lớn'],[T.crash+0.4,'ep3_rock',0.6,null,'gạch đá toà nhà đổ xuống'],
@@ -545,6 +568,12 @@
       for(const [a,b] of [[5.08,5.3],[6.15,6.45],[6.75,6.9],[8.15,8.45],[10.1,10.35],[11.7,11.95]]) if(t>=a&&t<b) K.panLines(F,{k:0.8,ang:0,n:28});
       if(t>=T.pushC&&t<T.push) K.speedLines(F,{k:0.5,n:70,r0:0.4,col:'rgba(255,255,255,0.8)'});
       if(C) C.speedTunnel(F,t,14.6,0.7);
+      // 10/11 học fight-1 (TransNetV2 bắt được, luật cũ sót): ① KHUNG NHOÈ NỐI CẢNH — khung cuối shot cũ + khung đầu shot mới nhoè theo hướng chuyển động (1:22.4, 1:27.3, 1:36.5, 1:36.9)
+      for(const [c,dir] of SMEAR) if(Math.abs(t-c)<0.06) smearFrame(F,dir*0.06);
+      // ② KÍNH VỠ CHE KHUNG 0.45s (1:28.2–1:28.6): Pain trượt lùi đâm vỡ kính cửa hàng, mảnh lao về máy phủ kín rồi bay qua → 2 bên tách
+      glassWipe(F,t,12.78,0.44);
+      // ③ TRẮNG XOÁ NỐI CẢNH (1:28.8–1:30.0): cuối đường hầm tốc độ loé trắng 0.1s, cảnh mới hiện dần từ trắng 0.4s
+      if(t>=T.crash-0.1&&t<T.crash) K.flash(F,seg(t,T.crash-0.1,T.crash),'#fff'); if(t>=T.crash&&t<T.crash+0.4) K.flash(F,1-eout(seg(t,T.crash,T.crash+0.4)),'#fff');
       if(t>=T.rise&&t<T.cast) K.speedLines(F,{k:0.35,n:50,r0:0.45});
       if(t>=T.fire&&t<T.block) K.speedLines(F,{k:0.8,n:80,r0:0.3,col:'rgba(210,170,255,0.85)'});
       if(t>=T.block&&t<T.heave) K.speedLines(F,{k:0.45,n:60,r0:0.4,col:'rgba(230,210,255,0.7)'});

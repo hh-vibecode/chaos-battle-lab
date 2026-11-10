@@ -4,7 +4,7 @@
 // Nạp shotlist js/shots/<id>.json + nạp phim thật trong máy ảo Node (cách của sfx-lint.js) → lấy DUR, máy quay (def.shots), lịch tiếng có nhãn, def.impact.
 // SHOTLIST (Bước 6 KE-HOACH-NANG-CAP.md, meme-anime-lab): mảng [{t0,t1,co,goc,hanhDong,loai,anh:[key ảnh trong imgs],sfx:[key tiếng],ghiChu}]
 //   co   : toàn | trung | cận | cực cận | đặc tả            goc : ngang | giun | chim | chéo | qua vai
-//   loai : đánh | đối mặt | ra chiêu | nổ lớn | thở | chuyển cảnh | lãnh địa | giới thiệu
+//   loai : đánh | combo | đối mặt | ra chiêu | nổ lớn | thở | chuyển cảnh | lãnh địa | giới thiệu   (combo = 1 góc trong chuỗi đổi góc nhanh 0.08–0.25s)
 //   1 dòng = 1 shot NHÌN THẤY (máy quay 1 shot mà lớp vẽ đổi hẳn hình — vd chuỗi lãnh địa — thì tách nhiều dòng).
 // Luật (số lấy từ meme-anime-lab/playbook/nhip.md + luat.md mục Nhịp cắt):
 //   ❌ PHỦ        shotlist phủ kín 0 → DUR, không hở / chồng             ❌ GIÁ TRỊ   co / goc / loai ngoài danh sách trên
@@ -54,7 +54,7 @@ const impactAt = t => { for (const m of imps) if (t >= m.a && t < m.b) { try { r
 
 // ───────── soát ─────────
 const CO = ['toàn', 'trung', 'cận', 'cực cận', 'đặc tả'], GOC = ['ngang', 'giun', 'chim', 'chéo', 'qua vai'];
-const LOAI = ['đánh', 'đối mặt', 'ra chiêu', 'nổ lớn', 'thở', 'chuyển cảnh', 'lãnh địa', 'giới thiệu'];
+const LOAI = ['đánh', 'combo', 'đối mặt', 'ra chiêu', 'nổ lớn', 'thở', 'chuyển cảnh', 'lãnh địa', 'giới thiệu'];
 const flags = [], F = (lv, t, msg) => flags.push({ lv, t, msg }), EPS = 0.005;
 const fmt = t => { const m = Math.floor(t / 60), s = t - m * 60; return (m ? m + ':' : '') + (m && s < 10 ? '0' : '') + s.toFixed(2); };
 const rng = s => `${fmt(s.t0)}–${fmt(s.t1)}`, len = s => s.t1 - s.t0;
@@ -75,6 +75,7 @@ else { if (S[0].t0 > EPS) F('❌', 0, `shotlist bắt đầu ở ${fmt(S[0].t0)}
 // độ dài
 for (const s of S) { const d = len(s);
   if (s.loai === 'đánh' && (d < 0.2 - EPS || d > 0.9 + EPS)) { F('❌', s.t0, `shot đánh #${s.i} ${rng(s)} dài ${d.toFixed(2)}s — cần 0.2–0.9s (fight-1 TB ~0.6s)${d > 0.9 ? ': cắt đôi / đổi góc giữa chừng' : ': gộp hoặc kéo dài'}`); mark(s, '❌ ĐÁNH ' + d.toFixed(2) + 's'); }
+  if (s.loai === 'combo' && (d < 0.08 - EPS || d > 0.25 + EPS)) { F('❌', s.t0, `shot combo #${s.i} ${rng(s)} dài ${d.toFixed(2)}s — cần 0.08–0.25s/góc (fight-1 1:36–1:38, G)`); mark(s, '❌ COMBO ' + d.toFixed(2) + 's'); }
   if (d > 3 + EPS) { const mv = cams.some(c => c.t0 < s.t1 - EPS && c.t1 > s.t0 + EPS && !c.still); F('❌', s.t0, `shot #${s.i} ${rng(s)} (${s.loai}) dài ${d.toFixed(2)}s > 3s${mv ? '' : ', máy đứng yên'} — cắt thêm góc`); mark(s, '❌ DÀI'); } }
 // cỡ cảnh mỗi 10s (cửa sổ 0–10, 10–20 …, cửa sổ cuối dóng vào DUR)
 const wins = []; for (let a = 0; a + 10 <= DUR + EPS; a += 10) wins.push(a); if (DUR > 10 && DUR - (wins[wins.length - 1] + 10) > 1) wins.push(DUR - 10); if (DUR <= 10) wins.splice(0, wins.length, 0);
