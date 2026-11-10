@@ -6082,7 +6082,7 @@ function _azFoes(f){ return [...fighters.filter(o=>!o.dead && o.team!==f.team), 
 function _azHit(u,dmg,f){ if(fighters.includes(u)) u.takeDamage(dmg,f); else _summonTakeDamage(u,dmg,f); }
 function _azAttack(f,bt,strong){
   if(strong){   // 🔊 bass drop: sóng chấn động quanh người
-    azFx.push({k:'drop',x:f.x,y:f.y,t:0,T:34,R:AZ_DROP_R,seed:Math.random()*9}); addShake(9,12);
+    azFx.push({k:'drop',x:f.x,y:f.y,t:0,T:34,R:AZ_DROP_R,seed:Math.random()*9,owner:f}); addShake(9,12);
     for(const u of _azFoes(f)){ const d=Math.hypot(u.x-f.x,u.y-f.y); if(d>AZ_DROP_R+(u.size||20)) continue; _azHit(u,AZ_DROP,f);
       if(!u.dead && fighters.includes(u)){ const a=Math.atan2(u.y-f.y,u.x-f.x); u.vx=(u.vx||0)+Math.cos(a)*9; u.vy=(u.vy||0)+Math.sin(a)*9; } }
     floatTexts.push({x:f.x,y:f.y-f.size-28,text:'WUB!',color:'#e040fb',life:40,big:true}); return; }
@@ -6094,7 +6094,7 @@ function _azAttack(f,bt,strong){
 function _azCountShot(f,n,round){
   const e=_sdFoe(f); const S=f._lastSprite, fl=S?S.fl:false, dw=S?S.dw:f.size*2*AZ_FR_K, dh=S?S.dh:dw/2.37;
   const hp=AZ_HAND[round], hx=f.x+(fl?-hp[0]:hp[0])*dw, hy=f.y+hp[1]*dh;
-  azFx.push({k:'pop',x:hx,y:hy,t:0,T:16,n});
+  azFx.push({k:'pop',x:hx,y:hy,t:0,T:16,n,owner:f});
   const a=e?Math.atan2(e.y-hy,e.x-hx):(fl?Math.PI:0);
   azFx.push({k:'count',id:++_azId,x:hx,y:hy,a,t:0,T:80,team:f.team,owner:f,n,hit:new Set(),r:16+n*1.5,tr:[]});
 }
@@ -6133,7 +6133,7 @@ function _azEqRing(f){
 }
 function _azDrawUnder(){
   for(const f of fighters) if(f.type==='azel' && !f.dead && !f._mwErased && (f._azAudio||f._azT0!==undefined)) _azEqRing(f);
-  for(const e of azFx){ if(e.k!=='drop') continue; const u=e.t/e.T, ease=1-Math.pow(1-u,3), R=e.R*(0.2+0.9*ease), fa=1-u;
+  for(const e of azFx){ if(e.k!=='drop' || (e.owner && (e.owner.dead || e.owner._mwErased))) continue; const u=e.t/e.T, ease=1-Math.pow(1-u,3), R=e.R*(0.2+0.9*ease), fa=1-u;
     ctx.save(); ctx.globalCompositeOperation='lighter';
     const g=ctx.createRadialGradient(e.x,e.y,R*0.45,e.x,e.y,R); g.addColorStop(0,'rgba(224,64,251,0)'); g.addColorStop(0.8,`rgba(224,64,251,${0.32*fa})`); g.addColorStop(0.96,`rgba(255,255,255,${0.5*fa})`); g.addColorStop(1,'rgba(128,222,234,0)');
     ctx.fillStyle=g; ctx.beginPath(); ctx.ellipse(e.x,e.y,R,R*0.55,0,0,Math.PI*2); ctx.fill();
@@ -9732,7 +9732,7 @@ function _mwPurpleTick(){
   if(q.done && _mwTravelSfx){ const k=1-(now-q.endT)/400; if(k<=0) _mwTravelStop(); else if(_mwTravelSfx._gainNode) _mwTravelSfx._gainNode.gain.value=_mwTravelSfx._mwG*k; else _mwTravelSfx.volume=k; }   // 🔉 cầu ra khỏi màn → tiếng nhỏ dần 0.4s rồi tắt
   if(q.done && now-q.endT>=MW_AFTER_MS){
     _mwTravelStop();   // ✅ kết thúc: thời gian chạy lại, chốt chết các meme đã bị xoá
-    battleFreezeTimer=0; mwPurple=null;
+    battleFreezeTimer=0; mwPurple=null; mwShards=[];
     for(const u of q.kill){ _stopFighterSfx(u); _forceKill(u,f); if(!u.dead){ u.hp=0; u.dead=true; u._deathTick=tick; } }
     f._mwGojo=!fighters.some(u=>u!==f && u.team!==f.team && !u.dead);   // 🏆 thắng bằng Hollow Purple → giữ luôn dáng Gojo
   }
