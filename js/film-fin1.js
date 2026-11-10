@@ -628,7 +628,7 @@
     for(let j=0;j<12;j++) for(let i=0;i<14;i++) if(H(i+50,j)<0.3){ g.fillStyle='rgba(180,20,20,0.45)'; g.fillRect(-120+i*90,580+j*70,40,30); } }
   // 🔴 LOGO MEOWKATSUKI theo mẫu anh gửi (logo Akatsuki): chữ cong theo vòng cung trên · vòng 10 nhẫn chữ Hán · mây đỏ giữa có chữ 猫 · EST. 2 bên ·
   //    ORGANIZATION + MEME HUNTERS bên dưới — toàn đỏ trên đen, hiện kiểu đóng dấu
-  const RINGS=['零','青','白','朱','空','南','北','三','玉','亥'];
+  const RINGS=['零','青','白','朱','空','南','北','三','玉','亥'];   // lint-ok: cjk (logo theo mẫu anh gửi 5/11)
   function emblem(g,t,cx,cy,R,a0){ const v=t-T.akaT; if(v<0) return; const RED='#c41a22';
     g.save(); g.globalAlpha=a0==null?1:a0;
     g.save(); g.globalCompositeOperation='lighter'; blob(g,cx,cy,R*1.6,'150,10,15',0.5*seg(v,0,0.5)); g.restore();
@@ -645,7 +645,7 @@
     // mây đỏ giữa + 猫
     const ck=E.eout(seg(v,0.25,0.6)); if(ck>0){ g.save(); g.translate(cx,cy); g.scale(R/160*ck,R/160*ck);
       const L=[[-48,8,26],[-22,-14,32],[12,-18,30],[42,-2,26],[-4,16,30],[26,16,26]]; g.fillStyle=RED; for(const [lx,ly,r] of L){ g.beginPath(); g.arc(lx,ly,r,0,TAU); g.fill(); }
-      g.fillStyle='#120204'; g.font='900 40px serif'; g.fillText('猫',0,2); g.restore(); }
+      g.fillStyle='#120204'; g.font='900 40px serif'; g.fillText('猫',0,2); g.restore(); }   // lint-ok: cjk (logo theo mẫu anh gửi 5/11)
     const tk=seg(v,1.0,1.4); if(tk>0){ g.globalAlpha=(a0==null?1:a0)*tk; g.fillStyle=RED; g.font=`${Math.round(R*0.15)}px Shojumaru, ${SANS}`;
       g.fillText('EST.',cx-R*1.02,cy+R*0.36); g.fillText('2026',cx+R*1.02,cy+R*0.36);
  }
@@ -709,10 +709,27 @@
   // ───────── tiếng ─────────
   const A='assets/audio/';
   // cảnh 2 (đuôi quật, 9/11): vút đúng đầu đoạn quét · va đúng khung đuôi chạm (d1 toà đầu +0.65 · d3 ô kính đầu +0.5 · d4 +0.42 · d6 +0.62)
-  const sfx=[[T.roar-0.14,'fr_titan_roar',0.8],[T.d1+0.42,'l2p_whoosh',0.6],[T.d1+0.65,'l2p_explode',0.55],[T.d1+0.86,'cine_deep_impact',0.5],[T.d3+0.32,'ep3_whoosh',0.55],[T.d3+0.5,'ep3_glass',0.7],[T.d3+0.52,'l2p_crack',0.5],[T.d3+1.42,'l2p_whoosh',0.6],
-    [T.d4+0.3,'wg_axe_whoosh',0.5],[T.d4+0.42,'cine_deep_impact',0.8],[T.d5,'l2p_whoosh',0.45],[T.d5+0.4,'l2p_explode',0.45],[T.d6+0.45,'l2p_whoosh',0.5],[T.d6+0.62,'l2p_crack',0.7],[T.d2a+0.22,'cine_deep_impact',0.45],[T.d5b,'l2p_explode',0.55],[T.splat,'cine_impact',0.25],[T.cry+0.4,'cry_banana_cat',0.95]];   // Banana Cat khóc
-  for(let i=0;i<5;i++) sfx.push([T.booms+i*0.6,'vine_boom',0.85]);   // 5 tiếng vine boom = 5 khung trượt vào
-  sfx.push([T.akaT,'cine_deep_impact',0.8]);   // MEOWKATSUKI đập xuống
+  // 🔊 (10/11 sửa theo tools/x/sfx-lint.js) mỗi dòng: [giây, key, to, dài, NHÃN = việc đang xảy ra trên hình] — mỗi nhịp 1 tiếng, không mượn tiếng meme khác
+  const sfx=[
+    [T.splat,'cine_impact',0.25,null,'que kem rơi bẹp xuống vỉa hè'],
+    [T.cry+0.4,'cry_banana_cat',0.95,null,'Banana Cat ngước lên khóc thét'],
+    [T.roar-0.14,'fr_titan_roar',0.8,null,'Friend gầm trên trời (góc giun)'],
+    [T.d1+0.42,'l2p_whoosh',0.6,null,'đuôi bóng tối quét ngang dãy nhà'],
+    [T.d1+0.65,'l2p_explode',0.55,null,'đuôi va vào nhà, nổ lửa'],
+    [T.d1+0.86,'cine_deep_impact',0.5,null,'khối nhà sập theo đường quét'],
+    [T.d2a+0.22,'cine_deep_impact',0.45,null,'đuôi đập xuống sau lưng dân đang chạy'],
+    [T.d3+0.32,'ep3_whoosh',0.55,null,'đuôi lao thẳng vào mặt kính toà nhà'],
+    [T.d3+0.5,'ep3_glass',0.7,null,'kính vỡ bay về phía máy'],
+    [T.d3+1.42,'l2p_whoosh',0.6,null,'đuôi rút ra khỏi toà nhà'],
+    [T.d4+0.22,'ep3_whoosh',0.5,null,'đuôi vung lên quật dọc xuống phố'],
+    [T.d4+0.42,'cine_deep_impact',0.8,null,'đuôi đập mặt phố, xe văng lên'],
+    [T.d5,'l2p_whoosh',0.45,null,'góc chim: nhiều đuôi lao xuống thành phố'],
+    [T.d5+0.4,'l2p_explode',0.45,null,'nổ lửa khắp các khối nhà'],
+    [T.d5b,'l2p_explode',0.55,null,'góc giun: cột lửa khói bốc lên trời'],
+    [T.d6+0.45,'l2p_whoosh',0.5,null,'đuôi lao vào tháp đứng trước trăng máu'],
+    [T.d6+0.62,'l2p_crack',0.7,null,'tháp gãy ngang, đổ nghiêng']];
+  for(let i=0;i<5;i++) sfx.push([T.booms+i*0.6,'vine_boom',0.85,null,'khung cận mặt thành viên '+(i+1)+'/5 trượt vào']);   // 5 tiếng vine boom = 5 khung trượt vào
+  sfx.push([T.akaT,'cine_deep_impact',0.8,null,'logo MEOWKATSUKI đập xuống sau lưng cả nhóm']);   // MEOWKATSUKI đập xuống
   const mus=[
     {src:A+'fin_icecream.mp3', ra:0, rb:T.shadow+0.6, vol:0.32, fo:1.2},                         // nhạc xe kem leng keng: phố bình yên
     {src:A+'fin_city.mp3', ra:0, rb:T.shadow+1, vol:0.3, loop:true, fo:1},                      // tiếng xe cộ
@@ -720,8 +737,8 @@
     {src:A+'cine_ambient_war.mp3', ra:T.reveal, rb:T.roof+0.8, vol:0.55, fi:1, fo:1.2},
     {src:A+'fin_crowd.mp3', ra:T.d1+0.6, rb:T.d7+1, vol:0.45, loop:true, fi:0.5, fo:1},           // đám đông la hét
     {src:A+'fin_collapse.mp3', ra:T.d6+0.6, rb:T.d7+1.5, vol:0.6, fo:0.8},                        // toà nhà sập
-    {src:A+'cine_epic.mp3', ra:T.d1, rb:T.roof, vol:0.6, fi:0.3, fo:1.0},
-    {src:A+'dp_akatsuki.mp3', ra:T.roof, rb:DUR, vol:0.75, fi:1.2, fo:1.5} ];                     // theme Akatsuki: 5 bóng lộ diện
+    {src:A+'cine_epic.mp3', ra:T.d1, rb:T.roof, vol:0.6, loop:true, fi:0.3, fo:1.0},   // file 12.1s < 14.5s cảnh phá → lặp (10/11)
+    {src:A+'dp_akatsuki.mp3', ra:T.roof, rb:DUR, vol:0.75, loop:true, fi:1.2, fo:1.5} ];   // file 8.3s < 32s cảnh nóc nhà → lặp, không tắt giữa chừng (anh chê 10/11)                     // theme Akatsuki: 5 bóng lộ diện
 
   // 🧩 (9/11/2026) Tập chia CẢNH: MAIN là bản vẽ cả tập theo giây gốc; mỗi cảnh = 1 phim con cắt 1 khoảng giây của MAIN (fin1c1, fin1c2, fin1c3),
   //    tập 'fin1' = K.seq nối các cảnh + nhạc nền theo giây cả tập. Cảnh MỚI (Gojo vs Pain…) viết file riêng rồi thêm id vào FIN1_PARTS.
@@ -758,7 +775,8 @@
     ['fin1c2','Final 1 · Cảnh 2 · Friend phá thành phố', T.reveal, T.roof, ['fr','hFist','dogeS','banCry',...Array.from({length:14},(_,i)=>'c'+i)]],
     ['fin1c3','Final 1 · Cảnh 3 · Nóc nhà Meowkatsuki', T.roof, T.DUR, ['pose','dp','aChud','aBat','aNinja','aMlem']]];
   const pick=keys=>keys?Object.fromEntries(keys.map(k=>[k,MAIN.imgs[k]])):MAIN.imgs;
-  CUTS.forEach(([id,title,a,b,keys],i)=>CineKit.film({ id, title, VW, VH, DUR:b-a, imgs:pick(keys), fadeIn:i===0, fadeOut:i===CUTS.length-1,
+  CUTS.forEach(([id,title,a,b,keys],i)=>CineKit.film({ id, title, VW, VH, cast:['cry','fr','dp'],   // tiền tố tiếng của nhân vật có mặt (Banana Cat, Friend, Depressed) — sfx-lint
+    DUR:b-a, imgs:pick(keys), fadeIn:i===0, fadeOut:i===CUTS.length-1,
     sfx:MAIN.sfx.filter(s=>s[0]>=a&&s[0]<b).map(s=>[s[0]-a,...s.slice(1)]),
     mus:MAIN.mus.filter(m=>m.rb>a&&m.ra<b).map(m=>({...m, ra:Math.max(0,m.ra-a), rb:Math.min(b,m.rb)-a, off:(m.off||0)+Math.max(0,a-m.ra), fi:m.ra>=a?m.fi:0, fo:m.rb<=b?m.fo:0})),   // chỉ dùng khi xem LẺ cảnh
     shots:[{t0:0,t1:b-a,a:{}}],
