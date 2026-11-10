@@ -3,7 +3,7 @@
 ## Bối cảnh 5 dòng
 - Final Part 1 (`js/film-fin1.js`, KHÔNG cần đọc — 96KB): phố bình yên → Friend (quái pixel khổng lồ) phá thành phố đêm trăng máu → nóc nhà: nhóm phản diện
   **Meowkatsuki** (Doorbell Chud, Bat Cat, Ninja Cat, Mlem Cat, thủ lĩnh Depressed/Pain Cat) lộ diện. Ver 541 trở đi.
-- Trận CHÍNH Gojo Cat vs Pain Cat = phim riêng `fin1c4` (`js/film-fin1c4.js`, 2.5D 960×540, 50s) — đã tách khỏi tập (anh chưa thêm cảnh nối). ĐÂY LÀ MẪU để chép cách làm.
+- Mọi phim của Final Part 1 nằm trong THƯ MỤC menu `__fin1` (MEME LORE 2 → Final · Part 1): tập chính `fin1`, trailer `fin1tr`. Trận CHÍNH Gojo Cat vs Pain Cat = phim riêng `fin1c4` (`js/film-fin1c4.js`, 2.5D 960×540, 50s) — đã tách khỏi tập (anh chưa thêm cảnh nối). ĐÂY LÀ MẪU để chép cách làm.
 - Việc này: 3 trận PHỤ, mỗi trận **10–20s**, ngắn hơn trận chính nhưng vẫn phải có **SIGNATURE MOVE đúng như trong game** của từng meme + giao tranh chất lượng.
   Mỗi trận 1 phim riêng (chưa ghép vào tập). Thành phố của Final, đêm, đổ nát (cùng bộ nền với fin1c4).
 
@@ -35,7 +35,7 @@ Signature move: TRA trong game, đừng tự bịa — `Grep "<key>" js/game.js`
    mỗi dòng sfx có NHÃN thứ 5. Giọng Nhật hô tên chiêu (nếu hợp): `tools/x/voicevox.js` (VOICEVOX ở `D:\tools\voicevox`, mô tả video ghi `VOICEVOX:<tên giọng>`).
 5. **Soát 1 lệnh**: `powershell -NoProfile -ExecutionPolicy Bypass -File tools/node.ps1 tools/x/film-check.js <id> --t <mốc> --w 320 --out <tạm> --port <riêng>`
    → phải **0 lỗi tiếng (sfx-lint) + 0 lỗi nhịp (film-lint)**, rồi Read bảng khung soát từng dòng mục TỰ SOÁT.
-6. **Menu**: thêm 3 mục vào `__lore2` trong `js/game.js` (sau mục `ck:fin1c4`), Edit nhỏ. Mỗi id cần file `js/film-<id>.js` (playCineKit tải theo tên).
+6. **Menu**: thêm 3 mục vào THƯ MỤC `__fin1` (Final · Part 1) trong `LORE` của `js/game.js` (sau mục `ck:fin1c4`, tên dạng 'Fight · Chud + Mlem vs Doge + Clapping Cat'), Edit nhỏ. Mỗi id cần file `js/film-<id>.js` (playCineKit tải theo tên).
 7. **Lên bản**: `tools/x/release.js --msg "…" --files <đúng các file đã sửa>`. KHÔNG xuất video khi anh chưa bảo.
 
 ## Luật anh đã dặn (vi phạm là bị chê lại)
