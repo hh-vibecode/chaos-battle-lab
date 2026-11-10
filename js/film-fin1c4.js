@@ -406,7 +406,7 @@
   const IMP=C?C.negFrames([5.3,6.9,8.45,11.95,T.push+0.95,T.land+0.95,T.heave+0.25],0.07,'inv',[T.clash,10.35,T.push,T.sh,T.boom]):()=>0;
   const at=(t,a,d)=>t>=a&&t<a+d;
 
-  CineKit.film({ id:'fin1c4', title:'Final 1 · Cảnh 4 · Gojo Cat vs Pain Cat', DUR:T.DUR, VW:960, VH:540, fadeIn:false, fadeOut:true,
+  CineKit.film({ id:'fin1c4', title:'Final 1 · Cảnh 4 · Gojo Cat vs Pain Cat', DUR:T.DUR, VW:960, VH:540, fadeIn:true, fadeOut:true,   /* 10/11: phim riêng, không còn nối sau nóc nhà */
     imgs:{ G1:'assets/img/cine/MVD_G1.png', G2:'assets/img/cine/MVD_G2.png', G3:'assets/img/cine/MVD_G3.png', G4:'assets/img/cine/MVD_G4.png', G5:'assets/img/cine/MVD_G5.png',
       P1:'assets/img/cine/MVD_P1.png', P2:'assets/img/cine/MVD_P2.png', P3:'assets/img/cine/MVD_P3.png', P4:'assets/img/cine/MVD_P4.png', P5:'assets/img/cine/MVD_P5.png',
       mB:'assets/img/cine/MVD_GOJO_BLAST.png', dB:'assets/img/cine/MVD_PAIN_PUSH.png', mK:'assets/img/cine/MVD_GOJO_KB.png', dK:'assets/img/cine/MVD_PAIN_KB.png',

@@ -211,6 +211,8 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
   → Friend xuất hiện kéo theo trăng máu, trời tối dần… · Gojo mở lãnh địa: GIƠ TAY (chân trước) ra phía trước, BĂNG MẮT nhếch chéo lên lộ 1 mắt giống mắt Gojo ·
   tên chiêu: CHỮ TIẾNG ANH trên màn hình + TIẾNG NHẬT đọc tên chiêu (sound) · trận ~60–70s · nhạc: nhạc anime đánh nhau EPIC, không ngại bản quyền (dính thì anh tự thay).
   Chờ: anh gửi link YouTube mẫu sau.
+  ✂️ (10/11 anh dặn) TÁCH các trận lớn khỏi tập vì chưa có cảnh nối: tập fin1 = 3 cảnh (fin1c1–c3) + trailer dọc fin1tr; Gojo vs Pain = phim riêng fin1c4 (mục riêng menu).
+  Trận phụ (fin1f1 Chud+Mlem vs Doge+Clapping · fin1f2 Bat vs Pop+Huh · fin1f3 Ninja vs Berserk): yêu cầu chi tiết ở prompts/fin1-fight-phu.md.
   🔧 NÂNG CẤP 9/11 (theo meme-anime-lab/playbook): thành phố dựng lại đúng TỈ LỆ (MEME_H=32, tầng 84–100, nhà phố 3–5 tầng, cao tầng 15–40) · Friend lộ diện = bộ ba
   (cực cận răng→mắt bật sáng · góc giun trời đỏ ngược sáng · cận Banana Cat) · ĐUÔI quật thay nắm tay (kiểu Cửu Vĩ, clip kaiju-b) · tĩnh trước phá · hậu quả ·
   nóc nhà: bỏ thở / nghiêng TỪNG Ô (làm vỡ kính Chud) → cả ảnh thở đồng nhất · Rinnegan vẽ rõ (vòng đồng tâm) trong bóng đen.

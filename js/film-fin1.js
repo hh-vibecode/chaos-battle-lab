@@ -849,6 +849,8 @@
         if(s>=T.group&&s<T.group+0.35) K.flash(F,1-(s-T.group)/0.35,'#fff');              // 5 thẻ → ảnh nhóm
         subV(g,s); stripsV(g,s); K.vignette(F,0.45); } });
   })();
-  window.FIN1_PARTS=window.FIN1_PARTS||(()=>{ const P=CUTS.map(c=>c[0]); try{ if(!CineKit.films.fin1c4){ const src=(document.currentScript&&document.currentScript.src)||'', x=new XMLHttpRequest(); x.open('GET',(src?src.replace(/film-fin1\.js.*$/,''):'js/')+'film-fin1c4.js'+(window.GAME_VERSION?'?v='+GAME_VERSION.build:''),false); x.send(); if(x.status>=200&&x.status<300) (0,eval)(x.responseText); } const f=CineKit.films.fin1c4; if(f){ P.push('fin1c4'); for(const m of (f.def.mus||[])) MAIN.mus.push({...m,ra:m.ra+DUR,rb:m.rb+DUR}); } }catch(e){} return P; })();   // 9/11: cảnh 4 Gojo vs Pain (js/film-fin1c4.js) nạp ĐỒNG BỘ trước seq + nhạc của nó vào nhạc tập (lỗi thì tập vẫn chạy 3 cảnh)
+  // 10/11 anh dặn: TÁCH các trận lớn ra khỏi tập (chưa có cảnh nối) → tập fin1 chỉ 3 cảnh. Gojo vs Pain = phim riêng 'fin1c4' (js/film-fin1c4.js, mục riêng trong menu);
+  //   các trận phụ = js/film-fin1f*.js. Khi anh thêm cảnh nối thì mới ghép lại vào FIN1_PARTS.
+  window.FIN1_PARTS=window.FIN1_PARTS||CUTS.map(c=>c[0]);
   CineKit.seq({ id:'fin1', title:MAIN.title, VW, VH, parts:window.FIN1_PARTS, mus:MAIN.mus });
 })();
