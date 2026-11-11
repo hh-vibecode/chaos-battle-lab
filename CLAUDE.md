@@ -218,6 +218,14 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
   ✂️ (10/11 anh dặn) TÁCH các trận lớn khỏi tập vì chưa có cảnh nối: tập fin1 = 3 cảnh (fin1c1–c3) + trailer dọc fin1tr; Gojo vs Pain = phim riêng fin1c4. Menu: MEME LORE 2 → thư mục __fin1 'Final · Part 1' chứa tập chính, Gojo vs Pain, trailer (+ trận phụ sau).
   🔊 (11/11 anh dặn) Friend gầm → SÓNG ÂM vỡ hết kính: vòng sóng ở shot góc giun (`roarRings`) + cảnh mới `scGlass` (T.glass 21.0–22.5, thay chỗ tiêu đề FRIEND đã bỏ): ô kính vỡ đúng lúc vòng sóng chạm (`shops(...,{out,broke})`, `brokenPane`).
   Trailer fin1tr (11/11): Chuối cầm kem NGƯỚC LÊN → hoảng → khóc, kem rơi trong 1 shot (anh chê bản cũ bị lặp đoạn khóc); tiếng gầm vào đúng lúc mắt Friend bật sáng; trailer nạp HẾT ảnh MAIN (thiếu ảnh = dân phố/đuôi biến mất).
+  ⚔️ TRẬN PHỤ (11/11/2026) — module chung `js/fin1-city.js` (thành phố tách từ fin1c4, `Fin1City({seed,collapse})`) + `js/fin1-fight.js` (`Fin1Fight`: track keyframe, hstop, actor tự lật mặt theo HƯỚNG NGANG máy, smearFrame,
+  line/taper/text3/beam/ice, `kamui` CHÉP ĐÚNG game `_njKamuiTickDraw`: twist thật + dải mực + lõi đen; mode 'phase' = xuyên thấu). Ảnh tư thế vẽ GPT: `assets/img/cine/FIN_F1_* / FIN_F2_* / FIN_F3_*`.
+  LUẬT ANH DẶN 11/11: ① melee trao đổi kiểu melee, ranger kiểu ranger · ② chiêu phải ĐÚNG game / nguyên tác, không tự chế (Kamui: xuyên thấu + hút người khi chạm) ·
+  ③ Meowkatsuki đánh MẶC ÁO AKATSUKI · ④ MỌI TRẬN KẾT DANG DỞ, chuyển sang trận khác bằng 1 pha có câu chuyện · ⑤ logic xếp cảnh: nguyên nhân trước hệ quả (mắt kích hoạt TRƯỚC đòn xuyên thấu; ảo thuật phải có lúc chạm mắt) ·
+  ⑥ Bat Cat = Batman: thông minh, CÀI BẪY / GÀI BOM, có thời gian chuẩn bị là xử lý hết · ⑦ giữ đồng nhất nhân vật giữa các tư thế · ⑧ tập Final 1 dài ≥ 8–9 phút → mở rộng thoải mái.
+  THỨ TỰ (em đề xuất, chờ anh duyệt): fin1f3 Ninja vs Berserk → fin1f2 Bat vs Pop+Huh → fin1f1 Chud+Mlem vs Doge+Clapping → fin1c4 Gojo vs Pain.
+  fin1f3 XONG bản đầu (Ver 563, 21.9s): kết = Berserk chém đôi Ninja + toà nhà → quạ bay lên trời → thế giới ẢO THUẬT (trời đỏ, 2 mắt Sharingan theo ảnh mẫu anh gửi, chỉ hiện khi máy ngước thấy trời)
+  → Berserk hú (`bk_howl`) → chém vỡ ảo cảnh = MẢNH KÍNH (`def.panels`: mỗi mảnh vẽ lại thế giới đông cứng, nền là cảnh mở đầu fin1f2). fin1f2 + fin1f1: ĐANG LÀM.
   Trận phụ (fin1f1 Chud+Mlem vs Doge+Clapping · fin1f2 Bat vs Pop+Huh · fin1f3 Ninja vs Berserk): yêu cầu chi tiết ở prompts/fin1-fight-phu.md.
   🔧 NÂNG CẤP 9/11 (theo meme-anime-lab/playbook): thành phố dựng lại đúng TỈ LỆ (MEME_H=32, tầng 84–100, nhà phố 3–5 tầng, cao tầng 15–40) · Friend lộ diện = bộ ba
   (cực cận răng→mắt bật sáng · góc giun trời đỏ ngược sáng · cận Banana Cat) · ĐUÔI quật thay nắm tay (kiểu Cửu Vĩ, clip kaiju-b) · tĩnh trước phá · hậu quả ·

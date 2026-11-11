@@ -1,6 +1,6 @@
 {
  "ghiChu": "Sinh bởi tools/x/sfx-catalog.js — sửa tay loai/moTa thì thêm \"tay\":true để lần chạy sau giữ nguyên",
- "ngay": "2026-11-10",
+ "ngay": "2026-11-11",
  "tieng": {
   "wg_truck_horn": {
    "file": "assets/audio/wg_truck_horn.mp3",
@@ -313,7 +313,8 @@
    "chu": "ninja",
    "nhac": false,
    "dung": [
-    "cine-war"
+    "cine-war",
+    "film-fin1f3"
    ],
    "tai": [
     "Whoosh, swoosh, swish 33%",
@@ -331,7 +332,9 @@
    "loai": "rung",
    "chu": "ninja",
    "nhac": false,
-   "dung": [],
+   "dung": [
+    "film-fin1f3"
+   ],
    "tai": [
     "Chink, clink 27%",
     "Breaking 23%",
@@ -496,7 +499,9 @@
    "loai": "?",
    "chu": "huh",
    "nhac": false,
-   "dung": [],
+   "dung": [
+    "film-fin1f2"
+   ],
    "tai": [
     "Speech 75%",
     "Male speech, man speaking 6%",
@@ -2001,7 +2006,9 @@
    "loai": "?",
    "chu": "bat",
    "nhac": false,
-   "dung": [],
+   "dung": [
+    "film-fin1f2"
+   ],
    "tai": [
     "Music 60%",
     "Speech 15%",
@@ -2073,7 +2080,9 @@
    "loai": "va chạm",
    "chu": null,
    "nhac": false,
-   "dung": [],
+   "dung": [
+    "film-fin1f2"
+   ],
    "tai": [
     "Sound effect 19%",
     "Breaking 17%",
@@ -2091,7 +2100,9 @@
    "chu": null,
    "nhac": false,
    "dung": [
-    "cine-war"
+    "cine-war",
+    "film-fin1f2",
+    "film-fin1f3"
    ],
    "tai": [
     "Whack, thwack 51%",
@@ -2112,7 +2123,8 @@
    "dung": [
     "cine-lore2ep0",
     "cine-lore2ep3",
-    "cine-war"
+    "cine-war",
+    "film-fin1f2"
    ],
    "tai": [
     "Explosion 37%",
@@ -2774,6 +2786,26 @@
     "Music 6%"
    ]
   },
+  "mc_gd_lock": {
+   "file": "assets/audio/mc_gd_lock.mp3",
+   "dai": 0.84,
+   "moTa": "🔩 cắt từ mc_sfx_craft 2.12→2.9s: cú 'cạch' khớp bộ phận Gundam",
+   "loai": "?",
+   "chu": "mc",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "mc_gd_fly": {
+   "file": "assets/audio/mc_gd_fly.mp3",
+   "dai": 1.1,
+   "moTa": "🔧 cắt từ mc_sfx_craft 0.03→1.05s: lạch cạch dụng cụ lúc bộ phận bay lên",
+   "loai": "?",
+   "chu": "mc",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
   "ac_ufo_illuminati": {
    "file": "assets/audio/ac_ufo_illuminati.mp3",
    "dai": 4.41,
@@ -3333,7 +3365,9 @@
    "loai": "nổ",
    "chu": "br",
    "nhac": false,
-   "dung": [],
+   "dung": [
+    "film-fin1f2"
+   ],
    "tai": [
     "Dial tone 52%",
     "Busy signal 27%",
@@ -3351,7 +3385,8 @@
    "chu": "br",
    "nhac": false,
    "dung": [
-    "cine-war"
+    "cine-war",
+    "film-fin1f2"
    ],
    "tai": [
     "Bang 29%",
@@ -3775,6 +3810,7 @@
     "cine-lore2ep3",
     "cine-war",
     "film-fin1c4",
+    "film-fin1f3",
     "film-mvd"
    ],
    "tai": [
@@ -3854,6 +3890,8 @@
     "cine-war",
     "film-fin1",
     "film-fin1c4",
+    "film-fin1f2",
+    "film-fin1f3",
     "film-mvd"
    ],
    "tai": [
@@ -3934,6 +3972,7 @@
     "cine-war",
     "film-fin1",
     "film-fin1c4",
+    "film-fin1f3",
     "film-mvd",
     "raid-friend"
    ],
@@ -3957,6 +3996,7 @@
     "cine-war",
     "film-dvc",
     "film-fin1c4",
+    "film-fin1f2",
     "film-mvd"
    ],
    "tai": [
@@ -3977,7 +4017,8 @@
    "nhac": false,
    "dung": [
     "cine-war",
-    "film-dvc"
+    "film-dvc",
+    "film-fin1f3"
    ],
    "tai": [
     "Music 48%",
@@ -4036,7 +4077,8 @@
    "dung": [
     "cine-lore2ep3",
     "cine-war",
-    "film-fin1c4"
+    "film-fin1c4",
+    "film-fin1f3"
    ],
    "tai": [
     "Explosion 56%",
@@ -4239,7 +4281,9 @@
    "nhac": false,
    "dung": [
     "cine-lore2ep3",
-    "film-fin1c4"
+    "film-fin1c4",
+    "film-fin1f2",
+    "film-fin1f3"
    ],
    "tai": [
     "Sound effect 35%",
@@ -4397,7 +4441,8 @@
    "nhac": false,
    "dung": [
     "cine-lore2ep3",
-    "film-fin1c4"
+    "film-fin1c4",
+    "film-fin1f3"
    ],
    "tai": [
     "Whoosh, swoosh, swish 38%",
@@ -4485,7 +4530,7 @@
   },
   "vb_warmup": {
    "file": "assets/audio/vb_warmup6.mp3",
-   "dai": null,
+   "dai": 6.5,
    "moTa": "",
    "loai": "nhạc",
    "chu": "vb",
@@ -4646,7 +4691,9 @@
    "dung": [
     "cine-lore2ep3",
     "film-fin1",
-    "film-fin1c4"
+    "film-fin1c4",
+    "film-fin1f2",
+    "film-fin1f3"
    ],
    "tai": [
     "Whoosh, swoosh, swish 56%",
@@ -4704,7 +4751,9 @@
    "chu": null,
    "nhac": false,
    "dung": [
-    "cine-lore2ep3"
+    "cine-lore2ep3",
+    "film-fin1f2",
+    "film-fin1f3"
    ],
    "tai": [
     "Sound effect 19%",
@@ -4795,6 +4844,8 @@
    "dung": [
     "film-fin1",
     "film-fin1c4",
+    "film-fin1f2",
+    "film-fin1f3",
     "film-mvd"
    ],
    "tai": [
@@ -4814,7 +4865,9 @@
    "chu": null,
    "nhac": false,
    "dung": [
-    "film-fin1c4"
+    "film-fin1c4",
+    "film-fin1f2",
+    "film-fin1f3"
    ],
    "tai": [
     "Sound effect 17%",
@@ -4854,6 +4907,8 @@
    "nhac": false,
    "dung": [
     "film-fin1c4",
+    "film-fin1f2",
+    "film-fin1f3",
     "film-mvd",
     "raid-friend"
    ],
@@ -4875,6 +4930,8 @@
    "nhac": false,
    "dung": [
     "film-fin1c4",
+    "film-fin1f2",
+    "film-fin1f3",
     "film-mvd",
     "raid-friend"
    ],
@@ -4916,6 +4973,7 @@
    "chu": null,
    "nhac": false,
    "dung": [
+    "film-fin1",
     "film-l2pro"
    ],
    "tai": [
@@ -4937,6 +4995,7 @@
    "dung": [
     "film-fin1",
     "film-fin1c4",
+    "film-fin1f2",
     "film-l2pro",
     "film-mvd"
    ],
@@ -5211,7 +5270,8 @@
    "chu": "nj",
    "nhac": false,
    "dung": [
-    "cine-lore2ep3"
+    "cine-lore2ep3",
+    "film-fin1f3"
    ],
    "tai": [
     "Speech 9%",
@@ -5433,7 +5493,9 @@
    "loai": "?",
    "chu": "ninja",
    "nhac": false,
-   "dung": [],
+   "dung": [
+    "film-fin1f3"
+   ],
    "tai": [
     "Chink, clink 14%",
     "Scrape 10%",
@@ -5912,7 +5974,8 @@
    "chu": "bk",
    "nhac": false,
    "dung": [
-    "cine-endgame"
+    "cine-endgame",
+    "film-fin1f3"
    ],
    "tai": [
     "Clang 54%",
@@ -5922,6 +5985,36 @@
     "Speech 1%",
     "Vehicle 0%"
    ]
+  },
+  "bk_howl": {
+   "file": "assets/audio/bk_howl.mp3",
+   "dai": 5.28,
+   "moTa": "🐺 Berserk Cat hú lên bùng hào quang, phá ảo thuật (myinstants eva-01-berserk-roar, nguyên bản) — phim Final trận phụ Ninja vs Berserk",
+   "loai": "giọng",
+   "chu": "bk",
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "fin_crow_caw": {
+   "file": "assets/audio/fin_crow_caw.mp3",
+   "dai": 0.42,
+   "moTa": "🐦‍⬛ quạ kêu (myinstants raven-caw-caw) — phim Final: 2 nửa Ninja hoá bầy quạ (ảo thuật)",
+   "loai": "?",
+   "chu": null,
+   "nhac": false,
+   "dung": [],
+   "tai": null
+  },
+  "fin_crow_fly": {
+   "file": "assets/audio/fin_crow_fly.mp3",
+   "dai": 2.66,
+   "moTa": "🐦‍⬛ bầy quạ vỗ cánh bay tán loạn (myinstants crow-flying)",
+   "loai": "?",
+   "chu": null,
+   "nhac": false,
+   "dung": [],
+   "tai": null
   },
   "sd_howl": {
    "file": "assets/audio/sd_howl.mp3",
@@ -6468,7 +6561,10 @@
    "loai": "va chạm",
    "chu": null,
    "nhac": false,
-   "dung": [],
+   "dung": [
+    "film-fin1f2",
+    "film-fin1f3"
+   ],
    "tai": [
     "Bang 50%",
     "Burst, pop 19%",
@@ -6485,7 +6581,10 @@
    "loai": "va chạm",
    "chu": null,
    "nhac": false,
-   "dung": [],
+   "dung": [
+    "film-fin1f2",
+    "film-fin1f3"
+   ],
    "tai": [
     "Zipper (clothing) 26%",
     "Creak 15%",
@@ -6502,7 +6601,9 @@
    "loai": "vút",
    "chu": null,
    "nhac": false,
-   "dung": [],
+   "dung": [
+    "film-fin1f3"
+   ],
    "tai": [
     "Clang 48%",
     "Sound effect 13%",
@@ -6553,7 +6654,9 @@
    "loai": "va chạm",
    "chu": null,
    "nhac": false,
-   "dung": [],
+   "dung": [
+    "film-fin1f3"
+   ],
    "tai": [
     "Explosion 71%",
     "Burst, pop 23%",
@@ -6604,7 +6707,10 @@
    "loai": "vỡ",
    "chu": null,
    "nhac": false,
-   "dung": [],
+   "dung": [
+    "film-fin1",
+    "film-fin1c4"
+   ],
    "tai": [
     "Breaking 63%",
     "Glass 19%",

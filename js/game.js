@@ -2808,6 +2808,9 @@ const AUDIO_SAMPLES = {};
       thunder_big: 'assets/audio/thunder_big.mp3',   // ⚡ thunder-sound-effect.mp3 (đã cắt 0.58s lặng đầu) — sét lớn 1 lần trong CẢNH PHIM (phim Depressed Cat, Supreme Cat thắng, chân thân Friend); sét ngắn holy_thunder để cho đòn đánh
       fr_thunder: 'assets/audio/fr_thunder.mp3', // ⚡ sét lúc chân thân Friend hiện ra (thunder-sound-effect_nnJumIi.mp3, nguyên bản)
       bk_clang: 'assets/audio/bk_clang.mp3', // ⚔️ Berserk Cat chém trúng (clangberserk.mp3, nguyên bản)
+      bk_howl: 'assets/audio/bk_howl.mp3', // 🐺 Berserk Cat hú lên bùng hào quang, phá ảo thuật (myinstants eva-01-berserk-roar, nguyên bản) — phim Final trận phụ Ninja vs Berserk
+      fin_crow_caw: 'assets/audio/fin_crow_caw.mp3', // 🐦‍⬛ quạ kêu (myinstants raven-caw-caw) — phim Final: 2 nửa Ninja hoá bầy quạ (ảo thuật)
+      fin_crow_fly: 'assets/audio/fin_crow_fly.mp3', // 🐦‍⬛ bầy quạ vỗ cánh bay tán loạn (myinstants crow-flying)
       sd_howl: 'assets/audio/sd_howl.mp3', // 🐺🌕 sói hú lúc trăng lên (wolf-howling.mp3, chỉ cắt 0.42s im lặng đầu, giữ nguyên đuôi)
       heal_one: 'assets/audio/heal_one.mp3', // 💚 tiếng hồi máu CHUNG cho mọi lần hồi 1 cục (undertale-healing.mp3, nguyên bản)
       tf_gulp: 'assets/audio/tf_gulp.mp3', // 😏 Troll Face ĐỚP đối thủ (gulp-gulp-drinking.mp3, nguyên bản không cắt)
@@ -25788,7 +25791,8 @@ function openCinema(folder){
                                                               {id:'__lab', ic:'🧪', name:'Anime Lab', desc:'Test scenes for the new anime film kit', folder:true}]},
     __fin1:{ title:'👁️ FINAL · PART 1', back:'__lore2', items:[   // 10/11: thư mục riêng của Final Part 1 — trận phụ fin1f1–f3 thêm vào đây
       {id:'ck:fin1', ic:'🎬', name:'Story · Friend returns', desc:'A peaceful city, an ice cream, a shadow over the sky. Friend has returned, and the Meowkatsuki appear on a rooftop. (16:9)', dur:75.4},
-      {id:'ck:fin1c4', ic:'⚔️', name:'Fight · Gojo Cat vs Pain Cat', desc:'Close combat, Almighty Push, Shinra Tensei, Domain Expansion: Infinite Void and Hollow Purple. (16:9)', dur:50},
+      {id:'ck:fin1c4', ic:'⚔️', name:'Fight · Gojo Cat vs Pain Cat', desc:'Close combat, Shinra Tensei, Domain Expansion: Infinite Void and Hollow Purple. (16:9)', dur:50},
+      {id:'ck:fin1f3', ic:'🗡️', name:'Fight · Ninja Cat vs Berserk Cat', desc:'Kusanagi against the Dragonslayer. Kamui, a Mangekyou genjutsu, and an illusion that shatters like glass. (16:9)', dur:22},
       {id:'ck:fin1tr', ic:'📱', name:'Trailer 9:16', desc:'Vertical teaser: Friend rises over the city, Banana Cat screams, the Meowkatsuki step into the light.', dur:18}]},
     __lore2:{ title:'🌑 MEME LORE 2', back:'', items:[{id:'__fin1', ic:'👁️', name:'Final · Part 1', desc:'Friend has returned and the Meowkatsuki step out of the shadows: the story, the big fights and the trailer.', folder:true},{id:'ck:l2pro', ic:'🌌', name:'Prologue · The Dark Age', desc:"Long before the memes… Friend devoured worlds, until three Supreme Memes and The Void sealed it away. (16:9)", dur:170},
                                                        {id:'__l2e0', ic:'🐹', name:'Ep 0 · The Truth', desc:"What really happened behind that window…", dur:25},
