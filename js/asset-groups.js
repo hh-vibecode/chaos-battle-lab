@@ -732,6 +732,8 @@ window.ASSET_GROUP={
 "assets/audio/mc_sfx_missile.mp3": "mechaniccat",
 "assets/audio/mc_sfx_laser.mp3": "mechaniccat",
 "assets/audio/mc_sfx_craft.mp3": "mechaniccat",
+"assets/audio/mc_gd_lock.mp3": "mechaniccat",
+"assets/audio/mc_gd_fly.mp3": "mechaniccat",
 "assets/audio/ac_ufo_illuminati.mp3": "aliencat",
 "assets/audio/gary_titan_roar.mp3": "gary",
 "assets/audio/guitar_s1.mp3": "electricguitarcat",
