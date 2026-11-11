@@ -16426,7 +16426,7 @@ function _camPaintWorldUI(c, ctaOn){
   // chu kỳ _MI_ON/_CTA_ON trong loop()). Ở chế độ có camera, 2 khối HTML mechInfoWrap/bottomCtaMsg đều bị CSS
   // ẩn hẳn nên PHẢI vẽ thẳng vào canvas ở đây, không thì tới lượt CTA là trống trơn.
   if(ctaOn){
-    const _cta=['❤️ Like and Subscribe','to support your meme-bros'];
+    const _cta=_ctaWhich===1 ? ['🎬 Don\'t miss the Meme Lore','on our main YouTube channel'] : ['❤️ Like and Subscribe','to support your meme-bros'];   // 2 CTA luân phiên mỗi 5s (anh dặn 11/11)
     let _cs=Math.round(W*0.040);
     for(;_cs>7;_cs--){ c.font=`900 ${_cs}px "Montserrat",Arial,sans-serif`; if(_cta.every(t=>c.measureText(t).width<=_maxW)) break; }
     let _y=H+W*0.105;
@@ -16537,17 +16537,19 @@ function _gcTitleShardsDraw(){ const B=gcTitleBrk; if(!B || B.t>150) return; con
   ctx.save(); ctx.globalAlpha=fade;
   for(const s of B.sh){ ctx.save(); ctx.translate(s.cx+s.x,s.cy+s.y); ctx.rotate(s.r); ctx.drawImage(s.c,-s.bw/2,-s.bh/2,s.c.width/_ARENA_SS,s.c.height/_ARENA_SS); ctx.restore(); }
   ctx.restore(); }
+let _ctaWhich=0;
 function _camDrawWorldUI(){
   if(_rfOn()){ _rfHud(); return; }   // 👁️ Friend Raid: HUD kiểu rogue-lite / Deltarune
   _gcBreakTick();
   // loop._mechShown = true khi đang tới lượt INFO, false khi tới lượt CTA (chu kỳ 5s/3s ở loop())
   // ⭐ 2vs2: KHÔNG cycle info/CTA như Solo — luôn CHỈ hiện CTA (user yêu cầu bỏ hẳn phần info, để lại đúng CTA sub)
-  const _ctaOn = (duoCtx||ffa3Ctx) ? !!koWinner : (loop._mechShown===false);   // 📢 CTA chỉ khi hết trận có người thắng (mọi chế độ)
+  const _ctaOn = (duoCtx||ffa3Ctx||fanCtx) ? true : (loop._mechShown===false);   // 📢 chế độ ĐẤU ĐÔNG (2vs2 / LAST ONE STANDING / Fan Battle): bỏ hẳn info, LUÔN chỉ CTA (anh dặn 11/11) · 1vs1: CTA khi hết trận
   // HUD xám đi khi có người gục → trạng thái sống/chết phải nằm trong key, không thì tấm bake giữ nguyên
   // hình cũ tới hết trận.
   const _hudChet=(ffa3Ctx||duoCtx)?fighters.map(f=>f.dead?1:0).join(''):'';
   const _mode=fanCtx?'fan':(duoCtx?('duo'+_hudChet):(ffa3Ctx?('ffa3'+_hudChet):'solo'));
-  const key=[picks.map((_,i)=>(getSlotChar(i)||{}).name).join('~'),_mode,W,H,_viewW,_ARENA_SS,_ctaOn?'cta':'info'].join('|');
+  _ctaWhich=Math.floor((tick||0)/300)%2;   // 📢 đổi CTA mỗi 5s: Like & Subscribe ↔ xem Meme Lore ở kênh chính
+  const key=[picks.map((_,i)=>(getSlotChar(i)||{}).name).join('~'),_mode,W,H,_viewW,_ARENA_SS,_ctaOn?'cta'+_ctaWhich:'info'].join('|');
   if(!_uiCache || _uiKey!==key) _buildCamUI(key, _ctaOn);
   const S=_ARENA_SS;
   for(const b of _uiBands){
