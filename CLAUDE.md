@@ -226,7 +226,10 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
   THỨ TỰ (em đề xuất, chờ anh duyệt): fin1f3 Ninja vs Berserk → fin1f2 Bat vs Pop+Huh → fin1f1 Chud+Mlem vs Doge+Clapping → fin1c4 Gojo vs Pain.
   fin1f2 XONG bản đầu (Ver 564, 18.6s, Batman: chế độ thám tử, bom mồi 'ném hụt', bom gài sẵn trên tường dụ chữ HUH, bom khói, vòng 6 bom; kết = vòng khói khổng lồ, máy chui qua lỗ O sang fin1f1).
   fin1f3 XONG bản đầu (Ver 563, 21.9s): kết = Berserk chém đôi Ninja + toà nhà → quạ bay lên trời → thế giới ẢO THUẬT (trời đỏ, 2 mắt Sharingan theo ảnh mẫu anh gửi, chỉ hiện khi máy ngước thấy trời)
-  → Berserk hú (`bk_howl`) → chém vỡ ảo cảnh = MẢNH KÍNH (`def.panels`: mỗi mảnh vẽ lại thế giới đông cứng, nền là cảnh mở đầu fin1f2). fin1f1: ĐANG LÀM.
+  → Berserk hú (`bk_howl`) → chém vỡ ảo cảnh = MẢNH KÍNH (`def.panels`: mỗi mảnh vẽ lại thế giới đông cứng, nền là cảnh mở đầu fin1f2).
+  fin1f1 XONG bản đầu (Ver 565, 20.6s, 2 vs 2 PHỐI HỢP: chuông làm choáng → Mlem liếm · Clapping đổi chỗ đẩy Chud vào bóng chông → Doge xả chữ · lưỡi kéo Doge vào chuông ·
+  Mlem đóng băng Clapping giữa lúc vỗ tay · Buff Doge + Haki · Clapping đổi chỗ để Chud lãnh đấm · chuông vỡ, xích nung đỏ TRÓI Doge → Clapping đổi chỗ Doge ↔ Mlem (anh gợi ý) ·
+  combo TỐC ĐỘ CAO: mỗi tiếng vỗ dịch chuyển Doge sang 1 phía Chud; kết = cuối đại lộ loé tím (trận Gojo vs Pain), cả 4 quay đầu, máy lao theo).
   Trận phụ (fin1f1 Chud+Mlem vs Doge+Clapping · fin1f2 Bat vs Pop+Huh · fin1f3 Ninja vs Berserk): yêu cầu chi tiết ở prompts/fin1-fight-phu.md.
   🔧 NÂNG CẤP 9/11 (theo meme-anime-lab/playbook): thành phố dựng lại đúng TỈ LỆ (MEME_H=32, tầng 84–100, nhà phố 3–5 tầng, cao tầng 15–40) · Friend lộ diện = bộ ba
   (cực cận răng→mắt bật sáng · góc giun trời đỏ ngược sáng · cận Banana Cat) · ĐUÔI quật thay nắm tay (kiểu Cửu Vĩ, clip kaiju-b) · tĩnh trước phá · hậu quả ·
