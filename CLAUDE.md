@@ -262,6 +262,13 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
   Trong raid tiếng meme khác ×0.45, nhạc theme meme khác tắt (`_rfSndVol` trong playSample; meme nhạc vẫn bắt nhịp nhưng câm — `_playPianoSong`).
 - Ảnh CHỜ ANH (prompt ở Desktop `FriendRaid_anh_can_ve/PROMPT.txt`): `assets/img/friend/RF_MOUTH.png` (há mồm to: hút + gầm), `RF_CHEW1/2.png` (nhai). Chưa có thì dùng tạm khung cười.
 
+## 👁️ FRIEND - Eldritch Apocalypse (`friendeldritch`, 11/11/2026) — khối `FE_*` / `_fe*` trong js/game.js
+- To gấp 3 Friend (size 132), dùng CHUNG bộ chiêu + ảnh Friend: mọi chỗ kiểm tra Friend giờ là `_FR_TYPES.has(type)`; roster mặc định trỏ ảnh `assets/avatars/friend/*` (`_FE_SLOTS`).
+- GẦM mỗi 5s (`_feTick`): 10 đợt sóng âm / 1.5s, mỗi đợt 20 dame lên mọi địch + quân triệu hồi, đẩy lùi nhẹ (rung ≤5 — rung >5 bật chớp trắng cỡ sàn).
+- 4 GÓC: địch vào vùng nhỏ (`_feCornerR` ~62) → tay bóng tối (`_rfArm`, đúng bộ tay Hamster) cào 100, mỗi góc hồi 1s.
+- 🌑 `_voidOn()`: trận có Friend Eldritch HOẶC Scared Hamster → trời + sàn đen tuyền chỉ còn sao (`_voidSky`, `_floorDraw` bỏ tấm sàn) — anh dặn: nền cũ nhạt làm lộ chỗ nối tay.
+- Số em tự đặt: tốc 3, 1000 máu, gầm đầu tiên sau 3s. Info: "Don't hug the corners. They hug back."
+
 ## 🤖 Mechanic Cat — Gundam (làm lại 11/11/2026) — khối `GD_*` / `_gd*` / `GD2_*` / `_gd2*` trong js/game.js
 - Ảnh Gundam (cả 2 mẫu) quay mặt TRÁI → `g.flip = e.x > f.x`. 500 máu (`GD_HP`) + SHIELD = máu còn lại của mèo (đỡ trước, máu mèo giữ ≥1); vỡ → `_gdExplode` NỔ TUNG (không vỡ mảnh, cờ `_gdBoom`), mèo chết theo, KHÔNG lắp lại.
 - Mỗi trận ngẫu nhiên `g.model`: 1 = Gundam beam (rig 6 bộ phận cũ; tia bắn đúng trục nòng `_gdBarrelA`; mỗi phát thứ 3 tích 2s → luồng to +50% + cháy);
