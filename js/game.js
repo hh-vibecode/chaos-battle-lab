@@ -10878,8 +10878,10 @@ function _gdEject(f){ const g=f._gd, H=_gdH(f), feet=f.y+f.size;
 function _gdDrawRig(x,feetY,H,flip,P,show,extra){ const k=H/GD_IH;
   ctx.save(); ctx.translate(x,feetY); ctx.scale(k*(flip?-1:1),k); ctx.translate(-GD_CX,-GD_IH);
   const part=(n,r,dy)=>{ if(show && !show.has(n)) return; const m=GD_META[n], im=GD_IMG[n]; if(!im.naturalWidth) return;
-    ctx.save(); ctx.translate(0,dy||0); ctx.translate(m.px,m.py); ctx.rotate(r||0); ctx.translate(-m.px,-m.py); ctx.drawImage(im,m.x,m.y,m.w,m.h);
-    if(n==='armR' && (!show||show.has('armR'))) _gdRifle(); if(n==='armL' && (!show||show.has('armL'))) _gdSaber(P.saber||0);
+    ctx.save(); ctx.translate(0,dy||0); ctx.translate(m.px,m.py); ctx.rotate(r||0); ctx.translate(-m.px,-m.py);
+    if(n==='armL' && (!show||show.has('armL'))) _gdSaber(P.saber||0);   // ⚔️ lưỡi kiếm vẽ TRƯỚC cánh tay → nắm tay đè lên gốc lưỡi = lưỡi mọc ra từ sâu trong tay (anh dặn 11/11)
+    ctx.drawImage(im,m.x,m.y,m.w,m.h);
+    if(n==='armR' && (!show||show.has('armR'))) _gdRifle();
     ctx.restore(); };
   part('legL',P.legL||0); part('legR',P.legR||0); part('torso',0,P.bob||0); part('armL',P.armL||0,P.bob||0); part('armR',P.armR||0,P.bob||0); part('head',P.head||0,P.bob||0);
   if(extra) extra(); ctx.restore(); }
@@ -10888,13 +10890,20 @@ function _gdRifle(){ const [fx,fy]=GD_FIST_R;   // súng trường beam: thân x
   ctx.fillStyle='#e8eef5'; ctx.fillRect(fx-26,fy-30,52,12); ctx.fillStyle='#29b6f6'; ctx.fillRect(fx+22,fy+20,14,40); ctx.fillStyle='#c62828'; ctx.fillRect(fx-30,fy+60,10,30); ctx.restore(); }
 // ⚔️ KIẾM NĂNG LƯỢNG 2 LƯỠI (anh gửi ảnh mẫu 11/11): cán nằm trong nắm tay, 2 lưỡi plasma xanh-trắng toả ra 2 bên nắm tay, cong nhẹ rồi khép mũi
 //    (toạ độ ảnh cánh tay trái: tay buông dọc → lưỡi chĩa theo +y) · GD_BLADE_L = dài lưỡi (px ảnh)
-const GD_BLADE_L=520, GD_BLADE_Y0=40;
+const GD_BLADE_L=340, GD_BLADE_Y0=-10;   // gốc lưỡi lùi vào GIỮA nắm tay (bàn tay che gốc)   // anh dặn 11/11: kiếm đừng dài quá (trước 520 ≈ 40% chiều cao robot)
 function _gdProng(fx,fy,sd,L,wm){ const P=[], Q=[];
   for(let k=0;k<=16;k++){ const t=k/16, cx=fx+sd*(26+20*Math.sin(t*Math.PI*0.85))-sd*t*16, cy=fy+GD_BLADE_Y0+t*L, w=(10+9*Math.sin(Math.min(1,t*1.4)*Math.PI*0.6))*(1-t*0.92)*wm;
     P.push([cx-w,cy]); Q.unshift([cx+w,cy]); }
   ctx.beginPath(); [...P,...Q].forEach((p,k)=>k?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.closePath(); }
-function _gdSaber(on){ const [fx,fy]=GD_FIST_L;
-  ctx.save(); ctx.fillStyle='#455a64'; ctx.fillRect(fx-11,fy-24,22,64); ctx.fillStyle='#b0bec5'; ctx.fillRect(fx-36,fy+28,72,14); ctx.fillStyle='#263238'; ctx.fillRect(fx-36,fy+38,72,5);   // cán + tay chắn
+const GD_ESWORD=new Image(); GD_ESWORD.src='assets/img/mechaniccat/gundam/GD_esword.webp';   // 🎨 lưỡi plasma GPT vẽ trên nền ĐEN (anh dặn 11/11: VFX + vũ khí cứ nhờ ChatGPT vẽ) → vẽ chế độ cộng sáng, nền đen tự mất
+const GD_ESWORD_GRIP=0.72;   // nắm tay ở 72% chiều dài ảnh tính từ mũi → đuôi lưỡi ngắn lòi ra sau tay như ảnh mẫu
+function _gdSaber(on){ const [fx,fy]=GD_FIST_L, im=GD_ESWORD;
+  if(on>0 && im.complete && im.naturalWidth){ const tk=tick||0, fl=Math.min(1,on*1.3)*(0.85+0.15*Math.sin(tk*1.9)), g=Math.min(1,on*1.15), h=GD_BLADE_L/GD_ESWORD_GRIP, w=h*im.naturalWidth/im.naturalHeight;
+    ctx.save(); ctx.translate(fx,fy); ctx.rotate(Math.PI); ctx.scale(1,g); ctx.globalCompositeOperation='lighter';
+    const W1=w*1.25; ctx.globalAlpha=fl; ctx.drawImage(im,-W1/2,-h*GD_ESWORD_GRIP,W1,h); ctx.drawImage(im,-W1/2,-h*GD_ESWORD_GRIP,W1,h);   // 2 lớp cộng sáng → rõ cả trên sàn sáng
+    ctx.globalAlpha=0.45*fl*(0.6+0.4*Math.sin(tk*0.7)); ctx.drawImage(im,-W1*0.6,-h*GD_ESWORD_GRIP*1.04,W1*1.2,h*1.04);   // quầng plasma bùng nhẹ
+    ctx.restore(); return; }
+  ctx.save();   // (dự phòng khi chưa tải ảnh: lưỡi vẽ bằng code)
   if(on>0){ const tk=tick||0, fl=on*(0.88+0.12*Math.sin(tk*1.9)), L=GD_BLADE_L*Math.min(1,on*1.15);
     ctx.globalCompositeOperation='lighter';
     for(const sd of [-1,1]){ ctx.shadowColor='rgba(70,150,255,0.95)'; ctx.shadowBlur=38;
@@ -10926,8 +10935,9 @@ function _gdDrawMech(f){ const g=f._gd, H=_gdH(f), feet=f.y+f.size, P=_gdPose(f,
     const ga=0.55+0.45*Math.sin(tick*0.2); ctx.save(); ctx.translate(0,P.bob); ctx.globalCompositeOperation='lighter'; const gr=ctx.createRadialGradient(318,80,0,318,80,46); gr.addColorStop(0,`rgba(140,255,160,${ga})`); gr.addColorStop(1,'rgba(60,255,120,0)'); ctx.fillStyle=gr; ctx.beginPath(); ctx.arc(318,80,46,0,Math.PI*2); ctx.fill(); ctx.restore(); });
   if(hitK){ ctx.filter='none'; ctx.restore(); }
   // vệt chém plasma xanh: đúng đường MŨI KIẾM đã quét (ghi lại lúc tính dame)
-  if(g.slashT>0 && g.tipTr && g.tipTr.length>1){ const fade=Math.min(1,g.slashT/8); ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round'; ctx.lineJoin='round';
-    for(const [w,c] of [[26,'70,140,255'],[12,'150,205,255'],[4,'245,250,255']]){ ctx.strokeStyle=`rgba(${c},${(w>20?0.35:0.8)*fade})`; ctx.lineWidth=w*H/400; ctx.beginPath(); g.tipTr.forEach((p,k)=>k?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.stroke(); }
+  if(g.slashT>0 && g.tipTr && g.tipTr.length>1){ const fade=Math.min(1,g.slashT/8), T=g.tipTr; ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round'; ctx.lineJoin='round';
+    const path=()=>{ ctx.beginPath(); ctx.moveTo(T[0][0],T[0][1]); for(let k=1;k<T.length-1;k++){ const mx=(T[k][0]+T[k+1][0])/2, my=(T[k][1]+T[k+1][1])/2; ctx.quadraticCurveTo(T[k][0],T[k][1],mx,my); } ctx.lineTo(T[T.length-1][0],T[T.length-1][1]); };   // nội suy mượt
+    for(const [w,c,a] of [[18,'70,140,255',0.22],[7,'150,205,255',0.5],[2.2,'245,250,255',0.75]]){ ctx.strokeStyle=`rgba(${c},${a*fade})`; ctx.lineWidth=w*H/400; path(); ctx.stroke(); }
     ctx.restore(); }
   for(const b of g.beams) _gdDrawBeam(b);
   if(g.aimT>0){ const [mx,my]=_gdMuzzle(f), u=1-g.aimT/14; ctx.save(); ctx.globalCompositeOperation='lighter'; const gm=ctx.createRadialGradient(mx,my,0,mx,my,10+16*u); gm.addColorStop(0,'rgba(220,255,230,0.9)'); gm.addColorStop(1,'rgba(60,255,140,0)'); ctx.fillStyle=gm; ctx.beginPath(); ctx.arc(mx,my,10+16*u,0,Math.PI*2); ctx.fill(); ctx.restore(); }   // nạp sáng ở nòng

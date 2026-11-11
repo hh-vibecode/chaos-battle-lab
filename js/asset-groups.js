@@ -840,6 +840,7 @@ window.ASSET_GROUP={
 "assets/img/mechaniccat/gundam/GD_legL.webp": "mechaniccat",
 "assets/img/mechaniccat/gundam/GD_legR.webp": "mechaniccat",
 "assets/img/mechaniccat/gundam/GD_torso.webp": "mechaniccat",
+"assets/img/mechaniccat/gundam/GD_esword.webp": "mechaniccat",
 "assets/img/mechaniccat/gundam2/GD2_idle.webp": "mechaniccat",
 "assets/img/mechaniccat/gundam2/GD2_wind.webp": "mechaniccat",
 "assets/img/mechaniccat/gundam2/GD2_slash.webp": "mechaniccat",

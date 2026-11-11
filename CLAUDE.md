@@ -78,6 +78,8 @@ Mẫu đã duyệt:
   ⭐ VIỆC CHÍNH (anh nhấn 9/11): **XOÁ PHÔNG + TĂNG CHẤT LƯỢNG ẢNH**. Thêm tư thế / khung khác là TUỲ TỪNG MEME: dựa theo CƠ CHẾ skill của con đó
   + làm theo HƯỚNG DẪN của anh (anh mô tả tư thế nào thì vẽ tư thế đó) — KHÔNG tự vẽ thêm tư thế ngoài ý anh / ngoài cơ chế cần.
   Thử 9/11 với Grumpy Cat: giữ đúng mặt, tư thế toàn thân chân mèo thật, 45s–3 phút/ảnh. Vẫn KHÔNG vẽ bộ phận nhân vật bằng code. Nền / đồ vật / logo / texture phim cũng vẽ được bằng GPT.
+- 🎨⚔️ **(11/11) VFX + VŨ KHÍ: ƯU TIÊN NHỜ CHATGPT VẼ** (anh: "vfx với vũ khí tốt nhất cứ chatgpt mà vẽ") — code vẽ đa giác/quầng sáng ra nét mảnh, xấu (anh chê kiếm năng lượng Gundam).
+  Hiệu ứng phát sáng (lưỡi plasma, cầu năng lượng, lửa…): xin GPT vẽ trên NỀN ĐEN TUYỀN rồi vẽ trong game bằng `globalCompositeOperation='lighter'` → nền đen tự mất, không cần tách nền (mẫu: `GD_ESWORD`). Vũ khí rắn: nền xanh + `gkey.js`. Code chỉ lo chuyển động / gắn vào tay / nhấp nháy.
 
 ## Nhật ký gần đây (cho phiên sau nắm) — Ver 394, 27/10/2026
 - 🦫 **Scream Marmot - The Last Saiyan** (`saiyanmarmot`; đổi tên 31/10, trước là Saiyan Marmot): code khối `MM_*` / `_mm*` trong js/game.js.
