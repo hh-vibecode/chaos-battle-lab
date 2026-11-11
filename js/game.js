@@ -14537,6 +14537,7 @@ const VB_FR=[1,2,3,4,5,6].map(n=>{ const im=new Image(); im._noMask=true;   // 6
   im.onload=()=>{ im._crop={sx:0,sy:0,sw:im.naturalWidth,sh:im.naturalHeight}; }; im.src='assets/img/violinbee/VB_'+n+'.png'; return im; });
 const VB_BEE_FR=[1,2,3,4,5].map(n=>{ const im=new Image(); im.src='assets/img/violinbee/VB_BEE'+n+'.png'; return im; });   // ong con: 4 khung bay + khung 5 chích (quay mặt PHẢI, tâm thân 0.52/0.59)
 const VB_VIS_MUL=1.55;   // khung chừa chỗ cho cánh → phóng phần HÌNH cho thân bằng cỡ meme khác (hitbox giữ nguyên)
+const VB_BOW_FPS=11;   // 🎻 Flight of the Bumblebee ~11 nốt/giây → tay kéo đàn lật 11 khung/giây
 const VB_N=22, VB_STING=15, VB_STING_CD=60, VB_BEE_SPD=1.5, VB_HOLD_T=18, VB_IN_FROM=320, VB_IN_SPD=7;   // tốc ong 1.5 (anh hạ 4/11, trước 2) · chích xong khựng 0.3s (anh đổi 4/11, trước 0.5s)   // chích 10 dame (anh chốt 4/11), mỗi con tối đa 1 phát/giây, chỉ chích đúng nhịp
 const VB_STAFF_L=260, VB_STAFF_SP=5.5, VB_STAFF_MAX=12;   // dải khuông nhạc: dài · tốc bay (đơn vị W/480) · tối đa cùng lúc
 const VB_BEE_BASE=2, VB_WING_YCUT=0.55;   // ong con: 1 ảnh thân (VB_BEE3) + cánh tách ra vỗ bằng code · cánh chỉ tính ở phần trên tỉ lệ này (dưới là đuôi lông trắng)
@@ -23619,7 +23620,8 @@ class Fighter {
     } else if(this.type==='saiyanmarmot' && MM_FR[0].complete && MM_FR[0].naturalWidth && MM_FR[1].naturalWidth){
       img = MM_FR[_mmFrame(this)];   // 🦫 đứng / há mồm hét (gồng, biến hình, dồn khí, xô)
     } else if(this.type==='violinbee' && VB_FR[0].complete && VB_FR[0].naturalWidth && VB_FR[0]._crop){
-      img = VB_FR[(this._vbIdx||0)%VB_FR.length];   // 🐝 6 khung kéo đàn, sang khung kế ĐÚNG mỗi nhịp
+      { const _a=this._pianoAudio, _song=this._vbPhase==='song' && _a && _a!=='fail' && !_a.paused;   // 🐝 Bumblebee: tay kéo đàn chạy THEO THỜI GIAN BÀI (VB_BOW_FPS khung/s ≈ mật độ nốt) — bắt nhịp chỉ ra ít nhịp vì violin liền mạch → kéo đàn lề mề (anh chê 11/11)
+        img = VB_FR[(_song ? Math.floor((_a.currentTime||0)*VB_BOW_FPS) : (this._vbIdx||0))%VB_FR.length]; }   // khởi động: sang khung kế mỗi nhịp như cũ
     } else if(this.type==='breadcat' && BC_FR[0].complete && BC_FR[0].naturalWidth){
       img = BC_FR[_bcFrame(this)];   // 🍞 thường / dính bánh mì bơ / dung hợp ổ bánh mì (thắng)
     } else if(this.type==='doorbellchud' && DC_FR[0].complete && DC_FR[0].naturalWidth){
