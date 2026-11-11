@@ -152,7 +152,7 @@ const ok = r => (!DIROK || DIROK.test(r.dir || '')) && (DOMAIN == null || (r.dom
   const T0 = Date.now(), base = Date.now();
   // 1 trận chạy thử (không quay) · pool chạy nhiều trận song song (--par), mỗi trận 1 tab riêng
   const simulate = async (sd, w) => { const pg = await openMatch(br, PORT, sd, w);
-    while (!(await pg.evaluate(STEP, { n: 240, FPS, stopAt: 14, DOMAIN })) && (await pg.evaluate(() => __vt)) < MAXSEC) {}
+    while (!(await pg.evaluate(STEP, { n: 240, FPS, stopAt: DUO ? Math.round(TAIL * FPS) : 14, DOMAIN })) && (await pg.evaluate(() => __vt)) < MAXSEC) {}
     const r = await pg.evaluate(RESULT); await pg.close(); return r; };
   const pool = async (seeds, w, onDone) => { let i = 0;
     await Promise.all(Array.from({ length: Math.min(PAR, seeds.length) }, async () => { while (i < seeds.length) { const k = i++; onDone(k, seeds[k], await simulate(seeds[k], w)); } })); };
