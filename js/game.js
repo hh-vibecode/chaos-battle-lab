@@ -730,7 +730,8 @@ const GIGACHAD_BIG_MUL = 1.50;
 // công thức size*2.6/CG_KICK_TRAVEL_F nên luôn mất ĐÚNG chừng này thời gian dù nhân vật to nhỏ khác nhau.
 // Cũ là tốc cố định 10px/tick (~14 tick, ~0.24s) — nhanh quá không kịp nhìn cú đá, nên kéo dài thêm ~0.5s (30 tick).
 const CG_KICK_TRAVEL_F = 44; // ~0.73s bay, chậm hơn bản cũ đúng ~30 tick (0.5s)
-const _FR_TYPES=new Set(['friend','friendeldritch']);   // 👁️ Friend Eldritch dùng CHUNG bộ chiêu Friend
+const _FR_TYPES=new Set(['friend']);   // bộ chiêu Friend (lướt xuyên, nuốt đạn, đánh dấu + cắn) — Friend Eldritch KHÔNG dùng (anh dặn 11/11: bỏ skill cũ)
+const _FR_LOOK=new Set(['friend','friendeldritch']);   // phần NHÌN dùng chung: chọn ảnh, vỡ mảnh kiểu Friend khi chết
 const CHAR_DEFS = {
 huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:'#e0e0e0', hp:1000,  speed:5, size:43, skill:'Tích lực 0.5s rồi bắn luồng "HUH" bám mục tiêu (90 dmg, tầm 340, 25% choáng 1.5s). Chậm dần lại lúc tích lực (không đứng hẳn).' },
     popcat:     { key:'popcat',     defaultName:'Pop Cat',      emoji:'😺', color:'#ffb347', hp:1000,  speed:5, size:43, skill:'Há mồm POP là phả ra 1 vòng khói chữ O bay về phía địch, tầm phủ hết sàn. Vòng khói to dần như thổi vape, ra tới mép sàn thì tan như khói. Càng bắn càng nhanh.' },
@@ -823,7 +824,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     susdog: { key:'susdog', defaultName:'Sus Dog', emoji:'🐶', color:'#a1887f', hp:1000, speed:5, size:44, skill:'Chơi Ma Sói với cả sàn: đêm xuống Sus Dog lăn ra ngủ còn ma sói lao vào vồ lướt qua địch, trời sáng thì một dân làng ngẫu nhiên ghé qua ban phước. Bác sĩ hồi máu, Bảo vệ đỡ đòn, Xạ thủ ném súng, Thần tình yêu nối dây chia đau, hiếm lắm mới gặp Phù thuỷ tặng lọ bất tử cho mình và lọ độc cho địch.' },
     berserkcat: { key:'berserkcat', defaultName:'Berserk Cat', emoji:'😾', color:'#b71c1c', hp:1000, speed:5, size:44, skill:'CÀNG ÍT MÁU CÀNG MẠNH: cứ mất 3% máu là thêm 1 nấc — +3% dame chém, −1% dame nhận vào, +1% tốc đánh, +1% tầm với, kiếm dài thêm 2%, đổi lại chạy chậm đi 1%. Dưới 30% máu: miễn nhiễm mọi hiệu ứng đẩy lùi và choáng. Người nháy đỏ, lửa đỏ bốc ngùn ngụt theo cơn điên. Vung đại kiếm vòng cung bổ về phía địch (100 dame gốc), với xa hơn cận chiến thường.' },
     friend: { key:'friend', defaultName:'Friend', emoji:'🐈‍⬛', color:'#4a148c', hp:1000, speed:5, size:44, skill:'Thỉnh thoảng há miệng nuốt chửng luôn viên đạn bay tới rồi hồi máu bằng đúng sức đạn đó. Mỗi 2s hoá bóng đêm lao xuyên qua địch rồi rút về trong chớp mắt (100 dame), không gì chạm được nó. Địch còn 70% máu là bị đánh dấu: Friend thôi lướt, từ đó cứ 5s cả sàn tắt đèn — con mồi đứng chết trân trong bóng tối, Friend lặng lẽ luồn ra sau lưng ngoạm một miếng (200 dame), mỗi miếng khoét mất một mảng trên người nó.' },
-    friendeldritch: { key:'friendeldritch', defaultName:'FRIEND - Eldritch Apocalypse', emoji:'👁️', color:'#1a0630', hp:1000, speed:3.5, size:88, skill:'Bản khổng lồ của Friend (to gấp 2), giữ nguyên mọi chiêu của Friend (nuốt đạn hồi máu, hoá bóng đêm lao xuyên 100, đánh dấu rồi tắt đèn cắn 200). Nền quanh sàn đấu đen tuyền, chỉ còn sao trời lấp lánh. Mỗi 5s GẦM: cả sàn rung chuyển, 10 đợt sóng âm trong 1.5s, mỗi đợt 20 dame lên mọi địch trên sân + đẩy lùi nhẹ. Địch lại gần: Friend lao nhẹ người tới húc, 50 dame cận chiến + đẩy lùi nhẹ (0.6s/lần). Địch lại gần 1 trong 4 góc sân: bàn tay bóng tối thò ra từ màn đêm cào 100 dame (mỗi góc 1s/lần).' },
+    friendeldritch: { key:'friendeldritch', defaultName:'FRIEND - Eldritch Apocalypse', emoji:'👁️', color:'#1a0630', hp:1000, speed:3.5, size:88, skill:'Bản khổng lồ của Friend (to gấp 2), KHÔNG dùng chiêu cũ của Friend. Nền quanh sàn đấu đen tuyền, chỉ còn sao trời lấp lánh. Mỗi 5s GẦM: cả sàn rung chuyển, 10 đợt sóng âm trong 1.5s, mỗi đợt 20 dame lên mọi địch trên sân + đẩy lùi nhẹ. Địch lại gần: Friend lao nhẹ người tới húc, 50 dame cận chiến + đẩy lùi nhẹ (0.6s/lần). Địch lại gần 1 trong 4 góc sân: bàn tay bóng tối thò ra từ màn đêm cào 100 dame (mỗi góc 1s/lần).' },
     chonkydog: { key:'chonkydog', defaultName:'Chonky Dog', emoji:'🐕', color:'#d7a86e', hp:1000, speed:5, size:45, skill:'Cứ vài giây lại phình to gấp mấy lần người rồi đổ sập xuống như một toà nhà, về phía còn trống nhất. Lúc to đùng thì thân nó chặn cứng, ai chạm vào cũng bị hất ra; từ lúc bắt đầu hoá to tới khi dậy nó miễn mọi hiệu ứng đẩy lùi và khống chế, và chỉ chịu 50% sát thương. Ai nằm dưới thân bị đè 350 dame và bẹp dí như bánh kếp suốt 1.5s (đứng im, không làm gì được) rồi mới phồng bật lại, cả sàn đấu rung chuyển nên mọi địch trên sân đều ăn 100 dame dù đứng xa, xong nó lồm cồm dậy về cỡ cũ đi tiếp. Dạng thường cũng nặng nề: mọi cú đẩy lùi chỉ còn 5% lực.' },
     alottadameguy: { key:'alottadameguy', defaultName:'A Lotta Dame Guy', emoji:'🪚', color:'#ffca28', hp:1000, speed:5, size:50, skill:'Cầm dao bấm xỉa liên tục, mỗi nhát 20 dame. Cứ ăn đủ 250 dame là lôi ra cái cưa máy, giật dây 2 phát cho nổ máy — cưa chạy 8s, địch nào lọt vào tầm lam cưa (trừ ngay trên đầu) là bị xẻ 50 dame mỗi 0.2s và lết chậm còn một nửa — xẻ được hơn 200 máu là ổng hét luôn câu tủ "Now that\'s a lotta damage".' },
     arabiccat: { key:'arabiccat', defaultName:'Arabic Cat', emoji:'🐱', color:'#ffb300', hp:1000, speed:5, size:45, skill:'' },
@@ -3869,7 +3870,7 @@ function _shardCellHasInk(cv,cx,cy,cw,ch){
 let mwKitkat=[];
 function _fighterDeathFx(f){
   const L=f._lastSprite;
-  if(_FR_TYPES.has(f.type) && L && L.img && (L.img.naturalWidth||L.img.width)){ _frShatter(f,L); return; }   // 🐈‍⬛ Friend: vỡ thành mảnh to nằm lại trên sàn
+  if(_FR_LOOK.has(f.type) && L && L.img && (L.img.naturalWidth||L.img.width)){ _frShatter(f,L); return; }   // 🐈‍⬛ Friend: vỡ thành mảnh to nằm lại trên sàn
   if(f.type==='mewingcat' && L && L.img && (L.img.naturalWidth||L.img.width)){ _mwKitKat(f,L); return; }
   _spawnDeathShards(f.x,f.y,f.size,f.color,L);
 }
@@ -9554,7 +9555,7 @@ function _psDraw(){
       _psCut(x,y,14+Math.random()*24,q.cx,q.cy,3+Math.random()*4,0.88); }
     for(const u of fighters){ if(u===f || u.team===f.team || u.dead || u._mwErased || q.hitSet.has(u)) continue;   // ☠️ địch bị ép nát vụn tại chỗ
       if(Math.hypot(u.x-q.cx,u.y-q.cy) < q.R+u.size*0.5){ q.hitSet.add(u);
-        if(_FR_TYPES.has(u.type) && u._lastSprite && u._lastSprite.img){ _frShatter(u,u._lastSprite,q.cx,q.cy,2.5); u._mwErased=true; playSample('death_break',1.1); continue; }   // 🐈‍⬛ Friend: vỡ thành mảnh to nằm lại (để cổng hắc ám vơ về sau cảnh thắng)
+        if(_FR_LOOK.has(u.type) && u._lastSprite && u._lastSprite.img){ _frShatter(u,u._lastSprite,q.cx,q.cy,2.5); u._mwErased=true; playSample('death_break',1.1); continue; }   // 🐈‍⬛ Friend: vỡ thành mảnh to nằm lại (để cổng hắc ám vơ về sau cảnh thắng)
         for(let k=0;k<26;k++) _psCut(u.x+(Math.random()-0.5)*u.size*1.4, u.y+(Math.random()-0.5)*u.size*1.4, u.size*(0.22+Math.random()*0.22), q.cx, q.cy, 1.2+Math.random()*2, 0.85, true);
         u._mwErased=true; playSample('death_break',1.1); } }
     for(const arr of _hpSummonArrays()) for(const s2 of arr){ if(!s2 || s2.dead || q.hitSet.has(s2)) continue;
@@ -13518,7 +13519,7 @@ const CHAR_BLURB = {
   susdog: "Plays Werewolf with the arena. Sleeps through the night while a wolf charges clean through whoever is up, then wakes up to villager favors.",
   berserkcat: "The lower its HP, the stronger it gets: hits harder, swings faster, reaches further and shrugs off more damage, while its greatsword keeps growing.",
   friend: "Swallows bullets to heal and dashes through you as a shadow. Once you are marked, the lights go out, and something takes a bite out of your back.",
-  friendeldritch: "Friend, twice the size, with every Friend skill. Everything around the arena goes pitch black under a sky of stars. Up close it lunges and rams you for 50 with a light knockback. Every 5s it ROARS: the floor shakes and 10 sound waves in 1.5s hit every enemy for 20 each and push them back. Step near any corner and a shadow hand claws out of the dark for 100 (1s per corner).",
+  friendeldritch: "Friend, twice the size, with a brand new kit. Everything around the arena goes pitch black under a sky of stars. Up close it lunges and rams you for 50 with a light knockback. Every 5s it ROARS: the floor shakes and 10 sound waves in 1.5s hit every enemy for 20 each and push them back. Step near any corner and a shadow hand claws out of the dark for 100 (1s per corner).",
   chonkydog: "Balloons up, wobbles like a tower, then topples onto whoever is underneath. Then does it again.",
   alottadameguy: "Pokes you with a pocket knife until you hit him hard enough — then he pulls out a chainsaw, yanks the cord twice and saws through anything in reach — except whatever is directly above his head — for 8 seconds.",
   doorbellchud: "Yanks the bell over your head until it shatters, then whips you with the leftover cord from across the room.",
@@ -16324,7 +16325,7 @@ function _paintHud(c){
 }
 function _camPaintWorldUI(c, ctaOn){
   // ⭐ Fan Battle: 1 tên ở trên, dấu ⚔, rồi 3 tên xếp dọc phía dưới. 1vs1 vẫn đúng 2 dòng như cũ.
-  const _NP=fanCtx?(1+_fanFoeN):2;
+  const _NP=fanCtx?(1+_fanFoeN):ffa3Ctx?4:2;   // 🏆 LAST ONE STANDING: đủ 4 tên cho tiêu đề (đã bỏ HUD)
   const _ps=[]; for(let i=0;i<_NP;i++) _ps.push(_nameParts((getSlotChar(i)||{}).name||''));
   const _p1=_ps[0], _p2=_ps[1]||{main:'',title:''};
   // ⭐ 2vs2: tiêu đề ghi RÕ TÊN THẬT của 2 người mỗi đội (nối bằng "&"), không dùng nhãn chung "TEAM 1/2" nữa
@@ -16377,8 +16378,16 @@ function _camPaintWorldUI(c, ctaOn){
     c.lineWidth=Math.max(3,_ks*0.2); c.strokeStyle='#000';
     c.strokeText('⚔', W/2, cy); c.fillStyle='#fff'; c.fillText('⚔', W/2, cy);
     c.font=`bold ${_fs}px "Press Start 2P",monospace`; };
-  if(ffa3Ctx||duoCtx){
-    _paintHud(c);   // 4 người: avatar + tên + thanh máu, 2 người/hàng (xem _hudSlots)
+  if(duoCtx){
+    _paintHud(c);   // 2vs2: avatar + tên + thanh máu, 2 người/hàng (xem _hudSlots)
+  } else if(ffa3Ctx){   // 🏆 LAST ONE STANDING (anh dặn 11/11): BỎ HUD, máu về thanh trên đầu · đầu khung chỉ còn 4 cái tên, mỗi tên đúng MÀU thanh máu của nó
+    const _row=(a,b,cy)=>{ const _fsR=Math.round(_fs*0.62); c.font=`bold ${_fsR}px "Press Start 2P",monospace`;
+      const _wa=c.measureText(_mains[a]||'').width, _wb=c.measureText(_mains[b]||'').width, _gap=_fsR*1.4;
+      c.textAlign='right'; c.lineWidth=Math.max(3,_fsR*0.22); c.strokeStyle='#000';
+      c.strokeText(_mains[a]||'', -_gap/2+W/2, cy); c.fillStyle=_teamColor(a); c.fillText(_mains[a]||'', -_gap/2+W/2, cy);
+      c.textAlign='left'; c.strokeText(_mains[b]||'', _gap/2+W/2, cy); c.fillStyle=_teamColor(b); c.fillText(_mains[b]||'', _gap/2+W/2, cy);
+      c.textAlign='center'; c.font=`${Math.round(_fsR*1.1)}px serif`; c.strokeText('⚔', W/2, cy); c.fillStyle='#fff'; c.fillText('⚔', W/2, cy); c.textAlign='center'; };
+    _row(0,1,-W*0.27); _row(2,3,-W*0.15);
   } else if(!fanCtx){
     _line(_t1, -W*0.30, _teamColor(0));
     _sub(_p1.title, -W*0.30+_fs*0.80, _teamColor(0));
@@ -16435,7 +16444,7 @@ function _camPaintWorldUI(c, ctaOn){
     // ⭐ Commenter Battle: KHÔNG hiện info của người chơi — skill của họ đã ghi rõ ngay trong bình luận rồi,
     // chỗ dưới sàn để dành giới thiệu 3 con meme đối thủ. Bớt 1 dòng nên chữ phóng to hẳn cho dễ đọc.
     const _rows=[];
-    for(let i=(fanCtx?1:0); i<_NP; i++) _rows.push({nm:_mains[i], tx:_blurb(i), col:FFA_TEAM_COLORS[i?1:0]});
+    for(let i=(fanCtx?1:0); i<(ffa3Ctx?2:_NP); i++) _rows.push({nm:_mains[i], tx:_blurb(i), col:FFA_TEAM_COLORS[i?1:0]});   // LAST ONE STANDING: info vẫn 2 dòng như cũ
     const _kk=fanCtx?1.05:1;     // to hơn bản 2 meme một chút, nhưng không phình quá
     let _ns=Math.round(W*0.0255*_kk), _ds=Math.round(W*0.0306*_kk);
     for(;_ns>6;_ns--){ c.font=`bold ${_ns}px "Press Start 2P",monospace`; if(_rows.every(r=>c.measureText(r.nm).width<=_maxW)) break; }
@@ -16548,7 +16557,7 @@ function _camDrawWorldUI(){
   _gcTitleShardsDraw();
   // 🩸 RUỘT thanh máu HUD: đổi từng frame nên KHÔNG bake được — vẽ đè lên rãnh đã bake. Chỉ là mấy cái
   // roundRect nên rẻ. Màn chờ "PRESS TO START" chưa có fighters → hiện đầy máu cho đúng cảnh trước trận.
-  if(ffa3Ctx||duoCtx){
+  if(duoCtx){
     for(const _s of _hudSlots()){
       const _f=fighters.find(x=>x.slotIdx===_s.i);
       const _pct=_f ? Math.max(0,Math.min(1,_f.hp/_f.maxHp)) : 1;
@@ -23594,7 +23603,7 @@ class Fighter {
       img=_cp.length ? _cp[Math.min(_cp.length-1, Math.floor((_tot-this._clapAnim)/_tot*_cp.length))] : avatarImgs[i];
     } else if(this.type==='electricguitarcat' && this._egPose){
       img = this._egPose;   // khung gảy đàn hiện tại, đã chọn theo nhịp ở doAbility()
-    } else if(_FR_TYPES.has(this.type)){
+    } else if(_FR_LOOK.has(this.type)){
       // 🐈‍⬛ đang nuốt đạn → lật 3 khung (ô Skill 1–3) trong 0.3s; ô trống thì tự bỏ qua, không có ô nào thì giữ avatar
       const _frSw=[skill1AvatarImgs[i], skill2AvatarImgs[i], skill3AvatarImgs[i]].filter(Boolean);
       if(this.type==='friendeldritch' && (this._feRoar||0)>0 && _frSw.length) img=_frSw[_frSw.length-1];   // 👁️ đang gầm: há mồm
@@ -25409,8 +25418,8 @@ class Fighter {
       }
       ctx.restore();
     }
-    if(duoCtx||ffa3Ctx){
-      // 🏆 2vs2 / LAST ONE STANDING: thanh máu trong sân thu nhỏ 50%, KHÔNG có nền/rãnh nào cả — chỉ 1 khối màu
+    if(duoCtx){
+      // 🏆 2vs2: thanh máu trong sân thu nhỏ 50%, KHÔNG có nền/rãnh nào cả — chỉ 1 khối màu
       // team, mất đều từ 2 đầu co dần về CHÍNH GIỮA theo % máu, hết máu là biến mất hẳn (không để lại vệt/nền đen).
       const _cx=bx+bw/2, _cy=by+bh/2, _hbw=bw*0.5, _hbh=bh*0.5;
       const _pct2=Math.max(0,Math.min(1,this.hp/this.maxHp));
@@ -25438,7 +25447,7 @@ class Fighter {
       ctx.fillStyle='#ffd23f';
       ctx.beginPath(); ctx.roundRect(bx,by,_tw,bh,_tw>bh?br:_tw/2); ctx.fill();
     }
-    ctx.fillStyle=(_realPct>0.55?'#22c55e':_realPct>0.28?'#f59e0b':'#ef4444');
+    ctx.fillStyle=ffa3Ctx ? _teamColor(this.team) : (_realPct>0.55?'#22c55e':_realPct>0.28?'#f59e0b':'#ef4444');   // 🏆 LAST ONE STANDING: mỗi con 1 màu riêng (trùng màu viền) thay cho xanh/vàng/đỏ theo % máu
     ctx.beginPath(); ctx.roundRect(bx,by,fw,bh,fw>bh?br:fw/2); ctx.fill();
     // 🛡️ KHIÊN (máu vượt quá maxHp, vd Maxwell ăn steak lúc đầy máu) — đoạn kéo dài thêm màu xanh nước biển, nối tiếp ngay sau thanh máu thường
     if(this.hp > this.maxHp){
@@ -25456,7 +25465,7 @@ class Fighter {
     }
     // 🏆 2vs2 / LAST ONE STANDING: máu đã có HUD riêng ở đầu khung rồi → bỏ hẳn con số trên thanh máu nổi
     // trong sân cho sạch hình (yêu cầu của user). Các chế độ khác giữ nguyên.
-    if(duoCtx||ffa3Ctx){ ctx.restore(); }
+    if(duoCtx){ ctx.restore(); }
     else {
     // HP text — vượt maxHp (khiên, vd Maxwell ăn steak lúc đầy máu) vẫn ghi rõ số thật, chỉ đổi màu xanh nhạt để phân biệt
     ctx.font=`bold 8.4px "Press Start 2P",monospace`; // +20% (7→8.4)

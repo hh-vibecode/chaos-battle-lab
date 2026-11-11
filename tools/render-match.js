@@ -16,7 +16,8 @@ const args = process.argv.slice(2), OUT = path.resolve(args[0] || 'match.mp4');
 const opt = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; };
 // 🎵 nhạc NỀN (không phải đòn đánh của meme): nhỏ hẳn + tự NÉN XUỐNG khi có tiếng đánh nhau (anh dặn 3/11: nhường tiếng meme, giảm rủi ro bản quyền)
 const BG_DUCK = new Set(['flyingcat_theme']), BG_LEVEL = { flyingcat_theme: 0.45 };
-const A = opt('--a'), B = opt('--b'), FPS = +opt('--fps', 60), OFPS = +opt('--ofps', 50), VW = +opt('--w', 1440), VH = Math.round(VW * 16 / 9);
+const A = opt('--a'), B = opt('--b'), DUO = String(A).includes(','), TA = String(A).split(','), TB = String(B).split(','), DOMAIN = opt('--domain', null) == null ? null : +opt('--domain'),   // 👥 --a k1,k2 --b k3,k4 = trận 2vs2 (dùng chung nhạc ảo / --inject / trộn tiếng chuẩn của 1vs1) · --domain S: Stalin mở domain ở giây S (lấy từ render-duo)
+      FPS = +opt('--fps', 60), OFPS = +opt('--ofps', 50), VW = +opt('--w', 1440), VH = Math.round(VW * 16 / 9);
 const WANT = +opt('--want', 5), MIN = +opt('--min', 0);   // --min: chạy thử ÍT NHẤT bấy nhiêu trận rồi mới chọn   // --win/--close: gom đủ bấy nhiêu trận đúng ý rồi chọn trận sát nhất
 const INJECT = opt('--inject', null) ? fs.readFileSync(opt('--inject'), 'utf8') : null;   // --inject f.js: JS nạp vào trang ngay sau START (kịch bản riêng cho 1 video, KHÔNG đổi game)
 const FAR = +opt('--far', 0);
@@ -45,12 +46,14 @@ async function openMatch(br, PORT, seed, cw) {
   pg.on('pageerror', e => console.log('⚠️', e.message.slice(0, 160)));
   await pg.goto(`http://127.0.0.1:${PORT}/`);
   await pg.waitForFunction(() => !document.getElementById('bootScreen'), null, { timeout: 300000 });
-  await pg.evaluate(({ A, B, cw }) => { const n = k => roster.findIndex(c => c.charKey === k);
-    if (n(A) < 0 || n(B) < 0) throw new Error('không thấy nhân vật ' + A + ' / ' + B);
+  await pg.evaluate(({ A, B, cw, DUO, TA, TB }) => { const n = k => roster.findIndex(c => c.charKey === k);
     ARENA_NORMAL.ss = (cw + 0.4) / (ARENA_NORMAL.w * (1 + 30 / 480));   // canvas cam-mode Solo rộng đúng cw pixel
+    if (DUO) { const idx = [...TA, ...TB].map(n); if (idx.some(i => i < 0)) throw new Error('không thấy nhân vật: ' + [...TA, ...TB].join(','));
+      window.__duoIdx = idx; _duoPickedIdxs = idx.slice(); duoStart(); return; }   // 👥 2vs2: màn PRESS TO START của duo
+    if (n(A) < 0 || n(B) < 0) throw new Error('không thấy nhân vật ' + A + ' / ' + B);
     picks = [n(A), n(B)];
     document.querySelectorAll('.screen').forEach(el => el.classList.remove('active')); document.getElementById('selectScreen').classList.add('active');
-    goToBattle(); }, { A, B, cw });
+    goToBattle(); }, { A, B, cw, DUO, TA, TB });
   await pg.waitForTimeout(1500);
   await pg.waitForLoadState('networkidle').catch(() => {});   // ảnh/tiếng tải lười của 2 meme phải về HẾT trước khi bấm START (tải muộn giữa trận làm trận chạy lệch so với lúc thử)
   await pg.waitForTimeout(500);
@@ -59,7 +62,7 @@ async function openMatch(br, PORT, seed, cw) {
   await pg.evaluate(async ({ DURS }) => {   // 🎼 giải mã sẵn nhạc của 4 con nhạc (Mosquito/Piano/Guitar/Bongo) để máy dò nhịp đọc được phổ theo đồng hồ ảo
     window.__DURS = DURS; window.__pcm = {};
     const MUS = new Set(['mosquitoviolin', 'pianocat', 'electricguitarcat', 'bongocat']);
-    if (picks.some(i => MUS.has(roster[i] && roster[i].charKey))) { const keys = [...MOSQUITO_SONGS, ...PIANO_SONGS, ...GUITAR_SONGS, ...BONGO_SONGS];
+    if ((window.__duoIdx || picks).some(i => MUS.has(roster[i] && roster[i].charKey))) { const keys = [...MOSQUITO_SONGS, ...PIANO_SONGS, ...GUITAR_SONGS, ...BONGO_SONGS];
       for (const k of keys) { const a = AUDIO_SAMPLES[k]; if (!a) continue; const u = new URL(a.src, location.href).pathname; try { const buf = await (await fetch(u)).arrayBuffer(); const ab = await AC.decodeAudioData(buf); const d = new Float32Array(ab.length); for (let c = 0; c < ab.numberOfChannels; c++) { const x = ab.getChannelData(c); for (let i = 0; i < d.length; i++) d[i] += x[i] / ab.numberOfChannels; } __pcm[u] = { d, sr: ab.sampleRate }; } catch (e) {} } }
   }, { DURS });
   await pg.evaluate(seed => {
@@ -101,7 +104,7 @@ async function openMatch(br, PORT, seed, cw) {
       for (let i = 0; i < N; i++) { const k = end - N + i, w = 0.42 - 0.5 * Math.cos(2 * Math.PI * i / N) + 0.08 * Math.cos(4 * Math.PI * i / N); re[i] = (k >= 0 && k < pcm.d.length ? pcm.d[k] * g : 0) * w; im[i] = 0; }
       fft(re, im); const tau = this.smoothingTimeConstant, mn = this.minDecibels, mx = this.maxDecibels;
       for (let i = 0; i < arr.length && i < N / 2; i++) { const mag = Math.hypot(re[i], im[i]) / N; sm[i] = tau * sm[i] + (1 - tau) * mag; const db = 20 * Math.log10(sm[i] || 1e-12); arr[i] = Math.max(0, Math.min(255, Math.round(255 * (db - mn) / (mx - mn)))); } };
-    startGame('instant');   // = bấm ▶ START
+    if (window.__duoIdx) duoActuallyStart(); else startGame('instant');   // = bấm ▶ START
   }, seed);
   await pg.waitForFunction(() => fighters.length >= 2 && __raf.size > 0, null, { timeout: 60000 });
   if (INJECT) await pg.evaluate(INJECT);   // 🎬 kịch bản đạo diễn riêng cho video (--inject) — chạy y hệt lúc dò lẫn lúc quay → cùng seed ra cùng trận
@@ -114,8 +117,14 @@ const TAIL = +opt('--tail', 10);   // quay thêm tối đa bao nhiêu giây sau 
 //   --preset: preset libx264 khi không dùng --hw (mặc định medium; 'fast'/'veryfast' nhanh hơn, chất lượng giảm nhẹ).
 const PAR = Math.max(1, +opt('--par', 1)), HW = args.includes('--hw') && process.platform === 'darwin', PRESET = opt('--preset', 'medium');
 const VENC = HW ? ['-c:v', 'h264_videotoolbox', '-b:v', '25M', '-maxrate', '35M', '-bufsize', '50M', '-allow_sw', '1'] : ['-c:v', 'libx264', '-preset', PRESET, '-crf', '17'];
-const STEP = ({ n, FPS, stopAt }) => {
+const STEP = ({ n, FPS, stopAt, DOMAIN }) => {
   for (let k = 0; k < n; k++) {
+    if (DOMAIN != null) { const st = fighters.find(f => f.type === 'stalincat');   // ☭ liềm lượn dần về phía búa → domain mở đúng giây DOMAIN (chép từ render-duo)
+      if (st && !st._slDomainUsed && __vt >= DOMAIN - 1.3 && __vt < DOMAIN + 2) { const ap = apples.find(a => a._stalinSickle && a.owner === st);
+        if (ap && st._slHammerState !== 'held') { const dx = st._slHammerX - ap.x, dy = st._slHammerY - ap.y, d = Math.hypot(dx, dy) || 1;
+          const sp = Math.hypot(ap.vx, ap.vy) || 4, left = Math.max(0.08, DOMAIN - __vt) * 60 * GAME_SPEED * TIME_SCALE;
+          const v = Math.min(9, Math.max(sp, d / left)), turn = __vt >= DOMAIN - 0.35 ? 1 : 0.18; ap.vx += (dx / d * v - ap.vx) * turn; ap.vy += (dy / d * v - ap.vy) * turn; } }
+      if (st && st._slDomainUsed && window.__dom == null) window.__dom = __vt; }
     __vEnded();
     __tm.sort((a, b) => a.at - b.at || a.id - b.id);
     while (__tm.length && __tm[0].at <= __vt) { const t = __tm.shift(); if (t.rep) __tm.push({ ...t, at: t.at + t.rep }); try { t.fn(...t.a); } catch (e) {} }
@@ -125,14 +134,15 @@ const STEP = ({ n, FPS, stopAt }) => {
   }
   return false;
 };
-const RESULT = () => ({ t: __vt, win: koWinner ? (koWinner.slotIdx === 0 ? 'a' : 'b') : null, over: !!loop._koTimer,
+const RESULT = () => ({ t: __vt, win: koWinner ? (window.__duoIdx ? (koWinner.team === 0 ? 'a' : 'b') : (koWinner.slotIdx === 0 ? 'a' : 'b')) : null, over: !!loop._koTimer, dom: window.__dom == null ? null : window.__dom,
+  wk: koWinner ? (() => { const T = fighters.filter(f => f.team === koWinner.team); return T.reduce((s, f) => s + Math.max(0, f.dead ? 0 : f.hp), 0) / T.reduce((s, f) => s + f.maxHp, 0); })() : null,
   hp: fighters.map(f => [f.type, Math.max(0, Math.round(f.hp)), f.maxHp]), far: typeof bhFarEat !== 'undefined' ? bhFarEat : 0, dir: typeof __director === 'function' ? __director() : '' });
-const fmt = r => `${r.win ? (r.win === 'a' ? A : B) + ' thắng' : 'hoà/chưa xong'} lúc ${r.t.toFixed(1)}s · ${r.hp.map(h => h[0] + ' ' + h[1] + '/' + h[2]).join(' · ')}${FAR ? ' · nuốt đạn xa ' + (r.far || 0) : ''}${r.dir ? ' · ' + r.dir : ''}${DUR ? ' · video ~' + vdur(r).toFixed(1) + 's' : ''}`;
+const fmt = r => `${r.win ? (r.win === 'a' ? A : B) + ' thắng' : 'hoà/chưa xong'} lúc ${r.t.toFixed(1)}s · ${r.hp.map(h => h[0] + ' ' + h[1] + '/' + h[2]).join(' · ')}${FAR ? ' · nuốt đạn xa ' + (r.far || 0) : ''}${r.dir ? ' · ' + r.dir : ''}${r.dom != null ? ' · domain ' + r.dom.toFixed(2) + 's' : ''}${DUO && r.wk != null ? ' · đội thắng còn ' + Math.round(r.wk * 100) + '% máu' : ''}${DUR ? ' · video ~' + vdur(r).toFixed(1) + 's' : ''}`;
 const vdur = r => r.t + DUR_OFF;
 const PDUR = opt('--pdur', null) ? opt('--pdur').split('-').map(Number) : null;   // --pdur 20-25: video trong khoảng chỉ là ưu tiên PHỤ (anh dặn 10/11: thắng là được · trận SÁT trước, độ dài sau) — chỉ để chọn giữa các trận sát ngang nhau (máu còn lệch < 2%)
 const inP = r => !PDUR || (vdur(r) >= PDUR[0] && vdur(r) <= PDUR[1]);
 const DIROK = opt('--dirok', null) ? new RegExp(opt('--dirok')) : null;   // --dirok <regex>: chỉ nhận trận mà dòng __director() (từ --inject) khớp mẫu — vd Bread Cat bị huỷ đúng 2 lần: --dirok 'breaks=2'
-const ok = r => (!DIROK || DIROK.test(r.dir || '')) && (!WIN || r.win === WIN) && (r.far || 0) >= FAR && (!DUR || (vdur(r) >= DUR[0] && vdur(r) <= DUR[1])) && (CLOSE == null || (r.win && (() => { const h = r.hp[r.win === 'a' ? 0 : 1]; return h[1] > 0 && h[1] / h[2] <= CLOSE; })()));
+const ok = r => (!DIROK || DIROK.test(r.dir || '')) && (DOMAIN == null || (r.dom != null && Math.abs(r.dom - DOMAIN) <= 0.6)) && (!WIN || (WIN === 'any' ? !!r.win && (r.wk == null || r.wk > 0) : r.win === WIN)) && (r.far || 0) >= FAR && (!DUR || (vdur(r) >= DUR[0] && vdur(r) <= DUR[1])) && (CLOSE == null || (r.win && (() => { const h = r.hp[r.win === 'a' ? 0 : 1]; return h[1] > 0 && h[1] / h[2] <= CLOSE; })()));
 
 (async () => {
   const srv = http.createServer((q, r) => { const f = path.join(ROOT, decodeURIComponent(q.url.split('?')[0])).replace(/\/$/, '/index.html');
@@ -142,7 +152,7 @@ const ok = r => (!DIROK || DIROK.test(r.dir || '')) && (!WIN || r.win === WIN) &
   const T0 = Date.now(), base = Date.now();
   // 1 trận chạy thử (không quay) · pool chạy nhiều trận song song (--par), mỗi trận 1 tab riêng
   const simulate = async (sd, w) => { const pg = await openMatch(br, PORT, sd, w);
-    while (!(await pg.evaluate(STEP, { n: 240, FPS, stopAt: 14 })) && (await pg.evaluate(() => __vt)) < MAXSEC) {}
+    while (!(await pg.evaluate(STEP, { n: 240, FPS, stopAt: 14, DOMAIN })) && (await pg.evaluate(() => __vt)) < MAXSEC) {}
     const r = await pg.evaluate(RESULT); await pg.close(); return r; };
   const pool = async (seeds, w, onDone) => { let i = 0;
     await Promise.all(Array.from({ length: Math.min(PAR, seeds.length) }, async () => { while (i < seeds.length) { const k = i++; onDone(k, seeds[k], await simulate(seeds[k], w)); } })); };
@@ -158,7 +168,7 @@ const ok = r => (!DIROK || DIROK.test(r.dir || '')) && (!WIN || r.win === WIN) &
     for (let k = 0; k < TRIES && !enough(k); k += PAR) {   // mỗi đợt PAR trận song song, xong đợt mới xét đủ chưa
       await pool(Array.from({ length: Math.min(PAR, TRIES - k) }, (_, j) => (base + (k + j) * 7919) >>> 0), 360, (j, sd, r) => {
         console.log(`  thử #${k + j + 1} seed ${sd}: ${fmt(r)}${ok(r) ? (inP(r) ? '  ✔' : '  ✔ (ngoài khoảng ưu tiên)') : ''}`);
-        if (ok(r)) { const h = r.hp[r.win === 'a' ? 0 : 1]; hits.push({ sd, k: h[1] / h[2], r }); } });
+        if (ok(r)) { const h = r.hp[r.win === 'a' ? 0 : 1]; hits.push({ sd, k: DUO ? r.wk : h[1] / h[2], r }); } });
     }
     if (hits.length) { hits.sort((x, y) => (Math.abs(x.k - y.k) < 0.02 ? inP(y.r) - inP(x.r) : 0) || (x.k - y.k)); SEED = hits[0].sd; console.log(`🏆 ${hits.length} trận đúng ý · chọn trận sát sao nhất: seed ${SEED} · ${fmt(hits[0].r)}`); }
     if (SEED == null) { console.log(`❌ ${TRIES} lần thử chưa ra trận đúng ý`); await br.close(); srv.close(); process.exit(1); }
@@ -181,7 +191,7 @@ const ok = r => (!DIROK || DIROK.test(r.dir || '')) && (!WIN || r.win === WIN) &
   const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(OFPS), '-c:v', 'mjpeg', '-i', '-', '-vf', `scale=${VW}:${VH}:flags=lanczos`, ...VENC, '-pix_fmt', 'yuv420p', '-r', String(OFPS), tmpV], { stdio: ['pipe', 'inherit', 'inherit'] });
   let i = 0, hold = 0;
   for (;;) {
-    const fin = await pg.evaluate(STEP, { n: 1, FPS, stopAt: Math.round(TAIL * FPS) }); i++;
+    const fin = await pg.evaluate(STEP, { n: 1, FPS, stopAt: Math.round(TAIL * FPS), DOMAIN }); i++;
     // 🎞️ game chạy 1 tick/khung (luật game = 60 tick/s) → GIẢ LẬP luôn 60, video xuất OFPS (mặc định 50 — anh chốt 3/11): chỉ chụp khung nào sang ô 1/50s mới (bỏ đều 1/6)
     if (Math.floor(i * OFPS / FPS) > Math.floor((i - 1) * OFPS / FPS)) { const { data } = await cdp.send('Page.captureScreenshot', { format: 'jpeg', quality: 93, clip: { ...rc, scale: 1 }, optimizeForSpeed: true });
       if (!ff.stdin.write(Buffer.from(data, 'base64'))) await new Promise(r => ff.stdin.once('drain', r)); }
