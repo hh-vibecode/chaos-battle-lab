@@ -263,15 +263,17 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
 - Ảnh CHỜ ANH (prompt ở Desktop `FriendRaid_anh_can_ve/PROMPT.txt`): `assets/img/friend/RF_MOUTH.png` (há mồm to: hút + gầm), `RF_CHEW1/2.png` (nhai). Chưa có thì dùng tạm khung cười.
 
 ## 👁️ FRIEND - Eldritch Apocalypse (`friendeldritch`, 11/11/2026) — khối `FE_*` / `_fe*` trong js/game.js
-- To gấp 3 Friend (size 132), dùng CHUNG bộ chiêu + ảnh Friend: mọi chỗ kiểm tra Friend giờ là `_FR_TYPES.has(type)`; roster mặc định trỏ ảnh `assets/avatars/friend/*` (`_FE_SLOTS`).
+- To gấp 2 Friend (size 88; anh hạ từ gấp 3), dùng CHUNG bộ chiêu + ảnh Friend: mọi chỗ kiểm tra Friend giờ là `_FR_TYPES.has(type)`; roster mặc định trỏ ảnh `assets/avatars/friend/*` (`_FE_SLOTS`).
 - GẦM mỗi 5s (`_feTick`): 10 đợt sóng âm / 1.5s, mỗi đợt 20 dame lên mọi địch + quân triệu hồi, đẩy lùi nhẹ (rung ≤5 — rung >5 bật chớp trắng cỡ sàn).
+- Địch sát người → Friend LAO NHẸ người tới húc 50 + đẩy lùi nhẹ (`_feTenTick`/`_feLungeOff`, chỉ dịch hình). Đã thử đuôi xúc tu → anh bỏ ("không ổn").
 - 4 GÓC: địch vào vùng nhỏ (`_feCornerR` ~62) → tay bóng tối (`_rfArm`, đúng bộ tay Hamster) cào 100, mỗi góc hồi 1s.
-- 🌑 `_voidOn()`: trận có Friend Eldritch HOẶC Scared Hamster → trời + sàn đen tuyền chỉ còn sao (`_voidSky`, `_floorDraw` bỏ tấm sàn) — anh dặn: nền cũ nhạt làm lộ chỗ nối tay.
-- Số em tự đặt: tốc 3, 1000 máu, gầm đầu tiên sau 3s. Info: "Don't hug the corners. They hug back."
+- 🌑 `_voidOn()`: trận có Friend Eldritch HOẶC Scared Hamster → nền canvas NGOÀI sàn đen tuyền chỉ còn sao (`_voidSky`); SÀN GIỮ NGUYÊN MÀU (anh sửa: "canvas đen thôi, sàn giữ nguyên").
+- Số em tự đặt: tốc 3.5, 1000 máu, gầm đầu tiên sau 3s. Info (theo lore phong ấn): "Sealed by four gods. Didn't take."
 
 ## 🤖 Mechanic Cat — Gundam (làm lại 11/11/2026) — khối `GD_*` / `_gd*` / `GD2_*` / `_gd2*` trong js/game.js
 - Ảnh Gundam (cả 2 mẫu) quay mặt TRÁI → `g.flip = e.x > f.x`. 500 máu (`GD_HP`) + SHIELD = máu còn lại của mèo (đỡ trước, máu mèo giữ ≥1); vỡ → `_gdExplode` NỔ TUNG (không vỡ mảnh, cờ `_gdBoom`), mèo chết theo, KHÔNG lắp lại.
 - Mỗi trận ngẫu nhiên `g.model`: 1 = Gundam beam (rig 6 bộ phận cũ; tia bắn đúng trục nòng `_gdBarrelA`; mỗi phát thứ 3 tích 2s → luồng to +50% + cháy);
+  luồng to = chiếu LIÊN TỤC 2s vào chỗ khai hoả, mỗi 0.5s 50 + cháy; vòng va chạm Gundam 0.95× mèo; MỌI dame (kể cả chuẩn / giết ngay) đi qua Gundam, chết lúc đang lái → nổ (`_gdBoomFx`); thanh shield + máu có số; tiếng lắp `mc_gd_fly` / `mc_gd_lock` (cắt ngắn từ mc_sfx_craft vì đỉnh ở 2.17s → nghe chậm).
   2 = Gundam ĐỎ (ảnh anh gửi + 2 tư thế GPT vẽ `GD2_wind/GD2_slash`, cỡ/neo trong `GD2_META`): chỉ chém, kiếm khí `gdQi` bay TẦM XA tới hết sân (85, xuyên); tốc chém ban đầu 1 nhát/s, mỗi nhát +2% (tối đa ×4). Lắp dần từ chân lên (`GD2_BANDS`).
 - 🎨 Mac đã cài Codex (`brew install codex`, đăng nhập bằng mã thiết bị: `codex login --device-auth` — anh đã bật tuỳ chọn này trong Cài đặt bảo mật ChatGPT).
 
