@@ -222,7 +222,8 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
   line/taper/text3/beam/ice, `kamui` CHÉP ĐÚNG game `_njKamuiTickDraw`: twist thật + dải mực + lõi đen; mode 'phase' = xuyên thấu). Ảnh tư thế vẽ GPT: `assets/img/cine/FIN_F1_* / FIN_F2_* / FIN_F3_*`.
   LUẬT ANH DẶN 11/11: ① melee trao đổi kiểu melee, ranger kiểu ranger · ② chiêu phải ĐÚNG game / nguyên tác, không tự chế (Kamui: xuyên thấu + hút người khi chạm) ·
   ③ Meowkatsuki đánh MẶC ÁO AKATSUKI · ④ MỌI TRẬN KẾT DANG DỞ, chuyển sang trận khác bằng 1 pha có câu chuyện · ⑤ logic xếp cảnh: nguyên nhân trước hệ quả (mắt kích hoạt TRƯỚC đòn xuyên thấu; ảo thuật phải có lúc chạm mắt) ·
-  ⑥ Bat Cat = Batman: thông minh, CÀI BẪY / GÀI BOM, có thời gian chuẩn bị là xử lý hết · ⑦ giữ đồng nhất nhân vật giữa các tư thế · ⑧ tập Final 1 dài ≥ 8–9 phút → mở rộng thoải mái.
+  ⑥ Bat Cat = Batman: thông minh, CÀI BẪY / GÀI BOM, có thời gian chuẩn bị là xử lý hết · ⑨ đồ vật phải HỢP BỐI CẢNH (thành phố không có bóng chông — anh chê) ·
+  ⑩ Clapping = HỖ TRỢ kiểu TODO (Boogie Woogie): đứng hàng sau, vỗ tay đổi chỗ bất kỳ 2 thứ (đồng đội, địch, tảng bê tông / mảnh vỡ), chủ yếu yểm trợ Doge · ⑦ giữ đồng nhất nhân vật giữa các tư thế · ⑧ tập Final 1 dài ≥ 8–9 phút → mở rộng thoải mái.
   THỨ TỰ (em đề xuất, chờ anh duyệt): fin1f3 Ninja vs Berserk → fin1f2 Bat vs Pop+Huh → fin1f1 Chud+Mlem vs Doge+Clapping → fin1c4 Gojo vs Pain.
   fin1f2 XONG bản đầu (Ver 564, 18.6s, Batman: chế độ thám tử, bom mồi 'ném hụt', bom gài sẵn trên tường dụ chữ HUH, bom khói, vòng 6 bom; kết = vòng khói khổng lồ, máy chui qua lỗ O sang fin1f1).
   fin1f3 XONG bản đầu (Ver 563, 21.9s): kết = Berserk chém đôi Ninja + toà nhà → quạ bay lên trời → thế giới ẢO THUẬT (trời đỏ, 2 mắt Sharingan theo ảnh mẫu anh gửi, chỉ hiện khi máy ngước thấy trời)

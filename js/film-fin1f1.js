@@ -2,9 +2,11 @@
 //   Anh dặn: làm HAY, PHỐI HỢP QUA LẠI giữa đồng đội · kết DANG DỞ, chuyển trận bằng 1 pha có câu chuyện. Vào từ lỗ vòng khói của fin1f2 (cùng máy + chỗ đứng).
 //   Chiêu ĐÚNG GAME: Chud giật dây CHUÔNG (mỗi lần reng = sóng âm trúng MỌI địch), lần giật thứ 4 chuông VỠ → hét phẫn nộ → quật DÂY nung đỏ tầm xa ·
 //   Mlem lè LƯỠI liếm xa (gấp 3 cận chiến), giật địch về phía mình, có lúc ĐÓNG BĂNG cả người · Doge bắn CHỮ MEME (Press Start 2P vàng viền nâu),
-//   trúng đủ 5 phát → hoá BUFF DOGE, lần đầu thức tỉnh HAKI (trận đứng hình 1s, 2 tay đen bóng), đấm haki · Clapping có BÓNG CHÔNG lăn, VỖ TAY ĐỔI CHỖ với địch ngay trước khi va.
-//   PHỐI HỢP: ① chuông reng làm 2 địch choáng → Mlem liếm ② Clapping đổi chỗ đẩy Chud vào bóng chông → Doge xả chữ vào Chud đang choáng
-//   ③ lưỡi Mlem kéo Doge vào sát chuông ④ Clapping định vỗ tay thì bị Mlem đóng băng (phản combo) ⑤ Buff Doge lao vào Clapping, Clapping đổi chỗ với Chud → Chud lãnh đấm haki
+//   trúng đủ 5 phát → hoá BUFF DOGE, lần đầu thức tỉnh HAKI (trận đứng hình 1s, 2 tay đen bóng), đấm haki · Clapping VỖ TAY ĐỔI CHỖ.
+//   ⚠️ (anh chê 11/11: "trong thành phố lấy đâu ra bóng chông") CLAPPING = HỖ TRỢ kiểu TODO (Boogie Woogie): đứng hàng sau, vỗ tay đổi chỗ BẤT KỲ 2 thứ —
+//   đồng đội, địch, cả TẢNG BÊ TÔNG / MẢNH VỠ có sẵn trong phố đổ nát — chủ yếu để YỂM TRỢ DOGE (né đòn, đưa địch vào nắm đấm, cứu khi bị trói, combo tốc độ cao).
+//   PHỐI HỢP: ① chuông reng làm 2 địch choáng → Mlem liếm ② lưỡi Mlem phóng vào Doge → Clapping đổi Doge với tảng bê tông (lưỡi liếm trúng đá) → Doge hiện bên sườn xả chữ vào Chud
+//   ③ lưỡi Mlem kéo Doge vào sát chuông ④ Clapping định vỗ tay thì bị Mlem đóng băng (phản combo) ⑤ Buff Doge đấm vào 1 tảng đá, Clapping đổi Chud với tảng đá → Chud lãnh đấm haki
 //   ⑥ lưỡi Mlem quấn + đóng băng tay haki → Chud quật xích nung đỏ vào tay băng → Doge phá băng đập đất ⑦ đối mặt 2 vs 2 → cuối đại lộ loé sáng (trận Gojo vs Pain) → cả 4 quay đầu → máy lao theo.
 (function(){
   if(!window.CineKit || CineKit.films.fin1f1) return;
@@ -12,7 +14,7 @@
   for(const [g,f] of [['PIXI_FILTERS_GLSL','vendor/pixi-filters/glsl.js'],['Fin1City','fin1-city.js'],['Fin1Fight','fin1-fight.js']]) if(!window[g]){ try{ const x=new XMLHttpRequest(); x.open('GET',BASE+f+V,false); x.send(); (0,eval)(x.responseText); }catch(e){} }
   const K=CineKit, {seg,lerp,clamp,hash}=K, E=K.EASE, eout=E.eout, ein=E.ein, eio=E.eio, C=K.cam, W=window.Fin1Fight, TAU=Math.PI*2;
   const FX=()=>window.CineKitFx;
-  const T={ face1:2.0, face2:3.1, adv:4.2, txt1:4.6, txt2:4.85, lick1:5.0, lick2:5.25, pull1:5.5, ring1:5.95, lickA:6.25, ball:6.6, clap1:7.15, swap1:7.4, bhit:7.6,
+  const T={ face1:2.0, face2:3.1, adv:4.2, txt1:4.6, txt2:4.85, lick1:5.0, lick2:5.25, pull1:5.5, ring1:5.95, lickA:6.25, lash:6.95, clap1:7.15, swap1:7.35, bhit:7.6,
     dt1:7.78, dt2:7.98, dt3:8.18, tug:8.55, ring2:9.0, clap2:9.22, frz:9.42, dt4:9.75, dt5:10.0, morph:10.25, haki:10.65, hakiE:11.65, charge:11.8, clap3:11.98, swap2:12.15, punch:12.32, land:12.75,
     pull4:13.0, shatter:13.3, shout:13.5, bind:14.4, bindE:14.85, clap4:15.1, swap3:15.25, yank:15.4, claps:15.55, sp1:15.7, sp2:15.95, sp3:16.2, slam:16.5, mirror:16.9, far:18.1, look:18.6, whip:19.4, tunnel:19.65, DUR:20.55 };
   // (anh gợi ý 11/11) BỊ TRÓI XÍCH → Clapping vỗ tay ĐỔI CHỖ cứu (Doge ↔ Mlem: Mlem dính xích thay, Chud giật nhầm đồng đội) · COMBAT TỐC ĐỘ CAO nhờ Clapping:
@@ -24,22 +26,23 @@
     M0:'assets/img/cine/FIN_AKA_MLEM.png', M1:'assets/img/cine/FIN_F1_MLEM_LICK.png',
     D0:'assets/avatars/doge/avatarUrl.webp', DB:'assets/avatars/doge/rageAvatarUrl.webp', DH:'assets/img/doge/DG_HAKI_IDLE.webp', DP1:'assets/img/doge/DG_HAKI_P1.webp', DP5:'assets/img/doge/DG_HAKI_P5.webp',
     K0:'assets/avatars/clappingcat/avatarUrl.webp', K1:'assets/avatars/clappingcat/skill1AvatarUrl.webp', K2:'assets/avatars/clappingcat/skill2AvatarUrl.webp', K3:'assets/avatars/clappingcat/skill3AvatarUrl.webp',
-    BELL:'assets/img/doorbellchud/DC_BELL_IMG.webp', BALL:'assets/img/clappingcat/CLP_BALL_IMG.webp', ...window.FIN1_CITY_IMGS };
+    BELL:'assets/img/doorbellchud/DC_BELL_IMG.webp', ...window.FIN1_CITY_IMGS };
   const DIR={C0:0,C1:0,C2:-1,M0:0,M1:-1,D0:0,DB:0,DH:0,DP1:-1,DP5:0,K0:0,K1:0,K2:0,K3:0};
   const HT={C0:H*1.3,C1:H*1.42,C2:H*1.15,M0:H*1.0,M1:H*1.0,D0:H*0.72,DB:H*1.9,DH:H*1.9,DP1:H*1.75,DP5:H*1.9,K0:H*1.0,K1:H*1.0,K2:H*1.0,K3:H*1.0};
   // ───────── BIÊN ĐẠO [giây, x, ảnh, chuyển, nhoè, z, y] ─────────
-  const CK=[[0,400,'C0',0,0,0,0],[T.adv,400,'C0'],[T.adv+0.4,240,'C0','eio',0,0],[T.pull1-0.2,240,'C0'],[T.pull1,240,'C1'],[T.ring1+0.3,240,'C0'],[T.swap1-0.01,240,'C0'],[T.swap1,-430,'C0',0,0,-80],
-    [T.bhit,-430,'C0'],[T.bhit+0.3,-330,'C0','back',0,-60],[T.dt3+0.05,-330,'C0'],[T.tug-0.1,120,'C0','eio',0,-20],[T.ring2-0.35,120,'C1'],[T.ring2+0.3,120,'C0'],
-    [T.swap2-0.01,120,'C0',0,0,-20],[T.swap2,240,'C0',0,0,0],[T.punch,240,'C0'],[T.land,560,'C0','eout',0,0,0],[T.pull4-0.15,560,'C0'],[T.pull4,560,'C1'],[T.shatter+0.1,560,'C0'],
+  const CK=[[0,400,'C0',0,0,0,0],[T.adv,400,'C0'],[T.adv+0.4,240,'C0','eio',0,0],[T.pull1-0.2,240,'C0'],[T.pull1,240,'C1'],[T.ring1+0.3,240,'C0'],[T.dt1,240,'C0'],[T.dt3+0.25,262,'C0','back'],[T.tug-0.1,120,'C0','eio',0,-20],[T.ring2-0.35,120,'C1'],[T.ring2+0.3,120,'C0'],
+    [T.swap2-0.01,120,'C0',0,0,-20],[T.swap2,220,'C0',0,0,0],[T.punch,220,'C0'],[T.land,560,'C0','eout',0,0,0],[T.pull4-0.15,560,'C0'],[T.pull4,560,'C1'],[T.shatter+0.1,560,'C0'],
     [T.bind-0.12,560,'C2'],[T.yank+0.3,560,'C2'],[T.sp1,560,'C2'],[T.sp2,575,'C0','back'],[T.slam,560,'C0'],[T.slam+0.3,660,'C0','back'],[T.DUR,660,'C0']];
-  const MK=[[0,540,'M0',0,0,-110,0],[T.adv,540,'M0'],[T.adv+0.4,380,'M0','eio',0,-100],[T.lick1-0.05,380,'M1'],[T.lick2+0.25,380,'M0'],[T.lickA-0.05,380,'M1'],[T.lickA+0.3,380,'M0'],
+  const MK=[[0,540,'M0',0,0,-110,0],[T.adv,540,'M0'],[T.adv+0.4,380,'M0','eio',0,-100],[T.lick1-0.05,380,'M1'],[T.lick2+0.25,380,'M0'],[T.lickA-0.05,380,'M1'],[T.lickA+0.3,380,'M0'],[T.lash-0.05,380,'M1'],[T.bhit+0.4,388,'M0','back'],
     [T.tug-0.05,380,'M1'],[T.tug+0.35,380,'M0'],[T.frz-0.05,380,'M1'],[T.frz+0.3,380,'M0'],[T.bindE-0.05,380,'M1'],[T.swap3-0.01,380,'M1',0,0,-100],[T.swap3,200,'M0',0,0,0],[T.yank,200,'M0'],[T.yank+0.3,470,'M0','ein',1,-40],[T.sp3-0.05,470,'M1'],[T.sp3+0.25,470,'M0'],[T.slam,470,'M0'],[T.slam+0.3,520,'M0','back',0,-60],[T.DUR,520,'M0']];
-  const DK=[[0,-420,'D0',0,0,60,0],[T.adv,-420,'D0'],[T.adv+0.4,-300,'D0','eio',0,60],[T.ring1,-300,'D0'],[T.tug,-300,'D0'],[T.tug+0.3,-60,'D0','ein',0,40],[T.morph,-60,'D0'],[T.morph+0.01,-60,'DB'],
+  const DK=[[0,-420,'D0',0,0,60,0],[T.adv,-420,'D0'],[T.adv+0.4,-300,'D0','eio',0,60],[T.ring1,-300,'D0'],[T.swap1-0.01,-300,'D0',0,0,60],[T.swap1,-120,'D0',0,0,-170],[T.tug,-120,'D0',0,0,-170],[T.tug+0.3,-60,'D0','ein',0,40],[T.morph,-60,'D0'],[T.morph+0.01,-60,'DB'],
     [T.haki+0.5,-60,'DB'],[T.hakiE,-60,'DH'],[T.charge,-60,'DH'],[T.punch-0.05,200,'DP1','ein',1,0],[T.punch+0.4,200,'DP1'],[T.bind,200,'DH'],[T.swap3-0.01,200,'DH',0,0,0],[T.swap3,380,'DH',0,0,-100],[T.claps,380,'DH',0,0,-100],
     [T.sp1-0.12,380,'DH',0,0,-100],[T.sp1-0.11,430,'DP1',0,0,-40],[T.sp1+0.12,430,'DP1'],[T.sp2-0.12,430,'DP1'],[T.sp2-0.11,690,'DP1',0,0,40],[T.sp2+0.12,690,'DP1'],[T.sp3-0.12,690,'DP1'],[T.sp3-0.11,520,'DP1',0,0,-170],[T.sp3+0.1,520,'DP1'],
     [T.slam-0.28,520,'DP1'],[T.slam-0.27,560,'DP5',0,0,-40,300],[T.slam,560,'DP5','ein',1,-40,0],[T.slam+0.3,300,'DH','back',0,0,0],[T.DUR,300,'DH']];   // mỗi tiếng vỗ: Doge biến mất → hiện ở phía khác của Chud
-  const KK=[[0,-560,'K0',0,0,-90,0],[T.adv,-560,'K0'],[T.adv+0.4,-430,'K0','eio',0,-80],[T.clap1,-430,'K1'],[T.clap1+0.1,-430,'K2'],[T.clap1+0.2,-430,'K3'],[T.swap1-0.01,-430,'K3',0,0,-80],[T.swap1,240,'K0',0,0,0],
-    [T.clap2,240,'K1'],[T.clap2+0.12,240,'K2'],[T.clap3-0.1,240,'K0'],[T.clap3,240,'K1'],[T.clap3+0.08,240,'K3'],[T.swap2-0.01,240,'K3',0,0,0],[T.swap2,120,'K0',0,0,-20],[T.clap4,120,'K1'],[T.clap4+0.1,120,'K3'],[T.claps,120,'K1'],[T.claps+0.12,120,'K2'],[T.claps+0.24,120,'K3'],[T.claps+0.36,120,'K1'],[T.claps+0.48,120,'K2'],[T.claps+0.6,120,'K3'],[T.claps+0.72,120,'K1'],[T.slam,120,'K0'],[T.slam+0.3,20,'K0','back'],[T.DUR,20,'K0']];
+  const KX=-470, KZ=-130;   // Clapping ĐỨNG HÀNG SAU suốt trận (hỗ trợ kiểu Todo) — chỉ vỗ tay
+  const KK=[[0,-560,'K0',0,0,-90,0],[T.adv,-560,'K0'],[T.adv+0.4,KX,'K0','eio',0,KZ],[T.clap1,KX,'K1'],[T.clap1+0.1,KX,'K2'],[T.clap1+0.2,KX,'K3'],[T.swap1+0.1,KX,'K0'],
+    [T.clap2,KX,'K1'],[T.clap2+0.12,KX,'K2'],[T.clap3-0.1,KX,'K0'],[T.clap3,KX,'K1'],[T.clap3+0.08,KX,'K3'],[T.swap2+0.1,KX,'K0'],[T.clap4,KX,'K1'],[T.clap4+0.1,KX,'K3'],
+    [T.claps,KX,'K1'],[T.claps+0.12,KX,'K2'],[T.claps+0.24,KX,'K3'],[T.claps+0.36,KX,'K1'],[T.claps+0.48,KX,'K2'],[T.claps+0.6,KX,'K3'],[T.claps+0.72,KX,'K1'],[T.slam,KX,'K0'],[T.slam+0.3,KX-40,'K0','back'],[T.DUR,KX-40,'K0']];
   // haki thức tỉnh: TRẬN ĐỨNG HÌNH 1s (Chud, Mlem, Clapping khựng; Doge vẫn biến đổi) + các cú khựng khi trúng
   const hsAll=W.hstop([[T.bhit,0.1],[T.ring2,0.1],[T.punch,0.16],[T.sp2,0.1],[T.slam,0.14]]), hsFrz=t=>(t>=T.haki&&t<T.hakiE)?T.haki:hsAll(t);
   const chud=t=>W.track(CK,hsFrz(t)), mlem=t=>W.track(MK,hsFrz(t)), doge=t=>W.track(DK,hsAll(t)), clap=t=>W.track(KK,hsFrz(t));
@@ -56,19 +59,20 @@
     S(T.adv,T.lick1,{tx:-20,ty:90,tz:-20,dist:900,yaw:0,pitch:5,fov:46},{tx:-20,ty:90,tz:-20,dist:860,yaw:0,pitch:5,fov:46}),                                // 2 phe tiến vào, Doge bắn chữ meme
     S(T.lick1,T.pull1,{tx:120,ty:100,tz:-60,dist:420,yaw:-34,pitch:-4,roll:-6,fov:50}),                                                                     // lưỡi Mlem liếm chữ giữa không trung
     S(T.pull1,T.lickA,{tx:240,ty:170,tz:0,dist:330,yaw:24,pitch:-26,fov:52},{tx:240,ty:180,tz:0,dist:310,yaw:26,pitch:-28,fov:52},'lin'),                    // góc giun: Chud giật chuông, sóng âm toả
-    S(T.lickA,T.ball,{tx:-100,ty:90,tz:-50,dist:760,yaw:12,pitch:6,fov:48}),                                                                                 // ① sóng làm 2 địch choáng → Mlem liếm Clapping
-    S(T.ball,T.clap1,{tx:-700,ty:60,tz:-80,dist:520,yaw:30,pitch:4,fov:52},{tx:-520,ty:60,tz:-80,dist:480,yaw:30,pitch:4,fov:52},'lin'),                      // bóng chông lăn tới
-    S(T.clap1,T.swap1,{tx:-430,ty:85,tz:-80,dist:220,yaw:-14,pitch:-4,fov:44,ox:-0.06}),                                                                     // cận Clapping vỗ tay
-    S(T.swap1,T.dt1,{tx:-420,ty:80,tz:-70,dist:560,yaw:18,pitch:8,fov:50}),                                                                                  // ② ĐỔI CHỖ → bóng chông đâm Chud
-    S(T.dt1,T.tug-0.1,{tx:-320,ty:90,tz:0,dist:360,yaw:-40,pitch:-6,roll:6,fov:50},{tx:-330,ty:90,tz:0,dist:340,yaw:-42,pitch:-6,roll:7,fov:50}),             //    Doge xả chữ vào Chud đang choáng
+    S(T.lickA,T.lickA+0.35,{tx:-100,ty:90,tz:-50,dist:760,yaw:12,pitch:6,fov:48}),                                                                           // ① sóng làm 2 địch choáng → Mlem liếm Clapping
+    S(T.lickA+0.35,T.clap1,{tx:40,ty:90,tz:-20,dist:860,yaw:4,pitch:6,fov:48},{tx:20,ty:90,tz:-20,dist:820,yaw:4,pitch:6,fov:48},'lin'),                    // lưỡi Mlem phóng dài vào Doge
+    S(T.clap1,T.swap1,{tx:KX,ty:85,tz:KZ,dist:220,yaw:-14,pitch:-4,fov:44,ox:-0.06}),                                                                        // cận Clapping (hàng sau) vỗ tay
+    S(T.swap1,T.dt1,{tx:-250,ty:80,tz:-30,dist:440,yaw:22,pitch:4,fov:50}),                                                                                 // ② Doge ↔ tảng bê tông: lưỡi Mlem liếm trúng đá
+    S(T.dt1,T.tug-0.1,{tx:60,ty:90,tz:-80,dist:540,yaw:-30,pitch:-2,roll:5,fov:50},{tx:50,ty:90,tz:-80,dist:520,yaw:-32,pitch:-2,roll:6,fov:50}),             //    Doge hiện bên sườn, xả chữ vào Chud
     S(T.tug-0.1,T.ring2,{tx:150,ty:90,tz:-20,dist:820,yaw:-4,pitch:6,fov:48},{tx:120,ty:90,tz:-20,dist:780,yaw:-4,pitch:6,fov:48}),                           // ③ lưỡi Mlem kéo Doge vào sát chuông
     S(T.ring2,T.clap2,{tx:20,ty:110,tz:0,dist:300,yaw:30,pitch:-14,roll:-6,fov:52}),                                                                          //    chuông reng sát mặt Doge
-    S(T.clap2,T.dt4,{tx:280,ty:80,tz:-40,dist:300,yaw:-26,pitch:-4,fov:46}),                                                                                 // ④ Clapping định vỗ tay → bị Mlem đóng băng
+    S(T.clap2,T.dt4,{tx:KX,ty:80,tz:KZ,dist:300,yaw:-26,pitch:-4,fov:46}),                                                                                 // ④ Clapping định vỗ tay → bị Mlem đóng băng
     S(T.dt4,T.morph,{tx:180,ty:90,tz:-40,dist:760,yaw:6,pitch:5,fov:48}),                                                                                    //    Doge bắn trúng Mlem (phát 4, 5)
     S(T.morph,T.haki,{tx:-60,ty:110,tz:40,dist:420,yaw:16,pitch:-6,fov:50},{tx:-60,ty:130,tz:40,dist:480,yaw:16,pitch:-8,fov:50},'eout'),                   // ⑤ Doge hoá BUFF DOGE
     S(T.haki,T.hakiE,{tx:-60,ty:150,tz:40,dist:330,yaw:-20,pitch:-18,fov:50},{tx:-60,ty:160,tz:40,dist:290,yaw:-24,pitch:-20,fov:50},'lin'),                  //    HAKI thức tỉnh: trận đứng hình, 2 tay đen bóng
     S(T.hakiE,T.clap3,{tx:80,ty:110,tz:0,dist:620,yaw:-10,pitch:4,fov:50},{tx:140,ty:110,tz:0,dist:600,yaw:-10,pitch:4,fov:50},'ein'),                        // ⑥ Buff Doge lao vào Clapping
-    S(T.clap3,T.punch,{tx:200,ty:95,tz:-10,dist:240,yaw:-24,pitch:-4,fov:46}),                                                                               //    Clapping vỗ tay ĐỔI CHỖ với Chud
+    S(T.clap3,T.swap2,{tx:KX,ty:85,tz:KZ,dist:220,yaw:-14,pitch:-4,fov:44,ox:-0.06}),                                                                        //    Clapping vỗ tay
+    S(T.swap2,T.punch,{tx:210,ty:95,tz:-10,dist:240,yaw:-24,pitch:-4,fov:46}),                                                                               //    Chud ↔ tảng đá: hiện ngay trước nắm đấm haki
     S(T.punch,T.punch+0.08,{tx:240,ty:110,tz:0,dist:220,yaw:-30,pitch:-6,roll:8,fov:56}),                                                                     //    Chud lãnh trọn đấm haki — khựng nhiều góc
     S(T.punch+0.08,T.punch+0.16,{tx:240,ty:100,tz:0,dist:240,yaw:48,pitch:-18,roll:-9,fov:58}),
     S(T.punch+0.16,T.pull4,{tx:380,ty:110,tz:0,dist:760,yaw:-6,pitch:4,fov:50},{tx:420,ty:110,tz:0,dist:720,yaw:-6,pitch:4,fov:50}),                         //    Chud văng ra
@@ -76,7 +80,7 @@
     ...C.pushIn(T.shout,{d:T.bind-T.shout,tx:560,ty:120,tz:0,dist:280,dist1:230,yaw:-18,pitch:-8,fov:46,ox:0.08}),                                          //    Chud hét phẫn nộ, dây nung đỏ
     S(T.bind,T.bindE,{tx:360,ty:120,tz:-10,dist:560,yaw:-12,pitch:2,fov:50},{tx:330,ty:120,tz:-10,dist:520,yaw:-12,pitch:2,fov:50},'ein'),                  // ⑦ xích nung đỏ quấn TRÓI Buff Doge
     S(T.bindE,T.clap4,{tx:270,ty:110,tz:-50,dist:300,yaw:-34,pitch:-4,roll:-6,fov:50}),                                                                     //    Mlem phóng lưỡi định kết liễu
-    S(T.clap4,T.swap3,{tx:120,ty:90,tz:-20,dist:200,yaw:-10,pitch:-4,fov:44}),                                                                              //    Clapping vỗ tay
+    S(T.clap4,T.swap3,{tx:KX,ty:90,tz:KZ,dist:200,yaw:-10,pitch:-4,fov:44}),                                                                              //    Clapping vỗ tay
     S(T.swap3,T.yank,{tx:290,ty:110,tz:-50,dist:320,yaw:-30,pitch:-4,roll:6,fov:50}),                                                                       //    ĐỔI CHỖ Doge ↔ Mlem: Mlem dính xích thay
     ...C.orbit(T.yank,{d:T.slam-T.yank,cut:0.15,tx:540,ty:120,tz:-40,dist:420,pitch:6,yaw0:-60,yaw1:70}),                                                 //    Chud giật nhầm Mlem → COMBAT TỐC ĐỘ CAO: mỗi tiếng vỗ Doge dịch chuyển sang 1 phía
     S(T.slam,T.mirror,{tx:500,ty:40,tz:0,dist:900,yaw:-14,pitch:30,fov:52}),                                                                                //    Doge đập đất từ trên xuống, sóng đẩy lùi cả 4
@@ -107,10 +111,19 @@
     const P=K.proj(F.B,...B), Q=K.proj(F.B,...top); if(!P||!Q) return; const sh=ring?Math.sin(t*60)*0.25*(1-ring):0, w=56*P.s, h=w*im.naturalHeight/im.naturalWidth;
     F.list.push({d:P.d-8, fn:()=>{ const g=F.g; g.save(); g.strokeStyle='#d8c9a8'; g.lineWidth=Math.max(1.5,2.2*P.s); g.beginPath(); g.moveTo(Q.x,Q.y); g.lineTo(P.x,P.y); g.stroke();
       g.translate(P.x,P.y); g.rotate(sh); g.drawImage(im,-w*0.634,-h,w,h); g.restore(); }}); }
-  // bóng chông Clapping lăn (ảnh game, xoay theo quãng lăn)
-  function ball(F,x,z,rot,R){ const im=F.I.BALL, P=K.proj(F.B,x,R,z); if(!P||!im||!im.complete||!im.naturalWidth) return; const r=R*P.s;
-    F.list.push({d:P.d, fn:()=>{ const g=F.g; g.save(); g.translate(P.x,P.y); g.rotate(rot); g.drawImage(im,-r,-r,r*2,r*2); g.restore(); }}); }
-  const ballX=t=>lerp(-1150,-430,seg(t,T.ball,T.bhit));
+  // 🧱 TẢNG BÊ TÔNG / MẢNH VỠ có sẵn trong phố đổ nát — vật để Clapping đổi chỗ (Boogie Woogie). [[giây, x, z, y], …] = vị trí từ giây đó
+  const ROCKS=[ {s:62,seed:1,p:[[0,-120,-170,0],[T.swap1,-300,60,0]]}, {s:58,seed:2,p:[[0,220,0,0],[T.swap2,120,-20,0]]},
+    {s:48,seed:3,p:[[0,430,-40,0],[T.sp1-0.11,380,-100,0]]}, {s:46,seed:4,p:[[0,690,40,0],[T.sp2-0.11,430,-40,0]]}, {s:50,seed:5,p:[[0,520,-170,0],[T.sp3-0.11,690,40,0]]},
+    {s:56,seed:6,fall:true,p:[[0,560,-40,900],[T.slam-0.27,520,-170,0]]} ];
+  function rockAt(r,t){ let q=r.p[0]; for(const p of r.p) if(t>=p[0]) q=p; let y=q[3]; if(r.fall&&q===r.p[0]) y=t<T.claps?9e9:lerp(900,300,ein(seg(t,T.claps,T.slam-0.27))); return [q[1],y,q[2]]; }
+  function rock(F,x,y,z,S,seed,t){ if(y>5e9) return; const P=K.proj(F.B,x,y+S*0.45,z); if(!P) return; const R=S*P.s, rot=y>0?t*4:0;
+    F.list.push({d:P.d, fn:()=>{ const g=F.g; g.save(); g.translate(P.x,P.y); g.rotate(rot+seed); const pts=[]; for(let i=0;i<8;i++){ const a=i/8*TAU, rr=R*(0.62+0.38*hash(seed*13+i)); pts.push([Math.cos(a)*rr,Math.sin(a)*rr*0.78]); }
+      g.fillStyle='#5f5955'; g.beginPath(); pts.forEach((p,i)=>i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1])); g.closePath(); g.fill();
+      g.fillStyle='rgba(180,170,162,0.35)'; g.beginPath(); g.moveTo(pts[4][0],pts[4][1]); g.lineTo(pts[5][0],pts[5][1]); g.lineTo(pts[6][0],pts[6][1]); g.lineTo(0,-R*0.1); g.closePath(); g.fill();   // mặt trên hứng sáng
+      g.strokeStyle='rgba(20,16,16,0.8)'; g.lineWidth=Math.max(1,R*0.04); g.stroke(); g.beginPath(); g.moveTo(-R*0.3,-R*0.2); g.lineTo(R*0.05,R*0.1); g.lineTo(R*0.3,R*0.05); g.stroke();   // vết nứt
+      g.strokeStyle='#5b3a22'; g.lineWidth=Math.max(1,R*0.05); g.beginPath(); g.moveTo(R*0.4,-R*0.2); g.lineTo(R*0.85,-R*0.55); g.stroke();   // thép lòi ra
+      g.restore(); }}); }
+  // bóng chông (BỎ 11/11 — trong thành phố không có bóng chông)
   // nhoè + vạch tốc độ lúc đổi chỗ (game: clapFx smear/slines)
   function swapFx(F,t,ts,A,B){ if(t<ts-0.2||t>ts+0.25) return; const u=seg(t,ts-0.2,ts);
     for(const p of [A,B]){ const P=K.proj(F.B,p[0],70,p[1]); if(!P) continue; F.list.push({d:P.d-12, fn:()=>{ const g=F.g; g.save(); g.globalCompositeOperation='lighter'; const R=60*P.s*(1+u), a=t<ts?u:1-seg(t,ts,ts+0.25);
@@ -119,8 +132,8 @@
   function world(F,t){ const th=theme(t); CITY.draw(F,t,th);
     const c=chud(t), m=mlem(t), d=doge(t), k=clap(t);
     const aura=t>=T.shout&&t<T.DUR?{preset:'fire',k:0.75,seed:5}:null, haki=t>=T.haki?{preset:'haki',k:t<T.hakiE?1.2:0.7,seed:8}:null;
-    W.actor(F,{key:c.im,dir:DIR[c.im],x:c.x,z:c.z,y:c.y,h:HT[c.im],look:{x:d.x,z:d.z},smear:c.sm,aura,white:(t>=T.bhit&&t<T.bhit+0.06)||(t>=T.punch&&t<T.punch+0.07)?1:0,
-      lean:t>=T.bhit&&t<T.bhit+0.4?-8:t>=T.look&&t<T.whip?6:0, life:{breath:t>=T.shout&&t<T.bind?2.4:0.6,wind:0.8,squash:K.squash(hsAll(t),T.land,0.4,0.1)}});
+    W.actor(F,{key:c.im,dir:DIR[c.im],x:c.x,z:c.z,y:c.y,h:HT[c.im],look:{x:d.x,z:d.z},smear:c.sm,aura,white:(t>=T.punch&&t<T.punch+0.07)?1:0,
+      lean:t>=T.look&&t<T.whip?6:0, life:{breath:t>=T.shout&&t<T.bind?2.4:0.6,wind:0.8,squash:K.squash(hsAll(t),T.land,0.4,0.1)}});
     W.actor(F,{key:m.im,dir:DIR[m.im],x:m.x,z:m.z,y:m.y,h:HT[m.im],look:{x:d.x,z:d.z},smear:m.sm,white:(t>=T.dt4&&t<T.dt4+0.06)||(t>=T.dt5&&t<T.dt5+0.06)?0.8:0,life:{breath:0.7,wind:0.8}});
     const dMorph=t>=T.morph&&t<T.morph+0.35, dk=d.im, dh=HT[dk]*(dMorph?lerp(0.45,1,eout(seg(t,T.morph,T.morph+0.35))):1);
     W.actor(F,{key:dk,dir:DIR[dk],x:d.x,z:d.z,y:d.y,h:dh,look:{x:c.x,z:c.z},smear:d.sm,aura:haki,white:dMorph?0.7*(1-seg(t,T.morph,T.morph+0.35)):(t>=T.ring2&&t<T.ring2+0.06?1:0),
@@ -158,9 +171,12 @@
     if(t>=T.sp2&&t<T.sp2+0.5){ K.ring(F,600,0,30+380*eout(seg(t,T.sp2,T.sp2+0.45)),14,1-seg(t,T.sp2,T.sp2+0.45),'255,60,60'); K.sparks(F,{x:600,y:120,z:0,t0:T.sp2,n:24,speed:560,life:0.45,seed:92,col:'255,90,90'}); }   // trúng
     { const dd=doge(T.sp3); tongue(F,t,T.sp3,[dd.x+40,130,dd.z]); }   // lưỡi Mlem gạt nắm đấm sau lưng Chud
     // ── bóng chông + đổi chỗ
-    if(t>=T.ball&&t<T.bhit+0.7){ const x=t<T.bhit?ballX(t):lerp(-430,-760,eout(seg(t,T.bhit,T.bhit+0.7))); ball(F,x,-80,x/36,46); }
-    if(t>=T.bhit&&t<T.bhit+0.6){ K.sparks(F,{x:-430,y:70,z:-80,t0:T.bhit,n:22,speed:520,life:0.45,seed:31,col:'255,210,150'}); K.smoke(F,{x:-430,z:-80,t0:T.bhit,n:8,spread:160,rise:40,life:1,size:60,seed:32,a:0.5}); }
-    swapFx(F,t,T.swap1,[-430,-80],[240,0]); swapFx(F,t,T.swap2,[240,0],[120,-20]);
+    for(const r of ROCKS){ const p=rockAt(r,t); rock(F,p[0],p[1],p[2],r.s,r.seed,t); }
+    { tongue(F,t,T.bhit,[-300,75,60],{out:0.65,back:0.3}); }   // ② lưỡi Mlem phóng vào chỗ Doge → Doge đã bị đổi với tảng bê tông → liếm trúng đá
+    if(t>=T.bhit&&t<T.bhit+0.6){ K.sparks(F,{x:-300,y:70,z:60,t0:T.bhit,n:16,speed:420,life:0.4,seed:31,col:'220,210,200'}); K.smoke(F,{x:-300,z:60,t0:T.bhit,n:6,spread:120,rise:30,life:0.9,size:50,seed:32,a:0.45}); }
+    swapFx(F,t,T.swap1,[-300,60],[-120,-170]); swapFx(F,t,T.swap2,[120,-20],[220,0]);
+    // vỗ tay = Boogie Woogie: vòng sáng nhỏ trên 2 bàn tay Clapping mỗi lần vỗ
+    for(const tc of [T.clap1,T.clap2,T.clap3,T.clap4,T.claps,T.claps+0.25,T.claps+0.5,T.claps+0.75]) if(t>=tc&&t<tc+0.25&&!(tc===T.clap2)){ const kk=clap(tc), u=seg(t,tc,tc+0.25); K.ring(F,kk.x,kk.z,20+160*eout(u),6,0.7*(1-u),'255,230,160'); }
     // ── HAKI thức tỉnh: nền tối thoáng qua, sét đen viền đỏ quanh Doge, hơi nước Gear 2, chữ doge haki bật ra
     if(t>=T.haki&&t<T.hakiE+0.4){ const v=t-T.haki, dd=doge(t), P=K.proj(F.B,dd.x,dd.y+110,dd.z); if(P) F.list.push({d:P.d-20, fn:()=>{ const g=F.g, R=150*P.s, fr=Math.floor(t*14);
         if(window.VfxGL) for(let i=0;i<4;i++){ const s=fr*7+i, an=hash(s)*TAU; VfxGL.boltSet(g,P.x+Math.cos(an)*R*0.4,P.y+Math.sin(an)*R*0.5,an,R*(0.6+0.6*hash(s+1)),Math.max(2,R*0.04),s,{core:'#07060a',rim:'#e8102c',glow:'rgba(255,20,40,0.28)'}); } }});
@@ -188,10 +204,10 @@
       [T.pull1,'l2p_whoosh',0.4,null,'Chud với tay giật dây chuông'],
       [T.ring1,'dc_bell',1,null,'chuông reng, sóng âm toả toàn sân, 2 địch loạng choạng'],
       [T.lickA,'mlem_lick',0.8,null,'① Mlem tranh thủ liếm Clapping đang choáng'],
-      [T.ball,'l2p_rumble',0.5,null,'bóng chông lăn ầm ầm tới'],
-      [T.clap1,'clap_cat',1,null,'Clapping vỗ tay'],[T.swap1,'clap_tele',1,null,'② Clapping đổi chỗ với Chud'],
-      [T.bhit,'hit_heavy',0.8,null,'bóng chông đâm trúng Chud'],
-      [T.dt1,'ep3_klunk',0.5,null,'Doge xả chữ meme vào Chud đang choáng'],[T.dt2,'hit_light',0.5,null,'chữ meme thứ 2 vào Chud'],[T.dt3,'punch2',0.5,null,'chữ meme thứ 3 vào Chud'],
+      [T.lash,'mlem_lick',0.8,null,'Mlem phóng lưỡi dài vào Doge'],
+      [T.clap1,'clap_cat',1,null,'Clapping vỗ tay'],[T.swap1,'clap_tele',1,null,'② Clapping đổi chỗ Doge với tảng bê tông'],
+      [T.bhit,'ep3_klunk',0.8,null,'lưỡi Mlem liếm trúng tảng bê tông'],
+      [T.dt1,'se_whoosh_fast',0.5,null,'Doge hiện bên sườn, xả chữ meme vào Chud'],[T.dt2,'hit_light',0.5,null,'chữ meme thứ 2 vào Chud'],[T.dt3,'punch2',0.5,null,'chữ meme thứ 3 vào Chud'],
       [T.tug,'mlem_lick',0.85,null,'③ lưỡi Mlem quấn kéo Doge vào sát Chud'],
       [T.ring2,'dc_bell',1,null,'chuông reng sát mặt Doge'],
       [T.clap2,'clap_cat',0.8,null,'④ Clapping định vỗ tay đổi chỗ'],[T.frz,'mlem_freeze',1,null,'Mlem liếm, Clapping đóng băng giữa lúc vỗ tay'],
@@ -199,13 +215,13 @@
       [T.morph,'l2p_riser',0.6,null,'⑤ Doge phồng cơ hoá Buff Doge'],
       [T.haki,'cine_haki',1,null,'HAKI thức tỉnh: trận đứng hình, 2 tay đen bóng'],
       [T.charge,'ep3_whoosh',0.7,null,'Buff Doge lao vào Clapping'],
-      [T.clap3,'clap_cat',1,null,'Clapping vỗ tay'],[T.swap2,'clap_tele',1,null,'⑥ Clapping đổi chỗ với Chud'],
+      [T.clap3,'clap_cat',1,null,'Clapping vỗ tay'],[T.swap2,'clap_tele',1,null,'⑥ Clapping đổi Chud với tảng đá ngay trước tay haki của Doge'],
       [T.punch,'cine_strongpunch',1,null,'nắm đấm haki trúng Chud'],[T.land,'cine_impact',0.5,null,'Chud văng ngã xuống đường'],
       [T.shatter,'dc_rock',1,null,'lần giật thứ 4: chuông vỡ tan'],[T.shout,'dc_rage',1,null,'Chud hét phẫn nộ, dây nung đỏ'],
       [T.bind,'dc_chain',1,null,'⑦ dây nung đỏ quất ra quấn trói Buff Doge'],[T.bind+0.22,'l2p_chains',0.6,null,'xích siết chặt quanh người'],
       [T.bindE,'mlem_lick',0.85,null,'Mlem phóng lưỡi định kết liễu Doge đang bị trói'],
       [T.clap4+0.05,'clap_cat',1,null,'Clapping vỗ tay cứu đồng đội'],[T.swap3+0.05,'clap_tele',1,null,'đổi chỗ Doge ↔ Mlem: Mlem dính xích thay'],
-      [T.claps-0.03,'clap_cat',0.9,null,'Clapping vỗ tay liên hồi, Doge dịch chuyển tốc độ cao'],
+      [T.claps-0.03,'clap_cat',0.9,null,'Clapping vỗ tay liên hồi, đổi Doge với từng mảnh vỡ quanh Chud'],
       [T.sp1,'se_impact_stop',0.8,null,'Doge hiện bên trái, Chud gồng xích chặn nắm đấm'],[T.sp2,'cine_strongpunch',1,null,'Doge hiện bên phải, nắm đấm trúng Chud'],
       [T.sp3,'mlem_lick',0.8,null,'Doge hiện sau lưng, lưỡi Mlem gạt nắm đấm'],[T.slam,'cine_deep_impact',1,null,'Doge từ trên đầu đập đất, sóng đẩy lùi cả 4'],
       [T.mirror,'l2p_sub',0.5,null,'đối mặt 2 vs 2 soi gương'],
@@ -215,7 +231,7 @@
     theme:t=>theme(t), shots,
     impact:C.negFrames([T.bhit,T.ring2,T.sp1,T.sp2,T.sp3],0.07,'inv',[T.punch,T.slam]),
     shake:t=>{ let s=0; const h=(a,amp,d)=>{ if(t>=a&&t<a+d) s=Math.max(s,amp*(1-(t-a)/d)); };
-      h(T.ring1,6,0.5); h(T.ring2,8,0.5); h(T.bhit,10,0.4); h(T.haki,6,1.0); h(T.punch,16,0.6); h(T.shatter,8,0.4); h(T.shout,5,0.9); h(T.bind+0.2,6,0.3); h(T.sp2,10,0.35); h(T.slam,18,0.8); h(T.far,6,1.0); return s; },
+      h(T.ring1,6,0.5); h(T.ring2,8,0.5); h(T.bhit,5,0.3); h(T.haki,6,1.0); h(T.punch,16,0.6); h(T.shatter,8,0.4); h(T.shout,5,0.9); h(T.bind+0.2,6,0.3); h(T.sp2,10,0.35); h(T.slam,18,0.8); h(T.far,6,1.0); return s; },
     world, post(F,t){ const fx={shocks:[]}; const sh=(a,x,y,z,rm,d,str)=>{ if(t>=a&&t<a+d){ const u=(t-a)/d; fx.shocks.push({x,y,z,r:20+rm*eout(u),w:26,str:str*(1-u)}); fx.chroma=Math.max(fx.chroma||0,2*(1-u)); } };
       sh(T.ring1,240,200,0,500,0.6,20); sh(T.ring2,120,200,-20,500,0.6,24); sh(T.punch,240,110,0,420,0.5,32); sh(T.slam,560,20,-40,700,0.7,34); sh(T.sp2,600,120,0,300,0.4,22); sh(T.haki,-60,120,40,400,1.0,18); return fx; },
     screen(F,t){ const g=F.g, VW=F.VW, VH=F.VH;
