@@ -573,7 +573,7 @@
       g.strokeStyle='rgba(255,255,255,0.9)'; g.lineWidth=1.5; g.beginPath(); g.moveTo(-s*0.3,-s*0.2); g.lineTo(s*0.2,s*0.1); g.stroke(); g.restore(); }
     g.setTransform(M); }
 
-  CineKit.film({ id:'fin1c4', title:'Final 1 · Cảnh 4 · Gojo Cat vs Pain Cat', DUR:T.DUR, VW:960, VH:540, fadeIn:true, fadeOut:true,   /* 10/11: phim riêng, không còn nối sau nóc nhà */
+  CineKit.film({ id:'fin1c4', title:'Final 1 · Cảnh 4 · Gojo Cat vs Pain Cat', DUR:T.DUR, VW:960, VH:540, fadeIn:false, fadeOut:true,   /* 11/11: trận cuối của tập full (vào từ đường hầm trắng của fin1f1) — không mờ đầu, mờ cuối hết tập */
     imgs:{ G1:'assets/img/cine/MVD_G1.png', G2:'assets/img/cine/MVD_G2.png', G3:'assets/img/cine/MVD_G3.png', G4:'assets/img/cine/MVD_G4.png', G5:'assets/img/cine/MVD_G5.png',
       P1:'assets/img/cine/MVD_P1.png', P2:'assets/img/cine/MVD_P2.png', P3:'assets/img/cine/MVD_P3.png', P4:'assets/img/cine/MVD_P4.png', P5:'assets/img/cine/MVD_P5.png',
       GP1:'assets/img/cine/FIN_G_PUNCH_1.png', GP2:'assets/img/cine/FIN_G_PUNCH_2.png', GP3:'assets/img/cine/FIN_G_PUNCH_3.png', GP4:'assets/img/cine/FIN_G_PUNCH_4.png',

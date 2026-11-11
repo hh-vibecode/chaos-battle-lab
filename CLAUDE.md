@@ -231,6 +231,17 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
   fin1f1 XONG bản đầu (Ver 565, 20.6s, 2 vs 2 PHỐI HỢP: chuông làm choáng → Mlem liếm · Clapping đổi chỗ đẩy Chud vào bóng chông → Doge xả chữ · lưỡi kéo Doge vào chuông ·
   Mlem đóng băng Clapping giữa lúc vỗ tay · Buff Doge + Haki · Clapping đổi chỗ để Chud lãnh đấm · chuông vỡ, xích nung đỏ TRÓI Doge → Clapping đổi chỗ Doge ↔ Mlem (anh gợi ý) ·
   combo TỐC ĐỘ CAO: mỗi tiếng vỗ dịch chuyển Doge sang 1 phía Chud; kết = cuối đại lộ loé tím (trận Gojo vs Pain), cả 4 quay đầu, máy lao theo).
+  ⏸️ VIỆC DỞ (lưu 11/11 tối — anh hết token, làm tiếp sau):
+   ① CẢNH NỐI fin1c5 XONG (js/film-fin1c5.js, 21.6s, lint sạch, ảnh FIN_DP_LOOKUP + FIN_SPACE_SEAL): màu về → Depressed ngẩng nhìn ∞ → vũ trụ hành tinh bị phong ấn → thoại → Bread Cat xoay, trời chớp → 6 cột sáng guardian → Depressed bay vào cột tím → BÙM.
+   ② CHƯA LÀM: DỰNG LẠI fin1f1 theo kịch bản anh (11/11) trong CÔNG VIÊN: Doge đang đi bị Mlem liếm ĐÓNG BĂNG → Chud + Mlem đi ra VÂY Clapping, Clapping chỉ CƯỜI VỖ TAY (ảnh skill1–3)
+      → không gian chấn động, 2 con quay ra thấy BĂNG NỨT dần → Doge HOÁ TO nhảy ra HÚC VĂNG Chud, cả 2 ĐÂM XUYÊN mấy toà nhà (dãy nhà sau công viên, collapse) →
+      Clapping CHE MỒM (ảnh gốc avatar) nhìn theo bất lực → rồi mới quay lại đứng GIƠ TAY như meme (ảnh rage) với Mlem. Clapping = hỗ trợ kiểu Todo. Bỏ hẳn bản cũ (chuông/xích/combo).
+   ③ BỐI CẢNH ĐA DẠNG (anh chê phông lặp): js/fin1-city.js đã có kind 'park' (cây FIN_TREE1, cột đèn, ghế, đài phun nước, nhà chỉ dãy xa) + 'bridge' (mặt cầu, lan can, tháp, cáp, dây treo),
+      phông FIN_BG_PARK / FIN_BG_BRIDGE, bảng màu C.TH. CHƯA soát hình. Phân: f3 giữa phố (giữ) · f2 Bat → CẦU (móc dây vào cáp/tháp, bom gài trên tháp, ngồi trên dầm tháp) · f1 Doge → CÔNG VIÊN.
+      Đổi xong phải sửa drawNext: f3 (kính vỡ → lộ CẦU của f2) và f2 (lỗ vòng khói → lộ CÔNG VIÊN của f1).
+   ④ TẬP FULL: file mới js/film-fin1full.js nạp đồng bộ film-fin1 + fin1c5 + f3 + f2 + f1 + fin1c4 rồi CineKit.seq({id:'fin1full', parts:[fin1c1,fin1c2,fin1c3,fin1c5,fin1f3,fin1f2,fin1f1,fin1c4]})
+      — K.seq chỉ phát mus của chính seq → gom mus từng phần dời theo giây bắt đầu. Mục menu ĐẦU TIÊN trong __fin1. Thời lượng hiện ≈ 75.4+21.6+21.9+18.6+20.6+50 ≈ 208s ≈ 3 phút 28 (anh muốn ≥ 8–9 phút).
+      (f3 đã tắt fadeIn/out, fin1c4 tắt fadeIn để ghép liền.)
   Trận phụ (fin1f1 Chud+Mlem vs Doge+Clapping · fin1f2 Bat vs Pop+Huh · fin1f3 Ninja vs Berserk): yêu cầu chi tiết ở prompts/fin1-fight-phu.md.
   🔧 NÂNG CẤP 9/11 (theo meme-anime-lab/playbook): thành phố dựng lại đúng TỈ LỆ (MEME_H=32, tầng 84–100, nhà phố 3–5 tầng, cao tầng 15–40) · Friend lộ diện = bộ ba
   (cực cận răng→mắt bật sáng · góc giun trời đỏ ngược sáng · cận Banana Cat) · ĐUÔI quật thay nắm tay (kiểu Cửu Vĩ, clip kaiju-b) · tĩnh trước phá · hậu quả ·

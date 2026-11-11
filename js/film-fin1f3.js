@@ -259,7 +259,7 @@
       g.restore(); } }
   const SMEAR=[[T.dash+0.2,1],[T.ripo-0.12,-1],[T.c1+0.08,1],[T.c2+0.08,-1],[T.fr2-0.12,-1],[T.fr3-0.12,1]];
 
-  CineKit.film({ id:'fin1f3', title:'Final 1 · Fight · Ninja Cat vs Berserk Cat', DUR:T.DUR, VW:960, VH:540, fadeIn:true, fadeOut:true,
+  CineKit.film({ id:'fin1f3', title:'Final 1 · Fight · Ninja Cat vs Berserk Cat', DUR:T.DUR, VW:960, VH:540, fadeIn:false, fadeOut:false,   /* 11/11: nằm giữa tập full (vào từ cảnh nối fin1c5, ra qua kính vỡ) */
     imgs:IMG, cast:['ninja','nj','bk'],
     sfx:[[0.1,'l2p_rumble',0.45,null,'toàn cảnh đại lộ đổ nát, gió bụi'],
       [T.face1+0.1,'l2p_sub',0.4,null,'đối mặt: cận Berserk, nền trầm rung'],
