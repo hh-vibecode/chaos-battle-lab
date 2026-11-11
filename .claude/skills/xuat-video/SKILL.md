@@ -54,7 +54,8 @@ Phim có sẵn: `war`, `l2e2`, `l2e3` (bảng `FILMS` đầu file). Phim dựng 
 - Trận phải có DIỄN BIẾN riêng (vd Bread Cat bị huỷ đúng 2 lần mới thắng, Mewing xoá địch bằng Hollow Purple): `--inject f.js` định nghĩa `window.__director=()=>'breaks='+N` (móc vào hàm game qua `window._bcBreak=...`) + `--dirok 'breaks=2$'` → chỉ nhận trận có dòng đạo diễn khớp mẫu.
   ⛔ `--inject` CHỈ để ĐỌC/đếm diễn biến — KHÔNG được sửa hàm game để ép kết quả (anh cấm 10/11). Không ra trận đúng ý → báo anh.
 - Ví dụ: `node tools/render-match.js out/marmot-vs-ninja.mp4 --a saiyanmarmot --b ninjacat --hw`
-2vs2: DÙNG `render-match.js out.mp4 --a k1,k2 --b k3,k4 [--win a|b|any] [--domain 4.5] [--inject f.js]` (11/11: có nhạc ảo → meme nhạc như Azel/Guitar/Muỗi khớp tiếng; chọn trận đội thắng còn ít máu nhất). `render-duo.js` cũ cho nhạc chạy giờ thật → meme nhạc lệch tiếng, đừng dùng. Boss Raid: `tools/render-boss.js out.mp4 [--sec 13]`.
+2vs2: DÙNG `render-match.js out.mp4 --a k1,k2 --b k3,k4 [--win a|b|any] [--domain 4.5] [--inject f.js]` (11/11: có nhạc ảo → meme nhạc như Azel/Guitar/Muỗi khớp tiếng; chọn trận đội thắng còn ít máu nhất). `render-duo.js` cũ cho nhạc chạy giờ thật → meme nhạc lệch tiếng, đừng dùng.
+Đấu 4 (LAST ONE STANDING): `render-match.js out.mp4 --ffa k1,k2,k3,k4 --win <key|any>` (chạy thử có tính cả cảnh kết → con thắng chắc chắn sống tới cuối video). Boss Raid: `tools/render-boss.js out.mp4 [--sec 13]`.
 
 ## Theo dõi + báo anh
 - Chạy nền, đọc log định kỳ: render-cine in `khung i/N` mỗi 10 khung; render-match in `thử #k`, `⏱️ chạy thử mất…`, rồi `Ns video`.
