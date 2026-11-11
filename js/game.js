@@ -10806,8 +10806,14 @@ function _gdTick(f){
   if(g.charge>0){ g.charge--; f.vx*=0.6; f.vy*=0.6; g.aimA=_gdAimAt(f,e);   // ⚡ tích 2s: đứng nhắm, cầu năng lượng lớn dần ở đầu nòng
     if(g.charge===GD_CHARGE_T-1) playSample('ultimate_charge_2',0.8);
     if(g.charge===0) _gdFire(f,true); return; }
-  if(g.slashT>0){ g.slashT--; if(g.slashT===13){ for(const u of [...fighters.filter(o=>o.team!==f.team&&!o.dead), ..._summonFoes(f.team)]){ if(Math.hypot(u.x-f.x,u.y-f.y)<f.size+(u.size||20)+MELEE_REACH*3){ u.takeDamage(GD_SLASH,f,false,false,'','Blood Batch 1_Sprite'); } }
-      playSample('lightsaber_whoosh_01',0.9); addShake(5,8); } return; }
+  if(g.slashT>0){ g.slashT--; const st=24-g.slashT;   // ⚔️ chỉ trúng khi LƯỠI KIẾM thật sự quét qua người (anh dặn 11/11: không còn dame vòng tròn)
+    if(st===1){ g.slashHit=new Set(); g.tipTr=[]; }
+    if(st===9){ playSample('lightsaber_whoosh_01',0.9); }
+    if(st>=7 && st<=17){ const B=_gdBladeSeg(f,g); g.tipTr.push([B[2],B[3]]);
+      for(const u of [...fighters.filter(o=>o.team!==f.team&&!o.dead), ..._summonFoes(f.team)]){ if(g.slashHit.has(u)) continue;
+        const vx=B[2]-B[0], vy=B[3]-B[1], l2=vx*vx+vy*vy||1, t=Math.max(0,Math.min(1,((u.x-B[0])*vx+(u.y-B[1])*vy)/l2)), dd=Math.hypot(B[0]+vx*t-u.x,B[1]+vy*t-u.y);
+        if(dd<(u.size||20)*0.85+B[4]){ g.slashHit.add(u); u.takeDamage(GD_SLASH,f,false,false,'','Blood Batch 1_Sprite'); addShake(5,8); gdBooms.push({k:'zap',x:B[0]+vx*t,y:B[1]+vy*t,a:Math.atan2(vy,vx),t:0,T:14}); } } }
+    return; }
   if(g.aimT>0){ g.aimT--; g.aimA=_gdAimAt(f,e); if(g.aimT===0) _gdFire(f,false); return; }
   if(near && g.slashCD<=0){ g.slashT=24; g.slashCD=GD_SLASH_CD; playSample('lightsaber_on',0.7); }
   else if(!near && g.rifleCD<=0){ g.rifleCD=GD_RIFLE_CD; g.aimA=_gdAimAt(f,e); g.shots++;
@@ -10880,10 +10886,30 @@ function _gdDrawRig(x,feetY,H,flip,P,show,extra){ const k=H/GD_IH;
 function _gdRifle(){ const [fx,fy]=GD_FIST_R;   // súng trường beam: thân xám, nòng dài, cảm biến xanh — chĩa dọc theo cánh tay
   ctx.save(); ctx.fillStyle='#3f4652'; ctx.fillRect(fx-26,fy-30,52,150); ctx.fillStyle='#596273'; ctx.fillRect(fx-20,fy+110,40,170); ctx.fillStyle='#2b3038'; ctx.fillRect(fx-12,fy+270,24,40);
   ctx.fillStyle='#e8eef5'; ctx.fillRect(fx-26,fy-30,52,12); ctx.fillStyle='#29b6f6'; ctx.fillRect(fx+22,fy+20,14,40); ctx.fillStyle='#c62828'; ctx.fillRect(fx-30,fy+60,10,30); ctx.restore(); }
-function _gdSaber(on){ const [fx,fy]=GD_FIST_L;   // kiếm laser: chuôi + lưỡi hồng (chỉ bật khi chém)
-  ctx.save(); ctx.fillStyle='#cfd8dc'; ctx.fillRect(fx-12,fy-10,24,70); ctx.fillStyle='#546e7a'; ctx.fillRect(fx-14,fy+50,28,14);
-  if(on>0){ ctx.globalCompositeOperation='lighter'; for(const [w,c] of [[60,`rgba(255,60,170,${0.25*on})`],[34,`rgba(255,110,200,${0.6*on})`],[14,`rgba(255,240,250,${on})`]]){ ctx.fillStyle=c; ctx.beginPath(); ctx.roundRect(fx-w/2,fy+60,w,560*on,w/2); ctx.fill(); } }
+// ⚔️ KIẾM NĂNG LƯỢNG 2 LƯỠI (anh gửi ảnh mẫu 11/11): cán nằm trong nắm tay, 2 lưỡi plasma xanh-trắng toả ra 2 bên nắm tay, cong nhẹ rồi khép mũi
+//    (toạ độ ảnh cánh tay trái: tay buông dọc → lưỡi chĩa theo +y) · GD_BLADE_L = dài lưỡi (px ảnh)
+const GD_BLADE_L=520, GD_BLADE_Y0=40;
+function _gdProng(fx,fy,sd,L,wm){ const P=[], Q=[];
+  for(let k=0;k<=16;k++){ const t=k/16, cx=fx+sd*(26+20*Math.sin(t*Math.PI*0.85))-sd*t*16, cy=fy+GD_BLADE_Y0+t*L, w=(10+9*Math.sin(Math.min(1,t*1.4)*Math.PI*0.6))*(1-t*0.92)*wm;
+    P.push([cx-w,cy]); Q.unshift([cx+w,cy]); }
+  ctx.beginPath(); [...P,...Q].forEach((p,k)=>k?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.closePath(); }
+function _gdSaber(on){ const [fx,fy]=GD_FIST_L;
+  ctx.save(); ctx.fillStyle='#455a64'; ctx.fillRect(fx-11,fy-24,22,64); ctx.fillStyle='#b0bec5'; ctx.fillRect(fx-36,fy+28,72,14); ctx.fillStyle='#263238'; ctx.fillRect(fx-36,fy+38,72,5);   // cán + tay chắn
+  if(on>0){ const tk=tick||0, fl=on*(0.88+0.12*Math.sin(tk*1.9)), L=GD_BLADE_L*Math.min(1,on*1.15);
+    ctx.globalCompositeOperation='lighter';
+    for(const sd of [-1,1]){ ctx.shadowColor='rgba(70,150,255,0.95)'; ctx.shadowBlur=38;
+      ctx.fillStyle=`rgba(60,130,255,${0.45*fl})`; _gdProng(fx,fy,sd,L,1.9); ctx.fill();   // quầng plasma
+      ctx.shadowBlur=14; ctx.fillStyle=`rgba(130,195,255,${0.85*fl})`; _gdProng(fx,fy,sd,L,1.15); ctx.fill();
+      ctx.shadowBlur=0; ctx.fillStyle=`rgba(245,250,255,${fl})`; _gdProng(fx,fy,sd,L*0.97,0.5); ctx.fill(); }   // lõi trắng
+    ctx.strokeStyle=`rgba(200,230,255,${0.9*fl})`; ctx.lineWidth=3;   // ⚡ tia điện lách tách dọc lưỡi
+    for(let k=0;k<4;k++){ if(_skH(tk*3.1+k)<0.45) continue; const sd=k%2?1:-1, t=0.15+0.7*_skH(tk*1.7+k*9), y=fy+GD_BLADE_Y0+t*L, x=fx+sd*(26+20*Math.sin(t*Math.PI*0.85)-t*16);
+      ctx.beginPath(); ctx.moveTo(x,y); for(let m=1;m<=3;m++) ctx.lineTo(x+sd*(10+16*m)*(_skH(tk+k*5+m)), y+(_skH(tk*2+k+m)-0.5)*40); ctx.stroke(); }
+    ctx.shadowBlur=0; }
   ctx.restore(); }
+// đoạn LƯỠI KIẾM trong toạ độ thế giới lúc này: [gốc x,y, mũi x,y, nửa bề rộng lưỡi]
+function _gdBladeSeg(f,g){ const H=_gdH(f), feet=f.y+f.size, P=_gdPose(f,g), M=GD_META.armL, [fx,fy]=GD_FIST_L;
+  const W2=(ix,iy)=>{ const p=_gdRot(ix,iy,M.px,M.py,P.armL||0); return _gdMap(f.x,feet,H,g.flip,p[0],p[1]+(P.bob||0)); };
+  const a=W2(fx,fy+GD_BLADE_Y0), b=W2(fx,fy+GD_BLADE_Y0+GD_BLADE_L); return [a[0],a[1],b[0],b[1],34*H/GD_IH]; }
 function _gdPose(f,g){ const ph=g.walk*0.045, mv=Math.min(1,Math.hypot(f.vx,f.vy)/1.2), P={legL:Math.sin(ph)*0.16*mv, legR:-Math.sin(ph)*0.16*mv, bob:Math.abs(Math.sin(ph))*-14*mv, head:0, armL:-Math.sin(ph)*0.08*mv, armR:Math.sin(ph)*0.08*mv, saber:0};
   if(g.slashT>0){ const t=24-g.slashT; if(t<9){ const u=t/9; P.armL=-Math.PI*0.95*u*u; P.saber=Math.min(1,u*1.6); } else if(t<15){ const u=(t-9)/6; P.armL=-Math.PI*(0.95+0.85*u); P.saber=1; } else { const u=(t-15)/9; P.armL=-Math.PI*(1.8+0.2*u); P.saber=1-u; } }   // vòng qua đầu rồi bổ xuống PHÍA TRƯỚC (ảnh nhìn trái)   /* đi tiếp vòng xuống về chỗ cũ, không vung ngược */
   const rr=_gdArmRPose(f,g); if(rr) P.armR=rr; return P; }
@@ -10899,9 +10925,10 @@ function _gdDrawMech(f){ const g=f._gd, H=_gdH(f), feet=f.y+f.size, P=_gdPose(f,
   _gdDrawRig(f.x,feet,H,g.flip,P,null,()=>{ // 👁️ mắt xanh lá loé nhẹ
     const ga=0.55+0.45*Math.sin(tick*0.2); ctx.save(); ctx.translate(0,P.bob); ctx.globalCompositeOperation='lighter'; const gr=ctx.createRadialGradient(318,80,0,318,80,46); gr.addColorStop(0,`rgba(140,255,160,${ga})`); gr.addColorStop(1,'rgba(60,255,120,0)'); ctx.fillStyle=gr; ctx.beginPath(); ctx.arc(318,80,46,0,Math.PI*2); ctx.fill(); ctx.restore(); });
   if(hitK){ ctx.filter='none'; ctx.restore(); }
-  // vệt chém hồng
-  if(g.slashT>0 && g.slashT<12){ const u=1-g.slashT/12, d=g.flip?1:-1; ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.strokeStyle=`rgba(255,120,210,${0.8*(1-u)})`; ctx.lineWidth=10*(1-u)+2; ctx.lineCap='round';
-    ctx.beginPath(); ctx.arc(f.x,feet-H*0.55,H*0.55,d>0?-1.9:Math.PI+1.9-1.6,d>0?-0.3:Math.PI+0.3); ctx.stroke(); ctx.restore(); }
+  // vệt chém plasma xanh: đúng đường MŨI KIẾM đã quét (ghi lại lúc tính dame)
+  if(g.slashT>0 && g.tipTr && g.tipTr.length>1){ const fade=Math.min(1,g.slashT/8); ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round'; ctx.lineJoin='round';
+    for(const [w,c] of [[26,'70,140,255'],[12,'150,205,255'],[4,'245,250,255']]){ ctx.strokeStyle=`rgba(${c},${(w>20?0.35:0.8)*fade})`; ctx.lineWidth=w*H/400; ctx.beginPath(); g.tipTr.forEach((p,k)=>k?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.stroke(); }
+    ctx.restore(); }
   for(const b of g.beams) _gdDrawBeam(b);
   if(g.aimT>0){ const [mx,my]=_gdMuzzle(f), u=1-g.aimT/14; ctx.save(); ctx.globalCompositeOperation='lighter'; const gm=ctx.createRadialGradient(mx,my,0,mx,my,10+16*u); gm.addColorStop(0,'rgba(220,255,230,0.9)'); gm.addColorStop(1,'rgba(60,255,140,0)'); ctx.fillStyle=gm; ctx.beginPath(); ctx.arc(mx,my,10+16*u,0,Math.PI*2); ctx.fill(); ctx.restore(); }   // nạp sáng ở nòng
   if(g.charge>0) _gdDrawChargeOrb(f,g);
@@ -11024,6 +11051,8 @@ function _gdDrawTop(){
     for(let k=n-1;k>=0;k--){ const x=q.tr[k*2], y=q.tr[k*2+1]; _gdQiShape(x,y,q.a,q.r,0.22*(1-k/n)*fade); }   // dư ảnh phía sau
     _gdQiShape(q.x,q.y,q.a,q.r,fade); }
   for(let i=gdBooms.length-1;i>=0;i--){ const b=gdBooms[i]; b.t++; if(b.t>=b.T){ gdBooms.splice(i,1); continue; } const u=b.t/b.T;
+    if(b.k==='zap'){ ctx.save(); ctx.globalCompositeOperation='lighter'; const a=1-u, r=30*(0.5+u); const zg=ctx.createRadialGradient(b.x,b.y,0,b.x,b.y,r); zg.addColorStop(0,`rgba(235,245,255,${a})`); zg.addColorStop(1,'rgba(70,140,255,0)'); ctx.fillStyle=zg; ctx.beginPath(); ctx.arc(b.x,b.y,r,0,Math.PI*2); ctx.fill();
+      ctx.strokeStyle=`rgba(180,220,255,${a})`; ctx.lineWidth=2; for(let k=0;k<7;k++){ const aa=b.a+Math.PI/2+(k-3)*0.45, l=r*(0.8+0.6*_skH(k+b.x)); ctx.beginPath(); ctx.moveTo(b.x,b.y); ctx.lineTo(b.x+Math.cos(aa)*l,b.y+Math.sin(aa)*l); ctx.stroke(); } ctx.restore(); continue; }
     if(b.k==='cut'){ ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.translate(b.x,b.y); ctx.rotate(b.a+Math.PI/2); const l=44*(0.6+u), a=1-u;
       ctx.strokeStyle=`rgba(255,80,90,${0.6*a})`; ctx.lineWidth=9*a+1; ctx.beginPath(); ctx.moveTo(-l,0); ctx.lineTo(l,0); ctx.stroke(); ctx.strokeStyle=`rgba(255,255,255,${a})`; ctx.lineWidth=2.5; ctx.beginPath(); ctx.moveTo(-l,0); ctx.lineTo(l,0); ctx.stroke(); ctx.restore(); continue; }
     _gdBoomDraw(b,u); } }
@@ -14537,7 +14566,7 @@ const VB_FR=[1,2,3,4,5,6].map(n=>{ const im=new Image(); im._noMask=true;   // 6
   im.onload=()=>{ im._crop={sx:0,sy:0,sw:im.naturalWidth,sh:im.naturalHeight}; }; im.src='assets/img/violinbee/VB_'+n+'.png'; return im; });
 const VB_BEE_FR=[1,2,3,4,5].map(n=>{ const im=new Image(); im.src='assets/img/violinbee/VB_BEE'+n+'.png'; return im; });   // ong con: 4 khung bay + khung 5 chích (quay mặt PHẢI, tâm thân 0.52/0.59)
 const VB_VIS_MUL=1.55;   // khung chừa chỗ cho cánh → phóng phần HÌNH cho thân bằng cỡ meme khác (hitbox giữ nguyên)
-const VB_BOW_FPS=11;   // 🎻 Flight of the Bumblebee ~11 nốt/giây → tay kéo đàn lật 11 khung/giây
+const VB_BOW_FPS=11, VB_BOW_FPS_WARM=8;   // 🎻 Flight of the Bumblebee ~11 nốt/giây → 11 khung/giây · khởi động chậm hơn → 8 khung/giây
 const VB_N=22, VB_STING=15, VB_STING_CD=60, VB_BEE_SPD=1.5, VB_HOLD_T=18, VB_IN_FROM=320, VB_IN_SPD=7;   // tốc ong 1.5 (anh hạ 4/11, trước 2) · chích xong khựng 0.3s (anh đổi 4/11, trước 0.5s)   // chích 10 dame (anh chốt 4/11), mỗi con tối đa 1 phát/giây, chỉ chích đúng nhịp
 const VB_STAFF_L=260, VB_STAFF_SP=5.5, VB_STAFF_MAX=12;   // dải khuông nhạc: dài · tốc bay (đơn vị W/480) · tối đa cùng lúc
 const VB_BEE_BASE=2, VB_WING_YCUT=0.55;   // ong con: 1 ảnh thân (VB_BEE3) + cánh tách ra vỗ bằng code · cánh chỉ tính ở phần trên tỉ lệ này (dưới là đuôi lông trắng)
@@ -23620,8 +23649,8 @@ class Fighter {
     } else if(this.type==='saiyanmarmot' && MM_FR[0].complete && MM_FR[0].naturalWidth && MM_FR[1].naturalWidth){
       img = MM_FR[_mmFrame(this)];   // 🦫 đứng / há mồm hét (gồng, biến hình, dồn khí, xô)
     } else if(this.type==='violinbee' && VB_FR[0].complete && VB_FR[0].naturalWidth && VB_FR[0]._crop){
-      { const _a=this._pianoAudio, _song=this._vbPhase==='song' && _a && _a!=='fail' && !_a.paused;   // 🐝 Bumblebee: tay kéo đàn chạy THEO THỜI GIAN BÀI (VB_BOW_FPS khung/s ≈ mật độ nốt) — bắt nhịp chỉ ra ít nhịp vì violin liền mạch → kéo đàn lề mề (anh chê 11/11)
-        img = VB_FR[(_song ? Math.floor((_a.currentTime||0)*VB_BOW_FPS) : (this._vbIdx||0))%VB_FR.length]; }   // khởi động: sang khung kế mỗi nhịp như cũ
+      { const _a=this._pianoAudio, _on=_a && _a!=='fail' && !_a.paused, _fps=this._vbPhase==='song'?VB_BOW_FPS:VB_BOW_FPS_WARM;   // 🐝 tay kéo đàn bám THẲNG thời gian bài đang phát (cả khởi động lẫn Bumblebee) → nhạc tới đâu tay kéo tới đó, không trễ vì bắt nhịp (anh chê 11/11: nhạc lên mà vẫn đứng yên / bị delay)
+        img = VB_FR[(_on ? Math.floor((_a.currentTime||0)*_fps) : (this._vbIdx||0))%VB_FR.length]; }
     } else if(this.type==='breadcat' && BC_FR[0].complete && BC_FR[0].naturalWidth){
       img = BC_FR[_bcFrame(this)];   // 🍞 thường / dính bánh mì bơ / dung hợp ổ bánh mì (thắng)
     } else if(this.type==='doorbellchud' && DC_FR[0].complete && DC_FR[0].naturalWidth){
