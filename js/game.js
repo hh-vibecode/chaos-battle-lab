@@ -744,7 +744,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     germancat:  { key:'germancat',  defaultName:'German Cat',   emoji:'🐈', color:'#bdbdbd', hp:1000, speed:5, size:38, skill:'Phát biểu 4s, nghỉ 2s (chu kỳ ~6s) rồi triệu hồi 2 Lính (30HP, 40 dmg, bắn xa). Giảm 25% dame khi đang phát biểu. German Cat chết thì lính cũng biến mất theo.' },
     uiacat:     { key:'uiacat',     defaultName:'U I A Cat',    emoji:'😼', color:'#ce93d8', hp:1000, speed:5, size:43, skill:'Sau 2s không xoay, OIIA spin 2s: tốc độ x4 (+300%), -25% dame nhận, va chạm 60 dmg + hất văng địch. Xuống dưới 25% HP: ngưng thời gian 1.5s, dịch chuyển ra góc xa nhất so với đối thủ, chuyển dạng Hiphop VĨNH VIỄN — đứng yên tại chỗ, -25% sát thương nhận, thả ĐÚNG 3 UIA nhỏ qua cổng ở rìa sàn (size 70%, xoay theo nhịp nhạc remix, tốc chạy ngang con bố lúc xoay, nảy khắp sàn gây 25 dmg mỗi va chạm, không biến mất tới khi 1 trong 2 bên chết).' },
     beluga:     { key:'beluga',     defaultName:'Beluga',       emoji:'🐳', color:'#80deea', hp:1000, speed:5, size:45, skill:'Chat Spam: nhắn 1.4s, chu kỳ ~3.45s → bắn bong bóng chat (40–300 dmg). 15% toxic = 300 dmg tức thì, mỗi lần trượt +5% tỉ lệ (cộng dồn tới khi ra thì reset).' },
-    screamcat:  { key:'screamcat',  defaultName:'Scream Cat',   emoji:'😱', color:'#f48fb1', hp:1000, speed:5, size:42, skill:'Không hét khi bị đánh nữa: ghi nhớ DAME LỚN NHẤT từng nhận trong 1 đòn (vào trận = 10), hiện số trên đầu. Mỗi 2s hét 1 lần gây đúng số dame đó + đẩy văng mọi địch. Số càng to hiệu ứng càng dữ: >120 Echo Slam, >300 rung lắc dữ dội.' },
+    screamcat:  { key:'screamcat',  defaultName:'Scream Cat',   emoji:'😱', color:'#f48fb1', hp:1000, speed:5, size:42, skill:'Không hét khi bị đánh nữa: ghi nhớ DAME LỚN NHẤT từng nhận trong 1 đòn (vào trận = 10), hiện số trên đầu. Mỗi 4s hét 1 lần gây đúng số dame đó + đẩy văng mọi địch. Số càng to hiệu ứng càng dữ: >120 Echo Slam, >300 rung lắc dữ dội.' },
     thevoid:    { key:'thevoid',    defaultName:'The Void',     emoji:'🖤', color:'#212121', hp:1000, speed:5, size:45, skill:'Black Hole: ~6.5s/chu kỳ (tích lực 0.5s, hố đen tồn tại 2s, hồi chiêu 4s), hút TẤT CẢ địch trong bán kính toàn map, dame giảm dần theo khoảng cách (gần tâm nhất 30 dame, xa chỉ còn 2 dame). Hố đen còn bẻ cong và NUỐT mọi viên đạn / tia / vật ném của địch bay vào tầm.' },
     bananacat:  { key:'bananacat',  defaultName:'Banana Cat',   emoji:'🍌', color:'#fff176', hp:1000, speed:5, size:43, skill:'Mỗi 2s dừng khóc 1.7s → để vỏ chuối. Địch giẫm: lao theo hướng đang đi, dame va tường tỉ lệ nghịch với thời gian. Vỏ tồn tại 12s rồi tự biến mất (mất ngay khi có người giẫm trúng), có thể chồng nhiều vỏ.' },
     suscat:     { key:'suscat',     defaultName:'SUS Cat',      emoji:'📮', color:'#f44336', hp:1000, speed:5, size:38, skill:'Mỗi 3s triệu hồi ngẫu nhiên 1 quân bài ở góc xa nhất sân: Imposter đỏ bắn 3 phát bám mục tiêu (100 dmg/phát), Imposter cận chiến va trúng 180 dmg, Imposter đen tự nổ 150 dmg + choáng 2s cho MỌI người trong bán kính (cũng tự kích nổ khi chạm lính Đức), Imposter cam đứng cách ~140 há đầu phóng LƯỠI đâm 140 dmg + kéo địch lại gần, Imposter vàng TẮT ĐÈN cả sân (địch chậm 25% tối đa 3s) rồi lao vào đâm 120 dmg, Crew va trúng 50 dmg. ĐÚNG 1 LẦN MỖI TRẬN: địch tụt xuống ≤200 máu là nó triệu tập HỌP KHẨN cắt ngang trận — cả sàn đóng băng, vòng quay 50/50 phán xem địch có phải IMPOSTER không. Trúng thì địch bị đáp thẳng ra ngoài vũ trụ, chết ngay lập tức bất kể còn bao nhiêu máu — mà bảng chữ hiện ra lại ghi rõ nó KHÔNG phải imposter, "all imposters remain", tức vote trượt sạch và thằng còn đứng lại trên sàn mới là imposter thật. Trật thì cuộc họp tan ngay, đánh tiếp bình thường.' },
@@ -4116,9 +4116,9 @@ function _scRocks(x,y,n,spd){ const R=[]; for(let i=0;i<n;i++){ const a=Math.ran
 //    50–120   → ~65% hiệu ứng (ít nứt hơn, ngắn hơn, ít đá)
 //    >120     → 100% Echo Slam
 //    >300     → thêm RUNG LẮC DỮ DỘI (nhiều đợt)
-// 😱 CÚ HÉT mỗi 2s: dame D = dame lớn nhất Scream Cat từng nhận (vào trận = 10). Đẩy văng + gây D lên MỌI địch
+// 😱 CÚ HÉT mỗi 4s: dame D = dame lớn nhất Scream Cat từng nhận (vào trận = 10). Đẩy văng + gây D lên MỌI địch
 //    (meme + quân triệu hồi), VFX/lực đẩy chia mức theo D như _scEchoSlam bên dưới.
-const SC_SCREAM_EVERY=120;
+const SC_SCREAM_EVERY=240;   // 4s (anh đổi 11/11, trước 120 = 2s)
 function _scScream(f){
   const D=Math.max(1,Math.round(f._scMax||10));
   const foes=[...fighters.filter(o=>o.team!==f.team&&!o.dead), ..._summonFoes(f.team)];
@@ -13450,7 +13450,7 @@ const CHAR_BLURB = {
   uiacat: "Stands still to wind up, then spins out at high speed with reduced damage taken. Below 25% HP it teleports away, goes Hiphop for good, and floods the floor with spinning clones.",
   morsecat: "Warms up with 3 single letters, then taps out hint sentences word by word (SUS CAT IS IMPOSTER…), firing each dot and dash as it types and then the word itself, typing 3% faster with every dot and dash.",
   beluga: "Floods the screen with chat messages, each one hitting anything in its path.",
-  screamcat: "Catastrophe-level threat. Remembers the biggest hit it ever took and screams it back at everyone every 2 seconds. Do NOT be foolish enough to hit it hard.",
+  screamcat: "Catastrophe-level threat. Remembers the biggest hit it ever took and screams it back at everyone every 4 seconds. Do NOT be foolish enough to hit it hard.",
   thevoid: "Opens a black hole that drags the enemy in and damages them, and swallows any shots fired into it.",
   bananacat: "Drops banana peels and dashes off — stepping on one sends you sliding out of control.",
   suscat: "Summons imposters to gang up on the enemy. Once a match, when the enemy drops to 200 HP, it calls a real emergency meeting: the whole floor freezes for a 50/50 vote on whether they are the Imposter. Win the roll and they get ejected into space on the spot — no matter how much HP they had left — and the report cheerfully confirms they were not the Imposter and that all imposters remain, leaving SUS Cat alone on the floor.",
@@ -18543,7 +18543,7 @@ class Fighter {
       this.screamCooldown = Math.max(0, this.screamCooldown - 1);
       this._screamWaveT = Math.max(0, (this._screamWaveT||0) - 1);
       if(this._scPop>0) this._scPop--;
-      // ⏱️ mỗi 2s hét 1 lần (đang bị khống chế cứng thì giữ nhịp, thoát ra là hét ngay)
+      // ⏱️ mỗi 4s hét 1 lần (anh đổi 11/11, trước 2s) (đang bị khống chế cứng thì giữ nhịp, thoát ra là hét ngay)
       if(this._scTick<SC_SCREAM_EVERY) this._scTick++;
       if(this._scTick>=SC_SCREAM_EVERY && !(this._isHardCC && this._isHardCC())){ this._scTick=0; _scScream(this); }
     }

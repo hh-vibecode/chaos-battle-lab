@@ -13,7 +13,7 @@
   // 🎬 (9/11 nâng cấp theo meme-anime-lab/playbook — kaiju-a, kaiju-b, fight-1): glimpse = ngước lên thấy trời tối + mép bóng khổng lồ (báo trước) ·
   //    reveal = BỘ BA lộ diện quái: cực cận lướt mặt Friend (mắt bật sáng) → roar: góc giun ĐỨNG YÊN đọc tỉ lệ → react: cận Banana Cat ngước khóc → title ·
   //    d2a = dân chạy TIỀN CẢNH 0.5s · d5b = nổ góc chim → GÓC GIUN · d6 = TĨNH TRƯỚC PHÁ 0.4s · d7 = HẬU QUẢ đứng yên
-  const T={ street:0, stand:7, shadow:11, glimpse:12.9, cry:14, splat:15.7, reveal:16.5, roar:18.4, react:20.6, title:21.0, d1:22.5, d2a:24.5, d2:25.0, d3:26.3, d4:28, d5:30, d5b:31.0, d6:32, d7:34, roof:37, line:46.6, booms:61.8, group:65.0, akaT:65.4, DUR:75.4 };   // 10/11: nóc nhà dài thêm 6.2s cho thoại đúng tốc độ nói
+  const T={ street:0, stand:7, shadow:11, glimpse:12.9, cry:14, splat:15.7, reveal:16.5, roar:18.4, react:20.6, title:21.0, glass:21.0, d1:22.5, d2a:24.5, d2:25.0, d3:26.3, d4:28, d5:30, d5b:31.0, d6:32, d7:34, roof:37, line:46.6, booms:61.8, group:65.0, akaT:65.4, DUR:75.4 };   // 10/11: nóc nhà dài thêm 6.2s cho thoại đúng tốc độ nói
   const FXr=()=>window.CineKitFx;   // hiệu ứng manga (js/vfx-manga.js) — gọi trong cảnh sau cam(): toạ độ thế giới của cảnh
   const DUR=T.DUR;
   let IM={}, SCv=1, TT=0;
@@ -127,8 +127,9 @@
       for(let f=0;f<nf;f++){ const wy=y0-GF-(f+1)*FL+20;
         for(let q=0;q<nw;q++){ const wx=x+sp+q*(ww+sp), lit=H(i*7+f,q)<0.28;
           g.fillStyle=trim; g.fillRect(wx-2,wy-2,ww+4,wh+4);
-          g.fillStyle=o.burn?(H(i+f,q)<0.3?'#ff8a3a':'#1a0d0e'):(lit?'#ffe3a8':'#9cc6e8'); g.fillRect(wx,wy,ww,wh);
-          if(!o.burn){ g.fillStyle='rgba(255,255,255,0.35)'; g.fillRect(wx+3,wy+3,ww*0.24,wh-6); if(H(i*3+f,q+9)<0.4){ g.fillStyle=`hsl(${(hue+150)%360},40%,70%)`; g.fillRect(wx,wy,ww*0.3,wh); } }   // phản sáng + rèm
+          g.fillStyle=o.burn?(H(i+f,q)<0.3?'#ff8a3a':'#1a0d0e'):o.broke?'#141820':(lit?'#ffe3a8':'#9cc6e8'); g.fillRect(wx,wy,ww,wh); if(o.out) o.out.push({x:wx,y:wy,w:ww,h:wh,k:i*17+f*5+q});
+          if(o.broke) brokenPane(g,wx,wy,ww,wh,i*17+f*5+q);
+          else if(!o.burn){ g.fillStyle='rgba(255,255,255,0.35)'; g.fillRect(wx+3,wy+3,ww*0.24,wh-6); if(H(i*3+f,q+9)<0.4){ g.fillStyle=`hsl(${(hue+150)%360},40%,70%)`; g.fillRect(wx,wy,ww*0.3,wh); } }   // phản sáng + rèm
           g.fillStyle=trim; g.fillRect(wx+ww/2-1,wy,2,wh);
           if(H(i*11+f,q+3)<0.32){ g.fillStyle='#dfe3e8'; g.fillRect(wx+ww+3,wy+wh-12,15,11); g.fillStyle='#8f98a2'; g.fillRect(wx+ww+5,wy+wh-9,11,1.5); g.fillRect(wx+ww+5,wy+wh-5,11,1.5); } }   // điều hoà
         if(bal){ const by=wy+wh; g.fillStyle='rgba(55,58,66,0.9)'; g.fillRect(x+8,by,w-16,3); g.fillRect(x+8,by-15,w-16,2); for(let k=x+10;k<x+w-10;k+=7) g.fillRect(k,by-14,1.5,14);
@@ -145,12 +146,23 @@
       const ay=y0-GF+27, ah=13; for(let k=0;k*16<w-10;k++){ const ax=x+5+k*16, aw=Math.min(16,x+w-5-ax); g.fillStyle=k%2?c[0]:c[1]; g.fillRect(ax,ay,aw,ah); g.beginPath(); g.arc(ax+aw/2,ay+ah,aw/2,0,Math.PI); g.fill(); }   // mái hiên sọc viền lượn
       g.fillStyle='rgba(0,0,0,0.12)'; g.fillRect(x+5,ay+ah+8,w-10,3);
       const left=H(48,i)<0.5, dx=left?x+14:x+w-44, gx0=left?x+52:x+12, gw=w-64, gy=y0-DOOR_H+2;
-      const gr=g.createLinearGradient(0,gy,0,y0); gr.addColorStop(0,o.burn?'#2a1010':'#2c4a66'); gr.addColorStop(1,o.burn?'#120606':'#86b3d4'); g.fillStyle=gr; g.fillRect(gx0,gy,gw,y0-gy-4);   // tủ kính
-      if(!o.burn){ g.fillStyle='rgba(255,255,255,0.22)'; g.beginPath(); g.moveTo(gx0+gw*0.15,gy); g.lineTo(gx0+gw*0.32,gy); g.lineTo(gx0+gw*0.12,y0-4); g.lineTo(gx0,y0-4); g.lineTo(gx0,gy+gw*0.2); g.fill();
+      const gr=g.createLinearGradient(0,gy,0,y0); gr.addColorStop(0,o.burn?'#2a1010':o.broke?'#10141c':'#2c4a66'); gr.addColorStop(1,o.burn?'#120606':o.broke?'#1c2230':'#86b3d4'); g.fillStyle=gr; g.fillRect(gx0,gy,gw,y0-gy-4);   // tủ kính
+      if(o.out) o.out.push({x:gx0,y:gy,w:gw,h:y0-gy-4,k:i*17+99,big:1});
+      if(o.broke){ brokenPane(g,gx0,gy,gw,y0-gy-4,i*17+99); for(let k=0;k<4;k++){ g.fillStyle=['#ffcc80','#ef9a9a','#a5d6a7','#90caf9'][(i+k)%4]; g.fillRect(gx0+12+k*(gw-24)/4,y0-16,(gw-24)/4-6,10); } }
+      else if(!o.burn){ g.fillStyle='rgba(255,255,255,0.22)'; g.beginPath(); g.moveTo(gx0+gw*0.15,gy); g.lineTo(gx0+gw*0.32,gy); g.lineTo(gx0+gw*0.12,y0-4); g.lineTo(gx0,y0-4); g.lineTo(gx0,gy+gw*0.2); g.fill();
         for(let k=0;k<4;k++){ g.fillStyle=['#ffcc80','#ef9a9a','#a5d6a7','#90caf9'][(i+k)%4]; g.fillRect(gx0+12+k*(gw-24)/4,y0-16,(gw-24)/4-6,10); } }
       else { g.save(); g.globalCompositeOperation='lighter'; blob(g,gx0+gw/2,y0-20,gw*0.5,'255,110,30',0.45); g.restore(); g.globalAlpha=1; }
       g.fillStyle=trim; g.fillRect(gx0-2,gy-2,gw+4,3); g.fillRect(dx-2,y0-DOOR_H-2,34,DOOR_H+2);   // khung kính + khung cửa
       g.fillStyle=o.burn?'#1a0d0e':'#5d7f9a'; g.fillRect(dx,y0-DOOR_H,30,DOOR_H); g.fillStyle='rgba(255,255,255,0.3)'; g.fillRect(dx+4,y0-DOOR_H+4,9,DOOR_H-10); g.fillStyle='#d8c27a'; g.fillRect(dx+23,y0-DOOR_H*0.5,3,8); } }   // cửa
+  // ô kính VỠ (cảnh sóng âm, 11/11): lỗ tối + răng kính lởm chởm bám mép khung + vài vết nứt còn sáng
+  function brokenPane(g,x,y,w,h,k){ g.save(); g.fillStyle='rgba(205,232,250,0.85)';
+    const tooth=(ax,ay,bx,by,nx,ny)=>{ const n=3+Math.floor(3*H(k,7)); for(let i=0;i<n;i++){ const f0=i/n, f1=(i+1)/n, d=(0.15+0.35*H(k+i,ax|0))*Math.min(w,h);
+        const p0x=ax+(bx-ax)*f0, p0y=ay+(by-ay)*f0, p1x=ax+(bx-ax)*f1, p1y=ay+(by-ay)*f1, fm=lerp(f0,f1,H(k+i,3));
+        g.beginPath(); g.moveTo(p0x,p0y); g.lineTo(p1x,p1y); g.lineTo(ax+(bx-ax)*fm+nx*d,ay+(by-ay)*fm+ny*d); g.closePath(); g.fill(); } };
+    tooth(x,y,x+w,y,0,1); tooth(x+w,y+h,x,y+h,0,-1); tooth(x,y+h,x,y,1,0); tooth(x+w,y,x+w,y+h,-1,0);
+    g.strokeStyle='rgba(235,248,255,0.55)'; g.lineWidth=0.8; const cx=x+w*(0.3+0.4*H(k,9)), cy=y+h*(0.3+0.4*H(k,10));
+    for(let i=0;i<5;i++){ const a=TAU*(i/5+H(k,i+20)*0.15), L=Math.max(w,h)*0.6; g.beginPath(); g.moveTo(cx,cy); g.lineTo(cx+Math.cos(a)*L*0.5,cy+Math.sin(a)*L*0.5+2); g.lineTo(cx+Math.cos(a)*L,cy+Math.sin(a)*L); g.stroke(); }
+    g.restore(); }
   // CÂY xanh vỉa hè (s=1 ≈ 4.5 meme) · CỘT ĐÈN (≈ 5 meme) · ghế · thùng rác · trụ cứu hoả · trạm xe buýt
   function tree(g,x,y,s){ s=s||1; g.fillStyle='#6d4c2f'; g.fillRect(x-3*s,y-70*s,6*s,70*s); g.fillStyle='rgba(0,0,0,0.18)'; g.fillRect(x-11*s,y-3,22*s,4);
     blob(g,x,y-104*s,44*s,'58,132,58',0.97); blob(g,x-22*s,y-88*s,30*s,'48,116,48',0.95); blob(g,x+22*s,y-92*s,32*s,'72,156,66',0.95); blob(g,x+4*s,y-122*s,30*s,'90,170,80',0.9); g.globalAlpha=1; }
@@ -410,6 +422,7 @@
     friendSky(g,FRX,330,760,1,1+0.4*Math.sin(t*7));   // mắt Friend ở ~y153: 2 mắt nằm giữa khe 2 dãy nhà
     cloudSwirl(g,t,CX,260,360,push,true);
     birds(g,t,T.roar+0.05,CX,300);
+    roarRings(g,t,CX,250);
     wormCity(g,1,0.2,{t,die:seg(t,T.roar-0.1,T.roar+1.6),shade:0.75,rattle:(t>T.roar&&t<T.roar+1.2)?3*(1-seg(t,T.roar,T.roar+1.2)):0});
     for(let i=0;i<9;i++){ const ph=((t*0.25+H(i,95))%1); smoke(g,-80+i*140+Math.sin(t+i)*20,640-ph*120,110+60*H(i,96),0.45*(1-ph)*(0.4+push*0.6),'70,28,26'); }   // bụi bốc ở chân nhà
     papers(g,t,10,30,600);
@@ -419,6 +432,33 @@
     sky(g,t,0.6,0.9); shops(g,y0,1250,1700); street(g,y0); g.fillStyle='rgba(40,4,8,0.55)'; g.fillRect(800,-600,1400,1400);
     kid(g,1456,y0+38,70,{cry:true,look:true});
     g.save(); g.globalCompositeOperation='lighter'; blob(g,1456,y0-40,90,'255,50,40',0.35); g.restore(); g.globalAlpha=1; }
+  // 🔊 (11/11 anh dặn) SÓNG ÂM tiếng gầm quét xuống phố → VỠ HẾT KÍNH: mặt dãy cửa hàng, sóng tròn lan từ phía Friend (trên-trái ngoài khung);
+  //    vòng sóng qua tới ô nào thì ô đó vỡ (vẽ lại bản kính vỡ trong vòng tròn) + mảnh kính bắn ra theo hướng sóng rồi rơi; dân meme khựng lại, rung theo sóng.
+  const GL_SX=-420, GL_SY=-520, GL_V=1500, GL_R0=300;   // tâm sóng (đơn vị thế giới so với tâm khung) + tốc độ lan / giây
+  function scGlass(g,t){ const u=t-T.glass, y0=400, cx=2050, z=lerp(1.62,1.76,E.eout(seg(u,0,1.5))), cy=y0-52, Sx=cx+GL_SX, Sy=cy+GL_SY;
+    const R=Math.max(0,(u-0.12))*GL_V+GL_R0;   // bán kính mặt sóng (0.12s đầu: sóng chưa tới khung)
+    cam(g,cx,cy,z,0); sky(g,t,0.6,0.9); const out=[]; shops(g,y0,cx-400,cx+400,{out}); propsBack(g,y0,cx-400,cx+400); street(g,y0);
+    g.save(); g.beginPath(); g.arc(Sx,Sy,R,0,TAU); g.clip(); shops(g,y0,cx-400,cx+400,{broke:1}); g.restore();   // trong vòng sóng = kính đã vỡ
+    // dân meme trên vỉa hè: khựng, rung mạnh khi sóng qua người
+    for(let i=0;i<4;i++){ const x=cx-190+i*125, hit=Math.hypot(x-Sx,y0+20-Sy)<R, j=hit?(hash(Math.floor(t*40)+i*7)-0.5)*5:0; person(g,x+j,y0+14+(i%2)*10,92,i+3,0,{dir:i%2?-1:1,scream:hit}); }
+    propsFront(g,y0,cx-400,cx+400);
+    g.save(); g.globalCompositeOperation='multiply'; g.fillStyle='rgb(196,112,108)'; g.fillRect(cx-900,-600,1800,1600); g.restore();   // ánh trời đỏ phủ cả phố (Friend đã che trời)
+    g.fillStyle='rgba(30,3,8,0.22)'; g.fillRect(cx-900,-600,1800,1600);
+    // mảnh kính: mỗi ô vỡ đúng lúc vòng sóng chạm tâm ô, bắn THEO hướng sóng (ra xa tâm) + rơi
+    for(const p of out){ const px=p.x+p.w/2, py=p.y+p.h/2, d=Math.hypot(px-Sx,py-Sy), hu=0.12+(d-GL_R0)/GL_V; if(u<hu) continue;
+      const a=Math.atan2(py-Sy,px-Sx); glass(g,px,py,(u-hu)*0.9,p.big?18:7,p.k*13+5,a,1.3);
+      if(u-hu<0.08){ g.save(); g.globalCompositeOperation='lighter'; blob(g,px,py,p.big?40:18,'230,245,255',0.5*(1-(u-hu)/0.08)); g.restore(); } }   // loé trắng lúc ô kính nổ
+    // mặt sóng: 3 vòng sáng mờ + dải không khí nén ngay sau vòng ngoài
+    g.save(); g.globalCompositeOperation='lighter';
+    for(let k=0;k<3;k++){ const r=R-k*70; if(r<=0) continue; g.strokeStyle=`rgba(255,${200-k*50},${210-k*40},${0.42-k*0.12})`; g.lineWidth=(14-k*4); g.beginPath(); g.arc(Sx,Sy,r,0,TAU); g.stroke(); }
+    const gr=g.createRadialGradient(Sx,Sy,Math.max(1,R-140),Sx,Sy,R); gr.addColorStop(0,'rgba(255,120,140,0)'); gr.addColorStop(1,'rgba(255,170,190,0.16)'); g.fillStyle=gr; g.beginPath(); g.arc(Sx,Sy,R,0,TAU); g.fill();
+    g.restore(); g.globalAlpha=1; }
+  // vòng SÓNG ÂM toả từ miệng Friend lúc gầm (góc giun) — vẽ SAU trời, TRƯỚC dãy nhà (sóng lan trong không khí, nhà che bớt)
+  function roarRings(g,t,x,y){ const u=t-T.roar; if(u<0||u>2.4) return; g.save(); g.globalCompositeOperation='lighter';
+    for(let k=0;k<6;k++){ const v=u-k*0.28; if(v<0||v>1.4) continue; const r=40+v*820, a=0.7*(1-v/1.4);
+      g.strokeStyle=`rgba(255,150,170,${a})`; g.lineWidth=10*(1-v/1.4)+2; g.beginPath(); g.ellipse(x,y,r,r*0.62,0,0,TAU); g.stroke();
+      g.strokeStyle=`rgba(255,240,245,${a*0.6})`; g.lineWidth=2; g.beginPath(); g.ellipse(x,y,r*0.97,r*0.6,0,0,TAU); g.stroke(); }
+    g.restore(); }
   // ⓪ BÁO TRƯỚC (cảnh 1): ngước lên giữa 2 dãy nhà — trời xanh tối dần, MÉP bóng khổng lồ trườn vào từ trên (chưa lộ mặt)
   function scGlimpse(g,t){ const u=t-T.glimpse, k=seg(u,0,1.1); cam(g,480,300,1.12+u*0.03,0);
     sky(g,t,0.25+0.45*k,0);
@@ -710,7 +750,7 @@
     { const gr=o.createLinearGradient(0,545,0,465); gr.addColorStop(0,'rgba(0,0,0,1)'); gr.addColorStop(1,'rgba(0,0,0,0)'); o.fillStyle=gr; o.fillRect(0,465,960,80); }
     o.globalCompositeOperation='source-over';
     g.save(); g.translate(480,545); g.scale(sc,sc); g.translate(-480,-545); g.drawImage(_OB,0,0,960,545); g.restore(); }
-  const SCENES=[[0,scStreet],[T.stand,scStand],[T.shadow,scShadow],[T.glimpse,scGlimpse],[T.cry,scCry],[T.reveal,scRevealClose],[T.roar,scReveal],[T.react,scReact],[T.title,scReveal],
+  const SCENES=[[0,scStreet],[T.stand,scStand],[T.shadow,scShadow],[T.glimpse,scGlimpse],[T.cry,scCry],[T.reveal,scRevealClose],[T.roar,scReveal],[T.react,scReact],[T.glass,scGlass],
     [T.d1,scD1],[T.d2a,scCrowdFg],[T.d2,scD2],[T.d3,scD3],[T.d4,scD4],[T.d5,scD5],[T.d5b,scD5b],[T.d6,scD6],[T.d7,scD7],[T.roof,scRoof]];
 
   // ───────── chữ ─────────
@@ -735,6 +775,9 @@
     [T.splat,'cine_impact',0.25,null,'que kem rơi bẹp xuống vỉa hè'],
     [T.cry+0.4,'cry_banana_cat',0.95,null,'Banana Cat ngước lên khóc thét'],
     [T.roar-0.14,'fr_titan_roar',0.8,null,'Friend gầm trên trời (góc giun)'],
+    [T.glass+0.1,'l2p_shatter',0.75,null,'sóng âm tiếng gầm quét tới, ô kính đầu tiên nổ'],
+    [T.glass+0.35,'ep3_glass',0.7,null,'cả dãy tủ kính vỡ theo vòng sóng'],
+    [T.glass+0.65,'se_glass',0.55,null,'mảnh kính rơi rào rào xuống vỉa hè'],
     [T.d1+0.42,'l2p_whoosh',0.6,null,'đuôi bóng tối quét ngang dãy nhà'],
     [T.d1+0.65,'l2p_explode',0.55,null,'đuôi va vào nhà, nổ lửa'],
     [T.d1+0.86,'cine_deep_impact',0.5,null,'khối nhà sập theo đường quét'],
@@ -777,11 +820,11 @@
       if(on(T.d4+0.42,0.06)||on(T.d5b)) return 'bw';
       return 0; },
     shake:t=>{ let s=0; const hit=(a,amp,d)=>{ if(t>=a&&t<a+d) s=Math.max(s,amp*(1-(t-a)/d)); };
-      hit(T.roar,12,1.6); hit(T.d1+0.65,8,0.8); hit(T.d1+0.86,7,0.8); hit(T.d3+0.5,10,0.6); hit(T.d3+1.6,6,0.3); hit(T.d4+0.42,14,0.9); hit(T.d5+0.4,6,0.8); hit(T.d6+0.62,11,0.7); hit(T.d6+1.9,10,1.2); hit(T.d2a+0.22,8,0.5); hit(T.d5b,9,0.9); hit(T.splat,3,0.2); hit(T.akaT,9,0.7);
+      hit(T.roar,12,1.6); hit(T.d1+0.65,8,0.8); hit(T.d1+0.86,7,0.8); hit(T.d3+0.5,10,0.6); hit(T.d3+1.6,6,0.3); hit(T.d4+0.42,14,0.9); hit(T.d5+0.4,6,0.8); hit(T.d6+0.62,11,0.7); hit(T.d6+1.9,10,1.2); hit(T.d2a+0.22,8,0.5); hit(T.d5b,9,0.9); hit(T.splat,3,0.2); hit(T.glass+0.12,7,0.9); hit(T.akaT,9,0.7);
       if(t>=T.d1&&t<T.roof) s=Math.max(s,1.5); return s; },
     world(F,t){ IM=F.I; TT=t; SCv=F.SC; const g=F.g; let fn=SCENES[0][1]; for(const s of SCENES) if(t>=s[0]) fn=s[1]; g.save(); fn(g,t); g.restore(); },
     post(F,t){ const fx={shocks:[],chroma:0}; const sh=(a,x,y,rm,d,str)=>{ if(t>=a&&t<a+d){ const u=(t-a)/d; fx.shocks.push({sx:x,sy:y,r:20+rm*E.eout(u),w:30,str:str*(1-u)}); fx.chroma=Math.max(fx.chroma,1-u); } };
-      sh(T.roar,480,200,600,1.0,26); sh(T.d4+0.42,480,420,520,0.8,24); sh(T.d3+0.5,300,220,420,0.6,20); sh(T.d1+0.65,60,250,380,0.6,14); sh(T.d6+0.62,520,300,420,0.7,20); if(t>=T.reveal&&t<T.d1) fx.chroma=Math.max(fx.chroma,0.15); return fx; },
+      sh(T.roar,480,200,600,1.0,26); sh(T.glass+0.1,80,-120,900,0.9,22); sh(T.d4+0.42,480,420,520,0.8,24); sh(T.d3+0.5,300,220,420,0.6,20); sh(T.d1+0.65,60,250,380,0.6,14); sh(T.d6+0.62,520,300,420,0.7,20); if(t>=T.reveal&&t<T.d1) fx.chroma=Math.max(fx.chroma,0.15); return fx; },
     screen(F,t){ const g=F.g; SCv=F.SC;
       // cắt cảnh tàn phá: loé trắng ngắn ở mỗi khung mới
       for(const a of [T.d1,T.d2a,T.d2,T.d3,T.d4,T.d5,T.d5b,T.d6,T.d7]) if(t>=a&&t<a+0.06) K.flash(F,0.5*(1-(t-a)/0.06),'#fff');
@@ -810,15 +853,21 @@
   (function(){ const TW=540, TH=960, KZ=TH/VH;
     // 10/11 anh dặn: trailer 15–20s (thoại chỉ giữ câu hỏi + câu Pain), mỗi shot ZOOM / tâm khung riêng cho vừa 9:16. cut(giây gốc, dài, tâm ngang, nhảy cảnh, zoom, tâm dọc) — zoom mặc định 1.78 (= lấp đầy chiều cao)
     const EDL=[]; let acc=0; const cut=(s,d,cx,jump,kz,cy)=>{ EDL.push({a:acc,s,d,cx:cx||VW/2,jump:!!jump,kz:kz||KZ,cy:cy||VH/2}); acc+=d; };
-    cut(T.roar,2.6,480,false,1.6,250);      // góc giun: Friend gầm giữa 2 dãy nhà (lùi nhẹ, nâng tâm cho lọt 2 mắt + đầu toà nhà)
-    cut(T.cry,1.65,null,true,2.0,240);      // Banana Cat ngước lên → khóc thét (zoom sát hơn: meme lấp khung dọc)
-    cut(T.react,0.4,null,true);             // cận Banana Cat ngước khóc dưới ánh đỏ
+    // 10/11 anh dặn lại thứ tự: MỌI NGƯỜI HOẢNG LOẠN → FRIEND LÓ RA → CHUỐI KHÓC (không que kem) → thoại → thành viên → logo
+    cut(T.d2,1.1,430,false,2.5,420);        // dân meme chạy loạn dọc phố (zoom sát đám đông dưới chân nhà)
+    cut(T.d2a+0.05,0.45,560,true,1.6,270);  // đuôi bóng tối đập xuống sau lưng dân, nổ lửa
+    // (11/11 bỏ shot ngước lên T.glimpse: khung dọc chỉ lọt khoảng trời xám giữa 2 dãy nhà)
+    const RV=acc; cut(T.reveal+0.4,1.5,null,false,1.78);  // cực cận lướt hàm răng Friend → mắt bật sáng = TIẾNG GẦM vào đúng lúc này (anh dặn 11/11)
+    cut(T.roar,1.3,480,false,1.6,250);      // góc giun: Friend gầm, vòng sóng âm toả ra
+    cut(T.glass+0.05,0.95,null,true,1.9,290); // sóng âm quét xuống phố → vỡ hết kính
+    cut(T.cry,1.65,null,true,2.0,240);      // Banana Cat cầm kem NGƯỚC LÊN → hoảng → khóc thét, que kem rơi (1 lần, anh dặn 11/11 — trước bị lặp)
     const dlg=acc; cut(42.0,3.3,null,true,1.5,300);   // nóc nhà — Mlem: "What if the Godly Memes return?"
     cut(57.4,4.4,480,false,1.15,300);       // "…know pain." — lùi máy cho lọt cả nhóm
     cut(T.booms,T.group-T.booms);           // 5 thẻ thành viên (vẽ dọc ở screen)
-    cut(T.group,2.6,480,false,1.2,330);     // ảnh cả nhóm + logo MEOWKATSUKI, lùi cho vừa khung dọc
+    cut(T.group,2.3,480,false,1.2,330);     // ảnh cả nhóm + logo MEOWKATSUKI, lùi cho vừa khung dọc
     const DURT=acc, at=t=>{ let e=EDL[0]; for(const q of EDL) if(t>=q.a) e=q; return e; }, src=t=>{ const e=at(t); return e.s+Math.min(e.d-1e-3,t-e.a); };
-    const sfxT=[]; for(const e of EDL) for(const s of MAIN.sfx) if(s[0]>=e.s && s[0]<e.s+e.d) sfxT.push([e.a+s[0]-e.s,...s.slice(1)]);
+    const sfxT=[]; for(const e of EDL) for(const s of MAIN.sfx) if(s[1]!=='fr_titan_roar' && s[0]>=e.s && s[0]<e.s+e.d) sfxT.push([e.a+s[0]-e.s,...s.slice(1)]);
+    sfxT.push([RV+0.5,'fr_titan_roar',0.9,null,'mắt Friend bật sáng → gầm (kéo sang shot góc giun)']);   // mắt bật sáng ở giây gốc reveal+1.05 = RV+0.65; tiếng có đỉnh trễ 0.14s
     // 5 thẻ thành viên XẾP DỌC (mỗi thẻ 1/5 chiều cao, mép chéo), trượt vào theo 5 tiếng vine boom
     function stripsV(g,s){ if(s<T.booms||s>=T.group+0.25) return; const SK=40, Hd=TH/5;
       for(let i=0;i<5;i++){ const a=T.booms+i*0.6, k=E.eout3(seg(s,a,a+0.22)); if(k<=0) continue; const dir=i%2?1:-1, ox=(1-k)*TW*1.1*dir, yT=i*Hd;
@@ -841,10 +890,12 @@
       let shown=0; L.forEach((ln,i)=>{ const lw=ln.split(' '), take=Math.max(0,Math.min(lw.length,n-shown)); shown+=lw.length; if(!take) return;
         const full=g.measureText(ln).width, part=lw.slice(0,take).join(' '); g.textAlign='left'; g.lineWidth=6; g.strokeStyle='rgba(0,0,0,0.75)'; g.strokeText(part,TW/2-full/2,TH-190+i*42); g.fillStyle='#f4ecff'; g.fillText(part,TW/2-full/2,TH-190+i*42); });
       g.restore(); }
-    const keys=['fr','ban','banCry','bgDay','bgRed','pose','dp','aChud','aBat','aNinja','aMlem'];
+    const keys=Object.keys(MAIN.imgs);   // 11/11: nạp HẾT ảnh MAIN — trước thiếu c0…c13 / dogeS / hFist nên dân phố + đuôi không hiện trong trailer
     CineKit.film({ id:'fin1tr', title:'Final 1 · Trailer 9:16', VW:TW, VH:TH, DUR:DURT, cast:['cry','fr','dp'], fadeIn:true, fadeOut:true,
       imgs:Object.fromEntries(keys.filter(k=>MAIN.imgs[k]).map(k=>[k,MAIN.imgs[k]])), sfx:sfxT,
-      mus:[{src:A+'cine_ambient_war.mp3', ra:0, rb:dlg+0.3, vol:0.55, fi:0.4, fo:0.5},
+      mus:[{src:A+'fin_crowd.mp3', ra:0, rb:RV+0.1, vol:0.55, fo:0.3},                        // đám đông la hét (đoạn hoảng loạn)
+           {src:A+'cine_heart.mp3', ra:RV-0.05, rb:RV+0.7, vol:0.7, fi:0.15, fo:0.3},                 // tim đập lúc Friend ló ra
+           {src:A+'cine_ambient_war.mp3', ra:0, rb:dlg+0.3, vol:0.5, fi:0.4, fo:0.5},
            {src:A+'dp_akatsuki.mp3', ra:dlg, rb:DURT, vol:0.75, loop:true, fi:0.6, fo:1.2}],
       shots:[{t0:0,t1:DURT,a:{}}],
       impact:t=>MAIN.impact(src(t)), shake:t=>MAIN.shake(src(t)),

@@ -214,6 +214,8 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
   tên chiêu: CHỮ TIẾNG ANH trên màn hình + TIẾNG NHẬT đọc tên chiêu (sound) · trận ~60–70s · nhạc: nhạc anime đánh nhau EPIC, không ngại bản quyền (dính thì anh tự thay).
   Chờ: anh gửi link YouTube mẫu sau.
   ✂️ (10/11 anh dặn) TÁCH các trận lớn khỏi tập vì chưa có cảnh nối: tập fin1 = 3 cảnh (fin1c1–c3) + trailer dọc fin1tr; Gojo vs Pain = phim riêng fin1c4. Menu: MEME LORE 2 → thư mục __fin1 'Final · Part 1' chứa tập chính, Gojo vs Pain, trailer (+ trận phụ sau).
+  🔊 (11/11 anh dặn) Friend gầm → SÓNG ÂM vỡ hết kính: vòng sóng ở shot góc giun (`roarRings`) + cảnh mới `scGlass` (T.glass 21.0–22.5, thay chỗ tiêu đề FRIEND đã bỏ): ô kính vỡ đúng lúc vòng sóng chạm (`shops(...,{out,broke})`, `brokenPane`).
+  Trailer fin1tr (11/11): Chuối cầm kem NGƯỚC LÊN → hoảng → khóc, kem rơi trong 1 shot (anh chê bản cũ bị lặp đoạn khóc); tiếng gầm vào đúng lúc mắt Friend bật sáng; trailer nạp HẾT ảnh MAIN (thiếu ảnh = dân phố/đuôi biến mất).
   Trận phụ (fin1f1 Chud+Mlem vs Doge+Clapping · fin1f2 Bat vs Pop+Huh · fin1f3 Ninja vs Berserk): yêu cầu chi tiết ở prompts/fin1-fight-phu.md.
   🔧 NÂNG CẤP 9/11 (theo meme-anime-lab/playbook): thành phố dựng lại đúng TỈ LỆ (MEME_H=32, tầng 84–100, nhà phố 3–5 tầng, cao tầng 15–40) · Friend lộ diện = bộ ba
   (cực cận răng→mắt bật sáng · góc giun trời đỏ ngược sáng · cận Banana Cat) · ĐUÔI quật thay nắm tay (kiểu Cửu Vĩ, clip kaiju-b) · tĩnh trước phá · hậu quả ·
