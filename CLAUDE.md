@@ -203,6 +203,8 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
 - ⚠️ Bản thu Katica Illényi có bản quyền biểu diễn → video YouTube có thể dính Content ID (bản nhạc gốc Rimsky-Korsakov thì đã hết bản quyền).
 
 ## 🎬 Meme Lore · FINAL — Part 1 (5/11/2026) — `js/film-fin1.js` (cine-kit, id `fin1`, 16:9, 51s; Meme Cinema → MEME LORE 2 → "Final · Part 1")
+- ⏱️ (11/11 anh dặn) Tập Final 1 nhắm dài **ÍT NHẤT 8–9 PHÚT** → cảnh nào cần thì MỞ RỘNG thoải mái (thêm shot, kéo dài nhịp, thêm chi tiết), KHÔNG nén thời lượng tới mức mất chi tiết / bị vội.
+- ☁️ (11/11) Khói chung của cine-kit (`K.smoke`) làm lại: 6 kiểu cụm mây mềm mép lởm chởm, xoay ngẫu nhiên, nhuộm màu chỉ trên phần khói (anh chê khói cũ như bóng bay xám).
 - 🧩 (9/11, anh chốt) Trận **Mewing/Gojo Cat vs Depressed/Pain Cat** là 1–2 CẢNH NẰM TRONG Final Part 1 (không phải phim riêng). Bản cũ `js/film-mvd.js` (9:16, 23s, Anime Lab) chỉ để tham khảo.
   Kịch bản anh viết: cận chiến đa dạng, nhịp không đều → Pain dùng Almighty Push hất Gojo văng xa → Pain bay thẳng lên trời cast SHINRA TENSEI, nổ xoá nửa thành phố;
   lúc Pain cast, Gojo kịp mở LÃNH ĐỊA (infinity domain) bọc mình, tránh vụ nổ → Pain đáp đất xem kết quả → HOLLOW PURPLE bất ngờ lao ra từ khói bụi, Pain đỡ khó khăn bằng trường lực

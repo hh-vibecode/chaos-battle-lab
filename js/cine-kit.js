@@ -187,17 +187,31 @@
     if(ok){ g.fillStyle=`rgba(0,0,0,${s.a})`; g.fill(); } } }
 
   // khói toon: puff mềm vẽ sẵn 1 lần, mỗi cụm tự trôi/nở/tan theo thời gian (tất định — tua đi tua lại vẫn y hệt)
-  let PUFF=null; const puffImg=()=>{ if(PUFF) return PUFF; const c=K.mk(128,128), x=c.getContext('2d');
-    for(const [ox,oy,r,col] of [[64,70,52,'rgba(120,110,105,1)'],[60,62,48,'rgba(205,198,190,1)'],[56,56,40,'rgba(240,236,230,1)']]){ const gr=x.createRadialGradient(ox,oy,r*0.55,ox,oy,r); gr.addColorStop(0,col); gr.addColorStop(1,col.replace(',1)',',0)')); x.fillStyle=gr; x.beginPath(); x.arc(ox,oy,r,0,Math.PI*2); x.fill(); }
-    return PUFF=c; };
+  // 11/11 (anh chê khói "bóng bay xám"): bản cũ = 3 hình tròn đồng tâm mép rõ + nhuộm bằng đĩa tròn cắt cứng → mỗi cụm thành 1 quả bóng.
+  //   Giờ 6 KIỂU CỤM MÂY: 18–28 cụm con mềm (gradient không có lõi đặc) xếp lệch, 3 lớp tối dưới / giữa / sáng trên (ánh từ trên),
+  //   mép làm mờ bằng mặt nạ tròn mềm → mép lởm chởm, không ra hình tròn; mỗi hạt khói chọn 1 kiểu + xoay 1 góc riêng.
+  let PUFFS=null; const PUFFT=new Map();
+  const puffImgs=()=>{ if(PUFFS) return PUFFS; PUFFS=[];
+    for(let v=0;v<6;v++){ const S=160, c=K.mk(S,S), x=c.getContext('2d'), n=18+v*2, B=[];
+      for(let i=0;i<n;i++){ const an=hash(v*97+i*3.1)*Math.PI*2, d=Math.sqrt(hash(v*53+i*7.7))*S*0.26, r=S*(0.1+0.1*hash(v*31+i*5.3))*(1-0.35*d/(S*0.26));
+        B.push([S/2+Math.cos(an)*d*1.12,S/2+Math.sin(an)*d*0.86,r]); }
+      for(const [dy,k,col] of [[5,1.05,'112,104,100'],[0,0.95,'198,192,184'],[-5,0.72,'240,236,230']])
+        for(const [bx,by,r] of B){ const rr=r*k, gr=x.createRadialGradient(bx,by+dy,0,bx,by+dy,rr); gr.addColorStop(0,`rgba(${col},0.9)`); gr.addColorStop(0.55,`rgba(${col},0.55)`); gr.addColorStop(1,`rgba(${col},0)`);
+          x.fillStyle=gr; x.beginPath(); x.arc(bx,by+dy,rr,0,Math.PI*2); x.fill(); }
+      x.globalCompositeOperation='destination-in'; const m=x.createRadialGradient(S/2,S/2,S*0.18,S/2,S/2,S*0.5); m.addColorStop(0,'rgba(0,0,0,1)'); m.addColorStop(1,'rgba(0,0,0,0)'); x.fillStyle=m; x.fillRect(0,0,S,S);
+      PUFFS.push(c); }
+    return PUFFS; };
+  // bản nhuộm màu (chỉ nhuộm phần có khói — không lem ra nền như đĩa multiply cũ), nhớ lại theo kiểu + màu
+  const puffTinted=(v,tint)=>{ const key=v+'|'+tint; let c=PUFFT.get(key); if(c) return c; const src=puffImgs()[v]; c=K.mk(src.width,src.height); const x=c.getContext('2d');
+    x.drawImage(src,0,0); x.globalCompositeOperation='source-atop'; x.fillStyle=`rgba(${tint},0.5)`; x.fillRect(0,0,c.width,c.height); PUFFT.set(key,c); return c; };
   // e = {x,y,z, t0, n, spread, rise, life, size, seed, swirl(rad/s quanh tâm), tint:'r,g,b', a (độ đậm 0–1)}
-  K.smoke=(F,e)=>{ const t=F.t-e.t0; if(t<0||t>e.life+0.5) return; const img=puffImg();
+  K.smoke=(F,e)=>{ const t=F.t-e.t0; if(t<0||t>e.life+0.5) return; puffImgs();
     for(let i=0;i<e.n;i++){ const s=e.seed*31+i, dl=hash(s)*0.25, tt=t-dl; if(tt<0) continue; const life=e.life*(0.6+0.4*hash(s+1)), u=tt/life; if(u>1) continue;
       const ang=hash(s+2)*Math.PI*2+(e.swirl||0)*tt, sp=e.spread*(0.4+0.6*hash(s+3))*EASE.eout3(Math.min(1,u*1.4));
       const x=e.x+Math.cos(ang)*sp, z=e.z+Math.sin(ang)*sp, y=(e.y||0)+e.rise*u*(0.5+hash(s+4))+12, P=K.proj(F.B,x,y,z); if(!P) continue;
       const r=e.size*(0.5+0.8*hash(s+5))*(0.6+0.8*EASE.eout(u))*P.s, a=(u<0.15?u/0.15:1-EASE.ein(Math.max(0,(u-0.35)/0.65)))*0.9*(e.a==null?1:e.a);
-      F.list.push({d:P.d+1, fn:()=>{ const g=F.g; g.save(); g.globalAlpha=a; g.drawImage(img,P.x-r,P.y-r,r*2,r*2);
-        if(e.tint){ g.globalCompositeOperation='multiply'; g.globalAlpha=a*0.5; g.fillStyle=`rgb(${e.tint})`; g.beginPath(); g.arc(P.x,P.y,r*0.8,0,Math.PI*2); g.fill(); } g.restore(); }}); } };
+      const v=Math.floor(hash(s+6)*6)%6, img=e.tint?puffTinted(v,e.tint):PUFFS[v], rot=hash(s+7)*Math.PI*2+tt*0.25*(hash(s+8)-0.5), R=r*1.25;
+      F.list.push({d:P.d+1, fn:()=>{ const g=F.g; g.save(); g.globalAlpha=a; g.translate(P.x,P.y); g.rotate(rot); g.drawImage(img,-R,-R,R*2,R*2); g.restore(); }}); } };
   // sóng xung kích tròn trên mặt đất
   K.ring=(F,x,z,r,wid,a,col)=>{ if(a<=0.01) return; const g=F.g; const pts=[]; for(let i=0;i<=40;i++){ const th=i/40*Math.PI*2, p=K.proj(F.B,x+Math.cos(th)*r,1,z+Math.sin(th)*r); if(!p) return; pts.push(p); }
     F.under.push(()=>{ g.save(); g.globalCompositeOperation='lighter'; for(const [lw,aa] of [[wid*2.2,0.25],[wid,0.8],[wid*0.35,1]]){ g.beginPath(); pts.forEach((p,i)=>i?g.lineTo(p.x,p.y):g.moveTo(p.x,p.y));
