@@ -222,6 +222,11 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
   nóc nhà: bỏ thở / nghiêng TỪNG Ô (làm vỡ kính Chud) → cả ảnh thở đồng nhất · Rinnegan vẽ rõ (vòng đồng tâm) trong bóng đen.
   CẢNH 4 Gojo vs Pain = `js/film-fin1c4.js` (2.5D, 50s — Ver 529 thêm chuỗi BÀNH TRƯỚNG LÃNH ĐỊA 5s: kết ấn → cực cận mắt lộ dưới băng → co lại → hư không bung + DOMAIN EXPANSION → bên trong INFINITE VOID (chữ CHỈ tiếng Anh, không chữ Hán — anh dặn) → vòm trồi lên giữa đổ nát; nạp vào tập sau fin1c3) — Ver 528 đã sửa: Pain bay lên trời đỏ ngược sáng, Shinra góc chim thấy nhà đổ rạp (giảm sương). CÒN: nhiều shot ẢNH TẠM. (cũ:
   Shinra góc chim (23.5–25.5s) mới là vòng tròn chưa ra cảnh xoá nửa thành phố, nhiều shot ẢNH TẠM. Soát khung: `tools/x/film-sheet.html?id=<id>&file=<file>`.
+  ✨ (11/11, anh chê Hollow Purple + lãnh địa xấu, đỡ cầu/hất lên quá đơn giản) VFX fin1c4 làm lại: `hpOrb` (cầu tím đặc, plasma xoáy, sét, đuôi lửa; cận cảnh vẽ đè thường để không trắng xoá) ·
+  `elemOrb` Xanh hút / Đỏ đẩy sáng XUYÊN khói + sét nối khi dồn vào nhau · `hpTrench` rãnh xoá sổ · `pField` trường lực Pain (gợn, nứt theo sức ép, toé tím, loé điểm chạm) ·
+  hất lên: cột sóng nén + vòng âm thanh dọc đường bay (`hring`) · `purpleBlast` nổ tím trên không · `dome` khối cầu 3D có thiên hà bên trong · `sixEye` vẽ lại · Shinra thêm tường sóng nén.
+  THỨ TỰ lãnh địa (anh chốt 11/11): MẮT Lục Nhãn trước (T.dom→dEye) rồi mới ảnh giơ tay kết ấn (dEye→dImp).
+  ⚠️ Chiêu hút/đẩy của Pain trong phim là chiêu THƯỜNG, KHÔNG phải Almighty Push → KHÔNG hiện chữ tên chiêu (anh dặn 11/11). Chỉ SHINRA TENSEI / DOMAIN EXPANSION / HOLLOW PURPLE có chữ.
   🖼️ ĐÃ CÓ ẢNH Gojo vs Pain (9/11, Claude tự vẽ bằng ve-anh-gpt, Ver 531: FIN_G6/G7/G9/P6/P7/P8/P9.png — lệnh gốc `prompts/fin1-gojo-pain.txt`): G6 mở lãnh địa (giơ chân trước, băng mắt nhếch lộ 1 mắt) · G7 bị hất văng ·
   G9 đối diện cuối (xước) · P6 bay lên trời cast Shinra Tensei · P7 đáp đất · P8 đỡ Hollow Purple bằng trường lực · P9 đối diện cuối. Có sẵn dùng lại: MVD_G1–5 / MVD_P1–5 (5 tư thế tay đôi), MVD_GOJO_BLAST, MVD_PAIN_PUSH, MVD_*_KB.
 - Anh kể (Final làm 2 tập, ngang 16:9): phố bình yên + meme quen trên phố → em bé mua kem, bóng đen trùm cả khu, ngẩng lên khóc thét rơi kem → FRIEND che kín trời
