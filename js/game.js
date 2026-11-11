@@ -25793,6 +25793,7 @@ function openCinema(folder){
       {id:'ck:fin1', ic:'🎬', name:'Story · Friend returns', desc:'A peaceful city, an ice cream, a shadow over the sky. Friend has returned, and the Meowkatsuki appear on a rooftop. (16:9)', dur:75.4},
       {id:'ck:fin1c4', ic:'⚔️', name:'Fight · Gojo Cat vs Pain Cat', desc:'Close combat, Shinra Tensei, Domain Expansion: Infinite Void and Hollow Purple. (16:9)', dur:50},
       {id:'ck:fin1f3', ic:'🗡️', name:'Fight · Ninja Cat vs Berserk Cat', desc:'Kusanagi against the Dragonslayer. Kamui, a Mangekyou genjutsu, and an illusion that shatters like glass. (16:9)', dur:22},
+      {id:'ck:fin1f2', ic:'🦇', name:'Fight · Bat Cat vs Pop Cat + Huh Cat', desc:'Given prep time, Bat Cat beats anyone: decoy bombs, a planted charge, a smoke bomb and a ring of traps. (16:9)', dur:19},
       {id:'ck:fin1tr', ic:'📱', name:'Trailer 9:16', desc:'Vertical teaser: Friend rises over the city, Banana Cat screams, the Meowkatsuki step into the light.', dur:18}]},
     __lore2:{ title:'🌑 MEME LORE 2', back:'', items:[{id:'__fin1', ic:'👁️', name:'Final · Part 1', desc:'Friend has returned and the Meowkatsuki step out of the shadows: the story, the big fights and the trailer.', folder:true},{id:'ck:l2pro', ic:'🌌', name:'Prologue · The Dark Age', desc:"Long before the memes… Friend devoured worlds, until three Supreme Memes and The Void sealed it away. (16:9)", dur:170},
                                                        {id:'__l2e0', ic:'🐹', name:'Ep 0 · The Truth', desc:"What really happened behind that window…", dur:25},
