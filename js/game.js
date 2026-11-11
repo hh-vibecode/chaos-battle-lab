@@ -782,7 +782,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     gigachad: { key:'gigachad', defaultName:'Gigachad', emoji:'🗿', color:'#8899aa', hp:1000, speed:5, size:51.75, skill:'Húc cận chiến 75 dmg. Mỗi lần bị đánh trúng bởi đối thủ (không tính nhịp cháy/độc): Gigachad +2% size VÀ +2% dame (cộng dồn không giới hạn), đối thủ vừa đánh -2% size. Khi size vượt quá 150% size gốc: -35% sát thương nhận từ MỌI nguồn, miễn nhiễm mọi hiệu ứng đẩy lùi, và chuyển sang ảnh Gigachad To (kèm hiệu ứng chuyển dạng nhẹ). Di chuyển chậm hơn 25% so với các meme khác. Cú đấm có hiệu ứng + tiếng y hệt Boxing Cat theo bậc dame (≥250 = đấm max); ở dạng to, mỗi cú đấm gây dame cả vùng quanh điểm đấm.' },
     rickroll: { key:'rickroll', defaultName:'Rick Roll', emoji:'🕺', color:'#e8452a', hp:1000, speed:5, size:49.5, skill:'Cứ 4s thả 1 hộp quà ngẫu nhiên trên sàn (tối đa 5 hộp cùng lúc, Rick KHÔNG tự nhặt được hộp của nó). 25% là hộp buff thật (máu/dame/tốc như hộp 2vs2), 75% là hộp lừa: ai nhặt hiện \'YOU GOT RICK ROLLED\' rồi bị khoá tại chỗ nhảy theo nhạc 6.3s (đèn disco chiếu trên đầu, lắc qua lại, 50 sát thương mỗi giây). Rick cũng đứng nhảy theo suốt lúc đó nhưng KHÔNG mất máu.' },
     windguy: { key:'windguy', defaultName:'The Unknown Guy', emoji:'🌬️', color:'#b0bec5', hp:1000, speed:5, size:50.82, skill:'Không tự đánh — chỉ đi lại tự do trên sàn, mỗi lần có sự kiện thì lẩm bẩm \'must\'ve been the wind\'. Cứ 2.8s xảy ra 1 sự kiện ngẫu nhiên: 20% RỒNG bay ngang thiêu sàn (200 dmg trực tiếp + burn 20 dame/giây trong 3s cho địch, riêng The Guy chỉ dính phần burn); 55% VẬT LẠ rơi trúng mặt địch (130-195 dmg ngẫu nhiên, random nhiều loại vật — xoay tròn nhẹ lúc đáp xuống); 20% GÀ chạy vào nảy khắp sàn (45 dmg mỗi lần đụng phải, 30% là Chicken Jockey nhanh + mạnh hơn, đụng trúng The Guy thì chỉ đẩy lùi nhẹ chứ không mất máu); 5% LỐC XOÁY tích tụ giữa sàn rồi hút TOÀN BỘ meme (kể cả chính The Guy) vào tâm, xoay liên tục mất 100 dame/giây cho tới khi có người chết mới tan — nếu chính The Guy bị hút vào, hiện chữ \'It\'s actually the wind\' treo tới hết trận.' },
-    mechaniccat: { key:'mechaniccat', defaultName:'Mechanic Cat', emoji:'🔧', color:'#607d8b', hp:1000, speed:5, size:46, skill:'Vào trận có 1 hòm đồ thả dù. Mỗi lần CHẠM vùng hòm → lắp 1 bộ phận Gundam (chân → thân → tay → đầu). Đủ 4 lần thì phóng vào buồng lái. Gundam có 500 máu + khiên bằng đúng máu còn lại của mèo (khiên đỡ trước). Gundam vỡ là NỔ TUNG, mèo chết theo. Mỗi trận ngẫu nhiên 1 trong 2 mẫu: GUNDAM BEAM (gần chém kiếm laser 90, xa bắn beam xuyên 70; mỗi phát thứ 3 tích 2s rồi bắn luồng beam to 105 + thiêu cháy) hoặc GUNDAM ĐỎ (chỉ dùng kiếm: địch trong tầm trung là chém, mỗi nhát phóng 1 kiếm khí bay xuyên 85).' },
+    mechaniccat: { key:'mechaniccat', defaultName:'Mechanic Cat', emoji:'🔧', color:'#607d8b', hp:1000, speed:5, size:46, skill:'Vào trận có 1 hòm đồ thả dù. Mỗi lần CHẠM vùng hòm → lắp 1 bộ phận Gundam (chân → thân → tay → đầu). Đủ 4 lần thì phóng vào buồng lái. Gundam có 500 máu + khiên bằng đúng máu còn lại của mèo (khiên đỡ trước). Gundam vỡ là NỔ TUNG, mèo chết theo. Mỗi trận ngẫu nhiên 1 trong 2 mẫu: GUNDAM BEAM (gần chém kiếm laser 90, xa bắn beam xuyên 70; mỗi phát thứ 3 tích 2s rồi bắn luồng beam to 105 + thiêu cháy) hoặc GUNDAM ĐỎ (chỉ dùng kiếm: chém liên tục, mỗi nhát phóng 1 kiếm khí bay xuyên tới hết sân 85; tốc chém ban đầu 1 nhát/giây, mỗi nhát sau +2% tốc).' },
     rubikcat: { key:'rubikcat', defaultName:'Rubik Cat', emoji:'🟨', color:'#fbc02d', hp:1000, speed:5, size:43, skill:'Cứ 2.5s xoay ngẫu nhiên 1 trong 6 mặt rubik, mỗi mặt 1 hiệu ứng riêng, vòng sóng lan ra trúng TẤT CẢ địch trong bán kính (trắng nổ dame lớn 150 không hồi máu, vàng gây choáng + dame không tăng tốc, đỏ nổ dame kèm cháy, lam làm chậm địch, lục đầu độc, tím hất văng + bắn liên tiếp 3 vòng sóng). Xoay trúng mặt ĐÃ có rồi thì tăng 15% tỉ lệ ra mặt CÒN THIẾU (cộng dồn, reset khi ra mặt mới). Đủ cả 6 mặt → hố đen rubik hút địch, thắng ngay lập tức.' },
     mewingcat: { key:'mewingcat', defaultName:'Mewing Cat - Never Skip Mewing Day', emoji:'😤', color:'#8d6e63', hp:1000, speed:5, size:45, skill:'Không cận chiến. Mỗi 1s đổi giữa dáng thường và 1 trong 4 tư thế mewing ngẫu nhiên. Mỗi lần mewing triệu hồi tượng đá (50HP) lao từ mép sàn vào tấn công địch gần nhất, va trúng vỡ tan gây 60 dmg. Bốc trúng tư thế nào thì sáng ô đó; sáng đủ CẢ 4 tư thế khác nhau mới reset thanh và số tượng mỗi lần triệu hồi +1.' },
     smartguy: { key:'smartguy', defaultName:'Smart Guy', emoji:'🤓', color:'#5c6bc0', hp:1000, speed:5, size:44, skill:'Không cận chiến. Chốt ngay 1 chỉ số IQ ngẫu nhiên (60-200) làm dame bắn thẳng vào địch, chỉ hiệu ứng quay số trên đầu kéo dài ~1.6s (rút ngắn dần theo tốc suy nghĩ) trước khi bắn. Tỉ lệ ra đúng 200 gốc 1%. <80 (LOW IQ): +5% tỉ lệ ra 200 lần sau (không còn tự làm chậm). 80-150 (AVERAGE IQ): không hiệu ứng. >150 (HIGH IQ): bản thân +20% tốc suy nghĩ (roll nhanh hơn) + tỉ lệ roll ra đúng 200 lần sau +2%, cả 2 cộng dồn không giới hạn tới khi ra đúng 200 thì reset. Roll đúng 200: dame x2 = 400 + pháo hoa jackpot. Roll đúng 60: tự dame 60 + tự choáng 3s.' },
@@ -10757,10 +10757,11 @@ const GD_FIST_R=[565,600], GD_FIST_L=[85,600], GD_MUZZLE=[565,912], GD_CHEST=[33
 // 🤖 (anh dặn 11/11) Gundam: 500 máu + SHIELD = máu còn lại của Mechanic Cat (đỡ trước) · Gundam vỡ → NỔ TUNG, cả 2 cùng chết, không lắp lại
 //    · ảnh Gundam quay mặt TRÁI (lật khi địch ở bên phải) · 2 MẪU, ngẫu nhiên mỗi trận:
 //      mẫu 1 = súng beam (bắn chuẩn từ đầu nòng; mỗi phát thứ 3 tích 2s → luồng beam to +50% dame + cháy)
-//      mẫu 2 = Gundam đỏ cầm kiếm (ảnh anh gửi): chỉ chém, mỗi nhát phóng KIẾM KHÍ bay tầm trung
+//      mẫu 2 = Gundam đỏ cầm kiếm (ảnh anh gửi): chỉ chém, mỗi nhát phóng KIẾM KHÍ bay TẦM XA tới hết sân (anh đổi 11/11, trước tầm trung)
 const GD_HP=500, GD_CHARGE_T=120, GD_BEAM_T=16, GD_BIG_T=34, GD_BIG_MUL=1.5;
 const GD2_IMG={}; for(const k of ['idle','wind','slash']){ const im=new Image(); im.src='assets/img/mechaniccat/gundam2/GD2_'+k+'.webp'; GD2_IMG[k]=im; }
-const GD2_QI=85, GD2_CD=66, GD2_WIND=16, GD2_SWING=14, GD2_QI_SPD=8.5, GD2_RANGE_K=1.9;
+const GD2_META={idle:{mul:1,ax:0.45}, wind:{mul:1.19,ax:0.47}, slash:{mul:0.77,ax:0.6}};   // ảnh tư thế (GPT vẽ 11/11): mul = cao ảnh / cao thân robot (kiếm giơ cao → ảnh cao hơn) · ax = tâm thân theo bề ngang ảnh
+const GD2_QI=85, GD2_CD=60, GD2_WIND=16, GD2_SWING=14, GD2_QI_SPD=8.5, GD2_RANGE_K=1.9;
 const GD2_BANDS=[0.42,0.68,0.84,1];   // mẫu 2 lắp dần TỪ DƯỚI LÊN: chân → thân → tay → đầu (phần ảnh hiện ra)
 let gdQi=[], gdBooms=[];
 const _gdH=f=>(f._gdBase||f.size)*3.7;   // chiều cao Gundam
@@ -10806,18 +10807,21 @@ function _gdTick(f){
 }
 // nhắm từ VAI cầm súng (không phải từ tâm) → giơ súng đúng hướng địch
 function _gdAimAt(f,e){ const g=f._gd, H=_gdH(f), M=GD_META.armR, [sx,sy]=_gdMap(f.x,f.y+f.size,H,g.flip,M.px,M.py); return Math.atan2(e.y-sy,e.x-sx); }
-// ⚔️ MẪU 2 — Gundam đỏ cầm kiếm: địch trong tầm trung → giương kiếm (GD2_WIND) → chém, phóng kiếm khí
+// ⚔️ MẪU 2 — Gundam đỏ cầm kiếm: hồi chiêu xong là giương kiếm → chém, phóng kiếm khí bay tới hết sân
 function _gd2Tick(f,g,e){ if(g.qcd>0) g.qcd--;
   const H=_gdH(f), d=Math.hypot(e.x-f.x,e.y-f.y);
-  if(g.sw>0){ g.sw--; f.vx*=0.4; f.vy*=0.4; if(g.sw===GD2_SWING) _gd2Qi(f,g,e); return; }
-  if(d<H*GD2_RANGE_K && g.qcd<=0){ g.sw=GD2_WIND+GD2_SWING; g.qcd=GD2_CD; g.swA=Math.atan2(e.y-f.y,e.x-f.x); playSample('se_whoosh_fast',0.5); } }
+  if(g.sw>0){ g.sw--; f.vx*=0.4; f.vy*=0.4; if(g.sw===g.swS) _gd2Qi(f,g,e); return; }
+  if(g.qcd<=0){ const spd=Math.min(4,Math.pow(1.02,g.qn||0)), k=1/spd;   // ⚡ chém CÀNG LÚC CÀNG NHANH (anh dặn 11/11): tốc ban đầu 1 nhát/s, mỗi nhát sau +2% tốc (nhân dồn, tối đa ×4)
+    g.swW=Math.max(4,Math.round(GD2_WIND*k)); g.swS=Math.max(6,Math.round(GD2_SWING*k)); g.sw=g.swW+g.swS; g.qcd=Math.max(g.sw,Math.round(GD2_CD*k)); g.qn=(g.qn||0)+1;
+    g.swA=Math.atan2(e.y-f.y,e.x-f.x); playSample('se_whoosh_fast',0.5); } }
 function _gd2Qi(f,g,e){ const H=_gdH(f), feet=f.y+f.size, a=Math.atan2(e.y-(feet-H*0.5),e.x-f.x), sx=f.x+Math.cos(a)*H*0.32, sy=feet-H*0.5+Math.sin(a)*H*0.2;
-  gdQi.push({x:sx,y:sy,a,t:0,T:Math.round(H*GD2_RANGE_K*1.25/GD2_QI_SPD),team:f.team,owner:f,hit:new Set(),r:H*0.3,dmg:GD2_QI,tr:[]});
+  gdQi.push({x:sx,y:sy,a,t:0,T:600,team:f.team,owner:f,hit:new Set(),r:H*0.3,dmg:GD2_QI,tr:[]});
   playSample('se_slash',0.85); addShake(4,6); }
 function _gdQiTick(){ for(let i=gdQi.length-1;i>=0;i--){ const q=gdQi[i], f=q.owner; q.t++;
     if(q.t>=q.T || !f || f.dead){ gdQi.splice(i,1); continue; }
     q.tr.unshift(q.x,q.y); if(q.tr.length>12) q.tr.length=12;
     q.x+=Math.cos(q.a)*GD2_QI_SPD; q.y+=Math.sin(q.a)*GD2_QI_SPD;
+    if(q.x<-q.r*2||q.x>W+q.r*2||q.y<-q.r*2||q.y>H+q.r*2){ gdQi.splice(i,1); continue; }   // bay hết sân mới tan
     for(const u of [...fighters.filter(o=>o.team!==q.team && !o.dead), ..._summonFoes(q.team)]){ if(q.hit.has(u)) continue;
       if(Math.hypot(u.x-q.x,u.y-q.y)<q.r*0.65+(u.size||20)){ q.hit.add(u); u.takeDamage(q.dmg,f,false,false,'','Blood Batch 1_Sprite'); playSample('hit_heavy',0.45);
         gdBooms.push({k:'cut',x:u.x,y:u.y,a:q.a,t:0,T:16}); } } } }
@@ -10916,21 +10920,21 @@ function _gdDrawChargeOrb(f,g){ const u=1-g.charge/GD_CHARGE_T, [mx,my]=_gdMuzzl
   if(window.VfxGL && VfxGL.boltSet && u>0.3 && (tick>>1)%3===0){ const a=_skH(tick)*Math.PI*2; VfxGL.boltSet(ctx,mx,my,a,r*2.4,1.6,tick,{core:'#ffffff',rim:'#5dffa0',glow:'rgba(80,255,150,0.3)'}); }   // sét lách tách quanh cầu
   ctx.strokeStyle=`rgba(200,255,220,${0.4+0.5*u})`; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(mx,my,r*1.9+4*Math.sin(tick*0.5),0,Math.PI*2); ctx.stroke(); ctx.restore(); }
 // ⚔️ MẪU 2: Gundam đỏ — ảnh nguyên con (quay TRÁI), đổi ảnh giương kiếm / chém nếu có, nghiêng người theo nhát chém
-function _gd2Img(g){ const t=GD2_WIND+GD2_SWING-g.sw, ok=im=>im && im.complete && im.naturalWidth; if(g.sw>0){ const im=t<GD2_WIND?GD2_IMG.wind:GD2_IMG.slash; if(ok(im)) return im; } return ok(GD2_IMG.idle)?GD2_IMG.idle:null; }
-function _gd2DrawBody(f,g,H,feet,hitK){ const im=_gd2Img(g); if(!im) return; const face=g.flip?1:-1, t=GD2_WIND+GD2_SWING-g.sw, mv=Math.min(1,Math.hypot(f.vx,f.vy)/1.2), ph=g.walk*0.045;
+function _gd2Img(g){ const t=g.swW+g.swS-g.sw, ok=im=>im && im.complete && im.naturalWidth; if(g.sw>0){ const im=t<g.swW?GD2_IMG.wind:GD2_IMG.slash; if(ok(im)) return im; } return ok(GD2_IMG.idle)?GD2_IMG.idle:null; }
+function _gd2DrawBody(f,g,H,feet,hitK){ const im=_gd2Img(g); if(!im) return; const face=g.flip?1:-1, WD=g.swW||GD2_WIND, SW=g.swS||GD2_SWING, t=WD+SW-g.sw, mv=Math.min(1,Math.hypot(f.vx,f.vy)/1.2), ph=g.walk*0.045;
   let rot=0, dx=0; const custom=g.sw>0 && im!==GD2_IMG.idle;
-  if(g.sw>0 && !custom){ if(t<GD2_WIND){ const u=t/GD2_WIND; rot=-0.1*u*face; dx=-H*0.04*u*face; } else { const u=(t-GD2_WIND)/GD2_SWING; rot=(0.14-0.14*u)*face; dx=H*0.06*(1-u)*face; } }   // chưa có ảnh tư thế: ngả ra sau rồi lao tới
-  const h=H*(im===GD2_IMG.idle?1:1), w=h*im.naturalWidth/im.naturalHeight, bob=-Math.abs(Math.sin(ph))*H*0.015*mv;
-  const draw=(alpha,ox)=>{ ctx.save(); ctx.globalAlpha*=alpha; ctx.translate(f.x+dx+ox,feet+bob); ctx.rotate(rot); ctx.scale(g.flip?-1:1,1); ctx.drawImage(im,-w/2,-h,w,h); ctx.restore(); };
-  if(g.sw>0 && t>=GD2_WIND && t<GD2_WIND+6){ draw(0.25,-face*H*0.08); draw(0.4,-face*H*0.04); }   // vệt nhoè lúc vung
+  if(g.sw>0 && !custom){ if(t<WD){ const u=t/WD; rot=-0.1*u*face; dx=-H*0.04*u*face; } else { const u=(t-WD)/SW; rot=(0.14-0.14*u)*face; dx=H*0.06*(1-u)*face; } }   // chưa có ảnh tư thế: ngả ra sau rồi lao tới
+  const M=im===GD2_IMG.wind?GD2_META.wind:im===GD2_IMG.slash?GD2_META.slash:GD2_META.idle, h=H*M.mul, w=h*im.naturalWidth/im.naturalHeight, bob=-Math.abs(Math.sin(ph))*H*0.015*mv;
+  const draw=(alpha,ox)=>{ ctx.save(); ctx.globalAlpha*=alpha; ctx.translate(f.x+dx+ox,feet+bob); ctx.rotate(rot); ctx.scale(g.flip?-1:1,1); ctx.drawImage(im,-w*M.ax,-h,w,h); ctx.restore(); };
+  if(g.sw>0 && t>=WD && t<WD+6){ draw(0.25,-face*H*0.08); draw(0.4,-face*H*0.04); }   // vệt nhoè lúc vung
   if(hitK){ ctx.save(); ctx.filter='brightness(1.8)'; } draw(1,0); if(hitK){ ctx.filter='none'; ctx.restore(); }
-  if(g.sw>0 && t>=GD2_WIND-2 && t<GD2_WIND+8){ const u=(t-GD2_WIND+2)/10, cy=feet-H*0.55, R=H*0.62; ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round';   // vệt chém đỏ trước mặt
+  if(g.sw>0 && t>=WD-2 && t<WD+8){ const u=(t-WD+2)/10, cy=feet-H*0.55, R=H*0.62; ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round';   // vệt chém đỏ trước mặt
     const a0=face>0?-1.6:Math.PI+1.6, a1=face>0?1.1:Math.PI-1.1, aa=a0+(a1-a0)*Math.min(1,u*1.4);
     for(const [lw,c] of [[16,'rgba(255,40,60,0.35)'],[7,'rgba(255,120,120,0.85)'],[2.5,'rgba(255,245,245,1)']]){ ctx.strokeStyle=c; ctx.lineWidth=lw*(1-u*0.6); ctx.beginPath(); ctx.arc(f.x,cy,R,Math.min(a0,aa),Math.max(a0,aa)); ctx.stroke(); }
     ctx.restore(); } }
 // mẫu 2: vẽ 1 dải ngang của ảnh Gundam đỏ (lo..hi = phần chiều cao tính từ CHÂN), scan=true: vạch quét sáng ở mép trên
 function _gd2DrawBand(x,feet,H,lo,hi,al,scan){ const im=GD2_IMG.idle; if(!(im && im.naturalWidth)) return; const w=H*im.naturalWidth/im.naturalHeight;
-  ctx.save(); ctx.globalAlpha*=al; ctx.beginPath(); ctx.rect(x-w,feet-H*hi,w*2,H*(hi-lo)+1); ctx.clip(); ctx.drawImage(im,x-w/2,feet-H,w,H); ctx.restore();
+  ctx.save(); ctx.globalAlpha*=al; ctx.beginPath(); ctx.rect(x-w,feet-H*hi,w*2,H*(hi-lo)+1); ctx.clip(); ctx.drawImage(im,x-w*GD2_META.idle.ax,feet-H,w,H); ctx.restore();
   if(scan){ const y=feet-H*hi; ctx.save(); ctx.globalCompositeOperation='lighter'; const g=ctx.createLinearGradient(0,y-6,0,y+6); g.addColorStop(0,'rgba(255,90,90,0)'); g.addColorStop(0.5,`rgba(255,200,180,${0.55+0.3*Math.sin(tick*0.3)})`); g.addColorStop(1,'rgba(255,90,90,0)'); ctx.fillStyle=g; ctx.fillRect(x-w*0.5,y-6,w,12); ctx.restore(); } }
 // 💥 lớp TRÊN meme: kiếm khí đang bay + vết cắt trúng + vụ nổ Gundam
 function _gdDrawTop(){
