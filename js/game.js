@@ -736,7 +736,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     ricardo:    { key:'ricardo',    defaultName:'Ricardo Milos',emoji:'🕺', color:'#ff69b4', hp:1000, speed:5, size:45, skill:'Cứ vài giây lại đứng giữa spotlight uốn éo 4 điệu, mỗi lần nhảy xong +30 dame, đang nhảy thì đánh trúng cũng nửa phần trượt. Tụt dưới 35% máu là bật nhạc, thả quả cầu disco, sàn LED nhấp nháy rồi quẩy không nghỉ: cứ mỗi giây +10 dame, mỗi nhịp đổi một điệu giật đùng đùng, né nửa số đòn suốt tới cuối trận.' },
     doge:       { key:'doge',       defaultName:'Doge',         emoji:'🐕', color:'#f4a460', hp:1000, speed:5, size:44, skill:'Bắn meme text (40 dmg, tầm 340). Sau 5 đòn ăn được → hóa Buff Doge trong 10s: hồi máu, +20% tốc chạy, +50% kích cỡ, và +20% máu tối đa VĨNH VIỄN (giữ nguyên sau khi hết buff). Hết giờ các buff khác tự trở lại bình thường. Ngay lần biến hình ĐẦU: thức tỉnh HAKI VŨ TRANG (trận đứng hình 1s, 2 tay hoá đen bóng) — dạng buff chỉ đấm haki, 145 dame.' },
     feuerkatze: { key:'feuerkatze', defaultName:'Adolf Catler', emoji:'🔥', color:'#ff7043', hp:1000,  speed:5, size:43, skill:'Chạm địch: 50 dmg tức thì + thiêu đốt 10 dmg mỗi 0.5s trong 4s (tổng 80 dmg đốt, cộng dồn 130 dmg cả combo). Hồi chiêu 0.5s giữa các đòn, cận chiến lao vào liên tục. Lửa đốt của nó bén khí độc: địch đang cháy mà đứng trong khí thì ăn DOT ×1.5 (15 dmg mỗi 0.5s). Không bao giờ để địch hạ gục: đòn lẽ ra giết nó thì nó khựng lại, giơ tay, kề súng vào thái dương và tự kết liễu. Khi máu tụt dưới 70%: đứng nghiêm giơ tay hát quốc ca (đứng im tới hết bài), 2 vòi từ tường trái/phải nhô ra trong 2.5s rồi mở van khí độc gắn giữa tường trái/phải, cả sàn ngập sương xanh — mọi meme và summon trong sân (trừ chính nó) ăn 10 dmg mỗi 0.5s, mỗi giây địch có 15% đứng hình ho sặc sụa 1s.' },
-    cornelius: { key:'cornelius', defaultName:'Cornelius', emoji:'🍳', color:'#8d6e63', hp:1000, speed:5, size:44, skill:'Phi chảo liên tục vào địch gần nhất, mỗi chảo 60 dmg (1.3s/cái). Địch nào ăn đủ 8 chảo sẽ bị đánh dấu 🍳; lần tới Cornelius áp sát nó, một cái chảo khổng lồ hiện ra dưới chân nó kèm chữ LET HIM COOK — nó bị giữ trong chảo, lắc qua lắc lại giữa lửa và đồ ăn suốt 2.5s rồi ăn 300 dmg. Nấu xong thì đếm lại từ đầu.' },
+    cornelius: { key:'cornelius', defaultName:'Cornelius', emoji:'🍳', color:'#8d6e63', hp:1000, speed:5, size:44, skill:'Phi chảo liên tục vào địch gần nhất, mỗi chảo 60 dmg (~1.5s/cái). Địch nào ăn đủ 8 chảo sẽ bị đánh dấu 🍳; lần tới Cornelius áp sát nó, một cái chảo khổng lồ hiện ra dưới chân nó kèm chữ LET HIM COOK — nó bị giữ trong chảo, lắc qua lắc lại giữa lửa và đồ ăn suốt 2.5s rồi ăn 300 dmg. Nấu xong thì đếm lại từ đầu.' },
     epicsaxguy: { key:'epicsaxguy', defaultName:'Epic Sax Guy', emoji:'🎷', color:'#ffb300', hp:1000, speed:5, size:53.2, skill:'Thổi sax theo chu kỳ: trước mỗi lần thổi 1s có 1 con Squirtle chui lên từ sàn ở chỗ ngẫu nhiên (không trùng chỗ con cũ, không giới hạn số con, ở lại tới hết trận). Cả bọn thổi cùng, mỗi nhịp mỗi Squirtle nện ra một luồng sóng âm bán kính 143: địch trong vùng ăn 23-46 dmg tuỳ cự ly, sát chân là ăn đủ 46. Lúc đang thổi: -20% tốc chạy, -35% sát thương nhận vào. Thổi xong nghỉ lấy hơi 1s. Nhạc sax phát nhanh ×1.1.' },
     // ── Meme mới ──
     germancat:  { key:'germancat',  defaultName:'German Cat',   emoji:'🐈', color:'#bdbdbd', hp:1000, speed:5, size:38, skill:'Phát biểu 4s, nghỉ 2s (chu kỳ ~6s) rồi triệu hồi 2 Lính (30HP, 40 dmg, bắn xa). Giảm 25% dame khi đang phát biểu. German Cat chết thì lính cũng biến mất theo.' },
@@ -779,10 +779,10 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     fanchar: { key:'fanchar', defaultName:'Fan', emoji:'🧑', color:'#8ab4ff', hp:1000, speed:5, size:48, skill:'Nhân vật của người bình luận — skill riêng do chính họ nghĩ ra (xem FAN_SKILLS).' },
     yuki: { key:'yuki', defaultName:'Yuki - The Round One', emoji:'🦭', color:'#90caf9', hp:1000, speed:5, size:48, skill:'Hải cẩu tròn béo, KHÔNG có đòn đánh nào. Có đúng 2 chiêu. (1) VA ĐẬP: chạm vào ai là gây 50 sát thương, lúc nào cũng vậy. (2) PHẢN ĐÒN: mọi đòn đánh trúng nó gom thành 40% sát thương PHẢN, nhưng dame đó không nổ ngay mà bay theo nó — húc trúng ai mới giao tận nơi, bay hết đà không chạm được ai thì mất trắng. Trong lúc đang bay nó cứng người hơn, chịu ít hơn 25% sát thương. Cú đánh đồng thời hất chính nó bay VĂNG RA XA kẻ vừa đánh như quả bóng bi-a — đòn càng nặng bay càng nhanh và càng lâu — rồi nó cứ thế nảy tưng tưng dội hết tường này sang tường khác, đường bay hoàn toàn tuỳ vào góc dội chứ nó KHÔNG tự lái về phía ai. Ai xui nằm đúng đường nảy thì ăn trọn. Cú va đập SAU KHI đã dội tường mới hất văng được đối thủ, và mỗi lần hất văng thì từ chính con địch đó BẮN RA 1 con cá bay vòng cung rồi nằm lại — Yuki nhặt cá thì hồi 50 máu. Đòn càng nặng thì nó bay càng xa và rung như thạch càng dữ.' },
     finedog: { key:'finedog', defaultName:'This Is Fine Dog', emoji:'🐶', color:'#ff8a3d', hp:1000, speed:5, size:45, skill:'Vào trận là ngồi YÊN MỘT CHỖ, không đánh ai, không di chuyển. Vào trận 2s đầu sàn còn sạch, sau đó con chó thắp 4 ĐỐM LỬA (tránh chỗ meme đứng), rồi cứ 5s lại bén thêm 2 đốm mới ở chỗ ngẫu nhiên; đốm nào cũng tự lớn dần theo thời gian nó đã cháy, nên đốm vào sau luôn nhỏ hơn đốm vào trước. Mọi meme VÀ mọi quân triệu hồi trên sàn mất 10 máu mỗi 0.5s, NHÂN ĐÔI mỗi nấc (10 → 20 → 40 → 80...). Chính Fine Dog cũng bị cháy nhưng chỉ chịu 1/3. Mỗi lần lửa lớn thêm, nó nhấp 2 hớp nước và lẩm bẩm THIS IS FINE.' },
-    gigachad: { key:'gigachad', defaultName:'Gigachad', emoji:'🗿', color:'#8899aa', hp:1000, speed:5, size:51.75, skill:'Húc cận chiến 75 dmg. Mỗi lần bị đánh trúng bởi đối thủ (không tính nhịp cháy/độc): Gigachad +3% size VÀ +3% dame (cộng dồn không giới hạn), đối thủ vừa đánh -3% size. Khi size vượt quá 150% size gốc: -35% sát thương nhận từ MỌI nguồn, miễn nhiễm mọi hiệu ứng đẩy lùi, và chuyển sang ảnh Gigachad To (kèm hiệu ứng chuyển dạng nhẹ). Di chuyển chậm hơn 25% so với các meme khác. Cú đấm có hiệu ứng + tiếng y hệt Boxing Cat theo bậc dame (≥250 = đấm max); ở dạng to, mỗi cú đấm gây dame cả vùng quanh điểm đấm.' },
+    gigachad: { key:'gigachad', defaultName:'Gigachad', emoji:'🗿', color:'#8899aa', hp:1000, speed:5, size:51.75, skill:'Húc cận chiến 75 dmg. Mỗi lần bị đánh trúng bởi đối thủ (không tính nhịp cháy/độc): Gigachad +2% size VÀ +2% dame (cộng dồn không giới hạn), đối thủ vừa đánh -2% size. Khi size vượt quá 150% size gốc: -35% sát thương nhận từ MỌI nguồn, miễn nhiễm mọi hiệu ứng đẩy lùi, và chuyển sang ảnh Gigachad To (kèm hiệu ứng chuyển dạng nhẹ). Di chuyển chậm hơn 25% so với các meme khác. Cú đấm có hiệu ứng + tiếng y hệt Boxing Cat theo bậc dame (≥250 = đấm max); ở dạng to, mỗi cú đấm gây dame cả vùng quanh điểm đấm.' },
     rickroll: { key:'rickroll', defaultName:'Rick Roll', emoji:'🕺', color:'#e8452a', hp:1000, speed:5, size:49.5, skill:'Cứ 4s thả 1 hộp quà ngẫu nhiên trên sàn (tối đa 5 hộp cùng lúc, Rick KHÔNG tự nhặt được hộp của nó). 25% là hộp buff thật (máu/dame/tốc như hộp 2vs2), 75% là hộp lừa: ai nhặt hiện \'YOU GOT RICK ROLLED\' rồi bị khoá tại chỗ nhảy theo nhạc 6.3s (đèn disco chiếu trên đầu, lắc qua lại, 50 sát thương mỗi giây). Rick cũng đứng nhảy theo suốt lúc đó nhưng KHÔNG mất máu.' },
     windguy: { key:'windguy', defaultName:'The Unknown Guy', emoji:'🌬️', color:'#b0bec5', hp:1000, speed:5, size:50.82, skill:'Không tự đánh — chỉ đi lại tự do trên sàn, mỗi lần có sự kiện thì lẩm bẩm \'must\'ve been the wind\'. Cứ 2.8s xảy ra 1 sự kiện ngẫu nhiên: 20% RỒNG bay ngang thiêu sàn (200 dmg trực tiếp + burn 20 dame/giây trong 3s cho địch, riêng The Guy chỉ dính phần burn); 55% VẬT LẠ rơi trúng mặt địch (130-195 dmg ngẫu nhiên, random nhiều loại vật — xoay tròn nhẹ lúc đáp xuống); 20% GÀ chạy vào nảy khắp sàn (45 dmg mỗi lần đụng phải, 30% là Chicken Jockey nhanh + mạnh hơn, đụng trúng The Guy thì chỉ đẩy lùi nhẹ chứ không mất máu); 5% LỐC XOÁY tích tụ giữa sàn rồi hút TOÀN BỘ meme (kể cả chính The Guy) vào tâm, xoay liên tục mất 100 dame/giây cho tới khi có người chết mới tan — nếu chính The Guy bị hút vào, hiện chữ \'It\'s actually the wind\' treo tới hết trận.' },
-    mechaniccat: { key:'mechaniccat', defaultName:'Mechanic Cat', emoji:'🔧', color:'#607d8b', hp:1000, speed:5, size:46, skill:'Vào trận có 1 hòm đồ thả dù. Mỗi lần CHẠM vùng hòm → lắp 1 bộ phận Gundam (chân → thân → tay → đầu). Đủ 4 lần thì phóng vào buồng lái, lái Gundam: gần chém kiếm laser 90, xa bắn laze xuyên 70. Giáp 600, vỡ giáp thì văng ra, 3s sau hòm mới rơi xuống.' },
+    mechaniccat: { key:'mechaniccat', defaultName:'Mechanic Cat', emoji:'🔧', color:'#607d8b', hp:1000, speed:5, size:46, skill:'Vào trận có 1 hòm đồ thả dù. Mỗi lần CHẠM vùng hòm → lắp 1 bộ phận Gundam (chân → thân → tay → đầu). Đủ 4 lần thì phóng vào buồng lái. Gundam có 500 máu + khiên bằng đúng máu còn lại của mèo (khiên đỡ trước). Gundam vỡ là NỔ TUNG, mèo chết theo. Mỗi trận ngẫu nhiên 1 trong 2 mẫu: GUNDAM BEAM (gần chém kiếm laser 90, xa bắn beam xuyên 70; mỗi phát thứ 3 tích 2s rồi bắn luồng beam to 105 + thiêu cháy) hoặc GUNDAM ĐỎ (chỉ dùng kiếm: địch trong tầm trung là chém, mỗi nhát phóng 1 kiếm khí bay xuyên 85).' },
     rubikcat: { key:'rubikcat', defaultName:'Rubik Cat', emoji:'🟨', color:'#fbc02d', hp:1000, speed:5, size:43, skill:'Cứ 2.5s xoay ngẫu nhiên 1 trong 6 mặt rubik, mỗi mặt 1 hiệu ứng riêng, vòng sóng lan ra trúng TẤT CẢ địch trong bán kính (trắng nổ dame lớn 150 không hồi máu, vàng gây choáng + dame không tăng tốc, đỏ nổ dame kèm cháy, lam làm chậm địch, lục đầu độc, tím hất văng + bắn liên tiếp 3 vòng sóng). Xoay trúng mặt ĐÃ có rồi thì tăng 15% tỉ lệ ra mặt CÒN THIẾU (cộng dồn, reset khi ra mặt mới). Đủ cả 6 mặt → hố đen rubik hút địch, thắng ngay lập tức.' },
     mewingcat: { key:'mewingcat', defaultName:'Mewing Cat - Never Skip Mewing Day', emoji:'😤', color:'#8d6e63', hp:1000, speed:5, size:45, skill:'Không cận chiến. Mỗi 1s đổi giữa dáng thường và 1 trong 4 tư thế mewing ngẫu nhiên. Mỗi lần mewing triệu hồi tượng đá (50HP) lao từ mép sàn vào tấn công địch gần nhất, va trúng vỡ tan gây 60 dmg. Bốc trúng tư thế nào thì sáng ô đó; sáng đủ CẢ 4 tư thế khác nhau mới reset thanh và số tượng mỗi lần triệu hồi +1.' },
     smartguy: { key:'smartguy', defaultName:'Smart Guy', emoji:'🤓', color:'#5c6bc0', hp:1000, speed:5, size:44, skill:'Không cận chiến. Chốt ngay 1 chỉ số IQ ngẫu nhiên (60-200) làm dame bắn thẳng vào địch, chỉ hiệu ứng quay số trên đầu kéo dài ~1.6s (rút ngắn dần theo tốc suy nghĩ) trước khi bắn. Tỉ lệ ra đúng 200 gốc 1%. <80 (LOW IQ): +5% tỉ lệ ra 200 lần sau (không còn tự làm chậm). 80-150 (AVERAGE IQ): không hiệu ứng. >150 (HIGH IQ): bản thân +20% tốc suy nghĩ (roll nhanh hơn) + tỉ lệ roll ra đúng 200 lần sau +2%, cả 2 cộng dồn không giới hạn tới khi ra đúng 200 thì reset. Roll đúng 200: dame x2 = 400 + pháo hoa jackpot. Roll đúng 60: tự dame 60 + tự choáng 3s.' },
@@ -6908,7 +6908,7 @@ function _esgDrawWaves(){
 // đứng trong chảo bị lắc tới lắc lui theo quán tính của chảo, trong chảo có đồ ăn và lửa cháy, nấu trong 2.5s
 // rồi ăn 300 dame.
 // ⚠️ chữ LET HIM COOK KHÔNG đẩy qua floatTexts: loop() xoá sạch mọi floatText không phải số dame mỗi frame.
-const CN_THROW_CD=78;          // 1.3s / 1 chảo (1.1s → chậm thêm 0.2s)
+const CN_THROW_CD=92;          // ~1.53s / 1 chảo (anh giảm tốc ra đòn 15% 11/11: 78/0.85; trước 1.3s)
 const CN_PAN_SPD=7.5, CN_PAN_DMG=60, CN_UNLOCK_HITS=8;
 const CN_COOK_T=150;           // 2.5s nấu
 const CN_COOK_DMG=300;
@@ -10753,7 +10753,16 @@ const GD_IMG={}; for(const k of ['legL','legR','torso','armL','armR','head']){ G
 const GD_META={"legL":{"x":23,"y":560,"w":368,"h":716,"px":255,"py":600},"legR":{"x":365,"y":560,"w":241,"h":726,"px":440,"py":600},"torso":{"x":150,"y":140,"w":366,"h":566,"px":330,"py":560},"armL":{"x":10,"y":72,"w":247,"h":572,"px":190,"py":235},"armR":{"x":440,"y":89,"w":250,"h":532,"px":468,"py":235},"head":{"x":215,"y":14,"w":241,"h":235,"px":318,"py":238}};
 const GD_STAGES=[['legL','legR'],['torso'],['armL','armR'],['head']];   // thứ tự lắp: chân → thân → tay → đầu
 const GD_IH=1294, GD_CX=350, GD_ARMOR=600, GD_SLASH=90, GD_LASER=70, GD_SLASH_CD=55, GD_RIFLE_CD=105, GD_WORK=54, GD_FLY=30, GD_BOARD=50;
-const GD_FIST_R=[565,600], GD_FIST_L=[85,600], GD_MUZZLE=[565,880], GD_CHEST=[330,300];
+const GD_FIST_R=[565,600], GD_FIST_L=[85,600], GD_MUZZLE=[565,912], GD_CHEST=[330,300];   // đầu nòng = đúng mút súng vẽ ở _gdRifle (fy+312)
+// 🤖 (anh dặn 11/11) Gundam: 500 máu + SHIELD = máu còn lại của Mechanic Cat (đỡ trước) · Gundam vỡ → NỔ TUNG, cả 2 cùng chết, không lắp lại
+//    · ảnh Gundam quay mặt TRÁI (lật khi địch ở bên phải) · 2 MẪU, ngẫu nhiên mỗi trận:
+//      mẫu 1 = súng beam (bắn chuẩn từ đầu nòng; mỗi phát thứ 3 tích 2s → luồng beam to +50% dame + cháy)
+//      mẫu 2 = Gundam đỏ cầm kiếm (ảnh anh gửi): chỉ chém, mỗi nhát phóng KIẾM KHÍ bay tầm trung
+const GD_HP=500, GD_CHARGE_T=120, GD_BEAM_T=16, GD_BIG_T=34, GD_BIG_MUL=1.5;
+const GD2_IMG={}; for(const k of ['idle','wind','slash']){ const im=new Image(); im.src='assets/img/mechaniccat/gundam2/GD2_'+k+'.webp'; GD2_IMG[k]=im; }
+const GD2_QI=85, GD2_CD=66, GD2_WIND=16, GD2_SWING=14, GD2_QI_SPD=8.5, GD2_RANGE_K=1.9;
+const GD2_BANDS=[0.42,0.68,0.84,1];   // mẫu 2 lắp dần TỪ DƯỚI LÊN: chân → thân → tay → đầu (phần ảnh hiện ra)
+let gdQi=[], gdBooms=[];
 const _gdH=f=>(f._gdBase||f.size)*3.7;   // chiều cao Gundam
 function _gdSite(f){ const g=f._gd; return g&&g.crate?{x:g.crate.x, y:g.crate.y-6}:null; }
 // toạ độ ảnh → thế giới (có lật + nhún thân + xoay khớp tay)
@@ -10761,44 +10770,85 @@ function _gdMap(x,feetY,H,flip,ix,iy){ const k=H/GD_IH; return [x+(ix-GD_CX)*k*(
 function _gdRot(ix,iy,px,py,r){ const c=Math.cos(r), s=Math.sin(r), dx=ix-px, dy=iy-py; return [px+dx*c-dy*s, py+dx*s+dy*c]; }
 function _gdNewCrate(f){ const x=W*(0.2+0.6*Math.random()), y=H*(0.55+0.3*Math.random()); f._gd.crate={x,y,drop:78,was:false}; }
 function _gdTick(f){
-  const g=f._gd||(f._gd={stage:0, on:false, armor:GD_ARMOR, work:0, fly:null, board:0, respawn:0, slashT:0, slashCD:0, rifleCD:60, aimT:0, beams:[], walk:0, lastX:f.x, lastY:f.y});
+  const g=f._gd||(f._gd={stage:0, on:false, armor:GD_HP, work:0, fly:null, board:0, respawn:0, slashT:0, slashCD:0, rifleCD:60, aimT:0, beams:[], walk:0, lastX:f.x, lastY:f.y, model:Math.random()<0.5?1:2, shots:0, charge:0, sw:0, qcd:30});
+  if(g.dead) return;   // 💥 Gundam đã nổ — hết
   if(!g.crate && !g.on && g.respawn<=0) _gdNewCrate(f);
   if(g.respawn>0){ g.respawn--; if(g.respawn<=0) _gdNewCrate(f); }
   const c=g.crate; if(c && c.drop>0) c.drop--;
   if(g.fly){ g.fly.t++; if(g.fly.t===GD_FLY){ g.stage++; addShake(6,9); playSample('mc_sfx_craft',0.9); spawnParticles(g.fly.tx,g.fly.ty,'#ffd54f',14); g.flash=tick;   // 🔩 khớp vào: loé + rung
-      if(g.stage>=4){ g.board=GD_BOARD; } } if(g.fly.t>=GD_FLY+6) g.fly=null; }
+      if(g.stage>=4 && !g.on){ g.board=GD_BOARD; } } if(g.fly.t>=GD_FLY+6) g.fly=null; }
   if(g.work>0){ g.work--; f.vx=f.vy=0; if(g.work%6===0) spawnParticles(f.x+(Math.random()-0.5)*f.size,f.y,'#ffcc80',3); }
   if(g.board>0){ g.board--; f.vx=f.vy=0; if(g.board===0) _gdActivate(f); }
   // chạm vùng hòm (đi vào lại từ ngoài) → lắp 1 bộ phận
   if(c && c.drop<=0 && !g.on && g.board<=0 && !g.fly && g.work<=0){ const inR=Math.hypot(f.x-c.x,f.y-c.y)<f.size+56;
     if(inR && !c.was && g.stage<4){ g.work=GD_WORK; const st=_gdSite(f), H=_gdH(f), parts=GD_STAGES[g.stage], m=GD_META[parts[0]];
-      const [tx,ty]=_gdMap(st.x,st.y,H,false,m.x+m.w/2,m.y+m.h/2); g.fly={t:0,parts,tx,ty}; playSample('mc_sfx_craft',0.7); }
+      let [tx,ty]=_gdMap(st.x,st.y,H,false,m.x+m.w/2,m.y+m.h/2); if(g.model===2){ const lo=g.stage?GD2_BANDS[g.stage-1]:0, hi=GD2_BANDS[g.stage]; tx=st.x; ty=st.y-H*(lo+hi)/2; }
+      g.fly={t:0,parts,tx,ty}; playSample('mc_sfx_craft',0.7); }
     c.was=inR; }
   if(!g.on) return;
   // ── Gundam đang hoạt động ──
   g.walk+=Math.hypot(f.x-g.lastX,f.y-g.lastY); g.lastX=f.x; g.lastY=f.y;
   if(g.slashCD>0) g.slashCD--; if(g.rifleCD>0) g.rifleCD--;
   for(let i=g.beams.length-1;i>=0;i--){ if(++g.beams[i].t>14) g.beams.splice(i,1); }
-  const e=f.enemy; if(!e || e.dead || f._isHardCC()) { g.slashT=0; g.aimT=0; return; }
+  const e=f.enemy; if(!e || e.dead || f._isHardCC()) { g.slashT=0; g.aimT=0; g.charge=0; g.sw=0; return; }
   const d=Math.hypot(e.x-f.x,e.y-f.y), near=d<f.size+(e.size||20)+MELEE_REACH*2.2;
-  g.flip=e.x<f.x;
+  g.flip=e.x>f.x;   // ảnh Gundam nhìn sang TRÁI → địch bên phải mới lật (trước bị ngược)
+  if(g.model===2){ _gd2Tick(f,g,e); return; }
+  if(g.charge>0){ g.charge--; f.vx*=0.6; f.vy*=0.6; g.aimA=_gdAimAt(f,e);   // ⚡ tích 2s: đứng nhắm, cầu năng lượng lớn dần ở đầu nòng
+    if(g.charge===GD_CHARGE_T-1) playSample('ultimate_charge_2',0.8);
+    if(g.charge===0) _gdFire(f,true); return; }
   if(g.slashT>0){ g.slashT--; if(g.slashT===13){ for(const u of [...fighters.filter(o=>o.team!==f.team&&!o.dead), ..._summonFoes(f.team)]){ if(Math.hypot(u.x-f.x,u.y-f.y)<f.size+(u.size||20)+MELEE_REACH*3){ u.takeDamage(GD_SLASH,f,false,false,'','Blood Batch 1_Sprite'); } }
       playSample('lightsaber_whoosh_01',0.9); addShake(5,8); } return; }
-  if(g.aimT>0){ g.aimT--; g.aimA=Math.atan2(e.y-f.y+_gdH(f)*0.15,e.x-f.x); if(g.aimT===0) _gdFire(f); return; }
+  if(g.aimT>0){ g.aimT--; g.aimA=_gdAimAt(f,e); if(g.aimT===0) _gdFire(f,false); return; }
   if(near && g.slashCD<=0){ g.slashT=24; g.slashCD=GD_SLASH_CD; playSample('lightsaber_on',0.7); }
-  else if(!near && g.rifleCD<=0){ g.aimT=14; g.rifleCD=GD_RIFLE_CD; g.aimA=Math.atan2(e.y-f.y,e.x-f.x); }
+  else if(!near && g.rifleCD<=0){ g.rifleCD=GD_RIFLE_CD; g.aimA=_gdAimAt(f,e); g.shots++;
+    if(g.shots%3===0) g.charge=GD_CHARGE_T; else g.aimT=14; }   // mỗi phát THỨ 3: tích 2s rồi bắn luồng to
 }
-function _gdArmRPose(f,g){ if(!(g.aimT>0) && !g.beams.length) return 0; const H=_gdH(f), a=g.aimA||0, fl=g.flip, la=Math.atan2(Math.sin(a),Math.cos(a)*(fl?-1:1));   // giơ súng nhắm thẳng vào địch
-  return Math.max(-2.7,Math.min(0.4,la-Math.PI/2)); }
+// nhắm từ VAI cầm súng (không phải từ tâm) → giơ súng đúng hướng địch
+function _gdAimAt(f,e){ const g=f._gd, H=_gdH(f), M=GD_META.armR, [sx,sy]=_gdMap(f.x,f.y+f.size,H,g.flip,M.px,M.py); return Math.atan2(e.y-sy,e.x-sx); }
+// ⚔️ MẪU 2 — Gundam đỏ cầm kiếm: địch trong tầm trung → giương kiếm (GD2_WIND) → chém, phóng kiếm khí
+function _gd2Tick(f,g,e){ if(g.qcd>0) g.qcd--;
+  const H=_gdH(f), d=Math.hypot(e.x-f.x,e.y-f.y);
+  if(g.sw>0){ g.sw--; f.vx*=0.4; f.vy*=0.4; if(g.sw===GD2_SWING) _gd2Qi(f,g,e); return; }
+  if(d<H*GD2_RANGE_K && g.qcd<=0){ g.sw=GD2_WIND+GD2_SWING; g.qcd=GD2_CD; g.swA=Math.atan2(e.y-f.y,e.x-f.x); playSample('se_whoosh_fast',0.5); } }
+function _gd2Qi(f,g,e){ const H=_gdH(f), feet=f.y+f.size, a=Math.atan2(e.y-(feet-H*0.5),e.x-f.x), sx=f.x+Math.cos(a)*H*0.32, sy=feet-H*0.5+Math.sin(a)*H*0.2;
+  gdQi.push({x:sx,y:sy,a,t:0,T:Math.round(H*GD2_RANGE_K*1.25/GD2_QI_SPD),team:f.team,owner:f,hit:new Set(),r:H*0.3,dmg:GD2_QI,tr:[]});
+  playSample('se_slash',0.85); addShake(4,6); }
+function _gdQiTick(){ for(let i=gdQi.length-1;i>=0;i--){ const q=gdQi[i], f=q.owner; q.t++;
+    if(q.t>=q.T || !f || f.dead){ gdQi.splice(i,1); continue; }
+    q.tr.unshift(q.x,q.y); if(q.tr.length>12) q.tr.length=12;
+    q.x+=Math.cos(q.a)*GD2_QI_SPD; q.y+=Math.sin(q.a)*GD2_QI_SPD;
+    for(const u of [...fighters.filter(o=>o.team!==q.team && !o.dead), ..._summonFoes(q.team)]){ if(q.hit.has(u)) continue;
+      if(Math.hypot(u.x-q.x,u.y-q.y)<q.r*0.65+(u.size||20)){ q.hit.add(u); u.takeDamage(q.dmg,f,false,false,'','Blood Batch 1_Sprite'); playSample('hit_heavy',0.45);
+        gdBooms.push({k:'cut',x:u.x,y:u.y,a:q.a,t:0,T:16}); } } } }
+function _gdArmRPose(f,g){ if(!(g.aimT>0) && !(g.charge>0) && !g.beams.length && !g.fireNow) return 0; const a=g.aimA||0, fl=g.flip, la=Math.atan2(Math.sin(a),Math.cos(a)*(fl?-1:1));   // giơ súng nhắm thẳng vào địch
+  let r=la-Math.PI/2; while(r>Math.PI) r-=Math.PI*2; while(r<=-Math.PI) r+=Math.PI*2;   // ảnh nhìn TRÁI → nhắm về trước = xoay dương
+  return Math.max(-0.4,Math.min(2.9,r)); }
 function _gdMuzzle(f){ const g=f._gd, H=_gdH(f), feet=f.y+f.size, rr=_gdArmRPose(f,g), M=GD_META.armR, p=_gdRot(GD_MUZZLE[0],GD_MUZZLE[1],M.px,M.py,rr); return _gdMap(f.x,feet,H,g.flip,p[0],p[1]); }
-function _gdFire(f){ const g=f._gd, [mx,my]=_gdMuzzle(f), a=g.aimA, L=Math.hypot(W,H)*1.2, ex=mx+Math.cos(a)*L, ey=my+Math.sin(a)*L;
-  g.beams.push({x0:mx,y0:my,x1:ex,y1:ey,t:0}); playSample('mc_sfx_laser',1.0); addShake(4,6);
+// hướng NÒNG SÚNG thật (trục súng vẽ dọc theo tay) — tia bắn ra thẳng từ nòng theo đúng hướng này
+function _gdBarrelA(f){ const g=f._gd, H=_gdH(f), feet=f.y+f.size, rr=_gdArmRPose(f,g), M=GD_META.armR, p0=_gdRot(GD_FIST_R[0],GD_FIST_R[1],M.px,M.py,rr), p1=_gdRot(GD_MUZZLE[0],GD_MUZZLE[1],M.px,M.py,rr);
+  const a=_gdMap(f.x,feet,H,g.flip,p0[0],p0[1]), b=_gdMap(f.x,feet,H,g.flip,p1[0],p1[1]); return Math.atan2(b[1]-a[1],b[0]-a[0]); }
+function _gdFire(f,big){ const g=f._gd; g.fireNow=true; const [mx,my]=_gdMuzzle(f), a=_gdBarrelA(f); g.fireNow=false; const L=Math.hypot(W,H)*1.2, ex=mx+Math.cos(a)*L, ey=my+Math.sin(a)*L, hits=[];
+  const dmg=big?Math.round(GD_LASER*GD_BIG_MUL):GD_LASER, wid=big?30:12;
   for(const u of [...fighters.filter(o=>o.team!==f.team&&!o.dead), ..._summonFoes(f.team)]){ const vx=ex-mx, vy=ey-my, l2=vx*vx+vy*vy, t=Math.max(0,Math.min(1,((u.x-mx)*vx+(u.y-my)*vy)/l2)), dx=mx+vx*t-u.x, dy=my+vy*t-u.y;
-    if(Math.hypot(dx,dy)<(u.size||20)+12) u.takeDamage(GD_LASER,f); } }
-function _gdActivate(f){ const g=f._gd, st=_gdSite(f); f._gdBase=f.size; f.size=f._gdBase*1.55; g.on=true; g.armor=GD_ARMOR; f.x=st.x; f.y=st.y-f.size; f.vx=f.vy=0; g.lastX=f.x; g.lastY=f.y; g.crate=null; g.boom=tick;
+    if(Math.hypot(dx,dy)<(u.size||20)+wid){ u.takeDamage(dmg,f); hits.push([mx+vx*t,my+vy*t]);
+      if(big && fighters.includes(u) && !u.dead){ u.burn=Math.max(u.burn||0,180); u._burnDmg=10; u._burnSrc=f; } } }   // 🔥 luồng to: thiêu cháy
+  g.beams.push({x0:mx,y0:my,x1:ex,y1:ey,a,t:0,T:big?GD_BIG_T:GD_BEAM_T,big:!!big,hits});
+  playSample('mc_sfx_laser',big?1.0:0.85); if(big){ playSample('creeper_explosion',0.35); addShake(10,16); } else addShake(4,6); }
+function _gdActivate(f){ const g=f._gd, st=_gdSite(f); if(!st || g.on || g.dead) return; f._gdBase=f.size; f.size=f._gdBase*1.55; g.on=true; g.armor=GD_HP; g.shield0=Math.max(1,f.hp-1); f.x=st.x; f.y=st.y-f.size; f.vx=f.vy=0; g.lastX=f.x; g.lastY=f.y; g.crate=null; g.boom=tick;
   playSample('ultimate_charge_2',1.0); addShake(14,20); }
-function _gdArmorHit(f,dmg,attacker){ const g=f._gd; g.armor-=dmg; g.hitT=tick; floatTexts.push(_ftFollow({x:f.x,y:f.y,text:''+dmg,color:'#80deea',life:44,isDmg:true},f));
-  if(g.armor<=0) _gdEject(f); }
+function _gdArmorHit(f,dmg,attacker){ const g=f._gd; g.hitT=tick; dmg=Math.round(dmg); let rest=dmg; const sh=Math.max(0,f.hp-1);
+  if(sh>0){ const t=Math.min(sh,rest); f.hp-=t; rest-=t; }   // 🛡️ shield = máu còn lại của mèo (máu mèo giữ ≥1 tới khi Gundam nổ)
+  if(rest>0) g.armor-=rest;
+  floatTexts.push(_ftFollow({x:f.x,y:f.y,text:''+dmg,color:sh>0?'#80deea':'#ffffff',life:44,isDmg:true},f));
+  if(g.armor<=0) _gdExplode(f,attacker); }
+// 💥 Gundam vỡ = NỔ TUNG (không vỡ mảnh) · cả mèo lẫn Gundam cùng chết, không lắp lại
+function _gdExplode(f,attacker){ const g=f._gd, H=_gdH(f), feet=f.y+f.size;
+  gdBooms.push({k:'boom',x:f.x,y:feet-H*0.45,feet,H,t:0,T:110,sd:(f.x*7.1+f.y*3.3)|0});
+  g.on=false; g.dead=true; g.beams=[]; g.charge=0; g.crate=null; f._gdBoom=true;
+  f.size=f._gdBase||f.size; f.y=feet-f.size; f.vx=f.vy=0;
+  addShake(18,30); playSample('creeper_explosion',1.0); playSample('death_break',0.6);
+  _forceKill(f, attacker && fighters.includes(attacker) ? attacker : (typeof _duoResolveAttacker==='function' ? _duoResolveAttacker(attacker) : null)); }
 function _gdEject(f){ const g=f._gd, H=_gdH(f), feet=f.y+f.size;
   g.debris=[]; for(const k of ['legL','legR','torso','armL','armR','head']){ const m=GD_META[k], [x,y]=_gdMap(f.x,feet,H,g.flip,m.x+m.w/2,m.y+m.h/2); g.debris.push({k,x,y,vx:(Math.random()-0.5)*8,vy:-4-Math.random()*5,r:0,vr:(Math.random()-0.5)*0.3,t:0,fl:g.flip,H}); }
   g.on=false; g.stage=0; g.armor=GD_ARMOR; g.respawn=180; g.beams=[]; g.slashT=0; g.aimT=0; f.size=f._gdBase||f.size; f.y=feet-f.size; f.vy=-6;
@@ -10820,7 +10870,7 @@ function _gdSaber(on){ const [fx,fy]=GD_FIST_L;   // kiếm laser: chuôi + lư�
   if(on>0){ ctx.globalCompositeOperation='lighter'; for(const [w,c] of [[60,`rgba(255,60,170,${0.25*on})`],[34,`rgba(255,110,200,${0.6*on})`],[14,`rgba(255,240,250,${on})`]]){ ctx.fillStyle=c; ctx.beginPath(); ctx.roundRect(fx-w/2,fy+60,w,560*on,w/2); ctx.fill(); } }
   ctx.restore(); }
 function _gdPose(f,g){ const ph=g.walk*0.045, mv=Math.min(1,Math.hypot(f.vx,f.vy)/1.2), P={legL:Math.sin(ph)*0.16*mv, legR:-Math.sin(ph)*0.16*mv, bob:Math.abs(Math.sin(ph))*-14*mv, head:0, armL:-Math.sin(ph)*0.08*mv, armR:Math.sin(ph)*0.08*mv, saber:0};
-  if(g.slashT>0){ const t=24-g.slashT; if(t<9){ const u=t/9; P.armL=Math.PI*0.95*u*u; P.saber=Math.min(1,u*1.6); } else if(t<15){ const u=(t-9)/6; P.armL=Math.PI*(0.95+0.85*u); P.saber=1; } else { const u=(t-15)/9; P.armL=Math.PI*(1.8+0.2*u); P.saber=1-u; } }   /* đi tiếp vòng xuống về chỗ cũ, không vung ngược */
+  if(g.slashT>0){ const t=24-g.slashT; if(t<9){ const u=t/9; P.armL=-Math.PI*0.95*u*u; P.saber=Math.min(1,u*1.6); } else if(t<15){ const u=(t-9)/6; P.armL=-Math.PI*(0.95+0.85*u); P.saber=1; } else { const u=(t-15)/9; P.armL=-Math.PI*(1.8+0.2*u); P.saber=1-u; } }   // vòng qua đầu rồi bổ xuống PHÍA TRƯỚC (ảnh nhìn trái)   /* đi tiếp vòng xuống về chỗ cũ, không vung ngược */
   const rr=_gdArmRPose(f,g); if(rr) P.armR=rr; return P; }
 // Gundam đang hoạt động — thay hẳn hình con mèo
 function _gdDrawMech(f){ const g=f._gd, H=_gdH(f), feet=f.y+f.size, P=_gdPose(f,g), hitK=g.hitT!=null && tick-g.hitT<6;
@@ -10828,30 +10878,101 @@ function _gdDrawMech(f){ const g=f._gd, H=_gdH(f), feet=f.y+f.size, P=_gdPose(f,
   if(g.boom!=null && tick-g.boom<40){ const u=(tick-g.boom)/40; ctx.save(); ctx.globalCompositeOperation='lighter';   // 🌟 kích hoạt: tia sáng toả + vòng sóng
     for(let i=0;i<14;i++){ const a=i/14*Math.PI*2+u; ctx.fillStyle=`rgba(255,240,180,${0.35*(1-u)})`; ctx.beginPath(); ctx.moveTo(f.x,feet-H*0.55); ctx.lineTo(f.x+Math.cos(a-0.06)*H*1.4,feet-H*0.55+Math.sin(a-0.06)*H*1.4); ctx.lineTo(f.x+Math.cos(a+0.06)*H*1.4,feet-H*0.55+Math.sin(a+0.06)*H*1.4); ctx.closePath(); ctx.fill(); }
     ctx.strokeStyle=`rgba(255,255,255,${1-u})`; ctx.lineWidth=6*(1-u); ctx.beginPath(); ctx.ellipse(f.x,feet,H*u*1.2,H*u*0.3,0,0,Math.PI*2); ctx.stroke(); ctx.restore(); }
+  if(g.model===2){ _gd2DrawBody(f,g,H,feet,hitK); _gdDrawBars(f,g,H,feet); return; }
+  if(g.charge>0) _gdDrawCharge(f,g);
   if(hitK){ ctx.save(); ctx.filter='brightness(1.8)'; }
   _gdDrawRig(f.x,feet,H,g.flip,P,null,()=>{ // 👁️ mắt xanh lá loé nhẹ
     const ga=0.55+0.45*Math.sin(tick*0.2); ctx.save(); ctx.translate(0,P.bob); ctx.globalCompositeOperation='lighter'; const gr=ctx.createRadialGradient(318,80,0,318,80,46); gr.addColorStop(0,`rgba(140,255,160,${ga})`); gr.addColorStop(1,'rgba(60,255,120,0)'); ctx.fillStyle=gr; ctx.beginPath(); ctx.arc(318,80,46,0,Math.PI*2); ctx.fill(); ctx.restore(); });
   if(hitK){ ctx.filter='none'; ctx.restore(); }
   // vệt chém hồng
-  if(g.slashT>0 && g.slashT<12){ const u=1-g.slashT/12, d=g.flip?-1:1; ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.strokeStyle=`rgba(255,120,210,${0.8*(1-u)})`; ctx.lineWidth=10*(1-u)+2; ctx.lineCap='round';
+  if(g.slashT>0 && g.slashT<12){ const u=1-g.slashT/12, d=g.flip?1:-1; ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.strokeStyle=`rgba(255,120,210,${0.8*(1-u)})`; ctx.lineWidth=10*(1-u)+2; ctx.lineCap='round';
     ctx.beginPath(); ctx.arc(f.x,feet-H*0.55,H*0.55,d>0?-1.9:Math.PI+1.9-1.6,d>0?-0.3:Math.PI+0.3); ctx.stroke(); ctx.restore(); }
-  // tia laze xanh
-  for(const b of g.beams){ const u=b.t/14; ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round';
-    for(const [w,c] of [[26,`rgba(60,255,140,${0.25*(1-u)})`],[12,`rgba(120,255,180,${0.7*(1-u)})`],[4,`rgba(240,255,245,${1-u})`]]){ ctx.strokeStyle=c; ctx.lineWidth=w; ctx.beginPath(); ctx.moveTo(b.x0,b.y0); ctx.lineTo(b.x1,b.y1); ctx.stroke(); }
-    const gm=ctx.createRadialGradient(b.x0,b.y0,0,b.x0,b.y0,30); gm.addColorStop(0,`rgba(220,255,230,${1-u})`); gm.addColorStop(1,'rgba(60,255,140,0)'); ctx.fillStyle=gm; ctx.beginPath(); ctx.arc(b.x0,b.y0,30,0,Math.PI*2); ctx.fill(); ctx.restore(); }
+  for(const b of g.beams) _gdDrawBeam(b);
   if(g.aimT>0){ const [mx,my]=_gdMuzzle(f), u=1-g.aimT/14; ctx.save(); ctx.globalCompositeOperation='lighter'; const gm=ctx.createRadialGradient(mx,my,0,mx,my,10+16*u); gm.addColorStop(0,'rgba(220,255,230,0.9)'); gm.addColorStop(1,'rgba(60,255,140,0)'); ctx.fillStyle=gm; ctx.beginPath(); ctx.arc(mx,my,10+16*u,0,Math.PI*2); ctx.fill(); ctx.restore(); }   // nạp sáng ở nòng
-  // thanh giáp (xanh) + máu mèo
-  const bw=H*0.4, by=feet-H-14; ctx.save(); ctx.fillStyle='rgba(0,0,0,0.55)'; ctx.fillRect(f.x-bw/2-1,by-1,bw+2,7); ctx.fillStyle='#29b6f6'; ctx.fillRect(f.x-bw/2,by,bw*Math.max(0,g.armor)/GD_ARMOR,5);
-  ctx.fillStyle='rgba(0,0,0,0.55)'; ctx.fillRect(f.x-bw/2-1,by+7,bw+2,6); ctx.fillStyle='#66bb6a'; ctx.fillRect(f.x-bw/2,by+8,bw*Math.max(0,f.hp)/f.maxHp,4); ctx.restore(); }
-// hòm đồ + Gundam đang lắp dở + bộ phận đang bay + mảnh vỡ (vẽ DƯỚI các meme)
+  if(g.charge>0) _gdDrawChargeOrb(f,g);
+  _gdDrawBars(f,g,H,feet); }
+// thanh SHIELD (xanh lơ = máu còn lại của mèo) + thanh MÁU Gundam (500)
+function _gdDrawBars(f,g,H,feet){ const bw=H*0.4, by=feet-H-16; ctx.save();
+  ctx.fillStyle='rgba(0,0,0,0.55)'; ctx.fillRect(f.x-bw/2-1,by-1,bw+2,7); ctx.fillStyle='#4fc3f7'; ctx.fillRect(f.x-bw/2,by,bw*Math.max(0,f.hp-1)/(g.shield0||1),5);
+  ctx.fillStyle='rgba(0,0,0,0.55)'; ctx.fillRect(f.x-bw/2-1,by+7,bw+2,7); ctx.fillStyle=g.armor>GD_HP*0.3?'#e0e0e0':'#ff7043'; ctx.fillRect(f.x-bw/2,by+8,bw*Math.max(0,g.armor)/GD_HP,5); ctx.restore(); }
+// ✨ tia beam: lớp hào quang + lõi trắng, phóng dài ra từ đầu nòng trong 3 khung đầu, loé ở nòng, chớp sáng chỗ trúng · luồng to: dày gấp 2.5, vòng năng lượng chạy dọc tia
+function _gdDrawBeam(b){ const u=b.t/b.T, fade=u<0.2?1:1-(u-0.2)/0.8, grow=Math.min(1,(b.t+1)/3), w0=(b.big?44:17)*(1+0.1*Math.sin(tick*1.3))*(b.big?1:0.7+0.3*fade), L=Math.hypot(b.x1-b.x0,b.y1-b.y0)*grow, ca=Math.cos(b.a), sa=Math.sin(b.a), ex=b.x0+ca*L, ey=b.y0+sa*L;
+  ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round';
+  const col=b.big?['80,255,150','150,255,190','235,255,240']:['40,240,140','120,255,180','235,255,240'];
+  for(const [w,c,a] of [[w0*2.4,col[0],0.16],[w0*1.4,col[0],0.32],[w0*0.75,col[1],0.75],[w0*0.32,col[2],1]]){ ctx.strokeStyle=`rgba(${c},${a*fade})`; ctx.lineWidth=w; ctx.beginPath(); ctx.moveTo(b.x0,b.y0); ctx.lineTo(ex,ey); ctx.stroke(); }
+  if(b.big){ for(let k=0;k<9;k++){ const d=((tick*14+k*90)%Math.max(1,L)), x=b.x0+ca*d, y=b.y0+sa*d; ctx.strokeStyle=`rgba(200,255,220,${0.55*fade})`; ctx.lineWidth=3; ctx.beginPath(); ctx.ellipse(x,y,w0*0.18,w0*0.75,b.a,0,Math.PI*2); ctx.stroke(); } }   // vòng năng lượng chạy dọc tia
+  const mr=w0*(b.big?2.2:1.9)*fade, gm=ctx.createRadialGradient(b.x0,b.y0,0,b.x0,b.y0,mr); gm.addColorStop(0,`rgba(255,255,255,${fade})`); gm.addColorStop(0.35,`rgba(${col[1]},${0.8*fade})`); gm.addColorStop(1,`rgba(${col[0]},0)`); ctx.fillStyle=gm; ctx.beginPath(); ctx.arc(b.x0,b.y0,mr,0,Math.PI*2); ctx.fill();   // loé ở nòng
+  ctx.fillStyle=`rgba(255,255,255,${0.9*fade})`; for(const [dx,dy] of [[ca,sa],[-sa,ca]]){ const l=mr*1.4, t=w0*0.12; ctx.beginPath(); ctx.moveTo(b.x0-dx*l,b.y0-dy*l); ctx.lineTo(b.x0+dy*t,b.y0-dx*t); ctx.lineTo(b.x0+dx*l,b.y0+dy*l); ctx.lineTo(b.x0-dy*t,b.y0+dx*t); ctx.closePath(); ctx.fill(); }   // sao 4 cánh
+  for(const [hx,hy] of (b.hits||[])){ if(b.t>10) continue; const r=w0*(1.6+b.t*0.25), hg=ctx.createRadialGradient(hx,hy,0,hx,hy,r); hg.addColorStop(0,`rgba(255,255,255,${1-b.t/10})`); hg.addColorStop(1,`rgba(${col[0]},0)`); ctx.fillStyle=hg; ctx.beginPath(); ctx.arc(hx,hy,r,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle=`rgba(${col[2]},${1-b.t/10})`; ctx.lineWidth=2; for(let k=0;k<8;k++){ const aa=b.a+Math.PI+(_skH(k*3.1+hx)-0.5)*2.4, l=r*(0.8+_skH(k*7.7+hy)*0.9); ctx.beginPath(); ctx.moveTo(hx,hy); ctx.lineTo(hx+Math.cos(aa)*l,hy+Math.sin(aa)*l); ctx.stroke(); } }   // tia lửa chỗ trúng
+  ctx.restore(); }
+// ⚡ đang tích 2s: hào quang xanh quanh thân + tia lửa xoắn hút về nòng
+function _gdDrawCharge(f,g){ const u=1-g.charge/GD_CHARGE_T, H=_gdH(f), feet=f.y+f.size; ctx.save(); ctx.globalCompositeOperation='lighter';
+  const gr=ctx.createRadialGradient(f.x,feet-H*0.5,H*0.1,f.x,feet-H*0.5,H*0.75); gr.addColorStop(0,`rgba(80,255,160,${0.12+0.18*u})`); gr.addColorStop(1,'rgba(40,200,120,0)'); ctx.fillStyle=gr; ctx.beginPath(); ctx.arc(f.x,feet-H*0.5,H*0.75,0,Math.PI*2); ctx.fill();
+  ctx.strokeStyle=`rgba(120,255,180,${0.25+0.4*u})`; ctx.lineWidth=2.5; ctx.beginPath(); ctx.ellipse(f.x,feet,H*(0.3+0.12*Math.sin(tick*0.3)),H*0.07,0,0,Math.PI*2); ctx.stroke(); ctx.restore(); }
+function _gdDrawChargeOrb(f,g){ const u=1-g.charge/GD_CHARGE_T, [mx,my]=_gdMuzzle(f), r=6+30*u*u+3*Math.sin(tick*0.9); ctx.save(); ctx.globalCompositeOperation='lighter';
+  for(let k=0;k<12;k++){ const ph=((tick*0.035+k/12)%1), a=k*2.4+tick*0.12, d=r*(1+3.2*(1-ph)); ctx.fillStyle=`rgba(170,255,200,${0.9*ph})`; ctx.beginPath(); ctx.arc(mx+Math.cos(a)*d,my+Math.sin(a)*d,1.5+2*ph,0,Math.PI*2); ctx.fill(); }   // hạt năng lượng xoắn hút vào
+  const gm=ctx.createRadialGradient(mx,my,0,mx,my,r*2.6); gm.addColorStop(0,'rgba(255,255,255,1)'); gm.addColorStop(0.3,'rgba(150,255,190,0.85)'); gm.addColorStop(1,'rgba(40,230,130,0)'); ctx.fillStyle=gm; ctx.beginPath(); ctx.arc(mx,my,r*2.6,0,Math.PI*2); ctx.fill();
+  if(window.VfxGL && VfxGL.boltSet && u>0.3 && (tick>>1)%3===0){ const a=_skH(tick)*Math.PI*2; VfxGL.boltSet(ctx,mx,my,a,r*2.4,1.6,tick,{core:'#ffffff',rim:'#5dffa0',glow:'rgba(80,255,150,0.3)'}); }   // sét lách tách quanh cầu
+  ctx.strokeStyle=`rgba(200,255,220,${0.4+0.5*u})`; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(mx,my,r*1.9+4*Math.sin(tick*0.5),0,Math.PI*2); ctx.stroke(); ctx.restore(); }
+// ⚔️ MẪU 2: Gundam đỏ — ảnh nguyên con (quay TRÁI), đổi ảnh giương kiếm / chém nếu có, nghiêng người theo nhát chém
+function _gd2Img(g){ const t=GD2_WIND+GD2_SWING-g.sw, ok=im=>im && im.complete && im.naturalWidth; if(g.sw>0){ const im=t<GD2_WIND?GD2_IMG.wind:GD2_IMG.slash; if(ok(im)) return im; } return ok(GD2_IMG.idle)?GD2_IMG.idle:null; }
+function _gd2DrawBody(f,g,H,feet,hitK){ const im=_gd2Img(g); if(!im) return; const face=g.flip?1:-1, t=GD2_WIND+GD2_SWING-g.sw, mv=Math.min(1,Math.hypot(f.vx,f.vy)/1.2), ph=g.walk*0.045;
+  let rot=0, dx=0; const custom=g.sw>0 && im!==GD2_IMG.idle;
+  if(g.sw>0 && !custom){ if(t<GD2_WIND){ const u=t/GD2_WIND; rot=-0.1*u*face; dx=-H*0.04*u*face; } else { const u=(t-GD2_WIND)/GD2_SWING; rot=(0.14-0.14*u)*face; dx=H*0.06*(1-u)*face; } }   // chưa có ảnh tư thế: ngả ra sau rồi lao tới
+  const h=H*(im===GD2_IMG.idle?1:1), w=h*im.naturalWidth/im.naturalHeight, bob=-Math.abs(Math.sin(ph))*H*0.015*mv;
+  const draw=(alpha,ox)=>{ ctx.save(); ctx.globalAlpha*=alpha; ctx.translate(f.x+dx+ox,feet+bob); ctx.rotate(rot); ctx.scale(g.flip?-1:1,1); ctx.drawImage(im,-w/2,-h,w,h); ctx.restore(); };
+  if(g.sw>0 && t>=GD2_WIND && t<GD2_WIND+6){ draw(0.25,-face*H*0.08); draw(0.4,-face*H*0.04); }   // vệt nhoè lúc vung
+  if(hitK){ ctx.save(); ctx.filter='brightness(1.8)'; } draw(1,0); if(hitK){ ctx.filter='none'; ctx.restore(); }
+  if(g.sw>0 && t>=GD2_WIND-2 && t<GD2_WIND+8){ const u=(t-GD2_WIND+2)/10, cy=feet-H*0.55, R=H*0.62; ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round';   // vệt chém đỏ trước mặt
+    const a0=face>0?-1.6:Math.PI+1.6, a1=face>0?1.1:Math.PI-1.1, aa=a0+(a1-a0)*Math.min(1,u*1.4);
+    for(const [lw,c] of [[16,'rgba(255,40,60,0.35)'],[7,'rgba(255,120,120,0.85)'],[2.5,'rgba(255,245,245,1)']]){ ctx.strokeStyle=c; ctx.lineWidth=lw*(1-u*0.6); ctx.beginPath(); ctx.arc(f.x,cy,R,Math.min(a0,aa),Math.max(a0,aa)); ctx.stroke(); }
+    ctx.restore(); } }
+// mẫu 2: vẽ 1 dải ngang của ảnh Gundam đỏ (lo..hi = phần chiều cao tính từ CHÂN), scan=true: vạch quét sáng ở mép trên
+function _gd2DrawBand(x,feet,H,lo,hi,al,scan){ const im=GD2_IMG.idle; if(!(im && im.naturalWidth)) return; const w=H*im.naturalWidth/im.naturalHeight;
+  ctx.save(); ctx.globalAlpha*=al; ctx.beginPath(); ctx.rect(x-w,feet-H*hi,w*2,H*(hi-lo)+1); ctx.clip(); ctx.drawImage(im,x-w/2,feet-H,w,H); ctx.restore();
+  if(scan){ const y=feet-H*hi; ctx.save(); ctx.globalCompositeOperation='lighter'; const g=ctx.createLinearGradient(0,y-6,0,y+6); g.addColorStop(0,'rgba(255,90,90,0)'); g.addColorStop(0.5,`rgba(255,200,180,${0.55+0.3*Math.sin(tick*0.3)})`); g.addColorStop(1,'rgba(255,90,90,0)'); ctx.fillStyle=g; ctx.fillRect(x-w*0.5,y-6,w,12); ctx.restore(); } }
+// 💥 lớp TRÊN meme: kiếm khí đang bay + vết cắt trúng + vụ nổ Gundam
+function _gdDrawTop(){
+  for(const q of gdQi){ const fade=Math.min(1,(q.T-q.t)/8), ca=Math.cos(q.a), sa=Math.sin(q.a), n=q.tr.length>>1;
+    for(let k=n-1;k>=0;k--){ const x=q.tr[k*2], y=q.tr[k*2+1]; _gdQiShape(x,y,q.a,q.r,0.22*(1-k/n)*fade); }   // dư ảnh phía sau
+    _gdQiShape(q.x,q.y,q.a,q.r,fade); }
+  for(let i=gdBooms.length-1;i>=0;i--){ const b=gdBooms[i]; b.t++; if(b.t>=b.T){ gdBooms.splice(i,1); continue; } const u=b.t/b.T;
+    if(b.k==='cut'){ ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.translate(b.x,b.y); ctx.rotate(b.a+Math.PI/2); const l=44*(0.6+u), a=1-u;
+      ctx.strokeStyle=`rgba(255,80,90,${0.6*a})`; ctx.lineWidth=9*a+1; ctx.beginPath(); ctx.moveTo(-l,0); ctx.lineTo(l,0); ctx.stroke(); ctx.strokeStyle=`rgba(255,255,255,${a})`; ctx.lineWidth=2.5; ctx.beginPath(); ctx.moveTo(-l,0); ctx.lineTo(l,0); ctx.stroke(); ctx.restore(); continue; }
+    _gdBoomDraw(b,u); } }
+function _gdQiShape(x,y,a,r,al){ if(al<=0.01) return; ctx.save(); ctx.translate(x,y); ctx.rotate(a); ctx.globalCompositeOperation='lighter';
+  const path=(R,sp)=>{ ctx.beginPath(); ctx.arc(0,0,R,-sp,sp); ctx.arc(-R*0.45,0,R*0.88,sp*0.9,-sp*0.9,true); ctx.closePath(); };   // trăng khuyết
+  ctx.fillStyle=`rgba(255,30,50,${0.35*al})`; path(r*1.15,1.25); ctx.fill();
+  ctx.fillStyle=`rgba(255,90,90,${0.8*al})`; path(r,1.15); ctx.fill();
+  ctx.fillStyle=`rgba(255,240,240,${al})`; path(r*0.9,0.95); ctx.save(); ctx.clip(); ctx.beginPath(); ctx.arc(0,0,r*0.9,-1,1); ctx.arc(-r*0.12,0,r*0.86,1,-1,true); ctx.closePath(); ctx.fill(); ctx.restore();
+  ctx.restore(); }
+// 🔥 vụ nổ Gundam: loé trắng → cầu lửa nở → khói cuộn bốc lên + sóng xung kích trên sàn + tàn lửa văng · băm _skH (không đụng Math.random)
+function _gdBoomDraw(b,u){ const H=b.H, e=1-Math.pow(1-Math.min(1,u*2.2),3), h=k=>_skH(b.sd+k*1.618);
+  ctx.save();
+  ctx.globalAlpha=Math.max(0,0.5*(1-u*1.5)); ctx.fillStyle='#1a0d06'; ctx.beginPath(); ctx.ellipse(b.x,b.feet,H*0.5*e,H*0.12*e,0,0,Math.PI*2); ctx.fill(); ctx.globalAlpha=1;   // vết cháy xém
+  if(b.t<7){ ctx.globalCompositeOperation='lighter'; const fr=H*(0.6+b.t*0.15), fg=ctx.createRadialGradient(b.x,b.y,0,b.x,b.y,fr); fg.addColorStop(0,`rgba(255,255,255,${1-b.t/7})`); fg.addColorStop(1,'rgba(255,230,180,0)'); ctx.fillStyle=fg; ctx.beginPath(); ctx.arc(b.x,b.y,fr,0,Math.PI*2); ctx.fill(); ctx.globalCompositeOperation='source-over'; }
+  ctx.strokeStyle=`rgba(255,240,220,${Math.max(0,0.8*(1-u*2))})`; ctx.lineWidth=5*(1-u)+1; ctx.beginPath(); ctx.ellipse(b.x,b.feet,H*1.7*e,H*0.4*e,0,0,Math.PI*2); ctx.stroke();   // sóng xung kích
+  for(let k=0;k<16;k++){ const a=h(k)*Math.PI*2, d=H*(0.15+0.55*h(k+40))*e, x=b.x+Math.cos(a)*d, y=b.y+Math.sin(a)*d*0.7-u*H*0.45*h(k+80), r=H*(0.14+0.16*h(k+120))*(0.5+e), al=Math.max(0,0.75*(1-u)); if(al<=0) continue;   // khói cuộn
+    const sg=ctx.createRadialGradient(x,y,0,x,y,r); sg.addColorStop(0,`rgba(60,48,44,${al})`); sg.addColorStop(1,'rgba(40,32,30,0)'); ctx.fillStyle=sg; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); }
+  const fa=Math.max(0,1-Math.max(0,u-0.25)/0.45); if(fa>0){ ctx.globalCompositeOperation='lighter';   // cầu lửa nhiều lớp
+    for(let k=0;k<7;k++){ const a=h(k+200)*Math.PI*2, d=H*0.22*e*h(k+230), x=b.x+Math.cos(a)*d, y=b.y+Math.sin(a)*d-u*H*0.15, r=H*(0.3+0.25*h(k+260))*e, fg=ctx.createRadialGradient(x,y,0,x,y,r);
+      fg.addColorStop(0,`rgba(255,250,215,${fa})`); fg.addColorStop(0.35,`rgba(255,180,60,${0.85*fa})`); fg.addColorStop(0.7,`rgba(230,70,20,${0.55*fa})`); fg.addColorStop(1,'rgba(120,20,0,0)'); ctx.fillStyle=fg; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); }
+    for(let k=0;k<26;k++){ const a=h(k+300)*Math.PI*2, sp=H*(0.9+1.4*h(k+330))*0.025, tt=b.t, x=b.x+Math.cos(a)*sp*tt, y=b.y+Math.sin(a)*sp*tt+0.03*tt*tt; ctx.fillStyle=`rgba(255,${180+((k*37)%70)},90,${fa})`; ctx.beginPath(); ctx.arc(x,y,1.6+2*h(k+360),0,Math.PI*2); ctx.fill(); } }   // tàn lửa văng
+  ctx.restore(); }
+// hòm đồ + Gundam đang lắp dở// hòm đồ + Gundam đang lắp dở + bộ phận đang bay + mảnh vỡ (vẽ DƯỚI các meme)
 function _gdDrawSites(){ for(const f of fighters){ if(f.type!=='mechaniccat' || f.dead || !f._gd) continue; const g=f._gd, H=_gdH(f);
   if(g.debris){ for(let i=g.debris.length-1;i>=0;i--){ const d=g.debris[i]; d.t++; d.x+=d.vx; d.y+=d.vy; d.vy+=0.35; d.r+=d.vr; if(d.t>60){ g.debris.splice(i,1); continue; }
       const m=GD_META[d.k], k=d.H/GD_IH; ctx.save(); ctx.globalAlpha=Math.min(1,(60-d.t)/20); ctx.translate(d.x,d.y); ctx.rotate(d.r); ctx.scale(k*(d.fl?-1:1),k); if(GD_IMG[d.k].naturalWidth) ctx.drawImage(GD_IMG[d.k],-m.w/2,-m.h/2,m.w,m.h); ctx.restore(); } }
   if(g.on) continue; const c=g.crate; if(!c) continue; const st=_gdSite(f);
-  if(g.stage>0){ const show=new Set(GD_STAGES.slice(0,g.stage).flat()); const fl=g.flash!=null && tick-g.flash<8;
-    if(fl){ ctx.save(); ctx.filter='brightness(2.2)'; } _gdDrawRig(st.x,st.y,H,false,{},show); if(fl){ ctx.filter='none'; ctx.restore(); } }
+  if(g.stage>0){ const fl=g.flash!=null && tick-g.flash<8;
+    if(fl){ ctx.save(); ctx.filter='brightness(2.2)'; }
+    if(g.model===2) _gd2DrawBand(st.x,st.y,H,0,GD2_BANDS[g.stage-1],1,true);   // mẫu 2: hiện dần từ chân lên, mép trên có vạch quét sáng
+    else _gdDrawRig(st.x,st.y,H,false,{},new Set(GD_STAGES.slice(0,g.stage).flat()));
+    if(fl){ ctx.filter='none'; ctx.restore(); } }
   if(g.fly){ const u=Math.min(1,g.fly.t/GD_FLY), e=1-Math.pow(1-u,3), sx=c.x, sy=c.y-20, x=sx+(g.fly.tx-sx)*e, y=sy+(g.fly.ty-sy)*e-Math.sin(u*Math.PI)*H*0.35;   // 🚀 bộ phận bay vọt lên, xoay tròn rồi khớp vào
-    for(const n of g.fly.parts){ const m=GD_META[n], k=H/GD_IH*(0.35+0.65*e), [px,py]=_gdMap(st.x,st.y,H,false,m.x+m.w/2,m.y+m.h/2), ox=(px-g.fly.tx)*e, oy=(py-g.fly.ty)*e;
+    if(g.model===2){ const lo=g.stage?GD2_BANDS[g.stage-1]:0, hi=GD2_BANDS[g.stage], sc=0.35+0.65*e; ctx.save(); ctx.translate(x,y); ctx.rotate((1-e)*Math.PI*2.2); ctx.scale(sc,sc); ctx.translate(-st.x,-(st.y-H*(lo+hi)/2)); _gd2DrawBand(st.x,st.y,H,lo,hi,1,false); ctx.restore(); }
+    else for(const n of g.fly.parts){ const m=GD_META[n], k=H/GD_IH*(0.35+0.65*e), [px,py]=_gdMap(st.x,st.y,H,false,m.x+m.w/2,m.y+m.h/2), ox=(px-g.fly.tx)*e, oy=(py-g.fly.ty)*e;
       ctx.save(); ctx.translate(x+ox,y+oy); ctx.rotate((1-e)*Math.PI*2.2); ctx.scale(k,k); if(GD_IMG[n].naturalWidth) ctx.drawImage(GD_IMG[n],-m.w/2,-m.h/2,m.w,m.h); ctx.restore();
       ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.fillStyle=`rgba(255,220,120,${0.5*(1-u)})`; ctx.beginPath(); ctx.arc(x+ox,y+oy,H*0.08,0,Math.PI*2); ctx.fill(); ctx.restore(); } }
   if(g.board>0){ const u=1-g.board/GD_BOARD, [cx,cy]=_gdMap(st.x,st.y,H,false,GD_CHEST[0],GD_CHEST[1]); ctx.save(); ctx.globalCompositeOperation='lighter';   // ⚡ mắt loé + cột sáng hút mèo vào buồng lái
@@ -11368,6 +11489,7 @@ function _mmFrame(f){ const M=f._mm||{}; let st=null;   // 🦫 4 khung ảnh m�
 const CV_FORCE_CD=300, CV_FORCE_HOLD=60, CV_FORCE_SPD=1.35, CV_SLOW=0.0005;   // 5s hồi · vùng mở 1s (anh dặn 3/11; rộng 1/4 diện tích sân, xem _cvR) · đẩy về nhanh hơn 35% · trong vùng ĐỨNG YÊN (0.0005 chứ không 0: giữ hướng mũi đạn)
 const CV_SYS=[
   {arr:()=>cnPans,          dmg:()=>CN_PAN_DMG},
+  {arr:()=>gdQi,            dmg:o=>o.dmg, r:o=>o.r, ang:o=>o.a},   // ⚔️ kiếm khí Gundam đỏ (Mechanic Cat mẫu 2)
   {arr:()=>apples,          ok:o=>!o._garyEarth && !o._stalinSickle, dmg:o=>o.dmg||70},
   {arr:()=>flowers,         dmg:o=>o.dmg||40},
   {arr:()=>loadingArrows,   ok:o=>!o._planted, dmg:()=>40, ang:o=>o.angle},
@@ -17852,7 +17974,7 @@ class Fighter {
     return this._updateCore();
   }
   _updateCore(){
-    // 🧍 CHẾ ĐỘ ĐÔNG NGƯỜI (2vs2 / LAST ONE STANDING): mọi nguồn phình to — Gigachad +3% mỗi đòn ăn được
+    // 🧍 CHẾ ĐỘ ĐÔNG NGƯỜI (2vs2 / LAST ONE STANDING): mọi nguồn phình to — Gigachad +2% mỗi đòn ăn được
     // (vốn KHÔNG giới hạn), Doge hoá thân ×1.5, buff... — đều bị chặn ở mốc GẤP ĐÔI cỡ lúc vào sàn. Sàn đã
     // thu về cỡ 1vs1 mà có tới 4 con, để phình vô hạn là 1 đứa che kín sàn. Chặn ở đây (mỗi tick, ngay đầu
     // update) nên bắt được MỌI nguồn phình, không phải đi vá từng chỗ một.
@@ -18512,7 +18634,7 @@ class Fighter {
           // Solo & Team Battle: bỏ slow-mo + sound "ko" — vỡ tan là xong, không thêm hiệu ứng gì cho liền mạch (quay Shorts).
           // Chỉ Random Tournament còn giữ (vẫn cần advance bracket đầy đủ).
           if(rtBattleCtx) slowMoTimer = 40;
-          if(!this._mwErased) _fighterDeathFx(this);   // bị Hollow Purple xoá thì đã tan thành bụi, không vỡ mảnh nữa · 🍫 Mewing Cat đứt làm đôi
+          if(!this._mwErased && !this._gdBoom) _fighterDeathFx(this);   // bị Hollow Purple xoá thì đã tan thành bụi, không vỡ mảnh nữa · 🍫 Mewing Cat đứt làm đôi
           playSample('death_break',1.2);   // 🧱 tiếng vỡ tan chung (Sad Cat gục vì depression cũng là chết)
           addShake(12,18);
           if(rtBattleCtx) playSound('ko');
@@ -19734,7 +19856,7 @@ class Fighter {
       }
     }
 
-    // 🗿 GIGACHAD: húc cận chiến 75 dmg gốc × _gcDmgMul (cộng dồn +3% mỗi lần bị đánh trúng, xem takeDamage).
+    // 🗿 GIGACHAD: húc cận chiến 75 dmg gốc × _gcDmgMul (cộng dồn +2% mỗi lần bị đánh trúng, xem takeDamage).
     // Dùng đúng chuẩn touching chung (this.size+e.size+MELEE_REACH) như mọi đòn cận chiến khác.
     // 🗿 GIGACHAD: phải CHẠM HẲN thân vào địch mới đánh được — không dùng tầm với cận chiến chung (MELEE_REACH).
     //    Dư 3px vì _bounceFighters() tách 2 thân ra đúng lúc vừa chạm, đòi lồng vào nhau là không bao giờ trúng.
@@ -22227,7 +22349,7 @@ class Fighter {
       _gcStack(this);   // 🗿 mỗi đòn ăn được: +1 stack (+3% size, +3% dame)
       const _gcAtkF=_duoResolveAttacker(attacker);
       // 🗿 ĐỐI THỦ vừa đánh chỉ bị THU NHỎ 3% (cộng dồn) — KHÔNG còn bị trừ dame nữa
-      if(_gcAtkF && _gcAtkF!==this) _gcAtkF.size = Math.max(4, _gcAtkF.size*0.97);
+      if(_gcAtkF && _gcAtkF!==this) _gcAtkF.size = Math.max(4, _gcAtkF.size*0.98);   // −2% (anh giảm 11/11, trước −3%)
     }
     // (Fan Battle mượn NGUYÊN cơ chế này qua buff "5s IMMORTAL" — cùng dùng _cgInvT nên được luôn cả
     //  hiệu ứng lửa đỏ và cách chặn dame, không viết lại gì)
@@ -22677,7 +22799,7 @@ class Fighter {
       if(this.type==='scareddog'){
         for(let _si=scaredGhosts.length-1;_si>=0;_si--) if(scaredGhosts[_si].owner===this){ spawnParticles(scaredGhosts[_si].x,scaredGhosts[_si].y,'#9575cd',10); scaredGhosts.splice(_si,1); }
       }
-      if(!this._mwErased) _fighterDeathFx(this);   // 🍫 Mewing Cat đứt làm đôi, còn lại vỡ mảnh (bị xoá sổ thì thôi)
+      if(!this._mwErased && !this._gdBoom) _fighterDeathFx(this);   // 🍫 Mewing Cat đứt làm đôi, còn lại vỡ mảnh (bị xoá sổ / nổ cùng Gundam thì thôi)
       playSample('death_break',1.2);   // 🧱 tiếng vỡ tan chung cho MỌI meme bị kết liễu (+20% so với gốc)
       if(!this._mwErased) addShake(10,18);   // (bị Hollow Purple / Shinra Tensei xoá sổ: không rung mạnh — rung >5 bật chớp trắng HÌNH VUÔNG cỡ sàn)
       if(rtBattleCtx) playSound('ko');
@@ -25294,6 +25416,7 @@ class Fighter {
 { const _gdOrigDraw=Fighter.prototype.draw;   // 🤖 Mechanic Cat đang lái Gundam: vẽ Gundam thay cho con mèo · đang phóng vào buồng lái: mèo mờ dần
   Fighter.prototype.draw=function(){ const G=this.type==='mechaniccat'?this._gd:null; if(!G) return _gdOrigDraw.call(this);
     if(G.on && !this.dead){ _gdDrawMech(this); return; }
+    if(this.dead && this._gdBoom) return;   // 💥 nổ tung cùng Gundam — không còn xác
     if(G.board>0){ ctx.save(); ctx.globalAlpha*=G.board/GD_BOARD; try{ _gdOrigDraw.call(this); } finally{ ctx.restore(); } return; }
     return _gdOrigDraw.call(this); };
 }
@@ -25709,7 +25832,7 @@ function startGame(skipVsIntro){
   document.getElementById('pauseOverlay').classList.remove('visible');
   stopAllBattleMusic();
   _gameTickAccum=0;
-  bhFarEat=0; gcTitleBrk=null; gcEdgeBrk=[]; _gcEdgeSeg={}; _gcEdgeBroken=null; pdPeels=[]; pdFx=[]; pdTexts=[]; njSmoke=[]; njKamui=[]; flBreaks=[]; mmFly=[]; mmWall=[]; mmFx=[]; bcToasts=[]; bcFx=[]; bcDark=0; bcPx=null; bcBangT=null; bcStarT=null; idMito=[]; fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; bxFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; cvFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; frRem=null; dpRainK=0; dpRipples=[]; dpWx={cloud:0, rain:0, storm:0, nextBolt:0, bolt:null, nextFlash:0, flash:null}; psCine=null; psAfter=null; psWipe=null; psShards=[]; psDust=[]; psCrater=null; mwBits=[]; mwShards=[]; mwKitkat=[]; scEcho=[]; hmShadows=[]; hmEyes=[]; _hmEyeCD=150; hmWisps=[]; _hmWispCD=120; saWin=null; saShatter=null; hmWin=null; saBolts=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; _dlReset(); _wcRainReset(); _azReset(); _vbReset(); _rfReset(); _duoReset(); popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flCos=null; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susFx=[]; susDark=null; dogeFx=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[]; tick=0;
+  bhFarEat=0; gcTitleBrk=null; gcEdgeBrk=[]; _gcEdgeSeg={}; _gcEdgeBroken=null; pdPeels=[]; pdFx=[]; pdTexts=[]; njSmoke=[]; njKamui=[]; flBreaks=[]; mmFly=[]; mmWall=[]; mmFx=[]; gdQi=[]; gdBooms=[]; bcToasts=[]; bcFx=[]; bcDark=0; bcPx=null; bcBangT=null; bcStarT=null; idMito=[]; fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; bxFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; cvFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; frRem=null; dpRainK=0; dpRipples=[]; dpWx={cloud:0, rain:0, storm:0, nextBolt:0, bolt:null, nextFlash:0, flash:null}; psCine=null; psAfter=null; psWipe=null; psShards=[]; psDust=[]; psCrater=null; mwBits=[]; mwShards=[]; mwKitkat=[]; scEcho=[]; hmShadows=[]; hmEyes=[]; _hmEyeCD=150; hmWisps=[]; _hmWispCD=120; saWin=null; saShatter=null; hmWin=null; saBolts=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; _dlReset(); _wcRainReset(); _azReset(); _vbReset(); _rfReset(); _duoReset(); popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flCos=null; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susFx=[]; susDark=null; dogeFx=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[]; tick=0;
   _matchStats=Array.from({length:8},()=>({dmg:0,hits:0,healed:0,attempted:0}));
   screenShake={x:0,y:0,dur:0,str:0}; afterImages=[]; slowMoTimer=0; hitStopFrames=0; hitStopCD=0; koZoom=0; _camReset();
   loop._koTimer=null; loop._resInit=false; loop._resT=null; loop._resClick=false; loop._rtDone=false; loop._statsT=0; loop._lbPrompted=false; loop._ctaText=null; loop._mechShown=false; loop._fanDone=false; loop._wcMeowDone=false;
@@ -26146,7 +26269,7 @@ function resetGame(){
   document.getElementById('pauseOverlay').classList.remove('visible');
   _gameTickAccum=0;
   stopAllBattleMusic();
-  bhFarEat=0; gcTitleBrk=null; gcEdgeBrk=[]; _gcEdgeSeg={}; _gcEdgeBroken=null; pdPeels=[]; pdFx=[]; pdTexts=[]; njSmoke=[]; njKamui=[]; flBreaks=[]; mmFly=[]; mmWall=[]; mmFx=[]; bcToasts=[]; bcFx=[]; bcDark=0; bcPx=null; bcBangT=null; bcStarT=null; idMito=[]; fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; bxFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; cvFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; frRem=null; dpRainK=0; dpRipples=[]; dpWx={cloud:0, rain:0, storm:0, nextBolt:0, bolt:null, nextFlash:0, flash:null}; psCine=null; psAfter=null; psWipe=null; psShards=[]; psDust=[]; psCrater=null; mwBits=[]; mwShards=[]; mwKitkat=[]; scEcho=[]; hmShadows=[]; hmEyes=[]; _hmEyeCD=150; hmWisps=[]; _hmWispCD=120; saWin=null; saShatter=null; hmWin=null; saBolts=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; _dlReset(); _wcRainReset(); _azReset(); _vbReset(); _rfReset(); _duoReset(); popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flCos=null; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susFx=[]; susDark=null; dogeFx=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[];
+  bhFarEat=0; gcTitleBrk=null; gcEdgeBrk=[]; _gcEdgeSeg={}; _gcEdgeBroken=null; pdPeels=[]; pdFx=[]; pdTexts=[]; njSmoke=[]; njKamui=[]; flBreaks=[]; mmFly=[]; mmWall=[]; mmFx=[]; gdQi=[]; gdBooms=[]; bcToasts=[]; bcFx=[]; bcDark=0; bcPx=null; bcBangT=null; bcStarT=null; idMito=[]; fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; bxFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; cvFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; frRem=null; dpRainK=0; dpRipples=[]; dpWx={cloud:0, rain:0, storm:0, nextBolt:0, bolt:null, nextFlash:0, flash:null}; psCine=null; psAfter=null; psWipe=null; psShards=[]; psDust=[]; psCrater=null; mwBits=[]; mwShards=[]; mwKitkat=[]; scEcho=[]; hmShadows=[]; hmEyes=[]; _hmEyeCD=150; hmWisps=[]; _hmWispCD=120; saWin=null; saShatter=null; hmWin=null; saBolts=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; _dlReset(); _wcRainReset(); _azReset(); _vbReset(); _rfReset(); _duoReset(); popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flCos=null; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susFx=[]; susDark=null; dogeFx=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[];
   screenShake={x:0,y:0,dur:0,str:0}; slowMoTimer=0; hitStopFrames=0; hitStopCD=0; koZoom=0;
   showVsWaitScreen();
 }
@@ -26155,11 +26278,11 @@ function resetGame(){
 //    Trừ các char ĐẶC BIỆT (di chuyển/định vị riêng) trong _NO_BOUNCE.
 const _NO_BOUNCE = new Set(['commandercat','loooongcat','evillarry']); // 😈 Larry đi XUYÊN qua mọi meme, không đẩy nhau · 🌈 Nyan Cat đã bỏ khỏi đây — va chạm như meme thường (trước đi xuyên mọi meme)
 // 🥊 char thiên về cận chiến (cần áp sát mới gây dame) — dùng cho cơ chế chống kẹt nảy tường ở moveLogic()
-// 🗿 GIGACHAD +1 STACK: +3% size và +3% dame (cộng dồn, không giới hạn) — cả khi BỊ ĐÁNH lẫn khi HÚC TRÚNG.
+// 🗿 GIGACHAD +1 STACK: +2% size và +2% dame (anh giảm 11/11, trước 3%) (cộng dồn, không giới hạn) — cả khi BỊ ĐÁNH lẫn khi HÚC TRÚNG.
 //    Vượt mốc GIGACHAD_BIG_MUL: hiệu ứng chuyển dạng NHẸ đúng 1 lần (edge-triggered), không đóng băng/banner.
 function _gcStack(f){
   const wasBig = f.size >= (f._gcBaseSize||f.size)*GIGACHAD_BIG_MUL;
-  f.size *= 1.03; f._gcDmgMul=(f._gcDmgMul||1)*1.03;
+  f.size *= 1.02; f._gcDmgMul=(f._gcDmgMul||1)*1.02;   // anh giảm 11/11: 3% → 2%
   if(!wasBig && f.size>=(f._gcBaseSize||f.size)*GIGACHAD_BIG_MUL){
     f.flash=20; addShake(8,14);
     playSample('holy_thunder',0.9);   // ⚡ tiếng sét đúng khoảnh khắc biến hình (dùng chung mẫu với Holy Cat)
@@ -27427,6 +27550,7 @@ function loop(){
       _arWorldTick();    // 🐔 quân triệu hồi bị Arabic Cat hoá gà
       _wcTick();         // 🌧️ mưa + sét Wet Cat
       _azWorldTick();    // 🎧 đạn nhịp dubstep của Azel
+      _gdQiTick();       // ⚔️ kiếm khí Gundam đỏ (Mechanic Cat mẫu 2)
       _duoTick();        // 🦉 đồng hồ học muộn, chữ bay, Streak Freeze, laser Duolingo
       _dlTick();         // 💧 dãi, vũng nước, piranha, cá mập Drooling Cat
       _hmTick(); _hmSoundTick();   // 🐹 Scared Hamster: dựa góc + bóng tối vươn tới (+ nhạc hộp nhạc / tiếng bò)
@@ -30826,6 +30950,7 @@ function loop(){
   _mspDrawAxes();        // 🪓 rìu kim cương TheGreatMagicspeller + bản sao đang vung (Commenter Battle)
   _duoDrawOver();  // 🗣️ chữ bay, laser, khối băng, đồng hồ Duolingo — TRÊN meme
   _azDrawOver();   // 🔪🧂 dao / muối của Azel — TRÊN meme
+  _gdDrawTop();    // ⚔️💥 kiếm khí + vụ nổ Gundam — TRÊN meme
   _dlDrawOver();   // 🤤 giọt/dòng dãi, piranha, cá mập ngoạm (Drooling Cat) — nằm TRÊN meme
   _wcRainOver();   // 🌧️⚡ hạt mưa + tia sét (Wet Cat) — nằm TRÊN meme
   _popRingFxDraw();  // 😺💨 vòng khói Pop Cat vừa trúng đích đang tan ra
@@ -32540,7 +32665,7 @@ function closeFan(){
   document.getElementById('mainMenuScreen').classList.add('active');
 }
 function _ffa3ClearArrays(){
-  bhFarEat=0; gcTitleBrk=null; gcEdgeBrk=[]; _gcEdgeSeg={}; _gcEdgeBroken=null; pdPeels=[]; pdFx=[]; pdTexts=[]; njSmoke=[]; njKamui=[]; flBreaks=[]; mmFly=[]; mmWall=[]; mmFx=[]; bcToasts=[]; bcFx=[]; bcDark=0; bcPx=null; bcBangT=null; bcStarT=null; idMito=[]; fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; bxFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; cvFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; frRem=null; dpRainK=0; dpRipples=[]; dpWx={cloud:0, rain:0, storm:0, nextBolt:0, bolt:null, nextFlash:0, flash:null}; psCine=null; psAfter=null; psWipe=null; psShards=[]; psDust=[]; psCrater=null; mwBits=[]; mwShards=[]; mwKitkat=[]; scEcho=[]; hmShadows=[]; hmEyes=[]; _hmEyeCD=150; hmWisps=[]; _hmWispCD=120; saWin=null; saShatter=null; hmWin=null; saBolts=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; _dlReset(); _wcRainReset(); _azReset(); _vbReset(); _rfReset(); _duoReset(); popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flCos=null; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susFx=[]; susDark=null; dogeFx=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[]; tick=0;
+  bhFarEat=0; gcTitleBrk=null; gcEdgeBrk=[]; _gcEdgeSeg={}; _gcEdgeBroken=null; pdPeels=[]; pdFx=[]; pdTexts=[]; njSmoke=[]; njKamui=[]; flBreaks=[]; mmFly=[]; mmWall=[]; mmFx=[]; gdQi=[]; gdBooms=[]; bcToasts=[]; bcFx=[]; bcDark=0; bcPx=null; bcBangT=null; bcStarT=null; idMito=[]; fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; bxFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; cvFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; frRem=null; dpRainK=0; dpRipples=[]; dpWx={cloud:0, rain:0, storm:0, nextBolt:0, bolt:null, nextFlash:0, flash:null}; psCine=null; psAfter=null; psWipe=null; psShards=[]; psDust=[]; psCrater=null; mwBits=[]; mwShards=[]; mwKitkat=[]; scEcho=[]; hmShadows=[]; hmEyes=[]; _hmEyeCD=150; hmWisps=[]; _hmWispCD=120; saWin=null; saShatter=null; hmWin=null; saBolts=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; _dlReset(); _wcRainReset(); _azReset(); _vbReset(); _rfReset(); _duoReset(); popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flCos=null; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susFx=[]; susDark=null; dogeFx=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[]; tick=0;
   screenShake={x:0,y:0,dur:0,str:0}; slowMoTimer=0; hitStopFrames=0; hitStopCD=0; koZoom=0;
 }
 function ffa3Start(){
