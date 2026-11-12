@@ -65,6 +65,12 @@ Mẫu đã duyệt:
   giờ cánh tay vẽ CÙNG NÉT ảnh tay (chép `_hmArmSprite`), cổ tay khớp bề ngang ảnh, gốc tay khói bão phủ dày → mỏng dần (`shadowArm(...,{root})` trong js/film-l2pro.js).
 - Bớt chi tiết thừa khi cảnh rối (anh bỏ hết xúc tu phụ ở cảnh bão: "lộn xộn quá"). Xong cảnh nào phải chụp khung soi kỹ CHỖ NỐI trước khi báo xong.
 
+## ⛔ NGUYÊN TẮC CAO NHẤT KHI VẼ ẢNH: GIỮ ĐÚNG NGUYÊN TÁC MEME (anh dặn 12/11/2026)
+- Mọi ảnh / sprite sheet vẽ thêm bằng GPT chỉ được đổi GÓC NHÌN + TƯ THẾ. Chất ảnh phải Y MEME GỐC: kết cấu lông / da, màu, độ mờ ảnh chụp, ánh sáng.
+  KHÔNG thành mô hình 3D bóng loáng, KHÔNG thêm cơ bắp / chi tiết cho "đẹp" (12/11 em vẽ Buff Doge thành cơ bắp nhựa kiểu 3D → anh: "làm nó giống meme gốc, chỉ là upscale lên thôi").
+- Quy trình: (1) UPSCALE trung thành ảnh meme gốc trước (chỉ khử mờ / nhiễu, giữ nguyên mọi thứ) → (2) lấy chính ảnh upscale đó làm --ref cho mọi tư thế / góc,
+  câu lệnh luôn ghi rõ "same photographic meme texture, NOT a 3D render, NOT plastic, NOT glossy" → (3) soát cạnh ảnh gốc, lệch chất ảnh là vẽ lại.
+
 ## ⏱️ PHIM KHÔNG CÒN GIỚI HẠN THỜI LƯỢNG (anh dặn 12/11/2026 — "note vào")
 - Từ giờ KHÔNG ép phim / cảnh vào thời gian bắt buộc. Anh có nói con số thì đó chỉ là thời lượng XẤP XỈ đề xuất — làm ra DÀI HƠN vẫn được.
   Cảnh nào cần dài thì làm cho ĐỦ CẢNH, hợp lý nhất là được; KHÔNG nén nhịp tới mức vội (bản trận phụ 22s bị chê "rush, đau mắt").

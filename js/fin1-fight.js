@@ -21,10 +21,20 @@
     const L=KEYS[KEYS.length-1]; return {x:L[1],z:zs[zs.length-1],y:ys[ys.length-1],im:L[2],sm:null}; }
   const hstop=L=>t=>{ for(const [a,d] of L) if(t>=a&&t<a+d) return a; return t; };
   // lật mặt: so vị trí TRÊN MÀN HÌNH của mình và đối thủ (máy bay vòng ra sau vẫn đúng)
-  function actor(F,o){ const c=F.I[o.key]; if(!c) return; let flip=!!o.flip; const dir=o.dir||0;
+  // 🎥 ĐA GÓC (12/11, anh: "điểm yếu nhất là đa góc nhân vật"): o.views={front,q3f,side,q3b,back} = ảnh cùng 1 động tác nhìn từ nhiều phía
+  //   (ảnh nghiêng / 3/4 vẽ quay mặt TRÁI). Hướng nhân vật = về phía o.look (hoặc o.face=[dx,dz]); so với hướng máy → chọn ảnh + lật khi nhìn sang phải màn hình.
+  //   Thiếu góc nào thì lấy góc gần nhất có ảnh. Trả về độ lật (như cũ) — o.views dùng thay cho o.key.
+  function pickView(F,o){ const V=o.views, B=F.B; let fx=o.face?o.face[0]:(o.look?o.look.x-o.x:0), fz=o.face?o.face[1]:(o.look?(o.look.z||0)-(o.z||0):0); const L=Math.hypot(fx,fz)||1; fx/=L; fz/=L;
+    const toCam=-(fx*B.f[0]+fz*B.f[2]), right=fx*B.r[0]+fz*B.r[2], ang=Math.abs(Math.atan2(right,toCam))*180/Math.PI;   // 0 = nhìn thẳng vào máy · 180 = quay lưng
+    const order=ang<22.5?['front','q3f','side']:ang<67.5?['q3f','front','side']:ang<112.5?['side','q3f','q3b']:ang<157.5?['q3b','back','side']:['back','q3b','side'];
+    const n=order.find(m=>V[m]&&F.I[V[m]]), k=n&&V[n], face=(o.vface&&o.vface[n])||-1;   // o.vface={q3f:1}: ảnh góc đó vẽ quay PHẢI
+    return {key:k, flip:(n!=='front'&&n!=='back')&&(face<0?right>0:right<0)}; }
+  function actor(F,o){ if(o.views){ const pv=pickView(F,o); if(!pv.key) return false; o=Object.assign({},o,{key:pv.key,flip:pv.flip,dir:0,look:null}); }
+    const c=F.I[o.key]; if(!c) return; let flip=!!o.flip; const dir=o.dir||0;
     if(o.look&&dir){ const r=F.B.r, side=(o.look.x-o.x)*r[0]+((o.look.z||0)-(o.z||0))*r[2];   // so theo HƯỚNG NGANG của máy (đối thủ ngoài khung / sau lưng máy vẫn đúng)
       if(Math.abs(side)>1){ const want=side<0?-1:1; flip=want!==dir; } }
-    K.sprite(F,Object.assign({},o,{img:c,flip})); return flip; }   // trả về ảnh có bị lật không (để gắn đồ vật vào tay đúng phía)
+    if(o.dry){ F._actorKey=o.key; return flip; }   // dry: chỉ tính ảnh + lật (để vẽ đồ vật PHÍA SAU nhân vật trước)
+    K.sprite(F,Object.assign({},o,{img:c,flip})); F._actorKey=o.key; return flip; }   // trả về ảnh có bị lật không (để gắn đồ vật vào tay đúng phía) · F._actorKey = ảnh vừa dùng (đa góc)
   let SMC=null;
   function smearFrame(F,k){ const c=F.g.canvas, g=F.g; if(!SMC) SMC=document.createElement('canvas'); if(SMC.width!==c.width||SMC.height!==c.height){ SMC.width=c.width; SMC.height=c.height; }
     SMC.getContext('2d').drawImage(c,0,0); g.save(); g.setTransform(1,0,0,1,0,0); const N=9, W=c.width*k;

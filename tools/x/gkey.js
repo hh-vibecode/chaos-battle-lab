@@ -42,10 +42,10 @@ function encodePNG(w, h, rgba) {
 }
 
 const img = decodePNG(fs.readFileSync(opt('--src'))), H = +opt('--h', 420), hi = +opt('--key-hi', 90), lo = +opt('--key-lo', 25);
-const x0 = +opt('--x0', 0), x1 = Math.min(img.w, +opt('--x1', img.w)), W0 = x1 - x0;
+const x0 = +opt('--x0', 0), x1 = Math.min(img.w, +opt('--x1', img.w)), W0 = x1 - x0, y0c = +opt('--y0', 0), y1c = +opt('--y1', img.h);   // --y0/--y1: chỉ lấy dải hàng (2 hình chồng nhau theo cột)
 const k = Buffer.alloc(W0 * img.h * 4); let mnx = W0, mny = img.h, mxx = -1, mxy = -1;
 for (let y = 0; y < img.h; y++) for (let x = 0; x < W0; x++) { const s = (y * img.w + x0 + x) * 4, o = (y * W0 + x) * 4, R = img.data[s], G = img.data[s + 1], B = img.data[s + 2], m = Math.max(R, B), d = G - m;
-  const a = d >= hi ? 0 : d <= lo ? 1 : 1 - (d - lo) / (hi - lo), al = Math.round(a * img.data[s + 3]);
+  const a = (y < y0c || y >= y1c) ? 0 : d >= hi ? 0 : d <= lo ? 1 : 1 - (d - lo) / (hi - lo), al = Math.round(a * img.data[s + 3]);
   k[o] = R; k[o + 1] = d > 0 ? Math.min(255, m + Math.floor(d * 0.15)) : G; k[o + 2] = B; k[o + 3] = al;   // de-spill green fringe
   if (al > 40) { if (x < mnx) mnx = x; if (x > mxx) mxx = x; if (y < mny) mny = y; if (y > mxy) mxy = y; } }
 if (mxx < 0) throw new Error('nothing left after keying');

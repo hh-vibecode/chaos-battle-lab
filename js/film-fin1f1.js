@@ -32,18 +32,41 @@
   const IMG={ C0:'assets/img/cine/FIN_AKA_CHUD.png', CK0:'assets/img/cine/FIN_F1_CHUD_K0.png', CK1:'assets/img/cine/FIN_F1_CHUD_K1.png', CK2:'assets/img/cine/FIN_F1_CHUD_K2.png', CK3:'assets/img/cine/FIN_F1_CHUD_K3.png', CK4:'assets/img/cine/FIN_F1_CHUD_K4.png',
     M0:'assets/img/cine/FIN_AKA_MLEM.png',
     D0:'assets/avatars/doge/avatarUrl.webp', DB:'assets/avatars/doge/rageAvatarUrl.webp', DZ:'assets/img/cine/FIN_F1_DOGE_ONEPUNCH.png',
-    DBL:'assets/img/cine/FIN_F1_DOGE_BLOCK.png', DRN:'assets/img/cine/FIN_F1_DOGE_RUN.png', DDK:'assets/img/cine/FIN_F1_DOGE_DUCK.png', DPU:'assets/img/cine/FIN_F1_DOGE_PUNCH.png', DPL:'assets/img/cine/FIN_F1_DOGE_PULL.png', DHP:'assets/img/cine/FIN_F1_DOGE_HPULL.png',
+    DBL:'assets/img/cine/FIN_F1_DOGE_BLOCK.png', DRN:'assets/img/cine/FIN_F1_DOGE_RUN.png', DDK:'assets/img/cine/FIN_F1_DOGE_DUCK.png', DPU:'assets/img/cine/FIN_F1_DOGE_PUNCH.png', DGP:'assets/img/cine/FIN_F1_DOGE_GPUNCH.png', DPL:'assets/img/cine/FIN_F1_DOGE_PULL.png', DHP:'assets/img/cine/FIN_F1_DOGE_HPULL.png',
     DH:'assets/img/doge/DG_HAKI_IDLE.webp', DP1:'assets/img/doge/DG_HAKI_P1.webp',
+    // 🎥 ĐA GÓC (12/11): Buff Doge đứng thủ 5 góc · Buff Doge lao tới (sau lưng / chính diện / 3/4 sau) · Chud Kratos thủ thế 5 góc
+    DBF:'assets/img/cine/FIN_F1_DB_front.png', DBQ:'assets/img/cine/FIN_F1_DB_q3f.png', DBS:'assets/img/cine/FIN_F1_DB_side.png', DBQB:'assets/img/cine/FIN_F1_DB_q3b.png', DBB:'assets/img/cine/FIN_F1_DB_back.png',
+    DRB:'assets/img/cine/FIN_F1_DRUN_back.png', DRF:'assets/img/cine/FIN_F1_DRUN_front.png', DRQ:'assets/img/cine/FIN_F1_DRUN_q3b.png',
+    DDL:'assets/img/cine/FIN_F1_DDOWN_lie.png', DKN:'assets/img/cine/FIN_F1_DDOWN_kneel.png', DUP:'assets/img/cine/FIN_F1_DDOWN_up.png',
+    DPF:'assets/img/cine/FIN_F1_DPUN_front.png', DPB:'assets/img/cine/FIN_F1_DPUN_back.png', DPQ:'assets/img/cine/FIN_F1_DPUN_q3b.png',
+    CWB:'assets/img/cine/FIN_F1_CWHIP_back.png', CWF:'assets/img/cine/FIN_F1_CWHIP_front.png', CWQ:'assets/img/cine/FIN_F1_CWHIP_q3b.png',
+    CHF:'assets/img/cine/FIN_F1_CHIT_fly.png', CHL:'assets/img/cine/FIN_F1_CHIT_lie.png', CHK:'assets/img/cine/FIN_F1_CHIT_kneel.png',
+    CKF:'assets/img/cine/FIN_F1_CK_front.png', CKQ:'assets/img/cine/FIN_F1_CK_q3f.png', CKS:'assets/img/cine/FIN_F1_CK_side.png', CKQB:'assets/img/cine/FIN_F1_CK_q3b.png', CKB:'assets/img/cine/FIN_F1_CK_back.png',
     K0:'assets/avatars/clappingcat/avatarUrl.webp', KR:'assets/avatars/clappingcat/rageAvatarUrl.webp', K1:'assets/avatars/clappingcat/skill1AvatarUrl.webp', K2:'assets/avatars/clappingcat/skill2AvatarUrl.webp', K3:'assets/avatars/clappingcat/skill3AvatarUrl.webp',
     CORD:'assets/img/doorbellchud/DC_CORD_IMG.webp', ...window.FIN1_CITY_IMGS };
   // hướng ảnh: −1 nhìn TRÁI · 1 nhìn / đánh về PHẢI · 0 chính diện. Chud K1–K4: tay quất nằm bên PHẢI ảnh → coi như "nhìn phải"
-  const DIR={C0:0,CK0:0,CK1:1,CK2:1,CK3:1,CK4:1,M0:0,D0:0,DB:0,DZ:-1,DBL:-1,DRN:-1,DDK:-1,DPU:-1,DPL:-1,DHP:-1,DH:0,DP1:-1,K0:0,KR:0,K1:0,K2:0,K3:0};
+  const DIR={DGP:1,C0:0,CK0:0,CK1:1,CK2:1,CK3:1,CK4:1,M0:0,D0:0,DB:0,DZ:1,DBL:-1,DRN:-1,DDK:-1,DPU:-1,DPL:-1,DHP:-1,DH:0,DP1:-1,K0:0,KR:0,K1:0,K2:0,K3:0};
   // chiều cao: ảnh vẽ cùng tỉ lệ người → cao theo khung hình của từng tư thế (ngồi thấp thì khung thấp)
-  const HT={C0:H*1.3,CK0:H*1.17,CK1:H*1.19,CK2:H*1.41,CK3:H*0.96,CK4:H*1.17,M0:H*1.0,D0:H*0.72,DB:H*1.9,DZ:H*1.55,DBL:H*1.8,DRN:H*1.29,DDK:H*1.1,DPU:H*1.34,DPL:H*1.54,DHP:H*1.52,DH:H*1.9,DP1:H*1.75,
+  const HT={DGP:H*1.45,DDL:H*0.84,DKN:H*1.65,DUP:H*1.9,DPF:H*1.8,DPB:H*1.8,DPQ:H*1.8,CWB:H*1.3,CWF:H*1.3,CWQ:H*1.3,CHF:H*1.15,CHL:H*0.45,CHK:H*1.05,
+    DBF:H*1.9,DBQ:H*1.9,DBS:H*1.9,DBQB:H*1.9,DBB:H*1.9,DRB:H*1.75,DRF:H*1.75,DRQ:H*1.75,CKF:H*1.25,CKQ:H*1.25,CKS:H*1.25,CKQB:H*1.25,CKB:H*1.25,C0:H*1.3,CK0:H*1.17,CK1:H*1.19,CK2:H*1.41,CK3:H*0.96,CK4:H*1.17,M0:H*1.0,D0:H*0.72,DB:H*1.9,DZ:H*1.55,DBL:H*1.9,DRN:H*1.5,DDK:H*1.12,DPU:H*1.8,DPL:H*1.7,DHP:H*1.7,DH:H*1.9,DP1:H*1.75,
     K0:H*1.0,KR:H*1.08,K1:H*1.0,K2:H*1.0,K3:H*1.0};
   // chuôi xích trong tay Chud (tỉ lệ khung ảnh đã cắt, đo bằng lưới): [tay 0, tay 1]; WHIP = tay đang quất của tư thế
-  const HAND={DPL:[[0.04,0.38],[0.07,0.44]],DHP:[[0.03,0.37],[0.06,0.43]],DBL:[[0.42,0.2],[0.55,0.22]],DB:[[0.42,0.46],[0.58,0.46]],DPU:[[0.02,0.33],[0.02,0.33]],DRN:[[0.1,0.45],[0.2,0.5]],DDK:[[0.06,0.5],[0.12,0.55]],DH:[[0.2,0.62],[0.8,0.62]],
+  // điểm tay / chuôi xích (tỉ lệ trên ảnh đã cắt, đo bằng lưới 10×10 — 12/11 đo lại sau khi vẽ lại Doge đúng chất meme)
+  const HAND={DGP:[[0.9,0.95],[0.08,0.5]],DPL:[[0.03,0.31],[0.03,0.43]],DHP:[[0.03,0.14],[0.05,0.27]],DBL:[[0.12,0.15],[0.3,0.13]],DB:[[0.33,0.27],[0.7,0.27]],DPU:[[0.02,0.4],[0.02,0.4]],DRN:[[0.06,0.55],[0.85,0.45]],DDK:[[0.05,0.75],[0.2,0.8]],DH:[[0.2,0.62],[0.8,0.62]],
+    DBF:[[0.33,0.27],[0.7,0.27]],DBQ:[[0.3,0.27],[0.62,0.27]],DBS:[[0.06,0.35],[0.1,0.37]],DBQB:[[0.1,0.35],[0.4,0.33]],DBB:[[0.1,0.4],[0.9,0.4]],DRB:[[0.1,0.55],[0.88,0.55]],DRF:[[0.12,0.55],[0.88,0.55]],DRQ:[[0.05,0.55],[0.6,0.5]],
+    DDL:[[0.6,0.28],[0.66,0.36]],DKN:[[0.12,0.75],[0.75,0.55]],DUP:[[0.3,0.33],[0.6,0.33]],
+    CKF:[[0.02,0.39],[0.97,0.38]],CKQ:[[0.05,0.39],[0.65,0.42]],CKS:[[0.05,0.38],[0.1,0.4]],CKQB:[[0.05,0.41],[0.92,0.4]],CKB:[[0.03,0.4],[0.95,0.4]],
+    CWB:[[0.07,0.45],[0.92,0.1]],CWF:[[0.85,0.45],[0.4,0.27]],CWQ:[[0.1,0.47],[0.8,0.02]],CHF:[[0.3,0.12],[0.48,0.1]],CHL:[[0.4,0.35],[0.55,0.4]],CHK:[[0.02,0.42],[0.98,0.42]],
     C0:[[0.18,0.55],[0.82,0.55]],CK0:[[0.05,0.43],[0.96,0.43]],CK1:[[0.04,0.03],[0.62,0.48]],CK2:[[0.83,0.02],[0.88,0.47]],CK3:[[0.05,0.47],[0.97,0.04]],CK4:[[0.12,0.27],[0.97,0.38]]};
+  const VIEWS={ DB:{v:{front:'DBF',q3f:'DBQ',side:'DBS',q3b:'DBQB',back:'DBB'},face:{q3f:1}},
+    DPU:{v:{side:'DPU',front:'DPF',back:'DPB',q3b:'DPQ'},face:{q3b:1}},
+    CK2:{v:{side:'CK2',front:'CWF',back:'CWB',q3b:'CWQ'},face:{side:1,q3b:1}}, CK4:{v:{side:'CK4',front:'CWF',back:'CWB',q3b:'CWQ'},face:{side:1,q3b:1}},
+    CK0:{v:{front:'CKF',q3f:'CKQ',side:'CKS',q3b:'CKQB',back:'CKB'}},
+    DZ:{v:{side:'DZ',back:'DRB',q3b:'DRQ',front:'DRF'},face:{q3b:1,side:1}},   // ảnh One-Punch Shiba gốc quay mặt PHẢI     // CHARGE: nhìn ngang = meme One-Punch Shiba · từ sau lưng = Buff Doge lao đi (anh 12/11: "quay mặt ra ngoài nhưng lao về phía trước")
+    DRN:{v:{side:'DRN',back:'DRB',q3b:'DRQ',front:'DRF'},face:{q3b:1}} };
+  // vẽ nhân vật theo góc máy: ảnh có bộ đa góc → chọn góc, trả {flip,key} (key = ảnh thật vừa vẽ, để gắn xích / tay đúng)
+  function act(F,o){ const V=VIEWS[o.key]; if(!V) return {flip:W.actor(F,o), key:o.key}; const key0=o.key; const fl=W.actor(F,Object.assign({},o,{views:V.v,vface:V.face||null,face:o.face||null}));
+    const k=F._actorKey||key0; return {flip:fl, key:k}; }
   // ───────── BIÊN ĐẠO [giây, x, ảnh, chuyển, nhoè, z, y] ─────────
   // phần công viên
   const DK=[[0,-640,'D0',0,0,-240,520],[T.strikeD,-640,'D0',0,0,-240,520],[T.landD,-640,'D0','ein',0,-240,0],[T.look,-560,'D0','eout',0,-230,0],[T.bind,-300,'D0','lin',0,-185,0],[T.bind+0.2,-262,'D0','eout',0,-180,0],[T.burst,-260,'DB',0,0,-180,0],[T.charge-0.1,-270,'DB',0,0,-190,0],
@@ -53,11 +76,11 @@
   const CK=[[0,560,'CK0',0,0,760,0],[T.bind-0.5,560,'CK1',0,0,760,0],[T.bind-0.25,560,'CK2',0,0,760,0],[T.bind+0.4,560,'CK0',0,0,760,0],[T.out+0.3,560,'CK0',0,0,760,0],
     [T.surr+0.3,150,'CK0','eio',0,260,0],[T.laugh,CH0[0],'CK0','eio',0,CH0[1],0],[T.DUR,CH0[0],'CK0',0,0,CH0[1],0]];
   // trận chính: x LOCAL quanh FZ (z = FZ[1]); Doge bên trái số nhỏ, Chud bên số lớn
-  const DM=[[T.rise,-260,'DB',0,0,0,0],[T.w1-0.5,-260,'DB'],[T.w1-0.42,-250,'DRN','eout'],[T.w1,-40,'DRN','ein',1],[T.w1+0.05,-40,'DBL'],[T.w1+0.9,-300,'DBL','back'],[T.w1+1.6,-300,'DB'],   // lao vào → ăn xích → đỡ, bị đẩy lùi
-    [T.w2-0.45,-300,'DB'],[T.w2-0.38,-290,'DRN','eout'],[T.w2-0.08,-130,'DRN','ein',1],[T.w2,-110,'DDK','eout'],[T.w2+0.25,60,'DDK','ein',1],[T.punch-0.12,110,'DPU','eout'],[T.punch,170,'DPU','ein',1],[T.punch+1.4,170,'DPU'],   // cúi né dưới xích → áp sát → đấm hụt nện đất
-    [T.tie0,170,'DB'],[T.tie,175,'DPL','eout'],[T.tug,190,'DPL'],[T.lift-0.2,300,'DPL','lin',0,0,0],[T.lift,310,'DB','eout',0,0,40],[T.slam,380,'DB','ein',1,0,0],[T.down,380,'DB'],   // bị trói, giằng co, bị kéo lê → nhấc lên quật xuống
-    [T.haki,380,'DB'],[T.hakiOn,380,'DH'],[T.pull,380,'DHP','eout'],[T.snap,365,'DHP'],[T.snap+0.4,360,'DH','back'],[T.lunge,360,'DH'],[T.lunge+0.25,350,'DP1','eout'],[T.clash,540,'DP1','ein',1],[T.DUR,540,'DP1']];
-  const CM=[[T.rise,300,'CK0',0,0,0,0],[T.r1+0.6,300,'CK0'],[T.r1+0.8,305,'CK1','eout'],[T.w1-0.06,305,'CK1'],[T.w1,300,'CK2','ein'],[T.w1+0.7,300,'CK2'],[T.w1+1.0,300,'CK0'],
+  const DM=[[T.rise,-260,'DKN',0,0,0,0],[T.rise+1.3,-260,'DUP'],[T.rise+2.3,-260,'DB'],[T.w1-0.5,-260,'DB'],[T.w1-0.42,-250,'DRN','eout'],[T.w1,-40,'DRN','ein',1],[T.w1+0.05,-40,'DBL'],[T.w1+0.9,-300,'DBL','back'],[T.w1+1.6,-300,'DB'],   // lao vào → ăn xích → đỡ, bị đẩy lùi
+    [T.w2-0.45,-300,'DB'],[T.w2-0.38,-290,'DRN','eout'],[T.w2-0.08,-130,'DRN','ein',1],[T.w2,-110,'DDK','eout'],[T.w2+0.25,60,'DDK','ein',1],[T.punch-0.12,60,'DPU','eout'],[T.punch-0.03,35,'DGP','ein',1],[T.punch+1.4,35,'DGP'],   // cúi né dưới xích → áp sát → đấm hụt nện đất
+    [T.tie0,170,'DB'],[T.tie,175,'DPL','eout'],[T.tug,190,'DPL'],[T.lift-0.2,300,'DPL','lin',0,0,0],[T.lift,310,'DB','eout',0,0,40],[T.slam,380,'DDL','ein',1,0,0],[T.down,380,'DDL'],   // bị trói, giằng co, bị kéo lê → nhấc lên quật xuống
+    [T.haki,380,'DDL'],[T.haki+0.3,380,'DKN'],[T.hakiOn,380,'DH'],[T.pull,380,'DHP','eout'],[T.snap,365,'DHP'],[T.snap+0.4,360,'DH','back'],[T.lunge,360,'DH'],[T.lunge+0.25,350,'DP1','eout'],[T.clash,540,'DP1','ein',1],[T.DUR,540,'DP1']];
+  const CM=[[T.rise,300,'CHL',0,0,0,0],[T.rise+1.1,300,'CHK'],[T.rise+2.1,300,'CK0'],[T.r1+0.6,300,'CK0'],[T.r1+0.8,305,'CK1','eout'],[T.w1-0.06,305,'CK1'],[T.w1,300,'CK2','ein'],[T.w1+0.7,300,'CK2'],[T.w1+1.0,300,'CK0'],
     [T.r2+0.3,300,'CK0'],[T.r2+0.45,305,'CK3','eout'],[T.w2-0.05,305,'CK3'],[T.w2,300,'CK4','ein'],[T.zip,300,'CK4'],[T.zip+0.45,620,'CK1','eout',1,0,80],[T.zip+0.8,620,'CK0','ein',0,0,0],   // quất trượt → quăng xích vào cột, đu né cú đấm
     [T.tie0,620,'CK0'],[T.tie0+0.2,625,'CK1','eout'],[T.tie-0.04,625,'CK1'],[T.tie,620,'CK2','ein'],[T.tug,640,'CK1','eout'],[T.lift-0.2,650,'CK1'],[T.lift,640,'CK4','ein'],[T.slam,640,'CK4'],[T.down,640,'CK0'],
     [T.down+1.2,740,'CK0','eio'],[T.snap,740,'CK0'],[T.snap+0.25,700,'CK0','eout'],[T.shock,700,'CK0'],[T.lunge,700,'CK0'],[T.lunge+0.25,705,'CK1','eout'],[T.clash,600,'CK2','ein',1],[T.DUR,600,'CK2']];
@@ -91,8 +114,8 @@
     S(T.crack,T.eye,{tx:-260,ty:55,tz:-180,dist:230,yaw:-24,pitch:-2,fov:46},{tx:-260,ty:55,tz:-180,dist:200,yaw:-24,pitch:-2,fov:46},'lin'),         // trung: vết nứt lan dần, xích đỏ rực căng
     S(T.eye,T.burst,{tx:-250,ty:68,tz:-180,dist:80,yaw:-24,pitch:-2,fov:40},{tx:-250,ty:68,tz:-180,dist:68,yaw:-24,pitch:-2,fov:40},'lin'),           // đặc tả: mắt Doge loé sáng trong băng (nhạc lặng)
     S(T.burst,T.charge,{tx:-240,ty:170,tz:-170,dist:620,yaw:-22,pitch:-14,fov:54},{tx:-240,ty:180,tz:-170,dist:600,yaw:-22,pitch:-16,fov:54},'lin'),   // toàn góc giun: BĂNG VỠ TUNG, xích bung ra, Buff Doge khổng lồ hiện ra
-    S(T.charge,T.ram,{tx:-120,ty:110,tz:10,dist:560,yaw:-60,pitch:-6,fov:52},{tx:0,ty:110,tz:150,dist:500,yaw:-58,pitch:-6,fov:52},'lin'),            // CHARGE: One-Punch Shiba xoắn tròn lao thẳng vào Chud
-    S(T.ram,T.b1,{tx:CH0[0]+300,ty:260,tz:CH0[1]+360,dist:820,yaw:-40,pitch:8,fov:52},{tx:1100,ty:700,tz:1450,dist:1700,yaw:-40,pitch:14,fov:54},'eout'),
+    S(T.charge,T.ram,{tx:-170,ty:110,tz:-80,dist:600,yaw:50,pitch:-4,fov:52},{tx:0,ty:110,tz:120,dist:540,yaw:50,pitch:-4,fov:52},'lin'),   // máy VUÔNG GÓC đường lao (anh 12/11: góc cũ thấy lưng mà ảnh lao ngang) → thấy đúng meme One-Punch Shiba lao vào Chud            // CHARGE: One-Punch Shiba xoắn tròn lao thẳng vào Chud
+    S(T.ram,T.b1,{tx:CH0[0]+200,ty:420,tz:CH0[1]+240,dist:760,yaw:-40,pitch:20,fov:52},{tx:1300,ty:640,tz:1650,dist:1000,yaw:-40,pitch:14,fov:52},'eout'),   // máy đuổi sát sau lưng 2 con đang bay
     S(T.b1,T.dust,{tx:1100,ty:700,tz:1450,dist:1700,yaw:-40,pitch:14,fov:54},{tx:2200,ty:1000,tz:2900,dist:2900,yaw:-40,pitch:12,fov:54},'brake'), // 1 SHOT DÀI sau lưng: húc trúng → cả 2 bay xuyên 3 dãy nhà
     S(T.dust,T.cover,{tx:1500,ty:900,tz:2600,dist:3400,yaw:-30,pitch:2,fov:54},{tx:1500,ty:960,tz:2600,dist:3300,yaw:-30,pitch:1,fov:54},'lin'),         // THỞ: cột bụi bốc cao sau công viên
     ...C.pushIn(T.cover,{d:T.mturn-T.cover,tx:-120,ty:66,tz:-60,dist:250,dist1:225,yaw:-150,pitch:-3,fov:46}),                                          // cận: Clapping CHE MỒM nhìn theo, bất lực
@@ -108,7 +131,8 @@
     S(T.tug+1.5,T.lift,{tx:FX0+630,ty:100,tz:FZz,dist:280,yaw:12,pitch:-2,fov:46},{tx:FX0+640,ty:100,tz:FZz,dist:265,yaw:12,pitch:-2,fov:46},'lin'),  // giằng co: cận Chud ghì xích, xích rực đỏ
     S(T.lift,T.down,{tx:FX0+480,ty:180,tz:FZz,dist:700,yaw:0,pitch:-6,fov:52},{tx:FX0+480,ty:160,tz:FZz,dist:660,yaw:0,pitch:-6,fov:52},'lin'),        // Chud giật mạnh: nhấc bổng Doge lên quật xuống đất
     ...C.pushIn(T.down,{d:T.haki-T.down,tx:FX0+380,ty:50,tz:FZz,dist:330,dist1:290,yaw:-6,pitch:10,fov:46}),                                           // THỞ: Doge nằm trong hố, xích vẫn trói, Chud bước tới
-    S(T.haki,T.pull,{tx:FX0+392,ty:196,tz:FZz,dist:170,yaw:-10,pitch:-2,fov:42},{tx:FX0+392,ty:196,tz:FZz,dist:140,yaw:-10,pitch:-2,fov:42},'lin'),   // cực cận Doge: mắt loé → HAKI phủ đen 2 tay (trận đứng hình)
+    S(T.haki,T.hakiOn,{tx:FX0+370,ty:50,tz:FZz,dist:190,yaw:-10,pitch:4,fov:44},{tx:FX0+385,ty:130,tz:FZz,dist:220,yaw:-10,pitch:1,fov:44},'eout'),   // cực cận: Doge chống gối dậy, máy từ mặt đất nâng theo
+    S(T.hakiOn,T.pull,{tx:FX0+392,ty:212,tz:FZz,dist:310,yaw:-10,pitch:-2,fov:44},{tx:FX0+392,ty:208,tz:FZz,dist:255,yaw:-10,pitch:-2,fov:44},'lin'),   // HAKI phủ đen 2 tay: khung thấy RÕ MẶT + 2 tay (trận đứng hình)
     S(T.pull,T.shock,{tx:FX0+540,ty:110,tz:FZz,dist:620,yaw:0,pitch:2,fov:50},{tx:FX0+540,ty:110,tz:FZz,dist:580,yaw:0,pitch:2,fov:50},'lin'),        // Doge haki giật ngược → XÍCH ĐỨT TUNG
     S(T.shock,T.lunge,{tx:FX0+700,ty:100,tz:FZz,dist:250,yaw:14,pitch:-2,fov:44},{tx:FX0+700,ty:100,tz:FZz,dist:230,yaw:14,pitch:-2,fov:44},'lin'),   // cận Chud sững người
     S(T.lunge,T.far,{tx:FX0+540,ty:120,tz:FZz,dist:560,yaw:0,pitch:0,fov:52},{tx:FX0+560,ty:120,tz:FZz,dist:420,yaw:0,pitch:0,fov:52},'ein'),          // 2 con lao vào nhau
@@ -133,7 +157,7 @@
     g.restore(); }
   // xích từ điểm thế giới A tới B, võng / cong `sag` (đơn vị thế giới, + = võng xuống), lắc `wob`; k = độ dài đã phóng (0..1)
   function chain(F,A,B,o){ o=o||{}; const k=o.k==null?1:o.k, N=18, P=[]; for(let i=0;i<=N;i++){ const f=i/N*k, x=lerp(A[0],B[0],f), y=lerp(A[1],B[1],f)-(o.sag||0)*4*f*(1-f)+(o.wob||0)*Math.sin(f*9+(o.t||0)*20)*f, z=lerp(A[2],B[2],f); const p=K.proj(F.B,x,y,z); if(!p) return; P.push(p); }
-    const s=(P[0].s+P[P.length-1].s)/2, cw=Math.max(1.2,(o.w||9)*0.38*s), d=Math.min(P[0].d,P[P.length-1].d)+(o.d||-10);
+    const s=(P[0].s+P[P.length-1].s)/2, cw=Math.max(1.2,Math.min(7,(o.w||9)*0.38*s)),   /* trần 7px: xích sát máy không phình thành dải to vắt ngang khung */ d=Math.min(P[0].d,P[P.length-1].d)+(o.d||-10);
     F.list.push({d, fn:()=>{ const g=F.g; g.save(); g.globalAlpha=o.a==null?1:o.a; cordScreen(g,F.I.CORD,P.map(p=>[p.x,p.y]),cw,o.hot==null?1:o.hot); g.restore(); }}); }
   // xích QUẤN quanh người (vòng xoắn phía trước thân): tâm x,z, từ cao y0 tới y1, bán kính theo bề ngang ảnh
   function coil(F,x,z,y0,y1,R,turns,o){ o=o||{}; const B=F.B, r=B.r, P=[]; for(let i=0;i<=turns*14;i++){ const a=i/14*TAU, y=lerp(y0,y1,i/(turns*14)), c=Math.cos(a), sn=Math.sin(a);
@@ -143,9 +167,9 @@
   // điểm thế giới của chuôi xích trong tay Chud (ảnh billboard theo máy; ảnh lật thì đổi tay)
   function handW(F,key,x,y,z,flip,j){ const c=K.prep(F.I[key]); if(!c||!HAND[key]) return [x,y+HT[key]*0.5,z]; const h=HT[key], w=h*c.sw/c.sh; let [fx,fy]=HAND[key][j]; if(flip) fx=1-fx;
     const r=F.B.r, dx=(fx-0.5)*w; return [x+r[0]*dx, y+h*(1-fy), z+r[2]*dx]; }
-  function chudActor(F,key,x,z,y,look,o){ const flip=W.actor(F,Object.assign({key,dir:DIR[key],x,z,y,h:HT[key],look,shadow:true,life:{breath:0.6,wind:0.9}},o||{}));   // chuôi xích = handW theo ảnh đã lật
+  function chudActor(F,key0,x,z,y,look,o){ const r=act(F,Object.assign({key:key0,dir:DIR[key0],x,z,y,h:HT[key0],look,shadow:true,life:{breath:0.6,wind:0.9}},o||{})), flip=r.flip, key=r.key;   // đa góc: chuôi xích = handW theo ẢNH THẬT vừa vẽ (đã lật)
     // người ửng đỏ / tàn lửa bốc (dạng phẫn nộ của game)
-    if(F.t!=null) K.sparks(F,{x,y:60,z,t0:Math.floor(F.t*4)/4,n:4,speed:200,life:0.7,seed:Math.floor(F.t*4)+900,col:'255,110,50'});
+    if(F.t!=null&&!(o&&o.dry)) K.sparks(F,{x,y:60,z,t0:Math.floor(F.t*4)/4,n:4,speed:200,life:0.7,seed:Math.floor(F.t*4)+900,col:'255,110,50'});
     return [handW(F,key,x,y,z,flip,0),handW(F,key,x,y,z,flip,1)]; }
   // vết nứt trên khối băng
   function iceCracks(F,x,z,h,k){ if(k<=0) return; const P=K.proj(F.B,x,h*0.5,z); if(!P) return; const S=h*P.s;
@@ -202,14 +226,14 @@
     const frozen=t>=T.frz&&t<T.burst, iceA=t<T.frz?0:t<T.frz+0.5?seg(t,T.frz,T.frz+0.5):t<T.burst?1:0, bound=t>=T.bind+0.2&&t<T.burst;
     const lookD=t<T.bind?{x:d.x+Math.sin(t*1.7)*300,z:d.z+200}:{x:c.x,z:c.z};   // dáo dác nhìn quanh
     if(t<T.ram&&t>=T.strikeD+0.12){ const key=d.im, pre=t>=T.charge-0.1&&t<T.charge?seg(t,T.charge-0.1,T.charge):0;
-      W.actor(F,{key,dir:DIR[key],x:d.x+(frozen?shk*0.4:0),z:d.z,y:d.y+walking(t,0,T.bind),h:HT[key],look:lookD,smear:d.sm,shadow:true,
+      act(F,{key,dir:DIR[key],face:t>=T.charge&&t<T.ram?[CH0[0]-d.x,CH0[1]-d.z]:null,x:d.x+(frozen?shk*0.4:0),z:d.z,y:d.y+walking(t,0,T.bind),h:HT[key],look:lookD,smear:d.sm,shadow:true,
         aura:t>=T.burst?{preset:'fire',k:0.6,seed:3}:null, white:(t>=T.burst&&t<T.burst+0.06)?1:0, life:frozen?{breath:0}:{breath:0.7,squash:pre?-0.3*pre:K.squash(t,T.landD,0.4,0.12)}});
       if(iceA>0) W.ice(F,{key:'D0',x:d.x+(frozen?shk*0.4:0),z:d.z,h:HT.D0*1.08,seed:4},iceA,t);
       if(frozen) iceCracks(F,d.x,d.z-2,HT.D0,t<T.crack?0:seg(t,T.crack,T.quiet));
       if(t>=T.eye&&t<T.burst){ const P=K.proj(F.B,d.x+6,HT.D0*0.72,d.z-6); if(P) F.list.push({d:P.d-9, fn:()=>{ const g=F.g, R=Math.max(3,18*P.s)*(0.6+0.4*Math.sin(t*30)); g.save(); g.globalCompositeOperation='lighter'; const gr=g.createRadialGradient(P.x,P.y,0,P.x,P.y,R*4); gr.addColorStop(0,'rgba(255,240,190,1)'); gr.addColorStop(0.25,'rgba(255,190,90,0.7)'); gr.addColorStop(1,'rgba(255,140,40,0)'); g.fillStyle=gr; g.fillRect(P.x-R*4,P.y-R*4,R*8,R*8); g.restore(); }}); }
-    } else if(t>=T.ram&&flyA(t)>0.02){ const p=RAM(flyK(t)), q=RAM(flyK(t)+90);
-      W.actor(F,{key:'CK0',dir:0,x:q[0],z:q[1],y:140,h:HT.CK0,look:{x:p[0]-200,z:p[1]-200},shadow:false,lean:-25,life:{breath:0}});
-      W.actor(F,{key:'DZ',dir:-1,x:p[0],z:p[1],y:120,h:HT.DZ,look:{x:q[0],z:q[1]},smear:{dx:-DIRV[0]*60,dy:0,dz:-DIRV[1]*60},shadow:false,life:{breath:0}}); }
+    } else if(t>=T.ram&&flyA(t)>0.02){ const p=RAM(flyK(t)), q=RAM(flyK(t)+90), fy=120+420*eout(seg(t,T.ram,T.ram+0.7));   // cú húc HẤT BỔNG cả 2 lên cao (trước bay sát đất → hàng cây che mất) rồi đâm vào thân nhà
+      W.actor(F,{key:'CHF',dir:1,x:q[0],z:q[1],y:fy+85,h:HT.CHF,look:{x:p[0],z:p[1]},shadow:false,life:{breath:0}});   // Chud bị húc bay ngửa ra sau, mặt về phía Doge   // Chud bị húc: mặt hướng về Doge (ngược đường bay)
+      act(F,{key:'DZ',dir:-1,x:p[0],z:p[1],y:fy,h:HT.DZ,face:[DIRV[0],DIRV[1]],smear:{dx:-DIRV[0]*60,dy:0,dz:-DIRV[1]*60},shadow:false,life:{breath:0}}); }
     // ── Chud: bóng trong hàng cây (lurker) → quăng 2 xích quấn Doge → bước ra (vẫn ghì xích) → vây → bị húc
     if(t>=T.lurk-0.1&&t<T.bind+0.3){ lurker(F,t,'CK0',560,760,[[-0.06,0.86],[0.06,0.86]]); lurker(F,t,'M0',380,620,[[-0.12,0.7],[0.1,0.7]]); }
     let hands=null;
@@ -243,12 +267,22 @@
     if(t>=T.punch) crater(F,X+170-60,Z,260,Math.min(1,seg(t,T.punch,T.punch+0.2)));
     if(t>=T.slam) crater(F,X+380,Z,220,Math.min(1,seg(t,T.slam,T.slam+0.2)));
     const haki=tt>=T.hakiOn, dKey=d.im;
-    const dFlip=W.actor(F,{key:dKey,dir:DIR[dKey],x:X+d.x,z:Z+d.z,y:d.y,h:HT[dKey],look:{x:X+c.x,z:Z},smear:d.sm,shadow:d.y<100,
+    const dO={key:dKey,dir:DIR[dKey],face:(t>=T.haki&&t<T.pull)?[0.6-F.B.f[0],-F.B.f[2]]:null,x:X+d.x,z:Z+d.z,y:d.y,h:HT[dKey],   /* cực cận Haki: mặt 3/4 về máy */look:{x:X+c.x,z:Z},smear:d.sm,shadow:d.y<100,
       aura:haki?{preset:'haki',k:tt<T.hakiOn+1?1.3:0.7,seed:8}:{preset:'fire',k:0.45,seed:3}, white:(t>=T.w1&&t<T.w1+0.06)?1:0,
-      lean:t>=T.down&&t<T.haki?-28:0, life:{breath:t>=T.tug&&t<T.lift?2.2:0.7,squash:K.squash(tt,T.slam,0.35,0.1)}});
+      lean:0, life:{breath:t>=T.tug&&t<T.lift?2.2:0.7,squash:K.squash(tt,T.slam,0.35,0.1)}};
+    // THỨ TỰ VẼ (12/11): xích trói tay XA (bên kia thân so với Chud) phải chui SAU người Doge — trước vẽ đè lên, sợi xích cắt ngang bụng
+    const bound=t>=T.tie0&&t<T.snap, dR0=act(F,Object.assign({},dO,{dry:true})), dF0=[0,1].map(j=>handW(F,dR0.key,X+d.x,d.y,Z+d.z,dR0.flip,j));
+    const hands0=chudActor(F,c.im,X+c.x,Z+c.z,c.y,{x:X+d.x,z:Z},{dry:true});
+    const R=F.B.r, sx=(px,pz)=>(px-(X+d.x))*R[0]+(pz-(Z+d.z))*R[2], sC=sx(X+c.x,Z+c.z);   // so theo HƯỚNG NGANG máy (Chud ngoài khung vẫn đúng)
+    const far=[0,1].map(j=>sx(dF0[j][0],dF0[j][2])*sC<0);
+    const tieChain=(j,hd,dA)=>{ const dz=far[j]?70:-10;   // bộ khung XẾP THEO ĐỘ SÂU: xích tay xa lùi sau thân Doge
+      if(t<T.tie) chain(F,hd[j],dA[j],{k:seg(t,T.tie0+0.25,T.tie),sag:-30,t,w:9,hot:1,d:dz}); else { const taut=t>=T.tug?1:0.6; chain(F,hd[j],dA[j],{sag:taut?4:30,wob:t>=T.tug?2.5:0,t,w:9,hot:t>=T.hakiOn?0.6:1,d:dz}); coil(F,dA[j][0],dA[j][2],dA[j][1]-9,dA[j][1]+9,13,2,{w:7}); } };
+    if(bound) for(let j=0;j<2;j++) if(far[j]) tieChain(j,hands0,dF0);
+    const dR=act(F,dO);
+    const dFlip=dR.flip, dKv=dR.key;   // ảnh thật (đa góc)
     const hands=chudActor(F,c.im,X+c.x,Z+c.z,c.y,{x:X+d.x,z:Z});
     // ── xích: buông thõng · quất (pha 1, 2) · quấn cột (đu né) · trói 2 tay Doge (pha 3 → giằng co → nhấc quật) · đứt
-    const dF=[handW(F,dKey,X+d.x,d.y,Z+d.z,dFlip,0),handW(F,dKey,X+d.x,d.y,Z+d.z,dFlip,1)], dChest=dF[0], dArms=dF;   // 12/11: xích gắn đúng NẮM ĐẤM / tay đỡ của ảnh (trước đặt sau lưng → xích xuyên qua người)
+    const dF=[handW(F,dKv,X+d.x,d.y,Z+d.z,dFlip,0),handW(F,dKv,X+d.x,d.y,Z+d.z,dFlip,1)], dChest=dF[0], dArms=dF;   // 12/11: xích gắn đúng NẮM ĐẤM / tay đỡ của ảnh (trước đặt sau lưng → xích xuyên qua người)
     const hang=(j)=>{ const h=hands[j]; chain(F,h,[h[0]+(j?30:-30),Math.max(4,h[1]-150),h[2]],{sag:-10,wob:6,t,w:8,hot:0.9}); };
     // nhát QUẤT = sóng roi: vươn ra cong như roi (sóng lớn giảm dần khi duỗi thẳng), đầu xích bật vào đích, kéo theo 3 vệt bóng mờ
     const whip=(j,t0,tg,miss)=>{ const B=miss?[tg[0]+(hands[j][0]-tg[0])*-0.25,tg[1]+40,tg[2]]:tg, at=tt=>{ const k=eout(seg(tt,t0-0.14,t0)), back=seg(tt,t0+0.18,t0+0.6); return {k:k*(1-back*0.85), wob:(1-k)*70+back*20}; };
@@ -260,18 +294,16 @@
     else if(t<T.r2+0.45){ hang(0); hang(1); }
     else if(t<T.zip){ hang(0); whip(1,T.w2,[X+d.x,HT.DDK*1.25,Z],true); }
     else if(t<T.tie0){ chain(F,hands[1],[PIL[0],PIL[1],PIL[2]],{sag:10,t,w:9,hot:1}); if(t<T.zip+0.9) coil(F,PIL[0],PIL[2],PIL[1]-60,PIL[1]+10,60,2,{w:8}); hang(0); }
-    else if(t<T.tie){ for(let j=0;j<2;j++) chain(F,hands[j],dArms[j],{k:seg(t,T.tie0+0.25,T.tie),sag:-30,t,w:9,hot:1}); }
-    else if(t<T.snap){ const taut=t>=T.tug?1:0.6; for(let j=0;j<2;j++) chain(F,hands[j],dArms[j],{sag:taut?4:30,wob:t>=T.tug?2.5:0,t,w:9,hot:t>=T.hakiOn?0.6:1});
-      for(const f of dF) coil(F,f[0],f[2],f[1]-9,f[1]+9,13,2,{w:7}); }   // quấn siết quanh 2 cổ tay (trước vẽ vòng to ngang ngực)
+    else if(t<T.snap){ for(let j=0;j<2;j++) if(!far[j]) tieChain(j,hands,dArms); }   // tay GẦN: xích vẽ trước mặt; quấn siết quanh cổ tay   // quấn siết quanh 2 cổ tay (trước vẽ vòng to ngang ngực)
     else if(snapK<1){ for(let j=0;j<2;j++){ const h=hands[j]; chain(F,h,[lerp(dArms[j][0],h[0],0.5)+j*40,lerp(dArms[j][1],h[1],0.5)-snapK*200,Z],{sag:-20,wob:8,t,w:8,hot:1-snapK*0.5}); } }
     else { hang(0); hang(1); }
     // ── hiệu ứng
     if(t>=T.w1&&t<T.w1+1.1){ K.sparks(F,{x:dChest[0],y:dChest[1],z:Z,t0:T.w1,n:60,speed:900,life:0.7,seed:91,col:'255,140,60'}); if(t<T.w1+0.3){ const u=seg(t,T.w1,T.w1+0.3); K.ring(F,dChest[0],Z,20+160*eout(u),8,0.6*(1-u),'255,170,90'); } K.smoke(F,{x:X+d.x,z:Z,t0:T.w1+0.1,n:8,spread:200,rise:30,life:0.9,size:70,seed:92,a:0.4,tint:'120,104,96'}); }   // xích quất trúng tay đỡ, Doge trượt lùi
-    if(t>=T.punch&&t<T.punch+2.0){ const px=X+110; K.debris(F,{x:px,y:10,z:Z,t0:T.punch,n:50,speed:1400,life:1.8,size:34,seed:93,col:'#4a4246'}); K.smoke(F,{x:px,z:Z,t0:T.punch,n:18,spread:700,rise:220,life:2,size:200,seed:94,a:0.6,tint:'130,104,96'});
-      if(t<T.punch+0.7){ const u=seg(t,T.punch,T.punch+0.7); K.ring(F,px,Z,40+900*eout(u),26,0.7*(1-u),'255,220,180'); } }   // nắm đấm nện nát mặt đất (kiểu Big Bang Impact)
+    if(t>=T.punch&&t<T.punch+2.0){ const px=X+110; K.debris(F,{x:px,y:10,z:Z+60,t0:T.punch,n:28,speed:1400,life:1.8,size:20,seed:93,col:'#4a4246'}); K.smoke(F,{x:px,z:Z,t0:T.punch,n:14,spread:700,rise:220,life:2,size:180,seed:94,a:0.38,tint:'130,104,96'});
+      }   // (bỏ vòng sáng trắng trên sàn — trông giả) nắm đấm nện nát mặt đất (kiểu Big Bang Impact)
     if(t>=T.slam&&t<T.slam+1.6){ K.debris(F,{x:X+380,y:10,z:Z,t0:T.slam,n:40,speed:1100,life:1.4,size:28,seed:95,col:'#4a4246'}); K.smoke(F,{x:X+380,z:Z,t0:T.slam,n:14,spread:500,rise:140,life:1.6,size:160,seed:96,a:0.55,tint:'130,104,96'});
       if(t<T.slam+0.6){ const u=seg(t,T.slam,T.slam+0.6); K.ring(F,X+380,Z,40+600*eout(u),20,0.6*(1-u),'255,200,160'); } }
-    if(t>=T.hakiOn&&t<T.hakiOn+1.6) K.smoke(F,{x:X+d.x,z:Z,t0:T.hakiOn,n:14,spread:160,rise:260,life:1.4,size:90,seed:97,a:0.55,tint:'40,30,40'});
+    if(t>=T.hakiOn&&t<T.hakiOn+1.6) K.smoke(F,{x:X+d.x,z:Z,t0:T.hakiOn,n:10,spread:220,rise:260,life:1.4,size:80,seed:97,a:0.22,tint:'40,30,40'});
     if(t>=T.snap&&t<T.snap+1.2){ K.debris(F,{x:X+d.x+60,y:110,z:Z,t0:T.snap,n:36,speed:1000,life:1.0,size:10,seed:98,col:'#ff6a20'}); K.sparks(F,{x:X+d.x+60,y:110,z:Z,t0:T.snap,n:46,speed:900,life:0.7,seed:99,col:'255,150,60'}); }   // mắt xích đứt văng tung toé
     if(t>=T.lunge&&t<T.clash){ K.smoke(F,{x:X+360,z:Z,t0:T.lunge+0.2,n:8,spread:200,rise:40,life:1,size:80,seed:101,a:0.45,tint:'120,104,96'}); K.smoke(F,{x:X+700,z:Z,t0:T.lunge+0.2,n:8,spread:200,rise:40,life:1,size:80,seed:102,a:0.45,tint:'120,104,96'}); } }
   // ── chân trời: trận Gojo vs Pain va chạm — loé tím trắng + vòng sóng trên trời (lúc 2 con lao vào nhau)
@@ -344,7 +376,7 @@
       h(T.strikeD,8,0.5); h(T.strikeK,6,0.4); h(T.landD,6,0.4); h(T.landK,4,0.3); h(T.bind,4,0.3); h(T.frz,4,0.4); h(T.burst,16,0.8); h(T.charge,6,0.3); h(T.ram,18,0.8); for(const [tb] of HITS) h(tb,8,0.6);
       h(T.w1,14,0.45); h(T.punch,20,0.9); h(T.slam,16,0.7); h(T.hakiOn,5,1.0); h(T.snap,10,0.5); h(T.far,6,0.8); if(t>=T.tug&&t<T.lift) s=Math.max(s,1.2); return s; },
     world, post(F,t){ const fx={shocks:[]}; const sh=(a,x,y,z,rm,d,str)=>{ if(t>=a&&t<a+d){ const u=(t-a)/d; fx.shocks.push({x,y,z,r:20+rm*eout(u),w:26,str:str*(1-u)}); fx.chroma=Math.max(fx.chroma||0,0.5*(1-u)); } };
-      sh(T.burst,-260,80,-180,600,0.7,26); sh(T.ram,CH0[0],120,CH0[1],520,0.6,28); sh(T.punch,FZ[0]+110,40,FZ[1],800,0.8,30); sh(T.slam,FZ[0]+380,40,FZ[1],520,0.6,22); sh(T.hakiOn,FZ[0]+380,120,FZ[1],400,0.9,18); return fx; },
+      sh(T.burst,-260,80,-180,600,0.7,26); sh(T.ram,CH0[0],120,CH0[1],520,0.6,28); sh(T.punch,FZ[0]+110,40,FZ[1],800,0.8,12); sh(T.slam,FZ[0]+380,40,FZ[1],520,0.6,22); sh(T.hakiOn,FZ[0]+380,120,FZ[1],400,0.9,18); return fx; },
     screen(F,t){
       if(t>=T.charge&&t<T.ram) K.panLines(F,{k:0.55,ang:-0.3,n:24});
       if(t>=T.ram&&t<T.b1) K.speedLines(F,{k:0.45*(1-seg(t,T.ram+0.4,T.b1)),n:60,r0:0.45});
