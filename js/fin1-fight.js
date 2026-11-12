@@ -24,7 +24,7 @@
   function actor(F,o){ const c=F.I[o.key]; if(!c) return; let flip=!!o.flip; const dir=o.dir||0;
     if(o.look&&dir){ const r=F.B.r, side=(o.look.x-o.x)*r[0]+((o.look.z||0)-(o.z||0))*r[2];   // so theo HƯỚNG NGANG của máy (đối thủ ngoài khung / sau lưng máy vẫn đúng)
       if(Math.abs(side)>1){ const want=side<0?-1:1; flip=want!==dir; } }
-    K.sprite(F,Object.assign({},o,{img:c,flip})); }
+    K.sprite(F,Object.assign({},o,{img:c,flip})); return flip; }   // trả về ảnh có bị lật không (để gắn đồ vật vào tay đúng phía)
   let SMC=null;
   function smearFrame(F,k){ const c=F.g.canvas, g=F.g; if(!SMC) SMC=document.createElement('canvas'); if(SMC.width!==c.width||SMC.height!==c.height){ SMC.width=c.width; SMC.height=c.height; }
     SMC.getContext('2d').drawImage(c,0,0); g.save(); g.setTransform(1,0,0,1,0,0); const N=9, W=c.width*k;

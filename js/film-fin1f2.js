@@ -26,7 +26,7 @@
   const theme=t=>CITY.TH_BRIDGE;
   const IMG={ A0:'assets/img/cine/FIN_AKA_BAT.png', AT:'assets/img/cine/FIN_F2_BAT_THROW.png', AG:'assets/img/cine/FIN_F2_BAT_GRAPPLE.png',
     P0:'assets/avatars/popcat/avatarUrl.webp', P1:'assets/avatars/popcat/attackAvatarUrl.webp', U0:'assets/avatars/huhcat/avatarUrl.webp',
-    nD:'assets/avatars/doge/avatarUrl.webp', nK:'assets/avatars/clappingcat/avatarUrl.webp',   // trận kế (fin1f1, công viên) trong lỗ vòng khói
+    nD:'assets/avatars/doge/avatarUrl.webp', nK:'assets/avatars/clappingcat/skill3AvatarUrl.webp',   // trận kế (fin1f1, công viên) trong lỗ vòng khói
     ...window.FIN1_CITY_IMGS };
   const DIR={A0:0,AT:-1,AG:-1,P0:0,P1:0,U0:0};
   const HT={A0:H*1.12,AT:H*1.0,AG:H*1.15,P0:H*0.8,P1:H*0.8,U0:H*0.78};
@@ -87,9 +87,11 @@
     ...C.pushIn(T.inhale,{d:T.giant-T.inhale,tx:-380,ty:78,tz:-60,dist:210,dist1:180,yaw:0,pitch:-4,fov:44}),                                                // Pop hít sâu
     S(T.giant,T.DUR,{tx:-380,ty:78,tz:-20,dist:235,yaw:0,pitch:-4,fov:48}) ]);                                                                             // vòng khói khổng lồ lao về máy → chui qua lỗ O
   // ───────── TRẬN KẾ (fin1f1, CÔNG VIÊN) trong lỗ vòng khói: Doge + Clapping đi dạo — đúng khung mở đầu fin1f1 ─────────
-  const PARK=Fin1City({seed:7, kind:'park'}), NEXT1={tx:0,ty:160,tz:0,dist:1500,yaw:-56,pitch:-6,fov:52,roll:-2,oy:0};   // oy:0 → ô tròn không tự dời tâm ảnh
+  const PARK=Fin1City({seed:7, kind:'park'}), NEXT1={tx:-560,ty:110,tz:-180,dist:900,yaw:-40,pitch:-4,fov:52,roll:-2,oy:0};   // = máy shot đầu fin1f1   // oy:0 → ô tròn không tự dời tâm ảnh
   function drawNext(F,t){ PARK.draw(F,t,PARK.TH_PARK);
-    K.sprite(F,{img:F.I.nD,x:-160,z:30,h:H*0.75,life:{breath:0.8}}); K.sprite(F,{img:F.I.nK,x:-40,z:-50,h:H*1.05,life:{breath:0.7}}); }
+    // khung mở đầu fin1f1: Doge + Clapping vừa truyền tống xuống, 2 cột sáng (vàng Doge, trắng Clapping) còn sáng rực
+    W.beam(F,[-640,0,-240],[-640,4200,-240],70,'255,214,90',1,{d:40}); W.beam(F,[-486,0,-368],[-486,4200,-368],70,'255,255,255',1,{d:40});
+    K.sprite(F,{img:F.I.nD,x:-640,z:-240,h:H*0.72,life:{breath:0.8}}); K.sprite(F,{img:F.I.nK,x:-486,z:-368,h:H*1.0,life:{breath:0.7}}); }
   const ringR=t=>{ const u=seg(t,T.giant,T.hole+0.9); return lerp(30,1500,Math.pow(u,2.4)); };   // bán kính vòng khói khổng lồ TRÊN MÀN HÌNH (px logic)
   const ringC=t=>[480+Math.sin(t*3)*6, 300-40*seg(t,T.giant,T.hole)];
   function panels(t){ if(t<T.giant+0.3) return null; const R=ringR(t)*0.6, [cx,cy]=ringC(t), poly=[];

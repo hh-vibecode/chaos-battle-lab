@@ -156,6 +156,6 @@
   }
   function draw(F,t,th){ pano(F,t,th); for(const b of BL) drawBuilding(F,b,t,th); if(KIND==='park') drawProps(F,t); if(KIND==='bridge') drawBridge(F,t); }
   const TH=KIND==='park'?TH_PARK:KIND==='bridge'?TH_BRIDGE:TH_NIGHT;   // bảng màu mặc định theo bối cảnh
-  return { BL, STY, pano, drawBuilding, draw, TH, TH_NIGHT, TH_RISE, TH_DUST, TH_CLEAR, TH_PARK, TH_BRIDGE, KIND, cableY, TOW, DECK, TH_H, BEAMS };
+  return { BL, STY, pano, drawBuilding, draw, TH, TH_NIGHT, TH_RISE, TH_DUST, TH_CLEAR, TH_PARK, TH_BRIDGE, KIND, cableY, TOW, DECK, TH_H, BEAMS, box };
   };
 })();
