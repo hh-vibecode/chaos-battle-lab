@@ -38,10 +38,10 @@
   const LIGHT={0:38.4,3:38.4,1:40.6,4:40.6,2:43.7,5:44.8};   // giây đèn đỏ từng quả bật lên trong khói
   const BEAM_Y=520+120, LEDGE=[900,BEAM_Y,0], HIGH=[900,1050+120,-40];   // Bat ngồi trên dầm thấp (đầu + cuối trận) · đứng trên dầm cao sau pha dụ HUH
   const WB=[880,860,-320];                            // quả bom gài sẵn trên THÂN THÁP phải TỪ TRƯỚC TRẬN (để dụ chữ HUH)
-  const WALL1=[900,1170,-300];                        // điểm móc dây: dầm cao của tháp
+  const WALL1=[834,1110,-150];                        // điểm móc dây: MẶT TRƯỚC dầm cao của tháp (12/11: trước nằm lọt trong khối chân tháp → không thấy móc)
   const AK=[[0,LEDGE[0],'A0',0,0,LEDGE[2],LEDGE[1]],[T.drop,LEDGE[0],'A0',0,0,LEDGE[2],LEDGE[1]],[T.drop+0.3,870,'AG','eout',0,0,LEDGE[1]+70],[T.land,430,'AG','ein',1,0,0],[T.land+0.35,430,'A0'],   // nhảy khỏi dầm, lượn áo choàng đáp xuống cầu
     [T.pop1,430,'A0'],[T.dodge,430,'A0','eout',1,-110],[T.throw1-0.1,430,'A0',0,0,-110],[T.throw1,425,'AT','eout',0,-110],[T.throw1+0.4,425,'A0',0,0,-110],
-    [T.huhF,430,'A0',0,0,-100],[T.grap,430,'AG',0,0,-100],[T.pass,WB[0]-70,'AG','eout',1,WB[2]+50,WB[1]+30],[T.lure,HIGH[0]-30,'AG','lin',1,HIGH[2],HIGH[1]+20],[T.lure+0.3,HIGH[0],'A0','eout',0,HIGH[2],HIGH[1]],
+    [T.huhF,430,'A0',0,0,-100],[T.grap,430,'AG',0,0,-100],[T.grap+0.32,430,'AG',0,0,-100],[T.pass,WB[0]-70,'AG','eout',1,WB[2]+50,WB[1]+30],[T.lure,HIGH[0]-30,'AG','lin',1,HIGH[2],HIGH[1]+20],[T.lure+0.3,HIGH[0],'A0','eout',0,HIGH[2],HIGH[1]],
     [T.duel-0.6,HIGH[0],'A0',0,0,HIGH[2],HIGH[1]],[T.duel-0.15,470,'AG','ein',1,40,60],[T.duel,420,'A0','eout',0,40,0],   // từ dầm cao nhảy xuống đấu tầm xa
     [T.cut2-0.45,420,'A0',0,0,40],[T.cut2-0.35,420,'AT',0,0,40],[T.cut2,420,'A0',0,0,40],[T.cut2+0.45,420,'A0','eout',1,-120],
     [T.cut3-0.35,420,'A0',0,0,-120],[T.cut3-0.25,420,'AT',0,0,-120],[T.cut3+0.1,420,'A0',0,0,-120],[T.rhitB,465,'A0','back',0,-120],[T.rhitB+0.9,450,'A0','eio',0,-110],
@@ -70,8 +70,12 @@
     S(T.throw1,T.mock,{tx:150,ty:90,tz:-80,dist:560,yaw:-30,pitch:8,fov:52},{tx:-260,ty:70,tz:0,dist:760,yaw:-18,pitch:22,fov:52},'brake'),                 // 2 cặp boomerang "hụt", máy bám theo, găm xuống quanh chân địch
     S(T.mock,T.huhC,{tx:-440,ty:72,tz:15,dist:310,yaw:16,pitch:-4,fov:46},{tx:-440,ty:72,tz:15,dist:295,yaw:16,pitch:-4,fov:46},'lin'),                   // Pop phả "pop pop" cười nhạo
     S(T.huhC,T.huhF,{tx:-500,ty:75,tz:90,dist:235,yaw:20,pitch:-6,fov:44,ox:-0.08},{tx:-500,ty:75,tz:90,dist:205,yaw:20,pitch:-6,fov:44,ox:-0.08},'lin'),   // Huh tích lực
-    S(T.huhF,T.grap+0.7,{tx:0,ty:110,tz:0,dist:600,yaw:-6,pitch:2,fov:50}),                                                                                // HUH bay ra → Bat bắn dây móc lên tháp
-    S(T.grap+0.7,T.lure,{tx:780,ty:820,tz:-260,dist:900,yaw:-24,pitch:-14,fov:56},{tx:840,ty:1000,tz:-280,dist:840,yaw:-26,pitch:-18,fov:56},'lin'),       // Bat lướt NGANG QUA quả bom trên thân tháp, HUH bám đuôi
+    S(T.huhF,T.grap+0.05,{tx:-120,ty:110,tz:0,dist:620,yaw:-6,pitch:2,fov:50},{tx:60,ty:110,tz:0,dist:620,yaw:-6,pitch:2,fov:50},'lin'),                  // HUH bay ra, máy lia theo về phía Bat
+    // tràng cắt NHANH 3 góc (nhanh–chậm đan xen): cận Bat bắn súng móc → cận móc găm vào dầm toé lửa → Bat bị giật vút lên
+    S(T.grap+0.05,T.grap+0.28,{tx:430,ty:115,tz:-100,dist:330,yaw:-24,pitch:-22,fov:52},{tx:430,ty:125,tz:-100,dist:315,yaw:-24,pitch:-24,fov:52},'lin'),
+    S(T.grap+0.28,T.grap+0.5,{tx:WALL1[0]-20,ty:WALL1[1]-40,tz:WALL1[2],dist:420,yaw:-80,pitch:-6,fov:50},{tx:WALL1[0]-20,ty:WALL1[1]-40,tz:WALL1[2],dist:400,yaw:-80,pitch:-6,fov:50},'lin'),
+    S(T.grap+0.5,T.grap+0.75,{tx:520,ty:300,tz:-150,dist:700,yaw:-20,pitch:-18,fov:56},{tx:600,ty:620,tz:-200,dist:760,yaw:-22,pitch:-20,fov:56},'ein'),
+    S(T.grap+0.75,T.lure,{tx:780,ty:820,tz:-260,dist:900,yaw:-24,pitch:-14,fov:56},{tx:840,ty:1000,tz:-280,dist:840,yaw:-26,pitch:-18,fov:56},'lin'),       // Bat lướt NGANG QUA quả bom trên thân tháp, HUH bám đuôi
     S(T.lure,T.after,{tx:860,ty:900,tz:-300,dist:1150,yaw:-14,pitch:-10,fov:54},{tx:860,ty:900,tz:-300,dist:1110,yaw:-14,pitch:-10,fov:54},'lin'),           // HUH đâm trúng bom, nổ trên thân tháp
     S(T.after,T.duel-0.6,{tx:-300,ty:150,tz:0,dist:620,yaw:30,pitch:-20,fov:54},{tx:-300,ty:180,tz:0,dist:580,yaw:30,pitch:-24,fov:54},'lin'),          // THỞ: mảnh tháp rơi lả tả xuống cầu, 2 con ngước nhìn Bat đứng trên dầm cao
     S(T.duel-0.6,T.cut2+0.5,{tx:300,ty:160,tz:0,dist:700,yaw:0,pitch:3,fov:50},{tx:0,ty:90,tz:0,dist:580,yaw:0,pitch:3,fov:50},'brake'),                  // Bat nhảy xuống → đấu tầm xa: boomerang xé 2 vòng khói giữa cầu
@@ -179,8 +183,22 @@
       K.debris(F,{x:WB[0],y:WB[1],z:WB[2]-20,t0:T.lure,n:30,speed:900,life:1.8,size:30,seed:45,col:'#4d4448'}); K.smoke(F,{x:WB[0],y:WB[1]-60,z:WB[2]-80,t0:T.lure+0.05,n:10,spread:300,rise:60,life:1.8,size:180,seed:46,a:0.5});
       K.sparks(F,{x:WB[0],y:WB[1],z:WB[2]-20,t0:T.lure,n:24,speed:600,life:0.5,seed:47,col:'233,30,99'}); }
     // ── dây móc
-    if(t>=T.grap+0.15&&t<T.lure+0.3){ const H0=handOf(bat(t)), k=eout(seg(t,T.grap+0.15,T.grap+0.3)), Wp=WALL1, P1=[lerp(H0[0],Wp[0],k),lerp(H0[1]+40,Wp[1],k),lerp(H0[2],Wp[2]-8,k)];
-      W.line(F,[[H0[0]+10,H0[1]+40,H0[2]],P1],2.5,'#1a1a1f',{d:-4}); }
+    // 12/11 anh: "batman đu dây không có móc" → súng bắn móc trong tay + MÓC 3 NGẠNH ở đầu dây, bay theo hướng dây, găm vào dầm (toé lửa), dây võng lúc bay → căng khi kéo
+    if(t>=T.grap+0.15&&t<T.lure+0.3){ const H0=handOf(bat(t)), k=eout(seg(t,T.grap+0.15,T.grap+0.3)), Wp=WALL1, A=[H0[0]+10,H0[1]+40,H0[2]], P1=[lerp(A[0],Wp[0],k),lerp(A[1],Wp[1],k),lerp(A[2],Wp[2]-8,k)];
+      const sag=(1-k)*60, pts=[]; for(let i=0;i<=10;i++){ const f=i/10; pts.push([lerp(A[0],P1[0],f),lerp(A[1],P1[1],f)-sag*4*f*(1-f),lerp(A[2],P1[2],f)]); }
+      // dây: chỉ vẽ đoạn chiếu được (máy đứng gần móc thì đầu dây ở tay Bat nằm sau lưng máy — trước cả dây lẫn móc biến mất)
+      const PP=pts.map(p=>K.proj(F.B,p[0],p[1],p[2])), vis=PP.filter(Boolean); if(vis.length>1){ const dd=Math.min(...vis.map(p=>p.d))-4;
+        F.list.push({d:dd, fn:()=>{ const g=F.g; g.save(); g.lineCap='round'; for(const [lw,col] of [[7,'rgba(210,200,230,0.35)'],[2.6,'#141318']]){ g.strokeStyle=col; g.beginPath(); let on=false;
+          for(const p of PP){ if(!p){ on=false; continue; } if(on) g.lineTo(p.x,p.y); else { g.moveTo(p.x,p.y); on=true; } } g.lineWidth=lw; g.stroke(); } g.restore(); }}); }
+      const PA=PP[0], PB=PP[10], PQ=PP[8]||PP[9]; if(PB&&PQ){ const ang=Math.atan2(PB.y-PQ.y,PB.x-PQ.x), S=Math.max(12,64*PB.s), SG=PA?Math.max(6,18*PA.s):0;
+        F.list.push({d:PB.d-300, fn:()=>{ const g=F.g; g.save();   // luôn vẽ TRÊN mặt dầm nó găm vào
+          if(PA){ g.translate(PA.x,PA.y); g.rotate(ang); g.fillStyle='#151417'; g.fillRect(-SG*0.3,-SG*0.28,SG*1.3,SG*0.56); g.fillStyle='#3a3840'; g.fillRect(SG*0.8,-SG*0.18,SG*0.5,SG*0.36); } g.restore();   // súng bắn móc (khi tay trong khung)
+          g.save(); g.translate(PB.x,PB.y); g.rotate(ang); g.lineCap='round'; g.strokeStyle='#2c2b31'; g.lineWidth=Math.max(1.5,S*0.16);
+          g.beginPath(); g.moveTo(-S*0.9,0); g.lineTo(0,0); g.stroke();   // thân móc
+          for(const sd of [-1,0,1]){ g.beginPath(); g.moveTo(0,0); g.quadraticCurveTo(S*0.25,sd*S*0.55,-S*0.25,sd*S*0.75+(sd?0:S*0.0)); g.stroke(); }   // 3 ngạnh cong ngược
+          g.strokeStyle='rgba(220,225,240,0.8)'; g.lineWidth=Math.max(1,S*0.05); g.beginPath(); g.moveTo(-S*0.8,-S*0.04); g.lineTo(-S*0.1,-S*0.04); g.stroke();   // ánh kim
+          g.restore(); }}); }
+      if(k>=1&&t<T.grap+0.6) K.sparks(F,{x:Wp[0],y:Wp[1],z:Wp[2]-8,t0:T.grap+0.3,n:14,speed:300,life:0.4,seed:57,col:'255,220,160'}); }   // móc găm vào dầm
     // ── vòng khói trúng Bat
     if(t>=T.rhitB&&t<T.rhitB+0.5) K.sparks(F,{x:b0.x,y:95,z:b0.z,t0:T.rhitB,n:14,speed:360,life:0.4,seed:61,col:'220,225,235'});
     // ── bom khói: viên khói bay vòng cung → nổ bung khói đen dày trùm Pop + Huh, tan khi vòng khói 'clear' thổi qua
