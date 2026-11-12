@@ -60,6 +60,22 @@ Ta cũng thiếu tư thế y như vậy, nên LUÔN chọn mẹo rẻ trước. 
 Nguồn đã đọc: wavemotioncannon.com "An Introduction to Framerate Modulation" · anim.works "Art of the Hold" · hackernoon "How to cover a fight scene…" (bộ 3, trục)
 · Know Your Meme / Sakuga glossary (impact frame 1–3 khung) · animetudes (Kanada / Itano / Obari) · Wikipedia Yutaka Nakamura (khối vỡ, rung nhoè, tích luỹ cú nặng).
 
+## 🔊 TIẾNG CẢNH ĐÁNH (anh dặn 12/11/2026 "học cả cách add sound") + CÔNG CỤ "NGHE" BẰNG MẮT
+Học từ dân làm tiếng phim (Daredevil — Wilby / Stephens · Bruce Tanis hand-to-hand fight editing · Krotos · Pixflow):
+1. **1 cú = 3 lớp**: ĐẦU giòn (transient, chỉ khi trúng vật cứng: kiếm, tường, hàm) · THÂN trầm (sức nặng = dải trầm, KHÔNG phải tăng âm lượng) · ĐUÔI (vang / đá rơi,
+   cho cú "lắng xuống"). Mỗi lớp 1 việc riêng; lớp phụ ghi nhãn '+'. Đấm vào thân người: bớt lớp giòn (giòn quá thành hoạt hình).
+2. **Như bộ trống** (Wilby): xếp cú như kick / tom / hi-hat để phủ đủ trầm – trung – cao, có nhịp lên xuống ("ebb and flow"), không đều đều.
+3. **Vút (whoosh) nhỏ, đặt TRƯỚC cú**: 1 vút / 1 lần vung tay chân, chỉ nhỉnh hơn tiếng áo quần — "cảm hơn là nghe"; vút to = trông hoạt hình.
+4. **KHÔNG lặp 1 tiếng** (lỗi phổ biến nhất): đổi file / đổi độ to / đổi lớp cho mỗi cú.
+5. **Lặng trước cú quyết định**: 0.3–0.7s gần như im (nhạc rút, chỉ còn nền mỏng) → cú lớn nổ ra mới "đập". Đừng im tới mức mất mạch (giữ nền phòng / gió mỏng).
+6. **Nhạc nhường tiếng**: lúc đánh, tiếng hiệu ứng là chính, nhạc lùi (-20 dB tương đối); nhạc chỉ được lấn ở đoạn êm hoặc đỉnh cao trào. Nhạc lấn hết = cảnh "không có lực".
+7. **Đặt tiếng sớm 1–2 khung** so với khung chạm trên hình (tai chậm hơn mắt).
+8. **Ít mà chắc**: ≤ 9 tiếng chính / 10s (sfx-lint soát), phần còn lại gộp thành lớp '+' của cú chính.
+**Công cụ "nghe"** (Claude không nghe được tiếng): \`tools/x/film-listen.js <id> [--a --b] --out <thư mục>\` → \`<id>-listen.png\`
+(① lịch tiếng · ② dạng sóng TIẾNG cam / NHẠC xanh · ③ độ to LUFS 400ms · ④ 3 dải trầm / trung / cao · ⑤ phổ tần) + \`<id>-listen.md\` bảng từng cú:
+nổi lên bao nhiêu dB so 0.5s trước (cú lớn phải ≥ 4 dB), tiếng − nhạc (âm = nhạc che tiếng), có lặng trước không, rè. Chạy SAU sfx-lint, trước khi báo anh.
+Trộn y công thức render-cine (chuẩn hoá -14 LUFS theo SND_LUFS, tiếng ×0.75 khi có nhạc) — CHƯA có nén nhạc theo giọng đọc (mus.vo).
+
 ## 🎥 TƯ DUY ĐẠO DIỄN cho cảnh ĐỨNG / HỘI THOẠI / RA MẮT NHÓM (anh chê 5/11: "đứng 1 hàng chán, tư duy đơn giản" — gửi ảnh mẫu Akatsuki)
 Cảnh không đánh nhau vẫn phải có ý đồ máy quay. Trước khi code, viết ra cho từng shot: GÓC (thấp / cao / ngang), CỠ (toàn / trung / cận / đặc tả), AI Ở TIỀN CẢNH.
 1. **Không bao giờ xếp nhân vật thành 1 hàng ngang cùng độ cao.** Mỗi người 1 độ cao + 1 tư thế: đứng trên bệ/cột, ngồi trên gờ, ngồi xổm,
