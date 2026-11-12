@@ -278,6 +278,8 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
       vẽ bằng GPT theo lưới đều → dùng thay vì 4–5 ảnh tĩnh trượt qua lại. Đây là điểm yếu nhất anh chỉ ra.
    ③ VŨ KHÍ PHẢI VA CHẠM THẬT + HƯỚNG HỢP LOGIC: kiếm chạm kiếm đúng chỗ, xích quất / quấn đúng vào người, đòn đi đúng hướng đối thủ (không vung vào khoảng không).
    ④ XÍCH trận Chud vs Doge "lỗi tùm lum, không có lực" → soát từng khung, sửa chỗ gắn tay / quấn / căng / đứt; thêm lực (quật mạnh, căng rung, tia lửa).
+      ✅ (12/11 tối, Ver 579–580) fin1f1 đã làm: bộ ĐA GÓC Doge + Chud vẽ lại đúng chất meme (`VIEWS` + `act()` chọn ảnh theo góc máy, `tools/x/sheet-cut.js` cắt tấm), xích tay xa xếp SAU thân (bộ khung xếp theo độ sâu → `chain(...,{d:+70})`), trần 7px bề ngang xích,
+      ảnh đấm nện đất `FIN_F1_DOGE_GPUNCH`, One-Punch Shiba quay mặt PHẢI (`face:{side:1}`), máy cú lao VUÔNG GÓC đường lao → cắt thẳng sang Chud bị húc bay (máy cao trên ngọn cây, anh khen 12/11). Còn: các trận khác chưa có đa góc.
    ⑤ BAT đu dây KHÔNG CÓ MÓC → vẽ móc (grapnel) ở đầu dây, bắn ra từ súng móc, cắm vào dầm / cáp rồi mới kéo người lên.
    ⑥ CẢNH LAO ĐI (fin1c5): CẢ 5 thành viên Meowkatsuki cùng tách ra các hướng (mỗi con lao về cột sáng của trận mình), không chỉ Depressed. Cần tư thế lấy đà / bay cho cả 5.
    Nhiều lỗi khác anh thấy khi xem cả tập → soát lại toàn bộ bằng bảng khung dày trước khi báo.

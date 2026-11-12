@@ -115,7 +115,7 @@
     S(T.eye,T.burst,{tx:-250,ty:68,tz:-180,dist:80,yaw:-24,pitch:-2,fov:40},{tx:-250,ty:68,tz:-180,dist:68,yaw:-24,pitch:-2,fov:40},'lin'),           // đặc tả: mắt Doge loé sáng trong băng (nhạc lặng)
     S(T.burst,T.charge,{tx:-240,ty:170,tz:-170,dist:620,yaw:-22,pitch:-14,fov:54},{tx:-240,ty:180,tz:-170,dist:600,yaw:-22,pitch:-16,fov:54},'lin'),   // toàn góc giun: BĂNG VỠ TUNG, xích bung ra, Buff Doge khổng lồ hiện ra
     S(T.charge,T.ram,{tx:-170,ty:110,tz:-80,dist:600,yaw:50,pitch:-4,fov:52},{tx:0,ty:110,tz:120,dist:540,yaw:50,pitch:-4,fov:52},'lin'),   // máy VUÔNG GÓC đường lao (anh 12/11: góc cũ thấy lưng mà ảnh lao ngang) → thấy đúng meme One-Punch Shiba lao vào Chud            // CHARGE: One-Punch Shiba xoắn tròn lao thẳng vào Chud
-    S(T.ram,T.b1,{tx:CH0[0]+200,ty:420,tz:CH0[1]+240,dist:760,yaw:-40,pitch:20,fov:52},{tx:1300,ty:640,tz:1650,dist:1000,yaw:-40,pitch:14,fov:52},'eout'),   // máy đuổi sát sau lưng 2 con đang bay
+    S(T.ram,T.b1,{tx:CH0[0]+160,ty:260,tz:CH0[1]+190,dist:900,yaw:50,pitch:30,fov:50},{tx:1500,ty:560,tz:1930,dist:900,yaw:50,pitch:24,fov:50},'lin'),   // (anh 12/11) cắt thẳng từ cú lao sang CHUD BỊ HÚC BAY: cùng trục ngang với cú lao, máy cao trên ngọn cây bám theo 2 con (trước quay sau lưng → cây che mất Chud)
     S(T.b1,T.dust,{tx:1100,ty:700,tz:1450,dist:1700,yaw:-40,pitch:14,fov:54},{tx:2200,ty:1000,tz:2900,dist:2900,yaw:-40,pitch:12,fov:54},'brake'), // 1 SHOT DÀI sau lưng: húc trúng → cả 2 bay xuyên 3 dãy nhà
     S(T.dust,T.cover,{tx:1500,ty:900,tz:2600,dist:3400,yaw:-30,pitch:2,fov:54},{tx:1500,ty:960,tz:2600,dist:3300,yaw:-30,pitch:1,fov:54},'lin'),         // THỞ: cột bụi bốc cao sau công viên
     ...C.pushIn(T.cover,{d:T.mturn-T.cover,tx:-120,ty:66,tz:-60,dist:250,dist1:225,yaw:-150,pitch:-3,fov:46}),                                          // cận: Clapping CHE MỒM nhìn theo, bất lực
@@ -255,7 +255,7 @@
     if(t>=T.burst&&t<T.burst+1.6){ K.debris(F,{x:d.x,y:60,z:d.z,t0:T.burst,n:46,speed:1300,life:1.4,size:24,seed:21,col:'#cfeaff'}); K.sparks(F,{x:d.x,y:90,z:d.z,t0:T.burst,n:40,speed:900,life:0.7,seed:22,col:'220,245,255'});
       K.smoke(F,{x:d.x,z:d.z,t0:T.burst,n:14,spread:420,rise:140,life:1.5,size:120,seed:23,a:0.5,tint:'230,240,255'}); if(t<T.burst+0.6){ const u=seg(t,T.burst,T.burst+0.6); K.ring(F,d.x,d.z,40+700*eout(u),16,0.6*(1-u),'230,245,255'); } }
     if(t>=T.charge-0.1&&t<T.charge+1.2) K.smoke(F,{x:-260,z:-180,t0:T.charge-0.05,n:10,spread:260,rise:60,life:1.2,size:90,seed:31,a:0.45,tint:'120,110,96'});   // đạp đất lao đi
-    if(t>=T.ram&&t<T.ram+0.9){ const u=seg(t,T.ram,T.ram+0.6); K.ring(F,CH0[0],CH0[1],40+600*eout(u),18,0.7*(1-u),'255,200,120'); K.sparks(F,{x:CH0[0],y:130,z:CH0[1],t0:T.ram,n:30,speed:700,life:0.5,seed:41,col:'255,210,150'}); }
+    if(t>=T.ram&&t<T.ram+0.9){ const u=seg(t,T.ram,T.ram+0.6); K.ring(F,CH0[0],CH0[1],40+600*eout(u),8,0.35*(1-u),'255,200,120'); K.sparks(F,{x:CH0[0],y:130,z:CH0[1],t0:T.ram,n:30,speed:700,life:0.5,seed:41,col:'255,210,150'}); }
     for(const [tb,kk] of HITS) if(t>=tb&&t<tb+2.6){ const p=RAM(kk); K.debris(F,{x:p[0],y:300,z:p[1]-200,t0:tb,n:36,speed:1500,life:2.2,size:70,seed:50+kk%97,col:'#4d4448'});
       K.smoke(F,{x:p[0],z:p[1],t0:tb+0.05,n:16,spread:900,rise:700,life:2.4,size:420,seed:60+kk%91,a:0.55,tint:'120,100,90'}); }
     if(t>=T.b1) K.smoke(F,{x:2000,z:3100,t0:T.b1,n:30,spread:2800,rise:1800,life:12,size:900,seed:71,a:0.6,tint:'110,92,84'}); }

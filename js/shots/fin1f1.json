@@ -16,7 +16,7 @@
   {"t0":29,"t1":30.6,"co":"đặc tả","goc":"ngang","hanhDong":"mắt Doge loé sáng trong băng (nhạc lặng)","loai":"ra chiêu","anh":["D0"],"sfx":["ep3_shine"],"ghiChu":""},
   {"t0":30.6,"t1":31.6,"co":"toàn","goc":"giun","hanhDong":"BĂNG VỠ TUNG, xích bung ra, Buff Doge khổng lồ hiện ra","loai":"ra chiêu","anh":["DB"],"sfx":["duo_ice_break","kn_boom_low"],"ghiChu":""},
   {"t0":31.6,"t1":32.4,"co":"trung","goc":"ngang","hanhDong":"CHARGE: One-Punch Shiba xoắn tròn lao thẳng vào Chud","loai":"đánh","anh":["DZ"],"sfx":["se_machdash"],"ghiChu":""},
-  {"t0":32.4,"t1":33.3,"co":"toàn","goc":"chim","hanhDong":"húc trúng Chud → cả 2 bay vút đi, máy bám theo từ trên cao","loai":"đánh","anh":["DZ","CK0"],"sfx":["se_super_hit","kn_punch_heavy"],"ghiChu":""},
+  {"t0":32.4,"t1":33.3,"co":"toàn","goc":"chim","hanhDong":"cắt thẳng sang Chud bị húc bay: máy cao trên ngọn cây, cùng trục ngang, bám theo 2 con lao vào toà nhà","loai":"đánh","anh":["DZ","CK0"],"sfx":["se_super_hit","kn_punch_heavy"],"ghiChu":""},
   {"t0":33.3,"t1":36.4,"co":"toàn","goc":"chim","hanhDong":"nhìn qua ngọn cây: cả 2 đâm xuyên 3 dãy nhà, nhà đổ dần theo đường bay","loai":"nổ lớn","anh":[],"sfx":["se_wall_break","se_rock_break","se_collapse"],"ghiChu":""},
   {"t0":36.4,"t1":38.8,"co":"toàn","goc":"ngang","hanhDong":"THỞ: cột bụi bốc cao sau công viên, nhà đổ rền","loai":"thở","anh":[],"sfx":["se_collapse_b"],"ghiChu":""},
   {"t0":38.8,"t1":41.6,"co":"cận","goc":"ngang","hanhDong":"Clapping CHE MỒM nhìn theo, bất lực","loai":"đối mặt","anh":["K0"],"sfx":[],"ghiChu":""},
