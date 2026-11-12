@@ -219,6 +219,23 @@
     F.under.push(()=>{ const g=F.g; g.save(); g.globalAlpha=a; const gr=g.createRadialGradient(P.x,P.y,0,P.x,P.y,rx); gr.addColorStop(0,'rgba(10,8,8,0.9)'); gr.addColorStop(0.7,'rgba(30,24,22,0.7)'); gr.addColorStop(1,'rgba(60,50,46,0)'); g.fillStyle=gr; g.beginPath(); g.ellipse(P.x,P.y,rx,ry,0,0,TAU); g.fill(); g.restore(); }); }
   function world(F,t){ const th=theme(t); CITY.draw(F,t,th); F.t=t;
     if(t<T.rise) parkWorld(F,t); else fightWorld(F,t); farFlash(F,t); }
+  // ── 2 VỆT TỐC ĐỘ CAO sau cú húc: đuôi = đường bay thật vài phần giây trước (cong theo đà hất lên), đầu sáng trắng, quầng màu cộng sáng (lighter)
+  //   Doge vàng-trắng · Chud đỏ (bay trước 90, cao hơn 85) · bóng mờ của cả 2 kéo theo vệt trong 0.15s đầu
+  const STREAK_AT=0.07, flyY=tt=>120+420*eout(seg(tt,T.ram,T.ram+0.7));
+  function streak(F,t,ahead,dy,w,col,trail){ const pts=[]; for(let i=0;i<=14;i++){ const tt=Math.max(T.ram,t-trail*(1-i/14)), p=RAM(flyK(tt)+ahead); pts.push(K.proj(F.B,p[0],flyY(tt)+dy,p[1])); }
+    const PP=pts.filter(Boolean); if(PP.length<3) return; const H=PP[PP.length-1], Tl=PP[0];
+    F.list.push({d:H.d-6, fn:()=>{ const g=F.g; g.save(); g.globalCompositeOperation='lighter'; const n=PP.length;
+      for(const [wk,al,c] of [[2.8,0.22,col],[1.3,0.55,col],[0.45,0.95,'255,255,255']]){
+        const L=[],R=[]; for(let i=0;i<n;i++){ const A=PP[Math.max(0,i-1)], B=PP[Math.min(n-1,i+1)], dx=B.x-A.x, dy2=B.y-A.y, l=Math.hypot(dx,dy2)||1, ww=w*wk*PP[i].s*Math.pow(i/(n-1),0.7)/2; L.push([PP[i].x-dy2/l*ww,PP[i].y+dx/l*ww]); R.push([PP[i].x+dy2/l*ww,PP[i].y-dx/l*ww]); }
+        const gr=g.createLinearGradient(Tl.x,Tl.y,H.x,H.y); gr.addColorStop(0,`rgba(${c},0)`); gr.addColorStop(0.6,`rgba(${c},${al*0.6})`); gr.addColorStop(1,`rgba(${c},${al})`);
+        g.fillStyle=gr; g.beginPath(); L.forEach((p,i)=>i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1])); g.arc(H.x,H.y,w*wk*H.s/2,0,TAU); for(let i=n-1;i>=0;i--) g.lineTo(R[i][0],R[i][1]); g.closePath(); g.fill(); }
+      const rg=g.createRadialGradient(H.x,H.y,0,H.x,H.y,w*2.2*H.s); rg.addColorStop(0,`rgba(255,255,255,0.9)`); rg.addColorStop(0.3,`rgba(${col},0.5)`); rg.addColorStop(1,`rgba(${col},0)`); g.fillStyle=rg; g.beginPath(); g.arc(H.x,H.y,w*2.2*H.s,0,TAU); g.fill(); g.restore(); }}); }
+  function ramStreaks(F,t){ const u=t-T.ram, tr=Math.min(0.4,0.08+u*0.9);
+    streak(F,t,90,150,18,'255,60,40',tr*0.9);    // Chud
+    streak(F,t,0,20,24,'255,205,110',tr);      // Doge
+    if(u<0.22){ const ga=0.5*(1-u/0.22), p=RAM(flyK(t)), q=RAM(flyK(t)+90), fy=flyY(t);   // bóng mờ 2 con tan vào vệt
+      W.actor(F,{key:'CHF',dir:1,x:q[0],z:q[1],y:fy+85,h:HT.CHF,look:{x:p[0],z:p[1]},shadow:false,a:ga,life:{breath:0}});
+      act(F,{key:'DZ',x:p[0],z:p[1],y:fy,h:HT.DZ,face:[DIRV[0],DIRV[1]],smear:{dx:-DIRV[0]*90,dy:0,dz:-DIRV[1]*90},shadow:false,a:ga,life:{breath:0}}); } }
   // ═════════ CÔNG VIÊN: truyền tống → tập kích → vây → phá băng → húc xuyên nhà → người xem ═════════
   function parkWorld(F,t){ const d=doge(t), k=clap(t), m=mlem(t), c=chud(t);
     bifrost(F,t,-640,-240,'255,214,90',T.strikeD,T.landD); bifrost(F,t,-486,-368,'255,255,255',T.strikeK,T.landK); landFx(F,t,-640,-240,'255,214,90',T.landD); landFx(F,t,-486,-368,'255,255,255',T.landK);
@@ -231,7 +248,8 @@
       if(iceA>0) W.ice(F,{key:'D0',x:d.x+(frozen?shk*0.4:0),z:d.z,h:HT.D0*1.08,seed:4},iceA,t);
       if(frozen) iceCracks(F,d.x,d.z-2,HT.D0,t<T.crack?0:seg(t,T.crack,T.quiet));
       if(t>=T.eye&&t<T.burst){ const P=K.proj(F.B,d.x+6,HT.D0*0.72,d.z-6); if(P) F.list.push({d:P.d-9, fn:()=>{ const g=F.g, R=Math.max(3,18*P.s)*(0.6+0.4*Math.sin(t*30)); g.save(); g.globalCompositeOperation='lighter'; const gr=g.createRadialGradient(P.x,P.y,0,P.x,P.y,R*4); gr.addColorStop(0,'rgba(255,240,190,1)'); gr.addColorStop(0.25,'rgba(255,190,90,0.7)'); gr.addColorStop(1,'rgba(255,140,40,0)'); g.fillStyle=gr; g.fillRect(P.x-R*4,P.y-R*4,R*8,R*8); g.restore(); }}); }
-    } else if(t>=T.ram&&flyA(t)>0.02){ const p=RAM(flyK(t)), q=RAM(flyK(t)+90), fy=120+420*eout(seg(t,T.ram,T.ram+0.7));   // cú húc HẤT BỔNG cả 2 lên cao (trước bay sát đất → hàng cây che mất) rồi đâm vào thân nhà
+    } else if(t>=T.ram+STREAK_AT&&flyA(t)>0.02){ ramStreaks(F,t);   // (anh 12/11) húc trúng xong KHÔNG vẽ nhân vật bay nữa: cả 2 thành 2 VỆT TỐC ĐỘ CAO lao đi (kiểu anime)
+    } else if(t>=T.ram&&flyA(t)>0.02){ const p=RAM(flyK(t)), q=RAM(flyK(t)+90), fy=120+420*eout(seg(t,T.ram,T.ram+0.7));   // khoảnh khắc chạm (vài khung): còn thấy 2 con
       W.actor(F,{key:'CHF',dir:1,x:q[0],z:q[1],y:fy+85,h:HT.CHF,look:{x:p[0],z:p[1]},shadow:false,life:{breath:0}});   // Chud bị húc bay ngửa ra sau, mặt về phía Doge   // Chud bị húc: mặt hướng về Doge (ngược đường bay)
       act(F,{key:'DZ',dir:-1,x:p[0],z:p[1],y:fy,h:HT.DZ,face:[DIRV[0],DIRV[1]],smear:{dx:-DIRV[0]*60,dy:0,dz:-DIRV[1]*60},shadow:false,life:{breath:0}}); }
     // ── Chud: bóng trong hàng cây (lurker) → quăng 2 xích quấn Doge → bước ra (vẫn ghì xích) → vây → bị húc

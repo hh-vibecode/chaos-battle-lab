@@ -90,6 +90,9 @@ Mẫu đã duyệt:
   (nhiều góc: chính diện / nghiêng / 3/4 / sau lưng / từ trên / từ dưới; nhiều động tác: chạy, lao, đỡ, trúng đòn, ngã, bật dậy, ra chiêu…) bằng GPT (skill ve-anh-gpt,
   sprite sheet lưới đều cùng cỡ, cùng đường chân). Đừng dựng cả trận chỉ với 4–5 ảnh tĩnh trượt qua lại.
 - ⚠️ XÍCH (trận Chud vs Doge) "lỗi tùm lum, trông không có lực": soát từng khung chỗ xích gắn tay / quấn người / căng / đứt trước khi báo xong.
+- ⚡ PHA NHANH KHÔNG CẦN VẼ NHÂN VẬT (anh dặn 12/11): húc / lướt / tràng đòn / va chạm tốc độ cao → dùng KỸ THUẬT ANIME thay cho sprite: cả 2 hoá VỆT TỐC ĐỘ CAO (mảnh, đầu sáng trắng, quầng màu riêng từng nhân vật),
+  BÓNG MỜ (afterimage), LƯỚT nhoè (smear), VFX va chạm. Nhân vật chỉ hiện ở khung chạm + lúc tiếp đất / bật lùi. Vừa đúng chất anime vừa CHE lỗi tư thế, đỡ phải vẽ thêm.
+  Mẫu: `streak()` / `ramStreaks()` trong js/film-fin1f1.js (cú húc One-Punch Shiba → 2 vệt vàng / đỏ xé qua ngọn cây). Anh: "nên học thật nhiều vào" — xem anime để học thêm kiểu này.
 
 ## Phim (Meme Cinema) — TỈ LỆ là quan trọng nhất
 - Giữ tỉ lệ nhất quán giữa vật thể khổng lồ và meme nhỏ ở MỌI góc máy: meme thường ~100–170, Gigachad khổng lồ ~1000, quỷ khổng lồ rộng ~2000, bom vĩ thú đường kính ~860 (đơn vị thế giới trong js/cine-war.js).
