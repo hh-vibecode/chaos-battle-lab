@@ -638,6 +638,8 @@
   const SPK={'MLEM CAT':{col:'255,214,120',eyes:[],eye:'255,230,150',cx:560},   // anh dặn: lúc thoại chỉ là bóng đen, KHÔNG loé mắt Mlem — riêng Depressed loé Rinnegan
    'DEPRESSED CAT':{col:'190,150,255',eyes:[[736,405],[852,405]],eye:'170,110,255',cx:480}};
   const speaking=t=>{ for(const d of DIALOG) if(t>=d[0]-0.2&&t<d[1]+0.15) return d; return null; };
+  const SUB_WORD=0.12, SUB_HOLD=1.6;   // 12/11 anh dặn: chữ chạy tốc bình thường, hết câu giữ 1–2s rồi tắt (trước 0.36s/chữ → chậm, vừa hiện hết đã tắt)
+  const subEnd=d=>Math.min(d[1],d[0]+d[3].split(' ').length*SUB_WORD+SUB_HOLD);
   // 🏙️ NÓC NHÀ = ẢNH POSE anh vẽ (FIN_AKA_POSE 1671×931, góc ngước, 5 con trên bệ đá) phủ kín khung (world 0..960 × 5.7..540).
   //    Tách lớp từng con (vùng chữ nhật, vẽ sau đè trước) để THỞ / nghiêng / gật đầu khi nói; dải băng đầu Ninja bay phần phật; bệ đá đứng yên ở lớp trước.
   const PK=960/1671, PY0=10*PK;   // ảnh px → world
@@ -757,10 +759,10 @@
   function spaced(g,txt,x,y,font,ls,col,a){ g.save(); g.font=font; g.letterSpacing=ls+'px'; g.textAlign='center'; g.textBaseline='middle'; g.globalAlpha=a; g.fillStyle=col; g.fillText(txt,x+ls/2,y); g.restore(); }
   function friendTitle(g,t){ if(t<T.title||t>T.d1) return; const k=seg(t,T.title,T.title+0.5), out=1-seg(t,T.d1-0.4,T.d1);
     g.save(); g.shadowColor='rgba(170,60,255,0.95)'; g.shadowBlur=24*SCv; spaced(g,'FRIEND',VW/2,300+(1-k)*20,`900 96px ${SERIF}`,30,'#f4ecff',k*out); g.restore(); }
-  function akaLine(g,t){ const D=speaking(t); if(!D || t>=T.booms) return; const [a,b,nm,line]=D, al=seg(t,a-0.2,a)*(1-seg(t,b,b+0.15));
+  function akaLine(g,t){ const D=speaking(t); if(!D || t>=T.booms) return; const [a,b,nm,line]=D, e=subEnd(D), al=seg(t,a-0.2,a)*(1-seg(t,e,e+0.25)); if(al<=0) return;
     g.save(); g.textAlign='center'; g.textBaseline='middle'; g.globalAlpha=al;
     g.font=`800 12px ${SANS}`; g.letterSpacing='4px'; g.fillStyle=`rgb(${SPK[nm].col})`; g.shadowColor=`rgba(${SPK[nm].col},0.9)`; g.shadowBlur=10*SCv; g.fillText('UNKNOWN MEME',VW/2,VH-78);   // anh dặn: lúc thoại chưa lộ tên thành viên
-    g.shadowBlur=0; g.letterSpacing='1px'; g.font=`italic 600 21px ${SERIF}`; const ws=line.split(' '), n=Math.min(ws.length,Math.floor(Math.max(0,t-a)/0.36)+1);
+    g.shadowBlur=0; g.letterSpacing='1px'; g.font=`italic 600 21px ${SERIF}`; const ws=line.split(' '), n=Math.min(ws.length,Math.floor(Math.max(0,t-a)/SUB_WORD)+1);
     g.fillStyle='#f4ecff'; g.fillText(ws.slice(0,n).join(' '),VW/2,VH-52); g.restore(); }
   function endCard(g,t){ const v=t-(T.DUR-3.2); if(v<0) return; const k=seg(v,0,0.8);
     spaced(g,'MEME LORE',VW/2,226,`800 14px ${SANS}`,12,'rgb(255,200,200)',k);
@@ -882,8 +884,8 @@
         g.font=`800 22px ${SANS}`; g.letterSpacing='4px'; g.textAlign='left'; g.textBaseline='middle'; g.fillStyle='#ffecec'; g.shadowColor='rgba(255,40,40,0.9)'; g.shadowBlur=12*SCv;
         g.fillText(AKA[i][0],28,yT+Hd*0.5); g.restore(); } }
     // phụ đề khung dọc: tên người nói + câu xuống dòng trong bề ngang 480, chữ hiện 0.36s / chữ (đúng tốc độ nói)
-    function subV(g,s){ const D=speaking(s); if(!D || s>=T.booms) return; const [a,b,nm,line]=D, al=seg(s,a-0.2,a)*(1-seg(s,b,b+0.15)); if(al<=0) return;
-      const ws=line.split(' '), n=Math.min(ws.length,Math.floor(Math.max(0,s-a)/0.36)+1); g.save(); g.globalAlpha=al; g.textAlign='center'; g.textBaseline='middle';
+    function subV(g,s){ const D=speaking(s); if(!D || s>=T.booms) return; const [a,b,nm,line]=D, e=subEnd(D), al=seg(s,a-0.2,a)*(1-seg(s,e,e+0.25)); if(al<=0) return;
+      const ws=line.split(' '), n=Math.min(ws.length,Math.floor(Math.max(0,s-a)/SUB_WORD)+1); g.save(); g.globalAlpha=al; g.textAlign='center'; g.textBaseline='middle';
       g.font=`800 16px ${SANS}`; g.letterSpacing='5px'; g.fillStyle=`rgb(${SPK[nm].col})`; g.shadowColor=`rgba(${SPK[nm].col},0.9)`; g.shadowBlur=10*SCv; g.fillText('UNKNOWN MEME',TW/2,TH-230);
       g.shadowBlur=0; g.letterSpacing='1px'; g.font=`italic 600 30px ${SERIF}`; const L=[]; let cur='';
       for(const w of ws){ const tryS=cur?cur+' '+w:w; if(g.measureText(tryS).width>470&&cur){ L.push(cur); cur=w; } else cur=tryS; } if(cur) L.push(cur);   // xếp dòng theo CẢ câu (không nhảy dòng khi chữ hiện dần)

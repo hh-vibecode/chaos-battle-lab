@@ -42,9 +42,9 @@
   // phụ đề: tên người nói + chữ hiện từng từ (kiểu thoại trên mái)
   const LINES=[[10.2,11.85,'Here comes the first avatar…'],[11.95,13.5,'Looks like it has sniffed out a threat to the universe.'],
     [18.3,19.75,"Let's go. Stop the guardians of the meme multiverse…"],[19.85,20.95,'…and buy Friend more time to absorb.']];
-  function subs(g,t){ const L=LINES.find(l=>t>=l[0]-0.15&&t<l[1]+0.15); if(!L) return; const [a,b,line]=L, al=seg(t,a-0.15,a)*(1-seg(t,b,b+0.15));
+  function subs(g,t){ const L=LINES.find(l=>t>=l[0]-0.15&&t<l[1]+0.15); if(!L) return; const [a,b,line]=L, e=Math.min(b,a+line.split(' ').length*0.12+1.6), al=seg(t,a-0.15,a)*(1-seg(t,e,e+0.25)); if(al<=0) return;   // 12/11: chữ chạy 0.12s/chữ, hết câu giữ 1.6s
     g.save(); g.textAlign='center'; g.textBaseline='middle'; g.globalAlpha=al; g.font='800 12px "Segoe UI",Arial,sans-serif'; g.letterSpacing='4px'; g.fillStyle='rgb(190,150,255)'; g.shadowColor='rgba(190,150,255,0.9)'; g.shadowBlur=10; g.fillText('DEPRESSED CAT',VW/2,VH-78);
-    g.shadowBlur=0; g.letterSpacing='1px'; g.font='italic 600 21px Georgia,"Times New Roman",serif'; const ws=line.split(' '), n=Math.min(ws.length,Math.floor(Math.max(0,t-a)/0.3)+1); g.fillStyle='#f4ecff'; g.fillText(ws.slice(0,n).join(' '),VW/2,VH-52); g.restore(); }
+    g.shadowBlur=0; g.letterSpacing='1px'; g.font='italic 600 21px Georgia,"Times New Roman",serif'; const ws=line.split(' '), n=Math.min(ws.length,Math.floor(Math.max(0,t-a)/0.12)+1); g.fillStyle='#f4ecff'; g.fillText(ws.slice(0,n).join(' '),VW/2,VH-52); g.restore(); }
   const PILS=[[15.65,150,'255,214,90',7],[15.85,800,'255,255,255',6],[16.0,300,'235,90,160',6],[16.15,670,'200,205,215',6],[16.3,90,'235,40,40',7],[16.55,480,'190,110,255',13]];   // Doge vàng · Clapping trắng · Huh hồng · Pop bạc · Berserk đỏ · Gojo TÍM cao nhất
   function world(F,t){ I=F.I; const g=F.g; g.save();
     if(t<T.look){ const u=seg(t,0,T.look); g.save(); cam(g,480,300,lerp(1.0,1.06,u)); nightSky(g,t,0.35);
@@ -92,5 +92,5 @@
     shots:[{t0:0,t1:T.DUR,a:{}}],
     impact:t=>(t>=T.boom&&t<T.boom+0.07)?'red':(t>=T.boom+0.07&&t<T.boom+0.14)?'inv':(t>=16.8&&t<16.87)?'inv':0,
     shake:t=>{ let s=0; const h=(a,amp,d)=>{ if(t>=a&&t<a+d) s=Math.max(s,amp*(1-(t-a)/d)); }; for(const [t0] of PILS) h(t0+0.25,6,0.4); h(16.8,14,0.6); h(T.leap+0.1,10,0.5); h(T.boom,22,0.6); if(t>=T.spin&&t<T.pil) s=Math.max(s,2+5*seg(t,T.spin,T.pil)); return s; },
-    world, screen(F,t){ const g=F.g; subs(g,t); if(t>=T.boom) K.flash(F,1-seg(t,T.boom+0.15,T.DUR),'#ffffff'); K.letterbox(F,t<T.spin?0.9:0); K.vignette(F,0.45); } });
+    world, screen(F,t){ const g=F.g; if(t>=T.boom) K.flash(F,1-seg(t,T.boom+0.15,T.DUR),'#ffffff'); K.letterbox(F,t<T.spin?0.9:0); K.vignette(F,0.45); subs(g,t); } });   // 12/11: phụ đề vẽ SAU dải đen (trước bị dải đen che mất chữ)
 })();
