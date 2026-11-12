@@ -20,7 +20,7 @@
     look:4.6, lurk:6.8, bind:8.8, lick:9.5, frz:9.62, hold:11, out:13.8, surr:17, laugh:19.4, puzzle:22.6, shake:24.4, turn:26.4, crack:27.4, eye:29, quiet:30, 
     burst:30.6, charge:31.6, ram:32.4, b1:33.3, b2:34.2, b3:35.1, dust:36.4, cover:38.8, mturn:41.6, raise:43.2, rise:45.6, chains:48.6, r1:50.2, w1:51.4, r2:53.6, 
     w2:54.35, punch:54.85, zip:54.8, tie0:57, tie:57.6, tug:59.4, lift:62.6, slam:63.2, down:64.4, haki:66.9, hakiOn:67.6, pull:69.4, snap:70.6, shock:71.9, 
-    lunge:73.9, clash:75.1, far:75.15, whip:76, tunnel:76.25, DUR:77.2 };
+    lunge:73.9, clash:75.1, far:75.6, whip:76.45, tunnel:76.7, DUR:77.65 };
   const H=120;
   // đường húc: từ chỗ Chud đứng bay chéo vào sâu, xuyên 3 dãy nhà phía sau công viên
   const CH0=[60,200], DIRV=[0.64,0.77], RAM=k=>[CH0[0]+DIRV[0]*k, CH0[1]+DIRV[1]*k];
@@ -79,11 +79,11 @@
   const DM=[[T.rise,-260,'DKN',0,0,0,0],[T.rise+1.3,-260,'DUP'],[T.rise+2.3,-260,'DB'],[T.w1-0.5,-260,'DB'],[T.w1-0.42,-250,'DRN','eout'],[T.w1,-40,'DRN','ein',1],[T.w1+0.05,-40,'DBL'],[T.w1+0.9,-300,'DBL','back'],[T.w1+1.6,-300,'DB'],   // lao vào → ăn xích → đỡ, bị đẩy lùi
     [T.w2-0.45,-300,'DB'],[T.w2-0.38,-290,'DRN','eout'],[T.w2-0.08,-130,'DRN','ein',1],[T.w2,-110,'DDK','eout'],[T.w2+0.25,60,'DDK','ein',1],[T.punch-0.12,60,'DPU','eout'],[T.punch-0.03,35,'DGP','ein',1],[T.punch+1.4,35,'DGP'],   // cúi né dưới xích → áp sát → đấm hụt nện đất
     [T.tie0,170,'DB'],[T.tie,175,'DPL','eout'],[T.tug,190,'DPL'],[T.lift-0.2,300,'DPL','lin',0,0,0],[T.lift,310,'DB','eout',0,0,40],[T.slam,380,'DDL','ein',1,0,0],[T.down,380,'DDL'],   // bị trói, giằng co, bị kéo lê → nhấc lên quật xuống
-    [T.haki,380,'DDL'],[T.haki+0.3,380,'DKN'],[T.hakiOn,380,'DH'],[T.pull,380,'DHP','eout'],[T.snap,365,'DHP'],[T.snap+0.4,360,'DH','back'],[T.lunge,360,'DH'],[T.lunge+0.25,350,'DP1','eout'],[T.clash,540,'DP1','ein',1],[T.DUR,540,'DP1']];
+    [T.haki,380,'DDL'],[T.haki+0.3,380,'DKN'],[T.hakiOn,380,'DH'],[T.pull,380,'DHP','eout'],[T.snap,365,'DHP'],[T.snap+0.4,360,'DH','back'],[T.lunge,360,'DH'],[T.clash-0.5,345,'DP1','eout'],[T.clash-0.27,345,'DP1'],[T.clash,495,'DP1','ein',1],[T.DUR,495,'DP1']];
   const CM=[[T.rise,300,'CHL',0,0,0,0],[T.rise+1.1,300,'CHK'],[T.rise+2.1,300,'CK0'],[T.r1+0.6,300,'CK0'],[T.r1+0.8,305,'CK1','eout'],[T.w1-0.06,305,'CK1'],[T.w1,300,'CK2','ein'],[T.w1+0.7,300,'CK2'],[T.w1+1.0,300,'CK0'],
     [T.r2+0.3,300,'CK0'],[T.r2+0.45,305,'CK3','eout'],[T.w2-0.05,305,'CK3'],[T.w2,300,'CK4','ein'],[T.zip,300,'CK4'],[T.zip+0.45,620,'CK1','eout',1,0,80],[T.zip+0.8,620,'CK0','ein',0,0,0],   // quất trượt → quăng xích vào cột, đu né cú đấm
     [T.tie0,620,'CK0'],[T.tie0+0.2,625,'CK1','eout'],[T.tie-0.04,625,'CK1'],[T.tie,620,'CK2','ein'],[T.tug,640,'CK1','eout'],[T.lift-0.2,650,'CK1'],[T.lift,640,'CK4','ein'],[T.slam,640,'CK4'],[T.down,640,'CK0'],
-    [T.down+1.2,740,'CK0','eio'],[T.snap,740,'CK0'],[T.snap+0.25,700,'CK0','eout'],[T.shock,700,'CK0'],[T.lunge,700,'CK0'],[T.lunge+0.25,705,'CK1','eout'],[T.clash,600,'CK2','ein',1],[T.DUR,600,'CK2']];
+    [T.down+1.2,740,'CK0','eio'],[T.snap,740,'CK0'],[T.snap+0.25,700,'CK0','eout'],[T.shock,700,'CK0'],[T.lunge,700,'CK0'],[T.clash-0.5,712,'CK1','eout'],[T.clash-0.27,712,'CK1'],[T.clash,650,'CK2','ein',1],[T.DUR,650,'CK2']];
   const doge=t=>W.track(DK,t), clap=t=>W.track(KK,t), mlem=t=>W.track(MK,t), chud=t=>W.track(CK,t);
   const hs=W.hstop([[T.w1,0.16],[T.punch,0.18],[T.slam,0.2],[T.hakiOn,1.0],[T.snap,0.2]]);   // HAKI: trận đứng hình 1s (đúng game)
   const dogeM=t=>W.track(DM,hs(t)), chudM=t=>W.track(CM,hs(t));
@@ -222,14 +222,18 @@
   // ── 2 VỆT TỐC ĐỘ CAO sau cú húc: đuôi = đường bay thật vài phần giây trước (cong theo đà hất lên), đầu sáng trắng, quầng màu cộng sáng (lighter)
   //   Doge vàng-trắng · Chud đỏ (bay trước 90, cao hơn 85) · bóng mờ của cả 2 kéo theo vệt trong 0.15s đầu
   const STREAK_AT=0.07, flyY=tt=>120+420*eout(seg(tt,T.ram,T.ram+0.7));
-  function streak(F,t,ahead,dy,w,col,trail){ const pts=[]; for(let i=0;i<=14;i++){ const tt=Math.max(T.ram,t-trail*(1-i/14)), p=RAM(flyK(tt)+ahead); pts.push(K.proj(F.B,p[0],flyY(tt)+dy,p[1])); }
-    const PP=pts.filter(Boolean); if(PP.length<3) return; const H=PP[PP.length-1], Tl=PP[0];
+  function streak(F,t,ahead,dy,w,col,trail){ const pts=[]; for(let i=0;i<=14;i++){ const tt=Math.max(T.ram,t-trail*(1-i/14)), p=RAM(flyK(tt)+ahead); pts.push(K.proj(F.B,p[0],flyY(tt)+dy,p[1])); } streakP(F,pts,w,col); }
+  function streakP(F,pts,w,col){ const PP=pts.filter(Boolean); if(PP.length<3) return; const H=PP[PP.length-1], Tl=PP[0];
     F.list.push({d:H.d-6, fn:()=>{ const g=F.g; g.save(); g.globalCompositeOperation='lighter'; const n=PP.length;
       for(const [wk,al,c] of [[2.8,0.22,col],[1.3,0.55,col],[0.45,0.95,'255,255,255']]){
         const L=[],R=[]; for(let i=0;i<n;i++){ const A=PP[Math.max(0,i-1)], B=PP[Math.min(n-1,i+1)], dx=B.x-A.x, dy2=B.y-A.y, l=Math.hypot(dx,dy2)||1, ww=w*wk*PP[i].s*Math.pow(i/(n-1),0.7)/2; L.push([PP[i].x-dy2/l*ww,PP[i].y+dx/l*ww]); R.push([PP[i].x+dy2/l*ww,PP[i].y-dx/l*ww]); }
         const gr=g.createLinearGradient(Tl.x,Tl.y,H.x,H.y); gr.addColorStop(0,`rgba(${c},0)`); gr.addColorStop(0.6,`rgba(${c},${al*0.6})`); gr.addColorStop(1,`rgba(${c},${al})`);
         g.fillStyle=gr; g.beginPath(); L.forEach((p,i)=>i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1])); g.arc(H.x,H.y,w*wk*H.s/2,0,TAU); for(let i=n-1;i>=0;i--) g.lineTo(R[i][0],R[i][1]); g.closePath(); g.fill(); }
       const rg=g.createRadialGradient(H.x,H.y,0,H.x,H.y,w*2.2*H.s); rg.addColorStop(0,`rgba(255,255,255,0.9)`); rg.addColorStop(0.3,`rgba(${col},0.5)`); rg.addColorStop(1,`rgba(${col},0)`); g.fillStyle=rg; g.beginPath(); g.arc(H.x,H.y,w*2.2*H.s,0,TAU); g.fill(); g.restore(); }}); }
+  function clashStreaks(F,t,X,Z){ const t0=T.clash-0.27, u=seg(t,t0,T.clash);
+    const run=(xa,xb,y,w,col,dir)=>{ const pts=[]; for(let i=0;i<=12;i++){ const k=Math.max(0,u-0.55*(1-i/12)), x=lerp(xa,xb,eout(Math.min(1,k))); pts.push(K.proj(F.B,X+x,y,Z)); } streakP(F,pts,w,col); };
+    run(300,562,105,40,'255,40,30',1); run(300,562,112,16,'60,20,40',1);   // Doge haki: lõi đỏ + vệt tím than (đuôi bắt đầu SAU chỗ đứng → vệt dài)
+    run(760,584,95,34,'255,120,50',-1); }   // Chud: vệt cam đỏ, 2 đầu vệt gặp nhau ở giữa (572)
   function ramStreaks(F,t){ const u=t-T.ram, tr=Math.min(0.4,0.08+u*0.9);
     streak(F,t,90,150,18,'255,60,40',tr*0.9);    // Chud
     streak(F,t,0,20,24,'255,205,110',tr);      // Doge
@@ -296,9 +300,11 @@
     const tieChain=(j,hd,dA)=>{ const dz=far[j]?70:-10;   // bộ khung XẾP THEO ĐỘ SÂU: xích tay xa lùi sau thân Doge
       if(t<T.tie) chain(F,hd[j],dA[j],{k:seg(t,T.tie0+0.25,T.tie),sag:-30,t,w:9,hot:1,d:dz}); else { const taut=t>=T.tug?1:0.6; chain(F,hd[j],dA[j],{sag:taut?4:30,wob:t>=T.tug?2.5:0,t,w:9,hot:t>=T.hakiOn?0.6:1,d:dz}); coil(F,dA[j][0],dA[j][2],dA[j][1]-9,dA[j][1]+9,13,2,{w:7}); } };
     if(bound) for(let j=0;j<2;j++) if(far[j]) tieChain(j,hands0,dF0);
-    const dR=act(F,dO);
+    const dashing=t>=T.clash-0.25&&t<T.clash-0.01;   // (anh 12/11) pha lao vào nhau quá nhanh để thấy người → 2 VỆT
+    if(dashing) clashStreaks(F,t,X,Z);
+    const dR=dashing?{flip:dR0.flip,key:dR0.key}:act(F,dO);
     const dFlip=dR.flip, dKv=dR.key;   // ảnh thật (đa góc)
-    const hands=chudActor(F,c.im,X+c.x,Z+c.z,c.y,{x:X+d.x,z:Z});
+    const hands=dashing?hands0:chudActor(F,c.im,X+c.x,Z+c.z,c.y,{x:X+d.x,z:Z});
     // ── xích: buông thõng · quất (pha 1, 2) · quấn cột (đu né) · trói 2 tay Doge (pha 3 → giằng co → nhấc quật) · đứt
     const dF=[handW(F,dKv,X+d.x,d.y,Z+d.z,dFlip,0),handW(F,dKv,X+d.x,d.y,Z+d.z,dFlip,1)], dChest=dF[0], dArms=dF;   // 12/11: xích gắn đúng NẮM ĐẤM / tay đỡ của ảnh (trước đặt sau lưng → xích xuyên qua người)
     const hang=(j)=>{ const h=hands[j]; chain(F,h,[h[0]+(j?30:-30),Math.max(4,h[1]-150),h[2]],{sag:-10,wob:6,t,w:8,hot:0.9}); };
@@ -314,7 +320,7 @@
     else if(t<T.tie0){ chain(F,hands[1],[PIL[0],PIL[1],PIL[2]],{sag:10,t,w:9,hot:1}); if(t<T.zip+0.9) coil(F,PIL[0],PIL[2],PIL[1]-60,PIL[1]+10,60,2,{w:8}); hang(0); }
     else if(t<T.snap){ for(let j=0;j<2;j++) if(!far[j]) tieChain(j,hands,dArms); }   // tay GẦN: xích vẽ trước mặt; quấn siết quanh cổ tay   // quấn siết quanh 2 cổ tay (trước vẽ vòng to ngang ngực)
     else if(snapK<1){ for(let j=0;j<2;j++){ const h=hands[j]; chain(F,h,[lerp(dArms[j][0],h[0],0.5)+j*40,lerp(dArms[j][1],h[1],0.5)-snapK*200,Z],{sag:-20,wob:8,t,w:8,hot:1-snapK*0.5}); } }
-    else { hang(0); hang(1); }
+    else if(!dashing){ hang(0); hang(1); }
     // ── hiệu ứng
     if(t>=T.w1&&t<T.w1+1.1){ K.sparks(F,{x:dChest[0],y:dChest[1],z:Z,t0:T.w1,n:60,speed:900,life:0.7,seed:91,col:'255,140,60'}); if(t<T.w1+0.3){ const u=seg(t,T.w1,T.w1+0.3); K.ring(F,dChest[0],Z,20+160*eout(u),8,0.6*(1-u),'255,170,90'); } K.smoke(F,{x:X+d.x,z:Z,t0:T.w1+0.1,n:8,spread:200,rise:30,life:0.9,size:70,seed:92,a:0.4,tint:'120,104,96'}); }   // xích quất trúng tay đỡ, Doge trượt lùi
     if(t>=T.punch&&t<T.punch+2.0){ const px=X+110; K.debris(F,{x:px,y:10,z:Z+60,t0:T.punch,n:28,speed:1400,life:1.8,size:20,seed:93,col:'#4a4246'}); K.smoke(F,{x:px,z:Z,t0:T.punch,n:14,spread:700,rise:220,life:2,size:180,seed:94,a:0.38,tint:'130,104,96'});
@@ -323,7 +329,9 @@
       if(t<T.slam+0.6){ const u=seg(t,T.slam,T.slam+0.6); K.ring(F,X+380,Z,40+600*eout(u),20,0.6*(1-u),'255,200,160'); } }
     if(t>=T.hakiOn&&t<T.hakiOn+1.6) K.smoke(F,{x:X+d.x,z:Z,t0:T.hakiOn,n:10,spread:220,rise:260,life:1.4,size:80,seed:97,a:0.22,tint:'40,30,40'});
     if(t>=T.snap&&t<T.snap+1.2){ K.debris(F,{x:X+d.x+60,y:110,z:Z,t0:T.snap,n:36,speed:1000,life:1.0,size:10,seed:98,col:'#ff6a20'}); K.sparks(F,{x:X+d.x+60,y:110,z:Z,t0:T.snap,n:46,speed:900,life:0.7,seed:99,col:'255,150,60'}); }   // mắt xích đứt văng tung toé
-    if(t>=T.lunge&&t<T.clash){ K.smoke(F,{x:X+360,z:Z,t0:T.lunge+0.2,n:8,spread:200,rise:40,life:1,size:80,seed:101,a:0.45,tint:'120,104,96'}); K.smoke(F,{x:X+700,z:Z,t0:T.lunge+0.2,n:8,spread:200,rise:40,life:1,size:80,seed:102,a:0.45,tint:'120,104,96'}); } }
+    if(t>=T.clash-0.02&&t<T.clash+0.7){ const cx=X+572, u=seg(t,T.clash,T.clash+0.5); K.sparks(F,{x:cx,y:105,z:Z,t0:T.clash,n:60,speed:1100,life:0.6,seed:111,col:'255,190,120'});
+      K.smoke(F,{x:cx,z:Z,t0:T.clash,n:8,spread:500,rise:80,life:1.2,size:110,seed:112,a:0.28,tint:'120,104,96'}); }   // nắm đấm haki đụng xích: loé + sóng + tia lửa
+    if(t>=T.clash-0.3&&t<T.clash+0.8){ K.smoke(F,{x:X+360,z:Z,t0:T.clash-0.27,n:8,spread:200,rise:40,life:1,size:80,seed:101,a:0.45,tint:'120,104,96'}); K.smoke(F,{x:X+700,z:Z,t0:T.clash-0.27,n:8,spread:200,rise:40,life:1,size:80,seed:102,a:0.45,tint:'120,104,96'}); } }
   // ── chân trời: trận Gojo vs Pain va chạm — loé tím trắng + vòng sóng trên trời (lúc 2 con lao vào nhau)
   function farFlash(F,t){ if(t<T.far) return; const v=t-T.far, P=K.proj(F.B,FZ[0]+9000,900,FZ[1]+3000); if(!P) return;
     F.list.push({d:5e8, fn:()=>{ const g=F.g, R=(300+2600*eout(Math.min(1,v*0.8)))*P.s; g.save(); g.globalCompositeOperation='lighter';
@@ -383,7 +391,7 @@
       [T.hakiOn,'cine_haki',0.9,null,'HAKI thức tỉnh: 2 tay Doge phủ đen bóng, trận đứng hình'],
       [T.snap,'kn_explode_crunch',0.9,null,'Doge giật ngược đập tan: 2 sợi xích đứt vỡ tung'],
       [T.shock+0.2,'l2p_sub',0.4,null,'cận Chud sững người'],
-      [T.lunge+0.2,'se_step_in',0.9,null,'2 con đạp đất lao vào nhau'],
+      [T.clash-0.27,'se_step_in',0.9,null,'2 con đạp đất, hoá 2 vệt lao vào nhau'],[T.clash,'se_punch_heavy',1,null,'nắm đấm haki đụng xích Chud giữa đường: va chạm'],[T.clash+0.01,'kn_boom_low',0.6,null,'+ lớp trầm: tiếng nổ nén khi 2 đòn đụng nhau'],
       [T.far,'kn_boom_low',0.8,null,'chân trời nổ loé tím trắng, tiếng nổ dội từ xa'],
       [T.whip,'l2p_whoosh',0.7,null,'máy lia giật về phía chân trời'],[T.tunnel,'l2p_riser',0.7,null,'máy lao về phía trận Gojo vs Pain']],
     mus:[mseg(T.out,T.quiet,{fi:1.2}), mseg(T.burst,T.haki-0.3,{vol:0.55}), mseg(T.snap,T.DUR,{fo:0.6,vol:0.6})],
@@ -392,7 +400,7 @@
     shake:t=>{ let s=0; const h=(a,amp,d)=>{ if(t>=a&&t<a+d) s=Math.max(s,amp*(1-(t-a)/d)); };
       if(t>=T.shake&&t<T.burst) s=Math.max(s,1.5+2.5*seg(t,T.shake,T.quiet)); if(t>=T.quiet&&t<T.burst) s=0.5;
       h(T.strikeD,8,0.5); h(T.strikeK,6,0.4); h(T.landD,6,0.4); h(T.landK,4,0.3); h(T.bind,4,0.3); h(T.frz,4,0.4); h(T.burst,16,0.8); h(T.charge,6,0.3); h(T.ram,18,0.8); for(const [tb] of HITS) h(tb,8,0.6);
-      h(T.w1,14,0.45); h(T.punch,20,0.9); h(T.slam,16,0.7); h(T.hakiOn,5,1.0); h(T.snap,10,0.5); h(T.far,6,0.8); if(t>=T.tug&&t<T.lift) s=Math.max(s,1.2); return s; },
+      h(T.w1,14,0.45); h(T.punch,20,0.9); h(T.slam,16,0.7); h(T.hakiOn,5,1.0); h(T.snap,10,0.5); h(T.clash,14,0.5); h(T.far,6,0.8); if(t>=T.tug&&t<T.lift) s=Math.max(s,1.2); return s; },
     world, post(F,t){ const fx={shocks:[]}; const sh=(a,x,y,z,rm,d,str)=>{ if(t>=a&&t<a+d){ const u=(t-a)/d; fx.shocks.push({x,y,z,r:20+rm*eout(u),w:26,str:str*(1-u)}); fx.chroma=Math.max(fx.chroma||0,0.5*(1-u)); } };
       sh(T.burst,-260,80,-180,600,0.7,26); sh(T.ram,CH0[0],120,CH0[1],520,0.6,28); sh(T.punch,FZ[0]+110,40,FZ[1],800,0.8,12); sh(T.slam,FZ[0]+380,40,FZ[1],520,0.6,22); sh(T.hakiOn,FZ[0]+380,120,FZ[1],400,0.9,18); return fx; },
     screen(F,t){
@@ -400,7 +408,7 @@
       if(t>=T.ram&&t<T.b1) K.speedLines(F,{k:0.45*(1-seg(t,T.ram+0.4,T.b1)),n:60,r0:0.45});
       if(t>=T.lunge+0.25&&t<T.far) K.speedLines(F,{k:0.4,n:50,r0:0.45});
       if(t>=T.strikeD&&t<T.strikeD+0.06) K.flash(F,0.4,'#fff4c8'); if(t>=T.strikeK&&t<T.strikeK+0.06) K.flash(F,0.3,'#ffffff');
-      if(t>=T.ram&&t<T.ram+0.05) K.flash(F,0.35,'#fff1d6');
+      if(t>=T.ram&&t<T.ram+0.05) K.flash(F,0.35,'#fff1d6'); if(t>=T.clash&&t<T.clash+0.05) K.flash(F,0.4,'#fff1e0');
       if(t>=T.burst&&t<T.burst+0.05) K.flash(F,0.4,'#eaf6ff');
       if(t>=T.hakiOn&&t<T.hakiOn+1.0){ const g=F.g; g.save(); g.globalCompositeOperation='multiply'; g.fillStyle=`rgba(150,140,160,${0.5*(1-seg(t,T.hakiOn+0.7,T.hakiOn+1.0))})`; g.fillRect(0,0,F.VW,F.VH); g.restore(); }   // trận đứng hình: cả khung xám tối lại
       if(C){ C.whipFx(F,t,T.whip,T.tunnel-T.whip); C.speedTunnel(F,t,T.tunnel,T.DUR-T.tunnel); }

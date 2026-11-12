@@ -35,8 +35,8 @@
   {"t0":67.6,"t1":69.4,"co":"cận","goc":"ngang","hanhDong":"HAKI phủ đen 2 tay, thấy rõ mặt Doge, trận đứng hình 1s","loai":"ra chiêu","anh":["DH"],"sfx":["cine_haki"],"ghiChu":""},
   {"t0":69.4,"t1":71.9,"co":"toàn","goc":"ngang","hanhDong":"Doge haki giật ngược → 2 sợi xích đứt tung","loai":"đánh","anh":["DHP","CK0"],"sfx":["kn_explode_crunch"],"ghiChu":""},
   {"t0":71.9,"t1":73.9,"co":"cận","goc":"ngang","hanhDong":"cận Chud sững người","loai":"đối mặt","anh":["CK0"],"sfx":["l2p_sub"],"ghiChu":""},
-  {"t0":73.9,"t1":75.15,"co":"trung","goc":"ngang","hanhDong":"2 con đạp đất lao vào nhau","loai":"đánh","anh":["DP1","CK2"],"sfx":["se_step_in"],"ghiChu":""},
-  {"t0":75.15,"t1":76,"co":"trung","goc":"ngang","hanhDong":"khựng giữa không trung — chân trời loé tím trắng (trận Gojo vs Pain)","loai":"chuyển cảnh","anh":["DP1","CK2"],"sfx":["kn_boom_low"],"ghiChu":""},
-  {"t0":76,"t1":76.25,"co":"toàn","goc":"ngang","hanhDong":"lia giật về phía chân trời","loai":"chuyển cảnh","anh":[],"sfx":["l2p_whoosh"],"ghiChu":""},
-  {"t0":76.25,"t1":77.2,"co":"toàn","goc":"ngang","hanhDong":"lao đi (đường hầm tốc độ) sang trận Gojo vs Pain","loai":"chuyển cảnh","anh":[],"sfx":["l2p_riser"],"ghiChu":""}
+  {"t0":73.9,"t1":75.6,"co":"trung","goc":"ngang","hanhDong":"2 con thủ thế → hoá 2 vệt lao vào nhau → nắm đấm haki đụng xích: loé, sóng xung kích","loai":"đánh","anh":["DP1","CK2"],"sfx":["se_step_in"],"ghiChu":""},
+  {"t0":75.6,"t1":76.45,"co":"trung","goc":"ngang","hanhDong":"khựng giữa không trung — chân trời loé tím trắng (trận Gojo vs Pain)","loai":"chuyển cảnh","anh":["DP1","CK2"],"sfx":["kn_boom_low"],"ghiChu":""},
+  {"t0":76.45,"t1":76.7,"co":"toàn","goc":"ngang","hanhDong":"lia giật về phía chân trời","loai":"chuyển cảnh","anh":[],"sfx":["l2p_whoosh"],"ghiChu":""},
+  {"t0":76.7,"t1":77.65,"co":"toàn","goc":"ngang","hanhDong":"lao đi (đường hầm tốc độ) sang trận Gojo vs Pain","loai":"chuyển cảnh","anh":[],"sfx":["l2p_riser"],"ghiChu":""}
 ]
