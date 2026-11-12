@@ -564,9 +564,11 @@
 
   // ⏱️ GIÃN NHỊP (12/11 — anh: "fight gojo cũng bị nhanh mấy chỗ, xử lý lại nhịp"): toàn bộ hiệu ứng vẫn tính theo GIÂY CŨ (T), phim phát theo giây MỚI.
   //   [giây cũ đầu, cuối, hệ số]: đòn đánh ×1 (giữ tốc), quãng 2 bên đứng thủ thế giữa các pha ×2–3 (nhịp THỞ 1.2–1.8s như bản gốc JJK), đối mặt / giằng co / lãnh địa giãn ra.
-  const RETIME=[[0,2.2,1.3],[2.2,3.6,2.2],[3.6,4.55,1],[4.55,5.0,3],[5.0,5.8,1],[5.8,6.3,2.5],[6.3,7.45,1],[7.45,8.15,2],[8.15,9.4,1],[9.4,10.0,3],[10.0,10.95,1],[10.95,11.6,2.5],
-    [11.6,12.6,1.2],[12.6,13.8,2],[13.8,16.6,1],[16.6,18.0,1.3],[18.0,21.5,1.2],[21.5,26.6,1.5],[26.6,29.8,1.2],[29.8,34.6,1.2],[34.6,35.9,1.3],[35.9,38.6,1.8],[38.6,41.7,1.3],
-    [41.7,45.6,1.2],[45.6,47.0,2],[47.0,50.0,1.3]];
+  // 12/11 tối (anh: bản giãn đều "lê thê", phải NHANH – CHẬM ĐAN XEN): tràng đòn chạy nhanh hơn gốc (×0.85–0.9), mỗi hiệp 1 nhịp THỞ rõ (×1.6–2.2),
+  //   đoạn truyện / dư chấn về tốc độ gốc, chỉ giữ chậm chỗ căng thật (lãnh địa, Pain gồng đỡ Hollow Purple, đối mặt cuối). [giây cũ a, b, hệ số]
+  const RETIME=[[0,2.2,1.3],[2.2,3.6,1.8],[3.6,4.55,0.9],[4.55,5.0,1.6],[5.0,5.8,0.9],[5.8,6.3,1.4],[6.3,7.45,0.95],[7.45,8.15,1.3],[8.15,9.4,0.95],[9.4,10.0,2.2],[10.0,10.95,0.9],[10.95,11.6,1.4],
+    [11.6,12.6,1.0],[12.6,13.8,1.6],[13.8,16.6,1],[16.6,18.0,1.2],[18.0,21.5,1.0],[21.5,26.6,1.25],[26.6,29.8,1.0],[29.8,34.6,1.0],[34.6,35.9,1.0],[35.9,38.6,1.5],[38.6,41.7,1.0],
+    [41.7,45.6,1.0],[45.6,47.0,1.7],[47.0,50.0,1.3]];
   const RT=(()=>{ let n=0; return RETIME.map(([a,b,k])=>{ const o={a,b,k,n0:n}; n+=(b-a)*k; o.n1=n; return o; }); })();
   const Rold=tn=>{ for(const r of RT) if(tn<r.n1) return r.a+(tn-r.n0)/r.k; const L=RT[RT.length-1]; return L.b+(tn-L.n1); };   // giây mới → giây cũ
   const Rnew=to=>{ for(const r of RT) if(to<r.b) return r.n0+(Math.max(r.a,to)-r.a)*r.k; const L=RT[RT.length-1]; return L.n1+(to-L.b); };   // giây cũ → giây mới
@@ -595,11 +597,11 @@
       [T.cuP,'dp_cloak',0.7,null,'cận Pain, áo choàng Akatsuki phất'],
       [T.dash,'ep3_whoosh',0.8,null,'2 bên lấy đà lao vào nhau'],
       [T.clash,'cine_haki_hit',1,null,'va nhau giữa đường, khựng'],
-      [5.1,'ep3_whoosh',0.7,null,'Gojo vung đòn'],[5.3,'cine_strongpunch',1,null,'Gojo đấm trúng Pain'],
+      [5.1,'ep3_whoosh',0.7,null,'+ vút: Gojo vung đòn (lớp đầu của cú đấm)'],[5.3,'cine_strongpunch',1,null,'Gojo đấm trúng Pain'],
       [6.2,'l2p_whoosh',0.6,null,'Pain lao tới, Gojo cúi né'],[6.9,'cine_haki_hit',0.9,null,'Gojo phản đòn từ dưới lên trúng'],
-      [8.2,'ep3_whoosh',0.7,null,'Pain vung đòn'],[8.45,'cine_strongpunch',1,null,'Pain đấm trúng, Gojo văng lùi'],
+      [8.2,'ep3_whoosh',0.7,null,'+ vút: Pain vung đòn (lớp đầu của cú đấm)'],[8.45,'cine_strongpunch',1,null,'Pain đấm trúng, Gojo văng lùi'],
       [10.12,'ep3_whoosh',0.8,null,'2 bên lao vào nhau lần 2'],[10.35,'cine_impact',1,null,'VA NHAU MẠNH, âm bản đỏ'],
-      [11.72,'ep3_whoosh',0.7,null,'Gojo vung đòn'],[11.95,'cine_strongpunch',0.9,null,'Gojo đấm, Pain đỡ trượt lùi'],
+      [11.72,'ep3_whoosh',0.7,null,'+ vút: Gojo vung đòn (lớp đầu của cú đấm)'],[11.95,'cine_strongpunch',0.9,null,'Gojo đấm, Pain đỡ trượt lùi'],
       [12.8,'se_glass',0.75,null,'Pain trượt lùi vào kính cửa hàng, kính vỡ tung, mảnh kính che khung'],
       [T.pushC+0.05,'ep3_force',1,null,'Pain gồng lực đẩy, vòng lực co vào'],
       [T.push,'cine_deep_impact',0.9,null,'bức tường lực trúng Gojo'],[T.push+0.2,'l2p_whoosh',0.8,null,'Gojo bị hất văng xa (đường hầm tốc độ)'],
@@ -613,13 +615,13 @@
       [T.dIn,'l2p_chime',0.6,null,'trắng xoá → hố đen Vô Lượng Không Xứ'],[T.dIn+0.25,'mw_muryokusho',1,null,'giọng Gojo nói "Muryōkūsho" (tên lãnh địa)'],
       [T.dOut,'ep3_quake',0.6,null,'vòm lãnh địa trồi lên giữa đống đổ nát'],
       [T.imp,'ep3_charge',0.6,null,'Shinra dồn lực: màn đen, chấm sáng co lại'],
-      [T.sh,'ep3_explode',1,null,'SHINRA TENSEI nổ, sóng đập trúng thành phố lan xoá tất cả'],[T.sh+0.25,'ep3_quake',0.8,null,'nhà đổ rạp theo vòng sóng'],
+      [T.sh,'ep3_explode',1,null,'SHINRA TENSEI nổ, sóng đập trúng thành phố lan xoá tất cả'],[T.sh+0.25,'ep3_quake',0.8,null,'+ nhà đổ rạp theo vòng sóng (lớp của tiếng nổ Shinra)'],
       [T.sh+0.6,'l2p_explode',0.7,null,'nhà phía ngoài nổ tiếp'],[T.wave+0.3,'l2p_rumble',0.8,null,'tường bụi ập tới vòm của Gojo'],
       [T.land,'cine_drop',0.6,null,'Pain rơi từ trên trời xuống'],[T.land+0.95,'cine_impact',0.8,null,'Pain đập đất giữa hố'],
       [T.look+0.3,'mw_murasaki',1,null,'giọng Gojo vang trong khói: "Kyoshiki… Murasaki" (Hollow Purple)'],[T.smoke+0.1,'mw_gojo',1,null,'Hollow Purple hình thành trong khói (ánh xanh + đỏ)'],
-      [T.fire,'l2p_riser',0.6,null,'cầu tím xé khói lao tới'],
-      [T.block,'cine_haki_hit',1,null,'Pain đỡ cầu bằng trường lực'],[T.block+0.5,'mw_gojo_travel',0.6,2.6,'cầu tím ép, Pain bị đẩy trượt lùi'],
-      [T.heave,'ep3_force',0.9,null,'Pain dồn hết sức đẩy'],[T.heave+0.25,'cine_deep_impact',1,null,'lực đẩy của Pain đập trúng quả cầu, hất nó lên trời'],
+      [T.fire,'l2p_riser',0.6,null,'+ cầu tím xé khói lao tới (lớp của tiếng Hollow Purple)'],
+      [T.block,'cine_haki_hit',1,null,'Pain đỡ cầu bằng trường lực'],[T.block+0.5,'mw_gojo_travel',0.6,2.6,'+ cầu tím ép, Pain bị đẩy trượt lùi (lớp kéo dài của cú đỡ)'],
+      [T.heave,'ep3_force',0.9,null,'Pain dồn hết sức đẩy'],[T.heave+0.25,'cine_deep_impact',1,null,'+ lực đẩy của Pain đập trúng quả cầu, hất nó lên trời'],
       [T.up,'l2p_whoosh',0.7,null,'cầu tím bay vút lên'],
       [T.boom,'ep3_explode',1,null,'NỔ TÍM trên không, sóng nổ đập trúng mây'],[T.boom+0.3,'ep3_quake',0.6,null,'rung dội xuống mặt đất'],
       [T.face,'l2p_rumble',0.4,null,'2 bên đối diện giữa hố, gió bụi'],
