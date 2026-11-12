@@ -16499,12 +16499,16 @@ function _camPaintWorldUI(c, ctaOn){
   if(duoCtx){
     _paintHud(c);   // 2vs2: avatar + tên + thanh máu, 2 người/hàng (xem _hudSlots)
   } else if(ffa3Ctx){   // 🏆 LAST ONE STANDING (anh dặn 11/11): BỎ HUD, máu về thanh trên đầu · đầu khung chỉ còn 4 cái tên, mỗi tên đúng MÀU thanh máu của nó
-    const _row=(a,b,cy)=>{ const _fsR=Math.round(_fs*0.62); c.font=`bold ${_fsR}px "Press Start 2P",monospace`;
-      const _wa=c.measureText(_mains[a]||'').width, _wb=c.measureText(_mains[b]||'').width, _gap=_fsR*1.4;
+    // căn giữa CẢ HÀNG (tên a + ⚔ + tên b) và tự co cho vừa khung — căn quanh ⚔ ở W/2 thì tên trái dài ("Morse Code Cat") tràn ra mép
+    const _row=(a,b,cy)=>{ let _fsR=Math.round(_fs*0.62), _wa, _wb, _gap;
+      for(;;_fsR--){ c.font=`bold ${_fsR}px "Press Start 2P",monospace`;
+        _wa=c.measureText(_mains[a]||'').width; _wb=c.measureText(_mains[b]||'').width; _gap=_fsR*1.4;
+        if(_wa+_gap+_wb<=_maxW || _fsR<=7) break; }
+      const _cx=W/2-(_wa+_gap+_wb)/2+_wa+_gap/2;
       c.textAlign='right'; c.lineWidth=Math.max(3,_fsR*0.22); c.strokeStyle='#000';
-      c.strokeText(_mains[a]||'', -_gap/2+W/2, cy); c.fillStyle=_teamColor(a); c.fillText(_mains[a]||'', -_gap/2+W/2, cy);
-      c.textAlign='left'; c.strokeText(_mains[b]||'', _gap/2+W/2, cy); c.fillStyle=_teamColor(b); c.fillText(_mains[b]||'', _gap/2+W/2, cy);
-      c.textAlign='center'; c.font=`${Math.round(_fsR*1.1)}px serif`; c.strokeText('⚔', W/2, cy); c.fillStyle='#fff'; c.fillText('⚔', W/2, cy); c.textAlign='center'; };
+      c.strokeText(_mains[a]||'', _cx-_gap/2, cy); c.fillStyle=_teamColor(a); c.fillText(_mains[a]||'', _cx-_gap/2, cy);
+      c.textAlign='left'; c.strokeText(_mains[b]||'', _cx+_gap/2, cy); c.fillStyle=_teamColor(b); c.fillText(_mains[b]||'', _cx+_gap/2, cy);
+      c.textAlign='center'; c.font=`${Math.round(_fsR*1.1)}px serif`; c.strokeText('⚔', _cx, cy); c.fillStyle='#fff'; c.fillText('⚔', _cx, cy); c.textAlign='center'; };
     _row(0,1,-W*0.27); _row(2,3,-W*0.15);
   } else if(!fanCtx){
     _line(_t1, -W*0.30, _teamColor(0));
