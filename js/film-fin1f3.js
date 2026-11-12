@@ -183,8 +183,16 @@
   // vệt chém đúng nhịp: vung trong `pre` giây trước mốc chạm → mờ dần sau mốc
   function slashAt(F,t,t0,x,y,o){ const pre=o.pre||0.16, post=o.post||0.22; if(t<t0-pre||t>t0+post) return;
     K.slash(F,x,y,o.z||0,{ang:o.ang||0,R:o.R||140,span:o.span||150,k:seg(t,t0-pre,t0+0.02),a:1-seg(t,t0+0.02,t0+post),col:o.col||'200,225,255',flip:o.flip}); }
-  const CLASHES=[[T.clash,0],[T.sweep,44],[T.fr1,-118],[T.fr2,-198],[T.fr3,-270]];   // kiếm va kiếm: tia lửa + vòng sóng
-  const HITS=[[T.ripo,-30,'255,120,90'],[T.c1,-30,'255,120,90'],[T.c2,-50,'255,120,90'],[T.c3,-70,'255,120,90'],[T.stab,0,'255,70,60']];
+  // 12/11 anh dặn "vũ khí phải va chạm và hướng phải hợp logic": vệt chém / tia lửa / chỗ trúng tính theo VỊ TRÍ THẬT 2 người ĐÚNG lúc ra đòn (trước đặt toạ độ cố định
+  //   → sau Kamui đổi bên vẫn chém về phía cũ, vào khoảng không). who: 'N' Ninja chém Berserk · 'B' Berserk chém Ninja
+  const at0=t0=>({n:W.track(NK,t0), b:W.track(BK,t0)});
+  function strike(F,t,t0,who,o){ const pre=o.pre||0.16, post=o.post||0.22; if(t<t0-pre||t>t0+post) return; const p=at0(t0), A=who==='N'?p.n:p.b, Bt=who==='N'?p.b:p.n, y=o.y||95;
+    const PA=K.proj(F.B,A.x,y,A.z||0), PB=K.proj(F.B,Bt.x,y,Bt.z||0); if(!PA||!PB) return; const side=PB.x>=PA.x?1:-1, base=Math.atan2(PB.y-PA.y,PB.x-PA.x)*180/Math.PI;
+    const dist=Math.hypot(Bt.x-A.x,(Bt.z||0)-(A.z||0)), R=o.R||Math.max(90,Math.min(dist*1.05,o.Rmax||400));
+    K.slash(F,A.x,y,A.z||0,{ang:base+side*(o.tilt||0),R,span:o.span||150,k:seg(t,t0-pre,t0+0.02),a:1-seg(t,t0+0.02,t0+post),col:o.col||'200,225,255',flip:side<0?!o.flip:!!o.flip}); }
+  const mid=(t0)=>{ const p=at0(t0); return [(p.n.x+p.b.x)/2,((p.n.z||0)+(p.b.z||0))/2]; };   // điểm 2 lưỡi kiếm gặp nhau
+  const CLASHES=[T.clash,T.sweep,T.fr1,T.fr2,T.fr3];   // kiếm va kiếm: tia lửa + vòng sóng ở ĐIỂM GIỮA 2 người
+  const HITS=[[T.ripo,'255,120,90'],[T.c1,'255,120,90'],[T.c2,'255,120,90'],[T.c3,'255,120,90'],[T.stab,'255,70,60']];   // Ninja chém TRÚNG Berserk → tia máu / lửa trên người Berserk
   function world(F,t0){ const pn=F.panel||{}; if(pn.next){ F.t=t0; return drawNext(F,t0); } const t=pn.freeze?T.fall-1e-4:t0; F.t=t;
     const th=theme(t), g0=W.track(NK,hs(t)), b0=W.track(BK,hs(t)), rk=rageK(t);
     CITY.draw(F,t,th);
@@ -198,22 +206,22 @@
     // gió bụi nền
     K.smoke(F,{x:0,z:300,t0:-0.3,n:12,spread:1700,rise:30,life:3,size:90,seed:1,swirl:0.2,a:0.22,tint:'150,90,80'});
     // ⚔️ va kiếm
-    for(const [tt,cx] of CLASHES) if(t>=tt&&t<tt+0.6){ const u=seg(t,tt,tt+0.45); K.ring(F,cx,0,30+200*eout(u),7,0.6*(1-u),'255,210,160');
-      K.sparks(F,{x:cx,y:95,z:0,t0:tt,n:34,speed:700,life:0.5,seed:(tt*10)|0,col:'255,220,150'}); }
-    for(const [tt,cx,col] of HITS) if(t>=tt&&t<tt+0.6){ K.sparks(F,{x:cx,y:90,z:0,t0:tt,n:22,speed:520,life:0.45,seed:(tt*13)|0,col}); K.smoke(F,{x:cx,z:0,t0:tt,n:6,spread:140,rise:40,life:0.9,size:40,seed:(tt*7)|0,a:0.45}); }
+    for(const tt of CLASHES) if(t>=tt&&t<tt+0.6){ const [cx,cz]=mid(tt), u=seg(t,tt,tt+0.45); K.ring(F,cx,cz,30+200*eout(u),7,0.6*(1-u),'255,210,160');
+      K.sparks(F,{x:cx,y:95,z:cz,t0:tt,n:34,speed:700,life:0.5,seed:(tt*10)|0,col:'255,220,150'}); }
+    for(const [tt,col] of HITS) if(t>=tt&&t<tt+0.6){ const v=at0(tt).b, cx=v.x, cz=v.z||0; K.sparks(F,{x:cx,y:90,z:cz,t0:tt,n:22,speed:520,life:0.45,seed:(tt*13)|0,col}); K.smoke(F,{x:cx,z:cz,t0:tt,n:6,spread:140,rise:40,life:0.9,size:40,seed:(tt*7)|0,a:0.45}); }
     // vệt chém: Ninja = thép xanh trắng (ngắn, nhanh) · Berserk = đỏ đen, to theo cơn điên
     const bR=170*(1+1.3*rk), bC=rk>0.4?'255,70,50':'230,200,190';
-    slashAt(F,t,T.clash,0,100,{ang:-20,R:150,col:'210,230,255'}); slashAt(F,t,T.clash,-10,95,{ang:160,R:bR,col:bC,flip:true});
-    slashAt(F,t,T.slam,60,140,{ang:-95,R:bR*1.15,span:120,col:bC,pre:0.12});
-    slashAt(F,t,T.ripo,-10,92,{ang:200,R:150,col:'210,230,255',pre:0.12});
-    slashAt(F,t,T.sweep,40,85,{ang:-10,R:bR,col:bC,pre:0.2});
-    slashAt(F,t,T.c1,-20,100,{ang:150,R:130,col:'210,230,255',pre:0.1}); slashAt(F,t,T.c2,-40,80,{ang:20,R:130,col:'210,230,255',pre:0.1,flip:true}); slashAt(F,t,T.c3,-60,95,{ang:250,R:150,col:'210,230,255',pre:0.1});
+    strike(F,t,T.clash,'N',{tilt:-20,y:100,col:'210,230,255'}); strike(F,t,T.clash,'B',{tilt:-20,y:95,Rmax:bR,col:bC});
+    strike(F,t,T.slam,'B',{tilt:-70,y:140,R:bR*1.15,span:120,col:bC,pre:0.12});   // bổ dọc xuống chỗ Ninja vừa đứng
+    strike(F,t,T.ripo,'N',{tilt:15,y:92,col:'210,230,255',pre:0.12});
+    strike(F,t,T.sweep,'B',{tilt:-8,y:85,Rmax:bR,col:bC,pre:0.2});   // quét ngang VỀ PHÍA Ninja (trước vẽ bên phải Ninja, ngược hướng)
+    strike(F,t,T.c1,'N',{tilt:-25,y:100,col:'210,230,255',pre:0.1}); strike(F,t,T.c2,'N',{tilt:25,y:80,col:'210,230,255',pre:0.1,flip:true}); strike(F,t,T.c3,'N',{tilt:-40,y:95,col:'210,230,255',pre:0.1});
     slashAt(F,t,T.arc,0,150,{ang:-15,R:900*(1+0.6*rk),span:170,col:'255,60,40',pre:0.24,post:0.45});
     if(t>=T.arc-0.24&&t<T.arc+0.45){ const P=K.proj(F.B,0,150,0); if(P){ const k=seg(t,T.arc-0.24,T.arc+0.02), al=1-seg(t,T.arc+0.02,T.arc+0.45), R=900*(1+0.6*rk)*P.s, a0=-Math.PI*0.62, a1=a0+Math.PI*0.95*k;
       F.list.push({d:P.d-31, fn:()=>{ const g=F.g; g.save(); g.translate(P.x,P.y); g.rotate(-15*Math.PI/180); g.globalAlpha=0.85*al; g.fillStyle='#120406';
         g.beginPath(); g.arc(0,0,R*0.97,Math.max(a0,a1-1.6),a1); g.arc(-R*0.1,0,R*0.86,a1-0.05,Math.max(a0,a1-1.6)+0.05,true); g.closePath(); g.fill(); g.restore(); }}); } }   // lõi đen của nhát chém (kiểu Berserk)
-    slashAt(F,t,T.hit60,135,95,{ang:-12,R:bR,col:bC,pre:0.16});
-    for(const tt of [T.fr1,T.fr2,T.fr3]) slashAt(F,t,tt,b0.x+60,95,{ang:-12+((tt*10|0)%2)*30,R:bR*1.1,col:'255,60,40',pre:0.12});
+    strike(F,t,T.hit60,'B',{tilt:-12,y:95,Rmax:bR,col:bC,pre:0.16});   // lưỡi kiếm đi XUYÊN qua Ninja (Kamui)
+    for(const [i,tt] of [T.fr1,T.fr2,T.fr3].entries()) strike(F,t,tt,'B',{tilt:i%2?18:-18,y:95,Rmax:bR*1.1,col:'255,60,40',pre:0.12});   // 3 nhát dồn VỀ PHÍA Ninja (sau Kamui Ninja ở bên kia — trước chém vào khoảng không)
     // đại kiếm bổ xuống mặt đường: đá vụn + bụi + vòng sóng (KHÔNG vẽ vết nứt đất)
     if(t>=T.slam&&t<T.slam+1.8){ K.debris(F,{x:120,y:10,z:0,t0:T.slam,n:30,speed:900,life:1.3,size:26,seed:31,col:'#4a4246'}); K.smoke(F,{x:120,z:0,t0:T.slam,n:14,spread:420,rise:120,life:1.6,size:120,seed:32,a:0.55,tint:'130,104,96'});
       if(t<T.slam+0.6){ const u=seg(t,T.slam,T.slam+0.6); K.ring(F,120,0,40+380*eout(u),12,0.55*(1-u),'240,220,200'); } }
