@@ -25,10 +25,11 @@
   // 🌉 CẦU TREO: 2 tháp đặt sát chỗ đánh (x ±900), cao 1400, 2 dầm ngang (520, 1050) — Bat ngồi trên dầm thấp của tháp phải
   const CITY=Fin1City({seed:5, kind:'bridge', towers:[-900,900], towerH:1400, beams:[520,1050]});
   const theme=t=>CITY.TH_BRIDGE;
-  const IMG={ A0:'assets/img/cine/FIN_AKA_BAT.png', AT:'assets/img/cine/FIN_F2_BAT_THROW.png', AG:'assets/img/cine/FIN_F2_BAT_GRAPPLE.png',
+  const IMG={ A0:'assets/img/cine/FIN_AKA_BAT.png', AVF:'assets/img/cine/FIN_F2_BV_front.png', AVQ:'assets/img/cine/FIN_F2_BV_q3f.png', AVS:'assets/img/cine/FIN_F2_BV_side.png', AVQB:'assets/img/cine/FIN_F2_BV_q3b.png', AVB:'assets/img/cine/FIN_F2_BV_back.png', AT:'assets/img/cine/FIN_F2_BAT_THROW.png', AG:'assets/img/cine/FIN_F2_BAT_GRAPPLE.png',
     P0:'assets/avatars/popcat/avatarUrl.webp', P1:'assets/avatars/popcat/attackAvatarUrl.webp', U0:'assets/avatars/huhcat/avatarUrl.webp',
     nD:'assets/avatars/doge/avatarUrl.webp', nK:'assets/avatars/clappingcat/skill3AvatarUrl.webp',   // trận kế (fin1f1, công viên) trong lỗ vòng khói
     ...window.FIN1_CITY_IMGS };
+  const BVIEW={front:'AVF',q3f:'AVQ',side:'AVS',q3b:'AVQB',back:'AVB'};   // 🎥 Bat đứng 5 góc (sprite sheet GPT 12/11, vẽ quay TRÁI)
   const DIR={A0:0,AT:-1,AG:-1,P0:0,P1:0,U0:0};
   const HT={A0:H*1.12,AT:H*1.0,AG:H*1.15,P0:H*0.8,P1:H*0.8,U0:H*0.78};
   // ───────── BỐ TRÍ (Batman chuẩn bị sẵn) ─────────
@@ -151,7 +152,7 @@
     const th=theme(t), b0=bat(t), p0=pop(t), u0=huh(t);
     CITY.draw(F,t,th);
     let mouth=false; for(const [s] of POPS) if(t>=s&&t<s+0.1) mouth=true; for(const s of MOCK) if(t>=s&&t<s+0.1) mouth=true;
-    if(batA(t)>0.5) W.actor(F,{key:b0.im,dir:DIR[b0.im],x:b0.x,z:b0.z,y:b0.y,h:HT[b0.im],look:{x:p0.x,z:p0.z},smear:b0.sm,shadow:b0.y<200,life:{breath:0.6,wind:1.1}});
+    if(batA(t)>0.5) W.actor(F,{key:b0.im,views:b0.im==='A0'?BVIEW:null,dir:DIR[b0.im],x:b0.x,z:b0.z,y:b0.y,h:HT[b0.im],look:{x:p0.x,z:p0.z},smear:b0.sm,shadow:b0.y<200,life:{breath:0.6,wind:1.1}});
     const tipB=(t>=T.tip&&t<T.step)?Math.abs(Math.sin((t-T.tip)*11)):0, frozen=t>=T.step&&t<T.det;   // nhón chân nhún nhún · dẫm bom thì ĐỨNG HÌNH
     W.actor(F,{key:mouth?'P1':'P0',dir:0,flip:t>=T.pop,lean:t>=T.pop?-7*eout(seg(t,T.pop,T.pop+0.3)):0,x:p0.x,z:p0.z,y:p0.y+tipB*9,h:HT.P0,life:{breath:t>=T.inhale&&t<T.giant?2.4:0.8,squash:mouth?0.25:(t>=T.inhale&&t<T.giant?-0.35*seg(t,T.inhale,T.giant):0)}});
     W.actor(F,{key:'U0',dir:0,x:u0.x,z:u0.z,y:u0.y+tipB*9,h:HT.U0,lean:t>=T.turn?9*eio(seg(t,T.turn,T.turn+0.5)):0,life:{breath:frozen?0:(t>=T.huhC&&t<T.huhF)?2.2:0.7}});   // Huh từ từ NGẢ ĐẦU sang Pop

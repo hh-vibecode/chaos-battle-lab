@@ -25,11 +25,13 @@
   {"t0":35.73,"t1":37.58,"co":"cận","goc":"giun","hanhDong":"Berserk dưới 30% không ngã, quay lại, lửa bùng","loai":"ra chiêu","anh":["B0"],"sfx":["l2p_riser"],"ghiChu":""},
   {"t0":37.58,"t1":40.57,"co":"trung","goc":"ngang","hanhDong":"1 shot ngang: 3 nhát chém dồn, Ninja đỡ lùi dần, máy trượt theo","loai":"đánh","anh":["B2","B1","N0"],"sfx":["se_sword_clash"],"ghiChu":""},
   {"t0":40.57,"t1":41.33,"co":"cực cận","goc":"ngang","hanhDong":"Ninja nhìn thẳng mắt Berserk, Sharingan loé (dính ảo thuật)","loai":"ra chiêu","anh":["NJS"],"sfx":["l2p_chime"],"ghiChu":""},
-  {"t0":41.33,"t1":42.14,"co":"đặc tả","goc":"ngang","hanhDong":"đặc tả mắt Berserk loé đỏ: bắt được góc","loai":"ra chiêu","anh":["B0"],"sfx":["ep3_shine","se_big_slash"],"ghiChu":""},
-  {"t0":42.14,"t1":42.79,"co":"toàn","goc":"ngang","hanhDong":"toàn: nhát chém chéo xẻ đôi Ninja + toà nhà phía sau (nhạc lặng 0.5s trước)","loai":"nổ lớn","anh":["B1"],"sfx":["se_super_hit","cine_heavy_slow"],"ghiChu":""},
-  {"t0":42.79,"t1":44.04,"co":"trung","goc":"ngang","hanhDong":"2 nửa người nằm trên đường — lặng","loai":"thở","anh":[],"sfx":[],"ghiChu":""},
-  {"t0":44.04,"t1":45.24,"co":"toàn","goc":"giun","hanhDong":"2 nửa hoá bầy quạ bay vút lên trời, máy ngước theo","loai":"chuyển cảnh","anh":[],"sfx":["fin_crow_fly","fin_crow_caw"],"ghiChu":""},
-  {"t0":45.24,"t1":47.44,"co":"toàn","goc":"giun","hanhDong":"THẾ GIỚI ẢO THUẬT: trời đỏ, 2 mắt Sharingan, quạ lượn","loai":"chuyển cảnh","anh":["NJS"],"sfx":["l2p_shimmer"],"ghiChu":""},
-  {"t0":47.44,"t1":48.91,"co":"trung","goc":"giun","hanhDong":"góc giun: Berserk hú lên, hào quang bùng","loai":"ra chiêu","anh":["BH"],"sfx":["bk_howl"],"ghiChu":""},
-  {"t0":48.91,"t1":50.96,"co":"toàn","goc":"ngang","hanhDong":"chém vỡ ảo cảnh → mảnh kính rơi, lộ trận Bat vs Pop + Huh","loai":"chuyển cảnh","anh":["B1"],"sfx":["se_glass","l2p_shatter"],"ghiChu":""}
+  {"t0":41.33,"t1":42,"co":"đặc tả","goc":"ngang","hanhDong":"đặc tả mắt Berserk loé đỏ: bắt được góc","loai":"ra chiêu","anh":["B0"],"sfx":["ep3_shine","se_big_slash"],"ghiChu":""},
+  {"t0":42,"t1":42.62,"co":"toàn","goc":"ngang","hanhDong":"2 con LAO VƯỢT QUA NHAU (2 vệt, loé ở điểm giao) → hiện ra quay lưng vào nhau, khựng","loai":"đánh","anh":["B1"],"sfx":["se_machdash","se_super_hit"],"ghiChu":""},
+  {"t0":42.62,"t1":43.7,"co":"trung","goc":"ngang","hanhDong":"cận Ninja: mũi kiếm GÃY văng xoay tít · vạch sáng hiện ngang người → nửa trên trượt đổ","loai":"ra chiêu","anh":["B1"],"sfx":["se_katana_b","cine_flesh"],"ghiChu":""},
+  {"t0":43.7,"t1":44.5,"co":"toàn","goc":"chim","hanhDong":"toàn cao: CẢ DÃY NHÀ 2 bên đường bị xẻ ngang, đổ sập","loai":"nổ lớn","anh":["B1"],"sfx":["cine_heavy_slow"],"ghiChu":""},
+  {"t0":44.5,"t1":45.7,"co":"trung","goc":"ngang","hanhDong":"2 nửa người nằm trên đường — lặng","loai":"thở","anh":[],"sfx":[],"ghiChu":""},
+  {"t0":45.7,"t1":46.9,"co":"toàn","goc":"giun","hanhDong":"2 nửa hoá bầy quạ bay vút lên trời, máy ngước theo","loai":"chuyển cảnh","anh":[],"sfx":["fin_crow_fly","fin_crow_caw"],"ghiChu":""},
+  {"t0":46.9,"t1":49.1,"co":"toàn","goc":"giun","hanhDong":"THẾ GIỚI ẢO THUẬT: trời đỏ, 2 mắt Sharingan, quạ lượn","loai":"chuyển cảnh","anh":["NJS"],"sfx":["l2p_shimmer"],"ghiChu":""},
+  {"t0":49.1,"t1":50.57,"co":"trung","goc":"giun","hanhDong":"góc giun: Berserk hú lên, hào quang bùng","loai":"ra chiêu","anh":["BH"],"sfx":["bk_howl"],"ghiChu":""},
+  {"t0":50.57,"t1":52.62,"co":"toàn","goc":"ngang","hanhDong":"chém vỡ ảo cảnh → mảnh kính rơi, lộ công viên trận Chud vs Doge","loai":"chuyển cảnh","anh":["B1"],"sfx":["se_glass","l2p_shatter"],"ghiChu":""}
 ]

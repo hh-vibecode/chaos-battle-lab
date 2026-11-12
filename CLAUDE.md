@@ -264,6 +264,8 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
   ✅ (12/11) TẬP ĐẦY ĐỦ `fin1full` (js/film-fin1full.js, mục ĐẦU thư mục __fin1, 5:53): fin1c1–c3 → fin1c5 (cảnh nối) → fin1f3 (kính vỡ) → fin1f2 (lỗ vòng khói) → fin1f1 (đường hầm) → fin1c4.
    🔀 (12/11 khuya, anh dặn) THỨ TỰ MỚI: fin1c5 → **fin1f2 Bat vs Pop+Huh (trận ĐẦU)** → fin1f3 Ninja vs Berserk → fin1f1 → fin1c4. Nối: f2 kết = PHA HÀI (2 con rón rén → Huh dẫm bom CẠCH → đứng hình im lặng →
      Huh ngả đầu sang Pop "huh?" → Pop "pop" → NỔ) → vòng khói vụ nổ, lỗ khói lộ ĐẠI LỘ fin1f3 · f3 kết = mảnh kính lộ CÔNG VIÊN fin1f1.
+   ⚔️ (12/11 khuya) fin1f3 nhát chém cuối (anh dặn): 2 con LAO VƯỢT QUA NHAU (2 vệt) → khựng quay lưng → mũi kiếm Ninja GÃY văng (cắt vùng mũi kiếm ảnh NS x0–125,y196–252) → đứt ngang người →
+     vạch chém xẻ ngang CẢ DÃY NHÀ (`BLD_CUT`) đổ sập. Đoạn này không nén nhịp (k=1). Đa góc: Ninja `FIN_F3_NV_*`, Berserk `FIN_F3_BV_*` (cắt bằng gkey + `tools/x/keep-largest.js` vì kiếm chồng sang hình bên), Bat `FIN_F2_BV_*`.
    Nhạc: seq gom def.mus từng cảnh dời theo giây bắt đầu. film-sheet / film-check / sfx-lint đều chạy được với tập ghép (`film-check.js fin1full --t …`).
   ✅ (12/11) 4 TRẬN DỰNG LẠI NHỊP theo anime gốc (anh chê rush / đau mắt / tiếng lộn xộn) — mỗi trận 1 chữ ký riêng:
    · fin1f3 Ninja vs Berserk 55s: đấu kiếm, đối mặt lâu, mỗi pha 1 shot ngang, Berserk trái / Ninja phải (đổi bên chỉ sau Kamui).
