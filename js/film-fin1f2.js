@@ -241,7 +241,9 @@
     g.restore(); }
   // 🎵 nhạc LIỀN, lặng trước 2 cú nổ quyết định, NHỎ HẲN trong khói (hồi hộp: chỉ còn tiếng tích tắc / vòng khói bắn mù)
   const MUS='assets/audio/dp_akatsuki.mp3', ML=8.3, mseg=(ra,rb,o)=>Object.assign({src:MUS,ra,rb,off:ra%ML,vol:0.5,loop:true,fi:0.1,fo:0.3},o||{});
-  CineKit.film({ id:'fin1f2', title:'Final 1 · Fight · Bat Cat vs Pop Cat + Huh Cat', DUR:T.DUR, VW:960, VH:540, fadeIn:false, fadeOut:false,   // nối liền: vào từ kính vỡ fin1f3, ra qua lỗ vòng khói sang fin1f1
+  // ⏱️ (12/11 tối) NHANH – CHẬM ĐAN XEN: nén theo loại shot — đối mặt ×0.75 · thở / giới thiệu ×0.85 · đánh ×0.92 · ra chiêu ×0.95 · nổ lớn / chuyển cảnh giữ nguyên
+  const RETIME=[[0,3.6,0.85],[3.6,5.6,0.75],[5.6,8.4,0.85],[8.4,10,0.75],[10,13.6,0.95],[13.6,16,0.92],[16,17.2,0.75],[17.2,20.6,0.92],[20.6,22.4,0.75],[22.4,23.8,0.95],[23.8,24.85,1],[24.85,26.8,0.92],[26.8,27.6,1],[27.6,29.8,0.85],[29.8,35.8,0.92],[35.8,37.5,0.95],[37.5,40.2,0.85],[40.2,42.6,0.75],[42.6,45.6,0.92],[45.6,47.1,0.95],[47.1,49.2,0.75],[49.2,50,0.7750000000000028],[50,51.2,0.95],[51.2,53,1]];
+  CineKit.film(W.retime(RETIME,{ id:'fin1f2', title:'Final 1 · Fight · Bat Cat vs Pop Cat + Huh Cat', DUR:T.DUR, VW:960, VH:540, fadeIn:false, fadeOut:false,   // nối liền: vào từ kính vỡ fin1f3, ra qua lỗ vòng khói sang fin1f1
     imgs:IMG, cast:['bat','br','pop','huh'],
     sfxOk:{ popcat:'đòn thường của Pop Cat: MỖI phát phả vòng khói 1 tiếng pop, đúng như game', huh_sample:'Huh bắn HUH + kêu HUH?! lúc hoảng (tiếng của chính nó)', br_boom:'2 lần nổ: quả bom trên tháp + bom quanh chân (game: mỗi quả nổ 1 tiếng)' },
     // 🔊 thưa, có khoảng trống: gió trên cầu là nền; boomerang = 1 giọng vút (se_whoosh_fast); bom = br_*; không gắn tiếng cho bước chân / xoay người
@@ -255,7 +257,7 @@
       ...MOCK.map((s,i)=>[s,'popcat',0.6,null,(i?'+ ':'')+'Pop phả pop pop cười nhạo cú ném hụt']),
       [T.dodge+0.05,'ep3_whoosh',0.55,null,'Bat bước né vừa khít, vòng khói sượt qua'],
       [T.throw1+0.03,'se_swing_kick',0.6,null,'Bat ném 2 cặp boomerang vòng rộng 2 bên'],
-      [T.land1,'ep3_klunk',0.5,null,'boomerang găm xuống mặt cầu quanh chân địch (bom chưa kích hoạt)'],
+      [T.land1,'ep3_klunk',0.5,null,'+ boomerang găm xuống mặt cầu quanh chân địch (lớp đuôi của cú ném)'],
       [T.huhC,'l2p_riser',0.45,null,'Huh tích lực, chậm lại'],
       [T.huhF,'huh_sample',1,null,'Huh bắn chữ HUH bám theo Bat'],
       [T.grap+0.2,'bat_grapple',0.9,null,'Bat bắn dây móc lên dầm tháp cầu'],
@@ -263,7 +265,7 @@
       [T.lure+0.01,'kn_boom_low',0.5,null,'+ lớp trầm: sóng nổ bùng dội xuống mặt cầu'],
       [T.after+0.3,'se_rock_break',0.55,null,'mảnh tháp vỡ rơi lả tả xuống mặt cầu'],
       [T.cut2,'se_whoosh_fast',0.7,null,'boomerang chém xé tan 2 vòng khói, đạn va đạn'],
-      [T.cut3,'se_whoosh_fast',0.7,null,'boomerang chém đôi thêm 2 vòng khói'],
+      [T.cut3,'se_whoosh_fast',0.7,null,'+ boomerang chém đôi thêm 2 vòng khói (lớp nối của cú chém trước)'],
       [T.rhitB,'se_punch_heavy',0.65,null,'1 vòng khói đập trúng ngực Bat, lảo đảo'],
       [T.smoke,'kn_boom_low',0.7,null,'bom khói nổ bung, khói đen trùm Pop + Huh'],
       [LIGHT[0]+0.02,'ep3_blip',0.4,null,'trong khói đèn đỏ đầu tiên bật lên'],
@@ -287,5 +289,5 @@
       if(t>=T.lure&&t<T.lure+0.06) K.flash(F,0.4,'#ffe2c8');
       K.sfxText(F,'POP!',VW*0.3,VH*0.32,{t0:T.pop1,life:0.6,px:70,rot:-8,col:'#ffd6a0'});
       K.letterbox(F,t>=T.perch&&t<T.scan?0.7:(t>=T.arm+1.5&&t<T.panic?0.6:0));
-      K.vignette(F,t>=T.smoke&&t<T.arm?0.7:0.5); } });
+      K.vignette(F,t>=T.smoke&&t<T.arm?0.7:0.5); } }));
 })();

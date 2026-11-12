@@ -332,7 +332,9 @@
       let gr=g.createRadialGradient(P.x,P.y,0,P.x,P.y,R); gr.addColorStop(0,`rgba(255,255,255,${0.9*Math.max(0,1-v*0.6)})`); gr.addColorStop(0.3,'rgba(190,120,255,0.5)'); gr.addColorStop(0.7,'rgba(90,150,255,0.25)'); gr.addColorStop(1,'rgba(90,150,255,0)');
       g.fillStyle=gr; g.fillRect(P.x-R,P.y-R,2*R,2*R); g.strokeStyle=`rgba(230,220,255,${0.7*Math.max(0,1-v*0.7)})`; g.lineWidth=Math.max(2,R*0.02); g.beginPath(); g.ellipse(P.x,P.y,R*0.9,R*0.3,0,0,TAU); g.stroke(); g.restore(); }}); }
   const MUS='assets/audio/dp_akatsuki.mp3', ML=8.3, mseg=(ra,rb,o)=>Object.assign({src:MUS,ra,rb,off:ra%ML,vol:0.5,loop:true,fi:0.1,fo:0.3},o||{});
-  CineKit.film({ id:'fin1f1', title:'Final 1 · Fight · Chud + Mlem vs Doge + Clapping Cat', DUR:T.DUR, VW:960, VH:540, fadeIn:false, fadeOut:false,   // vào từ lỗ vòng khói fin1f2 · ra: lao về chân trời sang Gojo vs Pain
+  // ⏱️ (12/11 tối) NHANH – CHẬM ĐAN XEN: nén theo loại shot — đối mặt ×0.75 · thở / giới thiệu ×0.85 · đánh ×0.92 · ra chiêu ×0.95 · nổ lớn / chuyển cảnh giữ nguyên
+  const RETIME=[[0,1.5,0.85],[1.5,4.6,0.95],[4.6,8.5,0.75],[8.5,11,0.92],[11,13.8,0.85],[13.8,24.4,0.75],[24.4,26.4,0.95],[26.4,27.4,0.75],[27.4,31.6,0.95],[31.6,33.3,0.92],[33.3,36.4,1],[36.4,38.8,0.85],[38.8,45.6,0.75],[45.6,48.6,0.85],[48.6,50.2,0.75],[50.2,59.4,0.92],[59.4,62.6,0.75],[62.6,64.4,0.92],[64.4,66.9,0.85],[66.9,69.4,0.95],[69.4,71.9,0.92],[71.9,73.9,0.75],[73.9,75.6,0.92],[75.6,77.65,1]];
+  CineKit.film(W.retime(RETIME,{ id:'fin1f1', title:'Final 1 · Fight · Chud + Mlem vs Doge + Clapping Cat', DUR:T.DUR, VW:960, VH:540, fadeIn:false, fadeOut:false,   // vào từ lỗ vòng khói fin1f2 · ra: lao về chân trời sang Gojo vs Pain
     imgs:IMG, cast:['dc','mlem','clap'],
     sfxOk:{ clap_cat:'Clapping cười vỗ tay liên tục: mỗi lần vỗ 1 tiếng (game)', dc_chain:'mỗi nhát xích quất / quấn trúng 1 tiếng (game)' },
     // 🔊 mở đầu KHÔNG NHẠC → nhạc vào khi Meowkatsuki bước ra → LẶNG lúc mắt Doge loé → bùng lại khi băng vỡ → LẶNG trước Haki → bùng lại khi xích đứt
@@ -369,10 +371,10 @@
       [T.r1+0.1,'se_step_in',0.8,null,'Doge đạp đất lao vào'],
       [T.w1,'dc_chain',1,null,'xích quất trúng 2 tay Doge đang đỡ'],
       [T.w1+0.01,'kn_punch_heavy',0.55,null,'+ lớp thịt cú quất trúng'],
-      [T.w1+0.2,'se_pushback',0.75,null,'Doge bị đẩy trượt lùi xa trên đất'],
+      [T.w1+0.2,'se_pushback',0.75,null,'+ Doge bị đẩy trượt lùi xa trên đất (lớp đuôi của cú quất)'],
       [T.r2+0.2,'se_step_in',0.7,null,'Doge lao vào lần nữa'],
       [T.w2,'se_swing_kick',0.7,null,'xích vụt sượt qua đầu, Doge cúi né'],
-      [T.zip+0.22,'l2p_whoosh',0.6,null,'Chud quăng xích quấn cột bê tông, đu vụt ra xa'],
+      [T.zip+0.55,'l2p_whoosh',0.5,null,'+ Chud đu vụt ra xa trên xích quấn cột (lớp đuôi, sau tiếng nện đất)'],
       [T.punch,'se_punch_heavy',1,null,'nắm đấm toàn lực của Doge đập trúng mặt đất (hụt Chud)'],
       [T.punch+0.01,'kn_boom_low',0.7,null,'+ lớp trầm: mặt đất nứt bùng thành hố'],
       [T.punch+0.45,'se_rock_break',0.6,null,'đá vụn văng tung, rơi lả tả'],
@@ -407,5 +409,5 @@
       if(t>=T.hakiOn&&t<T.hakiOn+1.0){ const g=F.g; g.save(); g.globalCompositeOperation='multiply'; g.fillStyle=`rgba(150,140,160,${0.5*(1-seg(t,T.hakiOn+0.7,T.hakiOn+1.0))})`; g.fillRect(0,0,F.VW,F.VH); g.restore(); }   // trận đứng hình: cả khung xám tối lại
       if(C){ C.whipFx(F,t,T.whip,T.tunnel-T.whip); C.speedTunnel(F,t,T.tunnel,T.DUR-T.tunnel); }
       K.letterbox(F,t>=T.lurk&&t<T.bind-0.3?0.7:(t>=T.raise&&t<T.rise?0.8:0));
-      K.vignette(F,t>=T.lurk&&t<T.bind-0.3?0.8:0.5); } });
+      K.vignette(F,t>=T.lurk&&t<T.bind-0.3?0.8:0.5); } }));
 })();

@@ -115,5 +115,17 @@
   function dash(F,t,t0,t1,A,B,o){ o=o||{}; if(t<t0||t>=t1) return false; const u=(t-t0)/(t1-t0), tail=o.tail==null?0.55:o.tail, pts=[];
     for(let i=0;i<=12;i++){ const k=Math.max(0,Math.min(1,u-tail*(1-i/12))), e=1-(1-k)*(1-k); pts.push(K.proj(F.B,A[0]+(B[0]-A[0])*e,(A[1]+(B[1]-A[1])*e),(A[2]+(B[2]-A[2])*e))); }
     streak(F,pts,o.w||30,o.col||'255,220,150'); if(o.core) streak(F,pts,(o.w||30)*0.4,o.core); return true; }
-  window.Fin1Fight={ streak, dash, track, hstop, actor, smearFrame, line, taper, text3, beam, ice, kamui, backOut };
+  // ⏱️ NHỊP NHANH – CHẬM ĐAN XEN (anh chê "lê thê" 12/11): bọc def phim bằng bảng [giây gốc a, b, hệ số k] — k<1 nhanh hơn, k>1 chậm hơn.
+  //   Mọi hàm (F,t) / (t) của def nhận GIÂY GỐC (hiệu ứng, biên đạo giữ nguyên số cũ); sfx / nhạc / shot máy quay dời theo giây mới.
+  function retime(tab,def){ let n=0; const RT=tab.map(([a,b,k])=>{ const o={a,b,k,n0:n}; n+=(b-a)*k; o.n1=n; return o; });
+    const Rold=tn=>{ for(const r of RT) if(tn<r.n1) return r.a+(tn-r.n0)/r.k; const L=RT[RT.length-1]; return L.b+(tn-L.n1); };
+    const Rnew=to=>{ for(const r of RT) if(to<r.b) return r.n0+(Math.max(r.a,to)-r.a)*r.k; const L=RT[RT.length-1]; return L.n1+(to-L.b); };
+    const o=Object.assign({},def);
+    for(const k of Object.keys(def)){ const v=def[k]; if(typeof v!=='function'||!v.length) continue;
+      o[k]=v.length>=2?function(F,t,...r){ const to=Rold(t); if(F&&typeof F==='object') F.t=to; return v.call(this,F,to,...r); }:function(t,...r){ return v.call(this,Rold(t),...r); }; }
+    o.DUR=Rnew(def.DUR); if(Array.isArray(def.shots)) o.shots=def.shots.map(x=>Object.assign({},x,{t0:Rnew(x.t0),t1:Rnew(x.t1)}));
+    if(def.sfx) o.sfx=def.sfx.map(x=>{ const y=x.slice(); y[0]=Rnew(x[0]); return y; });
+    if(def.mus) o.mus=def.mus.map(m=>Object.assign({},m,{ra:Rnew(m.ra),rb:Rnew(m.rb)}));
+    o._rt={Rold,Rnew}; return o; }
+  window.Fin1Fight={ retime, streak, dash, track, hstop, actor, smearFrame, line, taper, text3, beam, ice, kamui, backOut };
 })();

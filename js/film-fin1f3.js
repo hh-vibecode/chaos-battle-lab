@@ -278,7 +278,9 @@
   // 🎵 NHẠC NỀN LIỀN + LẶNG TRƯỚC ĐÒN LỚN (jjk-todo-hanami / gojo-toji: dải lặng 0.3–0.7s ngay trước cú quyết định rồi tiếng va bật lên)
   const MUS='assets/audio/dp_akatsuki.mp3', ML=8.3, mseg=(ra,rb,o)=>Object.assign({src:MUS,ra,rb,off:ra%ML,vol:0.55,loop:true,fi:0.05,fo:0.3},o||{});
 
-  CineKit.film({ id:'fin1f3', title:'Final 1 · Fight · Ninja Cat vs Berserk Cat', DUR:T.DUR, VW:960, VH:540, fadeIn:false, fadeOut:false,   /* 11/11: nằm giữa tập full (vào từ cảnh nối fin1c5, ra qua kính vỡ) */
+  // ⏱️ (12/11 tối) NHANH – CHẬM ĐAN XEN: nén theo loại shot — đối mặt ×0.75 · thở / giới thiệu ×0.85 · đánh ×0.92 · ra chiêu ×0.95 · nổ lớn / chuyển cảnh giữ nguyên
+  const RETIME=[[0,3,0.85],[3,6.2,0.75],[6.2,7,0.7750000000000001],[7,9.3,0.92],[9.3,11.15,0.95],[11.15,23,0.92],[23,25,0.85],[25,27.3,0.95],[27.3,29.85,1],[29.85,31.2,0.9259259259259274],[31.2,32.6,0.95],[32.6,34.4,0.92],[34.4,36.4,0.95],[36.4,37.75,0.92],[37.75,39.6,0.85],[39.6,41.55,0.95],[41.55,44.8,0.92],[44.8,46.45,0.95],[46.45,47.1,1],[47.1,48.4,0.9615384615384637],[48.4,51.8,1],[51.8,53.35,0.95],[53.35,55.4,1]];
+  CineKit.film(W.retime(RETIME,{ id:'fin1f3', title:'Final 1 · Fight · Ninja Cat vs Berserk Cat', DUR:T.DUR, VW:960, VH:540, fadeIn:false, fadeOut:false,   /* 11/11: nằm giữa tập full (vào từ cảnh nối fin1c5, ra qua kính vỡ) */
     imgs:IMG, cast:['ninja','nj','bk'],
     // 🔊 TIẾNG (12/11 làm lại): mỗi vũ khí 1 GIỌNG cố định — Kusanagi = se_katana_* · đại kiếm = se_big_slash (vung, đỉnh 0.6s → đặt sớm 0.6s) · kiếm va kiếm = se_sword_clash;
     //   cú nặng thêm LỚP trầm '+' (kn_boom_low / kn_punch_heavy); động tác phụ (bước, xoay người) KHÔNG có tiếng → ≤ 9 tiếng / 10s
@@ -350,5 +352,5 @@
       if(t>=T.stab&&t<T.stab+0.05) K.flash(F,0.35,'#ffd0c8'); if(t>=T.cut&&t<T.cut+0.06) K.flash(F,0.4,'#ffd0c8');
       K.sfxText(F,'CLANG!',VW*0.52,VH*0.3,{t0:T.clash,life:0.7,px:82,rot:-7});
       K.letterbox(F,t<T.face1?1:0);
-      K.vignette(F,0.5); } });
+      K.vignette(F,0.5); } }));
 })();

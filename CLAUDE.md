@@ -277,6 +277,8 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
    CÒN CHỜ ANH: xem cả tập rồi góp ý; chưa nghe thử tiếng mới (se_*) bằng tai. Tập hiện ~5:44 (anh nói 8–9 phút chỉ là xấp xỉ, không bắt buộc).
   ⏸️ VIỆC DỞ (anh góp ý 12/11 tối sau khi xem bản Ver 573–575 — làm tiếp phiên sau):
    ① NHỊP: bản giãn bị "lê thê" → làm lại NHANH–CHẬM ĐAN XEN (tràng đòn cực nhanh vài góc ngắn → khựng / thở → căng chậm). Bỏ kiểu giãn đều hệ số (RETIME fin1c4 cần chỉnh lại theo từng pha).
+      ✅ (12/11 khuya, Ver 585–587) ① đã làm: `W.retime(bảng, def)` chung (js/fin1-fight.js) nén theo LOẠI shot (đối mặt ×0.75 · thở/giới thiệu ×0.85 · đánh ×0.92 · ra chiêu ×0.95; thở sau nổ ≥1.25s);
+      fin1c4 bảng riêng (tràng đòn ×0.85–0.95, mỗi hiệp 1 nhịp thở, chỉ chậm ở lãnh địa / đỡ Hollow Purple / đối mặt cuối). Tập full 5:44 → 5:11. ⑥ 5 thành viên cùng bật đi: XONG (5 vệt màu).
    ② SPRITE SHEET ĐA GÓC cho mọi nhân vật trong trận (Ninja, Berserk, Bat, Pop, Huh, Chud Kratos, Buff Doge, Mlem, Clapping, Gojo, Pain/Depressed): nhiều góc + nhiều động tác,
       vẽ bằng GPT theo lưới đều → dùng thay vì 4–5 ảnh tĩnh trượt qua lại. Đây là điểm yếu nhất anh chỉ ra.
    ③ VŨ KHÍ PHẢI VA CHẠM THẬT + HƯỚNG HỢP LOGIC: kiếm chạm kiếm đúng chỗ, xích quất / quấn đúng vào người, đòn đi đúng hướng đối thủ (không vung vào khoảng không).
