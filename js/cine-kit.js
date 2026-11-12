@@ -301,7 +301,7 @@
         w2.save(); w2.setTransform(SC,0,0,SC,0,0);
         if(v.clip){ w2.beginPath(); v.clip.forEach((p,i)=>i?w2.lineTo(p[0]*VW,p[1]*VH):w2.moveTo(p[0]*VW,p[1]*VH)); w2.closePath(); w2.clip(); }
         w2.translate(VW/2+sx,VH/2+sy); w2.rotate(B2.roll); w2.translate(-VW/2,-VH/2);
-        if(def.theme) K.drawWorldBg(Fv,typeof def.theme==='function'?def.theme(t):def.theme);
+        if(v.theme||def.theme) K.drawWorldBg(Fv,v.theme||(typeof def.theme==='function'?def.theme(t):def.theme));   // ô (panel) có theme riêng: ô trận kế dùng bối cảnh trận kế
         if(def.world) def.world(Fv,t);
         drawShadows(Fv); for(const fn of Fv.under) fn();
         Fv.list.sort((a,b)=>b.d-a.d); for(const it of Fv.list) it.fn();

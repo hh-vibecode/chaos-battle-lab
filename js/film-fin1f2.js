@@ -1,11 +1,15 @@
-// 🦇 Meme Lore · FINAL · Part 1 — TRẬN PHỤ 2: BAT CAT (Meowkatsuki, áo Akatsuki) vs POP CAT + HUH CAT — TẦM XA thuần (11/11/2026, dựng lại theo ý anh)
-//   ANH DẶN 11/11: Bat Cat = BATMAN → thể hiện SỰ THÔNG MINH: cài bẫy, gài bom, "có thời gian chuẩn bị là xử lý hết" · trận KẾT DANG DỞ, chuyển sang trận khác bằng 1 pha có câu chuyện.
-//   Mạch: (nối từ kính vỡ của fin1f3) đối mặt → CHẾ ĐỘ THÁM TỬ: phân tích 2 mục tiêu, vẽ đường bay dự đoán, đánh dấu chỗ gài bom →
-//   Bat né vòng khói vừa khít, ném 2 cặp boomerang "HỤT" (thật ra là GÀI BOM chưa kích hoạt quanh chân địch) → Pop phả cười nhạo →
-//   Huh bắn HUH bám đuôi → Bat lướt dây móc NGANG QUA quả bom gài sẵn trên tường từ trước trận → HUH bám theo đâm trúng bom, nổ giữa trời →
-//   đấu tầm xa (vòng khói nhanh dần, boomerang xé vòng khói giữa trời, 1 vòng trúng Bat) → BOM KHÓI: trong khói đèn đỏ lần lượt bật, bóng Bat lướt qua gài nốt →
-//   Pop phả vòng khói thổi tan khói → lộ VÒNG 6 QUẢ BOM quanh 2 con, Bat ngồi trên gờ nhà kiểu Batman, ngòi 3s bắt đầu đếm →
-//   Pop hít sâu phả 1 VÒNG KHÓI KHỔNG LỒ lao về máy, bom bắt đầu nổ sau lưng → máy chui qua LỖ CHỮ O → trận kế (fin1f1). Không biết ai sống sót (dang dở).
+// 🦇 Meme Lore · FINAL · Part 1 — TRẬN PHỤ 2: BAT CAT (Meowkatsuki, áo Akatsuki) vs POP CAT + HUH CAT — TẦM XA, TRÊN CẦU TREO (11/11 → dựng lại 12/11/2026)
+//   ANH DẶN 11/11: Bat Cat = BATMAN → thể hiện SỰ THÔNG MINH: cài bẫy, gài bom, "có thời gian chuẩn bị là xử lý hết" · trận KẾT DANG DỞ, chuyển trận bằng 1 pha có câu chuyện.
+//   12/11: anh chê trận phụ rush / đau mắt / tiếng lộn xộn + "đừng dùng mãi 1 công thức" + bối cảnh đa dạng → trận này lên CẦU TREO và có CHỮ KÝ RIÊNG kiểu BATMAN:
+//   KẺ SĂN MỒI — Bat không đối mặt từ đầu mà NGỒI TRÊN DẦM THÁP CẦU nhìn xuống, con mồi đi vào vùng của nó; nhịp CHẬM, hồi hộp, nhiều góc cao nhìn xuống,
+//   ít đối đầu trực diện, tiếng thưa (gió trên cầu, tiếng tích tắc), nhạc lặng trong khói. Nhịp theo bản gốc (meme-anime-lab/playbook nhip.md "Trận đánh thật").
+//   Mạch: (ra từ kính vỡ fin1f3) Pop + Huh đi trên cầu, dáo dác → lộ Bat ngồi trên dầm tháp, trăng máu sau lưng → mắt nheo → CHẾ ĐỘ THÁM TỬ nhìn từ trên xuống
+//   (khoá mục tiêu, đường bay dự đoán, dấu X chỗ gài bom, quả bom gài sẵn trên thân tháp) → Bat nhảy xuống lượn áo choàng đáp trước mặt 2 con →
+//   Pop bắn vòng khói, Bat bước né → ném 2 cặp boomerang "HỤT" (thật ra GÀI BOM quanh chân) → Pop cười nhạo → Huh tích lực bắn HUH bám đuôi →
+//   Bat phóng dây móc lên tháp, lướt NGANG QUA quả bom gài sẵn → HUH đâm trúng bom, nổ trên thân tháp, mảnh rơi xuống cầu → Bat đứng trên dầm cao →
+//   nhảy xuống đấu tầm xa (vòng khói nhanh dần, boomerang xé vòng khói, 1 vòng trúng Bat) → BOM KHÓI: trong khói đèn đỏ lần lượt bật, 2 con đứng tựa lưng,
+//   bóng Bat lướt qua gài nốt → Pop thổi tan khói → lộ VÒNG 6 QUẢ BOM, Bat đã ngồi lại trên dầm tháp → Bat bấm kích nổ: ngòi 3s (đúng game) →
+//   Pop hít sâu phả 1 VÒNG KHÓI KHỔNG LỒ lao về máy, bom nổ sau lưng → máy chui qua LỖ CHỮ O → trận kế (fin1f1, công viên). Không biết ai sống sót (dang dở).
 //   Chiêu CHÉP ĐÚNG GAME: boomerang dơi `_batRangShape` ném theo cặp vòng 2 bên; dây móc `bat_grapple`; boomerang NỔ đèn đỏ nháy nhanh dần, ngòi 3s (`br_tick` → `br_boom`);
 //   vòng khói Pop `_popRingDraw` (xám bạc như vape, lỗ giữa trống) + mỗi phát nhanh dần; Huh tích lực 0.5s, chữ HUH trắng viền hồng bám mục tiêu.
 (function(){
@@ -14,14 +18,15 @@
   for(const [g,f] of [['PIXI_FILTERS_GLSL','vendor/pixi-filters/glsl.js'],['Fin1City','fin1-city.js'],['Fin1Fight','fin1-fight.js']]) if(!window[g]){ try{ const x=new XMLHttpRequest(); x.open('GET',BASE+f+V,false); x.send(); (0,eval)(x.responseText); }catch(e){} }
   const K=CineKit, {seg,lerp,clamp,hash}=K, E=K.EASE, eout=E.eout, ein=E.ein, eio=E.eio, C=K.cam, W=window.Fin1Fight, TAU=Math.PI*2;
   const FX=()=>window.CineKitFx;
-  const T={ face1:2.0, face2:3.1, eyeB:4.2, scan:4.6, pop1:5.4, dodge:5.7, throw1:6.05, land1:6.75, mock:6.9, huhC:7.4, huhF:7.85, grap:8.1, pass:8.55, lure:8.95,
-    duel:9.6, cut2:10.3, cut3:11.0, rhitB:11.25, smokeT:11.6, smoke:11.85, sm2:12.1, sm3:12.9, sm4:13.5, arm:14.2, panic:15.4, inhale:16.0, giant:16.6, det:17.2, hole:17.4, DUR:18.6 };
+  const T={ look:3.6, perch:5.6, eyeB:8.4, scan:10.0, drop:13.6, land:15.4, pop1:17.2, dodge:17.5, throw1:18.8, land1:19.6, mock:20.6, huhC:22.4, huhF:23.8, grap:24.1, pass:25.9, lure:26.8,
+    after:27.6, duel:30.4, cut2:31.6, cut3:33.0, rhitB:34.0, smokeT:36.0, smoke:36.5, sm3:40.2, sm4:42.6, arm:45.6, fuse:48.6, panic:49.2, inhale:50.0, giant:51.2, det:51.6, hole:51.8, DUR:53.0 };
   const H=120;
-  const CITY=Fin1City({seed:5});
-  const theme=t=>CITY.TH_NIGHT;
+  // 🌉 CẦU TREO: 2 tháp đặt sát chỗ đánh (x ±900), cao 1400, 2 dầm ngang (520, 1050) — Bat ngồi trên dầm thấp của tháp phải
+  const CITY=Fin1City({seed:5, kind:'bridge', towers:[-900,900], towerH:1400, beams:[520,1050]});
+  const theme=t=>CITY.TH_BRIDGE;
   const IMG={ A0:'assets/img/cine/FIN_AKA_BAT.png', AT:'assets/img/cine/FIN_F2_BAT_THROW.png', AG:'assets/img/cine/FIN_F2_BAT_GRAPPLE.png',
     P0:'assets/avatars/popcat/avatarUrl.webp', P1:'assets/avatars/popcat/attackAvatarUrl.webp', U0:'assets/avatars/huhcat/avatarUrl.webp',
-    nC:'assets/img/cine/FIN_AKA_CHUD.png', nM:'assets/img/cine/FIN_AKA_MLEM.png', nD:'assets/avatars/doge/avatarUrl.webp', nK:'assets/avatars/clappingcat/avatarUrl.webp',   // trận kế (fin1f1) trong lỗ vòng khói
+    nD:'assets/avatars/doge/avatarUrl.webp', nK:'assets/avatars/clappingcat/avatarUrl.webp',   // trận kế (fin1f1, công viên) trong lỗ vòng khói
     ...window.FIN1_CITY_IMGS };
   const DIR={A0:0,AT:-1,AG:-1,P0:0,P1:0,U0:0};
   const HT={A0:H*1.12,AT:H*1.0,AG:H*1.15,P0:H*0.8,P1:H*0.8,U0:H*0.78};
@@ -29,61 +34,67 @@
   const CEN=[-440,15];   // tâm giữa Pop + Huh
   const SPOT=Array.from({length:6},(_,i)=>{ const a=i/6*TAU+0.3; return [CEN[0]+Math.cos(a)*215, CEN[1]+Math.sin(a)*170]; });   // 6 chỗ gài bom quanh chân 2 con
   const THROWN=[0,1,3,4], LATE=[2,5];                 // 4 quả ném "hụt" lúc đầu · 2 quả gài thêm trong khói
-  const LATE_T={2:13.15,5:13.85};
-  const WB=[600,760,1092];                            // quả bom gài sẵn trên mặt toà nhà TỪ TRƯỚC TRẬN (để dụ chữ HUH)
-  const WALL1=[560,820,1100], LEDGE=[300,620,1030];   // điểm móc dây · gờ nhà Bat ngồi lúc lộ bẫy
-  const AK=[[0,430,'A0',0,0,0,0],[T.pop1,430,'A0'],[T.dodge,430,'A0','eout',1,-110],[T.throw1-0.1,430,'A0',0,0,-110],[T.throw1,425,'AT','eout',0,-110],[T.throw1+0.35,425,'A0',0,0,-110],
-    [T.huhF,430,'A0',0,0,-100],[T.grap,430,'AG',0,0,-100],[T.pass,WB[0]+60,'AG','eout',1,WB[2]-70,WB[1]+40],[T.lure,820,'AG','lin',1,880,720],[T.duel-0.15,460,'AG','ein',1,40,60],[T.duel,420,'A0','eout',0,40,0],
-    [T.duel+0.3,420,'AT',0,0,40],[T.duel+0.6,420,'A0',0,0,40],[T.duel+0.85,420,'A0','eout',1,-120],[T.cut3-0.25,420,'AT',0,0,-120],[T.cut3+0.1,420,'A0',0,0,-120],[T.rhitB,445,'A0','back',0,-120],
-    [T.smokeT,430,'AT',0,0,-80],[T.smokeT+0.3,430,'A0',0,0,-80],[T.smoke+0.3,150,'A0','ein',1,-40],[T.arm-0.01,150,'A0',0,0,-40],[T.arm,LEDGE[0],'A0',0,0,LEDGE[2],LEDGE[1]+18],[T.DUR,LEDGE[0],'A0',0,0,LEDGE[2],LEDGE[1]+18]];
-  const PK=[[0,-380,'P0',0,0,-60,0],[T.DUR,-380,'P0']], UK=[[0,-500,'U0',0,0,90,0],[T.DUR,-500,'U0']];
-  const batA=t=>(t>T.smoke+0.35&&t<T.arm)?0:1;   // Bat lẩn vào khói (chỉ thấy bóng lướt qua lúc gài bom)
-  // Pop phả vòng khói: [giây, kiểu] — 'aim' nhắm Bat · 'blind' bắn mù trong khói · 'clear' thổi tan khói
-  const POPS=[[T.pop1,'aim'],[9.7,'aim'],[9.95,'aim'],[10.12,'aim'],[10.48,'aim'],[10.66,'aim'],[10.82,'aim'],[11.42,'aim'],   // giãn cho mỗi nhịp 1 tiếng (sfx-lint)
-    [12.2,'blind'],[12.58,'blind'],[12.76,'blind'],[13.35,'blind'],[14.03,'blind'],[T.arm,'clear']];
-  const MOCK=[T.mock,T.mock+0.18];   // Pop phả "pop pop" cười nhạo (không bắn)
-  const RING_V=900, CUT={'9.7':T.cut2,'9.95':T.cut2,'10.48':T.cut3,'10.66':T.cut3}, HITB={'10.12':T.rhitB};
-  const hs=W.hstop([[T.lure,0.12],[T.rhitB,0.1],[T.cut2,0.08]]);
-  // ───────── MÁY QUAY ─────────
+  const LATE_T={2:43.4,5:44.5};
+  const LIGHT={0:38.4,3:38.4,1:40.6,4:40.6,2:43.7,5:44.8};   // giây đèn đỏ từng quả bật lên trong khói
+  const BEAM_Y=520+120, LEDGE=[900,BEAM_Y,0], HIGH=[900,1050+120,-40];   // Bat ngồi trên dầm thấp (đầu + cuối trận) · đứng trên dầm cao sau pha dụ HUH
+  const WB=[880,860,-320];                            // quả bom gài sẵn trên THÂN THÁP phải TỪ TRƯỚC TRẬN (để dụ chữ HUH)
+  const WALL1=[900,1170,-300];                        // điểm móc dây: dầm cao của tháp
+  const AK=[[0,LEDGE[0],'A0',0,0,LEDGE[2],LEDGE[1]],[T.drop,LEDGE[0],'A0',0,0,LEDGE[2],LEDGE[1]],[T.drop+0.3,870,'AG','eout',0,0,LEDGE[1]+70],[T.land,430,'AG','ein',1,0,0],[T.land+0.35,430,'A0'],   // nhảy khỏi dầm, lượn áo choàng đáp xuống cầu
+    [T.pop1,430,'A0'],[T.dodge,430,'A0','eout',1,-110],[T.throw1-0.1,430,'A0',0,0,-110],[T.throw1,425,'AT','eout',0,-110],[T.throw1+0.4,425,'A0',0,0,-110],
+    [T.huhF,430,'A0',0,0,-100],[T.grap,430,'AG',0,0,-100],[T.pass,WB[0]-70,'AG','eout',1,WB[2]+50,WB[1]+30],[T.lure,HIGH[0]-30,'AG','lin',1,HIGH[2],HIGH[1]+20],[T.lure+0.3,HIGH[0],'A0','eout',0,HIGH[2],HIGH[1]],
+    [T.duel-0.6,HIGH[0],'A0',0,0,HIGH[2],HIGH[1]],[T.duel-0.15,470,'AG','ein',1,40,60],[T.duel,420,'A0','eout',0,40,0],   // từ dầm cao nhảy xuống đấu tầm xa
+    [T.cut2-0.45,420,'A0',0,0,40],[T.cut2-0.35,420,'AT',0,0,40],[T.cut2,420,'A0',0,0,40],[T.cut2+0.45,420,'A0','eout',1,-120],
+    [T.cut3-0.35,420,'A0',0,0,-120],[T.cut3-0.25,420,'AT',0,0,-120],[T.cut3+0.1,420,'A0',0,0,-120],[T.rhitB,465,'A0','back',0,-120],[T.rhitB+0.9,450,'A0','eio',0,-110],
+    [T.smokeT-0.1,440,'A0',0,0,-80],[T.smokeT,440,'AT',0,0,-80],[T.smokeT+0.35,440,'A0',0,0,-80],[T.smoke+0.4,150,'A0','ein',1,-40],[T.arm-0.01,150,'A0',0,0,-40],
+    [T.arm,LEDGE[0],'A0',0,0,LEDGE[2],LEDGE[1]],[T.DUR,LEDGE[0],'A0',0,0,LEDGE[2],LEDGE[1]]];
+  const PK=[[0,-900,'P0',0,0,-60,0],[T.look,-380,'P0','eout',0,-60,0],[T.DUR,-380,'P0']], UK=[[0,-1040,'U0',0,0,90,0],[T.look+0.3,-500,'U0','eout',0,90,0],[T.DUR,-500,'U0']];   // 2 con đi vào giữa cầu
+  const batA=t=>(t>T.smoke+0.45&&t<T.arm)?0:1;   // Bat lẩn vào khói (chỉ thấy bóng lướt qua lúc gài bom)
+  // Pop phả vòng khói: [giây, kiểu] — 'aim' nhắm Bat · 'blind' bắn mù trong khói · 'clear' thổi tan khói. Đấu tầm xa: mỗi phát NHANH DẦN (đúng game)
+  const POPS=[[T.pop1,'aim'],[T.cut2-0.62,'aim'],[T.cut2-0.36,'aim',1],[T.cut3-0.6,'aim'],[T.cut3-0.38,'aim',1],[T.rhitB-0.7,'aim'],   // [giây, kiểu, 1 = phát thứ 2 của cùng 1 loạt (tiếng là lớp '+')]
+    [38.9,'blind'],[41.7,'blind'],[43.0,'blind'],[T.arm,'clear']];
+  const MOCK=[T.mock,T.mock+0.25];   // Pop phả "pop pop" cười nhạo (không bắn)
+  const RING_V=900, CUT={}, HITB={}; CUT[String(+(T.cut2-0.62).toFixed(2))]=T.cut2; CUT[String(+(T.cut2-0.36).toFixed(2))]=T.cut2; CUT[String(+(T.cut3-0.6).toFixed(2))]=T.cut3; CUT[String(+(T.cut3-0.38).toFixed(2))]=T.cut3; HITB[String(+(T.rhitB-0.7).toFixed(2))]=T.rhitB;
+  const hs=W.hstop([[T.lure,0.16],[T.rhitB,0.14],[T.cut2,0.1],[T.cut3,0.1]]);
+  // ───────── MÁY QUAY ─────────  (Pop + Huh luôn TRÁI, Bat luôn PHẢI; góc cao nhìn xuống = mắt kẻ săn mồi)
   const S=(t0,t1,a,b,ease)=>({t0,t1,a,b:b||a,ease:ease||'eio'});
-  const OPEN={tx:0,ty:160,tz:0,dist:1500,yaw:-56,pitch:-6,fov:52,roll:-2};   // = máy shot cuối fin1f3 (sau kính vỡ) → nối liền
+  const OPEN={tx:-560,ty:120,tz:0,dist:950,yaw:-48,pitch:-4,fov:52,roll:-2};   // = máy ô nền lúc kính vỡ ở cuối fin1f3 → nối liền
   const shots=C.seq([
-    S(0,T.face1,OPEN,{tx:0,ty:150,tz:0,dist:1360,yaw:-54,pitch:-5,fov:52,roll:-2}),
-    ...C.pushIn(T.face1,{d:T.face2-T.face1,tx:-440,ty:70,tz:15,dist:290,dist1:250,yaw:22,pitch:-6,fov:44,ox:-0.1}),                                         // đối mặt: Pop + Huh tự tin
-    ...C.pushIn(T.face2,{d:T.eyeB-T.face2,tx:430,ty:96,tz:0,dist:240,dist1:210,yaw:-24,pitch:-5,fov:42,ox:0.12}),                                           // đối mặt: Bat bình thản
-    S(T.eyeB,T.scan,{tx:430,ty:122,tz:0,dist:115,yaw:-22,pitch:-2,fov:40},{tx:430,ty:122,tz:0,dist:100,yaw:-22,pitch:-2,fov:40},'lin'),                      // đặc tả mắt Bat nheo lại
-    S(T.scan,T.pop1,{tx:-60,ty:120,tz:0,dist:1150,yaw:-18,pitch:14,fov:50},{tx:-80,ty:120,tz:0,dist:1100,yaw:-16,pitch:14,fov:50},'lin'),                    // CHẾ ĐỘ THÁM TỬ (HUD vẽ ở screen)
-    S(T.pop1,T.throw1,{tx:60,ty:85,tz:-60,dist:940,yaw:0,pitch:5,fov:46},{tx:80,ty:85,tz:-70,dist:900,yaw:2,pitch:5,fov:46}),                              // vòng khói bay tới, Bat né vừa khít
-    S(T.throw1,T.mock,{tx:150,ty:90,tz:-80,dist:520,yaw:-36,pitch:8,fov:52},{tx:-260,ty:70,tz:0,dist:720,yaw:-20,pitch:20,fov:52},'brake'),                    // 2 cặp boomerang "hụt", găm xuống đất quanh chân địch
-    S(T.mock,T.huhC,{tx:-440,ty:72,tz:15,dist:300,yaw:16,pitch:-4,fov:46}),                                                                                 // Pop phả "pop pop" cười nhạo
-    S(T.huhC,T.huhF,{tx:-500,ty:75,tz:90,dist:230,yaw:20,pitch:-6,fov:44,ox:-0.08},{tx:-500,ty:75,tz:90,dist:205,yaw:20,pitch:-6,fov:44,ox:-0.08},'lin'),
-    S(T.huhF,T.grap,{tx:0,ty:90,tz:0,dist:900,yaw:-6,pitch:4,fov:48}),
-    S(T.grap,T.lure,{tx:420,ty:420,tz:560,dist:1350,yaw:-26,pitch:-12,fov:56},{tx:540,ty:560,tz:700,dist:1280,yaw:-28,pitch:-16,fov:56}),                   // Bat lướt NGANG QUA quả bom gài sẵn, HUH bám đuôi
-    S(T.lure,T.duel,{tx:600,ty:640,tz:900,dist:1100,yaw:-14,pitch:-10,fov:54},{tx:600,ty:640,tz:900,dist:1060,yaw:-14,pitch:-10,fov:54}),                     // HUH đâm trúng bom, nổ giữa trời
-    S(T.duel,T.duel+0.5,{tx:0,ty:85,tz:0,dist:840,yaw:0,pitch:3,fov:46},{tx:0,ty:85,tz:0,dist:810,yaw:0,pitch:3,fov:46},'lin'),
-    S(T.duel+0.5,T.duel+1.0,{tx:-40,ty:90,tz:-20,dist:360,yaw:34,pitch:-4,roll:6,fov:50}),                                                                   // boomerang xé vòng khói (10.3)
-    S(T.duel+1.0,T.duel+1.5,{tx:120,ty:90,tz:-60,dist:420,yaw:-38,pitch:-6,roll:-7,fov:50}),                                                                  // (11.0)
-    S(T.duel+1.5,T.smokeT,{tx:420,ty:95,tz:-110,dist:250,yaw:-26,pitch:-4,roll:-6,fov:48}),                                                                   // vòng khói trúng Bat
-    S(T.smokeT,T.sm2,{tx:-80,ty:90,tz:0,dist:820,yaw:-6,pitch:6,fov:48}),                                                                                     // ném bom khói
-    S(T.sm2,T.sm3,{tx:-440,ty:140,tz:15,dist:900,yaw:12,pitch:10,fov:50},{tx:-440,ty:140,tz:15,dist:860,yaw:12,pitch:10,fov:50},'lin'),                      // khói trùm, vòng khói bắn mù ra ngoài, đèn đỏ bật dần
-    S(T.sm3,T.sm4,{tx:-300,ty:70,tz:-40,dist:300,yaw:30,pitch:-6,fov:48}),                                                                                    // bóng Bat lướt trong khói gài bom
-    S(T.sm4,T.arm,{tx:-560,ty:70,tz:120,dist:300,yaw:-24,pitch:-6,fov:48}),
-    S(T.arm,T.arm+0.65,{tx:-440,ty:40,tz:15,dist:900,yaw:-20,pitch:40,fov:52},{tx:-440,ty:40,tz:15,dist:860,yaw:-18,pitch:40,fov:52}),                        // LỘ BẪY: khói tan, vòng 6 quả bom nháy đỏ quanh 2 con
-    S(T.arm+0.65,T.panic,{tx:LEDGE[0],ty:LEDGE[1]+70,tz:LEDGE[2],dist:300,yaw:-20,pitch:-30,fov:52,ox:0.1},{tx:LEDGE[0],ty:LEDGE[1]+70,tz:LEDGE[2],dist:280,yaw:-22,pitch:-31,fov:52,ox:0.1},'lin'),   // góc ngước: Bat ngồi trên gờ nhà kiểu Batman, trăng máu sau lưng
+    S(0,T.look,OPEN,{tx:-420,ty:110,tz:0,dist:820,yaw:-44,pitch:-4,fov:52,roll:-2}),                                                                    // toàn: cầu treo trong đêm, Pop + Huh đi vào giữa cầu
+    ...C.pushIn(T.look,{d:T.perch-T.look,tx:-440,ty:70,tz:15,dist:300,dist1:265,yaw:22,pitch:-6,fov:44,ox:-0.1}),                                          // Pop + Huh dáo dác nhìn quanh
+    S(T.perch,T.eyeB,{tx:900,ty:690,tz:0,dist:600,yaw:-28,pitch:-22,fov:50},{tx:900,ty:720,tz:0,dist:520,yaw:-30,pitch:-24,fov:50},'lin'),              // góc giun: Bat NGỒI TRÊN DẦM THÁP, trăng máu sau lưng
+    S(T.eyeB,T.scan,{tx:900,ty:BEAM_Y+122,tz:0,dist:120,yaw:-22,pitch:-2,fov:40},{tx:900,ty:BEAM_Y+122,tz:0,dist:104,yaw:-22,pitch:-2,fov:40},'lin'),     // đặc tả mắt Bat nheo lại
+    S(T.scan,T.drop,{tx:-420,ty:40,tz:0,dist:1250,yaw:-60,pitch:34,fov:50},{tx:-440,ty:40,tz:0,dist:1180,yaw:-58,pitch:34,fov:50},'lin'),                 // CHẾ ĐỘ THÁM TỬ: nhìn TỪ TRÊN XUỐNG 2 con mồi (HUD vẽ ở screen)
+    S(T.drop,T.land+0.6,{tx:860,ty:700,tz:0,dist:640,yaw:-10,pitch:-6,fov:50},{tx:330,ty:90,tz:0,dist:600,yaw:-4,pitch:3,fov:48},'brake'),                // Bat nhảy khỏi dầm, áo choàng xoè lượn xuống, đáp trước mặt 2 con
+    S(T.land+0.6,T.pop1,{tx:-60,ty:90,tz:0,dist:620,yaw:-8,pitch:3,fov:52},{tx:-60,ty:90,tz:0,dist:590,yaw:-8,pitch:3,fov:52},'lin'),                           // đối mặt trên mặt cầu, gió thổi
+    S(T.pop1,T.throw1,{tx:-20,ty:85,tz:-40,dist:640,yaw:-8,pitch:5,fov:52},{tx:0,ty:85,tz:-50,dist:620,yaw:-6,pitch:5,fov:52}),                              // vòng khói bay tới, Bat bước né vừa khít
+    S(T.throw1,T.mock,{tx:150,ty:90,tz:-80,dist:560,yaw:-30,pitch:8,fov:52},{tx:-260,ty:70,tz:0,dist:760,yaw:-18,pitch:22,fov:52},'brake'),                 // 2 cặp boomerang "hụt", máy bám theo, găm xuống quanh chân địch
+    S(T.mock,T.huhC,{tx:-440,ty:72,tz:15,dist:310,yaw:16,pitch:-4,fov:46},{tx:-440,ty:72,tz:15,dist:295,yaw:16,pitch:-4,fov:46},'lin'),                   // Pop phả "pop pop" cười nhạo
+    S(T.huhC,T.huhF,{tx:-500,ty:75,tz:90,dist:235,yaw:20,pitch:-6,fov:44,ox:-0.08},{tx:-500,ty:75,tz:90,dist:205,yaw:20,pitch:-6,fov:44,ox:-0.08},'lin'),   // Huh tích lực
+    S(T.huhF,T.grap+0.7,{tx:0,ty:110,tz:0,dist:600,yaw:-6,pitch:2,fov:50}),                                                                                // HUH bay ra → Bat bắn dây móc lên tháp
+    S(T.grap+0.7,T.lure,{tx:780,ty:820,tz:-260,dist:900,yaw:-24,pitch:-14,fov:56},{tx:840,ty:1000,tz:-280,dist:840,yaw:-26,pitch:-18,fov:56},'lin'),       // Bat lướt NGANG QUA quả bom trên thân tháp, HUH bám đuôi
+    S(T.lure,T.after,{tx:860,ty:900,tz:-300,dist:1150,yaw:-14,pitch:-10,fov:54},{tx:860,ty:900,tz:-300,dist:1110,yaw:-14,pitch:-10,fov:54},'lin'),           // HUH đâm trúng bom, nổ trên thân tháp
+    S(T.after,T.duel-0.6,{tx:-300,ty:150,tz:0,dist:620,yaw:30,pitch:-20,fov:54},{tx:-300,ty:180,tz:0,dist:580,yaw:30,pitch:-24,fov:54},'lin'),          // THỞ: mảnh tháp rơi lả tả xuống cầu, 2 con ngước nhìn Bat đứng trên dầm cao
+    S(T.duel-0.6,T.cut2+0.5,{tx:300,ty:160,tz:0,dist:700,yaw:0,pitch:3,fov:50},{tx:0,ty:90,tz:0,dist:580,yaw:0,pitch:3,fov:50},'brake'),                  // Bat nhảy xuống → đấu tầm xa: boomerang xé 2 vòng khói giữa cầu
+    S(T.cut2+0.5,T.rhitB-0.2,{tx:-20,ty:90,tz:-30,dist:520,yaw:-16,pitch:4,fov:50},{tx:20,ty:90,tz:-50,dist:500,yaw:-18,pitch:4,fov:50},'lin'),             // vòng khói nhanh dần, boomerang chém đôi thêm 2 vòng
+    S(T.rhitB-0.2,T.smokeT-0.2,{tx:430,ty:95,tz:-110,dist:290,yaw:-24,pitch:-4,roll:-4,fov:48},{tx:440,ty:95,tz:-110,dist:270,yaw:-24,pitch:-4,roll:-4,fov:48},'lin'),   // 1 vòng khói trúng Bat, lảo đảo, chỉnh lại găng
+    S(T.smokeT-0.2,T.smoke+1.0,{tx:-80,ty:90,tz:0,dist:860,yaw:-6,pitch:6,fov:48},{tx:-160,ty:100,tz:0,dist:880,yaw:-6,pitch:8,fov:48},'lin'),              // ném bom khói → nổ bung trùm 2 con
+    S(T.smoke+1.0,T.sm3,{tx:-440,ty:150,tz:15,dist:980,yaw:12,pitch:12,fov:50},{tx:-440,ty:150,tz:15,dist:900,yaw:12,pitch:12,fov:50},'lin'),                // khói trùm, vòng khói bắn mù ra ngoài, đèn đỏ bật dần (nhạc nhỏ hẳn)
+    ...C.pushIn(T.sm3,{d:T.sm4-T.sm3,tx:-440,ty:74,tz:15,dist:280,dist1:240,yaw:-8,pitch:-4,fov:46}),                                                        // trong khói: 2 con đứng tựa lưng, thở gấp
+    S(T.sm4,T.arm,{tx:-330,ty:70,tz:-40,dist:420,yaw:26,pitch:-4,fov:48},{tx:-360,ty:70,tz:-40,dist:380,yaw:26,pitch:-4,fov:48},'lin'),                   // bóng Bat lướt qua trong khói, gài 2 quả cuối
+    S(T.arm,T.arm+1.5,{tx:-440,ty:40,tz:15,dist:940,yaw:-20,pitch:40,fov:52},{tx:-440,ty:40,tz:15,dist:880,yaw:-18,pitch:40,fov:52}),                        // LỘ BẪY: khói tan, vòng 6 quả bom quanh 2 con (góc chim)
+    S(T.arm+1.5,T.panic,{tx:LEDGE[0],ty:LEDGE[1]+70,tz:0,dist:320,yaw:-20,pitch:-30,fov:52,ox:0.1},{tx:LEDGE[0],ty:LEDGE[1]+70,tz:0,dist:290,yaw:-22,pitch:-31,fov:52,ox:0.1},'lin'),   // góc giun: Bat đã ngồi lại trên dầm, BẤM KÍCH NỔ (đèn chuyển nháy nhanh)
     S(T.panic,T.inhale,{tx:-440,ty:74,tz:15,dist:260,yaw:-10,pitch:-6,fov:46}),                                                                              // Pop + Huh hoảng loạn
-    ...C.pushIn(T.inhale,{d:T.giant-T.inhale,tx:-380,ty:78,tz:-60,dist:200,dist1:180,yaw:0,pitch:-4,fov:44}),                                                // Pop hít sâu
-    S(T.giant,T.DUR,{tx:-380,ty:78,tz:-60,dist:260,yaw:0,pitch:-4,fov:48}) ]);                                                                             // vòng khói khổng lồ lao về máy → chui qua lỗ O
-  // ───────── TRẬN KẾ (fin1f1) trong lỗ vòng khói ─────────
-  const CITY3=Fin1City({seed:7}), NEXT1={tx:0,ty:160,tz:0,dist:1500,yaw:-56,pitch:-6,fov:52,roll:-2,oy:0};   // oy:0 → ô tròn không tự dời tâm ảnh
-  function drawNext(F,t){ CITY3.draw(F,t,CITY3.TH_NIGHT);
-    K.sprite(F,{img:F.I.nC,x:400,z:0,h:H*1.3,life:{breath:0.6,wind:1}}); K.sprite(F,{img:F.I.nM,x:540,z:-110,h:H*1.0,life:{breath:0.8,wind:1}});
-    K.sprite(F,{img:F.I.nD,x:-420,z:60,h:H*0.75,life:{breath:0.8}}); K.sprite(F,{img:F.I.nK,x:-560,z:-90,h:H*1.05,life:{breath:0.7}});
-    K.smoke(F,{x:0,z:300,t0:-0.3,n:12,spread:1700,rise:30,life:3,size:90,seed:1,swirl:0.2,a:0.22,tint:'150,90,80'}); }
+    ...C.pushIn(T.inhale,{d:T.giant-T.inhale,tx:-380,ty:78,tz:-60,dist:210,dist1:180,yaw:0,pitch:-4,fov:44}),                                                // Pop hít sâu
+    S(T.giant,T.DUR,{tx:-380,ty:78,tz:-20,dist:235,yaw:0,pitch:-4,fov:48}) ]);                                                                             // vòng khói khổng lồ lao về máy → chui qua lỗ O
+  // ───────── TRẬN KẾ (fin1f1, CÔNG VIÊN) trong lỗ vòng khói: Doge + Clapping đi dạo — đúng khung mở đầu fin1f1 ─────────
+  const PARK=Fin1City({seed:7, kind:'park'}), NEXT1={tx:0,ty:160,tz:0,dist:1500,yaw:-56,pitch:-6,fov:52,roll:-2,oy:0};   // oy:0 → ô tròn không tự dời tâm ảnh
+  function drawNext(F,t){ PARK.draw(F,t,PARK.TH_PARK);
+    K.sprite(F,{img:F.I.nD,x:-160,z:30,h:H*0.75,life:{breath:0.8}}); K.sprite(F,{img:F.I.nK,x:-40,z:-50,h:H*1.05,life:{breath:0.7}}); }
   const ringR=t=>{ const u=seg(t,T.giant,T.hole+0.9); return lerp(30,1500,Math.pow(u,2.4)); };   // bán kính vòng khói khổng lồ TRÊN MÀN HÌNH (px logic)
   const ringC=t=>[480+Math.sin(t*3)*6, 300-40*seg(t,T.giant,T.hole)];
   function panels(t){ if(t<T.giant+0.3) return null; const R=ringR(t)*0.6, [cx,cy]=ringC(t), poly=[];
     for(let i=0;i<40;i++){ const a=i/40*TAU; poly.push([(cx+Math.cos(a)*R)/960,(cy+Math.sin(a)*R)/540]); }
-    return [{cam:null, clip:null}, {cam:NEXT1, clip:poly, next:true}]; }
+    return [{cam:null, clip:null}, {cam:NEXT1, clip:poly, next:true, theme:PARK.TH_PARK}]; }
   // ───────── VẼ CHIÊU (chép từ game) ─────────
   // boomerang dơi `_batRangShape` (toạ độ quanh tâm, sz = cỡ)
   const RANG=[[0.18,-0.3],[0.42,-0.28],[1,-0.05],[0.72,0.02],[0.58,0.24],[0.38,0.1],[0.18,0.3],[0,0.16]];
@@ -129,7 +140,7 @@
       g.fillStyle='#17131a'; g.beginPath(); [A[4],A[5],A[1],A[0]].forEach((p,i)=>i?g.lineTo(p.x,p.y):g.moveTo(p.x,p.y)); g.closePath(); g.fill(); g.restore(); }}); }
   function world(F,t){ const pn=F.panel||{}; if(pn.next) return drawNext(F,t);
     const th=theme(t), b0=bat(t), p0=pop(t), u0=huh(t);
-    CITY.draw(F,t,th); ledge(F);
+    CITY.draw(F,t,th);
     let mouth=false; for(const [s] of POPS) if(t>=s&&t<s+0.1) mouth=true; for(const s of MOCK) if(t>=s&&t<s+0.1) mouth=true; if(t>=T.giant&&t<T.giant+0.3) mouth=true;
     if(batA(t)>0.5) W.actor(F,{key:b0.im,dir:DIR[b0.im],x:b0.x,z:b0.z,y:b0.y,h:HT[b0.im],look:{x:p0.x,z:p0.z},smear:b0.sm,shadow:b0.y<200,life:{breath:0.6,wind:1.1}});
     W.actor(F,{key:mouth?'P1':'P0',dir:0,x:p0.x,z:p0.z,y:p0.y,h:HT.P0,life:{breath:t>=T.inhale&&t<T.giant?2.4:0.8,squash:mouth?0.25:(t>=T.inhale&&t<T.giant?-0.35*seg(t,T.inhale,T.giant):0)}});
@@ -144,7 +155,7 @@
       if(THROWN.includes(i)){ const k=THROWN.indexOf(i), s=T.throw1+(k>>1)*0.08, side=k%2?1:-1; if(t>=s&&t<T.land1+0.02*k){ const A=handOf(bat(s)), u=seg(t,s,T.land1+0.02*k), p=rangPos(A,[sp[0],6,sp[1]],u,side,320);
           batarang(F,p[0],p[1],p[2],t*28+i,{sz:22}); } ok=t>=T.land1+0.02*k; }
       else ok=t>=LATE_T[i];
-      if(!ok||t>=T.det+0.05*i) return; on=t>=T.arm?fuseOn(t,T.arm,T.det):(t>=[12.4,12.95,13.55,12.4,12.95,13.55][i]?Math.floor(t*2+i)%2===0:false);
+      if(!ok||t>=T.det+0.05*i) return; on=t>=T.fuse?fuseOn(t,T.fuse,T.det):t>=T.arm?(Math.floor(t*1.6+i*0.5)%2===0):(t>=LIGHT[i]?Math.floor(t*2+i)%2===0:false);   // lộ bẫy: nháy chậm (chưa kích) → Bat bấm: ngòi 3s nhanh dần
       batarang(F,sp[0],5,sp[1],i*1.1,{sz:22,boom:true,stuck:true,on});
       if(on&&t>=T.smoke&&t<T.arm+0.4){ const P=K.proj(F.B,sp[0],8,sp[1]); if(P) F.list.push({d:-1e6, fn:()=>{ const g=F.g, R=Math.max(6,26*P.s); g.save(); g.globalCompositeOperation='lighter'; const gr=g.createRadialGradient(P.x,P.y,0,P.x,P.y,R); gr.addColorStop(0,'rgba(255,60,60,0.95)'); gr.addColorStop(0.35,'rgba(255,23,68,0.5)'); gr.addColorStop(1,'rgba(255,0,0,0)'); g.fillStyle=gr; g.fillRect(P.x-R,P.y-R,2*R,2*R); g.restore(); }}); } });
     // ── vòng khói Pop
@@ -161,13 +172,13 @@
         if(t<cut){ const p=rangPos(A,B,u,side,240); batarang(F,p[0],p[1],p[2],t*28+side,{sz:22}); } else { const v=t-cut, p=[B[0]-v*700,B[1]+v*90,B[2]+side*v*200]; batarang(F,p[0],p[1],p[2],t*28+side,{sz:22}); } }
       if(t>=cut&&t<cut+0.5) K.sparks(F,{x:60,y:90,z:-40,t0:cut,n:18,speed:420,life:0.4,seed:(cut*10)|0,col:'200,180,255'}); }
     // ── HUH bám đuôi Bat → đâm vào quả bom trên tường
-    if(t>=T.huhF&&t<T.lure){ const U=huh(T.huhF), A=[U.x+40,70,U.z], Cp=[430,260,-60], u=ein(seg(t,T.huhF,T.lure)), q=1-u;
+    if(t>=T.huhF&&t<T.lure){ const U=huh(T.huhF), A=[U.x+40,70,U.z], Cp=[620,560,-200], u=ein(seg(t,T.huhF,T.lure)), q=1-u;
       const x=q*q*A[0]+2*q*u*Cp[0]+u*u*WB[0], y=q*q*A[1]+2*q*u*Cp[1]+u*u*WB[1], z=q*q*A[2]+2*q*u*Cp[2]+u*u*WB[2]; huhText(F,x,y,z,WB[0]-A[0],WB[2]-A[2],t); }
     if(t>=T.lure&&t<T.lure+2.2){ if(FX()) FX().blast(F,{x:WB[0],y:WB[1],z:WB[2]-30,t0:T.lure,size:420,life:1.0,seed:44});
       K.debris(F,{x:WB[0],y:WB[1],z:WB[2]-20,t0:T.lure,n:30,speed:900,life:1.8,size:30,seed:45,col:'#4d4448'}); K.smoke(F,{x:WB[0],y:WB[1]-60,z:WB[2]-80,t0:T.lure+0.05,n:10,spread:300,rise:60,life:1.8,size:180,seed:46,a:0.5});
       K.sparks(F,{x:WB[0],y:WB[1],z:WB[2]-20,t0:T.lure,n:24,speed:600,life:0.5,seed:47,col:'233,30,99'}); }
     // ── dây móc
-    if(t>=T.grap-0.05&&t<T.duel-0.1){ const H0=handOf(bat(t)), k=eout(seg(t,T.grap-0.05,T.grap+0.08)), Wp=t<T.lure?WALL1:[980,940,1100], P1=[lerp(H0[0],Wp[0],k),lerp(H0[1]+40,Wp[1],k),lerp(H0[2],Wp[2]-8,k)];
+    if(t>=T.grap+0.15&&t<T.lure+0.3){ const H0=handOf(bat(t)), k=eout(seg(t,T.grap+0.15,T.grap+0.3)), Wp=WALL1, P1=[lerp(H0[0],Wp[0],k),lerp(H0[1]+40,Wp[1],k),lerp(H0[2],Wp[2]-8,k)];
       W.line(F,[[H0[0]+10,H0[1]+40,H0[2]],P1],2.5,'#1a1a1f',{d:-4}); }
     // ── vòng khói trúng Bat
     if(t>=T.rhitB&&t<T.rhitB+0.5) K.sparks(F,{x:b0.x,y:95,z:b0.z,t0:T.rhitB,n:14,speed:360,life:0.4,seed:61,col:'220,225,235'});
@@ -186,7 +197,7 @@
   }
   // ───────── MÀN HÌNH ─────────
   // 🦇 CHẾ ĐỘ THÁM TỬ (Batman): khung lạnh xanh, ngoặc khoá mục tiêu, nhãn phân tích, đường bay dự đoán của boomerang, dấu X chỗ gài bom + quả bom trên tường
-  function detective(F,t){ if(t<T.scan||t>=T.pop1) return; const g=F.g, VW=F.VW, VH=F.VH, k=seg(t,T.scan,T.scan+0.25), u=seg(t,T.scan,T.pop1);
+  function detective(F,t){ if(t<T.scan||t>=T.drop) return; const g=F.g, VW=F.VW, VH=F.VH, k=seg(t,T.scan,T.scan+0.25)*(1-seg(t,T.drop-0.25,T.drop)), u=seg(t,T.scan,T.drop-0.4);
     g.save(); g.globalCompositeOperation='multiply'; g.fillStyle=`rgba(${Math.round(255-170*k)},${Math.round(255-90*k)},255,1)`; g.fillRect(0,0,VW,VH); g.globalCompositeOperation='source-over';
     g.globalAlpha=0.12*k; g.fillStyle='#bfe3ff'; for(let y=(t*120)%6;y<VH;y+=6) g.fillRect(0,y,VW,1); g.globalAlpha=k;
     const P=(x,y,z)=>K.proj(F.B,x,y,z), br=(p,w,h,col)=>{ if(!p) return; g.strokeStyle=col; g.lineWidth=2; const L=Math.min(w,h)*0.3;
@@ -209,52 +220,53 @@
     for(const [lw,col,al] of [[th*1.45,'190,196,207',0.25],[th*1.15,'203,208,218',0.5],[th,'212,216,225',0.78],[th*0.5,'228,231,237',0.6]]){ g.strokeStyle=`rgba(${col},${al})`; g.lineWidth=lw; g.beginPath(); g.arc(cx,cy,R*0.78,0,TAU); g.stroke(); }
     for(let i=0;i<22;i++){ const an=i/22*TAU+t*1.6, w=1+0.08*Math.sin(i*2.3+t*4); popCloud(g,i,cx+Math.cos(an)*R*0.78*w,cy+Math.sin(an)*R*0.78*w,th*0.75,an+t*0.6,0.5); }
     g.restore(); }
+  // 🎵 nhạc LIỀN, lặng trước 2 cú nổ quyết định, NHỎ HẲN trong khói (hồi hộp: chỉ còn tiếng tích tắc / vòng khói bắn mù)
+  const MUS='assets/audio/dp_akatsuki.mp3', ML=8.3, mseg=(ra,rb,o)=>Object.assign({src:MUS,ra,rb,off:ra%ML,vol:0.5,loop:true,fi:0.1,fo:0.3},o||{});
   CineKit.film({ id:'fin1f2', title:'Final 1 · Fight · Bat Cat vs Pop Cat + Huh Cat', DUR:T.DUR, VW:960, VH:540, fadeIn:false, fadeOut:false,   // nối liền: vào từ kính vỡ fin1f3, ra qua lỗ vòng khói sang fin1f1
     imgs:IMG, cast:['bat','br','pop','huh'],
-    sfxOk:{ popcat:'đòn thường của Pop Cat: MỖI phát phả vòng khói 1 tiếng pop, đúng như game', huh_sample:'Huh bắn HUH + kêu HUH?! lúc hoảng (tiếng của chính nó)', br_boom:'2 lần nổ: quả bom trên tường + bom quanh chân (game: mỗi quả nổ 1 tiếng)' },
-    sfx:[[0.1,'l2p_rumble',0.45,null,'toàn cảnh đại lộ (vừa ra khỏi kính vỡ), gió bụi'],
-      [T.face1+0.1,'l2p_sub',0.4,null,'đối mặt: Pop + Huh tự tin, nền trầm rung'],
-      [T.face2+0.3,'ep3_shine',0.45,null,'đối mặt: Bat Cat bình thản, áo Akatsuki phất'],
+    sfxOk:{ popcat:'đòn thường của Pop Cat: MỖI phát phả vòng khói 1 tiếng pop, đúng như game', huh_sample:'Huh bắn HUH + kêu HUH?! lúc hoảng (tiếng của chính nó)', br_boom:'2 lần nổ: quả bom trên tháp + bom quanh chân (game: mỗi quả nổ 1 tiếng)' },
+    // 🔊 thưa, có khoảng trống: gió trên cầu là nền; boomerang = 1 giọng vút (se_whoosh_fast); bom = br_*; không gắn tiếng cho bước chân / xoay người
+    sfx:[[0.1,'l2p_rumble',0.4,null,'toàn cảnh cầu treo trong đêm (vừa ra khỏi kính vỡ), gió trên cầu'],
+      [T.perch+0.2,'l2p_sub',0.45,null,'lộ Bat ngồi trên dầm tháp, nền trầm rung'],
       [T.eyeB,'l2p_chime',0.5,null,'đặc tả mắt Bat nheo lại'],
       [T.scan,'ep3_blip',0.6,null,'chế độ thám tử: quét 2 mục tiêu, vẽ đường bay, đánh dấu chỗ gài bom'],
-      ...POPS.map(([s,k],i)=>[s,'popcat',k==='blind'?0.55:0.8,null,k==='aim'?'Pop phả vòng khói nhắm Bat':k==='blind'?'Pop phả vòng khói bắn mù trong khói':'Pop phả vòng khói to thổi tan khói']),
-      ...MOCK.map(s=>[s,'popcat',0.6,null,'Pop phả pop pop cười nhạo cú ném hụt']),
-      [T.dodge,'ep3_whoosh',0.55,null,'Bat né vừa khít, vòng khói sượt qua'],
-      [T.throw1+0.03,'l2p_whoosh',0.55,null,'Bat ném 2 cặp boomerang vòng rộng 2 bên'],
-      [T.land1,'ep3_klunk',0.5,null,'boomerang găm xuống đất quanh chân địch (bom chưa kích hoạt)'],
+      [T.drop+0.1,'l2p_whoosh',0.6,null,'Bat nhảy khỏi dầm, áo choàng xoè lượn xuống'],
+      [T.land,'se_step_in',0.7,null,'Bat đáp xuống mặt cầu trước mặt 2 con'],
+      ...POPS.map(([s,k,l2])=>[s,'popcat',k==='blind'?0.5:l2?0.6:0.8,null,(l2?'+ phát thứ 2 trong loạt: ':'')+(k==='aim'?'Pop phả vòng khói nhắm Bat':k==='blind'?'Pop phả vòng khói bắn mù trong khói':'Pop phả vòng khói to thổi tan khói')]),
+      ...MOCK.map((s,i)=>[s,'popcat',0.6,null,(i?'+ ':'')+'Pop phả pop pop cười nhạo cú ném hụt']),
+      [T.dodge+0.05,'ep3_whoosh',0.55,null,'Bat bước né vừa khít, vòng khói sượt qua'],
+      [T.throw1+0.03,'se_swing_kick',0.6,null,'Bat ném 2 cặp boomerang vòng rộng 2 bên'],
+      [T.land1,'ep3_klunk',0.5,null,'boomerang găm xuống mặt cầu quanh chân địch (bom chưa kích hoạt)'],
       [T.huhC,'l2p_riser',0.45,null,'Huh tích lực, chậm lại'],
       [T.huhF,'huh_sample',1,null,'Huh bắn chữ HUH bám theo Bat'],
-      [T.grap,'bat_grapple',0.9,null,'Bat bắn dây móc lướt lên mặt toà nhà'],
-      [T.pass,'se_impact_stop',0.4,null,'Bat lướt ngang qua quả bom gài sẵn, bật kích hoạt'],
-      [T.lure,'br_boom',1,null,'chữ HUH đâm trúng quả bom trên tường, nổ tung giữa trời'],
-      [T.cut2,'se_whoosh_fast',0.6,null,'boomerang xé tan 2 vòng khói, đạn va đạn'],
-      [T.cut3,'ep3_whoosh',0.6,null,'boomerang chém đôi thêm 2 vòng khói'],
-      [T.rhitB,'hit_mid',0.6,null,'1 vòng khói trúng Bat, lảo đảo'],
-      [T.smokeT,'l2p_whoosh',0.5,null,'Bat ném viên bom khói'],
+      [T.grap+0.2,'bat_grapple',0.9,null,'Bat bắn dây móc lên dầm tháp cầu'],
+      [T.lure,'br_boom',1,null,'chữ HUH đâm trúng quả bom trên thân tháp, nổ tung giữa trời'],
+      [T.lure+0.01,'kn_boom_low',0.5,null,'+ lớp trầm: sóng nổ bùng dội xuống mặt cầu'],
+      [T.after+0.3,'se_rock_break',0.55,null,'mảnh tháp vỡ rơi lả tả xuống mặt cầu'],
+      [T.cut2,'se_whoosh_fast',0.7,null,'boomerang chém xé tan 2 vòng khói, đạn va đạn'],
+      [T.cut3,'se_whoosh_fast',0.7,null,'boomerang chém đôi thêm 2 vòng khói'],
+      [T.rhitB,'se_punch_heavy',0.65,null,'1 vòng khói đập trúng ngực Bat, lảo đảo'],
       [T.smoke,'kn_boom_low',0.7,null,'bom khói nổ bung, khói đen trùm Pop + Huh'],
-      ...[12.4,12.95,13.55].map(s=>[s,'ep3_blip',0.4,null,'trong khói 1 đèn đỏ bật lên']),
-      [LATE_T[2],'ep3_klunk',0.4,null,'bóng Bat lướt qua trong khói, gài thêm 1 quả'],[LATE_T[5],'ep3_klunk',0.4,null,'gài quả cuối'],
-      [T.arm+0.18,'br_tick',0.9,null,'khói tan: lộ vòng 6 quả bom hẹn giờ, ngòi 3s đếm tới lúc nổ'],
-      [T.arm+0.4,'l2p_riser',0.5,null,'Bat ngồi trên gờ nhà nhìn xuống'],
+      [LIGHT[0]+0.02,'ep3_blip',0.4,null,'trong khói đèn đỏ đầu tiên bật lên'],
+      [T.fuse,'br_tick',0.9,null,'Bat bấm kích nổ: 6 quả bom nháy nhanh dần, ngòi 3s đếm tới lúc nổ'],
       [T.panic,'huh_sample',0.8,null,'Huh hoảng hốt kêu HUH?!'],
-      [T.inhale,'l2p_sub',0.5,null,'Pop hít một hơi thật sâu'],
+      [T.inhale,'l2p_riser',0.5,null,'Pop hít một hơi thật sâu'],
       [T.giant,'popcat',1,null,'Pop phả vòng khói khổng lồ lao về máy'],
       [T.det,'br_boom',1,null,'6 quả bom nổ sau lưng vòng khói'],
       [T.hole,'l2p_whoosh',0.7,null,'máy chui qua lỗ vòng khói sang trận khác']],
-    mus:[{src:'assets/audio/dp_akatsuki.mp3',ra:0,rb:T.DUR,vol:0.55,loop:true,fi:0.3,fo:0.6}],
+    mus:[mseg(0,T.lure-0.5,{fi:0.3}), mseg(T.lure,T.smoke), mseg(T.smoke,T.arm,{vol:0.22,fi:0.6,fo:0.6}), mseg(T.arm,T.det-0.4,{vol:0.5}), mseg(T.det,T.DUR,{fo:0.6})],
     theme:t=>theme(t), shots, panels,
-    impact:C.negFrames([T.cut2,T.rhitB,T.smoke],0.07,'inv',[T.lure,T.det]),
+    impact:C.negFrames([T.rhitB],0.07,'inv',[T.lure]),   // bom nổ cuối: loé cam sau vòng khói (giantRing), không chớp âm bản
     shake:t=>{ let s=0; const h=(a,amp,d)=>{ if(t>=a&&t<a+d) s=Math.max(s,amp*(1-(t-a)/d)); };
-      h(T.lure,14,0.6); h(T.rhitB,7,0.3); h(T.smoke,6,0.4); h(T.det,22,1.2); h(T.grap,4,0.3); return s; },
-    world, post(F,t){ const fx={shocks:[]}; if(F.panels) return fx; const sh=(a,x,y,z,rm,d,str)=>{ if(t>=a&&t<a+d){ const u=(t-a)/d; fx.shocks.push({x,y,z,r:20+rm*eout(u),w:26,str:str*(1-u)}); fx.chroma=Math.max(fx.chroma||0,2*(1-u)); } };
-      sh(T.lure,WB[0],WB[1],WB[2]-30,500,0.6,30); sh(T.smoke,CEN[0],60,CEN[1],400,0.5,18); sh(T.arm,CEN[0],80,CEN[1],700,0.7,22); return fx; },
+      h(T.lure,12,0.7); h(T.after+0.3,3,1.2); h(T.rhitB,6,0.3); h(T.smoke,5,0.4); h(T.det,20,1.2); h(T.land,4,0.3); return s; },
+    world, post(F,t){ const fx={shocks:[]}; if(F.panels) return fx; const sh=(a,x,y,z,rm,d,str)=>{ if(t>=a&&t<a+d){ const u=(t-a)/d; fx.shocks.push({x,y,z,r:20+rm*eout(u),w:26,str:str*(1-u)}); fx.chroma=Math.max(fx.chroma||0,1.5*(1-u)); } };
+      sh(T.lure,WB[0],WB[1],WB[2]-30,500,0.7,26); sh(T.smoke,CEN[0],60,CEN[1],400,0.5,16); sh(T.arm,CEN[0],80,CEN[1],700,0.7,20); return fx; },
     screen(F,t){ const g=F.g, VW=F.VW, VH=F.VH;
       detective(F,t); giantRing(F,t);
-      if(t>=T.grap&&t<T.grap+0.45) K.speedLines(F,{k:0.45,n:50,r0:0.42});
+      if(t>=T.grap+0.2&&t<T.grap+0.6) K.speedLines(F,{k:0.35,n:40,r0:0.45});
       if(t>=T.giant&&t<T.hole) K.speedLines(F,{k:0.4*seg(t,T.giant,T.hole),n:60,r0:0.5});
-      for(const [c,dir] of [[T.duel+1.0,-1],[T.duel+1.5,1]]) if(Math.abs(t-c)<0.05) W.smearFrame(F,dir*0.06);
-      if(t>=T.lure&&t<T.lure+0.06) K.flash(F,0.5,'#ffe2c8');
-      K.sfxText(F,'POP!',VW*0.3,VH*0.32,{t0:T.pop1,life:0.45,px:70,rot:-8,col:'#ffd6a0'});
-      K.letterbox(F,t>=T.arm&&t<T.panic?0.6:0);
-      K.vignette(F,0.5); } });
+      if(t>=T.lure&&t<T.lure+0.06) K.flash(F,0.4,'#ffe2c8');
+      K.sfxText(F,'POP!',VW*0.3,VH*0.32,{t0:T.pop1,life:0.6,px:70,rot:-8,col:'#ffd6a0'});
+      K.letterbox(F,t>=T.perch&&t<T.scan?0.7:(t>=T.arm+1.5&&t<T.panic?0.6:0));
+      K.vignette(F,t>=T.smoke&&t<T.arm?0.7:0.5); } });
 })();

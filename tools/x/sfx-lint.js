@@ -5,7 +5,10 @@
 //   ❌ CHƯA KHAI     key không có trong AUDIO_SAMPLES (phim câm ở nhịp đó)        ❌ THIẾU FILE   file mp3 không tồn tại
 //   👤 CỦA MEME KHÁC key có tiền tố của meme không thuộc `cast` của phim (mượn tiếng nhân vật không liên quan)
 //   🔁 LẶP           tiếng riêng của nhân vật / giọng đọc tên chiêu dùng > 1 lần (chiêu ra 1 lần thì tiếng 1 lần)
-//   👥 CHỒNG         2 tiếng bắt đầu cách nhau < 0.15s        🏷️ THIẾU NHÃN   chưa ghi tiếng này kêu cho SỰ KIỆN gì trên hình
+//   👥 CHỒNG         2 tiếng bắt đầu cách nhau < 0.15s (trừ LỚP: nhãn bắt đầu bằng '+' = lớp thêm của CÙNG 1 cú, vd '+ lớp trầm cú chém')
+//   🏷️ THIẾU NHÃN   chưa ghi tiếng này kêu cho SỰ KIỆN gì trên hình
+//   🎚️ DÀY (12/11)   > 9 tiếng (không tính lớp '+' và tiếng nền ≥ 4s không cắt) trong 10s bất kỳ → lộn xộn, mất lực. Anime gốc ~1–2 tiếng bật mạnh / 10s
+//                    trên nền nhạc liền (jjk-todo-hanami, jjk-gojo-toji). Mỗi cú lớn = lấy đà (vút) + va + lớp trầm '+', LẶNG 0.3–0.6s trước đòn lớn nhất.
 //   ⏹️ NHẠC TẮT SỚM  file nhạc ngắn hơn khoảng phát mà không lặp        🔇 KHOẢNG KHÔNG NHẠC   (chỉ báo, quãng lặng cố ý thì bỏ qua)
 //   🈲 CHỮ           chữ Hán / Nhật trong mã vẽ (chữ trên màn hình chỉ tiếng Anh; dòng cố ý thì ghi chú `lint-ok: cjk`)
 // Phim khai thêm (không bắt buộc với phim cũ, BẮT BUỘC với phim mới):
@@ -71,7 +74,11 @@ for (const r of rows) { count[r.key] = (count[r.key] || 0) + 1; const c = CAT[r.
   if (!r.label) r.fl.push('🏷️'); }
 for (const [k, n] of Object.entries(count)) { const p = pre(k), owned = p && !GENERIC.includes(p); if (n > 1 && owned && !(k in sfxOk)) { const ts = rows.filter(r => r.key === k).map(r => fmt(r.t)).join(', '); F('🔁', rows.find(r => r.key === k).t, `${k} dùng ${n} lần (${ts}) — ${(CAT[k] && CAT[k].note.slice(0, 80)) || ''}`); rows.filter(r => r.key === k).forEach(r => r.fl && r.fl.push('🔁 LẶP ×' + n)); }
   else if (n > 3) F('ℹ️', rows.find(r => r.key === k).t, `${k} dùng ${n} lần — nghe lặp, cân nhắc đổi tiếng khác cho vài chỗ`); }
-for (let i = 1; i < rows.length; i++) if (rows[i].t - rows[i - 1].t < 0.15 && rows[i].key !== rows[i - 1].key) { rows[i].fl && rows[i].fl.push('👥 CHỒNG'); F('👥', rows[i].t, `${rows[i - 1].key} + ${rows[i].key} bắt đầu cách nhau ${(rows[i].t - rows[i - 1].t).toFixed(2)}s`); }
+for (let i = 1; i < rows.length; i++) if (rows[i].t - rows[i - 1].t < 0.15 && rows[i].key !== rows[i - 1].key && !/^\s*\+/.test(rows[i].label)) { rows[i].fl && rows[i].fl.push('👥 CHỒNG'); F('👥', rows[i].t, `${rows[i - 1].key} + ${rows[i].key} bắt đầu cách nhau ${(rows[i].t - rows[i - 1].t).toFixed(2)}s`); }
+// 🎚️ DÀY: đếm tiếng sự kiện (bỏ lớp '+' và tiếng nền ≥ 4s không cắt) trong cửa sổ 10s trượt
+{ const ev = rows.filter(r => !/^\s*\+/.test(r.label) && !(r.dur && r.dur >= 4 && !r.d)); let worst = null;
+  for (const a of ev) { const n = ev.filter(b => b.t >= a.t && b.t < a.t + 10).length; if (n > 9 && (!worst || n > worst.n)) worst = { t: a.t, n }; }
+  if (worst) F('🎚️', worst.t, `${worst.n} tiếng trong 10s từ ${fmt(worst.t)} — tối đa 9 (lộn xộn, mất lực): bỏ tiếng cho động tác phụ, gộp thành lớp '+' của cú chính`); }
 // 🎯 LỆCH NGHĨA: tiếng có loại RÕ NGHĨA trong tools/x/sfx-catalog.json (rơi / giọng / vỡ / nổ) mà NHÃN không nói tới việc đó (10/11: anh chê tiếng rơi gắn chỗ không có gì rơi)
 const CATF = path.join(__dirname, 'sfx-catalog.json'), CATJ = fs.existsSync(CATF) ? JSON.parse(fs.readFileSync(CATF, 'utf8')).tieng || {} : null;
 const NEED = { 'rơi': /rơi|rớt|ngã|đáp|lao xuống|sụp xuống|fall/i, 'giọng': /hô|gầm|khóc|hét|nói|giọng|cười|thét|kêu|rên|thở/i, 'vỡ': /vỡ|gãy|nứt|kính|đá|gạch|sập|đổ/i, 'nổ': /nổ|lửa|bùng|cháy|explo|blast/i };
@@ -94,7 +101,7 @@ for (const rel of [...new Set(filmFiles)]) { fs.readFileSync(path.join(ROOT, rel
 // ───────── báo cáo ─────────
 const L = [];
 L.push(`# Soát tiếng: ${ID} — dài ${DUR.toFixed(1)}s · ${rows.length} tiếng · ${mus.length} nhạc · cast [${[...casts].join(', ') || 'CHƯA KHAI'}]`, '');
-const ORD = ['❌', '⏹️', '🎯', '🗣️', '👤', '🔁', '👥', '🈲', '🏷️', '🔇', 'ℹ️']; flags.sort((a, b) => ORD.indexOf(a.lv) - ORD.indexOf(b.lv) || a.t - b.t);
+const ORD = ['❌', '⏹️', '🎯', '🗣️', '👤', '🔁', '👥', '🎚️', '🈲', '🏷️', '🔇', 'ℹ️']; flags.sort((a, b) => ORD.indexOf(a.lv) - ORD.indexOf(b.lv) || a.t - b.t);
 const bad = flags.filter(f => !['ℹ️', '🔇', '🏷️'].includes(f.lv)).length;
 L.push(`## Lỗi (${bad} phải sửa · ${flags.length - bad} lưu ý)`); for (const f of flags) L.push(`- ${f.lv} ${f.t ? fmt(f.t) + ' ' : ''}${f.msg}`); if (!flags.length) L.push('- sạch');
 L.push('', '## Nhạc / nền', '| phát | file | dài file | lặp | cờ |', '|---|---|---|---|---|');

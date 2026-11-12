@@ -6,11 +6,16 @@
 //   co   : toàn | trung | cận | cực cận | đặc tả            goc : ngang | giun | chim | chéo | qua vai
 //   loai : đánh | combo | đối mặt | ra chiêu | nổ lớn | thở | chuyển cảnh | lãnh địa | giới thiệu   (combo = 1 góc trong chuỗi đổi góc nhanh 0.08–0.25s)
 //   1 dòng = 1 shot NHÌN THẤY (máy quay 1 shot mà lớp vẽ đổi hẳn hình — vd chuỗi lãnh địa — thì tách nhiều dòng).
-// Luật (số lấy từ meme-anime-lab/playbook/nhip.md + luat.md mục Nhịp cắt):
+// Luật (12/11/2026 ĐỔI — anh chê trận phụ "rush, quá nhanh, đau mắt, không rõ cách đánh". Luật cũ học từ AMV fight-1 (cắt 0.6s/shot) → SAI cho
+//   trận đánh thật. Số mới đo từ bản GỐC còn tiếng gốc: jjk-todo-hanami TB 1.34s, 84% thời gian ở shot ≥1s · jjk-gojo-toji TB 1.83s, 72% ở shot >2s,
+//   chỉ 3% ở shot <0.6s — meme-anime-lab/playbook/nhip.md mục "Trận đánh thật"):
 //   ❌ PHỦ        shotlist phủ kín 0 → DUR, không hở / chồng             ❌ GIÁ TRỊ   co / goc / loai ngoài danh sách trên
-//   ❌ ĐÁNH       shot loại 'đánh' dài 0.2–0.9s (fight-1 A, C, G)         ❌ DÀI       không shot nào > 3s (thở / giới thiệu cũng ≤ 3s)
-//   ❌ CỠ         mỗi 10s có ≥ 3 cỡ cảnh khác nhau                         ❌ THỞ       sau 'nổ lớn' phải có 'thở' 1.4–1.6s bắt đầu trong 2s (fight-1 B1, D8)
-//   ❌ ÂM BẢN     mỗi va chạm (nhãn tiếng có đấm / trúng / va / đập) có khung impact ('inv'|'bw'|'red') trong ±0.1s
+//   ❌ ĐÁNH       shot 'đánh' 0.6–4.5s: 1 shot chứa TRỌN 1 pha (lấy đà → ra đòn → trúng/đỡ → phản ứng), máy bám theo — không cắt mỗi động tác 1 shot
+//   ❌ VỤN        tổng thời gian shot < 0.5s ≤ 12% phim (anime gốc 3–7%) · ❌ NHỊP  shot TB ≥ 1.1s và ≥ 60% thời gian nằm ở shot ≥ 1s
+//   ❌ DÀI        không shot nào > 7s (jjk-todo-hanami có shot bám đuổi 6.2–6.5s)
+//   ❌ CỠ         mỗi 15s có ≥ 3 cỡ cảnh khác nhau                         ❌ THỞ       sau 'nổ lớn' phải có 'thở' 1.2–4s bắt đầu trong 2s (gojo-toji: giữ hậu quả 2.5–4s)
+//   ❌ ÂM BẢN     khung impact ('inv'|'bw'|'red') CHỈ dùng cho đòn lớn: ≤ 1 lần / 8s và mỗi lần phải trùng (±0.12s) một tiếng có nhãn đấm/trúng/va/đập/đâm/chém
+//                 (luật cũ bắt MỌI va chạm phải chớp âm bản → chớp liên tục, đau mắt)
 //   ❌ ẢNH        key ảnh khai trong shotlist phải có trong imgs của phim
 //   ℹ️ lưu ý     máy quay cắt ở giây không có ranh giới shot · máy đứng yên > 3s · tiếng khai trong shot mà lịch sfx không có ở khoảng đó
 const fs = require('fs'), path = require('path'), vm = require('vm');
@@ -74,23 +79,32 @@ else { if (S[0].t0 > EPS) F('❌', 0, `shotlist bắt đầu ở ${fmt(S[0].t0)}
   const end = S[S.length - 1].t1; if (Math.abs(end - DUR) > EPS) F('❌', end, `shotlist kết thúc ở ${fmt(end)} nhưng phim dài ${fmt(DUR)}`); }
 // độ dài
 for (const s of S) { const d = len(s);
-  if (s.loai === 'đánh' && (d < 0.2 - EPS || d > 0.9 + EPS)) { F('❌', s.t0, `shot đánh #${s.i} ${rng(s)} dài ${d.toFixed(2)}s — cần 0.2–0.9s (fight-1 TB ~0.6s)${d > 0.9 ? ': cắt đôi / đổi góc giữa chừng' : ': gộp hoặc kéo dài'}`); mark(s, '❌ ĐÁNH ' + d.toFixed(2) + 's'); }
-  if (s.loai === 'combo' && (d < 0.08 - EPS || d > 0.25 + EPS)) { F('❌', s.t0, `shot combo #${s.i} ${rng(s)} dài ${d.toFixed(2)}s — cần 0.08–0.25s/góc (fight-1 1:36–1:38, G)`); mark(s, '❌ COMBO ' + d.toFixed(2) + 's'); }
-  if (d > 3 + EPS) { const mv = cams.some(c => c.t0 < s.t1 - EPS && c.t1 > s.t0 + EPS && !c.still); F('❌', s.t0, `shot #${s.i} ${rng(s)} (${s.loai}) dài ${d.toFixed(2)}s > 3s${mv ? '' : ', máy đứng yên'} — cắt thêm góc`); mark(s, '❌ DÀI'); } }
+  if (s.loai === 'đánh' && (d < 0.6 - EPS || d > 4.5 + EPS)) { F('❌', s.t0, `shot đánh #${s.i} ${rng(s)} dài ${d.toFixed(2)}s — cần 0.6–4.5s (1 shot = trọn 1 pha, máy bám theo)${d > 4.5 ? ': tách pha' : ': gộp với shot kề — đừng cắt mỗi động tác 1 shot'}`); mark(s, '❌ ĐÁNH ' + d.toFixed(2) + 's'); }
+  if (s.loai === 'combo' && (d < 0.08 - EPS || d > 0.4 + EPS)) { F('❌', s.t0, `shot combo #${s.i} ${rng(s)} dài ${d.toFixed(2)}s — cần 0.08–0.4s/góc (chỉ làm điểm nhấn)`); mark(s, '❌ COMBO ' + d.toFixed(2) + 's'); }
+  if (d > 7 + EPS) { const mv = cams.some(c => c.t0 < s.t1 - EPS && c.t1 > s.t0 + EPS && !c.still); F('❌', s.t0, `shot #${s.i} ${rng(s)} (${s.loai}) dài ${d.toFixed(2)}s > 7s${mv ? '' : ', máy đứng yên'} — cắt thêm góc`); mark(s, '❌ DÀI'); } }
+// nhịp tổng (chỉ phim có đánh nhau): shot vụn < 0.5s ≤ 12% · TB ≥ 1.1s · ≥ 60% thời gian ở shot ≥ 1s
+if (S.length && S.some(s => s.loai === 'đánh' || s.loai === 'combo')) { const tot = S.reduce((a, s) => a + len(s), 0), vun = S.filter(s => len(s) < 0.5 - EPS).reduce((a, s) => a + len(s), 0), dai = S.filter(s => len(s) >= 1 - EPS).reduce((a, s) => a + len(s), 0), tb = tot / S.length;
+  if (vun / tot > 0.12) F('❌', 0, `shot vụn (< 0.5s) chiếm ${Math.round(100 * vun / tot)}% thời gian — tối đa 12% (anime gốc 3–7%): cắt nhanh liên tục làm đau mắt, gộp lại thành shot bám theo pha`);
+  if (tb < 1.1) F('❌', 0, `shot trung bình ${tb.toFixed(2)}s — cần ≥ 1.1s (jjk-todo-hanami 1.34s, jjk-gojo-toji 1.83s)`);
+  if (dai / tot < 0.6) F('❌', 0, `chỉ ${Math.round(100 * dai / tot)}% thời gian ở shot ≥ 1s — cần ≥ 60% (anime gốc 84–91%)`); }
 // cỡ cảnh mỗi 10s (cửa sổ 0–10, 10–20 …, cửa sổ cuối dóng vào DUR)
-const wins = []; for (let a = 0; a + 10 <= DUR + EPS; a += 10) wins.push(a); if (DUR > 10 && DUR - (wins[wins.length - 1] + 10) > 1) wins.push(DUR - 10); if (DUR <= 10) wins.splice(0, wins.length, 0);
-for (const a of wins) { const b = Math.min(DUR, a + 10), cs = new Set(S.filter(s => s.t0 < b - 0.1 && s.t1 > a + 0.1).map(s => s.co));
-  if (cs.size < 3) F('❌', a, `${fmt(a)}–${fmt(b)} chỉ có ${cs.size} cỡ cảnh [${[...cs].join(', ')}] — cần ≥ 3 (xen toàn ↔ cận, luat.md Cận chiến)`); }
+const WIN = 15, wins = []; for (let a = 0; a + WIN <= DUR + EPS; a += WIN) wins.push(a); if (DUR > WIN && DUR - (wins[wins.length - 1] + WIN) > 1) wins.push(DUR - WIN); if (DUR <= WIN) wins.splice(0, wins.length, 0);
+for (const a of wins) { const b = Math.min(DUR, a + WIN), cs = new Set(S.filter(s => s.t0 < b - 0.1 && s.t1 > a + 0.1).map(s => s.co));
+  if (cs.size < 3) F('❌', a, `${fmt(a)}–${fmt(b)} chỉ có ${cs.size} cỡ cảnh [${[...cs].join(', ')}] — cần ≥ 3 / 15s (xen toàn ↔ cận)`); }
 // khoảng thở sau nổ lớn (chuỗi 'nổ lớn' liền nhau tính là 1)
 for (let i = 0; i < S.length; i++) { if (S[i].loai !== 'nổ lớn' || (S[i + 1] && S[i + 1].loai === 'nổ lớn')) continue;
   const e = S[i].t1, br = S.find(s => s.loai === 'thở' && s.t0 >= e - EPS && s.t0 <= e + 2 + EPS);
-  if (!br) { F('❌', e, `sau nổ lớn #${S[i].i} (hết ${fmt(e)}) không có shot 'thở' trong 2s — cần 1.4–1.6s cảnh tĩnh tông trầm`); mark(S[i], '❌ THIẾU THỞ'); }
-  else if (len(br) < 1.4 - EPS || len(br) > 1.6 + EPS) { F('❌', br.t0, `thở #${br.i} ${rng(br)} sau nổ lớn #${S[i].i} dài ${len(br).toFixed(2)}s — cần 1.4–1.6s`); mark(br, '❌ THỞ ' + len(br).toFixed(2) + 's'); } }
+  if (!br) { F('❌', e, `sau nổ lớn #${S[i].i} (hết ${fmt(e)}) không có shot 'thở' trong 2s — cần 1.2–4s giữ yên nhìn hậu quả`); mark(S[i], '❌ THIẾU THỞ'); }
+  else if (len(br) < 1.2 - EPS || len(br) > 4 + EPS) { F('❌', br.t0, `thở #${br.i} ${rng(br)} sau nổ lớn #${S[i].i} dài ${len(br).toFixed(2)}s — cần 1.2–4s`); mark(br, '❌ THỞ ' + len(br).toFixed(2) + 's'); } }
 // khung âm bản ở mỗi va chạm
-const HIT = /(^|[^\p{L}])(đấm|trúng|va|đập|đâm)(?![\p{L}])/iu, NEG = ['inv', 'bw', 'red'];
+const HIT = /(^|[^\p{L}])(đấm|trúng|va|đập|đâm|chém)(?![\p{L}])/iu, NEG = ['inv', 'bw', 'red'];
 const hits = sfx.filter(r => HIT.test(r.label));
-for (const r of hits) { let got = null; for (let t = r.t - 0.1; t <= r.t + 0.1 + 1e-9; t += 0.005) { const v = impactAt(Math.max(0, t)); if (NEG.includes(v)) { got = { v, t }; break; } } r.neg = got;
-  if (!got) F('❌', r.t, `va chạm "${r.label}" (${r.key}) không có khung âm bản trong ±0.1s${imps.length ? '' : ' — phim chưa khai def.impact'} → thêm giây này vào C.negFrames`); }
+for (const r of hits) { let got = null; for (let t = r.t - 0.1; t <= r.t + 0.1 + 1e-9; t += 0.005) { const v = impactAt(Math.max(0, t)); if (NEG.includes(v)) { got = { v, t }; break; } } r.neg = got; }
+// các LẦN chớp âm bản (đoạn liền nhau tính 1 lần): ≤ 1 lần / 8s, mỗi lần phải trùng 1 tiếng va chạm
+const negs = []; { let on = false; for (let t = 0; t < DUR; t += 1 / 60) { const v = NEG.includes(impactAt(t)); if (v && !on) negs.push(t); on = v; } }
+const NEGMAX = Math.max(1, Math.floor(DUR / 8));
+if (negs.length > NEGMAX) F('❌', negs[0] || 0, `chớp âm bản ${negs.length} lần / ${DUR.toFixed(0)}s — tối đa ${NEGMAX} (1 lần / 8s, chỉ đòn lớn): chớp nhiều làm đau mắt`);
+for (const t of negs) if (!hits.some(r => Math.abs(r.t - t) <= 0.12)) F('❌', t, `chớp âm bản ở ${fmt(t)} không trùng tiếng va chạm nào (nhãn có đấm/trúng/va/đập/đâm/chém) trong ±0.12s`);
 // ảnh
 for (const s of S) for (const k of (s.anh || [])) if (!imgs.has(k)) { F('❌', s.t0, `shot #${s.i} ${rng(s)}: ảnh "${k}" không có trong imgs của phim`); mark(s, '❌ ẢNH ' + k); }
 // lưu ý: máy quay ↔ shotlist, máy đứng yên lâu, tiếng khai mà lịch không có
@@ -108,7 +122,7 @@ const bad = flags.filter(f => f.lv === '❌').length;
 L.push(`## Lỗi (${bad} phải sửa · ${flags.length - bad} lưu ý)`); for (const f of flags) L.push(`- ${f.lv} ${fmt(f.t)} ${f.msg}`); if (!flags.length) L.push('- sạch');
 L.push('', '## Bảng phân cảnh', '| # | giây | dài | cỡ | góc | loại | hành động | ảnh | tiếng | cờ |', '|---|---|---|---|---|---|---|---|---|---|');
 for (const s of S) L.push(`| ${s.i} | ${rng(s)} | ${len(s).toFixed(2)} | ${s.co} | ${s.goc} | ${s.loai} | ${String(s.hanhDong || '').replace(/\|/g, '/')}${s.ghiChu ? ' · ' + String(s.ghiChu).replace(/\|/g, '/') : ''} | ${(s.anh || []).join(' ')} | ${(s.sfx || []).join(' ')} | ${s.fl.join(' ')} |`);
-L.push('', '## Va chạm ↔ khung âm bản', '| giây | tiếng | nhãn | khung |', '|---|---|---|---|');
-for (const r of hits) L.push(`| ${fmt(r.t)} | ${r.key} | ${r.label.replace(/\|/g, '/')} | ${r.neg ? r.neg.v + ' @' + fmt(r.neg.t) : '❌ không có'} |`);
+L.push('', `## Va chạm ↔ khung âm bản (chớp ${negs.length} lần: ${negs.map(fmt).join(', ')})`, '| giây | tiếng | nhãn | khung |', '|---|---|---|---|');
+for (const r of hits) L.push(`| ${fmt(r.t)} | ${r.key} | ${r.label.replace(/\|/g, '/')} | ${r.neg ? r.neg.v + ' @' + fmt(r.neg.t) : '—'} |`);
 const text = L.join('\n'); if (OUT) fs.writeFileSync(path.resolve(OUT), text); else process.stdout.write(text + '\n');
 console.error(`${ID}: ${bad} lỗi nhịp phải sửa, ${flags.length - bad} lưu ý${OUT ? ' → ' + OUT : ''}`); process.exit(bad ? 1 : 0);

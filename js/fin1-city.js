@@ -130,8 +130,16 @@
           g.fillStyle='rgba(60,30,40,0.9)'; g.beginPath(); top.forEach((q,i)=>{ const x=lerp(q.x,J.x,0.12), y=lerp(q.y,J.y,0.12); i?g.lineTo(x,y):g.moveTo(x,y); }); g.closePath(); g.fill();   // mặt nước phản ánh trăng đỏ
           g.globalCompositeOperation='lighter'; g.strokeStyle='rgba(220,230,255,0.55)'; g.lineWidth=Math.max(1,6*P.s); for(let k=0;k<5;k++){ const a=k/5*TAU+t; g.beginPath(); g.moveTo(J.x,J.y); g.quadraticCurveTo(JT.x+Math.cos(a)*30*P.s,JT.y,J.x+Math.cos(a)*150*P.s,J.y+10*P.s); g.stroke(); } g.restore(); }}); } } }
   // CẦU TREO: mặt cầu (dưới mọi thứ), lan can, tháp, cáp chính, dây treo
-  const DECK=300, TOW=[-2200,2200], TH_H=2600;
+  const DECK=300, TOW=o.towers||[-2200,2200], TH_H=o.towerH||2600, BEAMS=o.beams||[900,1800];   // phim tự đặt tháp gần chỗ đánh: {towers:[-900,900], towerH:1400, beams:[520,1050]}
   const cableY=x=>{ const a=TOW[0], b=TOW[1]; if(x<a||x>b) return Math.max(80,TH_H-(Math.abs(x)-b)*0.9); const u=(x-a)/(b-a); return lerp(TH_H,260,4*u*(1-u)); };
+  // 🧱 khối hộp thật (12/11: tháp / dầm vẽ bằng mặt phẳng mỏng → nhìn nghiêng thì biến mất, Bat như ngồi giữa không trung)
+  function box(F,x0,x1,y0,y1,z0,z1,col,top,rim){ const B=F.B, P=(x,y,z)=>K.proj(B,x,y,z), cam=K.camPos?K.camPos(B):null;
+    const V=[[x0,y0,z0],[x1,y0,z0],[x1,y1,z0],[x0,y1,z0],[x0,y0,z1],[x1,y0,z1],[x1,y1,z1],[x0,y1,z1]].map(v=>P(v[0],v[1],v[2])); if(V.some(p=>!p)) return;
+    const faces=[[0,1,2,3,col],[5,4,7,6,col],[4,0,3,7,col],[1,5,6,2,col],[3,2,6,7,top],[4,5,1,0,col]];
+    const vis=f=>{ const a=V[f[0]], b=V[f[1]], c=V[f[2]]; return (b.x-a.x)*(c.y-a.y)-(b.y-a.y)*(c.x-a.x)<0; };   // mặt quay về máy (thứ tự đỉnh ngược chiều kim đồng hồ khi nhìn từ ngoài)
+    const d=V.reduce((m,p)=>Math.min(m,p.d),1e9);
+    F.list.push({d, fn:()=>{ const g=F.g; g.save(); for(const f of faces){ if(!vis(f)) continue; g.fillStyle=f[4]; g.beginPath(); for(let i=0;i<4;i++){ const p=V[f[i]]; i?g.lineTo(p.x,p.y):g.moveTo(p.x,p.y); } g.closePath(); g.fill();
+      if(rim){ g.strokeStyle=rim; g.lineWidth=1.5; g.stroke(); } } g.restore(); }}); }
   function drawBridge(F,t){ const B=F.B, g=F.g, P=(x,y,z)=>K.proj(B,x,y,z);
     const deck=[]; for(let i=0;i<=24;i++){ const x=-7000+i*14000/24, a=P(x,0,-DECK), b=P(x,0,DECK); if(a&&b) deck.push([a,b]); }
     if(deck.length>1) F.under.push(()=>{ g.save(); g.fillStyle='#2a272e'; g.beginPath(); deck.forEach(([a],i)=>i?g.lineTo(a.x,a.y):g.moveTo(a.x,a.y)); for(let i=deck.length-1;i>=0;i--) g.lineTo(deck[i][1].x,deck[i][1].y); g.closePath(); g.fill();
@@ -140,16 +148,14 @@
       for(let x=-4000;x<=4000;x+=160){ const a=P(x,0,z), b=P(x,58,z); if(!a||!b) continue; F.list.push({d:a.d, fn:()=>{ g.strokeStyle='#3a3540'; g.lineWidth=Math.max(1,4*a.s); g.beginPath(); g.moveTo(a.x,a.y); g.lineTo(b.x,b.y); g.stroke(); }}); }   // trụ lan can
       for(let x=-4000;x<4000;x+=320){ const a=P(x,58,z), b=P(x+320,58,z); if(!a||!b) continue; F.list.push({d:(a.d+b.d)/2, fn:()=>{ g.strokeStyle='#5a5460'; g.lineWidth=Math.max(1,5*a.s); g.beginPath(); g.moveTo(a.x,a.y); g.lineTo(b.x,b.y); g.stroke(); }}); }   // thanh lan can
       for(let x=-4000;x<4000;x+=200){ const a=P(x,cableY(x),z+sd*30), b=P(x+200,cableY(x+200),z+sd*30); if(!a||!b) continue; F.list.push({d:(a.d+b.d)/2, fn:()=>{ g.strokeStyle='#4a4450'; g.lineWidth=Math.max(1.5,14*a.s); g.beginPath(); g.moveTo(a.x,a.y); g.lineTo(b.x,b.y); g.stroke(); }}); }   // cáp chính
-      for(let x=-3900;x<=3900;x+=160){ if(Math.abs(Math.abs(x)-2200)<80) continue; const a=P(x,58,z+sd*30), b=P(x,cableY(x),z+sd*30); if(!a||!b) continue; F.list.push({d:a.d+2, fn:()=>{ g.strokeStyle='rgba(90,84,96,0.85)'; g.lineWidth=Math.max(1,2.5*a.s); g.beginPath(); g.moveTo(a.x,a.y); g.lineTo(b.x,b.y); g.stroke(); }}); }   // dây treo
-      for(const tx of TOW){ const q=[P(tx-60,0,z+sd*30),P(tx+60,0,z+sd*30),P(tx+45,TH_H+80,z+sd*30),P(tx-45,TH_H+80,z+sd*30)]; if(q.some(p=>!p)) continue;
-        F.list.push({d:q[0].d-1, fn:()=>{ g.fillStyle='#2b2630'; g.beginPath(); q.forEach((p,i)=>i?g.lineTo(p.x,p.y):g.moveTo(p.x,p.y)); g.closePath(); g.fill(); g.strokeStyle='rgba(220,70,50,0.35)'; g.lineWidth=2; g.beginPath(); g.moveTo(q[1].x,q[1].y); g.lineTo(q[2].x,q[2].y); g.stroke(); }}); }   // tháp cầu (viền đỏ trăng)
+      for(let x=-3900;x<=3900;x+=160){ if(TOW.some(tx=>Math.abs(x-tx)<80)) continue; const a=P(x,58,z+sd*30), b=P(x,cableY(x),z+sd*30); if(!a||!b) continue; F.list.push({d:a.d+2, fn:()=>{ g.strokeStyle='rgba(90,84,96,0.85)'; g.lineWidth=Math.max(1,2.5*a.s); g.beginPath(); g.moveTo(a.x,a.y); g.lineTo(b.x,b.y); g.stroke(); }}); }   // dây treo
+      for(const tx of TOW) box(F,tx-60,tx+60,0,TH_H+80,z+sd*30-45,z+sd*30+45,'#2b2630','#3a3340','rgba(220,70,50,0.28)');   // chân tháp cầu: khối hộp (viền đỏ trăng)
     }
-    for(const tx of TOW) for(const by of [900,1800]){ const a=P(tx,by,-DECK-30), b=P(tx,by,DECK+30), a2=P(tx,by+120,-DECK-30), b2=P(tx,by+120,DECK+30); if(!a||!b||!a2||!b2) continue;
-      F.list.push({d:Math.min(a.d,b.d)-1, fn:()=>{ g.fillStyle='#262229'; g.beginPath(); g.moveTo(a.x,a.y); g.lineTo(b.x,b.y); g.lineTo(b2.x,b2.y); g.lineTo(a2.x,a2.y); g.closePath(); g.fill(); }}); }   // dầm ngang tháp
+    for(const tx of TOW) for(const by of BEAMS){ const zs=[-DECK+15,-60,60,DECK-15]; for(let i=0;i<3;i++) box(F,tx-50,tx+50,by,by+120,zs[i],zs[i+1],'#262229','#3c3540','rgba(220,70,50,0.22)'); }   // dầm ngang tháp: khối hộp (chia 3 đoạn để xếp lớp đúng với nhân vật ngồi trên)
     for(let x=-3600;x<=3600;x+=600) for(const sd of [-1,1]){ const L=P(x,120,sd*DECK); if(!L) continue; F.list.push({d:L.d, fn:()=>{ g.save(); g.globalCompositeOperation='lighter'; const R=50*L.s, gr=g.createRadialGradient(L.x,L.y,0,L.x,L.y,R); gr.addColorStop(0,'rgba(255,215,150,0.85)'); gr.addColorStop(1,'rgba(255,170,90,0)'); g.fillStyle=gr; g.fillRect(L.x-R,L.y-R,2*R,2*R); g.restore(); }}); }   // đèn cầu
   }
   function draw(F,t,th){ pano(F,t,th); for(const b of BL) drawBuilding(F,b,t,th); if(KIND==='park') drawProps(F,t); if(KIND==='bridge') drawBridge(F,t); }
   const TH=KIND==='park'?TH_PARK:KIND==='bridge'?TH_BRIDGE:TH_NIGHT;   // bảng màu mặc định theo bối cảnh
-  return { BL, STY, pano, drawBuilding, draw, TH, TH_NIGHT, TH_RISE, TH_DUST, TH_CLEAR, TH_PARK, TH_BRIDGE, KIND, cableY, TOW, DECK };
+  return { BL, STY, pano, drawBuilding, draw, TH, TH_NIGHT, TH_RISE, TH_DUST, TH_CLEAR, TH_PARK, TH_BRIDGE, KIND, cableY, TOW, DECK, TH_H, BEAMS };
   };
 })();

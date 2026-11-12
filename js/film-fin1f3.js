@@ -10,8 +10,11 @@
   for(const [g,f] of [['PIXI_FILTERS_GLSL','vendor/pixi-filters/glsl.js'],['Fin1City','fin1-city.js'],['Fin1Fight','fin1-fight.js']]) if(!window[g]){   /* glsl: shader TWIST của Kamui (game đã nạp sẵn; trang soát khung thì chưa) */ try{ const x=new XMLHttpRequest(); x.open('GET',BASE+f+V,false); x.send(); (0,eval)(x.responseText); }catch(e){} }
   const K=CineKit, {seg,lerp,clamp,hash}=K, E=K.EASE, eout=E.eout, ein=E.ein, eio=E.eio, C=K.cam, W=window.Fin1Fight, TAU=Math.PI*2;
   const FX=()=>window.CineKitFx;
-  const T={ face1:2.0, face2:3.2, dash:4.4, clash:4.8, wind:5.0, slam:5.5, ripo:6.0, sweep:6.8, kun:7.35, c1:7.9, c2:8.1, c3:8.3, rage:8.6, arc:9.7, land:10.5,
-    eye:10.7, wind2:11.2, hit60:11.5, kam:11.8, emerge:12.4, stab:13.0, turn:13.5, fr1:15.1, fr2:15.5, fr3:15.9, gen:16.15, read:16.45, cut:16.85, crows:17.75, eye2:18.55, howl:19.45, brk:20.45, fall:20.63, DUR:21.9 };
+  // ⏱️ NHỊP (12/11 DỰNG LẠI — anh chê bản 22s "rush, quá nhanh, đau mắt, không rõ cách đánh"): số theo bản GỐC jjk-todo-hanami / jjk-gojo-toji
+  //   (meme-anime-lab/playbook/nhip.md "Trận đánh thật"): ĐÒN vẫn nhanh (vung 0.1–0.2s) nhưng MỖI PHA có lấy đà rõ → ra đòn → khựng → phản ứng → lùi ra thở;
+  //   1 shot chứa trọn 1 pha, máy bám theo; Berserk luôn bên TRÁI, Ninja bên PHẢI (máy không vòng qua trục) để người xem biết ai là ai.
+  const T={ face1:3.0, face2:4.6, stand:6.2, dash:7.0, clash:7.75, lock:8.7, wind:9.6, slam:11.6, ripo:13.6, sweep:15.6, kun:18.0, c1:20.4, c2:21.3, c3:22.3, hurt:23.0, rage:25.0, arc:28.0, land:29.6,
+    eye:31.2, wind2:32.6, hit60:33.4, kam:34.4, emerge:36.4, stab:37.6, turn:39.6, fr1:42.0, fr2:43.0, fr3:44.0, gen:44.8, read:45.6, cut:46.6, crows:48.4, eye2:49.6, howl:51.8, brk:53.6, fall:53.8, DUR:55.4 };
   // LOGIC (anh chê xếp cảnh vô lý 11/11): mắt Mangekyou kích hoạt TRƯỚC rồi đòn mới xuyên thấu được (eye → wind2 → hit60);
   //   ảo thuật phải có lúc TRÚNG: Ninja chạm mắt Berserk bằng Sharingan (gen) TRƯỚC khi Berserk "bắt được góc" (read) → nhát chém đứt đôi chỉ là ảo giác.
   // 🌀 KAMUI đúng nguyên tác (anh dặn 11/11): ① XUYÊN THẤU — đòn đi qua người như không tồn tại, thân xoắn méo quanh chỗ lưỡi kiếm qua (hit60, hit30)
@@ -34,27 +37,34 @@
   const pick=(F,k)=>{ const im=F.I[k]; return (im&&im.complete&&im.naturalWidth)?k:(TEMP[k]||k); };
 
   // ───────── BIÊN ĐẠO: [giây, x, ảnh, kiểu chuyển, nhoè, z, y] ─────────
-  const NK=[[0,380,'N0',0,0,0,0],[T.dash,380,'N0'],[T.dash+0.12,405,'NS','eout'],[T.clash,62,'NS','ein',1],[T.clash+0.3,95,'NS','back'],
-    [T.wind,100,'N0','eout'],[T.slam-0.12,100,'N0'],[T.slam,95,'N0','eout',1,-140],                                   // bước chân né sang bên
-    [T.ripo-0.12,85,'NS','eout',0,-90],[T.ripo,12,'NS','ein',1,0],[T.ripo+0.15,12,'NS'],[T.ripo+0.5,115,'N0','back'],   // né xong PHẢN ĐÒN NGAY
-    [T.sweep-0.12,112,'NS'],[T.sweep+0.05,108,'NS'],[T.sweep+0.45,340,'NS','back'],                                     // đỡ quét ngang → trượt lùi
-    [T.kun-0.1,340,'N0'],[T.kun+0.35,330,'N0'],
-    [T.c1-0.15,320,'N0'],[T.c1,24,'NS','ein',1],[T.c2,40,'NS','lin'],[T.c3,28,'NS','lin'],[T.c3+0.32,150,'N0','back'],
-    [T.arc-0.2,150,'N0'],[T.arc,168,'N0','eout',0,0,190],[T.land,190,'N0','ein',0,0,0],                                  // bật nhảy qua nhát vòng cung
-    [T.hit60-0.2,190,'NS'],[T.hit60,190,'NS'],[T.emerge,-150,'NT'],[T.stab,-28,'NT','ein',1],[T.stab+0.4,-36,'NT','eout'],
-    [T.turn+0.2,-40,'NT'],[T.turn+0.55,-170,'N0','eout'],
-    [T.fr1-0.05,-170,'N0'],[T.fr1+0.12,-250,'N0','eout',1],[T.fr2+0.12,-325,'N0','eout',1],[T.fr3+0.12,-392,'N0','eout',1],[T.read,-392,'N0'],[T.cut-0.1,-392,'NS'],[T.DUR,-392,'NS']];   // từ T.cut: Ninja vẽ thành 2 nửa (halves) rồi hoá quạ
-  const BK=[[0,-380,'B0',0,0,0,0],[T.dash,-380,'B0'],[T.dash+0.12,-402,'B0','eout'],[T.clash,-62,'B1','ein',1],[T.clash+0.3,-92,'B1','back'],
-    [T.wind,-110,'B2','eout'],[T.slam-0.1,-116,'B2'],[T.slam,-58,'B1','ein',1],[T.ripo,-58,'B1'],[T.ripo+0.06,-40,'B0'],[T.ripo+0.42,-92,'B0','back'],
-    [T.sweep-0.28,-82,'B2','eout'],[T.sweep,-6,'B1','ein',1],[T.sweep+0.4,-24,'B1','back'],
-    [T.kun,-40,'B0'],[T.kun+0.2,-40,'B1'],[T.kun+0.5,-40,'B0'],
-    [T.c1,-46,'B0'],[T.c2,-64,'B0'],[T.c3,-82,'B0'],[T.c3+0.28,-118,'B0','back'],
-    [T.rage,-120,'B0'],[T.arc-0.32,-122,'B2','eout'],[T.arc,-62,'B1','ein',1],[T.arc+0.5,-62,'B1'],
-    [T.land,-62,'B0'],[T.hit60-0.22,-72,'B2','eout'],[T.hit60,2,'B1','ein',1],[T.kam+0.4,2,'B1'],[T.emerge,0,'B0'],
-    [T.stab,0,'B0'],[T.stab+0.3,22,'B0','back'],[T.turn,22,'B0'],
-    [T.fr1-0.12,10,'B2','eout'],[T.fr1,-62,'B1','ein',1],[T.fr2-0.12,-70,'B2'],[T.fr2,-142,'B1','ein',1],[T.fr3-0.12,-150,'B2'],[T.fr3,-222,'B1','ein',1],
-    [T.read-0.1,-230,'B0'],[T.read+0.25,-236,'B2','eout'],[T.cut,-280,'B1','ein',1],[T.cut+0.25,-245,'B1','back'],[T.cut+0.6,-240,'B1'],[T.howl-0.3,-300,'B1','eio'],[T.howl,-300,'BH'],[T.brk-0.15,-300,'B2','eout'],[T.brk,-300,'B1','ein',1],[T.DUR,-300,'B1']];
-  const hs=W.hstop([[T.clash,0.14],[T.ripo,0.12],[T.sweep,0.12],[T.c1,0.07],[T.c2,0.07],[T.c3,0.12],[T.stab,0.16],[T.cut,0.16],[T.brk,0.12]]);
+  // Mỗi pha: LẤY ĐÀ (lùi / nâng kiếm, 0.3–0.6s, thấy rõ) → RA ĐÒN (0.1–0.2s) → KHỰNG (hit-stop) → PHẢN ỨNG (trượt lùi / loạng choạng) → GIÃN RA đứng thủ thế
+  const NK=[[0,380,'N0',0,0,0,0],[T.dash-0.35,380,'N0'],[T.dash,405,'N0','eout'],[T.clash-0.12,150,'NS','ein'],[T.clash,62,'NS','ein',1],
+    [T.lock,82,'NS','lin'],[T.lock+0.45,220,'N0','back'],                                                                // ghì kiếm → bật ra, trượt lùi
+    [T.wind,220,'N0'],[T.slam-0.42,210,'N0'],[T.slam-0.2,190,'N0','eout',0,-160],[T.ripo-0.55,190,'N0',0,0,-160],          // thấy kiếm giơ cao → BƯỚC NÉ ra khỏi đường bổ TRƯỚC khi kiếm rơi
+    [T.ripo-0.18,175,'NS','eout',0,-120],[T.ripo,12,'NS','ein',1,0],[T.ripo+0.35,12,'NS'],[T.ripo+1.0,180,'N0','back'],      // né xong lao vào PHẢN ĐÒN
+    [T.sweep-0.5,175,'N0'],[T.sweep-0.12,150,'NS','eout'],[T.sweep+0.05,128,'NS'],[T.sweep+0.95,380,'NS','back'],[T.sweep+1.7,380,'N0'],   // đỡ cú quét → bị đẩy trượt dài
+    [T.kun-0.3,380,'N0'],[T.kun+0.5,370,'N0'],
+    [T.c1-0.5,360,'N0'],[T.c1-0.14,300,'NS','eout'],[T.c1,30,'NS','ein',1],[T.c1+0.4,44,'N0'],[T.c2-0.16,44,'NS'],[T.c2,40,'NS','lin',1],[T.c2+0.4,40,'N0'],
+    [T.c3-0.18,36,'NS'],[T.c3,28,'NS','lin',1],[T.c3+0.7,190,'N0','back'],
+    [T.arc-0.5,190,'N0'],[T.arc-0.12,196,'N0','eout',0,0,40],[T.arc+0.1,200,'N0','eout',0,0,230],[T.land,205,'N0','ein',0,0,0],   // bật nhảy QUA nhát vòng cung
+    [T.wind2,205,'N0'],[T.hit60-0.2,205,'NS'],[T.hit60,205,'NS'],[T.emerge,-150,'NT'],[T.stab-0.2,-70,'NT','eout'],[T.stab,-28,'NT','ein',1],[T.stab+0.7,-36,'NT','eout'],
+    [T.turn+0.3,-40,'NT'],[T.turn+1.0,-170,'N0','eout'],
+    [T.fr1-0.12,-170,'N0'],[T.fr1+0.25,-250,'N0','eout',1],[T.fr2-0.12,-250,'N0'],[T.fr2+0.25,-325,'N0','eout',1],[T.fr3-0.12,-325,'N0'],[T.fr3+0.25,-392,'N0','eout',1],
+    [T.read,-392,'N0'],[T.cut-0.1,-392,'NS'],[T.DUR,-392,'NS']];   // từ T.cut: Ninja vẽ thành 2 nửa (halves) rồi hoá quạ
+  const BK=[[0,-380,'B0',0,0,0,0],[T.dash-0.35,-380,'B0'],[T.dash,-405,'B0','eout'],[T.clash-0.12,-150,'B1','ein'],[T.clash,-62,'B1','ein',1],
+    [T.lock,-82,'B1','lin'],[T.lock+0.45,-220,'B1','back'],
+    [T.wind,-220,'B0'],[T.wind+0.7,-226,'B2','eout'],[T.slam-0.16,-230,'B2'],[T.slam,-40,'B1','ein',1],                      // nâng đại kiếm CHẬM qua đầu (1.5s) → bổ xuống
+    [T.ripo-0.2,-40,'B1'],[T.ripo,-40,'B1'],[T.ripo+0.1,-24,'B0'],[T.ripo+0.9,-150,'B0','back'],                             // kiếm cắm đường, ăn nhát phản đòn, lùi
+    [T.sweep-0.75,-150,'B0'],[T.sweep-0.3,-160,'B2','eout'],[T.sweep,-40,'B1','ein',1],[T.sweep+0.7,-60,'B1','back'],
+    [T.kun,-70,'B0'],[T.kun+0.42,-70,'B1'],[T.kun+0.8,-70,'B0'],
+    [T.c1,-50,'B0'],[T.c1+0.1,-60,'B0','eout'],[T.c2,-66,'B0'],[T.c2+0.1,-78,'B0','eout'],[T.c3,-84,'B0'],[T.c3+0.6,-150,'B0','back'],
+    [T.rage,-150,'B0'],[T.arc-0.7,-152,'B2','eout'],[T.arc,-62,'B1','ein',1],[T.arc+0.9,-62,'B1'],
+    [T.land,-62,'B0'],[T.wind2,-70,'B0'],[T.wind2+0.4,-80,'B2','eout'],[T.hit60,40,'B1','ein',1],[T.kam+0.5,40,'B1'],[T.kam+1.0,40,'B0'],[T.emerge,10,'B0'],   // chém hụt → ngơ ngác tìm
+    [T.stab,0,'B0'],[T.stab+0.5,22,'B0','back'],[T.turn,22,'B0'],
+    [T.fr1-0.4,10,'B2','eout'],[T.fr1,-62,'B1','ein',1],[T.fr2-0.4,-70,'B2','eout'],[T.fr2,-142,'B1','ein',1],[T.fr3-0.4,-150,'B2','eout'],[T.fr3,-222,'B1','ein',1],
+    [T.read-0.1,-230,'B0'],[T.read+0.5,-236,'B2','eout'],[T.cut,-280,'B1','ein',1],[T.cut+0.4,-245,'B1','back'],[T.cut+1.0,-240,'B1'],[T.howl-0.4,-300,'B1','eio'],[T.howl,-300,'BH'],[T.brk-0.25,-300,'B2','eout'],[T.brk,-300,'B1','ein',1],[T.DUR,-300,'B1']];
+  // khựng (hit-stop) CHỈ ở cú thật sự nặng — dài hơn bản cũ để mắt kịp đọc chỗ chạm
+  const hs=W.hstop([[T.clash,0.22],[T.slam,0.12],[T.ripo,0.14],[T.sweep,0.16],[T.c3,0.14],[T.stab,0.24],[T.cut,0.22],[T.brk,0.14]]);
   // cơn điên Berserk: mỗi đòn trúng cộng 1 nấc → lửa đỏ to dần, kiếm vung xa hơn
   const RAGE=[[T.ripo,0.2],[T.c1,0.32],[T.c2,0.42],[T.c3,0.55],[T.rage,0.8],[T.stab,1.0],[T.howl,1.6]];   // hú lên: hào quang bùng
   const rageK=t=>{ let k=0; for(const [a,v] of RAGE) if(t>=a) k=v; return k; };
@@ -64,43 +74,41 @@
 
   // ───────── MÁY QUAY ─────────
   const S=(t0,t1,a,b,ease)=>({t0,t1,a,b:b||a,ease:ease||'eio'});
+  // 1 shot = trọn 1 pha, máy bám theo; máy luôn đứng PHÍA TRƯỚC trục 2 người (yaw −40…40) → Berserk luôn TRÁI, Ninja luôn PHẢI
   const shots=C.seq([
-    S(0,T.face1,{tx:0,ty:170,tz:0,dist:1500,yaw:-58,pitch:-6,fov:52,roll:-2},{tx:0,ty:160,tz:0,dist:1350,yaw:-56,pitch:-5,fov:52,roll:-2}),   // toàn cảnh góc giun dọc đại lộ, trăng máu cuối đường
-    ...C.pushIn(T.face1,{d:T.face2-T.face1,tx:-380,ty:96,tz:0,dist:235,yaw:24,pitch:-5,fov:42,ox:-0.12}),                                    // đối mặt: Berserk
-    ...C.pushIn(T.face2,{d:T.dash-T.face2,tx:380,ty:100,tz:0,dist:235,yaw:-24,pitch:-5,fov:42,ox:0.12}),                                     // đối mặt: Ninja (gương)
-    S(T.dash,T.clash,{tx:0,ty:80,tz:0,dist:950,yaw:0,pitch:4,fov:46},{tx:0,ty:80,tz:0,dist:640,yaw:0,pitch:4,fov:46},'ein'),
-    S(T.clash,T.clash+0.08,{tx:0,ty:85,tz:0,dist:210,yaw:-14,pitch:-4,roll:7,fov:54}),                                                       // khựng NHIỀU GÓC
-    S(T.clash+0.08,T.clash+0.16,{tx:0,ty:70,tz:0,dist:190,yaw:55,pitch:-18,roll:-10,fov:58}),
-    S(T.clash+0.16,T.slam,{tx:-100,ty:130,tz:0,dist:330,yaw:32,pitch:-24,roll:-6,fov:52},{tx:-100,ty:135,tz:0,dist:310,yaw:34,pitch:-26,roll:-7,fov:52},'lin'),   // góc giun: Berserk nâng kiếm
-    S(T.slam,T.ripo-0.12,{tx:-40,ty:20,tz:-40,dist:950,yaw:-30,pitch:38,fov:50},{tx:-40,ty:20,tz:-40,dist:900,yaw:-28,pitch:38,fov:50}),           // góc cao chéo: kiếm bổ xuống đường, Ninja né
-    S(T.ripo-0.12,T.ripo+0.42,{tx:10,ty:86,tz:-30,dist:260,yaw:-36,pitch:-4,roll:8,fov:50},{tx:-10,ty:86,tz:-20,dist:250,yaw:-40,pitch:-4,roll:9,fov:50}),
-    S(T.ripo+0.42,T.sweep-0.12,{tx:30,ty:80,tz:0,dist:720,yaw:28,pitch:6,fov:46},{tx:40,ty:80,tz:0,dist:680,yaw:26,pitch:6,fov:46}),
-    S(T.sweep-0.12,T.sweep+0.45,{tx:40,ty:85,tz:0,dist:320,yaw:-20,pitch:0,roll:-6,fov:50},{tx:260,ty:85,tz:0,dist:340,yaw:-24,pitch:0,roll:-6,fov:50},'brake'),   // bám Ninja trượt lùi
-    S(T.sweep+0.45,T.c1-0.15,{tx:150,ty:90,tz:0,dist:880,yaw:-8,pitch:6,fov:46},{tx:150,ty:90,tz:0,dist:840,yaw:-6,pitch:6,fov:46}),                           // kunai bay ngang khung
-    ...C.orbit(T.c1-0.15,{d:T.rage-(T.c1-0.15),cut:0.15,tx:-10,ty:88,tz:0,dist:300,pitch:6,yaw0:-55,yaw1:55}),                                                 // combo: máy XOAY QUANH, đổi góc mỗi 0.15s
-    S(T.rage,T.arc-0.32,{tx:-120,ty:135,tz:0,dist:270,yaw:28,pitch:-28,fov:52},{tx:-120,ty:140,tz:0,dist:245,yaw:30,pitch:-30,fov:52},'lin'),               // góc giun: Berserk nổi điên
-    S(T.arc-0.32,T.land,{tx:60,ty:320,tz:0,dist:1750,yaw:-12,pitch:4,fov:56},{tx:60,ty:340,tz:0,dist:1650,yaw:-10,pitch:4,fov:56}),                        // toàn: nhát vòng cung xẻ toà nhà phía sau
-    S(T.land,T.eye,{tx:110,ty:90,tz:0,dist:430,yaw:-20,pitch:2,fov:48}),
-    S(T.eye,T.wind2,{tx:180,ty:110,tz:0,dist:200,yaw:-30,pitch:0,fov:44}),                                                                                 // (cận mắt Mangekyou vẽ ở screen) — kích hoạt TRƯỚC
-    S(T.wind2,T.hit60,{tx:-30,ty:115,tz:0,dist:310,yaw:28,pitch:-14,roll:-5,fov:50},{tx:20,ty:110,tz:0,dist:300,yaw:30,pitch:-14,roll:-6,fov:50},'ein'),      // Berserk lao tới vung kiếm
-    S(T.hit60,T.kam,{tx:180,ty:96,tz:0,dist:230,yaw:-30,pitch:-2,fov:44,ox:0.1}),                                                                         // kiếm đi XUYÊN qua thân Ninja (xoắn méo)
-    S(T.kam,T.emerge,{tx:90,ty:95,tz:0,dist:520,yaw:12,pitch:2,fov:48},{tx:80,ty:95,tz:0,dist:480,yaw:10,pitch:2,fov:48},'lin'),
-    S(T.emerge,T.stab,{tx:-80,ty:92,tz:0,dist:320,yaw:-48,pitch:-4,roll:-5,fov:50},{tx:-60,ty:92,tz:0,dist:300,yaw:-50,pitch:-4,roll:-6,fov:50}),
-    S(T.stab,T.stab+0.08,{tx:-14,ty:90,tz:0,dist:180,yaw:-24,pitch:-4,roll:-8,fov:56}),                                                                   // khựng nhiều góc lúc đâm
-    S(T.stab+0.08,T.stab+0.16,{tx:-14,ty:80,tz:0,dist:200,yaw:50,pitch:-16,roll:9,fov:58}),
-    S(T.stab+0.16,T.turn,{tx:-10,ty:90,tz:0,dist:420,yaw:-10,pitch:2,fov:48}),
-    ...C.pushIn(T.turn,{d:T.fr1-0.12-T.turn,tx:10,ty:115,tz:0,dist:320,dist1:250,yaw:16,pitch:-12,fov:46,ox:0.06}),                                         // Berserk dưới 30% KHÔNG ngã, quay lại
-    S(T.fr1-0.12,T.fr2-0.12,{tx:-110,ty:85,tz:0,dist:430,yaw:22,pitch:0,fov:50},{tx:-160,ty:85,tz:0,dist:420,yaw:22,pitch:0,fov:50},'lin'),
-    S(T.fr2-0.12,T.fr3-0.12,{tx:-220,ty:85,tz:0,dist:360,yaw:-32,pitch:-6,roll:6,fov:50},{tx:-260,ty:85,tz:0,dist:350,yaw:-34,pitch:-6,roll:6,fov:50},'lin'),
-    S(T.fr3-0.12,T.gen,{tx:-310,ty:85,tz:0,dist:330,yaw:40,pitch:-14,roll:-6,fov:50},{tx:-340,ty:85,tz:0,dist:320,yaw:42,pitch:-14,roll:-6,fov:50},'lin'),
-    S(T.gen,T.read,{tx:-392,ty:118,tz:0,dist:150,yaw:-30,pitch:0,fov:40}),                                                                              // (cận mắt Ninja vẽ ở screen) — chạm mắt: trúng ảo thuật
-    S(T.read,T.cut-0.12,{tx:-236,ty:118,tz:0,dist:95,yaw:22,pitch:-2,fov:40,ox:-0.06},{tx:-236,ty:118,tz:0,dist:85,yaw:22,pitch:-2,fov:40,ox:-0.06},'lin'),      // ĐẶC TẢ mắt Berserk loé đỏ: bắt được góc
-    S(T.cut-0.12,T.cut+0.4,{tx:-380,ty:230,tz:250,dist:900,yaw:-8,pitch:2,fov:56},{tx:-380,ty:240,tz:250,dist:860,yaw:-8,pitch:2,fov:56}),                   // toàn: nhát chém xẻ đôi Ninja + toà nhà phía sau
-    S(T.cut+0.4,T.crows,{tx:-400,ty:70,tz:0,dist:300,yaw:-36,pitch:-8,roll:6,fov:50},{tx:-405,ty:62,tz:0,dist:285,yaw:-38,pitch:-8,roll:7,fov:50}),              // 2 nửa người tách nhau rơi xuống
-    S(T.crows,T.eye2,{tx:-380,ty:180,tz:0,dist:720,yaw:-20,pitch:-14,fov:58},{tx:-380,ty:420,tz:0,dist:640,yaw:-20,pitch:-34,fov:60}),                         // 2 nửa hoá BẦY QUẠ bay vút lên trời (máy ngước theo)
-    S(T.eye2,T.howl,{tx:-392,ty:420,tz:0,dist:620,yaw:-10,pitch:-46,fov:64},{tx:-392,ty:440,tz:0,dist:600,yaw:-10,pitch:-48,fov:64},'lin'),                  // THẾ GIỚI ẢO THUẬT: trời đỏ, 2 mắt Sharingan, quạ lượn
-    S(T.howl,T.brk-0.15,{tx:-300,ty:135,tz:0,dist:300,yaw:20,pitch:-30,fov:54},{tx:-300,ty:140,tz:0,dist:270,yaw:22,pitch:-32,fov:54},'lin'),                  // góc giun: Berserk HÚ lên, hào quang bùng
-    S(T.brk-0.15,T.DUR,{tx:-300,ty:105,tz:0,dist:520,yaw:-14,pitch:0,fov:50}) ]);                                                                           // chém vỡ ảo cảnh (máy ĐỨNG YÊN, không nghiêng — mảnh kính dời theo máy này)
+    S(0,T.face1,{tx:0,ty:170,tz:0,dist:1500,yaw:-58,pitch:-6,fov:52,roll:-2},{tx:0,ty:160,tz:0,dist:1300,yaw:-54,pitch:-5,fov:52,roll:-2}),   // toàn cảnh góc giun dọc đại lộ, trăng máu cuối đường (3s, đẩy chậm)
+    ...C.pushIn(T.face1,{d:T.face2-T.face1,tx:-380,ty:96,tz:0,dist:250,dist1:225,yaw:24,pitch:-5,fov:42,ox:-0.12}),                          // đối mặt: Berserk gác đại kiếm lên vai
+    ...C.pushIn(T.face2,{d:T.stand-T.face2,tx:380,ty:100,tz:0,dist:250,dist1:225,yaw:-24,pitch:-5,fov:42,ox:0.12}),                          // đối mặt: Ninja đặt tay lên chuôi kiếm (gương)
+    S(T.stand,T.dash,{tx:0,ty:85,tz:0,dist:1050,yaw:0,pitch:3,fov:46}),                                                                       // TĨNH trước khi lao: 2 người 2 mép khung, nhạc tắt
+    S(T.dash,T.lock+0.6,{tx:0,ty:85,tz:0,dist:900,yaw:0,pitch:4,fov:46},{tx:0,ty:85,tz:0,dist:560,yaw:4,pitch:4,fov:46},'brake'),             // LAO VÀO → va kiếm giữa đường → ghì → bật ra (1 shot, máy đẩy vào)
+    S(T.lock+0.6,T.slam-0.45,{tx:-225,ty:130,tz:0,dist:360,yaw:30,pitch:-24,roll:-4,fov:52},{tx:-225,ty:140,tz:0,dist:320,yaw:32,pitch:-27,roll:-5,fov:52},'lin'),   // góc giun: Berserk nâng đại kiếm CHẬM qua đầu
+    S(T.slam-0.45,T.ripo-0.6,{tx:0,ty:20,tz:-60,dist:1050,yaw:-18,pitch:34,fov:50},{tx:0,ty:20,tz:-60,dist:980,yaw:-16,pitch:34,fov:50}),   // góc cao chéo: Ninja bước né TRƯỚC → kiếm bổ xuống chỗ cũ, đường vỡ
+    S(T.ripo-0.6,T.ripo+1.0,{tx:60,ty:86,tz:-60,dist:420,yaw:-22,pitch:0,roll:4,fov:48},{tx:-10,ty:86,tz:-30,dist:380,yaw:-26,pitch:0,roll:5,fov:48},'lin'),   // Ninja lao vào khi kiếm còn cắm đường → chém ngang sườn
+    S(T.ripo+1.0,T.sweep+1.7,{tx:30,ty:85,tz:0,dist:620,yaw:-10,pitch:2,fov:48},{tx:230,ty:85,tz:0,dist:660,yaw:-12,pitch:2,fov:48},'brake'),   // Berserk quét ngang → Ninja đỡ, trượt dài, máy trôi theo
+    S(T.sweep+1.7,T.kun+0.35,{tx:330,ty:95,tz:60,dist:300,yaw:-28,pitch:-2,fov:48,ox:0.2},{tx:320,ty:95,tz:60,dist:285,yaw:-28,pitch:-2,fov:48,ox:0.2},'lin'),   // qua vai Ninja: ném 3 kunai
+    S(T.kun+0.35,T.c1-0.6,{tx:-70,ty:105,tz:0,dist:300,yaw:20,pitch:-4,fov:46},{tx:-70,ty:105,tz:0,dist:280,yaw:20,pitch:-4,fov:46},'lin'),   // Berserk gạt kunai bằng bản kiếm
+    S(T.c1-0.6,T.c2-0.3,{tx:120,ty:88,tz:0,dist:520,yaw:-18,pitch:3,fov:48},{tx:20,ty:88,tz:0,dist:440,yaw:-16,pitch:3,fov:48},'eio'),        // dồn đòn 1: Ninja lướt vào chém
+    S(T.c2-0.3,T.c3-0.35,{tx:-20,ty:92,tz:0,dist:330,yaw:24,pitch:-6,roll:-4,fov:50},{tx:-30,ty:92,tz:0,dist:310,yaw:26,pitch:-6,roll:-4,fov:50},'lin'),   // dồn đòn 2: góc thấp sau lưng Berserk lệch trái
+    S(T.c3-0.35,T.c3+0.7,{tx:-30,ty:88,tz:0,dist:420,yaw:-6,pitch:2,fov:48},{tx:-10,ty:88,tz:0,dist:400,yaw:-6,pitch:2,fov:48},'lin'),        // dồn đòn 3: nhát chém kết, Berserk bật lùi
+    ...C.pushIn(T.c3+0.7,{d:T.rage-(T.c3+0.7),tx:-150,ty:105,tz:0,dist:300,dist1:240,yaw:22,pitch:-4,fov:44,ox:-0.08}),                      // THỞ: Berserk loạng choạng, thở dốc
+    S(T.rage,T.arc-0.7,{tx:-150,ty:135,tz:0,dist:290,yaw:28,pitch:-28,fov:52},{tx:-150,ty:140,tz:0,dist:250,yaw:30,pitch:-30,fov:52},'lin'),   // góc giun: Berserk NỔI ĐIÊN, lửa đỏ bốc
+    S(T.arc-0.7,T.land+0.25,{tx:60,ty:320,tz:0,dist:1800,yaw:-12,pitch:4,fov:56},{tx:60,ty:340,tz:0,dist:1700,yaw:-10,pitch:4,fov:56}),       // toàn: nhát vòng cung xẻ toà nhà sau lưng, Ninja bật nhảy qua
+    S(T.land+0.25,T.eye,{tx:150,ty:90,tz:0,dist:520,yaw:-14,pitch:2,fov:48},{tx:150,ty:90,tz:0,dist:480,yaw:-14,pitch:2,fov:48},'lin'),       // Ninja đáp, nhà sau lưng đổ, bụi tan
+    S(T.eye,T.wind2,{tx:200,ty:110,tz:0,dist:200,yaw:-30,pitch:0,fov:44}),                                                                   // (cận mắt Mangekyou vẽ ở screen) — kích hoạt TRƯỚC
+    S(T.wind2,T.kam,{tx:60,ty:105,tz:0,dist:560,yaw:-6,pitch:-4,fov:48},{tx:150,ty:100,tz:0,dist:430,yaw:-10,pitch:-4,fov:48},'brake'),      // Berserk lao tới chém → lưỡi kiếm đi XUYÊN qua thân Ninja (xoắn méo)
+    S(T.kam,T.emerge,{tx:90,ty:95,tz:0,dist:560,yaw:12,pitch:2,fov:48},{tx:70,ty:95,tz:0,dist:500,yaw:10,pitch:2,fov:48},'lin'),              // Kamui nuốt Ninja, Berserk ngơ ngác nhìn quanh
+    S(T.emerge,T.stab+0.15,{tx:-60,ty:92,tz:0,dist:360,yaw:-36,pitch:-4,roll:-4,fov:50},{tx:-40,ty:92,tz:0,dist:320,yaw:-38,pitch:-4,roll:-5,fov:50}),   // xoáy mở sau lưng → Ninja chui ra → đâm
+    S(T.stab+0.15,T.turn,{tx:-14,ty:92,tz:0,dist:250,yaw:-18,pitch:-4,fov:50},{tx:-14,ty:92,tz:0,dist:235,yaw:-18,pitch:-4,fov:50},'lin'),   // giữ: lưỡi kiếm xuyên lưng, máu
+    ...C.pushIn(T.turn,{d:T.fr1-0.45-T.turn,tx:10,ty:115,tz:0,dist:330,dist1:250,yaw:16,pitch:-12,fov:46,ox:0.06}),                          // Berserk dưới 30% KHÔNG ngã, quay lại
+    S(T.fr1-0.45,T.gen,{tx:-120,ty:88,tz:0,dist:560,yaw:-4,pitch:2,fov:50},{tx:-300,ty:88,tz:0,dist:540,yaw:-4,pitch:2,fov:50},'lin'),        // 3 nhát chém dồn, Ninja đỡ lùi dần (1 shot ngang, máy trượt theo)
+    S(T.gen,T.read,{tx:-392,ty:118,tz:0,dist:150,yaw:-30,pitch:0,fov:40}),                                                                   // (cận mắt Ninja vẽ ở screen) — chạm mắt: trúng ảo thuật
+    S(T.read,T.cut-0.15,{tx:-236,ty:118,tz:0,dist:95,yaw:22,pitch:-2,fov:40,ox:-0.06},{tx:-236,ty:118,tz:0,dist:85,yaw:22,pitch:-2,fov:40,ox:-0.06},'lin'),   // ĐẶC TẢ mắt Berserk loé đỏ: bắt được góc
+    S(T.cut-0.15,T.cut+0.5,{tx:-380,ty:230,tz:250,dist:900,yaw:-8,pitch:2,fov:56},{tx:-380,ty:240,tz:250,dist:860,yaw:-8,pitch:2,fov:56}),     // toàn: nhát chém xẻ đôi Ninja + toà nhà phía sau
+    S(T.cut+0.5,T.crows,{tx:-400,ty:70,tz:0,dist:320,yaw:-30,pitch:-8,roll:5,fov:50},{tx:-405,ty:62,tz:0,dist:290,yaw:-32,pitch:-8,roll:6,fov:50},'lin'),   // 2 nửa người nằm trên đường — lặng
+    S(T.crows,T.eye2,{tx:-380,ty:180,tz:0,dist:720,yaw:-20,pitch:-14,fov:58},{tx:-380,ty:420,tz:0,dist:640,yaw:-20,pitch:-34,fov:60}),         // 2 nửa hoá BẦY QUẠ bay vút lên trời (máy ngước theo)
+    S(T.eye2,T.howl,{tx:-392,ty:420,tz:0,dist:620,yaw:-10,pitch:-46,fov:64},{tx:-392,ty:440,tz:0,dist:590,yaw:-10,pitch:-48,fov:64},'lin'),   // THẾ GIỚI ẢO THUẬT: trời đỏ, 2 mắt Sharingan, quạ lượn
+    S(T.howl,T.brk-0.25,{tx:-300,ty:135,tz:0,dist:300,yaw:20,pitch:-30,fov:54},{tx:-300,ty:140,tz:0,dist:260,yaw:22,pitch:-32,fov:54},'lin'),   // góc giun: Berserk HÚ lên, hào quang bùng
+    S(T.brk-0.25,T.DUR,{tx:-300,ty:105,tz:0,dist:520,yaw:-14,pitch:0,fov:50}) ]);                                                           // chém vỡ ảo cảnh (máy ĐỨNG YÊN, không nghiêng — mảnh kính dời theo máy này)
 
   // ═════════ KẾT DANG DỞ + CHUYỂN TRẬN (anh biên đạo 11/11) ═════════
   //   Berserk BẮT ĐƯỢC GÓC → chém đứt đôi Ninja cùng 1 toà nhà → 2 nửa rơi xuống thì MẮT SHARINGAN hiện phủ kín bầu trời (dính ẢO THUẬT)
@@ -153,12 +161,11 @@
       g.globalAlpha=k*(0.55+0.45*hash(i*9.9)); g.save(); g.translate(x,y); if(i%2) g.scale(-1,1); g.rotate((hash(i)-0.5)*0.5); crowShape(g,S,Math.abs(Math.sin(t*(7+5*hash(i))+i))); g.restore(); }
     g.restore(); }}); }
 
-  // 🌆 TRẬN KẾ TIẾP (sau lớp kính vỡ): cảnh mở đầu của fin1f2 — cùng thành phố seed 5, cùng chỗ đứng, cùng máy quay shot đầu
-  const CITY2=Fin1City({seed:5});
-  const NEXTCAM={tx:0,ty:160,tz:0,dist:1500,yaw:-56,pitch:-6,fov:52,roll:-2};
-  function drawNext(F,t){ CITY2.draw(F,t,CITY2.TH_NIGHT); const H2=120;
-    K.sprite(F,{img:F.I.fA0,x:430,z:0,h:H2*1.12,life:{breath:0.6,wind:1.1}}); K.sprite(F,{img:F.I.fP0,x:-380,z:-60,h:H2*0.8,life:{breath:0.8}}); K.sprite(F,{img:F.I.fU0,x:-500,z:90,h:H2*0.78,life:{breath:0.7}});
-    K.smoke(F,{x:-380,z:-60,t0:-0.5,n:6,spread:70,rise:10,life:6,size:70,seed:3,a:0.5,tint:'90,70,64'}); K.smoke(F,{x:0,z:300,t0:-0.3,n:12,spread:1700,rise:30,life:3,size:90,seed:1,swirl:0.2,a:0.22,tint:'150,90,80'}); }
+  // 🌉 TRẬN KẾ TIẾP (sau lớp kính vỡ): cảnh mở đầu của fin1f2 — CẦU TREO (cùng tham số Fin1City), Pop + Huh đang đi vào cầu, Bat ngồi trên dầm tháp; cùng máy quay shot đầu fin1f2
+  const CITY2=Fin1City({seed:5, kind:'bridge', towers:[-900,900], towerH:1400, beams:[520,1050]});
+  const NEXTCAM={tx:-560,ty:120,tz:0,dist:950,yaw:-48,pitch:-4,fov:52,roll:-2};
+  function drawNext(F,t){ CITY2.draw(F,t,CITY2.TH_BRIDGE); const H2=120;
+    K.sprite(F,{img:F.I.fA0,x:900,z:0,y:640,h:H2*1.12,life:{breath:0.6,wind:1.1},shadow:false}); K.sprite(F,{img:F.I.fP0,x:-900,z:-60,h:H2*0.8,life:{breath:0.8}}); K.sprite(F,{img:F.I.fU0,x:-1040,z:90,h:H2*0.78,life:{breath:0.7}}); }
   // mảnh kính: lưới tam giác lệch ngẫu nhiên (tỉ lệ khung 0–1), rơi trễ dần theo khoảng cách tới điểm nứt
   const CRACK=[0.46,0.46];
   const SHARDS=(()=>{ const NX=6, NY=4, P=[]; for(let j=0;j<=NY;j++) for(let i=0;i<=NX;i++){ const ed=i===0||j===0||i===NX||j===NY; P.push([i/NX+(ed?0:(hash(i*7+j*13)-0.5)*0.12), j/NY+(ed?0:(hash(i*11+j*3)-0.5)*0.16)]); }
@@ -168,15 +175,15 @@
   const shardPos=(sh,t)=>{ const tau=Math.max(0,t-T.fall-sh.delay); return {dx:sh.vx*tau, dy:0.5*2.4*tau*tau}; };
   let FREEZE=null;
   function panels(t){ if(t<T.fall) return null; if(!FREEZE) FREEZE=Object.assign({},K.camAt(shots,T.fall-1e-4));
-    const out=[{cam:NEXTCAM, clip:[[0,0],[1,0],[1,1],[0,1]], next:true}];
-    for(const sh of SHARDS){ const {dx,dy}=shardPos(sh,t); if(dy>1.25) continue; out.push({cam:Object.assign({},FREEZE,{ox:(FREEZE.ox||0)+dx, oy:(FREEZE.oy||0)+dy, roll:0}), clip:sh.pts.map(([x,y])=>[x+dx,y+dy]), freeze:true}); }
+    const out=[{cam:NEXTCAM, clip:[[0,0],[1,0],[1,1],[0,1]], next:true, theme:CITY2.TH_BRIDGE}];
+    for(const sh of SHARDS){ const {dx,dy}=shardPos(sh,t); if(dy>1.25) continue; out.push({cam:Object.assign({},FREEZE,{ox:(FREEZE.ox||0)+dx, oy:(FREEZE.oy||0)+dy, roll:0}), clip:sh.pts.map(([x,y])=>[x+dx,y+dy]), freeze:true, theme:TH_GENJ}); }
     return out; }
 
   // ───────── HIỆU ỨNG ─────────
   // vệt chém đúng nhịp: vung trong `pre` giây trước mốc chạm → mờ dần sau mốc
   function slashAt(F,t,t0,x,y,o){ const pre=o.pre||0.16, post=o.post||0.22; if(t<t0-pre||t>t0+post) return;
     K.slash(F,x,y,o.z||0,{ang:o.ang||0,R:o.R||140,span:o.span||150,k:seg(t,t0-pre,t0+0.02),a:1-seg(t,t0+0.02,t0+post),col:o.col||'200,225,255',flip:o.flip}); }
-  const CLASHES=[[T.clash,0],[T.sweep,52],[T.fr1,-118],[T.fr2,-198],[T.fr3,-270]];   // kiếm va kiếm: tia lửa + vòng sóng
+  const CLASHES=[[T.clash,0],[T.sweep,44],[T.fr1,-118],[T.fr2,-198],[T.fr3,-270]];   // kiếm va kiếm: tia lửa + vòng sóng
   const HITS=[[T.ripo,-30,'255,120,90'],[T.c1,-30,'255,120,90'],[T.c2,-50,'255,120,90'],[T.c3,-70,'255,120,90'],[T.stab,0,'255,70,60']];
   function world(F,t0){ const pn=F.panel||{}; if(pn.next){ F.t=t0; return drawNext(F,t0); } const t=pn.freeze?T.fall-1e-4:t0; F.t=t;
     const th=theme(t), g0=W.track(NK,hs(t)), b0=W.track(BK,hs(t)), rk=rageK(t);
@@ -197,19 +204,19 @@
     // vệt chém: Ninja = thép xanh trắng (ngắn, nhanh) · Berserk = đỏ đen, to theo cơn điên
     const bR=170*(1+1.3*rk), bC=rk>0.4?'255,70,50':'230,200,190';
     slashAt(F,t,T.clash,0,100,{ang:-20,R:150,col:'210,230,255'}); slashAt(F,t,T.clash,-10,95,{ang:160,R:bR,col:bC,flip:true});
-    slashAt(F,t,T.slam,-40,140,{ang:-95,R:bR*1.15,span:120,col:bC,pre:0.12});
+    slashAt(F,t,T.slam,60,140,{ang:-95,R:bR*1.15,span:120,col:bC,pre:0.12});
     slashAt(F,t,T.ripo,-10,92,{ang:200,R:150,col:'210,230,255',pre:0.12});
-    slashAt(F,t,T.sweep,30,85,{ang:-10,R:bR,col:bC,pre:0.2});
+    slashAt(F,t,T.sweep,40,85,{ang:-10,R:bR,col:bC,pre:0.2});
     slashAt(F,t,T.c1,-20,100,{ang:150,R:130,col:'210,230,255',pre:0.1}); slashAt(F,t,T.c2,-40,80,{ang:20,R:130,col:'210,230,255',pre:0.1,flip:true}); slashAt(F,t,T.c3,-60,95,{ang:250,R:150,col:'210,230,255',pre:0.1});
     slashAt(F,t,T.arc,0,150,{ang:-15,R:900*(1+0.6*rk),span:170,col:'255,60,40',pre:0.24,post:0.45});
     if(t>=T.arc-0.24&&t<T.arc+0.45){ const P=K.proj(F.B,0,150,0); if(P){ const k=seg(t,T.arc-0.24,T.arc+0.02), al=1-seg(t,T.arc+0.02,T.arc+0.45), R=900*(1+0.6*rk)*P.s, a0=-Math.PI*0.62, a1=a0+Math.PI*0.95*k;
       F.list.push({d:P.d-31, fn:()=>{ const g=F.g; g.save(); g.translate(P.x,P.y); g.rotate(-15*Math.PI/180); g.globalAlpha=0.85*al; g.fillStyle='#120406';
         g.beginPath(); g.arc(0,0,R*0.97,Math.max(a0,a1-1.6),a1); g.arc(-R*0.1,0,R*0.86,a1-0.05,Math.max(a0,a1-1.6)+0.05,true); g.closePath(); g.fill(); g.restore(); }}); } }   // lõi đen của nhát chém (kiểu Berserk)
-    slashAt(F,t,T.hit60,120,95,{ang:-12,R:bR,col:bC,pre:0.16});
+    slashAt(F,t,T.hit60,135,95,{ang:-12,R:bR,col:bC,pre:0.16});
     for(const tt of [T.fr1,T.fr2,T.fr3]) slashAt(F,t,tt,b0.x+60,95,{ang:-12+((tt*10|0)%2)*30,R:bR*1.1,col:'255,60,40',pre:0.12});
     // đại kiếm bổ xuống mặt đường: đá vụn + bụi + vòng sóng (KHÔNG vẽ vết nứt đất)
-    if(t>=T.slam&&t<T.slam+1.8){ K.debris(F,{x:-20,y:10,z:0,t0:T.slam,n:30,speed:900,life:1.3,size:26,seed:31,col:'#4a4246'}); K.smoke(F,{x:-20,z:0,t0:T.slam,n:14,spread:420,rise:120,life:1.6,size:120,seed:32,a:0.55,tint:'130,104,96'});
-      if(t<T.slam+0.6){ const u=seg(t,T.slam,T.slam+0.6); K.ring(F,-20,0,40+380*eout(u),12,0.55*(1-u),'240,220,200'); } }
+    if(t>=T.slam&&t<T.slam+1.8){ K.debris(F,{x:120,y:10,z:0,t0:T.slam,n:30,speed:900,life:1.3,size:26,seed:31,col:'#4a4246'}); K.smoke(F,{x:120,z:0,t0:T.slam,n:14,spread:420,rise:120,life:1.6,size:120,seed:32,a:0.55,tint:'130,104,96'});
+      if(t<T.slam+0.6){ const u=seg(t,T.slam,T.slam+0.6); K.ring(F,120,0,40+380*eout(u),12,0.55*(1-u),'240,220,200'); } }
     // 🗡️ kunai: 3 mũi bay ngang → 2 mũi bị gạt văng (tia lửa), 1 mũi sượt qua
     if(t>=T.kun&&t<T.kun+0.6) for(let i=0;i<3;i++){ const t0=T.kun+i*0.06, u=seg(t,t0,t0+0.22); if(t<t0) continue; const x=lerp(320,-30,u), y=92+(i-1)*18, z=(i-1)*20;
       if(u<1) W.line(F,[[x,y,z],[x+46,y+2,z]],4,'#c8ccd6',{glow:'rgba(255,255,255,0.35)'});
@@ -221,8 +228,8 @@
     if(t>=T.arc+0.1&&t<T.arc+3){ K.debris(F,{x:500,y:900,z:1500,t0:T.arc+0.12,n:40,speed:1800,life:2.4,size:90,seed:81,col:'#4d4040'}); K.smoke(F,{x:500,z:1500,t0:T.arc+0.2,n:18,spread:1400,rise:900,life:2.6,size:520,seed:82,a:0.5,tint:'110,80,66'}); }
     // 🌀 KAMUI: nuốt Ninja ở chỗ bị chém (60% / 30%) → mở sau lưng / trên đầu Berserk
     const KS=H*0.375*1.9;   // game: R = size × 1.9, size = BÁN KÍNH meme ≈ 0.375 × chiều cao (bản đầu em nhân nhầm với chiều cao → xoắn to gấp 2.7)
-    W.kamui(F,190,70,0,KS*0.55,seg(t,T.hit60-0.06,T.hit60+0.34),{mode:'phase',angle:3});            // ① xuyên thấu: thân Ninja xoắn méo lúc lưỡi kiếm đi qua
-    W.kamui(F,190,62,0,KS,seg(t,T.kam-0.05,T.kam+0.6),{dir:1});                                        // Kamui hút chính Ninja tại chỗ
+    W.kamui(F,205,70,0,KS*0.55,seg(t,T.hit60-0.06,T.hit60+0.34),{mode:'phase',angle:3});            // ① xuyên thấu: thân Ninja xoắn méo lúc lưỡi kiếm đi qua
+    W.kamui(F,205,62,0,KS,seg(t,T.kam-0.05,T.kam+0.6),{dir:1});                                        // Kamui hút chính Ninja tại chỗ
     W.kamui(F,-150,62,0,KS,seg(t,T.emerge-0.35,T.emerge+0.25),{dir:-1});                               // xoáy ngược chiều nhả Ninja ra sau lưng Berserk
     halves(F,t); crows(F,t); skyEye(F,t);
     // nhát chém chéo xẻ đôi Ninja + toà nhà: vệt đỏ đen khổng lồ + đá vụn từ toà nhà
@@ -257,62 +264,81 @@
         g.strokeStyle='rgba(255,255,255,0.5)'; g.lineWidth=1; g.beginPath(); p.forEach((q,i)=>i?g.lineTo(q[0],q[1]):g.moveTo(q[0],q[1])); g.closePath(); g.stroke();
         g.globalCompositeOperation='lighter'; g.strokeStyle='rgba(255,220,220,0.35)'; g.lineWidth=4; g.beginPath(); g.moveTo(p[0][0],p[0][1]); g.lineTo(p[1][0],p[1][1]); g.stroke(); g.globalCompositeOperation='source-over'; }
       g.restore(); } }
-  const SMEAR=[[T.dash+0.2,1],[T.ripo-0.12,-1],[T.c1+0.08,1],[T.c2+0.08,-1],[T.fr2-0.12,-1],[T.fr3-0.12,1]];
+  const SMEAR=[[T.ripo-0.04,-1],[T.hit60-0.04,1],[T.stab-0.04,-1]];   // khung nhoè CHỈ ở 3 cú lướt chính (bản cũ 6 cái)
+  // 🎵 NHẠC NỀN LIỀN + LẶNG TRƯỚC ĐÒN LỚN (jjk-todo-hanami / gojo-toji: dải lặng 0.3–0.7s ngay trước cú quyết định rồi tiếng va bật lên)
+  const MUS='assets/audio/dp_akatsuki.mp3', ML=8.3, mseg=(ra,rb,o)=>Object.assign({src:MUS,ra,rb,off:ra%ML,vol:0.55,loop:true,fi:0.05,fo:0.3},o||{});
 
   CineKit.film({ id:'fin1f3', title:'Final 1 · Fight · Ninja Cat vs Berserk Cat', DUR:T.DUR, VW:960, VH:540, fadeIn:false, fadeOut:false,   /* 11/11: nằm giữa tập full (vào từ cảnh nối fin1c5, ra qua kính vỡ) */
     imgs:IMG, cast:['ninja','nj','bk'],
+    // 🔊 TIẾNG (12/11 làm lại): mỗi vũ khí 1 GIỌNG cố định — Kusanagi = se_katana_* · đại kiếm = se_big_slash (vung, đỉnh 0.6s → đặt sớm 0.6s) · kiếm va kiếm = se_sword_clash;
+    //   cú nặng thêm LỚP trầm '+' (kn_boom_low / kn_punch_heavy); động tác phụ (bước, xoay người) KHÔNG có tiếng → ≤ 9 tiếng / 10s
     sfx:[[0.1,'l2p_rumble',0.45,null,'toàn cảnh đại lộ đổ nát, gió bụi'],
-      [T.face1+0.1,'l2p_sub',0.4,null,'đối mặt: cận Berserk, nền trầm rung'],
-      [T.face2+0.35,'ep3_shine',0.5,null,'đối mặt: Ninja nắm chuôi Kusanagi, lưỡi kiếm loé'],
-      [T.dash,'ep3_whoosh',0.8,null,'2 bên lấy đà lao vào nhau'],
-      [T.clash,'bk_clang',1,null,'2 lưỡi kiếm va nhau giữa đường, khựng'],
-      [T.wind,'l2p_whoosh',0.5,null,'Berserk nâng đại kiếm qua đầu lấy đà'],
-      [T.slam,'cine_deep_impact',0.9,null,'đại kiếm bổ xuống mặt đường, Ninja bước né'],
-      [T.ripo-0.06,'ninja_slash',0.9,null,'Ninja phản đòn chém trúng Berserk'],
-      [T.sweep,'se_impact_stop',0.95,null,'Ninja đỡ cú quét ngang, kiếm va kiếm, trượt lùi'],
+      [0.8,'se_gogogo',0.32,5.2,'đối mặt: sức ép đè nặng giữa 2 người (gogogo), tắt trước khi lao'],
+      [T.face2+0.4,'ep3_shine',0.5,null,'đối mặt: Ninja nắm chuôi Kusanagi, lưỡi kiếm loé'],
+      [T.dash-0.05,'se_step_in',0.9,null,'2 bên đạp đất lao vào nhau'],
+      [T.clash,'se_sword_clash',1,null,'2 lưỡi kiếm va nhau giữa đường, khựng'],
+      [T.clash+0.01,'kn_boom_low',0.55,null,'+ lớp trầm: sóng xung kích bùng ra từ cú va kiếm'],
+      [T.lock+0.4,'se_pushback',0.7,null,'bật ra, 2 bên trượt lùi trên mặt đường'],
+      [T.slam-0.6,'se_big_slash',0.85,null,'Berserk bổ đại kiếm xuống (đỉnh tiếng đúng lúc chạm đất)'],
+      [T.slam,'se_rock_break',0.9,null,'đại kiếm đập vỡ mặt đường chỗ Ninja vừa đứng'],
+      [T.slam+0.01,'kn_boom_low',0.5,null,'+ lớp trầm: mặt đường bùng bụi dưới cú bổ'],
+      [T.ripo,'se_katana_b',1,null,'Ninja chém trúng sườn Berserk'],
+      [T.sweep-0.6,'se_big_slash',0.8,null,'Berserk quét ngang đại kiếm'],
+      [T.sweep,'se_sword_clash',0.9,null,'Ninja đỡ cú quét, kiếm va kiếm'],
+      [T.sweep+0.2,'se_pushback',0.75,null,'Ninja bị đẩy trượt dài trên đường'],
       [T.kun,'ninja_kunai',0.8,null,'Ninja ném 3 kunai'],
-      [T.kun+0.24,'se_slash',0.5,null,'Berserk gạt kunai văng bằng bản kiếm'],
-      [T.c1,'se_slash',0.7,null,'combo: Ninja chém trúng nhát 1'],[T.c2,'hit_mid',0.7,null,'combo: chém trúng nhát 2'],[T.c3,'se_whoosh_fast',0.8,null,'combo: chém trúng nhát 3, Berserk lùi'],
+      [T.kun+0.42,'ep3_klunk',0.55,null,'Berserk gạt kunai văng bằng bản kiếm'],
+      [T.c1-0.02,'se_katana_a',0.85,null,'dồn đòn: Ninja chém trúng nhát 1'],
+      [T.c2-0.02,'se_katana_a',0.85,null,'dồn đòn: chém trúng nhát 2'],
+      [T.c3-0.02,'se_slash',1,null,'nhát chém kết trúng, Berserk bật lùi'],
+      [T.c3,'kn_punch_heavy',0.5,null,'+ lớp thịt cú chém kết'],
       [T.rage,'cine_haki',0.8,null,'Berserk nổi điên: lửa đỏ bốc lên, kiếm vung xa hơn'],
-      [T.arc-0.12,'l2p_whoosh',0.8,null,'Berserk chém vòng cung khổng lồ'],
-      [T.arc+0.14,'cine_heavy_slow',0.9,null,'nhát chém xẻ toà nhà phía sau, nhà đổ'],
-      [T.hit60,'ep3_whoosh',0.7,null,'đại kiếm đi xuyên qua người Ninja'],
+      [T.arc-0.6,'se_big_slash',1,null,'Berserk chém vòng cung khổng lồ'],
+      [T.arc+0.14,'se_wall_break',0.9,null,'nhát chém xẻ toà nhà phía sau, đá vỡ'],
+      [T.arc+0.7,'se_collapse',0.7,null,'toà nhà bị xẻ đổ sập, mảng tường rơi xuống'],
       [T.eye,'nj_sharingan',1,null,'cận mắt Mangekyou Sharingan loé, Kamui kích hoạt'],
-      [T.gen,'l2p_chime',0.7,null,'Ninja nhìn thẳng mắt Berserk, Sharingan loé (dính ảo thuật)'],
+      [T.wind2,'se_machdash',0.7,null,'Berserk lao tới vung kiếm'],
+      [T.hit60-0.1,'ep3_whoosh',0.7,null,'đại kiếm đi xuyên qua người Ninja như không có gì'],
       [T.kam,'ep3_kamui',0.9,null,'xoáy Kamui nuốt Ninja'],
       [T.emerge-0.3,'ninja_sub',0.6,null,'xoáy mở sau lưng Berserk, Ninja chui ra'],
       [T.stab,'cine_impact',1,null,'Ninja đâm xuyên lưng Berserk, trúng 150'],
+      [T.stab+0.01,'se_katana_b',0.7,null,'+ lớp lưỡi kiếm xuyên thịt'],
       [T.turn,'l2p_riser',0.6,null,'Berserk dưới 30% không ngã, quay lại, lửa bùng'],
-      [T.fr1,'ep3_klunk',0.85,null,'Berserk chém dồn nhát 1, Ninja đỡ, kiếm va kiếm'],[T.fr2,'l2p_whoosh',0.6,null,'chém dồn nhát 2, Ninja lùi né'],[T.fr3,'ep3_whoosh',0.6,null,'chém dồn nhát 3, Ninja lùi né'],
+      [T.fr1,'se_sword_clash',0.85,null,'Berserk chém dồn nhát 1, Ninja đỡ, kiếm va kiếm'],
+      [T.fr2,'se_sword_clash',0.8,null,'chém dồn nhát 2, Ninja đỡ lùi'],
+      [T.fr3,'se_sword_clash',0.95,null,'chém dồn nhát 3, Ninja đỡ, lùi sát'],
+      [T.gen,'l2p_chime',0.7,null,'Ninja nhìn thẳng mắt Berserk, Sharingan loé (dính ảo thuật)'],
       [T.read,'ep3_shine',0.5,null,'đặc tả mắt Berserk loé đỏ, bắt được góc chém'],
-      [T.cut-0.22,'se_whoosh_fast',0.75,null,'Berserk vung đại kiếm chém chéo'],
-      [T.cut,'se_super_hit',1,null,'đại kiếm trúng Ninja, chém đứt đôi người cùng toà nhà phía sau'],
-      [T.cut+0.22,'cine_heavy_slow',0.8,null,'toà nhà bị xẻ đôi đổ sập'],
-      [T.eye2,'l2p_shimmer',0.8,null,'mắt Sharingan khổng lồ hiện phủ kín bầu trời (ảo thuật)'],
+      [T.cut-0.6,'se_big_slash',1,null,'Berserk vung đại kiếm chém chéo'],
+      [T.cut,'se_super_hit',1,null,'đại kiếm chém trúng Ninja, đứt đôi người cùng toà nhà phía sau'],
+      [T.cut+0.3,'cine_heavy_slow',0.8,null,'+ toà nhà bị xẻ đôi đổ sập (cùng nhát chém)'],
       [T.crows,'fin_crow_fly',1,null,'2 nửa người hoá bầy quạ vỗ cánh bay tán loạn'],
-      [T.crows+0.25,'fin_crow_caw',0.8,null,'quạ kêu giữa bầy quạ bay'],
+      [T.crows+0.4,'fin_crow_caw',0.8,null,'+ quạ kêu giữa bầy quạ bay'],
+      [T.eye2,'l2p_shimmer',0.8,null,'mắt Sharingan khổng lồ hiện phủ kín bầu trời (ảo thuật)'],
       [T.howl,'bk_howl',1,null,'Berserk gầm thét hú lên, hào quang bùng nổ'],
       [T.brk,'se_glass',1,null,'nhát chém làm ảo cảnh nứt toác như mặt kính'],
       [T.fall,'l2p_shatter',0.9,null,'ảo cảnh vỡ tan thành mảnh kính rơi, lộ ra trận khác']],
-    mus:[{src:'assets/audio/dp_akatsuki.mp3',ra:0,rb:T.DUR,vol:0.55,loop:true,fi:0.6,fo:1.5}],
+    // nhạc tắt ở: khoảnh khắc tĩnh trước lần lao đầu, 0.4s trước cú đâm Kamui, 0.5s trước nhát chém đứt đôi
+    mus:[mseg(0,T.stand+0.25,{fi:0.6,fo:0.5}), mseg(T.clash,T.stab-0.4), mseg(T.stab,T.cut-0.5), mseg(T.cut,T.DUR,{fo:1.5})],
     theme:t=>theme(t), shots,
-    impact:C.negFrames([T.ripo,T.sweep,T.c1,T.c2,T.c3,T.fr1,T.slam,T.brk],0.07,'inv',[T.clash,T.stab,T.cut]),
+    // chớp âm bản CHỈ 3 cú quyết định (bản cũ 11 lần / 22s → đau mắt)
+    impact:C.negFrames([],0.07,'inv',[T.clash,T.stab,T.cut]),
     shake:t=>{ let s=0; const h=(a,amp,d)=>{ if(t>=a&&t<a+d) s=Math.max(s,amp*(1-(t-a)/d)); };
-      h(T.clash,14,0.45); h(T.slam,16,0.5); h(T.ripo,7,0.3); h(T.sweep,9,0.35); h(T.c1,5,0.2); h(T.c2,5,0.2); h(T.c3,8,0.3); h(T.arc+0.12,22,1.2); h(T.stab,14,0.5); h(T.fr1,8,0.3); h(T.cut,20,0.7); h(T.brk,12,0.4); if(t>=T.howl&&t<T.brk) s=Math.max(s,5+4*seg(t,T.howl,T.howl+0.5)); if(t>=T.fall) s=0;
-      if(t>=T.rage&&t<T.arc) s=Math.max(s,2+3*seg(t,T.rage,T.arc)); return s; },
-    world, panels, post(F,t){ const fx={shocks:[]}; if(t>=T.fall) return fx; const sh=(a,x,y,rm,d,str)=>{ if(t>=a&&t<a+d){ const u=(t-a)/d; fx.shocks.push({x,y,z:0,r:20+rm*eout(u),w:26,str:str*(1-u)}); fx.chroma=Math.max(fx.chroma||0,2*(1-u)); } };
-      sh(T.clash,0,95,420,0.5,30); sh(T.slam,-20,20,520,0.6,28); sh(T.sweep,52,90,300,0.4,20); sh(T.stab,0,90,420,0.5,32); sh(T.cut,-392,90,520,0.6,34); sh(T.howl,-300,90,700,1.0,30); sh(T.arc+0.1,300,300,900,0.8,30);
-      if(t>=T.rage&&t<T.arc){ fx.chroma=Math.max(fx.chroma||0,1); } return fx; },
+      h(T.clash,12,0.5); h(T.slam,14,0.6); h(T.ripo,5,0.3); h(T.sweep,7,0.4); h(T.c3,6,0.3); h(T.arc+0.12,18,1.4); h(T.stab,12,0.5); h(T.fr1,5,0.3); h(T.fr2,5,0.3); h(T.fr3,6,0.3); h(T.cut,18,0.8); h(T.brk,10,0.4);
+      if(t>=T.howl&&t<T.brk) s=Math.max(s,4+3*seg(t,T.howl,T.howl+0.5)); if(t>=T.fall) s=0;
+      if(t>=T.rage&&t<T.arc) s=Math.max(s,1.5+2*seg(t,T.rage,T.arc)); return s; },
+    world, panels, post(F,t){ const fx={shocks:[]}; if(t>=T.fall) return fx; const sh=(a,x,y,rm,d,str)=>{ if(t>=a&&t<a+d){ const u=(t-a)/d; fx.shocks.push({x,y,z:0,r:20+rm*eout(u),w:26,str:str*(1-u)}); fx.chroma=Math.max(fx.chroma||0,1.5*(1-u)); } };
+      sh(T.clash,0,95,420,0.6,26); sh(T.slam,120,20,520,0.7,24); sh(T.stab,0,90,420,0.6,28); sh(T.cut,-392,90,520,0.7,30); sh(T.howl,-300,90,700,1.0,26); sh(T.arc+0.1,300,300,900,0.9,26);
+      if(t>=T.rage&&t<T.arc){ fx.chroma=Math.max(fx.chroma||0,0.8); } return fx; },
     screen(F,t){ const g=F.g, VW=F.VW, VH=F.VH; F.t=t;
       eyeFX(F,t); endFX(F,t); if(C) C.wipeBlob(F,t,T.eye2-0.1,0.2,'#a00000');
-      if(t>=T.dash&&t<T.clash) K.panLines(F,{k:0.9,ang:0,n:30});
-      for(const [a,b] of [[T.ripo-0.12,T.ripo],[T.c1-0.1,T.c1],[T.c2-0.1,T.c2],[T.c3-0.1,T.c3],[T.fr1-0.12,T.fr1],[T.fr2-0.12,T.fr2],[T.fr3-0.12,T.fr3]]) if(t>=a&&t<b) K.panLines(F,{k:0.8,ang:0,n:26});
-      if(t>=T.rage&&t<T.arc-0.32) K.speedLines(F,{k:0.45,n:60,r0:0.42,col:'rgba(255,80,60,0.6)'});
-      if(t>=T.howl&&t<T.brk-0.15) K.speedLines(F,{k:0.5,n:70,r0:0.4,col:'rgba(255,70,50,0.6)'});
-      for(const [c,dir] of SMEAR) if(Math.abs(t-c)<0.05) W.smearFrame(F,dir*0.06);
-      if(t>=T.stab&&t<T.stab+0.05) K.flash(F,0.5,'#ffd0c8'); if(t>=T.cut&&t<T.cut+0.06) K.flash(F,0.5,'#ffd0c8');
-      if(t>=T.arc+0.1&&t<T.arc+0.2) K.flash(F,0.45,'#ff8a70');
-      K.sfxText(F,'CLANG!',VW*0.52,VH*0.3,{t0:T.clash,life:0.5,px:82,rot:-7});
+      if(t>=T.dash+0.2&&t<T.clash) K.panLines(F,{k:0.6,ang:0,n:22});   // vệt tốc độ CHỈ lúc 2 bên lao vào nhau và lúc Berserk lao chém xuyên
+      if(t>=T.wind2+0.3&&t<T.hit60) K.panLines(F,{k:0.5,ang:0,n:20});
+      if(t>=T.rage&&t<T.arc-0.7) K.speedLines(F,{k:0.35,n:50,r0:0.45,col:'rgba(255,80,60,0.5)'});
+      if(t>=T.howl&&t<T.brk-0.25) K.speedLines(F,{k:0.45,n:60,r0:0.42,col:'rgba(255,70,50,0.55)'});
+      for(const [c,dir] of SMEAR) if(Math.abs(t-c)<0.04) W.smearFrame(F,dir*0.05);
+      if(t>=T.stab&&t<T.stab+0.05) K.flash(F,0.35,'#ffd0c8'); if(t>=T.cut&&t<T.cut+0.06) K.flash(F,0.4,'#ffd0c8');
+      K.sfxText(F,'CLANG!',VW*0.52,VH*0.3,{t0:T.clash,life:0.7,px:82,rot:-7});
       K.letterbox(F,t<T.face1?1:0);
       K.vignette(F,0.5); } });
 })();

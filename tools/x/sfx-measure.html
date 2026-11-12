@@ -1,0 +1,32 @@
+<!doctype html><meta charset="utf-8"><title>sfx-measure</title>
+<!-- 📏 ĐO ĐỘ TO TIẾNG trong trình duyệt (Windows không có python / ffmpeg): giải mã mp3/ogg/wav bằng WebAudio → LUFS (BS.1770, cùng công thức
+     tools/x/sonniss-index.js) + đỉnh dBFS + độ dài + lặng đầu + giây đỉnh. Mở qua serve.js:
+       tools/x/sfx-measure.html?keys=se_kick,se_aura      (đọc assets/audio/<key>.mp3)
+     → window.__done = 'OK …' và window.__out = các dòng SND_LUFS dán thẳng vào js/game.js. Chạy ngầm bằng cdp.js (steps: waitfor window.__done / eval window.__out). -->
+<pre id="o">…</pre>
+<script>
+function biquad(x,b,a){ const y=new Float64Array(x.length); let x1=0,x2=0,y1=0,y2=0; for(let n=0;n<x.length;n++){ const v=b[0]*x[n]+b[1]*x1+b[2]*x2-a[1]*y1-a[2]*y2; x2=x1; x1=x[n]; y2=y1; y1=v; y[n]=v; } return y; }
+function lufs(x,fs){
+  let G=3.999843853973347,Q=0.7071752369554196,fc=1681.974450955533,K=Math.tan(Math.PI*fc/fs),Vh=Math.pow(10,G/20),Vb=Math.pow(Vh,0.4996667741545416);
+  let a0=1+K/Q+K*K; const b1=[(Vh+Vb*K/Q+K*K)/a0,2*(K*K-Vh)/a0,(Vh-Vb*K/Q+K*K)/a0], a1=[1,2*(K*K-1)/a0,(1-K/Q+K*K)/a0];
+  Q=0.5003270373238773; fc=38.13547087602444; K=Math.tan(Math.PI*fc/fs);
+  const b2=[1,-2,1], a2=[1,2*(K*K-1)/(1+K/Q+K*K),(1-K/Q+K*K)/(1+K/Q+K*K)];
+  const y=biquad(biquad(x,b1,a1),b2,a2), bl=Math.round(0.4*fs), hop=Math.round(0.1*fs), z=[];
+  for(let s=0;s+bl<=y.length;s+=hop){ let m=0; for(let k=s;k<s+bl;k++) m+=y[k]*y[k]; z.push(m/bl); }
+  if(!z.length){ let m=0; for(const v of y) m+=v*v; z.push(m/y.length); }
+  const L=v=>-0.691+10*Math.log10(v); let g=z.filter(v=>L(v)>-70); const rel=L(g.reduce((p,v)=>p+v,0)/g.length)-10; g=g.filter(v=>L(v)>rel);
+  return L(g.reduce((p,v)=>p+v,0)/g.length);
+}
+(async()=>{
+  const q=new URLSearchParams(location.search), keys=(q.get('keys')||'').split(',').filter(Boolean), ac=new OfflineAudioContext(1,44100,44100), out=[], info=[];
+  for(const k of keys){
+    try{ const ab=await ac.decodeAudioData(await (await fetch('/assets/audio/'+k+(/\.\w+$/.test(k)?'':'.mp3'))).arrayBuffer()), sr=ab.sampleRate, N=ab.length, x=new Float32Array(N);
+      for(let c=0;c<ab.numberOfChannels;c++){ const d=ab.getChannelData(c); for(let i=0;i<N;i++) x[i]+=d[i]/ab.numberOfChannels; }
+      let pk=0,pi=0,lead=-1; for(let i=0;i<N;i++){ const a=Math.abs(x[i]); if(a>pk){pk=a;pi=i;} if(lead<0&&a>0.0056) lead=i; }   // lặng đầu: dưới -45 dBFS
+      const L=lufs(x,sr); out.push(`${k}:[${L.toFixed(1)},${(20*Math.log10(pk)).toFixed(1)}]`);
+      info.push(`${k.padEnd(16)} dài ${(N/sr).toFixed(2)}s · lặng đầu ${(Math.max(0,lead)/sr).toFixed(2)}s · đỉnh ở ${(pi/sr).toFixed(2)}s · LUFS ${L.toFixed(1)} · đỉnh ${(20*Math.log10(pk)).toFixed(1)} dBFS`);
+    }catch(e){ info.push(k+' LỖI '+e.message); }
+  }
+  window.__out=out.join(', ')+'\n'+info.join('\n'); document.getElementById('o').textContent=window.__out; window.__done='OK '+out.length+'/'+keys.length;
+})();
+</script>
