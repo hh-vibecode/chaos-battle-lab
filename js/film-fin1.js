@@ -13,7 +13,7 @@
   // 🎬 (9/11 nâng cấp theo meme-anime-lab/playbook — kaiju-a, kaiju-b, fight-1): glimpse = ngước lên thấy trời tối + mép bóng khổng lồ (báo trước) ·
   //    reveal = BỘ BA lộ diện quái: cực cận lướt mặt Friend (mắt bật sáng) → roar: góc giun ĐỨNG YÊN đọc tỉ lệ → react: cận Banana Cat ngước khóc → title ·
   //    d2a = dân chạy TIỀN CẢNH 0.5s · d5b = nổ góc chim → GÓC GIUN · d6 = TĨNH TRƯỚC PHÁ 0.4s · d7 = HẬU QUẢ đứng yên
-  const T={ street:0, stand:7, shadow:11, glimpse:12.9, cry:14, splat:15.7, reveal:16.5, roar:18.4, react:20.6, title:21.0, glass:21.0, d1:22.5, d2a:24.5, d2:25.0, d3:26.3, d4:28, d5:30, d5b:31.0, d6:32, d7:34, roof:37, line:46.6, booms:61.8, group:65.0, akaT:65.4, DUR:75.4 };   // 10/11: nóc nhà dài thêm 6.2s cho thoại đúng tốc độ nói
+  const T={ street:0, stand:7, shadow:11, glimpse:12.9, cry:14, splat:15.7, reveal:16.5, roar:18.4, react:20.6, title:21.0, glass:21.0, d1:22.5, d2a:24.5, d2:25.0, d3:26.3, d4:28, d5:30, d5b:31.0, d6:32, d7:34, roof:37, line:46.6, booms:61.8, group:65.0, akaT:65.4, DUR:66.4 };   // 12/11 anh dặn: từ lúc hiện ảnh cả nhóm tới lúc nhìn lên trời (cảnh nối) chỉ ~2s → ảnh nhóm + logo giữ 1.4s (trước 10.4s)   // 10/11: nóc nhà dài thêm 6.2s cho thoại đúng tốc độ nói
   const FXr=()=>window.CineKitFx;   // hiệu ứng manga (js/vfx-manga.js) — gọi trong cảnh sau cam(): toạ độ thế giới của cảnh
   const DUR=T.DUR;
   let IM={}, SCv=1, TT=0;
@@ -804,7 +804,7 @@
     {src:A+'fin_crowd.mp3', ra:T.d1+0.6, rb:T.d7+1, vol:0.45, loop:true, fi:0.5, fo:1},           // đám đông la hét
     {src:A+'fin_collapse.mp3', ra:T.d6+0.6, rb:T.d7+1.5, vol:0.6, fo:0.8},                        // toà nhà sập
     {src:A+'cine_epic.mp3', ra:T.d1, rb:T.roof, vol:0.6, loop:true, fi:0.3, fo:1.0},   // file 12.1s < 14.5s cảnh phá → lặp (10/11)
-    {src:A+'dp_akatsuki.mp3', ra:T.roof, rb:DUR, vol:0.75, loop:true, fi:1.2, fo:1.5} ];   // file 8.3s < 32s cảnh nóc nhà → lặp, không tắt giữa chừng (anh chê 10/11)                     // theme Akatsuki: 5 bóng lộ diện
+    {src:A+'dp_akatsuki.mp3', ra:T.roof, rb:DUR, vol:0.75, loop:true, fi:1.2, fo:0.6} ];   // file 8.3s < 32s cảnh nóc nhà → lặp, không tắt giữa chừng (anh chê 10/11)                     // theme Akatsuki: 5 bóng lộ diện
 
   // 🧩 (9/11/2026) Tập chia CẢNH: MAIN là bản vẽ cả tập theo giây gốc; mỗi cảnh = 1 phim con cắt 1 khoảng giây của MAIN (fin1c1, fin1c2, fin1c3),
   //    tập 'fin1' = K.seq nối các cảnh + nhạc nền theo giây cả tập. Cảnh MỚI (Gojo vs Pain…) viết file riêng rồi thêm id vào FIN1_PARTS.
@@ -843,7 +843,7 @@
     ['fin1c3','Final 1 · Cảnh 3 · Nóc nhà Meowkatsuki', T.roof, T.DUR, ['pose','dp','aChud','aBat','aNinja','aMlem']]];
   const pick=keys=>keys?Object.fromEntries(keys.map(k=>[k,MAIN.imgs[k]])):MAIN.imgs;
   CUTS.forEach(([id,title,a,b,keys],i)=>CineKit.film({ id, title, VW, VH, cast:['cry','fr','dp'],   // tiền tố tiếng của nhân vật có mặt (Banana Cat, Friend, Depressed) — sfx-lint
-    DUR:b-a, imgs:pick(keys), fadeIn:i===0, fadeOut:i===CUTS.length-1,
+    DUR:b-a, imgs:pick(keys), fadeIn:i===0, fadeOut:false,   /* 12/11: cảnh nóc nhà cắt thẳng sang cảnh nối (không mờ đen ăn mất ảnh nhóm) */
     sfx:MAIN.sfx.filter(s=>s[0]>=a&&s[0]<b).map(s=>[s[0]-a,...s.slice(1)]),
     mus:MAIN.mus.filter(m=>m.rb>a&&m.ra<b).map(m=>({...m, ra:Math.max(0,m.ra-a), rb:Math.min(b,m.rb)-a, off:(m.off||0)+Math.max(0,a-m.ra), fi:m.ra>=a?m.fi:0, fo:m.rb<=b?m.fo:0})),   // chỉ dùng khi xem LẺ cảnh
     shots:[{t0:0,t1:b-a,a:{}}],

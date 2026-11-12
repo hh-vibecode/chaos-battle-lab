@@ -77,6 +77,13 @@ Mẫu đã duyệt:
 - `tools/x/film-lint.js` + `sfx-lint.js` đã soát đúng các luật này (đổi 12/11) → phải SẠCH trước khi báo anh. Đo LUFS tiếng mới trên Windows: `tools/x/sfx-measure.html`.
 - ĐỪNG DÙNG MÃI 1 CÔNG THỨC: mỗi trận 1 cấu trúc + chữ ký riêng theo kiểu nhân vật (đấu kiếm · bẫy / trí tuệ · sức mạnh thô · tầm xa · xích vs tay bo…).
 - Video mẫu dài: KHÔNG tự dò cả video tốn token → hỏi anh mốc phút trước.
+- ⚠️ (12/11 tối, anh xem bản giãn nhịp): "giờ lại LÊ THÊ quá" — giãn ĐỀU cả trận cũng sai. Phải có NHANH – CHẬM ĐAN XEN tuỳ lúc:
+  pha bùng nổ thì cực nhanh (đòn 2–3 khung, lướt nhoè, vài góc 0.15–0.4s nối nhau trong 1 tràng ngắn), ngay sau đó KHỰNG / giữ / thở; đoạn căng thì chậm.
+  Số TB của bản gốc (1.3–1.8s/shot) là kết quả của sự đan xen đó, KHÔNG phải mọi shot đều dài. Đừng giãn đồng đều bằng hệ số.
+- ⚠️ ĐIỂM YẾU NHẤT (anh chỉ ra 12/11): THIẾU ĐA GÓC NHÂN VẬT. Cảnh dài muốn đa dạng, hợp lý thì phải VẼ RẤT NHIỀU SPRITE SHEET mỗi nhân vật
+  (nhiều góc: chính diện / nghiêng / 3/4 / sau lưng / từ trên / từ dưới; nhiều động tác: chạy, lao, đỡ, trúng đòn, ngã, bật dậy, ra chiêu…) bằng GPT (skill ve-anh-gpt,
+  sprite sheet lưới đều cùng cỡ, cùng đường chân). Đừng dựng cả trận chỉ với 4–5 ảnh tĩnh trượt qua lại.
+- ⚠️ XÍCH (trận Chud vs Doge) "lỗi tùm lum, trông không có lực": soát từng khung chỗ xích gắn tay / quấn người / căng / đứt trước khi báo xong.
 
 ## Phim (Meme Cinema) — TỈ LỆ là quan trọng nhất
 - Giữ tỉ lệ nhất quán giữa vật thể khổng lồ và meme nhỏ ở MỌI góc máy: meme thường ~100–170, Gigachad khổng lồ ~1000, quỷ khổng lồ rộng ~2000, bom vĩ thú đường kính ~860 (đơn vị thế giới trong js/cine-war.js).
