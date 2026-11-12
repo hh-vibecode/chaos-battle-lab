@@ -22534,8 +22534,10 @@ class Fighter {
     if(this.type==='lebronsunshine' && _lbDamage(this,dmg,isBurn,isDot)) return;   // ☀️ 0 máu → mặt trời 3 vạch
     if(_fkDoomedFoe(this)) return;   // 🔫 Catler đã rút súng = Catler THUA (anh dặn 10/11): phe kia không còn chết vì lửa / khí độc / đòn nào nữa
     if(this.type==='breadcat' && this._bc && (this._bc.fused || (this._bc.px && this._bc.t>=BC_SPIN_T))) return;   // 🍞 đã vào trạng thái PHÁ HUỶ (xoay đủ 5s) / thành ổ bánh mì: không nhận dame, không hiện số dame (anh dặn 5/11)
-    if(this.type==='breadcat' && this._bc && this._bc.px && !isDot && !isBurn && dmg>0 && this._bc.t<BC_SPIN_T && !this._bc.fused){   /* xoay đủ 5s rồi thì không ngắt được nữa */   // 🍞 đang xoay: dính 3 đòn là gãy nghịch lý
-      this._bc.hits=(this._bc.hits||0)+1; if(this._bc.hits>=BC_BREAK_HITS) _bcBreak(this); }
+    if(this.type==='breadcat' && this._bc && this._bc.px && dmg>0 && this._bc.t<BC_SPIN_T && !this._bc.fused){   /* xoay đủ 5s rồi thì không ngắt được nữa */   // 🍞 đang xoay: dính 3 đòn là gãy nghịch lý
+      // dame LIÊN TỤC (cháy/độc/trọng lực Supreme/hố đen The Void…) giờ cũng tính: mỗi nguồn tối đa 1 đòn / 1s (anh dặn 12/11 "nhận dame 3 lần là mất" — trước DOT không tính → 4 thần thua Bread 8/8)
+      let _cnt=true; if(isDot||isBurn){ const _src=(typeof _duoResolveAttacker==='function'?_duoResolveAttacker(attacker):attacker)||'dot', M=this._bc.dotT||(this._bc.dotT=new Map()); if(tick-(M.get(_src)??-999)<60) _cnt=false; else M.set(_src,tick); }
+      if(_cnt){ this._bc.hits=(this._bc.hits||0)+1; if(this._bc.hits>=BC_BREAK_HITS) _bcBreak(this); } }
     if(_sdGone(this)) return;   // 🌑 Sus Dog đang ở trong bóng tối (rời sàn): không dính đòn nào
     // ⚔️ JONINN CHEEMS ĐỠ ĐÒN không phải đạn bay (cận chiến, AOE, tia...): cùng luật gạt — 30% / đang trong 1s đỡ liên tục, hết 1s nghỉ 4s.
     //    Đỡ được thì KHÔNG mất máu nhưng cũng KHÔNG phản lại. Cháy/độc (DOT) không đỡ; đạn đã tung xúc xắc lúc va chạm thì bỏ qua.
