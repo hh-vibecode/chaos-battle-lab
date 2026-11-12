@@ -47,6 +47,12 @@
     g.save(); g.textAlign='center'; g.textBaseline='middle'; g.globalAlpha=al; g.font='800 12px "Segoe UI",Arial,sans-serif'; g.letterSpacing='4px'; g.fillStyle='rgb(190,150,255)'; g.shadowColor='rgba(190,150,255,0.9)'; g.shadowBlur=10; g.fillText('DEPRESSED CAT',VW/2,VH-78);
     g.shadowBlur=0; g.letterSpacing='1px'; g.font='italic 600 21px Georgia,"Times New Roman",serif'; const ws=line.split(' '), n=Math.min(ws.length,Math.floor(Math.max(0,t-a)/0.12)+1); g.fillStyle='#f4ecff'; g.fillText(ws.slice(0,n).join(' '),VW/2,VH-52); g.restore(); }
   const PILS=[[13.65,150,'255,214,90',7],[13.85,800,'255,255,255',6],[14.0,300,'235,90,160',6],[14.15,670,'200,205,215',6],[14.3,90,'235,40,40',7],[14.55,480,'190,110,255',13]];   // Doge vàng · Clapping trắng · Huh hồng · Pop bạc · Berserk đỏ · Gojo TÍM cao nhất
+  // 5 thành viên trên ẢNH NHÓM (FIN_AKA_POSE vẽ ở 480,560 cao 500): toạ độ thân / mắt, màu khí riêng, hướng bật đi, cột đích (x) ở toàn cảnh cuối
+  const AKA5=[{n:'chud',x:166,y:355,eye:[160,235],col:'255,110,40',dir:[-0.55,-0.83],w:16,to:150,k0:0.05},{n:'bat',x:279,y:393,eye:[288,321],col:'150,190,255',dir:[-0.92,-0.4],w:14,to:300,k0:0.12},
+    {n:'dp',x:472,y:275,eye:[476,138],col:'190,110,255',dir:[0.08,-1],w:22,to:480,k0:0},{n:'mlem',x:682,y:382,eye:[684,350],col:'120,230,255',dir:[0.93,-0.36],w:13,to:800,k0:0.18},{n:'ninja',x:816,y:328,eye:[822,226],col:'255,40,40',dir:[0.6,-0.8],w:14,to:90,k0:0.08}];
+  function streak2(g,x0,y0,x1,y1,w,col){ const dx=x1-x0, dy=y1-y0, L=Math.hypot(dx,dy); if(L<2) return; const nx=-dy/L, ny=dx/L; g.save(); g.globalCompositeOperation='lighter';
+    for(const [wk,al,c] of [[2.6,0.25,col],[1.2,0.6,col],[0.4,1,'255,255,255']]){ const ww=w*wk/2, gr=g.createLinearGradient(x0,y0,x1,y1); gr.addColorStop(0,`rgba(${c},0)`); gr.addColorStop(1,`rgba(${c},${al})`);
+      g.fillStyle=gr; g.beginPath(); g.moveTo(x0,y0); g.lineTo(x1+nx*ww,y1+ny*ww); g.arc(x1,y1,ww,Math.atan2(ny,nx),Math.atan2(ny,nx)+Math.PI,true); g.lineTo(x0,y0); g.fill(); } blob(g,x1,y1,w*2.2,col,0.6); g.restore(); }
   function world(F,t){ I=F.I; const g=F.g; g.save();
     if(t<T.look){ const u=seg(t,0,T.look); g.save(); cam(g,480,300,lerp(1.0,1.06,u)); nightSky(g,t,0.35);
       pic(g,'pose',480,560,500,{ay:1}); g.restore();
@@ -68,23 +74,24 @@
       const st=Math.floor(t*(6+10*u))%2===0; g.fillStyle=st?`rgba(255,255,255,${0.15+0.25*u})`:`rgba(0,0,10,${0.25+0.35*u})`; g.fillRect(0,0,VW,VH);   // trời CHỚP SÁNG TỐI dồn dập dần
       g.save(); g.globalCompositeOperation='multiply'; g.fillStyle='rgba(170,200,255,1)'; g.globalAlpha=0.35*u; g.fillRect(0,0,VW,VH); g.restore(); }   // hắt xanh
     else if(t<T.leap){ g.save(); cam(g,480,300,1.0); nightSky(g,t,0.05); for(const [t0,x,col,w] of PILS) pillar(g,t,t0,x,430,w,col,{top:col==='190,110,255'?-200:-60}); g.restore(); }   // cột sáng giáng xuống khắp thành phố
-    // ① LẤY ĐÀ: khuỵu gối trên mái, khí tím tụ quanh người, mái nứt, sỏi đá bốc lên, rung dần (anime: anticipation thấy rõ trước khi bật)
-    else if(t<T.launch){ const u=seg(t,T.crouch,T.launch); g.save(); cam(g,470,360,lerp(1.25,1.45,eio(u))); nightSky(g,t,0.2); pillar(g,t,T.crouch-1,700,430,13,'190,110,255',{top:-300});
-      g.fillStyle='#120a0e'; g.fillRect(-200,470,1400,300);
-      g.save(); g.strokeStyle=`rgba(200,150,255,${0.35+0.5*u})`; g.lineWidth=2; for(let i=0;i<9;i++){ const an=Math.PI+i/8*Math.PI*-1, L=40+160*u*(0.6+0.4*hash(i*3.1)); g.beginPath(); g.moveTo(440,472); g.lineTo(440+Math.cos(an)*L,472+Math.abs(Math.sin(an))*L*0.12); g.stroke(); } g.restore();   // mái nứt toả ra
-      g.save(); g.globalCompositeOperation='lighter'; blob(g,440,400,120+150*u,'170,90,255',0.25+0.45*u); g.restore();
-      for(let i=0;i<22;i++){ const ph=((t-T.crouch)*0.7+hash(i*2.3))%1, x=330+220*hash(i*5.1), y=470-ph*(60+120*u)*(0.5+hash(i*7.7)); g.fillStyle=`rgba(40,30,40,${0.9*(1-ph)})`; g.fillRect(x,y,3+4*hash(i),3+4*hash(i*9)); }   // sỏi đá bốc lên
-      const jit=u>0.6?(hash(Math.floor(t*40))-0.5)*4*u:0; pic(g,'dCr',440+jit,474,210*(1-0.06*eio(u)),{alt:'P6'}); g.restore(); }
-    // ② BẬT ĐI: 2 khung vệt nhoè vút chéo lên → máy GIỮ ở chỗ trống: hố trên mái, vòng bụi, đá văng, vệt tím còn lơ lửng (nhịp "đã biến mất")
-    else if(t<T.fly){ const v=t-T.launch; g.save(); cam(g,470,360,1.45); nightSky(g,t,0.2); pillar(g,t,T.crouch-1,700,430,13,'190,110,255',{top:-300});
-      g.fillStyle='#120a0e'; g.fillRect(-200,470,1400,300);
-      g.save(); g.globalCompositeOperation='lighter'; g.strokeStyle=`rgba(200,150,255,${0.9*Math.max(0,1-v*1.6)})`; g.lineWidth=26*Math.max(0.2,1-v*2); g.lineCap='round'; g.beginPath(); g.moveTo(440,440); g.lineTo(1100,-200); g.stroke();
-      g.strokeStyle=`rgba(255,255,255,${0.9*Math.max(0,1-v*2.5)})`; g.lineWidth=7; g.beginPath(); g.moveTo(440,440); g.lineTo(1100,-200); g.stroke(); g.restore();   // vệt tím chéo lên trời
-      if(v<0.045){ g.save(); g.translate(520,340); g.rotate(-0.78); g.scale(1.4,0.5); g.globalAlpha=0.7; pic(g,'dFl',0,40,80,{alt:'P6'}); g.restore(); }   // khung nhoè: thân kéo vệt vút đi
-      const R=40+260*eout(Math.min(1,v/0.6)); g.save(); const gr=g.createRadialGradient(440,474,R*0.3,440,474,R); gr.addColorStop(0,`rgba(150,130,140,${0.6*Math.max(0,1-v*1.2)})`); gr.addColorStop(1,'rgba(150,130,140,0)'); g.fillStyle=gr; g.beginPath(); g.ellipse(440,474,R,R*0.28,0,0,TAU); g.fill(); g.restore();   // vòng bụi
-      g.fillStyle='rgba(10,6,10,0.95)'; g.beginPath(); g.ellipse(440,476,70,14,0,0,TAU); g.fill();   // hố trên mái
-      for(let i=0;i<26;i++){ const an=-Math.PI*(0.1+0.8*hash(i*3.3)), sp=200+500*hash(i*5.9), x=440+Math.cos(an)*sp*v, y=470+Math.sin(an)*sp*v+600*v*v; if(y>480) continue; g.fillStyle='#2a2226'; g.fillRect(x,y,4+6*hash(i),4+6*hash(i*7)); }   // đá văng rồi rơi
-      g.restore(); if(v<0.06){ g.fillStyle=`rgba(255,240,255,${0.7*(1-v/0.06)})`; g.fillRect(0,0,VW,VH); } }
+    // ① LẤY ĐÀ CẢ NHÓM (anh dặn 12/11: "5 thành viên tách ra các hướng cùng lúc"): mẹo anime = ẢNH TĨNH + MÁY ĐẨY + VFX — ảnh nhóm 5 con, mỗi con tụ khí MÀU RIÊNG,
+    //   mái nứt dưới chân cả nhóm, sỏi bốc lên, rung dồn dập ở cuối (không cần vẽ 5 tư thế lấy đà)
+    else if(t<T.launch){ const u=seg(t,T.crouch,T.launch); g.save(); cam(g,480,300,lerp(1.0,1.1,eio(u))); nightSky(g,t,0.2); pillar(g,t,T.crouch-1,700,430,13,'190,110,255',{top:-300});
+      g.save(); g.globalCompositeOperation='lighter'; for(const m of AKA5) blob(g,m.x,m.y,80+140*u*(0.8+0.2*Math.sin(t*9+m.x)),m.col,0.25+0.55*u); g.restore();
+      const jit=u>0.55?(hash(Math.floor(t*40))-0.5)*5*u:0; pic(g,'pose',480+jit,560,500,{ay:1});
+      g.save(); g.strokeStyle=`rgba(200,150,255,${0.25+0.5*u})`; g.lineWidth=1.6; for(let i=0;i<16;i++){ const x0=120+i*48, L=20+90*u*hash(i*3.1); g.beginPath(); g.moveTo(x0,505); g.lineTo(x0+(hash(i*7.3)-0.5)*L,505+L*0.12); g.stroke(); } g.restore();   // mái nứt
+      for(let i=0;i<30;i++){ const ph=((t-T.crouch)*0.7+hash(i*2.3))%1, x=100+760*hash(i*5.1), y=500-ph*(60+120*u)*(0.5+hash(i*7.7)); g.fillStyle=`rgba(40,30,40,${0.9*(1-ph)})`; g.fillRect(x,y,3+4*hash(i),3+4*hash(i*9)); }   // sỏi đá bốc lên
+      g.save(); g.globalCompositeOperation='lighter'; for(const m of AKA5){ const e=m.eye; if(e) blob(g,e[0],e[1],10+18*u,m.col,0.4+0.5*u); } g.restore();   // mắt từng con loé màu riêng
+      g.restore(); }
+    // ② BẬT ĐI: loé trắng → bóng mờ cả nhóm tan dần → 5 VỆT MÀU toả ra 5 hướng cùng lúc (mẹo anime: pha nhanh không vẽ người) → mái còn hố + bụi
+    else if(t<T.fly){ const v=t-T.launch; g.save(); cam(g,480,300,1.1); nightSky(g,t,0.2); pillar(g,t,T.crouch-1,700,430,13,'190,110,255',{top:-300});
+      const ga=Math.max(0,1-v/0.22); if(ga>0){ g.save(); g.globalCompositeOperation='lighter'; pic(g,'pose',480,560,500,{ay:1,a:0.55*ga}); g.restore(); }   // bóng mờ cả nhóm
+      { const rg=g.createLinearGradient(0,498,0,560); rg.addColorStop(0,'#4a4144'); rg.addColorStop(0.08,'#2a2326'); rg.addColorStop(1,'#141012'); g.fillStyle=rg; g.fillRect(-200,498,1400,300); g.fillStyle='rgba(255,90,60,0.25)'; g.fillRect(-200,498,1400,2); }   // mép mái (đá) ánh đỏ trăng
+      g.fillStyle='rgba(10,6,10,0.92)'; for(const m of AKA5){ g.beginPath(); g.ellipse(m.x,505,42,9,0,0,TAU); g.fill(); }   // hố dưới chân từng con
+      const R=60+380*eout(Math.min(1,v/0.6)); g.save(); const gr=g.createRadialGradient(480,505,R*0.3,480,505,R); gr.addColorStop(0,`rgba(150,130,140,${0.55*Math.max(0,1-v*1.2)})`); gr.addColorStop(1,'rgba(150,130,140,0)'); g.fillStyle=gr; g.beginPath(); g.ellipse(480,505,R,R*0.25,0,0,TAU); g.fill(); g.restore();   // vòng bụi
+      for(const m of AKA5){ const sp=2600, hx=m.x+m.dir[0]*sp*v, hy=m.y+m.dir[1]*sp*v, L=Math.min(sp*v,520); streak2(g,hx-m.dir[0]*L,hy-m.dir[1]*L,hx,hy,m.w,m.col); }   // 5 vệt toả ra
+      for(let i=0;i<34;i++){ const an=-Math.PI*(0.1+0.8*hash(i*3.3)), sp=200+500*hash(i*5.9), x=120+720*hash(i*1.7)+Math.cos(an)*sp*v, y=500+Math.sin(an)*sp*v+600*v*v; if(y>510) continue; g.fillStyle='#2a2226'; g.fillRect(x,y,4+6*hash(i),4+6*hash(i*7)); }   // đá văng rồi rơi
+      g.restore(); if(v<0.06){ g.fillStyle=`rgba(255,240,255,${0.75*(1-v/0.06)})`; g.fillRect(0,0,VW,VH); } }
     // ③ ĐANG BAY: máy bám ngang — người chúi về trước, áo choàng phần phật, thành phố bên dưới vụt qua, vệt tốc độ, cột tím phía trước to dần
     else if(t<T.fly2){ const u=seg(t,T.fly,T.fly2); g.save(); nightSky(g,t,0.25);
       g.save(); g.globalCompositeOperation='lighter'; const px=lerp(1000,820,u), pw=10+20*u; const pg=g.createLinearGradient(px-pw*3,0,px+pw*3,0); pg.addColorStop(0,'rgba(190,110,255,0)'); pg.addColorStop(0.5,'rgba(220,170,255,0.8)'); pg.addColorStop(1,'rgba(190,110,255,0)'); g.fillStyle=pg; g.fillRect(px-pw*3,0,pw*6,VH); g.restore();   // cột tím phía trước
@@ -96,7 +103,9 @@
       g.save(); g.translate(bx,by); g.rotate(-0.12); g.scale(1,1+0.03*Math.sin(t*30)); pic(g,'dFl',0,60,140,{alt:'P6'}); g.restore();   // áo choàng phần phật (rung nhanh)
       g.restore(); }
     else { const u=seg(t,T.fly2,T.DUR); g.save(); cam(g,480,300,lerp(1.0,1.35,ein(u))); nightSky(g,t,0.1); for(const [t0,x,col,w] of PILS) pillar(g,t,t0-4,x,430,w,col,{top:col==='190,110,255'?-200:-60}); g.restore();
-      const px=lerp(160,478,ein(seg(u,0,0.75))), py=lerp(420,250,ein(seg(u,0,0.75))); g.save(); g.globalCompositeOperation='lighter'; blob(g,px,py,30,'190,120,255',0.95); g.strokeStyle='rgba(190,120,255,0.7)'; g.lineWidth=3; g.beginPath(); g.moveTo(px,py); g.lineTo(px-60,py+35); g.stroke(); g.restore(); }   // chấm tím lao vào cột tím cao nhất
+      for(const m of AKA5){ const k=ein(seg(u,m.k0,m.k0+0.7)), sx=m.x*0.4+290, sy=470, px=lerp(sx,m.to,k), py=lerp(sy,m.to===480?250:330,k)-120*Math.sin(Math.PI*k), qx=lerp(sx,m.to,Math.max(0,k-0.08)), qy=lerp(sy,m.to===480?250:330,Math.max(0,k-0.08))-120*Math.sin(Math.PI*Math.max(0,k-0.08));
+        if(k>0&&k<1){ streak2(g,qx,qy,px,py,m.w*0.6,m.col); } }   // 5 vệt bay về 5 cột: Ninja → Berserk · Bat → Pop/Huh · Chud + Mlem → Doge/Clapping · Depressed → cột tím (Gojo)
+      }
     g.restore(); }
   CineKit.film({ id:'fin1c5', title:'Final 1 · Cảnh 5 · Avatar đầu tiên', DUR:T.DUR, VW, VH, fadeIn:false, fadeOut:false,
     imgs:IMG, cast:['dp','bc'],
@@ -106,7 +115,7 @@
       [T.space+0.1,'l2p_chime',0.7,null,'vũ trụ: hành tinh bị dấu vô hạn phong ấn, cột sáng lung linh'],
       [T.spin,'bc_spin',0.9,null,'Bread Cat xoay giữa trời, rít to dần'],[T.spin+0.6,'bc_zap',0.8,null,'trời chớp sáng tối, điện chập'],
       ...PILS.map(([t0],i)=>[t0+0.25,i===5?'cine_deep_impact':'cine_impact',i===5?1:0.55,null,i===5?'cột sáng tím cao nhất giáng đập xuống':(i?'+ ':'')+'cột sáng giáng xuống thành phố']),
-      [T.crouch+0.1,'l2p_riser',0.6,null,'Depressed khuỵu gối lấy đà, khí tím tụ, mái nứt'],[T.launch,'ep3_quake',0.9,null,'Depressed bật đi: mái vỡ thành hố, đá văng, vòng bụi'],[T.launch+0.02,'se_machdash',0.8,null,'+ vệt tím vút chéo lên trời'],[T.fly+0.1,'l2p_whoosh',0.7,null,'Depressed bay vút qua thành phố về cột sáng tím'],
+      [T.crouch+0.1,'l2p_riser',0.6,null,'cả nhóm 5 con lấy đà, mỗi con tụ khí màu riêng, mái nứt'],[T.launch,'ep3_quake',0.9,null,'cả 5 con bật đi cùng lúc: mái vỡ thành hố, đá văng, vòng bụi'],[T.launch+0.02,'se_machdash',0.8,null,'+ vệt tím vút chéo lên trời'],[T.fly+0.1,'l2p_whoosh',0.7,null,'Depressed bay vút qua thành phố về cột sáng tím'],
       [T.boom,'ep3_explode',1,null,'BÙM: lao đâm vào cột sáng, nổ loé trắng, sang trận đầu tiên']],
     mus:[{src:'assets/audio/pain_theme.mp3',ra:0,rb:T.DUR,vol:0.5,loop:true,fi:1.0,fo:0.4}],
     shots:[{t0:0,t1:T.DUR,a:{}}],

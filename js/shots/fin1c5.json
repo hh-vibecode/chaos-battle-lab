@@ -9,8 +9,8 @@
   {"t0":10,"t1":11.6,"co":"cận","goc":"giun","hanhDong":"\"…it has sniffed out a threat to the universe.\"","loai":"đối mặt","anh":["dpL"],"sfx":[],"ghiChu":""},
   {"t0":11.6,"t1":13.6,"co":"toàn","goc":"ngang","hanhDong":"Bread Cat XOAY giữa trời trong dấu ∞, trời CHỚP sáng tối dồn dập, hắt xanh","loai":"ra chiêu","anh":["spin"],"sfx":["bc_spin","bc_zap"],"ghiChu":""},
   {"t0":13.6,"t1":15.4,"co":"toàn","goc":"ngang","hanhDong":"6 CỘT SÁNG giáng xuống khắp thành phố (các guardian), cột TÍM cao nhất ở giữa","loai":"ra chiêu","anh":[],"sfx":["cine_impact","cine_deep_impact"],"ghiChu":""},
-  {"t0":15.4,"t1":16.6,"co":"trung","goc":"giun","hanhDong":"LẤY ĐÀ: Depressed khuỵu gối trên mái, khí tím tụ, mái nứt, sỏi bốc lên: \"Let's go…\"","loai":"ra chiêu","anh":["dCr"],"sfx":["l2p_riser"],"ghiChu":""},
-  {"t0":16.6,"t1":17.3,"co":"trung","goc":"giun","hanhDong":"BẬT ĐI: vệt nhoè vút chéo lên trời → máy giữ ở chỗ trống: hố, vòng bụi, đá văng rơi xuống","loai":"ra chiêu","anh":["dFl"],"sfx":["ep3_quake","se_machdash"],"ghiChu":""},
+  {"t0":15.4,"t1":16.6,"co":"trung","goc":"giun","hanhDong":"LẤY ĐÀ CẢ NHÓM: ảnh 5 con, máy đẩy vào, mỗi con tụ khí màu riêng, mắt loé, mái nứt, sỏi bốc lên: \"Let's go…\"","loai":"ra chiêu","anh":["dCr"],"sfx":["l2p_riser"],"ghiChu":""},
+  {"t0":16.6,"t1":17.3,"co":"trung","goc":"giun","hanhDong":"BẬT ĐI: loé trắng, bóng mờ cả nhóm tan, 5 vệt màu toả 5 hướng → máy giữ ở chỗ trống: 5 hố, vòng bụi, đá văng","loai":"ra chiêu","anh":["dFl"],"sfx":["ep3_quake","se_machdash"],"ghiChu":""},
   {"t0":17.3,"t1":19.5,"co":"trung","goc":"ngang","hanhDong":"ĐANG BAY: máy bám ngang, áo choàng phần phật, nhà cửa vụt qua, cột tím to dần: \"…and buy Friend more time to absorb.\"","loai":"đánh","anh":["dFl"],"sfx":["l2p_whoosh"],"ghiChu":""},
   {"t0":19.5,"t1":21.1,"co":"toàn","goc":"ngang","hanhDong":"toàn cảnh: vệt tím lao vào cột sáng cao nhất","loai":"chuyển cảnh","anh":[],"sfx":[],"ghiChu":""},
   {"t0":21.1,"t1":21.7,"co":"toàn","goc":"ngang","hanhDong":"BÙM loé trắng → trận đầu tiên","loai":"chuyển cảnh","anh":[],"sfx":["ep3_explode"],"ghiChu":""}
