@@ -17,17 +17,18 @@ const load = src => new Promise(r => { const s = document.createElement('script'
     const film = CineKit.films[ID]; if (!film) throw new Error('không có phim ' + ID);
     const VW = film.def.VW || 960, VH = film.def.VH || 540, DUR = film.info().dur;
     const TW = +(Q.get('w') || 480), TH = Math.round(TW * VH / VW), COLS = +(Q.get('cols') || 5), LH = 18;
-    const c = CineKit.mk(TW, TH), W = CineKit.mk(TW, TH); film._bind(c, W, true);
-    // ảnh nằm trong assets/ của repo: trang ở tools/x/ → sửa đường dẫn tương đối
-    const base = new URL('../../', location.href).href;
-    for (const k in film.def.imgs) if (!/^(https?:|data:|\/)/.test(film.def.imgs[k])) film.def.imgs[k] = base + film.def.imgs[k];
-    await film._load();
+    const c = CineKit.mk(TW, TH), W = CineKit.mk(TW, TH);
+    // tập ghép nhiều cảnh (K.seq, 12/11): không có _bind → chụp từng cảnh theo giây cục bộ
+    const SEQ = !film._bind && film.parts ? film.parts.map(p => CineKit.films[p]) : null, OFFS = SEQ ? film.offsets() : null;
+    const base = new URL('../../', location.href).href;   // ảnh nằm trong assets/ của repo: trang ở tools/x/ → sửa đường dẫn tương đối
+    for (const f of (SEQ || [film])) { f._bind(c, W, true); for (const k in f.def.imgs) if (!/^(https?:|data:|\/)/.test(f.def.imgs[k])) f.def.imgs[k] = base + f.def.imgs[k]; await f._load(); }
+    const renderAt = t => { if (!SEQ) return film._render(t); let i = 0; for (let j = 0; j < OFFS.length; j++) if (t >= OFFS[j]) i = j; SEQ[i]._bind(c, W, true); SEQ[i]._render(t - OFFS[i]); };
     let ts = Q.get('t') ? Q.get('t').split(',').map(Number) : [];
     if (!ts.length) { const a = +(Q.get('a') || 0), b = Math.min(DUR - 0.01, +(Q.get('b') || DUR)), st = +(Q.get('step') || 0.5); for (let t = a; t <= b + 1e-6; t += st) ts.push(+t.toFixed(3)); }
     const rows = Math.ceil(ts.length / COLS), S = CineKit.mk(COLS * TW, rows * (TH + LH)), g = S.getContext('2d');
     g.fillStyle = '#000'; g.fillRect(0, 0, S.width, S.height); const errs = [];
     for (let i = 0; i < ts.length; i++) {
-      try { film._render(ts[i]); } catch (e) { errs.push(ts[i] + 's: ' + e.message); }
+      try { renderAt(ts[i]); } catch (e) { errs.push(ts[i] + 's: ' + e.message); }
       const x = (i % COLS) * TW, y = Math.floor(i / COLS) * (TH + LH);
       g.drawImage(c, x, y + LH, TW, TH); g.fillStyle = '#ddd'; g.font = '12px monospace'; g.fillText(ID + ' ' + ts[i].toFixed(2) + 's', x + 4, y + 13);
     }

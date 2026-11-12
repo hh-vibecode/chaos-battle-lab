@@ -254,7 +254,7 @@
       [T.inhale,'l2p_riser',0.5,null,'Pop hít một hơi thật sâu'],
       [T.giant,'popcat',1,null,'Pop phả vòng khói khổng lồ lao về máy'],
       [T.det,'br_boom',1,null,'6 quả bom nổ sau lưng vòng khói'],
-      [T.hole,'l2p_whoosh',0.7,null,'máy chui qua lỗ vòng khói sang trận khác']],
+      [T.hole,'l2p_whoosh',0.7,null,'+ máy chui qua lỗ vòng khói sang trận khác (ngay sau tiếng nổ)']],
     mus:[mseg(0,T.lure-0.5,{fi:0.3}), mseg(T.lure,T.smoke), mseg(T.smoke,T.arm,{vol:0.22,fi:0.6,fo:0.6}), mseg(T.arm,T.det-0.4,{vol:0.5}), mseg(T.det,T.DUR,{fo:0.6})],
     theme:t=>theme(t), shots, panels,
     impact:C.negFrames([T.rhitB],0.07,'inv',[T.lure]),   // bom nổ cuối: loé cam sau vòng khói (giantRing), không chớp âm bản

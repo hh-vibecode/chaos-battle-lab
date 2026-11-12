@@ -245,17 +245,20 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
   fin1f1 XONG bản đầu (Ver 565, 20.6s, 2 vs 2 PHỐI HỢP: chuông làm choáng → Mlem liếm · Clapping đổi chỗ đẩy Chud vào bóng chông → Doge xả chữ · lưỡi kéo Doge vào chuông ·
   Mlem đóng băng Clapping giữa lúc vỗ tay · Buff Doge + Haki · Clapping đổi chỗ để Chud lãnh đấm · chuông vỡ, xích nung đỏ TRÓI Doge → Clapping đổi chỗ Doge ↔ Mlem (anh gợi ý) ·
   combo TỐC ĐỘ CAO: mỗi tiếng vỗ dịch chuyển Doge sang 1 phía Chud; kết = cuối đại lộ loé tím (trận Gojo vs Pain), cả 4 quay đầu, máy lao theo).
-  ⏸️ VIỆC DỞ (lưu 11/11 tối — anh hết token, làm tiếp sau):
-   ① CẢNH NỐI fin1c5 XONG (js/film-fin1c5.js, 21.6s, lint sạch, ảnh FIN_DP_LOOKUP + FIN_SPACE_SEAL): màu về → Depressed ngẩng nhìn ∞ → vũ trụ hành tinh bị phong ấn → thoại → Bread Cat xoay, trời chớp → 6 cột sáng guardian → Depressed bay vào cột tím → BÙM.
-   ② CHƯA LÀM: DỰNG LẠI fin1f1 theo kịch bản anh (11/11) trong CÔNG VIÊN: Doge đang đi bị Mlem liếm ĐÓNG BĂNG → Chud + Mlem đi ra VÂY Clapping, Clapping chỉ CƯỜI VỖ TAY (ảnh skill1–3)
-      → không gian chấn động, 2 con quay ra thấy BĂNG NỨT dần → Doge HOÁ TO nhảy ra HÚC VĂNG Chud, cả 2 ĐÂM XUYÊN mấy toà nhà (dãy nhà sau công viên, collapse) →
-      Clapping CHE MỒM (ảnh gốc avatar) nhìn theo bất lực → rồi mới quay lại đứng GIƠ TAY như meme (ảnh rage) với Mlem. Clapping = hỗ trợ kiểu Todo. Bỏ hẳn bản cũ (chuông/xích/combo).
-   ③ BỐI CẢNH ĐA DẠNG (anh chê phông lặp): js/fin1-city.js đã có kind 'park' (cây FIN_TREE1, cột đèn, ghế, đài phun nước, nhà chỉ dãy xa) + 'bridge' (mặt cầu, lan can, tháp, cáp, dây treo),
-      phông FIN_BG_PARK / FIN_BG_BRIDGE, bảng màu C.TH. CHƯA soát hình. Phân: f3 giữa phố (giữ) · f2 Bat → CẦU (móc dây vào cáp/tháp, bom gài trên tháp, ngồi trên dầm tháp) · f1 Doge → CÔNG VIÊN.
-      Đổi xong phải sửa drawNext: f3 (kính vỡ → lộ CẦU của f2) và f2 (lỗ vòng khói → lộ CÔNG VIÊN của f1).
-   ④ TẬP FULL: file mới js/film-fin1full.js nạp đồng bộ film-fin1 + fin1c5 + f3 + f2 + f1 + fin1c4 rồi CineKit.seq({id:'fin1full', parts:[fin1c1,fin1c2,fin1c3,fin1c5,fin1f3,fin1f2,fin1f1,fin1c4]})
-      — K.seq chỉ phát mus của chính seq → gom mus từng phần dời theo giây bắt đầu. Mục menu ĐẦU TIÊN trong __fin1. Thời lượng hiện ≈ 75.4+21.6+21.9+18.6+20.6+50 ≈ 208s ≈ 3 phút 28 (anh muốn ≥ 8–9 phút).
-      (f3 đã tắt fadeIn/out, fin1c4 tắt fadeIn để ghép liền.)
+  ✅ (12/11) TẬP ĐẦY ĐỦ `fin1full` (js/film-fin1full.js, mục ĐẦU thư mục __fin1, 5:53): fin1c1–c3 → fin1c5 (cảnh nối) → fin1f3 (kính vỡ) → fin1f2 (lỗ vòng khói) → fin1f1 (đường hầm) → fin1c4.
+   Nhạc: seq gom def.mus từng cảnh dời theo giây bắt đầu. film-sheet / film-check / sfx-lint đều chạy được với tập ghép (`film-check.js fin1full --t …`).
+  ✅ (12/11) 4 TRẬN DỰNG LẠI NHỊP theo anime gốc (anh chê rush / đau mắt / tiếng lộn xộn) — mỗi trận 1 chữ ký riêng:
+   · fin1f3 Ninja vs Berserk 55s: đấu kiếm, đối mặt lâu, mỗi pha 1 shot ngang, Berserk trái / Ninja phải (đổi bên chỉ sau Kamui).
+   · fin1f2 Bat vs Pop+Huh 53s — CẦU TREO (`Fin1City({kind:'bridge', towers:[-900,900], towerH:1400, beams:[520,1050]})`, tháp + dầm là KHỐI HỘP `CITY.box`): Batman săn mồi —
+     ngồi trên dầm tháp nhìn xuống → thám tử từ trên cao → lượn xuống → dụ HUH vào bom trên thân tháp → khói (im lặng, gài bom không tiếng) → lộ 6 bom → bấm kích nổ từ dầm (ngòi 3s đúng game).
+   · fin1f1 Chud vs Buff Doge 77s — CÔNG VIÊN, kịch bản anh 12/11: 2 con TRUYỀN TỐNG xuống bằng cột BIFROST (vàng Doge, trắng Clapping; lõi trắng, viền cầu vồng, vệt xoáy, vòng ký tự cháy trên cỏ)
+     → nhìn quanh → bị TẬP KÍCH: xích nung đỏ của Chud (dạng KRATOS sẵn, KHÔNG chuông) quấn Doge + Mlem liếm đóng băng → vây Clapping (cười vỗ tay) → băng nứt → Buff Doge phá băng,
+     lao tới bằng meme ONE-PUNCH SHIBA (ảnh FIN_F1_DOGE_ONEPUNCH = vẽ lại đúng ảnh gốc anh gửi) húc Chud xuyên 3 dãy nhà → Clapping che mồm → giơ tay với Mlem (2 con CHỈ ĐỨNG NHÌN, chưa đánh)
+     → TRẬN CHÍNH xích vs tay bo trong đống đổ nát (mẫu Kurapika vs Uvogin anh chọn, HxH 4:07–8:00): Doge THẤT THẾ trước (quất lùi, đấm hụt nện đất vì Chud đu xích vào cột, bị trói, nhấc lên quật)
+     → giao tranh căng nhất mới BẬT HAKI (đứng hình 1s) → GIẬT TAN XÍCH → 2 con lao vào nhau → chân trời loé tím → sang fin1c4.
+     Ảnh mới: FIN_F1_CHUD_K0–K4 (5 tư thế Kratos mặc áo Akatsuki, chuôi xích HAND đo bằng lưới; xích vẽ code chép `_dcCord`) · FIN_F1_DOGE_BLOCK/RUN/DUCK/PUNCH/PULL/HPULL.
+   · fin1c4 Gojo vs Pain 70s: lớp GIÃN NHỊP `RETIME` (hiệu ứng vẫn theo giây cũ T; đòn ×1, quãng thủ thế ×2–3, đối mặt / giằng co / lãnh địa giãn) + cận chiến gộp 21 shot vụn → 11 shot.
+   CÒN CHỜ ANH: xem cả tập rồi góp ý; chưa nghe thử tiếng mới (se_*) bằng tai. Tập hiện 5:53 (anh nói 8–9 phút chỉ là xấp xỉ, không bắt buộc).
   Trận phụ (fin1f1 Chud+Mlem vs Doge+Clapping · fin1f2 Bat vs Pop+Huh · fin1f3 Ninja vs Berserk): yêu cầu chi tiết ở prompts/fin1-fight-phu.md.
   🔧 NÂNG CẤP 9/11 (theo meme-anime-lab/playbook): thành phố dựng lại đúng TỈ LỆ (MEME_H=32, tầng 84–100, nhà phố 3–5 tầng, cao tầng 15–40) · Friend lộ diện = bộ ba
   (cực cận răng→mắt bật sáng · góc giun trời đỏ ngược sáng · cận Banana Cat) · ĐUÔI quật thay nắm tay (kiểu Cửu Vĩ, clip kaiju-b) · tĩnh trước phá · hậu quả ·

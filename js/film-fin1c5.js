@@ -85,7 +85,7 @@
       [T.sky+0.2,'l2p_shimmer',0.8,null,'dấu vô hạn vàng trắng hiện dần trên trời'],
       [T.space+0.1,'l2p_chime',0.7,null,'vũ trụ: hành tinh bị dấu vô hạn phong ấn, cột sáng lung linh'],
       [T.spin,'bc_spin',0.9,null,'Bread Cat xoay giữa trời, rít to dần'],[T.spin+0.6,'bc_zap',0.8,null,'trời chớp sáng tối, điện chập'],
-      ...PILS.map(([t0],i)=>[t0+0.25,i===5?'cine_deep_impact':'cine_impact',i===5?1:0.55,null,i===5?'cột sáng tím cao nhất giáng xuống':'cột sáng giáng xuống thành phố']),
+      ...PILS.map(([t0],i)=>[t0+0.25,i===5?'cine_deep_impact':'cine_impact',i===5?1:0.55,null,i===5?'cột sáng tím cao nhất giáng xuống':(i?'+ ':'')+'cột sáng giáng xuống thành phố']),
       [T.leap+0.1,'ep3_quake',0.7,null,'Depressed bật thẳng lên trời, sóng lực trên mái'],[T.fly,'l2p_whoosh',0.8,null,'Depressed lao vút về cột sáng tím'],
       [T.boom,'ep3_explode',1,null,'BÙM: lao vào cột sáng, nổ loé trắng, sang trận đầu tiên']],
     mus:[{src:'assets/audio/pain_theme.mp3',ra:0,rb:T.DUR,vol:0.5,loop:true,fi:1.0,fo:0.4}],
