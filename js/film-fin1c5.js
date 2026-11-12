@@ -2,7 +2,7 @@
 //   Nói chuyện trên mái xong → MÀU TRỞ VỀ → Depressed NGẨNG ĐẦU, thấy DẤU VÔ HẠN trên trời → lên VŨ TRỤ: cả hành tinh bị dấu ∞ cố định nằm ngang, bọc trong CỘT SÁNG
 //   phong ấn → Depressed: "Here comes the first avatar… it has sniffed out a threat to the universe." → hiệu ứng XOAY của Bread Cat + trời CHỚP SÁNG TỐI →
 //   CỘT SÁNG giáng xuống khắp thành phố (các GUARDIAN của meme multiverse) → Depressed NHẢY THẲNG LÊN TRỜI lao về cột sáng TÍM CAO NHẤT, vừa bay vừa nói
-//   "Let's go. Stop the guardians of the meme multiverse… buy Friend more time to absorb." → BÙM → trận đầu tiên (fin1f3) và nối tiếp các trận.
+//   "Let's go. Stop the guardians of the meme multiverse… buy Friend more time to absorb." → BÙM → trận đầu tiên (fin1f2 Bat vs Pop + Huh, anh đổi 12/11) và nối tiếp các trận.
 //   Dựng 2D (960×540) kiểu các cảnh truyện của Final. Ảnh vẽ GPT: FIN_DP_LOOKUP (ngẩng nhìn trời), FIN_SPACE_SEAL (hành tinh bị phong ấn).
 (function(){
   if(!window.CineKit || CineKit.films.fin1c5) return;

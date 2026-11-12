@@ -162,10 +162,10 @@
     g.restore(); }}); }
 
   // 🌉 TRẬN KẾ TIẾP (sau lớp kính vỡ): cảnh mở đầu của fin1f2 — CẦU TREO (cùng tham số Fin1City), Pop + Huh đang đi vào cầu, Bat ngồi trên dầm tháp; cùng máy quay shot đầu fin1f2
-  const CITY2=Fin1City({seed:5, kind:'bridge', towers:[-900,900], towerH:1400, beams:[520,1050]});
-  const NEXTCAM={tx:-560,ty:120,tz:0,dist:950,yaw:-48,pitch:-4,fov:52,roll:-2};
-  function drawNext(F,t){ CITY2.draw(F,t,CITY2.TH_BRIDGE); const H2=120;
-    K.sprite(F,{img:F.I.fA0,x:900,z:0,y:640,h:H2*1.12,life:{breath:0.6,wind:1.1},shadow:false}); K.sprite(F,{img:F.I.fP0,x:-900,z:-60,h:H2*0.8,life:{breath:0.8}}); K.sprite(F,{img:F.I.fU0,x:-1040,z:90,h:H2*0.78,life:{breath:0.7}}); }
+  // (12/11) thứ tự mới: Pop+Huh → Ninja vs Berserk → Chud vs Doge: sau lớp kính là CÔNG VIÊN đêm còn trống của fin1f1 (cùng tham số + máy shot đầu fin1f1)
+  const CITY2=Fin1City({seed:7, kind:'park'});
+  const NEXTCAM={tx:-560,ty:110,tz:-180,dist:900,yaw:-40,pitch:-4,fov:52,roll:-2};
+  function drawNext(F,t){ CITY2.draw(F,t,CITY2.TH_PARK); }   // công viên đêm yên lặng — ngay sau đó 2 cột Bifrost giáng xuống
   // mảnh kính: lưới tam giác lệch ngẫu nhiên (tỉ lệ khung 0–1), rơi trễ dần theo khoảng cách tới điểm nứt
   const CRACK=[0.46,0.46];
   const SHARDS=(()=>{ const NX=6, NY=4, P=[]; for(let j=0;j<=NY;j++) for(let i=0;i<=NX;i++){ const ed=i===0||j===0||i===NX||j===NY; P.push([i/NX+(ed?0:(hash(i*7+j*13)-0.5)*0.12), j/NY+(ed?0:(hash(i*11+j*3)-0.5)*0.16)]); }
@@ -175,7 +175,7 @@
   const shardPos=(sh,t)=>{ const tau=Math.max(0,t-T.fall-sh.delay); return {dx:sh.vx*tau, dy:0.5*2.4*tau*tau}; };
   let FREEZE=null;
   function panels(t){ if(t<T.fall) return null; if(!FREEZE) FREEZE=Object.assign({},K.camAt(shots,T.fall-1e-4));
-    const out=[{cam:NEXTCAM, clip:[[0,0],[1,0],[1,1],[0,1]], next:true, theme:CITY2.TH_BRIDGE}];
+    const out=[{cam:NEXTCAM, clip:[[0,0],[1,0],[1,1],[0,1]], next:true, theme:CITY2.TH_PARK}];
     for(const sh of SHARDS){ const {dx,dy}=shardPos(sh,t); if(dy>1.25) continue; out.push({cam:Object.assign({},FREEZE,{ox:(FREEZE.ox||0)+dx, oy:(FREEZE.oy||0)+dy, roll:0}), clip:sh.pts.map(([x,y])=>[x+dx,y+dy]), freeze:true, theme:TH_GENJ}); }
     return out; }
 

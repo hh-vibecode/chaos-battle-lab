@@ -25,8 +25,10 @@
   {"t0":35.42,"t1":37.22,"co":"cận","goc":"ngang","hanhDong":"trong khói: 2 con đứng tựa lưng, thở gấp","loai":"đối mặt","anh":["P0","U0"],"sfx":["popcat"],"ghiChu":""},
   {"t0":37.22,"t1":39.98,"co":"trung","goc":"ngang","hanhDong":"bóng Bat lướt qua trong khói, gài 2 quả cuối","loai":"đánh","anh":["A0"],"sfx":["popcat"],"ghiChu":""},
   {"t0":39.98,"t1":41.4,"co":"toàn","goc":"chim","hanhDong":"LỘ BẪY: Pop thổi tan khói, vòng 6 quả bom quanh 2 con","loai":"ra chiêu","anh":["P1","U0"],"sfx":["popcat"],"ghiChu":""},
-  {"t0":41.4,"t1":42.98,"co":"trung","goc":"giun","hanhDong":"góc giun: Bat đã ngồi lại trên dầm tháp, bấm kích nổ — ngòi 3s","loai":"đối mặt","anh":["A0"],"sfx":["br_tick"],"ghiChu":""},
-  {"t0":42.98,"t1":43.6,"co":"cận","goc":"ngang","hanhDong":"Pop + Huh hoảng loạn: HUH?!","loai":"đối mặt","anh":["P0","U0"],"sfx":["huh_sample"],"ghiChu":""},
-  {"t0":43.6,"t1":44.74,"co":"cận","goc":"ngang","hanhDong":"Pop hít một hơi thật sâu","loai":"ra chiêu","anh":["P0"],"sfx":["l2p_riser"],"ghiChu":""},
-  {"t0":44.74,"t1":46.54,"co":"cận","goc":"ngang","hanhDong":"vòng khói khổng lồ lao về máy, bom nổ sau lưng → máy chui qua lỗ O sang công viên","loai":"chuyển cảnh","anh":["P1"],"sfx":["popcat","br_boom","l2p_whoosh"],"ghiChu":""}
+  {"t0":41.4,"t1":42.02,"co":"trung","goc":"giun","hanhDong":"góc giun: Bat ngồi trên dầm tháp, giơ nút kích nổ, chờ","loai":"đối mặt","anh":["A0"],"sfx":[],"ghiChu":""},
+  {"t0":42.02,"t1":42.77,"co":"trung","goc":"ngang","hanhDong":"Pop + Huh RÓN RÉN chuồn sang trái, nhón chân lách giữa các quả bom","loai":"đối mặt","anh":["P0","U0"],"sfx":[],"ghiChu":"hài"},
+  {"t0":42.77,"t1":43.72,"co":"cực cận","goc":"giun","hanhDong":"CẠCH: chân Huh dẫm trúng quả bom, đèn nháy nhanh — đứng hình, im lặng","loai":"ra chiêu","anh":["U0"],"sfx":["ep3_klunk","br_tick"],"ghiChu":"hài"},
+  {"t0":43.72,"t1":44.47,"co":"cận","goc":"ngang","hanhDong":"Huh từ từ ngả đầu sang Pop: \"huh?\"","loai":"đối mặt","anh":["U0"],"sfx":["huh_sample"],"ghiChu":"hài"},
+  {"t0":44.47,"t1":45.09,"co":"cận","goc":"ngang","hanhDong":"Pop quay sang Huh: \"pop\" khẽ… 1 nhịp im","loai":"đối mặt","anh":["P0"],"sfx":["popcat"],"ghiChu":"hài"},
+  {"t0":45.09,"t1":47.09,"co":"trung","goc":"ngang","hanhDong":"NỔ TUNG → vòng khói của vụ nổ lao về máy → chui qua lỗ sang trận Ninja vs Berserk","loai":"chuyển cảnh","anh":["P0","U0"],"sfx":["br_boom","l2p_whoosh"],"ghiChu":""}
 ]

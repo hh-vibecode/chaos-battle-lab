@@ -262,6 +262,8 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
   Mlem đóng băng Clapping giữa lúc vỗ tay · Buff Doge + Haki · Clapping đổi chỗ để Chud lãnh đấm · chuông vỡ, xích nung đỏ TRÓI Doge → Clapping đổi chỗ Doge ↔ Mlem (anh gợi ý) ·
   combo TỐC ĐỘ CAO: mỗi tiếng vỗ dịch chuyển Doge sang 1 phía Chud; kết = cuối đại lộ loé tím (trận Gojo vs Pain), cả 4 quay đầu, máy lao theo).
   ✅ (12/11) TẬP ĐẦY ĐỦ `fin1full` (js/film-fin1full.js, mục ĐẦU thư mục __fin1, 5:53): fin1c1–c3 → fin1c5 (cảnh nối) → fin1f3 (kính vỡ) → fin1f2 (lỗ vòng khói) → fin1f1 (đường hầm) → fin1c4.
+   🔀 (12/11 khuya, anh dặn) THỨ TỰ MỚI: fin1c5 → **fin1f2 Bat vs Pop+Huh (trận ĐẦU)** → fin1f3 Ninja vs Berserk → fin1f1 → fin1c4. Nối: f2 kết = PHA HÀI (2 con rón rén → Huh dẫm bom CẠCH → đứng hình im lặng →
+     Huh ngả đầu sang Pop "huh?" → Pop "pop" → NỔ) → vòng khói vụ nổ, lỗ khói lộ ĐẠI LỘ fin1f3 · f3 kết = mảnh kính lộ CÔNG VIÊN fin1f1.
    Nhạc: seq gom def.mus từng cảnh dời theo giây bắt đầu. film-sheet / film-check / sfx-lint đều chạy được với tập ghép (`film-check.js fin1full --t …`).
   ✅ (12/11) 4 TRẬN DỰNG LẠI NHỊP theo anime gốc (anh chê rush / đau mắt / tiếng lộn xộn) — mỗi trận 1 chữ ký riêng:
    · fin1f3 Ninja vs Berserk 55s: đấu kiếm, đối mặt lâu, mỗi pha 1 shot ngang, Berserk trái / Ninja phải (đổi bên chỉ sau Kamui).
