@@ -223,13 +223,7 @@
   //   Doge vàng-trắng · Chud đỏ (bay trước 90, cao hơn 85) · bóng mờ của cả 2 kéo theo vệt trong 0.15s đầu
   const STREAK_AT=0.07, flyY=tt=>120+420*eout(seg(tt,T.ram,T.ram+0.7));
   function streak(F,t,ahead,dy,w,col,trail){ const pts=[]; for(let i=0;i<=14;i++){ const tt=Math.max(T.ram,t-trail*(1-i/14)), p=RAM(flyK(tt)+ahead); pts.push(K.proj(F.B,p[0],flyY(tt)+dy,p[1])); } streakP(F,pts,w,col); }
-  function streakP(F,pts,w,col){ const PP=pts.filter(Boolean); if(PP.length<3) return; const H=PP[PP.length-1], Tl=PP[0];
-    F.list.push({d:H.d-6, fn:()=>{ const g=F.g; g.save(); g.globalCompositeOperation='lighter'; const n=PP.length;
-      for(const [wk,al,c] of [[2.8,0.22,col],[1.3,0.55,col],[0.45,0.95,'255,255,255']]){
-        const L=[],R=[]; for(let i=0;i<n;i++){ const A=PP[Math.max(0,i-1)], B=PP[Math.min(n-1,i+1)], dx=B.x-A.x, dy2=B.y-A.y, l=Math.hypot(dx,dy2)||1, ww=w*wk*PP[i].s*Math.pow(i/(n-1),0.7)/2; L.push([PP[i].x-dy2/l*ww,PP[i].y+dx/l*ww]); R.push([PP[i].x+dy2/l*ww,PP[i].y-dx/l*ww]); }
-        const gr=g.createLinearGradient(Tl.x,Tl.y,H.x,H.y); gr.addColorStop(0,`rgba(${c},0)`); gr.addColorStop(0.6,`rgba(${c},${al*0.6})`); gr.addColorStop(1,`rgba(${c},${al})`);
-        g.fillStyle=gr; g.beginPath(); L.forEach((p,i)=>i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1])); g.arc(H.x,H.y,w*wk*H.s/2,0,TAU); for(let i=n-1;i>=0;i--) g.lineTo(R[i][0],R[i][1]); g.closePath(); g.fill(); }
-      const rg=g.createRadialGradient(H.x,H.y,0,H.x,H.y,w*2.2*H.s); rg.addColorStop(0,`rgba(255,255,255,0.9)`); rg.addColorStop(0.3,`rgba(${col},0.5)`); rg.addColorStop(1,`rgba(${col},0)`); g.fillStyle=rg; g.beginPath(); g.arc(H.x,H.y,w*2.2*H.s,0,TAU); g.fill(); g.restore(); }}); }
+  const streakP=W.streak;   // vệt tốc độ cao — bản chung ở js/fin1-fight.js
   function clashStreaks(F,t,X,Z){ const t0=T.clash-0.27, u=seg(t,t0,T.clash);
     const run=(xa,xb,y,w,col,dir)=>{ const pts=[]; for(let i=0;i<=12;i++){ const k=Math.max(0,u-0.55*(1-i/12)), x=lerp(xa,xb,eout(Math.min(1,k))); pts.push(K.proj(F.B,X+x,y,Z)); } streakP(F,pts,w,col); };
     run(300,562,105,40,'255,40,30',1); run(300,562,112,16,'60,20,40',1);   // Doge haki: lõi đỏ + vệt tím than (đuôi bắt đầu SAU chỗ đứng → vệt dài)

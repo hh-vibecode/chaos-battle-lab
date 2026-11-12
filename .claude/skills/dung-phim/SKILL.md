@@ -36,6 +36,30 @@ Cảnh đánh nào cũng phải có đủ các mẹo dưới đây — đây là
     tảng đá sàn bật tung (`slabs`), mưa bị sóng xung kích thổi bạt / bị đẩy ra (Shinra) (`BLASTS` trong screen), bụi + hạt sáng bị HÚT vào lúc gồng (`suck`),
     mây bị vụ nổ cuối thổi tung, trời quang ra; chưởng to + có vệt đuôi; rung + sóng méo + loé ở cả lúc BẮN chứ không chỉ lúc trúng. Mẫu: js/film-mvd.js.
 
+## 🎴 MẸO ANIME TRUYỀN HÌNH: ÍT VẼ MÀ VẪN ĐẸP, CÓ LỰC (anh dặn 12/11/2026: "học làm sao để dễ nhất mà vẫn đẹp và hiệu quả")
+Anime TV làm cảnh đánh với rất ít hình vẽ: dồn công vào vài khung quyết định, phần còn lại để HIỆU ỨNG, MÁY QUAY, ÂM THANH gánh.
+Ta cũng thiếu tư thế y như vậy, nên LUÔN chọn mẹo rẻ trước. Xếp theo "dễ làm × hiệu quả":
+1. **Pha nhanh = vệt, không vẽ người** (đã làm, anh duyệt): húc / lướt / lao vào nhau → 2 vệt sáng mảnh, đầu trắng, quầng màu riêng từng nhân vật;
+   bóng mờ của người tan vào vệt trong ~0.2s; người chỉ hiện ở khung CHẠM và lúc tiếp đất. Mẫu: `streakP()` / `ramStreaks()` / `clashStreaks()` trong js/film-fin1f1.js.
+2. **Giữ thế càng lâu, đòn càng nhanh** (antic hold, anim.works): trước đòn lớn giữ thế thủ 0.4–1s ("dây cao su kéo căng"), thế giữ vẫn SỐNG
+   (thở nhẹ, áo / tóc / hào quang vẫn bay — `life.breath/wind`, aura); rồi ra đòn chỉ 2–4 khung. Người xem "cảm" được tốc độ mà không cần thấy.
+   Obari: lấy đà 2 lần (lùi → lùi thêm chút → bung). Sau đòn GIỮ thế cuối tới hết shot để người xem kịp "nuốt" đòn.
+3. **Khung chạm vẽ đậm, giữ lâu hơn khung quanh nó** (Wave Motion Cannon): hit-stop 0.1–0.2s nhân vật đứng hình, NHƯNG lửa / khói / tia lửa / máy rung
+   vẫn chạy đủ tốc → mắt bị kéo vào hiệu ứng (hiệu ứng khác nhịp nhân vật = nổi bật). Kèm 1–3 khung impact âm bản / đen trắng / đỏ (`negFrames`), chỉ ở cú quyết định.
+4. **Ảnh nhân vật "nhảy bậc", hiệu ứng mượt**: anime TV vẽ người 8–12 hình/s (on threes / twos), hiệu ứng + nền lia chạy đủ hình. Lúc ra chiêu nặng / người khổng lồ
+   có thể lượng tử hoá thời gian của TRACK nhân vật (vd `Math.floor(t*8)/8`) cho ra chất anime; KHÔNG áp cho máy quay / hiệu ứng.
+5. **Đòn ngoài khung + cắt sang phản ứng**: mỗi pha = bộ 3 (ý định → đòn → phản ứng). Khi thiếu tư thế ra đòn: thấy người vung → CẮT ĐÚNG KHUNG CHẠM sang người bị trúng
+   bật lùi / người đứng xem giật mình (Clapping, Mlem…) + tiếng + mảnh vỡ. Phản ứng là shot rẻ nhất mà cho cảm xúc nhiều nhất.
+6. **Ảnh tĩnh + máy chạy** (battle of still frames): khoảnh khắc ra chiêu / đối mặt = 1 ảnh đẹp + máy đẩy chậm / lia + nền đường tốc độ + rung; không cần cử động.
+7. **Bóng đen ngược sáng**: tràng đòn trước vụ nổ / loé / trăng → chỉ thấy bóng đen viền sáng (che hết chi tiết tư thế, rất "ngầu").
+8. **Khói / bụi che chỗ khó, rồi lộ kết quả**: va chạm chìm trong mây bụi, bên trong loé chớp + tia lửa + tiếng; bụi tan → ai đứng ai ngã. Tránh vẽ đúng khoảnh khắc khó.
+9. **Tràng đòn tốc độ cao kiểu Dragon Ball**: 2 vệt đổi hướng gấp khúc, mỗi lần đụng = 1 loé + vòng sóng + tiếng ở điểm khác nhau quanh khung → không cần vẽ tay chân.
+10. **Nền trừu tượng lúc cao trào**: thay nền thật bằng đường tốc độ / màu phẳng (đỏ, đen, trắng) trong 0.3–1s → khỏi lo nền khớp góc máy, nhân vật nổi bật.
+11. **Mảnh vỡ hình khối đơn giản** (Yutapon cubes của Yutaka Nakamura): khối đơn giản, nhiều, văng có lực + rung máy nhoè — rẻ mà đẹp (K.debris đã có).
+12. **Trục + cắt**: giữ trục (A trái / B phải); chỉ vượt trục khi có lý do (lia giật, người lướt qua ống kính, đẩy máy vào). Cắt đúng khung chạm; khung cuối shot trước khớp vị trí shot sau.
+Nguồn đã đọc: wavemotioncannon.com "An Introduction to Framerate Modulation" · anim.works "Art of the Hold" · hackernoon "How to cover a fight scene…" (bộ 3, trục)
+· Know Your Meme / Sakuga glossary (impact frame 1–3 khung) · animetudes (Kanada / Itano / Obari) · Wikipedia Yutaka Nakamura (khối vỡ, rung nhoè, tích luỹ cú nặng).
+
 ## 🎥 TƯ DUY ĐẠO DIỄN cho cảnh ĐỨNG / HỘI THOẠI / RA MẮT NHÓM (anh chê 5/11: "đứng 1 hàng chán, tư duy đơn giản" — gửi ảnh mẫu Akatsuki)
 Cảnh không đánh nhau vẫn phải có ý đồ máy quay. Trước khi code, viết ra cho từng shot: GÓC (thấp / cao / ngang), CỠ (toàn / trung / cận / đặc tả), AI Ở TIỀN CẢNH.
 1. **Không bao giờ xếp nhân vật thành 1 hàng ngang cùng độ cao.** Mỗi người 1 độ cao + 1 tư thế: đứng trên bệ/cột, ngồi trên gờ, ngồi xổm,

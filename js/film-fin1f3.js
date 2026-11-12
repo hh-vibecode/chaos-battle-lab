@@ -38,7 +38,7 @@
 
   // ───────── BIÊN ĐẠO: [giây, x, ảnh, kiểu chuyển, nhoè, z, y] ─────────
   // Mỗi pha: LẤY ĐÀ (lùi / nâng kiếm, 0.3–0.6s, thấy rõ) → RA ĐÒN (0.1–0.2s) → KHỰNG (hit-stop) → PHẢN ỨNG (trượt lùi / loạng choạng) → GIÃN RA đứng thủ thế
-  const NK=[[0,380,'N0',0,0,0,0],[T.dash-0.35,380,'N0'],[T.dash,405,'N0','eout'],[T.clash-0.12,150,'NS','ein'],[T.clash,62,'NS','ein',1],
+  const NK=[[0,380,'N0',0,0,0,0],[T.dash-0.35,380,'N0'],[T.dash,405,'N0','eout'],[T.clash-0.28,405,'N0'],[T.clash,62,'NS','ein',1],
     [T.lock,82,'NS','lin'],[T.lock+0.45,220,'N0','back'],                                                                // ghì kiếm → bật ra, trượt lùi
     [T.wind,220,'N0'],[T.slam-0.42,210,'N0'],[T.slam-0.2,190,'N0','eout',0,-160],[T.ripo-0.55,190,'N0',0,0,-160],          // thấy kiếm giơ cao → BƯỚC NÉ ra khỏi đường bổ TRƯỚC khi kiếm rơi
     [T.ripo-0.18,175,'NS','eout',0,-120],[T.ripo,12,'NS','ein',1,0],[T.ripo+0.35,12,'NS'],[T.ripo+1.0,180,'N0','back'],      // né xong lao vào PHẢN ĐÒN
@@ -51,7 +51,7 @@
     [T.turn+0.3,-40,'NT'],[T.turn+1.0,-170,'N0','eout'],
     [T.fr1-0.12,-170,'N0'],[T.fr1+0.25,-250,'N0','eout',1],[T.fr2-0.12,-250,'N0'],[T.fr2+0.25,-325,'N0','eout',1],[T.fr3-0.12,-325,'N0'],[T.fr3+0.25,-392,'N0','eout',1],
     [T.read,-392,'N0'],[T.cut-0.1,-392,'NS'],[T.DUR,-392,'NS']];   // từ T.cut: Ninja vẽ thành 2 nửa (halves) rồi hoá quạ
-  const BK=[[0,-380,'B0',0,0,0,0],[T.dash-0.35,-380,'B0'],[T.dash,-405,'B0','eout'],[T.clash-0.12,-150,'B1','ein'],[T.clash,-62,'B1','ein',1],
+  const BK=[[0,-380,'B0',0,0,0,0],[T.dash-0.35,-380,'B0'],[T.dash,-405,'B0','eout'],[T.clash-0.28,-405,'B0'],[T.clash,-62,'B1','ein',1],
     [T.lock,-82,'B1','lin'],[T.lock+0.45,-220,'B1','back'],
     [T.wind,-220,'B0'],[T.wind+0.7,-226,'B2','eout'],[T.slam-0.16,-230,'B2'],[T.slam,-40,'B1','ein',1],                      // nâng đại kiếm CHẬM qua đầu (1.5s) → bổ xuống
     [T.ripo-0.2,-40,'B1'],[T.ripo,-40,'B1'],[T.ripo+0.1,-24,'B0'],[T.ripo+0.9,-150,'B0','back'],                             // kiếm cắm đường, ăn nhát phản đòn, lùi
@@ -198,10 +198,12 @@
     CITY.draw(F,t,th);
     const bk=pick(F,b0.im), nk=pick(F,g0.im);
     const bs=bkS(t), ns=ninjaS(t), bh=(HT[b0.im]||H)*bs, nh=(HT[g0.im]||H)*ns;
-    if(bs>0.02) W.actor(F,{key:bk,dir:DIR[b0.im]||-1,x:b0.x,z:b0.z,y:b0.y+(HT[b0.im]||H)*(1-bs)*0.5,h:bh,look:{x:g0.x,z:g0.z},smear:b0.sm,lean:t>=T.kneel?-14*seg(t,T.kneel,T.kneel+0.4):0,shadow:bs>0.6&&b0.y<200,
+    // ⚡ 2 bên lao vào nhau quá nhanh để thấy người → 2 VỆT (Berserk đỏ thẫm từ trái · Ninja trắng xanh từ phải), chạm giữa đường thì hiện lại khoá kiếm
+    const dashN=W.dash(F,t,T.clash-0.27,T.clash-0.01,[480,95,0],[70,95,0],{w:30,col:'170,210,255'}), dashB=W.dash(F,t,T.clash-0.27,T.clash-0.01,[-480,100,0],[-70,100,0],{w:40,col:'255,50,40',core:'90,20,30'});
+    if(bs>0.02&&!dashB) W.actor(F,{key:bk,dir:DIR[b0.im]||-1,x:b0.x,z:b0.z,y:b0.y+(HT[b0.im]||H)*(1-bs)*0.5,h:bh,look:{x:g0.x,z:g0.z},smear:b0.sm,lean:t>=T.kneel?-14*seg(t,T.kneel,T.kneel+0.4):0,shadow:bs>0.6&&b0.y<200,
       aura:rk>0.05?{preset:'haki',k:0.35+0.65*rk,seed:7}:null, white:(t>=T.ripo&&t<T.ripo+0.06)||(t>=T.stab&&t<T.stab+0.07)?1:0,
       life:{breath:t>=T.turn?1.4:0.6,wind:0.6,squash:K.squash(hs(t),T.slam,0.35,0.1)}});
-    if(ns>0.02&&t<T.cut) W.actor(F,{key:nk,dir:DIR[g0.im]||-1,x:g0.x,z:g0.z,y:g0.y+(HT[g0.im]||H)*(1-ns)*0.5,h:nh,look:{x:b0.x,z:b0.z},smear:g0.sm,shadow:ns>0.6&&g0.y<150,
+    if(ns>0.02&&t<T.cut&&!dashN) W.actor(F,{key:nk,dir:DIR[g0.im]||-1,x:g0.x,z:g0.z,y:g0.y+(HT[g0.im]||H)*(1-ns)*0.5,h:nh,look:{x:b0.x,z:b0.z},smear:g0.sm,shadow:ns>0.6&&g0.y<150,
       life:{breath:0.5,wind:1.0,squash:K.squash(hs(t),T.land,0.35,0.1)}});
     // gió bụi nền
     K.smoke(F,{x:0,z:300,t0:-0.3,n:12,spread:1700,rise:30,life:3,size:90,seed:1,swirl:0.2,a:0.22,tint:'150,90,80'});
@@ -283,7 +285,7 @@
     sfx:[[0.1,'l2p_rumble',0.45,null,'toàn cảnh đại lộ đổ nát, gió bụi'],
       [0.8,'se_gogogo',0.32,5.2,'đối mặt: sức ép đè nặng giữa 2 người (gogogo), tắt trước khi lao'],
       [T.face2+0.4,'ep3_shine',0.5,null,'đối mặt: Ninja nắm chuôi Kusanagi, lưỡi kiếm loé'],
-      [T.dash-0.05,'se_step_in',0.9,null,'2 bên đạp đất lao vào nhau'],
+      [T.clash-0.28,'se_step_in',0.9,null,'2 bên đạp đất, hoá 2 vệt lao vào nhau'],
       [T.clash,'se_sword_clash',1,null,'2 lưỡi kiếm va nhau giữa đường, khựng'],
       [T.clash+0.01,'kn_boom_low',0.55,null,'+ lớp trầm: sóng xung kích bùng ra từ cú va kiếm'],
       [T.lock+0.4,'se_pushback',0.7,null,'bật ra, 2 bên trượt lùi trên mặt đường'],
@@ -340,7 +342,7 @@
       if(t>=T.rage&&t<T.arc){ fx.chroma=Math.max(fx.chroma||0,0.8); } return fx; },
     screen(F,t){ const g=F.g, VW=F.VW, VH=F.VH; F.t=t;
       eyeFX(F,t); endFX(F,t); if(C) C.wipeBlob(F,t,T.eye2-0.1,0.2,'#a00000');
-      if(t>=T.dash+0.2&&t<T.clash) K.panLines(F,{k:0.6,ang:0,n:22});   // vệt tốc độ CHỈ lúc 2 bên lao vào nhau và lúc Berserk lao chém xuyên
+      if(t>=T.clash-0.28&&t<T.clash) K.panLines(F,{k:0.6,ang:0,n:22});   // vệt tốc độ CHỈ lúc 2 bên lao vào nhau và lúc Berserk lao chém xuyên
       if(t>=T.wind2+0.3&&t<T.hit60) K.panLines(F,{k:0.5,ang:0,n:20});
       if(t>=T.rage&&t<T.arc-0.7) K.speedLines(F,{k:0.35,n:50,r0:0.45,col:'rgba(255,80,60,0.5)'});
       if(t>=T.howl&&t<T.brk-0.25) K.speedLines(F,{k:0.45,n:60,r0:0.42,col:'rgba(255,70,50,0.55)'});
