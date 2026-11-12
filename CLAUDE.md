@@ -265,7 +265,16 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
      → giao tranh căng nhất mới BẬT HAKI (đứng hình 1s) → GIẬT TAN XÍCH → 2 con lao vào nhau → chân trời loé tím → sang fin1c4.
      Ảnh mới: FIN_F1_CHUD_K0–K4 (5 tư thế Kratos mặc áo Akatsuki, chuôi xích HAND đo bằng lưới; xích vẽ code chép `_dcCord`) · FIN_F1_DOGE_BLOCK/RUN/DUCK/PUNCH/PULL/HPULL.
    · fin1c4 Gojo vs Pain 70s: lớp GIÃN NHỊP `RETIME` (hiệu ứng vẫn theo giây cũ T; đòn ×1, quãng thủ thế ×2–3, đối mặt / giằng co / lãnh địa giãn) + cận chiến gộp 21 shot vụn → 11 shot.
-   CÒN CHỜ ANH: xem cả tập rồi góp ý; chưa nghe thử tiếng mới (se_*) bằng tai. Tập hiện 5:53 (anh nói 8–9 phút chỉ là xấp xỉ, không bắt buộc).
+   CÒN CHỜ ANH: xem cả tập rồi góp ý; chưa nghe thử tiếng mới (se_*) bằng tai. Tập hiện ~5:44 (anh nói 8–9 phút chỉ là xấp xỉ, không bắt buộc).
+  ⏸️ VIỆC DỞ (anh góp ý 12/11 tối sau khi xem bản Ver 573–575 — làm tiếp phiên sau):
+   ① NHỊP: bản giãn bị "lê thê" → làm lại NHANH–CHẬM ĐAN XEN (tràng đòn cực nhanh vài góc ngắn → khựng / thở → căng chậm). Bỏ kiểu giãn đều hệ số (RETIME fin1c4 cần chỉnh lại theo từng pha).
+   ② SPRITE SHEET ĐA GÓC cho mọi nhân vật trong trận (Ninja, Berserk, Bat, Pop, Huh, Chud Kratos, Buff Doge, Mlem, Clapping, Gojo, Pain/Depressed): nhiều góc + nhiều động tác,
+      vẽ bằng GPT theo lưới đều → dùng thay vì 4–5 ảnh tĩnh trượt qua lại. Đây là điểm yếu nhất anh chỉ ra.
+   ③ VŨ KHÍ PHẢI VA CHẠM THẬT + HƯỚNG HỢP LOGIC: kiếm chạm kiếm đúng chỗ, xích quất / quấn đúng vào người, đòn đi đúng hướng đối thủ (không vung vào khoảng không).
+   ④ XÍCH trận Chud vs Doge "lỗi tùm lum, không có lực" → soát từng khung, sửa chỗ gắn tay / quấn / căng / đứt; thêm lực (quật mạnh, căng rung, tia lửa).
+   ⑤ BAT đu dây KHÔNG CÓ MÓC → vẽ móc (grapnel) ở đầu dây, bắn ra từ súng móc, cắm vào dầm / cáp rồi mới kéo người lên.
+   ⑥ CẢNH LAO ĐI (fin1c5): CẢ 5 thành viên Meowkatsuki cùng tách ra các hướng (mỗi con lao về cột sáng của trận mình), không chỉ Depressed. Cần tư thế lấy đà / bay cho cả 5.
+   Nhiều lỗi khác anh thấy khi xem cả tập → soát lại toàn bộ bằng bảng khung dày trước khi báo.
   Trận phụ (fin1f1 Chud+Mlem vs Doge+Clapping · fin1f2 Bat vs Pop+Huh · fin1f3 Ninja vs Berserk): yêu cầu chi tiết ở prompts/fin1-fight-phu.md.
   🔧 NÂNG CẤP 9/11 (theo meme-anime-lab/playbook): thành phố dựng lại đúng TỈ LỆ (MEME_H=32, tầng 84–100, nhà phố 3–5 tầng, cao tầng 15–40) · Friend lộ diện = bộ ba
   (cực cận răng→mắt bật sáng · góc giun trời đỏ ngược sáng · cận Banana Cat) · ĐUÔI quật thay nắm tay (kiểu Cửu Vĩ, clip kaiju-b) · tĩnh trước phá · hậu quả ·
