@@ -16,6 +16,7 @@ const args = process.argv.slice(2), OUT = path.resolve(args[0] || 'match.mp4');
 const opt = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; };
 // 🎵 nhạc NỀN (không phải đòn đánh của meme): nhỏ hẳn + tự NÉN XUỐNG khi có tiếng đánh nhau (anh dặn 3/11: nhường tiếng meme, giảm rủi ro bản quyền)
 const BG_DUCK = new Set(['flyingcat_theme']), BG_LEVEL = { flyingcat_theme: 0.45 };
+for (const kv of (opt('--lvl', '') || '').split(',').filter(Boolean)) { const [k, v] = kv.split('='); BG_LEVEL[k] = +v; }   // --lvl key=0.6,key2=0.8: hạ/tăng mức 1 tiếng riêng cho video này (vd 2 meme nhạc đè nhau)
 const FFA = opt('--ffa', null) ? String(opt('--ffa')).split(',') : null;   // 🏆 --ffa k1,k2,k3,k4 = LAST ONE STANDING 4 người · --win <key> = con phải thắng (hoặc any)
 const A = opt('--a', FFA ? FFA[0] : undefined), B = opt('--b', FFA ? FFA[1] : undefined), DUO = !FFA && String(A).includes(','), TA = String(A).split(','), TB = String(B).split(','), DOMAIN = opt('--domain', null) == null ? null : +opt('--domain'),   // 👥 --a k1,k2 --b k3,k4 = trận 2vs2 (dùng chung nhạc ảo / --inject / trộn tiếng chuẩn của 1vs1) · --domain S: Stalin mở domain ở giây S (lấy từ render-duo)
       FPS = +opt('--fps', 60), OFPS = +opt('--ofps', 50), VW = +opt('--w', 1440), VH = Math.round(VW * 16 / 9);

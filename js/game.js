@@ -3218,6 +3218,7 @@ const BOSS_HP = 10000, BOSS_DMG_MUL = 1.5, BOSS_SIZE_MUL = 3;
 const ARENA_BOSS = {w:1280, h:720, ss:1.0};   // sàn 16:9 to (quay video offline thì vẽ ss 1.5 = 1920×1080)
 const BOSS_KEYS = ['pianocat','electricguitarcat','bongocat','mosquitoviolin','samuraicheems','berserkcat','bibilabu','stalincat','feuerkatze','spidercat','uiacat','holycat','cheems','clappingcat','doge','chillguy'];   // các meme xuất hiện nhiều nhất trong Memes Assemble II
 let fanCtx = null;  // ⭐ FAN BATTLE: 1 meme (team 0) đấu 3 meme (team 1), khung dọc y hệt 1vs1
+const CROWD_ARENA_K=1.2, CROWD_SIZE_K=1.05;   // 🏟️ 2vs2 + đấu 4 (anh dặn 12/11): sân to hơn 20% so với 1vs1 (canvas giữ nguyên độ phân giải) · meme to thêm 5%
 let ffa3Ctx = null; // truthy khi đang ở trận 3-Way Battle — tự xử lý thắng/thua riêng (không phải dead0/dead1 2 team như bình thường)
 // 👥 2vs2: GIỮ NGUYÊN tỉ lệ sàn 1vs1 (480×460), chỉ phóng to đều 20%
 // 👥 2vs2: 576x552 → 720x690 (+25% phạm vi sân, GIỮ NGUYÊN tỉ lệ 576/552 = 720/690 = 1.0435 nên khung hình không đổi dáng).
@@ -32974,7 +32975,7 @@ function ffa3Start(){
   // Tiêu đề "LAST ONE STANDING" giờ vẽ THẲNG TRONG canvas (_camPaintWorldUI, nhánh ffa3Ctx), không còn panel
   // HTML 2 bên hay hàng tên versus rời rạc nữa. #ffa3Screen/#ffa3VsLabel/#ffa3CtaMsg/#ffa3SidePanelLeft/Right
   // vẫn còn trong DOM nhưng không còn được kích hoạt/ghi vào nữa.
-  _setArenaSize(ARENA_NORMAL.w, ARENA_NORMAL.h, ARENA_NORMAL.ss);
+  _setArenaSize(ARENA_NORMAL.w*CROWD_ARENA_K, ARENA_NORMAL.h*CROWD_ARENA_K, ARENA_NORMAL.ss/CROWD_ARENA_K);
 
   const arenaWrap=document.querySelector('.arena-wrap');
   document.querySelector('.battle-frame').appendChild(arenaWrap);
@@ -33030,8 +33031,8 @@ function ffa3ActuallyStart(){
     const f=new Fighter(i,i,cx+Math.cos(ang)*rx,cy+Math.sin(ang)*ry);
     f._entryTimer=0; f.hp=2000; f.maxHp=2000;
     // 🖥️ 2026-09-12: sàn thu về đúng cỡ Solo 1vs1 (480×460, từ 741×710) mà vẫn đông (4 người) — giảm 20%
-    // cho vừa chỗ, y hệt 2vs2 (xem duoActuallyStart). → TĂNG LẠI 15% y như 2vs2 (0.8 × 1.15 = 0.92).
-    f.size*=0.92;
+    // cho vừa chỗ, y hệt 2vs2 (xem duoActuallyStart). → TĂNG LẠI 15% y như 2vs2 (0.8 × 1.15 = 0.92). → sân to 20% thì meme +5% (anh dặn 12/11)
+    f.size*=0.92*CROWD_SIZE_K;
     fighters.push(f);
   }
   loop();
@@ -33816,7 +33817,7 @@ function duoStart(){
   // 🖥️ Sân THU VỀ ĐÚNG cỡ Solo 1vs1 (480×460, không còn 741×710 rộng của FFA3) — _camModeSolo() đã cho phép
   // duoCtx dùng camera dọc (xem chỗ khai báo), nên showVsWaitScreen()/loop() sẽ TỰ dựng khung 9:16 + cam-mode
   // y hệt Solo, không cần dựng tay ở đây.
-  _setArenaSize(ARENA_NORMAL.w, ARENA_NORMAL.h, ARENA_NORMAL.ss);
+  _setArenaSize(ARENA_NORMAL.w*CROWD_ARENA_K, ARENA_NORMAL.h*CROWD_ARENA_K, ARENA_NORMAL.ss/CROWD_ARENA_K);
 
   const arenaWrap=document.querySelector('.arena-wrap');
   document.querySelector('.battle-frame').appendChild(arenaWrap); // về đúng "nhà" mặc định của Solo (xem closeDuo() làm y hệt lúc thoát)
@@ -33855,8 +33856,8 @@ function duoActuallyStart(){
     f._entryTimer=0;
     // 👥 2vs2: nhân vật + VFX liên quan (đều lấy theo this.size, tự co theo) — sân vừa thu về đúng cỡ Solo
     // 1vs1 (480×460, từ 741×710) mà vẫn đông gấp đôi (4 người), nên giảm thêm 20% cho vừa chỗ theo yêu cầu.
-    // → sau đó TĂNG LẠI 15% theo yêu cầu (0.8 × 1.15 = 0.92).
-    f.size*=0.92;
+    // → sau đó TĂNG LẠI 15% theo yêu cầu (0.8 × 1.15 = 0.92). → sân to 20% thì meme +5% (anh dặn 12/11)
+    f.size*=0.92*CROWD_SIZE_K;
     f.hp=2000; f.maxHp=2000; // 👥 2vs2: đồng loạt 2000 máu (như 3-Way Battle), không đụng tới máu gốc CHAR_DEFS dùng ở Solo/Tournament/Team Battle
     f._duoDealt=0; f._duoTaken=0; // 📊 thống kê riêng từng người, Commenter Battle đọc lại ở fanShowResult()
     fighters.push(f);
