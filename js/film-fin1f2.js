@@ -89,9 +89,8 @@
   // ───────── TRẬN KẾ (fin1f1, CÔNG VIÊN) trong lỗ vòng khói: Doge + Clapping đi dạo — đúng khung mở đầu fin1f1 ─────────
   const PARK=Fin1City({seed:7, kind:'park'}), NEXT1={tx:-560,ty:110,tz:-180,dist:900,yaw:-40,pitch:-4,fov:52,roll:-2,oy:0};   // = máy shot đầu fin1f1   // oy:0 → ô tròn không tự dời tâm ảnh
   function drawNext(F,t){ PARK.draw(F,t,PARK.TH_PARK);
-    // khung mở đầu fin1f1: Doge + Clapping vừa truyền tống xuống, 2 cột sáng (vàng Doge, trắng Clapping) còn sáng rực
-    W.beam(F,[-640,0,-240],[-640,4200,-240],70,'255,214,90',1,{d:40}); W.beam(F,[-486,0,-368],[-486,4200,-368],70,'255,255,255',1,{d:40});
-    K.sprite(F,{img:F.I.nD,x:-640,z:-240,h:H*0.72,life:{breath:0.8}}); K.sprite(F,{img:F.I.nK,x:-486,z:-368,h:H*1.0,life:{breath:0.7}}); }
+    // khung mở đầu fin1f1: công viên đêm còn TRỐNG, yên lặng — ngay sau đó 2 cột Bifrost giáng xuống (Doge + Clapping truyền tống)
+  }
   const ringR=t=>{ const u=seg(t,T.giant,T.hole+0.9); return lerp(30,1500,Math.pow(u,2.4)); };   // bán kính vòng khói khổng lồ TRÊN MÀN HÌNH (px logic)
   const ringC=t=>[480+Math.sin(t*3)*6, 300-40*seg(t,T.giant,T.hole)];
   function panels(t){ if(t<T.giant+0.3) return null; const R=ringR(t)*0.6, [cx,cy]=ringC(t), poly=[];

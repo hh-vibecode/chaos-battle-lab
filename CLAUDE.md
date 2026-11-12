@@ -65,6 +65,19 @@ Mẫu đã duyệt:
   giờ cánh tay vẽ CÙNG NÉT ảnh tay (chép `_hmArmSprite`), cổ tay khớp bề ngang ảnh, gốc tay khói bão phủ dày → mỏng dần (`shadowArm(...,{root})` trong js/film-l2pro.js).
 - Bớt chi tiết thừa khi cảnh rối (anh bỏ hết xúc tu phụ ở cảnh bão: "lộn xộn quá"). Xong cảnh nào phải chụp khung soi kỹ CHỖ NỐI trước khi báo xong.
 
+## ⏱️ PHIM KHÔNG CÒN GIỚI HẠN THỜI LƯỢNG (anh dặn 12/11/2026 — "note vào")
+- Từ giờ KHÔNG ép phim / cảnh vào thời gian bắt buộc. Anh có nói con số thì đó chỉ là thời lượng XẤP XỈ đề xuất — làm ra DÀI HƠN vẫn được.
+  Cảnh nào cần dài thì làm cho ĐỦ CẢNH, hợp lý nhất là được; KHÔNG nén nhịp tới mức vội (bản trận phụ 22s bị chê "rush, đau mắt").
+
+## ⚔️ CẢNH ĐÁNH NHAU — NHỊP THEO ANIME GỐC, KHÔNG THEO AMV (anh chê 12/11: "rush, quá nhanh liên tục, đau mắt, không rõ cách đánh; sound không lực, lộn xộn")
+- Số đo từ 4 trận GỐC còn tiếng gốc (JJK Todo vs Hanami, Gojo vs Toji, Rengoku vs Akaza, Naruto vs Sasuke — `meme-anime-lab/playbook/nhip.md`): shot TB 1.3–1.8s,
+  55–72% thời gian ở shot > 2s, shot < 0.6s chỉ 3–7%. 1 shot = TRỌN 1 PHA (lấy đà → ra đòn → khựng → phản ứng), máy bám theo; giữ trục (phe A trái / B phải);
+  shot THỞ 1.5–4s giữa các hiệp; âm bản / chớp chỉ 2–4 cú quyết định cả trận. Bản cũ học từ AMV (0.6s/shot) là SAI.
+- TIẾNG: mỗi vũ khí 1 giọng cố định; cú nặng = 2–3 lớp (nhãn '+'); ≤ 9 tiếng / 10s; nhạc LẶNG 0.3–0.7s trước cú quyết định. Bộ tiếng anime: `se_*` (効果音ラボ).
+- `tools/x/film-lint.js` + `sfx-lint.js` đã soát đúng các luật này (đổi 12/11) → phải SẠCH trước khi báo anh. Đo LUFS tiếng mới trên Windows: `tools/x/sfx-measure.html`.
+- ĐỪNG DÙNG MÃI 1 CÔNG THỨC: mỗi trận 1 cấu trúc + chữ ký riêng theo kiểu nhân vật (đấu kiếm · bẫy / trí tuệ · sức mạnh thô · tầm xa · xích vs tay bo…).
+- Video mẫu dài: KHÔNG tự dò cả video tốn token → hỏi anh mốc phút trước.
+
 ## Phim (Meme Cinema) — TỈ LỆ là quan trọng nhất
 - Giữ tỉ lệ nhất quán giữa vật thể khổng lồ và meme nhỏ ở MỌI góc máy: meme thường ~100–170, Gigachad khổng lồ ~1000, quỷ khổng lồ rộng ~2000, bom vĩ thú đường kính ~860 (đơn vị thế giới trong js/cine-war.js).
 - Muốn vật khổng lồ trông to thì đưa máy quay lại gần / đổi góc, KHÔNG phóng to meme nhỏ lên cho vừa khung (làm vật khổng lồ trông bé đi). Chỉ phóng to khi kịch bản bảo nhân vật hoá to (vd Chonky to gấp 3 con quỷ).
@@ -204,6 +217,7 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
 
 ## 🎬 Meme Lore · FINAL — Part 1 (5/11/2026) — `js/film-fin1.js` (cine-kit, id `fin1`, 16:9, 51s; Meme Cinema → MEME LORE 2 → "Final · Part 1")
 - ⏱️ (11/11 anh dặn) Tập Final 1 nhắm dài **ÍT NHẤT 8–9 PHÚT** → cảnh nào cần thì MỞ RỘNG thoải mái (thêm shot, kéo dài nhịp, thêm chi tiết), KHÔNG nén thời lượng tới mức mất chi tiết / bị vội.
+  (12/11) Không còn giới hạn thời lượng bắt buộc — số anh nói chỉ là xấp xỉ, dài hơn vẫn được (mục "PHIM KHÔNG CÒN GIỚI HẠN THỜI LƯỢNG" ở trên).
 - ☁️ (11/11) Khói chung của cine-kit (`K.smoke`) làm lại: 6 kiểu cụm mây mềm mép lởm chởm, xoay ngẫu nhiên, nhuộm màu chỉ trên phần khói (anh chê khói cũ như bóng bay xám).
 - 🧩 (9/11, anh chốt) Trận **Mewing/Gojo Cat vs Depressed/Pain Cat** là 1–2 CẢNH NẰM TRONG Final Part 1 (không phải phim riêng). Bản cũ `js/film-mvd.js` (9:16, 23s, Anime Lab) chỉ để tham khảo.
   Kịch bản anh viết: cận chiến đa dạng, nhịp không đều → Pain dùng Almighty Push hất Gojo văng xa → Pain bay thẳng lên trời cast SHINRA TENSEI, nổ xoá nửa thành phố;

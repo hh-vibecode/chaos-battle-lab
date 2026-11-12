@@ -16,11 +16,11 @@
   for(const [g,f] of [['PIXI_FILTERS_GLSL','vendor/pixi-filters/glsl.js'],['Fin1City','fin1-city.js'],['Fin1Fight','fin1-fight.js']]) if(!window[g]){ try{ const x=new XMLHttpRequest(); x.open('GET',BASE+f+V,false); x.send(); (0,eval)(x.responseText); }catch(e){} }
   const K=CineKit, {seg,lerp,clamp,hash}=K, E=K.EASE, eout=E.eout, ein=E.ein, eio=E.eio, C=K.cam, W=window.Fin1Fight, TAU=Math.PI*2;
   const FX=()=>window.CineKitFx;
-  const T={ look:3.2, lurk:5.4, bind:7.4, lick:8.1, frz:8.22, hold:9.6, out:12.4, surr:15.6, laugh:18.0, puzzle:21.2, shake:23.0, turn:25.0, crack:26.0, eye:27.6, quiet:28.6,
-    burst:29.2, charge:30.2, ram:31.0, b1:31.9, b2:32.8, b3:33.7, dust:35.0, cover:37.4, mturn:40.2, raise:41.8,
-    // ── trận chính trong đống đổ nát (sau 3 dãy nhà) ──
-    rise:44.2, chains:47.2, r1:48.8, w1:50.0, r2:52.2, w2:52.95, punch:53.45, zip:53.4, tie0:55.6, tie:56.2, tug:58.0, lift:61.2, slam:61.8, down:63.0,
-    haki:65.5, hakiOn:66.2, pull:68.0, snap:69.2, shock:70.5, lunge:72.5, clash:73.7, far:73.75, whip:74.6, tunnel:74.85, DUR:75.8 };
+  const T={ strikeD:0.5, strikeK:0.85, landD:2.2, landK:3.6,   // ĐÁP XUỐNG kiểu cổng BIFROST (anh dặn 12/11: "chiếu xuống kiểu cổng Bifrost của Thor", "đáp xuống chất tí")
+    look:4.6, lurk:6.8, bind:8.8, lick:9.5, frz:9.62, hold:11, out:13.8, surr:17, laugh:19.4, puzzle:22.6, shake:24.4, turn:26.4, crack:27.4, eye:29, quiet:30, 
+    burst:30.6, charge:31.6, ram:32.4, b1:33.3, b2:34.2, b3:35.1, dust:36.4, cover:38.8, mturn:41.6, raise:43.2, rise:45.6, chains:48.6, r1:50.2, w1:51.4, r2:53.6, 
+    w2:54.35, punch:54.85, zip:54.8, tie0:57, tie:57.6, tug:59.4, lift:62.6, slam:63.2, down:64.4, haki:66.9, hakiOn:67.6, pull:69.4, snap:70.6, shock:71.9, 
+    lunge:73.9, clash:75.1, far:75.15, whip:76, tunnel:76.25, DUR:77.2 };
   const H=120;
   // đường húc: từ chỗ Chud đứng bay chéo vào sâu, xuyên 3 dãy nhà phía sau công viên
   const CH0=[60,200], DIRV=[0.64,0.77], RAM=k=>[CH0[0]+DIRV[0]*k, CH0[1]+DIRV[1]*k];
@@ -45,9 +45,9 @@
   const HAND={C0:[[0.18,0.55],[0.82,0.55]],CK0:[[0.05,0.43],[0.96,0.43]],CK1:[[0.04,0.03],[0.62,0.48]],CK2:[[0.83,0.02],[0.88,0.47]],CK3:[[0.05,0.47],[0.97,0.04]],CK4:[[0.12,0.27],[0.97,0.38]]};
   // ───────── BIÊN ĐẠO [giây, x, ảnh, chuyển, nhoè, z, y] ─────────
   // phần công viên
-  const DK=[[0,-640,'D0',0,0,-240,0],[T.look,-560,'D0','eout',0,-230,0],[T.bind,-300,'D0','lin',0,-185,0],[T.bind+0.2,-262,'D0','eout',0,-180,0],[T.burst,-260,'DB',0,0,-180,0],[T.charge-0.1,-270,'DB',0,0,-190,0],
+  const DK=[[0,-640,'D0',0,0,-240,520],[T.strikeD,-640,'D0',0,0,-240,520],[T.landD,-640,'D0','ein',0,-240,0],[T.look,-560,'D0','eout',0,-230,0],[T.bind,-300,'D0','lin',0,-185,0],[T.bind+0.2,-262,'D0','eout',0,-180,0],[T.burst,-260,'DB',0,0,-180,0],[T.charge-0.1,-270,'DB',0,0,-190,0],
     [T.charge,-250,'DZ',0,0,-170,30],[T.ram,CH0[0]-80,'DZ','ein',1,CH0[1]-90,60]];   // từ T.ram: Doge + Chud bay theo RAM()
-  const KK=[[0,-486,'K3',0,0,-368,0],[T.look,-440,'K3','eout',0,-340,0],[T.bind+0.4,-150,'K3','lin',0,-70,0],[T.bind+0.8,-120,'K3','eout',0,-60,0],[T.DUR,-120,'K3',0,0,-60,0]];
+  const KK=[[0,-486,'K3',0,0,-368,520],[T.strikeK,-486,'K3',0,0,-368,520],[T.landK,-486,'K3','ein',0,-368,0],[T.look,-440,'K3','eout',0,-340,0],[T.bind+0.4,-150,'K3','lin',0,-70,0],[T.bind+0.8,-120,'K3','eout',0,-60,0],[T.DUR,-120,'K3',0,0,-60,0]];
   const MK=[[0,380,'M0',0,0,620,0],[T.out,380,'M0',0,0,620,0],[T.surr,-300,'M0','eio',0,160,0],[T.laugh,-330,'M0','eio',0,90,0],[T.DUR,-330,'M0',0,0,90,0]];
   const CK=[[0,560,'CK0',0,0,760,0],[T.bind-0.5,560,'CK1',0,0,760,0],[T.bind-0.25,560,'CK2',0,0,760,0],[T.bind+0.4,560,'CK0',0,0,760,0],[T.out+0.3,560,'CK0',0,0,760,0],
     [T.surr+0.3,150,'CK0','eio',0,260,0],[T.laugh,CH0[0],'CK0','eio',0,CH0[1],0],[T.DUR,CH0[0],'CK0',0,0,CH0[1],0]];
@@ -74,7 +74,9 @@
   const OPEN={tx:-560,ty:110,tz:-180,dist:900,yaw:-40,pitch:-4,fov:52,roll:-2};   // = máy ô tròn (lỗ vòng khói) cuối fin1f2 → nối liền
   const FX0=FZ[0], FZz=FZ[1];
   const shots=C.seq([
-    S(0,T.look,OPEN,{tx:-520,ty:120,tz:-170,dist:820,yaw:-36,pitch:-5,fov:52,roll:-1}),                                                                  // toàn: 2 cột sáng vàng + trắng tắt dần → Doge + Clapping vừa truyền tống xuống
+    S(0,1.5,OPEN,{tx:-540,ty:130,tz:-200,dist:860,yaw:-38,pitch:-6,fov:52,roll:-2},'lin'),                                                                // toàn: công viên đêm yên lặng → 2 cột BIFROST giáng xuống (vàng rồi trắng)
+    S(1.5,3.0,{tx:-640,ty:150,tz:-240,dist:420,yaw:-28,pitch:-20,fov:50},{tx:-640,ty:90,tz:-240,dist:360,yaw:-30,pitch:-14,fov:50},'eout'),          // góc giun: Doge hạ xuống trong cột vàng, chạm đất, bụi toé vòng
+    S(3.0,T.look,{tx:-486,ty:150,tz:-368,dist:420,yaw:-58,pitch:-20,fov:50},{tx:-486,ty:95,tz:-368,dist:370,yaw:-56,pitch:-14,fov:50},'eout'),        // góc đối xứng: Clapping hạ xuống trong cột trắng, chạm đất                                                                  // toàn: 2 cột sáng vàng + trắng tắt dần → Doge + Clapping vừa truyền tống xuống
     S(T.look,T.lurk,{tx:-470,ty:70,tz:-180,dist:340,yaw:-58,pitch:-3,fov:46},{tx:-430,ty:70,tz:-180,dist:320,yaw:-50,pitch:-3,fov:46},'lin'),           // trung: 2 con dáo dác nhìn quanh công viên lạ
     S(T.lurk,T.bind-0.3,{tx:470,ty:80,tz:690,dist:420,yaw:172,pitch:-3,fov:46},{tx:470,ty:80,tz:690,dist:390,yaw:172,pitch:-3,fov:46},'lin'),          // trong hàng cây: bóng Chud xích đỏ rực + bóng Mlem, mắt loé
     S(T.bind-0.3,T.hold,{tx:0,ty:100,tz:220,dist:1100,yaw:-14,pitch:4,fov:52},{tx:-100,ty:100,tz:170,dist:1020,yaw:-16,pitch:4,fov:52},'lin'),         // toàn: 2 sợi xích từ bóng tối quấn quanh Doge → lưỡi liếm → đông cứng
@@ -157,7 +159,29 @@
       if(eyes){ g.globalCompositeOperation='lighter'; for(const sx of eyes){ const ex=P.x+sx[0]*w, ey=P.y-h*sx[1], R=Math.max(2,h*0.04)*blink+0.01, gr=g.createRadialGradient(ex,ey,0,ex,ey,R*3); gr.addColorStop(0,'rgba(255,240,200,1)'); gr.addColorStop(0.3,'rgba(255,200,120,0.6)'); gr.addColorStop(1,'rgba(255,160,80,0)'); g.fillStyle=gr; g.fillRect(ex-R*3,ey-R*3,R*6,R*6); } }
       g.restore(); }}); }
   // cột sáng truyền tống (cùng màu cột guardian ở fin1c5: Doge vàng, Clapping trắng) — tắt dần lúc mở phim
-  function arrivePillar(F,t,x,z,col){ const a=1-seg(t,0.4,2.6); if(a<=0.01) return; W.beam(F,[x,0,z],[x,4200,z],70*(0.6+0.4*a),col,a,{d:40}); if(t<2) K.sparks(F,{x,y:30,z,t0:0,n:30,speed:300,life:1.6,seed:x|0,col}); }
+  // 🌈 CỔNG BIFROST (kiểu Thor): cột sáng giáng thẳng từ trời (đầu cột lao xuống 0.18s) — lõi trắng, thân màu riêng (Doge vàng / Clapping trắng),
+  //    viền ánh CẦU VỒNG; vệt sáng XOÁY quanh trục; chạm đất = loé + sóng quét cỏ; người hạ xuống trong cột; sau khi đáp cột tan thành hạt bay lên;
+  //    mặt cỏ còn lại VÒNG KÝ TỰ Bifrost (vòng đồng tâm + nút thắt) sáng màu rồi nguội thành vết cháy sém, giữ suốt cảnh công viên.
+  const RAINBOW=['255,80,80','255,170,60','255,240,90','90,255,140','80,190,255','160,110,255'];
+  function bifrost(F,t,x,z,col,t0,tL){ if(t<t0) return; const head=lerp(4200,0,eout(seg(t,t0,t0+0.18))), a=t<tL+0.2?1:1-seg(t,tL+0.2,tL+1.6), B=F.B;
+    if(a>0.01){ const w=t<t0+0.3?1.4-0.4*seg(t,t0,t0+0.3):1;
+      RAINBOW.forEach((c,i)=>{ const off=(i-2.5)*9; W.beam(F,[x+B.r[0]*off,head,z+B.r[2]*off],[x+B.r[0]*off,4200,z+B.r[2]*off],9*w,c,0.55*a,{d:44}); });   // viền CẦU VỒNG (6 dải sát nhau)
+      W.beam(F,[x,head,z],[x,4200,z],26*w,col,0.85*a,{d:42}); W.beam(F,[x,head,z],[x,4200,z],8*w,'255,255,255',a,{d:41});   // thân màu riêng + lõi trắng gắt
+      for(let i=0;i<5;i++){ const ph=(t*1.6+i/5)%1, y0=head+ph*900, pts=[]; for(let j=0;j<=14;j++){ const an=t*9+i*1.3+j*0.42, y=y0+j*30, R=48*w; pts.push([x+B.r[0]*Math.cos(an)*R-B.f[0]*Math.sin(an)*R*0.5,y,z+B.r[2]*Math.cos(an)*R-B.f[2]*Math.sin(an)*R*0.5]); }
+        W.line(F,pts,3.2,'rgba(255,255,255,'+(0.95*a)+')',{glow:'rgba('+RAINBOW[i%6]+','+(0.8*a)+')',d:-30}); }   // vệt xoáy quanh trục
+      if(t>=tL) K.sparks(F,{x,y:30,z,t0:tL,n:46,speed:420,life:1.6,seed:(x|0)+7,col}); }
+    // vòng ký tự Bifrost trên cỏ (vẽ dưới mọi thứ): sáng khi cột chạm đất, nguội thành vết cháy
+    const P=K.proj(B,x,0,z), Q=K.proj(B,x+260,0,z), Zp=K.proj(B,x,0,z+260); if(!P||!Q||!Zp) return; const rx=Math.abs(Q.x-P.x)+2, ry=Math.max(3,Math.abs(Zp.y-P.y)), hot=t<t0+0.18?0:1-seg(t,tL+0.4,tL+2.5), born=seg(t,t0+0.18,t0+0.5);
+    const flat=clamp((ry/rx-0.1)/0.18,0,1); if(flat<=0.01) return;   // máy sát đất → vòng dẹt thành vạch → ẩn
+    F.under.push(()=>{ const g=F.g; g.save(); g.globalAlpha=flat; g.translate(P.x,P.y); g.scale(1,ry/rx); g.lineCap='round';
+      const stroke=(al,lw)=>{ for(const k of [1,0.82,0.5]){ g.lineWidth=lw*(k===1?1.4:1); g.beginPath(); g.arc(0,0,rx*k*born,0,TAU); g.stroke(); }
+        for(let i=0;i<12;i++){ const a0=i/12*TAU; g.beginPath(); g.arc(Math.cos(a0)*rx*0.66*born,Math.sin(a0)*rx*0.66*born,rx*0.17*born,a0+1.2,a0+TAU-1.2); g.stroke(); }   // vòng nút thắt
+        for(let i=0;i<24;i++){ const a0=i/24*TAU; g.beginPath(); g.moveTo(Math.cos(a0)*rx*0.84*born,Math.sin(a0)*rx*0.84*born); g.lineTo(Math.cos(a0)*rx*0.98*born,Math.sin(a0)*rx*0.98*born); g.stroke(); } };   // vạch ký tự vòng ngoài
+      g.strokeStyle='rgba(20,14,10,0.75)'; stroke(1,4);   // vết cháy sém (ở lại)
+      if(hot>0.01){ g.globalCompositeOperation='lighter'; g.strokeStyle='rgba('+col+','+(0.5*hot)+')'; stroke(1,9); g.strokeStyle='rgba('+col+','+hot+')'; stroke(1,3.5); g.strokeStyle='rgba(255,255,255,'+(0.8*hot)+')'; stroke(1,1.4); }
+      g.restore(); }); }
+  function landFx(F,t,x,z,col,tL){ if(t<tL||t>tL+2.4) return; const u=seg(t,tL,tL+0.7); K.ring(F,x,z,40+520*eout(u),10,0.3*(1-u),col);   // sóng nhỏ, mờ (góc sát đất vòng to dẹt thành vạch sáng cắt khung)
+    K.smoke(F,{x,z,t0:tL,n:16,spread:520,rise:90,life:1.6,size:110,seed:(x|0)+3,a:0.5,tint:'140,130,120'}); K.debris(F,{x,y:10,z,t0:tL,n:26,speed:700,life:1.0,size:10,seed:(x|0)+5,col:'#3c3a2e'}); }
   // đá vụn / cột gãy quanh bãi đánh chính
   const RUBBLE=Array.from({length:26},(_,i)=>{ const w=70+220*hash(i*7.1), h=30+150*hash(i*2.9), d=60+160*hash(i*4.3), x=FZ[0]+(hash(i*3.3)-0.5)*2600, z=FZ[1]+(i%4===0?-420-300*hash(i*9.1):260+hash(i*5.7)*1100); return {x,z,w,h,d,dark:hash(i*6.6)<0.5}; }).filter(r=>!(Math.abs(r.z-FZ[1])<300&&r.x>FZ[0]-400&&r.x<FZ[0]+900));
   function rock(F,x,y,z,S,seed){ const P=K.proj(F.B,x,y+S*0.45,z); if(!P) return; const R=S*P.s;
@@ -172,17 +196,17 @@
     if(t<T.rise) parkWorld(F,t); else fightWorld(F,t); farFlash(F,t); }
   // ═════════ CÔNG VIÊN: truyền tống → tập kích → vây → phá băng → húc xuyên nhà → người xem ═════════
   function parkWorld(F,t){ const d=doge(t), k=clap(t), m=mlem(t), c=chud(t);
-    arrivePillar(F,t,-640,-240,'255,214,90'); arrivePillar(F,t,-486,-368,'255,255,255');
+    bifrost(F,t,-640,-240,'255,214,90',T.strikeD,T.landD); bifrost(F,t,-486,-368,'255,255,255',T.strikeK,T.landK); landFx(F,t,-640,-240,'255,214,90',T.landD); landFx(F,t,-486,-368,'255,255,255',T.landK);
     const shk=t>=T.shake&&t<T.burst?Math.sin(t*47)*3*seg(t,T.shake,T.shake+0.6):0;
     const frozen=t>=T.frz&&t<T.burst, iceA=t<T.frz?0:t<T.frz+0.5?seg(t,T.frz,T.frz+0.5):t<T.burst?1:0, bound=t>=T.bind+0.2&&t<T.burst;
     const lookD=t<T.bind?{x:d.x+Math.sin(t*1.7)*300,z:d.z+200}:{x:c.x,z:c.z};   // dáo dác nhìn quanh
-    if(t<T.ram){ const key=d.im, pre=t>=T.charge-0.1&&t<T.charge?seg(t,T.charge-0.1,T.charge):0;
+    if(t<T.ram&&t>=T.strikeD+0.12){ const key=d.im, pre=t>=T.charge-0.1&&t<T.charge?seg(t,T.charge-0.1,T.charge):0;
       W.actor(F,{key,dir:DIR[key],x:d.x+(frozen?shk*0.4:0),z:d.z,y:d.y+walking(t,0,T.bind),h:HT[key],look:lookD,smear:d.sm,shadow:true,
-        aura:t>=T.burst?{preset:'fire',k:0.6,seed:3}:null, white:(t>=T.burst&&t<T.burst+0.06)?1:0, life:frozen?{breath:0}:{breath:0.7,squash:pre?-0.3*pre:0}});
+        aura:t>=T.burst?{preset:'fire',k:0.6,seed:3}:null, white:(t>=T.burst&&t<T.burst+0.06)?1:0, life:frozen?{breath:0}:{breath:0.7,squash:pre?-0.3*pre:K.squash(t,T.landD,0.4,0.12)}});
       if(iceA>0) W.ice(F,{key:'D0',x:d.x+(frozen?shk*0.4:0),z:d.z,h:HT.D0*1.08,seed:4},iceA,t);
       if(frozen) iceCracks(F,d.x,d.z-2,HT.D0,t<T.crack?0:seg(t,T.crack,T.quiet));
       if(t>=T.eye&&t<T.burst){ const P=K.proj(F.B,d.x+6,HT.D0*0.72,d.z-6); if(P) F.list.push({d:P.d-9, fn:()=>{ const g=F.g, R=Math.max(3,18*P.s)*(0.6+0.4*Math.sin(t*30)); g.save(); g.globalCompositeOperation='lighter'; const gr=g.createRadialGradient(P.x,P.y,0,P.x,P.y,R*4); gr.addColorStop(0,'rgba(255,240,190,1)'); gr.addColorStop(0.25,'rgba(255,190,90,0.7)'); gr.addColorStop(1,'rgba(255,140,40,0)'); g.fillStyle=gr; g.fillRect(P.x-R*4,P.y-R*4,R*8,R*8); g.restore(); }}); }
-    } else if(flyA(t)>0.02){ const p=RAM(flyK(t)), q=RAM(flyK(t)+90);
+    } else if(t>=T.ram&&flyA(t)>0.02){ const p=RAM(flyK(t)), q=RAM(flyK(t)+90);
       W.actor(F,{key:'CK0',dir:0,x:q[0],z:q[1],y:140,h:HT.CK0,look:{x:p[0]-200,z:p[1]-200},shadow:false,lean:-25,life:{breath:0}});
       W.actor(F,{key:'DZ',dir:-1,x:p[0],z:p[1],y:120,h:HT.DZ,look:{x:q[0],z:q[1]},smear:{dx:-DIRV[0]*60,dy:0,dz:-DIRV[1]*60},shadow:false,life:{breath:0}}); }
     // ── Chud: bóng trong hàng cây (lurker) → quăng 2 xích quấn Doge → bước ra (vẫn ghì xích) → vây → bị húc
@@ -197,8 +221,8 @@
     // ── Mlem: lè lưỡi liếm (sau khi xích đã quấn) → bước ra → vây → ở lại
     if(t>=T.lick-0.3&&t<T.lick+0.4){ const A=mouthM({x:380,y:0,z:620}); tongue(F,t,T.lick,A,[d.x+10,48,d.z-6]); }
     if(t>=T.out) W.actor(F,{key:'M0',dir:0,x:m.x,z:m.z,y:walking(t,T.out,T.laugh),h:HT.M0,look:t>=T.turn&&t<T.cover?{x:d.x,z:d.z}:t>=T.dust&&t<T.mturn?{x:1400,z:1800}:{x:k.x,z:k.z},shadow:true,life:{breath:0.7,wind:0.8}});
-    { const key=kImg(t); W.actor(F,{key,dir:0,x:k.x,z:k.z,y:walking(t,0,T.bind+0.8),h:HT[key],look:t<T.bind?{x:k.x-Math.sin(t*1.3)*300,z:k.z+200}:t>=T.dust&&t<T.raise?{x:1400,z:1800}:{x:m.x,z:m.z},shadow:true,
-        lean:t>=T.raise&&t<T.raise+0.35?-12*Math.sin(Math.PI*seg(t,T.raise,T.raise+0.35)):0, life:{breath:t>=T.laugh&&t<T.puzzle?1.6:0.7,squash:t>=T.laugh&&t<T.puzzle?0.12*Math.abs(Math.sin(t*14)):0}}); }
+    if(t>=T.strikeK+0.12){ const key=kImg(t); W.actor(F,{key,dir:0,x:k.x,z:k.z,y:walking(t,0,T.bind+0.8),h:HT[key],look:t<T.bind?{x:k.x-Math.sin(t*1.3)*300,z:k.z+200}:t>=T.dust&&t<T.raise?{x:1400,z:1800}:{x:m.x,z:m.z},shadow:true,
+        lean:t>=T.raise&&t<T.raise+0.35?-12*Math.sin(Math.PI*seg(t,T.raise,T.raise+0.35)):0, life:{breath:t>=T.laugh&&t<T.puzzle?1.6:0.7,squash:t>=T.laugh&&t<T.puzzle?0.12*Math.abs(Math.sin(t*14)):K.squash(t,T.landK,0.4,0.12)}}); }
     if(t>=T.frz&&t<T.frz+0.9){ K.smoke(F,{x:d.x,z:d.z,t0:T.frz,n:10,spread:120,rise:50,life:0.9,size:50,seed:11,a:0.5,tint:'220,240,255'}); K.sparks(F,{x:d.x,y:50,z:d.z,t0:T.frz,n:20,speed:260,life:0.6,seed:12,col:'200,235,255'}); }
     if(t>=T.shake&&t<T.burst){ for(let i=0;i<14;i++){ const ph=((t-T.shake)*0.5+hash(i*3.3))%1, x=-900+1800*hash(i*5.1), z=300+600*hash(i*7.7), P=K.proj(F.B,x,500-ph*500,z); if(!P) continue;
         F.list.push({d:P.d, fn:()=>{ const g=F.g; g.save(); g.translate(P.x,P.y); g.rotate(t*3+i); g.fillStyle='rgba(60,70,40,0.9)'; g.beginPath(); g.ellipse(0,0,Math.max(1,7*P.s),Math.max(1,3*P.s),0,0,TAU); g.fill(); g.restore(); }}); }
@@ -257,8 +281,12 @@
     sfxOk:{ clap_cat:'Clapping cười vỗ tay liên tục: mỗi lần vỗ 1 tiếng (game)', dc_chain:'mỗi nhát xích quất / quấn trúng 1 tiếng (game)' },
     // 🔊 mở đầu KHÔNG NHẠC → nhạc vào khi Meowkatsuki bước ra → LẶNG lúc mắt Doge loé → bùng lại khi băng vỡ → LẶNG trước Haki → bùng lại khi xích đứt
     //    xích = 1 giọng `dc_chain` (của Chud) · đòn tay của Doge = se_punch_* · cú nặng có lớp trầm '+'
-    sfx:[[0.1,'ep3_shine',0.4,null,'2 cột sáng truyền tống tắt dần, Doge + Clapping hiện ra'],
-      [0.3,'l2p_rumble',0.25,null,'công viên đêm yên tĩnh, gió nhẹ'],
+    sfx:[[0.05,'l2p_rumble',0.25,null,'công viên đêm yên tĩnh, gió nhẹ'],
+      [T.strikeD,'cine_impact',0.8,null,'cột Bifrost vàng giáng thẳng từ trời xuống công viên'],
+      [T.strikeK,'cine_impact',0.65,null,'+ cột Bifrost trắng giáng xuống ngay sau, cạnh cột vàng'],
+      [T.landD-0.65,'l2p_riser',0.45,null,'Doge từ từ hạ xuống trong cột sáng'],
+      [T.landD,'kn_boom_low',0.65,null,'Doge đáp đất, sóng bùng quét qua bãi cỏ'],
+      [T.landK,'se_step_in',0.7,null,'Clapping đáp đất, bụi toé vòng'],
       [T.lurk+0.4,'l2p_sub',0.4,null,'trong hàng cây: bóng Chud xích đỏ rực + bóng Mlem, mắt loé'],
       [T.bind-0.2,'dc_chain',0.9,null,'2 sợi xích nung đỏ từ bóng tối quấn chặt quanh người Doge'],
       [T.lick-0.15,'mlem_lick',0.9,null,'Mlem phóng lưỡi từ bụi cây liếm trúng Doge'],
@@ -310,7 +338,7 @@
     impact:C.negFrames([T.burst,T.snap],0.07,'inv',[T.ram,T.slam]),
     shake:t=>{ let s=0; const h=(a,amp,d)=>{ if(t>=a&&t<a+d) s=Math.max(s,amp*(1-(t-a)/d)); };
       if(t>=T.shake&&t<T.burst) s=Math.max(s,1.5+2.5*seg(t,T.shake,T.quiet)); if(t>=T.quiet&&t<T.burst) s=0.5;
-      h(T.bind,4,0.3); h(T.frz,4,0.4); h(T.burst,16,0.8); h(T.charge,6,0.3); h(T.ram,18,0.8); for(const [tb] of HITS) h(tb,8,0.6);
+      h(T.strikeD,8,0.5); h(T.strikeK,6,0.4); h(T.landD,6,0.4); h(T.landK,4,0.3); h(T.bind,4,0.3); h(T.frz,4,0.4); h(T.burst,16,0.8); h(T.charge,6,0.3); h(T.ram,18,0.8); for(const [tb] of HITS) h(tb,8,0.6);
       h(T.w1,8,0.4); h(T.punch,20,0.9); h(T.slam,16,0.7); h(T.hakiOn,5,1.0); h(T.snap,10,0.5); h(T.far,6,0.8); if(t>=T.tug&&t<T.lift) s=Math.max(s,1.2); return s; },
     world, post(F,t){ const fx={shocks:[]}; const sh=(a,x,y,z,rm,d,str)=>{ if(t>=a&&t<a+d){ const u=(t-a)/d; fx.shocks.push({x,y,z,r:20+rm*eout(u),w:26,str:str*(1-u)}); fx.chroma=Math.max(fx.chroma||0,1.5*(1-u)); } };
       sh(T.burst,-260,80,-180,600,0.7,26); sh(T.ram,CH0[0],120,CH0[1],520,0.6,28); sh(T.punch,FZ[0]+110,40,FZ[1],800,0.8,30); sh(T.slam,FZ[0]+380,40,FZ[1],520,0.6,22); sh(T.hakiOn,FZ[0]+380,120,FZ[1],400,0.9,18); return fx; },
@@ -318,6 +346,7 @@
       if(t>=T.charge&&t<T.ram) K.panLines(F,{k:0.55,ang:-0.3,n:24});
       if(t>=T.ram&&t<T.b1) K.speedLines(F,{k:0.45*(1-seg(t,T.ram+0.4,T.b1)),n:60,r0:0.45});
       if(t>=T.lunge+0.25&&t<T.far) K.speedLines(F,{k:0.4,n:50,r0:0.45});
+      if(t>=T.strikeD&&t<T.strikeD+0.06) K.flash(F,0.4,'#fff4c8'); if(t>=T.strikeK&&t<T.strikeK+0.06) K.flash(F,0.3,'#ffffff');
       if(t>=T.ram&&t<T.ram+0.05) K.flash(F,0.35,'#fff1d6');
       if(t>=T.burst&&t<T.burst+0.05) K.flash(F,0.4,'#eaf6ff');
       if(t>=T.hakiOn&&t<T.hakiOn+1.0){ const g=F.g; g.save(); g.globalCompositeOperation='multiply'; g.fillStyle=`rgba(150,140,160,${0.5*(1-seg(t,T.hakiOn+0.7,T.hakiOn+1.0))})`; g.fillRect(0,0,F.VW,F.VH); g.restore(); }   // trận đứng hình: cả khung xám tối lại
