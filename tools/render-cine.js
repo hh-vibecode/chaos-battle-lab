@@ -141,6 +141,7 @@ const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css
     let f = `[${n+1}:a]atrim=${off.toFixed(3)}:${(off + len).toFixed(3)},asetpts=PTS-STARTPTS,volume=${m.vol}`;
     if (m.fi && a - m.ra < m.fi) f += `,afade=t=in:st=0:d=${(m.fi - (a - m.ra)).toFixed(3)}`;
     if (m.fo && m.rb <= T1) f += `,afade=t=out:st=${Math.max(0, len - m.fo).toFixed(3)}:d=${m.fo}`;
+    for (const [da, db, dg] of (m.vo ? [] : (info.duck || []))) if (db > a && da < b) f += `,volume=enable='between(t,${(Math.max(da, a) - a).toFixed(3)},${(Math.min(db, b) - a).toFixed(3)})':volume=${dg}`;   // 🎚️ nhạc nhường tiếng (cine-kit def.duck)
     for (const [sa, sb] of info.slow) if (sb > a && sa < b) f += `,volume=enable='between(t,${(sa - a).toFixed(3)},${(sb - a).toFixed(3)})':volume=0.55`;   // slow-mo: nhạc lặng xuống
     if (m.vo) VOI.push(n);
     filters.push(f + `,adelay=${Math.round((a - T0) * 1000)}|${Math.round((a - T0) * 1000)},aformat=channel_layouts=stereo[a${n}]`); n++; }

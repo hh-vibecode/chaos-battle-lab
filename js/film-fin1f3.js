@@ -331,6 +331,7 @@
       [T.brk,'se_glass',1,null,'nhát chém làm ảo cảnh nứt toác như mặt kính'],
       [T.fall,'l2p_shatter',0.9,null,'ảo cảnh vỡ tan thành mảnh kính rơi, lộ ra trận khác']],
     // nhạc tắt ở: khoảnh khắc tĩnh trước lần lao đầu, 0.4s trước cú đâm Kamui, 0.5s trước nhát chém đứt đôi
+    duckAuto:{decisive:[T.clash,T.stab,T.cut]},   // 🎚️ nhạc nhường tiếng: va kiếm đầu · đâm Kamui · nhát chém ảo thuật
     mus:[mseg(0,T.stand+0.25,{fi:0.6,fo:0.5}), mseg(T.clash,T.stab-0.4), mseg(T.stab,T.cut-0.5), mseg(T.cut,T.DUR,{fo:1.5})],
     theme:t=>theme(t), shots,
     // chớp âm bản CHỈ 3 cú quyết định (bản cũ 11 lần / 22s → đau mắt)

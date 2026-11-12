@@ -126,6 +126,7 @@
     o.DUR=Rnew(def.DUR); if(Array.isArray(def.shots)) o.shots=def.shots.map(x=>Object.assign({},x,{t0:Rnew(x.t0),t1:Rnew(x.t1)}));
     if(def.sfx) o.sfx=def.sfx.map(x=>{ const y=x.slice(); y[0]=Rnew(x[0]); return y; });
     if(def.mus) o.mus=def.mus.map(m=>Object.assign({},m,{ra:Rnew(m.ra),rb:Rnew(m.rb)}));
+    if(def.duck) o.duck=def.duck.map(([a,b,g])=>[Rnew(a),Rnew(b),g]); if(def.duckAuto) o.duckAuto=Object.assign({},def.duckAuto,{decisive:(def.duckAuto.decisive||[]).map(Rnew)});
     o._rt={Rold,Rnew}; return o; }
   window.Fin1Fight={ retime, streak, dash, track, hstop, actor, smearFrame, line, taper, text3, beam, ice, kamui, backOut };
 })();

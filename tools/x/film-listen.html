@@ -48,7 +48,8 @@ function kw(x, fs) { const bq = (x, b, a) => { const y = new Float32Array(x.leng
       const at = Math.max(0, R - A), off = Math.max(0, A - R); if (d) n.start(at, off, Math.max(0.01, d - off)); else n.start(at, off);
       EV.push({ t: R, k, lab: lab || '', layer: /^\s*\+/.test(lab || ''), big: /nổ|NỔ|đập|nện|húc|va|impact|boom|explode|super|deep|heavy/i.test((lab || '') + ' ' + k) }); }
     for (const m of (I.mus || [])) { const a = Math.max(m.ra, A), b2 = Math.min(m.rb, B); if (b2 <= a) continue; const b = await buf(m.src.replace(/^\/+/, '')); if (!b) { miss.push(m.src); continue; }
-      const n = ctxM.createBufferSource(); n.buffer = b; n.loop = !!m.loop; const g = ctxM.createGain(); n.connect(g); g.connect(ctxM.destination);
+      const n = ctxM.createBufferSource(); n.buffer = b; n.loop = !!m.loop; const g = ctxM.createGain(), dk = ctxM.createGain(); n.connect(g); g.connect(dk); dk.connect(ctxM.destination);
+      if (!m.vo && (I.duck || []).length) { const L = Math.max(2, Math.round(LEN * 50)), cv = new Float32Array(L); for (let i = 0; i < L; i++) cv[i] = CineKit.duckAt(I.duck, A + i / 50); dk.gain.setValueCurveAtTime(cv, 0, LEN); }   // 🎚️ nhạc nhường tiếng
       const t0 = a - A, t1 = b2 - A, vol = m.vol == null ? 1 : m.vol; g.gain.setValueAtTime(vol, 0);
       if (m.fi && a - m.ra < m.fi) { g.gain.setValueAtTime(vol * (a - m.ra) / m.fi, t0); g.gain.linearRampToValueAtTime(vol, t0 + m.fi - (a - m.ra)); }
       if (m.fo && m.rb <= B) { g.gain.setValueAtTime(vol, Math.max(t0, t1 - m.fo)); g.gain.linearRampToValueAtTime(0, t1); }

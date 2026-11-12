@@ -578,6 +578,7 @@
     o.shots=def.shots.map(x=>Object.assign({},x,{t0:Rnew(x.t0),t1:Rnew(x.t1)}));
     o.sfx=def.sfx.map(x=>{ const y=x.slice(); y[0]=Rnew(x[0]); return y; });
     o.mus=(def.mus||[]).map(m=>Object.assign({},m,{ra:Rnew(m.ra),rb:Rnew(m.rb)}));
+    if(def.duckAuto) o.duckAuto=Object.assign({},def.duckAuto,{decisive:(def.duckAuto.decisive||[]).map(Rnew)});
     return o; }
   CineKit.film(retime({ id:'fin1c4', title:'Final 1 · Cảnh 4 · Gojo Cat vs Pain Cat', DUR:T.DUR, VW:960, VH:540, fadeIn:false, fadeOut:true,   /* 11/11: trận cuối của tập full (vào từ đường hầm trắng của fin1f1) — không mờ đầu, mờ cuối hết tập */
     imgs:{ G1:'assets/img/cine/MVD_G1.png', G2:'assets/img/cine/MVD_G2.png', G3:'assets/img/cine/MVD_G3.png', G4:'assets/img/cine/MVD_G4.png', G5:'assets/img/cine/MVD_G5.png',
@@ -627,6 +628,7 @@
       [T.face,'l2p_rumble',0.4,null,'2 bên đối diện giữa hố, gió bụi'],
       [T.split,'ep3_shine',0.7,null,'mặt chia đôi loé'],
       [T.wide,'l2p_sub',0.4,null,'toàn cảnh kết, nền trầm, tối dần']],
+    duckAuto:{decisive:[T.push,T.sh,T.boom]},   // 🎚️ nhạc nhường tiếng: Almighty Push · Shinra Tensei · nổ tím
     mus:[{src:'assets/audio/pain_theme.mp3',ra:0,rb:T.DUR,vol:0.5,loop:true,fi:0.6,fo:2.0}],   // file 21.8s < 50s cảnh → lặp (10/11)
     theme:t=>theme(t), shots,
     panels:t=>C?C.splitFace(t,T.split,T.wide-T.split,{tx:-490,ty:78,tz:0,dist:190,yaw:16,pitch:-4,fov:40,ox:-0.25},{tx:505,ty:105,tz:0,dist:190,yaw:-16,pitch:-4,fov:40,ox:0.25})   /* 9/11: ảnh nghiêng (G9/P9) → mỗi ô hiện TRỌN ĐẦU 1 con, tâm máy dời vào giữa ô (ox ±0.25) */:null,

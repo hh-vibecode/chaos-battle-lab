@@ -276,13 +276,13 @@
     const sfx=(i,k,v,d)=>{ if(played[i]) return; played[i]=1; if(markOnly) return; try{ playSample(k,v==null?1:v,d||null); }catch(e){} };
     // 🎵 NHẠC NỀN: def.mus=[{src:'assets/audio/x.mp3', ra, rb (giây phim), vol, off (giây bắt đầu trong file), fi, fo (giây mờ vào/ra), loop}]
     //    xem trong game: mỗi bản 1 thẻ Audio chạy theo đồng hồ phim (tua / dừng là ngắt rồi vào lại đúng chỗ) · xuất video: render-cine trộn từ info().mus
-    const MUS=(def.mus||[]).map(m=>({...m, el:null}));
+    const MUS=(def.mus||[]).map(m=>({...m, el:null})), DUCK=def.duck||(def.duckAuto?K.autoDuck(def.sfx,def.duckAuto):[]);
     // 🎙️ m.vo = lồng tiếng: lúc đang đọc thì các bản nhạc khác tự hạ xuống (xuất video: render-cine nén theo giọng đọc)
     function musTick(t){ if(OFF) return; const voOn=MUS.some(m=>m.vo && t>=m.ra && t<m.rb); for(const m of MUS){ const on=!paused && t>=m.ra && t<m.rb;
         if(on && !m.el){ try{ const el=new Audio(m.src); el.loop=!!m.loop; el.currentTime=Math.max(0,(m.off||0)+(t-m.ra)); m.el=el; el.play().catch(()=>{});
           if(m.loop) el.addEventListener('loadedmetadata',()=>{ if(el.duration) el.currentTime=((m.off||0)+Math.max(0,curT()-m.ra))%el.duration; },{once:true}); }catch(e){} }   // bản lặp: tua giữa chừng vẫn vào đúng chỗ trong vòng lặp
         if(!on && m.el){ try{ m.el.pause(); }catch(e){} m.el=null; }
-        if(m.el){ const f=Math.min(m.fi?seg(t,m.ra,m.ra+m.fi):1, m.fo?1-seg(t,m.rb-m.fo,m.rb):1); try{ m.el.volume=clamp((m.vol==null?1:m.vol)*f*(voOn && !m.vo?0.4:1),0,1); }catch(e){} } } }
+        if(m.el){ const f=Math.min(m.fi?seg(t,m.ra,m.ra+m.fi):1, m.fo?1-seg(t,m.rb-m.fo,m.rb):1); try{ m.el.volume=clamp((m.vol==null?1:m.vol)*f*(voOn && !m.vo?0.4:1)*(m.vo?1:K.duckAt(DUCK,t)),0,1); }catch(e){} } } }
     function musStop(){ for(const m of MUS){ if(m.el){ try{ m.el.pause(); }catch(e){} m.el=null; } } }
     function renderAt(t){
       if(OFF) markOnly=true;
@@ -338,11 +338,18 @@
       try{ stopAllBattleMusic(); }catch(e){}
       decodeImgs().then(()=>{ if(!overlay) return; ready=true; paused=false; played={}; t0=performance.now(); });
       paused=false; played={}; t0=performance.now(); if(!OFF) raf=requestAnimationFrame(frame); }
-    const api={ play, stop, ready:()=>ready, step:R=>{ if(OFF && ready) renderAt(R); }, canvas:()=>cv, info:()=>({dur:DUR, sfx:(def.sfx||[]).map(([a,k,v,d])=>[a,k,v,d]), mus:K._musInfo(def.mus), slow:def.slow||[]}), def,
+    const api={ play, stop, ready:()=>ready, step:R=>{ if(OFF && ready) renderAt(R); }, canvas:()=>cv, info:()=>({dur:DUR, sfx:(def.sfx||[]).map(([a,k,v,d])=>[a,k,v,d]), mus:K._musInfo(def.mus), slow:def.slow||[], duck:DUCK}), def,
       // dùng bởi K.seq (tập nhiều cảnh): vẽ lên canvas của tập, tải ảnh, đặt lại tiếng khi tua
       _bind:(c,W,off)=>{ cv=c; W2=W; w2=W.getContext('2d'); SC=c.width/VW; OFF=off?{}:null; }, _load:decodeImgs, _render:t=>renderAt(t),
       _seek:s=>{ played={}; (def.sfx||[]).forEach((x,i)=>{ if(x[0]<s) played['s'+i]=1; }); } };
     K.films[id]=api; return api; };
+  // 🎚️ NHẠC NHƯỜNG TIẾNG (anh 12/11: "sound không có lực" — đo bằng film-listen: nhạc đều đều ngang tiếng đánh). def.duck=[[a,b,gain]] hoặc
+  //    def.duckAuto={decisive:[giây cú quyết định], g:0.5, hold:0.8, re:/…/} → mỗi cú đánh chính (nhãn không '+', key khớp re) nhạc lùi ×g trong [t-0.12, t+hold];
+  //    cú QUYẾT ĐỊNH: 0.6s trước gần như tắt (×0.08) rồi nổ ra trên nền nhạc thấp (×0.35, 1.4s). Mép mềm 0.1s vào / 0.25s ra. Áp: xem trong game · render-cine · film-listen.
+  K.DUCK_RE=/hit|punch|slash|clash|boom|explod|impact|kick|break|crunch|chain|bomb|klunk|super|wall|rock|collapse|katana|blade|quake|glass|force|shinra|strike|stab|parry|clang|bonk|smash|crash|cut|whip|grapple|drop|step_in|pushback|machdash/i;
+  K.autoDuck=(sfx,o)=>{ o=o||{}; const D=[], re=o.re||K.DUCK_RE; for(const s of sfx||[]){ if(/^\s*\+/.test(String(s[4]||''))||!re.test(s[1])) continue; D.push([s[0]-0.12,s[0]+(o.hold||0.8),o.g==null?0.5:o.g]); }
+    for(const t of o.decisive||[]){ D.push([t-0.6,t-0.03,0.08]); D.push([t-0.03,t+1.4,0.35]); } return D; };
+  K.duckAt=(D,t)=>{ let g=1; for(const [a,b,gg] of D||[]){ if(t<a-0.1||t>=b+0.25) continue; const k=t<a?(t-(a-0.1))/0.1:t>b?1-(t-b)/0.25:1; g=Math.min(g,1-(1-gg)*clamp(k,0,1)); } return g; };
   K._musInfo=list=>(list||[]).map(m=>({src:m.src, ra:m.ra, rb:m.rb, vol:m.vol==null?1:m.vol, off:m.off||0, fi:m.fi||0, fo:m.fo||0, loop:!!m.loop, vo:!!m.vo}));
 
   // ───────── TẬP = nhiều CẢNH nối nhau (anh chốt 9/11/2026: tập dài chia mỗi cảnh 1 phim) ─────────
@@ -357,11 +364,12 @@
     let cv=null, W2=null, raf=null, t0=0, paused=false, pauseT=0, panel=null, overlay=null, ready=false, OFF=null;
     const curT=()=>paused?pauseT:(performance.now()-t0)/1000;
     const MUS=(def.mus||[]).map(m=>({...m, el:null}));
+    let DK=null; const duckS=()=>DK||(DK=[].concat(...parts().map((f,i)=>(f.info().duck||[]).map(([a,b,g])=>[a+offs[i],b+offs[i],g]))));
     function musTick(t){ if(OFF) return; const voOn=MUS.some(m=>m.vo && t>=m.ra && t<m.rb); for(const m of MUS){ const on=!paused && t>=m.ra && t<m.rb;
         if(on && !m.el){ try{ const el=new Audio(m.src); el.loop=!!m.loop; el.currentTime=Math.max(0,(m.off||0)+(t-m.ra)); m.el=el; el.play().catch(()=>{});
           if(m.loop) el.addEventListener('loadedmetadata',()=>{ if(el.duration) el.currentTime=((m.off||0)+Math.max(0,curT()-m.ra))%el.duration; },{once:true}); }catch(e){} }
         if(!on && m.el){ try{ m.el.pause(); }catch(e){} m.el=null; }
-        if(m.el){ const f=Math.min(m.fi?seg(t,m.ra,m.ra+m.fi):1, m.fo?1-seg(t,m.rb-m.fo,m.rb):1); try{ m.el.volume=clamp((m.vol==null?1:m.vol)*f*(voOn && !m.vo?0.4:1),0,1); }catch(e){} } } }
+        if(m.el){ const f=Math.min(m.fi?seg(t,m.ra,m.ra+m.fi):1, m.fo?1-seg(t,m.rb-m.fo,m.rb):1); try{ m.el.volume=clamp((m.vol==null?1:m.vol)*f*(voOn && !m.vo?0.4:1)*(m.vo?1:K.duckAt(duckS(),t)),0,1); }catch(e){} } } }
     function musStop(){ for(const m of MUS){ if(m.el){ try{ m.el.pause(); }catch(e){} m.el=null; } } }
     function renderAt(t){ t=clamp(t,0,DUR-1e-4); const i=at(t); parts()[i]._render(t-offs[i]); if(panel) panel.update(); }
     function frame(){ if(OFF) return; raf=requestAnimationFrame(frame); if(!ready) return; const t=Math.min(curT(),DUR); musTick(t); renderAt(t); }
@@ -380,7 +388,7 @@
       Promise.all(parts().map(f=>f._load())).then(()=>{ if(!overlay) return; ready=true; paused=false; t0=performance.now(); });
       paused=false; t0=performance.now(); if(!OFF) raf=requestAnimationFrame(frame); }
     const api={ play, stop, ready:()=>ready, step:R=>{ if(OFF && ready) renderAt(R); }, canvas:()=>cv, def, parts:def.parts, offsets:()=>offs.slice(),
-      info:()=>{ const I={dur:DUR, sfx:[], mus:K._musInfo(def.mus), slow:[]};
+      info:()=>{ const I={dur:DUR, sfx:[], mus:K._musInfo(def.mus), slow:[], duck:duckS()};
         parts().forEach((f,i)=>{ const o=offs[i], d=f.info(); for(const s of d.sfx) if(s[0]<d.dur) I.sfx.push([s[0]+o,s[1],s[2],s[3]]);
           for(const s of d.slow||[]) I.slow.push(Array.isArray(s)?s.map((v,j)=>j<2?v+o:v):s); });
         return I; } };

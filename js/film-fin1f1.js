@@ -390,6 +390,7 @@
       [T.clash-0.27,'se_step_in',0.9,null,'2 con đạp đất, hoá 2 vệt lao vào nhau'],[T.clash,'se_punch_heavy',1,null,'nắm đấm haki đụng xích Chud giữa đường: va chạm'],[T.clash+0.01,'kn_boom_low',0.6,null,'+ lớp trầm: tiếng nổ nén khi 2 đòn đụng nhau'],
       [T.far,'kn_boom_low',0.8,null,'chân trời nổ loé tím trắng, tiếng nổ dội từ xa'],
       [T.whip,'l2p_whoosh',0.7,null,'máy lia giật về phía chân trời'],[T.tunnel,'l2p_riser',0.7,null,'máy lao về phía trận Gojo vs Pain']],
+    duckAuto:{decisive:[T.ram,T.snap]},   // 🎚️ nhạc nhường tiếng: mỗi cú lùi nhạc, cú húc + giật đứt xích thì lặng trước rồi nổ
     mus:[mseg(T.out,T.quiet,{fi:1.2}), mseg(T.burst,T.haki-0.3,{vol:0.55}), mseg(T.snap,T.DUR,{fo:0.6,vol:0.6})],
     theme:t=>theme(t), shots,
     impact:C.negFrames([T.burst,T.snap],0.07,'inv',[T.ram,T.slam]),
