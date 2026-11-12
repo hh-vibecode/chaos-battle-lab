@@ -56,6 +56,8 @@
   if(!window.CineKit || CineKit.films.fin1c4) return;
   const K=CineKit, {seg,lerp,clamp,hash}=K, E=K.EASE, eio=E.eio, eout=E.eout, ein=E.ein, C=K.cam||null, TAU=Math.PI*2;
   const FX=()=>window.CineKitFx;
+  // ⚡ vệt tốc độ cao dùng chung (js/fin1-fight.js) — nạp nếu xem riêng cảnh này
+  if(!window.Fin1Fight){ try{ const BASE=((document.currentScript&&document.currentScript.src)||'js/film-fin1c4.js').replace(/film-[^\/]*$/,''), V=window.GAME_VERSION?'?v='+GAME_VERSION.build:''; const x=new XMLHttpRequest(); x.open('GET',BASE+'fin1-fight.js'+V,false); x.send(); (0,eval)(x.responseText); }catch(e){} }
   // 9/11: chèn chuỗi BÀNH TRƯỚNG LÃNH ĐỊA (dom → dEye → dImp → dVoid → dIn → dOut, ~5.1s) → mọi mốc từ imp trở đi lùi +4.0s (cảnh 46s → 50s)
   const T={ cuG:2.2, cuP:2.9, dash:3.6, clash:4.05, sep:13.0, pushC:13.8, push:14.45, crash:15.3, still:16.6, rise:18.0, cast:19.8, gUp:21.0, dom:21.5,
     dEye:22.0, dImp:22.8,   /* 11/11 anh dặn: hiện MẮT trước (dom→dEye) rồi mới tới ảnh giơ tay kết ấn (dEye→dImp) */ dVoid:23.2, dIn:24.5, dOut:25.8,
@@ -643,15 +645,17 @@
       const gk=pick(F,g0.im), pk=pick(F,p0.im);
       const gAura=(t>=T.cuG&&t<T.push)||(t>=T.dom&&t<T.imp)||(t>=T.smoke&&t<T.block)?{preset:'ki',k:0.75,seed:3}:null;
       const pAura=(t>=T.cuP&&t<T.still)||(t>=T.rise&&t<T.rest)||(t>=T.block)?{preset:'cursed',k:t>=T.block&&t<T.up?1:0.7,seed:9}:null;
-      const gHide=t>=T.rest&&t<T.smoke;   // nằm trong vòm, bị bụi che
+      // ⚡ (12/11) pha 2 bên LAO VÀO NHAU quá nhanh để thấy người → 2 VỆT (Gojo trắng xanh · Pain tím lõi cam), chạm giữa đường thì hiện lại khoá đòn
+      const dashC=!!window.Fin1Fight&&t>=3.78&&t<4.04; if(dashC){ Fin1Fight.dash(F,t,3.77,4.04,[-470,95,0],[-75,90,0],{w:30,col:'150,200,255'}); Fin1Fight.dash(F,t,3.77,4.04,[470,95,0],[75,90,0],{w:32,col:'190,110,255',core:'255,150,60'}); }
+      const gHide=(t>=T.rest&&t<T.smoke)||dashC;   // nằm trong vòm, bị bụi che · đang là vệt
       if(!gHide) K.sprite(F,{img:I[gk],x:g0.x,z:g0.z,y:g0.y,h:HTP[g0.im]||H,lean:g0.lean,smear:g0.sm,aura:gAura,white:at(t,T.push,0.1)?1:0,a:(t>=T.smoke&&t<T.fire)?0.85:1,
         life:{breath:t>=T.face?1.6:null,wind:t>=T.face?0.7:null,stretch:(t>=T.push&&t<T.crash)?0.5:0,squash:K.squash(hs(t),T.crash,0.4,0)}});   // sức sống: kéo dài khi bị hất · dẹt khi đâm nhà · thở rõ lúc đối diện
-      K.sprite(F,{img:I[pk],x:p0.x,z:p0.z,y:p0.y,h:HTP[p0.im]||H,lean:p0.lean,smear:p0.sm,aura:pAura,shadow:p0.y<200,
+      if(!dashC) K.sprite(F,{img:I[pk],x:p0.x,z:p0.z,y:p0.y,h:HTP[p0.im]||H,lean:p0.lean,smear:p0.sm,aura:pAura,shadow:p0.y<200,
         life:{breath:t>=T.face?1.6:null,wind:t>=T.face?0.7:null,squash:K.squash(K.twos(t),T.land+1.0,0.5,0.15,0.08)}});   // dẹt khi chạm đất (ảnh chạm y=0 ở T.land+1.0 theo nhịp 12 hình/giây)
       // bụi gió nền
       K.smoke(F,{x:0,z:400,t0:-0.3,n:12,spread:1600,rise:30,life:3,size:90,seed:1,swirl:0.2,a:0.25,tint:'150,90,80'});
       // va chạm tay đôi
-      for(const [tt,cx,col] of HITS) if(t>=tt){ const u=seg(t,tt,tt+0.45); K.ring(F,cx,0,30+360*eout(u),14,1-u,col);
+      for(const [tt,cx,col] of HITS) if(t>=tt){ const u=seg(t,tt,tt+0.45);   /* (12/11) bỏ vòng trắng trên sàn — anh chê giả; chỉ còn tia lửa + khói ở chỗ chạm */
         K.sparks(F,{x:cx,y:80,z:0,t0:tt,n:26,speed:620,life:0.55,seed:tt*10|0,col}); K.smoke(F,{x:cx,z:0,t0:tt,n:10,spread:220,rise:40,life:1.1,size:44,seed:(tt*7)|0,a:0.55}); }
       if(t>=6.3&&t<6.8) K.smoke(F,{x:-160,z:0,t0:6.32,n:6,spread:70,rise:12,life:0.5,size:26,seed:115,a:0.45});
       // ALMIGHTY PUSH: vòng lực co vào quanh Pain → bức tường bay sang trái
