@@ -804,7 +804,12 @@
     {src:A+'fin_crowd.mp3', ra:T.d1+0.6, rb:T.d7+1, vol:0.45, loop:true, fi:0.5, fo:1},           // đám đông la hét
     {src:A+'fin_collapse.mp3', ra:T.d6+0.6, rb:T.d7+1.5, vol:0.6, fo:0.8},                        // toà nhà sập
     {src:A+'cine_epic.mp3', ra:T.d1, rb:T.roof, vol:0.6, loop:true, fi:0.3, fo:1.0},   // file 12.1s < 14.5s cảnh phá → lặp (10/11)
-    {src:A+'dp_akatsuki.mp3', ra:T.roof, rb:DUR, vol:0.75, loop:true, fi:1.2, fo:0.6} ];   // file 8.3s < 32s cảnh nóc nhà → lặp, không tắt giữa chừng (anh chê 10/11)                     // theme Akatsuki: 5 bóng lộ diện
+    // 🎵 (13/11 anh chốt) nhạc CHẠY DÀI, không lặp file ngắn: Girei (Pain's Theme bản đủ 2:14) suốt nóc nhà → nối sang cảnh 5 (fin1c5 đọc tiếp đúng chỗ, GIREI_AT)
+    //    dp_akatsuki (nhạc Pain 2, dính bản quyền) CHỈ 5s đúng lúc Depressed Cat nói "…know pain" (57.6s)
+    {src:A+'mus_girei.m4a', ra:T.roof, rb:57.3, vol:0.5, fi:1.2, fo:0.4},
+    {src:A+'dp_akatsuki.mp3', ra:57.3, rb:62.3, vol:0.75, fi:0.2, fo:0.8},
+    {src:A+'mus_girei.m4a', ra:61.9, rb:DUR, off:61.9-T.roof, vol:0.5, fi:1.0, fo:0.05} ];
+  window.FIN1_GIREI_AT=DUR-T.roof;   // giây trong file Girei lúc hết nóc nhà → fin1c5 phát tiếp từ đây   // file 8.3s < 32s cảnh nóc nhà → lặp, không tắt giữa chừng (anh chê 10/11)                     // theme Akatsuki: 5 bóng lộ diện
 
   // 🧩 (9/11/2026) Tập chia CẢNH: MAIN là bản vẽ cả tập theo giây gốc; mỗi cảnh = 1 phim con cắt 1 khoảng giây của MAIN (fin1c1, fin1c2, fin1c3),
   //    tập 'fin1' = K.seq nối các cảnh + nhạc nền theo giây cả tập. Cảnh MỚI (Gojo vs Pain…) viết file riêng rồi thêm id vào FIN1_PARTS.
@@ -898,7 +903,7 @@
       mus:[{src:A+'fin_crowd.mp3', ra:0, rb:RV+0.1, vol:0.55, fo:0.3},                        // đám đông la hét (đoạn hoảng loạn)
            {src:A+'cine_heart.mp3', ra:RV-0.05, rb:RV+0.7, vol:0.7, fi:0.15, fo:0.3},                 // tim đập lúc Friend ló ra
            {src:A+'cine_ambient_war.mp3', ra:0, rb:dlg+0.3, vol:0.5, fi:0.4, fo:0.5},
-           {src:A+'dp_akatsuki.mp3', ra:dlg, rb:DURT, vol:0.75, loop:true, fi:0.6, fo:1.2}],
+           {src:A+'mus_girei.m4a', ra:dlg, rb:DURT, vol:0.5, fi:0.6, fo:1.2}],   // 13/11: Girei bản đủ thay dp_akatsuki 8s lặp
       shots:[{t0:0,t1:DURT,a:{}}],
       impact:t=>MAIN.impact(src(t)), shake:t=>MAIN.shake(src(t)),
       world(F,t){ const e=at(t), s=src(t), g=F.g; g.save(); g.translate(TW/2,TH/2); g.scale(e.kz,e.kz); g.translate(-e.cx,-e.cy); MAIN.world(F,s); g.restore(); },

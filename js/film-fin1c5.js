@@ -117,7 +117,7 @@
       ...PILS.map(([t0],i)=>[t0+0.25,i===5?'cine_deep_impact':'cine_impact',i===5?1:0.55,null,i===5?'cột sáng tím cao nhất giáng đập xuống':(i?'+ ':'')+'cột sáng giáng xuống thành phố']),
       [T.crouch+0.1,'l2p_riser',0.6,null,'cả nhóm 5 con lấy đà, mỗi con tụ khí màu riêng, mái nứt'],[T.launch,'ep3_quake',0.9,null,'cả 5 con bật đi cùng lúc: mái vỡ thành hố, đá văng, vòng bụi'],[T.launch+0.02,'se_machdash',0.8,null,'+ vệt tím vút chéo lên trời'],[T.fly+0.1,'l2p_whoosh',0.7,null,'Depressed bay vút qua thành phố về cột sáng tím'],
       [T.boom,'ep3_explode',1,null,'BÙM: lao đâm vào cột sáng, nổ loé trắng, sang trận đầu tiên']],
-    mus:[{src:'assets/audio/pain_theme.mp3',ra:0,rb:T.DUR,vol:0.5,loop:true,fi:1.0,fo:0.4}],
+    mus:[{src:'assets/audio/mus_girei.m4a',ra:0,rb:T.DUR,off:window.FIN1_GIREI_AT||29.4,vol:0.5,fi:0.05,fo:0.4}],   // 13/11: Girei chạy tiếp từ nóc nhà (không lặp file 21.8s)
     shots:[{t0:0,t1:T.DUR,a:{}}],
     impact:t=>(t>=T.boom&&t<T.boom+0.07)?'red':(t>=T.boom+0.07&&t<T.boom+0.14)?'inv':(t>=14.8&&t<14.87)?'inv':0,
     shake:t=>{ let s=0; const h=(a,amp,d)=>{ if(t>=a&&t<a+d) s=Math.max(s,amp*(1-(t-a)/d)); }; for(const [t0] of PILS) h(t0+0.25,6,0.4); h(14.8,14,0.6); if(t>=T.crouch&&t<T.launch) s=Math.max(s,1+4*seg(t,T.crouch,T.launch)); h(T.launch,24,0.7); h(T.boom,22,0.6); if(t>=T.spin&&t<T.pil) s=Math.max(s,2+5*seg(t,T.spin,T.pil)); return s; },

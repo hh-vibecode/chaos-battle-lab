@@ -612,16 +612,15 @@
       [T.rise,'l2p_riser',0.7,null,'Pain bay thẳng lên trời'],
       [T.cast+0.1,'ps_shinra',1,1.5,'Pain dang tay hô "Shinra Tensei" (chỉ phần giọng)'],
       [T.dom+0.2,'ep3_shine',0.6,null,'băng mắt kéo lên, mắt Lục Nhãn xanh loé sáng'],
-      [T.dEye+0.02,'mw_ryoiki_tenkai',1,null,'Gojo giơ tay kết ấn, hô "Ryōiki Tenkai" (giọng Nhật VOICEVOX)'],
       [T.dImp,'ep3_kamui',0.8,null,'mực đen bung từ sau lưng, không gian bị nuốt'],
       [T.dVoid,'cine_deep_impact',1,null,'hư không bung, máy lao vào đường hầm'],
-      [T.dIn,'l2p_chime',0.6,null,'trắng xoá → hố đen Vô Lượng Không Xứ'],[T.dIn+0.25,'mw_muryokusho',1,null,'giọng Gojo nói "Muryōkūsho" (tên lãnh địa)'],
+      [T.dIn,'l2p_chime',0.6,null,'trắng xoá → hố đen Vô Lượng Không Xứ'],
       [T.dOut,'ep3_quake',0.6,null,'vòm lãnh địa trồi lên giữa đống đổ nát'],
       [T.imp,'ep3_charge',0.6,null,'Shinra dồn lực: màn đen, chấm sáng co lại'],
       [T.sh,'ep3_explode',1,null,'SHINRA TENSEI nổ, sóng đập trúng thành phố lan xoá tất cả'],[T.sh+0.25,'ep3_quake',0.8,null,'+ nhà đổ rạp theo vòng sóng (lớp của tiếng nổ Shinra)'],
       [T.sh+0.6,'l2p_explode',0.7,null,'nhà phía ngoài nổ tiếp'],[T.wave+0.3,'l2p_rumble',0.8,null,'tường bụi ập tới vòm của Gojo'],
       [T.land,'cine_drop',0.6,null,'Pain rơi từ trên trời xuống'],[T.land+0.95,'cine_impact',0.8,null,'Pain đập đất giữa hố'],
-      [T.look+0.3,'mw_murasaki',1,null,'giọng Gojo vang trong khói: "Kyoshiki… Murasaki" (Hollow Purple)'],[T.smoke+0.1,'mw_gojo',1,null,'Hollow Purple hình thành trong khói (ánh xanh + đỏ)'],
+      [T.smoke+0.1,'mw_gojo',1,null,'Hollow Purple hình thành trong khói (ánh xanh + đỏ)'],
       [T.fire,'l2p_riser',0.6,null,'+ cầu tím xé khói lao tới (lớp của tiếng Hollow Purple)'],
       [T.block,'cine_haki_hit',1,null,'Pain đỡ cầu bằng trường lực'],[T.block+0.5,'mw_gojo_travel',0.6,2.6,'+ cầu tím ép, Pain bị đẩy trượt lùi (lớp kéo dài của cú đỡ)'],
       [T.heave,'ep3_force',0.9,null,'Pain dồn hết sức đẩy'],[T.heave+0.25,'cine_deep_impact',1,null,'+ lực đẩy của Pain đập trúng quả cầu, hất nó lên trời'],
@@ -631,7 +630,16 @@
       [T.split,'ep3_shine',0.7,null,'mặt chia đôi loé'],
       [T.wide,'l2p_sub',0.4,null,'toàn cảnh kết, nền trầm, tối dần']],
     duckAuto:{decisive:[T.push,T.sh,T.boom]},   // 🎚️ nhạc nhường tiếng: Almighty Push · Shinra Tensei · nổ tím
-    mus:[{src:'assets/audio/pain_theme.mp3',ra:0,rb:T.DUR,vol:0.5,loop:true,fi:0.6,fo:2.0}],   // file 21.8s < 50s cảnh → lặp (10/11)
+    // 🎵 (13/11 anh chốt: nhạc anime epic CHẠY DÀI, mỗi đoạn 1 bài, không lặp file ngắn) · âm lượng quy về cùng độ to cũ (-25 LUFS sau vol)
+    //   cận chiến: JJK S2 — Gojo vs Toji OST · Pain bay lên cast Shinra: Girei (Pain's Theme) · từ lãnh địa: "The Honored One" — chỗ LẶNG rồi BÙNG của bài (file 74–76s) rơi đúng lúc Hollow Purple lao ra khỏi khói
+    mus:[{src:'assets/audio/mus_jjk_toji.m4a',ra:0,rb:T.rise+0.4,off:1.0,vol:0.22,fi:0.6,fo:0.9},
+      {src:'assets/audio/mus_girei.m4a',ra:T.rise,rb:T.dom+0.25,off:8.0,vol:0.45,fi:0.7,fo:0.5},
+      // 🗣️ (13/11 anh chê VOICEVOX "rất đần") GIỌNG THẬT Gojo (Yuichi Nakamura, clip anime trên myinstants) — phát như lồng tiếng (vo:true → nhạc tự nén theo giọng)
+      //   vo_gojo_domain = "Domain Expansion: Infinite Void" (11.5s): 0.4–3.0s "Ryōiki Tenkai" lúc kết ấn · 8.8s→hết "Muryōkūsho" lúc hư không bung · vo_gojo_murasaki = "Kyoshiki… Murasaki" (giọng 1.0–5.4s)
+      {src:'assets/audio/vo_gojo_domain.mp3',ra:T.dEye,rb:T.dEye+2.0,off:0.4,vol:1.0,fi:0.05,fo:0.3,vo:true},
+      {src:'assets/audio/vo_gojo_domain.mp3',ra:T.dIn+0.1,rb:T.dIn+2.1,off:8.8,vol:1.0,fi:0.05,fo:0.5,vo:true},
+      {src:'assets/audio/vo_gojo_murasaki.mp3',ra:T.look+0.2,rb:T.look+3.6,off:1.0,vol:0.75,fi:0.03,fo:0.4,vo:true},
+      {src:'assets/audio/mus_honored.m4a',ra:T.dom,rb:T.DUR,off:Math.max(0,75.8-(Rnew(T.smoke)-Rnew(T.dom))),vol:0.35,fi:0.4,fo:2.0}],
     theme:t=>theme(t), shots,
     panels:t=>C?C.splitFace(t,T.split,T.wide-T.split,{tx:-490,ty:78,tz:0,dist:190,yaw:16,pitch:-4,fov:40,ox:-0.25},{tx:505,ty:105,tz:0,dist:190,yaw:-16,pitch:-4,fov:40,ox:0.25})   /* 9/11: ảnh nghiêng (G9/P9) → mỗi ô hiện TRỌN ĐẦU 1 con, tâm máy dời vào giữa ô (ox ±0.25) */:null,
     impact:t=>{ if(at(t,T.rest-0.18,0.18)) return 0; return IMP(t); },

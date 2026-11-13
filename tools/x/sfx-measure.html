@@ -1,7 +1,8 @@
 <!doctype html><meta charset="utf-8"><title>sfx-measure</title>
 <!-- 📏 ĐO ĐỘ TO TIẾNG trong trình duyệt (Windows không có python / ffmpeg): giải mã mp3/ogg/wav bằng WebAudio → LUFS (BS.1770, cùng công thức
      tools/x/sonniss-index.js) + đỉnh dBFS + độ dài + lặng đầu + giây đỉnh. Mở qua serve.js:
-       tools/x/sfx-measure.html?keys=se_kick,se_aura      (đọc assets/audio/<key>.mp3)
+       tools/x/sfx-measure.html?keys=se_kick,se_aura      (đọc assets/audio/<key>.mp3; key có đuôi .m4a/.wav thì đọc đúng file)
+       &env=2   → thêm đường độ to mỗi 2s (nhạc dài: tìm đoạn dạo / cao trào)
      → window.__done = 'OK …' và window.__out = các dòng SND_LUFS dán thẳng vào js/game.js. Chạy ngầm bằng cdp.js (steps: waitfor window.__done / eval window.__out). -->
 <pre id="o">…</pre>
 <script>
@@ -23,6 +24,7 @@ function lufs(x,fs){
     try{ const ab=await ac.decodeAudioData(await (await fetch('/assets/audio/'+k+(/\.\w+$/.test(k)?'':'.mp3'))).arrayBuffer()), sr=ab.sampleRate, N=ab.length, x=new Float32Array(N);
       for(let c=0;c<ab.numberOfChannels;c++){ const d=ab.getChannelData(c); for(let i=0;i<N;i++) x[i]+=d[i]/ab.numberOfChannels; }
       let pk=0,pi=0,lead=-1; for(let i=0;i<N;i++){ const a=Math.abs(x[i]); if(a>pk){pk=a;pi=i;} if(lead<0&&a>0.0056) lead=i; }   // lặng đầu: dưới -45 dBFS
+      if(q.get('env')){ const st=+q.get('env')||2, e=[]; for(let t=0;t+st<=N/sr;t+=st){ const i0=Math.round(t*sr), i1=Math.round((t+st)*sr); let m=0; for(let i=i0;i<i1;i++) m+=x[i]*x[i]; e.push(Math.round(10*Math.log10(m/(i1-i0)+1e-12))); } info.push(k+' độ to (dB RMS) mỗi '+st+'s: '+e.join(' ')); }   // ?env=2: đường độ to theo thời gian (tìm đoạn dạo / cao trào của nhạc dài)
       const L=lufs(x,sr); out.push(`${k}:[${L.toFixed(1)},${(20*Math.log10(pk)).toFixed(1)}]`);
       info.push(`${k.padEnd(16)} dài ${(N/sr).toFixed(2)}s · lặng đầu ${(Math.max(0,lead)/sr).toFixed(2)}s · đỉnh ở ${(pi/sr).toFixed(2)}s · LUFS ${L.toFixed(1)} · đỉnh ${(20*Math.log10(pk)).toFixed(1)} dBFS`);
     }catch(e){ info.push(k+' LỖI '+e.message); }
