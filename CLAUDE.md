@@ -75,6 +75,12 @@ Mẫu đã duyệt:
 - Từ giờ KHÔNG ép phim / cảnh vào thời gian bắt buộc. Anh có nói con số thì đó chỉ là thời lượng XẤP XỈ đề xuất — làm ra DÀI HƠN vẫn được.
   Cảnh nào cần dài thì làm cho ĐỦ CẢNH, hợp lý nhất là được; KHÔNG nén nhịp tới mức vội (bản trận phụ 22s bị chê "rush, đau mắt").
 
+## ✍️ KỊCH BẢN TRƯỚC, DỰNG SAU (anh dặn 13/11/2026 — chê nặng: "ngoài fight của gojo tự t viết, các fight khác k ổn tí nào… làm cẩu thả kinh khủng")
+- Mọi cảnh / trận mới hoặc làm lại → skill `viet-kich-ban` (mẫu nguyên văn anh viết: `.claude/skills/viet-kich-ban/mau-cua-anh.md`) → đưa anh DUYỆT → mới dựng (skill dung-phim).
+- Đòn nào cũng có PHẢN ỨNG (giơ vũ khí đỡ đúng hướng / né / trúng + bật lùi) — Ninja vs Berserk bị chê "chém nhau mà không có động tác giơ kiếm ra đỡ".
+- Nhạc THEME nhân vật chỉ 1 LẦN đúng khoảnh khắc của nó (pain_theme / dp_akatsuki từng bị lặp nền khắp các trận → bị chê). Giọng hô chiêu = GIỌNG THẬT (Gojo: Yuichi Nakamura), KHÔNG VOICEVOX ("rất đần").
+- Kịch bản 3 trận phụ + sửa tiếng Gojo vs Pain: `prompts/kich-ban/fin1-tran-phu.md` (13/11, CHỜ ANH DUYỆT).
+
 ## ⚔️ CẢNH ĐÁNH NHAU — NHỊP THEO ANIME GỐC, KHÔNG THEO AMV (anh chê 12/11: "rush, quá nhanh liên tục, đau mắt, không rõ cách đánh; sound không lực, lộn xộn")
 - Số đo từ 4 trận GỐC còn tiếng gốc (JJK Todo vs Hanami, Gojo vs Toji, Rengoku vs Akaza, Naruto vs Sasuke — `meme-anime-lab/playbook/nhip.md`): shot TB 1.3–1.8s,
   55–72% thời gian ở shot > 2s, shot < 0.6s chỉ 3–7%. 1 shot = TRỌN 1 PHA (lấy đà → ra đòn → khựng → phản ứng), máy bám theo; giữ trục (phe A trái / B phải);
@@ -136,7 +142,7 @@ Mẫu đã duyệt:
 
 ## Skill của repo (`.claude/skills/`, thêm 28/10/2026)
 - `them-meme` (danh sách việc thêm meme mới) · `tach-nen-anh` (ảnh ChatGPT nền xanh → khung game) · `chay-thu` (chạy thử trận bằng Edge headless) · `phat-hanh` (đẩy bản mới không cần python)
-  · `xuat-video` (CHỈ Mac: phim + trận đấu giả lập; chỉ quay lại đoạn bị sửa) · `dung-phim` (dựng phim anime bằng cine-kit) · `xem-video` (CHỈ Mac: video mẫu → bảng cảnh) · `tao-vfx` (VFX shader cho game + phim) · `ve-anh-gpt` (em tự vẽ ảnh GPT qua Codex: meme gốc → phông xanh nét + tư thế mới).
+  · `xuat-video` (CHỈ Mac: phim + trận đấu giả lập; chỉ quay lại đoạn bị sửa) · `dung-phim` (dựng phim anime bằng cine-kit) · `xem-video` (CHỈ Mac: video mẫu → bảng cảnh) · `tao-vfx` (VFX shader cho game + phim) · `ve-anh-gpt` (em tự vẽ ảnh GPT qua Codex: meme gốc → phông xanh nét + tư thế mới) · **`viet-kich-ban`** (13/11: VIẾT KỊCH BẢN theo mẫu anh viết → ANH DUYỆT rồi mới dựng).
 - 🎞️ **MỌI video xuất ra mặc định 50fps — dọc hay ngang, phim hay trận** (anh chốt 3/11, note kỹ). Đã đặt sẵn: render-match / render-duo `--ofps 50` (game chạy 1 tick/khung theo luật 60 tick/s → VẪN giả lập 60, chỉ chụp khung sang ô 1/50s mới, bỏ đều 1/6 — KHÔNG hạ `--fps` giả lập, sẽ làm trận chậm 17% + lệch nhạc), render-cine `--fps` mặc định 50.
 - **🎬 PHIM luôn xuất 4K, ngang lẫn dọc (anh chốt 3/11): 16:9 → 3840×2160 · 9:16 → 2160×3840 — render-cine mặc định đã là 4K, KHÔNG thêm `--scale 1.5`. TRẬN ĐẤU giả lập: 9:16 DỌC 3K 1620×2880 (anh chốt 30/10, render-match `--w 1620`).** Anh không nói khung → mặc định DỌC 3K.
 - ⛔ **Trận đấu giả lập phải TỰ NHIÊN — KHÔNG can thiệp diễn biến/kết quả** (anh dặn 10/11: em từng dùng `--inject` chặn Bread Cat bị huỷ lần 3 cho đúng ý → anh bắt xoá).
