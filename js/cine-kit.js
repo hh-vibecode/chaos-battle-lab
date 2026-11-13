@@ -142,7 +142,10 @@
     // ver = chữ ký hình lưới (đổi thì mặt nạ aura shader dựng lại; không đổi — vd giữa 2 nhịp 12 hình/giây — thì dùng lại)
     return {img:MESH,W,H,ax:ox,ay:oy,R,dev,ver:[tt,ph,L.breath,L.sway,L.wind,L.squash,L.dir,flip?1:0,nx,ny,W,H].join('|')}; }
   function drawSprite(F,c,o,P){ const g=F.g, h=o.h*P.s, w=h*c.sw/c.sh;
-    const L=h>=24?lifeOf(o):null, M=(L&&(L.breath||L.sway||L.wind||L.squash))?lifeMesh(F,c,L,h,o.flip):null, q=M?h/M.R:1;
+    const L=h>=24?lifeOf(o):null;
+    // (13/11 anh chê "meme cứ như sóng, lồi lõm khi zoom sát"): lưới méo lộ nếp gãy khi ảnh TO trên màn hình → ảnh cao > 220px (khung 960×540) méo giảm dần, > 560px gần như tắt; lưới dày hơn khi to
+    if(L&&h>220){ const f=clamp(1-(h-220)/340,0,1); for(const k of ['breath','sway','wind']) if(L[k]) L[k]*=f; if(L.squash) L.squash*=Math.max(f,0.35); if(f<0.06){ L.breath=L.sway=L.wind=0; } L.nx=L.nx||10; L.ny=L.ny||18; }
+    const M=(L&&(L.breath||L.sway||L.wind||L.squash))?lifeMesh(F,c,L,h,o.flip):null, q=M?h/M.R:1;
     // kéo dài theo hướng lao: 1 phép affine quanh giữa thân (trước khi nghiêng / lật ảnh)
     let st=null; if(L&&L.stretch>0){ let A=L.ang!=null?L.ang*D2R:null;
       if(A==null&&o.smear){ const S=o.smear, Q=K.proj(F.B,o.x-S.dx,(o.y||0)-(S.dy||0),o.z-(S.dz||0)); if(Q&&Math.hypot(P.x-Q.x,P.y-Q.y)>1) A=Math.atan2(P.y-Q.y,P.x-Q.x); }
