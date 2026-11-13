@@ -250,6 +250,7 @@ window.ASSET_GROUP={
 "assets/img/loooongcat/LC_BODY.png": "loooongcat",
 "assets/img/loooongcat/LC_NECK.png": "loooongcat",
 "assets/img/loooongcat/LC_FACE.png": "loooongcat",
+"assets/audio/lc_link.mp3": "loooongcat",
 "assets/audio/lc_chomp.mp3": "loooongcat",
 "assets/img/violinbee/VB_1.png": "violinbee",
 "assets/img/violinbee/VB_2.png": "violinbee",

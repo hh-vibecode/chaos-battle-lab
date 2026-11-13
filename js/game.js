@@ -749,7 +749,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     bananacat:  { key:'bananacat',  defaultName:'Banana Cat',   emoji:'🍌', color:'#fff176', hp:1000, speed:5, size:43, skill:'Mỗi 2s dừng khóc 1.7s → để vỏ chuối. Địch giẫm: lao theo hướng đang đi, dame va tường tỉ lệ nghịch với thời gian. Vỏ tồn tại 12s rồi tự biến mất (mất ngay khi có người giẫm trúng), có thể chồng nhiều vỏ.' },
     suscat:     { key:'suscat',     defaultName:'SUS Cat',      emoji:'📮', color:'#f44336', hp:1000, speed:5, size:38, skill:'Mỗi 3s triệu hồi ngẫu nhiên 1 quân bài ở góc xa nhất sân: Imposter đỏ bắn 3 phát bám mục tiêu (100 dmg/phát), Imposter cận chiến va trúng 180 dmg, Imposter đen tự nổ 150 dmg + choáng 2s cho MỌI người trong bán kính (cũng tự kích nổ khi chạm lính Đức), Imposter cam đứng cách ~140 há đầu phóng LƯỠI đâm 140 dmg + kéo địch lại gần, Imposter vàng TẮT ĐÈN cả sân (địch chậm 25% tối đa 3s) rồi lao vào đâm 120 dmg, Crew va trúng 50 dmg. ĐÚNG 1 LẦN MỖI TRẬN: địch tụt xuống ≤200 máu là nó triệu tập HỌP KHẨN cắt ngang trận — cả sàn đóng băng, vòng quay 50/50 phán xem địch có phải IMPOSTER không. Trúng thì địch bị đáp thẳng ra ngoài vũ trụ, chết ngay lập tức bất kể còn bao nhiêu máu — mà bảng chữ hiện ra lại ghi rõ nó KHÔNG phải imposter, "all imposters remain", tức vote trượt sạch và thằng còn đứng lại trên sàn mới là imposter thật. Trật thì cuộc họp tan ngay, đánh tiếp bình thường.' },
     nyancat:    { key:'nyancat',    defaultName:'Nyan Cat',     emoji:'🌈', color:'#e040fb', hp:1000, speed:5, size:43.2, skill:'Rainbow Trail: chạm tường → kéo trail (180 dmg khi chạm) → chạm tường tiếp → seal thành bẫy 180 dmg. Mỗi lần chạm tường +3% tốc chạy (cộng dồn).' },
-    loooongcat: { key:'loooongcat', defaultName:'Loooong Cat',  emoji:'🐱', color:'#eeeeee', hp:1000, speed:5, size:52, skill:'RẮN SĂN MỒI kiểu game Nokia. Vào trận nằm dọc tường, ĐUÔI GHIM CHẶT ở 1 góc; đầu bò lên xuống từng CỘT zíc zắc, các cột nằm khít nhau lấp dần cả sân, thân cứ dài ra mãi. Đầu bò XUYÊN qua địch không nảy lại: chạm là CẮN 60 dmg, địch bị đẩy lùi, và Loooong Cat bò nhanh thêm 5% (cộng dồn, tối đa ×3). Cả thân là TƯỜNG: chặn người lẫn đạn, không gây dame. Chỉ ĐẦU ăn sát thương — đòn đánh từ phía bên kia thân bị chắn, mất trắng. Bò kín sân → mọi kẻ địch còn sống bị ÉP TAN.' },
+    loooongcat: { key:'loooongcat', defaultName:'Loooong Cat',  emoji:'🐱', color:'#eeeeee', hp:1000, speed:5, size:52, skill:'RẮN SĂN MỒI kiểu game Nokia. Vào trận là con mèo meme đi bộ tới CỔNG LCD ở góc dưới phía mình, chui vào cổng 1s rồi trồi ra thành rắn: đầu ra trước, thân ra được 1 đoạn bằng con mèo thì đuôi ra và cắm ở cổng. Sau đó đầu bò DỌC LÊN theo tường, hết cột quay đầu chữ U sang cột kế bên (góc trái lấp dần sang phải, góc phải ngược lại), thân dài ra mãi. Đầu bò XUYÊN qua địch không nảy lại: chạm là CẮN 60 dmg, địch bị đẩy lùi, và bò nhanh thêm 5% (cộng dồn, tối đa ×3). Cả thân là TƯỜNG: chặn người lẫn đạn, không gây dame. Chỉ ĐẦU ăn sát thương — đòn đánh từ phía bên kia thân bị chắn, mất trắng. Bò kín sân → mọi kẻ địch còn sống bị ÉP TAN.' },
     flyingcat:  { key:'flyingcat',  defaultName:'Flying Cat',   emoji:'🦅', color:'#ffcc80', hp:1000, speed:5, size:43, skill:'Vẫn bay lượn đuổi theo địch và càng dội tường càng nhanh, nhưng giờ có ba bản sao tí hon của chính nó bay vòng quanh như vệ tinh. Quỹ đạo nở dần ra rồi thu lại, càng ra xa quay càng nhanh, vệ tinh nào sượt qua địch là cắt một nhát.' },
     snoozecat:  { key:'snoozecat',  defaultName:'Snooze Cat',   emoji:'😴', color:'#90caf9', hp:1000, speed:5, size:45, skill:'Ngủ 2s mỗi 2s: bắn Zzz (10+10/s ngủ), hồi 20 HP. Drowsy: mỗi 10% máu mất → +5% mọi buff.' },
     depressedcat:{ key:'depressedcat',defaultName:'Depressed Cat',emoji:'😿',color:'#78909c',hp:1000, speed:5, size:43, skill:'Kẻ tan nát cõi lòng — giờ cả thế giới phải trả giá. Còn sống trên sân là mọi kẻ địch chậm 20% (tốc chạy + tốc đánh) suốt trận. Kêu than 3s (nghỉ 1.5s): mọi kẻ địch +1 nấc Depression (cục pin dưới chân nó tụt 1 vạch), trời theo nấc: mây đen kéo đến → mưa nhỏ → mưa to + sét → bão. Đủ 5 nấc: dạng Pain, Shinra Tensei xoá sổ cả sân.' },
@@ -2820,6 +2820,7 @@ const AUDIO_SAMPLES = {};
       heal_one: 'assets/audio/heal_one.mp3', // 💚 tiếng hồi máu CHUNG cho mọi lần hồi 1 cục (undertale-healing.mp3, nguyên bản)
       tf_gulp: 'assets/audio/tf_gulp.mp3', // 😏 Troll Face ĐỚP đối thủ (gulp-gulp-drinking.mp3, nguyên bản không cắt)
       tf_nightmare: 'assets/audio/tf_nightmare.mp3', // 👹 Troll Face hoá dạng ác mộng (prowler-sound-effect-hd.mp3, chỉ cắt 0.2s im lặng đầu)
+      lc_link: 'assets/audio/lc_link.mp3',     // 🐱📟 Loooong Cat nối đuôi vào cổng góc — myinstants "8 bit sound" (cắt 0.09–0.5s)
       lc_chomp: 'assets/audio/lc_chomp.mp3',   // 🐱 Loooong Cat cắn — myinstants "9. Cartoon Chomp" (cắt 0–0.3s)
       vamp_bite1: 'assets/audio/vamp_bite1.mp3',
       vamp_bite2: 'assets/audio/vamp_bite2.mp3',
@@ -2944,7 +2945,7 @@ const SND_NORMALIZE=true;
 const SND_TARGET_LUFS=-14;
 const SND_SFX_DUCK=0.75;
 const SG_BASE_JACKPOT=0.01, SG_LOW_BONUS=0.05, SG_HIGH_BONUS=0.02;   // 🤓 Smart Guy: tỉ lệ gốc ra đúng 200 IQ · +5% mỗi lần IQ thấp (<80) · +2% mỗi lần IQ cao (>150)
-const SND_LUFS={se_sword_clash:[-19.1,-9.5], se_katana_a:[-18.3,-6.6], se_katana_b:[-21.2,-9.3], se_big_slash:[-20.8,-8.3], se_kick:[-17.2,-6.9], se_swing_kick:[-15.8,-3.6], se_punch_heavy:[-18.9,-7.7], se_punch_high:[-16.4,-7.0], se_machdash:[-21.3,-6.9], se_step_in:[-22.0,-7.0], se_pushback:[-20.3,-9.2], se_rock_break:[-19.8,-5.9], se_wall_break:[-20.8,-7.0], se_collapse_b:[-33.8,-5.7], se_slowmo_end:[-26.6,-6.3], se_tremor:[-23.4,-7.4], se_aura:[-22.4,-10.2], se_gogogo:[-16.6,-7.2], se_bomb:[-22.7,-8.4], lb_song:[-12.6,-1.3], lb_sing:[-13.8,-5.1], lb_ult:[-13.8,-2.2], mc_gd_lock:[-19.1,-2.9], mc_gd_fly:[-24.6,-4.8], rf_world_revolving:[-13.5,0.2], vb_warmup:[-11.6,-3.0], vb_bumblebee:[-24.5,-7.5], vb_buzz:[-17.0,-6.0], vb_swarm:[-19.0,-6.4], vb_rush:[-17.3,-0.6], vb_sting:[-17.0,-3.0],   /* 🐝 đo RMS trong trình duyệt (máy Windows không có tim-sound) — ước lượng gần đúng LUFS */ l2p_explode:[-8.0,1.6], l2p_tentacle:[-21.5,-1.0], l2p_chains:[-35.1,-17.7], l2p_chime:[-24.6,-17.8], l2p_whoosh:[-11.1,-1.2], l2p_sub:[-16.0,-1.5], l2p_shimmer:[-11.0,-1.3], l2p_riser:[-14.2,-1.8], l2p_rumble:[-18.3,-1.5], l2p_crack:[-18.0,-1.6], l2p_shatter:[-11.6,0.3], ep4_step1:[-27.2,-7.7], ep4_step2:[-28.6,-7.9], ep4_step3:[-26.0,-9.1], ep4_creak:[-26.2,-13.2], piano_megalovania:[-7.5,2.5], ep3_end_boom:[-15.8,-1.0], ep3_kamui:[-13.7,-3.9], ep3_pain4:[-13.5,-2.7], fr_titan_roar:[-12.9,-1.9], ep3_shine:[-15.4,-2.5], ep3_glass:[-8.0,-1.3], ep3_charge:[-13.4,-0.8], ep3_quake:[-14.5,-1.8], ep3_titan:[-13.3,-2.3], ep3_explode:[-11.1,-1.9], ep3_chain:[-10.9,-2.7], pd_truck_crash:[-8.4,-0.7], azel_beat:[-11.0,-3.5], ep3_blip:[-32,-25.6], ep3_lava:[-27.5,-7.6], ep3_rock:[-22.2,-5.6], ep3_whoosh:[-15.0,-3.8], ep3_dark:[-17.7,-4.2], ep3_ratchet:[-19.3,-8.9], ep3_klunk:[-18.1,-2.6], ep3_arm:[-14.7,-1.3], ep3_hydraulic:[-20.8,-7.5], ep3_breath:[-18.0,-0.5], ep3_force:[-15.3,-3.4], ep3_choke:[-18.1,-2.3], ep3_boom:[-16.5,-1.0], id_split:[-19.6,-5.3], sa_spot_on:[-15.9,-1.7], sa_menacing:[-13.1,-2.7], sa_pathetic:[-12.3,-0.7], duo_win:[-17.0,-8.1], nj_sharingan:[-12.8,-2.9], pd_whimper:[-14.7,-5.0], pd_th_pan:[-14.4,-1.5], pd_th_slap:[-7.8,-1.1], az_salt:[-14.7,-4.1], duo_wrong:[-24.7,-11.5], duo_mibombo:[-9.7,-4.2], duo_eye_laser:[-15.0,-5.3], duo_big_laser:[-13.3,-4.7], duo_ice_break:[-22.7,-10.5], dl_shark_bite:[-17.7,-1.0], dl_drip:[-13.7,-1.5], dl_pour:[-21.5,-5.1], duo_correct:[-21.5,-7.9], pd_pot:[-9.0,-0.8], pd_piano:[-16.2,-4.8], pd_slip:[-17.2,-10.9], pd_fall:[-24.4,-14.0], pain_theme:[-13.3,-1.5], ninja_kunai:[-17.2,-2.8], bx_whitebeard:[-18.1,-8.6], flower_jarona:[-15.2,-5.2], cine_haki:[-15.4,-5.2], cine_conq_haki:[-16.3,-6.5], cv_win:[-20.1,-3.8], cine_heavy_slow:[-7.2,0.3], cine_haki_hit:[-15.0,-1.0], cine_flesh:[-10.5,-0.3], cine_deep_impact:[-15.8,-4.0], cine_strongpunch:[-6.8,-1.4], zoro_blade:[-12.6,-2.8], cine_impact_jr1:[-15.2,-1.8], demon_roar1:[-13.0,-2.1], demon_roar2:[-12.8,-2.2], demon_roar3:[-12.8,-2.6], cine_drop:[-26.6,-17.5], cine_impact:[-22.9,-11.3], dn_theme:[-6.8,1.6], mw_gojo:[-20.8,-12.2], mw_gojo_travel:[-19.0,-11.0], mw_ryoiki_tenkai:[-22.3,-1.0], mw_muryokusho:[-20.2,-1.0], mw_murasaki:[-21.8,-1.0],   /* 🗣️ giọng VOICEVOX: đo BS.1770 bằng Node (Windows) */ ar_mini_die:[-17.2,-5.5], ar_clone:[-16.2,-3.7], ar_stone_on:[-14.2,-3.6], ar_stone_break:[-10.4,-0.8], eg_necro:[-12.4,-2.7], hm_stalker:[-15.0,-0.5], dp_happy:[-9.3,-0.4], ps_shinra:[-20.2,-8.2], dp_rain:[-17.1,-0.5], thunder_big:[-12.9,1.0], sa_phase1:[-18.8,-6.4], hm_crawl:[-23.0,-0.4], hm_claw1:[-14.4,0.2], hm_scared:[-2.7,3.5], hm_claw2:[-14.2,0.4], hm_musicbox:[-21.1,-5.9], eg_bgm:[-15.5,-2.2], br_tick:[-17.9,-5.7], br_boom:[-12.9,1.2], hl_choir:[-14.9,-4.2], hl_laser:[-10.8,-2.0], drv_train:[-14.1,-0.9], drv_bus:[-22.0,-12.0], ld_shout:[-16.4,-12.2], ld_stab:[-18.3,-12.2], ld_spray:[-21.9,-15.2], ar_music:[-14.5,0.6], ld_heal1:[-20.4,-10.3], ld_heal2:[-21.8,-11.8], ld_start:[-11.7,-0.1], ld_saw:[-11.1,-6.7], sm_schwing:[-8.5,4.1], sm_fin:[-10.1,-0.6], sm_nani:[-10.0,-2.8], sm_drip:[-30.1,-5.9], sm_slash:[-4.8,2.8], sm_parry:[-11.0,-2.0], sm_form:[-16.2,-5.5], sm_omae:[-12.2,-2.3], sc_motor:[-9.3,2.7], sc_gas:[-8.2,2.3], sc_drift:[-13.9,-4.4], dc_chain:[-14.9,-5.5], dc_rock:[-20.3,-7.0], dc_bell:[-19.5,-1.9], dc_rage:[-13.9,-5.8], clap_tele:[-9.0,-2.3], clap_cat:[-21.2,-3.7], gp_break:[-14.3,0.0], gp_souls:[-21.0,-9.1], gp_meow:[-11.1,-0.1], gp_evil_laugh:[-15.4,-0.9], cdg_grow:[-6.0,-0.2], mlem_freeze:[-14.7,0.5], guitar_bluebird:[-11.3,0.4], cn_ready:[-12.8,-1.5], cn_pan_hit:[-10.2,0.5], cn_cook:[-19.9,-2.5], ac_ufo_illuminati:[-14.8,-2.2], apple_bop:[-15.0,2.4], are_you_ready:[-27.1,-7.9], bat_grapple:[-25.7,-10.2], beluga_text:[-13.0,2.1], beluga_typing:[-28.4,1.0], bibilabu_sound:[-11.5,2.2], bk_clang:[-22.6,-13.1], blackhole:[-14.5,1.1], bongo_prep1:[-18.4,1.6], bongo_prep2:[-19.6,2.1], bongo_prep3:[-20.7,2.1], bongo_prep4:[-21.1,-1.8], bonk:[-15.9,-0.9], bow_shoot:[-21.8,-0.4], burn_loop:[-24.2,-8.6], calmdog_howl:[-11.7,2.4], capy_fuse:[-12.5,4.1], car_horn:[-13.8,-3.4], catvader_breathe:[-7.2,2.6], cheems_bongo:[-13.4,-1.5], chidorii:[-3.9,4.1], chillguy_kick:[-13.6,-2.4], chillguy_uppercut:[-23.0,-12.1], choose_your_champion:[-27.9,-8.3], commander_anthem:[-5.1,6.1], commander_solider_1:[-7.9,1.1], commander_solider_2:[-10.3,0.6], commander_solider_3:[-9.2,1.7], cough_meme:[-13.5,2.7], countdown_321:[-33.6,-15.6], creeper_explosion:[-13.7,3.4], cry_banana_cat:[-17.1,-5.1], cry_meow:[-13.4,-1.6], damdamdidi:[-10.4,2.6], dawae_run:[-12.1,1.7], dawae_run2:[-17.7,1.3], dawae_voice:[-7.2,1.9], death_break:[-19.2,-0.3], eating_minecraft:[-21.2,-3.9], fan_roulette:[-14.0,-1.2], fan_slot:[-8.6,2.8], fd_crackle:[-34.6,-1.5], fd_roar:[-16.4,-2.4], fight:[-12.8,2.4], fk_anthem:[-11.3,0.9], flower_transcend:[-12.4,0.9], flyingcat_laser:[-15.8,-6.1], flyingcat_theme:[-16.2,-3.0], fr_bite:[-9.2,1.6], fr_chew:[-29.5,-1.6], fr_dash:[-18.3,-5.8], fr_song:[-10.9,3.2], fr_thunder:[-12.3,3.3], gary_titan_roar:[-13.4,-1.9], gas_leak:[-10.4,-0.9], germancat_speech:[-10.3,-1.0], gigachad_roar:[-13.4,-1.9], guitar_aot:[-10.0,3.1], guitar_deltarune:[-15.8,-0.6], guitar_jojo:[-17.9,-5.0], guitar_s1:[-9.2,3.1], guitar_unravel:[-10.7,3.1], gunshot:[-14.5,-2.5], heal_one:[-21.0,-11.8], hecker_calc:[-32.5,-19.0], hecker_hit:[-13.6,-0.8], hit_heavy:[-15.6,-1.5], hit_light:[-17.5,2.5], hit_mid:[-15.9,0.3], holy_thunder:[-7.9,3.6], huh_sample:[-4.6,2.8], infdoge_bonk:[-12.7,3.0], kermit_pull:[-13.8,-2.5], kermit_wave_scream:[-11.8,-4.2], king_knight_hit:[-22.2,-4.4], king_knight_summon:[-17.1,-3.0], king_laser:[-9.7,0.5], ko:[-5.1,3.3], larry_eye:[-11.2,2.5], larry_hit:[-14.6,-2.1], larry_horn:[-13.2,3.8], larry_whisper:[-35.6,-19.9], larry_whisper2:[-22.3,-5.9], lightsaber_clash_06:[-17.3,-6.1], lightsaber_on:[-14.7,-3.0], lightsaber_whoosh_01:[-15.6,-5.6], loading_arrow_fly:[-18.0,-1.5], loading_sound:[-26.9,-17.9], marmot_scream:[-10.9,0.8], marmot_ssj:[-13.7,-0.7], marmot_scream_ssj:[-15.2,-2.1], maxwell_dance:[-18.2,-1.9], mc_sfx_craft:[-21.8,0.1], mc_sfx_laser:[-18.8,-7.4], mc_sfx_machinegun:[-15.2,-1.4], mc_sfx_missile:[-13.8,-0.0], mc_sfx_railgun:[-14.5,-2.5], mewing_song:[-12.7,-0.4], mewing_statue_break:[-20.2,-1.6], mf_laser:[-17.1,-11.1], mlem_lick:[-16.2,-1.7], mosquito_violin:[-18.0,-4.6], music_hit:[-10.2,0.0], naruto_intro:[-11.1,2.3], nein:[-9.2,-0.1], ninja_slash:[-13.6,-2.1], ninja_sub:[-12.5,-1.5], nyan_theme:[-12.4,0.6], oiia_remix:[-14.4,-1.0], pakistan_disappointed:[-16.3,-1.4], pewpew:[-14.1,1.3], piano_giorno:[-13.4,2.1], piano_rush:[-14.8,-1.7], piano_stilldre:[-17.6,0.3], piano_takeonme:[-10.1,3.5], piano_thousandmiles:[-15.8,-0.5], popcat:[-27.0,-9.9], punch2:[-11.1,-0.5], resensuken_sound:[-11.4,0.7], ricardo_music:[-21.7,-11.9], rickroll_song:[-16.8,-1.0], rt_podium_win:[-32.1,-22.2], sad_cat_cry:[-13.6,-2.8], sax_breath:[-25.3,-7.3], sax_song:[-19.6,-8.2], sc_laugh:[-8.3,3.6], sc_tasty:[-15.7,-1.5], sc_terror:[-8.5,2.5], sc_wing:[-21.7,-3.2], scareddog_ghost:[-15.7,-4.5], soul_steal:[-24.2,-10.0], scream_attack:[-17.0,-6.2], sd_howl:[-23.0,-11.3], smartguy_roll:[-8.6,1.4], snooze:[-19.0,-1.2], spell_1:[-11.4,-0.4], spell_2:[-13.8,-2.5], spidercat_hit:[-9.7,0.5], stalin_domain:[-13.2,-1.0], stalin_hammer_hit:[-10.2,-0.8], stalin_hammer_return:[-20.3,-7.1], stalin_sickle_hit:[-22.2,-4.4], sus_meeting:[-16.9,-5.1], sus_typing:[-28.1,-1.4], tf_chew:[-14.2,1.4], tf_gulp:[-16.8,2.6], tf_nightmare:[-14.7,-2.2], titan_roar:[-13.4,-1.9], tribe_1:[-18.4,1.6], tribe_2:[-20.6,1.6], tribe_3:[-23.9,-4.4], uia_remix_hiphop:[-4.7,5.5], uia_tele_dbz:[-8.5,0.6], uia_teleport:[-9.4,0.7], uiacat_spin:[-14.9,0.8], ultimate_charge_2:[-6.2,2.6], vamp_bat_fly:[-26.9,-7.5], lc_chomp:[-11.0,0.0], vamp_bite1:[-16.6,-2.2], vamp_bite2:[-8.5,0.7], vine_boom:[-8.9,2.5], violin_1:[-11.1,-1.4], violin_2:[-5.8,3.2], violin_3:[-7.7,3.4], violin_4:[-10.1,2.7], violin_5:[-10.2,-0.3], violin_sad:[-15.0,0.3], wg_axe_whoosh:[-16.0,2.5], wg_blade_impact:[-22.2,-4.4], wg_blade_throw:[-17.6,-2.5], wg_chicken:[-14.9,2.6], wg_chicken_spawn:[-32.1,-22.2], wg_cow_moo:[-7.4,2.4], wg_dragon_impact:[-11.1,1.1], wg_dragon_roar:[-4.5,3.1], wg_jockey_hit:[-17.5,2.5], wg_think:[-17.0,-4.9], wg_tornado:[-13.2,1.5], wg_truck_horn:[-11.3,1.5], who_would_win:[-12.2,2.5], yuki_bounce:[-18.5,0.1], yuki_hit:[-16.0,-1.5], yw_attack:[-28.0,-10.0],   /* 🎬 Kenney + 効果音ラボ: đo BS.1770 bằng sonniss-index.js --mp3 (10/11) */ kn_punch_heavy:[-20.9,-1.0], kn_boom_low:[-18.4,-1.0], kn_explode_crunch:[-15.0,-1.0], kn_forcefield:[-11.4,-1.0], kn_laser_big:[-17.5,-1.0], se_super_hit:[-11.1,-1.0], se_impact_stop:[-10.7,-1.0], se_whoosh_fast:[-18.0,-1.0], se_slash:[-12.4,-1.0], se_charge:[-14.9,-1.0], se_big_explode:[-13.5,-1.0], se_shockwave:[-18.8,-1.0], se_quake:[-11.9,-1.0], se_collapse:[-16.2,-1.0], se_glass:[-14.9,-1.0], se_teleport:[-20.8,-1.0], se_beam:[-12.1,-1.0]};   // key: [LUFS gốc, đỉnh dBFS]
+const SND_LUFS={se_sword_clash:[-19.1,-9.5], se_katana_a:[-18.3,-6.6], se_katana_b:[-21.2,-9.3], se_big_slash:[-20.8,-8.3], se_kick:[-17.2,-6.9], se_swing_kick:[-15.8,-3.6], se_punch_heavy:[-18.9,-7.7], se_punch_high:[-16.4,-7.0], se_machdash:[-21.3,-6.9], se_step_in:[-22.0,-7.0], se_pushback:[-20.3,-9.2], se_rock_break:[-19.8,-5.9], se_wall_break:[-20.8,-7.0], se_collapse_b:[-33.8,-5.7], se_slowmo_end:[-26.6,-6.3], se_tremor:[-23.4,-7.4], se_aura:[-22.4,-10.2], se_gogogo:[-16.6,-7.2], se_bomb:[-22.7,-8.4], lb_song:[-12.6,-1.3], lb_sing:[-13.8,-5.1], lb_ult:[-13.8,-2.2], mc_gd_lock:[-19.1,-2.9], mc_gd_fly:[-24.6,-4.8], rf_world_revolving:[-13.5,0.2], vb_warmup:[-11.6,-3.0], vb_bumblebee:[-24.5,-7.5], vb_buzz:[-17.0,-6.0], vb_swarm:[-19.0,-6.4], vb_rush:[-17.3,-0.6], vb_sting:[-17.0,-3.0],   /* 🐝 đo RMS trong trình duyệt (máy Windows không có tim-sound) — ước lượng gần đúng LUFS */ l2p_explode:[-8.0,1.6], l2p_tentacle:[-21.5,-1.0], l2p_chains:[-35.1,-17.7], l2p_chime:[-24.6,-17.8], l2p_whoosh:[-11.1,-1.2], l2p_sub:[-16.0,-1.5], l2p_shimmer:[-11.0,-1.3], l2p_riser:[-14.2,-1.8], l2p_rumble:[-18.3,-1.5], l2p_crack:[-18.0,-1.6], l2p_shatter:[-11.6,0.3], ep4_step1:[-27.2,-7.7], ep4_step2:[-28.6,-7.9], ep4_step3:[-26.0,-9.1], ep4_creak:[-26.2,-13.2], piano_megalovania:[-7.5,2.5], ep3_end_boom:[-15.8,-1.0], ep3_kamui:[-13.7,-3.9], ep3_pain4:[-13.5,-2.7], fr_titan_roar:[-12.9,-1.9], ep3_shine:[-15.4,-2.5], ep3_glass:[-8.0,-1.3], ep3_charge:[-13.4,-0.8], ep3_quake:[-14.5,-1.8], ep3_titan:[-13.3,-2.3], ep3_explode:[-11.1,-1.9], ep3_chain:[-10.9,-2.7], pd_truck_crash:[-8.4,-0.7], azel_beat:[-11.0,-3.5], ep3_blip:[-32,-25.6], ep3_lava:[-27.5,-7.6], ep3_rock:[-22.2,-5.6], ep3_whoosh:[-15.0,-3.8], ep3_dark:[-17.7,-4.2], ep3_ratchet:[-19.3,-8.9], ep3_klunk:[-18.1,-2.6], ep3_arm:[-14.7,-1.3], ep3_hydraulic:[-20.8,-7.5], ep3_breath:[-18.0,-0.5], ep3_force:[-15.3,-3.4], ep3_choke:[-18.1,-2.3], ep3_boom:[-16.5,-1.0], id_split:[-19.6,-5.3], sa_spot_on:[-15.9,-1.7], sa_menacing:[-13.1,-2.7], sa_pathetic:[-12.3,-0.7], duo_win:[-17.0,-8.1], nj_sharingan:[-12.8,-2.9], pd_whimper:[-14.7,-5.0], pd_th_pan:[-14.4,-1.5], pd_th_slap:[-7.8,-1.1], az_salt:[-14.7,-4.1], duo_wrong:[-24.7,-11.5], duo_mibombo:[-9.7,-4.2], duo_eye_laser:[-15.0,-5.3], duo_big_laser:[-13.3,-4.7], duo_ice_break:[-22.7,-10.5], dl_shark_bite:[-17.7,-1.0], dl_drip:[-13.7,-1.5], dl_pour:[-21.5,-5.1], duo_correct:[-21.5,-7.9], pd_pot:[-9.0,-0.8], pd_piano:[-16.2,-4.8], pd_slip:[-17.2,-10.9], pd_fall:[-24.4,-14.0], pain_theme:[-13.3,-1.5], ninja_kunai:[-17.2,-2.8], bx_whitebeard:[-18.1,-8.6], flower_jarona:[-15.2,-5.2], cine_haki:[-15.4,-5.2], cine_conq_haki:[-16.3,-6.5], cv_win:[-20.1,-3.8], cine_heavy_slow:[-7.2,0.3], cine_haki_hit:[-15.0,-1.0], cine_flesh:[-10.5,-0.3], cine_deep_impact:[-15.8,-4.0], cine_strongpunch:[-6.8,-1.4], zoro_blade:[-12.6,-2.8], cine_impact_jr1:[-15.2,-1.8], demon_roar1:[-13.0,-2.1], demon_roar2:[-12.8,-2.2], demon_roar3:[-12.8,-2.6], cine_drop:[-26.6,-17.5], cine_impact:[-22.9,-11.3], dn_theme:[-6.8,1.6], mw_gojo:[-20.8,-12.2], mw_gojo_travel:[-19.0,-11.0], mw_ryoiki_tenkai:[-22.3,-1.0], mw_muryokusho:[-20.2,-1.0], mw_murasaki:[-21.8,-1.0],   /* 🗣️ giọng VOICEVOX: đo BS.1770 bằng Node (Windows) */ ar_mini_die:[-17.2,-5.5], ar_clone:[-16.2,-3.7], ar_stone_on:[-14.2,-3.6], ar_stone_break:[-10.4,-0.8], eg_necro:[-12.4,-2.7], hm_stalker:[-15.0,-0.5], dp_happy:[-9.3,-0.4], ps_shinra:[-20.2,-8.2], dp_rain:[-17.1,-0.5], thunder_big:[-12.9,1.0], sa_phase1:[-18.8,-6.4], hm_crawl:[-23.0,-0.4], hm_claw1:[-14.4,0.2], hm_scared:[-2.7,3.5], hm_claw2:[-14.2,0.4], hm_musicbox:[-21.1,-5.9], eg_bgm:[-15.5,-2.2], br_tick:[-17.9,-5.7], br_boom:[-12.9,1.2], hl_choir:[-14.9,-4.2], hl_laser:[-10.8,-2.0], drv_train:[-14.1,-0.9], drv_bus:[-22.0,-12.0], ld_shout:[-16.4,-12.2], ld_stab:[-18.3,-12.2], ld_spray:[-21.9,-15.2], ar_music:[-14.5,0.6], ld_heal1:[-20.4,-10.3], ld_heal2:[-21.8,-11.8], ld_start:[-11.7,-0.1], ld_saw:[-11.1,-6.7], sm_schwing:[-8.5,4.1], sm_fin:[-10.1,-0.6], sm_nani:[-10.0,-2.8], sm_drip:[-30.1,-5.9], sm_slash:[-4.8,2.8], sm_parry:[-11.0,-2.0], sm_form:[-16.2,-5.5], sm_omae:[-12.2,-2.3], sc_motor:[-9.3,2.7], sc_gas:[-8.2,2.3], sc_drift:[-13.9,-4.4], dc_chain:[-14.9,-5.5], dc_rock:[-20.3,-7.0], dc_bell:[-19.5,-1.9], dc_rage:[-13.9,-5.8], clap_tele:[-9.0,-2.3], clap_cat:[-21.2,-3.7], gp_break:[-14.3,0.0], gp_souls:[-21.0,-9.1], gp_meow:[-11.1,-0.1], gp_evil_laugh:[-15.4,-0.9], cdg_grow:[-6.0,-0.2], mlem_freeze:[-14.7,0.5], guitar_bluebird:[-11.3,0.4], cn_ready:[-12.8,-1.5], cn_pan_hit:[-10.2,0.5], cn_cook:[-19.9,-2.5], ac_ufo_illuminati:[-14.8,-2.2], apple_bop:[-15.0,2.4], are_you_ready:[-27.1,-7.9], bat_grapple:[-25.7,-10.2], beluga_text:[-13.0,2.1], beluga_typing:[-28.4,1.0], bibilabu_sound:[-11.5,2.2], bk_clang:[-22.6,-13.1], blackhole:[-14.5,1.1], bongo_prep1:[-18.4,1.6], bongo_prep2:[-19.6,2.1], bongo_prep3:[-20.7,2.1], bongo_prep4:[-21.1,-1.8], bonk:[-15.9,-0.9], bow_shoot:[-21.8,-0.4], burn_loop:[-24.2,-8.6], calmdog_howl:[-11.7,2.4], capy_fuse:[-12.5,4.1], car_horn:[-13.8,-3.4], catvader_breathe:[-7.2,2.6], cheems_bongo:[-13.4,-1.5], chidorii:[-3.9,4.1], chillguy_kick:[-13.6,-2.4], chillguy_uppercut:[-23.0,-12.1], choose_your_champion:[-27.9,-8.3], commander_anthem:[-5.1,6.1], commander_solider_1:[-7.9,1.1], commander_solider_2:[-10.3,0.6], commander_solider_3:[-9.2,1.7], cough_meme:[-13.5,2.7], countdown_321:[-33.6,-15.6], creeper_explosion:[-13.7,3.4], cry_banana_cat:[-17.1,-5.1], cry_meow:[-13.4,-1.6], damdamdidi:[-10.4,2.6], dawae_run:[-12.1,1.7], dawae_run2:[-17.7,1.3], dawae_voice:[-7.2,1.9], death_break:[-19.2,-0.3], eating_minecraft:[-21.2,-3.9], fan_roulette:[-14.0,-1.2], fan_slot:[-8.6,2.8], fd_crackle:[-34.6,-1.5], fd_roar:[-16.4,-2.4], fight:[-12.8,2.4], fk_anthem:[-11.3,0.9], flower_transcend:[-12.4,0.9], flyingcat_laser:[-15.8,-6.1], flyingcat_theme:[-16.2,-3.0], fr_bite:[-9.2,1.6], fr_chew:[-29.5,-1.6], fr_dash:[-18.3,-5.8], fr_song:[-10.9,3.2], fr_thunder:[-12.3,3.3], gary_titan_roar:[-13.4,-1.9], gas_leak:[-10.4,-0.9], germancat_speech:[-10.3,-1.0], gigachad_roar:[-13.4,-1.9], guitar_aot:[-10.0,3.1], guitar_deltarune:[-15.8,-0.6], guitar_jojo:[-17.9,-5.0], guitar_s1:[-9.2,3.1], guitar_unravel:[-10.7,3.1], gunshot:[-14.5,-2.5], heal_one:[-21.0,-11.8], hecker_calc:[-32.5,-19.0], hecker_hit:[-13.6,-0.8], hit_heavy:[-15.6,-1.5], hit_light:[-17.5,2.5], hit_mid:[-15.9,0.3], holy_thunder:[-7.9,3.6], huh_sample:[-4.6,2.8], infdoge_bonk:[-12.7,3.0], kermit_pull:[-13.8,-2.5], kermit_wave_scream:[-11.8,-4.2], king_knight_hit:[-22.2,-4.4], king_knight_summon:[-17.1,-3.0], king_laser:[-9.7,0.5], ko:[-5.1,3.3], larry_eye:[-11.2,2.5], larry_hit:[-14.6,-2.1], larry_horn:[-13.2,3.8], larry_whisper:[-35.6,-19.9], larry_whisper2:[-22.3,-5.9], lightsaber_clash_06:[-17.3,-6.1], lightsaber_on:[-14.7,-3.0], lightsaber_whoosh_01:[-15.6,-5.6], loading_arrow_fly:[-18.0,-1.5], loading_sound:[-26.9,-17.9], marmot_scream:[-10.9,0.8], marmot_ssj:[-13.7,-0.7], marmot_scream_ssj:[-15.2,-2.1], maxwell_dance:[-18.2,-1.9], mc_sfx_craft:[-21.8,0.1], mc_sfx_laser:[-18.8,-7.4], mc_sfx_machinegun:[-15.2,-1.4], mc_sfx_missile:[-13.8,-0.0], mc_sfx_railgun:[-14.5,-2.5], mewing_song:[-12.7,-0.4], mewing_statue_break:[-20.2,-1.6], mf_laser:[-17.1,-11.1], mlem_lick:[-16.2,-1.7], mosquito_violin:[-18.0,-4.6], music_hit:[-10.2,0.0], naruto_intro:[-11.1,2.3], nein:[-9.2,-0.1], ninja_slash:[-13.6,-2.1], ninja_sub:[-12.5,-1.5], nyan_theme:[-12.4,0.6], oiia_remix:[-14.4,-1.0], pakistan_disappointed:[-16.3,-1.4], pewpew:[-14.1,1.3], piano_giorno:[-13.4,2.1], piano_rush:[-14.8,-1.7], piano_stilldre:[-17.6,0.3], piano_takeonme:[-10.1,3.5], piano_thousandmiles:[-15.8,-0.5], popcat:[-27.0,-9.9], punch2:[-11.1,-0.5], resensuken_sound:[-11.4,0.7], ricardo_music:[-21.7,-11.9], rickroll_song:[-16.8,-1.0], rt_podium_win:[-32.1,-22.2], sad_cat_cry:[-13.6,-2.8], sax_breath:[-25.3,-7.3], sax_song:[-19.6,-8.2], sc_laugh:[-8.3,3.6], sc_tasty:[-15.7,-1.5], sc_terror:[-8.5,2.5], sc_wing:[-21.7,-3.2], scareddog_ghost:[-15.7,-4.5], soul_steal:[-24.2,-10.0], scream_attack:[-17.0,-6.2], sd_howl:[-23.0,-11.3], smartguy_roll:[-8.6,1.4], snooze:[-19.0,-1.2], spell_1:[-11.4,-0.4], spell_2:[-13.8,-2.5], spidercat_hit:[-9.7,0.5], stalin_domain:[-13.2,-1.0], stalin_hammer_hit:[-10.2,-0.8], stalin_hammer_return:[-20.3,-7.1], stalin_sickle_hit:[-22.2,-4.4], sus_meeting:[-16.9,-5.1], sus_typing:[-28.1,-1.4], tf_chew:[-14.2,1.4], tf_gulp:[-16.8,2.6], tf_nightmare:[-14.7,-2.2], titan_roar:[-13.4,-1.9], tribe_1:[-18.4,1.6], tribe_2:[-20.6,1.6], tribe_3:[-23.9,-4.4], uia_remix_hiphop:[-4.7,5.5], uia_tele_dbz:[-8.5,0.6], uia_teleport:[-9.4,0.7], uiacat_spin:[-14.9,0.8], ultimate_charge_2:[-6.2,2.6], vamp_bat_fly:[-26.9,-7.5], lc_chomp:[-11.0,0.0], lc_link:[-14.0,-5.0], vamp_bite1:[-16.6,-2.2], vamp_bite2:[-8.5,0.7], vine_boom:[-8.9,2.5], violin_1:[-11.1,-1.4], violin_2:[-5.8,3.2], violin_3:[-7.7,3.4], violin_4:[-10.1,2.7], violin_5:[-10.2,-0.3], violin_sad:[-15.0,0.3], wg_axe_whoosh:[-16.0,2.5], wg_blade_impact:[-22.2,-4.4], wg_blade_throw:[-17.6,-2.5], wg_chicken:[-14.9,2.6], wg_chicken_spawn:[-32.1,-22.2], wg_cow_moo:[-7.4,2.4], wg_dragon_impact:[-11.1,1.1], wg_dragon_roar:[-4.5,3.1], wg_jockey_hit:[-17.5,2.5], wg_think:[-17.0,-4.9], wg_tornado:[-13.2,1.5], wg_truck_horn:[-11.3,1.5], who_would_win:[-12.2,2.5], yuki_bounce:[-18.5,0.1], yuki_hit:[-16.0,-1.5], yw_attack:[-28.0,-10.0],   /* 🎬 Kenney + 効果音ラボ: đo BS.1770 bằng sonniss-index.js --mp3 (10/11) */ kn_punch_heavy:[-20.9,-1.0], kn_boom_low:[-18.4,-1.0], kn_explode_crunch:[-15.0,-1.0], kn_forcefield:[-11.4,-1.0], kn_laser_big:[-17.5,-1.0], se_super_hit:[-11.1,-1.0], se_impact_stop:[-10.7,-1.0], se_whoosh_fast:[-18.0,-1.0], se_slash:[-12.4,-1.0], se_charge:[-14.9,-1.0], se_big_explode:[-13.5,-1.0], se_shockwave:[-18.8,-1.0], se_quake:[-11.9,-1.0], se_collapse:[-16.2,-1.0], se_glass:[-14.9,-1.0], se_teleport:[-20.8,-1.0], se_beam:[-12.1,-1.0]};   // key: [LUFS gốc, đỉnh dBFS]
 const SND_MUSIC=new Set(["lb_song", "rf_world_revolving", "vb_warmup", "vb_bumblebee", "piano_megalovania", "ep3_pain4", "azel_beat", "pain_theme", "ar_music", "sc_gas", "guitar_bluebird", "guitar_aot", "guitar_s1", "guitar_deltarune", "guitar_unravel", "guitar_jojo", "piano_giorno", "piano_takeonme", "piano_rush", "piano_stilldre", "piano_thousandmiles", "violin_sad", "violin_1", "violin_2", "violin_3", "violin_4", "violin_5", "stalin_domain", "uia_remix_hiphop", "oiia_remix", "fr_song", "maxwell_dance", "flyingcat_theme", "nyan_theme", "damdamdidi", "commander_anthem", "tribe_1", "tribe_2", "tribe_3", "naruto_intro", "ricardo_music", "sax_song", "rickroll_song", "cough_meme", "mewing_song", "fk_anthem", "hm_musicbox", "eg_bgm"]);
 let _sndMusicEls=new Set();
 function _sndMusicPlaying(){
@@ -13572,7 +13573,7 @@ const CHAR_BLURB = {
   bananacat: "Drops banana peels and dashes off — stepping on one sends you sliding out of control.",
   suscat: "Summons imposters to gang up on the enemy. Once a match, when the enemy drops to 200 HP, it calls a real emergency meeting: the whole floor freezes for a 50/50 vote on whether they are the Imposter. Win the roll and they get ejected into space on the spot — no matter how much HP they had left — and the report cheerfully confirms they were not the Imposter and that all imposters remain, leaving SUS Cat alone on the floor.",
   nyancat: "Leaves a rainbow trail behind it as it bounces around; touching the trail hurts. Gets 3% faster every time it hits a wall.",
-  loooongcat: "Plays Nokia Snake. The tail is pinned in a corner and the head crawls up and down column by column until the arena is full, then crushes whatever is left alive. The head plows through enemies, biting them and getting 5% faster each time. The body is a wall that blocks memes and shots, and only the head can be hurt.",
+  loooongcat: "Plays Nokia Snake. Walks into the retro LCD gate in a bottom corner, pops out as a snake with its tail plugged in, then crawls up and down column by column until the arena is full and crushes whatever is left alive. The head plows through enemies, biting them and getting 5% faster each time. The body is a wall that blocks memes and shots, and only the head can be hurt.",
   flyingcat: "Speeds up off every wall while three tiny copies of itself orbit it, slicing anything they pass.",
   snoozecat: "Alternates between napping and waking, sniping and healing itself through the cycle.",
   depressedcat: "A heartbroken cat, and now the whole world pays: every enemy is slowed while it lives, each lament darkens the sky into a storm, and the fifth one ends in Shinra Tensei.",
@@ -16839,16 +16840,19 @@ function _camUpdate(){
 
 function addShake(str,dur){ if(str>screenShake.str){ screenShake={x:0,y:0,dur,str}; } }
 // tìm mục tiêu địch GẦN NHẤT tính cả đơn vị triệu hồi (clone/lính) — coi như char thường, dùng chung cho mọi hệ thống hit-detection
-// ===== 🐱 LOOOONG CAT — RẮN SĂN MỒI (làm lại 13/11/2026 theo thiết kế của anh) =====
-// Đuôi GHIM ở 1 góc sân, đầu bò đi săn địch gần nhất, thân dài ra mãi (không bao giờ ngắn lại).
-// Thân = TƯỜNG: chặn người + đạn, không gây dame, không ăn dame. Chỉ ĐẦU cắn được và chỉ ĐẦU ăn dame.
-// Mỗi lần đầu cắn trúng địch → bò nhanh thêm 5% (nhân dồn). Ảnh GPT nhìn từ trên xuống, cắt 3 khúc
-// (đuôi · khúc thân lặp · đầu) từ CÙNG 1 ảnh nên cùng bề dày + cùng chất lông; đầu/đuôi có dải mờ đè lên thân để giấu mối nối.
+// ===== 🐱 LOOOONG CAT — RẮN SĂN MỒI kiểu game Nokia (làm lại 13/11/2026 theo thiết kế của anh) =====
+// Vào trận là đúng con mèo avatar, đi bộ tới CỔNG LCD ở góc DƯỚI phía mình → chạm cổng thì đuôi NỐI vào góc, nằm xuống thành rắn
+// rồi bò DỌC LÊN theo tường, hết cột quay đầu chữ U sang cột kế bên (góc trái lấp dần sang phải, góc phải ngược lại); thân dài ra mãi.
+// Thân = TƯỜNG: chặn người + đạn, không gây dame, không ăn dame. Chỉ ĐẦU cắn được và chỉ ĐẦU ăn dame. Mỗi lần cắn → bò nhanh thêm 5%.
+// Ảnh: đuôi + khúc thân lặp cắt từ 1 ảnh GPT nhìn từ trên xuống (cùng bề dày + chất lông, đuôi có dải mờ đè lên thân giấu mối nối);
+// ĐẦU rắn = mặt dựng đứng luôn nhìn ra màn hình (LC_FACE) + cổ có 2 chân trước gập (LC_NECK); ảnh có tay duỗi CHỈ dùng cho con mèo đi bộ lúc chưa vào cổng (avatar).
 let _lcProjHit=false;   // đang tính dame của 1 viên đạn đã bay lọt tới đầu
 const LC_IMG={}; for(const k of ['TAIL','BODY','NECK','FACE']){ const im=new Image(); im.src='assets/img/loooongcat/LC_'+k+'.png'; LC_IMG[k]=im; }
-const LC_SRC_BODY=165, LC_SRC_FEATHER=60, LC_FACE_C=[107,123];   // trong ảnh (px): bề dày thân · dải mờ nối · tâm mặt trong LC_FACE
+const LC_SRC_BODY=165, LC_SRC_FEATHER=60;   // ảnh thân (px): bề dày thân · dải mờ nối đuôi
+const LC_FACE_C=[107,123];                  // tâm mặt trong LC_FACE (mặt dựng đứng nhìn ra, cắt từ ảnh GPT nhìn từ trên xuống)
 const LC_BODY_K=0.85;                                         // bề dày thân vẽ = size × hệ số (anh giảm 15% bề ngang 13/11)
-const LC_BITE=60, LC_BITE_CD=30, LC_SPD_UP=1.05, LC_SPD_MAX=3, LC_TURN=0.075, LC_STEP=5;   // (em tự đặt dame cắn, hồi cắn 0.5s/mục tiêu, trần ×3 tốc)
+const LC_DIVE_T=60, LC_POP_T=14;   // chui vào cổng 1s (anh dặn) · đầu trồi ra khỏi cổng ~0.23s
+const LC_BITE=60, LC_BITE_CD=30, LC_SPD_UP=1.05, LC_SPD_MAX=3, LC_STEP=5;   // (em tự đặt dame cắn, hồi cắn 0.5s/mục tiêu, trần ×3 tốc)
 function _lcTh(f){ return f.size*LC_BODY_K*0.5; }                 // bán kính thân = đúng mép hình
 function _lcSkip(f){ return Math.ceil(f.size*1.3/LC_STEP); }      // số điểm vệt sát đầu là CỔ + ĐẦU, không tính là thân
 // điểm thân (bỏ khúc đầu) gần (x,y) nhất trong bán kính r, không có → null
@@ -16875,19 +16879,27 @@ function _lcBlockShot(walls,p){
     if(q){ _hitParticles(p.x,p.y,'#f3efe6',5); return true; } }
   return false;
 }
-// đặt con rắn vào 1 góc: đuôi sát góc, cả con nằm dọc mép sàn (đủ dài để thấy trọn đầu + đuôi).
-// Đường bò = QUÉT TỪNG CỘT zíc zắc đúng game rắn Nokia (ảnh anh gửi 13/11): bò lên/xuống hết cột → quay đầu vòng chữ U ở mép
-// → cột kế bên, các cột cách nhau đúng 1 bề dày thân → thân nằm khít nhau lấp dần cả sân. Cột 1 = mép tường phía xuất phát.
+// cổng LCD ở 2 góc dưới: tâm + cỡ
+function _lcPad(f,left){ const sz=Math.round(f.size*LC_BODY_K*1.5); return {x:left?sz/2+4:W-sz/2-4, y:H-sz/2-4, sz}; }
+// đi bộ (dạng avatar) tới cổng góc dưới phía mình; chạm cổng → nối đuôi, thành rắn
+function _lcWalk(f){
+  if(f._lcLeft===undefined) f._lcLeft=f.x<W/2;
+  const q=_lcPad(f,f._lcLeft), dx=q.x-f.x, dy=q.y-f.y, d=Math.hypot(dx,dy), sp=f.topSpeed;
+  f.vx=0; f.vy=0;
+  if(f._lcDiveT!==undefined){ if(++f._lcDiveT>=LC_DIVE_T) _lcInit(f); return; }   // đang chui vào cổng
+  if(d<=sp){ f.x=q.x; f.y=q.y; f._lcDiveT=0; f._lcGhost=f._lastSprite?{...f._lastSprite, x:f.x, y:f.y}:null; }   // chạm cổng → bắt đầu chui (chụp lại hình đang hiện)
+  else { f.vx=dx/d*sp; f.vy=dy/d*sp; f.x+=f.vx; f.y+=f.vy; }
+}
+// NỐI GÓC: đuôi cắm vào góc dưới, vệt thân bắt đầu từ đó; dựng đường bò dọc từng cột
 function _lcInit(f){
-  const th=_lcTh(f), left=f.x<W/2, top=(f.team===0), D=f.size*LC_BODY_K;   // KHÔNG dùng Math.random: hàm này còn chạy lúc vẽ màn đếm ngược → xáo chuỗi random có seed của trận
-  const k=D/LC_SRC_BODY, L0=(265+160-LC_SRC_FEATHER)*k;   // đuôi + cổ (ảnh LC_TAIL 265px, LC_NECK 160px), mặt vẽ đè ở đầu
-  const x0=left?th:W-th, ya=top?1:H-1, dir=top?1:-1;       // thân sát tường, chót đuôi chạm đúng góc
-  const T=[]; for(let s=L0;s>=0;s-=LC_STEP) T.push({x:x0, y:ya+dir*s});
-  f._lcTrail=T; f.x=x0; f.y=T[0].y; f._lcAng=top?Math.PI/2:-Math.PI/2; f._lcSpd=1; f._lcBite=new Map();
-  // các cột: từ tường xuất phát sang tường đối diện, cột đầu + cột cuối sát tường
+  const th=_lcTh(f), left=(f._lcLeft!==undefined)?f._lcLeft:f.x<W/2, D=f.size*LC_BODY_K;
+  const A={x:f.x, y:f.y};                                 // con rắn chui ra từ GIỮA màn LCD của cổng góc dưới
+  const T=[]; { const dx=f.x-A.x, dy=f.y-A.y, d=Math.hypot(dx,dy), n=Math.max(1,Math.round(d/LC_STEP)); for(let i=0;i<=n;i++) T.push({x:f.x-dx*i/n, y:f.y-dy*i/n}); }
+  f._lcTrail=T; f._lcAng=-Math.PI/2; f._lcSpd=1; f._lcBite=new Map(); f._lcLinkT=tick; f._lcLeft=left;
+  // các cột: từ tường bên góc nối sang tường đối diện, cột đầu + cột cuối sát tường
   const cols=[]; for(let x=th; x<W-th-D*0.4; x+=D) cols.push(x); cols.push(W-th);
   if(!left) for(let i=0;i<cols.length;i++) cols[i]=W-cols[i];
-  const P=[]; let side=top?1:-1;   // 1 = đang bò xuống
+  const P=[]; let side=-1;   // -1 = đang bò lên
   for(let c=0;c<cols.length;c++){
     const R=c<cols.length-1 ? Math.abs(cols[c+1]-cols[c])/2 : 0;
     const ye=side>0 ? H-th-R : th+R;   // vòng chữ U phình ra sát đúng tường trên / dưới
@@ -16897,6 +16909,65 @@ function _lcInit(f){
     side=-side;
   }
   f._lcPath=P; f._lcIdx=0; f._lcDone=false;
+  addShake(5,8); playSample('lc_link',0.9);
+}
+// 📟 CỔNG kiểu màn hình LCD Nokia ngày xưa (nền xanh LCD, khung + chấm "mồi" pixel nhấp nháy) ở 2 góc dưới.
+// Mèo tới gần → cổng sáng dần · chạm cổng → mèo thu nhỏ CHUI HẲN vào màn LCD trong 1s, các ô pixel hút vào theo
+// → loé sáng mềm, đầu rắn trồi ra, ô pixel toả ra (mọi chuyển động đều có ease, không bật/tắt cứng). Cổng kia tắt dần.
+const _lcEaseO=k=>1-Math.pow(1-k,3), _lcEaseI=k=>k*k*k;
+function _lcPadsDraw(f){
+  const BG='#c7f0d8', INK='#43523d', lt=f._lcLinkT, age=lt===undefined?-1:tick-lt, dv=f._lcDiveT;
+  for(const left of [true,false]){
+    const q=_lcPad(f,left), mine=(f._lcLeft===undefined ? (f.x<W/2)===left : f._lcLeft===left);
+    let a=1; if(age>=0 && !mine) a=Math.max(0,1-age/40); if(a<=0) continue;
+    const sz=q.sz, p=Math.max(2,Math.round(sz/16)), x0=Math.round(q.x-sz/2), y0=Math.round(q.y-sz/2);
+    // độ sáng cổng: tới gần sáng dần → chui vào sáng rực → trồi ra thì dịu về mức nối
+    let glow=0;
+    if(mine){
+      if(age>=0) glow=0.35+0.65*Math.max(0,1-age/30);
+      else if(dv!==undefined) glow=0.35+0.65*_lcEaseI(Math.min(1,dv/LC_DIVE_T));
+      else glow=0.35*Math.max(0,1-Math.hypot(f.x-q.x,f.y-q.y)/140);
+    }
+    ctx.save(); ctx.globalAlpha=a;
+    if(glow>0.01){ const g=ctx.createRadialGradient(q.x,q.y,sz*0.2,q.x,q.y,sz*1.25);
+      g.addColorStop(0,`rgba(199,240,216,${0.55*glow})`); g.addColorStop(1,'rgba(199,240,216,0)');
+      ctx.globalCompositeOperation='lighter'; ctx.fillStyle=g; ctx.fillRect(q.x-sz*1.3,q.y-sz*1.3,sz*2.6,sz*2.6); ctx.globalCompositeOperation='source-over'; }
+    ctx.fillStyle='#1e2a22'; ctx.fillRect(x0-p,y0-p,sz+2*p,sz+2*p);                 // vỏ máy
+    ctx.fillStyle=BG; ctx.fillRect(x0,y0,sz,sz);                                       // màn LCD
+    if(glow>0.01){ ctx.globalAlpha=a*glow*0.5; ctx.fillStyle='#effff6'; ctx.fillRect(x0,y0,sz,sz); ctx.globalAlpha=a; }   // màn sáng lên
+    ctx.globalAlpha=a*0.12; ctx.fillStyle=INK;                                         // lưới điểm ảnh mờ
+    for(let g=p;g<sz;g+=p){ ctx.fillRect(x0+g,y0,1,sz); ctx.fillRect(x0,y0+g,sz,1); }
+    ctx.globalAlpha=a; ctx.fillStyle=INK;
+    ctx.fillRect(x0+p,y0+p,sz-2*p,p); ctx.fillRect(x0+p,y0+sz-2*p,sz-2*p,p);         // khung pixel
+    ctx.fillRect(x0+p,y0+p,p,sz-2*p); ctx.fillRect(x0+sz-2*p,y0+p,p,sz-2*p);
+    const cx=x0+Math.round(sz/2/p)*p, cy=y0+Math.round(sz/2/p)*p;
+    if(age<0 || !mine){ if(dv!==undefined && mine || Math.floor(tick/18)%2===0){      // chấm mồi 3×3 nhấp nháy + 4 mũi chỉ vào
+        ctx.fillRect(cx-p,cy-p,3*p,3*p);
+        for(const [ax,ay] of [[0,-4],[0,4],[-4,0],[4,0]]) ctx.fillRect(cx+ax*p,cy+ay*p,p,p); } }
+    else { for(let i=-3;i<=3;i+=2) ctx.fillRect(cx+i*p,cy-p,p,3*p); }                  // đã nối: hàng chân cắm pixel
+    // 🌀 đang chui: mèo thu nhỏ trượt vào giữa màn LCD, mờ dần · ô pixel từ ngoài hút vào
+    if(mine && dv!==undefined && age<0){
+      const k=Math.min(1,dv/LC_DIVE_T), e=_lcEaseI(k), G=f._lcGhost;
+      for(let i=0;i<12;i++){ const kk=(k*1.6+i/12)%1, an=i/12*Math.PI*2+i*0.7, r=sz*(1.5-1.3*_lcEaseO(kk)), s2=Math.max(1,Math.round(p*1.4*(1-kk*0.6)));
+        ctx.globalAlpha=a*Math.sin(kk*Math.PI)*0.9; ctx.fillStyle=i%2?INK:'#effff6';
+        ctx.fillRect(Math.round(q.x+Math.cos(an)*r-s2), Math.round(q.y+Math.sin(an)*r-s2), s2*2, s2*2); }
+      if(G && G.img){ const sc=1-0.92*e, gx=G.x+(q.x-G.x)*e, gy=G.y+(q.y-G.y)*e;
+        ctx.save(); ctx.beginPath(); ctx.rect(x0-sz,y0-sz*3,sz*3,sz*4); ctx.clip();
+        ctx.globalAlpha=a*(1-0.85*e); ctx.translate(gx,gy); ctx.rotate(e*0.5*(left?1:-1)); ctx.scale((G.fl||G.flip)?-sc:sc, sc);
+        ctx.drawImage(_stickerMask(G.img), G.sx,G.sy,G.sw,G.sh, -G.dw/2,-G.dh/2, G.dw,G.dh);
+        ctx.globalCompositeOperation='lighter'; ctx.globalAlpha=a*0.6*e;            // hoá ánh sáng LCD khi chìm vào
+        ctx.drawImage(_tintMask(G.img,'#c7f0d8'), G.sx,G.sy,G.sw,G.sh, -G.dw/2,-G.dh/2, G.dw,G.dh);
+        ctx.restore(); }
+    }
+    // ✨ vừa trồi ra: ô pixel toả ra mượt (ease-out), nhỏ dần rồi tan
+    if(age>=0 && mine && age<36){
+      const k=age/36, r0=_lcEaseO(k);
+      for(let i=0;i<14;i++){ const an=i/14*Math.PI*2+0.3, r=sz*0.45+r0*sz*1.2, s2=Math.max(1,Math.round(p*1.5*(1-k)));
+        ctx.globalAlpha=a*(1-k)*(1-k); ctx.fillStyle=i%2?INK:'#effff6';
+        ctx.fillRect(Math.round(q.x+Math.cos(an)*r-s2), Math.round(q.y+Math.sin(an)*r-s2), s2*2, s2*2); }
+    }
+    ctx.restore();
+  }
 }
 // đầu bò dọc đường quét, tốc ×(1.05^số lần cắn) — bò hết quãng tốc mỗi tick dù vượt qua nhiều chốt
 function _lcMove(f){
@@ -16968,17 +17039,20 @@ function _lcTick(f){
 // vẽ cả con: đường đuôi→đầu làm mượt, rải ảnh theo từng lát ~6px (đuôi neo ở góc → hoạ tiết lông không trôi khi thân dài ra)
 function _lcDraw(f){
   const T=f._lcTrail, Ib=LC_IMG.BODY, It=LC_IMG.TAIL, In=LC_IMG.NECK, Ifc=LC_IMG.FACE;
-  if(!T || T.length<2 || !Ib.naturalWidth || !It.naturalWidth || !In.naturalWidth || !Ifc.naturalWidth) return;
+  if(!T || !Ib.naturalWidth || !It.naturalWidth || !In.naturalWidth || !Ifc.naturalWidth) return;
   const k=f.size*LC_BODY_K/LC_SRC_BODY, bh=Ib.naturalHeight*k, O=LC_SRC_FEATHER*k;
   const n=T.length, P=[{x:T[n-1].x,y:T[n-1].y}];
   for(let i=n-2;i>=1;i--){ let sx=0,sy=0,c=0; for(let j=Math.max(0,i-2);j<=Math.min(n-1,i+2);j++){ sx+=T[j].x; sy+=T[j].y; c++; } P.push({x:sx/c,y:sy/c}); }
   P.push({x:f.x,y:f.y});
   const C=[0]; for(let i=1;i<P.length;i++) C.push(C[i-1]+Math.hypot(P[i].x-P[i-1].x,P[i].y-P[i-1].y));
-  const tot=C[C.length-1]; if(tot<4) return;
+  const tot=C[C.length-1];
   let wi=1;
   const at=s=>{ s=Math.max(0,Math.min(tot,s)); if(s<C[wi-1]) wi=1; while(wi<C.length-1 && C[wi]<s) wi++;
     const u=(s-C[wi-1])/((C[wi]-C[wi-1])||1); return {x:P[wi-1].x+(P[wi].x-P[wi-1].x)*u, y:P[wi-1].y+(P[wi].y-P[wi-1].y)*u}; };
+  const fade=bh*0.7;   // đoạn thân đang chui ra khỏi màn LCD: mờ dần về phía cổng, không lộ mép cắt
+  let gate=false;
   const strip=(im,u0,u1,s0,s1)=>{
+    if(s1<=0) return; if(s0<0){ u0+=(u1-u0)*(-s0)/(s1-s0); s0=0; }   // phần còn ở trong cổng thì không vẽ
     const iw=im.naturalWidth, ih=im.naturalHeight, q=Math.max(1,Math.ceil((s1-s0)/6));
     for(let j=0;j<q;j++){
       const a0=s0+(s1-s0)*j/q, a1=s0+(s1-s0)*(j+1)/q, p0=at(a0), p1=at(a1), len=Math.hypot(p1.x-p0.x,p1.y-p0.y)||0.01;
@@ -16986,25 +17060,31 @@ function _lcDraw(f){
       // khúc cua: mép ngoài các lát bị toè ra thành răng lược → nới lát theo độ gắt của cua (mép trong chồng lên nhau, lông trắng đều nên không lộ)
       let da=0; if(j>0 || s0>0){ const pm=at(a0-(a1-a0)), b=Math.atan2(p0.y-pm.y,p0.x-pm.x); da=Math.abs(Math.atan2(Math.sin(ang-b),Math.cos(ang-b))); }
       const wid=len+1.2+bh*Math.min(1,da)*0.6;
-      ctx.save(); ctx.translate((p0.x+p1.x)/2,(p0.y+p1.y)/2); ctx.rotate(ang);
+      ctx.save(); if(gate) ctx.globalAlpha*=Math.min(1,(a0+a1)/2/fade); ctx.translate((p0.x+p1.x)/2,(p0.y+p1.y)/2); ctx.rotate(ang);
       ctx.drawImage(im, v0*iw, 0, Math.max(1,(v1-v0)*iw), ih, -wid/2, -bh/2, wid, bh);
       ctx.restore();
     }
   };
   const tl=It.naturalWidth*k, nl=In.naturalWidth*k, Lt=Ib.naturalWidth*k;
   ctx.save();
-  // bóng đổ mềm dưới thân cho có khối nằm trên sàn
-  ctx.globalAlpha=0.18; ctx.strokeStyle='#000'; ctx.lineCap='round'; ctx.lineJoin='round'; ctx.lineWidth=f.size*LC_BODY_K*0.95;
-  ctx.beginPath(); ctx.moveTo(P[0].x+3,P[0].y+5); for(let i=1;i<P.length;i+=2) ctx.lineTo(P[i].x+3,P[i].y+5); ctx.lineTo(P[P.length-1].x+3,P[P.length-1].y+5); ctx.stroke();
-  ctx.globalAlpha=1;
-  // khúc thân lặp: neo từ đuôi ra, khúc cuối sát cổ vẽ dở dang
-  const b0=tl-O, b1=tot-nl+O;
-  for(let s=b0;s<b1;s+=Lt){ const e=Math.min(b1,s+Lt); strip(Ib,0,(e-s)/Lt,s,e); }
-  strip(It,0,1,0,tl);
-  strip(In,0,1,tot-nl,tot);
-  // 😺 MẶT luôn đứng thẳng nhìn ra màn hình như meme gốc (anh dặn), không xoay theo hướng bò
-  const fw=Ifc.naturalWidth*k, fh=Ifc.naturalHeight*k;
-  ctx.drawImage(Ifc, f.x-LC_FACE_C[0]*k, f.y-LC_FACE_C[1]*k, fw, fh);
+  if(tot>2){
+    // bóng đổ mềm dưới thân cho có khối nằm trên sàn
+    ctx.globalAlpha=0.18; ctx.strokeStyle='#000'; ctx.lineCap='round'; ctx.lineJoin='round'; ctx.lineWidth=f.size*LC_BODY_K*0.95;
+    ctx.beginPath(); ctx.moveTo(P[0].x+3,P[0].y+5); for(let i=1;i<P.length;i+=2) ctx.lineTo(P[i].x+3,P[i].y+5); ctx.lineTo(P[P.length-1].x+3,P[P.length-1].y+5); ctx.stroke();
+    ctx.globalAlpha=1;
+    // 🐱📟 CHUI RA: đầu ra trước, thân kéo theo; ra được 1 đoạn BẰNG CHIỀU DÀI CON MÈO TRONG ẢNH (2×size) thì đuôi mới ra khỏi cổng,
+    //    rồi chót đuôi CẮM lại ở cổng và thân dài dần từ đó. Đuôi ảo nằm ở st (âm = còn trong cổng) → hoạ tiết lông trôi ra theo đầu,
+    //    tới lúc đuôi ra hết thì st=0 và hoạ tiết đứng yên neo theo đuôi (liền mạch, không giật).
+    const st=Math.min(0, tot-(f.size*2+tl)); gate=st<0;
+    for(let s=st+tl-O;s<tot-nl+O;s+=Lt){ const e=Math.min(tot-nl+O,s+Lt); strip(Ib,0,(e-s)/Lt,s,e); }
+    strip(It,0,1,st,st+tl);
+    strip(In,0,1,tot-nl,tot);   // cổ + 2 chân trước gập
+  }
+  // 😺 MẶT luôn đứng thẳng nhìn ra màn hình như meme gốc (anh dặn), không xoay theo hướng bò; lúc trồi khỏi cổng phóng dần + rõ dần
+  const pk=f._lcLinkT===undefined?1:Math.min(1,(tick-f._lcLinkT)/LC_POP_T), ps=0.35+0.65*_lcEaseO(pk);
+  ctx.globalAlpha*=Math.min(1,pk*1.5);
+  ctx.translate(f.x,f.y); ctx.scale(ps,ps);
+  ctx.drawImage(Ifc, -LC_FACE_C[0]*k, -LC_FACE_C[1]*k, Ifc.naturalWidth*k, Ifc.naturalHeight*k);
   ctx.restore();
 }
 function _findClosestEnemy(team,x,y){
@@ -19399,7 +19479,7 @@ class Fighter {
     // 🐈 Slap Cat: đang vung tay vả → đứng khựng lại (vẫn tích lực bình thường, xem doAbility)
     if(this.type==='slapcat' && (this._slapFreeze||0)>0){ this.vx*=0.7; this.vy*=0.7; this.x+=this.vx; this.y+=this.vy; return; }
     // 🐱 LOOOONG CAT: đầu rắn tự săn mồi (xem _lcMove), không dùng AI lang thang/đuổi địch
-    if(this.type==='loooongcat' && this._lcPath){ _lcMove(this); return; }
+    if(this.type==='loooongcat'){ if(this._lcPath) _lcMove(this); else _lcWalk(this); return; }   // chưa nối góc: đi bộ tới cổng góc dưới
     // 😈 EVIL LARRY: đi DỌC ĐƯỜNG VẼ ngôi sao quỷ, chặn hẳn AI lang thang/đuổi địch
     if(this.type==='evillarry' && this._elPath && !this._elDone){
       const _tp=this._elPath[this._elIdx];
@@ -19877,7 +19957,7 @@ class Fighter {
     playSample('yuki_bounce',0.6);   // giam 30% so voi 0.85
   }
   bounceWalls(){
-    if(this.type==='loooongcat' && this._lcPath){ const t=_lcTh(this); this.x=Math.max(t,Math.min(W-t,this.x)); this.y=Math.max(t,Math.min(H-t,this.y)); return; }   // 🐱 thân bò sát tường: chỉ chặn theo bề dày thân
+    if(this.type==='loooongcat'){ const t=_lcTh(this); this.x=Math.max(t,Math.min(W-t,this.x)); this.y=Math.max(t,Math.min(H-t,this.y)); return; }   // 🐱 thân bò sát tường: chỉ chặn theo bề dày thân
     // 🗿 Gigachad khổng lồ (anh dặn 30/10): KHÔNG bó thân trong sân — tường trái/phải/trên chỉ chặn theo cỡ lúc vừa hoá khổng lồ (sW),
     //    thân to hơn thì tràn ra ngoài sân (máy quay lùi ra, xem _camUpdate); tường DƯỚI vẫn chặn đủ size → chân luôn đứng trên sân
     const s=this.size, sW=this.type==='gigachad' ? Math.min(s,(this._gcBaseSize||s)*GIGACHAD_BIG_MUL) : s, sB=(this.type==='gigachad' && this._gcVis) ? Math.max(s,this._gcVis.y-this.y+this._gcVis.h/2) : s, D=0.85, _bx0=this.x, _by0=this.y;
@@ -20637,7 +20717,7 @@ class Fighter {
     }
 
     // ===== 🐱 LOOOONG CAT: RẮN SĂN MỒI — đuôi ghim góc, đầu săn địch, thân là tường (xem _lcTick) =====
-    if(this.type==='loooongcat' && !this.dead){ if(!this._lcTrail) _lcInit(this); _lcTick(this); }
+    if(this.type==='loooongcat' && !this.dead && this._lcTrail) _lcTick(this);
 
     // ===== FLYING CAT: dual laser (Star Wars) =====
     // ⚠️ ĐÃ BỎ đòn laser đôi (Flying Cat làm lại: đánh bằng 3 vệ tinh, xem _fcSatTick). Giữ khối để dễ bật lại.
@@ -24032,7 +24112,7 @@ class Fighter {
         ctx.drawImage(_au.cv, -_pw/2, -_ph/2 - dh*0.03*(1+Math.sin(tick*0.25)), _pw, _ph);
         ctx.globalCompositeOperation='lighter'; ctx.globalAlpha=0.25+0.15*Math.sin(tick*0.25); ctx.drawImage(_au.cv, -_pw/2, -_ph/2, _pw, _ph); ctx.restore();
       }
-      if(!(fanCtx && this.slotIdx===0) && !(saWin && saWin.f===this) && !(hmWin && hmWin.f===this) && !(psCine && psCine.f===this) && this.type!=='loooongcat'){   // (cảnh "Pathetic." của Arbiter: bỏ viền đội) · 🐱 Loooong Cat vẽ cả con ở _lcDraw, viền theo avatar sẽ thành mảng màu đè lên đầu
+      if(!(fanCtx && this.slotIdx===0) && !(saWin && saWin.f===this) && !(hmWin && hmWin.f===this) && !(psCine && psCine.f===this) && !(this.type==='loooongcat' && (this._lcTrail || this._lcDiveT!==undefined))){   // (cảnh "Pathetic." của Arbiter: bỏ viền đội) · 🐱 Loooong Cat vẽ cả con ở _lcDraw, viền theo avatar sẽ thành mảng màu đè lên đầu
         const _tc = _teamColor(this.team);
         // 👥 2vs2: viền team tô đậm + toả sáng mạnh hơn hẳn để phân biệt rõ 2 đội (4 người cùng lúc, dễ rối) — các chế độ khác giữ nguyên viền mảnh cũ
         ctx.save(); ctx.shadowColor=_tc; ctx.shadowBlur = (duoCtx||ffa3Ctx)?10:4;
@@ -24048,7 +24128,7 @@ class Fighter {
       this._lastSprite={img, sx:_sx, sy:_sy, sw:_sw, sh:_sh, dw, dh, fl:!!facingLeft};   // fl = đang vẽ lật ngang
       // 🐱 LOOOONG CAT: cả con mèo đã được VẼ KÉO DÀI dọc thân rắn ở khối riêng (xem chỗ vẽ _lcTrail),
       // nên ở đây không vẽ lại sprite nữa, không thì thành 2 cái đầu chồng nhau.
-      const _lcRibbon = (this.type==='loooongcat' && this._lcTrail && this._lcTrail.length>3);
+      const _lcRibbon = (this.type==='loooongcat' && (this._lcTrail || this._lcDiveT!==undefined));   // đang chui cổng / đã thành rắn: không vẽ ảnh đứng
       // ⭐ FAN BATTLE: con của FAN không phải meme thường mà là NGƯỜI BÌNH LUẬN — vẽ thành QUẢ BÓNG tròn,
       // bên trong là ảnh đại diện của họ (cắt tròn, phủ kín), viền màu đội + chút ánh sáng cho ra khối cầu.
       // Không dùng _stickerMask ở đây: ảnh đại diện là ảnh vuông bình thường, cắt nền sẽ ăn mất mặt người.
@@ -27042,7 +27122,7 @@ function loop(){
   // ===== 👁️ EVIL LARRY — KẾT "CON MẮT": mở ra giữa sàn, con ngươi bám theo kẻ còn sống =====
   _drawElEye();
   // ===== 🐱 LOOOONG CAT: vẽ cả con rắn mèo dọc vệt đã bò (xem _lcDraw) =====
-  for(const _lf2 of fighters) if(_lf2.type==='loooongcat' && !_lf2.dead){ if(!_lf2._lcTrail) _lcInit(_lf2); _lcDraw(_lf2); }   // nằm sẵn vào góc ngay từ màn đếm ngược
+  for(const _lf2 of fighters) if(_lf2.type==='loooongcat' && !_lf2.dead){ _lcPadsDraw(_lf2); _lcDraw(_lf2); }   // cổng LCD 2 góc dưới (cả lúc đếm ngược) + con rắn sau khi nối
   // 🫧 bong bóng nổi lên từ vệt dãi — phần SỐNG duy nhất của hiệu ứng (vệt nền vẫn là bitmap bake sẵn cho nhẹ).
   // Vẽ ngay sau vệt, TRƯỚC nhân vật → bong bóng nằm dưới chân, không che mặt ai.
   if(droolPuddles.length){
