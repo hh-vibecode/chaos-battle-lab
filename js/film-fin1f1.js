@@ -53,8 +53,10 @@
   // chuôi xích trong tay Chud (tỉ lệ khung ảnh đã cắt, đo bằng lưới): [tay 0, tay 1]; WHIP = tay đang quất của tư thế
   // điểm tay / chuôi xích (tỉ lệ trên ảnh đã cắt, đo bằng lưới 10×10 — 12/11 đo lại sau khi vẽ lại Doge đúng chất meme)
   // ⛓️ (13/11) Doge có XÍCH QUẤN SẴN trong ảnh (GPT vẽ cùng nhân vật: đúng nếp quấn, đè / khuất đúng chỗ) — HAND = chỗ đầu xích thò ra khỏi ảnh để nối đoạn xích lặp
-  Object.assign(IMG,{DCW:'assets/img/cine/FIN_F1_DOGE_CHAINPULL.png',DCL:'assets/img/cine/FIN_F1_DOGE_CHAINLIFT.png',CHT:'assets/img/cine/FIN_F1_CHAIN_TILE.png'}); Object.assign(DIR,{DCW:-1,DCL:-1}); Object.assign(HT,{DCW:H*1.75,DCL:H*2.0});
-  const HAND={DCW:[[0.995,0.462],[0.99,0.478]],DCL:[[0.845,0.004],[0.83,0.012]],DGP:[[0.9,0.95],[0.08,0.5]],DPL:[[0.03,0.31],[0.03,0.43]],DHP:[[0.03,0.14],[0.05,0.27]],DBL:[[0.12,0.15],[0.3,0.13]],DB:[[0.33,0.27],[0.7,0.27]],DPU:[[0.02,0.4],[0.02,0.4]],DRN:[[0.06,0.55],[0.85,0.45]],DDK:[[0.05,0.75],[0.2,0.8]],DH:[[0.2,0.62],[0.8,0.62]],
+  Object.assign(IMG,{DCW:'assets/img/cine/FIN_F1_DOGE_CHAINPULL.png',DCL:'assets/img/cine/FIN_F1_DOGE_CHAINLIFT.png',CHT:'assets/img/cine/FIN_F1_CHAIN_TILE.png',
+    DDC:'assets/img/cine/FIN_F1_DDOWN_lieChain.png',DKC:'assets/img/cine/FIN_F1_DDOWN_kneelChain.png',DHK:'assets/img/cine/FIN_F1_DOGE_HAKIChain.png',DHC:'assets/img/cine/FIN_F1_DOGE_HPULLChain.png'});   // (13/11 anh chê xích lơ lửng / quấn bụng) nằm · quỳ · đứng Haki · Haki giật xích: vòng xích quấn CỔ TAY vẽ sẵn, đoạn thẳng xoá đi để code nối
+  Object.assign(DIR,{DCW:-1,DCL:-1,DHC:-1}); Object.assign(HT,{DCW:H*1.75,DCL:H*2.0,DDC:H*0.92,DKC:H*1.65,DHK:H*1.9,DHC:H*1.7});
+  const HAND={DCW:[[0.995,0.462],[0.99,0.478]],DCL:[[0.845,0.004],[0.83,0.012]],DDC:[[0.846,0.059],[0.8,0.762]],DKC:[[0.9,0.61],[0.25,0.835]],DHK:[[0.99,0.74],[0.255,0.727]],DHC:[[0.004,0.33],[0.004,0.517]],DGP:[[0.9,0.95],[0.08,0.5]],DPL:[[0.03,0.31],[0.03,0.43]],DHP:[[0.03,0.14],[0.05,0.27]],DBL:[[0.12,0.15],[0.3,0.13]],DB:[[0.33,0.27],[0.7,0.27]],DPU:[[0.02,0.4],[0.02,0.4]],DRN:[[0.06,0.55],[0.85,0.45]],DDK:[[0.05,0.75],[0.2,0.8]],DH:[[0.2,0.62],[0.8,0.62]],
     DBF:[[0.33,0.27],[0.7,0.27]],DBQ:[[0.3,0.27],[0.62,0.27]],DBS:[[0.06,0.35],[0.1,0.37]],DBQB:[[0.1,0.35],[0.4,0.33]],DBB:[[0.1,0.4],[0.9,0.4]],DRB:[[0.1,0.55],[0.88,0.55]],DRF:[[0.12,0.55],[0.88,0.55]],DRQ:[[0.05,0.55],[0.6,0.5]],
     DDL:[[0.8,0.27],[0.76,0.8]],DKN:[[0.12,0.75],[0.75,0.55]],DUP:[[0.3,0.33],[0.6,0.33]],
     CKF:[[0.02,0.39],[0.97,0.38]],CKQ:[[0.05,0.39],[0.65,0.42]],CKS:[[0.05,0.38],[0.1,0.4]],CKQB:[[0.05,0.41],[0.92,0.4]],CKB:[[0.03,0.4],[0.95,0.4]],
@@ -80,8 +82,8 @@
   // trận chính: x LOCAL quanh FZ (z = FZ[1]); Doge bên trái số nhỏ, Chud bên số lớn
   const DM=[[T.rise,-260,'DKN',0,0,0,0],[T.rise+1.3,-260,'DUP'],[T.rise+2.3,-260,'DB'],[T.w1-0.5,-260,'DB'],[T.w1-0.42,-250,'DRN','eout'],[T.w1,-40,'DRN','ein',1],[T.w1+0.05,-40,'DBL'],[T.w1+0.9,-300,'DBL','back'],[T.w1+1.6,-300,'DB'],   // lao vào → ăn xích → đỡ, bị đẩy lùi
     [T.w2-0.45,-300,'DB'],[T.w2-0.3,-300,'DB'],[T.w2-0.02,-115,'DDK','ein'],[T.w2+0.06,-110,'DDK'],[T.w2+0.25,60,'DDK','ein',1],[T.punch-0.12,60,'DPU','eout'],[T.punch-0.03,35,'DGP','ein',1],[T.punch+1.4,35,'DGP'],   // cúi né dưới xích → áp sát → đấm hụt nện đất
-    [T.tie0,170,'DB'],[T.tie,175,'DCW','eout'],[T.tug,190,'DCW'],[T.lift-0.2,300,'DCW','lin',0,0,0],[T.lift,315,'DCL','eout',0,0,120],[T.lift+0.38,345,'DCL','eout',0,0,280],[T.slam,380,'DDL','ein',1,0,0],[T.down,380,'DDL'],   // bị trói, giằng co, bị kéo lê → nhấc lên quật xuống
-    [T.haki,380,'DDL'],[T.haki+0.3,380,'DKN'],[T.hakiOn,380,'DH'],[T.pull,380,'DHP','eout'],[T.snap,365,'DHP'],[T.snap+0.4,360,'DH','back'],[T.lunge,360,'DH'],[T.clash-0.5,345,'DP1','eout'],[T.clash-0.27,345,'DP1'],[T.clash,495,'DP1','ein',1],[T.DUR,495,'DP1']];
+    [T.tie0,170,'DB'],[T.tie,175,'DCW','eout'],[T.tug,190,'DCW'],[T.lift-0.2,300,'DCW','lin',0,0,0],[T.lift,315,'DCL','eout',0,0,120],[T.lift+0.38,345,'DCL','eout',0,0,280],[T.slam,380,'DDC','ein',1,0,0],[T.down,380,'DDC'],   // bị trói, giằng co, bị kéo lê → nhấc lên quật xuống
+    [T.haki,380,'DDC'],[T.haki+0.3,380,'DKC'],[T.hakiOn,380,'DHK'],[T.pull,380,'DHC','eout'],[T.snap,365,'DHP'],[T.snap+0.4,360,'DH','back'],[T.lunge,360,'DH'],[T.clash-0.5,345,'DP1','eout'],[T.clash-0.27,345,'DP1'],[T.clash,495,'DP1','ein',1],[T.DUR,495,'DP1']];
   const CM=[[T.rise,300,'CHL',0,0,0,0],[T.rise+1.1,300,'CHK'],[T.rise+2.1,300,'CK0'],[T.r1+0.6,300,'CK0'],[T.r1+0.8,305,'CK1','eout'],[T.w1-0.06,305,'CK1'],[T.w1,300,'CK2','ein'],[T.w1+0.7,300,'CK2'],[T.w1+1.0,300,'CK0'],
     [T.r2+0.3,300,'CK0'],[T.r2+0.45,305,'CK3','eout'],[T.w2-0.05,305,'CK3'],[T.w2,300,'CK4','ein'],[T.zip,300,'CK4'],[T.zip+0.45,620,'CK1','eout',1,0,80],[T.zip+0.8,620,'CK0','ein',0,0,0],   // quất trượt → quăng xích vào cột, đu né cú đấm
     [T.tie0,620,'CK0'],[T.tie0+0.2,625,'CK1','eout'],[T.tie-0.04,625,'CK1'],[T.tie,620,'CK2','ein'],[T.tug,640,'CK1','eout'],[T.lift-0.2,650,'CK1'],[T.lift,640,'CK4','ein'],[T.slam,640,'CK4'],[T.down,640,'CK0'],
@@ -301,7 +303,7 @@
     const R=F.B.r, sx=(px,pz)=>(px-(X+d.x))*R[0]+(pz-(Z+d.z))*R[2], sC=sx(X+c.x,Z+c.z);   // so theo HƯỚNG NGANG máy (Chud ngoài khung vẫn đúng)
     const far=[0,1].map(j=>sx(dF0[j][0],dF0[j][2])*sC<0);
     const tieChain=(j,hd,dA)=>{ const dz=far[j]?70:-10;   // bộ khung XẾP THEO ĐỘ SÂU: xích tay xa lùi sau thân Doge
-      if(t<T.tie) chain(F,hd[j],dA[j],{k:seg(t,T.tie0+0.25,T.tie),sag:-30,t,w:9,hot:1,d:dz}); else { const taut=t>=T.tug?1:0.6; chain(F,hd[j],dA[j],{sag:taut?4:30,wob:t>=T.tug?2.5:0,t,w:9,hot:t>=T.hakiOn?0.6:1,d:dz}); if(!/^DC/.test(dR0.key)) coil(F,dA[j][0],dA[j][2],dA[j][1]-9,dA[j][1]+9,13,2,{w:7}); } };   // ảnh DC*: xích quấn cổ tay đã vẽ sẵn trong ảnh
+      if(t<T.tie) chain(F,hd[j],dA[j],{k:seg(t,T.tie0+0.25,T.tie),sag:-30,t,w:9,hot:1,d:dz}); else { const taut=t>=T.tug?1:0.6; chain(F,hd[j],dA[j],{sag:taut?4:30,wob:t>=T.tug?2.5:0,t,w:9,hot:t>=T.hakiOn?0.6:1,d:dz}); if(!/^D(C|DC|KC|HK|HC)/.test(dR0.key)) coil(F,dA[j][0],dA[j][2],dA[j][1]-9,dA[j][1]+9,13,2,{w:7}); } };   // ảnh DC*: xích quấn cổ tay đã vẽ sẵn trong ảnh
     if(bound) for(let j=0;j<2;j++) if(far[j]) tieChain(j,hands0,dF0);
     const dashing=t>=T.clash-0.25&&t<T.clash-0.01;   // (anh 12/11) pha lao vào nhau quá nhanh để thấy người → 2 VỆT
     const dodge=W.dash(F,t,T.w2-0.3,T.w2-0.03,[X-330,95,Z],[X-125,55,Z],{w:34,col:'255,190,90'})||W.dash(F,t,T.w2+0.07,T.w2+0.24,[X-110,50,Z],[X+50,75,Z],{w:34,col:'255,190,90'});   // (12/11) lướt tới / áp sát = VỆT vàng, chỉ hiện người lúc CÚI NÉ xích
