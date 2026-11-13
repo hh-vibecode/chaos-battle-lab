@@ -106,7 +106,7 @@
     S(T.det,T.DUR,{tx:440,ty:80,tz:30,dist:520,yaw:-12,pitch:-4,fov:50}) ]);                                                                                          // 27 BÙM → vòng khói lao vào máy → qua lỗ sang trận kế
   // ───────── TRẬN KẾ (fin1f1, CÔNG VIÊN) trong lỗ vòng khói: Doge + Clapping đi dạo — đúng khung mở đầu fin1f1 ─────────
   // (12/11) Pop + Huh là TRẬN ĐẦU → trong lỗ vòng khói là trận KẾ: Ninja vs Berserk (đại lộ, cùng tham số Fin1City + máy shot đầu fin1f3)
-  const PARK=Fin1City({seed:3}), NEXT1={tx:0,ty:170,tz:0,dist:1500,yaw:-58,pitch:-6,fov:52,roll:-2,oy:0};   // = máy shot đầu fin1f1   // oy:0 → ô tròn không tự dời tâm ảnh
+  const PARK=Fin1City({seed:3}), NEXT1={tx:120,ty:150,tz:0,dist:1100,yaw:-34,pitch:-6,fov:52,roll:-2,oy:0};   // = máy shot đầu fin1f1   // oy:0 → ô tròn không tự dời tâm ảnh
   function drawNext(F,t){ PARK.draw(F,t,PARK.TH_NIGHT);
     // khung mở đầu fin1f1: công viên đêm còn TRỐNG, yên lặng — ngay sau đó 2 cột Bifrost giáng xuống (Doge + Clapping truyền tống)
   }
