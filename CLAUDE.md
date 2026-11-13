@@ -360,6 +360,11 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
   Trong raid tiếng meme khác ×0.45, nhạc theme meme khác tắt (`_rfSndVol` trong playSample; meme nhạc vẫn bắt nhịp nhưng câm — `_playPianoSong`).
 - Ảnh CHỜ ANH (prompt ở Desktop `FriendRaid_anh_can_ve/PROMPT.txt`): `assets/img/friend/RF_MOUTH.png` (há mồm to: hút + gầm), `RF_CHEW1/2.png` (nhai). Chưa có thì dùng tạm khung cười.
 
+## 🐱 Loooong Cat làm lại (`loooongcat`, 13/11/2026) — khối `LC_*` / `_lc*` trong js/game.js (cạnh `_findClosestEnemy`)
+- Anh chốt: RẮN SĂN MỒI kiểu game Nokia (anh gửi ảnh Snake 1995) — đuôi ghim 1 góc, đầu bò lên xuống từng CỘT zíc zắc (cột cách nhau đúng 1 bề dày thân, quay đầu vòng chữ U ở mép), KHÔNG đuổi địch (bản bò cong tự do săn địch anh chê "di chuyển loạn").
+  Đầu bò XUYÊN qua địch không nảy: cắn 60 + đẩy địch lùi + tốc ×1.05 (trần ×3; 60 / hồi 0.5s / trần là em tự đặt). Thân = tường chặn người + đạn (`_lcBlockShot`), không dame; chỉ đầu ăn dame (`_lcRayBlock`: thân chắn giữa người đánh và đầu → mất trắng). Kín sân → ép tan địch còn sống (giữ từ bản cũ).
+- Ảnh: 1 ảnh GPT Long Cat nhìn từ trên xuống (đúng lông ảnh chụp meme) cắt 3 khúc `assets/img/loooongcat/LC_TAIL/BODY/HEAD` (khúc thân lặp được, đầu/đuôi có dải mờ 60px đè lên thân giấu mối nối); vẽ theo lát dọc vệt, lát nới rộng ở khúc cua (hết răng lược). Đầu đi sang trái thì lật dọc cho mặt không lộn ngược. Tiếng cắn `lc_chomp`.
+
 ## ☀️ LeSunshine (`lebronsunshine`, 12/11/2026) — khối `LB_*` / `_lb*` trong js/game.js
 - Thường: nửa người cầu thủ ném bóng (ảnh GPT `LB_THROW`, hoạt cảnh lấy đà/bật tới bằng code) · bóng trúng 3 lần → mặt meme (`LB_FACE`) gom sáng 0.9s → loé trắng (`LB_FLARE` nền đen, cộng sáng) → địch loá 2.5s, CHỈ có tiếng hiệu ứng
   · về 0 máu (`_lbDamage` ở đầu _takeDamageCore) → lướt ra giữa sân thành mặt trời (`LB_SUN`), phát `lb_song` (cả bài, lặp), thiêu 100/s, còn 3 vạch (mỗi đòn 1 vạch, cháy/độc không tính).
