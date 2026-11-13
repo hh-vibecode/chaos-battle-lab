@@ -1,4 +1,4 @@
-# Final Part 1 — kịch bản 3 trận phụ + sửa tiếng Gojo vs Pain (13/11/2026 — ANH DUYỆT: "thế nhé, làm lại hết đi")
+# Final Part 1 — kịch bản 3 trận phụ + sửa tiếng Gojo vs Pain (13/11/2026 — ANH DUYỆT: "thế nhé, làm lại hết đi" → ĐÃ DỰNG Ver 597–601)
 Viết theo skill `viet-kich-ban`. Mạch tập: nóc nhà → 5 con lao đi về 5 cột sáng (các guardian vừa truyền tống xuống) → **Bat vs Pop + Huh** → **Ninja vs Berserk** → **Chud + Mlem vs Doge + Clapping** → Gojo vs Pain.
 Mục tiêu chung của Meowkatsuki: cầm chân các guardian để Friend kịp hấp thu sức mạnh → trận nào cũng kết DANG DỞ, chuyển cảnh bằng 1 nhịp câu chuyện.
 

@@ -80,7 +80,12 @@ Mẫu đã duyệt:
 - Đòn nào cũng có PHẢN ỨNG (giơ vũ khí đỡ đúng hướng / né / trúng + bật lùi) — Ninja vs Berserk bị chê "chém nhau mà không có động tác giơ kiếm ra đỡ".
 - NHẠC (anh chốt 13/11): mỗi trận / cảnh 1 bản EPIC / anime CHẠY DÀI (cả bài, KHÔNG lặp đoạn ngắn — file 8s lặp nghe ra ngay), em tự tìm (yt-dlp `D:	oolsyt-dlp`).
   `dp_akatsuki` (nhạc Pain 2, dính bản quyền) CHỈ 5s đúng lúc Depressed Cat. Pain's Theme chạy dài được. Trước đây dp_akatsuki 8.3s bị lặp nền cả 3 trận phụ + nóc nhà → bị chê. Giọng hô chiêu = GIỌNG THẬT (Gojo: Yuichi Nakamura), KHÔNG VOICEVOX ("rất đần").
-- Kịch bản 3 trận phụ + sửa tiếng Gojo vs Pain: `prompts/kich-ban/fin1-tran-phu.md` (13/11, ANH ĐÃ DUYỆT → đang dựng lại). Bat = bản 2 anh tả (Pop minigun, Bat lăn lộn trốn, phi tiêu chặn chữ HUH khổng lồ, bom dơi);
+- Kịch bản 3 trận phụ + sửa tiếng Gojo vs Pain: `prompts/kich-ban/fin1-tran-phu.md` (13/11, ANH ĐÃ DUYỆT → ĐÃ DỰNG LẠI Ver 597–601, CHỜ ANH XEM).
+- ✅ (13/11, Ver 597–601) Đã dựng lại theo kịch bản duyệt: fin1f2 Bat v2 36s (minigun vòng khói, đường nấp vạch ở chế độ thám tử, chữ HUH khổng lồ, nắm phi tiêu → bom) · fin1f3 Ninja vs Berserk 42.7s
+  (32 tư thế `FIN_F3_N_*` / `FIN_F3_B_*`, chiều cao tương đối `FIN_F3_POSES.json`) · fin1f1: XÍCH = ô mắt xích GPT `FIN_F1_CHAIN_TILE` lặp dọc đường (`linkScreen`), Doge bị trói / nhấc = ảnh có xích quấn sẵn
+  (`FIN_F1_DOGE_CHAINPULL/CHAINLIFT`, HAND = chỗ đầu xích thò ra) · anh chê 13/11: Doge nằm đất xích KHÔNG được nối vào bụng → nối 2 cổ tay, nhấc bổng cao rồi mới quật. Tập full 4:52.
+  Nhạc mới (m4a từ YouTube, cả bài, không lặp): mus_batman · mus_kokuten / mus_forces / mus_senya · mus_kusari / mus_overtaken · mus_girei (nóc nhà → cảnh 5 + Pain bay lên) · mus_jjk_toji / mus_honored (Gojo vs Pain).
+  Giọng Gojo thật: vo_gojo_domain (0.4–3.0s Ryōiki Tenkai · 8.8s→ Muryōkūsho) · vo_gojo_murasaki — em KHÔNG nghe được, cắt theo đường độ to → CHỜ ANH NGHE CHỐT. Bat = bản 2 anh tả (Pop minigun, Bat lăn lộn trốn, phi tiêu chặn chữ HUH khổng lồ, bom dơi);
   Ninja = nhiều tư thế, Kamui ra SAU LƯNG chém xuống → Berserk quay lại chém đỡ; XÍCH = vẽ GPT (Doge có xích quấn sẵn trong ảnh + mắt xích lặp nối đúng đầu xích), bỏ xích vẽ code.
 
 ## ⚔️ CẢNH ĐÁNH NHAU — NHỊP THEO ANIME GỐC, KHÔNG THEO AMV (anh chê 12/11: "rush, quá nhanh liên tục, đau mắt, không rõ cách đánh; sound không lực, lộn xộn")
