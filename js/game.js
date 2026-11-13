@@ -13675,7 +13675,7 @@ const CHAR_BLURB_SHORT = {
   bananacat: "Sad banana cat. Leaves its peels everywhere.",
   suscat: "Emergency meeting. 50/50 you get ejected.",
   nyancat: "Pop-Tart cat. The rainbow trail bites.",
-  loooongcat: "Nokia 3310 called. It wants its snake back.",
+  loooongcat: "Nokia 1280 called. It wants its snake back.",
   flyingcat: "Majestic flying cat. Brought three tiny wingmen.",
   snoozecat: "Dreams of Toodles. Wakes up to snipe you.",
   depressedcat: "Heartbroken once. Now the whole world pays.",
