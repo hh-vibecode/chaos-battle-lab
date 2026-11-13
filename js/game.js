@@ -16845,13 +16845,14 @@ function addShake(str,dur){ if(str>screenShake.str){ screenShake={x:0,y:0,dur,st
 // rồi bò DỌC LÊN theo tường, hết cột quay đầu chữ U sang cột kế bên (góc trái lấp dần sang phải, góc phải ngược lại); thân dài ra mãi.
 // Thân = TƯỜNG: chặn người + đạn, không gây dame, không ăn dame. Chỉ ĐẦU cắn được và chỉ ĐẦU ăn dame. Mỗi lần cắn → bò nhanh thêm 5%.
 // Ảnh: đuôi + khúc thân lặp cắt từ 1 ảnh GPT nhìn từ trên xuống (cùng bề dày + chất lông, đuôi có dải mờ đè lên thân giấu mối nối);
-// ĐẦU rắn = mặt dựng đứng luôn nhìn ra màn hình (LC_FACE) + cổ có 2 chân trước gập (LC_NECK); ảnh có tay duỗi CHỈ dùng cho con mèo đi bộ lúc chưa vào cổng (avatar).
+// ĐẦU rắn (LC_HEAD, cùng ảnh GPT nhìn từ trên xuống, 2 chân trước gập) XOAY THEO HƯỚNG BÒ — anh thử mặt cố định nhìn ra, thấy không hợp lý → bỏ.
+// Ảnh có tay duỗi CHỈ dùng cho con mèo đi bộ lúc chưa vào cổng (avatar).
 let _lcProjHit=false;   // đang tính dame của 1 viên đạn đã bay lọt tới đầu
-const LC_IMG={}; for(const k of ['TAIL','BODY','NECK','FACE']){ const im=new Image(); im.src='assets/img/loooongcat/LC_'+k+'.png'; LC_IMG[k]=im; }
+const LC_IMG={}; for(const k of ['TAIL','BODY','HEAD']){ const im=new Image(); im.src='assets/img/loooongcat/LC_'+k+'.png'; LC_IMG[k]=im; }
 const LC_SRC_BODY=165, LC_SRC_FEATHER=60;   // ảnh thân (px): bề dày thân · dải mờ nối đuôi
-const LC_FACE_C=[107,123];                  // tâm mặt trong LC_FACE (mặt dựng đứng nhìn ra, cắt từ ảnh GPT nhìn từ trên xuống)
+const LC_SRC_FACE=100;                      // ảnh LC_HEAD (nhìn từ trên xuống, tai chĩa về trước): mặt cách mũi đầu 100px → đầu chìa trước để MẶT nằm đúng tâm va chạm
 const LC_BODY_K=0.85;                                         // bề dày thân vẽ = size × hệ số (anh giảm 15% bề ngang 13/11)
-const LC_DIVE_T=60, LC_POP_T=14;   // chui vào cổng 1s (anh dặn) · đầu trồi ra khỏi cổng ~0.23s
+const LC_DIVE_T=60;   // chui vào cổng 1s (anh dặn)
 const LC_BITE=60, LC_BITE_CD=30, LC_SPD_UP=1.05, LC_SPD_MAX=3, LC_STEP=5;   // (em tự đặt dame cắn, hồi cắn 0.5s/mục tiêu, trần ×3 tốc)
 function _lcTh(f){ return f.size*LC_BODY_K*0.5; }                 // bán kính thân = đúng mép hình
 function _lcSkip(f){ return Math.ceil(f.size*1.3/LC_STEP); }      // số điểm vệt sát đầu là CỔ + ĐẦU, không tính là thân
@@ -17038,12 +17039,13 @@ function _lcTick(f){
 }
 // vẽ cả con: đường đuôi→đầu làm mượt, rải ảnh theo từng lát ~6px (đuôi neo ở góc → hoạ tiết lông không trôi khi thân dài ra)
 function _lcDraw(f){
-  const T=f._lcTrail, Ib=LC_IMG.BODY, It=LC_IMG.TAIL, In=LC_IMG.NECK, Ifc=LC_IMG.FACE;
-  if(!T || !Ib.naturalWidth || !It.naturalWidth || !In.naturalWidth || !Ifc.naturalWidth) return;
+  const T=f._lcTrail, Ib=LC_IMG.BODY, It=LC_IMG.TAIL, Ih=LC_IMG.HEAD;
+  if(!T || !Ib.naturalWidth || !It.naturalWidth || !Ih.naturalWidth) return;
   const k=f.size*LC_BODY_K/LC_SRC_BODY, bh=Ib.naturalHeight*k, O=LC_SRC_FEATHER*k;
   const n=T.length, P=[{x:T[n-1].x,y:T[n-1].y}];
   for(let i=n-2;i>=1;i--){ let sx=0,sy=0,c=0; for(let j=Math.max(0,i-2);j<=Math.min(n-1,i+2);j++){ sx+=T[j].x; sy+=T[j].y; c++; } P.push({x:sx/c,y:sy/c}); }
   P.push({x:f.x,y:f.y});
+  { const ld=LC_SRC_FACE*k; P.push({x:f.x+Math.cos(f._lcAng)*ld, y:f.y+Math.sin(f._lcAng)*ld}); }   // mũi đầu chìa trước để MẶT nằm đúng tâm va chạm
   const C=[0]; for(let i=1;i<P.length;i++) C.push(C[i-1]+Math.hypot(P[i].x-P[i-1].x,P[i].y-P[i-1].y));
   const tot=C[C.length-1];
   let wi=1;
@@ -17065,7 +17067,7 @@ function _lcDraw(f){
       ctx.restore();
     }
   };
-  const tl=It.naturalWidth*k, nl=In.naturalWidth*k, Lt=Ib.naturalWidth*k;
+  const tl=It.naturalWidth*k, nl=Ih.naturalWidth*k, Lt=Ib.naturalWidth*k;
   ctx.save();
   if(tot>2){
     // bóng đổ mềm dưới thân cho có khối nằm trên sàn
@@ -17078,13 +17080,8 @@ function _lcDraw(f){
     const st=Math.min(0, tot-(f.size*2+tl)); gate=st<0;
     for(let s=st+tl-O;s<tot-nl+O;s+=Lt){ const e=Math.min(tot-nl+O,s+Lt); strip(Ib,0,(e-s)/Lt,s,e); }
     strip(It,0,1,st,st+tl);
-    strip(In,0,1,tot-nl,tot);   // cổ + 2 chân trước gập
+    strip(Ih,0,1,tot-nl,tot);   // đầu xoay theo hướng bò (tai chĩa về trước)
   }
-  // 😺 MẶT luôn đứng thẳng nhìn ra màn hình như meme gốc (anh dặn), không xoay theo hướng bò; lúc trồi khỏi cổng phóng dần + rõ dần
-  const pk=f._lcLinkT===undefined?1:Math.min(1,(tick-f._lcLinkT)/LC_POP_T), ps=0.35+0.65*_lcEaseO(pk);
-  ctx.globalAlpha*=Math.min(1,pk*1.5);
-  ctx.translate(f.x,f.y); ctx.scale(ps,ps);
-  ctx.drawImage(Ifc, -LC_FACE_C[0]*k, -LC_FACE_C[1]*k, Ifc.naturalWidth*k, Ifc.naturalHeight*k);
   ctx.restore();
 }
 function _findClosestEnemy(team,x,y){
