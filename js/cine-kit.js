@@ -330,7 +330,7 @@
     function stop(){ if(raf) cancelAnimationFrame(raf); raf=null; try{ stopAllLongSfx(); }catch(e){} musStop(); if(window._cinePanelRemove) _cinePanelRemove(); panel=null; if(overlay) overlay.remove(); overlay=null; }
     function play(opts){ if(overlay) return; const SCALE=(opts&&opts.scale)||1;
       overlay=document.createElement('div'); overlay.style.cssText='position:fixed;inset:0;z-index:99999;background:#000;display:flex;align-items:center;justify-content:center;';
-      cv=K.mk(VW*2*SCALE,VH*2*SCALE); SC=cv.width/VW; cv.style.cssText=`height:100vh;max-width:100vw;aspect-ratio:${VW}/${VH};object-fit:contain;`;
+      cv=K.mk(VW*2*SCALE,VH*2*SCALE); SC=cv.width/VW; cv.style.cssText=`height:100vh;max-width:100vw;aspect-ratio:${VW}/${VH};object-fit:contain;object-position:center top;`;
       W2=K.mk(cv.width,cv.height); w2=W2.getContext('2d'); overlay.appendChild(cv); document.body.appendChild(overlay);
       if(opts&&opts.offline) OFF={};
       if(window._cinePanelMake && !OFF) panel=_cinePanelMake(overlay,{ title:def.title, dur:()=>DUR, t:()=>ready?Math.min(curT(),DUR):0, playing:()=>ready && !paused && curT()<DUR,
@@ -378,7 +378,7 @@
     function stop(){ if(raf) cancelAnimationFrame(raf); raf=null; try{ stopAllLongSfx(); }catch(e){} musStop(); if(window._cinePanelRemove) _cinePanelRemove(); panel=null; if(overlay) overlay.remove(); overlay=null; }
     function play(opts){ if(overlay) return; const SCALE=(opts&&opts.scale)||1;
       overlay=document.createElement('div'); overlay.style.cssText='position:fixed;inset:0;z-index:99999;background:#000;display:flex;align-items:center;justify-content:center;';
-      cv=K.mk(VW*2*SCALE,VH*2*SCALE); cv.style.cssText=`height:100vh;max-width:100vw;aspect-ratio:${VW}/${VH};object-fit:contain;`;
+      cv=K.mk(VW*2*SCALE,VH*2*SCALE); cv.style.cssText=`height:100vh;max-width:100vw;aspect-ratio:${VW}/${VH};object-fit:contain;object-position:center top;`;
       W2=K.mk(cv.width,cv.height); overlay.appendChild(cv); document.body.appendChild(overlay);
       OFF=opts&&opts.offline?{}:null;
       if(window._cinePanelMake && !OFF) panel=_cinePanelMake(overlay,{ title:def.title, dur:()=>DUR, t:()=>ready?Math.min(curT(),DUR):0, playing:()=>ready && !paused && curT()<DUR,

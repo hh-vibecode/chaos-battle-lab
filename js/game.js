@@ -26013,7 +26013,16 @@ function _cinePanelMake(host,api){
   pb.onclick=()=>api.toggle();
   el.querySelector('[data-a=replay]').onclick=()=>api.replay();
   el.querySelector('[data-a=close]').onclick=()=>api.close();
-  const P={ el, update(){ const d=api.dur(), t=Math.min(api.t(),d); if(!drag) rg.value=Math.round(t/d*1000); tm.textContent=t.toFixed(1)+'s / '+d.toFixed(1)+'s'; pb.textContent=api.playing()?'⏸':'▶'; } };
+  // 📐 khung đen DƯỚI phim đủ chỗ (phim ngang trên màn cao) → bảng xuống nằm ngang trong khoảng đen đó, không che phim (anh dặn 13/11)
+  let _lk='';
+  const layout=()=>{ const cv=host.querySelector('canvas'); if(!cv||!cv.width) return;
+    const r=cv.getBoundingClientRect(), key=[innerWidth,innerHeight,r.left,r.top,r.width,r.height,cv.width,cv.height].join(); if(key===_lk) return; _lk=key;
+    const k=Math.min(r.width/cv.width, r.height/cv.height), ch=cv.height*k;   // ảnh thật trong canvas (object-fit:contain)
+    const oy=getComputedStyle(cv).objectPosition.split(' ')[1]==='0%'?0:(r.height-ch)/2, bot=r.top+oy+ch, free=innerHeight-bot;
+    if(free>=58){ el.classList.add('dock-b'); el.style.width=Math.min(1100, cv.width*k-20, innerWidth-20)+'px'; el.style.top=(bot+Math.max(4,(free-el.offsetHeight)/2))+'px'; }
+    else { el.classList.remove('dock-b'); el.style.top=''; el.style.width=''; } };
+  addEventListener('resize',()=>{ _lk=''; });
+  const P={ el, update(){ layout(); const d=api.dur(), t=Math.min(api.t(),d); if(!drag) rg.value=Math.round(t/d*1000); tm.textContent=t.toFixed(1)+'s / '+d.toFixed(1)+'s'; pb.textContent=api.playing()?'⏸':'▶'; } };
   _cinePanelCur=P; P.update(); return P;
 }
 window._cinePanelMake=_cinePanelMake; window._cinePanelRemove=_cinePanelRemove;

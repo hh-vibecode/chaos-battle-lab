@@ -1443,6 +1443,12 @@ canvas { display:block; }
 .cine-panel button:hover{background:rgba(255,255,255,0.2)}
 .cine-panel button.cp-main{background:#c62828;border-color:#c62828;font-size:18px}
 @media (max-aspect-ratio: 1/1){ .cine-panel{top:auto;bottom:10px;transform:none;left:10px;right:10px;width:auto;padding:10px} }
+/* phim ngang trên màn cao: bảng nằm NGANG trong khung đen dưới phim (top do JS đặt) */
+.cine-panel.dock-b{top:0;bottom:auto;right:auto;left:50%;transform:translateX(-50%);padding:8px 12px;border-radius:12px;flex-direction:row;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.cine-panel.dock-b .cp-title{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:240px}
+.cine-panel.dock-b .cp-range{flex:1 1 160px;width:auto;min-width:120px}
+.cine-panel.dock-b .cp-btns{flex:1 1 auto}
+.cine-panel.dock-b button{padding:7px 6px}
 #sceneScreen.player .sc-stage{pointer-events:none}
 
 /* ============ 🏅 TIER LIST ============ */
