@@ -1,45 +1,48 @@
-# Final Part 1 — kịch bản 3 trận phụ + sửa tiếng Gojo vs Pain (13/11/2026, CHỜ ANH DUYỆT)
+# Final Part 1 — kịch bản 3 trận phụ + sửa tiếng Gojo vs Pain (13/11/2026 — ANH DUYỆT: "thế nhé, làm lại hết đi")
 Viết theo skill `viet-kich-ban`. Mạch tập: nóc nhà → 5 con lao đi về 5 cột sáng (các guardian vừa truyền tống xuống) → **Bat vs Pop + Huh** → **Ninja vs Berserk** → **Chud + Mlem vs Doge + Clapping** → Gojo vs Pain.
 Mục tiêu chung của Meowkatsuki: cầm chân các guardian để Friend kịp hấp thu sức mạnh → trận nào cũng kết DANG DỞ, chuyển cảnh bằng 1 nhịp câu chuyện.
 
 ---------------------------------------------------------------------------------------------------
-## 1. BAT CAT vs POP CAT + HUH CAT — cầu treo (trận đầu) · kiểu trận: SĂN MỒI MƯU TRÍ (Batman Arkham, chế độ "predator")
-Chiêu game: Bat ném boomerang dơi theo cặp (bay vòng cung 2 bên rồi tự đuổi), địch áp sát thì bắn dây móc lướt đi, ném boomerang nổ dính người (nháy đỏ rồi nổ).
-Pop phả vòng khói chữ O bay về địch, to dần như thổi vape, CÀNG BẮN CÀNG NHANH. Huh tích lực 0.5s (chậm lại) rồi bắn chữ "HUH" BÁM mục tiêu, 25% choáng.
+## 1. BAT CAT vs POP CAT + HUH CAT — cầu treo (trận đầu) · kiểu trận: SĂN MỒI MƯU TRÍ (Batman Arkham) · BẢN 2 theo anh (13/11)
+Chiêu game: Bat ném boomerang dơi theo cặp, địch áp sát thì bắn dây móc lướt đi, ném boomerang nổ dính người (nháy đỏ rồi nổ).
+Pop phả vòng khói chữ O, CÀNG BẮN CÀNG NHANH. Huh tích lực 0.5s rồi bắn chữ "HUH" BÁM mục tiêu.
+Anh dặn (13/11): Pop bắn LIÊN THANH như MINIGUN — vòng khói đi siêu nhanh, có UY LỰC · Bat lướt đi, lăn lộn trốn siêu nhanh · thấy 1 chữ HUH cực to lao về phía mình mới ném phi tiêu ra chặn ·
+vụ nổ vang lên, Pop + Huh đi ra chỗ vụ nổ · khói tan không thấy Batman đâu mà thấy 1 loạt bom dơi · Huh quay sang "huh" rồi nổ tung → chuyển cảnh.
 
-**Tóm tắt.** Cột sáng bạc + hồng giáng xuống giữa cây cầu treo bỏ hoang, Pop và Huh hiện ra, ngơ ngác nhìn quanh, xe cộ nằm ngổn ngang dưới trăng máu.
-Trên dầm tháp cầu, Bat đã ngồi chờ từ trước: bật chế độ thám tử, đọc hết 2 con mồi và cả cây cầu — xe bồn chở xăng, dây cáp, bóng tối dưới gầm xe — rồi lặng lẽ đi gài bẫy.
-Pop thấy bóng đen lướt qua, phả vòng khói POP nhắm lên tháp; Bat bắn móc đu sang dầm khác né, vòng khói nổ tan vào thép. Pop phả nhanh dần pop-pop-pop đuổi theo,
-Bat vừa đu vừa ném 1 cặp boomerang: 2 con dơi vòng 2 bên chém đứt đôi 2 vòng khói rồi bonk thẳng vào đầu Pop (Pop méo mặt).
-Huh gồng "HUH" — chữ HUH bám theo Bat; Bat không né mà dẫn nó chạy vòng qua chiếc xe bồn xăng đậu sát chân Pop + Huh, chữ HUH đâm thẳng vào xe bồn — NỔ TUNG, 2 con bị hất lăn
-lông lá cháy xém (đòn của địch bị dùng ngược lại). Pop cáu, phả vòng khói liên thanh kín cầu; Bat thả bom khói, cả cây cầu chìm trong khói, trong khói chỉ thấy đèn đỏ bật lên từng cái một.
-Pop thổi 1 vòng khói thật to dọn sạch khói — lộ ra 6 quả bom dơi gài vòng quanh chân 2 con, Bat đứng trên dầm tháp cầm nút kích nổ.
-Hai con rón rén chuồn giữa các quả bom… Huh dẫm trúng 1 quả: CẠCH. Đứng hình. Nhạc tắt. Huh từ từ quay sang Pop: "huh?". Pop: "pop". — BÙM. Vòng khói của vụ nổ lao vào máy → qua lỗ khói sang trận kế.
+**Tóm tắt.** Cột sáng bạc + hồng giáng xuống giữa cây cầu treo bỏ hoang dưới trăng máu, Pop và Huh hiện ra, ngơ ngác nhìn quanh. Trên dầm tháp cầu, Bat đã ngồi chờ từ trước, bật chế độ thám tử đọc 2 con mồi.
+Pop vừa thấy bóng đen trên tháp là há mồm XẢ LIÊN THANH: vòng khói nối đuôi nhau như đạn minigun, nhanh dần, đập vào đâu nát đó — kính xe vỡ, cửa xe móp, lan can cầu gãy, thép toé lửa.
+Bat nhảy khỏi tháp, lướt và lăn lộn giữa các xe để trốn, nhanh tới mức chỉ thấy vệt và bóng mờ; chiếc xe nào nó vừa nấp sau là bị vòng khói xé nát ngay sau lưng.
+Huh thấy Pop bắn mãi không trúng thì gồng hết sức, bắn ra 1 chữ HUH CỰC TO bám theo Bat. Bat bị dồn ra giữa mặt cầu, hết chỗ nấp, quay lại thấy chữ HUH chiếm cả khung hình
+→ ném 1 nắm phi tiêu dơi ra chặn: phi tiêu đầu cắm vào chữ HUH và NỔ, vụ nổ lớn vang cả cầu; mấy phi tiêu còn lại bay chệch, cắm xuống mặt đường quanh đó, đèn đỏ nháy mờ (khán giả kịp thấy, 2 con thì không).
+Khói đen mù mịt. Pop và Huh hí hửng đi ra chỗ vụ nổ tìm xác. Khói tan — không thấy Batman đâu, chỉ thấy 1 vòng bom dơi cắm quanh chân 2 con, đèn đỏ nháy nhanh dần.
+Đứng hình. Huh từ từ quay sang Pop: "huh?". Pop: "pop". — BÙM. Vòng khói của vụ nổ lao vào máy → qua lỗ khói sang trận kế.
 
 | # | chuyện gì xảy ra → phản ứng | máy | VFX / môi trường | tiếng | ảnh |
 |---|---|---|---|---|---|
 | 1 | Cầu treo đêm, trăng máu, xe bỏ ngổn ngang. Cột sáng bạc + hồng giáng xuống giữa cầu | toàn, góc thấp dọc mặt cầu | cột sáng, vòng ký tự trên mặt đường, kính xe rung | rumble + cột sáng nện | có |
-| 2 | Pop + Huh hiện ra, nhìn quanh (Huh nghiêng đầu "huh?", Pop chớp mắt) | trung 2 con | bụi lắng | gió, "huh?" khẽ | có (avatar) |
-| 3 | Trên dầm tháp: Bat ngồi xổm trong bóng tối, áo choàng bay, mắt loé | góc giun từ chân tháp lên | ngược sáng trăng | áo choàng phần phật | cần: Bat ngồi xổm trên dầm (góc dưới lên) |
-| 4 | CHẾ ĐỘ THÁM TỬ: khung xanh, khoá 2 mục tiêu (nhãn POP: bắn nhanh dần · HUH: tích 0.5s, bám theo) + khoá XE BỒN XĂNG cạnh 2 con + dây cáp | POV Bat nhìn xuống | HUD xanh, đường bay dự đoán | tiếng quét HUD | có |
-| 5 | Gài bẫy (cắt nhanh, im lặng): bóng Bat lướt sau xe gài bom dính gầm xe; ném 4 boomerang "trượt" găm quanh 2 con (thật ra là bom chưa kích hoạt) | 3 góc ngắn 0.4–0.7s | vệt bóng mờ (không vẽ người), đèn đỏ mờ | không tiếng (chỉ gió) | vệt + bom có sẵn |
-| 6 | Pop thấy bóng đen lướt qua đầu → phả vòng khói POP nhắm lên tháp | trung Pop → theo vòng khói | vòng khói to dần bay lên | popcat | có |
-| 7 | Bat bắn SÚNG MÓC → móc 3 chấu cắm dầm khác (tia lửa) → giật người đu đi; vòng khói đập vào thép tan | 3 góc nhanh (súng · móc cắm · Bat vút đi) | dây căng, tia lửa | bat_grapple + móc cắm "keng" | có (Ver 577) |
-| 8 | Pop phả nhanh dần pop-pop-pop đuổi theo Bat đang đu giữa các dây cáp | toàn ngang cầu | 3–4 vòng khói nhanh dần | popcat ×3 (nhanh dần, lớp '+') | có |
-| 9 | Giữa lúc đu, Bat ném 1 cặp boomerang: 2 con dơi bay vòng 2 bên CHÉM ĐỨT ĐÔI 2 vòng khói rồi đổi hướng BONK vào đầu Pop → Pop méo mặt, lảo đảo | theo boomerang → cận Pop | vòng khói đứt đôi tan, sao quay quanh đầu Pop | vút + bonk | cần: Pop méo mặt / trúng đòn |
-| 10 | Huh tức, gồng 0.5s (người chậm lại, rung) → bắn chữ HUH bám theo Bat | cận Huh gồng → chữ HUH lao đi | chữ HUH hồng, vệt đuôi | huh_sample (tiếng của Huh) | có |
-| 11 | Bat đáp xuống mặt cầu, KHÔNG né mà chạy dẫn chữ HUH vòng sát xe bồn xăng (đúng cái đã khoá ở #4), lách qua phút cuối | theo Bat ngang, chữ HUH đuổi sau lưng | bóng mờ Bat | tiếng chạy, vút | cần: Bat chạy (sau lưng / nghiêng) |
-| 12 | Chữ HUH đâm vào xe bồn — NỔ TUNG, cầu rung, Pop + Huh bị hất lăn lông lốc, lông cháy xém (đòn của chúng bị dùng ngược lại) | toàn → cận 2 con nằm xém đen | cầu cháy, khói đen, mảnh xe bay | nổ lớn 2 lớp (lặng 0.4s trước) | cần: Pop + Huh cháy xém / nằm |
-| 13 | Pop bật dậy cáu, phả vòng khói LIÊN THANH kín cả cầu (nhanh dần theo game) | trung Pop, vòng khói ùa về máy | hàng chục vòng khói | popcat liên tục (1 tiếng nền + lớp) | có |
-| 14 | Bat lấy áo choàng che đỡ 1 vòng khói (vòng vỡ toé trên áo) → ném bom khói xuống chân 2 con | cận Bat che áo → bom khói rơi | khói đen dày trùm cầu | phụt khói | cần: Bat che áo choàng |
-| 15 | Trong khói: 2 con tựa lưng nhau thở gấp, đèn đỏ bật lên từng cái một quanh chân, bóng Bat lướt qua | cận trong khói | đèn đỏ, bóng lướt | im lặng hồi hộp, tiếng tim | có |
-| 16 | Pop thổi 1 vòng khói thật to → khói tan → lộ 6 quả bom dơi vòng quanh chân 2 con; Bat trên dầm tháp giơ nút kích nổ | góc chim → góc giun lên Bat | khói bị thổi bạt | vút lớn | có |
-| 17 | Hài: 2 con rón rén nhón chân chuồn giữa các quả bom → Huh dẫm trúng 1 quả: CẠCH, đèn nháy nhanh | trung → cận chân | giọt mồ hôi | CẠCH, nhạc tắt phụt | có (Ver 590) |
-| 18 | Đứng hình… Huh từ từ quay sang Pop: "huh?" · Pop quay sang Huh: "pop" (khẽ) · 1 nhịp im | cận Huh → cận Pop | — | huh khẽ, pop khẽ | có |
+| 2 | Pop + Huh hiện ra, nhìn quanh (Huh nghiêng đầu, Pop chớp mắt) | trung 2 con | bụi lắng | gió | có (avatar) |
+| 3 | Trên dầm tháp: Bat ngồi xổm trong bóng tối, áo choàng bay, mắt loé → chế độ thám tử khoá 2 mục tiêu (nhãn POP / HUH) | góc giun từ chân tháp lên → POV Bat nhìn xuống | ngược sáng trăng; HUD xanh | áo choàng phần phật, tiếng quét HUD | cần: Bat ngồi xổm trên dầm (góc dưới lên) |
+| 4 | Pop ngẩng lên thấy đôi mắt loé trên tháp → há mồm | cận Pop | — | lặng 0.4s | có |
+| 5 | MINIGUN: Pop xả vòng khói liên thanh lên tháp, nhanh dần; mỗi phát Pop giật nhẹ, chân trượt lùi, mặt đường dưới chân nứt | cận Pop chính diện → ngang theo luồng đạn | dòng vòng khói nối đuôi, vệt gió, vỏ "đạn" khói tản ra 2 bên | popcat dồn dập = 1 tiếng nền liên thanh + lớp '+' tăng dần (không đếm từng phát) | có (Pop ngậm / há) |
+| 6 | Luồng đạn quét tới dầm tháp — Bat bật khỏi dầm đúng lúc, chỗ nó ngồi nát vụn, thép toé lửa | góc giun lên tháp | dầm vỡ, tia lửa, mảnh thép rơi | thép rách + tia lửa | có |
+| 7 | Bat rơi xuống mặt cầu → LĂN tròn tiếp đất, lướt sang nấp sau ô tô → luồng đạn đuổi theo xé nát ô tô (kính nổ, cửa móp, xe xoay ngang) — Bat đã ở chỗ khác | ngang thấp dọc mặt cầu, máy lia theo | Bat = VỆT ĐEN + bóng mờ (lăn = smear tròn), không vẽ người; xe nát dần theo từng phát | kính vỡ, kim loại móp | vệt + smear (không cần ảnh) |
+| 8 | Tràng nhanh 3–4 góc 0.2–0.4s: Bat lướt qua gầm xe tải → lộn qua nắp capo → trượt sau trụ cầu; mỗi chỗ vừa nấp là nổ tung sau lưng | 3–4 góc ngắn nối nhau | vệt, bóng mờ, mảnh vỡ bay | vút ×3 (lớp) | vệt (không cần ảnh) |
+| 9 | KHỰNG: Bat ép lưng sau trụ cầu, thở; luồng đạn rỉa mép trụ, bê tông bắn tung, rồi tắt — Pop thở hổn hển, mồm bốc khói | cận Bat nghiêng → trung Pop | bụi bê tông, khói từ mồm Pop | lặng dần, Pop thở | cần: Bat nép lưng sau cột (nghiêng) |
+| 10 | Huh bực vì Pop bắn mãi không trúng → gồng hết sức (người rung, chậm lại, vòng sáng hồng tụ lại) | cận Huh từ dưới lên | quầng hồng, đá vụn lơ lửng | gồng nén | có |
+| 11 | Huh bắn chữ HUH CỰC TO (cao gấp 3 xe) — nó BÁM theo Bat, cày nát xe cộ trên đường đi, ép Bat ra giữa mặt cầu trống | toàn ngang → theo chữ HUH | chữ HUH hồng khổng lồ, vệt đuôi, xe bị hất 2 bên | huh_sample (to, 2 lớp) | có |
+| 12 | Bat quay lại — chữ HUH lấp kín khung hình sau lưng nó | qua vai Bat (chữ HUH chiếm khung) | — | lặng 0.3s | có (Bat sau lưng `back`) |
+| 13 | Bat ném 1 NẮM PHI TIÊU dơi (cổ tay vung ra, 5 cái toả hình quạt) | cận tay Bat → theo phi tiêu | vệt phi tiêu, đèn đỏ nhỏ | vút ×5 (1 tiếng + lớp) | có (BAT_THROW) |
+| 14 | Phi tiêu đầu cắm vào chữ HUH → NỔ LỚN, sóng nổ quét cầu, dây cáp rung bần bật; 4 phi tiêu còn lại bay chệch, cắm xuống mặt đường quanh tâm nổ, đèn đỏ nháy MỜ (máy lướt qua kịp thấy) | toàn → cận 1 phi tiêu cắm đường | nổ to, khói đen trùm, sóng nổ, đèn đỏ mờ | nổ lớn 2–3 lớp | có |
+| 15 | THỞ: khói đen dày, im ắng | toàn | khói cuộn | gió, lửa lách tách | có |
+| 16 | Pop + Huh hí hửng đi vào giữa đám khói tìm xác Batman (vừa đi vừa ngó) | trung theo sau 2 con | khói mỏng dần | bước chân | có (avatar nhún) |
+| 17 | Khói tan — chỗ nổ trống trơn, KHÔNG có Batman. Máy kéo lên: 1 vòng bom dơi cắm quanh chân 2 con, đèn đỏ nháy NHANH dần | góc chim | khói tan hết, đèn đỏ nháy | bíp bíp nhanh dần, nhạc tắt phụt | có (bom có sẵn) |
+| 18 | Đứng hình… Huh từ từ quay sang Pop: "huh?" · Pop quay sang Huh: "pop" (khẽ) · 1 nhịp im | cận Huh → cận Pop | giọt mồ hôi | huh khẽ, pop khẽ | có (Ver 590) |
 | 19 | BÙM — vòng khói của vụ nổ lao vào máy, lỗ khói lộ đại lộ của trận kế | toàn | vụ nổ, vòng khói | nổ + vút qua lỗ | có |
 
-Ảnh cần vẽ thêm: Bat ngồi xổm trên dầm (góc dưới lên) · Bat chạy (sau lưng + nghiêng) · Bat che áo choàng · Pop méo mặt trúng đòn · Pop + Huh cháy xém nằm lăn (giữ ảnh meme, chỉ thêm muội đen).
-Nhạc: nhạc hồi hộp săn mồi suốt #3–#16 (đề xuất: The Batman 2022 — "The Batman" theme của Michael Giacchino, chỉ 1 lần) → TẮT phụt ở #17 (hài) → nổ.
+Nhân quả: Bat khoá mục tiêu (#3) → lộ vị trí bị Pop xả (#5) → né bằng tốc độ (#7–9) → Huh tung chiêu to để dồn (#10–12) → Bat buộc phải ném phi tiêu chặn (#13) → phi tiêu chệch thành bom gài (#14, khán giả thấy) → 2 con tự đi vào bẫy (#16–17).
+Ảnh cần vẽ thêm: Bat ngồi xổm trên dầm (góc dưới lên) · Bat nép lưng sau cột (nghiêng). Các pha lăn / lướt dùng VỆT + bóng mờ, không vẽ người.
+Nhạc: The Batman 2022 — theme của Michael Giacchino (1 lần, #3–#16) → TẮT phụt ở #17 → nổ.
+Tiếng minigun: KHÔNG đếm từng phát popcat (sẽ vượt luật ≤9 tiếng / 10s) → 1 tiếng nền liên thanh (popcat ghép dồn) + lớp gió / va chạm '+'.
 
 ---------------------------------------------------------------------------------------------------
 ## 2. NINJA CAT vs BERSERK CAT — đại lộ · kiểu trận: ĐẤU KIẾM + ẢO THUẬT (Itachi vs kẻ mạnh thể chất; Guts không bao giờ lùi)
@@ -50,8 +53,10 @@ Berserk càng ít máu càng mạnh (kiếm dài thêm, đánh nhanh hơn), dư�
 Ninja ném 3 kunai, Berserk dựng ngang đại kiếm làm khiên đỡ, kunai bật ra tia lửa; nấp sau loạt kunai, Ninja lao tới chém — Berserk vung kiếm chặn, hai lưỡi khoá nhau,
 mặt sát mặt — và Berserk lỡ nhìn thẳng vào mắt Sharingan (mầm ảo thuật, chưa ai biết). Berserk hất văng Ninja bằng sức thô, bổ dọc xuống — Ninja nhảy lùi, mặt đường vỡ hố, ô tô lật;
 Berserk quét ngang — Ninja giơ kiếm dựng đứng đỡ, bị đánh bay xuyên kính cửa hàng. Ninja bước ra từ mảnh kính, chém lại 3 nhát nhanh: Berserk đỡ được 2, nhát 3 rạch vai.
-Berserk lao tới đâm kết liễu — Mangekyou loé, đại kiếm đi XUYÊN qua người Ninja như không khí, Ninja xoắn vào Kamui, hiện ra sau lưng đâm thẳng vào lưng Berserk.
-Berserk khuỵu… rồi máu càng mất càng điên: lửa đỏ bốc ngùn ngụt, gầm lên, đứng dậy với thanh kiếm dài hơn; 3 nhát bổ liên hoàn, Ninja giơ kiếm đỡ từng nhát, mỗi nhát bị đẩy lùi xa hơn, chân cày rãnh trên đường.
+Berserk lao tới đâm kết liễu — Mangekyou loé, đại kiếm đi XUYÊN qua người Ninja như không khí, Ninja xoắn vào Kamui; cổng Kamui mở ra trên không SAU LƯNG Berserk, Ninja rơi ra lộn ngược, 2 tay giơ kiếm CHÉM XUỐNG lưng —
+Berserk xoay người theo đà, vung ngược đại kiếm lên CHÉM ĐỠ: 2 lưỡi va trên đầu, mặt đường lõm, Ninja bị hất lộn ra sau. Ninja chống 1 tay tiếp đất, bật lại ngay bằng 1 tràng đòn đa góc
+(lộn qua đầu, trượt sát đất, đạp lên bản kiếm Berserk bật lên) — Berserk đỡ được 3, nhát đạp-kiếm rạch ngang ngực.
+Máu chảy ở vai, ở ngực… rồi máu càng mất càng điên: lửa đỏ bốc ngùn ngụt, gầm lên, đứng dậy với thanh kiếm dài hơn; 3 nhát bổ liên hoàn, Ninja giơ kiếm đỡ từng nhát, mỗi nhát bị đẩy lùi xa hơn, chân cày rãnh trên đường.
 Berserk gồng kiếm, 2 con lao vượt qua nhau — mũi kiếm Ninja gãy, Ninja đứt ngang người, cả dãy nhà 2 bên bị xẻ ngang đổ sập… rồi 2 nửa người hoá BẦY QUẠ: tất cả là ảo thuật từ cái nhìn lúc khoá kiếm.
 Trời đỏ máu, 2 mắt Sharingan khổng lồ trên trời nhìn xuống. Berserk gầm, chém thẳng vào bầu trời — ảo cảnh vỡ như kính, sau lớp kính là công viên của trận kế.
 
@@ -68,18 +73,26 @@ Trời đỏ máu, 2 mắt Sharingan khổng lồ trên trời nhìn xuống. Be
 | 9 | THỞ: mảnh kính rơi lả tả; Ninja bước ra, phủi áo | trung | kính rơi | kính lách cách | có |
 | 10 | Ninja phản công 3 nhát nhanh: Berserk đỡ nhát 1 (bản kiếm), đỡ nhát 2, nhát 3 lách qua rạch vai Berserk | 1 shot ngang bám theo | 3 vệt chém, toé đỏ ở vai | 3 tiếng kiếm khác nhau | cần: Berserk đỡ (2 hướng) · Berserk trúng đòn |
 | 11 | Berserk giận, lao tới ĐÂM kết liễu → Mangekyou loé (cực cận mắt) | trung → cực cận mắt | mắt Mangekyou | tiếng loé | có |
-| 12 | Đại kiếm đi XUYÊN qua người Ninja như không khí (thân xoắn méo quanh lưỡi kiếm) → Ninja xoắn vào Kamui | trung ngang | twist Kamui (chép game) | ep3_kamui | có |
-| 13 | Ninja hiện ra SAU LƯNG Berserk, đâm thẳng vào lưng → Berserk khựng, khuỵu 1 gối | qua vai Ninja | máu đỏ / tia đỏ | đâm + lớp thịt | có |
-| 14 | THỞ / đổi chiều: Berserk cúi đầu… lửa đỏ bốc từ chân lên, người nháy đỏ, ngẩng lên gầm (càng mất máu càng mạnh) | cận từ dưới lên | lửa đỏ, đá vụn bay lên | bk_howl | có (BH) |
-| 15 | Berserk bổ 3 nhát liên hoàn, kiếm dài hơn: Ninja GIƠ KIẾM ĐỠ từng nhát — mỗi nhát bị đẩy lùi xa hơn, chân cày 2 rãnh trên đường, nhát 3 làm kiếm Ninja rung bần bật | 1 shot ngang, máy lùi theo Ninja | rãnh chân, tia lửa mỗi nhát | 3 cú nặng (2 lớp) | cần: Ninja đỡ trượt lùi |
-| 16 | Berserk gồng kiếm (đặc tả mắt đỏ) → 2 con hoá 2 vệt LAO VƯỢT QUA NHAU, loé ở điểm giao → hiện lại quay lưng vào nhau, khựng | cực cận mắt → toàn | 2 vệt, loé | lặng 0.5s → CHÉM | có (Ver 592) |
-| 17 | Mũi kiếm Ninja gãy văng → vạch sáng ngang người → nửa trên trượt đổ → vạch chém xẻ ngang cả dãy nhà 2 bên, nhà đổ sập | cận Ninja → toàn cao | kiếm gãy, nhà đổ | kiếm gãy + đổ sập | có |
-| 18 | 2 nửa người nằm trên đường… hoá BẦY QUẠ bay vút lên — Berserk sững người | cận → góc giun theo quạ | quạ | quạ vỗ cánh | có |
-| 19 | Trời chuyển đỏ máu, 2 mắt Sharingan khổng lồ trên trời (ảo thuật từ lúc khoá kiếm #6) | góc giun | thế giới đỏ | Itachi theme (1 lần) | có |
-| 20 | Berserk gầm, lửa đỏ bùng, chém thẳng vào bầu trời → ảo cảnh vỡ như kính, sau lớp kính là công viên trận kế | toàn | mảnh kính rơi | hú + kính vỡ | có |
+| 12 | Đại kiếm đi XUYÊN qua người Ninja như không khí (thân xoắn méo quanh lưỡi kiếm) → Ninja xoắn vào Kamui, biến mất | trung ngang | twist Kamui (chép game) | ep3_kamui | có |
+| 13 | Berserk đâm vào khoảng không, chúi theo đà. Trên không SAU LƯNG nó cổng Kamui xoáy mở → Ninja rơi ra LỘN NGƯỢC, 2 tay giơ kiếm quá đầu CHÉM XUỐNG lưng Berserk | góc thấp sau lưng Berserk, Ninja lao xuống từ mép trên khung | twist mở ra, vệt chém xuống | kamui nhả + vút | cần: Ninja lộn ngược trên không chém xuống (2 tay, 2 góc) |
+| 14 | Berserk cảm thấy sau lưng → XOAY NGƯỜI theo đà, vung ngược đại kiếm lên CHÉM ĐỠ: 2 lưỡi va trên đầu Berserk, sóng chấn làm mặt đường dưới chân lõm vòng tròn, Ninja bị hất lộn ra sau | máy xoay 180° cùng Berserk (qua vai → chính diện), khựng 2–3 khung ở cú va | tia lửa lớn, vòng mặt đường lõm, bụi toả | CLANG nặng 3 lớp | cần: Berserk xoay người vung kiếm lên đỡ (sau lưng → nghiêng) · Ninja bị hất lộn |
+| 15 | Ninja chống 1 tay tiếp đất, trượt lùi → bật lại ngay: TRÀNG 4 ĐÒN đa góc — (a) lộn qua đầu chém vai → Berserk giơ kiếm đỡ trên · (b) trượt sát đất chém ngang gối → Berserk cắm kiếm xuống đỡ thấp · (c) vòng sang trái đâm sườn → Berserk xoay bản kiếm gạt · (d) đạp lên bản kiếm Berserk bật lên cao, chém chéo xuống → trúng, rạch ngang ngực Berserk | 4 góc nhanh 0.3–0.6s nối nhau (trên cao · sát đất · ngang · góc giun theo Ninja bật lên) rồi khựng toàn | vệt + bóng mờ cho pha di chuyển, tia lửa mỗi lần chạm, toé đỏ ở ngực | 3 tiếng kiếm chạm khác nhau + 1 tiếng chém thịt (lớp) | cần: Ninja tiếp đất chống 1 tay · lộn qua đầu · trượt thấp chém · đạp kiếm bật lên · chém chéo từ trên · Berserk đỡ trên / đỡ thấp (cắm kiếm) / gạt ngang · Berserk trúng ngực |
+| 16 | KHỰNG: 2 con tách ra, Ninja đáp nhẹ trên nóc xe, Berserk đứng giữa đường, máu nhỏ giọt từ vai + ngực, khuỵu 1 gối | toàn ngang (Ninja trái / Berserk phải — đã đổi bên sau Kamui) | máu nhỏ giọt, bụi lắng | lặng, tiếng thở | cần: Berserk khuỵu 1 gối |
+| 17 | THỞ / đổi chiều: Berserk cúi đầu… lửa đỏ bốc từ chân lên, người nháy đỏ, ngẩng lên gầm (càng mất máu càng mạnh) | cận từ dưới lên | lửa đỏ, đá vụn bay lên | bk_howl | có (BH) |
+| 18 | Berserk bổ 3 nhát liên hoàn, kiếm dài hơn: Ninja GIƠ KIẾM ĐỠ từng nhát — mỗi nhát bị đẩy lùi xa hơn, chân cày 2 rãnh trên đường, nhát 3 làm kiếm Ninja rung bần bật | 1 shot ngang, máy lùi theo Ninja | rãnh chân, tia lửa mỗi nhát | 3 cú nặng (2 lớp) | cần: Ninja đỡ trượt lùi |
+| 19 | Berserk gồng kiếm (đặc tả mắt đỏ) → 2 con hoá 2 vệt LAO VƯỢT QUA NHAU, loé ở điểm giao → hiện lại quay lưng vào nhau, khựng | cực cận mắt → toàn | 2 vệt, loé | lặng 0.5s → CHÉM | có (Ver 592) |
+| 20 | Mũi kiếm Ninja gãy văng → vạch sáng ngang người → nửa trên trượt đổ → vạch chém xẻ ngang cả dãy nhà 2 bên, nhà đổ sập | cận Ninja → toàn cao | kiếm gãy, nhà đổ | kiếm gãy + đổ sập | có |
+| 21 | 2 nửa người nằm trên đường… hoá BẦY QUẠ bay vút lên — Berserk sững người | cận → góc giun theo quạ | quạ | quạ vỗ cánh | có |
+| 22 | Trời chuyển đỏ máu, 2 mắt Sharingan khổng lồ trên trời (ảo thuật từ lúc khoá kiếm #6 — mọi thứ từ đó tới giờ là ảo cảnh) | góc giun | thế giới đỏ | Itachi theme (1 lần) | có |
+| 23 | Berserk gầm, lửa đỏ bùng, chém thẳng vào bầu trời → ảo cảnh vỡ như kính, sau lớp kính là công viên trận kế | toàn | mảnh kính rơi | hú + kính vỡ | có |
 
-Ảnh cần vẽ thêm (mỗi tư thế 2–3 góc): Berserk kéo lê kiếm · Berserk dựng kiếm làm khiên · Berserk bổ dọc · Berserk đỡ 2 hướng · Berserk trúng đòn (vai) ·
-Ninja ném kunai · Ninja chém từ trên · Ninja đỡ kiếm dựng đứng · Ninja đỡ trượt lùi · Ninja bị đánh bay · cận 2 con khoá kiếm.
+⚠️ Anh dặn (13/11): Ninja phải LINH HOẠT CỰC NHIỀU TƯ THẾ — mỗi pha 1 tư thế riêng, không trượt 1 ảnh đứng qua lại. Kamui phải ra SAU LƯNG chém xuống, Berserk QUAY LẠI chém đỡ.
+Ảnh cần vẽ thêm (sprite sheet GPT, mỗi tư thế 2–3 góc: nghiêng / 3/4 / sau lưng; cùng cỡ, cùng đường chân):
+- NINJA (~16 tư thế): rút kiếm · ném kunai · lao chém từ trên · khoá kiếm (cận) · nhảy lùi né · đáp ngồi trên nóc xe · đỡ kiếm dựng đứng · bị đánh bay · bước ra phủi áo · chém ngang / chém hất / đâm (3 nhát phản công) ·
+  lộn ngược trên không chém xuống · bị hất lộn · tiếp đất chống 1 tay · lộn qua đầu · trượt thấp chém · đạp kiếm bật lên · đỡ trượt lùi (chân cày đất) · thủ thế trước nhát lướt qua.
+- BERSERK (~12 tư thế): kéo lê kiếm · vác kiếm lên vai · dựng kiếm làm khiên · hất kiếm chặn · bổ dọc · quét ngang · đỡ trên / đỡ thấp (cắm kiếm) / gạt ngang · trúng vai · trúng ngực · lao đâm ·
+  xoay người vung kiếm lên đỡ (sau lưng → nghiêng) · khuỵu 1 gối · bổ liên hoàn (kiếm dài) · gồng kiếm.
+- Cận 2 con khoá kiếm (1 ảnh ghép, 2 góc).
 Nhạc: mở đầu KHÔNG nhạc (gió, quạ) tới #4 → nhạc đấu kiếm Nhật từ #4 (đề xuất: Naruto Shippuden OST "Kokuten") → từ #14 Berserk điên: Berserk 1997 OST "Forces" (Susumu Hirasawa) → #19 Itachi: "Senya" (1 lần).
 
 ---------------------------------------------------------------------------------------------------
@@ -120,7 +133,16 @@ cú đấm của Doge nện vỡ mặt đất thành hố; xích quấn 2 cổ t
 | 20 | Doge nắm 2 sợi xích giật ngược — xích ĐỨT TUNG, mắt xích văng; Chud sững người | toàn → cận Chud | mắt xích văng, tia lửa | xích đứt nổ | có |
 | 21 | 2 con thủ thế → hoá 2 vệt lao vào nhau → nắm đấm haki đụng xích (loé) | ngang | 2 vệt, loé | lặng → va chạm 2 lớp | có |
 | 22 | Đúng lúc đó chân trời loé tím → cả 2 quay đầu → máy lao về phía ánh tím (Gojo vs Pain) | toàn → lia giật → đường hầm | loé tím | nổ xa + vút | có |
-Ảnh: đủ (bộ đa góc 12/11). Nhạc: nhạc trận Kurapika vs Uvogin (HxH 2011, anh chốt bản) từ #14 · #19 Haki: One Piece "Overtaken" (1 lần).
+⚠️ XÍCH (anh dặn 13/11: "Doge bị quấn xích vẫn không chuẩn, xích không ổn, gắn không chuẩn → vẽ xích đi, xong nối vào đoạn xích vẽ cho chuẩn"):
+BỎ cách vẽ xích bằng code quấn quanh người. Làm lại:
+- Mọi lúc xích QUẤN người (Doge bị quấn đứng · Doge bị quấn đóng băng · xích siết 2 cổ tay · Doge bị nhấc bổng) = ẢNH GPT vẽ sẵn Doge CÓ XÍCH QUẤN trên người (xích vẽ chung với nhân vật, đúng nếp quấn, đúng bóng, đè / khuất đúng chỗ),
+  mỗi ảnh có 1 ĐẦU XÍCH thò ra ở mép (đánh dấu toạ độ).
+- Đoạn xích CĂNG từ tay Chud tới đầu xích đó = ẢNH MẮT XÍCH GPT vẽ (1 mắt xích nung đỏ, nền đen / xanh) lặp dọc đường thẳng, mắt xích xoay xen kẽ 90° như xích thật; mắt cuối khớp ĐÚNG hướng + bề ngang đầu xích trong ảnh quấn.
+  Gốc ở tay Chud cũng vậy: ảnh Chud có sẵn khúc xích quấn cổ tay, đoạn lặp nối từ đầu khúc đó.
+- Xích bay / quật (#5, #15, #16) = cùng mắt xích lặp theo đường cong lượn (không còn nét vẽ code), đầu xích có lưỡi / móc vẽ GPT.
+- Soát từng khung CHỖ NỐI (đầu xích ảnh ↔ đoạn lặp) trước khi báo anh.
+Ảnh cần vẽ thêm: Doge bị xích quấn (đứng, 2 góc) · Doge bị xích quấn + đóng băng · Doge 2 cổ tay bị xích siết (gồng) · Doge bị nhấc bổng · Chud 2 cổ tay quấn xích (thay khúc xích code) · 1 mắt xích nung đỏ · đầu xích có lưỡi.
+Ảnh khác: đủ (bộ đa góc 12/11). Nhạc: nhạc trận Kurapika vs Uvogin (HxH 2011, anh chốt bản) từ #14 · #19 Haki: One Piece "Overtaken" (1 lần).
 
 ---------------------------------------------------------------------------------------------------
 ## 4. GOJO vs PAIN (+ cảnh lao đi) — CHỈ SỬA TIẾNG, kịch bản giữ nguyên của anh

@@ -78,8 +78,10 @@ Mẫu đã duyệt:
 ## ✍️ KỊCH BẢN TRƯỚC, DỰNG SAU (anh dặn 13/11/2026 — chê nặng: "ngoài fight của gojo tự t viết, các fight khác k ổn tí nào… làm cẩu thả kinh khủng")
 - Mọi cảnh / trận mới hoặc làm lại → skill `viet-kich-ban` (mẫu nguyên văn anh viết: `.claude/skills/viet-kich-ban/mau-cua-anh.md`) → đưa anh DUYỆT → mới dựng (skill dung-phim).
 - Đòn nào cũng có PHẢN ỨNG (giơ vũ khí đỡ đúng hướng / né / trúng + bật lùi) — Ninja vs Berserk bị chê "chém nhau mà không có động tác giơ kiếm ra đỡ".
-- Nhạc THEME nhân vật chỉ 1 LẦN đúng khoảnh khắc của nó (pain_theme / dp_akatsuki từng bị lặp nền khắp các trận → bị chê). Giọng hô chiêu = GIỌNG THẬT (Gojo: Yuichi Nakamura), KHÔNG VOICEVOX ("rất đần").
-- Kịch bản 3 trận phụ + sửa tiếng Gojo vs Pain: `prompts/kich-ban/fin1-tran-phu.md` (13/11, CHỜ ANH DUYỆT).
+- NHẠC (anh chốt 13/11): mỗi trận / cảnh 1 bản EPIC / anime CHẠY DÀI (cả bài, KHÔNG lặp đoạn ngắn — file 8s lặp nghe ra ngay), em tự tìm (yt-dlp `D:	oolsyt-dlp`).
+  `dp_akatsuki` (nhạc Pain 2, dính bản quyền) CHỈ 5s đúng lúc Depressed Cat. Pain's Theme chạy dài được. Trước đây dp_akatsuki 8.3s bị lặp nền cả 3 trận phụ + nóc nhà → bị chê. Giọng hô chiêu = GIỌNG THẬT (Gojo: Yuichi Nakamura), KHÔNG VOICEVOX ("rất đần").
+- Kịch bản 3 trận phụ + sửa tiếng Gojo vs Pain: `prompts/kich-ban/fin1-tran-phu.md` (13/11, ANH ĐÃ DUYỆT → đang dựng lại). Bat = bản 2 anh tả (Pop minigun, Bat lăn lộn trốn, phi tiêu chặn chữ HUH khổng lồ, bom dơi);
+  Ninja = nhiều tư thế, Kamui ra SAU LƯNG chém xuống → Berserk quay lại chém đỡ; XÍCH = vẽ GPT (Doge có xích quấn sẵn trong ảnh + mắt xích lặp nối đúng đầu xích), bỏ xích vẽ code.
 
 ## ⚔️ CẢNH ĐÁNH NHAU — NHỊP THEO ANIME GỐC, KHÔNG THEO AMV (anh chê 12/11: "rush, quá nhanh liên tục, đau mắt, không rõ cách đánh; sound không lực, lộn xộn")
 - Số đo từ 4 trận GỐC còn tiếng gốc (JJK Todo vs Hanami, Gojo vs Toji, Rengoku vs Akaza, Naruto vs Sasuke — `meme-anime-lab/playbook/nhip.md`): shot TB 1.3–1.8s,
