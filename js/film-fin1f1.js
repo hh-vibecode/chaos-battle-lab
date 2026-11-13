@@ -52,7 +52,9 @@
     K0:H*1.0,KR:H*1.08,K1:H*1.0,K2:H*1.0,K3:H*1.0};
   // chuôi xích trong tay Chud (tỉ lệ khung ảnh đã cắt, đo bằng lưới): [tay 0, tay 1]; WHIP = tay đang quất của tư thế
   // điểm tay / chuôi xích (tỉ lệ trên ảnh đã cắt, đo bằng lưới 10×10 — 12/11 đo lại sau khi vẽ lại Doge đúng chất meme)
-  const HAND={DGP:[[0.9,0.95],[0.08,0.5]],DPL:[[0.03,0.31],[0.03,0.43]],DHP:[[0.03,0.14],[0.05,0.27]],DBL:[[0.12,0.15],[0.3,0.13]],DB:[[0.33,0.27],[0.7,0.27]],DPU:[[0.02,0.4],[0.02,0.4]],DRN:[[0.06,0.55],[0.85,0.45]],DDK:[[0.05,0.75],[0.2,0.8]],DH:[[0.2,0.62],[0.8,0.62]],
+  // ⛓️ (13/11) Doge có XÍCH QUẤN SẴN trong ảnh (GPT vẽ cùng nhân vật: đúng nếp quấn, đè / khuất đúng chỗ) — HAND = chỗ đầu xích thò ra khỏi ảnh để nối đoạn xích lặp
+  Object.assign(IMG,{DCW:'assets/img/cine/FIN_F1_DOGE_CHAINPULL.png',DCL:'assets/img/cine/FIN_F1_DOGE_CHAINLIFT.png',CHT:'assets/img/cine/FIN_F1_CHAIN_TILE.png'}); Object.assign(DIR,{DCW:-1,DCL:-1}); Object.assign(HT,{DCW:H*1.75,DCL:H*2.0});
+  const HAND={DCW:[[0.995,0.462],[0.99,0.478]],DCL:[[0.845,0.004],[0.83,0.012]],DGP:[[0.9,0.95],[0.08,0.5]],DPL:[[0.03,0.31],[0.03,0.43]],DHP:[[0.03,0.14],[0.05,0.27]],DBL:[[0.12,0.15],[0.3,0.13]],DB:[[0.33,0.27],[0.7,0.27]],DPU:[[0.02,0.4],[0.02,0.4]],DRN:[[0.06,0.55],[0.85,0.45]],DDK:[[0.05,0.75],[0.2,0.8]],DH:[[0.2,0.62],[0.8,0.62]],
     DBF:[[0.33,0.27],[0.7,0.27]],DBQ:[[0.3,0.27],[0.62,0.27]],DBS:[[0.06,0.35],[0.1,0.37]],DBQB:[[0.1,0.35],[0.4,0.33]],DBB:[[0.1,0.4],[0.9,0.4]],DRB:[[0.1,0.55],[0.88,0.55]],DRF:[[0.12,0.55],[0.88,0.55]],DRQ:[[0.05,0.55],[0.6,0.5]],
     DDL:[[0.6,0.28],[0.66,0.36]],DKN:[[0.12,0.75],[0.75,0.55]],DUP:[[0.3,0.33],[0.6,0.33]],
     CKF:[[0.02,0.39],[0.97,0.38]],CKQ:[[0.05,0.39],[0.65,0.42]],CKS:[[0.05,0.38],[0.1,0.4]],CKQB:[[0.05,0.41],[0.92,0.4]],CKB:[[0.03,0.4],[0.95,0.4]],
@@ -78,7 +80,7 @@
   // trận chính: x LOCAL quanh FZ (z = FZ[1]); Doge bên trái số nhỏ, Chud bên số lớn
   const DM=[[T.rise,-260,'DKN',0,0,0,0],[T.rise+1.3,-260,'DUP'],[T.rise+2.3,-260,'DB'],[T.w1-0.5,-260,'DB'],[T.w1-0.42,-250,'DRN','eout'],[T.w1,-40,'DRN','ein',1],[T.w1+0.05,-40,'DBL'],[T.w1+0.9,-300,'DBL','back'],[T.w1+1.6,-300,'DB'],   // lao vào → ăn xích → đỡ, bị đẩy lùi
     [T.w2-0.45,-300,'DB'],[T.w2-0.3,-300,'DB'],[T.w2-0.02,-115,'DDK','ein'],[T.w2+0.06,-110,'DDK'],[T.w2+0.25,60,'DDK','ein',1],[T.punch-0.12,60,'DPU','eout'],[T.punch-0.03,35,'DGP','ein',1],[T.punch+1.4,35,'DGP'],   // cúi né dưới xích → áp sát → đấm hụt nện đất
-    [T.tie0,170,'DB'],[T.tie,175,'DPL','eout'],[T.tug,190,'DPL'],[T.lift-0.2,300,'DPL','lin',0,0,0],[T.lift,310,'DB','eout',0,0,40],[T.slam,380,'DDL','ein',1,0,0],[T.down,380,'DDL'],   // bị trói, giằng co, bị kéo lê → nhấc lên quật xuống
+    [T.tie0,170,'DB'],[T.tie,175,'DCW','eout'],[T.tug,190,'DCW'],[T.lift-0.2,300,'DCW','lin',0,0,0],[T.lift,310,'DCL','eout',0,0,40],[T.slam,380,'DDL','ein',1,0,0],[T.down,380,'DDL'],   // bị trói, giằng co, bị kéo lê → nhấc lên quật xuống
     [T.haki,380,'DDL'],[T.haki+0.3,380,'DKN'],[T.hakiOn,380,'DH'],[T.pull,380,'DHP','eout'],[T.snap,365,'DHP'],[T.snap+0.4,360,'DH','back'],[T.lunge,360,'DH'],[T.clash-0.5,345,'DP1','eout'],[T.clash-0.27,345,'DP1'],[T.clash,495,'DP1','ein',1],[T.DUR,495,'DP1']];
   const CM=[[T.rise,300,'CHL',0,0,0,0],[T.rise+1.1,300,'CHK'],[T.rise+2.1,300,'CK0'],[T.r1+0.6,300,'CK0'],[T.r1+0.8,305,'CK1','eout'],[T.w1-0.06,305,'CK1'],[T.w1,300,'CK2','ein'],[T.w1+0.7,300,'CK2'],[T.w1+1.0,300,'CK0'],
     [T.r2+0.3,300,'CK0'],[T.r2+0.45,305,'CK3','eout'],[T.w2-0.05,305,'CK3'],[T.w2,300,'CK4','ein'],[T.zip,300,'CK4'],[T.zip+0.45,620,'CK1','eout',1,0,80],[T.zip+0.8,620,'CK0','ein',0,0,0],   // quất trượt → quăng xích vào cột, đu né cú đấm
@@ -147,7 +149,13 @@
     W.taper(F,P,16,11,'#ff7aa2',{stroke:'#b8335c',shine:true}); }
   // ⛓️ XÍCH NUNG ĐỎ — chép cách game vẽ (`_dcCord`): quầng đỏ cam → lõi tối → dải ảnh dây xoắn DC_CORD_IMG kéo theo đường đi
   const CORD_X0=0.30, CORD_X1=0.75, CORD_Y1=0.844;
-  function cordScreen(g,im,pts,cw,hot){ if(pts.length<2) return; g.save(); g.lineCap='round'; g.lineJoin='round';
+  // ⛓️ (13/11) MẮT XÍCH THẬT: ô ảnh GPT (FIN_F1_CHAIN_TILE: nửa mắt dẹt · 1 mắt đứng · nửa mắt dẹt — nối ô cạnh nhau liền mạch) đặt nối đuôi dọc đường đi, mỗi ô xoay theo đoạn đó
+  function linkScreen(g,im,pts,cw,hot){ if(pts.length<2||!im||!im.complete||!im.naturalWidth) return false; const LH=cw*1.7, PER=LH*im.naturalWidth/im.naturalHeight; const L=[0]; for(let i=1;i<pts.length;i++) L.push(L[i-1]+Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1])); const tot=L[L.length-1]; if(tot<1) return true;
+    g.save(); if(hot){ g.lineCap='round'; g.lineJoin='round'; for(const [w,al] of [[LH*2.2,0.22],[LH*1.3,0.4]]){ g.strokeStyle=`rgba(255,${w>LH*2?50:110},0,${al*hot})`; g.lineWidth=w; g.beginPath(); g.moveTo(pts[0][0],pts[0][1]); for(let i=1;i<pts.length;i++) g.lineTo(pts[i][0],pts[i][1]); g.stroke(); } }
+    let seg2=1; for(let d=0;d<tot;d+=PER){ const len=Math.min(PER,tot-d), m=d+len/2; while(seg2<L.length-1&&L[seg2]<m) seg2++; const a=pts[seg2-1], b=pts[seg2], f=(m-L[seg2-1])/Math.max(1e-6,L[seg2]-L[seg2-1]), x=a[0]+(b[0]-a[0])*f, y=a[1]+(b[1]-a[1])*f;
+      g.save(); g.translate(x,y); g.rotate(Math.atan2(b[1]-a[1],b[0]-a[0])); g.drawImage(im,0,0,im.naturalWidth*len/PER,im.naturalHeight,-len/2,-LH/2,len+0.5,LH); g.restore(); }
+    g.restore(); return true; }
+  function cordScreen(g,im,pts,cw,hot){ if(pts.length<2) return; if(linkScreen(g,CHT_IMG,pts,cw,hot)) return; g.save(); g.lineCap='round'; g.lineJoin='round';
     if(hot) for(const [w,al] of [[cw*3.4,0.28],[cw*2.0,0.6]]){ g.strokeStyle=`rgba(255,${w>cw*3?40:110},0,${al*hot})`; g.lineWidth=w; g.beginPath(); g.moveTo(pts[0][0],pts[0][1]); for(let i=1;i<pts.length;i++) g.lineTo(pts[i][0],pts[i][1]); g.stroke(); }
     g.strokeStyle='rgba(18,18,18,0.92)'; g.lineWidth=cw*0.75; g.beginPath(); g.moveTo(pts[0][0],pts[0][1]); for(let i=1;i<pts.length;i++) g.lineTo(pts[i][0],pts[i][1]); g.stroke();
     if(im&&im.complete&&im.naturalWidth){ const Wd=im.naturalWidth, Hd=im.naturalHeight, sx=Wd*CORD_X0, sw=Wd*(CORD_X1-CORD_X0), TH=Hd*CORD_Y1; let tot=0; for(let i=1;i<pts.length;i++) tot+=Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1]);
@@ -156,11 +164,12 @@
     if(hot){ g.globalCompositeOperation='lighter'; g.strokeStyle=`rgba(255,120,40,${0.35*hot})`; g.lineWidth=cw*0.5; g.beginPath(); g.moveTo(pts[0][0],pts[0][1]); for(let i=1;i<pts.length;i++) g.lineTo(pts[i][0],pts[i][1]); g.stroke(); }
     g.restore(); }
   // xích từ điểm thế giới A tới B, võng / cong `sag` (đơn vị thế giới, + = võng xuống), lắc `wob`; k = độ dài đã phóng (0..1)
-  function chain(F,A,B,o){ o=o||{}; const k=o.k==null?1:o.k, N=18, P=[]; for(let i=0;i<=N;i++){ const f=i/N*k, x=lerp(A[0],B[0],f), y=lerp(A[1],B[1],f)-(o.sag||0)*4*f*(1-f)+(o.wob||0)*Math.sin(f*9+(o.t||0)*20)*f, z=lerp(A[2],B[2],f); const p=K.proj(F.B,x,y,z); if(!p) return; P.push(p); }
-    const s=(P[0].s+P[P.length-1].s)/2, cw=Math.max(1.2,Math.min(7,(o.w||9)*0.38*s)),   /* trần 7px: xích sát máy không phình thành dải to vắt ngang khung */ d=Math.min(P[0].d,P[P.length-1].d)+(o.d||-10);
+  let CHT_IMG=null;
+  function chain(F,A,B,o){ o=o||{}; CHT_IMG=F.I.CHT||CHT_IMG; const k=o.k==null?1:o.k, N=18, P=[]; for(let i=0;i<=N;i++){ const f=i/N*k, x=lerp(A[0],B[0],f), y=lerp(A[1],B[1],f)-(o.sag||0)*4*f*(1-f)+(o.wob||0)*Math.sin(f*9+(o.t||0)*20)*f, z=lerp(A[2],B[2],f); const p=K.proj(F.B,x,y,z); if(!p) return; P.push(p); }
+    const s=(P[0].s+P[P.length-1].s)/2, cw=Math.max(1.6,Math.min(11,(o.w||9)*0.42*s)),   /* trần 7px: xích sát máy không phình thành dải to vắt ngang khung */ d=Math.min(P[0].d,P[P.length-1].d)+(o.d||-10);
     F.list.push({d, fn:()=>{ const g=F.g; g.save(); g.globalAlpha=o.a==null?1:o.a; cordScreen(g,F.I.CORD,P.map(p=>[p.x,p.y]),cw,o.hot==null?1:o.hot); g.restore(); }}); }
   // xích QUẤN quanh người (vòng xoắn phía trước thân): tâm x,z, từ cao y0 tới y1, bán kính theo bề ngang ảnh
-  function coil(F,x,z,y0,y1,R,turns,o){ o=o||{}; const B=F.B, r=B.r, P=[]; for(let i=0;i<=turns*14;i++){ const a=i/14*TAU, y=lerp(y0,y1,i/(turns*14)), c=Math.cos(a), sn=Math.sin(a);
+  function coil(F,x,z,y0,y1,R,turns,o){ o=o||{}; CHT_IMG=F.I.CHT||CHT_IMG; const B=F.B, r=B.r, P=[]; for(let i=0;i<=turns*14;i++){ const a=i/14*TAU, y=lerp(y0,y1,i/(turns*14)), c=Math.cos(a), sn=Math.sin(a);
       const p=K.proj(B,x+r[0]*c*R-B.f[0]*sn*R*0.5,y,z+r[2]*c*R-B.f[2]*sn*R*0.5); if(!p) return; p.front=sn>0; P.push(p); }
     const s=P[0].s, cw=Math.max(1.1,(o.w||8)*0.38*s), d=P[0].d+(o.d||-14);
     F.list.push({d, fn:()=>{ let run=[]; const flush=()=>{ if(run.length>1) cordScreen(F.g,F.I.CORD,run,cw,o.hot==null?1:o.hot); run=[]; }; for(const p of P){ if(p.front) run.push([p.x,p.y]); else flush(); } flush(); }}); }
@@ -292,7 +301,7 @@
     const R=F.B.r, sx=(px,pz)=>(px-(X+d.x))*R[0]+(pz-(Z+d.z))*R[2], sC=sx(X+c.x,Z+c.z);   // so theo HƯỚNG NGANG máy (Chud ngoài khung vẫn đúng)
     const far=[0,1].map(j=>sx(dF0[j][0],dF0[j][2])*sC<0);
     const tieChain=(j,hd,dA)=>{ const dz=far[j]?70:-10;   // bộ khung XẾP THEO ĐỘ SÂU: xích tay xa lùi sau thân Doge
-      if(t<T.tie) chain(F,hd[j],dA[j],{k:seg(t,T.tie0+0.25,T.tie),sag:-30,t,w:9,hot:1,d:dz}); else { const taut=t>=T.tug?1:0.6; chain(F,hd[j],dA[j],{sag:taut?4:30,wob:t>=T.tug?2.5:0,t,w:9,hot:t>=T.hakiOn?0.6:1,d:dz}); coil(F,dA[j][0],dA[j][2],dA[j][1]-9,dA[j][1]+9,13,2,{w:7}); } };
+      if(t<T.tie) chain(F,hd[j],dA[j],{k:seg(t,T.tie0+0.25,T.tie),sag:-30,t,w:9,hot:1,d:dz}); else { const taut=t>=T.tug?1:0.6; chain(F,hd[j],dA[j],{sag:taut?4:30,wob:t>=T.tug?2.5:0,t,w:9,hot:t>=T.hakiOn?0.6:1,d:dz}); if(!/^DC/.test(dR0.key)) coil(F,dA[j][0],dA[j][2],dA[j][1]-9,dA[j][1]+9,13,2,{w:7}); } };   // ảnh DC*: xích quấn cổ tay đã vẽ sẵn trong ảnh
     if(bound) for(let j=0;j<2;j++) if(far[j]) tieChain(j,hands0,dF0);
     const dashing=t>=T.clash-0.25&&t<T.clash-0.01;   // (anh 12/11) pha lao vào nhau quá nhanh để thấy người → 2 VỆT
     const dodge=W.dash(F,t,T.w2-0.3,T.w2-0.03,[X-330,95,Z],[X-125,55,Z],{w:34,col:'255,190,90'})||W.dash(F,t,T.w2+0.07,T.w2+0.24,[X-110,50,Z],[X+50,75,Z],{w:34,col:'255,190,90'});   // (12/11) lướt tới / áp sát = VỆT vàng, chỉ hiện người lúc CÚI NÉ xích
@@ -332,7 +341,6 @@
     F.list.push({d:5e8, fn:()=>{ const g=F.g, R=(300+2600*eout(Math.min(1,v*0.8)))*P.s; g.save(); g.globalCompositeOperation='lighter';
       let gr=g.createRadialGradient(P.x,P.y,0,P.x,P.y,R); gr.addColorStop(0,`rgba(255,255,255,${0.9*Math.max(0,1-v*0.6)})`); gr.addColorStop(0.3,'rgba(190,120,255,0.5)'); gr.addColorStop(0.7,'rgba(90,150,255,0.25)'); gr.addColorStop(1,'rgba(90,150,255,0)');
       g.fillStyle=gr; g.fillRect(P.x-R,P.y-R,2*R,2*R); g.strokeStyle=`rgba(230,220,255,${0.7*Math.max(0,1-v*0.7)})`; g.lineWidth=Math.max(2,R*0.02); g.beginPath(); g.ellipse(P.x,P.y,R*0.9,R*0.3,0,0,TAU); g.stroke(); g.restore(); }}); }
-  const MUS='assets/audio/dp_akatsuki.mp3', ML=8.3, mseg=(ra,rb,o)=>Object.assign({src:MUS,ra,rb,off:ra%ML,vol:0.5,loop:true,fi:0.1,fo:0.3},o||{});
   // ⏱️ (12/11 tối) NHANH – CHẬM ĐAN XEN: nén theo loại shot — đối mặt ×0.75 · thở / giới thiệu ×0.85 · đánh ×0.92 · ra chiêu ×0.95 · nổ lớn / chuyển cảnh giữ nguyên
   const RETIME=[[0,1.5,0.85],[1.5,4.6,0.95],[4.6,8.5,0.75],[8.5,11,0.92],[11,13.8,0.85],[13.8,24.4,0.75],[24.4,26.4,0.95],[26.4,27.4,0.75],[27.4,31.6,0.95],[31.6,33.3,0.92],[33.3,36.4,1],[36.4,38.8,0.85],[38.8,45.6,0.75],[45.6,48.6,0.85],[48.6,50.2,0.75],[50.2,59.4,0.92],[59.4,62.6,0.75],[62.6,64.4,0.92],[64.4,66.9,0.85],[66.9,69.4,0.95],[69.4,71.9,0.92],[71.9,73.9,0.75],[73.9,75.6,0.92],[75.6,77.65,1]];
   CineKit.film(W.retime(RETIME,{ id:'fin1f1', title:'Final 1 · Fight · Chud + Mlem vs Doge + Clapping Cat', DUR:T.DUR, VW:960, VH:540, fadeIn:false, fadeOut:false,   // vào từ lỗ vòng khói fin1f2 · ra: lao về chân trời sang Gojo vs Pain
@@ -392,7 +400,8 @@
       [T.far,'kn_boom_low',0.8,null,'chân trời nổ loé tím trắng, tiếng nổ dội từ xa'],
       [T.whip,'l2p_whoosh',0.7,null,'máy lia giật về phía chân trời'],[T.tunnel,'l2p_riser',0.7,null,'máy lao về phía trận Gojo vs Pain']],
     duckAuto:{decisive:[T.ram,T.snap]},   // 🎚️ nhạc nhường tiếng: mỗi cú lùi nhạc, cú húc + giật đứt xích thì lặng trước rồi nổ
-    mus:[mseg(T.out,T.quiet,{fi:1.2}), mseg(T.burst,T.haki-0.3,{vol:0.55}), mseg(T.snap,T.DUR,{fo:0.6,vol:0.6})],
+    // 🎵 (13/11 anh chốt: nhạc anime CHẠY DÀI) Kusari Yarou (HxH 2011 — theme xích của Kurapika, đúng trận mẫu anh chọn) · lặng lúc băng nứt · Overtaken (One Piece) từ lúc bật HAKI tới hết — mỗi bài 1 lần, không lặp file
+    mus:[{src:'assets/audio/mus_kusari.m4a',ra:T.out,rb:T.quiet,off:0,vol:0.22,fi:1.2,fo:0.3},{src:'assets/audio/mus_kusari.m4a',ra:T.burst,rb:T.haki-0.3,off:24,vol:0.22,fi:0.1,fo:0.3},{src:'assets/audio/mus_overtaken.m4a',ra:T.haki,rb:T.DUR,off:0.3,vol:0.5,fi:0.2,fo:0.8}],
     theme:t=>theme(t), shots,
     impact:C.negFrames([T.burst,T.snap],0.07,'inv',[T.ram,T.slam]),
     shake:t=>{ let s=0; const h=(a,amp,d)=>{ if(t>=a&&t<a+d) s=Math.max(s,amp*(1-(t-a)/d)); };
