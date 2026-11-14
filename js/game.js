@@ -789,8 +789,8 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     mewingcat: { key:'mewingcat', defaultName:'Mewing Cat - Never Skip Mewing Day', emoji:'😤', color:'#8d6e63', hp:1000, speed:5, size:45, skill:'Không cận chiến. Mỗi 1s đổi giữa dáng thường và 1 trong 4 tư thế mewing ngẫu nhiên. Mỗi lần mewing triệu hồi tượng đá (50HP) lao từ mép sàn vào tấn công địch gần nhất, va trúng vỡ tan gây 60 dmg. Bốc trúng tư thế nào thì sáng ô đó; sáng đủ CẢ 4 tư thế khác nhau mới reset thanh và số tượng mỗi lần triệu hồi +1.' },
     smartguy: { key:'smartguy', defaultName:'Smart Guy', emoji:'🤓', color:'#5c6bc0', hp:1000, speed:5, size:44, skill:'Không cận chiến. Chốt ngay 1 chỉ số IQ ngẫu nhiên (60-200) làm dame bắn thẳng vào địch, chỉ hiệu ứng quay số trên đầu kéo dài ~1.6s (rút ngắn dần theo tốc suy nghĩ) trước khi bắn. Tỉ lệ ra đúng 200 gốc 1%. <80 (LOW IQ): +5% tỉ lệ ra 200 lần sau (không còn tự làm chậm). 80-150 (AVERAGE IQ): không hiệu ứng. >150 (HIGH IQ): bản thân +20% tốc suy nghĩ (roll nhanh hơn) + tỉ lệ roll ra đúng 200 lần sau +2%, cả 2 cộng dồn không giới hạn tới khi ra đúng 200 thì reset. Roll đúng 200: dame x2 = 400 + pháo hoa jackpot. Roll đúng 60: tự dame 60 + tự choáng 3s.' },
     aliencat: { key:'aliencat', defaultName:'Mr. Folk', emoji:'🥾', color:'#ffc400', hp:1000, speed:5, size:49.5, skill:'Chiếu 2 tia laze VÀNG thẳng từ 2 con mắt vào mục tiêu ở CỰ LY TẦM TRUNG — xa nhất gần gấp đôi tầm cận chiến, quá gần hoặc quá xa là mất khoá và phải gây lại từ đầu. Giữ được đúng cự ly càng lâu thì mỗi nhịp bắn càng đau: bắt đầu 10 dmg, cứ mỗi giây giữ được tia lại cộng thêm 20. Mỗi 8s triệu hồi 1 đĩa bay từ ngoài sân bay vào, dừng trên đầu địch gần nhất, dùng tia sóng âm hút địch lên xoay vòng tại chỗ trong 2s rồi bay đi mất.' },
-    wetcat: { key:'wetcat', defaultName:'Wet Cat', emoji:'🌧️', color:'#4fc3f7', hp:1000, speed:2.0125, size:45, skill:'Đi rất chậm, không đánh. Vào trận là trời đổ mưa quanh chỗ nó đứng; đi tới đâu vùng mưa lan tới đó (mưa ở lại cả trận), thỉnh thoảng sét giáng xuống trong vùng mưa. Địch đứng trong mưa mất 30 máu/s; cứ ở trong mưa đủ 2.5s là 50% bị sét đánh: 100 dame + choáng điện 1s, người giật sáng loé lòi xương.' },
-    droolingcat: { key:'droolingcat', defaultName:'Drooling Cats', emoji:'🤤', color:'#4dd0e1', hp:1000, speed:2.0125, size:45, skill:'Đi rất chậm, không đánh. Dãi nhỏ từ mồm xuống chân liên tục, càng lúc càng nhanh, lâu thì thành dòng — đọng thành vũng nước to dần (giọt/dòng không gây dame). Địch đứng trong nước mất 20 máu mỗi 0.5s, Drooling Cat đứng trong nước hồi 10 máu/s. Từ giây 8: địch ngâm nước liên tục 3s bị piranha nhảy lên cắn 80. Từ giây 15: piranha thành cá mập — vây cá bơi chậm trong vũng, địch chạm vây bị cá ngoi lên cắn 200 và mất miếng thịt đúng chỗ bị cắn.' },
+    wetcat: { key:'wetcat', defaultName:'Wet Cat', emoji:'🌧️', color:'#4fc3f7', hp:1000, speed:2.0125, size:45, skill:'Đi rất chậm, không đánh, đi XUYÊN qua meme khác. Vào trận là trời đổ mưa quanh chỗ nó đứng; đi tới đâu vùng mưa lan tới đó (mưa ở lại cả trận), thỉnh thoảng sét giáng xuống trong vùng mưa. Địch đứng trong mưa mất 30 máu mỗi 0.5s; cứ ở trong mưa đủ 2.5s là 50% bị sét đánh: 100 dame + choáng điện 1s, người giật sáng loé lòi xương.' },
+    droolingcat: { key:'droolingcat', defaultName:'Drooling Cats', emoji:'🤤', color:'#4dd0e1', hp:1000, speed:2.0125, size:45, skill:'Đi rất chậm, không đánh. Dãi nhỏ từ mồm xuống chân liên tục, càng lúc càng nhanh, lâu thì thành dòng rồi thành thác — đọng thành vũng nước to dần (giọt/dòng không gây dame). Địch đứng trong nước mất 30 máu mỗi 0.5s, Drooling Cats đứng trong nước hồi 10 máu/s. Hồ chiếm đủ 1/4 sàn thì cá mập xuất hiện: vây cá bơi chậm trong hồ, địch chạm vây bị cá ngoạm, ghì chặt 1.5s, mỗi 0.5s mất 70 (tổng 210).' },
     electricguitarcat: { key:'electricguitarcat', defaultName:'Electric Guitar Cat', emoji:'🎸', color:'#ec407a', hp:1000, speed:5, size:43, skill:'Chơi guitar điện — bắn ra SÓNG ÂM theo đúng NHỊP & CAO ĐỘ thật của bài (màu theo nốt), y hệt cơ chế của Piano Cat. Mỗi luồng sóng 15 dame, đánh tới đâu nốt nhạc nảy tới đó. Tự đổi bài mỗi 8s. Bị đánh còn 30% máu là chơi tới mức đàn bốc cháy — sóng đàn đốt địch thêm 20 dame/s.' },
     scareddog: { key:'scareddog', defaultName:'Scared Dog', emoji:'🐶', color:'#795548', hp:1000, speed:5, size:44, skill:'Không tự tấn công — chỉ di chuyển né tránh bình thường. Sau 1s vào trận, triệu hồi 1 ma đen + 1 ma trắng bay lượn quanh (không có HP, không thể bị tiêu diệt, chỉ biến mất khi Scared Dog chết): mỗi ma di chuyển bằng 40% tốc của 1 meme thường, nảy tường y hệt meme, húc trúng địch (hoặc lính/tượng địch có HP) lại gần thì gây dame — ma trắng 20 dmg, ma đen là Giám Ngục: không lướt xuyên địch, địch lọt vào tầm hút nhỏ (≈1.5× tầm cận chiến, +10%) thì đứng chắn trước mặt HÚT LINH HỒN (nạn nhân tái nhợt, nhoè kéo về phía ma): mỗi 0.3s 1 nhịp, nhịp đầu 10 dmg + chậm 10%, rồi mỗi nhịp +5 dmg và +5% chậm (tối đa 90%), ra khỏi tầm thì reset. Ma trắng có hào quang hồi máu bán kính gấp đôi thân nó, Scared Dog đứng trong đó được hồi 20 HP/s.' },
     boxingcat: { key:'boxingcat', defaultName:'Boxing Cat', emoji:'🥊', color:'#e53935', hp:1000, speed:5, size:44, skill:'' },
@@ -6331,9 +6331,10 @@ const DL_RATE0=1.0, DL_RATE_UP=1.09, DL_RATE_MAX=10, DL_STREAM_RATE=5, DL_FALL_T
 const DL_FULL_T=20, DL_FULL_POW=2.5, DL_FLOW_LEAD=1.2, DL_DROP_MIN=150, DL_VOL_DROP=110, DL_VOL_STREAM=550, DL_VOL_FALL=2600;   // 💧 nước mỗi giọt (diện tích): giọt · dòng · thác
 function _dlFullR(){ return Math.hypot(W/2,(H/2)/DL_POOL_SQ)*1.08; }      // bán kính vũng phủ kín 4 góc sàn (trừ hao mép gợn)
 function _dlFullA(){ const R=_dlFullR(); return Math.PI*R*R; }
+const DL_DRIP_K=1.15;                             // 💧 nhịp nước rơi nhanh hơn 15% (anh dặn 14/11)
 const DL_DROP_K=1.2, DL_GROW_K=1.2;               // 💧 giọt dãi to hơn 20% · 🌊 mỗi giọt đổ thêm 20% nước → vũng lan nhanh hơn 20%
 const DL_POOL_SQ=0.6;                             // vũng nằm trên MẶT SÀN → dẹt theo chiều dọc (phối cảnh)
-const DL_POOL_DMG=20, DL_POOL_HEAL=10;            // dame vũng mỗi nhịp 0.5s (10 → 20 theo yêu cầu 29/10) · hồi máu mỗi giây
+const DL_POOL_DMG=30, DL_POOL_HEAL=10;            // dame vũng mỗi nhịp 0.5s (10 → 20 theo yêu cầu 29/10 → 30 anh nâng 14/11) · hồi máu mỗi giây
 const DL_PIRANHA_AT=1e9, DL_SHARK_AT=10,   // (đã bỏ piranha) · cá mập từ giây 10
  /*cũ*/ DL_PIRANHA_OLD=8, DL_SOAK=3, DL_PIRANHA_DMG=80, DL_SHARK_DMG=200;
 const DL_FIN_SPD=1.5, DL_FIN_K=4.2, DL_FIN_REACH=58, DL_FIN_AGGRO=170, DL_FIN_CD=2, DL_SHARK_HOLD=1.5, DL_SHARK_TICK=0.5, DL_SHARK_TICK_DMG=70;   // 🦈 ngoạm rồi GIẰNG CO 1.5s, mỗi 0.5s −70             // vây bơi chậm; cắn xong 2.5s sau mới có vây mới
@@ -6380,7 +6381,7 @@ function _dlPoolAt(x,y,pad,team,own){
 }
 function _dlDrip(f){
   f._dlRate=Math.min(DL_RATE_MAX,DL_RATE0*Math.pow(DL_STREAM_RATE/DL_RATE0,((f._dlAge||0)/DL_TPS)/DL_FALL_T));   // ⏱️ nhịp nhỏ dãi theo THỜI GIAN: giọt rơi NHANH DẦN liên tục, tới giây 13 thì liền thành THÁC
-  f.cooldown=Math.max(1,Math.round(DL_TPS/f._dlRate));
+  f.cooldown=Math.max(1,Math.round(DL_TPS/(f._dlRate*DL_DRIP_K)));   // 💧 nhỏ nhanh hơn DL_DRIP_K lần → mỗi giây nhiều nước hơn
   f._dlMi=f._dlMi?0:1; const m=_dlMouth(f,f._dlMi), stream=f._dlRate>=DL_STREAM_RATE;   // 2 mồm thay phiên nhỏ dãi
   if(!stream && tick-(f._dlDripSnd??-99)>=12){ f._dlDripSnd=tick; playSample('dl_drip',0.45); }   // 💧 còn nhỏ GIỌT: tiếng tách từng giọt (thành dòng thì chuyển sang tiếng nước chảy lặp, xem _dlTick)
   // 💧 THỂ TÍCH THẬT: mỗi giọt mang đúng lượng nước theo độ to của nó — giọt nhỏ chỉ làm vũng to thêm chút xíu,
@@ -6554,7 +6555,7 @@ function _dlTick(){
 // Quân triệu hồi có máu ăn y hệt (mưa + sét).
 const WC_TPS=60*GAME_SPEED*TIME_SCALE;
 const WC_RAIN_R=92;                       // bán kính mỗi đốm mưa dọc đường đi
-const WC_RAIN_DMG=20;                     // mỗi 0.5s → 40 máu/s
+const WC_RAIN_DMG=30;                     // mỗi 0.5s → 60 máu/s (anh nâng 20 → 30 ngày 14/11)
 const WC_ZAP_EVERY=2.5, WC_ZAP_P=0.5, WC_ZAP_DMG=100, WC_ZAP_STUN=1;
 const WC_CELL=32;
 let wcRain=[];          // {x,y,r,team,owner}
@@ -26712,7 +26713,7 @@ function resetGame(){
 
 // 💥 VA CHẠM GIỮA CÁC CHAR: không cho đè/xuyên qua nhau. Tách về đúng điểm chạm + nảy NHẸ (sát, melee vẫn kịp đánh).
 //    Trừ các char ĐẶC BIỆT (di chuyển/định vị riêng) trong _NO_BOUNCE.
-const _NO_BOUNCE = new Set(['commandercat','loooongcat','evillarry']); // 😈 Larry đi XUYÊN qua mọi meme, không đẩy nhau · 🌈 Nyan Cat đã bỏ khỏi đây — va chạm như meme thường (trước đi xuyên mọi meme)
+const _NO_BOUNCE = new Set(['commandercat','loooongcat','evillarry','wetcat']); // 😈 Larry đi XUYÊN qua mọi meme, không đẩy nhau · 🌧️ Wet Cat cũng đi xuyên qua meme địch (anh dặn 14/11) · 🌈 Nyan Cat đã bỏ khỏi đây — va chạm như meme thường (trước đi xuyên mọi meme)
 // 🥊 char thiên về cận chiến (cần áp sát mới gây dame) — dùng cho cơ chế chống kẹt nảy tường ở moveLogic()
 // 🗿 GIGACHAD +1 STACK: +2% size và +2% dame (anh giảm 11/11, trước 3%) (cộng dồn, không giới hạn) — cả khi BỊ ĐÁNH lẫn khi HÚC TRÚNG.
 //    Vượt mốc GIGACHAD_BIG_MUL: hiệu ứng chuyển dạng NHẸ đúng 1 lần (edge-triggered), không đóng băng/banner.
