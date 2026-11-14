@@ -28,7 +28,8 @@ const WIN = opt('--win', null), CLOSE = opt('--close', null) == null ? null : +o
 const SIM = +opt('--sim', 0), SIMW = +opt('--simw', 360), BEST = +opt('--best', 10), RANDOM = args.includes('--random');
 let SEED = opt('--seed', null) == null ? null : +opt('--seed');
 const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.gif': 'image/gif', '.mp3': 'audio/mpeg', '.ogg': 'audio/ogg', '.wav': 'audio/wav', '.svg': 'image/svg+xml', '.woff2': 'font/woff2', '.ttf': 'font/ttf' };
-const GPU = ['--autoplay-policy=no-user-gesture-required', '--enable-gpu', '--use-angle=metal', '--ignore-gpu-blocklist'];
+const GPU = process.argv.includes('--cpu') ? ['--autoplay-policy=no-user-gesture-required']   // --cpu: vẽ bằng CPU — máy chạy PIN thì GPU headless mở trang rất chậm (38s, quá hạn 30s), trận vẫn y hệt
+  : ['--autoplay-policy=no-user-gesture-required', '--enable-gpu', '--use-angle=metal', '--ignore-gpu-blocklist'];
 
 // mở trang, dựng màn trận như bấm tay (chọn 2 meme → vào màn chờ → START), cài đồng hồ ảo + random có seed
 // ⏱️ độ dài THẬT của mọi file tiếng (ffprobe, lưu cache) — để tiếng trong trang chạy theo đồng hồ ảo, hết bài đúng lúc
