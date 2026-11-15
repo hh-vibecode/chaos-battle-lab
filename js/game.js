@@ -801,7 +801,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     azel: { key:'azel', defaultName:'Azel', emoji:'🎧', color:'#26c6da', hp:1000, speed:4, size:46, skill:'Không đánh thường. Phát NGUYÊN clip beatbox dubstep của Azel (hình + tiếng, khớp nhịp, tốc ×1.15). Mỗi nhịp của bài = 1 đòn: đoạn build-up lưỡi sóng neon chém (14), đoạn đếm ngón tay: giơ ngón nào thì số đó (1→5) bật ra từ bàn tay bay tới địch (14), đoạn vung tay sóng WUB xuyên địch (14); nhịp bass mạnh = sóng chấn động quanh người 32 + hất văng. Trúng cả quân triệu hồi.' },
     duolingo: { key:'duolingo', defaultName:'Duolingo', emoji:'🦉', color:'#58cc02', hp:1000, speed:5, size:44, skill:'Bắn câu chào nhiều thứ tiếng, mỗi tiếng 1 kiểu bay (¡Hola! thẳng 35 · Bonjour~ lượn sóng 35 · こんにちは tách 3 chữ 15/chữ · HALLO! to chậm 50 + đẩy lùi · Привет nảy tường 30). Đồng hồ học muộn 23s: 23→12s dạng thường, 12→0s khoanh tay (bắn nhanh ×1.5, 2 tiếng/lần), mỗi lần trúng đồng hồ tụt 0.3s, hết giờ mà chưa thắng → dạng tối thượng LAST CHANCE tới hết trận: laser mắt quét 120/s, 3s/lần laser lớn 200, bắn 5 tiếng cùng lúc. Mỗi 4s rơi 1 Streak Freeze (tối đa 1 khối trên sàn, Duo không phá được): địch nhặt được thì đồng hồ dừng + Duo bị nhốt trong khối băng 2s.' },
     slapcat: { key:'slapcat', defaultName:'Slap Cat', emoji:'🐈', color:'#7c4dff', hp:1000, speed:5, size:44, skill:'Vừa chạy vừa tích lực, cứ 2s lại đứng khựng lại VẢ một phát. Cú vả mở 2 cổng không gian: một cổng ngay cạnh Slap Cat và một cổng SAU LƯNG đối thủ — tay thò qua cổng vả trúng địch dù nó đứng bất kỳ đâu trên sàn. Sát thương gốc 120, ĐỨNG CÀNG XA ĐÁNH CÀNG ĐAU (xa tối đa +100%). 30% tỉ lệ gây choáng.' },
-    clappingcat: { key:'clappingcat', defaultName:'Clapping Cat', emoji:'👏', color:'#ffb74d', hp:1000, speed:5, size:48.4, skill:'Có nó trong trận thì tường dưới mọc chông và có 1 quả bóng chông lăn qua lại — đâm vào chông hay bóng chông đều mất máu. Sắp lao vào chông thì nó vỗ tay đổi chỗ với địch, để địch lãnh thay. Càng lâu không chạm tường càng chạy nhanh.' },
+    clappingcat: { key:'clappingcat', defaultName:'Clapping Cat', emoji:'👏', color:'#ffb74d', hp:1000, speed:5, size:48.4, skill:'Có nó trong trận thì tường dưới mọc chông và có 1 quả bóng chông lăn qua lại — đâm vào chông hay bóng chông đều mất máu. Sắp lao vào chông thì nó vỗ tay đổi chỗ với địch, để địch lãnh thay. 2vs2: ĐỒNG ĐỘI sắp đâm bẫy thì nó vỗ tay đổi chỗ đồng đội với địch (cả 2 cùng sắp đâm thì ưu tiên cứu chính nó). Càng lâu không chạm tường càng chạy nhanh.' },
     evilgary: { key:'evilgary', defaultName:'Evil Gary', emoji:'😈', color:'#b71c1c', hp:1000, speed:5, size:44, skill:'Đầu trận chỉ là con mèo xám ngồi im HÚT LINH HỒN: cứ mỗi giây 1 linh hồn khói đen từ góc xa nhất ngoài sân bay thẳng vào người nó (ai đứng chắn đường ăn 50 dame), mỗi linh hồn hút được vạch thêm 1 cánh ngôi sao ác quỷ trên đầu. Đủ 5 cánh: con quỷ đã nhập hiện lên sau lưng, sàn hoá CÕI LINH HỒN — khói ma lướt ngang sân, và cứ 5s một bầy linh hồn bò từ 4 góc tới bám địch (mỗi đợt đông hơn), bám được là gây dame và gieo độc vĩnh viễn, cộng dồn không giới hạn.' },
     mosquitoviolin: { key:'mosquitoviolin', defaultName:'Violin Mosquito', emoji:'🦟', color:'#ff5252', hp:1000, speed:5, size:34, skill:'Vào trận chưa nối được dây thì +20% tốc chạy và vo ve liên tục. LẦN ĐẦU chạm vào một kẻ địch, nó cắm một sợi dây mảnh vào con đó SUỐT TRẬN (chạm được bao nhiêu con thì nối bấy nhiêu dây). Nối được dây đầu tiên là bắt đầu kéo violin: mỗi nhịp của bài nhạc, một xung âm hình nhịp tim chạy dọc dây và nổ vào kẻ địch gây sát thương. Tần suất sát thương chính là nhịp của bài hát.' },
     scaredhamster: { key:'scaredhamster', defaultName:'Scared Hamster', emoji:'🐹', color:'#c8a27a', hp:1000, speed:5, size:44, skill:'Không tự đánh — chỉ bò khắp sàn. Bò vào gần góc sàn thì dựa sát góc tường run rẩy sợ hãi, đứng yên tới khi bóng tối đi mất hẳn rồi bò tiếp (mỗi lần nép góc chỉ 1 lượt tay); từ góc xa nhất 2 bàn tay bóng tối móng dài từ từ vươn ra lần theo nó (nhanh hơn 15%, không ai cản thì ~4.4s tới nơi, bóng tồn tại 6s). Tay vớ được địch chắn đường thì ngẫu nhiên: bóp chặt ngang người giữ méo móp 1.5s (110 dmg mỗi 0.5s), tóm nhấc bổng rồi vung đập mạnh vào tường ở góc sàn xa nhất (trừ góc hamster đang nép, 280 dmg) hoặc tung ngang qua tay kia rồi tay kia bóp mạnh tiếp (110 dmg mỗi 0.5s trong 1.5s), xong thì 2 tay rụt về tường. Tay chạm được hamster thì nó cũng bị xử y như vậy (cùng mức dame).' },
@@ -13780,28 +13780,28 @@ let clapFx=[];
 // ⚡ tiến trình dịch chuyển: loé dần → đổi chỗ → loé tắt dần
 function _clpTpTick(f){
   const P=f._tpPend; if(!P) return;
-  const e=P.e;
-  if(f.dead || !e || e.dead){ f._tpPend=null; f._tpGlowA=0; if(e) e._tpGlowA=0; return; }
+  const e=P.e, a=P.a||f;   // a = con được cứu (chính Clapping Cat, hoặc ĐỒNG ĐỘI ở 2vs2) — đổi chỗ a ↔ địch e
+  if(f.dead || a.dead || !e || e.dead){ f._tpPend=null; f._tpGlowA=0; a._tpGlowA=0; if(e) e._tpGlowA=0; return; }
   P.t++;
   // 🛟 đang chờ đổi chỗ mà NHỊP TỚI sẽ va bóng chông / chông tường dưới → đổi chỗ LUÔN, không chờ hết
-  { const sp=Math.hypot(f.vx,f.vy), b=_clpBall();
-    const hitBall = b && Math.hypot(b.x-f.x,b.y-f.y) < b.R*CLP_BALL_HIT+f.size+sp*2+4;
-    const hitWall = _spkExt(2)>0.5 && H-f.y-f.size < CLP_SPK_H+sp*2 && f.vy>0;
+  { const sp=Math.hypot(a.vx,a.vy), b=_clpBall();
+    const hitBall = b && Math.hypot(b.x-a.x,b.y-a.y) < b.R*CLP_BALL_HIT+a.size+sp*2+4;
+    const hitWall = _spkExt(2)>0.5 && H-a.y-a.size < CLP_SPK_H+sp*2 && a.vy>0;
     if((hitBall||hitWall) && P.t<P.T){ if(P.t<P.C) playSample('clap_cat',1.0); P.t=P.T; P.C=-1; } }
   if(P.t===P.C) playSample('clap_cat',1.0);                       // 👏 2 tay chạm (Vỗ tay 3) → tiếng vỗ
-  if(P.t>=P.C){ const k=(P.t-P.C)/Math.max(1,P.T-P.C); f._tpGlowA=k; e._tpGlowA=k; }   // loé dần tới lúc đổi chỗ
+  if(P.t>=P.C){ const k=(P.t-P.C)/Math.max(1,P.T-P.C); a._tpGlowA=k; e._tpGlowA=k; }   // loé dần tới lúc đổi chỗ
   if(P.t<P.T) return;
   const _sm=Math.max(6,Math.round(0.15*_clpTps()));   // ~0.15s
-  for(const [u,o] of [[f,e],[e,f]]){
+  for(const [u,o] of [[a,e],[e,a]]){
     clapFx.push({k:'smear',x:u.x,y:u.y,size:u.size,L:u._lastSprite,dirX:Math.sign(o.x-u.x)||1,t:0,max:_sm,seed:Math.random()*9});   // nhoè tan về phía chỗ sẽ tới
     clapFx.push({k:'slines',x:u.x,y:u.y,size:u.size,dirX:Math.sign(o.x-u.x)||1,n:15,t:0,max:_sm,seed:Math.random()*9});           // vạch tốc độ ở chỗ cũ
     clapFx.push({k:'slines',x:o.x,y:o.y,size:u.size,dirX:Math.sign(o.x-u.x)||1,n:8,t:0,max:Math.round(_sm*0.8),seed:Math.random()*9});    // chỗ mới: vài vạch ngắn rồi thân hiện rõ
   }
-  [f.x,e.x]=[e.x,f.x]; [f.y,e.y]=[e.y,f.y]; [f.vx,e.vx]=[e.vx,f.vx]; [f.vy,e.vy]=[e.vy,f.vy];   // đổi chỗ + đổi luôn quán tính
-  { const la=f._lastAngle; f._lastAngle=e._lastAngle; e._lastAngle=la; }
+  [a.x,e.x]=[e.x,a.x]; [a.y,e.y]=[e.y,a.y]; [a.vx,e.vx]=[e.vx,a.vx]; [a.vy,e.vy]=[e.vy,a.vy];   // đổi chỗ + đổi luôn quán tính
+  { const la=a._lastAngle; a._lastAngle=e._lastAngle; e._lastAngle=la; }
   playSample('clap_tele',1.0);   // 🌀 tiếng dịch chuyển (dbz-teleport)
   const A=Math.max(4,Math.round(0.15*_clpTps()));
-  for(const u of [f,e]){ u._tpArrive=A; u._tpArriveMax=A; u._tpGlowA=1; }
+  for(const u of [a,e]){ u._tpArrive=A; u._tpArriveMax=A; u._tpGlowA=1; }
   f._tpPend=null;
 }
 // bản tô 1 màu của ảnh nhân vật (để loé sáng đúng hình người) — cache theo màu
@@ -13892,11 +13892,21 @@ function _spkWallHit(f,w){
   // (đã bỏ chảy máu — chông chỉ gây 120 lúc đâm vào)
   spawnParticles(f.x,f.y,'#c62828',10,false,true); addShake(5,8);   // (tiếng: takeDamage tự phát đúng tiếng theo mức dame)
 }
+// u có SẮP đâm vào bẫy không: chông tường (còn cách mũi chông 1 khoảng gần, tính theo tốc đang chạy + quãng chạy trong lúc vỗ ~0.25s)
+// hoặc bóng chông (DỰ ĐOÁN cả u lẫn bóng đều đang chạy — trong khoảng từ lúc vỗ tới lúc đổi chỗ mà 2 bên chạm nhau thì vỗ ngay)
+function _clpTrapSoon(u){
+  const s=u.size, m=13+s*0.7+Math.hypot(u.vx,u.vy)*(1.5+CLP_TP_AT*_clpTps());
+  if((_spkExt(3)>0.5 && u.x-s<m && u.vx<0)||(_spkExt(1)>0.5 && W-u.x-s<m && u.vx>0)||(_spkExt(0)>0.5 && u.y-s<m && u.vy<0)||(_spkExt(2)>0.5 && H-u.y-s<m && u.vy>0)) return true;   // chỉ tường đang có chông
+  const b=_clpBall(); if(!b) return false;
+  const Hh=(CLP_TP_AT+0.08)*_clpTps(), lim=b.R*CLP_BALL_HIT+s+s*0.3;
+  for(let k=0;k<=8;k++){ const tt=Hh*k/8; if(Math.hypot((b.x+b.vx*tt)-(u.x+u.vx*tt), (b.y+b.vy*tt)-(u.y+u.vy*tt)) < lim) return true; }
+  return false;
+}
 // mỗi tick (Fighter.update): đếm hồi chiêu chông + kiểm tra vỗ tay
 function _clpTick(f){
   if((f._spkCD||0)>0) f._spkCD--;
   if((f._tpArrive||0)>0){ f._tpArrive--; f._tpGlowA=f._tpArrive/f._tpArriveMax; }   // loé tắt dần sau khi đổi chỗ — mỗi con tự đếm
-  else if((f._tpGlowA||0)>0 && !fighters.some(c=>c.type==='clappingcat' && !c.dead && c._tpPend && (c===f || c._tpPend.e===f))) f._tpGlowA=0;   // Clapping Cat chết giữa lúc loé → tắt luôn
+  else if((f._tpGlowA||0)>0 && !fighters.some(c=>c.type==='clappingcat' && !c.dead && c._tpPend && ((c._tpPend.a||c)===f || c._tpPend.e===f))) f._tpGlowA=0;   // Clapping Cat chết giữa lúc loé → tắt luôn
   if(f.type!=='clappingcat') return;
   _clpTpTick(f);
   if(f===_spkHolder()){ _clpBallTick(); _clpSummonTraps(); _spkState(); }   // (chông chỉ ở tường dưới — không đổi tường nữa)
@@ -13908,24 +13918,17 @@ function _clpTick(f){
   if((f._clapAnim||0)>0) f._clapAnim--;
   if((f._clapCD||0)>0){ f._clapCD--; return; }
   if(f._isHardCC()) return;
-  // vỗ khi CÒN CÁCH mũi chông 1 khoảng gần (không đợi chạm): tính từ mũi chông (nhô vào 13), cách ~0.7 cỡ người + theo tốc đang chạy
-  const s=f.size, m=13+s*0.7+Math.hypot(f.vx,f.vy)*(1.5+CLP_TP_AT*_clpTps());   // + quãng chạy trong lúc vỗ (đổi chỗ sau ~0.25s)
-  const near=(_spkExt(3)>0.5 && f.x-s<m && f.vx<0)||(_spkExt(1)>0.5 && W-f.x-s<m && f.vx>0)||(_spkExt(0)>0.5 && f.y-s<m && f.vy<0)||(_spkExt(2)>0.5 && H-f.y-s<m && f.vy>0);   // chỉ tường đang có chông
-  let nearBall=false;
-  { const b=_clpBall(); if(b){
-      // 🔮 DỰ ĐOÁN trước: cả Clapping Cat lẫn quả bóng đều đang chạy — nếu trong khoảng thời gian từ lúc vỗ tới lúc đổi chỗ
-      //    (CLP_TP_AT + chút dư) 2 bên sẽ CHẠM nhau thì vỗ NGAY từ bây giờ (không đợi tới sát mới vỗ)
-      const H=(CLP_TP_AT+0.08)*_clpTps(), lim=b.R*CLP_BALL_HIT+s+s*0.3;
-      for(let k=0;k<=8 && !nearBall;k++){ const tt=H*k/8;
-        if(Math.hypot((b.x+b.vx*tt)-(f.x+f.vx*tt), (b.y+b.vy*tt)-(f.y+f.vy*tt)) < lim) nearBall=true; } } }   // sắp va vào bóng chông
-  if(!near && !nearBall) return;
+  // 🛟 ai sắp đâm bẫy (chông / bóng chông) thì cứu: ƯU TIÊN chính nó; ở 2vs2 nó KHÔNG sắp đâm mà ĐỒNG ĐỘI sắp đâm → vỗ tay đổi chỗ đồng đội với địch (anh dặn 15/11)
+  let a=_clpTrapSoon(f) ? f : null;
+  if(!a && duoCtx) a=fighters.find(o=>o!==f && !o.dead && o.team===f.team && !o._cdgPhase && _clpTrapSoon(o)) || null;
+  if(!a) return;
   let e=null, bd=Infinity;
-  for(const o of fighters){ if(o===f||o.dead||o.team===f.team||o._cdgPhase) continue; const d=Math.hypot(o.x-f.x,o.y-f.y); if(d<bd){bd=d;e=o;} }
+  for(const o of fighters){ if(o===f||o===a||o.dead||o.team===f.team||o._cdgPhase) continue; const d=Math.hypot(o.x-a.x,o.y-a.y); if(d<bd){bd=d;e=o;} }   // địch gần con được cứu nhất lãnh thay
   if(!e) return;
   // 👏⚡ TRÌNH TỰ (~0.25s): Vỗ tay 1 → 2 → [0.16s] Vỗ tay 3 = 2 tay CHẠM: tiếng vỗ + 2 con bắt đầu loé màu nhân vật
   //    → [0.36s] ĐỔI CHỖ kiểu dịch chuyển DBZ (nhoè + vạch tốc độ) + tiếng teleport. Xem _clpTpTick.
   const T=Math.max(6,Math.round(CLP_TP_AT*_clpTps()));
-  f._tpPend={ e, t:0, T, C:Math.round(CLP_CLAP_AT*_clpTps()) };
+  f._tpPend={ e, a, t:0, T, C:Math.round(CLP_CLAP_AT*_clpTps()) };
   const _cdMul=Math.pow(0.95,(f._clpAgeT||0)/_clpTps());          // ⏩ mỗi giây trôi qua trong trận: hồi chiêu vỗ tay −5% (nhân dồn)
   f._clapCD=Math.round(CLP_CD_S*_clpTps()*_cdMul)+T; f._clapAnim=Math.max(3,Math.round(CLP_ANIM_S*_clpTps()));
 }
