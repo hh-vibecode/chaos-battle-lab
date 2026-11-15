@@ -278,6 +278,7 @@ window.ASSET_GROUP={
 "assets/img/boxingcat/BX_V_25.webp": "boxingcat",
 "assets/img/boxingcat/BX_IMPACT.webp": "boxingcat",
 "assets/audio/bx_bell.mp3": "boxingcat",
+"assets/audio/ny_boing.mp3": "nyancat",
 "assets/audio/bx_nostalgia.mp3": "boxingcat",
 "assets/img/violinbee/VB_1.png": "violinbee",
 "assets/img/violinbee/VB_2.png": "violinbee",

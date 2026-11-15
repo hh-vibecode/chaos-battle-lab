@@ -361,6 +361,10 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
   Trong raid tiếng meme khác ×0.45, nhạc theme meme khác tắt (`_rfSndVol` trong playSample; meme nhạc vẫn bắt nhịp nhưng câm — `_playPianoSong`).
 - Ảnh CHỜ ANH (prompt ở Desktop `FriendRaid_anh_can_ve/PROMPT.txt`): `assets/img/friend/RF_MOUTH.png` (há mồm to: hút + gầm), `RF_CHEW1/2.png` (nhai). Chưa có thì dùng tạm khung cười.
 
+## 🌈 Nyan Cat làm lại (15/11/2026) — `NY_*`, khối rainbowTrails trong js/game.js
+- Dải cầu vồng ĐANG KÉO chạm địch: 150 (dải tan). Dải ĐÃ NỐI = vật cản THẠCH co giãn: địch chạm bị nảy bật ngược theo quán tính (phản xạ vận tốc, tối thiểu 1.2× tốc chạy), mất 50; lần chạm thứ 3 dải đứt (mất 100, tiếng se_glass, mảnh cầu vồng văng).
+  Dải lún + rung nảy lại chỗ bị đè (`_drawPixelRainbow(path,alpha,J)`). Tiếng nảy `ny_boing`. Không còn +3% tốc khi chạm tường. Long Cat chạm dải thì không bị nảy.
+
 ## 🥊 Boxing Cat làm lại hình + VFX (15/11/2026) — khối `BX_*` / `_bx*` trong js/game.js
 - Giữ cơ chế tích dame cũ. VFX cũ (quả cầu chấn động + nứt kính Râu Trắng, `_bxFxAt`) nay CHỈ của Gigachad; Boxing Cat dùng `_bxAuraDraw` (hào quang shader cam → đỏ → thêm lửa đen),
   vòng cảnh báo đập nhịp tim + tàn lửa + mốc ≥250 chữ ゴゴゴ & viền màn đỏ; cú đấm `_bxPunchFx` (vệt nắm đấm, `BX_IMPACT` ảnh GPT nền đen cộng sáng, vạch tốc độ mảnh, ≥180 sóng bóp méo `_bxShockPost`, ≥250 khung đảo màu 2 khung).
@@ -378,6 +382,11 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
   → chui vào cổng 1s (`LC_DIVE_T`, ảnh đứng thu nhỏ trượt vào giữa màn + ô pixel hút vào) → trồi ra (`_lcInit`, tiếng 8-bit `lc_link`): ĐẦU ra trước, thân ra được 1 đoạn = con mèo trong ảnh (2×size) thì đuôi mới ra rồi CẮM ở cổng (đuôi ảo `st` âm = còn trong cổng, chỗ sát cổng mờ dần)
   → bò DỌC LÊN theo tường, hết cột quay đầu chữ U sang cột kế bên (góc trái lấp sang phải, góc phải ngược lại; cột cách nhau đúng bề dày thân, cột đầu/cuối + vòng U sát tường). KHÔNG đuổi địch (bản bò cong săn địch anh chê "loạn").
 - (13/11 tối) KHÔNG đẩy địch xuyên qua thân: địch luôn bị giữ ở phía sân CÒN TRỐNG (bên kia cột đang bò, `_lcCols`/`_lcPC`), đầu húc thì đẩy tới trước / lách sang khoảng trống; hết chỗ đứng → NỔ TUNG (`_lcPop`). Tốc gốc 3 (anh: chậm hơn 40%).
+- (15/11 tối, anh: "đẩy địch vào trong các kiểu, check lại rất kĩ") — 3 lỗi gốc đã sửa:
+  ① vệt thân + cắn + dồn ép chạy trong đoạn code chỉ chạy khi CÓ MỤC TIÊU → địch chết / tàng hình là vệt ngừng ghi, thân nối CHÉO tới đầu. Giờ `_lcTick` + `_lcSqueeze` chạy ở tầng THẾ GIỚI mỗi nhịp sau `_bounceFighters` (và cả lúc đóng băng màn hình).
+  ② địch tự đi vào thân chỉ bị đẩy ra 9px/nhịp → giờ đặt thẳng ra mép trống; làn trước đầu không cho lấn sang cột cũ; thêm lớp "cả thân là khối đặc" (đẩy ra vuông góc khúc thân, kể cả khúc quay chữ U), kẹt giữa các khúc → nổ.
+  ③ Doge biến hình phình to trong lúc đóng băng màn → lấn vào thân. Kiểm tự động: đo mỗi nhịp khoảng cách địch ↔ thân (đấu Doge / Catvader / Sus Dog / Pop Cat / 2vs2) → 0 lần lấn.
+- (15/11) Mỗi lần cắn hồi 20 máu (`LC_BITE_HEAL`); MIỄN NHIỄM mọi khống chế (`_lcCCFree` xoá sạch choáng/chậm/đóng băng/trượt/rối/hất bay mỗi tick, đầu update); không bị dải thạch Nyan nảy.
 - Đầu chạm địch: cắn 60 + tốc ×1.05 (trần ×3; 60 / hồi 0.5s / trần em tự đặt). Thân = tường chặn người + đạn (`_lcBlockShot`), không dame; chỉ đầu ăn dame (`_lcRayBlock`). Kín sân → ép tan địch còn sống (giữ từ bản cũ). Góc cổng chọn theo bên đứng, KHÔNG Math.random.
 - Ảnh: avatar = bản GPT PHÓNG NÉT trung thành ảnh meme gốc (đúng dáng 1 tay duỗi, 1 tay giơ cạnh mặt). Ảnh có tay CHỈ dùng cho con mèo đi bộ trước khi vào cổng (anh dặn). ĐẦU rắn `LC_HEAD` (ảnh nhìn từ trên xuống, 2 chân trước gập) XOAY THEO HƯỚNG BÒ, tai chĩa về trước — đã thử mặt cố định nhìn ra màn hình và đầu có tay cắt từ avatar, anh đều bỏ ("đầu cố định trông không hợp lý").
   Đuôi `LC_TAIL` (ngắn, chỉ nhỉnh hơn chân sau) + khúc thân lặp `LC_BODY` cắt từ 1 ảnh GPT nhìn từ trên xuống; thân gầy 15% (`LC_BODY_K=0.85`); lát ở khúc cua nới rộng theo độ gắt (hết răng lược). Tiếng cắn `lc_chomp`. Info: "Nokia 1280 called. It wants its snake back."
