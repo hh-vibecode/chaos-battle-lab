@@ -24,6 +24,8 @@ ap.add_argument('--model', default='birefnet-general-lite'); ap.add_argument('--
 ap.add_argument('--tmp', default=None, help='thư mục làm việc (giữ lại khung tách nền để chạy lại bước sau không phải tách lại)')
 ap.add_argument('--pick', default=None, help='chỉ xuất các khung này (đếm từ 1 trong đoạn đã cắt), vd 1,3-10,12')
 ap.add_argument('--quality', type=int, default=92)
+ap.add_argument('--warm-gray', action='store_true', help='nhuộm lại mảng XÁM nhoè (thiếu sáng) theo màu lông lân cận — dùng khi lông có màu (mèo cam…)')
+ap.add_argument('--keep-blur', action='store_true', help='giữ vùng nhoè chuyển động bán trong suốt như AI tách ra (mặc định làm đặc lõi để khỏi trông như khuyết)')
 ap.add_argument('--no-shadow-trim', action='store_true', help='giữ nguyên vùng tối sát đáy (mặc định xoá: bóng nhân vật trên mặt đất hay dính vào chân)')
 ap.add_argument('--drop-edge', action='store_true', help='bỏ khung có nhân vật CHẠM mép trái / phải / trên của video (bị cắt mất 1 phần)')
 a = ap.parse_args()
@@ -84,6 +86,13 @@ def clean(im):
             if n > 1: sz2 = ndimage.sum(m, lab, range(1, n + 1)); keep = lab == (1 + int(np.argmax(sz2))); al = np.where(ndimage.binary_dilation(keep, iterations=4), al, 0); m = al > 0.5
     holes = ndimage.binary_fill_holes(m) & ~m          # lỗ bị khoét trong thân → đặc lại
     al = np.where(holes, 1.0, al)
+    # 🖐️ vùng NHOÈ CHUYỂN ĐỘNG (tay đang vung) bị tách thành bán trong suốt → trông như KHUYẾT 1 mảng, lộ nền.
+    #    Gom vùng ≥ 0.2 alpha, đóng các chỗ lõm nhỏ, lấp kín → phần lõi (lùi vào 3px) đặc lại ≥ 0.95, mép ngoài vẫn mềm
+    if not a.keep_blur:
+        disk = np.hypot(*np.mgrid[-5:6, -5:6]) <= 5
+        sol = ndimage.binary_fill_holes(ndimage.binary_closing(al > 0.2, structure=disk, iterations=2))
+        core = ndimage.binary_erosion(sol, iterations=3)
+        al = np.where(core, np.maximum(al, 0.95), al)
     # màu vùng mép / bán trong suốt: lấy màu trung bình có trọng số của phần THÂN ĐẶC lân cận (normalized convolution)
     solid = (al > 0.92).astype(np.float32)
     rgb = x[..., :3]
@@ -92,6 +101,19 @@ def clean(im):
     fill = np.where(den > 1e-3, num / np.maximum(den, 1e-3), rgb)
     w = np.clip((0.92 - al) / 0.6, 0, 1)[..., None]     # càng trong suốt càng lấy màu thân (giữ nguyên chỗ gần đặc)
     rgb = rgb * (1 - w) + fill * w
+    if a.warm_gray:   # 🎨 mảng XÁM do nhoè + thiếu sáng (tay vung khuất đèn) trông như KHUYẾT → nhuộm lại theo màu lông có màu lân cận
+        mx, mn = rgb.max(-1), rgb.min(-1); sat = (mx - mn) / np.maximum(mx, 1)
+        furw = ((sat > 0.28) & (al > 0.9)).astype(np.float32)
+        gmean = (rgb * furw[..., None]).sum((0, 1)) / max(1, furw.sum())   # màu lông trung bình cả con (dự phòng)
+        fn = np.stack([ndimage.gaussian_filter(rgb[..., c] * furw, 28) for c in range(3)], -1); fd = ndimage.gaussian_filter(furw, 28)[..., None]   # mảng xám rộng → lấy màu lông ở phạm vi rộng
+        wf = np.clip(fd / 0.05, 0, 1); fur = (fn / np.maximum(fd, 1e-4)) * wf + gmean * (1 - wf)
+        lum = rgb.mean(-1)
+        gm = (sat < 0.25) & (lum > 35) & (lum < 190) & (al > 0.5)       # xám / nâu xám tối: bỏ qua bụng trắng sáng
+        lab, n = ndimage.label(gm)                                        # chỉ mảng xám LỚN (tay khuất bóng) — mắt, mũi, ria nhỏ thì giữ nguyên
+        if n: szs = ndimage.sum(gm, lab, range(1, n + 1)); gm = np.isin(lab, [i + 1 for i, v in enumerate(szs) if v >= 0.012 * max(1, (al > 0.5).sum())])
+        g = np.clip((0.25 - sat) / 0.25, 0.35, 1) * gm
+        g = ndimage.gaussian_filter(g.astype(np.float32), 2)[..., None] * 0.9
+        rgb = rgb * (1 - g) + fur * (lum[..., None] / np.maximum(fur.mean(-1, keepdims=True), 1)).clip(0.6, 1.4) * g   # giữ sáng tối gốc, chỉ thay sắc
     return np.dstack([rgb, al * 255]).clip(0, 255).astype(np.uint8)
 
 arrs = [clean(Image.open(os.path.join(cut, os.path.basename(f)))) for f in files]

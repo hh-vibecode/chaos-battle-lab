@@ -793,7 +793,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     droolingcat: { key:'droolingcat', defaultName:'Drooling Cats', emoji:'🤤', color:'#4dd0e1', hp:1000, speed:2.0125, size:45, skill:'Đi rất chậm, không đánh. Dãi nhỏ từ mồm xuống chân liên tục, càng lúc càng nhanh, lâu thì thành dòng rồi thành thác — đọng thành vũng nước to dần (giọt/dòng không gây dame). Địch đứng trong nước mất 30 máu mỗi 0.5s, Drooling Cats đứng trong nước hồi 10 máu/s. Hồ chiếm đủ 1/4 sàn thì cá mập xuất hiện: vây cá bơi chậm trong hồ, địch chạm vây bị cá ngoạm, ghì chặt 1.5s, mỗi 0.5s mất 70 (tổng 210).' },
     electricguitarcat: { key:'electricguitarcat', defaultName:'Electric Guitar Cat', emoji:'🎸', color:'#ec407a', hp:1000, speed:5, size:43, skill:'Chơi guitar điện — bắn ra SÓNG ÂM theo đúng NHỊP & CAO ĐỘ thật của bài (màu theo nốt), y hệt cơ chế của Piano Cat. Mỗi luồng sóng 15 dame, đánh tới đâu nốt nhạc nảy tới đó. Tự đổi bài mỗi 8s. Bị đánh còn 30% máu là chơi tới mức đàn bốc cháy — sóng đàn đốt địch thêm 20 dame/s.' },
     scareddog: { key:'scareddog', defaultName:'Scared Dog', emoji:'🐶', color:'#795548', hp:1000, speed:5, size:44, skill:'Không tự tấn công — chỉ di chuyển né tránh bình thường. Sau 1s vào trận, triệu hồi 1 ma đen + 1 ma trắng bay lượn quanh (không có HP, không thể bị tiêu diệt, chỉ biến mất khi Scared Dog chết): mỗi ma di chuyển bằng 40% tốc của 1 meme thường, nảy tường y hệt meme, húc trúng địch (hoặc lính/tượng địch có HP) lại gần thì gây dame — ma trắng 20 dmg, ma đen là Giám Ngục: không lướt xuyên địch, địch lọt vào tầm hút nhỏ (≈1.5× tầm cận chiến, +10%) thì đứng chắn trước mặt HÚT LINH HỒN (nạn nhân tái nhợt, nhoè kéo về phía ma): mỗi 0.3s 1 nhịp, nhịp đầu 10 dmg + chậm 10%, rồi mỗi nhịp +5 dmg và +5% chậm (tối đa 90%), ra khỏi tầm thì reset. Ma trắng có hào quang hồi máu bán kính gấp đôi thân nó, Scared Dog đứng trong đó được hồi 20 HP/s.' },
-    boxingcat: { key:'boxingcat', defaultName:'Boxing Cat', emoji:'🥊', color:'#e53935', hp:1000, speed:5, size:44, skill:'Đấm gió khởi động (nhạc nostalgia): mỗi 0.5s cú đấm kế tiếp mạnh thêm, lửa quanh người to dần, càng tích càng nguy hiểm. Mỗi lượt tích: 2 lần đầu địch vào tầm thì dịch chuyển tới chỗ xa địch nhất để giữ cú đấm; hết 2 lần né thì chuông võ đài ting ting ting — lần thứ 3 địch vào tầm là ăn trọn cú đấm đã tích. Đấm xong nghỉ 0.5s rồi tích lại, lượt sau mỗi nhịp cộng thêm nhiều hơn. Trên 200 dame: choáng.' },
+    boxingcat: { key:'boxingcat', defaultName:'Boxing Cat', emoji:'🥊', color:'#e53935', hp:1000, speed:5, size:44, skill:'Đấm gió khởi động (nhạc nostalgia): mỗi nhịp (~0.42s) cú đấm kế tiếp mạnh thêm, khởi điểm 50 dame, mức cộng mỗi nhịp bắt đầu +10 và cứ mỗi 4s trận trôi qua thêm +5. Lửa quanh người to dần, càng tích càng nguy hiểm. Mỗi lượt tích: 2 lần đầu địch vào tầm thì dịch chuyển tới chỗ xa địch nhất để giữ cú đấm; hết 2 lần né thì chuông võ đài ting ting ting — lần thứ 3 địch vào tầm là ăn trọn cú đấm đã tích. Đấm xong nghỉ 0.42s rồi tích lại từ 50. Trên 200 dame: choáng.' },
     poordog: { key:'poordog', defaultName:'Poor Dog', emoji:'🥣', color:'#c8a165', hp:1000, speed:5, size:39.6, skill:'' },
     ninjacat: { key:'ninjacat', defaultName:'Ninja Cat', emoji:'🥷', color:'#546e7a', hp:1000, speed:5, size:45, skill:'' },
     saiyanmarmot: { key:'saiyanmarmot', defaultName:'Scream Marmot - The Last Saiyan', emoji:'🦫', color:'#ffca28', hp:1000, speed:5, size:40.5, skill:'Cận chiến ĐẨY: chạm địch là xô văng ra như mấy con marmot xô nhau (45 dame). Cứ đi 2s lại đứng gồng 1.5s; lần gồng thứ 3 hét AAAH dài 3s rồi hoá SUPER SAIYAN tới hết trận. Super Saiyan: mỗi lần chạm để đẩy thì khựng 0.5s rồi bắn địch thẳng vào tường cực nhanh, ghim vào tường (160 dame), tường chỗ đó nứt vỡ, rơi mảnh còn lại mép lởm chởm. Lỗ tường vỡ đủ to mà địch bị bắn trúng đúng chỗ đó → văng ra khỏi sàn, thua luôn.' },
@@ -5493,7 +5493,7 @@ let loadingArrows=[]; // Loading Cat — mũi tên phép vĩnh viễn, xuyên qu
 // >200 dame: choáng. VFX kiểu Râu Trắng (Gura Gura): quả cầu chấn động trắng + KHÔNG GIAN NỨT VỠ như kính — chia 3 bậc ≥100 · ≥180 · ≥250.
 const GC_PUNCH=new Image(); GC_PUNCH._noMask=true; GC_PUNCH._byH=1; GC_PUNCH.onload=()=>{ GC_PUNCH._crop={sx:0,sy:0,sw:GC_PUNCH.naturalWidth,sh:GC_PUNCH.naturalHeight}; }; GC_PUNCH.src='assets/img/gigachad/GC_PUNCH_STRAIGHT.webp';   // 🗿 dáng ĐẤM THẲNG (anh gửi 30/10; đã bỏ đấm móc) — CHỈ dùng ở dạng KHỔNG LỒ · đã tách nền, cắt ngang đùi như avatar khổng lồ · _byH: co theo CHIỀU CAO (ảnh rộng ngang, không thì thân bé đi)
 const GC_FIST_R=0.16;   // 🗿 bán kính nắm đấm trong ảnh đấm thẳng ≈ 0.16 × size (ảnh cao 2×size, nắm đấm ~140/900px)
-const BX_BASE=50, BX_STEP=30, BX_REST=30, BX_START=60, BX_INC0=10, BX_INC_ADD=5, BX_STUN_DMG=200, BX_STUN_T=60;
+const BX_BASE=50, BX_STEP=30, BX_REST=30, BX_START=60, BX_INC0=10, BX_INC_ADD=5, BX_INC_EVERY_S=4, BX_STUN_DMG=200, BX_STUN_T=60;   // INC tăng THEO THỜI GIAN: mỗi 4s trận +5 (anh đổi 15/11 — trước +5 sau mỗi cú đấm)
 let bxFx=[];
 // 🥊 34 khung KHỞI ĐỘNG tách từ VIDEO THẬT anh gửi (TikTok @zzking982, 15/11/2026 — tools/vid2sprite.py: rembg BiRefNet, lấp lỗ, khử màu nền ở vùng nhoè):
 //    khung 1 = dáng đứng (1 tay duỗi, 1 tay giơ cạnh mặt — cũng là avatar) · 2–34 = tràng đấm thật 15 khung/giây (mỗi khung 4 tick):
@@ -5509,7 +5509,7 @@ function _bxPunch(f,u){   // tung cú đấm đã tích vào u (fighter hoặc q
   const kb=Math.min(20,4+dmg*0.035); u.vx=(u.vx||0)+Math.cos(a)*kb; u.vy=(u.vy||0)+Math.sin(a)*kb;
   if(dmg>BX_STUN_DMG && u.stun!==undefined) u.stun=Math.max(u.stun||0,BX_STUN_T);
   _bxPunchFx(f,hx,hy,a,dmg);
-  B.dodge=0; B.inc+=BX_INC_ADD; B.st='rest'; B.t=BX_REST; B.dmg=BX_BASE; f.actionState='attack'; f.actionTimer=14;
+  B.dodge=0; B.st='rest'; B.t=BX_REST; B.dmg=BX_BASE; f.actionState='attack'; f.actionTimer=14;
 }
 // 🥊 hiệu ứng + tiếng CÚ ĐẤM theo bậc dame (≥100 · ≥180 · ≥250 = đấm max) — dùng chung cho Boxing Cat và Gigachad
 function _bxFxAt(f,hx,hy,a,dmg){ const tier=_bxTier(dmg);
@@ -5552,7 +5552,9 @@ function _bxTick(f){   // gọi trong doAbility
   const B=f._bx||(f._bx={st:'wait',t:BX_START,inc:BX_INC0,dmg:BX_BASE,w:0});
   _bxMusic(f);
   if(B.st==='wait'||B.st==='rest'){ if(--B.t<=0){ B.st='warm'; B.dmg=BX_BASE; B.w=0; } return; }
-  B.w++; if(B.w%BX_STEP===0){ B.dmg+=B.inc; playSample('punch1',0.22); }   // ⏫ mỗi 0.5s khởi động: +INC dame cho cú kế tiếp
+  if(f._bxT0===undefined) f._bxT0=tick;
+  B.inc=BX_INC0+BX_INC_ADD*Math.floor((tick-f._bxT0)/(BX_INC_EVERY_S*_clpTps()));   // ⏫ mỗi 4s trận trôi qua: mức cộng mỗi nhịp +5
+  B.w++; if(B.w%BX_STEP===0){ B.dmg+=B.inc; playSample('punch1',0.22); }   // mỗi nhịp đấm gió (~0.42s): +INC dame cho cú kế tiếp
   // chạm địch gần nhất trong tầm cận chiến (quân triệu hồi có máu trước, fighter sau)
   let best=null, bd=1e9;
   for(const arr of _hpSummonArrays()) for(const u of arr){ if(!u||u.dead||u.team===f.team||(u.hp!==undefined&&u.hp<=0)) continue; const d=Math.hypot(u.x-f.x,u.y-f.y)-f.size-(u.size||20); if(d<=MELEE_REACH&&d<bd){ bd=d; best=u; } }

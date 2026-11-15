@@ -19,6 +19,11 @@ File tải về là dữ liệu lạ → công cụ tự tải vào thư mục t
    ```
    - `--fps` = nhịp hoạt cảnh trong game (15 → mỗi khung 4 tick ở 60 tick/s). `--h` = cao khung (game dùng 420).
    - `--tmp` giữ khung đã tách nền → chạy lại (đổi `--pick`, `--h`, đoạn ra) KHÔNG phải tách lại. `--pick 1,3-12` chỉ xuất vài khung.
+   - `--drop-edge`: tự bỏ khung nhân vật CHẠM mép trái/phải/trên video (bị cắt mất 1 phần) — nên bật. `<out>/<name>_map.txt` ghi khung xuất ← khung gốc.
+   - `--warm-gray`: nhân vật lông có màu (mèo cam…) → nhuộm lại mảng XÁM nhoè do khuất sáng (tay đang vung) theo màu lông, không thì trông như bị KHUYẾT.
+   - Mặc định đã: xoá đốm rời (kể cả đốm mờ, bóng phản chiếu dưới chân), xoá bóng đen sát chân (`--no-shadow-trim` để giữ),
+     làm đặc lõi vùng nhoè chuyển động (`--keep-blur` để giữ bán trong suốt).
+   - Ghép nhiều đoạn chung 1 khổ: chép `cut/` + `frames/` các lần chạy vào 1 thư mục `--tmp` mới, đánh số liền theo thời gian (đoạn 2 bắt đầu = số khung đoạn 1 + 1), rồi chạy `--pick`.
    - Chạy KHÔNG có cờ `-I` (cờ đó chặn thư viện cài ở tài khoản anh). Công cụ nằm trong repo, chạy từ thư mục repo.
 3. **Soát**: Read `<work>/sheet.png` (nền xám) — viền sạch? mắt / đốm sáng có bị khoét? tay nhoè có vệt màu nền bẩn? mảnh nền sót?
    Gửi anh `<work>/preview.gif` xem chuyển động. Đạt rồi mới chép vào `assets/img/<key>/` và nối code.

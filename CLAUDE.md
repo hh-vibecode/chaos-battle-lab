@@ -367,8 +367,9 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
   Bản đầu VFX đấm to che kín sân → đã thu nhỏ (anh không thích đau mắt).
 - Anh thêm: mỗi lượt tích có 2 lần NÉ (`_bxBlink`: dịch chuyển tới điểm xa địch nhất, lưới 7×7) → hết 2 lần né thì chuông `bx_bell` (ting ting ting) → lần 3 địch vào tầm mới ăn đấm.
   Tiếng đấm nặng dần theo dame (se_punch_high → se_punch_heavy → se_super_hit+se_impact_stop → cine_strongpunch+se_super_hit+se_big_explode), KHÔNG dùng bx_whitebeard nữa.
+  Dame (anh đổi 15/11): khởi điểm 50, mỗi nhịp ~0.42s +INC; INC = 10 + 5 × (số lần 4s trận đã trôi qua) — bỏ kiểu +5 sau mỗi cú đấm.
   Nhạc `bx_nostalgia` (liljan2k1 "nostalgia.mp3", tải SoundCloud — CÓ bản quyền, video dễ dính Content ID) chạy liền từ lần đấm gió đầu tới khi chết / hết trận. Bị choáng → ảnh động đứng hình.
-- Khung hình: 34 khung `BX_V_01..34` tách từ video TikTok anh gửi bằng `tools/vid2sprite.py` (skill `video-sang-sprite`): khung 1 = dáng đứng (cũng là avatar), 2–34 = tràng đấm 15 khung/giây; `_byH=1.08` giữ thân cỡ cũ.
+- Khung hình: 34 khung `BX_V_01..34` tách từ video TikTok anh gửi bằng `tools/vid2sprite.py --warm-gray` (tay vung khuất bóng bị xám → nhuộm lại màu lông, không còn trông như khuyết) (skill `video-sang-sprite`): khung 1 = dáng đứng (cũng là avatar), 2–34 = tràng đấm 15 khung/giây; `_byH=1.08` giữ thân cỡ cũ.
 - ⚠️ iCloud trên Mac: Desktop đồng bộ iCloud + "Optimize Mac Storage" → iCloud DỌN file của repo (cả .git) thành file rỗng tải-khi-cần → trang game mở treo, git/release treo.
   Kiểm: `find . -type f -flags +dataless | wc -l`; tải lại: `brctl download <file>` từng file. Đã khuyên anh tắt Optimize Mac Storage / chuyển repo ra khỏi Desktop.
 
