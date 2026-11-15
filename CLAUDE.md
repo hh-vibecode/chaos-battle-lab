@@ -361,6 +361,17 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
   Trong raid tiếng meme khác ×0.45, nhạc theme meme khác tắt (`_rfSndVol` trong playSample; meme nhạc vẫn bắt nhịp nhưng câm — `_playPianoSong`).
 - Ảnh CHỜ ANH (prompt ở Desktop `FriendRaid_anh_can_ve/PROMPT.txt`): `assets/img/friend/RF_MOUTH.png` (há mồm to: hút + gầm), `RF_CHEW1/2.png` (nhai). Chưa có thì dùng tạm khung cười.
 
+## 🥊 Boxing Cat làm lại hình + VFX (15/11/2026) — khối `BX_*` / `_bx*` trong js/game.js
+- Giữ cơ chế tích dame cũ. VFX cũ (quả cầu chấn động + nứt kính Râu Trắng, `_bxFxAt`) nay CHỈ của Gigachad; Boxing Cat dùng `_bxAuraDraw` (hào quang shader cam → đỏ → thêm lửa đen),
+  vòng cảnh báo đập nhịp tim + tàn lửa + mốc ≥250 chữ ゴゴゴ & viền màn đỏ; cú đấm `_bxPunchFx` (vệt nắm đấm, `BX_IMPACT` ảnh GPT nền đen cộng sáng, vạch tốc độ mảnh, ≥180 sóng bóp méo `_bxShockPost`, ≥250 khung đảo màu 2 khung).
+  Bản đầu VFX đấm to che kín sân → đã thu nhỏ (anh không thích đau mắt).
+- Anh thêm: mỗi lượt tích có 2 lần NÉ (`_bxBlink`: dịch chuyển tới điểm xa địch nhất, lưới 7×7) → hết 2 lần né thì chuông `bx_bell` (ting ting ting) → lần 3 địch vào tầm mới ăn đấm.
+  Tiếng đấm nặng dần theo dame (se_punch_high → se_punch_heavy → se_super_hit+se_impact_stop → cine_strongpunch+se_super_hit+se_big_explode), KHÔNG dùng bx_whitebeard nữa.
+  Nhạc `bx_nostalgia` (liljan2k1 "nostalgia.mp3", tải SoundCloud — CÓ bản quyền, video dễ dính Content ID) chạy liền từ lần đấm gió đầu tới khi chết / hết trận. Bị choáng → ảnh động đứng hình.
+- Khung hình: 34 khung `BX_V_01..34` tách từ video TikTok anh gửi bằng `tools/vid2sprite.py` (skill `video-sang-sprite`): khung 1 = dáng đứng (cũng là avatar), 2–34 = tràng đấm 15 khung/giây; `_byH=1.08` giữ thân cỡ cũ.
+- ⚠️ iCloud trên Mac: Desktop đồng bộ iCloud + "Optimize Mac Storage" → iCloud DỌN file của repo (cả .git) thành file rỗng tải-khi-cần → trang game mở treo, git/release treo.
+  Kiểm: `find . -type f -flags +dataless | wc -l`; tải lại: `brctl download <file>` từng file. Đã khuyên anh tắt Optimize Mac Storage / chuyển repo ra khỏi Desktop.
+
 ## 🐱 Loooong Cat làm lại (`loooongcat`, 13/11/2026) — khối `LC_*` / `_lc*` trong js/game.js (cạnh `_findClosestEnemy`)
 - Anh chốt (nhiều vòng trong ngày): vào trận là CON MÈO AVATAR đi bộ tới CỔNG LCD kiểu Nokia ở góc DƯỚI phía mình (`_lcPad`, `_lcPadsDraw`: nền #c7f0d8 + mực #43523d, khung + chấm mồi pixel nhấp nháy, tới gần sáng dần)
   → chui vào cổng 1s (`LC_DIVE_T`, ảnh đứng thu nhỏ trượt vào giữa màn + ô pixel hút vào) → trồi ra (`_lcInit`, tiếng 8-bit `lc_link`): ĐẦU ra trước, thân ra được 1 đoạn = con mèo trong ảnh (2×size) thì đuôi mới ra rồi CẮM ở cổng (đuôi ảo `st` âm = còn trong cổng, chỗ sát cổng mờ dần)

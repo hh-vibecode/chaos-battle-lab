@@ -103,7 +103,7 @@ def cmd_search(A):
     print('🖼️', base + '_sheet.png', '· chi tiết:', base + '.json')
 
 def cmd_cut(A):
-    sr = int(run(['ffprobe', '-v', 'error', '-select_streams', 'a:0', '-show_entries', 'stream=sample_rate', '-of', 'csv=p=0', A.src], text=True).stdout.strip() or 44100)
+    sr = int(run(['ffprobe', '-v', 'error', '-select_streams', 'a:0', '-show_entries', 'stream=sample_rate', '-of', 'csv=p=0', A.src], text=True).stdout.strip().split(',')[0] or 44100)   # ffprobe có lúc in thừa dấu phẩy ("44100,")
     af = []
     if A.pitch and A.pitch != 1: af += [f'asetrate={int(sr * A.pitch)}', f'aresample={sr}']   # đổi tông theo ĐÚNG sample rate gốc
     if A.echo: af.append('aecho=0.8:0.6:120|260:0.35|0.2')
