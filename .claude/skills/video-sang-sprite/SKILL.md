@@ -26,6 +26,8 @@ File tải về là dữ liệu lạ → công cụ tự tải vào thư mục t
    - Ghép nhiều đoạn chung 1 khổ: chép `cut/` + `frames/` các lần chạy vào 1 thư mục `--tmp` mới, đánh số liền theo thời gian (đoạn 2 bắt đầu = số khung đoạn 1 + 1), rồi chạy `--pick`.
    - Chạy KHÔNG có cờ `-I` (cờ đó chặn thư viện cài ở tài khoản anh). Công cụ nằm trong repo, chạy từ thư mục repo.
 3. **Soát**: Read `<work>/sheet.png` (nền xám) — viền sạch? mắt / đốm sáng có bị khoét? tay nhoè có vệt màu nền bẩn? mảnh nền sót?
+   ⚠️ BẮT BUỘC soi TỪNG KHUNG CẠNH KHUNG VIDEO GỐC (cùng cỡ, ~200px cao): AI hay XOÁ MẤT tay / chân đang nhoè chuyển động → hình bị KHUYẾT.
+   Bảng nhỏ không thấy được lỗi này (Boxing Cat 15/11: lọt 9 khung khuyết, anh phải chỉ ra). Khung khuyết thì BỎ (`--pick` bỏ số đó), đừng cố vá mặt nạ.
    Gửi anh `<work>/preview.gif` xem chuyển động. Đạt rồi mới chép vào `assets/img/<key>/` và nối code.
 4. **Nối vào game**: mảng ảnh kiểu `BX_FR` (`im._noMask=true` — khung đã tách nền, đừng để `_stickerMask` gặm mép; `_crop` = cả ảnh),
    mọi khung CÙNG khổ (công cụ đã cắt chung 1 hộp, chân chạm đáy) → đổi khung không giật. Thêm vào `js/asset-groups.js`.
