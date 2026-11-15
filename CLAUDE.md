@@ -365,7 +365,7 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
 - Giữ cơ chế tích dame cũ. VFX cũ (quả cầu chấn động + nứt kính Râu Trắng, `_bxFxAt`) nay CHỈ của Gigachad; Boxing Cat dùng `_bxAuraDraw` (hào quang shader cam → đỏ → thêm lửa đen),
   vòng cảnh báo đập nhịp tim + tàn lửa + mốc ≥250 chữ ゴゴゴ & viền màn đỏ; cú đấm `_bxPunchFx` (vệt nắm đấm, `BX_IMPACT` ảnh GPT nền đen cộng sáng, vạch tốc độ mảnh, ≥180 sóng bóp méo `_bxShockPost`, ≥250 khung đảo màu 2 khung).
   Bản đầu VFX đấm to che kín sân → đã thu nhỏ (anh không thích đau mắt).
-- Anh thêm: mỗi lượt tích có 2 lần NÉ (`_bxBlink`: dịch chuyển tới điểm xa địch nhất, lưới 7×7) → hết 2 lần né thì chuông `bx_bell` (ting ting ting) → lần 3 địch vào tầm mới ăn đấm.
+- Anh thêm: mỗi lượt tích có 2 lần NÉ (`_bxBlink`: dịch chuyển tới điểm xa địch nhất, lưới 7×7) → hết 2 lần né thì chuông `bx_bell` (ting ting ting) → lần 3 địch vào tầm mới ăn đấm. Dame tích đủ KẾT LIỄU con trong tầm (dame ≥ máu còn) → bỏ qua né, đấm luôn.
   Tiếng đấm nặng dần theo dame (se_punch_high → se_punch_heavy → se_super_hit+se_impact_stop → cine_strongpunch+se_super_hit+se_big_explode), KHÔNG dùng bx_whitebeard nữa.
   Dame (anh đổi 15/11): khởi điểm 50, mỗi nhịp ~0.42s +INC; INC = 10 + 5 × (số lần 4s trận đã trôi qua) — bỏ kiểu +5 sau mỗi cú đấm.
   Nhạc `bx_nostalgia` (liljan2k1 "nostalgia.mp3", tải SoundCloud — CÓ bản quyền, video dễ dính Content ID) chạy liền từ lần đấm gió đầu tới khi chết / hết trận. Bị choáng → ảnh động đứng hình.
