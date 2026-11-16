@@ -3,6 +3,17 @@
 Đọc file này TRƯỚC khi làm tiếp. Kịch bản đã duyệt: `prompts/kich-ban/fin1-chillguy-ending.md` (mục "ANH CHỐT").
 Bản đang lên: Ver 643 (c44887d). 2 cảnh mới `js/film-fin1c6.js` (Chill Guy) + `js/film-fin1c7.js` (kết) ĐỀU BỊ ANH CHÊ → phải làm lại.
 
+## 0. 🎓 VIỆC ĐẦU PHIÊN (khi anh bảo): HỌC 3 VIDEO NGẮN về IMPACT EFFECT + NHỊP GIAO TRANH (anh gửi 16/11 tối, "rất cần m tham khảo")
+| link | tiêu đề | dài |
+|---|---|---|
+| https://www.youtube.com/watch?v=CtO_XE2Nrho | [ IMPACT FRAMES ] — ian zhang | 20s |
+| https://www.youtube.com/watch?v=ian6Ui6YQW4 | Energy Blast Animation Test — Golden Gecko | 28s |
+| https://www.youtube.com/watch?v=XWLX25o650c | IMPACT FRAME X EXPLOSION PRACTICE (Flipaclip) — Animaniac | 16s |
+- Video ngắn (16–28s) → xem TRỌN, không cần hỏi mốc. Cách làm: tải `D:\tools\yt-dlp\yt-dlp.exe -f "18/b[ext=mp4][height<=720]" -o "D:\meme-anime-lab-videos\yt-<id>.%(ext)s" <link>` → chép vào `tools/x/_ref/` →
+  chụp 30 khung/giây đúng đoạn có impact bằng `tools/x/video-frames.html?src=tools/x/_ref/<file>&a=..&b=..&fps=30&w=200&cols=15&rate=0.3` (cdp, cổng 9455; serve.js 8765 đã tua được) → ĐẾM KHUNG từng pha.
+- Ghi lại: số khung mỗi pha (tích tụ → loé → impact → nổ → hạ sáng), màu impact (trắng–đen / màu), kiểu nét toả, cách nổ (khối cầu / vòng / khói), độ dài nhịp nhanh – chậm, chỗ khựng.
+- Kết quả → bổ sung skill `edit-video` mục 8 (thêm hàm vào `K.edit` / `fin1-plate.js` nếu cần) rồi ÁP vào các cảnh làm lại (Chill Guy, kết Part 1).
+
 ## ⚠️ Anh chê cách làm (16/11): "m cứ làm nhanh xong toàn làm sai" → XỬ LÝ KỸ
 - Đừng dựng vội cả cảnh rồi báo. Làm từng shot, chụp soát kỹ từng shot (hướng mặt, cỡ, đè nhau, nối cảnh) rồi mới sang shot sau.
 - Đọc kỹ lời anh, đối chiếu từng ý trước khi báo xong.

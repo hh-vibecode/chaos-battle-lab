@@ -1,7 +1,7 @@
 # Chaos Battle Lab — luật làm việc (bản gọn 16/11/2026)
 Chi tiết từng meme: `docs/notes/memes.md` · từng phim + cine-kit: `docs/notes/films.md` · mẫu comment YouTube: `docs/notes/youtube-comment.md` · luật gốc đầy đủ (ví dụ, lời anh dặn): `docs/notes/rules-full.md`.
 Đọc file đó KHI làm đúng phần đó (không cần đọc hết mỗi phiên).
-⏸️ **VIỆC DỞ: đọc `docs/notes/viec-do-fin1.md` ĐẦU PHIÊN** (làm lại cảnh Chill Guy + cảnh kết Final Part 1; chờ anh gửi link cảnh giao tranh đông).
+⏸️ **VIỆC DỞ: đọc `docs/notes/viec-do-fin1.md` ĐẦU PHIÊN** (mục 0: học 3 video impact anh gửi khi anh bảo · làm lại cảnh Chill Guy + cảnh kết Final Part 1).
 ⚠️ Anh chê 16/11 "làm nhanh xong toàn làm sai" → làm KỸ từng shot, soát từng shot rồi mới sang shot sau. Cách làm phim / VFX / edit nằm trong skill (`dung-phim`, `edit-video`, `viet-kich-ban`, `ve-anh-gpt`…).
 
 ## ⛔ Luật số 0 — luôn làm trên bản mới nhất (anh làm nhiều máy Mac + Windows)
