@@ -95,12 +95,16 @@ Mẫu đã duyệt:
 - Cảnh chấn động / tụ lực / nổ / sét / đá vỡ kiểu anime (vd ảnh edit đỏ – đen anh gửi 16/11, video Zenitsu 0:43–0:48) → KHÔNG dựng full 3D, KHÔNG vẽ VFX bằng code nét mảnh.
 - Cách làm:
   1. Có video mẫu → chụp khung (`tools/x/video-frames.html`, skill edit-video mục 5) → mỗi nhịp lấy 1 khung làm KHUÔN bố cục (`--ref`).
-  2. GPT vẽ 3–5 khung NỀN chuyển động cho mỗi nhịp: đá vỡ, tảng bay, sét, khói, màu sắc tách rời sẵn, CHỪA TRỐNG chỗ nhân vật. Khung sau lấy khung trước làm --ref, chỉ đổi vị trí sét / độ cao đá → ghép lại thành hoạt cảnh ~0.1s / khung (sét nháy, đá nổi dần).
+  2. GPT vẽ NỀN không nhân vật, không hiệu ứng (đất nứt, cây, phố…) + VẬT RỜI vẽ riêng trên phông xanh (tấm đá, khối băng…) → code cho vật rời chuyển động (đá nổi so le, xoay, nhấp nhô, tảng gần bay trước nhân vật) — mượt hơn ghép khung vẽ sẵn (anh 16/11: "vẽ đá phông xanh xong cho vào nền, vẽ theo layer"). Sét / tia / cột sáng = code.
+     ⛔ Nét vẽ phải như anime VẼ TAY (tô phẳng, 2–3 tông, viền mực) — KHÔNG kiểu tranh AI nhiều chi tiết / bóng loáng (anh chê "thừa mứa chi tiết kiểu AI vẽ"). Câu lệnh luôn ghi rõ "hand-drawn TV anime, flat cel, NOT AI art".
+     ⛔ KHÔNG BAO GIỜ cho GPT vẽ lại meme trong khung (bản 16/11 GPT vẽ cả Doge + Chud → anh bắt bỏ hết: "t cần m vẽ xong thêm meme vào, chứ k bảo m vẽ cả meme").
   3. Lớp TIỀN CẢNH (mảnh vỡ bay sát máy, tia sét vắt ngang) GPT vẽ trên NỀN ĐEN → vẽ `lighter` đè lên nhân vật → có chiều sâu.
   4. Nhân vật = ẢNH MEME GỐC (giữ hồn meme, không lệch mặt giữa các khung) gắn bằng code: viền sáng + nhuộm theo màu nền, bóng đổ + bụi phủ chân (không lộ mép ghép), rung, đẩy máy chậm.
   5. Edit code đè lên: impact frame, cháy trắng, tách RGB, chớp (`K.edit`). Lớp ảnh vẽ trong `world` (F.list d:-1e9) để vẫn ăn rung / grade / impact frame — mẫu `zenPlate` / `ZSEQ` trong js/film-fin1f1.js.
 - Nền 1 bộ dùng lại được cho nhiều cảnh; đổi tư thế chỉ thay ảnh nhân vật. Mỗi cảnh 3–5 tấm GPT, không phải 10–15.
 - Ảnh GPT ra PNG ~2.5MB → nén JPG 0.86 (~350KB) qua trình duyệt ngầm trước khi đưa vào `assets/img/cine/`.
+- Trận Chud vs Doge (js/film-fin1f1.js, 16/11) đã dựng lại HOÀN TOÀN 2D theo lớp (bảng `SHOTS` = [giây đầu, giây cuối, hàm vẽ], mỗi shot 1 góc tĩnh) — mẫu cho các trận sau.
+- 🐕 BUFF DOGE: to GẤP 3 meme thường (anh dặn 16/11). Chỉ dùng ẢNH GỐC (rageAvatarUrl) + Haki của game; ảnh Buff Doge vẽ lại tư thế (đỡ / đấm / quỳ / chạy / bị xích trói / đa góc) anh chê "không giống nguyên tác tí nào" → đã bỏ, KHÔNG vẽ lại. Động tác = chuyển động code + vệt sáng.
 
 ## 🔎 SOÁT PHIM TRƯỚC KHI BÁO XONG (anh chê 13/11: "m có check thật không", "làm cẩu thả")
 - Bảng khung thu nhỏ 320px KHÔNG đủ: soát MỖI GIÂY 1 khung (`film-check.js <id> --t $(seq -s, 0.5 1 DUR) --w 360+`) rồi soát lại CẬN (--w 640) mọi chỗ nối / chỗ nghi.
