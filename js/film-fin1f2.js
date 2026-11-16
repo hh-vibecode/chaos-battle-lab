@@ -30,7 +30,7 @@
   // 🚗 xe bỏ trên cầu + trụ đèn bê tông = ĐƯỜNG NẤP Bat vạch sẵn ở chế độ thám tử
   const CARS=[{x0:280,x1:520,z0:-250,z1:-150,col:'#3b4150',cab:'#1c2028'},{x0:120,x1:420,z0:140,z1:250,col:'#5b3c38',cab:'#2a1d1c',truck:true},{x0:20,x1:220,z0:-10,z1:90,col:'#46404c',cab:'#211d25'}];
   const PIL={x0:180,x1:240,z0:-40,z1:20,y1:280};
-  const HIDE=[[610,0,-200],[60,0,195],[120,0,-110],[272,0,-10]];   // sau xe A · ra khỏi gầm xe tải · sau nắp capo xe C · sau trụ đèn
+  const HIDE=[[610,0,-200],[60,0,195],[120,0,-110],[256,0,-10]];   // (13/11 anh: nép cột bị ĐỨNG NGƯỢC) Bat áp LƯNG vào mặt phải trụ đèn (ảnh lật), sát cột   // sau xe A · ra khỏi gầm xe tải · sau nắp capo xe C · sau trụ đèn
   const RUN=[640,0,30];                     // bị chữ HUH dồn ra giữa mặt cầu trống
   const CEN=[440,0,10];                     // tâm vụ nổ (phi tiêu chặn chữ HUH)
   const HITP=[470,165,25];                  // chỗ phi tiêu đầu cắm vào chữ HUH
@@ -181,7 +181,7 @@
       const fly=[[T.fl1,T.fl2,0,1,15],[T.fl2,T.fl3,1,2,150],[T.fl3,T.fl4-0.05,2,3,20],[T.push,T.push+0.4,3,null,30]].some(([a,b,i,j,yy])=>{ const A=HIDE[i], B=j==null?RUN:HIDE[j];
         if(t<a||t>=b) return false; if(yy>100){ const u=seg(t,a,b), mid=[(A[0]+B[0])/2,yy,(A[2]+B[2])/2]; return W.dash(F,t,a,b,[A[0],30,A[2]],[B[0],30,B[2]],{w:22,col:'40,40,60',core:'200,190,230',tail:0.6})||true; }
         return W.dash(F,t,a,b,[A[0],yy,A[2]],[B[0],yy,B[2]],{w:22,col:'40,40,60',core:'200,190,230',tail:0.6}); });
-      if(!fall&&!fly){ const o={key:im,views:im==='A0'?BVIEW:null,dir:DIR[im],x:b0.x,z:b0.z,y:b0.y,h:HT[im]||HT.A0,look:t>=T.push?{x:u0.x-400,z:u0.z}:{x:p0.x,z:p0.z},shadow:b0.y<200,life:{breath:0.6,wind:1.1}};
+      if(!fall&&!fly){ const o={key:im,views:im==='A0'?BVIEW:null,dir:DIR[im],x:b0.x,z:b0.z,y:b0.y,h:HT[im]||HT.A0,look:b0.im==='BPI'?{x:b0.x+600,z:b0.z}:(t>=T.push?{x:u0.x-400,z:u0.z}:{x:p0.x,z:p0.z}),shadow:b0.y<200,life:{breath:0.6,wind:1.1}};
         if(rolling){ o.lean=-((t-T.land)*900)%360; o.y=HT.BRO*0.2; }
         if(t>=T.car1&&t<T.fl1) o.y=b0.y-4*Math.abs(Math.sin(t*20))*(dmg('car0',t)>0?1:0);   // nép sau xe, rung theo từng phát
         W.actor(F,o); }
