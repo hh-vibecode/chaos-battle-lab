@@ -57,7 +57,7 @@
   Object.assign(DIR,{DCW:-1,DCL:-1,DHC:-1}); Object.assign(HT,{DCW:H*1.75,DCL:H*2.0,DDC:H*0.92,DKC:H*1.65,DHK:H*1.9,DHC:H*1.7});
   Object.assign(IMG,{CN1:'assets/img/cine/FIN_F1_CN_1.png',CN2:'assets/img/cine/FIN_F1_CN_2.png',CN3:'assets/img/cine/FIN_F1_CN_3.png',CN4:'assets/img/cine/FIN_F1_CN_4.png',CN5:'assets/img/cine/FIN_F1_CN_5.png',CN6:'assets/img/cine/FIN_F1_CN_6.png',CN7:'assets/img/cine/FIN_F1_CN_7.png',CN8:'assets/img/cine/FIN_F1_CN_8.png'});   // Chud: lấy đà · xoay · quay lưng · bủa 2 tay · quăng · giật về · đu xích · tiếp đất
   Object.assign(DIR,{CN1:0,CN2:0,CN3:0,CN4:0,CN5:0,CN6:0,CN7:0,CN8:0}); Object.assign(HT,{CN1:H*1.17,CN2:H*1.18,CN3:H*1.10,CN4:H*1.17,CN5:H*1.22,CN6:H*1.20,CN7:H*1.0,CN8:H*0.99});
-  for(const k of ['1a','1b','1c','2a','2b','2c','2d','2e','3a','3b','5a','5b']) IMG['ZN'+k]='assets/img/cine/FIN_F1_ZEN_'+k+'.jpg'; IMG.ZNE1='assets/img/cine/FIN_F1_ZEN_E1.jpg';   // (16/11) phá băng kiểu Zenitsu: khung vẽ phủ kín màn
+  IMG.ZBG='assets/img/cine/FIN_F1_ZBG.jpg'; IMG.ZRK='assets/img/cine/FIN_F1_ROCKS.png'; IMG.ZICE='assets/img/cine/FIN_F1_ICE.png';   // (16/11) LỚP vẽ tay: nền công viên nứt · tấm 12 tảng đá · khối băng — nhân vật luôn là ẢNH MEME GỐC   // (16/11) phá băng kiểu Zenitsu: khung vẽ phủ kín màn
   const HAND={CN1:[[0.114,0.40],[0.18,0.445]],CN2:[[0.104,0.088],[0.104,0.407]],CN3:[[0.06,0.226],[0.97,0.226]],CN4:[[0.03,0.215],[0.933,0.21]],CN5:[[0.224,0.06],[0.853,0.06]],CN6:[[0.29,0.268],[0.696,0.268]],CN7:[[0.519,0.018],[0.706,0.044]],CN8:[[0.977,0.248],[0.977,0.248]],DCW:[[0.995,0.462],[0.99,0.478]],DCL:[[0.845,0.004],[0.83,0.012]],DDC:[[0.846,0.059],[0.8,0.762]],DKC:[[0.9,0.61],[0.25,0.835]],DHK:[[0.99,0.74],[0.255,0.727]],DHC:[[0.004,0.33],[0.004,0.517]],DGP:[[0.9,0.95],[0.08,0.5]],DPL:[[0.03,0.31],[0.03,0.43]],DHP:[[0.03,0.14],[0.05,0.27]],DBL:[[0.12,0.15],[0.3,0.13]],DB:[[0.33,0.27],[0.7,0.27]],DPU:[[0.02,0.4],[0.02,0.4]],DRN:[[0.06,0.55],[0.85,0.45]],DDK:[[0.05,0.75],[0.2,0.8]],DH:[[0.2,0.62],[0.8,0.62]],
     DBF:[[0.33,0.27],[0.7,0.27]],DBQ:[[0.3,0.27],[0.62,0.27]],DBS:[[0.06,0.35],[0.1,0.37]],DBQB:[[0.1,0.35],[0.4,0.33]],DBB:[[0.1,0.4],[0.9,0.4]],DRB:[[0.1,0.55],[0.88,0.55]],DRF:[[0.12,0.55],[0.88,0.55]],DRQ:[[0.05,0.55],[0.6,0.5]],
     DDL:[[0.8,0.27],[0.76,0.8]],DKN:[[0.12,0.75],[0.75,0.55]],DUP:[[0.3,0.33],[0.6,0.33]],
@@ -237,18 +237,30 @@
     F.under.push(()=>{ const g=F.g; g.save(); g.globalAlpha=a; const gr=g.createRadialGradient(P.x,P.y,0,P.x,P.y,rx); gr.addColorStop(0,'rgba(10,8,8,0.9)'); gr.addColorStop(0.7,'rgba(30,24,22,0.7)'); gr.addColorStop(1,'rgba(60,50,46,0)'); g.fillStyle=gr; g.beginPath(); g.ellipse(P.x,P.y,rx,ry,0,0,TAU); g.fill(); g.restore(); }); }
   // 🎞️ (16/11) PHÁ BĂNG = HOẠT CẢNH VẼ theo khuôn video mẫu (Zenitsu 0:43–0:48, anh gửi): GPT vẽ lại từng khung, Doge / Chud thay nhân vật gốc.
   //   Mỗi chữ trong chuỗi = 1 bước khung, chia đều cả nhịp (~0.1s / khung → sét nháy, đá nổi dần) + máy đẩy chậm bằng code. Vẽ trong world → vẫn ăn rung / grade / impact frame.
-  const ZSEQ=[[T.shake,T.imp1,'1a 1b 1a 1b 1a 1b 1a 1c 1b 1c 1b 1c 1c 1b 1c 1c 1b 1c',1.0,1.13,0.5,0.46],[T.imp1,T.wideD,'black'],
-    [T.wideD,T.eye,'2a 2b 2a 2b 2c 2b 2c 2b 2c 2c 2b 2c 2c',1.0,1.05,0.5,0.5],[T.eye,T.blk,'3a 3b 3a 3b 3a 3b',1.0,1.08,0.5,0.45],
-    [T.blk,T.burst,'2d 2e 2d 2e 2d',1.04,1.07,0.5,0.5],[T.burst,T.quiet,'5a 5a 5b 5a 5b 5b 5b 5a 5b 5b 5b 5b 5b 5b',1.08,1.0,0.5,0.55],[T.quiet,T.charge,'dark']];
+  const ZSEQ=[[T.shake,T.imp1,'face'],[T.imp1,T.wideD,'black'],[T.wideD,T.eye,'rock'],[T.eye,T.blk,'chud'],[T.blk,T.burst,'rock2'],[T.burst,T.quiet,'pillar'],[T.quiet,T.charge,'dark']];
   function cover(g,im,VW,VH,zm,cx,cy){ const sc=Math.max(VW/im.naturalWidth,VH/im.naturalHeight)*zm*1.03, w=im.naturalWidth*sc, h=im.naturalHeight*sc; g.drawImage(im,VW*0.5-w*cx,VH*0.5-h*cy,w,h); }
   function zenPlate(F,t){ if(t<T.shake||t>=T.charge) return; const z=ZSEQ.find(q=>t>=q[0]&&t<q[1]); if(!z) return;
-    F.list.push({d:-1e9, fn:()=>{ const g=F.g, VW=F.VW, VH=F.VH, u=seg(t,z[0],z[1]); g.save(); g.fillStyle='#000'; g.fillRect(-60,-60,VW+120,VH+120);
-      if(z[2]==='dark'){ const im=F.I.ZN5b; if(im&&im.naturalWidth){ g.globalAlpha=0.14*(1-u); cover(g,im,VW,VH,1,0.5,0.5); } }   // tối lặng: dư ảnh cột sáng tắt dần
-      else if(z[2]!=='black'){ const L=z[2].split(' '), key=L[Math.min(L.length-1,Math.floor(u*L.length))], im=F.I['ZN'+key]; if(im&&im.naturalWidth) cover(g,im,VW,VH,lerp(z[3],z[4],eio(u)),z[5],z[6]);
-        if(L[0]==='5a'){ g.globalCompositeOperation='lighter'; g.fillStyle='rgba(255,220,120,'+(0.16*(0.5+0.5*Math.sin(t*50))).toFixed(3)+')'; g.fillRect(0,0,VW,VH); } }   // cột sáng chập chờn
+    F.list.push({d:-1e9, fn:()=>{ const g=F.g, VW=F.VW, VH=F.VH, u=seg(t,z[0],z[1]), m=z[2], fr=Math.floor(t*10); g.save(); g.fillStyle='#000'; g.fillRect(-60,-60,VW+120,VH+120);
+      if(m==='face'){ const bg=F.I.ZBG; if(bg&&bg.naturalWidth){ g.globalAlpha=0.35; g.filter='blur(6px)'; cover(g,bg,VW,VH,1.6,0.5,0.4); g.filter='none'; g.globalAlpha=1; }   // cực cận: mặt Doge GỐC trong băng, đẩy máy chậm
+        const c=K.prep(F.I.D0); if(c){ const k=lerp(1.0,1.12,eio(u)), h=VH*1.55*k, w=h*c.sw/c.sh; g.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,VW*0.5-w*0.5,VH*0.62-h*0.42,w,h);
+          const ic=K.prep(F.I.ZICE); if(ic){ const ih=VH*3.4*k, iw=ih*ic.sw/ic.sh; g.globalCompositeOperation='screen'; g.globalAlpha=0.7; g.drawImage(ic.src,ic.sx,ic.sy,ic.sw,ic.sh,VW*0.5-iw/2,VH*0.55-ih*0.5,iw,ih); g.globalAlpha=1; g.globalCompositeOperation='source-over'; } }
+        g.globalCompositeOperation='lighter'; for(let i=0;i<3;i++){ const sd=fr*11+i*5; if(hash(sd)<0.35) continue; const an=hash(sd+1)*TAU, R=VH*(0.32+0.12*hash(sd+2)); zapSet(g,VW*0.5+Math.cos(an)*R*1.3,VH*0.45+Math.sin(an)*R,an+Math.PI*0.5+(hash(sd+3)-0.5),VH*(0.12+0.12*hash(sd+4)),2.5+2*hash(sd+5),sd); } }
+      else if(m==='rock') rockScene(F,t,T.wideD,T.eye,{bolts:4});
+      else if(m==='rock2') rockScene(F,t,T.wideD,T.blk,{bolts:7,pre:0});
+      else if(m==='pillar'){ rockScene(F,t,T.wideD,T.blk,{bolts:8,noIce:true});   // băng nổ: cột sáng vàng từ chỗ Doge xé lên trời
+        const cx=VW*0.5, gy=VH*0.8, k=eout(seg(t,z[0],z[0]+0.25))*(1-0.5*seg(t,z[1]-0.5,z[1])), w=VW*0.13*k*(1+0.08*Math.sin(t*45)); g.globalCompositeOperation='lighter';
+        for(const [kk,al] of [[3.2,0.18],[1.6,0.4],[0.7,0.8],[0.28,1]]){ const gr=g.createLinearGradient(cx-w*kk,0,cx+w*kk,0); gr.addColorStop(0,'rgba(255,190,40,0)'); gr.addColorStop(0.5,'rgba(255,'+(kk<0.5?250:215)+','+(kk<0.5?225:90)+','+al+')'); gr.addColorStop(1,'rgba(255,190,40,0)'); g.fillStyle=gr; g.fillRect(cx-w*kk,-60,w*2*kk,gy+60); }
+        const sh=seg(t,z[0],z[0]+0.8); if(sh<1){ g.globalCompositeOperation='source-over'; for(let i=0;i<16;i++){ const an=-Math.PI*(0.05+0.9*hash(i+500)), sp=VW*(0.25+0.55*hash(i+510)), px=cx+Math.cos(an)*sp*eout(sh), py=gy-VH*0.18+Math.sin(an)*sp*eout(sh)*0.8+sh*sh*VH*0.45, sz=VH*(0.025+0.05*hash(i+520));
+          g.save(); g.globalAlpha=1-sh*sh; g.translate(px,py); g.rotate(sh*7*(hash(i+530)-0.5)+hash(i+535)*6); g.beginPath(); g.moveTo(0,-sz); g.lineTo(sz*(0.5+0.4*hash(i+540)),sz*0.6); g.lineTo(-sz*(0.4+0.4*hash(i+545)),sz*(0.3+0.5*hash(i+548))); g.closePath(); g.fillStyle='rgba(190,240,252,0.9)'; g.fill(); g.strokeStyle='#ffffff'; g.lineWidth=1.6; g.stroke(); g.restore(); } } }   // mảnh băng văng
+      else if(m==='chud'){ const bg=F.I.ZBG; if(bg&&bg.naturalWidth){ g.globalAlpha=0.5; g.filter='blur(4px)'; cover(g,bg,VW,VH,1.3,0.5,0.5); g.filter='none'; g.globalAlpha=1; }   // Chud GỐC cận mặt, ánh vàng hắt từ dưới
+        const c=K.prep(F.I.CK0); if(c){ const k=lerp(1.0,1.08,eio(u)), h=VH*3.4*k, w=h*c.sw/c.sh; g.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,VW*0.5-w*0.5,VH*0.06-h*0.02,w,h);
+          g.save(); g.globalCompositeOperation='lighter'; g.globalAlpha=0.35+0.12*Math.sin(t*35); g.drawImage(K.tinted(c,'#ffb830'),VW*0.5-w*0.5,VH*0.06-h*0.02,w,h); g.restore(); }
+        g.globalCompositeOperation='lighter'; const gr=g.createLinearGradient(0,VH,0,VH*0.3); gr.addColorStop(0,'rgba(255,190,60,0.45)'); gr.addColorStop(1,'rgba(255,190,60,0)'); g.fillStyle=gr; g.fillRect(0,0,VW,VH);
+        for(let i=0;i<30;i++){ const x=((hash(i+700)*VW*1.4+t*VW*(0.6+hash(i+710)))%(VW*1.4))-VW*0.2, y=VH*hash(i+720); g.strokeStyle='rgba(255,220,140,'+(0.4*hash(i+730))+')'; g.lineWidth=1+hash(i+740)*2; g.beginPath(); g.moveTo(x,y); g.lineTo(x+20+40*hash(i+750),y-6); g.stroke(); } }   // gió + tàn sáng bay ngang
+      else if(m==='dark'){ const gr=g.createRadialGradient(VW*0.5,VH*0.6,0,VW*0.5,VH*0.6,VH*0.5); gr.addColorStop(0,'rgba(255,190,60,'+(0.18*(1-u))+')'); gr.addColorStop(1,'rgba(255,190,60,0)'); g.fillStyle=gr; g.fillRect(0,0,VW,VH); }
       g.restore(); }}); }
   // 🎞️ E1 (16/11, theo lớp): nền quảng trường GPT (trống giữa) + Chud ẢNH GỐC + vệt vàng code xé ngang cả khung, cuốn Chud bay ra khỏi khung
-  function e1Plate(F,t){ const a=T.ram-0.3; if(t<a||t>=T.b1) return; F.list.push({d:-1e9, fn:()=>{ const g=F.g, VW=F.VW, VH=F.VH, bg=F.I.ZNE1, c=K.prep(F.I.CK0);
+  function e1Plate(F,t){ const a=T.ram-0.3; if(t<a||t>=T.b1) return; F.list.push({d:-1e9, fn:()=>{ const g=F.g, VW=F.VW, VH=F.VH, bg=F.I.ZBG, c=K.prep(F.I.CK0);
     g.save(); g.fillStyle='#000'; g.fillRect(-60,-60,VW+120,VH+120); if(bg&&bg.naturalWidth) cover(g,bg,VW,VH,1.0+0.03*seg(t,a,T.b1),0.5,0.62);
     const fx=VW*0.6, fy=VH*0.84, ch=VH*0.56, sy=fy-ch*0.5, t0=T.ram-0.07, t1=T.ram, t2=T.ram+0.3;
     const hx=t<t0?-VW*0.3:t<t1?lerp(-VW*0.2,fx,(t-t0)/(t1-t0)):lerp(fx,VW*1.5,ein(seg(t,t1,t2)));
@@ -265,6 +277,34 @@
     if(t>=t1){ const u=seg(t,t1,t1+1.0); g.save(); for(let i=0;i<9;i++){ const px=fx+(hash(i*3+40)-0.3)*VW*0.35*u, py=fy-VH*0.02-hash(i*3+41)*VH*0.12*u, r=VH*(0.05+0.07*hash(i*3+42))*(0.5+u); g.fillStyle='rgba(120,90,90,'+(0.14*(1-u))+')'; g.beginPath(); g.arc(px,py,r,0,TAU); g.fill(); }
       g.globalCompositeOperation='lighter'; for(let i=0;i<22;i++){ const v=0.6+hash(i*5+60)*1.4, an=(hash(i*5+61)-0.5)*1.1, d=u*VW*0.5*v, px=fx+Math.cos(an)*d, py=sy+Math.sin(an)*d*0.5+u*u*VH*0.2; g.strokeStyle='rgba(255,200,90,'+(1-u)+')'; g.lineWidth=2; g.beginPath(); g.moveTo(px,py); g.lineTo(px-Math.cos(an)*14,py-Math.sin(an)*7); g.stroke(); } g.restore(); }
     g.restore(); }}); }
+  // 🪨 (16/11, anh chốt) CẢNH VẬN SỨC THEO LỚP: nền vẽ tay (đất nứt, KHÔNG nhân vật / sét / đá bay) + tảng đá tách phông xanh do code cho nổi lên + sét code + Doge ẢNH GỐC + khối băng vẽ tay phủ ngoài
+  const ROCKBB=[[460,82,582,314],[22,100,450,264],[1052,110,456,256],[864,460,178,288],[62,480,286,258],[1188,490,268,232],[482,514,224,206],[740,842,88,106],[118,844,128,110],[422,848,134,106],[1330,864,74,74],[1018,866,104,80]];   // toạ độ từng tảng trong FIN_F1_ROCKS.png (dò vùng liền khối)
+  const ROCKS=Array.from({length:22},(_,i)=>{ const H=n=>hash(i*17+n), dep=H(3), r=i%ROCKBB.length; let x=0.04+0.92*H(2); if(dep>0.78&&Math.abs(x-0.5)<0.16) x=x<0.5?0.3-H(9)*0.2:0.7+H(9)*0.2;
+    return {r, x, dep, gy:0.64+0.3*dep, sz:(0.05+0.11*H(4))*(0.45+1.0*dep), lift:0.18+0.5*H(5), dl:0.9*H(6), sp:0.8+0.6*H(7), rot:(H(8)-0.5)*0.9, ph:H(10)*TAU}; }).sort((a,b)=>a.dep-b.dep);
+  function drawRock(g,F,R,t,t0,VW,VH){ const im=F.I.ZRK; if(!im||!im.naturalWidth) return; const b=ROCKBB[R.r], k=eio(clamp((t-t0-R.dl)/1.6,0,1)), h=VH*R.sz, w=h*b[2]/b[3], gy=VH*R.gy;
+    const y=gy-VH*R.lift*k+Math.sin(t*R.sp*2+R.ph)*VH*0.006*k, x=VW*R.x+Math.sin(t*R.sp+R.ph)*VW*0.004*k;
+    g.save(); g.globalAlpha=0.35*(1-0.6*k); g.fillStyle='#000'; g.beginPath(); g.ellipse(VW*R.x,gy,w*0.5,h*0.1,0,0,TAU); g.fill(); g.restore();   // bóng tảng trên đất, nhạt dần khi bay cao
+    g.save(); g.translate(x,y-h/2); g.rotate(R.rot*k+Math.sin(t*R.sp+R.ph)*0.04*k); if(R.dep>0.85) g.filter='blur(1.5px)'; g.drawImage(im,b[0],b[1],b[2],b[3],-w/2,-h/2,w,h); g.restore(); }
+  function zapSet(g,x,y,ang,len,wd,seed){ const H=n=>hash(seed*31+n), path=(x0,y0,a,L,n,o)=>{ const P=[[x0,y0]]; let px=x0, py=y0; for(let i=1;i<=n;i++){ const j=(H(o+i)-0.5)*L*0.34; px+=Math.cos(a)*L/n-Math.sin(a)*j; py+=Math.sin(a)*L/n+Math.cos(a)*j; P.push([px,py]); } return P; };
+    const M=path(x,y,ang,len,8,0), B=[M]; for(let k=0;k<2;k++){ const q=M[3+((H(50+k)*6)|0)]; B.push(path(q[0],q[1],ang+(H(60+k)<0.5?-1:1)*(0.5+0.5*H(70+k)),len*(0.25+0.2*H(80+k)),6,100+k*20)); }
+    g.save(); g.lineCap='round'; g.lineJoin='round'; g.globalCompositeOperation='lighter';
+    for(const [lw,col] of [[wd*3.5,'rgba(255,160,20,0.2)'],[wd*1.3,'rgba(255,205,70,0.8)'],[wd*0.5,'rgba(255,252,235,1)']]) B.forEach((P,bi)=>{ g.strokeStyle=col; g.lineWidth=lw*(bi?0.55:1); g.beginPath(); P.forEach((p,i)=>i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1])); g.stroke(); });
+    g.restore(); }
+  function rockScene(F,t,t0,t1,o){ o=o||{}; const g=F.g, VW=F.VW, VH=F.VH, u=seg(t,t0,t1), fr=Math.floor(t*10), bg=F.I.ZBG, cx=VW*0.5, gy=VH*0.8;
+    g.fillStyle='#000'; g.fillRect(-60,-60,VW+120,VH+120); if(bg&&bg.naturalWidth) cover(g,bg,VW,VH,lerp(1.0,1.05,eio(u)),0.5,0.55);
+    // vết nứt vàng toả từ chân Doge (dẹt theo mặt đất), dài dần
+    g.save(); g.globalCompositeOperation='lighter'; for(let i=0;i<7;i++){ const an=Math.PI*(0.08+0.84*i/6)+(hash(i+300)-0.5)*0.2; g.save(); g.translate(cx,gy); g.scale(1,0.28); zapSet(g,0,0,an+Math.PI,VW*(0.12+0.25*hash(i+310))*(0.3+0.7*eout(u)),3,i*7+1); g.restore(); } g.restore();
+    const RK=ROCKS.filter(R=>R.dep<=0.85), FR=ROCKS.filter(R=>R.dep>0.85), t0r=t0-(o.pre||0); for(const R of RK) drawRock(g,F,R,t,t0r,VW,VH);
+    // Doge ẢNH GỐC + viền sáng vàng + khối băng vẽ tay phủ ngoài
+    const c=K.prep(F.I.D0); if(c){ const h=VH*0.34, w=h*c.sw/c.sh, x=cx-w/2, y=gy-h;
+      g.save(); g.globalAlpha=0.5; g.fillStyle='#000'; g.beginPath(); g.ellipse(cx,gy,w*0.55,h*0.07,0,0,TAU); g.fill(); g.restore();
+      g.save(); g.globalCompositeOperation='lighter'; g.globalAlpha=0.55+0.25*Math.sin(t*30); const tg=K.tinted(c,'#ffc23a'); for(const [dx,dy] of [[-3,0],[3,0],[0,-3]]) g.drawImage(tg,x+dx,y+dy,w,h); g.restore();
+      g.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,x,y,w,h);
+      const ic=K.prep(F.I.ZICE); if(ic&&!o.noIce){ const ih=h*1.25, iw=ih*ic.sw/ic.sh; g.save(); g.globalCompositeOperation='screen'; g.globalAlpha=0.85; g.drawImage(ic.src,ic.sx,ic.sy,ic.sw,ic.sh,cx-iw/2,gy-ih+h*0.04,iw,ih); g.restore(); } }
+    // sét vàng: đổi hình mỗi 3 khung (seed theo nhịp 0.1s) — từ đất quanh Doge vọt lên, vắt giữa các tảng đá
+    g.save(); g.globalCompositeOperation='lighter'; const nb=o.bolts||4; for(let i=0;i<nb;i++){ const sd=fr*13+i*7; if(hash(sd)<0.3) continue; const bx=cx+(hash(sd+1)-0.5)*VW*0.9, by=gy-hash(sd+2)*VH*0.25, an=-Math.PI/2+(hash(sd+3)-0.5)*1.6;
+      zapSet(g,bx,by,an,VH*(0.25+0.4*hash(sd+4)),3+3*hash(sd+5),sd); } g.restore();
+    for(const R of FR) drawRock(g,F,R,t,t0r,VW,VH); }
   function world(F,t){ const th=theme(t); CITY.draw(F,t,th); F.t=t;
     if(t<T.rise) parkWorld(F,t); else fightWorld(F,t); farFlash(F,t); }
   // ── 2 VỆT TỐC ĐỘ CAO sau cú húc: đuôi = đường bay thật vài phần giây trước (cong theo đà hất lên), đầu sáng trắng, quầng màu cộng sáng (lighter)
@@ -410,7 +450,7 @@
       [T.shake+0.3,'bc_zap',0.35,null,'cực cận Doge nhắm mắt trong băng: sét vàng lách tách quanh đầu'],
       [T.imp1,'kn_boom_low',0.7,null,'khung đen: cú nện trầm'],[T.wideD,'thunder_big',0.6,null,'+ góc rộng: sét vàng giáng khắp nơi, đất vỡ đá nổi lên (lớp của cú nện)'],
       [T.crack,'l2p_crack',0.5,null,'+ khối băng rạn dần (lớp của tiếng tim đập)'],[T.wideD+0.1,'se_tremor',0.5,null,'+ đất rung, tảng đá tách lên (lớp đuôi của sét)'],
-      [T.burst-1.3,'ed_hit3',0.8,null,'cận Chud hoảng dưới ánh vàng → tụ lực dâng lên (đỉnh đúng lúc cột sáng nổ)'],[T.zImp,'ed_hit5',0.6,null,'+ impact frame bóng Doge (lớp đầu của cú nổ băng)'],
+      [T.burst-1.3,'ed_hit3',0.8,null,'cận Chud hoảng dưới ánh vàng → tụ lực dâng lên (đỉnh đúng lúc cột sáng nổ)'],[T.zImp,'ed_hit5',0.6,null,'+ lớp bùng sáng trước khi khối băng nổ (lớp đầu của cú nổ băng)'],
       [T.burst,'duo_ice_break',1,null,'Buff Doge đập vỡ tung khối băng, xích bung ra, mảnh băng vỡ văng'],
       [T.burst+0.01,'kn_boom_low',0.6,null,'+ lớp trầm: Buff Doge bùng ra khổng lồ'],
       [T.charge,'se_machdash',0.9,null,'Doge xoắn tròn lao thẳng vào Chud (One-Punch Shiba)'],
@@ -441,7 +481,7 @@
     theme:t=>theme(t), shots,
     // 🎬 EDIT (16/11, skill edit-video): impact frame 2 màu ở cú húc / quật / va chạm cuối · Haki: đỏ – đen · vận lực: cam – đen
     impact:t=>{ const E=K.edit;
-      return E.first(E.impacts(t,T.zImp,6,[['#000000','#ffd84a'],['#ffffff','#000000']],3),E.impacts(t,T.ram,3,[['#000000','#ffd84a']],3),E.impacts(t,T.l3,4,'red',3),E.impacts(t,T.slam2,6,'red',3),E.impacts(t,T.snap,6,'blue',3),E.impacts(t,T.clash,9,'red',3)); },
+      return E.first(E.impacts(t,T.ram,3,[['#000000','#ffd84a']],3),E.impacts(t,T.l3,4,'red',3),E.impacts(t,T.slam2,6,'red',3),E.impacts(t,T.snap,6,'blue',3),E.impacts(t,T.clash,9,'red',3)); },
     grade:t=>{ const E=K.edit;
       return E.mix(E.burn(t,T.zImp+0.2,T.burst,0.05),E.rgb(t,T.burst+0.05,0.6,10),E.rgb(t,T.wideD,0.25,8),E.rgb(t,T.ram+0.27,0.8,12),E.duotone(t,T.release,T.r1,'#2a0000','#ff5040',0.15,0.5),E.duotone(t,T.hakiOn,T.pull,'#200000','#ff4a3a',0.15,0.8),E.rgb(t,T.snap+0.2,0.7,12),E.zoom(t,T.clash-0.27,0.2,0.4),E.rgb(t,T.clash+0.33,0.6,14)); },
     shake:t=>{ let s=0; const h=(a,amp,d)=>{ if(t>=a&&t<a+d) s=Math.max(s,amp*(1-(t-a)/d)); };
