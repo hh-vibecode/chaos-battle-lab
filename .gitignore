@@ -6,3 +6,4 @@ tools/.audio-dur.json
 
 # video xuất ra (render-cine / render-match) — file nặng, KHÔNG đẩy lên repo
 out/
+tools/x/_ref/

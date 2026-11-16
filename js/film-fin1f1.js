@@ -19,7 +19,7 @@
   const T={ strikeD:0.5, strikeK:0.85, landD:2.2, landK:3.6,   // ĐÁP XUỐNG kiểu cổng BIFROST (anh dặn 12/11: "chiếu xuống kiểu cổng Bifrost của Thor", "đáp xuống chất tí")
     look:4.6, lurk:6.8, bind:8.8, lick:9.5, frz:9.62, hold:11, out:13.8, surr:17, laugh:19.4, puzzle:22.6, shake:24.4, turn:26.4, crack:27.4, eye:29, quiet:30, 
     burst:30.6, charge:31.6, ram:32.4, b1:33.3, b2:34.2, b3:35.1, dust:36.4, cover:38.8, mturn:41.6, raise:43.2, rise:45.6, chains:46.6, r1:47.0, w1:47.5, r2:48.1, w2:48.5, punch:48.9, zip:48.85, tie0:49.9, tie:50.3, tug:51.2, lift:52.2, slam:52.7, down:53.3,
-    haki:54.6, hakiOn:55.2, pull:56.4, snap:57.1, shock:57.8, lunge:58.4, clash:59.1, far:59.5, whip:60.25, tunnel:60.45, DUR:61.4 };   // (13/11 anh: "dựng lại combat nhịp nhanh, kết như t bảo") giao tranh ~16s thay ~32s
+    haki:54.6, hakiOn:55.2, pull:56.4, snap:57.1, shock:57.8, lunge:59.4, clash:60.1, far:60.5, whip:61.25, tunnel:61.45, DUR:62.4 };   // (13/11 anh: "dựng lại combat nhịp nhanh, kết như t bảo") giao tranh ~16s thay ~32s
   const H=120;
   // đường húc: từ chỗ Chud đứng bay chéo vào sâu, xuyên 3 dãy nhà phía sau công viên
   const CH0=[60,200], DIRV=[0.64,0.77], RAM=k=>[CH0[0]+DIRV[0]*k, CH0[1]+DIRV[1]*k];
@@ -139,7 +139,8 @@
     S(T.haki,T.hakiOn,{tx:FX0+380,ty:110,tz:FZz,dist:220,yaw:-10,pitch:2,fov:44}),   // cực cận: Doge chống gối dậy
     S(T.hakiOn,T.pull,{tx:FX0+392,ty:210,tz:FZz,dist:290,yaw:-10,pitch:-2,fov:44}),   // HAKI: 2 tay đen bóng, trận đứng hình
     S(T.pull,T.shock,{tx:FX0+540,ty:110,tz:FZz,dist:600,yaw:0,pitch:2,fov:50}),   // Doge giật ngược → XÍCH ĐỨT TUNG
-    S(T.shock,T.lunge,{tx:FX0+700,ty:100,tz:FZz,dist:240,yaw:14,pitch:-2,fov:44}),   // cận Chud sững người
+    S(T.shock,T.shock+0.55,{tx:FX0+700,ty:100,tz:FZz,dist:240,yaw:14,pitch:-2,fov:44}),   // cận Chud sững người
+    S(T.shock+0.55,T.lunge,{tx:FX0+530,ty:70,tz:FZz,dist:720,yaw:0,pitch:-9,fov:52}),   // (16/11) góc thấp rộng: CẢ 2 VẬN LỰC — đất nứt, đá nổi lên, khí vàng / đỏ bốc
     S(T.lunge,T.far,{tx:FX0+540,ty:120,tz:FZz,dist:500,yaw:0,pitch:0,fov:52}),   // 2 con hoá 2 vệt lao vào nhau
     S(T.far,T.whip,{tx:FX0+560,ty:120,tz:FZz,dist:420,yaw:0,pitch:0,fov:52}),   // KHỰNG giữa không trung — chân trời loé tím
     S(T.whip,T.tunnel,{tx:FX0+560,ty:150,tz:FZz,dist:500,yaw:-70,pitch:0,fov:52}),   // CẮT sang hướng chân trời
@@ -292,6 +293,7 @@
     for(const r of RUBBLE) CITY.box(F,r.x-r.w/2,r.x+r.w/2,0,r.h,r.z-r.d/2,r.z+r.d/2,r.dark?'#2c2729':'#3a3436',r.dark?'#4a4245':'#5a5154','rgba(220,70,50,0.18)');   // khối bê tông vỡ, viền đỏ ánh lửa
     CITY.box(F,PIL[0]-50,PIL[0]+50,0,PIL[1]+60,PIL[2]-50,PIL[2]+50,'#4a4446','#6a6266','rgba(20,16,16,0.6)');   // cột bê tông gãy
     K.smoke(F,{x:X,z:Z+200,t0:T.rise-1,n:14,spread:1800,rise:60,life:4,size:220,seed:81,a:0.35*(1-seg(t,T.rise,T.rise+3))+0.12,tint:'110,92,84'});   // bụi đổ nát tan dần
+    W.powerUp(F,t,T.shock+0.5,T.lunge-0.02,X+360,Z,'255,190,60',31,{r:180}); W.powerUp(F,t,T.shock+0.6,T.lunge-0.02,X+700,Z,'255,70,40',47,{r:150});   // 💥 (16/11) vận lực trước khi lao vào nhau
     if(t>=T.punch) crater(F,X+170-60,Z,260,Math.min(1,seg(t,T.punch,T.punch+0.2)));
     if(t>=T.slam) crater(F,X+380,Z,220,Math.min(1,seg(t,T.slam,T.slam+0.2)));
     const haki=tt>=T.hakiOn, dKey=d.im;
@@ -345,7 +347,7 @@
       let gr=g.createRadialGradient(P.x,P.y,0,P.x,P.y,R); gr.addColorStop(0,`rgba(255,255,255,${0.9*Math.max(0,1-v*0.6)})`); gr.addColorStop(0.3,'rgba(190,120,255,0.5)'); gr.addColorStop(0.7,'rgba(90,150,255,0.25)'); gr.addColorStop(1,'rgba(90,150,255,0)');
       g.fillStyle=gr; g.fillRect(P.x-R,P.y-R,2*R,2*R); g.strokeStyle=`rgba(230,220,255,${0.7*Math.max(0,1-v*0.7)})`; g.lineWidth=Math.max(2,R*0.02); g.beginPath(); g.ellipse(P.x,P.y,R*0.9,R*0.3,0,0,TAU); g.stroke(); g.restore(); }}); }
   // ⏱️ (12/11 tối) NHANH – CHẬM ĐAN XEN: nén theo loại shot — đối mặt ×0.75 · thở / giới thiệu ×0.85 · đánh ×0.92 · ra chiêu ×0.95 · nổ lớn / chuyển cảnh giữ nguyên
-  const RETIME=[[0,1.5,0.85],[1.5,4.6,0.95],[4.6,8.5,0.75],[8.5,11,0.92],[11,13.8,0.85],[13.8,24.4,0.75],[24.4,26.4,0.95],[26.4,27.4,0.75],[27.4,31.6,0.95],[31.6,33.3,0.92],[33.3,36.4,1],[36.4,38.8,0.85],[38.8,45.6,0.75],[45.6,61.4,1]];
+  const RETIME=[[0,1.5,0.85],[1.5,4.6,0.95],[4.6,8.5,0.75],[8.5,11,0.92],[11,13.8,0.85],[13.8,24.4,0.75],[24.4,26.4,0.95],[26.4,27.4,0.75],[27.4,31.6,0.95],[31.6,33.3,0.92],[33.3,36.4,1],[36.4,38.8,0.85],[38.8,45.6,0.75],[45.6,62.4,1]];
   CineKit.film(W.retime(RETIME,{ id:'fin1f1', title:'Final 1 · Fight · Chud + Mlem vs Doge + Clapping Cat', DUR:T.DUR, VW:960, VH:540, fadeIn:false, fadeOut:false,   // vào từ lỗ vòng khói fin1f2 · ra: lao về chân trời sang Gojo vs Pain
     imgs:IMG, cast:['dc','mlem','clap'],
     sfxOk:{ clap_cat:'Clapping cười vỗ tay liên tục: mỗi lần vỗ 1 tiếng (game)', dc_chain:'mỗi nhát xích quất / quấn trúng 1 tiếng (game)' },
@@ -399,14 +401,16 @@
       [T.hakiOn,'cine_haki',0.9,null,'HAKI thức tỉnh: 2 tay Doge phủ đen bóng, trận đứng hình'],
       [T.snap,'kn_explode_crunch',0.9,null,'Doge giật ngược đập tan: 2 sợi xích đứt vỡ tung'],
       [T.shock+0.2,'l2p_sub',0.4,null,'+ cận Chud sững người (lớp đuôi của tiếng xích đứt)'],
-      [T.clash-0.27,'se_machdash',0.85,null,'2 con hoá 2 vệt lao vào nhau'],[T.clash,'se_impact_stop',1,null,'nắm đấm haki đụng xích Chud giữa đường: va chạm, khựng'],[T.clash+0.01,'kn_boom_low',0.6,null,'+ lớp trầm: tiếng nổ nén khi 2 đòn đụng nhau'],
+      [T.shock+0.6,'se_tremor',0.7,null,'cả 2 vận lực: đất rung nứt, đá nổi lên'],[T.clash-0.27,'se_machdash',0.85,null,'2 con hoá 2 vệt lao vào nhau'],[T.clash,'se_impact_stop',1,null,'nắm đấm haki đụng xích Chud giữa đường: va chạm, khựng'],[T.clash+0.01,'kn_boom_low',0.6,null,'+ lớp trầm: tiếng nổ nén khi 2 đòn đụng nhau'],
       [T.far,'l2p_explode',0.7,null,'chân trời nổ loé tím trắng, tiếng nổ dội từ xa'],
       [T.whip,'l2p_whoosh',0.7,null,'cắt sang hướng chân trời, gió rít'],[T.tunnel,'l2p_riser',0.7,null,'máy lao về phía trận Gojo vs Pain']],
     duckAuto:{decisive:[T.ram,T.snap]},   // 🎚️ nhạc nhường tiếng: mỗi cú lùi nhạc, cú húc + giật đứt xích thì lặng trước rồi nổ
     // 🎵 (13/11 anh chốt: nhạc anime CHẠY DÀI) Kusari Yarou (HxH 2011 — theme xích của Kurapika, đúng trận mẫu anh chọn) · lặng lúc băng nứt · Overtaken (One Piece) từ lúc bật HAKI tới hết — mỗi bài 1 lần, không lặp file
     mus:[{src:'assets/audio/mus_kusari.m4a',ra:T.out,rb:T.quiet,off:0,vol:0.22,fi:1.2,fo:0.3},{src:'assets/audio/mus_kusari.m4a',ra:T.burst,rb:T.haki-0.3,off:24,vol:0.22,fi:0.1,fo:0.3},{src:'assets/audio/mus_overtaken.m4a',ra:T.haki,rb:T.DUR,off:0.3,vol:0.5,fi:0.2,fo:0.8}],
     theme:t=>theme(t), shots,
-    impact:C.negFrames([T.burst,T.snap],0.07,'inv',[T.ram,T.slam]),
+    // 🎬 EDIT (16/11, skill edit-video): impact frame 2 màu ở cú húc / quật / va chạm cuối · Haki: đỏ – đen · vận lực: cam – đen
+    impact:t=>{ const E=K.edit; return E.first(E.impacts(t,T.ram,8,'red',2),E.impacts(t,T.slam,6,'red',2),E.impacts(t,T.snap,6,'blue',2),E.impacts(t,T.clash,10,'red',2)) || C.negFrames([T.burst],0.07,'inv',[])(t); },
+    grade:t=>{ const E=K.edit; return E.mix(E.rgb(t,T.ram+0.27,0.8,12),E.duotone(t,T.hakiOn,T.pull,'#200000','#ff4a3a',0.15,0.8),E.rgb(t,T.snap+0.2,0.7,12),E.duotone(t,T.shock+0.6,T.lunge,'#3a1a04','#ffc860',0.2,0.65),E.zoom(t,T.clash-0.27,0.2,0.4),E.rgb(t,T.clash+0.33,0.6,14)); },
     shake:t=>{ let s=0; const h=(a,amp,d)=>{ if(t>=a&&t<a+d) s=Math.max(s,amp*(1-(t-a)/d)); };
       if(t>=T.shake&&t<T.burst) s=Math.max(s,1.5+2.5*seg(t,T.shake,T.quiet)); if(t>=T.quiet&&t<T.burst) s=0.5;
       h(T.strikeD,8,0.5); h(T.strikeK,6,0.4); h(T.landD,6,0.4); h(T.landK,4,0.3); h(T.bind,4,0.3); h(T.frz,4,0.4); h(T.burst,16,0.8); h(T.charge,6,0.3); h(T.ram,18,0.8); for(const [tb] of HITS) h(tb,8,0.6);

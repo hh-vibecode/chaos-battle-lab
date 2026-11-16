@@ -587,7 +587,7 @@
   const Rold=tn=>{ for(const r of RT) if(tn<r.n1) return r.a+(tn-r.n0)/r.k; const L=RT[RT.length-1]; return L.b+(tn-L.n1); };   // giây mới → giây cũ
   const Rnew=to=>{ for(const r of RT) if(to<r.b) return r.n0+(Math.max(r.a,to)-r.a)*r.k; const L=RT[RT.length-1]; return L.n1+(to-L.b); };   // giây cũ → giây mới
   function retime(def){ const o=Object.assign({},def), W=f=>f&&((F,t)=>{ const to=Rold(t); F.t=to; return f(F,to); }), T1=f=>f&&(t=>f(Rold(t)));
-    o.DUR=Rnew(def.DUR); o.world=W(def.world); o.screen=W(def.screen); o.post=W(def.post); o.shake=T1(def.shake); o.impact=T1(def.impact); o.panels=T1(def.panels);
+    o.DUR=Rnew(def.DUR); o.world=W(def.world); o.screen=W(def.screen); o.post=W(def.post); o.shake=T1(def.shake); o.impact=T1(def.impact); o.grade=T1(def.grade); o.panels=T1(def.panels);
     o.theme=typeof def.theme==='function'?T1(def.theme):def.theme;
     o.shots=def.shots.map(x=>Object.assign({},x,{t0:Rnew(x.t0),t1:Rnew(x.t1)}));
     o.sfx=def.sfx.map(x=>{ const y=x.slice(); y[0]=Rnew(x[0]); return y; });
@@ -655,7 +655,18 @@
       {src:'assets/audio/mus_honored.m4a',ra:T.dom,rb:T.DUR,off:Math.max(0,75.8-(Rnew(T.smoke)-Rnew(T.dom))),vol:0.35,fi:0.4,fo:2.0}],
     theme:t=>theme(t), shots:window.Fin1Fight?Fin1Fight.cutify(shots,{keep:[[T.land,T.look]]}):shots,   // (13/11 anh: hạn chế zoom / máy trượt trong khung 3D — cắt góc tĩnh)
     panels:t=>C?C.splitFace(t,T.split,T.wide-T.split,{tx:-490,ty:78,tz:0,dist:190,yaw:16,pitch:-4,fov:40,ox:-0.25},{tx:505,ty:105,tz:0,dist:190,yaw:-16,pitch:-4,fov:40,ox:0.25})   /* 9/11: ảnh nghiêng (G9/P9) → mỗi ô hiện TRỌN ĐẦU 1 con, tâm máy dời vào giữa ô (ox ±0.25) */:null,
-    impact:t=>{ if(at(t,T.rest-0.18,0.18)) return 0; return IMP(t); },
+    // 🎬 EDIT kiểu CapCut / AMV (16/11, skill edit-video): impact frame 2 màu đặc ở cú quyết định, duotone lúc dồn lực, cháy trắng ở vụ nổ, đổi màu liên tục ở chiêu, tách RGB sau va chạm
+    impact:t=>{ if(at(t,T.rest-0.18,0.18)) return 0; const E=K.edit;
+      return E.first(E.impacts(t,T.clash,6,'blue',2), E.impacts(t,10.35,6,'blue',2), E.impacts(t,T.push,10,'red',2), E.impacts(t,T.sh-0.02,12,'red',2),
+        E.impacts(t,T.dImp,8,'blue',2), E.impacts(t,T.fire,10,'purple',2), E.impacts(t,T.heave+0.25,10,'purple',1), E.impacts(t,T.boom,8,'purple',2)) || IMP(t); },
+    grade:t=>{ const E=K.edit; return E.mix(
+        E.rgb(t,T.clash+0.2,0.6,10), E.rgb(t,10.55,0.6,10), E.zoom(t,T.push-0.15,0.15,0.35), E.rgb(t,T.push+0.33,0.9,14),
+        E.duotone(t,T.cast,T.sh-0.02,'#300504','#ff4a30',0.3,0.85),                                  // Pain dồn lực Shinra: cả khung đỏ – đen
+        E.burn(t,T.sh+0.38,T.sh+0.9,0.13), E.rgb(t,T.sh+1.03,1.0,18),                              // nổ Shinra: cháy trắng dần → giữ trắng → tách RGB nhạt dần
+        E.invert(t,T.dVoid,2), E.cycle(t,T.dVoid+0.07,T.dIn,3,60), E.zoom(t,T.dVoid,0.2,0.45),        // bành trướng lãnh địa: âm bản → đổi màu liên tục + đường hầm
+        E.cycle(t,T.smoke+0.2,T.fire,3,-40), E.zoom(t,T.fire+0.33,0.16,0.4), E.rgb(t,T.fire+0.33,0.8,14),   // Hollow Purple tụ (đổi màu đỏ ↔ xanh ↔ tím) → bắn: đường hầm + tách RGB
+        E.rgb(t,T.block,1.4,6+8*Math.abs(Math.sin(t*20))), E.duotone(t,T.heave-0.5,T.heave+0.25,'#22063a','#d08aff',0.2,0.75),   // đỡ cầu: rung tách màu · dồn sức hất: tím – đen
+        E.burn(t,T.boom+0.27,T.boom+0.75,0.13), E.rgb(t,T.boom+0.88,1.2,16)); },
     shake:t=>{ let s=0; const h=(a,amp,d)=>{ if(t>=a&&t<a+d) s=Math.max(s,amp*(1-(t-a)/d)); };
       h(T.clash,12,0.45); h(5.3,9,0.35); h(6.9,9,0.35); h(8.45,10,0.4); h(10.35,18,0.6); h(11.95,9,0.35); h(T.push,16,0.5); h(T.push+0.95,26,1.1);
       h(T.dVoid,14,0.8); h(T.dOut,12,0.7); h(T.sh,26,1.6); h(T.wave,18,1.0); h(T.land+0.95,10,0.5); h(T.block,12,0.5); h(T.heave+0.25,16,0.6); h(T.boom,22,1.4);

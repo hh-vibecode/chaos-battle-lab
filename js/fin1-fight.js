@@ -115,6 +115,17 @@
   function dash(F,t,t0,t1,A,B,o){ o=o||{}; if(t<t0||t>=t1) return false; const u=(t-t0)/(t1-t0), tail=o.tail==null?0.55:o.tail, pts=[];
     for(let i=0;i<=12;i++){ const k=Math.max(0,Math.min(1,u-tail*(1-i/12))), e=1-(1-k)*(1-k); pts.push(K.proj(F.B,A[0]+(B[0]-A[0])*e,(A[1]+(B[1]-A[1])*e),(A[2]+(B[2]-A[2])*e))); }
     streak(F,pts,o.w||30,o.col||'255,220,150'); if(o.core) streak(F,pts,(o.w||30)*0.4,o.core); return true; }
+  // 💥 VẬN LỰC trước khi lao (anh 16/11: "vận lực vỡ đất đá như movie"): mặt đất NỨT toả từ chân, đá vụn NỔI LÊN lơ lửng xoay chậm rồi bốc cao,
+  //    vòng bụi bị đẩy ra, tia khí màu riêng bốc lên. t0 → t1 = lúc gồng (mạnh dần); sau t1 (lao đi) đá văng tung ra.
+  function powerUp(F,t,t0,t1,x,z,col,seed,o){ o=o||{}; if(t<t0||t>t1+0.8) return; const k=Math.min(1,(t-t0)/(t1-t0)), after=t>t1?(t-t1)/0.8:0, R=o.r||150, h=(a,b)=>K.hash(seed*13.7+a*7.1+b);
+    for(let i=0;i<9;i++){ const an=i/9*Math.PI*2+h(i,1)*0.6, L=R*(0.6+0.9*h(i,2))*Math.min(1,k*1.6); if(L<4) continue; const pts=[[x,1,z]]; let px=x, pz=z;   // vết nứt
+      for(let j=1;j<=5;j++){ px+=Math.cos(an+(h(i,j+3)-0.5)*0.9)*L/5; pz+=Math.sin(an+(h(i,j+9)-0.5)*0.9)*L/5*0.7; pts.push([px,1,pz]); }
+      line(F,pts,Math.max(1.5,4*k),'rgba(10,6,8,0.92)'); line(F,pts,Math.max(1,1.6*k),`rgba(${col},${0.7*k*(1-after)})`,{glow:`rgba(${col},0.6)`}); }
+    for(let i=0;i<18;i++){ const an=h(i,20)*Math.PI*2, r=R*(0.3+1.0*h(i,21)), lift=k<0.25?0:Math.min(1,(k-0.25)/0.6), y=lift*(30+130*h(i,22))+Math.sin(t*3+i)*6+(after>0?after*after*900*h(i,23):0);   // đá nổi lên
+      const fx=x+Math.cos(an)*r*(1+after*2), fz=z+Math.sin(an)*r*0.7*(1+after*2), P=K.proj(F.B,fx,y,fz); if(!P) continue; const S=(6+14*h(i,24))*P.s, rot=t*(1+2*h(i,25))+i;
+      F.list.push({d:P.d, fn:()=>{ const g=F.g; g.save(); g.translate(P.x,P.y); g.rotate(rot); g.fillStyle='#3b3236'; g.strokeStyle='rgba(0,0,0,0.6)'; g.lineWidth=1; g.beginPath(); for(let q=0;q<6;q++){ const a2=q/6*Math.PI*2, rr=S*(0.6+0.4*h(i,30+q)); q?g.lineTo(Math.cos(a2)*rr,Math.sin(a2)*rr*0.8):g.moveTo(Math.cos(a2)*rr,Math.sin(a2)*rr*0.8); } g.closePath(); g.fill(); g.stroke(); g.restore(); }}); }
+    if(k>0.2) K.smoke(F,{x,z,t0:t0+0.2*(t1-t0),n:10,spread:R*1.6*(1+after),rise:20,life:1.4,size:90,seed:seed+5,a:0.4*(1-after),tint:'120,100,96'});
+    K.sparks(F,{x,y:20,z,t0:Math.floor(t*8)/8,n:Math.round(4+10*k),speed:220+300*k,life:0.6,seed:Math.floor(t*8)+seed,col}); }
   // ✂️ CẮT CẢNH THAY VÌ MÁY BÁM (anh dặn 13/11: "thay vì chuyển cảnh thì đang bị theo góc máy, rất không cần thiết — cứ cắt cảnh cắt góc; hạn chế dùng góc máy trên khung 3D,
   //    nhiều vấn đề, trông xấu"): shot nào máy TRƯỢT / XOAY đáng kể → tách thành góc TĨNH (khung đầu → CẮT → khung cuối); shot ngắn < 1s → 1 góc tĩnh ở giữa.
   //    Chỉ giữ đẩy / lùi máy rất nhẹ (≤ 5%). keep = [[t0,t1],…] các shot giữ nguyên chuyển động (anh đã khen).
@@ -139,5 +150,5 @@
     if(def.mus) o.mus=def.mus.map(m=>Object.assign({},m,{ra:Rnew(m.ra),rb:Rnew(m.rb)}));
     if(def.duck) o.duck=def.duck.map(([a,b,g])=>[Rnew(a),Rnew(b),g]); if(def.duckAuto) o.duckAuto=Object.assign({},def.duckAuto,{decisive:(def.duckAuto.decisive||[]).map(Rnew)});
     o._rt={Rold,Rnew}; return o; }
-  window.Fin1Fight={ retime, cutify, streak, dash, track, hstop, actor, smearFrame, line, taper, text3, beam, ice, kamui, backOut };
+  window.Fin1Fight={ retime, cutify, powerUp, streak, dash, track, hstop, actor, smearFrame, line, taper, text3, beam, ice, kamui, backOut };
 })();

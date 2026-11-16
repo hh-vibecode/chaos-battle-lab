@@ -260,6 +260,49 @@
   K.sfxText=(F,txt,x,y,o)=>{ const g=F.g, t=F.t-o.t0; if(t<0||t>o.life) return; const u=t/o.life, sc=(t<0.08?0.4+t/0.08*0.9:1.3-0.3*EASE.eout(seg(t,0.08,0.3)))*(o.size||1), a=1-seg(u,0.75,1), j=Math.sin(t*90)*3*(1-u);
     g.save(); g.translate(x+j,y); g.rotate((o.rot||-8)*D2R); g.scale(sc,sc); g.globalAlpha=a; g.font=`900 ${o.px||72}px "Arial Black",Impact,sans-serif`; g.textAlign='center'; g.textBaseline='middle'; g.lineJoin='round';
     g.lineWidth=(o.px||72)*0.22; g.strokeStyle='#000'; g.strokeText(txt,0,0); g.lineWidth=(o.px||72)*0.08; g.strokeStyle=o.edge||'#fff'; g.strokeText(txt,0,0); g.fillStyle=o.col||'#ffd34d'; g.fillText(txt,0,0); g.restore(); };
+  // ═════════ 🎬 EDIT KIỂU CAPCUT / AMV (16/11/2026, học từ 2 short "When you win in UNO" anh gửi — skill edit-video) ═════════
+  //   def.grade(t) → {hue, sat, bright, contrast, invert, duo:[tối,sáng], duoK, white, rgb, zoom:{k,x,y}} áp lên CẢ KHUNG (sau shader, trước screen)
+  //   def.impact(t) → {fg, bg} = IMPACT FRAME 2 màu đặc: phần tối (bóng nhân vật) tô fg, phần sáng tô bg — đổi cặp màu mỗi 1–2 khung
+  const EB=[]; const ebuf=(i,w,h)=>{ let c=EB[i]; if(!c){ c=EB[i]=document.createElement('canvas'); } if(c.width!==w||c.height!==h){ c.width=w; c.height=h; } const x=c.getContext('2d'); x.setTransform(1,0,0,1,0,0); x.globalAlpha=1; x.globalCompositeOperation='source-over'; x.filter='none'; return [c,x]; };
+  K.applyGrade=(src,gr,w,h)=>{ let [a,ax]=ebuf(0,w,h); ax.clearRect(0,0,w,h);
+    const f=[]; if(gr.hue) f.push(`hue-rotate(${gr.hue}deg)`); if(gr.sat!=null) f.push(`saturate(${gr.sat})`); if(gr.bright!=null) f.push(`brightness(${gr.bright})`); if(gr.contrast!=null) f.push(`contrast(${gr.contrast})`); if(gr.invert) f.push('invert(1)');
+    ax.filter=f.length?f.join(' '):'none'; ax.drawImage(src,0,0); ax.filter='none';
+    if(gr.duo&&(gr.duoK==null||gr.duoK>0)){ const [b,bx]=ebuf(1,w,h); bx.filter=`grayscale(1) contrast(${gr.duoC||1.6})`; bx.drawImage(a,0,0); bx.filter='none';   // DUOTONE: tối → màu 0, sáng → màu 1
+      bx.globalCompositeOperation='multiply'; bx.fillStyle=gr.duo[1]; bx.fillRect(0,0,w,h); bx.globalCompositeOperation='lighter'; bx.fillStyle=gr.duo[0]; bx.globalAlpha=0.55; bx.fillRect(0,0,w,h); bx.globalAlpha=1; bx.globalCompositeOperation='source-over';
+      ax.globalAlpha=gr.duoK==null?1:clamp(gr.duoK,0,1); ax.drawImage(b,0,0); ax.globalAlpha=1; }
+    if(gr.rgb>0.5){ const d=gr.rgb, [r,rx]=ebuf(2,w,h); rx.clearRect(0,0,w,h);   // TÁCH RGB: 3 bản kênh lệch nhau cộng sáng
+      for(const [col,dx,dy] of [['#ff0000',-d,0],['#00ff00',0,d*0.3],['#0000ff',d,0]]){ const [q,qx]=ebuf(3,w,h); qx.drawImage(a,0,0); qx.globalCompositeOperation='multiply'; qx.fillStyle=col; qx.fillRect(0,0,w,h); rx.globalCompositeOperation='lighter'; rx.drawImage(q,dx,dy); }
+      rx.globalCompositeOperation='source-over'; [a,r]=[r,a]; ax=a.getContext('2d'); }
+    if(gr.zoom&&gr.zoom.k>0.005){ const z=gr.zoom, cx=(z.x==null?0.5:z.x)*w, cy=(z.y==null?0.5:z.y)*h, [q,qx]=ebuf(4,w,h); qx.drawImage(a,0,0);   // ZOOM BLUR hướng tâm
+      for(let i=1;i<=7;i++){ const s=1+z.k*i/7; ax.globalAlpha=0.32; ax.setTransform(s,0,0,s,cx*(1-s),cy*(1-s)); ax.drawImage(q,0,0); } ax.setTransform(1,0,0,1,0,0); ax.globalAlpha=1; }
+    if(gr.white>0){ ax.globalAlpha=clamp(gr.white,0,1); ax.fillStyle=gr.whiteCol||'#ffffff'; ax.fillRect(0,0,w,h); ax.globalAlpha=1; }
+    return a; };
+  K.impactFrame=(src,o,w,h)=>{ const [m,mx]=ebuf(5,w,h); mx.filter=`grayscale(1) contrast(${o.th||9}) brightness(${o.br||1.1})`; mx.drawImage(src,0,0); mx.filter='none';
+    const [A,Ax]=ebuf(6,w,h); Ax.drawImage(m,0,0); Ax.globalCompositeOperation='multiply'; Ax.fillStyle=o.bg||'#ffffff'; Ax.fillRect(0,0,w,h);         // phần SÁNG → màu nền
+    const [Bq,Bx]=ebuf(7,w,h); Bx.filter='invert(1)'; Bx.drawImage(m,0,0); Bx.filter='none'; Bx.globalCompositeOperation='multiply'; Bx.fillStyle=o.fg||'#000000'; Bx.fillRect(0,0,w,h);   // phần TỐI → màu bóng
+    Ax.globalCompositeOperation='lighter'; Ax.drawImage(Bq,0,0); Ax.globalCompositeOperation='source-over'; return A; };
+  // dựng sẵn các kiểu edit (giây t của phim) — mỗi hàm trả object để gộp: K.edit.mix(a,b,…)
+  const EF=1/30;   // 1 khung edit = 1/30s (nhịp của video mẫu)
+  K.edit={
+    PAL:{ red:[['#2a5bff','#ff1f1f'],['#ffffff','#000000'],['#ff1f1f','#ffffff'],['#000000','#ff9a1a'],['#000000','#ffffff'],['#00e5ff','#000000']],
+          purple:[['#ffffff','#5b1aff'],['#000000','#ffffff'],['#ff2a6a','#140026'],['#00e5ff','#2a0050'],['#ffffff','#000000'],['#b06bff','#000000']],
+          blue:[['#000000','#9fe3ff'],['#ffffff','#003cff'],['#000000','#ffffff'],['#00e5ff','#000000'],['#ff2a2a','#ffffff']] },
+    // tràng IMPACT FRAME: n khung, đổi cặp màu mỗi `per` khung (video mẫu: 1–2 khung / cặp, cả tràng 0.3–0.5s)
+    impacts:(t,t0,n,pal,per)=>{ per=per||2; if(t<t0||t>=t0+n*EF) return 0; const i=Math.floor((t-t0)/EF/per), P=K.edit.PAL[pal]||pal; const p=P[i%P.length]; return {fg:p[0],bg:p[1]}; },
+    // CHÁY TRẮNG dần (exposure ramp) rồi giữ trắng `hold` giây
+    burn:(t,t0,t1,hold)=>{ if(t<t0||t>t1+(hold||0)) return null; const u=seg(t,t0,t1); return {bright:1+2.2*u*u, contrast:1+0.6*u, white:t>=t1?1:Math.max(0,u*u*u)}; },
+    // DUOTONE (vd đỏ – đen như cảnh "thức tỉnh"); fi = giây mờ vào
+    duotone:(t,t0,t1,dark,light,fi,str)=>{ if(t<t0||t>=t1) return null; const s=str==null?0.8:str; return {duo:[dark,light], duoK:s*(fi?seg(t,t0,t0+fi)*(1-seg(t,t1-fi,t1)):1), duoC:1.7}; },   // str = độ phủ (mặc định 0.8: còn thấy chi tiết gốc)
+    // ĐỔI MÀU liên tục (quầng sáng / cột sáng đổi hue mỗi `per` khung)
+    cycle:(t,t0,t1,per,step)=>{ if(t<t0||t>=t1) return null; return {hue:(Math.floor((t-t0)/EF/(per||3))*(step||75))%360, sat:1.4}; },
+    // TÁCH RGB mạnh rồi nhạt dần (px trên khung thật)
+    rgb:(t,t0,dur,px)=>{ if(t<t0||t>=t0+dur) return null; return {rgb:px*(1-seg(t,t0,t0+dur))}; },
+    // ZOOM BLUR hướng tâm (đường hầm chuyển cảnh, 3–5 khung)
+    zoom:(t,t0,dur,k,x,y)=>{ if(t<t0||t>=t0+dur) return null; return {zoom:{k:k*Math.sin(Math.PI*seg(t,t0,t0+dur)),x,y}}; },
+    // CHỚP ÂM BẢN 1–2 khung
+    invert:(t,t0,n)=>(t>=t0&&t<t0+(n||1)*EF)?{invert:true,contrast:1.4}:null,
+    mix:(...gs)=>{ const o={}; let any=false; for(const x of gs) if(x){ any=true; for(const k in x){ if(k==='white'||k==='rgb') o[k]=Math.max(o[k]||0,x[k]); else if(k==='bright'||k==='contrast'||k==='sat') o[k]=(o[k]||1)*x[k]; else if(k==='hue') o[k]=(o[k]||0)+x[k]; else o[k]=x[k]; } } return any?o:null; },
+    first:(...xs)=>{ for(const x of xs) if(x) return x; return 0; } };
   K.flash=(F,a,col)=>{ if(a<=0.01) return; const g=F.g; g.save(); g.globalAlpha=clamp(a,0,1); g.fillStyle=col||'#fff'; g.fillRect(0,0,F.VW,F.VH); g.restore(); };
   K.letterbox=(F,k)=>{ if(k<=0) return; const g=F.g, h=F.VH*0.11*k; g.fillStyle='#000'; g.fillRect(0,0,F.VW,h); g.fillRect(0,F.VH-h,F.VW,h); };
   K.vignette=(F,a)=>{ const g=F.g, vg=g.createRadialGradient(F.VW/2,F.VH/2,F.VH*0.25,F.VW/2,F.VH/2,F.VH*0.75); vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,`rgba(0,0,0,${a==null?0.5:a})`); g.fillStyle=vg; g.fillRect(0,0,F.VW,F.VH); };
@@ -317,8 +360,10 @@
             shocks:(fx.shocks||[]).map(s0=>{ const q=cvt(s0); return q?{x:q.x,y:q.y,r:px(s0.r),w:px(s0.w),str:px(s0.str)}:null; }).filter(Boolean),
             zoom:fx.zoom?(()=>{ const q=cvt(fx.zoom); return q?{x:q.x,y:q.y,k:fx.zoom.k}:null; })():null};
           const r=VfxGL.post(W2,out); if(r) SRC=r; } }
+      if(def.grade){ const gr=def.grade(t); if(gr) SRC=K.applyGrade(SRC,gr,cv.width,cv.height); }   // 🎬 EDIT kiểu CapCut (K.edit.*): duotone / đổi màu / cháy trắng / tách RGB / zoom blur
       const imp=def.impact?def.impact(t):0;
-      if(imp==='bw'){ g.filter='grayscale(1) contrast(6) brightness(1.15)'; g.drawImage(SRC,0,0); g.filter='none'; }
+      if(imp&&typeof imp==='object'){ g.drawImage(K.impactFrame(SRC,imp,cv.width,cv.height),0,0); }   // impact frame 2 màu đặc (bóng nhân vật = fg, nền = bg)
+      else if(imp==='bw'){ g.filter='grayscale(1) contrast(6) brightness(1.15)'; g.drawImage(SRC,0,0); g.filter='none'; }
       else if(imp==='inv'){ g.filter='grayscale(1) invert(1) contrast(6)'; g.drawImage(SRC,0,0); g.filter='none'; }
       else if(imp==='red'){ g.filter='grayscale(1) contrast(5)'; g.drawImage(SRC,0,0); g.filter='none'; g.globalCompositeOperation='multiply'; g.fillStyle='#ff2a2a'; g.fillRect(0,0,cv.width,cv.height); g.globalCompositeOperation='source-over'; }
       else g.drawImage(SRC,0,0);
