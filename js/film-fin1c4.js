@@ -211,7 +211,7 @@
       if(k>=-2-nA && k<-2) return pre+'1'; if(k>=-2 && k<0) return pre+'2';
       if(k>=0 && (k<nH || (!nR && t<e))) return pre+'3'; if(k>=nH && k<nH+nR) return pre+'4'; } return null; }
   function dodgeIm(t){ const k=Math.floor((t-6.9)*12+1e-6); return k>=-8&&k<-6?'GD1':k>=-6&&k<-4?'GD2':k===-4?'GD3':null; }
-  const HSTOP=[[T.clash,0.14],[5.3,0.12],[6.9,0.12],[8.45,0.12],[10.35,0.18],[11.95,0.14],[T.push,0.12]];
+  const HSTOP=[[T.clash,0.14],[5.3,0.12],[6.9,0.12],[8.45,0.12],[10.35,0.18],[11.95,0.14],[T.push,0.12],[T.push+0.01,'ed_hit7',0.55,null,'+ lớp edit: cú đập nặng theo tràng impact frame của Almighty Push']];
   const hs=t=>{ for(const [a,d] of HSTOP) if(t>=a&&t<a+d) return a; return t; };
   function track(K0,tq){ for(let i=1;i<K0.length;i++){ const A=K0[i-1], B=K0[i]; if(tq<B[0]){ const k=seg(tq,A[0],B[0]), e=B[3]==='ein'?ein(k):B[3]==='eout'?eout(k):B[3]==='back'?backOut(k):k;
         return {x:lerp(A[1],B[1],e), im:B[2], fast:!!B[4]&&k>0.3, dir:Math.sign(B[1]-A[1])}; } } const L=K0[K0.length-1]; return {x:L[1], im:L[2], fast:false, dir:0}; }
@@ -626,19 +626,19 @@
       [T.cast+0.1,'ps_shinra',1,1.5,'Pain dang tay hô "Shinra Tensei" (chỉ phần giọng)'],
       [T.dom+0.2,'ep3_shine',0.6,null,'băng mắt kéo lên, mắt Lục Nhãn xanh loé sáng'],
       [T.dImp,'ep3_kamui',0.8,null,'mực đen bung từ sau lưng, không gian bị nuốt'],
-      [T.dVoid,'cine_deep_impact',1,null,'hư không bung, máy lao vào đường hầm'],
+      [T.dVoid,'cine_deep_impact',1,null,'hư không bung, máy lao vào đường hầm'],[T.dVoid+0.01,'ed_hit6',0.5,null,'+ lớp edit: bùng sáng khi hư không bung (âm bản → đổi màu)'],
       [T.dIn,'l2p_chime',0.6,null,'trắng xoá → hố đen Vô Lượng Không Xứ'],
       [T.dOut,'ep3_quake',0.6,null,'vòm lãnh địa trồi lên giữa đống đổ nát'],
       [T.imp,'ep3_charge',0.6,null,'Shinra dồn lực: màn đen, chấm sáng co lại'],
-      [T.sh,'ep3_explode',1,null,'SHINRA TENSEI nổ, sóng đập trúng thành phố lan xoá tất cả'],[T.sh+0.25,'ep3_quake',0.8,null,'+ nhà đổ rạp theo vòng sóng (lớp của tiếng nổ Shinra)'],
+      [T.sh,'ep3_explode',1,null,'SHINRA TENSEI nổ, sóng đập trúng thành phố lan xoá tất cả'],[T.sh-1.27,'ed_hit1',0.6,null,'+ lớp edit: tụ lực dâng lên rồi bùng đúng lúc Shinra Tensei nổ'],[T.sh+0.25,'ep3_quake',0.8,null,'+ nhà đổ rạp theo vòng sóng (lớp của tiếng nổ Shinra)'],
       [T.sh+0.6,'l2p_explode',0.7,null,'nhà phía ngoài nổ tiếp'],[T.wave+0.3,'l2p_rumble',0.8,null,'tường bụi ập tới vòm của Gojo'],
       [T.land,'cine_drop',0.6,null,'Pain rơi từ trên trời xuống'],[T.land+0.95,'cine_impact',0.8,null,'Pain đập đất giữa hố'],
       [T.smoke+0.1,'mw_gojo',1,null,'Hollow Purple hình thành trong khói (ánh xanh + đỏ)'],
-      [T.fire,'l2p_riser',0.6,null,'+ cầu tím xé khói lao tới (lớp của tiếng Hollow Purple)'],
+      [T.fire,'l2p_riser',0.6,null,'+ cầu tím xé khói lao tới (lớp của tiếng Hollow Purple)'],[T.fire+0.33-1.0,'ed_hit9',0.6,null,'+ lớp edit: tụ lực rồi nổ đúng lúc Hollow Purple phóng ra'],
       [T.block,'cine_haki_hit',1,null,'Pain đỡ cầu bằng trường lực'],[T.block+0.5,'mw_gojo_travel',0.6,2.6,'+ cầu tím ép, Pain bị đẩy trượt lùi (lớp kéo dài của cú đỡ)'],
       [T.heave,'ep3_force',0.9,null,'Pain dồn hết sức đẩy'],[T.heave+0.25,'cine_deep_impact',1,null,'+ lực đẩy của Pain đập trúng quả cầu, hất nó lên trời'],
       [T.up,'l2p_whoosh',0.7,null,'cầu tím bay vút lên'],
-      [T.boom,'ep3_explode',1,null,'NỔ TÍM trên không, sóng nổ đập trúng mây'],[T.boom+0.3,'ep3_quake',0.6,null,'rung dội xuống mặt đất'],
+      [T.boom,'ep3_explode',1,null,'NỔ TÍM trên không, sóng nổ đập trúng mây'],[T.boom+0.01,'ed_hit10',0.6,null,'+ lớp edit: nổ trầm to của vụ nổ tím'],[T.boom+0.3,'ep3_quake',0.6,null,'rung dội xuống mặt đất'],
       [T.face,'l2p_rumble',0.4,null,'2 bên đối diện giữa hố, gió bụi'],
       [T.split,'ep3_shine',0.7,null,'mặt chia đôi loé'],
       [T.wide,'l2p_sub',0.4,null,'toàn cảnh kết, nền trầm, tối dần']],

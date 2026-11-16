@@ -401,7 +401,7 @@
       [T.hakiOn,'cine_haki',0.9,null,'HAKI thức tỉnh: 2 tay Doge phủ đen bóng, trận đứng hình'],
       [T.snap,'kn_explode_crunch',0.9,null,'Doge giật ngược đập tan: 2 sợi xích đứt vỡ tung'],
       [T.shock+0.2,'l2p_sub',0.4,null,'+ cận Chud sững người (lớp đuôi của tiếng xích đứt)'],
-      [T.shock+0.6,'se_tremor',0.7,null,'cả 2 vận lực: đất rung nứt, đá nổi lên'],[T.clash-0.27,'se_machdash',0.85,null,'2 con hoá 2 vệt lao vào nhau'],[T.clash,'se_impact_stop',1,null,'nắm đấm haki đụng xích Chud giữa đường: va chạm, khựng'],[T.clash+0.01,'kn_boom_low',0.6,null,'+ lớp trầm: tiếng nổ nén khi 2 đòn đụng nhau'],
+      [T.shock+0.6,'se_tremor',0.7,null,'cả 2 vận lực: đất rung nứt, đá nổi lên'],[T.clash-0.27,'se_machdash',0.85,null,'2 con hoá 2 vệt lao vào nhau'],[T.clash+0.01,'ed_hit5',0.55,null,'+ lớp edit: impact bùng theo tràng impact frame lúc 2 con va nhau'],[T.clash,'se_impact_stop',1,null,'nắm đấm haki đụng xích Chud giữa đường: va chạm, khựng'],[T.clash+0.01,'kn_boom_low',0.6,null,'+ lớp trầm: tiếng nổ nén khi 2 đòn đụng nhau'],
       [T.far,'l2p_explode',0.7,null,'chân trời nổ loé tím trắng, tiếng nổ dội từ xa'],
       [T.whip,'l2p_whoosh',0.7,null,'cắt sang hướng chân trời, gió rít'],[T.tunnel,'l2p_riser',0.7,null,'máy lao về phía trận Gojo vs Pain']],
     duckAuto:{decisive:[T.ram,T.snap]},   // 🎚️ nhạc nhường tiếng: mỗi cú lùi nhạc, cú húc + giật đứt xích thì lặng trước rồi nổ

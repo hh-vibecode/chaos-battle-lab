@@ -1,0 +1,60 @@
+---
+name: edit-video
+description: EDIT kiểu CapCut / AMV hiệu ứng nặng cho phim Meme Cinema (cine-kit) — impact frame 2 màu đặc, duotone, cháy trắng, đổi màu liên tục, tách RGB, zoom blur, chớp âm bản, vận lực đất nứt đá nổi, tiếng ra chiêu. Học sẵn từ 2 short anh gửi (16/11/2026) → dùng ngay K.edit.* không cần xem lại video. Cũng có công cụ HỌC VIDEO MẪU MỚI (chụp 30 khung/giây, cắt tiếng ra chiêu). Dùng khi anh bảo "edit cho chất / cháy / như capcut / như video này", hoặc làm cú quyết định của 1 trận.
+---
+
+# Edit video kiểu CapCut / AMV (học 16/11/2026)
+
+Nguồn học: 2 short anh gửi — "When you win in UNO" (giây 30→60) và "When you win in UNO No Mercy" (giây 34→60), file gốc ở `D:\meme-anime-lab-videos\YTSave.to_Shorts_Media_*`.
+Đã xem đủ 30 khung/giây đoạn edit. KHÔNG cần xem lại — mọi thủ thuật đã tóm ở dưới + đã có hàm dựng sẵn.
+
+## 1. Ngữ pháp edit (rút từ 2 video)
+- **CHẬM → BÙNG**: giữ 1–1.5s chậm (slow-mo lơ lửng, đẩy máy chậm, máy xoay nghiêng 90°/180°), rồi 0.3–0.6s bùng dồn dập (đổi mỗi 1–2 khung). Không bùng liên tục — mắt cần đoạn thở.
+- **IMPACT FRAME 2 màu đặc**: bóng nhân vật 1 màu, nền 1 màu, đổi cặp mỗi 1–2 khung, cả tràng 6–12 khung. Cặp hay dùng: nền đỏ + bóng xanh · nền trắng + bóng đen · nền đen + bóng trắng · nền cam + bóng đen · xanh lơ / đỏ / đen 3 màu.
+- **DUOTONE đơn sắc** (đỏ – đen là chủ đạo) cho cả 1 đoạn "thức tỉnh / dồn lực", 1–3s.
+- **CHÁY TRẮNG dần** (exposure ramp ~0.5–1s, tia sáng toả) → giữ trắng tinh 3–4 khung → cắt sang cảnh mới.
+- **TÁCH RGB mạnh rồi nhạt dần** ngay sau cú va (0.5–1.2s), thường kèm màu từ đỏ về trung tính.
+- **ĐỔI MÀU LIÊN TỤC** quầng sáng / cột sáng / cả khung: mỗi màu ~3 khung (hồng → cam → xanh lá → xanh dương…).
+- **ZOOM BLUR hướng tâm** 3–5 khung = chuyển cảnh "đường hầm"; **WHIP BLUR** ngang 3 khung = chuyển cảnh nhanh.
+- **CHỚP ÂM BẢN** 1–2 khung đúng điểm chạm.
+- **Mắt / vật loé + bloom**, **lens flare** trên vật quan trọng, **bóng đen giữa khói đỏ** với 1 điểm sáng.
+- **Ngưỡng đen trắng (posterize)** mặt người 2–3 khung xen giữa đoạn màu.
+
+## 2. Dùng trong phim (cine-kit) — `K.edit` (js/cine-kit.js)
+`def.impact(t)` trả `{fg,bg}` → impact frame 2 màu. `def.grade(t)` trả object grade → áp lên cả khung (sau shader, trước screen). Retime (`W.retime`, c4 retime) tự chuyển giờ.
+```js
+impact:t=>{ const E=K.edit; return E.first(E.impacts(t,T.push,10,'red',2), E.impacts(t,T.fire,10,'purple',2)) || 0; },
+grade:t=>{ const E=K.edit; return E.mix(
+  E.duotone(t,T.cast,T.sh,'#300504','#ff4a30',0.3,0.85),   // dồn lực: đỏ – đen (str 0.6–0.85: còn thấy chi tiết; 1 = phủ kín)
+  E.burn(t,T.sh+0.38,T.sh+0.9,0.13),                       // cháy trắng dần → giữ trắng 0.13s
+  E.rgb(t,T.sh+1.03,1.0,18),                               // tách RGB 18px → 0
+  E.cycle(t,T.dVoid,T.dIn,3,60),                           // đổi màu mỗi 3 khung, bước 60°
+  E.zoom(t,T.fire+0.33,0.16,0.4),                          // đường hầm 0.16s
+  E.invert(t,T.dVoid,2)); },                               // âm bản 2 khung
+```
+- Bảng màu impact: `K.edit.PAL.red / purple / blue` (hoặc truyền mảng `[[fg,bg],…]` riêng).
+- 1 khung edit = 1/30s (`impacts(t,t0,n,…)`: n khung).
+- Quy tắc: impact frame CHỈ ở 3–8 cú quyết định / trận; duotone ≤ 2 đoạn / trận; cháy trắng chỉ ở vụ nổ lớn nhất.
+
+## 3. Vận lực trước khi lao (anh dặn 16/11: "vận lực vỡ đất đá như movie")
+`W.powerUp(F,t,t0,t1,x,z,'r,g,b',seed,{r})` (js/fin1-fight.js): vết nứt toả từ chân (khe phát sáng màu riêng), đá vụn nổi lên lơ lửng xoay rồi bốc cao, bụi cuộn, tia khí. Sau t1 (lao đi) đá văng tung.
+Đi kèm: góc THẤP RỘNG chếch xuống (pitch 12–16) thấy cả 2 con + mặt đất · duotone màu chiêu str 0.65–0.75 · tiếng `se_tremor` · rồi zoom blur 0.2s + impact frame lúc va.
+Đã dùng: fin1f3 (Ninja vs Berserk trước nhát lướt qua nhau), fin1f1 (Doge vs Chud trước cú va cuối).
+
+## 4. Tiếng ra chiêu (đã cắt sẵn, KHÔNG giọng người)
+`ed_hit1…10` (assets/audio/*.wav, đã khai AUDIO_SAMPLES + SND_LUFS, tiền tố `ed` là tiếng dùng chung):
+1 tụ lực → bùng cuối (đỉnh 1.29s) · 2 impact trầm (0.6s) · 3 tụ lực → nổ (1.3s) · 4 đập trầm ngay đầu · 5 impact bùng (0.24s) · 6 bùng sáng cháy trắng (0.36s) · 7 đập nặng (0.24s) · 8 va trầm (0.27s) · 9 tụ lực → nổ (1.0s) · 10 nổ trầm to (0.35s).
+Tiếng "tụ lực" (1, 3, 9): đặt SỚM = mốc nổ − giây đỉnh. Dùng làm lớp '+' của cú chính (đỡ luật ≤ 9 tiếng / 10s).
+⚠️ Cắt từ video có nhạc nền của người edit → có lẫn nhạc (bản quyền có thể dính). Thay được thì thay bằng tiếng sạch.
+
+## 5. Học 1 video mẫu MỚI (Windows, không ffmpeg)
+1. Anh tải video về `D:\meme-anime-lab-videos\` (yt-dlp hay lấy nhầm bản / chất lượng thấp — để anh tải). Chép vào `tools/x/_ref/` (gitignore).
+2. Chụp 30 khung/giây: `tools/x/video-frames.html?src=tools/x/_ref/x.mp4&a=30&b=34&fps=30&w=80&rate=0.35` qua cdp (`evalsave <tên> window.__png`).
+   ⚠️ Đừng TUA (`currentTime=`) trong trình duyệt ngầm để chụp — nó trả khung cũ (16/11 em tưởng video đứng yên → tải lại oan). Trang này PHÁT chậm và chụp từng khung trình chiếu.
+   Mỗi lần chạy 1 đoạn 4s (1 trình duyệt / đoạn), chạy nền; đoạn lỗi thì chạy lại riêng.
+3. Cắt tiếng: `tools/x/audio-hits.html?src=…&a=…&b=…&max=14&len=1.4` → `window.__list` (giây, độ bật, `voiceR` = tỉ lệ dải giọng) + `evalsave a_i window.__wav[i]` → WAV. Giữ cú `voiceR ≤ 0.25`.
+4. Đo độ to: `tools/x/sfx-measure.html?keys=x.wav` → dòng SND_LUFS.
+5. Ghi thủ thuật mới vào mục 1 + thêm hàm vào `K.edit` nếu cần — để lần sau không phải xem lại.
+
+## 6. Soát
+`film-check.js <id> --t <các giây của cú edit>` (tính giây mới qua bảng retime nếu phim có RETIME) — xem: impact frame có đọc ra hình nhân vật không, duotone có che mất chi tiết không (giảm str), cháy trắng có quá lâu không.

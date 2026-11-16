@@ -1,0 +1,34 @@
+<!doctype html><meta charset="utf-8"><title>audio-hits</title>
+<!-- 🔊 TÌM + CẮT TIẾNG RA CHIÊU từ video mẫu (Windows, không ffmpeg): giải mã tiếng của mp4 bằng WebAudio → tìm các CÚ (onset mạnh: nổ, chém, whoosh, impact),
+     đánh giá "có giọng người" (năng lượng dải 300–3400Hz dao động theo âm tiết + độ phẳng phổ thấp), cắt mỗi cú thành WAV.
+     tools/x/audio-hits.html?src=tools/x/_ref/uno1.mp4&a=33&b=60&max=14&pre=0.05&len=1.4
+     → window.__list (JSON [{t, lufs, voice, rise, len}]) · window.__wav[i] (dataURL WAV) · window.__done.  Chạy ngầm qua cdp.js (eval / evalsave). -->
+<pre id="o">…</pre><script>
+const q=new URLSearchParams(location.search);
+function wav(ch,sr){ const n=ch[0].length, nc=ch.length, buf=new ArrayBuffer(44+n*nc*2), v=new DataView(buf); const w=(o,s)=>{ for(let i=0;i<s.length;i++) v.setUint8(o+i,s.charCodeAt(i)); };
+  w(0,'RIFF'); v.setUint32(4,36+n*nc*2,true); w(8,'WAVE'); w(12,'fmt '); v.setUint32(16,16,true); v.setUint16(20,1,true); v.setUint16(22,nc,true); v.setUint32(24,sr,true); v.setUint32(28,sr*nc*2,true); v.setUint16(32,nc*2,true); v.setUint16(34,16,true); w(36,'data'); v.setUint32(40,n*nc*2,true);
+  let o=44; for(let i=0;i<n;i++) for(let c=0;c<nc;c++){ const s=Math.max(-1,Math.min(1,ch[c][i])); v.setInt16(o,s<0?s*0x8000:s*0x7fff,true); o+=2; } return buf; }
+function b64(buf){ let s=''; const u=new Uint8Array(buf); for(let i=0;i<u.length;i+=0x8000) s+=String.fromCharCode.apply(null,u.subarray(i,i+0x8000)); return 'data:audio/wav;base64,'+btoa(s); }
+// biquad bandpass để đo dải giọng
+function band(x,sr,f0,Q){ const w=2*Math.PI*f0/sr, al=Math.sin(w)/(2*Q), b0=al, b2=-al, a0=1+al, a1=-2*Math.cos(w), a2=1-al; const y=new Float32Array(x.length); let x1=0,x2=0,y1=0,y2=0;
+  for(let i=0;i<x.length;i++){ const v=(b0*x[i]+b2*x2-a1*y1-a2*y2)/a0; x2=x1; x1=x[i]; y2=y1; y1=v; y[i]=v; } return y; }
+(async()=>{ const ab=await (await fetch('/'+q.get('src'))).arrayBuffer(), ac=new OfflineAudioContext(2,44100,44100), au=await ac.decodeAudioData(ab), sr=au.sampleRate;
+  const A=+(q.get('a')||0), B=Math.min(+(q.get('b')||au.duration),au.duration), i0=Math.floor(A*sr), i1=Math.floor(B*sr), L=au.getChannelData(0).subarray(i0,i1), R=(au.numberOfChannels>1?au.getChannelData(1):au.getChannelData(0)).subarray(i0,i1);
+  const M=new Float32Array(L.length); for(let i=0;i<M.length;i++) M[i]=(L[i]+R[i])/2;
+  const hop=Math.round(sr*0.01), win=Math.round(sr*0.03), nF=Math.floor((M.length-win)/hop), E=new Float32Array(nF), V=band(M,sr,1000,0.6), EV=new Float32Array(nF), HI=band(M,sr,6000,0.7), EH=new Float32Array(nF);
+  for(let f=0;f<nF;f++){ let s=0,sv=0,sh=0; for(let i=f*hop;i<f*hop+win;i++){ s+=M[i]*M[i]; sv+=V[i]*V[i]; sh+=HI[i]*HI[i]; } E[f]=s/win; EV[f]=sv/win; EH[f]=sh/win; }
+  const dB=x=>10*Math.log10(x+1e-12), flux=[], avg=(arr,a,b)=>{ let s=0; for(let k=a;k<b;k++) s+=arr[k]; return s/Math.max(1,b-a); }; for(let f=15;f<nF-3;f++) flux.push({f, d:Math.max(dB(avg(E,f,f+3))-dB(avg(E,f-15,f-1)), dB(avg(EH,f,f+3))-dB(avg(EH,f-15,f-1)))});   // cú = năng lượng 30ms (toàn dải hoặc dải cao) bật lên so với 150ms trước — nhạc nền đều nên vẫn bắt được
+  const MAX=+(q.get('max')||12), pre=+(q.get('pre')||0.05), len=+(q.get('len')||1.2); flux.sort((a,b)=>b.d-a.d); const picks=[];
+  for(const c of flux){ if(picks.length>=MAX) break; if(c.d<3) break; if(picks.some(p=>Math.abs(p.f-c.f)<len*100)) continue; picks.push(c); }
+  picks.sort((a,b)=>a.f-b.f); const out=[], wavs=[];
+  for(const p of picks){ const s0=Math.max(0,Math.round((p.f*0.01-pre)*sr)), s1=Math.min(M.length,s0+Math.round(len*sr)), fr0=Math.floor(s0/hop), fr1=Math.floor(s1/hop);
+    // giọng người: tỉ lệ năng lượng dải giọng cao + dao động 3–8Hz (âm tiết); tiếng hiệu ứng: nhiều dải cao (sạn, sáng) hoặc trầm đập
+    let ev=0,et=0,eh=0; const env=[]; for(let f=fr0;f<fr1&&f<nF;f++){ ev+=EV[f]; et+=E[f]; eh+=EH[f]; env.push(EV[f]); }
+    let osc=0; for(let k=2;k<env.length;k++) if((env[k-1]>env[k-2])!==(env[k]>env[k-1])) osc++; const voiceR=ev/(et+1e-12), hiR=eh/(et+1e-12), syl=osc/(env.length*0.01||1);
+    const voice=+(voiceR*1.4+Math.min(1,syl/30)*0.6-hiR*1.2).toFixed(2), peak=Math.max(...env.map((_,k)=>E[fr0+k]||0));
+    out.push({t:+(A+s0/sr).toFixed(2), rise:+p.d.toFixed(1), peakDb:+dB(peak).toFixed(1), voiceR:+voiceR.toFixed(2), hiR:+hiR.toFixed(2), voice});
+    const fade=Math.round(sr*0.06), cl=L.slice(s0,s1), cr=R.slice(s0,s1); for(let i=0;i<fade&&i<cl.length;i++){ const g=i/fade; cl[cl.length-1-i]*=g; cr[cr.length-1-i]*=g; }
+    let pk=0; for(let i=0;i<cl.length;i++) pk=Math.max(pk,Math.abs(cl[i]),Math.abs(cr[i])); const gn=pk>0?0.89/pk:1; for(let i=0;i<cl.length;i++){ cl[i]*=gn; cr[i]*=gn; }
+    wavs.push(b64(wav([cl,cr],sr))); }
+  window.__list=JSON.stringify(out); window.__wav=wavs; document.getElementById('o').textContent=window.__list; window.__done='OK '+out.length+' cú'; })().catch(e=>window.__done='LỖI '+e.message);
+</script>

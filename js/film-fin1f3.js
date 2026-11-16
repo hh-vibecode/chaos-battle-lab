@@ -344,7 +344,7 @@
       [T.fr3,'se_impact_stop',0.95,null,'bổ nhát 3, kiếm Ninja rung bần bật, đỡ lùi sát'],[T.fr3+0.02,'se_pushback',0.5,null,'+ lớp trầm nhát bổ 3'],
       [T.charge,'se_tremor',0.7,null,'cả 2 vận lực: đất rung nứt, đá nổi lên'],[T.read-0.12,'ep3_shine',0.5,null,'+ đặc tả mắt Berserk loé đỏ, gồng kiếm (lớp của tiếng vận lực)'],
       [T.cut-0.6,'se_big_slash',1,null,'Berserk vung đại kiếm chém'],
-      [T.cut-0.28,'se_machdash',0.8,null,'+ 2 con hoá vệt lao vượt qua nhau (lớp đầu của nhát chém)'],[T.cut-0.12,'se_super_hit',1,null,'2 lưỡi kiếm va nhau ở điểm giao (chém), loé'],
+      [T.cut-0.28,'se_machdash',0.8,null,'+ 2 con hoá vệt lao vượt qua nhau (lớp đầu của nhát chém)'],[T.cut-0.12,'se_super_hit',1,null,'2 lưỡi kiếm va nhau ở điểm giao (chém), loé'],[T.cut-0.12-1.3,'ed_hit3',0.55,null,'+ lớp edit: tụ lực trong lúc vận lực rồi nổ đúng nhát lướt qua nhau'],
       [T.cut+TB,'se_katana_b',0.9,null,'+ kiếm Ninja gãy đôi, mũi kiếm văng xoay tít (lớp của nhát chém)'],[T.cut+TSPLIT,'cine_flesh',0.7,null,'+ Ninja đứt ngang người, nửa trên trượt đổ (lớp của nhát chém)'],
       [T.cut+TBLD,'cine_heavy_slow',0.8,null,'+ cả dãy nhà hai bên đường bị xẻ ngang đổ sập (lớp đuôi của nhát chém)'],
       [T.crows,'fin_crow_fly',1,null,'2 nửa người hoá bầy quạ vỗ cánh bay tán loạn'],[T.crows+0.4,'fin_crow_caw',0.8,null,'+ quạ kêu giữa bầy quạ bay'],

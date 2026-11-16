@@ -3,7 +3,7 @@
 //   node tools/x/cdp.js --stop [--profile <dir>]          -> close ONLY the browser this tool launched
 // Steps file, one command per line ('#' = comment). Every JS command must be ONE line:
 //   eval <js>              evaluate (promises awaited), print result
-//   evalsave <name> <js>   js returns 'data:image/png;base64,...' -> <out>/<name>.png
+//   evalsave <name> <js>   js returns a dataURL ('data:image/png;base64,...', jpeg, audio/wav…) -> <out>/<name>.<ext>
 //   shot <name>            page screenshot -> <out>/<name>.png
 //   wait <seconds>
 //   reload                 reload bypassing HTTP cache + service worker, wait until the game finished booting
@@ -65,7 +65,8 @@ async function main() {
     const sp = line.indexOf(' '), cmd = sp < 0 ? line : line.slice(0, sp), rest = sp < 0 ? '' : line.slice(sp + 1);
     if (cmd === 'eval') { console.log('> ' + rest.slice(0, 80)); console.log(await ev(rest)); }
     else if (cmd === 'evalsave') { const s2 = rest.indexOf(' '), nm = rest.slice(0, s2), v = await ev(rest.slice(s2 + 1));
-      if (typeof v === 'string' && v.startsWith('data:image/png;base64,')) { fs.writeFileSync(path.join(OUT, nm + '.png'), Buffer.from(v.slice(22), 'base64')); console.log('saved ' + nm); } else console.log('evalsave fail: ' + v); }
+      const mm = typeof v === 'string' && v.match(/^data:([a-z]+)\/([a-z0-9.+-]+);base64,/);   // 16/11: nhận mọi dataURL (png, jpeg, wav…) — đuôi file theo kiểu
+      if (mm) { const ext = mm[2] === 'jpeg' ? 'jpg' : mm[2] === 'wav' || mm[2] === 'x-wav' ? 'wav' : mm[2]; fs.writeFileSync(path.join(OUT, nm + '.' + ext), Buffer.from(v.slice(mm[0].length), 'base64')); console.log('saved ' + nm + '.' + ext); } else console.log('evalsave fail: ' + String(v).slice(0, 200)); }
     else if (cmd === 'shot') { const r = await send('Page.captureScreenshot', { format: 'png' }); fs.writeFileSync(path.join(OUT, rest + '.png'), Buffer.from(r.result.data, 'base64')); console.log('shot ' + rest); }
     else if (cmd === 'wait') await sleep(parseFloat(rest) * 1000);
     else if (cmd === 'goto') { await send('Page.navigate', { url: new URL(rest, new URL(URL0).origin + '/').href }); await sleep(800); for (let k = 0; k < 60; k++) { if (await ev('document.readyState') === 'complete') break; await sleep(500); } console.log('goto ' + rest); }
