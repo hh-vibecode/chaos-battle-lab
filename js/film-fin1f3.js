@@ -78,7 +78,7 @@
   const bkS=t=>t<0.6?eout(seg(t,0.15,0.6)):1;   // bước ra từ cột sáng đỏ
   // ───────── MÁY QUAY ─────────  máy luôn PHÍA TRƯỚC trục 2 người (yaw −40…40): ai bên trái vẫn bên trái
   const S=(t0,t1,a,b,ease)=>({t0,t1,a,b:b||a,ease:ease||'eio'});
-  const shots=C.seq([
+  const shots=W.cutify(C.seq([
     S(0,T.crow,{tx:120,ty:150,tz:0,dist:1100,yaw:-34,pitch:-6,fov:52,roll:-2},{tx:0,ty:130,tz:0,dist:980,yaw:-30,pitch:-5,fov:52,roll:-2},'lin'),                       // 1 cột sáng đỏ, Berserk kéo lê kiếm dọc đại lộ, mũi kiếm toé lửa
     S(T.crow,T.gather,{tx:LAMP[0],ty:300,tz:LAMP[1],dist:300,yaw:-14,pitch:-8,fov:46},{tx:LAMP[0],ty:300,tz:LAMP[1],dist:280,yaw:-14,pitch:-8,fov:46},'lin'),           // 2 quạ đậu cột đèn kêu
     S(T.gather,T.formed,{tx:60,ty:120,tz:0,dist:560,yaw:22,pitch:-4,fov:50},{tx:90,ty:110,tz:0,dist:500,yaw:20,pitch:-4,fov:50},'lin'),                                 // 3 qua vai Berserk: bầy quạ sà xuống tụ thành Ninja
@@ -111,7 +111,7 @@
     S(T.crows,T.eye2,{tx:-380,ty:180,tz:0,dist:720,yaw:-20,pitch:-14,fov:58},{tx:-380,ty:420,tz:0,dist:640,yaw:-20,pitch:-34,fov:60}),         // 2 nửa hoá BẦY QUẠ bay vút lên trời (máy ngước theo)
     S(T.eye2,T.howl,{tx:-392,ty:420,tz:0,dist:620,yaw:-10,pitch:-46,fov:64},{tx:-392,ty:440,tz:0,dist:590,yaw:-10,pitch:-48,fov:64},'lin'),   // THẾ GIỚI ẢO THUẬT: trời đỏ, 2 mắt Sharingan, quạ lượn
     S(T.howl,T.brk-0.25,{tx:-300,ty:135,tz:0,dist:300,yaw:20,pitch:-30,fov:54},{tx:-300,ty:140,tz:0,dist:260,yaw:22,pitch:-32,fov:54},'lin'),   // góc giun: Berserk HÚ lên, hào quang bùng
-    S(T.brk-0.25,T.DUR,{tx:-300,ty:105,tz:0,dist:520,yaw:-14,pitch:0,fov:50}) ]);                                                           // chém vỡ ảo cảnh (máy ĐỨNG YÊN, không nghiêng — mảnh kính dời theo máy này)
+    S(T.brk-0.25,T.DUR,{tx:-300,ty:105,tz:0,dist:520,yaw:-14,pitch:0,fov:50}) ]));                                                           // chém vỡ ảo cảnh (máy ĐỨNG YÊN, không nghiêng — mảnh kính dời theo máy này)
   // ═════════ KẾT DANG DỞ + CHUYỂN TRẬN (anh biên đạo 11/11) ═════════
   //   Berserk BẮT ĐƯỢC GÓC → chém đứt đôi Ninja cùng 1 toà nhà → 2 nửa rơi xuống thì MẮT SHARINGAN hiện phủ kín bầu trời (dính ẢO THUẬT)
   //   → 2 nửa hoá BẦY QUẠ bay khắp nơi → Berserk HÚ lên bùng hào quang → chém VỠ TAN ảo cảnh thành mảnh kính → sau lớp kính là TRẬN KHÁC (fin1f2: Bat vs Pop + Huh).
@@ -322,25 +322,25 @@
       [T.slam,'se_rock_break',0.9,null,'đại kiếm đập vỡ mặt đường thành hố chỗ Ninja vừa đứng'],[T.slam+0.12,'se_wall_break',0.55,null,'+ ô tô cạnh hố bị hất lật (lớp của cú bổ)'],
       
       [T.sweep-0.6,'se_big_slash',0.8,null,'+ Berserk lao tới quét ngang đại kiếm (lớp đầu của nhát quét)'],
-      [T.sweep,'se_sword_clash',0.9,null,'Ninja dựng kiếm đỡ nhát quét, kiếm va kiếm, xe bị xẻ đôi'],
+      [T.sweep,'se_impact_stop',0.9,null,'Ninja dựng kiếm đỡ nhát quét, kiếm va kiếm, xe bị xẻ đôi'],
       [T.glass,'se_glass',1,null,'+ Ninja bị đánh văng xuyên kính cửa hàng, kính vỡ tung (lớp đuôi của cú đỡ)'],
       [T.c1,'se_katana_a',0.85,null,'Ninja chém nhát 1, Berserk gạt bằng bản kiếm (va kiếm)'],
       [T.c2,'se_katana_b',0.8,null,'+ chém hất nhát 2, Berserk cắm kiếm đỡ thấp, va kiếm (lớp của tràng 3 nhát)'],
-      [T.c3,'se_slash',1,null,'nhát 3 lách qua, chém trúng rạch vai Berserk'],[T.c3+0.01,'kn_punch_heavy',0.5,null,'+ lớp thịt nhát chém trúng vai'],
+      [T.c3,'se_slash',1,null,'nhát 3 lách qua, chém trúng rạch vai Berserk'],[T.c3+0.01,'cine_flesh',0.5,null,'+ lớp thịt nhát chém trúng vai'],
       [T.eye,'nj_sharingan',1,null,'cực cận mắt Mangekyou Sharingan loé, Kamui kích hoạt'],
       [T.hit60-0.45,'se_machdash',0.7,null,'+ Berserk lao tới đâm kết liễu (lớp đầu của cú đâm xuyên)'],[T.hit60-0.1,'ep3_whoosh',0.7,null,'+ đại kiếm đi xuyên qua người Ninja như không khí (lớp của cú đâm)'],
       [T.kam,'ep3_kamui',0.9,null,'xoáy Kamui nuốt Ninja'],
       [T.emerge-0.3,'ninja_sub',0.6,null,'+ xoáy mở trên không sau lưng Berserk, Ninja lộn ngược lao xuống (lớp của Kamui)'],
-      [T.turnB,'se_sword_clash',1,null,'Berserk xoay người chém đỡ: 2 lưỡi va trên đầu, mặt đường lõm'],[T.turnB+0.01,'kn_punch_heavy',0.6,null,'+ lớp trầm cú va kiếm trên đầu'],
+      [T.turnB,'se_super_hit',1,null,'Berserk xoay người chém đỡ: 2 lưỡi va trên đầu, mặt đường lõm'],[T.turnB+0.01,'se_quake',0.6,null,'+ mặt đường dưới chân Berserk lún vỡ vòng tròn (lớp của cú va kiếm trên đầu)'],
       [T.f1,'se_katana_a',0.8,null,'lộn qua đầu chém xuống, Berserk đỡ trên (va kiếm)'],
       [T.f2,'se_katana_b',0.75,null,'+ trượt sát đất chém gối, Berserk cắm kiếm đỡ thấp (lớp của tràng đòn)'],
       [T.f3,'se_sword_clash',0.6,null,'+ đâm sườn, Berserk gạt văng (lớp của tràng đòn)'],
-      [T.f4,'se_slash',1,null,'đạp kiếm bật cao chém chéo xuống, trúng ngực Berserk'],[T.f4+0.01,'kn_punch_heavy',0.55,null,'+ lớp thịt nhát chém trúng ngực'],
+      [T.f4,'se_slash',1,null,'đạp kiếm bật cao chém chéo xuống, trúng ngực Berserk'],[T.f4+0.01,'cine_flesh',0.55,null,'+ lớp thịt nhát chém trúng ngực'],
       [T.kneel,'ep3_breath',0.5,null,'Berserk khuỵu 1 gối thở dốc, máu nhỏ giọt'],
       [T.rage,'cine_haki',0.8,null,'Berserk nổi điên: lửa đỏ bốc từ chân lên'],
-      [T.fr1,'se_sword_clash',0.85,null,'bổ nhát 1, Ninja giơ kiếm đỡ, trượt lùi'],[T.fr1+0.02,'kn_punch_heavy',0.45,null,'+ lớp trầm nhát bổ 1'],
-      [T.fr2,'se_sword_clash',0.85,null,'bổ nhát 2, Ninja đỡ, bị đẩy xa hơn, chân cày rãnh'],
-      [T.fr3,'se_sword_clash',0.95,null,'bổ nhát 3, kiếm Ninja rung bần bật, đỡ lùi sát'],[T.fr3+0.02,'kn_punch_heavy',0.5,null,'+ lớp trầm nhát bổ 3'],
+      [T.fr1,'se_sword_clash',0.85,null,'bổ nhát 1, Ninja giơ kiếm đỡ, trượt lùi'],[T.fr1+0.02,'se_pushback',0.45,null,'+ lớp trầm nhát bổ 1'],
+      [T.fr2,'se_katana_a',0.85,null,'bổ nhát 2, Ninja đỡ, bị đẩy xa hơn, chân cày rãnh'],
+      [T.fr3,'se_impact_stop',0.95,null,'bổ nhát 3, kiếm Ninja rung bần bật, đỡ lùi sát'],[T.fr3+0.02,'se_pushback',0.5,null,'+ lớp trầm nhát bổ 3'],
       [T.read-0.12,'ep3_shine',0.5,null,'đặc tả mắt Berserk loé đỏ, gồng kiếm'],
       [T.cut-0.6,'se_big_slash',1,null,'Berserk vung đại kiếm chém'],
       [T.cut-0.28,'se_machdash',0.8,null,'+ 2 con hoá vệt lao vượt qua nhau (lớp đầu của nhát chém)'],[T.cut-0.12,'se_super_hit',1,null,'2 lưỡi kiếm va nhau ở điểm giao (chém), loé'],

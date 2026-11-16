@@ -76,7 +76,7 @@
 
   // ───────── MÁY QUAY ─────────  (Pop + Huh luôn TRÁI, Bat luôn PHẢI)
   const S=(t0,t1,a,b,ease)=>({t0,t1,a,b:b||a,ease:ease||'eio'});
-  const shots=C.seq([
+  const shots=W.cutify(C.seq([
     S(0,T.look,{tx:-580,ty:150,tz:15,dist:760,yaw:24,pitch:-6,fov:52,roll:2},{tx:-590,ty:130,tz:15,dist:690,yaw:22,pitch:-5,fov:52,roll:2},'lin'),            // 1 toàn góc thấp dọc mặt cầu: 2 cột sáng giáng xuống, Pop + Huh hiện ra
     ...C.pushIn(T.look,{d:T.perch-T.look,tx:-580,ty:70,tz:15,dist:330,dist1:290,yaw:22,pitch:-6,fov:44,ox:-0.1}),                                                    // 2 Pop + Huh ngơ ngác nhìn quanh
     S(T.perch,T.eyeB,{tx:900,ty:BEAM_Y+70,tz:0,dist:330,yaw:-30,pitch:-10,fov:48},{tx:900,ty:BEAM_Y+75,tz:0,dist:300,yaw:-32,pitch:-12,fov:48},'lin'),                           // 3 góc giun: Bat ngồi xổm trên dầm tháp, trăng máu sau lưng
@@ -103,7 +103,7 @@
     S(T.clear,T.turnH,{tx:CEN[0],ty:40,tz:CEN[2],dist:760,yaw:-12,pitch:44,fov:52},{tx:CEN[0],ty:40,tz:CEN[2],dist:700,yaw:-10,pitch:46,fov:52},'lin'),             // 24 góc chim: khói tan, trống trơn, vòng bom dơi nháy nhanh dần
     S(T.turnH,T.pop,{tx:500,ty:72,tz:70,dist:150,yaw:-12,pitch:-2,fov:42,ox:-0.14},{tx:500,ty:72,tz:70,dist:140,yaw:-12,pitch:-2,fov:42,ox:-0.14},'lin'),            // 25 cận Huh: từ từ quay sang Pop… "huh?"
     S(T.pop,T.det,{tx:380,ty:66,tz:-50,dist:150,yaw:-12,pitch:-2,fov:42,ox:0.14},{tx:380,ty:66,tz:-50,dist:142,yaw:-12,pitch:-2,fov:42,ox:0.14},'lin'),              // 26 cận Pop: quay sang Huh, "pop" khẽ
-    S(T.det,T.DUR,{tx:440,ty:80,tz:30,dist:520,yaw:-12,pitch:-4,fov:50}) ]);                                                                                          // 27 BÙM → vòng khói lao vào máy → qua lỗ sang trận kế
+    S(T.det,T.DUR,{tx:440,ty:80,tz:30,dist:520,yaw:-12,pitch:-4,fov:50}) ]));                                                                                          // 27 BÙM → vòng khói lao vào máy → qua lỗ sang trận kế
   // ───────── TRẬN KẾ (fin1f1, CÔNG VIÊN) trong lỗ vòng khói: Doge + Clapping đi dạo — đúng khung mở đầu fin1f1 ─────────
   // (12/11) Pop + Huh là TRẬN ĐẦU → trong lỗ vòng khói là trận KẾ: Ninja vs Berserk (đại lộ, cùng tham số Fin1City + máy shot đầu fin1f3)
   const PARK=Fin1City({seed:3}), NEXT1={tx:120,ty:150,tz:0,dist:1100,yaw:-34,pitch:-6,fov:52,roll:-2,oy:0};   // = máy shot đầu fin1f1   // oy:0 → ô tròn không tự dời tâm ảnh
@@ -272,17 +272,17 @@
       [T.land,'se_step_in',0.7,null,'Bat rơi xuống mặt cầu, lăn tròn tiếp đất'],
       [T.car1+0.3,'se_glass',0.7,null,'kính xe A vỡ tung, cửa xe móp dần theo từng phát'],
       [T.fl1,'se_whoosh_fast',0.65,null,'Bat vụt qua gầm xe tải'],[T.fl2,'ep3_whoosh',0.5,null,'+ lộn qua nắp capo xe C (lớp của tràng lướt)'],[T.fl3,'se_whoosh_fast',0.45,null,'+ trượt vào sau trụ đèn (lớp của tràng lướt)'],
-      [T.fl4,'br_boom',0.7,null,'xe tải bị rỉa nổ tung sau lưng Bat'],
+      [T.fl4,'l2p_explode',0.7,null,'xe tải bị rỉa nổ tung sau lưng Bat'],
       [T.pil+0.3,'se_rock_break',0.55,null,'bê tông mép trụ đèn bị rỉa toé ra'],
       [T.cease+0.1,'ep3_breath',0.5,null,'Pop ngừng bắn, thở hổn hển, mồm bốc khói'],
       [T.huhC,'l2p_riser',0.55,null,'Huh gồng hết sức, quầng hồng tụ lại'],
       [T.huhF,'huh_sample',1,null,'Huh bắn chữ HUH KHỔNG LỒ bám theo Bat'],[T.huhF+0.03,'kn_boom_low',0.5,null,'+ lớp trầm: tiếng nổ dội khi chữ HUH khổng lồ phóng đi'],
-      [KNOCK,'se_wall_break',0.6,null,'chữ HUH cày qua xe C, hất văng'],
+      [KNOCK,'se_collapse_b',0.6,null,'chữ HUH cày qua xe C, hất văng'],
       [T.throw,'se_swing_kick',0.6,null,'Bat vung tay ném nắm phi tiêu toả quạt'],
       [T.boom,'br_boom',1,null,'phi tiêu đâm trúng chữ HUH: NỔ LỚN giữa cầu'],[T.boom+0.01,'kn_boom_low',0.6,null,'+ lớp trầm: sóng nổ quét cầu, dây cáp rung'],
       [T.boom+0.5,'ep3_klunk',0.45,null,'+ 4 phi tiêu chệch cắm xuống mặt đường quanh tâm nổ (lớp đuôi của vụ nổ)'],
       [T.smoke+1.6,'bat_grapple',0.5,null,'dây móc vút lên khỏi khói — Bat biến mất'],
-      [T.walk+0.2,'se_step_in',0.35,null,'Pop + Huh hí hửng đi vào khói tìm xác'],
+      
       [T.ring,'br_tick',0.6,null,'khói tan: vòng bom dơi nháy nhanh dần chờ nổ, tích tắc — nhạc tắt phụt'],
       [T.huh,'huh_sample',0.55,null,'Huh quay sang Pop, kêu khẽ "huh?"'],[T.pop+0.15,'popcat',0.5,null,'Pop quay sang Huh, đáp khẽ "pop"'],
       [T.det,'br_boom',1,null,'6 quả bom dơi nổ cùng lúc'],

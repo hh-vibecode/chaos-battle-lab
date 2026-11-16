@@ -18,9 +18,8 @@
   const FX=()=>window.CineKitFx;
   const T={ strikeD:0.5, strikeK:0.85, landD:2.2, landK:3.6,   // ĐÁP XUỐNG kiểu cổng BIFROST (anh dặn 12/11: "chiếu xuống kiểu cổng Bifrost của Thor", "đáp xuống chất tí")
     look:4.6, lurk:6.8, bind:8.8, lick:9.5, frz:9.62, hold:11, out:13.8, surr:17, laugh:19.4, puzzle:22.6, shake:24.4, turn:26.4, crack:27.4, eye:29, quiet:30, 
-    burst:30.6, charge:31.6, ram:32.4, b1:33.3, b2:34.2, b3:35.1, dust:36.4, cover:38.8, mturn:41.6, raise:43.2, rise:45.6, chains:48.6, r1:50.2, w1:51.4, r2:53.6, 
-    w2:54.35, punch:54.85, zip:54.8, tie0:57, tie:57.6, tug:59.4, lift:62.6, slam:63.2, down:64.4, haki:66.9, hakiOn:67.6, pull:69.4, snap:70.6, shock:71.9, 
-    lunge:73.9, clash:75.1, far:75.6, whip:76.45, tunnel:76.7, DUR:77.65 };
+    burst:30.6, charge:31.6, ram:32.4, b1:33.3, b2:34.2, b3:35.1, dust:36.4, cover:38.8, mturn:41.6, raise:43.2, rise:45.6, chains:46.6, r1:47.0, w1:47.5, r2:48.1, w2:48.5, punch:48.9, zip:48.85, tie0:49.9, tie:50.3, tug:51.2, lift:52.2, slam:52.7, down:53.3,
+    haki:54.6, hakiOn:55.2, pull:56.4, snap:57.1, shock:57.8, lunge:58.4, clash:59.1, far:59.5, whip:60.25, tunnel:60.45, DUR:61.4 };   // (13/11 anh: "dựng lại combat nhịp nhanh, kết như t bảo") giao tranh ~16s thay ~32s
   const H=120;
   // đường húc: từ chỗ Chud đứng bay chéo vào sâu, xuyên 3 dãy nhà phía sau công viên
   const CH0=[60,200], DIRV=[0.64,0.77], RAM=k=>[CH0[0]+DIRV[0]*k, CH0[1]+DIRV[1]*k];
@@ -80,14 +79,14 @@
   const CK=[[0,560,'CK0',0,0,760,0],[T.bind-0.5,560,'CK1',0,0,760,0],[T.bind-0.25,560,'CK2',0,0,760,0],[T.bind+0.4,560,'CK0',0,0,760,0],[T.out+0.3,560,'CK0',0,0,760,0],
     [T.surr+0.3,150,'CK0','eio',0,260,0],[T.laugh,CH0[0],'CK0','eio',0,CH0[1],0],[T.DUR,CH0[0],'CK0',0,0,CH0[1],0]];
   // trận chính: x LOCAL quanh FZ (z = FZ[1]); Doge bên trái số nhỏ, Chud bên số lớn
-  const DM=[[T.rise,-260,'DKN',0,0,0,0],[T.rise+1.3,-260,'DUP'],[T.rise+2.3,-260,'DB'],[T.w1-0.5,-260,'DB'],[T.w1-0.42,-250,'DRN','eout'],[T.w1,-40,'DRN','ein',1],[T.w1+0.05,-40,'DBL'],[T.w1+0.9,-300,'DBL','back'],[T.w1+1.6,-300,'DB'],   // lao vào → ăn xích → đỡ, bị đẩy lùi
-    [T.w2-0.45,-300,'DB'],[T.w2-0.3,-300,'DB'],[T.w2-0.02,-115,'DDK','ein'],[T.w2+0.06,-110,'DDK'],[T.w2+0.25,60,'DDK','ein',1],[T.punch-0.12,60,'DPU','eout'],[T.punch-0.03,35,'DGP','ein',1],[T.punch+1.4,35,'DGP'],   // cúi né dưới xích → áp sát → đấm hụt nện đất
-    [T.tie0,170,'DB'],[T.tie,175,'DCW','eout'],[T.tug,190,'DCW'],[T.lift-0.2,300,'DCW','lin',0,0,0],[T.lift,315,'DCL','eout',0,0,120],[T.lift+0.38,345,'DCL','eout',0,0,280],[T.slam,380,'DDC','ein',1,0,0],[T.down,380,'DDC'],   // bị trói, giằng co, bị kéo lê → nhấc lên quật xuống
+  const DM=[[T.rise,-260,'DKN',0,0,0,0],[T.rise+0.5,-260,'DUP'],[T.rise+1.0,-260,'DB'],[T.w1-0.35,-260,'DB'],[T.w1-0.3,-250,'DRN','eout'],[T.w1,-40,'DRN','ein',1],[T.w1+0.05,-40,'DBL'],[T.w1+0.45,-260,'DBL','back'],[T.w1+0.55,-260,'DB'],   // lao vào → ăn xích → khoanh tay đỡ, trượt lùi
+    [T.w2-0.3,-260,'DB'],[T.w2-0.02,-115,'DDK','ein'],[T.w2+0.06,-110,'DDK'],[T.w2+0.25,60,'DDK','ein',1],[T.punch-0.12,60,'DPU','eout'],[T.punch-0.03,35,'DGP','ein',1],[T.punch+0.7,35,'DGP'],   // cúi né xích thứ 2 → áp sát → đấm hụt nện đất
+    [T.tie0,170,'DB'],[T.tie,175,'DCW','eout'],[T.tug,190,'DCW'],[T.lift-0.2,300,'DCW','lin',0,0,0],[T.lift,315,'DCL','eout',0,0,120],[T.lift+0.3,345,'DCL','eout',0,0,280],[T.slam,380,'DDC','ein',1,0,0],[T.down,380,'DDC'],   // trói cổ tay → giằng co → nhấc bổng → quật
     [T.haki,380,'DDC'],[T.haki+0.3,380,'DKC'],[T.hakiOn,380,'DHK'],[T.pull,380,'DHC','eout'],[T.snap,365,'DHP'],[T.snap+0.4,360,'DH','back'],[T.lunge,360,'DH'],[T.clash-0.5,345,'DP1','eout'],[T.clash-0.27,345,'DP1'],[T.clash,495,'DP1','ein',1],[T.DUR,495,'DP1']];
-  const CM=[[T.rise,300,'CHL',0,0,0,0],[T.rise+1.1,300,'CHK'],[T.rise+2.1,300,'CK0'],[T.r1+0.6,300,'CK0'],[T.r1+0.8,305,'CK1','eout'],[T.w1-0.06,305,'CK1'],[T.w1,300,'CK2','ein'],[T.w1+0.7,300,'CK2'],[T.w1+1.0,300,'CK0'],
-    [T.r2+0.3,300,'CK0'],[T.r2+0.45,305,'CK3','eout'],[T.w2-0.05,305,'CK3'],[T.w2,300,'CK4','ein'],[T.zip,300,'CK4'],[T.zip+0.45,620,'CK1','eout',1,0,80],[T.zip+0.8,620,'CK0','ein',0,0,0],   // quất trượt → quăng xích vào cột, đu né cú đấm
-    [T.tie0,620,'CK0'],[T.tie0+0.2,625,'CK1','eout'],[T.tie-0.04,625,'CK1'],[T.tie,620,'CK2','ein'],[T.tug,640,'CK1','eout'],[T.lift-0.2,650,'CK1'],[T.lift,640,'CK4','ein'],[T.slam,640,'CK4'],[T.down,640,'CK0'],
-    [T.down+1.2,740,'CK0','eio'],[T.snap,740,'CK0'],[T.snap+0.25,700,'CK0','eout'],[T.shock,700,'CK0'],[T.lunge,700,'CK0'],[T.clash-0.5,712,'CK1','eout'],[T.clash-0.27,712,'CK1'],[T.clash,650,'CK2','ein',1],[T.DUR,650,'CK2']];
+  const CM=[[T.rise,300,'CHL',0,0,0,0],[T.rise+0.4,300,'CHK'],[T.rise+0.9,300,'CK0'],[T.w1-0.4,300,'CK0'],[T.w1-0.3,305,'CK1','eout'],[T.w1-0.06,305,'CK1'],[T.w1,300,'CK2','ein'],[T.w1+0.4,300,'CK2'],[T.w1+0.5,300,'CK0'],
+    [T.w2-0.4,300,'CK0'],[T.w2-0.3,305,'CK3','eout'],[T.w2-0.05,305,'CK3'],[T.w2,300,'CK4','ein'],[T.zip,300,'CK4'],[T.zip+0.4,620,'CK1','eout',1,0,80],[T.zip+0.7,620,'CK0','ein',0,0,0],   // quất trượt → quăng xích vào cột, đu né cú đấm
+    [T.tie0,620,'CK0'],[T.tie0+0.15,625,'CK1','eout'],[T.tie-0.04,625,'CK1'],[T.tie,620,'CK2','ein'],[T.tug,640,'CK1','eout'],[T.lift-0.2,650,'CK1'],[T.lift,640,'CK4','ein'],[T.slam,640,'CK4'],[T.down,640,'CK0'],
+    [T.down+0.8,740,'CK0','eio'],[T.snap,740,'CK0'],[T.snap+0.25,700,'CK0','eout'],[T.shock,700,'CK0'],[T.lunge,700,'CK0'],[T.clash-0.5,712,'CK1','eout'],[T.clash-0.27,712,'CK1'],[T.clash,650,'CK2','ein',1],[T.DUR,650,'CK2']];
   const doge=t=>W.track(DK,t), clap=t=>W.track(KK,t), mlem=t=>W.track(MK,t), chud=t=>W.track(CK,t);
   const hs=W.hstop([[T.w1,0.16],[T.punch,0.18],[T.slam,0.2],[T.hakiOn,1.0],[T.snap,0.2]]);   // HAKI: trận đứng hình 1s (đúng game)
   const dogeM=t=>W.track(DM,hs(t)), chudM=t=>W.track(CM,hs(t));
@@ -101,7 +100,7 @@
   const S=(t0,t1,a,b,ease)=>({t0,t1,a,b:b||a,ease:ease||'eio'});
   const OPEN={tx:-560,ty:110,tz:-180,dist:900,yaw:-40,pitch:-4,fov:52,roll:-2};   // = máy ô tròn (lỗ vòng khói) cuối fin1f2 → nối liền
   const FX0=FZ[0], FZz=FZ[1];
-  const shots=C.seq([
+  const shots=W.cutify(C.seq([
     S(0,1.5,OPEN,{tx:-540,ty:130,tz:-200,dist:860,yaw:-38,pitch:-6,fov:52,roll:-2},'lin'),                                                                // toàn: công viên đêm yên lặng → 2 cột BIFROST giáng xuống (vàng rồi trắng)
     S(1.5,3.0,{tx:-640,ty:150,tz:-240,dist:420,yaw:-28,pitch:-20,fov:50},{tx:-640,ty:90,tz:-240,dist:360,yaw:-30,pitch:-14,fov:50},'eout'),          // góc giun: Doge hạ xuống trong cột vàng, chạm đất, bụi toé vòng
     S(3.0,T.look,{tx:-486,ty:150,tz:-368,dist:420,yaw:-58,pitch:-20,fov:50},{tx:-486,ty:95,tz:-368,dist:370,yaw:-56,pitch:-14,fov:50},'eout'),        // góc đối xứng: Clapping hạ xuống trong cột trắng, chạm đất                                                                  // toàn: 2 cột sáng vàng + trắng tắt dần → Doge + Clapping vừa truyền tống xuống
@@ -126,23 +125,25 @@
     S(T.mturn,T.raise,{tx:-330,ty:70,tz:90,dist:260,yaw:30,pitch:-3,fov:46},{tx:-330,ty:70,tz:90,dist:245,yaw:30,pitch:-3,fov:46},'lin'),              // cận Mlem: chậm rãi quay sang Clapping
     S(T.raise,T.rise,{tx:-230,ty:80,tz:0,dist:560,yaw:-12,pitch:-1,fov:48},{tx:-230,ty:80,tz:0,dist:520,yaw:-12,pitch:-1,fov:48},'lin'),               // Clapping quay lại GIƠ TAY như meme; 2 con đứng nhìn nhau
     // ── TRẬN CHÍNH (bãi trống sau 3 dãy nhà): máy NGANG, giữ trục — Doge trái, Chud phải ──
-    S(T.rise,T.chains,{tx:FX0+20,ty:130,tz:FZz,dist:900,yaw:0,pitch:-3,fov:52},{tx:FX0+20,ty:125,tz:FZz,dist:820,yaw:0,pitch:-3,fov:52},'lin'),   // toàn: bụi tan, Buff Doge + Chud đứng dậy giữa đống đổ nát
-    ...C.pushIn(T.chains,{d:T.r1-T.chains,tx:FX0+300,ty:95,tz:FZz,dist:270,dist1:235,yaw:-14,pitch:-3,fov:44,ox:0.06}),                                 // cận Chud: 2 xích nung đỏ buông thõng, áo Akatsuki rách
-    S(T.r1,T.r2,{tx:FX0+40,ty:105,tz:FZz,dist:620,yaw:0,pitch:2,fov:50},{tx:FX0,ty:105,tz:FZz,dist:660,yaw:0,pitch:2,fov:50},'lin'),                    // pha 1: Doge lao vào → xích quất trúng → đỡ, bị đẩy lùi xa
-    S(T.r2,T.tie0,{tx:FX0+20,ty:105,tz:FZz,dist:620,yaw:4,pitch:2,fov:50},{tx:FX0+260,ty:120,tz:FZz,dist:760,yaw:6,pitch:2,fov:50},'brake'),          // pha 2: cúi né xích → áp sát → đấm, Chud quăng xích vào cột đu đi → nắm đấm nện nát đất
-    S(T.tie0,T.tug,{tx:FX0+400,ty:110,tz:FZz,dist:600,yaw:0,pitch:2,fov:50},{tx:FX0+400,ty:110,tz:FZz,dist:570,yaw:0,pitch:2,fov:50},'lin'),            // pha 3: 2 xích quấn trói 2 tay Doge
-    S(T.tug,T.tug+1.5,{tx:FX0+200,ty:110,tz:FZz,dist:300,yaw:-10,pitch:-2,fov:46},{tx:FX0+240,ty:110,tz:FZz,dist:280,yaw:-10,pitch:-2,fov:46},'lin'),  // giằng co: cận Doge gồng, chân trượt dần
-    S(T.tug+1.5,T.lift,{tx:FX0+630,ty:100,tz:FZz,dist:280,yaw:12,pitch:-2,fov:46},{tx:FX0+640,ty:100,tz:FZz,dist:265,yaw:12,pitch:-2,fov:46},'lin'),  // giằng co: cận Chud ghì xích, xích rực đỏ
-    S(T.lift,T.down,{tx:FX0+480,ty:240,tz:FZz,dist:780,yaw:0,pitch:-6,fov:52},{tx:FX0+470,ty:150,tz:FZz,dist:660,yaw:0,pitch:-6,fov:52},'lin'),        // Chud giật mạnh: nhấc bổng Doge lên quật xuống đất
-    ...C.pushIn(T.down,{d:T.haki-T.down,tx:FX0+380,ty:50,tz:FZz,dist:330,dist1:290,yaw:-6,pitch:10,fov:46}),                                           // THỞ: Doge nằm trong hố, xích vẫn trói, Chud bước tới
-    S(T.haki,T.hakiOn,{tx:FX0+370,ty:50,tz:FZz,dist:190,yaw:-10,pitch:4,fov:44},{tx:FX0+385,ty:130,tz:FZz,dist:220,yaw:-10,pitch:1,fov:44},'eout'),   // cực cận: Doge chống gối dậy, máy từ mặt đất nâng theo
-    S(T.hakiOn,T.pull,{tx:FX0+392,ty:212,tz:FZz,dist:310,yaw:-10,pitch:-2,fov:44},{tx:FX0+392,ty:208,tz:FZz,dist:255,yaw:-10,pitch:-2,fov:44},'lin'),   // HAKI phủ đen 2 tay: khung thấy RÕ MẶT + 2 tay (trận đứng hình)
-    S(T.pull,T.shock,{tx:FX0+540,ty:110,tz:FZz,dist:620,yaw:0,pitch:2,fov:50},{tx:FX0+540,ty:110,tz:FZz,dist:580,yaw:0,pitch:2,fov:50},'lin'),        // Doge haki giật ngược → XÍCH ĐỨT TUNG
-    S(T.shock,T.lunge,{tx:FX0+700,ty:100,tz:FZz,dist:250,yaw:14,pitch:-2,fov:44},{tx:FX0+700,ty:100,tz:FZz,dist:230,yaw:14,pitch:-2,fov:44},'lin'),   // cận Chud sững người
-    S(T.lunge,T.far,{tx:FX0+540,ty:120,tz:FZz,dist:560,yaw:0,pitch:0,fov:52},{tx:FX0+560,ty:120,tz:FZz,dist:420,yaw:0,pitch:0,fov:52},'ein'),          // 2 con lao vào nhau
-    S(T.far,T.whip,{tx:FX0+560,ty:120,tz:FZz,dist:420,yaw:0,pitch:0,fov:52}),                                                                          // KHỰNG giữa không trung — chân trời loé tím trắng (trận Gojo vs Pain)
-    S(T.whip,T.tunnel,{tx:FX0+560,ty:150,tz:FZz,dist:500,yaw:0,pitch:0,fov:52},{tx:FX0+560,ty:150,tz:FZz,dist:500,yaw:-70,pitch:0,fov:52},'eio'),     // lia giật về phía chân trời
-    S(T.tunnel,T.DUR,{tx:FX0+2000,ty:300,tz:FZz,dist:500,yaw:-80,pitch:0,fov:56}) ]);                                                                  // lao đi (đường hầm tốc độ)
+    S(T.rise,T.chains,{tx:FX0+20,ty:130,tz:FZz,dist:860,yaw:0,pitch:-3,fov:52}),   // toàn: bụi tan, Buff Doge + Chud đứng dậy giữa đống đổ nát
+    S(T.chains,T.w1-0.35,{tx:FX0+300,ty:95,tz:FZz,dist:260,yaw:-14,pitch:-3,fov:44,ox:0.06}),   // cận Chud: 2 xích nung đỏ buông thõng
+    S(T.w1-0.35,T.w1+0.55,{tx:FX0+20,ty:105,tz:FZz,dist:560,yaw:0,pitch:2,fov:50}),   // Doge lao vào → xích quất → khoanh tay đỡ, trượt lùi
+    S(T.w1+0.55,T.w2-0.05,{tx:FX0+-150,ty:115,tz:FZz,dist:480,yaw:10,pitch:-2,fov:46}),   // cận Doge gồng lên, lao lần 2
+    S(T.w2-0.05,T.punch+0.6,{tx:FX0+150,ty:110,tz:FZz,dist:640,yaw:0,pitch:4,fov:50}),   // cúi né xích → áp sát đấm → Chud đu xích vào cột → đất vỡ hố
+    S(T.punch+0.6,T.tie0+0.2,{tx:FX0+620,ty:150,tz:FZz,dist:380,yaw:14,pitch:-14,fov:50}),   // góc giun: Chud trên đà đu, vung 2 xích
+    S(T.tie0+0.2,T.tug,{tx:FX0+400,ty:110,tz:FZz,dist:600,yaw:0,pitch:2,fov:50}),   // 2 xích quấn trói cổ tay Doge
+    S(T.tug,T.tug+0.6,{tx:FX0+200,ty:110,tz:FZz,dist:300,yaw:-10,pitch:-2,fov:46}),   // cận Doge gồng, chân trượt
+    S(T.tug+0.6,T.lift,{tx:FX0+630,ty:100,tz:FZz,dist:280,yaw:12,pitch:-2,fov:46}),   // cận Chud ghì xích
+    S(T.lift,T.down,{tx:FX0+470,ty:200,tz:FZz,dist:760,yaw:0,pitch:-6,fov:52}),   // nhấc bổng Doge lên cao → quật xuống
+    S(T.down,T.haki,{tx:FX0+380,ty:50,tz:FZz,dist:320,yaw:-6,pitch:10,fov:46}),   // THỞ: Doge nằm ngửa, xích vẫn trói, Chud bước tới
+    S(T.haki,T.hakiOn,{tx:FX0+380,ty:110,tz:FZz,dist:220,yaw:-10,pitch:2,fov:44}),   // cực cận: Doge chống gối dậy
+    S(T.hakiOn,T.pull,{tx:FX0+392,ty:210,tz:FZz,dist:290,yaw:-10,pitch:-2,fov:44}),   // HAKI: 2 tay đen bóng, trận đứng hình
+    S(T.pull,T.shock,{tx:FX0+540,ty:110,tz:FZz,dist:600,yaw:0,pitch:2,fov:50}),   // Doge giật ngược → XÍCH ĐỨT TUNG
+    S(T.shock,T.lunge,{tx:FX0+700,ty:100,tz:FZz,dist:240,yaw:14,pitch:-2,fov:44}),   // cận Chud sững người
+    S(T.lunge,T.far,{tx:FX0+540,ty:120,tz:FZz,dist:500,yaw:0,pitch:0,fov:52}),   // 2 con hoá 2 vệt lao vào nhau
+    S(T.far,T.whip,{tx:FX0+560,ty:120,tz:FZz,dist:420,yaw:0,pitch:0,fov:52}),   // KHỰNG giữa không trung — chân trời loé tím
+    S(T.whip,T.tunnel,{tx:FX0+560,ty:150,tz:FZz,dist:500,yaw:-70,pitch:0,fov:52}),   // CẮT sang hướng chân trời
+    S(T.tunnel,T.DUR,{tx:FX0+2000,ty:300,tz:FZz,dist:500,yaw:-80,pitch:0,fov:56}) ]),{keep:[[T.charge,T.b1]]});   // giữ 2 shot anh khen: One-Punch Shiba lao qua · cắt sang Chud bị húc bay trên ngọn cây                                                                  // lao đi (đường hầm tốc độ)
   // ───────── VẼ ─────────
   const mouthM=m=>[m.x+26,m.y+62,m.z-14];
   function tongue(F,t,t0,A,tg,o){ o=o||{}; const out=o.out||0.18, back=o.back||0.3; if(t<t0-out||t>t0+back) return;
@@ -319,9 +320,9 @@
       for(let i=3;i>=1;i--){ const q=at(t-i*0.025); if(q.k>0.02&&t<t0+0.05) chain(F,hands[j],B,{k:q.k,sag:-40*(1-q.k)+15,wob:q.wob,t:t-i*0.025,w:9,hot:0.7,a:0.22*(4-i)/3}); }
       const q=at(t); chain(F,hands[j],B,{k:q.k,sag:-40*(1-q.k)+15,wob:q.wob,t,w:9,hot:1}); };
     const snapK=t>=T.snap?seg(t,T.snap,T.snap+0.5):0;
-    if(t<T.r1+0.8){ hang(0); hang(1); }
+    if(t<T.w1-0.2){ hang(0); hang(1); }
     else if(t<T.w1+0.7){ hang(1); whip(0,T.w1,dChest); }
-    else if(t<T.r2+0.45){ hang(0); hang(1); }
+    else if(t<T.w2-0.2){ hang(0); hang(1); }
     else if(t<T.zip){ hang(0); whip(1,T.w2,[X+d.x,HT.DDK*1.25,Z],true); }
     else if(t<T.tie0){ chain(F,hands[1],[PIL[0],PIL[1],PIL[2]],{sag:10,t,w:9,hot:1}); if(t<T.zip+0.9) coil(F,PIL[0],PIL[2],PIL[1]-60,PIL[1]+10,60,2,{w:8}); hang(0); }
     else if(t<T.snap){ for(let j=0;j<2;j++) if(!far[j]) tieChain(j,hands,dArms); }   // tay GẦN: xích vẽ trước mặt; quấn siết quanh cổ tay   // quấn siết quanh 2 cổ tay (trước vẽ vòng to ngang ngực)
@@ -344,7 +345,7 @@
       let gr=g.createRadialGradient(P.x,P.y,0,P.x,P.y,R); gr.addColorStop(0,`rgba(255,255,255,${0.9*Math.max(0,1-v*0.6)})`); gr.addColorStop(0.3,'rgba(190,120,255,0.5)'); gr.addColorStop(0.7,'rgba(90,150,255,0.25)'); gr.addColorStop(1,'rgba(90,150,255,0)');
       g.fillStyle=gr; g.fillRect(P.x-R,P.y-R,2*R,2*R); g.strokeStyle=`rgba(230,220,255,${0.7*Math.max(0,1-v*0.7)})`; g.lineWidth=Math.max(2,R*0.02); g.beginPath(); g.ellipse(P.x,P.y,R*0.9,R*0.3,0,0,TAU); g.stroke(); g.restore(); }}); }
   // ⏱️ (12/11 tối) NHANH – CHẬM ĐAN XEN: nén theo loại shot — đối mặt ×0.75 · thở / giới thiệu ×0.85 · đánh ×0.92 · ra chiêu ×0.95 · nổ lớn / chuyển cảnh giữ nguyên
-  const RETIME=[[0,1.5,0.85],[1.5,4.6,0.95],[4.6,8.5,0.75],[8.5,11,0.92],[11,13.8,0.85],[13.8,24.4,0.75],[24.4,26.4,0.95],[26.4,27.4,0.75],[27.4,31.6,0.95],[31.6,33.3,0.92],[33.3,36.4,1],[36.4,38.8,0.85],[38.8,45.6,0.75],[45.6,48.6,0.85],[48.6,50.2,0.75],[50.2,59.4,0.92],[59.4,62.6,0.75],[62.6,64.4,0.92],[64.4,66.9,0.85],[66.9,69.4,0.95],[69.4,71.9,0.92],[71.9,73.9,0.75],[73.9,75.6,0.92],[75.6,77.65,1]];
+  const RETIME=[[0,1.5,0.85],[1.5,4.6,0.95],[4.6,8.5,0.75],[8.5,11,0.92],[11,13.8,0.85],[13.8,24.4,0.75],[24.4,26.4,0.95],[26.4,27.4,0.75],[27.4,31.6,0.95],[31.6,33.3,0.92],[33.3,36.4,1],[36.4,38.8,0.85],[38.8,45.6,0.75],[45.6,61.4,1]];
   CineKit.film(W.retime(RETIME,{ id:'fin1f1', title:'Final 1 · Fight · Chud + Mlem vs Doge + Clapping Cat', DUR:T.DUR, VW:960, VH:540, fadeIn:false, fadeOut:false,   // vào từ lỗ vòng khói fin1f2 · ra: lao về chân trời sang Gojo vs Pain
     imgs:IMG, cast:['dc','mlem','clap'],
     sfxOk:{ clap_cat:'Clapping cười vỗ tay liên tục: mỗi lần vỗ 1 tiếng (game)', dc_chain:'mỗi nhát xích quất / quấn trúng 1 tiếng (game)' },
@@ -353,10 +354,10 @@
     sfx:[[T.strikeD,'cine_impact',0.8,null,'cột Bifrost vàng giáng thẳng từ trời xuống công viên'],
       [T.strikeK,'cine_impact',0.65,null,'+ cột Bifrost trắng giáng xuống ngay sau, cạnh cột vàng'],
       [T.landD-0.65,'l2p_riser',0.45,null,'Doge từ từ hạ xuống trong cột sáng'],
-      [T.landD,'kn_boom_low',0.65,null,'Doge đáp đất, sóng bùng quét qua bãi cỏ'],
+      [T.landD,'se_quake',0.65,null,'Doge đáp đất, sóng bùng quét qua bãi cỏ'],
       [T.landK,'se_step_in',0.7,null,'Clapping đáp đất, bụi toé vòng'],
       [T.lurk+0.4,'l2p_sub',0.4,null,'trong hàng cây: bóng Chud xích đỏ rực + bóng Mlem, mắt loé'],
-      [T.bind-0.2,'dc_chain',0.9,null,'2 sợi xích nung đỏ từ bóng tối quấn chặt quanh người Doge'],
+      [T.bind-0.2,'ep3_chain',0.9,null,'2 sợi xích nung đỏ từ bóng tối quấn chặt quanh người Doge'],
       [T.lick-0.15,'mlem_lick',0.9,null,'Mlem phóng lưỡi từ bụi cây liếm trúng Doge'],
       [T.frz,'mlem_freeze',1,null,'Doge bị đóng băng cứng cả người (vẫn bị xích quấn)'],
       [T.out,'se_gogogo',0.35,3.4,'Chud + Mlem bước ra từ hàng cây (sức ép gogogo)'],
@@ -383,24 +384,24 @@
       [T.w1,'dc_chain',1,null,'xích quất trúng 2 tay Doge đang đỡ'],
       [T.w1+0.01,'kn_punch_heavy',0.55,null,'+ lớp thịt cú quất trúng'],
       [T.w1+0.2,'se_pushback',0.75,null,'+ Doge bị đẩy trượt lùi xa trên đất (lớp đuôi của cú quất)'],
-      [T.r2+0.2,'se_step_in',0.7,null,'Doge lao vào lần nữa'],
-      [T.w2,'se_swing_kick',0.7,null,'xích vụt sượt qua đầu, Doge cúi né'],
+      
+      [T.w2,'se_swing_kick',0.7,null,'+ xích vụt sượt qua đầu, Doge cúi né (lớp đầu của cú đấm)'],
       [T.zip+0.55,'l2p_whoosh',0.5,null,'+ Chud đu vụt ra xa trên xích quấn cột (lớp đuôi, sau tiếng nện đất)'],
       [T.punch,'se_punch_heavy',1,null,'nắm đấm toàn lực của Doge đập trúng mặt đất (hụt Chud)'],
       [T.punch+0.01,'kn_boom_low',0.7,null,'+ lớp trầm: mặt đất nứt bùng thành hố'],
-      [T.punch+0.45,'se_rock_break',0.6,null,'đá vụn văng tung, rơi lả tả'],
-      [T.tie,'dc_chain',0.9,null,'2 xích quấn chặt trói 2 tay Doge'],
-      [T.tug,'l2p_riser',0.5,null,'giằng co: xích căng rực đỏ, chân Doge trượt dần'],
-      [T.lift,'se_machdash',0.7,null,'Chud giật mạnh, nhấc bổng Doge lên'],
-      [T.slam,'se_super_hit',1,null,'Doge bị quật đập trúng mặt đất'],
-      [T.slam+0.01,'kn_boom_low',0.6,null,'+ lớp trầm: đất bùng nứt dưới lưng Doge'],
-      [T.haki,'ep3_shine',0.5,null,'cực cận: mắt Doge loé'],
+      [T.punch+0.45,'se_rock_break',0.6,null,'+ đá vụn văng tung, rơi lả tả (lớp đuôi của cú đấm nện đất)'],
+      [T.tie,'l2p_chains',0.9,null,'2 xích quấn rít chặt, trói 2 cổ tay Doge'],
+      [T.tug,'l2p_riser',0.5,null,'+ giằng co: xích căng rực đỏ, chân Doge trượt dần (lớp kéo dài của tiếng trói xích)'],
+      [T.lift,'ep3_whoosh',0.7,null,'Chud giật mạnh, nhấc bổng Doge lên'],
+      [T.slam,'cine_deep_impact',1,null,'Doge bị quật đập trúng mặt đất'],
+      [T.slam+0.01,'se_quake',0.6,null,'+ lớp trầm: đất rung nứt dưới lưng Doge'],
+      [T.haki,'ep3_shine',0.5,null,'+ cực cận: mắt Doge loé (lớp đầu của Haki)'],
       [T.hakiOn,'cine_haki',0.9,null,'HAKI thức tỉnh: 2 tay Doge phủ đen bóng, trận đứng hình'],
       [T.snap,'kn_explode_crunch',0.9,null,'Doge giật ngược đập tan: 2 sợi xích đứt vỡ tung'],
-      [T.shock+0.2,'l2p_sub',0.4,null,'cận Chud sững người'],
-      [T.clash-0.27,'se_step_in',0.9,null,'2 con đạp đất, hoá 2 vệt lao vào nhau'],[T.clash,'se_punch_heavy',1,null,'nắm đấm haki đụng xích Chud giữa đường: va chạm'],[T.clash+0.01,'kn_boom_low',0.6,null,'+ lớp trầm: tiếng nổ nén khi 2 đòn đụng nhau'],
-      [T.far,'kn_boom_low',0.8,null,'chân trời nổ loé tím trắng, tiếng nổ dội từ xa'],
-      [T.whip,'l2p_whoosh',0.7,null,'máy lia giật về phía chân trời'],[T.tunnel,'l2p_riser',0.7,null,'máy lao về phía trận Gojo vs Pain']],
+      [T.shock+0.2,'l2p_sub',0.4,null,'+ cận Chud sững người (lớp đuôi của tiếng xích đứt)'],
+      [T.clash-0.27,'se_machdash',0.85,null,'2 con hoá 2 vệt lao vào nhau'],[T.clash,'se_impact_stop',1,null,'nắm đấm haki đụng xích Chud giữa đường: va chạm, khựng'],[T.clash+0.01,'kn_boom_low',0.6,null,'+ lớp trầm: tiếng nổ nén khi 2 đòn đụng nhau'],
+      [T.far,'l2p_explode',0.7,null,'chân trời nổ loé tím trắng, tiếng nổ dội từ xa'],
+      [T.whip,'l2p_whoosh',0.7,null,'cắt sang hướng chân trời, gió rít'],[T.tunnel,'l2p_riser',0.7,null,'máy lao về phía trận Gojo vs Pain']],
     duckAuto:{decisive:[T.ram,T.snap]},   // 🎚️ nhạc nhường tiếng: mỗi cú lùi nhạc, cú húc + giật đứt xích thì lặng trước rồi nổ
     // 🎵 (13/11 anh chốt: nhạc anime CHẠY DÀI) Kusari Yarou (HxH 2011 — theme xích của Kurapika, đúng trận mẫu anh chọn) · lặng lúc băng nứt · Overtaken (One Piece) từ lúc bật HAKI tới hết — mỗi bài 1 lần, không lặp file
     mus:[{src:'assets/audio/mus_kusari.m4a',ra:T.out,rb:T.quiet,off:0,vol:0.22,fi:1.2,fo:0.3},{src:'assets/audio/mus_kusari.m4a',ra:T.burst,rb:T.haki-0.3,off:24,vol:0.22,fi:0.1,fo:0.3},{src:'assets/audio/mus_overtaken.m4a',ra:T.haki,rb:T.DUR,off:0.3,vol:0.5,fi:0.2,fo:0.8}],

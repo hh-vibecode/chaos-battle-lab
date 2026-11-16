@@ -115,6 +115,17 @@
   function dash(F,t,t0,t1,A,B,o){ o=o||{}; if(t<t0||t>=t1) return false; const u=(t-t0)/(t1-t0), tail=o.tail==null?0.55:o.tail, pts=[];
     for(let i=0;i<=12;i++){ const k=Math.max(0,Math.min(1,u-tail*(1-i/12))), e=1-(1-k)*(1-k); pts.push(K.proj(F.B,A[0]+(B[0]-A[0])*e,(A[1]+(B[1]-A[1])*e),(A[2]+(B[2]-A[2])*e))); }
     streak(F,pts,o.w||30,o.col||'255,220,150'); if(o.core) streak(F,pts,(o.w||30)*0.4,o.core); return true; }
+  // ✂️ CẮT CẢNH THAY VÌ MÁY BÁM (anh dặn 13/11: "thay vì chuyển cảnh thì đang bị theo góc máy, rất không cần thiết — cứ cắt cảnh cắt góc; hạn chế dùng góc máy trên khung 3D,
+  //    nhiều vấn đề, trông xấu"): shot nào máy TRƯỢT / XOAY đáng kể → tách thành góc TĨNH (khung đầu → CẮT → khung cuối); shot ngắn < 1s → 1 góc tĩnh ở giữa.
+  //    Chỉ giữ đẩy / lùi máy rất nhẹ (≤ 5%). keep = [[t0,t1],…] các shot giữ nguyên chuyển động (anh đã khen).
+  function cutify(shots,o){ o=o||{}; const out=[], num=(v,d)=>typeof v==='number'?v:d;
+    for(const s of shots){ const a=s.a, b=Object.assign({},a,s.b||a), d=s.t1-s.t0;
+      if(o.keep&&o.keep.some(([x,y])=>s.t0>=x-1e-6&&s.t1<=y+1e-6)){ out.push(s); continue; }
+      const mv=Math.abs(num(b.tx,0)-num(a.tx,0))+Math.abs(num(b.ty,0)-num(a.ty,0))+Math.abs(num(b.tz,0)-num(a.tz,0)), rot=Math.abs(num(b.yaw,0)-num(a.yaw,0))+Math.abs(num(b.pitch,0)-num(a.pitch,0))+Math.abs(num(b.roll,0)-num(a.roll,0))+Math.abs(num(b.fov,50)-num(a.fov,50));
+      if(mv<40&&rot<4){ const bb=Object.assign({},b), da=num(a.dist,500); if(Math.abs(num(b.dist,da)-da)>da*0.05) bb.dist=da*(num(b.dist,da)<da?0.95:1.05); out.push(Object.assign({},s,{b:bb,ease:'lin'})); continue; }
+      if(d>=1.0){ const m=s.t0+d*0.5; out.push({t0:s.t0,t1:m,a,b:a,ease:'lin'},{t0:m,t1:s.t1,a:b,b,ease:'lin'}); }
+      else { const mid={}; for(const k in b) mid[k]=(typeof a[k]==='number'&&typeof b[k]==='number')?(a[k]+b[k])/2:b[k]; out.push({t0:s.t0,t1:s.t1,a:mid,b:mid,ease:'lin'}); } }
+    return out; }
   // ⏱️ NHỊP NHANH – CHẬM ĐAN XEN (anh chê "lê thê" 12/11): bọc def phim bằng bảng [giây gốc a, b, hệ số k] — k<1 nhanh hơn, k>1 chậm hơn.
   //   Mọi hàm (F,t) / (t) của def nhận GIÂY GỐC (hiệu ứng, biên đạo giữ nguyên số cũ); sfx / nhạc / shot máy quay dời theo giây mới.
   function retime(tab,def){ let n=0; const RT=tab.map(([a,b,k])=>{ const o={a,b,k,n0:n}; n+=(b-a)*k; o.n1=n; return o; });
@@ -128,5 +139,5 @@
     if(def.mus) o.mus=def.mus.map(m=>Object.assign({},m,{ra:Rnew(m.ra),rb:Rnew(m.rb)}));
     if(def.duck) o.duck=def.duck.map(([a,b,g])=>[Rnew(a),Rnew(b),g]); if(def.duckAuto) o.duckAuto=Object.assign({},def.duckAuto,{decisive:(def.duckAuto.decisive||[]).map(Rnew)});
     o._rt={Rold,Rnew}; return o; }
-  window.Fin1Fight={ retime, streak, dash, track, hstop, actor, smearFrame, line, taper, text3, beam, ice, kamui, backOut };
+  window.Fin1Fight={ retime, cutify, streak, dash, track, hstop, actor, smearFrame, line, taper, text3, beam, ice, kamui, backOut };
 })();
