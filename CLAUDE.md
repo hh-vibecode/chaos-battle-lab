@@ -97,6 +97,9 @@ Mẫu đã duyệt:
   1. Có video mẫu → chụp khung (`tools/x/video-frames.html`, skill edit-video mục 5) → mỗi nhịp lấy 1 khung làm KHUÔN bố cục (`--ref`).
   2. GPT vẽ NỀN không nhân vật, không hiệu ứng (đất nứt, cây, phố…) + VẬT RỜI vẽ riêng trên phông xanh (tấm đá, khối băng…) → code cho vật rời chuyển động (đá nổi so le, xoay, nhấp nhô, tảng gần bay trước nhân vật) — mượt hơn ghép khung vẽ sẵn (anh 16/11: "vẽ đá phông xanh xong cho vào nền, vẽ theo layer"). Sét / tia / cột sáng = code.
      ⛔ Nét vẽ phải như anime VẼ TAY (tô phẳng, 2–3 tông, viền mực) — KHÔNG kiểu tranh AI nhiều chi tiết / bóng loáng (anh chê "thừa mứa chi tiết kiểu AI vẽ"). Câu lệnh luôn ghi rõ "hand-drawn TV anime, flat cel, NOT AI art".
+     ⛔⛔ (anh nhắc 16/11 "nhớ quy tắc ấy giùm") NỀN = CHỈ KHUNG CẢNH. Mọi VẬT THỂ CÓ TƯƠNG TÁC (toà nhà bị húc đổ, cột bị đấm vỡ, đá bay, băng vỡ…) vẽ RIÊNG trên phông xanh
+        rồi code gắn vào + cho gãy / đổ / nổ. Meme + effect cũng code bổ sung. Nền mà có sẵn toà nhà thì không phá được (bản đầu cảnh húc xuyên 3 toà nhà bị chê vì vậy).
+     🔥 Cảnh anh dặn "làm cẩn thận" → VFX MẠNH: sóng chấn bóp méo (post shocks), tách RGB, zoom blur, impact frame 2 màu, cháy trắng, đổi tông, bóng đen mắt sáng (kiểu god) khi gồng / giậm.
      ⛔ KHÔNG BAO GIỜ cho GPT vẽ lại meme trong khung (bản 16/11 GPT vẽ cả Doge + Chud → anh bắt bỏ hết: "t cần m vẽ xong thêm meme vào, chứ k bảo m vẽ cả meme").
   3. Lớp TIỀN CẢNH (mảnh vỡ bay sát máy, tia sét vắt ngang) GPT vẽ trên NỀN ĐEN → vẽ `lighter` đè lên nhân vật → có chiều sâu.
   4. Nhân vật = ẢNH MEME GỐC (giữ hồn meme, không lệch mặt giữa các khung) gắn bằng code: viền sáng + nhuộm theo màu nền, bóng đổ + bụi phủ chân (không lộ mép ghép), rung, đẩy máy chậm.
