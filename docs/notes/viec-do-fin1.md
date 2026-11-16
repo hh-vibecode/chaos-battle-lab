@@ -23,6 +23,11 @@ Bản đang lên: Ver 643 (c44887d). 2 cảnh mới `js/film-fin1c6.js` (Chill G
 ## 2. Cảnh kết `fin1c7` — anh chê 16/11: "k chịu được, k đc 1 cái gì"
 - ❌ Khung cảnh BÉ (máy quá xa, meme tí hon) · nhân vật QUAY NGƯỢC XUÔI, ĐÈ LÊN NHAU · trông HỖN LOẠN, chán kinh khủng.
 - Anh sẽ gửi LINK cảnh giao tranh đông (2 phe tụ quân) để tham khảo → CHỜ LINK, hỏi anh mốc phút, học bố cục / góc máy / cách xếp quân trước khi dựng lại.
+- 🖼️ (16/11 tối) ANH GỬI 2 ẢNH MẪU (Naruto Shippuden — Madara vs Liên minh Ninja, video 16:46; ảnh lưu ở `D:\meme-anime-lab-videos\ref-fin1-ending\`):
+  · `madara-vs-lien-minh-0m54.png` (0:54): 2 thủ lĩnh đứng QUAY LƯNG về máy ở tiền cảnh 2 bên (to, rõ), nhìn xuống 1 BIỂN QUÂN hàng nghìn người phủ kín cả thung lũng tới tận chân trời, giữa các cột đá — đó là cỡ đông quân anh muốn.
+  · `thien-thach-11m19.png` (11:19): góc giun nhìn lên 1 THIÊN THẠCH khổng lồ choán nửa khung trời trên thung lũng → FRIEND ÍT NHẤT PHẢI TO CỠ ĐÓ (che trời thật, không phải con mèo đứng sau lưng quân).
+  · Anh: "bối cảnh nó phải TO HƠN, TO HƠN…" → cảnh kết phải ở QUY MÔ CHIẾN TRANH: thành phố đổ nát rất rộng tới chân trời, mỗi phe là BIỂN meme (lặp nhiều lần các meme, nhỏ dần theo độ sâu, xếp thành khối dày), thủ lĩnh to ở tiền cảnh (qua vai / sau lưng nhìn ra biển quân).
+  · Còn thiếu: link video gốc (để chụp thêm các mốc giao tranh đông) — hỏi anh link + mốc phút nếu cần thêm.
 - Hướng sửa (chưa làm): xếp quân theo HÀNG / KHỐI rõ ràng (không rải ngẫu nhiên chồng nhau), mọi meme 1 phe cùng quay về phía phe kia; nhiều góc gần (cận thủ lĩnh, trung cảnh hàng quân, góc giun quân khổng lồ) thay vì 1 khung toàn tí hon;
   cũng nối tiếp THÀNH PHỐ BỊ PHÁ của tập (Fin1City / thành phố fin1c4 sau Shinra), bỏ nền GPT `FIN_C7_BG_CITYWIDE.jpg`.
 - Giữ ý đã duyệt: Bread Cat trên trời xoay như game → cổng đa vũ trụ · đổ bộ (hàng đầu = meme đang giao tranh, hàng sau = Adolf, Stalin, Duolingo, Violin Bee…; không Catvader / Grumpy / godly / phe ác; không Evil Larry) ·
