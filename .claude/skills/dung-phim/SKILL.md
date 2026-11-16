@@ -13,6 +13,17 @@ Anh nạp clip anime → bảng cảnh + luật đạo diễn + công thức cod
 bộ nhớ: mỗi nhịp 1 hành động có lý do, không VFX nứt đất, mỗi nhịp 1 tiếng, skill của meme phải giống trong game.
 Mẫu đầy đủ: `js/film-dvc.js` (Buff Doge vs Samurai Cheems, ~7.6s) — copy file này rồi sửa.
 
+## 🎞️ CẢNH VFX NẶNG = NỀN VẼ GPT THEO LỚP + NHÂN VẬT ẢNH GỐC GẮN BẰNG CODE (anh chốt 16/11/2026: "ghi nhớ cách này")
+- Cảnh chấn động / tụ lực / nổ / sét / đá vỡ kiểu anime (vd ảnh edit đỏ – đen anh gửi 16/11, video Zenitsu 0:43–0:48) → KHÔNG dựng full 3D, KHÔNG vẽ VFX bằng code nét mảnh.
+- Cách làm:
+  1. Có video mẫu → chụp khung (`tools/x/video-frames.html`, skill edit-video mục 5) → mỗi nhịp lấy 1 khung làm KHUÔN bố cục (`--ref`).
+  2. GPT vẽ 3–5 khung NỀN chuyển động cho mỗi nhịp: đá vỡ, tảng bay, sét, khói, màu sắc tách rời sẵn, CHỪA TRỐNG chỗ nhân vật. Khung sau lấy khung trước làm --ref, chỉ đổi vị trí sét / độ cao đá → ghép lại thành hoạt cảnh ~0.1s / khung (sét nháy, đá nổi dần).
+  3. Lớp TIỀN CẢNH (mảnh vỡ bay sát máy, tia sét vắt ngang) GPT vẽ trên NỀN ĐEN → vẽ `lighter` đè lên nhân vật → có chiều sâu.
+  4. Nhân vật = ẢNH MEME GỐC (giữ hồn meme, không lệch mặt giữa các khung) gắn bằng code: viền sáng + nhuộm theo màu nền, bóng đổ + bụi phủ chân (không lộ mép ghép), rung, đẩy máy chậm.
+  5. Edit code đè lên: impact frame, cháy trắng, tách RGB, chớp (`K.edit`). Lớp ảnh vẽ trong `world` (F.list d:-1e9) để vẫn ăn rung / grade / impact frame — mẫu `zenPlate` / `ZSEQ` trong js/film-fin1f1.js.
+- Nền 1 bộ dùng lại được cho nhiều cảnh; đổi tư thế chỉ thay ảnh nhân vật. Mỗi cảnh 3–5 tấm GPT, không phải 10–15.
+- Ảnh GPT ra PNG ~2.5MB → nén JPG 0.86 (~350KB) qua trình duyệt ngầm trước khi đưa vào `assets/img/cine/`.
+
 ## ⚔️ MẸO CẢNH COMBAT (học từ phim người que đánh nhau — Animator vs Animation, Xiao Xiao; anh dặn 3/11/2026 ÁP CHO MỌI CẢNH ĐÁNH)
 Cảnh đánh nào cũng phải có đủ các mẹo dưới đây — đây là thứ làm đòn "có lực", thiếu là trông đều đều, nhạt:
 1. **Lấy đà (anticipation)**: trước mỗi cú lao/đấm, LÙI ngược hướng 2–4 khung (~0.1–0.15s) rồi mới bung ra. Mẫu: hàm `dash()` trong `js/film-mvd.js`

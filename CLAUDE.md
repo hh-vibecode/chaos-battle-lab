@@ -91,6 +91,17 @@ Mẫu đã duyệt:
   Giọng Gojo thật: vo_gojo_domain (0.4–3.0s Ryōiki Tenkai · 8.8s→ Muryōkūsho) · vo_gojo_murasaki — em KHÔNG nghe được, cắt theo đường độ to → CHỜ ANH NGHE CHỐT. Bat = bản 2 anh tả (Pop minigun, Bat lăn lộn trốn, phi tiêu chặn chữ HUH khổng lồ, bom dơi);
   Ninja = nhiều tư thế, Kamui ra SAU LƯNG chém xuống → Berserk quay lại chém đỡ; XÍCH = vẽ GPT (Doge có xích quấn sẵn trong ảnh + mắt xích lặp nối đúng đầu xích), bỏ xích vẽ code.
 
+## 🎞️ CẢNH VFX NẶNG = NỀN VẼ GPT THEO LỚP + NHÂN VẬT ẢNH GỐC GẮN BẰNG CODE (anh chốt 16/11/2026: "ghi nhớ cách này")
+- Cảnh chấn động / tụ lực / nổ / sét / đá vỡ kiểu anime (vd ảnh edit đỏ – đen anh gửi 16/11, video Zenitsu 0:43–0:48) → KHÔNG dựng full 3D, KHÔNG vẽ VFX bằng code nét mảnh.
+- Cách làm:
+  1. Có video mẫu → chụp khung (`tools/x/video-frames.html`, skill edit-video mục 5) → mỗi nhịp lấy 1 khung làm KHUÔN bố cục (`--ref`).
+  2. GPT vẽ 3–5 khung NỀN chuyển động cho mỗi nhịp: đá vỡ, tảng bay, sét, khói, màu sắc tách rời sẵn, CHỪA TRỐNG chỗ nhân vật. Khung sau lấy khung trước làm --ref, chỉ đổi vị trí sét / độ cao đá → ghép lại thành hoạt cảnh ~0.1s / khung (sét nháy, đá nổi dần).
+  3. Lớp TIỀN CẢNH (mảnh vỡ bay sát máy, tia sét vắt ngang) GPT vẽ trên NỀN ĐEN → vẽ `lighter` đè lên nhân vật → có chiều sâu.
+  4. Nhân vật = ẢNH MEME GỐC (giữ hồn meme, không lệch mặt giữa các khung) gắn bằng code: viền sáng + nhuộm theo màu nền, bóng đổ + bụi phủ chân (không lộ mép ghép), rung, đẩy máy chậm.
+  5. Edit code đè lên: impact frame, cháy trắng, tách RGB, chớp (`K.edit`). Lớp ảnh vẽ trong `world` (F.list d:-1e9) để vẫn ăn rung / grade / impact frame — mẫu `zenPlate` / `ZSEQ` trong js/film-fin1f1.js.
+- Nền 1 bộ dùng lại được cho nhiều cảnh; đổi tư thế chỉ thay ảnh nhân vật. Mỗi cảnh 3–5 tấm GPT, không phải 10–15.
+- Ảnh GPT ra PNG ~2.5MB → nén JPG 0.86 (~350KB) qua trình duyệt ngầm trước khi đưa vào `assets/img/cine/`.
+
 ## 🔎 SOÁT PHIM TRƯỚC KHI BÁO XONG (anh chê 13/11: "m có check thật không", "làm cẩu thả")
 - Bảng khung thu nhỏ 320px KHÔNG đủ: soát MỖI GIÂY 1 khung (`film-check.js <id> --t $(seq -s, 0.5 1 DUR) --w 360+`) rồi soát lại CẬN (--w 640) mọi chỗ nối / chỗ nghi.
 - Bảng lỗi phải dò từng khung: VẬT CHE NHÂN VẬT (gạch / xe / trụ / dầm giữa máy và nhân vật) · VẬT SÁT MÁY phình to (vòng khói, xích, cáp cầu) · máy ĐI XUYÊN nhân vật khi trượt (tz đổi giữa shot) ·
