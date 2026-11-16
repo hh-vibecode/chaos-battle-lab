@@ -362,6 +362,11 @@
       if(u>=ZPH.sil){ const k=(u-ZPH.sil)/(ZPH.flash-ZPH.sil), fr=Math.floor(u*ZX*15); for(let i=0;i<3+Math.floor(k*7);i++){ const sd=fr*13+i*7; zBolt(g,px,py,hash(sd)*TAU,VH*(0.06+0.26*k)*(0.5+hash(sd+1)),sd,i%2?'140,200,255':'255,180,110'); }
         for(let i=0;i<34;i++){ const an=hash(i+3100)*TAU+k*1.5, d=VW*0.55*(1-((k*1.7+hash(i+3110))%1)); g.fillStyle='rgba(255,236,210,0.85)'; g.fillRect(px+Math.cos(an)*d,py+Math.sin(an)*d*0.6,2.2,2.2); } } }   // vụn bị hút về điểm
     else if(u<=1&&u<ZPH.imp){ const k=(u-ZPH.flash)/(ZPH.imp-ZPH.flash); star4(g,px,py,VW*(0.35+0.5*eout(k)),VH*(0.012+0.03*k),1); g.globalCompositeOperation='lighter'; zGlow(g,px,py,VW*(0.15+0.5*k),0.8,'255,250,240'); }   // LOÉ: SAO 4 CÁNH NHỌN nở ra
+    else if(u<=1&&u<ZPH.blast){ const i=Math.min(2,Math.floor((u-ZPH.imp)/(ZPH.blast-ZPH.imp)*3)), R0=[0.1,0.26,0.42][i];   // 3 KHUNG IMPACT (học Howard Wimshurst): nét đen THẲNG toả từ điểm chạm, dày ở rìa → co dần ra rìa = ánh sáng nở từ tâm
+      g.globalCompositeOperation='source-over'; g.fillStyle=i===2?'#fffaf0':'#ffffff'; g.fillRect(0,0,VW,VH);   // vẽ tay hẳn (ảnh cảnh lúc này tối → lọc 2 màu ra đen kịt)
+      const DP=K.proj(F.B,DOME_C,DOME_R*1.04,0); if(DP&&i<2){ g.fillStyle='#000'; g.beginPath(); g.arc(DP.x,DP.y,DOME_R*DP.s,0,TAU); g.fill(); }   // quả cầu lãnh địa = bóng đen mô tả khối
+      g.fillStyle='#000'; const Rm=Math.hypot(VW,VH); for(let k=0;k<90;k++){ const an=hash(k*1.7+i*0.3+40)*TAU, r0=Rm*(R0+0.25*hash(k*2.3+i)), w=0.006+0.022*hash(k*3.1+i*0.7), c0=Math.cos(an), s0=Math.sin(an);
+        g.beginPath(); g.moveTo(px+Math.cos(an-w)*r0,py+Math.sin(an-w)*r0); g.lineTo(px+Math.cos(an-w*1.6)*Rm,py+Math.sin(an-w*1.6)*Rm); g.lineTo(px+Math.cos(an+w*1.6)*Rm,py+Math.sin(an+w*1.6)*Rm); g.lineTo(px+Math.cos(an+w)*r0,py+Math.sin(an+w)*r0); g.closePath(); g.fill(); } }
     else if(b>=0){ g.fillStyle='rgba(255,250,242,'+Math.max(0,1-b/0.9)+')'; g.fillRect(0,0,VW,VH); }   // trắng xoá → hạ dần
     g.restore(); }
   function hring(F,x,y,z,r,wid,a,col){ if(a<=0.01||r<=1) return; const c=K.proj(F.B,x,y,z); if(!c) return; const pts=[];
@@ -742,7 +747,7 @@
     theme:t=>theme(t), shots:window.Fin1Fight?Fin1Fight.cutify(shots,{keep:[[T.land,T.look]]}):shots,   // (13/11 anh: hạn chế zoom / máy trượt trong khung 3D — cắt góc tĩnh)
     panels:t=>C?C.splitFace(t,T.split,T.wide-T.split,{tx:-490,ty:78,tz:0,dist:190,yaw:16,pitch:-4,fov:40,ox:-0.25},{tx:505,ty:105,tz:0,dist:190,yaw:-16,pitch:-4,fov:40,ox:0.25})   /* 9/11: ảnh nghiêng (G9/P9) → mỗi ô hiện TRỌN ĐẦU 1 con, tâm máy dời vào giữa ô (ox ±0.25) */:null,
     // 🎬 EDIT kiểu CapCut / AMV (16/11, skill edit-video): impact frame 2 màu đặc ở cú quyết định, duotone lúc dồn lực, cháy trắng ở vụ nổ, đổi màu liên tục ở chiêu, tách RGB sau va chạm
-    impact:t=>{ { const u=zu(t); if(u>=ZPH.imp&&u<ZPH.blast) return [['#000000','#ffffff'],['#ffffff','#000000'],['#000000','#ffe6c8']][Math.min(2,Math.floor((u-ZPH.imp)/(ZPH.blast-ZPH.imp)*3))].reduce((o,c,i)=>(o[i?'bg':'fg']=c,o),{}); if(u>=0&&u<=1) return 0; }   // 3 khung impact trắng – đen ngay lúc nổ
+    impact:t=>{ { const u=zu(t); if(u>=0&&u<=1) return 0; }   // 3 khung impact của điểm tụ vẽ tay trong zoneScreen
       if(at(t,T.rest-0.18,0.18)) return 0; const E=K.edit;
       return E.first(E.impacts(t,T.clash,6,'blue',2), E.impacts(t,10.35,6,'blue',2), E.impacts(t,T.push,10,'red',2), E.impacts(t,T.sh-0.02,12,'red',2),
         E.impacts(t,T.dImp,8,'blue',2), E.impacts(t,T.fire,10,'purple',2), E.impacts(t,T.heave+0.25,10,'purple',1), E.impacts(t,T.boom,8,'purple',2)) || IMP(t); },
@@ -866,7 +871,7 @@
       if(t>=T.block&&t<T.heave){ fx.shocks.push({x:pain(t).x-90,y:150,z:0,r:120+20*Math.sin(t*20),w:30,str:12}); fx.chroma=Math.max(fx.chroma||0,1); }
       if(t>=T.fire&&t<T.block){ fx.zoom={x:PCX-90,y:150,z:0,k:0.12*seg(t,T.fire,T.block)}; fx.chroma=Math.max(fx.chroma||0,1.5*seg(t,T.fire,T.block)); }
       return fx; },
-    screen(F,t){ const g=F.g, VW=F.VW, VH=F.VH; zoneScreen(F,t); godFlash(F,t,T.heave-0.34,T.heave+0.02); K.shatter(F,t,T.cuP,T.dash,{cx:0.5,cy:0.48,col:'200,160,255',mode:'in',out:0.28});   // 💠 không gian nứt mảng bị hút vào giữa 2 con → vỡ tung lúc lao
+    screen(F,t){ const g=F.g, VW=F.VW, VH=F.VH; godFlash(F,t,T.heave-0.34,T.heave+0.02); K.shatter(F,t,T.cuP,T.dash,{cx:0.5,cy:0.48,col:'200,160,255',mode:'in',out:0.28});   // 💠 không gian nứt mảng bị hút vào giữa 2 con → vỡ tung lúc lao
       // xoáy màu lúc Gojo mở lãnh địa (vẽ dưới chữ) — tâm ở Gojo trên màn hình
       domainFX(F,t);   // 🌌 bành trướng lãnh địa (vẽ dưới chữ)
       if(t>=T.dash&&t<T.clash) K.panLines(F,{k:0.9,ang:0,n:30});
@@ -905,6 +910,7 @@
       K.sfxText(F,'DOOON!!',VW*0.48,VH*0.28,{t0:10.35,life:0.55,px:84,rot:-6,col:'#c9a7ff'});
       K.letterbox(F,t<T.cuG?1:(t>=T.rest&&t<T.land)?1:t>=T.wide?seg(t,T.wide,T.wide+0.5):0);
       K.vignette(F,0.5);
+      zoneScreen(F,t);   // điểm tụ vẽ SAU CÙNG (impact frame phải trắng – đen tuyệt đối, không bị viền tối đè)
       /* 10/11 anh dặn: bỏ chữ TO BE CONTINUED */ }
   }));
 })();

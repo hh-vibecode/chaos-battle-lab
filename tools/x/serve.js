@@ -11,6 +11,11 @@ http.createServer((req, res) => {
   let p = decodeURIComponent(new URL(req.url, 'http://x').pathname); if (p === '/') p = '/index.html';
   const f = path.join(ROOT, path.normalize(p).replace(/^([\\/])+/, ''));
   if (!f.startsWith(ROOT)) { res.writeHead(403); return res.end(); }
-  fs.readFile(f, (err, buf) => { if (err) { res.writeHead(404); return res.end(); }
-    res.writeHead(200, { 'Content-Type': MIME[path.extname(f).toLowerCase()] || 'application/octet-stream' }); res.end(buf); });
+  fs.stat(f, (err, st) => { if (err || !st.isFile()) { res.writeHead(404); return res.end(); }
+    const type = MIME[path.extname(f).toLowerCase()] || 'application/octet-stream', m = /bytes=(\d*)-(\d*)/.exec(req.headers.range || '');
+    // (16/11) hỗ trợ Range → trình duyệt TUA được video lớn (video-frames.html nhảy thẳng tới giây cần chụp, không phải phát từ đầu)
+    if (m) { const a = m[1] ? +m[1] : Math.max(0, st.size - +m[2]), b = m[1] && m[2] ? Math.min(+m[2], st.size - 1) : st.size - 1;
+      if (a >= st.size || a > b) { res.writeHead(416, { 'Content-Range': `bytes */${st.size}` }); return res.end(); }
+      res.writeHead(206, { 'Content-Type': type, 'Accept-Ranges': 'bytes', 'Content-Range': `bytes ${a}-${b}/${st.size}`, 'Content-Length': b - a + 1 }); return fs.createReadStream(f, { start: a, end: b }).pipe(res); }
+    res.writeHead(200, { 'Content-Type': type, 'Accept-Ranges': 'bytes', 'Content-Length': st.size }); fs.createReadStream(f).pipe(res); });
 }).listen(PORT, '127.0.0.1', () => console.log(`listening http://127.0.0.1:${PORT}/ root=${ROOT}`));
