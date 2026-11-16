@@ -24,6 +24,7 @@
   const D2R=Math.PI/180;
   Object.assign(K,{clamp,seg,lerp,EASE,hash,h2,eio:EASE.eio,eout:EASE.eout,ein:EASE.ein});
   K.twos=(t,fps)=>Math.floor(t*(fps||50))/(fps||50);   // (13/11 anh: "tất cả 30–50fps, đoạn thành phố hơi giật") mặc định 50 hình/giây = đúng khung xuất video; muốn giật kiểu vẽ tay thì truyền fps riêng
+  K.PREVIEW_K=(VW,VH)=>1280/Math.max(VW,VH);   // (16/11 anh: "phim xem trước trong app chỉ cần HD") xem trong app = cạnh dài 1280 (HD 720p) — trước là 2× (1920); XUẤT video (render-cine) vẫn 4K như cũ
   K.mk=(w,h)=>{ const c=document.createElement('canvas'); c.width=Math.max(1,Math.round(w)); c.height=Math.max(1,Math.round(h)); return c; };
   // ảnh cắt sát + bỏ nền mờ
   K.prep=im=>{ if(!im) return null; if(im._ck) return im._ck; if(!im.complete || !im.naturalWidth) return null;
@@ -264,23 +265,22 @@
   //   def.grade(t) → {hue, sat, bright, contrast, invert, duo:[tối,sáng], duoK, white, rgb, zoom:{k,x,y}} áp lên CẢ KHUNG (sau shader, trước screen)
   //   def.impact(t) → {fg, bg} = IMPACT FRAME 2 màu đặc: phần tối (bóng nhân vật) tô fg, phần sáng tô bg — đổi cặp màu mỗi 1–2 khung
   const EB=[]; const ebuf=(i,w,h)=>{ let c=EB[i]; if(!c){ c=EB[i]=document.createElement('canvas'); } if(c.width!==w||c.height!==h){ c.width=w; c.height=h; } const x=c.getContext('2d'); x.setTransform(1,0,0,1,0,0); x.globalAlpha=1; x.globalCompositeOperation='source-over'; x.filter='none'; return [c,x]; };
-  K.applyGrade=(src,gr,w,h)=>{ let [a,ax]=ebuf(0,w,h); ax.clearRect(0,0,w,h);
+  const hexHue=hx=>{ const n=parseInt(hx.slice(1),16), r=(n>>16)/255, g=((n>>8)&255)/255, b=(n&255)/255, mx=Math.max(r,g,b), mn=Math.min(r,g,b), d=mx-mn; if(!d) return 0; let h=mx===r?((g-b)/d)%6:mx===g?(b-r)/d+2:(r-g)/d+4; return (h*60+360)%360; };
+  // ⚡ (16/11 anh: "giật lắm") TỐI ƯU: cả grade = 1 lượt drawImage có ctx.filter (trình duyệt chạy trên GPU). Duotone ≈ grayscale → sepia (vàng nâu ~35°) → hue-rotate về màu sáng của cặp.
+  //    Tách RGB + zoom blur KHÔNG vẽ ở đây nữa — K.film chuyển gr.rgb / gr.zoom vào shader VfxGL.post (1 lượt GPU).
+  K.applyGrade=(src,gr,w,h)=>{ const [a,ax]=ebuf(0,w,h); ax.clearRect(0,0,w,h);
     const f=[]; if(gr.hue) f.push(`hue-rotate(${gr.hue}deg)`); if(gr.sat!=null) f.push(`saturate(${gr.sat})`); if(gr.bright!=null) f.push(`brightness(${gr.bright})`); if(gr.contrast!=null) f.push(`contrast(${gr.contrast})`); if(gr.invert) f.push('invert(1)');
-    ax.filter=f.length?f.join(' '):'none'; ax.drawImage(src,0,0); ax.filter='none';
-    if(gr.duo&&(gr.duoK==null||gr.duoK>0)){ const [b,bx]=ebuf(1,w,h); bx.filter=`grayscale(1) contrast(${gr.duoC||1.6})`; bx.drawImage(a,0,0); bx.filter='none';   // DUOTONE: tối → màu 0, sáng → màu 1
-      bx.globalCompositeOperation='multiply'; bx.fillStyle=gr.duo[1]; bx.fillRect(0,0,w,h); bx.globalCompositeOperation='lighter'; bx.fillStyle=gr.duo[0]; bx.globalAlpha=0.55; bx.fillRect(0,0,w,h); bx.globalAlpha=1; bx.globalCompositeOperation='source-over';
-      ax.globalAlpha=gr.duoK==null?1:clamp(gr.duoK,0,1); ax.drawImage(b,0,0); ax.globalAlpha=1; }
-    if(gr.rgb>0.5){ const d=gr.rgb, [r,rx]=ebuf(2,w,h); rx.clearRect(0,0,w,h);   // TÁCH RGB: 3 bản kênh lệch nhau cộng sáng
-      for(const [col,dx,dy] of [['#ff0000',-d,0],['#00ff00',0,d*0.3],['#0000ff',d,0]]){ const [q,qx]=ebuf(3,w,h); qx.drawImage(a,0,0); qx.globalCompositeOperation='multiply'; qx.fillStyle=col; qx.fillRect(0,0,w,h); rx.globalCompositeOperation='lighter'; rx.drawImage(q,dx,dy); }
-      rx.globalCompositeOperation='source-over'; [a,r]=[r,a]; ax=a.getContext('2d'); }
-    if(gr.zoom&&gr.zoom.k>0.005){ const z=gr.zoom, cx=(z.x==null?0.5:z.x)*w, cy=(z.y==null?0.5:z.y)*h, [q,qx]=ebuf(4,w,h); qx.drawImage(a,0,0);   // ZOOM BLUR hướng tâm
-      for(let i=1;i<=7;i++){ const s=1+z.k*i/7; ax.globalAlpha=0.32; ax.setTransform(s,0,0,s,cx*(1-s),cy*(1-s)); ax.drawImage(q,0,0); } ax.setTransform(1,0,0,1,0,0); ax.globalAlpha=1; }
+    ax.filter=f.length?f.join(' '):'none'; ax.drawImage(src,0,0);
+    if(gr.duo&&(gr.duoK==null||gr.duoK>0)){ const hu=hexHue(gr.duo[1])-50; ax.globalAlpha=gr.duoK==null?1:clamp(gr.duoK,0,1);
+      ax.filter=`grayscale(1) contrast(${gr.duoC||1.6}) sepia(1) saturate(${gr.duoS||4}) hue-rotate(${hu}deg) brightness(${gr.duoB||0.95})`; ax.drawImage(src,0,0); ax.globalAlpha=1; }
+    ax.filter='none';
     if(gr.white>0){ ax.globalAlpha=clamp(gr.white,0,1); ax.fillStyle=gr.whiteCol||'#ffffff'; ax.fillRect(0,0,w,h); ax.globalAlpha=1; }
     return a; };
-  K.impactFrame=(src,o,w,h)=>{ const [m,mx]=ebuf(5,w,h); mx.filter=`grayscale(1) contrast(${o.th||9}) brightness(${o.br||1.1})`; mx.drawImage(src,0,0); mx.filter='none';
+  K.impactFrame=(src,o,W0,H0)=>{ const w=Math.ceil(W0/2), h=Math.ceil(H0/2);   // ⚡ nửa độ phân giải (bóng 2 màu đặc → phóng lên không mất nét)
+    const [m,mx]=ebuf(5,w,h); mx.filter=`grayscale(1) contrast(${o.th||9}) brightness(${o.br||1.1})`; mx.drawImage(src,0,0,w,h); mx.filter='none';
     const [A,Ax]=ebuf(6,w,h); Ax.drawImage(m,0,0); Ax.globalCompositeOperation='multiply'; Ax.fillStyle=o.bg||'#ffffff'; Ax.fillRect(0,0,w,h);         // phần SÁNG → màu nền
     const [Bq,Bx]=ebuf(7,w,h); Bx.filter='invert(1)'; Bx.drawImage(m,0,0); Bx.filter='none'; Bx.globalCompositeOperation='multiply'; Bx.fillStyle=o.fg||'#000000'; Bx.fillRect(0,0,w,h);   // phần TỐI → màu bóng
-    Ax.globalCompositeOperation='lighter'; Ax.drawImage(Bq,0,0); Ax.globalCompositeOperation='source-over'; return A; };
+    Ax.globalCompositeOperation='lighter'; Ax.drawImage(Bq,0,0); Ax.globalCompositeOperation='source-over'; return A; };   // (vẽ ra bằng drawImage(A,0,0,W0,H0))
   // dựng sẵn các kiểu edit (giây t của phim) — mỗi hàm trả object để gộp: K.edit.mix(a,b,…)
   const EF=1/30;   // 1 khung edit = 1/30s (nhịp của video mẫu)
   K.edit={
@@ -288,7 +288,7 @@
           purple:[['#ffffff','#5b1aff'],['#000000','#ffffff'],['#ff2a6a','#140026'],['#00e5ff','#2a0050'],['#ffffff','#000000'],['#b06bff','#000000']],
           blue:[['#000000','#9fe3ff'],['#ffffff','#003cff'],['#000000','#ffffff'],['#00e5ff','#000000'],['#ff2a2a','#ffffff']] },
     // tràng IMPACT FRAME: n khung, đổi cặp màu mỗi `per` khung (video mẫu: 1–2 khung / cặp, cả tràng 0.3–0.5s)
-    impacts:(t,t0,n,pal,per)=>{ per=per||2; if(t<t0||t>=t0+n*EF) return 0; const i=Math.floor((t-t0)/EF/per), P=K.edit.PAL[pal]||pal; const p=P[i%P.length]; return {fg:p[0],bg:p[1]}; },
+    impacts:(t,t0,n,pal,per)=>{ per=Math.max(3,per||3); /* ⚡ mỗi cặp màu ≥3 khung: nhịp đều, không nháy loạn */ if(t<t0||t>=t0+n*EF) return 0; const i=Math.floor((t-t0)/EF/per), P=K.edit.PAL[pal]||pal; const p=P[i%P.length]; return {fg:p[0],bg:p[1]}; },
     // CHÁY TRẮNG dần (exposure ramp) rồi giữ trắng `hold` giây
     burn:(t,t0,t1,hold)=>{ if(t<t0||t>t1+(hold||0)) return null; const u=seg(t,t0,t1); return {bright:1+2.2*u*u, contrast:1+0.6*u, white:t>=t1?1:Math.max(0,u*u*u)}; },
     // DUOTONE (vd đỏ – đen như cảnh "thức tỉnh"); fi = giây mờ vào
@@ -303,10 +303,63 @@
     invert:(t,t0,n)=>(t>=t0&&t<t0+(n||1)*EF)?{invert:true,contrast:1.4}:null,
     mix:(...gs)=>{ const o={}; let any=false; for(const x of gs) if(x){ any=true; for(const k in x){ if(k==='white'||k==='rgb') o[k]=Math.max(o[k]||0,x[k]); else if(k==='bright'||k==='contrast'||k==='sat') o[k]=(o[k]||1)*x[k]; else if(k==='hue') o[k]=(o[k]||0)+x[k]; else o[k]=x[k]; } } return any?o:null; },
     first:(...xs)=>{ for(const x of xs) if(x) return x; return 0; } };
+  // 💠 KHÔNG GIAN NỨT VỠ THÀNH TỪNG MẢNG (học từ video edit anh gửi 16/11): gọi trong def.screen. t0→t1 = lúc GỒNG (slow): vết nứt lan từ tâm, mảnh tách ra
+  //    hơi lệch / xoay, mép loé màu; t1→t1+out = VỠ TUNG (mảnh bay ra) rồi liền. Chụp khung 1 lần → ~22 mảnh drawImage (nhẹ).
+  //    o: {cx,cy (0..1 khung), col:'r,g,b', n, out, mode:'out'|'in'} — mode 'in' = mảnh bị HÚT vào tâm (trọng lực Pain), 'out' = toả ra
+  const SH_BUF={c:null};
+  K.shatter=(F,t,t0,t1,o)=>{ o=o||{}; const out=o.out==null?0.35:o.out; if(t<t0||t>=t1+out) return; const g=F.g, cv=g.canvas, VW=F.VW, VH=F.VH;
+    const k=clamp((t-t0)/(t1-t0),0,1), e=t>=t1?clamp((t-t1)/out,0,1):0, cx=(o.cx==null?0.5:o.cx)*VW, cy=(o.cy==null?0.5:o.cy)*VH, n=o.n||22, col=o.col||'255,255,255', sg=o.mode==='in'?-1:1;
+    if(!SH_BUF.c) SH_BUF.c=document.createElement('canvas'); const B=SH_BUF.c; if(B.width!==cv.width||B.height!==cv.height){ B.width=cv.width; B.height=cv.height; } const bx=B.getContext('2d'); bx.setTransform(1,0,0,1,0,0); bx.drawImage(cv,0,0);
+    const R=Math.hypot(VW,VH), ring=[0.18,0.42,0.75,1.2];
+    g.save(); g.fillStyle='#000'; g.globalAlpha=0.55*Math.min(1,k*2)*(1-e); g.fillRect(0,0,VW,VH); g.globalAlpha=1;   // khe giữa các mảnh = bóng tối của không gian vỡ
+    for(let ri=0;ri<ring.length-1;ri++){ const segs=Math.round(n*(ri+1)/6)+3; for(let si=0;si<segs;si++){ const a0=(si+hash(ri*7+si*0.3)*0.4)/segs*TAU, a1=(si+1+hash(ri*7+si*0.3+1)*0.4)/segs*TAU, r0=ring[ri]*R*0.5, r1=ring[ri+1]*R*0.5;
+        const grow=clamp(k*1.6-ri*0.25,0,1); if(grow<=0&&e<=0){ continue; }
+        const am=(a0+a1)/2, dist=(4+10*ri)*grow*(0.6+0.4*Math.sin(t*3+si))+e*e*R*0.6*(0.5+hash(si+ri*11)), dx=Math.cos(am)*dist*sg, dy=Math.sin(am)*dist*sg, rot=(hash(si*3.3+ri)-0.5)*0.08*grow+(hash(si+ri)-0.5)*1.2*e*sg;
+        g.save(); g.globalAlpha=1-e*e; const mx=cx+Math.cos(am)*(r0+r1)/2, my=cy+Math.sin(am)*(r0+r1)/2; g.translate(mx+dx,my+dy); g.rotate(rot); g.translate(-mx,-my);
+        g.beginPath(); g.moveTo(cx+Math.cos(a0)*r0,cy+Math.sin(a0)*r0); g.lineTo(cx+Math.cos(a1)*r0,cy+Math.sin(a1)*r0); g.lineTo(cx+Math.cos(a1)*r1,cy+Math.sin(a1)*r1); g.lineTo(cx+Math.cos(a0)*r1,cy+Math.sin(a0)*r1); g.closePath();
+        g.save(); g.clip(); g.drawImage(B,0,0,VW,VH); g.restore();
+        g.globalCompositeOperation='lighter'; g.strokeStyle=`rgba(${col},${0.85*Math.max(grow,1-e)})`; g.lineWidth=1.6+2*e; g.stroke(); g.restore(); } }
+    g.globalCompositeOperation='lighter'; const fl=g.createRadialGradient(cx,cy,0,cx,cy,R*0.25*(0.4+k)); fl.addColorStop(0,`rgba(${col},${0.5*k*(1-e)})`); fl.addColorStop(1,`rgba(${col},0)`); g.fillStyle=fl; g.fillRect(0,0,VW,VH);
+    g.restore(); };
   K.flash=(F,a,col)=>{ if(a<=0.01) return; const g=F.g; g.save(); g.globalAlpha=clamp(a,0,1); g.fillStyle=col||'#fff'; g.fillRect(0,0,F.VW,F.VH); g.restore(); };
   K.letterbox=(F,k)=>{ if(k<=0) return; const g=F.g, h=F.VH*0.11*k; g.fillStyle='#000'; g.fillRect(0,0,F.VW,h); g.fillRect(0,F.VH-h,F.VW,h); };
   K.vignette=(F,a)=>{ const g=F.g, vg=g.createRadialGradient(F.VW/2,F.VH/2,F.VH*0.25,F.VW/2,F.VH/2,F.VH*0.75); vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,`rgba(0,0,0,${a==null?0.5:a})`); g.fillStyle=vg; g.fillRect(0,0,F.VW,F.VH); };
 
+  // ═════════ ▶️ DỰNG HẾT RỒI MỚI PHÁT (16/11 anh: "load hết đẹp rồi mới được phát, chứ xem lag làm gì") ═════════
+  //   Bấm xem → dựng TỪNG KHUNG đúng 1/FPS giây (như render-cine) vào canvas ẩn → nén H.264 bằng card đồ hoạ (WebCodecs) giữ trong bộ nhớ.
+  //   Hiện "Đang dựng phim… X% · còn ~Ys". Dựng ĐỦ cả phim mới phát → hình y hệt bản xuất, mượt đều, tua đâu cũng không chờ (khoá hình mỗi 1s).
+  //   r = {DUR, cv (canvas dựng), render(t) (vẽ IM LẶNG), audio(t), audioStop(), seekAudio(s)} · dv = canvas hiển thị.
+  K.BUF_FPS=50;
+  K.bufPlayer=(r,dv)=>{ if(!window.VideoEncoder||!window.VideoDecoder) return null; const FPS=K.BUF_FPS, W=r.cv.width&~1, H=r.cv.height&~1, dg=dv.getContext('2d'), dur=Math.floor(r.DUR*FPS);
+    let enc=null, dec=null, chunks=[], nextI=0, built=false, flushing=false, frames=[], decI=0, skipTo=0, playT=0, clock0=0, paused=false, dead=false, err=null, tB0=0;
+    const CODECS=['avc1.640028','avc1.4d0028','avc1.42e028'];
+    async function cfg(){ for(const c of CODECS){ const o={codec:c, width:W, height:H, bitrate:6e6, framerate:FPS, latencyMode:'quality', avc:{format:'annexb'}, hardwareAcceleration:'prefer-hardware'};
+        try{ if((await VideoEncoder.isConfigSupported(o)).supported) return o; }catch(e){} } return null; }
+    let C=null;
+    function newDec(fromI){ try{ dec&&dec.state!=='closed'&&dec.close(); }catch(e){} for(const q of frames) try{ q.v.close(); }catch(e){} frames=[];
+      dec=new VideoDecoder({output:v=>{ const i=Math.round(v.timestamp*FPS/1e6); if(i<skipTo){ v.close(); return; } frames.push({i,v}); }, error:e=>{ err=String(e); }});
+      dec.configure({codec:C.codec, codedWidth:W, codedHeight:H, hardwareAcceleration:'prefer-hardware'}); skipTo=fromI; decI=Math.floor(fromI/FPS)*FPS; }   // giải nén từ khoá hình gần nhất trước đó
+    const now=()=>performance.now()/1000, cur=()=>(!built||paused)?playT:Math.min(r.DUR,playT+(now()-clock0));
+    function progress(){ const k=Math.min(1,nextI/(dur+1)), el=(performance.now()-tB0)/1000, left=k>0.02?el*(1-k)/k:0;
+      dg.fillStyle='#000'; dg.fillRect(0,0,dv.width,dv.height); const w=dv.width*0.36, h=Math.max(6,dv.height*0.012), x=(dv.width-w)/2, y=dv.height*0.55;
+      dg.fillStyle='rgba(255,255,255,0.18)'; dg.fillRect(x,y,w,h); dg.fillStyle='#fff'; dg.fillRect(x,y,w*k,h);
+      dg.font=`${Math.round(dv.height*0.032)}px sans-serif`; dg.textAlign='center'; dg.fillText('Đang dựng phim… '+Math.round(k*100)+'%'+(left>1?'  ·  còn ~'+Math.ceil(left)+'s':''),dv.width/2,y-dv.height*0.03); }
+    function tick(){ if(dead||err||!enc) return;
+      if(!built){ const t1=performance.now();   // ① DỰNG: dùng ~40ms mỗi lượt (chưa phát gì nên dồn sức dựng, vẫn giữ trang không đơ)
+        while(nextI<=dur && performance.now()-t1<40 && enc.encodeQueueSize<10){ r.render(nextI/FPS); const vf=new VideoFrame(r.cv,{timestamp:Math.round(nextI*1e6/FPS)}); enc.encode(vf,{keyFrame:nextI%FPS===0}); vf.close(); nextI++; }
+        if(nextI>dur&&!flushing){ flushing=true; enc.flush().then(()=>{ built=true; newDec(Math.floor(playT*FPS)); clock0=now(); r.seekAudio(playT); }).catch(e=>{ err=String(e); }); }
+        progress(); return; }
+      const t=cur(), want=Math.min(dur,Math.floor(t*FPS));   // ② PHÁT
+      while(decI<chunks.length && frames.length<24 && dec.decodeQueueSize<8){ dec.decode(chunks[decI]); decI++; }
+      while(frames.length>1&&frames[1].i<=want){ try{ frames.shift().v.close(); }catch(e){} }
+      if(frames.length&&frames[0].i>want+2&&!paused){ playT=t; clock0=now(); }   // giải nén chưa kịp (hiếm) → giữ đồng hồ, không nhảy khung
+      if(frames.length) dg.drawImage(frames[0].v,0,0,dv.width,dv.height);
+      if(!paused&&t<r.DUR) r.audio(t); }
+    return { dv, tick, t:cur, built:()=>built,
+      seek:s=>{ s=clamp(s,0,r.DUR); playT=s; clock0=now(); r.audioStop(); r.seekAudio(s); if(built) newDec(Math.floor(s*FPS)); },
+      toggle:()=>{ if(!built) return; if(paused){ paused=false; clock0=now(); } else { playT=cur(); paused=true; r.audioStop(); } }, paused:()=>paused||!built,
+      start:async()=>{ C=await cfg(); if(!C){ err='no-codec'; return; } enc=new VideoEncoder({output:ch=>{ chunks.push(ch); }, error:e=>{ err=String(e); }}); enc.configure(C); tB0=performance.now(); },
+      stop:()=>{ dead=true; try{ enc&&enc.state!=='closed'&&enc.close(); }catch(e){} try{ dec&&dec.state!=='closed'&&dec.close(); }catch(e){} for(const q of frames) try{ q.v.close(); }catch(e){} chunks=[]; }, error:()=>err }; };
   // ───────── khung chạy phim ─────────
   // def = { id, title, VW:540, VH:960 (khung logic; xuất 1080×1920 ×scale), DUR, imgs:{tên:đường dẫn}, sfx:[[giây,khoá,âm lượng,thời lượng]],
   //         theme (nền K.drawWorldBg), shots (máy quay), world(F,t) (đặt nhân vật + hiệu ứng thế giới), screen(F,t) (hiệu ứng màn hình),
@@ -317,8 +370,8 @@
     const I={}, IP=def.imgs||{}; for(const k of Object.keys(IP)) I[k]=new Image(); let imgsOn=false;
     const loadImgs=()=>{ if(imgsOn) return; imgsOn=true; for(const [k,p] of Object.entries(IP)) I[k].src=p; };
     const decodeImgs=()=>{ loadImgs(); return Promise.all(Object.values(I).map(im=>im.decode?im.decode().catch(()=>{}):0)).then(()=>{ for(const im of Object.values(I)) K.prep(im); }); };
-    let cv=null, W2=null, w2=null, SC=1, raf=null, t0=0, paused=false, pauseT=0, played={}, markOnly=false, panel=null, overlay=null, ready=false, OFF=null;
-    const curT=()=>paused?pauseT:(performance.now()-t0)/1000;
+    let cv=null, W2=null, w2=null, SC=1, raf=null, t0=0, paused=false, pauseT=0, played={}, markOnly=false, panel=null, overlay=null, ready=false, OFF=null, BP=null, ON_END=null, endAt=0;
+    const curT=()=>BP?BP.t():paused?pauseT:(performance.now()-t0)/1000;
     const sfx=(i,k,v,d)=>{ if(played[i]) return; played[i]=1; if(markOnly) return; try{ playSample(k,v==null?1:v,d||null); }catch(e){} };
     // 🎵 NHẠC NỀN: def.mus=[{src:'assets/audio/x.mp3', ra, rb (giây phim), vol, off (giây bắt đầu trong file), fi, fo (giây mờ vào/ra), loop}]
     //    xem trong game: mỗi bản 1 thẻ Audio chạy theo đồng hồ phim (tua / dừng là ngắt rồi vào lại đúng chỗ) · xuất video: render-cine trộn từ info().mus
@@ -330,9 +383,10 @@
         if(!on && m.el){ try{ m.el.pause(); }catch(e){} m.el=null; }
         if(m.el){ const f=Math.min(m.fi?seg(t,m.ra,m.ra+m.fi):1, m.fo?1-seg(t,m.rb-m.fo,m.rb):1); try{ m.el.volume=clamp((m.vol==null?1:m.vol)*f*(voOn && !m.vo?0.4:1)*(m.vo?1:K.duckAt(DUCK,t)),0,1); }catch(e){} } } }
     function musStop(){ for(const m of MUS){ if(m.el){ try{ m.el.pause(); }catch(e){} m.el=null; } } }
+    function sfxTick(t){ (def.sfx||[]).forEach((s,i)=>{ if(t>=s[0] && t<DUR && t-s[0]<0.25) sfx('s'+i,s[1],s[2],s[3]); else if(t>=s[0]) played['s'+i]=1; }); }
     function renderAt(t){
       if(OFF) markOnly=true;
-      (def.sfx||[]).forEach((s,i)=>{ if(t>=s[0] && t<DUR && t-s[0]<0.25) sfx('s'+i,s[1],s[2],s[3]); else if(t>=s[0]) played['s'+i]=1; });
+      if(!K._silent) sfxTick(t);   // phát dựng trước: vẽ IM LẶNG, tiếng chạy theo đồng hồ phát (sfxTick gọi riêng)
       const cam=K.camAt(def.shots,t), B=camBasis(cam,VW,VH);
       const shk=def.shake?def.shake(t):0, sx=shk?(hash(Math.floor(t*60))-0.5)*2*shk:0, sy=shk?(hash(Math.floor(t*60)+7)-0.5)*2*shk:0;
       const F={t,cam,B,VW,VH,g:w2,list:[],shadows:[],under:[],I:window.__ckImgLog?new Proxy(I,{get:(o,k)=>{ window.__ckImgLog.add(id+':'+String(k)); return o[k]; }}):I,DUR,SC};   // __ckImgLog: dò cảnh nào dùng ảnh nào
@@ -355,14 +409,18 @@
       F.panels=PNL&&PNL.length?PNL:null;
       const g=cv.getContext('2d'); g.setTransform(1,0,0,1,0,0);
       F.shx=sx; F.shy=sy;
-      let SRC=W2; if(def.post && window.VfxGL){ const fx=def.post(F,t); if(fx){ const px=v=>v*SC, cvt=p=>K.toPx(F,p);   // toạ độ logic → điểm ảnh thật
+      const GR=def.grade?def.grade(t):null;
+      let SRC=W2; if((def.post||(GR&&(GR.rgb>0.5||(GR.zoom&&GR.zoom.k>0.005)))) && window.VfxGL){ const fx=Object.assign({shocks:[]},def.post?def.post(F,t)||{}:{});
+        if(GR&&GR.rgb>0.5) fx.chroma=Math.max(fx.chroma||0,GR.rgb/6);   // tách RGB (px) → shader
+        if(GR&&GR.zoom&&GR.zoom.k>0.005) fx.zoom={x:(GR.zoom.x==null?0.5:GR.zoom.x)*VW, y:(GR.zoom.y==null?0.5:GR.zoom.y)*VH, k:GR.zoom.k, screen:true};
+        if(fx){ const px=v=>v*SC, cvt=p=>K.toPx(F,p);   // toạ độ logic → điểm ảnh thật
           const out={chroma:fx.chroma||0, heat:fx.heat?{k:px(fx.heat.k),t:fx.heat.t}:null,
             shocks:(fx.shocks||[]).map(s0=>{ const q=cvt(s0); return q?{x:q.x,y:q.y,r:px(s0.r),w:px(s0.w),str:px(s0.str)}:null; }).filter(Boolean),
-            zoom:fx.zoom?(()=>{ const q=cvt(fx.zoom); return q?{x:q.x,y:q.y,k:fx.zoom.k}:null; })():null};
+            zoom:fx.zoom?(fx.zoom.screen?{x:px(fx.zoom.x),y:px(fx.zoom.y),k:fx.zoom.k}:(()=>{ const q=cvt(fx.zoom); return q?{x:q.x,y:q.y,k:fx.zoom.k}:null; })()):null};
           const r=VfxGL.post(W2,out); if(r) SRC=r; } }
-      if(def.grade){ const gr=def.grade(t); if(gr) SRC=K.applyGrade(SRC,gr,cv.width,cv.height); }   // 🎬 EDIT kiểu CapCut (K.edit.*): duotone / đổi màu / cháy trắng / tách RGB / zoom blur
+      if(GR&&(GR.hue||GR.sat!=null||GR.bright!=null||GR.contrast!=null||GR.invert||GR.duo||GR.white>0)) SRC=K.applyGrade(SRC,GR,cv.width,cv.height);   // 🎬 EDIT kiểu CapCut (K.edit.*): duotone / đổi màu / cháy trắng / tách RGB / zoom blur
       const imp=def.impact?def.impact(t):0;
-      if(imp&&typeof imp==='object'){ g.drawImage(K.impactFrame(SRC,imp,cv.width,cv.height),0,0); }   // impact frame 2 màu đặc (bóng nhân vật = fg, nền = bg)
+      if(imp&&typeof imp==='object'){ g.imageSmoothingEnabled=true; g.drawImage(K.impactFrame(SRC,imp,cv.width,cv.height),0,0,cv.width,cv.height); }   // impact frame 2 màu đặc (bóng nhân vật = fg, nền = bg)
       else if(imp==='bw'){ g.filter='grayscale(1) contrast(6) brightness(1.15)'; g.drawImage(SRC,0,0); g.filter='none'; }
       else if(imp==='inv'){ g.filter='grayscale(1) invert(1) contrast(6)'; g.drawImage(SRC,0,0); g.filter='none'; }
       else if(imp==='red'){ g.filter='grayscale(1) contrast(5)'; g.drawImage(SRC,0,0); g.filter='none'; g.globalCompositeOperation='multiply'; g.fillStyle='#ff2a2a'; g.fillRect(0,0,cv.width,cv.height); g.globalCompositeOperation='source-over'; }
@@ -372,24 +430,30 @@
       if(def.fadeIn!==false && t<0.4) K.flash(F,1-t/0.4,'#000');            // cảnh giữa tập: fadeIn/fadeOut:false → nối cứng với cảnh trước / sau
       if(def.fadeOut!==false && t>DUR-0.6) K.flash(F,seg(t,DUR-0.6,DUR),'#000');
       markOnly=false; if(panel) panel.update(); }
-    function frame(now){ if(OFF) return; raf=requestAnimationFrame(frame); if(!ready) return; const t=Math.min(curT(),DUR); musTick(t); renderAt(t); }
-    function seek(s){ s=clamp(s,0,DUR); played={}; (def.sfx||[]).forEach((x,i)=>{ if(x[0]<s) played['s'+i]=1; }); try{ stopAllLongSfx(); }catch(e){} musStop(); if(paused) pauseT=s; else t0=performance.now()-s*1000; }
-    function toggle(){ if(paused){ paused=false; t0=performance.now()-pauseT*1000; } else { pauseT=curT(); paused=true; try{ stopAllLongSfx(); }catch(e){} musStop(); } }
-    function stop(){ if(raf) cancelAnimationFrame(raf); raf=null; try{ stopAllLongSfx(); }catch(e){} musStop(); if(window._cinePanelRemove) _cinePanelRemove(); panel=null; if(overlay) overlay.remove(); overlay=null; }
-    function play(opts){ if(overlay) return; const SCALE=(opts&&opts.scale)||1;
+    function frame(now){ if(OFF) return; raf=requestAnimationFrame(frame); if(!ready) return; if(BP&&BP.error()){ const tt=BP.t(); BP.dv.replaceWith(cv); BP.stop(); BP=null; paused=false; t0=performance.now()-tt*1000; }   /* máy không nén được H.264 → lùi về phát trực tiếp */
+      if(ON_END&&curT()>=DUR-0.02&&!(BP&&!BP.built())){ if(!endAt) endAt=performance.now(); if(performance.now()-endAt>1000){ stop(); return; } } else endAt=0;   /* xem hết → về thư mục tập phim (anh dặn 16/11) */
+      if(BP){ BP.tick(); if(panel) panel.update(); return; } const t=Math.min(curT(),DUR); musTick(t); renderAt(t); }
+    function seek(s){ if(BP){ BP.seek(s); return; } s=clamp(s,0,DUR); played={}; (def.sfx||[]).forEach((x,i)=>{ if(x[0]<s) played['s'+i]=1; }); try{ stopAllLongSfx(); }catch(e){} musStop(); if(paused) pauseT=s; else t0=performance.now()-s*1000; }
+    function toggle(){ if(BP){ BP.toggle(); return; } if(paused){ paused=false; t0=performance.now()-pauseT*1000; } else { pauseT=curT(); paused=true; try{ stopAllLongSfx(); }catch(e){} musStop(); } }
+    function stop(){ if(raf) cancelAnimationFrame(raf); raf=null; if(BP){ BP.stop(); BP=null; } try{ stopAllLongSfx(); }catch(e){} musStop(); if(window._cinePanelRemove) _cinePanelRemove(); panel=null; if(overlay) overlay.remove(); overlay=null; const cb=ON_END; ON_END=null; if(cb) try{ cb(); }catch(e){} }
+    function play(opts){ if(overlay) return; const SCALE=(opts&&opts.scale)||1; ON_END=(opts&&opts.onEnd)||null;
       overlay=document.createElement('div'); overlay.style.cssText='position:fixed;inset:0;z-index:99999;background:#000;display:flex;align-items:center;justify-content:center;';
-      cv=K.mk(VW*2*SCALE,VH*2*SCALE); SC=cv.width/VW; cv.style.cssText=`height:100vh;max-width:100vw;aspect-ratio:${VW}/${VH};object-fit:contain;object-position:center top;`;
-      W2=K.mk(cv.width,cv.height); w2=W2.getContext('2d'); overlay.appendChild(cv); document.body.appendChild(overlay);
+      cv=K.mk(VW*K.PREVIEW_K(VW,VH)*SCALE,VH*K.PREVIEW_K(VW,VH)*SCALE); SC=cv.width/VW; cv.style.cssText=`height:100vh;max-width:100vw;aspect-ratio:${VW}/${VH};object-fit:contain;object-position:center top;`;
+      W2=K.mk(cv.width,cv.height); w2=W2.getContext('2d'); document.body.appendChild(overlay);
       if(opts&&opts.offline) OFF={};
-      if(window._cinePanelMake && !OFF) panel=_cinePanelMake(overlay,{ title:def.title, dur:()=>DUR, t:()=>ready?Math.min(curT(),DUR):0, playing:()=>ready && !paused && curT()<DUR,
+      let dv=cv; if(!OFF&&!(opts&&opts.live)&&window.VideoEncoder){ dv=K.mk(cv.width,cv.height); dv.style.cssText=cv.style.cssText;   // ▶️ dựng trước: cv = canvas dựng ẩn, dv = canvas hiện
+        BP=K.bufPlayer({DUR, cv, render:t=>{ K._silent=true; renderAt(t); K._silent=false; }, audio:t=>{ musTick(t); sfxTick(t); }, audioStop:()=>{ try{ stopAllLongSfx(); }catch(e){} musStop(); },
+          seekAudio:s=>{ played={}; (def.sfx||[]).forEach((x,i)=>{ if(x[0]<s) played['s'+i]=1; }); }}, dv); }
+      overlay.appendChild(dv);
+      if(window._cinePanelMake && !OFF) panel=_cinePanelMake(overlay,{ title:def.title, dur:()=>DUR, t:()=>ready?Math.min(curT(),DUR):0, playing:()=>ready && (BP?!BP.paused():!paused) && curT()<DUR,
         toggle:()=>{ if(!ready) return; if(!paused && curT()>=DUR) seek(0); else toggle(); }, seek:s=>{ if(ready) seek(s); }, replay:()=>{ if(!ready) return; paused=false; seek(0); }, close:()=>stop() });
       try{ stopAllBattleMusic(); }catch(e){}
-      decodeImgs().then(()=>{ if(!overlay) return; ready=true; paused=false; played={}; t0=performance.now(); });
+      decodeImgs().then(()=>{ if(!overlay) return; ready=true; paused=false; played={}; t0=performance.now(); if(BP) BP.start(); });
       paused=false; played={}; t0=performance.now(); if(!OFF) raf=requestAnimationFrame(frame); }
     const api={ play, stop, ready:()=>ready, step:R=>{ if(OFF && ready) renderAt(R); }, canvas:()=>cv, info:()=>({dur:DUR, sfx:(def.sfx||[]).map(([a,k,v,d])=>[a,k,v,d]), mus:K._musInfo(def.mus), slow:def.slow||[], duck:DUCK}), def,
       // dùng bởi K.seq (tập nhiều cảnh): vẽ lên canvas của tập, tải ảnh, đặt lại tiếng khi tua
       _bind:(c,W,off)=>{ cv=c; W2=W; w2=W.getContext('2d'); SC=c.width/VW; OFF=off?{}:null; }, _load:decodeImgs, _render:t=>renderAt(t),
-      _seek:s=>{ played={}; (def.sfx||[]).forEach((x,i)=>{ if(x[0]<s) played['s'+i]=1; }); } };
+      _seek:s=>{ played={}; (def.sfx||[]).forEach((x,i)=>{ if(x[0]<s) played['s'+i]=1; }); }, _sfxTick:t=>sfxTick(t) };
     K.films[id]=api; return api; };
   // 🎚️ NHẠC NHƯỜNG TIẾNG (anh 12/11: "sound không có lực" — đo bằng film-listen: nhạc đều đều ngang tiếng đánh). def.duck=[[a,b,gain]] hoặc
   //    def.duckAuto={decisive:[giây cú quyết định], g:0.5, hold:0.8, re:/…/} → mỗi cú đánh chính (nhãn không '+', key khớp re) nhạc lùi ×g trong [t-0.12, t+hold];
@@ -409,8 +473,8 @@
     const parts=()=>def.parts.map(p=>K.films[p]);
     const offs=[]; let DUR=0; for(const f of parts()){ offs.push(DUR); DUR+=f.info().dur; }
     const at=t=>{ let i=0; for(let j=0;j<offs.length;j++) if(t>=offs[j]) i=j; return i; };
-    let cv=null, W2=null, raf=null, t0=0, paused=false, pauseT=0, panel=null, overlay=null, ready=false, OFF=null;
-    const curT=()=>paused?pauseT:(performance.now()-t0)/1000;
+    let cv=null, W2=null, raf=null, t0=0, paused=false, pauseT=0, panel=null, overlay=null, ready=false, OFF=null, BP=null, ON_END=null, endAt=0;
+    const curT=()=>BP?BP.t():paused?pauseT:(performance.now()-t0)/1000;
     const MUS=(def.mus||[]).map(m=>({...m, el:null}));
     let DK=null; const duckS=()=>DK||(DK=[].concat(...parts().map((f,i)=>(f.info().duck||[]).map(([a,b,g])=>[a+offs[i],b+offs[i],g]))));
     function musTick(t){ if(OFF) return; const voOn=MUS.some(m=>m.vo && t>=m.ra && t<m.rb); for(const m of MUS){ const on=!paused && t>=m.ra && t<m.rb;
@@ -420,20 +484,26 @@
         if(m.el){ const f=Math.min(m.fi?seg(t,m.ra,m.ra+m.fi):1, m.fo?1-seg(t,m.rb-m.fo,m.rb):1); try{ m.el.volume=clamp((m.vol==null?1:m.vol)*f*(voOn && !m.vo?0.4:1)*(m.vo?1:K.duckAt(duckS(),t)),0,1); }catch(e){} } } }
     function musStop(){ for(const m of MUS){ if(m.el){ try{ m.el.pause(); }catch(e){} m.el=null; } } }
     function renderAt(t){ t=clamp(t,0,DUR-1e-4); const i=at(t); parts()[i]._render(t-offs[i]); if(panel) panel.update(); }
-    function frame(){ if(OFF) return; raf=requestAnimationFrame(frame); if(!ready) return; const t=Math.min(curT(),DUR); musTick(t); renderAt(t); }
-    function seek(s){ s=clamp(s,0,DUR); parts().forEach((f,i)=>f._seek(s-offs[i])); try{ stopAllLongSfx(); }catch(e){} musStop(); if(paused) pauseT=s; else t0=performance.now()-s*1000; }
-    function toggle(){ if(paused){ paused=false; t0=performance.now()-pauseT*1000; } else { pauseT=curT(); paused=true; try{ stopAllLongSfx(); }catch(e){} musStop(); } }
-    function stop(){ if(raf) cancelAnimationFrame(raf); raf=null; try{ stopAllLongSfx(); }catch(e){} musStop(); if(window._cinePanelRemove) _cinePanelRemove(); panel=null; if(overlay) overlay.remove(); overlay=null; }
-    function play(opts){ if(overlay) return; const SCALE=(opts&&opts.scale)||1;
+    function frame(){ if(OFF) return; raf=requestAnimationFrame(frame); if(!ready) return; if(BP&&BP.error()){ const tt=BP.t(); BP.dv.replaceWith(cv); BP.stop(); BP=null; paused=false; t0=performance.now()-tt*1000; }   /* máy không nén được H.264 → lùi về phát trực tiếp */
+      if(ON_END&&curT()>=DUR-0.02&&!(BP&&!BP.built())){ if(!endAt) endAt=performance.now(); if(performance.now()-endAt>1000){ stop(); return; } } else endAt=0;   /* xem hết → về thư mục tập phim (anh dặn 16/11) */
+      if(BP){ BP.tick(); if(panel) panel.update(); return; } const t=Math.min(curT(),DUR); musTick(t); renderAt(t); }
+    function seek(s){ if(BP){ BP.seek(s); return; } s=clamp(s,0,DUR); parts().forEach((f,i)=>f._seek(s-offs[i])); try{ stopAllLongSfx(); }catch(e){} musStop(); if(paused) pauseT=s; else t0=performance.now()-s*1000; }
+    function toggle(){ if(BP){ BP.toggle(); return; } if(paused){ paused=false; t0=performance.now()-pauseT*1000; } else { pauseT=curT(); paused=true; try{ stopAllLongSfx(); }catch(e){} musStop(); } }
+    function stop(){ if(raf) cancelAnimationFrame(raf); raf=null; if(BP){ BP.stop(); BP=null; } try{ stopAllLongSfx(); }catch(e){} musStop(); if(window._cinePanelRemove) _cinePanelRemove(); panel=null; if(overlay) overlay.remove(); overlay=null; const cb=ON_END; ON_END=null; if(cb) try{ cb(); }catch(e){} }
+    function play(opts){ if(overlay) return; const SCALE=(opts&&opts.scale)||1; ON_END=(opts&&opts.onEnd)||null;
       overlay=document.createElement('div'); overlay.style.cssText='position:fixed;inset:0;z-index:99999;background:#000;display:flex;align-items:center;justify-content:center;';
-      cv=K.mk(VW*2*SCALE,VH*2*SCALE); cv.style.cssText=`height:100vh;max-width:100vw;aspect-ratio:${VW}/${VH};object-fit:contain;object-position:center top;`;
-      W2=K.mk(cv.width,cv.height); overlay.appendChild(cv); document.body.appendChild(overlay);
+      cv=K.mk(VW*K.PREVIEW_K(VW,VH)*SCALE,VH*K.PREVIEW_K(VW,VH)*SCALE); cv.style.cssText=`height:100vh;max-width:100vw;aspect-ratio:${VW}/${VH};object-fit:contain;object-position:center top;`;
+      W2=K.mk(cv.width,cv.height); document.body.appendChild(overlay);
       OFF=opts&&opts.offline?{}:null;
-      if(window._cinePanelMake && !OFF) panel=_cinePanelMake(overlay,{ title:def.title, dur:()=>DUR, t:()=>ready?Math.min(curT(),DUR):0, playing:()=>ready && !paused && curT()<DUR,
+      let dv=cv; if(!OFF&&!(opts&&opts.live)&&window.VideoEncoder){ dv=K.mk(cv.width,cv.height); dv.style.cssText=cv.style.cssText;   // ▶️ dựng trước (xem K.bufPlayer)
+        BP=K.bufPlayer({DUR, cv, render:t=>{ K._silent=true; renderAt(t); K._silent=false; }, audio:t=>{ musTick(t); const i=at(t); parts()[i]._sfxTick(t-offs[i]); }, audioStop:()=>{ try{ stopAllLongSfx(); }catch(e){} musStop(); },
+          seekAudio:s=>{ parts().forEach((f,i)=>f._seek(s-offs[i])); }}, dv); }
+      overlay.appendChild(dv);
+      if(window._cinePanelMake && !OFF) panel=_cinePanelMake(overlay,{ title:def.title, dur:()=>DUR, t:()=>ready?Math.min(curT(),DUR):0, playing:()=>ready && (BP?!BP.paused():!paused) && curT()<DUR,
         toggle:()=>{ if(!ready) return; if(!paused && curT()>=DUR) seek(0); else toggle(); }, seek:s=>{ if(ready) seek(s); }, replay:()=>{ if(!ready) return; paused=false; seek(0); }, close:()=>stop() });
       try{ stopAllBattleMusic(); }catch(e){}
       parts().forEach(f=>{ f._bind(cv,W2,!!OFF); f._seek(0); });
-      Promise.all(parts().map(f=>f._load())).then(()=>{ if(!overlay) return; ready=true; paused=false; t0=performance.now(); });
+      Promise.all(parts().map(f=>f._load())).then(()=>{ if(!overlay) return; ready=true; paused=false; t0=performance.now(); if(BP) BP.start(); });
       paused=false; t0=performance.now(); if(!OFF) raf=requestAnimationFrame(frame); }
     const api={ play, stop, ready:()=>ready, step:R=>{ if(OFF && ready) renderAt(R); }, canvas:()=>cv, def, parts:def.parts, offsets:()=>offs.slice(),
       info:()=>{ const I={dur:DUR, sfx:[], mus:K._musInfo(def.mus), slow:[], duck:duckS()};
