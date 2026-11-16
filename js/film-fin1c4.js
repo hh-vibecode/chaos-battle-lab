@@ -67,6 +67,7 @@
   const STY=300;                        // 1 tầng nhà = 300 đơn vị (≈2.5× meme)
   const CRASH_X=-2650;                  // Gojo đâm vào toà nhà cuối đại lộ
   const SKYY=9000;                      // độ cao Pain lơ lửng khi cast — CAO HƠN mọi toà (cao nhất 28 tầng = 8400) để thấy cả thành phố bên dưới
+  const DOME_R=1800, DOME_C=-2650+60;   // (13/11) vòm lãnh địa TO GẤP ĐÔI (trước 900) — đối chọi Shinra Tensei, nhà bên trong đứng vững
   const HP_X=-1450;                     // chỗ Gojo nấp trong khói bắn Hollow Purple
 
   // ───────── ẢNH (ảnh chờ → ảnh tạm) ─────────
@@ -83,7 +84,11 @@
       while(x<4600){ const w=650+380*hash(sd*1.3), d=700+350*hash(sd*2.1), st=row===0?4+Math.floor(5*hash(sd*3.7)):10+Math.floor(18*Math.pow(hash(sd*4.9),1.3));
         BL.push({x0:x,x1:x+w,z0:side>0?z0:-z0-d,z1:side>0?z0+d:-z0,h:st*STY,st,seed:sd,hue:hash(sd*5.3)}); x+=w+140+260*hash(sd*6.1); sd++; } }
     BL.push({x0:-3350,x1:CRASH_X-50,z0:-950,z1:950,h:14*STY,st:14,seed:777,hue:0.4,crash:true});   // toà chắn cuối đại lộ (Gojo đâm vào)
-    for(const b of BL){ b.cx=(b.x0+b.x1)/2; b.cz=(b.z0+b.z1)/2; b.ta=T.sh+Math.hypot(b.cx-PCX,b.cz)/4300; } })();
+    for(const b of BL){ b.cx=(b.x0+b.x1)/2; b.cz=(b.z0+b.z1)/2; const dd=Math.hypot(b.cx-PCX,b.cz)||1, r1=hash(b.seed*1.7), r2=hash(b.seed*2.9), r3=hash(b.seed*4.3);
+      b.ta=T.sh+dd/4300+(r1-0.5)*0.22;                         // lệch thời điểm từng toà
+      b.hf=dd<4500?0.86+0.1*r2:0.5+0.45*r2; b.dur=0.35+0.95*r3;   // gần tâm: san gần phẳng · xa tâm: còn trơ khung cao thấp khác nhau · sập nhanh / chậm khác nhau
+      b.lean=(0.1+0.45*hash(b.seed*6.1))*(r1<0.15?0:1); b.ldx=(b.cx-PCX)/dd; b.ldz=b.cz/dd;   // nghiêng ngả RA XA tâm Shinra (vài toà sụp thẳng)
+      if(!b.crash&&[[b.x0,b.z0],[b.x1,b.z0],[b.x0,b.z1],[b.x1,b.z1]].every(([x,z])=>Math.hypot(x-DOME_C,z)<DOME_R*0.95)) b.ta=1e9; } })();   // 🛡️ nằm TRỌN trong vòm lãnh địa của Gojo → đứng vững
   const fogMix=(c,f,k)=>c.map((v,i)=>Math.round(lerp(v,f[i],k)));
   // màu trung bình 1 dải ảnh (y0–y1 theo tỉ lệ cao) — nhớ lại theo ảnh · mẫu lặp của ảnh theo từng context vẽ
   const AVG=new Map(), PAT=new Map();
@@ -112,12 +117,12 @@
       g.save(); g.globalCompositeOperation='screen'; g.fillStyle=gg; g.fillRect(xL,y0,xR-xL,hy-y0); g.restore(); }
     const gb=g.createLinearGradient(0,hy-ih*s*0.02,0,yB); gb.addColorStop(0,`rgba(${th.fog},0)`); gb.addColorStop(1,`rgba(${th.fog},1)`);
     g.fillStyle=gb; g.fillRect(xL,hy-ih*s*0.02,xR-xL,yB-hy+ih*s*0.02+1); }
-  function drawBuilding(F,b,t,th){ const B=F.B, k=t>=b.ta?eout(seg(t,b.ta,b.ta+0.55)):0, h=b.h*(1-0.93*k);   // k = độ đổ (sóng Shinra)
+  function drawBuilding(F,b,t,th){ const B=F.B, k=t>=b.ta?eout(seg(t,b.ta,b.ta+(b.dur||0.55))):0, h=b.h*(1-(b.hf||0.93)*k), lean=k*(b.lean||0);   // k = độ đổ (sóng Shinra) · mỗi toà đổ 1 kiểu
     const crashShake=(b.crash&&t>=T.push+0.95&&t<T.push+1.6)?(hash(Math.floor(t*40))-0.5)*30:0;
     const pc=K.proj(B,b.cx,h*0.5,b.cz); if(!pc) return;
     F.list.push({d:pc.d+Math.max(b.x1-b.x0,b.z1-b.z0)*0.35, fn:()=>{ const g=F.g, cam=B.pos, fogK=clamp((pc.d-2500)/9000,0,0.85)*((t>=T.imp&&t<T.wave)?0.22:1), fog=th.fogRGB;
       const base=th.bld(b), lit=k<0.2&&t<T.sh+0.2;
-      const P=(x,y,z)=>K.proj(B,x+crashShake,y,z);
+      const P=(x,y,z)=>K.proj(B,x+crashShake+(b.ldx||0)*lean*y,y,z+(b.ldz||0)*lean*y);   // nghiêng: đỉnh lệch ra xa tâm nổ
       const poly=(...ps)=>{ g.beginPath(); ps.forEach((p,i)=>i?g.lineTo(p.x,p.y):g.moveTo(p.x,p.y)); g.closePath(); };
       // 🧱 MẶT NHÀ DÁN ẢNH (Bước 4, 10/11): mặt tiền vẽ GPT (th.tex) lặp theo tầng (1 tầng ảnh = STY) + bề rộng; mặt chia lưới ô theo cỡ trên màn
       //    (điểm lưới chiếu từ toạ độ THẬT → đúng phối cảnh), mỗi ô 2 tam giác ánh xạ affine (createPattern + setTransform); rồi nhân màu theo mặt + sương.
@@ -530,7 +535,7 @@
     S(T.dOut,T.imp,{tx:CRASH_X+300,ty:520,tz:0,dist:2700,yaw:90,pitch:-7,fov:56},{tx:CRASH_X+300,ty:560,tz:0,dist:2450,yaw:92,pitch:-8,fov:56}),   // TỪ NGOÀI: vòm sao trồi lên giữa đống đổ nát
     S(T.imp,T.sh,{tx:PCX+900,ty:0,tz:600,dist:11000,yaw:-18,pitch:60,fov:52}),
     S(T.sh,T.wave,{tx:PCX+900,ty:0,tz:600,dist:11000,yaw:-18,pitch:60,fov:52},{tx:PCX+900,ty:0,tz:600,dist:12500,yaw:-10,pitch:63,fov:52},'lin'),        // GÓC CHIM: nhà đổ rạp từ tâm ra
-    S(T.wave,T.rest,{tx:CRASH_X+200,ty:220,tz:0,dist:1700,yaw:-55,pitch:-3,fov:56,ox:-0.15},{tx:CRASH_X+200,ty:230,tz:0,dist:1620,yaw:-57,pitch:-3,fov:56,ox:-0.15},'lin'),   // sát đất cạnh vòm, nhìn về tâm
+    S(T.wave,T.rest,{tx:CRASH_X+300,ty:800,tz:0,dist:4200,yaw:-55,pitch:10,fov:56,ox:-0.1},{tx:CRASH_X+300,ty:800,tz:0,dist:4000,yaw:-57,pitch:10,fov:56,ox:-0.1},'lin'),   // sát đất cạnh vòm, nhìn về tâm
     S(T.rest,T.land-0.6,{tx:0,ty:300,tz:0,dist:5200,yaw:-35,pitch:20,fov:50},{tx:0,ty:300,tz:0,dist:5040,yaw:-33,pitch:19,fov:50}),
     S(T.land-0.6,T.land,{tx:PCX,ty:SKYY+40,tz:0,dist:560,yaw:-20,pitch:-38,fov:50},{tx:PCX,ty:SKYY+40,tz:0,dist:520,yaw:-24,pitch:-40,fov:50}),   // góc thấp nhìn lên Pain lơ lửng trên trời trước khi rơi
     S(T.land,T.look,{tx:PCX,ty:420,tz:0,dist:900,yaw:-25,pitch:-18,fov:52},{tx:PCX,ty:180,tz:0,dist:820,yaw:-22,pitch:-6,fov:50}),
@@ -688,8 +693,15 @@
       if(t>=T.rise&&t<T.cast){ const u=seg(t,T.rise,T.rise+0.8); K.ring(F,PCX,0,40+500*eout(u),24,1-u,'235,225,255'); K.smoke(F,{x:PCX,z:0,t0:T.rise,n:14,spread:600,rise:60,life:1.6,size:120,seed:210,a:0.55}); }
       if(t>=T.cast&&t<T.sh){ for(let i=0;i<3;i++){ const ph=((t-T.cast)*1.6+i/3)%1; orb(F,PCX,SKYY+60,0,30+300*(1-ph),'235,225,255',0.35*ph); } }
       // LÃNH ĐỊA của Gojo: vòm sao nở ra quanh Gojo, giữ tới khi ra khỏi khói
-      const domR=t<T.dOut?0:900*eout(seg(t,T.dOut,T.dOut+0.55)), domA=t<T.dOut?0:t<T.rest+1.5?1:1-seg(t,T.rest+1.5,T.smoke);
+      const domR=t<T.dOut?0:DOME_R*eout(seg(t,T.dOut,T.dOut+0.55)), domA=t<T.dOut?0:t<T.rest+1.5?1:1-seg(t,T.rest+1.5,T.smoke);
       if(domA>0) dome(F,CRASH_X+60,0,domR,domA,t);
+      { const tc=T.sh+(Math.abs(DOME_C-PCX)-DOME_R)/4300; if(t>=tc&&t<tc+1.4&&domA>0){ const u=seg(t,tc,tc+1.4);   // ⚡ sóng Shinra ĐẬP vào vòm: viền vòm loé trắng xanh, tia lửa toé dọc mép, vòng chấn động bật ra
+        K.ring(F,DOME_C,0,DOME_R*(1.0+0.12*eout(u)),60*(1-u),0.9*(1-u),'235,245,255'); K.ring(F,DOME_C,0,DOME_R*(1.02+0.4*eout(u)),30*(1-u),0.5*(1-u),'190,120,255');
+        K.sparks(F,{x:DOME_C+DOME_R*0.9,y:300,z:0,t0:tc,n:60,speed:1800,life:0.8,seed:777,col:'230,240,255'}); K.sparks(F,{x:DOME_C+DOME_R*0.7,y:900,z:-600,t0:tc+0.05,n:40,speed:1500,life:0.8,seed:778,col:'200,150,255'}); } }
+      // 🏚️ toà gần sập: bụi bốc ở chân + mảnh văng từ đỉnh (chỉ ~1/3 số toà trong 6km để nhẹ máy)
+      for(const b of BL){ if(b.ta>1e8||t<b.ta||t>b.ta+2.4||hash(b.seed*8.3)>0.38||Math.hypot(b.cx-PCX,b.cz)>6000) continue;
+        K.smoke(F,{x:b.cx,z:b.cz,t0:b.ta,n:5,spread:(b.x1-b.x0)*0.7,rise:260,life:2.2,size:420,seed:b.seed,a:0.5,tint:'96,74,70'});
+        if(t<b.ta+1.2) K.debris(F,{x:b.cx,y:b.h*0.8,z:b.cz,t0:b.ta,n:8,speed:900,life:1.4,size:90,seed:b.seed+3,col:'#3a3034'}); }
       if(domA>0&&domR>60){ K.ring(F,CRASH_X+60,0,domR*1.02,26,0.55*domA,'120,190,255'); K.smoke(F,{x:CRASH_X+60,z:0,t0:T.dOut+0.15,n:18,spread:domR*1.05,rise:50,life:7,size:240,seed:281,a:0.55*domA,tint:'18,22,40'}); }   // chân vòm chìm trong khói mực, không lộ mép cắt
       if(t>=T.dOut&&t<T.dOut+1.2){ const u=seg(t,T.dOut,T.dOut+0.9); K.ring(F,CRASH_X+60,0,60+1400*eout(u),40,1-u,'150,200,255'); K.debris(F,{x:CRASH_X+60,y:60,z:0,t0:T.dOut,n:26,speed:1500,life:1.4,size:46,seed:271,col:'#3a3448'});
         K.smoke(F,{x:CRASH_X+60,z:0,t0:T.dOut,n:14,spread:1400,rise:200,life:1.8,size:260,seed:272,a:0.55,tint:'90,100,140'}); }
