@@ -23,7 +23,7 @@
   const h2=(a,b)=>{ const v=Math.sin(a*127.1+b*311.7+74.7)*43758.5453; return v-Math.floor(v); };
   const D2R=Math.PI/180;
   Object.assign(K,{clamp,seg,lerp,EASE,hash,h2,eio:EASE.eio,eout:EASE.eout,ein:EASE.ein});
-  K.twos=(t,fps)=>Math.floor(t*(fps||12))/(fps||12);   // giật theo nhịp vẽ tay
+  K.twos=(t,fps)=>Math.floor(t*(fps||50))/(fps||50);   // (13/11 anh: "tất cả 30–50fps, đoạn thành phố hơi giật") mặc định 50 hình/giây = đúng khung xuất video; muốn giật kiểu vẽ tay thì truyền fps riêng
   K.mk=(w,h)=>{ const c=document.createElement('canvas'); c.width=Math.max(1,Math.round(w)); c.height=Math.max(1,Math.round(h)); return c; };
   // ảnh cắt sát + bỏ nền mờ
   K.prep=im=>{ if(!im) return null; if(im._ck) return im._ck; if(!im.complete || !im.naturalWidth) return null;
@@ -115,7 +115,7 @@
   const sstep=(a,b,x)=>{ const k=clamp((x-a)/(b-a),0,1); return k*k*(3-2*k); };
   function lifeOf(o){ if(o.life===false) return null; const L=Object.assign({},K.LIFE); if(o.life) for(const k in o.life) if(o.life[k]!=null) L[k]=o.life[k]; return L; }
   // dựng ảnh đã biến dạng vào canvas chung: trả {img,W,H,ax,ay,R} — (ax,ay) = chân giữa ảnh, R = px canvas / 1 chiều cao ảnh
-  function lifeMesh(F,c,L,h,flip){ const fps=L.fps==null?12:L.fps, tt=fps?K.twos(F.t,fps):F.t, ph=(L.seed!=null?L.seed:hash(c.sw*0.131+c.sh*0.071))*6.283;
+  function lifeMesh(F,c,L,h,flip){ const fps=L.fps==null?50:L.fps, tt=fps?K.twos(F.t,fps):F.t, ph=(L.seed!=null?L.seed:hash(c.sw*0.131+c.sh*0.071))*6.283;
     const nx=L.nx||6, ny=L.ny||10, asp=c.sw/c.sh, br=(L.breath||0)*0.02*Math.sin(tt*6.283/3.2+ph), sw=(L.sway||0)*0.018*Math.sin(tt*6.283/4.1+ph*1.7),
       wd=(L.wind||0)*0.03*(L.dir||1)*(flip?-1:1), sa=0.32*(L.squash||0), sb=0.25*(L.squash||0), NV=(nx+1)*(ny+1), V=new Float64Array(NV*2);
     let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9,dev=0;   // dev = độ lệch lớn nhất so với ảnh gốc (đơn vị chiều cao ảnh) → aura chỉ theo lưới khi lệch rõ

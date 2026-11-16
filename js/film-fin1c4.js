@@ -640,7 +640,7 @@
       {src:'assets/audio/vo_gojo_domain.mp3',ra:T.dIn+0.1,rb:T.dIn+2.1,off:8.8,vol:1.0,fi:0.05,fo:0.5,vo:true},
       {src:'assets/audio/vo_gojo_murasaki.mp3',ra:T.look+0.2,rb:T.look+3.6,off:1.0,vol:0.75,fi:0.03,fo:0.4,vo:true},
       {src:'assets/audio/mus_honored.m4a',ra:T.dom,rb:T.DUR,off:Math.max(0,75.8-(Rnew(T.smoke)-Rnew(T.dom))),vol:0.35,fi:0.4,fo:2.0}],
-    theme:t=>theme(t), shots,
+    theme:t=>theme(t), shots:window.Fin1Fight?Fin1Fight.cutify(shots,{keep:[[T.land,T.look]]}):shots,   // (13/11 anh: hạn chế zoom / máy trượt trong khung 3D — cắt góc tĩnh)
     panels:t=>C?C.splitFace(t,T.split,T.wide-T.split,{tx:-490,ty:78,tz:0,dist:190,yaw:16,pitch:-4,fov:40,ox:-0.25},{tx:505,ty:105,tz:0,dist:190,yaw:-16,pitch:-4,fov:40,ox:0.25})   /* 9/11: ảnh nghiêng (G9/P9) → mỗi ô hiện TRỌN ĐẦU 1 con, tâm máy dời vào giữa ô (ox ±0.25) */:null,
     impact:t=>{ if(at(t,T.rest-0.18,0.18)) return 0; return IMP(t); },
     shake:t=>{ let s=0; const h=(a,amp,d)=>{ if(t>=a&&t<a+d) s=Math.max(s,amp*(1-(t-a)/d)); };
