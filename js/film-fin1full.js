@@ -7,9 +7,9 @@
   const BASE=((document.currentScript&&document.currentScript.src)||'js/film-fin1full.js').replace(/film-[^\/]*$/,''), V=window.GAME_VERSION?'?v='+GAME_VERSION.build:'';
   const K=CineKit;
   // tải đồng bộ file phim còn thiếu (mỗi file tự tải phần phụ: thành phố, biên đạo…)
-  for(const [id,f] of [['fin1','film-fin1.js'],['fin1c5','film-fin1c5.js'],['fin1f3','film-fin1f3.js'],['fin1f2','film-fin1f2.js'],['fin1f1','film-fin1f1.js'],['fin1c4','film-fin1c4.js']])
+  for(const [id,f] of [['fin1','film-fin1.js'],['fin1c5','film-fin1c5.js'],['fin1c6','film-fin1c6.js'],['fin1c7','film-fin1c7.js'],['fin1f3','film-fin1f3.js'],['fin1f2','film-fin1f2.js'],['fin1f1','film-fin1f1.js'],['fin1c4','film-fin1c4.js']])
     if(!K.films[id]){ try{ const x=new XMLHttpRequest(); x.open('GET',BASE+f+V,false); x.send(); (0,eval)(x.responseText); }catch(e){ console.warn('fin1full: không tải được '+f,e); } }
-  const PARTS=['fin1c1','fin1c2','fin1c3','fin1c5','fin1f2','fin1f3','fin1f1','fin1c4'].filter(p=>K.films[p]);
+  const PARTS=['fin1c1','fin1c2','fin1c3','fin1c5','fin1c6','fin1f2','fin1f3','fin1f1','fin1c4','fin1c7'].filter(p=>K.films[p]);
   // nhạc: nhạc chung của 3 cảnh đầu (seq 'fin1', giây tính từ đầu tập) + nhạc riêng từng cảnh sau, dời theo giây bắt đầu
   const mus=[]; const F1=K.films.fin1; if(F1&&F1.def&&F1.def.mus) mus.push(...F1.def.mus);
   let off=0; for(const p of PARTS){ const f=K.films[p], I=f.info(); if(!['fin1c1','fin1c2','fin1c3'].includes(p)) for(const m of (I.mus||[])) mus.push(Object.assign({},m,{ra:m.ra+off,rb:m.rb+off})); off+=I.dur; }

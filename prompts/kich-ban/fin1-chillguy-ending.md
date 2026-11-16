@@ -55,7 +55,14 @@ fin1c1–c3 → fin1c5 (Meowkatsuki tách ra) → **[A] fin1c6 Chill Guy** → f
 - Nền: phố đổ nát có người chạy (không nhân vật) · thành phố tàn lụi toàn cảnh (2 đầu phố) · nền trời cho cổng.
 - Vật riêng phông xanh: toà nhà nghiêng · chiếc xe · cột đèn · mảng tường · NỬA TOÀ NHÀ.
 
-## Em còn phân vân (anh chốt giúp để không sai cốt truyện)
+## ✅ ANH CHỐT (16/11)
+1. Bread Cat HIỆN TRÊN TRỜI như các phần đầu (vị thần khổng lồ giữa trời), hiệu ứng xoay GIỐNG GAME hơn (nghịch lý bơ: xoay trục ngang, đèn chớp, cột sáng, mưa tia lửa) → thời không sụp → cổng.
+2. KHÔNG có Evil Larry.
+3. Adolf Catler, Stalin Cat → vào PHE GOJO.
+4. Người chặn Chill Guy = Gojo.
+5. Hàng đầu = các meme đang giao tranh (Doge, Clapping, Berserk, Pop, Huh); hàng sau = meme quan trọng (Adolf Catler, Stalin Cat, Duolingo, Violin Bee, …) rồi tới các meme còn lại.
+
+## Em còn phân vân (anh chốt giúp để không sai cốt truyện) — ĐÃ CHỐT ở trên
 1. **Godly Memes** theo Prologue là Supreme Cat · Bread Cat · Flower Cat (+ The Void). Bread Cat mở cổng ở đây → Bread Cat XUẤT HIỆN (dù là godly) đúng không anh? Holy Cat, Infinity Doge, Maxwell có tính là godly không?
 2. **Phe ác** ngoài Friend / Evil Gary / Catvader / Meowkatsuki: Evil Larry có vào binh đoàn ác quỷ không? Hay để dành?
 3. **Adolf Catler, Stalin Cat** (meme chính trị): em đề xuất KHÔNG cho vào cả 2 phe, anh đồng ý không?
