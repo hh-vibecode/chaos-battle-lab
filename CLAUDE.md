@@ -93,6 +93,9 @@ Mẫu đã duyệt:
 - Bảng lỗi phải dò từng khung: VẬT CHE NHÂN VẬT (gạch / xe / trụ / dầm giữa máy và nhân vật) · VẬT SÁT MÁY phình to (vòng khói, xích, cáp cầu) · máy ĐI XUYÊN nhân vật khi trượt (tz đổi giữa shot) ·
   nhân vật LƠ LỬNG / CHÌM (chân không chạm đất / nóc xe) · ĐI LÙI (look nhìn đối thủ trong khi đi ngược hướng) · CỠ không đồng nhất giữa các tư thế / tấm GPT khác nhau · chỗ NỐI xích / vũ khí vào tay ·
   khoá [giây,x,ảnh,ease,nhoè,z,y] bỏ trống z / y thì GIỮ z / y của khoá trước (Fin1Fight.track) → muốn về 0 phải ghi rõ.
+- 🎬 CẮT CẢNH, KHÔNG CHO MÁY BÁM / TRƯỢT trong khung 3D (anh dặn 13/11: "cứ cắt cảnh cắt góc, hạn chế dùng góc máy trên khung 3D, nhiều vấn đề, trông xấu"):
+  mỗi pha 1 góc TĨNH, đổi pha = CẮT. Trận Fin1 bọc `W.cutify(C.seq([...]),{keep})` (js/fin1-fight.js) tự tách shot trượt thành góc tĩnh; chỉ giữ đẩy máy ≤5%.
+- 🔊 Mỗi cú 1 tiếng ĐÚNG CHẤT, không dùng lại cho cú khác loại (13/11 anh chê "sound xài lại không hợp lý"): bom ≠ xe nổ, tiếng đấm ≠ nhát kiếm, mỗi lần đỡ kiếm xen 2–3 tiếng va khác nhau.
 - Xích / vật quấn người: GPT vẽ phần QUẤN vào ảnh nhân vật, xoá đoạn thẳng (`tools/x/png-erase.js`), code chỉ nối mắt xích lặp từ mép vòng quấn. KHÔNG vẽ vòng quấn bằng code.
 
 ## ⚔️ CẢNH ĐÁNH NHAU — NHỊP THEO ANIME GỐC, KHÔNG THEO AMV (anh chê 12/11: "rush, quá nhanh liên tục, đau mắt, không rõ cách đánh; sound không lực, lộn xộn")
