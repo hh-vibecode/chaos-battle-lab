@@ -26337,7 +26337,7 @@ function _cinePanelMake(host,api){
     if(free>=58){ el.classList.add('dock-b'); el.style.width=Math.min(1100, cv.width*k-20, innerWidth-20)+'px'; el.style.top=(bot+Math.max(4,(free-el.offsetHeight)/2))+'px'; }
     else { el.classList.remove('dock-b'); el.style.top=''; el.style.width=''; } };
   addEventListener('resize',()=>{ _lk=''; });
-  const P={ el, update(){ layout(); const d=api.dur(), t=Math.min(api.t(),d); if(!drag) rg.value=Math.round(t/d*1000); tm.textContent=t.toFixed(1)+'s / '+d.toFixed(1)+'s'; pb.textContent=api.playing()?'⏸':'▶'; } };
+  const P={ el, update(){ layout(); const d=api.dur(), t=Math.min(api.t(),d); if(!drag) rg.value=Math.round(t/d*1000); { const pp=(drag?rg.value/10:t/d*100).toFixed(2), bb=(Math.max(t,api.buffered?api.buffered():d)/d*100).toFixed(2); rg.style.background=`linear-gradient(to right,#ffb74d 0 ${pp}%,rgba(255,255,255,0.5) ${pp}% ${bb}%,rgba(255,255,255,0.14) ${bb}% 100%)`; }   /* thanh NẠP kiểu YouTube (16/11): cam = đã xem · xám đậm = đã dựng · xám nhạt = chưa */ tm.textContent=t.toFixed(1)+'s / '+d.toFixed(1)+'s'; pb.textContent=api.playing()?'⏸':'▶'; } };
   _cinePanelCur=P; P.update(); return P;
 }
 window._cinePanelMake=_cinePanelMake; window._cinePanelRemove=_cinePanelRemove;

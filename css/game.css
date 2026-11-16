@@ -1436,7 +1436,10 @@ canvas { display:block; }
   background:rgba(14,9,24,0.88);border:1px solid rgba(255,255,255,0.18);border-radius:16px;padding:16px;color:#fff;font-family:system-ui,Arial,sans-serif;
   display:flex;flex-direction:column;gap:10px;box-shadow:0 10px 30px rgba(0,0,0,0.5)}
 .cine-panel .cp-title{font-weight:900;font-size:17px;letter-spacing:.5px}
-.cine-panel .cp-range{width:100%;accent-color:#ffb74d;cursor:pointer}
+.cine-panel .cp-range{width:100%;accent-color:#ffb74d;cursor:pointer;-webkit-appearance:none;appearance:none;height:6px;border-radius:3px;background:rgba(255,255,255,0.14);outline:none}
+.cine-panel .cp-range::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;background:#ffb74d;border:0;box-shadow:0 0 0 2px rgba(0,0,0,0.35)}
+.cine-panel .cp-range::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:#ffb74d;border:0}
+.cine-panel .cp-range::-moz-range-track{background:transparent}
 .cine-panel .cp-time{font-size:13px;opacity:.75;font-variant-numeric:tabular-nums}
 .cine-panel .cp-btns{display:flex;gap:8px}
 .cine-panel button{flex:1;font-size:14px;font-weight:700;color:#fff;background:rgba(255,255,255,0.10);border:1px solid rgba(255,255,255,0.22);border-radius:10px;padding:9px 6px;cursor:pointer}

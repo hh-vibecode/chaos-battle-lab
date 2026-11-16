@@ -365,7 +365,7 @@
       if(!waiting&&!paused&&!hidden&&t<r.DUR) r.audio(t);
       if(waiting&&!paused){ const k=Math.max(0,Math.min(1,lead/K.BUF_LEAD)); dg.save(); dg.fillStyle='rgba(0,0,0,0.5)'; const w=dv.width*0.3, x=(dv.width-w)/2, y=dv.height*0.52; dg.fillRect(x-8,y-dv.height*0.05,w+16,dv.height*0.075);
         dg.fillStyle='rgba(255,255,255,0.25)'; dg.fillRect(x,y,w,4); dg.fillStyle='#fff'; dg.fillRect(x,y,w*k,4); dg.font=`${Math.round(dv.height*0.03)}px sans-serif`; dg.textAlign='center'; dg.fillText('Đang nạp… '+Math.round(k*100)+'%',dv.width/2,y-dv.height*0.015); dg.restore(); } }
-    return { dv, tick, t:cur, built:()=>!waiting, dbg:()=>({nextI,decI,len:chunks.length,frames:frames.length,f0:frames[0]&&frames[0].i,waiting,dec:dec&&dec.state,dq:dec&&dec.decodeQueueSize,enc:enc&&enc.state,keys:keys.slice(-4),has:[decI,decI+1].map(i=>!!chunks[i])}),
+    return { dv, tick, t:cur, built:()=>!waiting, bufferedTo:()=>{ let h=Math.max(0,Math.floor(cur()*FPS)); while(h<=dur&&chunks[h]) h++; return Math.min(r.DUR,h/FPS); },   // đã dựng liền mạch tới giây nào (thanh nạp kiểu YouTube) dbg:()=>({nextI,decI,len:chunks.length,frames:frames.length,f0:frames[0]&&frames[0].i,waiting,dec:dec&&dec.state,dq:dec&&dec.decodeQueueSize,enc:enc&&enc.state,keys:keys.slice(-4),has:[decI,decI+1].map(i=>!!chunks[i])}),
       seek:s=>{ s=clamp(s,0,r.DUR); playT=s; clock0=now(); waiting=true; r.audioStop(); r.seekAudio(s); const fi=Math.min(dur,Math.floor(s*FPS)); if(!chunks[fi]&&!(fi>=nextI&&fi<nextI+FPS)){ nextI=fi; newEnc(); flushed=false; } newDec(fi); },   // tua tới chỗ CHƯA dựng → dựng ngay từ chỗ tua (khung đầu là khung khoá)
       toggle:()=>{ if(paused){ paused=false; clock0=now(); } else { playT=cur(); paused=true; r.audioStop(); } }, paused:()=>paused||waiting,
       start:async()=>{ C=await cfg(); if(!C){ err='no-codec'; return; } newEnc(); newDec(0); },
@@ -456,7 +456,7 @@
           seekAudio:s=>{ played={}; (def.sfx||[]).forEach((x,i)=>{ if(x[0]<s) played['s'+i]=1; }); }}, dv); }
       overlay.appendChild(dv);
       if(window._cinePanelMake && !OFF) panel=_cinePanelMake(overlay,{ title:def.title, dur:()=>DUR, t:()=>ready?Math.min(curT(),DUR):0, playing:()=>ready && (BP?!BP.paused():!paused) && curT()<DUR,
-        toggle:()=>{ if(!ready) return; if(!paused && curT()>=DUR) seek(0); else toggle(); }, seek:s=>{ if(ready) seek(s); }, replay:()=>{ if(!ready) return; paused=false; seek(0); }, close:()=>stop() });
+        toggle:()=>{ if(!ready) return; if(!paused && curT()>=DUR) seek(0); else toggle(); }, seek:s=>{ if(ready) seek(s); }, buffered:()=>BP?BP.bufferedTo():DUR, replay:()=>{ if(!ready) return; paused=false; seek(0); }, close:()=>stop() });
       try{ stopAllBattleMusic(); }catch(e){}
       decodeImgs().then(()=>{ if(!overlay) return; ready=true; paused=false; played={}; t0=performance.now(); if(BP) BP.start(); });
       paused=false; played={}; t0=performance.now(); if(!OFF) raf=requestAnimationFrame(frame); }
@@ -510,7 +510,7 @@
           seekAudio:s=>{ parts().forEach((f,i)=>f._seek(s-offs[i])); }}, dv); }
       overlay.appendChild(dv);
       if(window._cinePanelMake && !OFF) panel=_cinePanelMake(overlay,{ title:def.title, dur:()=>DUR, t:()=>ready?Math.min(curT(),DUR):0, playing:()=>ready && (BP?!BP.paused():!paused) && curT()<DUR,
-        toggle:()=>{ if(!ready) return; if(!paused && curT()>=DUR) seek(0); else toggle(); }, seek:s=>{ if(ready) seek(s); }, replay:()=>{ if(!ready) return; paused=false; seek(0); }, close:()=>stop() });
+        toggle:()=>{ if(!ready) return; if(!paused && curT()>=DUR) seek(0); else toggle(); }, seek:s=>{ if(ready) seek(s); }, buffered:()=>BP?BP.bufferedTo():DUR, replay:()=>{ if(!ready) return; paused=false; seek(0); }, close:()=>stop() });
       try{ stopAllBattleMusic(); }catch(e){}
       parts().forEach(f=>{ f._bind(cv,W2,!!OFF); f._seek(0); });
       Promise.all(parts().map(f=>f._load())).then(()=>{ if(!overlay) return; ready=true; paused=false; t0=performance.now(); if(BP) BP.start(); });
