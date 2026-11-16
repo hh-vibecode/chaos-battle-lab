@@ -88,6 +88,13 @@ Mẫu đã duyệt:
   Giọng Gojo thật: vo_gojo_domain (0.4–3.0s Ryōiki Tenkai · 8.8s→ Muryōkūsho) · vo_gojo_murasaki — em KHÔNG nghe được, cắt theo đường độ to → CHỜ ANH NGHE CHỐT. Bat = bản 2 anh tả (Pop minigun, Bat lăn lộn trốn, phi tiêu chặn chữ HUH khổng lồ, bom dơi);
   Ninja = nhiều tư thế, Kamui ra SAU LƯNG chém xuống → Berserk quay lại chém đỡ; XÍCH = vẽ GPT (Doge có xích quấn sẵn trong ảnh + mắt xích lặp nối đúng đầu xích), bỏ xích vẽ code.
 
+## 🔎 SOÁT PHIM TRƯỚC KHI BÁO XONG (anh chê 13/11: "m có check thật không", "làm cẩu thả")
+- Bảng khung thu nhỏ 320px KHÔNG đủ: soát MỖI GIÂY 1 khung (`film-check.js <id> --t $(seq -s, 0.5 1 DUR) --w 360+`) rồi soát lại CẬN (--w 640) mọi chỗ nối / chỗ nghi.
+- Bảng lỗi phải dò từng khung: VẬT CHE NHÂN VẬT (gạch / xe / trụ / dầm giữa máy và nhân vật) · VẬT SÁT MÁY phình to (vòng khói, xích, cáp cầu) · máy ĐI XUYÊN nhân vật khi trượt (tz đổi giữa shot) ·
+  nhân vật LƠ LỬNG / CHÌM (chân không chạm đất / nóc xe) · ĐI LÙI (look nhìn đối thủ trong khi đi ngược hướng) · CỠ không đồng nhất giữa các tư thế / tấm GPT khác nhau · chỗ NỐI xích / vũ khí vào tay ·
+  khoá [giây,x,ảnh,ease,nhoè,z,y] bỏ trống z / y thì GIỮ z / y của khoá trước (Fin1Fight.track) → muốn về 0 phải ghi rõ.
+- Xích / vật quấn người: GPT vẽ phần QUẤN vào ảnh nhân vật, xoá đoạn thẳng (`tools/x/png-erase.js`), code chỉ nối mắt xích lặp từ mép vòng quấn. KHÔNG vẽ vòng quấn bằng code.
+
 ## ⚔️ CẢNH ĐÁNH NHAU — NHỊP THEO ANIME GỐC, KHÔNG THEO AMV (anh chê 12/11: "rush, quá nhanh liên tục, đau mắt, không rõ cách đánh; sound không lực, lộn xộn")
 - Số đo từ 4 trận GỐC còn tiếng gốc (JJK Todo vs Hanami, Gojo vs Toji, Rengoku vs Akaza, Naruto vs Sasuke — `meme-anime-lab/playbook/nhip.md`): shot TB 1.3–1.8s,
   55–72% thời gian ở shot > 2s, shot < 0.6s chỉ 3–7%. 1 shot = TRỌN 1 PHA (lấy đà → ra đòn → khựng → phản ứng), máy bám theo; giữ trục (phe A trái / B phải);

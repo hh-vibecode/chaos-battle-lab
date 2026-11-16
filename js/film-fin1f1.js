@@ -153,7 +153,7 @@
   const CORD_X0=0.30, CORD_X1=0.75, CORD_Y1=0.844;
   // ⛓️ (13/11) MẮT XÍCH THẬT: ô ảnh GPT (FIN_F1_CHAIN_TILE: nửa mắt dẹt · 1 mắt đứng · nửa mắt dẹt — nối ô cạnh nhau liền mạch) đặt nối đuôi dọc đường đi, mỗi ô xoay theo đoạn đó
   function linkScreen(g,im,pts,cw,hot){ if(pts.length<2||!im||!im.complete||!im.naturalWidth) return false; const LH=cw*1.7, PER=LH*im.naturalWidth/im.naturalHeight; const L=[0]; for(let i=1;i<pts.length;i++) L.push(L[i-1]+Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1])); const tot=L[L.length-1]; if(tot<1) return true;
-    g.save(); if(hot){ g.lineCap='round'; g.lineJoin='round'; for(const [w,al] of [[LH*2.2,0.22],[LH*1.3,0.4]]){ g.strokeStyle=`rgba(255,${w>LH*2?50:110},0,${al*hot})`; g.lineWidth=w; g.beginPath(); g.moveTo(pts[0][0],pts[0][1]); for(let i=1;i<pts.length;i++) g.lineTo(pts[i][0],pts[i][1]); g.stroke(); } }
+    g.save(); if(hot){ g.lineCap='round'; g.lineJoin='round'; for(const [w,al] of [[LH*1.5,0.16],[LH*1.05,0.32]]){ g.strokeStyle=`rgba(255,${w>LH*2?50:110},0,${al*hot})`; g.lineWidth=w; g.beginPath(); g.moveTo(pts[0][0],pts[0][1]); for(let i=1;i<pts.length;i++) g.lineTo(pts[i][0],pts[i][1]); g.stroke(); } }
     let seg2=1; for(let d=0;d<tot;d+=PER){ const len=Math.min(PER,tot-d), m=d+len/2; while(seg2<L.length-1&&L[seg2]<m) seg2++; const a=pts[seg2-1], b=pts[seg2], f=(m-L[seg2-1])/Math.max(1e-6,L[seg2]-L[seg2-1]), x=a[0]+(b[0]-a[0])*f, y=a[1]+(b[1]-a[1])*f;
       g.save(); g.translate(x,y); g.rotate(Math.atan2(b[1]-a[1],b[0]-a[0])); g.drawImage(im,0,0,im.naturalWidth*len/PER,im.naturalHeight,-len/2,-LH/2,len+0.5,LH); g.restore(); }
     g.restore(); return true; }
@@ -168,7 +168,7 @@
   // xích từ điểm thế giới A tới B, võng / cong `sag` (đơn vị thế giới, + = võng xuống), lắc `wob`; k = độ dài đã phóng (0..1)
   let CHT_IMG=null;
   function chain(F,A,B,o){ o=o||{}; CHT_IMG=F.I.CHT||CHT_IMG; const k=o.k==null?1:o.k, N=18, P=[]; for(let i=0;i<=N;i++){ const f=i/N*k, x=lerp(A[0],B[0],f), y=lerp(A[1],B[1],f)-(o.sag||0)*4*f*(1-f)+(o.wob||0)*Math.sin(f*9+(o.t||0)*20)*f, z=lerp(A[2],B[2],f); const p=K.proj(F.B,x,y,z); if(!p) return; P.push(p); }
-    const s=(P[0].s+P[P.length-1].s)/2, cw=Math.max(1.6,Math.min(11,(o.w||9)*0.42*s)),   /* trần 7px: xích sát máy không phình thành dải to vắt ngang khung */ d=Math.min(P[0].d,P[P.length-1].d)+(o.d||-10);
+    const s=(P[0].s+P[P.length-1].s)/2, cw=Math.max(1.6,Math.min(8,(o.w||9)*0.42*s)),   /* trần 7px: xích sát máy không phình thành dải to vắt ngang khung */ d=Math.min(P[0].d,P[P.length-1].d)+(o.d||-10);
     F.list.push({d, fn:()=>{ const g=F.g; g.save(); g.globalAlpha=o.a==null?1:o.a; cordScreen(g,F.I.CORD,P.map(p=>[p.x,p.y]),cw,o.hot==null?1:o.hot); g.restore(); }}); }
   // xích QUẤN quanh người (vòng xoắn phía trước thân): tâm x,z, từ cao y0 tới y1, bán kính theo bề ngang ảnh
   function coil(F,x,z,y0,y1,R,turns,o){ o=o||{}; CHT_IMG=F.I.CHT||CHT_IMG; const B=F.B, r=B.r, P=[]; for(let i=0;i<=turns*14;i++){ const a=i/14*TAU, y=lerp(y0,y1,i/(turns*14)), c=Math.cos(a), sn=Math.sin(a);
@@ -219,7 +219,7 @@
   function landFx(F,t,x,z,col,tL){ if(t<tL||t>tL+2.4) return; const u=seg(t,tL,tL+0.7); K.ring(F,x,z,40+520*eout(u),10,0.3*(1-u),col);   // sóng nhỏ, mờ (góc sát đất vòng to dẹt thành vạch sáng cắt khung)
     K.smoke(F,{x,z,t0:tL,n:16,spread:520,rise:90,life:1.6,size:110,seed:(x|0)+3,a:0.5,tint:'140,130,120'}); K.debris(F,{x,y:10,z,t0:tL,n:26,speed:700,life:1.0,size:10,seed:(x|0)+5,col:'#3c3a2e'}); }
   // đá vụn / cột gãy quanh bãi đánh chính
-  const RUBBLE=Array.from({length:26},(_,i)=>{ const w=70+220*hash(i*7.1), h=30+150*hash(i*2.9), d=60+160*hash(i*4.3), x=FZ[0]+(hash(i*3.3)-0.5)*2600, z=FZ[1]+(i%4===0?-420-300*hash(i*9.1):260+hash(i*5.7)*1100); return {x,z,w,h,d,dark:hash(i*6.6)<0.5}; }).filter(r=>!(Math.abs(r.z-FZ[1])<300&&r.x>FZ[0]-400&&r.x<FZ[0]+900));
+  const RUBBLE=Array.from({length:26},(_,i)=>{ const w=70+220*hash(i*7.1), h=30+150*hash(i*2.9), d=60+160*hash(i*4.3), x=FZ[0]+(hash(i*3.3)-0.5)*2600, z=FZ[1]+(i%4===0?-420-300*hash(i*9.1):260+hash(i*5.7)*1100); return {x,z,w,h,d,dark:hash(i*6.6)<0.5}; }).filter(r=>!(Math.abs(r.z-FZ[1])<300&&r.x>FZ[0]-400&&r.x<FZ[0]+900)&&!(r.z<FZ[1]&&Math.abs(r.x-(FZ[0]+300))<1300));   // (13/11 anh: vật che nhân vật) không đặt gạch vụn PHÍA TRƯỚC chỗ đánh (giữa máy và 2 con)
   function rock(F,x,y,z,S,seed){ const P=K.proj(F.B,x,y+S*0.45,z); if(!P) return; const R=S*P.s;
     F.list.push({d:P.d, fn:()=>{ const g=F.g; g.save(); g.translate(P.x,P.y); g.rotate(seed); const pts=[]; for(let i=0;i<8;i++){ const a=i/8*TAU, rr=R*(0.62+0.38*hash(seed*13+i)); pts.push([Math.cos(a)*rr,Math.sin(a)*rr*0.78]); }
       g.fillStyle='#5f5955'; g.beginPath(); pts.forEach((p,i)=>i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1])); g.closePath(); g.fill();
