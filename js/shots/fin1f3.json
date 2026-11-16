@@ -1,7 +1,6 @@
 [
-  {"t0":0,"t1":3,"co":"toàn","goc":"ngang","hanhDong":"cột sáng đỏ giáng xuống, Berserk bước ra kéo lê đại kiếm dọc đại lộ, mũi kiếm toé lửa","loai":"giới thiệu","anh":["B_DRAG"],"sfx":["cine_impact","se_gogogo"],"ghiChu":""},
-  {"t0":3,"t1":4,"co":"cận","goc":"ngang","hanhDong":"quạ đậu cột đèn kêu, Berserk liếc","loai":"giới thiệu","anh":["B_DRAG"],"sfx":["fin_crow_caw"],"ghiChu":""},
-  {"t0":4,"t1":5.4,"co":"trung","goc":"qua vai","hanhDong":"qua vai Berserk: đàn quạ sà xuống tụ thành Ninja sau lưng","loai":"giới thiệu","anh":["N0"],"sfx":["fin_crow_fly"],"ghiChu":""},
+  {"t0":0,"t1":4,"co":"trung","goc":"ngang","hanhDong":"Berserk đứng yên trong cột sáng đỏ, vác đại kiếm","loai":"giới thiệu","anh":["B_SHOULDER"],"sfx":["cine_impact","se_gogogo"],"ghiChu":""},
+  {"t0":4,"t1":5.4,"co":"toàn","goc":"ngang","hanhDong":"bầy quạ sà xuống tụ lại sau lưng Berserk thành Ninja","loai":"giới thiệu","anh":["N0","B_SHOULDER"],"sfx":["fin_crow_fly","fin_crow_caw"],"ghiChu":""},
   {"t0":5.4,"t1":6.6,"co":"cận","goc":"ngang","hanhDong":"đối mặt: Berserk vác đại kiếm lên vai","loai":"đối mặt","anh":["B_SHOULDER"],"sfx":[],"ghiChu":""},
   {"t0":6.6,"t1":8.4,"co":"cận","goc":"ngang","hanhDong":"đối mặt: Ninja rút Kusanagi","loai":"đối mặt","anh":["N_DRAW"],"sfx":["ep3_shine"],"ghiChu":""},
   {"t0":8.4,"t1":9,"co":"trung","goc":"ngang","hanhDong":"Ninja ném 3 kunai → Berserk dựng ngang đại kiếm làm khiên, kunai bật ra tia lửa","loai":"đánh","anh":["N_THROW","B_SHIELD"],"sfx":["ninja_kunai","ep3_klunk"],"ghiChu":""},

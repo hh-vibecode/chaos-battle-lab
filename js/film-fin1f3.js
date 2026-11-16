@@ -57,7 +57,7 @@
     [T.pause+0.45,-650,'N_CROUCH','eio',0,0,96],[T.fr1-0.6,-650,'N_CROUCH',0,0,0,96],[T.fr1-0.3,-380,'N_BLOCK','eout',0,0,0],                                  // khựng trên nóc xe 2 → nhảy xuống đỡ
     [T.fr1,-380,'N_BLOCK'],[T.fr1+0.3,-405,'N_BLOCK','eout'],[T.fr2,-405,'N_BLOCK'],[T.fr2+0.3,-425,'N_BLOCK','eout'],[T.fr3,-425,'N_BLOCK'],[T.fr3+0.35,-440,'N_BLOCK','eout'],   // đỡ từng nhát, trượt lùi xa dần
     [T.charge,-440,'N0'],[T.cut-0.3,-440,'NS'],[T.cut,NCX,'NS','ein',1],[T.DUR,NCX,'NS']];
-  const BK=[[0,300,'B_DRAG',0,0,0,0],[T.crow,-200,'B_DRAG','lin'],[T.formed-0.1,-200,'B_DRAG'],[T.formed,-200,'B0'],[T.formed+0.6,-200,'B_SHOULDER'],
+  const BK=[[0,-200,'B_SHOULDER',0,0,0,0],[T.formed-0.1,-200,'B_SHOULDER'],[T.formed,-200,'B0'],[T.formed+0.6,-200,'B_SHOULDER'],
     [T.kun-0.12,-200,'B_SHIELD'],[T.kun+0.6,-200,'B_SHIELD'],[T.leap,-200,'B_GUARDHI'],[T.clash+0.2,-185,'B_GUARDHI','back'],[T.off-0.05,-185,'B_GUARDHI'],[T.off,-170,'B_SWEEP','eout'],[T.off+0.35,-150,'B0'],
     [T.wind,-150,'B_OVERHEAD'],[T.slam-0.12,-120,'B_OVERHEAD','eout'],[T.slam,-60,'B_CHOP3','ein',1],[T.slam+0.55,-60,'B_CHOP3'],
     [T.sweep-0.45,-20,'B_CHARGE','eout'],[T.sweep-0.1,150,'B_CHARGE','ein',1],[T.sweep,190,'B_SWEEP'],[T.sweep+0.6,190,'B_SWEEP'],[T.out,190,'B0'],[T.c0,20,'B0','eio'],
@@ -79,9 +79,8 @@
   // ───────── MÁY QUAY ─────────  máy luôn PHÍA TRƯỚC trục 2 người (yaw −40…40): ai bên trái vẫn bên trái
   const S=(t0,t1,a,b,ease)=>({t0,t1,a,b:b||a,ease:ease||'eio'});
   const shots=W.cutify(C.seq([
-    S(0,T.crow,{tx:120,ty:150,tz:0,dist:1100,yaw:-34,pitch:-6,fov:52,roll:-2},{tx:0,ty:130,tz:0,dist:980,yaw:-30,pitch:-5,fov:52,roll:-2},'lin'),                       // 1 cột sáng đỏ, Berserk kéo lê kiếm dọc đại lộ, mũi kiếm toé lửa
-    S(T.crow,T.gather,{tx:LAMP[0],ty:300,tz:LAMP[1],dist:300,yaw:-14,pitch:-8,fov:46},{tx:LAMP[0],ty:300,tz:LAMP[1],dist:280,yaw:-14,pitch:-8,fov:46},'lin'),           // 2 quạ đậu cột đèn kêu
-    S(T.gather,T.formed,{tx:60,ty:120,tz:0,dist:560,yaw:22,pitch:-4,fov:50},{tx:90,ty:110,tz:0,dist:500,yaw:20,pitch:-4,fov:50},'lin'),                                 // 3 qua vai Berserk: bầy quạ sà xuống tụ thành Ninja
+    S(0,T.gather,{tx:-200,ty:100,tz:0,dist:360,yaw:12,pitch:-5,fov:48},{tx:-200,ty:100,tz:0,dist:342,yaw:12,pitch:-5,fov:48},'lin'),   // (16/11) trung cảnh: Berserk đứng yên trong cột sáng đỏ, vác đại kiếm
+    S(T.gather,T.formed,{tx:25,ty:110,tz:0,dist:620,yaw:-4,pitch:-2,fov:50},{tx:25,ty:110,tz:0,dist:595,yaw:-4,pitch:-2,fov:50},'lin'),   // toàn: bầy quạ sà xuống tụ lại SAU LƯNG Berserk thành Ninja
     ...C.pushIn(T.formed,{d:T.draw-T.formed,tx:-200,ty:96,tz:0,dist:260,dist1:235,yaw:24,pitch:-5,fov:42,ox:-0.12}),                                                  // 4 đối mặt: Berserk vác đại kiếm lên vai
     ...C.pushIn(T.draw,{d:T.kun-T.draw,tx:250,ty:100,tz:0,dist:260,dist1:235,yaw:-24,pitch:-5,fov:42,ox:0.12}),                                                       // 5 đối mặt: Ninja rút Kusanagi
     S(T.kun,T.leap-0.15,{tx:20,ty:95,tz:0,dist:640,yaw:-4,pitch:2,fov:48},{tx:10,ty:95,tz:0,dist:620,yaw:-4,pitch:2,fov:48},'lin'),                                     // 6 kunai → Berserk dựng đại kiếm làm khiên, 3 tia lửa
@@ -220,13 +219,13 @@
     if(pts.some(p=>!p)) return; F.list.push({d:Math.min(...pts.map(p=>p.d))+40, fn:()=>{ const g=F.g; g.save(); g.fillStyle='rgba(12,8,10,0.75)'; g.beginPath(); pts.forEach((p,i)=>i?g.lineTo(p.x,p.y):g.moveTo(p.x,p.y)); g.closePath(); g.fill(); g.restore(); }}); }
   function trench(F,t){ if(t<T.fr1) return; const x1=W.track(NK,Math.min(t,T.fr3+0.35)).x; for(const dz of [-16,16]) W.line(F,[[-380,1,dz],[x1,1,dz]],5,'rgba(14,10,12,0.8)'); }   // 2 rãnh chân Ninja cày trên mặt đường
   function crowsGather(F,t){ if(t<T.crow-0.6||t>=T.formed+0.1) return;
-    if(t<T.gather){ const P=K.proj(F.B,LAMP[0],300,LAMP[1]); if(P) F.list.push({d:P.d-1, fn:()=>{ const g=F.g, S=64*P.s; g.save(); g.translate(P.x,P.y-S*0.2); g.scale(-1,1); g.shadowColor='rgba(255,90,60,0.9)'; g.shadowBlur=S*0.25; g.fillStyle='#07060a'; crowShape(g,S,0.15+0.1*Math.sin(t*3)); g.restore(); }}); }
+    if(false){ const P=K.proj(F.B,LAMP[0],300,LAMP[1]); if(P) F.list.push({d:P.d-1, fn:()=>{ const g=F.g, S=64*P.s; g.save(); g.translate(P.x,P.y-S*0.2); g.scale(-1,1); g.shadowColor='rgba(255,90,60,0.9)'; g.shadowBlur=S*0.25; g.fillStyle='#07060a'; crowShape(g,S,0.15+0.1*Math.sin(t*3)); g.restore(); }}); }
     else for(let i=0;i<26;i++){ const u=seg(t,T.gather+0.03*i%0.5,T.formed-0.1), a=hash(i*3.1)*TAU, r0=500+300*hash(i*5.2), x=250+Math.cos(a)*r0*(1-eio(u)), y=90+(200+200*hash(i*7.7))*(1-eio(u)), z=Math.sin(a)*r0*0.6*(1-eio(u)), P=K.proj(F.B,x,y,z); if(!P||u>=1) continue;
       F.list.push({d:P.d, fn:()=>{ const g=F.g, S=30*P.s*(1-0.5*u); g.save(); g.translate(P.x,P.y); if(Math.cos(a)>0) g.scale(-1,1); g.fillStyle='#07060a'; crowShape(g,S,Math.abs(Math.sin(t*22+i))); g.restore(); }}); } }
   function world(F,t0){ const pn=F.panel||{}; if(pn.next){ F.t=t0; return drawNext(F,t0); } const t=pn.freeze?T.fall-1e-4:t0; F.t=t;
     const th=theme(t), g0=W.track(NK,hs(t)), b0=W.track(BK,hs(t)), rk=rageK(t);
     CITY.draw(F,t,th);
-    lightPillar(F,300,0,t,0.0,'255,70,50');
+    lightPillar(F,-200,0,t,0.0,'255,70,50');
     // cột đèn quạ đậu
     W.line(F,[[LAMP[0],0,LAMP[1]],[LAMP[0],290,LAMP[1]]],6,'#1a171c'); W.line(F,[[LAMP[0],290,LAMP[1]],[LAMP[0]-60,300,LAMP[1]]],4,'#1a171c');
     car(F,CAR1,t,{flip:t>=T.slam+0.1,halves:t>=T.sweep?70*eout(seg(t,T.sweep,T.sweep+0.5)):0}); car(F,CAR2,t,{col:'#3a3f48'}); pane(F,t); crater(F,t); trench(F,t);
@@ -244,7 +243,7 @@
       life:{breath:0.5,wind:1.0,squash:K.squash(hs(t),T.perch,0.35,0.1)}});
     crowsGather(F,t);
     K.smoke(F,{x:0,z:300,t0:-0.3,n:12,spread:1700,rise:30,life:3,size:90,seed:1,swirl:0.2,a:0.22,tint:'150,90,80'});
-    if(t<T.crow) K.sparks(F,{x:b0.x+150,y:5,z:b0.z,t0:Math.floor(t*8)/8,n:4,speed:180,life:0.3,seed:Math.floor(t*8)+600,col:'255,200,120'});   // mũi kiếm kéo lê toé lửa trên nhựa đường
+    if(false) K.sparks(F,{x:b0.x+150,y:5,z:b0.z,t0:Math.floor(t*8)/8,n:4,speed:180,life:0.3,seed:Math.floor(t*8)+600,col:'255,200,120'});   // mũi kiếm kéo lê toé lửa trên nhựa đường
     // 🗡️ 3 kunai → cắm vào BẢN đại kiếm đang dựng ngang (khiên) → bật ra, tia lửa
     for(let i=0;i<3;i++){ const ts=T.kun+0.04+i*0.06, th2=ts+0.2; if(t<ts||t>=th2+0.5) continue; const y=82+(i-1)*24, z=(i-1)*14, A=[230,110,0], B=[-165,y,z];
       if(t<th2){ const u=seg(t,ts,th2), x=lerp(A[0],B[0],u), yy=lerp(A[1],B[1],u); W.line(F,[[x,yy,z],[x+40,yy+2,z]],4,'#c8ccd6',{glow:'rgba(255,255,255,0.35)'}); }
@@ -317,8 +316,8 @@
   CineKit.film(W.retime(RETIME,{ id:'fin1f3', title:'Final 1 · Fight · Ninja Cat vs Berserk Cat', DUR:T.DUR, VW:960, VH:540, fadeIn:false, fadeOut:false,
     imgs:IMG, cast:['ninja','nj','bk'],
     sfx:[[0.25,'l2p_rumble',0.45,null,'đại lộ đổ nát, gió bụi'],[0.05,'cine_impact',0.8,null,'cột sáng đỏ giáng xuống giữa đại lộ'],
-      [0.9,'se_gogogo',0.3,2.0,'Berserk bước ra kéo lê đại kiếm, mũi kiếm cào đường toé lửa'],
-      [T.crow,'fin_crow_caw',0.8,null,'quạ đậu cột đèn kêu, Berserk liếc'],
+      [0.9,'se_gogogo',0.3,2.0,'Berserk đứng trong cột sáng đỏ, vác đại kiếm, sức ép dâng'],
+      [T.gather-0.3,'fin_crow_caw',0.8,null,'+ quạ kêu từ xa sau lưng Berserk (lớp đầu của bầy quạ)'],
       [T.gather,'fin_crow_fly',0.9,null,'cả đàn quạ sà xuống tụ thành Ninja sau lưng'],
       [T.draw,'ep3_shine',0.5,null,'Ninja rút Kusanagi, lưỡi kiếm loé'],
       [T.kun,'ninja_kunai',0.8,null,'Ninja ném 3 kunai'],[T.kun+0.25,'ep3_klunk',0.6,null,'+ 3 kunai cắm vào bản đại kiếm dựng làm khiên, bật ra (lớp của cú ném)'],
