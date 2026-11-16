@@ -66,6 +66,9 @@ Mẫu đã duyệt:
 - Bớt chi tiết thừa khi cảnh rối (anh bỏ hết xúc tu phụ ở cảnh bão: "lộn xộn quá"). Xong cảnh nào phải chụp khung soi kỹ CHỖ NỐI trước khi báo xong.
 
 ## ⛔ NGUYÊN TẮC CAO NHẤT KHI VẼ ẢNH: GIỮ ĐÚNG NGUYÊN TÁC MEME (anh dặn 12/11/2026)
+- ⛔⛔ (13/11, anh nhấn) ƯU TIÊN DÙNG NGUYÊN ẢNH MEME GỐC: "xài được nguyên bản meme mà vẫn mô tả được hành động là hay nhất… vì meme nó mới có cái hồn · vẽ thêm nó vỡ nguyên tác".
+  TRỪ cảnh giao tranh tay chân (đỡ / chém / đấm cần tư thế), còn lại dùng ảnh gốc + chuyển động code (nghiêng, nảy, giật lùi, lật) + VFX + cắt góc.
+  Cần đổi 1 chi tiết thì SỬA ảnh gốc đúng 1 chỗ (vd Gojo kéo băng bịt mắt lộ 1 mắt — FIN_G6_EYE), KHÔNG vẽ lại cả con mèo 4 chân. Pop / Huh / Doge thường: giữ avatar gốc.
 - Mọi ảnh / sprite sheet vẽ thêm bằng GPT chỉ được đổi GÓC NHÌN + TƯ THẾ. Chất ảnh phải Y MEME GỐC: kết cấu lông / da, màu, độ mờ ảnh chụp, ánh sáng.
   KHÔNG thành mô hình 3D bóng loáng, KHÔNG thêm cơ bắp / chi tiết cho "đẹp" (12/11 em vẽ Buff Doge thành cơ bắp nhựa kiểu 3D → anh: "làm nó giống meme gốc, chỉ là upscale lên thôi").
 - Quy trình: (1) UPSCALE trung thành ảnh meme gốc trước (chỉ khử mờ / nhiễu, giữ nguyên mọi thứ) → (2) lấy chính ảnh upscale đó làm --ref cho mọi tư thế / góc,

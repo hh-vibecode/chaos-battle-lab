@@ -73,7 +73,7 @@
   const TEMP={ G6:'mG', G7:'mK', G9:'G1', P6:'dP', P7:'P1', P8:'dB', P9:'P1' };
   const pick=(F,k)=>{ const im=F.I[k]; return (im && im.complete && im.naturalWidth) ? k : (TEMP[k]||k); };
   const HTP={G1:140,G2:136,G3:127,G4:143,G5:87,P1:140,P2:132,P3:121,P4:137,P5:65, mG:H*1.18, dP:H*1.12, mB:H*1.15, dB:H*1.15, mK:H*0.95, dK:H*0.95,
-    G6:H*1.2, G7:H*0.95, G9:140, P6:H*1.15, P7:130, P8:H*1.15, P9:140,
+    G6:H*1.18, G7:H*1.18, G9:H*1.18, P6:H*1.12, P7:H*1.12, P8:H*1.12, P9:H*1.12,   // ảnh gốc bán thân (cùng cỡ mG / dP)
     GP1:140, GP2:138, GP3:138, GP4:138, GD1:140, GD2:117, GD3:128, PP1:136, PP2:139, PP3:139, PP4:140};   // sprite sheet đòn (10/11): cao theo px trong sheet × tỉ lệ khung đứng thủ thế = G1/P1
 
   // ───────── THÀNH PHỐ 2.5D: đại lộ dọc trục x (Gojo trái, Pain phải), nhà 2 bên |z| ≥ 1100, toà chắn cuối đường bên trái ─────────
@@ -214,7 +214,7 @@
   function gojo(t){ const tq=K.twos(t); let x=-420, y=0, z=0, im='G1', sm=null, lean=0;
     if(t<T.push){ const P=track(TRK.m,tq); x=P.x; im=dodgeIm(t)||punchIm(PUN.m,t,'GP')||P.im; if(P.fast) sm={dx:900*P.dir,dy:0,dz:0,n:6}; }
     if(t>=T.pushC && t<T.push) { x=-240; im='G1'; }
-    if(t>=T.push && t<T.gUp){ const k=eout(seg(tq,T.push,T.push+0.95)); x=lerp(-240,CRASH_X-280,k); y=820*Math.min(1,k*1.3)*(1-0.05*k); /* bay thẳng vào giữa lỗ thủng (10/11) */ im='G7'; if(k<0.9) sm={dx:-2600,dy:0,dz:0,n:7}; if(t>=T.crash) { im='G4'; y=0; lean=-20; } }
+    if(t>=T.push && t<T.gUp){ const k=eout(seg(tq,T.push,T.push+0.95)); x=lerp(-240,CRASH_X-280,k); y=820*Math.min(1,k*1.3)*(1-0.05*k); /* bay thẳng vào giữa lỗ thủng (10/11) */ im='G7'; lean=-35*k;   /* ảnh gốc bị hất: ngả ngửa theo đà bay */ if(k<0.9) sm={dx:-2600,dy:0,dz:0,n:7}; if(t>=T.crash) { im='G4'; y=0; lean=-20; } }
     if(t>=T.gUp && t<T.dom){ x=CRASH_X+60; im='G1'; }
     if(t>=T.dom && t<T.smoke){ x=CRASH_X+60; im='G6'; }
     if(t>=T.smoke && t<T.face){ x=HP_X; im='mB'; }
@@ -498,16 +498,23 @@
     S(T.cuG,T.cuP,{tx:-420,ty:85,tz:0,dist:230,yaw:24,pitch:-6,fov:40,ox:-0.12},{tx:-420,ty:85,tz:0,dist:205,yaw:18,pitch:-6,fov:40,ox:-0.12},'eout'),
     S(T.cuP,T.dash,{tx:420,ty:85,tz:0,dist:230,yaw:-24,pitch:-6,fov:40,ox:0.12},{tx:420,ty:85,tz:0,dist:205,yaw:-18,pitch:-6,fov:40,ox:0.12},'eout'),
     // 12/11 làm lại: 1 shot = trọn 1 pha, máy bám theo; giữa các pha có shot THỞ (giây cũ — retime giãn quãng đứng thủ thế)
-    S(T.dash,4.55,{tx:0,ty:75,tz:0,dist:900,yaw:0,pitch:4,fov:46},{tx:0,ty:78,tz:0,dist:560,yaw:6,pitch:3,fov:46},'brake'),                        // lao vào → VA NHAU giữa đường → bật ra
-    S(4.55,5.0,{tx:0,ty:80,tz:0,dist:1150,yaw:-6,pitch:6,fov:46},{tx:0,ty:80,tz:0,dist:1100,yaw:-6,pitch:6,fov:46},'lin'),                         // THỞ: rất xa, 2 con nhỏ giữa phố
-    S(5.0,6.3,{tx:-60,ty:80,tz:0,dist:520,yaw:-10,pitch:3,fov:48},{tx:120,ty:80,tz:0,dist:500,yaw:-14,pitch:3,fov:48},'lin'),                      // pha 2: Gojo vung đòn trúng Pain, Pain lùi rồi thủ lại
-    S(6.3,7.7,{tx:-100,ty:62,tz:0,dist:430,yaw:20,pitch:-10,fov:50},{tx:-40,ty:70,tz:0,dist:390,yaw:24,pitch:-8,fov:50},'lin'),                   // pha 3 góc thấp: Pain lao tới, Gojo cúi né, phản đòn từ dưới lên
-    S(7.7,8.15,{tx:0,ty:70,tz:0,dist:760,yaw:-36,pitch:26,fov:46},{tx:0,ty:70,tz:0,dist:720,yaw:-26,pitch:26,fov:46},'eio'),                       // góc cao chéo: 2 bên xoay vòng thủ thế
-    S(8.15,9.4,{tx:-80,ty:78,tz:0,dist:560,yaw:-12,pitch:3,fov:48},{tx:-220,ty:78,tz:0,dist:600,yaw:-14,pitch:3,fov:48},'brake'),                  // pha 4: Pain đấm trúng, Gojo trượt lùi xa
-    S(9.4,10.0,{tx:-60,ty:80,tz:0,dist:600,yaw:0,pitch:4,fov:46},{tx:-50,ty:80,tz:0,dist:470,yaw:0,pitch:4,fov:46},'ein'),                         // THỞ: thủ thế lần 2, máy đẩy vào
-    S(10.0,10.95,{tx:-120,ty:75,tz:0,dist:380,yaw:22,pitch:-8,fov:50},{tx:0,ty:80,tz:0,dist:320,yaw:-10,pitch:-2,fov:52},'ein'),                   // pha 5: cùng lao vào, VA NHAU MẠNH
-    S(10.95,11.6,{tx:-90,ty:70,tz:0,dist:1080,yaw:24,pitch:9,fov:44},{tx:-80,ty:70,tz:0,dist:920,yaw:22,pitch:9,fov:44},'lin'),                    // THỞ: bật ra xa
-    S(11.6,12.6,{tx:-120,ty:75,tz:0,dist:540,yaw:-6,pitch:3,fov:48},{tx:160,ty:75,tz:0,dist:580,yaw:-10,pitch:3,fov:48},'lin'),                   // pha 6: Gojo dồn tới đấm, Pain đỡ trượt lùi
+    // (13/11 anh: hạn chế zoom, cận chiến đang xa) góc TĨNH dày: trung cảnh khi trao đổi đòn, cận ở cú chạm, xa chỉ ở nhịp thở
+    S(T.dash,4.05,{tx:0,ty:78,tz:0,dist:680,yaw:0,pitch:4,fov:46}),   // 2 bên hoá vệt lao vào nhau
+    S(4.05,4.55,{tx:0,ty:82,tz:0,dist:300,yaw:6,pitch:2,fov:46}),   // cận: VA NHAU giữa đường, bật ra
+    S(4.55,5,{tx:0,ty:80,tz:0,dist:1100,yaw:-6,pitch:6,fov:46}),   // THỞ: rất xa, 2 con nhỏ giữa phố
+    S(5,5.65,{tx:0,ty:80,tz:0,dist:420,yaw:-10,pitch:3,fov:48}),   // pha 2: Gojo vung đòn
+    S(5.65,6.3,{tx:120,ty:85,tz:0,dist:300,yaw:-16,pitch:2,fov:46}),   // cận: Pain trúng đòn lùi rồi thủ lại
+    S(6.3,7,{tx:-90,ty:62,tz:0,dist:380,yaw:20,pitch:-10,fov:50}),   // pha 3 góc thấp: Pain lao tới, Gojo cúi né
+    S(7,7.7,{tx:-50,ty:70,tz:0,dist:300,yaw:26,pitch:-8,fov:50}),   // cận góc thấp: Gojo phản đòn từ dưới lên
+    S(7.7,8.15,{tx:0,ty:70,tz:0,dist:620,yaw:-30,pitch:26,fov:46}),   // góc cao chéo: 2 bên xoay vòng thủ thế
+    S(8.15,8.8,{tx:-100,ty:78,tz:0,dist:420,yaw:-12,pitch:3,fov:48}),   // pha 4: Pain đấm trúng
+    S(8.8,9.4,{tx:-220,ty:80,tz:0,dist:320,yaw:-16,pitch:2,fov:46}),   // cận: Gojo trượt lùi xa
+    S(9.4,10,{tx:-55,ty:80,tz:0,dist:500,yaw:0,pitch:4,fov:46}),   // THỞ: thủ thế lần 2
+    S(10,10.45,{tx:-80,ty:75,tz:0,dist:340,yaw:22,pitch:-8,fov:50}),   // pha 5: cùng lao vào
+    S(10.45,10.95,{tx:0,ty:80,tz:0,dist:280,yaw:-10,pitch:-2,fov:52}),   // cận: VA NHAU MẠNH
+    S(10.95,11.6,{tx:-85,ty:70,tz:0,dist:1000,yaw:23,pitch:9,fov:44}),   // THỞ: bật ra xa
+    S(11.6,12.1,{tx:-60,ty:75,tz:0,dist:420,yaw:-6,pitch:3,fov:48}),   // pha 6: Gojo dồn tới đấm
+    S(12.1,12.6,{tx:160,ty:78,tz:0,dist:320,yaw:-12,pitch:2,fov:46}),   // cận: Pain đỡ trượt lùi
     S(12.6,T.sep,{tx:20,ty:70,tz:0,dist:680,yaw:26,pitch:-10,fov:48},{tx:30,ty:72,tz:0,dist:650,yaw:28,pitch:-10,fov:48}),                         // góc thấp: 2 bên tách, Pain đâm vỡ kính cửa hàng
     S(T.sep,T.pushC,{tx:0,ty:90,tz:0,dist:900,yaw:0,pitch:3,fov:46},{tx:0,ty:90,tz:0,dist:1050,yaw:0,pitch:3,fov:46}),
     S(T.pushC,T.push,{tx:240,ty:88,tz:0,dist:220,yaw:-30,pitch:-8,roll:-6,fov:42,ox:0.1},{tx:240,ty:88,tz:0,dist:190,yaw:-34,pitch:-8,roll:-7,fov:42,ox:0.1}),
@@ -590,7 +597,8 @@
       PP1:'assets/img/cine/FIN_P_PUNCH_1.png', PP2:'assets/img/cine/FIN_P_PUNCH_2.png', PP3:'assets/img/cine/FIN_P_PUNCH_3.png', PP4:'assets/img/cine/FIN_P_PUNCH_4.png',
       mB:'assets/img/cine/MVD_GOJO_BLAST.png', dB:'assets/img/cine/MVD_PAIN_PUSH.png', mK:'assets/img/cine/MVD_GOJO_KB.png', dK:'assets/img/cine/MVD_PAIN_KB.png',
       mG:'assets/img/mewingcat/MEW_GOJO_IMG.webp', dP:'assets/img/depressedcat/DP_PAIN_IMG.webp',
-      G6:'assets/img/cine/FIN_G6.png', G7:'assets/img/cine/FIN_G7.png', G9:'assets/img/cine/FIN_G9.png', P6:'assets/img/cine/FIN_P6.png', P7:'assets/img/cine/FIN_P7.png', P8:'assets/img/cine/FIN_P8.png', P9:'assets/img/cine/FIN_P9.png',
+      // (13/11 anh: "trừ cảnh giao tranh tay chân thì dùng nguyên bản meme") — lãnh địa = ảnh GỐC Gojo Cat chỉ kéo băng bịt mắt lên; còn lại = ảnh gốc y nguyên
+      G6:'assets/img/cine/FIN_G6_EYE.png', G7:'assets/img/mewingcat/MEW_GOJO_IMG.webp', G9:'assets/img/mewingcat/MEW_GOJO_IMG.webp', P6:'assets/img/depressedcat/DP_PAIN_IMG.webp', P7:'assets/img/depressedcat/DP_PAIN_IMG.webp', P8:'assets/img/depressedcat/DP_PAIN_IMG.webp', P9:'assets/img/depressedcat/DP_PAIN_IMG.webp',
       bgR:'assets/img/cine/FIN_BG_RED.webp', bgU:'assets/img/cine/FIN_BG_RUIN.webp', bgP:'assets/img/cine/FIN_BG_PURPLE.webp', txN:'assets/img/cine/FIN_TEX_NIGHT.webp', txD:'assets/img/cine/FIN_TEX_DAY.webp' },   // Bước 4: phông + mặt tiền vẽ GPT
     cast:['mw','dp','ps'],   // Gojo = Mewing Cat (mw_), Pain = Depressed Cat (dp_, ps_) — sfx-lint
     // 🔊 (10/11 sửa theo tools/x/sfx-lint.js) [giây, key, to, dài, NHÃN]. Mỗi chiêu 1 tiếng riêng: giọng "Shinra Tensei" (ps_shinra) CHỈ lúc cast, cắt 1.5s lấy phần giọng

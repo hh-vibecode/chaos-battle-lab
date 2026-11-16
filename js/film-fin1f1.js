@@ -269,7 +269,7 @@
     else if(t>=T.bind-0.5&&t<T.bind+0.3) hands=[handW(F,c.im,560,0,760,false,0),handW(F,c.im,560,0,760,false,1)];
     if(hands&&t<T.burst+0.25){ const tgt=[d.x,60,d.z], fly=seg(t,T.bind-0.25,T.bind+0.05), strain=t>=T.shake?seg(t,T.shake,T.quiet):0, snap=t>=T.burst?seg(t,T.burst,T.burst+0.25):0;
       for(let j=0;j<2;j++){ const B=[tgt[0]+(j?20:-20),tgt[1]+(j?10:30),tgt[2]]; chain(F,hands[j],B,{k:fly*(1-snap),sag:bound?30-25*strain:70,wob:strain*6,t,w:9,hot:1}); }
-      if(bound&&t<T.burst) coil(F,d.x+(frozen?shk*0.4:0),d.z,HT.D0*0.2,HT.D0*0.62,HT.D0*0.46,3,{w:8,hot:0.8+0.2*Math.sin(t*6)}); }
+      if(bound&&t<T.burst) coil(F,d.x+(frozen?shk*0.4:0),d.z,HT.D0*0.2,HT.D0*0.62,HT.D0*0.46,3,{w:7,hot:0.12}); }   // (13/11) giữ ẢNH MEME GỐC của Doge, vòng xích bớt quầng sáng (trước như miếng dán)
     if(t>=T.burst&&t<T.burst+0.6) K.debris(F,{x:d.x,y:60,z:d.z,t0:T.burst,n:20,speed:900,life:0.8,size:8,seed:24,col:'#ff5a20'});   // mắt xích bung ra
     // ── Mlem: lè lưỡi liếm (sau khi xích đã quấn) → bước ra → vây → ở lại
     if(t>=T.lick-0.3&&t<T.lick+0.4){ const A=mouthM({x:380,y:0,z:620}); tongue(F,t,T.lick,A,[d.x+10,48,d.z-6]); }
