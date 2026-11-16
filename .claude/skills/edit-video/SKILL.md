@@ -65,3 +65,20 @@ Tiếng "tụ lực" (1, 3, 9): đặt SỚM = mốc nổ − giây đỉnh. Dù
 - `K.shatter(F,t,t0,t1,{cx,cy,col,mode:'out'|'in',out})` gọi trong def.screen — 'in' = mảnh bị HÚT vào (trọng lực), 'out' = toả ra. Bắt đầu SAU cú giậm, đừng chồng lên impact frame.
 - Kiểu riêng đã làm: Berserk = giậm đất đỏ, lửa giận · Ninja = lông quạ đen xoáy · Doge / Chud = giậm vòng bụi vàng / đỏ + đất nứt đá nổi · Gojo = vòng gợn VÔ HẠN xanh · Pain = mảnh vụn bị HÚT xoáy về (trọng lực), không gian nứt mảng bị hút vào giữa. KHÔNG cho Gojo / Pain đất nứt đá nổi như kiếm sĩ.
 - ⚠️ Trong cine-kit phải có TAU (16/11 thiếu TAU → K.shatter lỗi IM LẶNG, không hiện gì). Viết hàm mới xong phải chụp khung xem có hiện thật không.
+
+## 8. THUẬT NGỮ SAKUGA + CÁCH DỰNG (anh giao học 16/11 — tóm từ video Howard Wimshurst "How to add IMPACT frames" + tra cứu; dùng làm checklist mỗi cảnh đánh)
+- **Sakuga (作画)**: đoạn hoạt hoạ đột phá, mượt, chi tiết — dồn vào CAO TRÀO / chiêu quyết định, không rải đều. Trận 40s chỉ cần 2–3 khoảnh khắc sakuga, còn lại giữ nhịp gọn.
+- **Action cut / fight choreography**: cả đoạn cắt cảnh = vũ đạo + góc máy + nhịp. Mỗi pha: lấy đà → ra đòn → chạm → phản ứng; giữ trục trái / phải; nhanh ở pha bùng, chậm ở tích tụ, giữ lại sau cú lớn.
+- **Impact frame** (Howard Wimshurst):
+  - HIẾM — chỉ cho cú nổ / đòn mạnh nhất. 1–3 khung, nhanh quá để mắt đọc → khán giả CẢM thấy chứ không thấy.
+  - Tương phản TỐI ĐA: trắng – đen (ánh sáng chói quá mức máy quay ghi được). Màu chỉ thêm ở MÉP bằng 1 lớp ảnh màu nhoè phủ lên, vẫn giữ trắng / đen tuyệt đối.
+  - Có 1 ĐIỂM VA CHẠM: mọi nét là đường THẲNG toả từ điểm đó, mô tả khối (vùng tối = bóng của khối + bóng đổ do nguồn sáng chói). Nét càng thẳng càng nhiều lực; gom nét thành mảng lớn; quầng (halo) quanh tâm; mảng nhấn khác nhau mỗi khung → nhấp nháy.
+  - Trình tự chuẩn: nền TỐI DẦN lúc gồng → LOÉ chữ thập + glow dẫn vào → 3 khung impact: viền nét tối ở rìa CO DẦN = ánh sáng nở từ tâm → thoát ra bằng ĐỘ SÁNG đẩy cao rồi hạ dần (không cắt cụt từ trắng về thường).
+  - LOÉ "chữ thập" = SAO 4 CÁNH NHỌN (anh sửa 16/11): mỗi cánh là tam giác dày ở tâm, thon nhọn ra mũi, cánh ngang dài hơn dọc, thêm 4 cánh chéo ngắn mảnh + quầng tâm. KHÔNG vẽ 2 thanh thẳng cắt ngang cả màn. Mẫu `star4()` trong js/film-fin1c4.js.
+  - Cách nhanh: ĐẢO MÀU 1 khung tại điểm chạm + độ sáng ~144% rồi hạ dần (`K.edit.invert` + `burn` ngắn).
+  - Tham khảo ánh sáng: hàn TIG / MIG, pháo hoa, light leak — vật phản xạ gần nguồn cũng cháy trắng bằng nguồn.
+  - Cine-kit: `K.edit.impacts(t,t0,n,[[fg,bg]...],3)` (3–6 khung) đặt ĐÚNG khung chạm; trước đó làm tối nền; sau đó `burn` ngắn hạ dần. Đừng rải impact cho mọi cú (lint ÂM BẢN ≤ 1 lần / 8s).
+- **Yutapon cubes** (Yutaka Nakamura, Sword of the Stranger): mảnh vỡ là KHỐI VUÔNG góc cạnh bay tứ tung. Mặt đất NỨT trước → lực đẩy các khối BẬT lên theo nón ~45° (sóng xung kích dội từ mặt đất); khối to bay chậm, khối nhỏ nhanh, xoay. Làm: tấm khối vẽ tay phông xanh (như `FIN_F1_ROCKS`) + code bắn theo nón.
+- **Explosion FX**: nổ kiểu Anno: lửa phồng NHIỀU KHỐI CẦU rồi hoá khói · Kanada: khói TỐI trên nền sáng, quỹ đạo tròn + thẳng · Hashimoto: LỰC – ĐIỂM KỲ DỊ (mọi thứ dồn / toả từ 1 điểm) – CHẤT LIỆU · vài tia lửa nhỏ TRƯỚC vụ nổ lớn · bụi do sóng xung kích quét rất nhanh, bám sát đất.
+- **Finisher / Hissatsu-waza (必殺技)**: chiêu tất sát — LẶNG + tích tụ → hô tên chiêu (giọng thật, chữ trên màn) → nổ có impact frame → giữ hậu quả 2–4s.
+- Nguồn: Howard Wimshurst Animation (YouTube 6UaUi5fBmJc) · fullfrontal.moe (Kanada, Hashimoto) · animetudes.com (Masuo / Anno) · Wikipedia Yutaka Nakamura · realtimevfx.com (sóng xung kích 45°).

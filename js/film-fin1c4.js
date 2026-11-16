@@ -68,6 +68,11 @@
   const CRASH_X=-2650;                  // Gojo đâm vào toà nhà cuối đại lộ
   const SKYY=9000;                      // độ cao Pain lơ lửng khi cast — CAO HƠN mọi toà (cao nhất 28 tầng = 8400) để thấy cả thành phố bên dưới
   const DOME_R=1800, DOME_C=-2650+60;   // (13/11) vòm lãnh địa TO GẤP ĐÔI (trước 900) — đối chọi Shinra Tensei, nhà bên trong đứng vững
+  // 💥 (anh 16/11) SHINRA TENSEI CHẠM LÃNH ĐỊA: dồn về 1 ĐIỂM → CÂM LẶNG tuyệt đối → tích tụ → loé chữ thập → impact frame → NỔ càn quét cả vùng (nguyên tắc "điểm kỳ dị" — skill edit-video mục 8)
+  //   Chèn đoạn DỪNG THỜI GIAN: khúc gốc ZF giây giãn thành ZX giây (bảng RETIME) → thế giới đóng băng đúng khung chạm, lớp hiệu ứng chạy theo zu(t) 0→1; tiếng / nhạc sau đó tự dời.
+  const TCZ=T.sh+(Math.abs(DOME_C-PCX)-DOME_R)/4300, ZF=0.001, ZX=3.4, ZP={x:DOME_C+Math.sqrt(DOME_R*DOME_R-Math.pow(DOME_R*1.04-700,2)),y:700,z:0};   // điểm chạm trên mặt cầu lãnh địa, phía Pain
+  const ZPH={conv:0.16, sil:0.42, flash:0.72, imp:0.76, blast:0.82};   // dồn về điểm · lặng · tích tụ · loé · impact frame · nổ
+  const zu=t=>(t-TCZ)/ZF, zAfter=t=>t-(TCZ+ZF), zBlast=t=>{ const u=zu(t); return u<ZPH.blast?-1:u<=1?(u-ZPH.blast)/(1-ZPH.blast)*ZX*(1-ZPH.blast):ZX*(1-ZPH.blast)+zAfter(t); };   // giây kể từ lúc nổ
   const HP_X=-1450;                     // chỗ Gojo nấp trong khói bắn Hollow Purple
 
   // ───────── ẢNH (ảnh chờ → ảnh tạm) ─────────
@@ -88,6 +93,7 @@
       b.ta=T.sh+dd/4300+(r1-0.5)*0.22;                         // lệch thời điểm từng toà
       b.hf=dd<4500?0.86+0.1*r2:0.5+0.45*r2; b.dur=0.35+0.95*r3;   // gần tâm: san gần phẳng · xa tâm: còn trơ khung cao thấp khác nhau · sập nhanh / chậm khác nhau
       b.lean=(0.1+0.45*hash(b.seed*6.1))*(r1<0.15?0:1); b.ldx=(b.cx-PCX)/dd; b.ldz=b.cz/dd;   // nghiêng ngả RA XA tâm Shinra (vài toà sụp thẳng)
+      b.ta=Math.min(b.ta,TCZ+ZF+0.02+Math.hypot(b.cx-ZP.x,b.cz)/7000);   // (16/11) vụ nổ ĐIỂM TỤ quét sập mọi toà quanh đó theo sóng nổ (nhanh hơn sóng Shinra)
       if(!b.crash&&[[b.x0,b.z0],[b.x1,b.z0],[b.x0,b.z1],[b.x1,b.z1]].every(([x,z])=>Math.hypot(x-DOME_C,z)<DOME_R*0.95)) b.ta=1e9; } })();   // 🛡️ nằm TRỌN trong vòm lãnh địa của Gojo → đứng vững
   const fogMix=(c,f,k)=>c.map((v,i)=>Math.round(lerp(v,f[i],k)));
   // màu trung bình 1 dải ảnh (y0–y1 theo tỉ lệ cao) — nhớ lại theo ảnh · mẫu lặp của ảnh theo từng context vẽ
@@ -203,6 +209,8 @@
       [8.15,150,'P2','eout'],[8.45,-60,'P3','ein',1],[8.6,-60,'P3'],[9.1,160,'P1','back'],
       [10.0,180,'P1'],[10.1,200,'P2','eout'],[10.35,58,'P3','ein',1],[10.53,58,'P3'],[10.95,200,'P1','back'],
       [11.9,200,'P1'],[11.95,115,'P2'],[12.3,230,'P2','back'],[12.8,240,'P1','eout'],[13.8,240,'P1']] };
+  // (anh 16/11: "giao tranh tay đôi đang chậm và khoảng cách quá, giao tranh sát hơn nhịp nhanh hơn") giữa các pha KHÔNG lùi xa nữa: khoảng cách ngoài vùng chạm còn 45% (giữ thế đối mặt đầu + pha tách trước Almighty Push)
+  for(const s of ['m','d']) for(const k of TRK[s]) if(k[0]>=4.0&&k[0]<12.8&&Math.abs(k[1])>60) k[1]=Math.sign(k[1])*(60+(Math.abs(k[1])-60)*0.45);
   // 🥊 SPRITE SHEET ĐÒN (10/11, vẽ GPT): đấm 4 khung GP1–4 / PP1–4 (lấy đà → vung → CHẠM → thu về) + Gojo né 3 khung GD1–3 (6.23–6.65, né cú 6.45 của Pain).
   //   [mốc chạm, hết giữ đòn, số khung lấy đà, số khung thu về]; khung 12 hình/giây ĐẶT PHA theo mốc chạm → khung CHẠM bật đúng mốc va / hit-stop (hs giữ t = mốc)
   const PUN={ m:[[T.clash,4.2,2,2],[5.3,5.45,2,2],[6.9,7.05,1,2],[10.35,10.53,2,2],[11.95,12.1,2,2]],
@@ -335,6 +343,27 @@
 
   // ═══════════ VFX NÂNG CẤP 11/11 (anh chê: Hollow Purple xấu, lãnh địa xấu, đỡ cầu + hất lên trời quá đơn giản, mắt chưa đẹp) ═══════════
   // vòng sáng NẰM NGANG ở độ cao y (sóng âm thanh / sóng nén quanh vật bay lên, đĩa xung kích của vụ nổ trên không)
+  // 💥 lớp MÀN HÌNH của điểm tụ: tối dần + năng lượng bị hút về điểm → chấm sáng nhỏ trong câm lặng → sét 2 màu (xanh Gojo · cam Pain) + vụn bị hút → loé CHỮ THẬP → (impact frame) → trắng xoá rồi hạ dần
+  function zGlow(g,x,y,r,a,col){ if(a<=0.01||r<=0.5) return; const gr=g.createRadialGradient(x,y,0,x,y,r); gr.addColorStop(0,'rgba('+col+','+a+')'); gr.addColorStop(0.5,'rgba('+col+','+(a*0.35)+')'); gr.addColorStop(1,'rgba('+col+',0)'); g.fillStyle=gr; g.fillRect(x-r,y-r,2*r,2*r); }
+  function zBolt(g,x,y,an,len,seed,col){ const P=[[x,y]]; let px=x, py=y; for(let i=1;i<=7;i++){ const j=(hash(seed*7+i)-0.5)*len*0.4; px+=Math.cos(an)*len/7-Math.sin(an)*j; py+=Math.sin(an)*len/7+Math.cos(an)*j; P.push([px,py]); }
+    for(const [lw,a] of [[6,0.25],[2.2,0.85],[0.9,1]]){ g.strokeStyle=lw<1?'rgba(255,255,255,'+a+')':'rgba('+col+','+a+')'; g.lineWidth=lw; g.beginPath(); P.forEach((p,i)=>i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1])); g.stroke(); } }
+  // ✦ SAO 4 CÁNH NHỌN (anh 16/11): mỗi cánh = tam giác thon từ tâm dày → mũi nhọn; ngang dài hơn dọc; 2 lớp (quầng mờ rộng + lõi trắng) + 4 cánh chéo ngắn mảnh
+  function star4(g,x,y,L,W,a){ if(a<=0.01||L<1) return; const sp=(an,len,w)=>{ const c=Math.cos(an), s=Math.sin(an); g.beginPath(); g.moveTo(x-s*w,y+c*w); g.lineTo(x+c*len,y+s*len); g.lineTo(x+s*w,y-c*w); g.closePath(); g.fill(); };
+    g.save(); g.globalCompositeOperation='lighter';
+    for(const [k,al] of [[2.6,0.22],[1,1]]){ g.fillStyle='rgba(255,252,240,'+(al*a)+')'; for(let i=0;i<4;i++){ const an=i*Math.PI/2; sp(an,(i%2?L*0.62:L)*(k>1?1.08:1),W*k); } }
+    g.fillStyle='rgba(255,250,235,'+(0.5*a)+')'; for(let i=0;i<4;i++) sp(Math.PI/4+i*Math.PI/2,L*0.22,W*0.35);
+    zGlow(g,x,y,W*7,0.9*a,'255,250,240'); g.restore(); }
+  function zoneScreen(F,t){ const u=zu(t), b=zBlast(t); if(u<0||(u>1&&b>2.2)) return; const g=F.g, VW=F.VW, VH=F.VH, P=K.proj(F.B,ZP.x,ZP.y,ZP.z); const px=P?P.x:VW*0.5, py=P?P.y:VH*0.5;
+    g.save(); g.lineCap='round';
+    if(u<=1&&u<ZPH.flash){ g.fillStyle='rgba(0,0,0,'+(0.78*Math.min(1,u/ZPH.conv))+')'; g.fillRect(0,0,VW,VH); g.globalCompositeOperation='lighter';
+      if(u<ZPH.conv){ const k=u/ZPH.conv; for(let i=0;i<46;i++){ const an=hash(i+3000)*TAU, R0=VW*(0.55+0.6*hash(i+3010)), r1=R0*(1-eout(k)), r2=r1+VW*0.14*(1-k); g.strokeStyle=(i%2?'rgba(150,200,255,':'rgba(255,200,150,')+(0.85*(1-0.5*k))+')'; g.lineWidth=1.2+2.4*hash(i+3020); g.beginPath(); g.moveTo(px+Math.cos(an)*r2,py+Math.sin(an)*r2); g.lineTo(px+Math.cos(an)*r1,py+Math.sin(an)*r1); g.stroke(); } }
+      const st=u<ZPH.conv?lerp(60,4,u/ZPH.conv):u<ZPH.sil?4:lerp(4,34,(u-ZPH.sil)/(ZPH.flash-ZPH.sil))*(1+0.22*Math.sin(u*420));
+      zGlow(g,px,py,st*6,0.55,'255,240,225'); zGlow(g,px,py,st*1.6,1,'255,255,255'); star4(g,px,py,st*4,Math.max(0.8,st*0.12),0.9);   // chấm sáng + sao 4 cánh nhỏ
+      if(u>=ZPH.sil){ const k=(u-ZPH.sil)/(ZPH.flash-ZPH.sil), fr=Math.floor(u*ZX*15); for(let i=0;i<3+Math.floor(k*7);i++){ const sd=fr*13+i*7; zBolt(g,px,py,hash(sd)*TAU,VH*(0.06+0.26*k)*(0.5+hash(sd+1)),sd,i%2?'140,200,255':'255,180,110'); }
+        for(let i=0;i<34;i++){ const an=hash(i+3100)*TAU+k*1.5, d=VW*0.55*(1-((k*1.7+hash(i+3110))%1)); g.fillStyle='rgba(255,236,210,0.85)'; g.fillRect(px+Math.cos(an)*d,py+Math.sin(an)*d*0.6,2.2,2.2); } } }   // vụn bị hút về điểm
+    else if(u<=1&&u<ZPH.imp){ const k=(u-ZPH.flash)/(ZPH.imp-ZPH.flash); star4(g,px,py,VW*(0.35+0.5*eout(k)),VH*(0.012+0.03*k),1); g.globalCompositeOperation='lighter'; zGlow(g,px,py,VW*(0.15+0.5*k),0.8,'255,250,240'); }   // LOÉ: SAO 4 CÁNH NHỌN nở ra
+    else if(b>=0){ g.fillStyle='rgba(255,250,242,'+Math.max(0,1-b/0.9)+')'; g.fillRect(0,0,VW,VH); }   // trắng xoá → hạ dần
+    g.restore(); }
   function hring(F,x,y,z,r,wid,a,col){ if(a<=0.01||r<=1) return; const c=K.proj(F.B,x,y,z); if(!c) return; const pts=[];
     for(let i=0;i<=48;i++){ const th=i/48*TAU, p=K.proj(F.B,x+Math.cos(th)*r,y,z+Math.sin(th)*r); if(!p) return; pts.push(p); }
     F.list.push({d:c.d-25, fn:()=>{ const g=F.g; g.save(); g.globalCompositeOperation='lighter';
@@ -465,7 +494,15 @@
     hring(F,x,y,z,300+11000*eout(u),90,0.9*(1-u),'210,150,255'); if(u>0.08) hring(F,x,y,z,200+7000*eout(seg(u,0.08,1)),50,0.7*(1-u),'255,220,255'); }
   // 🌌 VÒM VÔ HẠN nhìn từ ngoài: khối CẦU đen thật (đổ bóng 3D), tinh vân + dải ngân hà xoay bên trong, kinh tuyến năng lượng cho thấy độ cong,
   //    viền Fresnel xanh trắng + tách màu, bóng sáng phản chiếu, điện xanh chạy trên mép, chân vòm chìm trong khói mực + vành sáng
-  function dome(F,x,z,r,a,t){ if(a<=0.01||r<5) return; const P=K.proj(F.B,x,r*0.42,z); if(!P) return; const R=r*P.s, fr=Math.floor(t*12);
+  // (16/11, anh gửi ảnh mẫu) LÃNH ĐỊA NHÌN TỪ NGOÀI = QUẢ CẦU ĐEN mờ đục lơ lửng sát đất, viền xanh lạnh mảnh, bóng đổ mềm — KHÔNG thiên hà / sao bên trong (đó là cảnh BÊN TRONG)
+  function dome(F,x,z,r,a,t){ if(a<=0.01||r<5) return; const cy=r*1.04, P=K.proj(F.B,x,cy,z), G=K.proj(F.B,x,0,z), Gx=K.proj(F.B,x+r,0,z), Gz=K.proj(F.B,x,0,z+r); if(!P) return; const R=r*P.s;
+    F.list.push({d:P.d-30, fn:()=>{ const g=F.g; g.save(); g.globalAlpha=Math.min(1,a);
+      if(G&&Gx&&Gz){ const rx=Math.max(4,Math.abs(Gx.x-G.x)*0.9), ry=Math.max(3,Math.abs(Gz.y-G.y)*0.9); g.save(); g.translate(G.x,G.y); g.scale(1,ry/rx); const sg=g.createRadialGradient(0,0,0,0,0,rx); sg.addColorStop(0,'rgba(0,0,0,0.6)'); sg.addColorStop(1,'rgba(0,0,0,0)'); g.fillStyle=sg; g.beginPath(); g.arc(0,0,rx,0,TAU); g.fill(); g.restore(); }   // bóng đổ mềm dưới cầu
+      let gr=g.createRadialGradient(P.x-R*0.3,P.y-R*0.38,R*0.05,P.x,P.y,R); gr.addColorStop(0,'#1d2333'); gr.addColorStop(0.55,'#0a0c13'); gr.addColorStop(1,'#030305'); g.fillStyle=gr; g.beginPath(); g.arc(P.x,P.y,R,0,TAU); g.fill();   // đen mờ đục, sáng rất nhẹ phía trên
+      gr=g.createRadialGradient(P.x,P.y,R*0.86,P.x,P.y,R); gr.addColorStop(0,'rgba(90,140,220,0)'); gr.addColorStop(1,'rgba(120,170,255,0.32)'); g.fillStyle=gr; g.beginPath(); g.arc(P.x,P.y,R,0,TAU); g.fill();   // viền xanh lạnh
+      g.strokeStyle='rgba(150,190,255,0.3)'; g.lineWidth=Math.max(1,R*0.006); g.beginPath(); g.arc(P.x,P.y,R,0,TAU); g.stroke();
+      g.restore(); }}); }
+  function domeOld(F,x,z,r,a,t){ if(a<=0.01||r<5) return; const P=K.proj(F.B,x,r*0.42,z); if(!P) return; const R=r*P.s, fr=Math.floor(t*12);
     F.list.push({d:P.d-30, fn:()=>{ const g=F.g; g.save(); g.globalAlpha=Math.min(1,a);
       let gr=g.createRadialGradient(P.x-R*0.35,P.y-R*0.42,R*0.04,P.x,P.y,R); gr.addColorStop(0,'#22336a'); gr.addColorStop(0.42,'#080d22'); gr.addColorStop(1,'#020309');
       g.fillStyle=gr; g.beginPath(); g.arc(P.x,P.y,R,0,TAU); g.fill();
@@ -576,7 +613,9 @@
     S(T.dEye,T.dOut,{tx:CRASH_X+60,ty:100,tz:0,dist:300,yaw:0,pitch:-14,fov:46}),   // dưới lớp mắt / hư không vẽ trên màn hình (vòng bung lộ thế giới quanh Gojo)
     S(T.dOut,T.imp,{tx:CRASH_X+300,ty:520,tz:0,dist:2700,yaw:90,pitch:-7,fov:56},{tx:CRASH_X+300,ty:560,tz:0,dist:2450,yaw:92,pitch:-8,fov:56}),   // TỪ NGOÀI: vòm sao trồi lên giữa đống đổ nát
     S(T.imp,T.sh,{tx:PCX+900,ty:0,tz:600,dist:11000,yaw:-18,pitch:60,fov:52}),
-    S(T.sh,T.wave,{tx:PCX+900,ty:0,tz:600,dist:11000,yaw:-18,pitch:60,fov:52},{tx:PCX+900,ty:0,tz:600,dist:12500,yaw:-10,pitch:63,fov:52},'lin'),        // GÓC CHIM: nhà đổ rạp từ tâm ra
+    S(T.sh,TCZ,{tx:PCX+900,ty:0,tz:600,dist:11000,yaw:-18,pitch:60,fov:52}),        // GÓC CHIM: nhà đổ rạp từ tâm ra → sóng chạm vòm
+    S(TCZ,TCZ+ZF*ZPH.flash,{tx:ZP.x,ty:ZP.y,tz:0,dist:3600,yaw:-55,pitch:6,fov:52}),   // (16/11) DỪNG THỜI GIAN: cận điểm chạm trên mép vòm — dồn về 1 điểm, câm lặng, tích tụ
+    S(TCZ+ZF*ZPH.flash,T.wave,{tx:ZP.x,ty:1400,tz:0,dist:16000,yaw:-25,pitch:28,fov:56}),   // loé → NỔ càn quét cả vùng (toàn cảnh rộng)
     S(T.wave,T.rest,{tx:CRASH_X+300,ty:800,tz:0,dist:4200,yaw:-55,pitch:10,fov:56,ox:-0.1},{tx:CRASH_X+300,ty:800,tz:0,dist:4000,yaw:-57,pitch:10,fov:56,ox:-0.1},'lin'),   // sát đất cạnh vòm, nhìn về tâm
     S(T.rest,T.land-0.6,{tx:0,ty:300,tz:0,dist:5200,yaw:-35,pitch:20,fov:50},{tx:0,ty:300,tz:0,dist:5040,yaw:-33,pitch:19,fov:50}),
     S(T.land-0.6,T.land,{tx:PCX,ty:SKYY+40,tz:0,dist:560,yaw:-20,pitch:-38,fov:50},{tx:PCX,ty:SKYY+40,tz:0,dist:520,yaw:-24,pitch:-40,fov:50}),   // góc thấp nhìn lên Pain lơ lửng trên trời trước khi rơi
@@ -622,9 +661,9 @@
   //   [giây cũ đầu, cuối, hệ số]: đòn đánh ×1 (giữ tốc), quãng 2 bên đứng thủ thế giữa các pha ×2–3 (nhịp THỞ 1.2–1.8s như bản gốc JJK), đối mặt / giằng co / lãnh địa giãn ra.
   // 12/11 tối (anh: bản giãn đều "lê thê", phải NHANH – CHẬM ĐAN XEN): tràng đòn chạy nhanh hơn gốc (×0.85–0.9), mỗi hiệp 1 nhịp THỞ rõ (×1.6–2.2),
   //   đoạn truyện / dư chấn về tốc độ gốc, chỉ giữ chậm chỗ căng thật (lãnh địa, Pain gồng đỡ Hollow Purple, đối mặt cuối). [giây cũ a, b, hệ số]
-  const RETIME=[[0,2.2,1.3],[2.2,3.6,2.2],[3.6,4.05,0.55],[4.05,4.55,0.9],[4.55,5.0,1.6],[5.0,5.8,0.9],[5.8,6.3,1.4],[6.3,7.45,0.95],[7.45,8.15,1.3],[8.15,9.4,0.95],[9.4,10.0,2.2],[10.0,10.95,0.9],[10.95,11.6,1.4],
-    [11.6,12.6,1.0],[12.6,13.8,1.6],[13.8,16.6,1],[16.6,18.0,1.2],[18.0,21.5,1.0],[21.5,26.6,1.25],[26.6,29.8,1.0],[29.8,34.6,1.0],[34.6,35.9,1.0],[35.9,38.6,1.5],[38.6,41.7,1.0],
-    [41.7,45.6,1.0],[45.6,47.0,1.7],[47.0,50.0,1.3]];
+  const RETIME=[[0,2.2,1.3],[2.2,3.6,2.2],[3.6,4.05,0.5],[4.05,4.55,0.75],[4.55,5.0,0.8],[5.0,5.8,0.75],[5.8,6.3,0.8],[6.3,7.45,0.8],[7.45,8.15,0.9],[8.15,9.4,0.8],[9.4,10.0,1.2],[10.0,10.95,0.75],[10.95,11.6,0.8],
+    [11.6,12.6,1.1],[12.6,13.8,1.1],   /* (16/11 anh: tay đôi nhanh hơn) trao đổi ×0.75–0.8, chỉ 1 nhịp thở ngắn giữa trận (9.4–10) */[13.8,16.6,1],[16.6,18.0,1.5],[18.0,21.5,1.0],[21.5,26.6,1.4],[26.6,TCZ,1.0],[TCZ,TCZ+ZF,ZX/ZF],[TCZ+ZF,29.8,1.0],[29.8,34.6,1.0],[34.6,35.9,1.0],[35.9,38.6,1.5],[38.6,41.7,1.0],
+    [41.7,45.6,1.15],[45.6,47.0,1.7],[47.0,50.0,1.3]];
   const RT=(()=>{ let n=0; return RETIME.map(([a,b,k])=>{ const o={a,b,k,n0:n}; n+=(b-a)*k; o.n1=n; return o; }); })();
   const Rold=tn=>{ for(const r of RT) if(tn<r.n1) return r.a+(tn-r.n0)/r.k; const L=RT[RT.length-1]; return L.b+(tn-L.n1); };   // giây mới → giây cũ
   const Rnew=to=>{ for(const r of RT) if(to<r.b) return r.n0+(Math.max(r.a,to)-r.a)*r.k; const L=RT[RT.length-1]; return L.n1+(to-L.b); };   // giây cũ → giây mới
@@ -673,7 +712,10 @@
       [T.dIn,'l2p_chime',0.6,null,'trắng xoá → hố đen Vô Lượng Không Xứ'],
       [T.dOut,'ep3_quake',0.6,null,'vòm lãnh địa trồi lên giữa đống đổ nát'],
       [T.imp,'ep3_charge',0.6,null,'Shinra dồn lực: màn đen, chấm sáng co lại'],
-      [T.sh,'ep3_explode',1,null,'SHINRA TENSEI nổ, sóng đập trúng thành phố lan xoá tất cả'],[T.sh-1.27,'ed_hit1',0.6,null,'+ lớp edit: tụ lực dâng lên rồi bùng đúng lúc Shinra Tensei nổ'],[T.sh+0.25,'ep3_quake',0.8,null,'+ nhà đổ rạp theo vòng sóng (lớp của tiếng nổ Shinra)'],
+      [T.sh,'ep3_explode',1,TCZ-T.sh+0.03,'SHINRA TENSEI nổ, sóng đập trúng thành phố lan xoá tất cả'],
+      [TCZ,'l2p_whoosh',0.5,null,'sóng Shinra chạm vòm lãnh địa: năng lượng 2 bên bị HÚT dồn về 1 điểm (rồi câm lặng tuyệt đối)'],
+      [TCZ+ZF*0.426,'ed_hit9',0.9,null,'điểm tụ rung, sét 2 màu bủa quanh: tích tụ dâng lên → bùng'],
+      [TCZ+ZF*ZPH.imp,'ed_hit10',1,null,'NỔ: điểm tụ bùng thành nhiều khối cầu lửa, càn quét cả vùng'],[TCZ+ZF*(ZPH.imp+0.02),'cine_deep_impact',0.8,null,'+ lớp trầm của vụ nổ điểm tụ'],[T.sh-1.27,'ed_hit1',0.6,null,'+ lớp edit: tụ lực dâng lên rồi bùng đúng lúc Shinra Tensei nổ'],[T.sh+0.25,'ep3_quake',0.8,null,'+ nhà đổ rạp theo vòng sóng (lớp của tiếng nổ Shinra)'],
       [T.sh+0.6,'l2p_explode',0.7,null,'nhà phía ngoài nổ tiếp'],[T.wave+0.3,'l2p_rumble',0.8,null,'tường bụi ập tới vòm của Gojo'],
       [T.land,'cine_drop',0.6,null,'Pain rơi từ trên trời xuống'],[T.land+0.95,'cine_impact',0.8,null,'Pain đập đất giữa hố'],
       [T.smoke+0.1,'mw_gojo',1,null,'Hollow Purple hình thành trong khói (ánh xanh + đỏ)'],
@@ -685,7 +727,7 @@
       [T.face,'l2p_rumble',0.4,null,'2 bên đối diện giữa hố, gió bụi'],
       [T.split,'ep3_shine',0.7,null,'mặt chia đôi loé'],
       [T.wide,'l2p_sub',0.4,null,'toàn cảnh kết, nền trầm, tối dần']],
-    duckAuto:{decisive:[T.push,T.sh,T.boom]},   // 🎚️ nhạc nhường tiếng: Almighty Push · Shinra Tensei · nổ tím
+    duckAuto:{decisive:[T.push,T.sh,TCZ+ZF*ZPH.imp,T.boom]},   // 🎚️ nhạc nhường tiếng: Almighty Push · Shinra Tensei · nổ tím
     // 🎵 (13/11 anh chốt: nhạc anime epic CHẠY DÀI, mỗi đoạn 1 bài, không lặp file ngắn) · âm lượng quy về cùng độ to cũ (-25 LUFS sau vol)
     //   cận chiến: JJK S2 — Gojo vs Toji OST · Pain bay lên cast Shinra: Girei (Pain's Theme) · từ lãnh địa: "The Honored One" — chỗ LẶNG rồi BÙNG của bài (file 74–76s) rơi đúng lúc Hollow Purple lao ra khỏi khói
     mus:[{src:'assets/audio/mus_jjk_toji.m4a',ra:0,rb:T.rise+0.4,off:1.0,vol:0.22,fi:0.6,fo:0.9},
@@ -695,14 +737,17 @@
       {src:'assets/audio/vo_gojo_domain.mp3',ra:T.dEye,rb:T.dEye+2.0,off:0.4,vol:1.0,fi:0.05,fo:0.3,vo:true},
       {src:'assets/audio/vo_gojo_domain.mp3',ra:T.dIn+0.1,rb:T.dIn+2.1,off:8.8,vol:1.0,fi:0.05,fo:0.5,vo:true},
       {src:'assets/audio/vo_gojo_murasaki.mp3',ra:T.look+0.2,rb:T.look+3.6,off:1.0,vol:0.75,fi:0.03,fo:0.4,vo:true},
-      {src:'assets/audio/mus_honored.m4a',ra:T.dom,rb:T.DUR,off:Math.max(0,75.8-(Rnew(T.smoke)-Rnew(T.dom))),vol:0.35,fi:0.4,fo:2.0}],
+      {src:'assets/audio/mus_honored.m4a',ra:T.dom,rb:TCZ,off:Math.max(0,75.8-(Rnew(T.smoke)-Rnew(T.dom))),vol:0.35,fi:0.4,fo:0.05},   // (16/11) nhạc TẮT HẲN lúc 2 lực chạm nhau (câm lặng tuyệt đối)
+      {src:'assets/audio/mus_honored.m4a',ra:TCZ+ZF,rb:T.DUR,off:Math.max(0,75.8-(Rnew(T.smoke)-Rnew(T.dom)))+(Rnew(TCZ+ZF)-Rnew(T.dom)),vol:0.35,fi:0.8,fo:2.0}],   // vào lại sau vụ nổ, vẫn khớp chỗ bùng ở Hollow Purple
     theme:t=>theme(t), shots:window.Fin1Fight?Fin1Fight.cutify(shots,{keep:[[T.land,T.look]]}):shots,   // (13/11 anh: hạn chế zoom / máy trượt trong khung 3D — cắt góc tĩnh)
     panels:t=>C?C.splitFace(t,T.split,T.wide-T.split,{tx:-490,ty:78,tz:0,dist:190,yaw:16,pitch:-4,fov:40,ox:-0.25},{tx:505,ty:105,tz:0,dist:190,yaw:-16,pitch:-4,fov:40,ox:0.25})   /* 9/11: ảnh nghiêng (G9/P9) → mỗi ô hiện TRỌN ĐẦU 1 con, tâm máy dời vào giữa ô (ox ±0.25) */:null,
     // 🎬 EDIT kiểu CapCut / AMV (16/11, skill edit-video): impact frame 2 màu đặc ở cú quyết định, duotone lúc dồn lực, cháy trắng ở vụ nổ, đổi màu liên tục ở chiêu, tách RGB sau va chạm
-    impact:t=>{ if(at(t,T.rest-0.18,0.18)) return 0; const E=K.edit;
+    impact:t=>{ { const u=zu(t); if(u>=ZPH.imp&&u<ZPH.blast) return [['#000000','#ffffff'],['#ffffff','#000000'],['#000000','#ffe6c8']][Math.min(2,Math.floor((u-ZPH.imp)/(ZPH.blast-ZPH.imp)*3))].reduce((o,c,i)=>(o[i?'bg':'fg']=c,o),{}); if(u>=0&&u<=1) return 0; }   // 3 khung impact trắng – đen ngay lúc nổ
+      if(at(t,T.rest-0.18,0.18)) return 0; const E=K.edit;
       return E.first(E.impacts(t,T.clash,6,'blue',2), E.impacts(t,10.35,6,'blue',2), E.impacts(t,T.push,10,'red',2), E.impacts(t,T.sh-0.02,12,'red',2),
         E.impacts(t,T.dImp,8,'blue',2), E.impacts(t,T.fire,10,'purple',2), E.impacts(t,T.heave+0.25,10,'purple',1), E.impacts(t,T.boom,8,'purple',2)) || IMP(t); },
-    grade:t=>{ const E=K.edit; return E.mix(
+    grade:t=>{ const E=K.edit; { const u=zu(t); if(u>=0&&u<ZPH.flash) return {sat:lerp(1,0.12,Math.min(1,u/ZPH.conv)),bright:lerp(1,0.8,Math.min(1,u/ZPH.conv))}; const b=zBlast(t); if(b>=0&&b<1.6) return {bright:1+1.6*(1-b/1.6),contrast:1.2,white:Math.max(0,1-b/0.5)}; }   // lặng: rút hết màu · sau nổ: phơi sáng cao rồi hạ dần (photon còn toả)
+      return E.mix(
         E.rgb(t,T.clash+0.2,0.6,10), E.rgb(t,10.55,0.6,10), E.zoom(t,T.push-0.15,0.15,0.35), E.rgb(t,T.push+0.33,0.9,14),
         E.duotone(t,T.cast,T.sh-0.02,'#300504','#ff4a30',0.3,0.85),                                  // Pain dồn lực Shinra: cả khung đỏ – đen
         E.burn(t,T.sh+0.38,T.sh+0.9,0.13), E.rgb(t,T.sh+1.03,1.0,18),                              // nổ Shinra: cháy trắng dần → giữ trắng → tách RGB nhạt dần
@@ -710,7 +755,8 @@
         E.cycle(t,T.smoke+0.2,T.fire,3,-40), E.zoom(t,T.fire+0.33,0.16,0.4), E.rgb(t,T.fire+0.33,0.8,14),   // Hollow Purple tụ (đổi màu đỏ ↔ xanh ↔ tím) → bắn: đường hầm + tách RGB
         E.rgb(t,T.block,1.4,6+8*Math.abs(Math.sin(t*20))), E.duotone(t,T.heave-0.8,T.heave-0.34,'#3a0806','#ff6a50',0.12,0.42),   // đỡ cầu: rung tách màu · dồn sức hất: tím – đen
         E.burn(t,T.boom+0.27,T.boom+0.75,0.13), E.rgb(t,T.boom+0.88,1.2,16)); },
-    shake:t=>{ let s=0; const h=(a,amp,d)=>{ if(t>=a&&t<a+d) s=Math.max(s,amp*(1-(t-a)/d)); };
+    shake:t=>{ { const u=zu(t); if(u>=0&&u<=1) return u<ZPH.sil?0:u<ZPH.flash?1+7*(u-ZPH.sil)/(ZPH.flash-ZPH.sil):u<ZPH.blast?0:30; const b=zBlast(t); if(b>=0&&b<1.8) return 30*(1-b/1.8); }   // lặng = ĐỨNG IM tuyệt đối · tích tụ rung tăng dần · nổ rung cực mạnh
+      let s=0; const h=(a,amp,d)=>{ if(t>=a&&t<a+d) s=Math.max(s,amp*(1-(t-a)/d)); };
       h(T.clash,12,0.45); h(5.3,9,0.35); h(6.9,9,0.35); h(8.45,10,0.4); h(10.35,18,0.6); h(11.95,9,0.35); h(T.push,16,0.5); h(T.push+0.95,26,1.1);
       h(T.dVoid,14,0.8); h(T.dOut,12,0.7); h(T.sh,26,1.6); h(T.wave,18,1.0); h(T.land+0.95,10,0.5); h(T.block,12,0.5); h(T.heave+0.25,16,0.6); h(T.boom,22,1.4);
       if(t>=T.cast&&t<T.imp) s=Math.max(s,1.5+2*seg(t,T.cast,T.imp)); if(t>=T.block&&t<T.heave) s=Math.max(s,3.5); return s; },
@@ -738,7 +784,7 @@
       // va chạm tay đôi
       for(const [tt,cx,col] of HITS) if(t>=tt){ const u=seg(t,tt,tt+0.45);   /* (12/11) bỏ vòng trắng trên sàn — anh chê giả; chỉ còn tia lửa + khói ở chỗ chạm */
         K.sparks(F,{x:cx,y:80,z:0,t0:tt,n:26,speed:620,life:0.55,seed:tt*10|0,col}); K.smoke(F,{x:cx,z:0,t0:tt,n:10,spread:220,rise:40,life:1.1,size:44,seed:(tt*7)|0,a:0.55}); }
-      if(t>=6.3&&t<6.8) K.smoke(F,{x:-160,z:0,t0:6.32,n:6,spread:70,rise:12,life:0.5,size:26,seed:115,a:0.45});
+      if(t>=6.3&&t<6.8) K.smoke(F,{x:-105,z:0,t0:6.32,n:6,spread:70,rise:12,life:0.5,size:26,seed:115,a:0.45});
       // ALMIGHTY PUSH: vòng lực co vào quanh Pain → bức tường bay sang trái
       if(t>=T.pushC&&t<T.push) for(let i=0;i<3;i++){ const ph=((t-T.pushC)*2.6+i/3)%1; K.ring(F,240,0,300*(1-ph)+20,8,ph*0.85,'235,225,255'); }
       if(t>=T.push-0.12&&t<T.push+0.35){ const fly=ein(seg(t,T.push-0.12,T.push+0.05)); field(F,lerp(200,-240,fly),H*0.7,0,220,1-seg(t,T.push+0.1,T.push+0.35)); }
@@ -762,7 +808,6 @@
       for(const b of BL){ if(b.ta>1e8||t<b.ta||t>b.ta+2.4||hash(b.seed*8.3)>0.38||Math.hypot(b.cx-PCX,b.cz)>6000) continue;
         K.smoke(F,{x:b.cx,z:b.cz,t0:b.ta,n:5,spread:(b.x1-b.x0)*0.7,rise:260,life:2.2,size:420,seed:b.seed,a:0.5,tint:'96,74,70'});
         if(t<b.ta+1.2) K.debris(F,{x:b.cx,y:b.h*0.8,z:b.cz,t0:b.ta,n:8,speed:900,life:1.4,size:90,seed:b.seed+3,col:'#3a3034'}); }
-      if(domA>0&&domR>60){ K.ring(F,CRASH_X+60,0,domR*1.02,26,0.55*domA,'120,190,255'); K.smoke(F,{x:CRASH_X+60,z:0,t0:T.dOut+0.15,n:18,spread:domR*1.05,rise:50,life:7,size:240,seed:281,a:0.55*domA,tint:'18,22,40'}); }   // chân vòm chìm trong khói mực, không lộ mép cắt
       if(t>=T.dOut&&t<T.dOut+1.2){ const u=seg(t,T.dOut,T.dOut+0.9); K.ring(F,CRASH_X+60,0,60+1400*eout(u),40,1-u,'150,200,255'); K.debris(F,{x:CRASH_X+60,y:60,z:0,t0:T.dOut,n:26,speed:1500,life:1.4,size:46,seed:271,col:'#3a3448'});
         K.smoke(F,{x:CRASH_X+60,z:0,t0:T.dOut,n:14,spread:1400,rise:200,life:1.8,size:260,seed:272,a:0.55,tint:'90,100,140'}); }
       // SHINRA TENSEI: sóng tròn lan từ tâm (Pain trên trời) — vòng sáng + bụi trên mặt đất
@@ -771,6 +816,13 @@
         for(let i=0;i<18;i++){ const an=i/18*TAU+0.17, P0=Math.min(r,9000); K.smoke(F,{x:PCX+Math.cos(an)*P0,z:Math.sin(an)*P0,y:0,t0:t-0.01,n:1,spread:10,rise:500,life:0.6,size:700,seed:900+i,a:0.35*fa,tint:'150,118,90'}); }
         orb(F,PCX,SKYY,0,260+120*Math.sin(t*10),'255,250,240',1-seg(t,T.sh,T.sh+1.2)); }
       if(t>=T.sh){ const glowA=1-seg(t,T.sh,T.sh+0.5); if(glowA>0) orb(F,PCX,SKYY,0,1600*eout(seg(t,T.sh,T.sh+0.5)),'255,240,220',glowA); }
+      // 💥 (16/11) ĐIỂM TỤ NỔ: lửa phồng thành NHIỀU KHỐI CẦU (kiểu Anno) rồi hoá khói, sóng xung kích quét cả thành phố
+      { const b=zBlast(t); if(b>=0&&b<5){ const g1=eout(Math.min(1,b/1.4));
+        for(let i=0;i<9;i++){ const ox=(hash(i*3.1+50)-0.5)*1800*g1, oy=hash(i*3.7+51)*1400*g1, r=(500+2600*g1)*(0.55+0.6*hash(i*4.3+52)), cool=Math.min(1,Math.max(0,(b-0.25)/1.2));
+          const col=cool<0.5?'255,'+Math.round(250-80*cool*2)+','+Math.round(235-160*cool*2):Math.round(255-130*(cool-0.5)*2)+','+Math.round(170-70*(cool-0.5)*2)+','+Math.round(75+20*(cool-0.5)*2);
+          orb(F,ZP.x+ox,ZP.y+oy,(hash(i*5.9+53)-0.5)*1200*g1,r,col,Math.max(0,1-b/4.2)); }
+        for(let i=0;i<3;i++){ const rr=300+11000*eout(Math.min(1,(b-i*0.12)/2.0)); if(b>i*0.12) K.ring(F,ZP.x,0,rr,420-i*90,0.95*(1-b/2.4)*(1-i*0.25),'255,240,220'); }
+        if(b>0.02){ K.smoke(F,{x:ZP.x,z:0,t0:TCZ+ZF,n:34,spread:7000,rise:1400,life:7,size:1500,seed:4321,a:0.6,tint:'122,96,80'}); K.debris(F,{x:ZP.x,y:300,z:0,t0:TCZ+ZF,n:70,speed:4200,life:2.6,size:220,seed:4333,col:'#3a3034'}); } } }
       // bụi dày sau Shinra: phủ cả hố
       if(t>=T.rest-0.6&&t<T.boom+1) K.smoke(F,{x:0,z:0,t0:T.rest-0.6,n:30,spread:9000,rise:600,life:14,size:1100,seed:230,a:0.45,tint:'130,98,74'});
       // Pain đáp đất
@@ -808,12 +860,13 @@
       if(t>=T.face){ K.smoke(F,{x:0,z:0,t0:T.face,n:16,spread:1600,rise:30,life:4,size:110,seed:260,swirl:0.4,a:0.4,tint:'150,120,140'}); }
     },
     post(F,t){ const fx={shocks:[]}; if(F.panels) return fx;
+      { const b=zBlast(t); if(b>=0&&b<1.4){ fx.shocks.push({x:ZP.x,y:ZP.y,z:0,r:200+9000*eout(b/1.4),w:900,str:60*(1-b/1.4)}); fx.chroma=Math.max(fx.chroma||0,0.5*(1-b/1.4)); } }   // sóng chấn vụ nổ bóp méo cả khung
       const sh=(a,x,y,rm,d,str)=>{ if(t>=a&&t<a+d){ const u=(t-a)/d; fx.shocks.push({x,y,z:0,r:20+rm*eout(u),w:26,str:str*(1-u)}); fx.chroma=Math.max(fx.chroma||0,2*(1-u)); } };
       for(const [tt,cx] of HITS) sh(tt,cx,80,360,0.45,22); sh(10.35,0,80,520,0.7,34); sh(T.push,-240,80,420,0.5,28); sh(T.sh,PCX,SKYY,2400,1.4,48); sh(T.block,PCX-90,150,360,0.5,26); sh(T.heave+0.25,PCX+200,150,420,0.6,30); sh(T.boom,400,3350,3000,1.6,46);
       if(t>=T.block&&t<T.heave){ fx.shocks.push({x:pain(t).x-90,y:150,z:0,r:120+20*Math.sin(t*20),w:30,str:12}); fx.chroma=Math.max(fx.chroma||0,1); }
       if(t>=T.fire&&t<T.block){ fx.zoom={x:PCX-90,y:150,z:0,k:0.12*seg(t,T.fire,T.block)}; fx.chroma=Math.max(fx.chroma||0,1.5*seg(t,T.fire,T.block)); }
       return fx; },
-    screen(F,t){ const g=F.g, VW=F.VW, VH=F.VH; godFlash(F,t,T.heave-0.34,T.heave+0.02); K.shatter(F,t,T.cuP,T.dash,{cx:0.5,cy:0.48,col:'200,160,255',mode:'in',out:0.28});   // 💠 không gian nứt mảng bị hút vào giữa 2 con → vỡ tung lúc lao
+    screen(F,t){ const g=F.g, VW=F.VW, VH=F.VH; zoneScreen(F,t); godFlash(F,t,T.heave-0.34,T.heave+0.02); K.shatter(F,t,T.cuP,T.dash,{cx:0.5,cy:0.48,col:'200,160,255',mode:'in',out:0.28});   // 💠 không gian nứt mảng bị hút vào giữa 2 con → vỡ tung lúc lao
       // xoáy màu lúc Gojo mở lãnh địa (vẽ dưới chữ) — tâm ở Gojo trên màn hình
       domainFX(F,t);   // 🌌 bành trướng lãnh địa (vẽ dưới chữ)
       if(t>=T.dash&&t<T.clash) K.panLines(F,{k:0.9,ang:0,n:30});
