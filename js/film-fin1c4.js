@@ -580,7 +580,7 @@
   //   [giây cũ đầu, cuối, hệ số]: đòn đánh ×1 (giữ tốc), quãng 2 bên đứng thủ thế giữa các pha ×2–3 (nhịp THỞ 1.2–1.8s như bản gốc JJK), đối mặt / giằng co / lãnh địa giãn ra.
   // 12/11 tối (anh: bản giãn đều "lê thê", phải NHANH – CHẬM ĐAN XEN): tràng đòn chạy nhanh hơn gốc (×0.85–0.9), mỗi hiệp 1 nhịp THỞ rõ (×1.6–2.2),
   //   đoạn truyện / dư chấn về tốc độ gốc, chỉ giữ chậm chỗ căng thật (lãnh địa, Pain gồng đỡ Hollow Purple, đối mặt cuối). [giây cũ a, b, hệ số]
-  const RETIME=[[0,2.2,1.3],[2.2,3.6,1.8],[3.6,4.55,0.9],[4.55,5.0,1.6],[5.0,5.8,0.9],[5.8,6.3,1.4],[6.3,7.45,0.95],[7.45,8.15,1.3],[8.15,9.4,0.95],[9.4,10.0,2.2],[10.0,10.95,0.9],[10.95,11.6,1.4],
+  const RETIME=[[0,2.2,1.3],[2.2,3.6,2.2],[3.6,4.05,0.55],[4.05,4.55,0.9],[4.55,5.0,1.6],[5.0,5.8,0.9],[5.8,6.3,1.4],[6.3,7.45,0.95],[7.45,8.15,1.3],[8.15,9.4,0.95],[9.4,10.0,2.2],[10.0,10.95,0.9],[10.95,11.6,1.4],
     [11.6,12.6,1.0],[12.6,13.8,1.6],[13.8,16.6,1],[16.6,18.0,1.2],[18.0,21.5,1.0],[21.5,26.6,1.25],[26.6,29.8,1.0],[29.8,34.6,1.0],[34.6,35.9,1.0],[35.9,38.6,1.5],[38.6,41.7,1.0],
     [41.7,45.6,1.0],[45.6,47.0,1.7],[47.0,50.0,1.3]];
   const RT=(()=>{ let n=0; return RETIME.map(([a,b,k])=>{ const o={a,b,k,n0:n}; n+=(b-a)*k; o.n1=n; return o; }); })();
@@ -674,6 +674,11 @@
     world(F,t){ const I=F.I, th=theme(t); const g0=gojo(hs(t)), p0=pain(hs(t));
       pano(F,t,th);   // 🌄 phông vẽ sau mọi toà nhà
       for(const b of BL) drawBuilding(F,b,t,th);
+      if(t>=T.cuG&&t<T.dash+0.05){ const k=seg(t,T.cuG,T.dash);   // ⚡ (16/11) gồng mở trận: Gojo vô hạn (vòng gợn xanh) · Pain trọng lực (mảnh vụn xoáy HÚT về Pain)
+        for(let i=0;i<3;i++){ const ph=((t-T.cuG)*0.9+i/3)%1; K.ring(F,-420,0,40+260*ph,6,0.55*(1-ph)*k,'130,190,255'); }
+        for(let i=0;i<22;i++){ const a0=hash(i*3.7)*TAU, r0=420+300*hash(i*5.1), u=((t-T.cuG)*0.55+hash(i*9.1))%1, rr=r0*(1-u*u), an=a0+u*3.2, y=20+160*hash(i*2.2)*(1-u);
+          const P=K.proj(F.B,420+Math.cos(an)*rr,y,Math.sin(an)*rr*0.6); if(!P) continue; const S=Math.max(1.5,(5+9*hash(i*4.4))*P.s);
+          F.list.push({d:P.d, fn:()=>{ const g=F.g; g.save(); g.translate(P.x,P.y); g.rotate(t*3+i); g.fillStyle='#2e2732'; g.fillRect(-S,-S*0.7,S*2,S*1.4); g.globalCompositeOperation='lighter'; g.fillStyle='rgba(190,120,255,0.35)'; g.fillRect(-S,-S*0.7,S*2,S*1.4); g.restore(); }}); } }
       const gk=pick(F,g0.im), pk=pick(F,p0.im);
       const gAura=(t>=T.cuG&&t<T.push)||(t>=T.dom&&t<T.imp)||(t>=T.smoke&&t<T.block)?{preset:'ki',k:0.75,seed:3}:null;
       const pAura=(t>=T.cuP&&t<T.still)||(t>=T.rise&&t<T.rest)||(t>=T.block)?{preset:'cursed',k:t>=T.block&&t<T.up?1:0.7,seed:9}:null;
@@ -761,7 +766,7 @@
       if(t>=T.block&&t<T.heave){ fx.shocks.push({x:pain(t).x-90,y:150,z:0,r:120+20*Math.sin(t*20),w:30,str:12}); fx.chroma=Math.max(fx.chroma||0,1); }
       if(t>=T.fire&&t<T.block){ fx.zoom={x:PCX-90,y:150,z:0,k:0.12*seg(t,T.fire,T.block)}; fx.chroma=Math.max(fx.chroma||0,1.5*seg(t,T.fire,T.block)); }
       return fx; },
-    screen(F,t){ const g=F.g, VW=F.VW, VH=F.VH;
+    screen(F,t){ const g=F.g, VW=F.VW, VH=F.VH; K.shatter(F,t,T.cuP,T.dash,{cx:0.5,cy:0.48,col:'200,160,255',mode:'in',out:0.28});   // 💠 không gian nứt mảng bị hút vào giữa 2 con → vỡ tung lúc lao
       // xoáy màu lúc Gojo mở lãnh địa (vẽ dưới chữ) — tâm ở Gojo trên màn hình
       domainFX(F,t);   // 🌌 bành trướng lãnh địa (vẽ dưới chữ)
       if(t>=T.dash&&t<T.clash) K.panLines(F,{k:0.9,ang:0,n:30});

@@ -51,5 +51,5 @@
   {"t0":52.28,"t1":53.46,"co":"cận","goc":"giun","hanhDong":"cận Gojo nhếch","loai":"đối mặt","anh":["G9"],"sfx":[],"ghiChu":""},
   {"t0":53.46,"t1":54.65,"co":"cận","goc":"giun","hanhDong":"cận Pain (gương)","loai":"đối mặt","anh":["P9"],"sfx":[],"ghiChu":""},
   {"t0":54.65,"t1":56.73,"co":"cận","goc":"ngang","hanhDong":"MẶT CHIA ĐÔI xanh | đỏ","loai":"đối mặt","anh":["G9","P9"],"sfx":["ep3_shine"],"ghiChu":"splitFace"},
-  {"t0":56.73,"t1":58.55,"co":"toàn","goc":"ngang","hanhDong":"toàn cảnh kết, tối dần","loai":"thở","anh":["G9","P9"],"sfx":["l2p_sub"],"ghiChu":""}
+  {"t0":56.73,"t1":58.96,"co":"toàn","goc":"ngang","hanhDong":"toàn cảnh kết, tối dần","loai":"thở","anh":["G9","P9"],"sfx":["l2p_sub"],"ghiChu":""}
 ]

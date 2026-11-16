@@ -37,9 +37,9 @@
   {"t0":47.82,"t1":49.02,"co":"cận","goc":"ngang","hanhDong":"HAKI: 2 tay đen bóng, trận đứng hình","loai":"ra chiêu","anh":["DHK"],"sfx":["cine_haki"],"ghiChu":""},
   {"t0":49.02,"t1":50.42,"co":"trung","goc":"ngang","hanhDong":"Doge giật ngược → XÍCH ĐỨT TUNG","loai":"đánh","anh":["DHC","DHP"],"sfx":["kn_explode_crunch"],"ghiChu":""},
   {"t0":50.42,"t1":50.97,"co":"cận","goc":"ngang","hanhDong":"cận Chud sững người","loai":"đối mặt","anh":["CK0"],"sfx":["l2p_sub"],"ghiChu":""},
-  {"t0":50.97,"t1":52.02,"co":"toàn","goc":"giun","hanhDong":"góc thấp rộng: cả 2 vận lực — đất nứt, đá nổi lên, khí bốc","loai":"ra chiêu","anh":["DH","CK0"],"sfx":["se_tremor"],"ghiChu":""},
-  {"t0":52.02,"t1":53.12,"co":"trung","goc":"ngang","hanhDong":"2 con hoá 2 vệt lao vào nhau → va chạm","loai":"đánh","anh":["DP1","CK2"],"sfx":["se_machdash","se_impact_stop"],"ghiChu":""},
-  {"t0":53.12,"t1":53.87,"co":"trung","goc":"ngang","hanhDong":"KHỰNG giữa không trung — chân trời loé tím (trận Gojo vs Pain)","loai":"chuyển cảnh","anh":[],"sfx":["l2p_explode"],"ghiChu":""},
-  {"t0":53.87,"t1":54.07,"co":"toàn","goc":"ngang","hanhDong":"cắt sang hướng chân trời","loai":"combo","anh":[],"sfx":["l2p_whoosh"],"ghiChu":""},
-  {"t0":54.07,"t1":55.02,"co":"toàn","goc":"ngang","hanhDong":"lao đi theo ánh tím (đường hầm tốc độ)","loai":"chuyển cảnh","anh":[],"sfx":["l2p_riser"],"ghiChu":""}
+  {"t0":50.97,"t1":53.28,"co":"toàn","goc":"giun","hanhDong":"góc thấp rộng: cả 2 vận lực — đất nứt, đá nổi lên, khí bốc","loai":"ra chiêu","anh":["DH","CK0"],"sfx":["se_tremor"],"ghiChu":""},
+  {"t0":53.28,"t1":54.38,"co":"trung","goc":"ngang","hanhDong":"2 con hoá 2 vệt lao vào nhau → va chạm","loai":"đánh","anh":["DP1","CK2"],"sfx":["se_machdash","se_impact_stop"],"ghiChu":""},
+  {"t0":54.38,"t1":55.13,"co":"trung","goc":"ngang","hanhDong":"KHỰNG giữa không trung — chân trời loé tím (trận Gojo vs Pain)","loai":"chuyển cảnh","anh":[],"sfx":["l2p_explode"],"ghiChu":""},
+  {"t0":55.13,"t1":55.33,"co":"toàn","goc":"ngang","hanhDong":"cắt sang hướng chân trời","loai":"combo","anh":[],"sfx":["l2p_whoosh"],"ghiChu":""},
+  {"t0":55.33,"t1":56.28,"co":"toàn","goc":"ngang","hanhDong":"lao đi theo ánh tím (đường hầm tốc độ)","loai":"chuyển cảnh","anh":[],"sfx":["l2p_riser"],"ghiChu":""}
 ]

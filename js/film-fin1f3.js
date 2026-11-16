@@ -101,9 +101,11 @@
     S(T.f3+0.05,T.pause+0.4,{tx:-20,ty:150,tz:0,dist:480,yaw:-12,pitch:-16,fov:52},{tx:-30,ty:110,tz:0,dist:520,yaw:-12,pitch:-10,fov:52},'lin'),                      // 20 góc giun: đạp kiếm bật cao → chém chéo trúng ngực
     S(T.pause+0.4,T.rage,{tx:-300,ty:120,tz:0,dist:780,yaw:-8,pitch:3,fov:50},{tx:-300,ty:120,tz:0,dist:740,yaw:-8,pitch:3,fov:50},'lin'),                          // 21 KHỰNG: Ninja trên nóc xe 2, Berserk khuỵu, máu nhỏ giọt
     S(T.rage,T.fr1-0.6,{tx:60,ty:135,tz:0,dist:290,yaw:24,pitch:-28,fov:52},{tx:60,ty:140,tz:0,dist:250,yaw:26,pitch:-30,fov:52},'lin'),                                // 22 góc giun: lửa đỏ bốc từ chân, Berserk ngẩng lên gầm
-    S(T.fr1-0.6,T.charge,{tx:-200,ty:92,tz:0,dist:560,yaw:-4,pitch:2,fov:50},{tx:-330,ty:92,tz:0,dist:540,yaw:-4,pitch:2,fov:50},'lin'),                              // 23 1 shot ngang lùi theo Ninja: 3 nhát bổ, Ninja đỡ từng nhát, cày rãnh
-    S(T.charge,T.read,{tx:-310,ty:40,tz:0,dist:560,yaw:4,pitch:16,fov:50},{tx:-310,ty:40,tz:0,dist:535,yaw:4,pitch:16,fov:50},'lin'),                                // 24 (16/11) góc thấp rộng: CẢ 2 VẬN LỰC — đất nứt toả từ chân, đá nổi lên lơ lửng
-    S(T.read,T.cut-0.3,{tx:-185,ty:118,tz:0,dist:95,yaw:22,pitch:-2,fov:40,ox:-0.06},{tx:-185,ty:118,tz:0,dist:85,yaw:22,pitch:-2,fov:40,ox:-0.06},'lin'),            // 25 ĐẶC TẢ mắt Berserk loé đỏ
+    S(T.fr1-0.6,T.fr3+0.45,{tx:-200,ty:92,tz:0,dist:560,yaw:-4,pitch:2,fov:50},{tx:-330,ty:92,tz:0,dist:540,yaw:-4,pitch:2,fov:50},'lin'),
+    S(T.fr3+0.45,(T.fr3+0.85),{tx:-180,ty:85,tz:0,dist:520,yaw:18,pitch:-12,fov:48},{tx:-180,ty:95,tz:0,dist:250,yaw:20,pitch:-14,fov:46},'ein'),   // (16/11) ZOOM CHẬM vào Berserk từ góc thấp…
+    S((T.fr3+0.85),(T.fr3+0.85)+0.3,{tx:-260,ty:50,tz:0,dist:620,yaw:8,pitch:14,fov:52}),   // …GIẬM MẠNH: đất vỡ toả từ chân, sóng chấn, rung                              // 23 1 shot ngang lùi theo Ninja: 3 nhát bổ, Ninja đỡ từng nhát, cày rãnh
+    S((T.fr3+0.85)+0.3,(T.fr3+0.85)+0.3001,{tx:-310,ty:40,tz:0,dist:560,yaw:4,pitch:16,fov:50},{tx:-310,ty:40,tz:0,dist:535,yaw:4,pitch:16,fov:50},'lin'),                                // 24 (16/11) góc thấp rộng: CẢ 2 VẬN LỰC — đất nứt toả từ chân, đá nổi lên lơ lửng
+    S((T.fr3+0.85)+0.3001,T.cut-0.3,{tx:-185,ty:118,tz:0,dist:95,yaw:22,pitch:-2,fov:40,ox:-0.06},{tx:-185,ty:118,tz:0,dist:85,yaw:22,pitch:-2,fov:40,ox:-0.06},'lin'),            // 25 ĐẶC TẢ mắt Berserk loé đỏ
     S(T.cut-0.3,T.cut+0.32,{tx:-340,ty:150,tz:120,dist:760,yaw:-6,pitch:2,fov:56},{tx:-340,ty:150,tz:120,dist:730,yaw:-6,pitch:2,fov:56}),   // (12/11) LƯỚT QUA NHAU (2 vệt, loé ở điểm giao) → hiện ra quay lưng vào nhau, KHỰNG
     S(T.cut+0.32,T.cut+1.4,{tx:NCX,ty:105,tz:0,dist:300,yaw:-14,pitch:0,fov:46,ox:0.1},{tx:NCX,ty:100,tz:0,dist:275,yaw:-14,pitch:0,fov:46,ox:0.1},'lin'),   // cận Ninja: MŨI KIẾM GÃY văng xoay · vạch sáng hiện ngang người → nửa trên trượt
     S(T.cut+1.4,T.cut+2.2,{tx:-340,ty:420,tz:600,dist:2300,yaw:-6,pitch:10,fov:58},{tx:-340,ty:440,tz:600,dist:2200,yaw:-6,pitch:10,fov:58},'lin'),   // toàn cao: CẢ DÃY NHÀ 2 bên đường bị xẻ ngang, đổ sập     // toàn: nhát chém xẻ đôi Ninja + toà nhà phía sau
@@ -111,7 +113,7 @@
     S(T.crows,T.eye2,{tx:-380,ty:180,tz:0,dist:720,yaw:-20,pitch:-14,fov:58},{tx:-380,ty:420,tz:0,dist:640,yaw:-20,pitch:-34,fov:60}),         // 2 nửa hoá BẦY QUẠ bay vút lên trời (máy ngước theo)
     S(T.eye2,T.howl,{tx:-392,ty:420,tz:0,dist:620,yaw:-10,pitch:-46,fov:64},{tx:-392,ty:440,tz:0,dist:590,yaw:-10,pitch:-48,fov:64},'lin'),   // THẾ GIỚI ẢO THUẬT: trời đỏ, 2 mắt Sharingan, quạ lượn
     S(T.howl,T.brk-0.25,{tx:-300,ty:135,tz:0,dist:300,yaw:20,pitch:-30,fov:54},{tx:-300,ty:140,tz:0,dist:260,yaw:22,pitch:-32,fov:54},'lin'),   // góc giun: Berserk HÚ lên, hào quang bùng
-    S(T.brk-0.25,T.DUR,{tx:-300,ty:105,tz:0,dist:520,yaw:-14,pitch:0,fov:50}) ]));                                                           // chém vỡ ảo cảnh (máy ĐỨNG YÊN, không nghiêng — mảnh kính dời theo máy này)
+    S(T.brk-0.25,T.DUR,{tx:-300,ty:105,tz:0,dist:520,yaw:-14,pitch:0,fov:50}) ]),{keep:[[T.fr3+0.45,T.fr3+0.85]]});   // giữ cú zoom chậm                                                           // chém vỡ ảo cảnh (máy ĐỨNG YÊN, không nghiêng — mảnh kính dời theo máy này)
   // ═════════ KẾT DANG DỞ + CHUYỂN TRẬN (anh biên đạo 11/11) ═════════
   //   Berserk BẮT ĐƯỢC GÓC → chém đứt đôi Ninja cùng 1 toà nhà → 2 nửa rơi xuống thì MẮT SHARINGAN hiện phủ kín bầu trời (dính ẢO THUẬT)
   //   → 2 nửa hoá BẦY QUẠ bay khắp nơi → Berserk HÚ lên bùng hào quang → chém VỠ TAN ảo cảnh thành mảnh kính → sau lớp kính là TRẬN KHÁC (fin1f2: Bat vs Pop + Huh).
@@ -273,7 +275,11 @@
     W.kamui(F,140,70,0,KS*0.55,seg(t,T.hit60-0.06,T.hit60+0.34),{mode:'phase',angle:3});
     W.kamui(F,140,62,0,KS,seg(t,T.kam-0.05,T.kam+0.6),{dir:1});
     W.kamui(F,-170,250,0,KS,seg(t,T.emerge-0.35,T.emerge+0.25),{dir:-1});
-    W.powerUp(F,t,T.fr3+0.45,T.cut-0.28,-180,0,'255,60,40',11,{r:170}); W.powerUp(F,t,T.fr3+0.55,T.cut-0.28,-440,0,'170,210,255',23,{r:130});   // 💥 vận lực trước nhát lướt qua nhau
+    W.powerUp(F,t,(T.fr3+0.85),T.cut-0.28,-180,0,'255,60,40',11,{r:210});   // Berserk: GIẬM → đất nứt + lửa giận
+    if(t>=(T.fr3+0.85)&&t<(T.fr3+0.85)+0.9){ const u=seg(t,(T.fr3+0.85),(T.fr3+0.85)+0.7); K.ring(F,-180,0,40+620*eout(u),18,0.75*(1-u),'255,120,80'); K.ring(F,-180,0,30+380*eout(u),10,0.6*(1-u),'255,230,200');
+      K.debris(F,{x:-180,y:5,z:0,t0:(T.fr3+0.85),n:34,speed:900,life:1.0,size:22,seed:171,col:'#4a3f44',dir:90,cone:140}); K.smoke(F,{x:-180,z:0,t0:(T.fr3+0.85),n:14,spread:420,rise:60,life:1.2,size:150,seed:172,a:0.55,tint:'120,96,90'}); }
+    if(t>=T.fr3+0.5&&t<T.cut-0.25){ const k=seg(t,T.fr3+0.5,T.cut-0.3); for(let i=0;i<18;i++){ const an=hash(i*2.9)*TAU+(t-T.fr3)*(1.6+hash(i)), rr=60+70*hash(i*6.6), y=30+130*hash(i*4.1)+Math.sin(t*3+i)*10, P=K.proj(F.B,-440+Math.cos(an)*rr,y,Math.sin(an)*rr*0.6); if(!P) continue;
+        const S=Math.max(1.5,(7+8*hash(i*5.5))*P.s); F.list.push({d:P.d, fn:()=>{ const g=F.g; g.save(); g.globalAlpha=k; g.translate(P.x,P.y); g.rotate(an+1.2); g.fillStyle='#070609'; g.beginPath(); g.ellipse(0,0,S,S*0.32,0,0,TAU); g.fill(); g.restore(); }}); } }   // Ninja: lông quạ đen xoáy quanh người   // 💥 vận lực trước nhát lướt qua nhau
     halves(F,t); crows(F,t); skyEye(F,t);
     slashAt(F,t,T.cut,-330,200,{ang:-24,R:1400,span:150,col:'255,60,40',pre:0.14,post:0.5});
     if(t>=T.cut+TSPLIT+0.05&&t<T.cut+3.2) for(const [i,bx] of BLD_CUT.entries()){ const tb=T.cut+TBLD+0.04*i; if(t<tb) continue; K.debris(F,{x:bx,y:700+200*(i%2),z:1500+250*(i%2),t0:tb,n:18,speed:1300,life:2.2,size:70,seed:140+i,col:'#4d4040'}); K.smoke(F,{x:bx,z:1500+250*(i%2),t0:tb+0.1,n:8,spread:700,rise:700,life:2.4,size:420,seed:150+i,a:0.45,tint:'110,80,66'}); }
@@ -307,7 +313,8 @@
   const SMEAR=[[T.leap+0.1,-1],[T.hit60-0.04,1],[T.turnB-0.04,1],[T.f4-0.04,-1]];
   // 🎵 (13/11 anh chốt: nhạc anime CHẠY DÀI, theme mỗi bài 1 lần) mở đầu KHÔNG nhạc (gió, quạ) → Kokuten (Naruto Shippuden) từ cú kunai
   //    → Berserk nổi điên: Forces (Berserk 1997, Susumu Hirasawa) → LẶNG 0.5s trước nhát lướt qua nhau → ảo thuật: Senya (theme Itachi) tới hết. Âm lượng quy về -25 LUFS.
-  CineKit.film({ id:'fin1f3', title:'Final 1 · Fight · Ninja Cat vs Berserk Cat', DUR:T.DUR, VW:960, VH:540, fadeIn:false, fadeOut:false,
+  const RETIME=[[0,T.fr3+0.45,1],[T.fr3+0.45,(T.fr3+0.85),3.0],[(T.fr3+0.85),T.cut-0.28,2.0],[T.cut-0.28,T.DUR,1]];   // zoom chậm ×3 · vận lực ×2   // (16/11) GỒNG SLOW-MO rồi lao cực nhanh
+  CineKit.film(W.retime(RETIME,{ id:'fin1f3', title:'Final 1 · Fight · Ninja Cat vs Berserk Cat', DUR:T.DUR, VW:960, VH:540, fadeIn:false, fadeOut:false,
     imgs:IMG, cast:['ninja','nj','bk'],
     sfx:[[0.25,'l2p_rumble',0.45,null,'đại lộ đổ nát, gió bụi'],[0.05,'cine_impact',0.8,null,'cột sáng đỏ giáng xuống giữa đại lộ'],
       [0.9,'se_gogogo',0.3,2.0,'Berserk bước ra kéo lê đại kiếm, mũi kiếm cào đường toé lửa'],
@@ -342,7 +349,7 @@
       [T.fr1,'se_sword_clash',0.85,null,'bổ nhát 1, Ninja giơ kiếm đỡ, trượt lùi'],[T.fr1+0.02,'se_pushback',0.45,null,'+ lớp trầm nhát bổ 1'],
       [T.fr2,'se_katana_a',0.85,null,'bổ nhát 2, Ninja đỡ, bị đẩy xa hơn, chân cày rãnh'],
       [T.fr3,'se_impact_stop',0.95,null,'bổ nhát 3, kiếm Ninja rung bần bật, đỡ lùi sát'],[T.fr3+0.02,'se_pushback',0.5,null,'+ lớp trầm nhát bổ 3'],
-      [T.charge,'se_tremor',0.7,null,'cả 2 vận lực: đất rung nứt, đá nổi lên'],[T.read-0.12,'ep3_shine',0.5,null,'+ đặc tả mắt Berserk loé đỏ, gồng kiếm (lớp của tiếng vận lực)'],
+      [(T.fr3+0.85),'ed_hit4',0.9,null,'Berserk GIẬM MẠNH xuống đất: đất vỡ toả, sóng chấn'],[(T.fr3+0.85)+0.01,'se_quake',0.6,null,'+ lớp trầm: mặt đường rung nứt dưới cú giậm'],[(T.fr3+0.85)+0.4,'se_tremor',0.6,null,'+ cả 2 vận lực: đất rung, đá nổi lên (lớp đuôi của cú giậm)'],[T.read-0.12,'ep3_shine',0.5,null,'+ đặc tả mắt Berserk loé đỏ, gồng kiếm (lớp của tiếng vận lực)'],
       [T.cut-0.6,'se_big_slash',1,null,'Berserk vung đại kiếm chém'],
       [T.cut-0.28,'se_machdash',0.8,null,'+ 2 con hoá vệt lao vượt qua nhau (lớp đầu của nhát chém)'],[T.cut-0.12,'se_super_hit',1,null,'2 lưỡi kiếm va nhau ở điểm giao (chém), loé'],[T.cut-0.12-1.3,'ed_hit3',0.55,null,'+ lớp edit: tụ lực trong lúc vận lực rồi nổ đúng nhát lướt qua nhau'],
       [T.cut+TB,'se_katana_b',0.9,null,'+ kiếm Ninja gãy đôi, mũi kiếm văng xoay tít (lớp của nhát chém)'],[T.cut+TSPLIT,'cine_flesh',0.7,null,'+ Ninja đứt ngang người, nửa trên trượt đổ (lớp của nhát chém)'],
@@ -358,10 +365,10 @@
       {src:'assets/audio/mus_senya.m4a',ra:T.crows-0.3,rb:T.DUR,off:0.3,vol:0.33,fi:0.8,fo:1.5}],
     theme:t=>theme(t), shots,
     // 🎬 EDIT (16/11, skill edit-video): impact frame 2 màu ở 3 cú quyết định · gồng lực: đỏ – đen · lướt qua nhau: đường hầm + tách RGB
-    impact:t=>{ const E=K.edit; return E.first(E.impacts(t,T.clash,6,'blue',2),E.impacts(t,T.turnB,6,'red',2),E.impacts(t,T.cut-0.12,10,'red',2)); },
+    impact:t=>{ const E=K.edit; return E.first(E.impacts(t,(T.fr3+0.85),4,'red',3),E.impacts(t,T.clash,6,'blue',2),E.impacts(t,T.turnB,6,'red',2),E.impacts(t,T.cut-0.12,10,'red',2)); },
     grade:t=>{ const E=K.edit; return E.mix(E.rgb(t,T.clash+0.2,0.5,8),E.duotone(t,T.fr3+0.5,T.cut-0.3,'#3a0806','#ff6a50',0.25,0.7),E.zoom(t,T.cut-0.28,0.16,0.4),E.rgb(t,T.cut+0.2,0.9,14),E.duotone(t,T.howl,T.brk,'#3a0806','#ff5a40',0.3,0.75),E.burn(t,T.brk-0.1,T.brk+0.05,0.06)); },
     shake:t=>{ let s=0; const h=(a,amp,d)=>{ if(t>=a&&t<a+d) s=Math.max(s,amp*(1-(t-a)/d)); };
-      h(0.05,8,0.5); h(T.clash,12,0.5); h(T.slam,14,0.6); h(T.sweep,8,0.4); h(T.glass,6,0.4); h(T.c3,6,0.3); h(T.turnB,12,0.5); h(T.f4,7,0.3); h(T.fr1,6,0.3); h(T.fr2,7,0.3); h(T.fr3,8,0.4); h(T.cut,18,0.8); h(T.brk,10,0.4);
+      h(0.05,8,0.5); h(T.clash,12,0.5); h(T.slam,14,0.6); h(T.sweep,8,0.4); h(T.glass,6,0.4); h(T.c3,6,0.3); h(T.turnB,12,0.5); h(T.f4,7,0.3); h(T.fr1,6,0.3); h(T.fr2,7,0.3); h(T.fr3,8,0.4); h((T.fr3+0.85),16,0.7); h(T.cut,18,0.8); h(T.brk,10,0.4);
       if(t>=T.howl&&t<T.brk) s=Math.max(s,4+3*seg(t,T.howl,T.howl+0.5)); if(t>=T.fall) s=0;
       if(t>=T.rage&&t<T.fr1-0.6) s=Math.max(s,1.5+2*seg(t,T.rage,T.fr1-0.6)); return s; },
     world, panels, post(F,t){ const fx={shocks:[]}; if(t>=T.fall) return fx; const sh=(a,x,y,rm,d,str)=>{ if(t>=a&&t<a+d){ const u=(t-a)/d; fx.shocks.push({x,y,z:0,r:20+rm*eout(u),w:26,str:str*(1-u)}); fx.chroma=Math.max(fx.chroma||0,1.5*(1-u)); } };
@@ -381,6 +388,7 @@
       for(const [c,dir] of SMEAR) if(Math.abs(t-c)<0.04) W.smearFrame(F,dir*0.05);
       if(t>=T.f4&&t<T.f4+0.05) K.flash(F,0.3,'#ffd0c8'); if(t>=T.cut&&t<T.cut+0.06) K.flash(F,0.4,'#ffd0c8');
       K.sfxText(F,'CLANG!',VW*0.52,VH*0.3,{t0:T.clash,life:0.7,px:82,rot:-7}); K.sfxText(F,'CLANG!',VW*0.45,VH*0.22,{t0:T.turnB,life:0.6,px:70,rot:6});
+      K.shatter(F,t,T.fr3+1.05,T.cut-0.28,{cx:0.5,cy:0.55,col:'255,70,50',mode:'out',out:0.3});   // 💠 không gian nứt mảng đỏ toả ra từ giữa 2 con
       K.letterbox(F,t<T.crow?1:0);
-      K.vignette(F,0.5); } });
+      K.vignette(F,0.5); } }));
 })();

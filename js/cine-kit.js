@@ -21,7 +21,7 @@
   const EASE={ lin:x=>x, eio:x=>x*x*(3-2*x), eout:x=>1-(1-x)*(1-x), ein:x=>x*x, eout3:x=>1-Math.pow(1-x,3), ein3:x=>x*x*x };
   const hash=n=>{ const s=Math.sin(n*127.1+311.7)*43758.5453; return s-Math.floor(s); };
   const h2=(a,b)=>{ const v=Math.sin(a*127.1+b*311.7+74.7)*43758.5453; return v-Math.floor(v); };
-  const D2R=Math.PI/180;
+  const D2R=Math.PI/180, TAU=Math.PI*2;
   Object.assign(K,{clamp,seg,lerp,EASE,hash,h2,eio:EASE.eio,eout:EASE.eout,ein:EASE.ein});
   K.twos=(t,fps)=>Math.floor(t*(fps||50))/(fps||50);   // (13/11 anh: "tất cả 30–50fps, đoạn thành phố hơi giật") mặc định 50 hình/giây = đúng khung xuất video; muốn giật kiểu vẽ tay thì truyền fps riêng
   K.PREVIEW_K=(VW,VH)=>1280/Math.max(VW,VH);   // (16/11 anh: "phim xem trước trong app chỉ cần HD") xem trong app = cạnh dài 1280 (HD 720p) — trước là 2× (1920); XUẤT video (render-cine) vẫn 4K như cũ

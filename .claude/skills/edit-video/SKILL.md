@@ -58,3 +58,10 @@ Tiếng "tụ lực" (1, 3, 9): đặt SỚM = mốc nổ − giây đỉnh. Dù
 
 ## 6. Soát
 `film-check.js <id> --t <các giây của cú edit>` (tính giây mới qua bảng retime nếu phim có RETIME) — xem: impact frame có đọc ra hình nhân vật không, duotone có che mất chi tiết không (giảm str), cháy trắng có quá lâu không.
+
+## 7. Gồng + slow-mo → lao (16/11, anh duyệt hướng) — MỖI TRẬN 1 KIỂU, không dùng chung 1 công thức
+- Nhịp: ZOOM CHẬM vào nhân vật (shot giữ chuyển động: `W.cutify(...,{keep:[[a,b]]})`) → CÚ GIẬM / bùng lực (impact frame 4 khung + sóng chấn `K.ring` + đá văng + rung) → góc rộng vận lực → `K.shatter` không gian NỨT MẢNG → cận mắt / vũ khí → mảnh vỡ tung + zoom blur + 2 vệt lao → impact lúc va.
+- Slow-mo bằng bảng `RETIME` (đoạn gồng ×2–3, cú lao ×0.55). Shotlist json phải dời theo bảng mới.
+- `K.shatter(F,t,t0,t1,{cx,cy,col,mode:'out'|'in',out})` gọi trong def.screen — 'in' = mảnh bị HÚT vào (trọng lực), 'out' = toả ra. Bắt đầu SAU cú giậm, đừng chồng lên impact frame.
+- Kiểu riêng đã làm: Berserk = giậm đất đỏ, lửa giận · Ninja = lông quạ đen xoáy · Doge / Chud = giậm vòng bụi vàng / đỏ + đất nứt đá nổi · Gojo = vòng gợn VÔ HẠN xanh · Pain = mảnh vụn bị HÚT xoáy về (trọng lực), không gian nứt mảng bị hút vào giữa. KHÔNG cho Gojo / Pain đất nứt đá nổi như kiếm sĩ.
+- ⚠️ Trong cine-kit phải có TAU (16/11 thiếu TAU → K.shatter lỗi IM LẶNG, không hiện gì). Viết hàm mới xong phải chụp khung xem có hiện thật không.
