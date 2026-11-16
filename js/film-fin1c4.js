@@ -417,11 +417,15 @@
     g.restore(); }
   function hpOrb(F,x,y,z,r,t,a,o){ o=o||{}; if(a<=0.01||r<=1) return; const P=K.proj(F.B,x,y,z); if(!P) return; const R=r*P.s;
     let ta=null; if(o.v){ const Q=K.proj(F.B,x-o.v[0],y-o.v[1],z-o.v[2]); if(Q&&Math.hypot(Q.x-P.x,Q.y-P.y)>2) ta=Math.atan2(Q.y-P.y,Q.x-P.x); }
-    const fr=Math.floor(t*16);
+    const fr=Math.floor(t*16), FD=o.front||0;   // front: vẽ trước nhân vật (đè lên tay đang đỡ)
     const SO=F.I.HPO, ST=F.I.HPT, sprOK=SO&&SO.complete&&SO.naturalWidth&&ST&&ST.complete&&ST.naturalWidth;
-    F.list.push({d:P.d-40, fn:()=>{ const g=F.g; g.save(); g.globalCompositeOperation='lighter';
+    F.list.push({d:P.d-40-FD, fn:()=>{ const g=F.g; g.save(); g.globalCompositeOperation='lighter';
+      if(sprOK&&FD){ g.globalCompositeOperation='source-over'; const cr=g.createRadialGradient(P.x,P.y,0,P.x,P.y,R*0.95); cr.addColorStop(0,`rgba(255,250,255,${a})`); cr.addColorStop(0.45,`rgba(225,160,255,${0.97*a})`); cr.addColorStop(0.8,`rgba(150,60,240,${0.92*a})`); cr.addColorStop(1,'rgba(110,30,210,0)');
+        g.fillStyle=cr; g.beginPath(); g.arc(P.x,P.y,R*0.95,0,TAU); g.fill(); g.globalCompositeOperation='lighter'; }   // lõi ĐẶC: che thật phần chân đang đỡ (lớp xoáy cộng sáng không che được)
       if(sprOK){ const ga=a*Math.min(1,0.3+70/Math.max(1,R)), GR=R*2.4; let gr=g.createRadialGradient(P.x,P.y,R*0.5,P.x,P.y,GR); gr.addColorStop(0,`rgba(170,70,255,${0.45*ga})`); gr.addColorStop(1,'rgba(80,20,160,0)'); g.fillStyle=gr; g.fillRect(P.x-GR,P.y-GR,GR*2,GR*2);
-        g.globalAlpha=a; if(ta!=null){ const sc=R*1.05/230; g.save(); g.translate(P.x,P.y); g.rotate(ta-Math.PI); g.translate(Math.sin(t*30)*R*0.02,0); g.drawImage(ST,-1270*sc,-500*sc,1536*sc*(o.tail||1)>0?1536*sc:0,1024*sc); g.restore(); }   // đường hầm xoáy phía sau
+        g.globalAlpha=a; if(ta!=null){ const sc=R*1.05/230, dx=Math.cos(ta), dy=Math.sin(ta), VWl=F.VW, VHl=F.VH;   // (16/11 anh) ĐUÔI LIỀN tới hết khung: đo từ cầu tới mép khung theo hướng đuôi → kéo giãn phần đuôi vượt mép (mép cắt nằm ngoài màn)
+          const tx=dx>1e-3?(VWl-P.x)/dx:dx<-1e-3?-P.x/dx:1e9, ty=dy>1e-3?(VHl-P.y)/dy:dy<-1e-3?-P.y/dy:1e9, need=Math.max(0,Math.min(tx,ty))+R*1.5, sx=Math.max(1,need/(1270*sc))*(o.tail||1);
+          g.save(); g.translate(P.x,P.y); g.rotate(ta-Math.PI); g.translate(Math.sin(t*30)*R*0.02,0); g.drawImage(ST,0,0,1270,1024,-1270*sc*sx,-500*sc,1270*sc*sx,1024*sc); g.drawImage(ST,1270,0,266,1024,0,-500*sc,266*sc,1024*sc); g.restore(); }   // đường hầm xoáy phía sau
         const D=R*2.3*(1+0.03*Math.sin(t*25)); for(const [rot,al] of [[t*2.4,1],[-t*1.3+1.1,0.45]]){ g.save(); g.globalAlpha=a*al; g.translate(P.x,P.y); g.rotate(rot); g.drawImage(SO,-D/2,-D/2,D,D); g.restore(); }   // cầu xoáy (2 lớp ngược chiều)
         g.globalAlpha=1; for(let i=0;i<(o.arcs||0);i++){ const s2=fr*13+i*5, an=hash(s2)*TAU; bolt(g,P.x+Math.cos(an)*R*0.92,P.y+Math.sin(an)*R*0.92,an+(hash(s2+1)-0.5)*0.8,R*(0.7+1.5*hash(s2+2)),R*0.07,s2,'purple',hash(s2+3)<0.5); }
         g.restore(); return; }
@@ -840,10 +844,11 @@
           if(k>0.85){ const m={x:(A.x+B2.x)/2,y:(A.y+B2.y)/2}, R=60*A.s*3*seg(k,0.85,1)+1; const gr=g.createRadialGradient(m.x,m.y,0,m.x,m.y,R); gr.addColorStop(0,'rgba(255,255,255,1)'); gr.addColorStop(0.4,'rgba(220,150,255,0.8)'); gr.addColorStop(1,'rgba(160,60,255,0)'); g.fillStyle=gr; g.fillRect(m.x-R,m.y-R,2*R,2*R); }
           g.restore(); }}); } }
       // đường bay Hollow Purple: smoke → Pain (đỡ) → bị hất lên trời
-      const hpX=t<T.fire?HP_X+40:t<T.block?lerp(HP_X+40,PCX-90,ein(seg(t,T.fire,T.block))):t<T.heave+0.25?pain(hs(t)).x-90:pain(T.heave+0.25).x-90;
-      const hpY=t<T.heave+0.25?150:150+3200*ein(seg(t,T.heave+0.25,T.imp2)), hpOn=t>=T.fire-0.05&&t<T.imp2+0.3;
+      const OX=-165, OY=100;   // (16/11 anh) lúc đỡ: tâm cầu ĐÈ lên 2 bàn chân trước của Pain (che gần hết chân) → đúng góc đang chống đỡ
+      const hpX=t<T.fire?HP_X+40:t<T.block?lerp(HP_X+40,PCX+OX,ein(seg(t,T.fire,T.block))):t<T.heave+0.25?pain(hs(t)).x+OX:pain(T.heave+0.25).x+OX;
+      const hpY=t<T.fire?150:t<T.block?lerp(150,OY,seg(t,T.fire,T.block)):t<T.heave+0.25?OY:OY+3200*ein(seg(t,T.heave+0.25,T.imp2)), hpOn=t>=T.fire-0.05&&t<T.imp2+0.3;
       if(hpOn){ const sq=t>=T.imp2?1-seg(t,T.imp2,T.boom):1, v=t<T.block?[500,0,0]:t>=T.heave+0.25?[0,500,0]:null;
-        hpOrb(F,hpX,hpY,0,(115+10*Math.sin(t*40))*sq*(t>=T.fire-0.05&&t<T.fire+0.12?eout(seg(t,T.fire-0.05,T.fire+0.12)):1),t,1,{v,arcs:t>=T.block&&t<T.heave+0.25?5:3,tail:t>=T.heave+0.25?1.6:1}); }
+        hpOrb(F,hpX,hpY,0,(115+10*Math.sin(t*40))*sq*(t>=36.6&&t<37.2?0.8:1)*(t>=T.fire-0.05&&t<T.fire+0.12?eout(seg(t,T.fire-0.05,T.fire+0.12)):1),t,1,{v,arcs:t>=T.block&&t<T.heave+0.25?5:3,tail:t>=T.heave+0.25?1.6:1,front:t>=T.block-0.1&&t<T.heave+0.25?400:0}); }
       if(t>=T.fire&&t<T.boom+1.5) hpTrench(F,HP_X+120,Math.min(hpX,PCX-150),0,95,t,1-seg(t,T.boom,T.boom+1.5));   // rãnh xoá sổ trên đường cầu tím đi qua
       if(t>=T.fire&&t<T.block) K.debris(F,{x:hpX,y:60,z:0,t0:Math.floor(t*12)/12,n:4,speed:700,life:0.6,size:30,seed:Math.floor(t*12)+500,dir:90,cone:200,col:'#3a2f3c'});
       if(t>=T.block&&t<T.heave+1.4){ const p0=PCX, p1=pain(Math.min(t,T.heave)).x; for(const dz of [-24,24]) groundLine(F,[[p0,dz],[p1,dz]],5,'rgba(10,6,8,0.85)');   // 2 vệt chân cày lùi trên mặt đất
