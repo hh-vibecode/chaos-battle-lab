@@ -56,7 +56,7 @@
   function text3(F,x,y,z,txt,size,o){ o=o||{}; const P=K.proj(F.B,x,y,z); if(!P) return; const px=size*P.s; if(px<3) return;
     F.list.push({d:P.d+(o.d||-15), fn:()=>{ const g=F.g; g.save(); g.translate(P.x,P.y); g.rotate((o.rot||0)*Math.PI/180); g.globalAlpha=o.a==null?1:o.a; g.textAlign='center'; g.textBaseline='middle';
       g.font=`${o.weight||900} ${px}px ${o.font||'"Comic Sans MS","Comic Neue",cursive'}`; if(o.glow){ g.shadowColor=o.glow; g.shadowBlur=px*0.5; }
-      g.lineJoin='round'; g.lineWidth=Math.max(2,px*0.14); g.strokeStyle=o.stroke||'#120a10'; g.strokeText(txt,0,0); g.shadowBlur=0; g.fillStyle=o.col||'#fff'; g.fillText(txt,0,0); g.restore(); }}); }
+      g.lineJoin='round'; g.lineWidth=Math.max(2,px*(o.lw||0.14)); g.strokeStyle=o.stroke||'#120a10'; g.strokeText(txt,0,0); g.shadowBlur=0; g.fillStyle=o.col||'#fff'; g.fillText(txt,0,0); g.restore(); }}); }
   // tia sáng giữa 2 điểm thế giới: lõi trắng + vỏ màu + quầng; w = bề dày thế giới
   function beam(F,A,B,w,col,a,o){ o=o||{}; const P=K.proj(F.B,...A), Q=K.proj(F.B,...B); if(!P||!Q||a<=0.01) return;
     F.list.push({d:Math.min(P.d,Q.d)+(o.d||-20), fn:()=>{ const g=F.g, s=(P.s+Q.s)/2; g.save(); g.globalCompositeOperation='lighter'; g.lineCap='round';

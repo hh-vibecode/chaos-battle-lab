@@ -33,7 +33,7 @@
   const HIDE=[[610,0,-200],[60,0,195],[120,0,-110],[272,0,-10]];   // sau xe A · ra khỏi gầm xe tải · sau nắp capo xe C · sau trụ đèn
   const RUN=[640,0,30];                     // bị chữ HUH dồn ra giữa mặt cầu trống
   const CEN=[440,0,10];                     // tâm vụ nổ (phi tiêu chặn chữ HUH)
-  const HITP=[470,110,25];                  // chỗ phi tiêu đầu cắm vào chữ HUH
+  const HITP=[470,165,25];                  // chỗ phi tiêu đầu cắm vào chữ HUH
   const SPOT=[0.5,2.0,3.6,5.0].map(a=>[CEN[0]+Math.cos(a)*200, CEN[2]+Math.sin(a)*165]);   // 4 phi tiêu chệch = 4 quả bom cắm quanh tâm nổ
   const SPOT2=[[CEN[0]-40,CEN[2]+205],[CEN[0]+215,CEN[2]-20]];                              // + 2 quả Bat gài thêm trong khói (thấy bóng lướt)
   const BOMBS=[...SPOT,...SPOT2];
@@ -65,7 +65,7 @@
   const DMG={}; for(const b of BOXES) DMG[b.id]=hitsOf(b.id);
   const dmg=(id,t)=>{ let n=0; for(const te of DMG[id]) if(te<=t) n++; return Math.min(1,n/7); };
   // 🅷 chữ HUH KHỔNG LỒ: từ mồm Huh vòng qua xe C (hất văng) → bám Bat → trúng phi tiêu ở HITP lúc T.boom
-  const HUH_A=[-600,80,90], HUH_C=[60,200,260];
+  const HUH_A=[-600,90,90], HUH_C=[60,260,260];
   const huhPos=t=>{ const u=ein(seg(t,T.huhF,T.boom)), q=1-u; return [q*q*HUH_A[0]+2*q*u*HUH_C[0]+u*u*HITP[0], q*q*HUH_A[1]+2*q*u*HUH_C[1]+u*u*HITP[1], q*q*HUH_A[2]+2*q*u*HUH_C[2]+u*u*HITP[2]]; };
   const KNOCK=T.huhF+0.42;   // lúc chữ HUH cày qua xe C
   const carOff=(i,t)=>i===2&&t>=KNOCK?[60*eout(seg(t,KNOCK,KNOCK+0.5)),0,150*eout(seg(t,KNOCK,KNOCK+0.5))]:(i===0&&t>=T.boom?[40*eout(seg(t,T.boom,T.boom+0.4)),0,-110*eout(seg(t,T.boom,T.boom+0.4))]:[0,0,0]);
@@ -77,25 +77,25 @@
   // ───────── MÁY QUAY ─────────  (Pop + Huh luôn TRÁI, Bat luôn PHẢI)
   const S=(t0,t1,a,b,ease)=>({t0,t1,a,b:b||a,ease:ease||'eio'});
   const shots=C.seq([
-    S(0,T.look,{tx:-580,ty:150,tz:15,dist:760,yaw:-36,pitch:-6,fov:52,roll:-2},{tx:-590,ty:130,tz:15,dist:690,yaw:-38,pitch:-5,fov:52,roll:-2},'lin'),            // 1 toàn góc thấp dọc mặt cầu: 2 cột sáng giáng xuống, Pop + Huh hiện ra
+    S(0,T.look,{tx:-580,ty:150,tz:15,dist:760,yaw:24,pitch:-6,fov:52,roll:2},{tx:-590,ty:130,tz:15,dist:690,yaw:22,pitch:-5,fov:52,roll:2},'lin'),            // 1 toàn góc thấp dọc mặt cầu: 2 cột sáng giáng xuống, Pop + Huh hiện ra
     ...C.pushIn(T.look,{d:T.perch-T.look,tx:-580,ty:70,tz:15,dist:330,dist1:290,yaw:22,pitch:-6,fov:44,ox:-0.1}),                                                    // 2 Pop + Huh ngơ ngác nhìn quanh
-    S(T.perch,T.eyeB,{tx:900,ty:690,tz:0,dist:600,yaw:-28,pitch:-22,fov:50},{tx:900,ty:720,tz:0,dist:520,yaw:-30,pitch:-24,fov:50},'lin'),                           // 3 góc giun: Bat ngồi xổm trên dầm tháp, trăng máu sau lưng
+    S(T.perch,T.eyeB,{tx:900,ty:BEAM_Y+70,tz:0,dist:330,yaw:-30,pitch:-10,fov:48},{tx:900,ty:BEAM_Y+75,tz:0,dist:300,yaw:-32,pitch:-12,fov:48},'lin'),                           // 3 góc giun: Bat ngồi xổm trên dầm tháp, trăng máu sau lưng
     S(T.eyeB,T.scan,{tx:900,ty:BEAM_Y+100,tz:0,dist:130,yaw:-22,pitch:-2,fov:40},{tx:900,ty:BEAM_Y+100,tz:0,dist:112,yaw:-22,pitch:-2,fov:40},'lin'),                 // 4 cực cận mắt Bat nheo lại, loé
     S(T.scan,T.spot,{tx:-150,ty:40,tz:0,dist:1050,yaw:-30,pitch:38,fov:52},{tx:-170,ty:40,tz:0,dist:990,yaw:-28,pitch:38,fov:52},'lin'),                               // 5 CHẾ ĐỘ THÁM TỬ từ trên xuống: khoá mục tiêu + vạch đường nấp
     S(T.spot,T.fire,{tx:-520,ty:72,tz:-60,dist:210,yaw:14,pitch:-10,fov:44,ox:-0.08},{tx:-520,ty:74,tz:-60,dist:190,yaw:14,pitch:-12,fov:44,ox:-0.08},'lin'),          // 6 cận Pop ngẩng lên thấy mắt loé trên tháp, há mồm (lặng)
     S(T.fire,T.beamHit,{tx:-470,ty:85,tz:-60,dist:300,yaw:-62,pitch:-4,fov:50},{tx:-430,ty:90,tz:-60,dist:330,yaw:-66,pitch:-4,fov:50},'lin'),                         // 7 cận Pop chính diện: MINIGUN xả vòng khói, giật lùi
     S(T.beamHit,T.land,{tx:860,ty:520,tz:0,dist:700,yaw:-24,pitch:-20,fov:54},{tx:780,ty:300,tz:0,dist:720,yaw:-22,pitch:-14,fov:54},'ein'),                           // 8 góc giun lên tháp: dầm nát vụn, Bat bật khỏi dầm rơi xuống
     S(T.land,T.fl1,{tx:640,ty:70,tz:-130,dist:430,yaw:-8,pitch:4,fov:52},{tx:560,ty:70,tz:-170,dist:450,yaw:-10,pitch:5,fov:52},'lin'),                              // 9 ngang thấp: Bat lăn tròn, nấp sau xe A — luồng đạn xé nát xe
-    S(T.fl1,T.fl2,{tx:330,ty:50,tz:60,dist:560,yaw:-16,pitch:5,fov:56}),                                                                                            // 10 combo: vệt Bat trượt qua gầm xe tải
-    S(T.fl2,T.fl3,{tx:120,ty:120,tz:40,dist:420,yaw:16,pitch:-14,fov:56}),                                                                                           // 11 combo: lộn qua nắp capo xe C
-    S(T.fl3,T.fl4,{tx:240,ty:60,tz:-20,dist:330,yaw:-40,pitch:4,fov:56}),                                                                                            // 12 combo: trượt vào sau trụ đèn
-    S(T.fl4,T.pil,{tx:260,ty:120,tz:180,dist:700,yaw:-8,pitch:6,fov:56}),                                                                                            // 13 combo: xe tải nổ tung sau lưng
+    S(T.fl1,T.fl2,{tx:300,ty:40,tz:60,dist:560,yaw:-16,pitch:18,fov:58}),                                                                                            // 10 combo: vệt Bat trượt qua gầm xe tải
+    S(T.fl2,T.fl3,{tx:110,ty:40,tz:20,dist:520,yaw:14,pitch:20,fov:58}),                                                                                           // 11 combo: lộn qua nắp capo xe C
+    S(T.fl3,T.fl4,{tx:250,ty:40,tz:-20,dist:480,yaw:-30,pitch:18,fov:58}),                                                                                            // 12 combo: trượt vào sau trụ đèn
+    S(T.fl4,T.pil,{tx:270,ty:60,tz:180,dist:820,yaw:-8,pitch:16,fov:56}),                                                                                            // 13 combo: xe tải nổ tung sau lưng
     S(T.pil,T.cease,{tx:280,ty:95,tz:-10,dist:300,yaw:-8,pitch:-2,fov:46,ox:0.1},{tx:280,ty:95,tz:-10,dist:280,yaw:-8,pitch:-2,fov:46,ox:0.1},'lin'),            // 14 cận Bat nép lưng sau trụ, bê tông bị rỉa toé ra
     S(T.cease,T.huhC,{tx:-540,ty:80,tz:-40,dist:300,yaw:20,pitch:-4,fov:46},{tx:-540,ty:80,tz:-40,dist:280,yaw:20,pitch:-4,fov:46},'lin'),                           // 15 THỞ: Pop thở hổn hển, mồm bốc khói
     S(T.huhC,T.huhF,{tx:-640,ty:60,tz:90,dist:340,yaw:20,pitch:-10,fov:46,ox:-0.06},{tx:-640,ty:60,tz:90,dist:300,yaw:20,pitch:-12,fov:46,ox:-0.06},'lin'),          // 16 cận Huh từ dưới lên: gồng hết sức, quầng hồng
     S(T.huhF,T.push,{tx:-300,ty:180,tz:120,dist:1150,yaw:-10,pitch:4,fov:54},{tx:120,ty:180,tz:120,dist:1100,yaw:-10,pitch:4,fov:54},'lin'),                          // 17 toàn ngang: chữ HUH khổng lồ cày qua xe C, máy lia theo
     S(T.push,T.turn,{tx:420,ty:100,tz:30,dist:460,yaw:-6,pitch:3,fov:54},{tx:560,ty:100,tz:30,dist:430,yaw:-6,pitch:3,fov:54},'lin'),                                 // 18 Bat bị dồn ra giữa cầu, chữ HUH đuổi sau lưng
-    S(T.turn,T.throw,{tx:540,ty:130,tz:30,dist:250,yaw:120,pitch:-4,fov:52,ox:0.15},{tx:540,ty:130,tz:30,dist:235,yaw:120,pitch:-4,fov:52,ox:0.15},'lin'),           // 19 qua vai Bat: chữ HUH lấp kín khung
+    S(T.turn,T.throw,{tx:600,ty:130,tz:40,dist:250,yaw:96,pitch:-4,fov:54,ox:0.18},{tx:600,ty:130,tz:40,dist:235,yaw:96,pitch:-4,fov:54,ox:0.18},'lin'),           // 19 qua vai Bat: chữ HUH lấp kín khung
     S(T.throw,T.boom,{tx:590,ty:90,tz:30,dist:300,yaw:-14,pitch:0,fov:50},{tx:520,ty:100,tz:30,dist:340,yaw:-14,pitch:0,fov:50},'eout'),                              // 20 cận tay Bat vung NẮM PHI TIÊU toả hình quạt
     S(T.boom,T.smoke,{tx:440,ty:200,tz:10,dist:1300,yaw:-10,pitch:6,fov:54},{tx:SPOT[2][0],ty:40,tz:SPOT[2][1],dist:260,yaw:-20,pitch:16,fov:50},'brake'),            // 21 NỔ LỚN toàn → máy lướt xuống 1 phi tiêu cắm đường, đèn đỏ nháy mờ
     S(T.smoke,T.walk,{tx:440,ty:140,tz:10,dist:1100,yaw:-12,pitch:6,fov:52},{tx:440,ty:140,tz:10,dist:1040,yaw:-12,pitch:6,fov:52},'lin'),                           // 22 THỞ: khói đen dày, im ắng
@@ -139,6 +139,7 @@
   const popCloud=(g,v,x,y,r,rot,a)=>{ if(!(a>0.004)||!(r>0.3)) return; g.save(); g.globalAlpha*=Math.min(1,a); g.translate(x,y); g.rotate(rot); g.drawImage(popCloudSprite(v),-r,-r,r*2,r*2); g.restore(); };
   // vòng khói chữ O nhìn ngang (`_popRingDraw`), r/th theo đơn vị thế giới; dir = hướng bay TRÊN MÀN HÌNH; spread 0..1 = đang tan
   function popRing(F,x,y,z,r,th,dirW,a,spread,seed,t){ const P=K.proj(F.B,x,y,z), Q=K.proj(F.B,x+dirW[0],y,z+dirW[2]); if(!P||!Q||a<=0.01) return; const s=P.s, R=r*s, TH=th*s, dir=Math.atan2(Q.y-P.y,Q.x-P.x);
+    a*=clamp(1-(R-70)/70,0,1); if(a<=0.01) return;   // (13/11 anh: vật che máy) vòng khói sát máy mờ đi
     F.list.push({d:P.d-4, fn:()=>{ const g=F.g, rx=R*0.72, ry=R; g.save(); g.translate(P.x,P.y); g.rotate(dir); g.lineCap='round';
       const ring=(lw,col,al)=>{ g.globalAlpha=al; g.strokeStyle=col; g.lineWidth=lw; g.beginPath(); g.ellipse(0,0,rx,ry,0,0,TAU); g.stroke(); };
       ring(TH*1.45,'rgb(190,196,207)',0.22*a); ring(TH*1.15,'rgb(203,208,218)',0.45*a); ring(TH,'rgb(212,216,225)',0.72*a*(1-spread*0.5)); ring(TH*0.5,'rgb(228,231,237)',0.55*a*(1-spread));
@@ -151,7 +152,7 @@
   // sao choáng quanh đầu
   function stars(F,x,y,z,t){ for(let i=0;i<4;i++){ const an=t*6+i*TAU/4; W.text3(F,x+Math.cos(an)*38,y+Math.sin(an)*8,z+Math.sin(an)*20,'★',16,{col:'#ffe066',stroke:'#4a3a00',d:-10}); } }
   // ───────── VẬT TRÊN CẦU ─────────
-  function car(F,c,i,t){ const o=carOff(i,t), d=Math.max(dmg('car'+i,t),i===0&&t>=T.boom?1:0), x0=c.x0+o[0], x1=c.x1+o[0], z0=c.z0+o[2], z1=c.z1+o[2];
+  function car(F,c,i,t){ if(i===0&&t>=T.boom+0.05) return; const o=carOff(i,t), d=Math.max(dmg('car'+i,t),i===0&&t>=T.boom?1:0), x0=c.x0+o[0], x1=c.x1+o[0], z0=c.z0+o[2], z1=c.z1+o[2];
     const dk=(hex,k)=>{ const n=parseInt(hex.slice(1),16), f=1-0.55*k; return `rgb(${Math.round((n>>16)*f)},${Math.round(((n>>8)&255)*f)},${Math.round((n&255)*f)})`; };
     const bodyH=c.truck?80:52, cabH=(c.truck?70:42)*(1-0.55*d);
     CITY.box(F,x0,x1,8,bodyH,z0,z1,dk(c.col,d),dk(c.col,d*0.7),'rgba(220,70,50,0.18)');
@@ -164,8 +165,8 @@
   function lightPillar(F,x,z,t,col){ const a=seg(t,T.col,T.col+0.15)*(1-seg(t,T.col+0.9,T.col+1.8)); if(a<=0.01) return;
     W.beam(F,[x,0,z],[x,3200,z],70*(1+0.4*Math.sin(t*30)),col,a);
     const pts=[]; for(let i=0;i<=40;i++){ const an=i/40*TAU; pts.push([x+Math.cos(an)*95,2,z+Math.sin(an)*60]); } W.line(F,pts,4,`rgba(${col},${0.9*a})`); }
-  function bigHuh(F,x,y,z,vx,vz,t,sz){ for(let tr=3;tr>=1;tr--) W.text3(F,x-vx*tr*0.05,y,z-vz*tr*0.05,'HUH',sz*(1-tr*0.08),{font:'Impact,"Arial Black",sans-serif',weight:'bold',col:'#e91e63',stroke:'rgba(0,0,0,0)',a:0.12/tr+0.06,d:-14+tr});
-    const wb=1+Math.sin(t*16)*0.06; W.text3(F,x,y,z,'HUH',sz*wb,{font:'Impact,"Arial Black",sans-serif',weight:'bold',col:'#ffffff',stroke:'#e91e63',glow:'#e91e63',d:-16}); }
+  function bigHuh(F,x,y,z,vx,vz,t,sz){ for(let tr=0;tr>=1;tr--) W.text3(F,x-vx*tr*0.05,y,z-vz*tr*0.05,'HUH',sz*(1-tr*0.08),{font:'Impact,"Arial Black",sans-serif',weight:'bold',col:'#e91e63',stroke:'rgba(0,0,0,0)',a:0.12/tr+0.06,d:-14+tr});
+    const wb=1+Math.sin(t*16)*0.06; W.text3(F,x,y,z,'HUH',sz*wb,{font:'Impact,"Arial Black",sans-serif',weight:'bold',col:'#ffffff',stroke:'#e91e63',glow:'#e91e63',lw:0.05,d:-16}); }
   function cracks(F,p,k){ if(k<=0.02) return; for(let i=0;i<7;i++){ const an=i/7*TAU+0.4, L=(60+50*hash(i*3.1))*k, pts=[[p.x,1,p.z]]; let x=p.x, z=p.z;
       for(let j=1;j<=4;j++){ x+=Math.cos(an+(hash(i*7+j)-0.5)*0.8)*L/4; z+=Math.sin(an+(hash(i*9+j)-0.5)*0.8)*L/4*0.7; pts.push([x,1,z]); } W.line(F,pts,2.2,'rgba(10,8,12,0.85)'); } }
   // ───────── THẾ GIỚI ─────────
