@@ -17,15 +17,18 @@
     cover:30.4, mturn:32.4, raise:33.8, rise:35.8, net0:36.8, spin:37.05, back:37.25, release:37.45, netDone:37.95, r1:38.2, l1:38.45, l2:38.7, l3:39.0, swing0:39.6, punch:40.15, land:40.4,
     storm:40.8, down:42.4, haki:43.7, hakiOn:44.3, pull:45.5, snap:46.2, shock:46.9, lunge:47.5, clash:48.2, far:48.6, whip:49.35, tunnel:49.55, DUR:50.5 };
   const STORM=[40.95,41.15,41.35,41.55,41.8,42.05];   // lưới siết: 6 roi quất dồn dập từ mọi phía
-  const CLAPS=[13.75,14.05,14.35,14.65,14.95];
+  const CLAPS=[12.3,12.75,13.2,13.75,14.05,14.35,14.65,14.95];   // Clapping thấy Doge bị đóng băng → cười VỖ TAY liên tục (cả lúc Chud + Mlem bước ra)
+  // 👏 đúng nhịp GAME: mỗi cú vỗ = 1 lượt K1 → K2 → K3 trong 0.24s, 2 tay CHẠM ở 0.16s (= tiếng vỗ), xong về ảnh đứng (CLP_ANIM_S / CLP_CLAP_AT trong js/game.js)
+  const clapPose=t=>{ for(let i=0;i<CLAPS.length;i++){ const c=CLAPS[i], d=t-(c-0.16); if(d>=0&&d<0.24) return ['K1','K2','K3'][Math.min(2,Math.floor(d/0.08))];
+      const nx=CLAPS[i+1]; if(nx&&nx-c<0.5&&t>=c+0.08&&t<nx-0.16) return 'K3'; } return 'K0'; };   // vỗ liên tục: giữ 2 tay chạm giữa các cú (không loé về ảnh đứng)
   const IMG={ ZBG:'assets/img/cine/FIN_F1_ZBG.jpg', ZRK:'assets/img/cine/FIN_F1_ROCKS.png', ZICE:'assets/img/cine/FIN_F1_ICE.png', CHT:'assets/img/cine/FIN_F1_CHAIN_TILE.png',
     BPARK:'assets/img/cine/FIN_F1_BG_PARK.jpg', BSKY:'assets/img/cine/FIN_F1_BG_SKY.jpg', BTREE:'assets/img/cine/FIN_F1_BG_TREES.jpg', BCITY2:'assets/img/cine/FIN_F1_BG_CITY2.jpg', TWR:'assets/img/cine/FIN_F1_TOWERS.png', BRUIN:'assets/img/cine/FIN_F1_BG_RUIN.jpg',
-    D0:'assets/avatars/doge/avatarUrl.webp', DB:'assets/avatars/doge/rageAvatarUrl.webp', DZ:'assets/img/cine/FIN_F1_DOGE_ONEPUNCH.png', DH:'assets/img/doge/DG_HAKI_IDLE.webp',
+    D0:'assets/avatars/doge/avatarUrl.webp', DB:'assets/avatars/doge/rageAvatarUrl.webp', DZ:'assets/img/cine/FIN_F1_DOGE_ONEPUNCH.png', DH:'assets/img/doge/DG_HAKI_IDLE.webp', DP1:'assets/img/doge/DG_HAKI_P1.webp', DP5:'assets/img/doge/DG_HAKI_P5.webp',   /* tư thế đấm Haki của GAME (anh 16/11: 'rất sát, sao không dùng') */
     K0:'assets/avatars/clappingcat/avatarUrl.webp', KR:'assets/avatars/clappingcat/rageAvatarUrl.webp', K1:'assets/avatars/clappingcat/skill1AvatarUrl.webp', K2:'assets/avatars/clappingcat/skill2AvatarUrl.webp', K3:'assets/avatars/clappingcat/skill3AvatarUrl.webp',
     M0:'assets/img/cine/FIN_AKA_MLEM.png', MA:'assets/avatars/mlemcat/attackAvatarUrl.webp',
     CK0:'assets/img/cine/FIN_F1_CHUD_K0.png', CK2:'assets/img/cine/FIN_F1_CHUD_K2.png', CHF:'assets/img/cine/FIN_F1_CHIT_fly.png' };
   for(let i=1;i<=8;i++) IMG['CN'+i]='assets/img/cine/FIN_F1_CN_'+i+'.png';
-  const HT={D0:0.72,DB:3.3,DZ:3.3,DH:3.3,K0:1,KR:1,K1:1,K2:1,K3:1,M0:1,MA:1,CK0:1.17,CK2:1.41,CHF:1.0,CN1:1.17,CN2:1.18,CN3:1.10,CN4:1.17,CN5:1.22,CN6:1.20,CN7:1.0,CN8:0.99};   // cỡ tương đối (meme thường = 1, Buff Doge ×3.3)
+  const HT={D0:0.72,DB:3.3,DZ:3.3,DH:3.3,DP1:3.3,DP5:3.3,K0:1,KR:1,K1:1,K2:1,K3:1,M0:1,MA:1,CK0:1.17,CK2:1.41,CHF:1.0,CN1:1.17,CN2:1.18,CN3:1.10,CN4:1.17,CN5:1.22,CN6:1.20,CN7:1.0,CN8:0.99};   // cỡ tương đối (meme thường = 1, Buff Doge ×3.3)
   const HAND={CK0:[[0.08,0.45],[0.92,0.45]],CN1:[[0.114,0.40],[0.18,0.445]],CN2:[[0.104,0.088],[0.104,0.407]],CN3:[[0.06,0.226],[0.97,0.226]],CN4:[[0.03,0.215],[0.933,0.21]],CN5:[[0.224,0.06],[0.853,0.06]],CN6:[[0.29,0.268],[0.696,0.268]],CN7:[[0.519,0.018],[0.706,0.044]],CN8:[[0.977,0.248],[0.977,0.248]]};
   const ROCKBB=[[460,82,582,314],[22,100,450,264],[1052,110,456,256],[864,460,178,288],[62,480,286,258],[1188,490,268,232],[482,514,224,206],[740,842,88,106],[118,844,128,110],[422,848,134,106],[1330,864,74,74],[1018,866,104,80]];
 
@@ -149,10 +152,10 @@
     // C1 toàn: Chud + Mlem bước ra từ hàng cây, vây Clapping cạnh khối băng
     [11.4,13.6,(F,t,u)=>{ const g=F.g; bg(F,'BPARK',1.1,0.5,0.6); const x=VW*0.5, y=GY, h=NM*0.72; coil(F,x,y-h*0.42,h*0.42,h*0.1,4,false,t); spr(F,'D0',x,y,h); coil(F,x,y-h*0.42,h*0.42,h*0.1,4,true,t);
       const ic=K.prep(F.I.ZICE); if(ic){ const ih=h*1.3, iw=ih*ic.sw/ic.sh; g.save(); g.globalCompositeOperation='screen'; g.globalAlpha=0.9; g.drawImage(ic.src,ic.sx,ic.sy,ic.sw,ic.sh,x-iw/2,y-ih+h*0.04,iw,ih); g.restore(); }
-      spr(F,'K0',VW*0.62,y,NM); const w=eout(seg(t,11.5,12.9)), bob=t<12.9?Math.abs(Math.sin(t*9))*-4:0;
+      spr(F,clapPose(t),VW*0.62,y,NM); const w=eout(seg(t,11.5,12.9)), bob=t<12.9?Math.abs(Math.sin(t*9))*-4:0;
       spr(F,'CK0',lerp(-VW*0.08,VW*0.24,w),y+bob,NM*HT.CK0,{dark:0.6*(1-w)}); spr(F,'M0',lerp(-VW*0.18,VW*0.34,w),y+bob*0.8,NM,{dark:0.6*(1-w)}); }],
     // C2 trung: Clapping cười vỗ tay liên tục
-    [13.6,15.2,(F,t,u)=>{ bg(F,'BPARK',1.7,0.62,0.66); let i=0; for(const c of CLAPS) if(t>=c) i++; spr(F,['K3','K1','K2','K1','K2','K3'][i%6],VW*0.55,VH*0.98,VH*0.8); }],
+    [13.6,15.2,(F,t,u)=>{ bg(F,'BPARK',1.7,0.62,0.66); spr(F,clapPose(t),VW*0.55,VH*0.98,VH*0.8); }],
     // C3 Chud + Mlem nhìn nhau khó hiểu
     [15.2,16.4,(F,t,u)=>{ bg(F,'BPARK',1.6,0.3,0.66); const turn=t>=15.55; spr(F,'CK0',VW*0.33,VH*0.98,VH*0.72,{flip:!turn}); spr(F,'M0',VW*0.66,VH*0.98,VH*0.62,{flip:turn}); }],
     // ── D VẬN SỨC (khuôn Zenitsu 0:43–0:48) ──
@@ -240,17 +243,17 @@
     [44.3,45.5,(F,t,u)=>{ const g=F.g, fr=Math.floor(t*10); bg(F,'BRUIN',1.25,0.4,0.55,{alpha:0.8}); for(let i=0;i<10;i++) puff(g,VW*0.4+(hash(i+30)-0.5)*VW*0.25,VH*0.9-hash(i+31)*VH*0.6-(t-44.3)*60,VH*(0.08+0.06*hash(i+32)),0.45,'20,12,18');   // HAKI: khí đen bốc, sét đỏ
       spr(F,'DH',VW*0.42,VH*0.95,VH*0.86,{glow:'#ff2a2a',glowA:0.35+0.2*Math.sin(t*25)}); for(let i=0;i<3;i++){ const sd=fr*17+i*3; if(hash(sd)<0.4) continue; zap(g,VW*0.4+(hash(sd+1)-0.5)*VW*0.35,VH*(0.3+0.5*hash(sd+2)),hash(sd+3)*TAU,VH*0.2,3,sd,'red'); } }],
     [45.5,46.9,(F,t,u)=>{ const g=F.g; bg(F,'BRUIN',1.05,0.5,0.55); const x=VW*0.3, y=GY, h=NM*HT.DH; if(t<T.snap){ const tr=Math.sin(t*60)*2; NET_A.forEach((a,i)=>chain(F,chainPts(a,[x+(hash(i+70)-0.5)*h*0.4,y-h*(0.3+0.4*hash(i+71))],3,tr,t),7,{hot:0.9})); }
-      spr(F,'DH',x,y,h,{glow:'#ff2a2a',glowA:0.4}); spr(F,'CK0',VW*0.74,y,NM*HT.CK0,{flip:true});
+      spr(F,t<T.pull+0.25?'DH':t<T.snap?'DP1':'DP5',x,y,h,{glow:'#ff2a2a',glowA:0.4}); spr(F,'CK0',VW*0.74,y,NM*HT.CK0,{flip:true});
       if(t>=T.snap){ const v=seg(t,T.snap,T.snap+0.9); ring(g,x,y-h*0.4,VW*0.9*eout(v),0.9*(1-v),'255,90,70',6); NET_A.forEach((a,i)=>{ for(let k=0;k<3;k++){ const m=[lerp(a[0],x,(k+0.5)/3),lerp(a[1],y-h*0.5,(k+0.5)/3)], an=Math.atan2(m[1]-(y-h*0.5),m[0]-x)+(hash(i*3+k)-0.5), d=v*VW*0.4*(0.5+hash(i*3+k+9)), c=[m[0]+Math.cos(an)*d,m[1]+Math.sin(an)*d+v*v*VH*0.4];
           chain(F,[[c[0]-20*Math.cos(an+v*6),c[1]-20*Math.sin(an+v*6)],[c[0]+20*Math.cos(an+v*6),c[1]+20*Math.sin(an+v*6)]],7,{hot:1-v}); } }); sparks(g,x,y-h*0.5,T.snap,t,60,VW*0.5,'255,150,60',111); } }],   // CẢ LƯỚI đứt tung
     [46.9,47.5,(F,t,u)=>{ const g=F.g; bg(F,'BRUIN',1.7,0.74,0.5,{alpha:0.6,blur:3}); spr(F,'CK0',VW*0.5,VH*0.06+VH*3.0,VH*3.0,{shadow:false,flip:true});
       g.save(); g.globalCompositeOperation='lighter'; for(let i=0;i<24;i++){ const x=((hash(i+800)*VW*1.4-t*VW*1.2)%(VW*1.4)+VW*1.4)%(VW*1.4)-VW*0.2, y=VH*hash(i+810); g.strokeStyle='rgba(255,200,180,'+(0.35*hash(i+820))+')'; g.lineWidth=1.5; g.beginPath(); g.moveTo(x,y); g.lineTo(x-50,y+4); g.stroke(); } g.restore(); }],
     [47.5,48.6,(F,t,u)=>{ const g=F.g; bg(F,'BRUIN',1.05,0.5,0.55); const k=ein(seg(t,T.clash-0.3,T.clash)), cx=VW*0.55, cy=VH*0.6;
-      if(t<T.clash-0.3){ spr(F,'DH',VW*0.3,GY,NM*HT.DH*lerp(1,0.97,u),{glow:'#ff2a2a',glowA:0.3}); spr(F,'CK0',VW*0.74,GY,NM*HT.CK0,{flip:true}); }
+      if(t<T.clash-0.3){ spr(F,t<T.lunge+0.25?'DH':'DP1',VW*0.3,GY,NM*HT.DH*lerp(1,0.97,u),{glow:'#ff2a2a',glowA:0.3}); spr(F,'CK0',VW*0.74,GY,NM*HT.CK0,{flip:true}); }
       else if(t<T.clash){ streak(g,VW*0.1,cy,lerp(VW*0.3,cx,k),cy,VH*0.09,'255,190,70',null,1); streak(g,VW*0.95,cy,lerp(VW*0.74,cx,k),cy,VH*0.05,'255,60,40',null,1); }
       else { const v=seg(t,T.clash,T.clash+0.4); puff(g,cx,cy,VH*0.6*eout(v),0.9*(1-v),'255,230,190'); ring(g,cx,cy+VH*0.1,VW*0.6*eout(v),0.9*(1-v),'255,220,170',5); sparks(g,cx,cy,T.clash,t,60,VW*0.4,'255,200,120',121);
-        spr(F,'DH',cx-VW*0.12,cy+VH*0.45,VH*0.85,{shadow:false}); spr(F,'CK2',cx+VW*0.2,cy+VH*0.22,NM*HT.CK2*1.3,{shadow:false,flip:true}); } }],
-    [48.6,49.35,(F,t,u)=>{ const g=F.g; bg(F,'BRUIN',1.1,0.6,0.5); const cx=VW*0.5, cy=VH*0.58, dr=u*6; spr(F,'DH',cx-VW*0.12-dr,cy+VH*0.45,VH*0.85,{shadow:false}); spr(F,'CK2',cx+VW*0.2+dr,cy+VH*0.22,NM*HT.CK2*1.3,{shadow:false,flip:true});
+        spr(F,'DP5',cx-VW*0.14,cy+VH*0.45,VH*0.85,{shadow:false,glow:'#ff2a2a',glowA:0.3}); spr(F,'CK2',cx+VW*0.2,cy+VH*0.22,NM*HT.CK2*1.3,{shadow:false,flip:true}); } }],
+    [48.6,49.35,(F,t,u)=>{ const g=F.g; bg(F,'BRUIN',1.1,0.6,0.5); const cx=VW*0.5, cy=VH*0.58, dr=u*6; spr(F,'DP5',cx-VW*0.14-dr,cy+VH*0.45,VH*0.85,{shadow:false}); spr(F,'CK2',cx+VW*0.2+dr,cy+VH*0.22,NM*HT.CK2*1.3,{shadow:false,flip:true});
       const k=seg(t,48.85,49.0)*(1-0.4*seg(t,49.0,49.35)); g.save(); g.globalCompositeOperation='lighter'; puff(g,VW*1.0,VH*0.42,VH*0.7,0.8*k,'190,90,255'); puff(g,VW*1.0,VH*0.42,VH*0.25,k,'255,235,255'); g.restore(); }],   // chân trời loé tím
     [49.35,49.55,(F,t,u)=>{ bg(F,'BRUIN',1.2,lerp(0.6,0.9,u),0.5,{blur:6*u}); }],
     [49.55,50.5,(F,t,u)=>{ const g=F.g; bg(F,'BRUIN',1.4,0.9,0.5,{blur:8}); g.save(); g.globalCompositeOperation='lighter'; puff(g,VW*0.5,VH*0.5,VH*0.9,0.6,'170,80,255'); g.restore(); }]];
