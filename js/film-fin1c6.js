@@ -10,7 +10,7 @@
   const BASE=((document.currentScript&&document.currentScript.src)||'js/film-fin1c6.js').replace(/film-[^\/]*$/,''), V=window.GAME_VERSION?'?v='+GAME_VERSION.build:'';
   for(const [gl,f] of [['PIXI_FILTERS_GLSL','vendor/pixi-filters/glsl.js'],['Fin1City','fin1-city.js'],['Fin1Fight','fin1-fight.js']]) if(!window[gl]){ try{ const x=new XMLHttpRequest(); x.open('GET',BASE+f+V,false); x.send(); (0,eval)(x.responseText); }catch(e){} }
   const K=CineKit, {seg,lerp,clamp,hash}=K, EA=K.EASE, eout=EA.eout, ein=EA.ein, eio=EA.eio, TAU=Math.PI*2, W=window.Fin1Fight;
-  const T={ help:2.6, tilt:4.4, dive:5.8, crash:6.5, sense:7.2, turn:8.6, carHit:9.55, emerge:10.2, rin:11.1, lift:11.8, fire:13.4, f2:14.2, f3:15.0, f4:15.8, half:16.6, halfHit:17.05, clear:18.2, rage:19.3, block:20.6, calm:22.0, nod:22.7, run:23.2, face:24.0, ready:25.4, DUR:27.0 };
+  const T={ help:2.6, tilt:4.4, dive:5.8, crash:6.5, sense:7.2, turn:8.6, carHit:9.55, emerge:10.2, rin:11.1, lift:11.8, fire:13.4, f2:14.2, f3:15.0, f4:15.8, half:16.6, halfHit:17.05, clear:18.2, rage:19.4, rage2:20.9, block:21.9, nod:22.7, run:23.4, face:24.4, ready:25.8, DUR:27.4 };
   const H=120;
   // thành phố đã bị Friend phá: vài toà sập sẵn (t âm → chỉ còn đống đổ nát) — toà gần đại lộ cả 2 bên
   const RUIN_XZ=[[-2700,1450],[-1500,1450],[-300,1450],[900,1450],[2100,1450],[-2100,2850],[-900,2850],[300,2850],[1500,2850],[2700,2850],[-900,-1450],[1500,-1450]];   // dãy 1 + dãy 2 sau đại lộ sập gần hết → lộ trăng máu + bóng dãy xa
@@ -43,7 +43,7 @@
   // vật GPT vẽ tông sáng ban ngày → hạ sáng + ửng đỏ ánh lửa / trăng máu cho khớp thành phố đêm (không như dán vào)
   const NIGHT='brightness(0.5) contrast(1.15) saturate(0.7) sepia(0.25)';
   // ───────── VỊ TRÍ (trục: TRÁI = phe Chill Guy / Gojo, PHẢI = Pain) ─────────
-  const BX=-1000, BZ=200, SAFE=-1650, SZ=150, CGB=-1390, PX=620, PZ=220, PX2=-500, GX=-975, GZ=20, EZ=0, CGW=H*1.35, BANH=H*0.75, GOH=H*1.15, PAH=H*1.3;
+  const BX=-1000, BZ=200, SAFE=-1650, SZ=150, CGB=-1390, PX=620, PZ=220, PX2=-500, GX=-1060, GZ=-90, EZ=0, CGW=H*1.35, BANH=H*0.75, GOH=H*1.15, PAH=H*1.3;
   // (17/11 soát) toà nhà đổ từ CHÂN ở x −1200 sang PHẢI (nằm vắt −1200…−300) → chỗ an toàn SAFE −1650 ở bên TRÁI chân toà, không chồng lên nhau
   //   xe lao từ phải tới SAFE → Chill Guy nhảy sang PHẢI (CGB), xe trượt sang TRÁI · vật đã rơi NẰM LẠI trên đường tới hết cảnh (nối cảnh)
   const CGXA=t=>lerp(-650,-420,seg(t,T.help,T.help+1.4));   // A2 đi ngược dòng người
@@ -65,11 +65,12 @@
     S(T.f3,T.f4,{tx:CGB+200,ty:100,tz:SZ,dist:700,yaw:-18,pitch:3,fov:50}),
     S(T.f4,T.half,{tx:CGB+150,ty:130,tz:SZ,dist:780,yaw:6,pitch:-3,fov:52}),
     S(T.half,T.clear,{tx:DODGE[4]+150,ty:380,tz:SZ,dist:1150,yaw:0,pitch:-10,fov:56}),   // A10: NỬA TOÀ NHÀ từ trên đập xuống Chill Guy
-    S(T.clear,T.block,{tx:DODGE[4]+20,ty:140,tz:EZ,dist:380,yaw:4,pitch:-8,fov:48}),    // A11 góc ngước: bước ra khỏi khói về phía máy, nộ lửa đỏ
-    S(T.block,T.calm,{tx:(DODGE[4]+PX2)/2,ty:160,tz:EZ,dist:1050,yaw:0,pitch:-3,fov:52}), // A12 toàn ngang: Gojo xuất hiện chắn giữa NGAY
-    S(T.calm,T.face,{tx:(DODGE[4]+GX)/2,ty:150,tz:EZ,dist:700,yaw:6,pitch:-3,fov:46}),   // A13 trung: tắt nộ, gật đầu với Gojo, chạy vào khói
-    S(T.face,T.ready,{tx:(GX+PX2)/2,ty:170,tz:EZ+60,dist:900,yaw:0,pitch:-3,fov:50}),    // A14 Gojo – Pain đối mặt
-    S(T.ready,T.DUR,{tx:(GX+PX2)/2,ty:150,tz:EZ+60,dist:560,yaw:0,pitch:-2,fov:46})];    //     thủ thế, sắp giao tranh → cắt sang Bat Cat
+    S(T.clear,T.rage,{tx:DODGE[4]+20,ty:140,tz:EZ,dist:380,yaw:4,pitch:-8,fov:48}),     // A11a cận: bước ra khỏi khói, nộ bắt đầu bốc
+    S(T.rage,T.rage2,{tx:DODGE[4],ty:CGW*0.8,tz:EZ,dist:175,yaw:3,pitch:0,fov:44}),     // A11b CỰC CẬN kiểu Gon: nửa trên mặt chìm trong bóng, hào quang đen đỏ cuộn lên
+    S(T.rage2,T.block,{tx:DODGE[4],ty:210,tz:EZ,dist:560,yaw:2,pitch:-20,fov:52}),     // A11c góc ngước: hào quang BÙNG toàn thân, đất nứt, đá vụn bị nâng lên
+    S(T.block,T.face,{tx:(DODGE[4]+GX)/2+40,ty:140,tz:GZ,dist:640,yaw:5,pitch:-3,fov:46}),   // A12 NGẮT: Gojo đã đứng chắn trước · Chill Guy tắt nộ, gật đầu, quay đi vào làn khói
+    S(T.face,T.ready,{tx:(GX+PX2)/2,ty:170,tz:GZ,dist:1150,yaw:0,pitch:-3,fov:50}),    // A14 Gojo – Pain đối mặt
+    S(T.ready,T.DUR,{tx:(GX+PX2)/2,ty:150,tz:GZ,dist:800,yaw:0,pitch:-2,fov:46})];    //     thủ thế, sắp giao tranh → cắt sang Bat Cat
   // ───────── DIỄN: mỗi khoảng thời gian vẽ đúng ai / cái gì ─────────
   const LOOKR={x:3000,z:0}, LOOKL={x:-3000,z:0};
   function crowd(F,t,n,zMin){ for(let i=0;i<n;i++){ const k=CROWD[i%CROWD.length], sp=300*(0.8+0.5*hash(i+3)), L=1900, x=200-((t*sp+hash(i+7)*L)%L), z=(zMin||-200)+520*hash(i+11), h=H*(0.72+0.25*hash(i+13));
@@ -123,16 +124,40 @@
       if(t<T.halfHit){ man(F,'CG',DODGE[4],SZ,CGW,{look:LOOKR}); obj(F,'half',DODGE[4]+40,lerp(2600,205,ein(k)),SZ+60,560,lerp(0.05,0.2,k)); objShadow(F,DODGE[4]+40,SZ+60,300*k,0.5*k); }
       else { K.smoke(F,{x:DODGE[4],z:SZ,t0:T.halfHit,n:30,spread:1600,rise:500,life:3.5,size:560,seed:101,a:0.85,tint:'120,104,100'}); K.debris(F,{x:DODGE[4],y:100,z:SZ,t0:T.halfHit,n:50,speed:1800,life:1.8,size:60,seed:102,col:'#4a4246'}); }
       return; }
-    const cgx=DODGE[4], rage=t>=T.rage, calmK=seg(t,T.calm,T.calm+0.6), nod=t>=T.nod&&t<T.nod+0.4?Math.sin(Math.PI*seg(t,T.nod,T.nod+0.4)):0;   // bước ra khỏi đống đổ nát, đứng cạnh nửa toà nhà
-    const runX=t<T.run?cgx:lerp(cgx,cgx-700,ein(seg(t,T.run,T.face))), gIn=seg(t,T.block,T.block+0.12);
-    if(t<T.face){ const auraK=t<T.rage?0.4*seg(t,T.rage-0.6,T.rage):1-calmK, walk=seg(t,T.clear,T.rage);
-      man(F,'CG',runX,t<T.rage?lerp(SZ,EZ,eout(walk)):EZ,CGW,{look:t<T.run?LOOKR:LOOKL,aura:auraK>0.01?{preset:'fire',k:1.1*auraK,seed:4}:null,life:{breath:rage&&t<T.calm?1.6:0.6,squash:0.25*nod}});
+    const cgx=DODGE[4], rageOn=t>=T.rage&&t<T.block, nod=t>=T.nod&&t<T.nod+0.4?Math.sin(Math.PI*seg(t,T.nod,T.nod+0.4)):0;   // bước ra khỏi đống đổ nát, đứng cạnh nửa toà nhà
+    const runX=t<T.run?cgx:lerp(cgx,cgx-700,ein(seg(t,T.run,T.face)));
+    if(t<T.face){ const auraK=t<T.rage?0.5*seg(t,T.rage-0.5,T.rage):rageOn?1:0, walk=seg(t,T.clear,T.rage);   // NGẮT ở T.block: hào quang tắt phụt
+      man(F,'CG',runX,t<T.rage?lerp(SZ,EZ,eout(walk)):EZ,CGW,{look:t<T.run?LOOKR:LOOKL,aura:auraK>0.01&&!(t>=T.rage&&t<T.rage2)?{preset:'haki',k:(t>=T.rage2?1.7:1.15)*auraK,seed:4}:null,life:{breath:rageOn?1.9:0.6,squash:0.25*nod}});
+      if(t>=T.rage2&&t<T.block){ K.ring(F,cgx,EZ,60+900*eout(seg(t,T.rage2,T.rage2+0.5)),36,1-seg(t,T.rage2,T.rage2+0.5),'255,70,40'); rocks(F,t,T.rage2,cgx,EZ,500,140);
+        K.smoke(F,{x:cgx,z:EZ,t0:T.rage2,n:14,spread:900,rise:120,life:1.4,size:220,seed:141,a:0.5,tint:'60,20,20'}); }   // bùng: vòng sóng đỏ, bụi bị thổi bạt, đá vụn nâng lên
       if(t<T.block+0.6) K.smoke(F,{x:DODGE[4],z:SZ,t0:T.halfHit,n:30,spread:1600,rise:500,life:3.5,size:560,seed:101,a:0.85*(1-seg(t,T.clear,T.rage+0.2)),tint:'120,104,100'});
       if(t>=T.run) K.smoke(F,{x:cgx-900,z:EZ,t0:T.run-2,n:16,spread:700,rise:200,life:6,size:420,seed:111,a:0.7,tint:'110,96,92'}); }   // làn khói Chill Guy chạy vào
-    if(t>=T.block){ bust(F,'GOJO',GX,GZ,H*0.45+Math.sin(t*1.7)*6,GOH,{a:gIn,aura:{preset:'ki',k:t>=T.face?1:0.7,seed:3}}); if(t<T.block+0.5) K.ring(F,GX,GZ,60+700*eout(seg(t,T.block,T.block+0.5)),40,1-seg(t,T.block,T.block+0.5),'170,220,255'); }
+    if(t>=T.block) bust(F,'GOJO',GX,GZ,H*0.45+Math.sin(t*1.7)*6,GOH,{aura:{preset:'ki',k:t>=T.face?1:0.55,seed:3}});   // đã đứng sẵn (cắt thẳng vào, không loé xuất hiện)
     const rd=seg(t,T.ready,T.DUR);   // THỦ THẾ: 2 bên nhích lại gần, hào quang dâng mạnh, gió cuốn bụi + đá vụn lơ lửng giữa 2 con
     bust(F,'PAIN',t>=T.face?PX2-40*eio(rd):painX(t),painZ(t),H*0.6+Math.sin(t*2)*8,PAH,{aura:{preset:'cursed',k:t>=T.face?1+0.6*rd:0.8,seed:9}});
     if(t>=T.face) standoff(F,t,rd); }
+  function rocks(F,t,t0,cx,cz,spread,seed){ for(let i=0;i<10;i++){ const k=seg(t,t0+0.08*i,t0+0.9+0.08*i); if(k<=0) continue; const x=cx+(hash(i+seed)-0.5)*spread, y=20+k*(90+140*hash(i+seed+1))+Math.sin(t*3+i)*8, z=cz+(hash(i+seed+2)-0.5)*spread*0.4;
+      const P=K.proj(F.B,x,y,z); if(!P) continue; F.list.push({d:P.d, fn:()=>{ const g=F.g, r=Math.max(1.5,(6+8*hash(i+seed+3))*P.s); g.save(); g.fillStyle='#3d3538'; g.translate(P.x,P.y); g.rotate(t*2+i);
+        g.beginPath(); g.moveTo(-r,-r*0.6); g.lineTo(r*0.8,-r); g.lineTo(r,r*0.5); g.lineTo(-r*0.6,r); g.closePath(); g.fill(); g.restore(); }}); } }
+  // ───── KHUNG NỘ KIỂU GON ─────
+  const CG_EYES=[[0.54,0.18],[0.673,0.18]];   // 2 mắt trên ảnh gốc avatar Chill Guy (đo lưới 17/11)
+  let EDGE=null;   // điểm VIỀN thân (tỉ lệ ảnh) — tính 1 lần từ kênh alpha
+  function edgePts(c){ if(EDGE) return EDGE; const x=c.src.getContext('2d'), d=x.getImageData(c.sx,c.sy,c.sw,c.sh).data, W=c.sw, H2=c.sh, st=3, A=(i,j)=>i<0||j<0||i>=W||j>=H2?0:d[(j*W+i)*4+3]; EDGE=[];
+    for(let j=0;j<H2;j+=st) for(let i=0;i<W;i+=st) if(A(i,j)>120&&(A(i-st,j)<60||A(i+st,j)<60||A(i,j-st)<60||A(i,j+st)<60)) EDGE.push([i/W,j/H2]); return EDGE; }
+  function gonRage(F,t){ const g=F.g, VW=F.VW, VH=F.VH, c=K.prep(F.I.CG); if(!c) return; const P=K.proj(F.B,DODGE[4],0,EZ); if(!P) return; const hh=CGW*P.s, ww=hh*c.sw/c.sh, flip=true;   // nhìn về phía Pain (phải) → ảnh vốn quay trái nên LẬT
+    const X=fx=>P.x+(flip?(0.5-fx):(fx-0.5))*ww, Y=fy=>P.y-hh+fy*hh, fr=Math.floor(t*10), u=seg(t,T.rage,T.rage2);
+    g.save(); g.fillStyle='rgba(14,12,16,0.8)'; g.fillRect(0,0,VW,VH);   // nền chìm vào tối như GIF (vẫn đọc ra dáng bóng đen)
+    g.save(); g.translate(P.x,P.y); g.scale(flip?-1:1,1); g.drawImage(K.tinted(c,'#000000'),-ww/2,-hh,ww,hh); g.restore();   // cả người = BÓNG ĐEN
+    const E=edgePts(c); g.lineCap='round'; g.lineJoin='round'; g.globalCompositeOperation='lighter';
+    for(let i=0;i<E.length;i++){ const sd=fr*977+i*13; if(hash(sd)>0.11+0.1*u) continue; const [ex,ey]=E[i], x0=X(ex), y0=Y(ey);   // tia trắng lởm chởm bám viền, bắn ra ngoài + hơi hướng lên
+      let dx=x0-X(0.5), dy=y0-Y(0.55); const dl=Math.hypot(dx,dy)||1; dx/=dl; dy=dy/dl-0.6; const len=hh*(0.04+0.1*hash(sd+1))*(1+0.6*u);
+      g.strokeStyle='rgba(255,255,255,'+(0.55+0.45*hash(sd+2))+')'; g.lineWidth=Math.max(1.5,hh*(0.009+0.012*hash(sd+3))); g.beginPath(); g.moveTo(x0,y0); let px=x0, py=y0;
+      for(let k=1;k<=4;k++){ px+=dx*len/4+(hash(sd+k*5)-0.5)*len*0.5; py+=dy*len/4+(hash(sd+k*7)-0.5)*len*0.5; g.lineTo(px,py); } g.stroke(); }
+    for(let i=0;i<40;i++){ const k=((t*0.9+hash(i+300))%1), x=X(0.1+0.8*hash(i+301))+Math.sin(t*5+i)*6, y=Y(1-k*1.2);   // tàn sáng trắng bay lên
+      g.fillStyle='rgba(255,255,255,'+(0.8*(1-k))+')'; g.fillRect(x,y,Math.max(1.5,hh*0.006),Math.max(3,hh*0.016)); }
+    for(const [fx,fy] of CG_EYES){ const ex=X(fx), ey=Y(fy), R=Math.max(3,hh*0.021)*(1+0.06*Math.sin(t*30));   // 2 MẮT tròn trắng rực
+      const gr=g.createRadialGradient(ex,ey,0,ex,ey,R*2); gr.addColorStop(0,'rgba(255,255,255,1)'); gr.addColorStop(0.5,'rgba(255,255,255,1)'); gr.addColorStop(0.62,'rgba(255,255,255,0.3)'); gr.addColorStop(1,'rgba(255,255,255,0)'); g.fillStyle=gr; g.fillRect(ex-R*2,ey-R*2,R*4,R*4); }
+    g.restore(); }
   function standoff(F,t,rd){ const cx=(GX+PX2)/2;
     K.smoke(F,{x:cx,z:GZ+40,t0:T.face-0.5,n:14,spread:900,rise:60,life:4,size:160,seed:121,a:0.35,tint:'120,104,100'});   // bụi gió quét sát đất
     for(let i=0;i<10;i++){ const k=seg(t,T.face+0.15*i,T.face+1.2+0.15*i); if(k<=0) continue; const x=cx+(hash(i+130)-0.5)*600, y=20+k*(80+120*hash(i+131))+Math.sin(t*3+i)*8, z=GZ+(hash(i+132)-0.5)*200;
@@ -160,12 +185,12 @@
       g.fillStyle='rgba(255,'+(140+60*hash(i+920)|0)+',70,'+Math.max(0,a)+')'; g.fillRect(x,y,2+2*hash(i+925),2+2*hash(i+925)); } g.restore(); }}); }
   // ⚡ TRÀNG CHỚP IMPACT (học 3 video mẫu anh gửi 17/11 — skill edit-video mục 8): mỗi hình 1 khung, đổi liên tục giữa
   //   'bw' = bóng ĐEN trên nền TRẮNG · 'wb' = đảo ngược · 'w' = trắng xoá · 'k' = đen + sao 4 cánh nhỏ ở tâm
-  const FR=1/30, STROBES=[[T.carHit,'bw wb w'],[T.halfHit,'bw wb bw k w wb bw w wb w'],[T.block,'wb bw w']];
+  const FR=1/30, STROBES=[[T.carHit,'bw wb w'],[T.halfHit,'bw wb bw k w wb bw w wb w'],[T.rage2,'bw wb w']];
   function strobe(t){ for(const [t0,seq] of STROBES){ const L=seq.split(' '), i=Math.floor((t-t0)/FR); if(i>=0&&i<L.length) return {kind:L[i],t0}; } return null; }
   const IMPC={bw:{fg:'#000000',bg:'#ffffff'}, wb:{fg:'#ffffff',bg:'#000000'}};
   // ⏱️ nhanh – chậm đan xen: linh cảm / khói tan / thủ thế CHẬM · né, đập NHANH
   const RETIME=[[0,T.help,1],[T.help,T.tilt,0.95],[T.tilt,T.dive,1],[T.dive,T.sense,0.9],[T.sense,T.turn,1.15],[T.turn,T.emerge,0.9],[T.emerge,T.fire,1],[T.fire,T.half,0.9],
-    [T.half,T.halfHit,0.9],[T.halfHit,T.clear,1.1],[T.clear,T.block,1.15],[T.block,T.calm,1],[T.calm,T.face,1],[T.face,T.DUR,1.1]];
+    [T.half,T.halfHit,0.9],[T.halfHit,T.clear,1.1],[T.clear,T.rage,1.1],[T.rage,T.block,1.1],[T.block,T.face,1],[T.face,T.DUR,1.1]];
   const def={ id:'fin1c6', title:'Final 1 · Chill Guy', DUR:T.DUR, VW:960, VH:540, fadeIn:false, fadeOut:false, imgs:IMG, theme:t=>theme(t), shots, world,
     // 🔊 không nhạc nền (tiếng thành phố + đám đông) · LẶNG lúc linh cảm · tiếng va chạm NGẮT khi hết cú (anh 17/11)
     sfx:[[0.2,'se_collapse_b',0.45,1.6,'mưa gạch đá, nhà đổ xa'],
@@ -178,8 +203,7 @@
       [T.lift,'l2p_riser',0.6,null,'cột đèn, mảng tường bị hút lên lơ lửng quanh Pain'],
       [T.fire+0.32,'se_rock_break',0.8,0.6,'cột đèn đập xuống chỗ Chill Guy vừa né'],[T.f2+0.32,'se_wall_break',0.8,0.6,'mảng tường lớn vỡ tung'],[T.f3+0.32,'kn_boom_low',0.65,0.5,'mảng tường nhỏ nổ bụi'],[T.f4+0.32,'se_collapse',0.75,0.7,'mảng tường cuối sập xuống'],
       [T.halfHit,'cine_deep_impact',1,1.2,'NỬA TOÀ NHÀ đập trúng Chill Guy'],[T.halfHit+0.02,'se_tremor',0.5,1.0,'+ đất rung, bụi phủ kín (lớp của cú nện)'],
-      [T.rage,'chillguy_uppercut',0.9,null,'I\'M NOT CHILL ANYMORE: Chill Guy bước ra, nộ bốc lửa'],
-      [T.block,'se_impact_stop',1,0.6,'Gojo xuất hiện chắn giữa, khựng'],
+      [T.rage,'l2p_riser',0.6,T.rage2-T.rage,'cực cận: Chill Guy hoá bóng đen, 2 mắt trắng rực, nộ dâng lên'],[T.rage+0.15,'bc_zap',0.35,T.rage2-T.rage-0.2,'+ tia năng lượng trắng lách tách quanh viền thân (lớp của tiếng nộ dâng)'],[T.rage2,'chillguy_uppercut',0.9,T.block-T.rage2,'I\'M NOT CHILL ANYMORE: hào quang nộ bùng toàn thân'],[T.rage2+0.02,'kn_boom_low',0.55,0.5,'+ lớp trầm: đất nứt, sóng nộ toả ra (lớp của tiếng nộ)'],
       [T.run+0.1,'se_step_in',0.4,0.4,'Chill Guy quay người chạy vào làn khói'],
       [T.face+0.3,'l2p_riser',0.55,null,'Gojo và Pain đối mặt, sức ép dâng lên'],[T.ready+0.4,'ep3_whoosh',0.5,0.6,'+ gió cuốn bụi, đá vụn bị nâng lên giữa 2 bên (lớp của sức ép)']],
     mus:[{src:'assets/audio/fin_crowd.mp3',ra:0,rb:T.sense,off:0,vol:0.45,fi:0.3,fo:0.3},{src:'assets/audio/fin_city.mp3',ra:0,rb:T.sense,off:0,vol:0.3,fi:0.3,fo:0.3},
@@ -187,19 +211,21 @@
     impact:t=>{ const s=strobe(t); return s&&IMPC[s.kind]?IMPC[s.kind]:0; },
     grade:t=>{ const s=strobe(t); if(s&&s.kind==='w') return {white:1}; if(s&&s.kind==='k') return {bright:0.02};
       if(t>=T.sense+0.5&&t<T.turn) return {sat:0.55,bright:0.92};   // linh cảm: màu nhạt đi
-      const E=K.edit; return E.mix(E.burn(t,T.halfHit+0.34,T.halfHit+0.5,0.1),E.rgb(t,T.carHit+0.1,0.4,6),E.rgb(t,T.block+0.1,0.5,8),E.duotone(t,T.rage,T.block,'#1a0400','#ff5a2a',0.1,0.35)); },
+      const E=K.edit; return E.mix(E.burn(t,T.halfHit+0.34,T.halfHit+0.5,0.1),E.rgb(t,T.carHit+0.1,0.4,6),E.rgb(t,T.rage2+0.1,0.5,10),E.duotone(t,T.rage,T.block,'#0a0000','#ff3a22',0.08,0.45)); },
     shake:t=>{ let s=0; const h=(a,amp,d)=>{ if(t>=a&&t<a+d) s=Math.max(s,amp*(1-(t-a)/d)); };
-      if(t<T.sense) s=1; h(T.crash,10,0.5); h(T.carHit,14,0.6); for(const x of [T.fire,T.f2,T.f3,T.f4]) h(x+0.32,6,0.3); h(T.halfHit,24,1.0); h(T.rage,6,0.8); h(T.block,10,0.4);
+      if(t<T.sense) s=1; h(T.crash,10,0.5); h(T.carHit,14,0.6); for(const x of [T.fire,T.f2,T.f3,T.f4]) h(x+0.32,6,0.3); h(T.halfHit,24,1.0); h(T.rage,6,0.8); if(t>=T.rage&&t<T.block) s=Math.max(s,t<T.rage2?2:4); h(T.rage2,12,0.6);
       if(t>=T.ready) s=Math.max(s,1+2*seg(t,T.ready,T.DUR)); return s; },
     post(F,t){ const fx={shocks:[]}, sh=(a,x,y,z,rm,d,str)=>{ if(t>=a&&t<a+d){ const u=(t-a)/d; fx.shocks.push({x,y,z,r:20+rm*eout(u),w:30,str:str*(1-u)}); fx.chroma=Math.max(fx.chroma||0,0.3*(1-u)); } };
-      sh(T.crash,BX,40,BZ+200,700,0.5,16); sh(T.carHit,SAFE,40,SZ,600,0.5,20); sh(T.halfHit,DODGE[4],60,SZ,900,0.8,30); sh(T.rage,DODGE[4],80,EZ,500,0.7,16); sh(T.block,GX,90,GZ,600,0.5,22); return fx; },
+      sh(T.crash,BX,40,BZ+200,700,0.5,16); sh(T.carHit,SAFE,40,SZ,600,0.5,20); sh(T.halfHit,DODGE[4],60,SZ,900,0.8,30); sh(T.rage,DODGE[4],80,EZ,500,0.7,16); sh(T.rage2,DODGE[4],100,EZ,800,0.7,24); return fx; },
     screen(F,t){ const g=F.g, VW=F.VW, VH=F.VH;
       const s=strobe(t); if(s&&s.kind==='k'){ const L=VW*0.12, W=VH*0.008; g.save(); g.globalCompositeOperation='lighter'; g.fillStyle='rgba(255,255,255,0.95)';   // sao 4 cánh nhỏ ở tâm
         for(let i=0;i<4;i++){ const an=i*Math.PI/2, len=i%2?L*0.6:L, c=Math.cos(an), sn=Math.sin(an); g.beginPath(); g.moveTo(VW/2-sn*W,VH/2+c*W); g.lineTo(VW/2+c*len,VH/2+sn*len); g.lineTo(VW/2+sn*W,VH/2-c*W); g.closePath(); g.fill(); } g.restore(); }
       if(t>=T.dive&&t<T.dive+0.32) K.speedLines(F,{k:0.35,n:40,r0:0.45});
       if(t>=T.turn-0.4&&t<T.turn){ const P=K.proj(F.B,SAFE,CGW*1.08,SZ); if(P){ const k=seg(t,T.turn-0.4,T.turn-0.25)*(1-seg(t,T.turn-0.1,T.turn)); g.save(); g.strokeStyle='rgba(255,255,255,'+(0.9*k)+')'; g.lineWidth=3; g.lineCap='round';
         for(let i=0;i<5;i++){ const an=-Math.PI/2+(i-2)*0.32, r0=VH*0.07, r1=VH*0.12; g.beginPath(); g.moveTo(P.x+Math.cos(an)*r0,P.y+Math.sin(an)*r0); g.lineTo(P.x+Math.cos(an)*r1,P.y+Math.sin(an)*r1); g.stroke(); } g.restore(); } }   // vạch LINH CẢM kiểu manga trên đầu
-      if(t>=T.rage&&t<T.block){ const k=seg(t,T.rage,T.rage+0.15), fr=Math.floor(t*12); g.save(); g.font='900 '+Math.round(VH*0.072*lerp(1.35,1,k))+'px Montserrat, Arial Black, sans-serif'; g.textAlign='center';
+      if(t>=T.rage&&t<T.rage2) gonRage(F,t);   // khung nộ kiểu GON (GIF anh gửi)
+      if(t>=T.rage2&&t<T.block) K.speedLines(F,{k:0.45*(1-seg(t,T.rage2+0.3,T.block)),n:60,r0:0.35,col:'rgba(255,120,90,0.7)'});
+      if(t>=T.rage2&&t<T.block){ const k=seg(t,T.rage2,T.rage2+0.15), fr=Math.floor(t*12); g.save(); g.font='900 '+Math.round(VH*0.072*lerp(1.35,1,k))+'px Montserrat, Arial Black, sans-serif'; g.textAlign='center';
         g.lineWidth=8; g.strokeStyle='#000'; g.fillStyle='#ff2a1a'; g.translate(VW/2+(hash(fr)-0.5)*5,VH*0.17+(hash(fr+7)-0.5)*4); g.strokeText("I'M NOT CHILL ANYMORE",0,0); g.fillText("I'M NOT CHILL ANYMORE",0,0); g.restore(); }   // chữ đỏ đúng game
       if(!s) K.letterbox(F,t>=T.sense+0.5&&t<T.turn?0.5:(t>=T.ready?0.6*seg(t,T.ready,T.ready+0.5):0)); if(!s) K.vignette(F,0.5); } };   // khung chớp phải trắng / đen TUYỆT ĐỐI (không viền tối)
   CineKit.film(W&&W.retime?W.retime(RETIME,def):def);
