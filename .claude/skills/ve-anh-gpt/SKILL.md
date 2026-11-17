@@ -30,6 +30,11 @@ bash tools/x/gpt-image.sh "<câu lệnh tiếng Anh>" <ra.png> [--ref a.png]... 
 - Cạnh ảnh có `<ra>.prompt.txt` ghi câu lệnh đã dùng → vẽ lại / chỉnh từ đó.
 - Windows: gọi bằng Git Bash (`bash tools/x/...`), KHÔNG cần node.
 
+## ⛔ Giới hạn dùng GPT cho NỀN / HIỆU ỨNG (anh dặn 17/11)
+- GPT chỉ để vẽ khung LAYER DƯỚI CÙNG (nền khung cảnh) hoặc vẽ hộ ASSET ĐƠN LẺ (1 vật). Không lạm dụng: không vẽ cả cảnh hoàn chỉnh, không vẽ VFX (chém, nổ, cột sáng, hào quang… làm bằng code).
+- Mọi câu lệnh nền / asset phải chặn nét AI + chi tiết thừa + quá đà, luôn kèm: "simple, flat, minimal detail, clean shapes, hand-drawn anime cel shading, NOT AI art, no extra details, no glow, no texture noise, no clutter".
+- Vẽ xong soi lại: thấy chi tiết lặt vặt / bóng loáng / kiểu tranh AI → vẽ lại đơn giản hơn.
+
 ## Viết câu lệnh
 - Vẽ lại meme gốc: "Recreate this exact meme <tên> … same face, eyes, markings, colors, proportions … remove blur, compression noise and jagged cut-out edges; crisp detail".
 - Tư thế mới: "Same <tên> as the reference image (identical face, markings, colors, realistic look), now FULL BODY … <tư thế>, facing left/right … Real cat paws, no human hands."

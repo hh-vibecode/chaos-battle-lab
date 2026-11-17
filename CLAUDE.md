@@ -24,6 +24,8 @@ Chi tiết từng meme: `docs/notes/memes.md` · từng phim + cine-kit: `docs/n
 - ⛔ MEME LUÔN LÀ ẢNH GỐC. Ưu tiên ảnh gốc + chuyển động code + VFX + cắt góc; chỉ vẽ tư thế mới cho cảnh giao tranh tay chân. Cần đổi 1 chi tiết thì sửa đúng 1 chỗ trên ảnh gốc.
 - Vẽ GPT (skill `ve-anh-gpt`): chỉ đổi góc nhìn / tư thế, giữ chất ảnh gốc (upscale trung thành trước, rồi lấy ảnh đó làm --ref; "same photographic meme texture, NOT 3D, NOT plastic"). KHÔNG cho GPT vẽ lại meme trong khung cảnh.
 - 🐕 Buff Doge to GẤP 3 meme thường; chỉ dùng ảnh gốc (rageAvatarUrl) + Haki của game. Ảnh Buff Doge vẽ lại tư thế đã bị anh chê "không giống nguyên tác" → không vẽ lại.
+- ⛔ (anh 17/11) ChatGPT CHỈ dùng để: (1) vẽ khung LAYER DƯỚI CÙNG (nền khung cảnh), hoặc (2) vẽ hộ ASSET ĐƠN LẺ (1 vật / 1 tấm đồ vật). KHÔNG lạm dụng cho cả cảnh / hiệu ứng.
+  Có dùng thì câu lệnh phải hạn chế TỐI ĐA nét vẽ AI + chi tiết dư thừa + quá đà: "simple, flat, minimal detail, clean shapes, hand-drawn anime cel, NOT AI art, no extra details, no glow, no texture noise, no clutter".
 - VŨ KHÍ / đồ vật rắn: GPT vẽ nền xanh + `gkey.js`, code lo chuyển động / gắn vào tay. ⚠️ VFX (chém, cột sáng, nổ, hào quang…): HẠN CHẾ ảnh GPT (anh 17/11: "xấu, cứng, AI lắm") → làm bằng CODE / shader / hạt / bóp méo có chuyển động thật; chỉ dùng ảnh GPT cho VFX khi anh bảo. Không tự vẽ bộ phận nhân vật bằng code.
 - Ghép nối phải khéo: mọi chỗ 2 thứ gặp nhau (tay ↔ bàn tay, nhân vật ↔ nền, cảnh ↔ cảnh) phải có phương án (cùng nét, mép mờ, khói / bụi phủ chân, không mép cắt thẳng). Xong phải chụp soát kỹ chỗ nối.
 
