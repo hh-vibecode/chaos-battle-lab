@@ -36,6 +36,10 @@ console.log(`Ver ${n - 1} -> ${n}  at ${at}   (manifest: ${order.length} files, 
 if (added.length) console.log('new files: ' + added.join(', '));
 if (has('--dry-run')) { console.log('dry run - nothing written'); process.exit(0); }
 
+// 🛑 iCloud (Desktop sync) can rename .git/index to "index 2" → git sees an EMPTY index and the commit keeps only the --files paths
+//    (Ver 651/652 on 17/11/2026 shipped 5-6 files instead of ~1900 and broke the site). Refuse when the index lost most of HEAD's files.
+const cnt = a => { const o = git(a); return o ? o.split('\n').length : 0; }, nIdx = cnt(['ls-files']), nHead = cnt(['ls-tree', '-r', '--name-only', 'HEAD']);
+if (nIdx < nHead * 0.9) { console.error(`git index has ${nIdx} files but HEAD has ${nHead} - .git/index was lost (look for ".git/index 2" from iCloud). Rebuild it: git read-tree HEAD, then re-run.`); process.exit(6); }
 fs.writeFileSync(ix, s); fs.writeFileSync(mf, JSON.stringify({ v: n, files }));
 const only = (opt('--files', '') || '').split(',').map(x => x.trim()).filter(Boolean);
 git(only.length ? ['add', '--', 'index.html', 'assets-manifest.json', ...only] : ['add', '-A']);

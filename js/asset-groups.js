@@ -246,6 +246,8 @@ window.ASSET_GROUP={
 "assets/img/breadcat/BC_SPIN.png": "breadcat",
 "assets/audio/bc_spin.mp3": "breadcat",
 "assets/audio/bc_zap.mp3": "breadcat",
+"assets/audio/bc_suck.mp3": "breadcat",
+"assets/audio/bc_bang.mp3": "breadcat",
 "assets/img/loooongcat/LC_TAIL.png": "loooongcat",
 "assets/img/loooongcat/LC_BODY.png": "loooongcat",
 "assets/img/loooongcat/LC_HEAD.png": "loooongcat",
