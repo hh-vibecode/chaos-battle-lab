@@ -3,7 +3,7 @@
 Đọc file này TRƯỚC khi làm tiếp. Kịch bản đã duyệt: `prompts/kich-ban/fin1-chillguy-ending.md` (mục "ANH CHỐT").
 Bản đang lên: Ver 643 (c44887d). 2 cảnh mới `js/film-fin1c6.js` (Chill Guy) + `js/film-fin1c7.js` (kết) ĐỀU BỊ ANH CHÊ → phải làm lại.
 
-## 0. 🎓 VIỆC ĐẦU PHIÊN (khi anh bảo): HỌC 3 VIDEO NGẮN về IMPACT EFFECT + NHỊP GIAO TRANH (anh gửi 16/11 tối, "rất cần m tham khảo")
+## 0. ✅ (17/11 XONG) HỌC 3 VIDEO NGẮN về IMPACT EFFECT + NHỊP GIAO TRANH — kết quả đếm khung ở skill `edit-video` mục 8 ("ĐẾM KHUNG 3 VIDEO MẪU"). Còn: ÁP vào code (tràng chớp thay impact3) khi làm lại các cảnh.
 | link | tiêu đề | dài |
 |---|---|---|
 | https://www.youtube.com/watch?v=CtO_XE2Nrho | [ IMPACT FRAMES ] — ian zhang | 20s |
