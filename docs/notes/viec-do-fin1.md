@@ -1,9 +1,17 @@
-# VIỆC DỞ — Final Part 1 (ghi 16/11/2026 tối)
+# VIỆC DỞ — Final Part 1
 
-✅ 17/11: ĐÃ LÀM LẠI cả 2 cảnh — Ver 654–655 Chill Guy (thành phố 3D nối tiếp, trục cố định, meme form gốc, nộ kiểu Gon theo GIF anh gửi D:meme-anime-lab-videosef-gongon-angry.gif, ngắt → Gojo đứng chắn, gật đầu rời đi, kết thủ thế) · Ver 656 cảnh kết quy mô chiến tranh (bãi đổ nát, biển meme, Friend cỡ thiên thạch). CHỜ ANH XEM GÓP Ý.
+## ⏸️ TRẠNG THÁI 17/11 tối (anh dừng vì hết token — LÀM TIẾP từ đây)
+✅ ĐÃ LÀM LẠI cả 2 cảnh, đã đẩy main:
+- Ver 654–655 `js/film-fin1c6.js` Chill Guy (27.6s): thành phố 3D Fin1City nối tiếp (đổ nát, khói, lửa) · máy tĩnh, trục Chill Guy/Gojo TRÁI – Pain PHẢI · meme form gốc (MEW_GOJO_IMG, DP_PAIN_IMG mờ mép dưới, avatar Chill Guy / Banana) ·
+  vật rơi nằm lại · tràng chớp impact (học 3 video) · NỘ KIỂU GON (GIF `D:/meme-anime-lab-videos/ref-gon/gon-angry.gif`: bóng đen, 2 mắt trắng tròn — mắt avatar ở (0.54,0.18) (0.673,0.18), tia trắng bám viền) → bùng + chữ đỏ → NGẮT sang Gojo đã đứng chắn → gật đầu → rời đi → Gojo – Pain thủ thế → Bat Cat.
+- Ver 656 `js/film-fin1c7.js` cảnh kết (39.5s): bãi đổ nát mênh mông (Fin1City rows:1 near:13000 + đá vụn) · Bread Cat BC_SPIN trên trời → sao 4 cánh → cổng · biển meme ~900 con (hàng đầu meme quan trọng) · Gigachad + Chonky khổng lồ ·
+  ấn triệu hồi mặt đất + binh đoàn hồn quỷ + Evil Gary + Catvader · Pain giơ mảnh vỡ · Friend pixel to cỡ thiên thạch · chia đôi (panels) · TBC Christmas 2026 · nhạc Portals canh chỗ bùng lúc cổng mở.
+👉 VIỆC TIẾP: CHỜ ANH XEM 2 cảnh rồi góp ý. Chưa làm: áp "tràng chớp impact" vào các trận đã duyệt (anh bảo "chưa cần").
+Điểm yếu đã biết (đã báo anh): Chill Guy chỉ 2 ảnh gốc → né / nhảy / gật là chuyển động code · Friend avatar 135px → phóng to thành khối pixel (có ảnh nét hơn thì thay) · tiếng chưa nghe thật.
+Công cụ: film-check.js tự bật / tắt trình duyệt (dùng nó để chụp). Tự bật serve.js / cdp --launch thì ghi output ra FILE (không pipe grep — treo), xong `--stop` ngay.
 
-Đọc file này TRƯỚC khi làm tiếp. Kịch bản đã duyệt: `prompts/kich-ban/fin1-chillguy-ending.md` (mục "ANH CHỐT").
-Bản đang lên: Ver 643 (c44887d). 2 cảnh mới `js/film-fin1c6.js` (Chill Guy) + `js/film-fin1c7.js` (kết) ĐỀU BỊ ANH CHÊ → phải làm lại.
+---
+(Lịch sử bên dưới — lời anh chê 16/11 và ghi chú cũ, giữ để tham khảo. Kịch bản đã duyệt: `prompts/kich-ban/fin1-chillguy-ending.md` mục "ANH CHỐT".)
 
 ## 0. ✅ (17/11 XONG) HỌC 3 VIDEO NGẮN về IMPACT EFFECT + NHỊP GIAO TRANH — kết quả đếm khung ở skill `edit-video` mục 8 ("ĐẾM KHUNG 3 VIDEO MẪU"). Còn: ÁP vào code (tràng chớp thay impact3) khi làm lại các cảnh.
 | link | tiêu đề | dài |
