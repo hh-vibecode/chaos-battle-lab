@@ -159,3 +159,12 @@
   ổ bánh mì BC_LOAF lơ lửng, thanh máu ghi ∞ → hết trận. Tiếng: `bc_spin` (myinstants jet-engine-startup, rít to dần), `bc_zap` (điện chập lúc đèn nháy).
 - Ảnh anh gửi (Desktop): dạng thường mèo Xiêm nằm (BC_IDLE, quay mặt TRÁI), BC_BUTTER + BC_LOAF tách từ tấm 2 ảnh. Con số (100 máu, 3s, 200 tick xoay) em tự đặt.
 - Anh gửi TikTok mẫu effect (@ai.disruptor/video/7593888307130649859) — trình duyệt chạy ngầm trên Windows KHÔNG mở được video TikTok; Mac dùng skill `xem-video` để xem và chỉnh lại effect cho giống.
+
+## 😾⛓️ Angry Cat (`angrycat`, 17/11/2026) — khối `AC_*` / `_ac*` trong js/game.js (cạnh `_findClosestEnemy`)
+- Ảnh: GPT phóng nét trung thành đúng con mèo xám trắng tai cụp anh gửi (bỏ tay người + cột đen), GIỮ NGUYÊN mặt gốc cả trận (anh: "không cần thêm biểu cảm") — `AC_CALM`.
+  Dáng ảnh gốc = 1 tay bám cột (phía tường) + 1 tay giơ (`AC_PAW`, phóng móc + nắm địch). Bám tường TRÁI thì lật ảnh. Mũi lao kiểu Scorpion `AC_KUNAI` + đoạn xích lặp `AC_CHAIN` (GPT nền xanh).
+- Bám cạnh sân phía xuất phát, trượt dọc tường cho ngang tầm địch (`_acMove`). Chạm tường + hết hồi chiêu (2.2s; trượt 1s) → phóng móc + "GET OVER HERE" (`ag_getoverhere`, giọng Mortal Kombat có bản quyền)
+  → trúng: kéo về (`_acHeld` = nạn nhân bị khoá như `_mmHeld`, không tham gia `_bounceFighters`), quật qua đầu nện vào tường PHÍA TRÊN mèo 3 lần × 50 × (1 + tức/100), rồi hất văng.
+  Con miễn hất bay (`_mmCanLaunch` false: Long Cat, Larry, Chonky…) → chỉ ăn 1 cú, không kéo.
+- Tức: bị đánh +5 (không tính DOT), mỗi giây −1, tối đa 100 = +100% dame. Hào quang shader (lửa cam → đỏ → thêm lửa đen từ 70). Cú nện: bụi + đá vụn + vòng xung kích to dần theo dame, ≥80 sóng bóp méo, ≥90 vỡ đoạn rào tường.
+- Bộ skill cũ của Angry Cat (thanh tức + hòm đồ 10 vũ khí + bom nguyên tử) anh bảo để cho 1 con khác → nằm trong `git stash` trên Mac ("WIP Angry Cat 17/11"), dùng tiền tố `AG_` (không đụng `AC_`).
