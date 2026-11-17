@@ -1,0 +1,48 @@
+<!doctype html>
+<!-- 🎈 ẢNH 2D → KHỐI 3D bằng cách "thổi phồng" (inflate, kiểu Monster Mash) rồi xoay quanh 1 trục → tấm ảnh nhiều khung (sprite sheet) cho game / phim.
+     Không cần mạng, không cần tài khoản. Viền nhân vật (alpha) → khoảng cách tới mép → độ phồng dạng vòm tròn;
+     mặt trước dán đúng ảnh gốc, mặt sau dán ảnh lật (nhìn từ sau), 2 mặt khép kín ở mép.
+     Mở: tools/x/inflate3d.html?src=assets/img/breadcat/BC_BUTTER.png&axis=x&n=48&fw=320&depth=0.55
+       axis = x (gà quay xiên que, quanh trục ngang) | y (con quay, quanh trục đứng) · n = số khung / vòng · fw = cỡ ô vuông mỗi khung (px)
+       depth = độ phồng so với chiều cao ảnh (0.55 = dày ~55% chiều cao) · light = 0..1 độ đổ bóng khối
+     Xong: window.__sheet = dataURL PNG (n khung xếp lưới 8 cột, nền trong suốt), window.__meta = {n, fw, axis}. Dùng với tools/x/cdp.js evalsave. -->
+<meta charset="utf-8"><title>inflate3d</title>
+<body style="margin:0;background:#222">
+<script type="module">
+import * as THREE from '../../js/vendor/three/three.module.min.js';
+const Q=new URLSearchParams(location.search), SRC=Q.get('src'), AX=Q.get('axis')||'x', N=+(Q.get('n')||48), FW=+(Q.get('fw')||320), DEPTH=+(Q.get('depth')||0.55), LIGHT=+(Q.get('light')||0.35);
+const im=new Image(); im.src='../../'+SRC; await im.decode();
+const W=im.naturalWidth, H=im.naturalHeight, G=Math.round(Math.min(220,W)), GH=Math.round(G*H/W);   // lưới tính độ phồng
+const cv=document.createElement('canvas'); cv.width=G; cv.height=GH; const cx=cv.getContext('2d'); cx.drawImage(im,0,0,G,GH);
+const A=cx.getImageData(0,0,G,GH).data, inside=new Uint8Array(G*GH); for(let i=0;i<G*GH;i++) inside[i]=A[i*4+3]>110?1:0;
+// khoảng cách tới mép (2 lượt chamfer) → độ phồng vòm: z = sqrt(d*(2D-d)) chuẩn hoá — mép = 0, giữa phồng tròn
+const INF=1e9, d=new Float32Array(G*GH); for(let i=0;i<G*GH;i++) d[i]=inside[i]?INF:0;
+const at=(x,y)=>(x<0||y<0||x>=G||y>=GH)?0:d[y*G+x];
+for(let y=0;y<GH;y++) for(let x=0;x<G;x++){ const i=y*G+x; if(!d[i]) continue; d[i]=Math.min(d[i],at(x-1,y)+1,at(x,y-1)+1,at(x-1,y-1)+1.414,at(x+1,y-1)+1.414); }
+for(let y=GH-1;y>=0;y--) for(let x=G-1;x>=0;x--){ const i=y*G+x; if(!d[i]) continue; d[i]=Math.min(d[i],at(x+1,y)+1,at(x,y+1)+1,at(x+1,y+1)+1.414,at(x-1,y+1)+1.414); }
+let dm=0; for(const v of d) if(v<INF && v>dm) dm=v;
+const sx=1/G, Z=DEPTH*(H/W)/2;   // toạ độ: rộng 1, cao H/W; z nửa độ dày
+const zOf=i=>{ const t=Math.min(1,d[i]/dm); return Z*Math.sqrt(t*(2-t)); };
+// lưới 2 mặt
+const pos=[], uv=[], idx=[], vid=new Int32Array(G*GH).fill(-1);
+for(const side of [1,-1]){ vid.fill(-1); const base=pos.length/3;
+  for(let y=0;y<GH;y++) for(let x=0;x<G;x++){ const i=y*G+x; const nb=inside[i]||(x>0&&inside[i-1])||(y>0&&inside[i-G])||(x>0&&y>0&&inside[i-G-1]); if(!nb) continue;
+    vid[i]=pos.length/3; pos.push((x/G-0.5), -(y/G-GH/G/2), side*(inside[i]?zOf(i):0)); uv.push(x/G, 1-y/GH); }
+  for(let y=0;y<GH-1;y++) for(let x=0;x<G-1;x++){ const i=y*G+x; if(!(inside[i]||inside[i+1]||inside[i+G]||inside[i+G+1])) continue;
+    const a=vid[i], b=vid[i+1], c=vid[i+G], e=vid[i+G+1]; if(a<0||b<0||c<0||e<0) continue;
+    if(side>0) idx.push(a,c,b, b,c,e); else idx.push(a,b,c, b,e,c); } }
+const geo=new THREE.BufferGeometry(); geo.setAttribute('position',new THREE.Float32BufferAttribute(pos,3)); geo.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2)); geo.setIndex(idx); geo.computeVertexNormals();
+const tex=new THREE.Texture(im); tex.needsUpdate=true; tex.colorSpace=THREE.SRGBColorSpace; tex.anisotropy=8;
+// vá lỗ: điểm ảnh trong suốt/mờ NẰM TRONG viền được tô màu điểm đặc gần nhất → mặt khối kín, không thủng
+const tc=document.createElement('canvas'); tc.width=W; tc.height=H; const tg=tc.getContext('2d'); for(let r=8;r>=1;r-=1){ tg.globalAlpha=1; for(const [ox,oy] of [[r,0],[-r,0],[0,r],[0,-r]]) tg.drawImage(im,ox,oy); } tg.drawImage(im,0,0);
+const td=tg.getImageData(0,0,W,H); for(let i=3;i<td.data.length;i+=4) td.data[i]=255; tg.putImageData(td,0,0); tex.image=tc; tex.needsUpdate=true;
+const mat=new THREE.MeshLambertMaterial({map:tex, side:THREE.FrontSide});
+const mesh=new THREE.Mesh(geo,mat);
+const R=new THREE.WebGLRenderer({antialias:true, alpha:true, preserveDrawingBuffer:true}); R.setSize(FW,FW); R.setClearColor(0x000000,0); R.outputColorSpace=THREE.SRGBColorSpace;
+const scene=new THREE.Scene(); scene.add(mesh);
+scene.add(new THREE.AmbientLight(0xffffff, 1.0+ (1-LIGHT)*1.2)); const L=new THREE.DirectionalLight(0xffffff, LIGHT*3); L.position.set(-0.4,0.8,1.2); scene.add(L);
+const half=0.62; const cam=new THREE.OrthographicCamera(-half,half,half,-half,-10,10); cam.position.set(0,0,5); cam.lookAt(0,0,0);
+const COLS=Math.min(N,8), ROWS=Math.ceil(N/COLS), sheet=document.createElement('canvas'); sheet.width=FW*COLS; sheet.height=FW*ROWS; const sg=sheet.getContext('2d');
+for(let k=0;k<N;k++){ const a=k/N*Math.PI*2; mesh.rotation.set(AX==='x'?a:0, AX==='y'?a:0, 0); R.render(scene,cam); sg.drawImage(R.domElement,(k%COLS)*FW,Math.floor(k/COLS)*FW); }
+window.__sheet=sheet.toDataURL('image/png'); window.__meta={n:N, fw:FW, cols:COLS, axis:AX, objW:FW/(2*half)};   // objW = bề rộng ảnh gốc (px) trong 1 khung document.body.appendChild(sheet); sheet.style.width='100%';
+</script>

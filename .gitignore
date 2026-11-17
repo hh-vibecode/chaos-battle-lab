@@ -1,0 +1,9 @@
+# nguyên liệu gốc (nhạc/ảnh/VFX pack tải về, bản backup, save cũ) — chỉ để trong máy, KHÔNG đẩy lên repo public
+_source/
+.DS_Store
+w[0-9]*.jpg
+tools/.audio-dur.json
+
+# video xuất ra (render-cine / render-match) — file nặng, KHÔNG đẩy lên repo
+out/
+tools/x/_ref/

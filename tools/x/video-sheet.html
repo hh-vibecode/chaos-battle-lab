@@ -1,0 +1,17 @@
+<!doctype html><meta charset="utf-8"><title>video-sheet</title>
+<!-- 🎞️ BẢNG KHUNG TỪ VIDEO MẪU (Windows không có ffmpeg / python — chạy trong trình duyệt ngầm): phát video, tua tới từng mốc, chụp vào lưới có ghi giây.
+     tools/x/video-sheet.html?src=tools/x/_ref/ref1.mp4&a=30&b=45&step=0.25&w=200&cols=10
+     → window.__png (dataURL bảng khung) + window.__cuts (giây nghi CẮT CẢNH: khác biệt khung liền kề lớn) + window.__done.
+     Chạy ngầm: cdp.js với steps "goto … / waitfor window.__done / evalsave <tên> window.__png / eval window.__cuts". Video tải bằng yt-dlp vào tools/x/_ref/ (không commit). -->
+<canvas id="c"></canvas><video id="v" muted playsinline preload="auto"></video>
+<script>
+(async()=>{ const q=new URLSearchParams(location.search), v=document.getElementById('v'), a=+(q.get('a')||0), step=+(q.get('step')||0.5), W=+(q.get('w')||200), cols=+(q.get('cols')||8);
+  v.src='/'+q.get('src'); await new Promise((r,j)=>{ v.onloadedmetadata=r; v.onerror=()=>j(new Error('không mở được video')); });
+  const b=Math.min(+(q.get('b')||v.duration), v.duration-0.01), ts=[]; for(let t=a;t<=b+1e-6;t+=step) ts.push(+t.toFixed(3));
+  const H=Math.round(W*v.videoHeight/v.videoWidth), rows=Math.ceil(ts.length/cols), c=document.getElementById('c'); c.width=cols*W; c.height=rows*(H+16); const g=c.getContext('2d');
+  g.fillStyle='#111'; g.fillRect(0,0,c.width,c.height); const sm=document.createElement('canvas'); sm.width=32; sm.height=Math.round(32*H/W); const sg=sm.getContext('2d'); let prev=null; const cuts=[];
+  for(let i=0;i<ts.length;i++){ v.currentTime=ts[i]; await new Promise(r=>{ v.onseeked=r; }); if(v.requestVideoFrameCallback) await Promise.race([new Promise(r=>v.requestVideoFrameCallback(()=>r())),new Promise(r=>setTimeout(r,400))]); else await new Promise(r=>setTimeout(r,120)); /* chờ khung THẬT đã giải mã (headless có khi seeked xong vẫn giữ khung cũ) */ const x=(i%cols)*W, y=Math.floor(i/cols)*(H+16);
+    g.drawImage(v,x,y+16,W,H); g.fillStyle='#fff'; g.font='bold 12px monospace'; g.fillText(ts[i].toFixed(2)+'s',x+4,y+12);
+    sg.drawImage(v,0,0,sm.width,sm.height); const d=sg.getImageData(0,0,sm.width,sm.height).data; if(prev){ let s=0; for(let k=0;k<d.length;k+=4) s+=Math.abs(d[k]-prev[k])+Math.abs(d[k+1]-prev[k+1])+Math.abs(d[k+2]-prev[k+2]); s/=d.length/4*3; if(s>38){ cuts.push(ts[i]); g.strokeStyle='#ff3b3b'; g.lineWidth=3; g.strokeRect(x+1,y+17,W-2,H-2); } } prev=d; }
+  window.__png=c.toDataURL('image/png'); window.__cuts=cuts.join(','); window.__done='OK '+ts.length+' khung · '+cuts.length+' chỗ cắt'; })().catch(e=>{ window.__done='LỖI '+e.message; });
+</script>

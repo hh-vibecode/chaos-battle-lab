@@ -1,0 +1,5 @@
+[
+ {"key":"mw_ryoiki_tenkai","sp":11,"text":"領域展開","kana":"リョオイ_キテ'ンカイ","q":{"speedScale":0.72,"pitchScale":-0.1,"intonationScale":0.8,"volumeScale":1.0}},
+ {"key":"mw_muryokusho","sp":11,"text":"無量空処","kana":"ムリョオクウ'ショ","q":{"speedScale":0.86,"pitchScale":-0.1,"intonationScale":1.1,"volumeScale":1.0}},
+ {"key":"mw_murasaki","sp":11,"text":"虚式茈","kana":"キョ'_シキ、ムラ'サキ","pause":0.4,"q":{"speedScale":0.86,"pitchScale":-0.1,"intonationScale":1.0,"volumeScale":1.0}}
+]

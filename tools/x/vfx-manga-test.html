@@ -1,0 +1,56 @@
+<!doctype html><meta charset="utf-8"><title>vfx-manga test</title>
+<body style="background:#222;color:#ccc;font:12px monospace">
+<pre id="log"></pre>
+<script src="../../js/cine-kit.js"></script>
+<script src="../../js/vfx-manga.js"></script>
+<script>
+// Bảng thử CineKit.fx (js/vfx-manga.js): mỗi hiệu ứng vẽ vài khung 1280x720 → window.__png[name] (dataURL) + đo ms/khung → window.__ms.
+// Chạy: node tools/x/serve.js & ; steps: goto tools/x/vfx-manga-test.html · waitfor window.__ready · evalsave <name> window.__png.<name> · eval JSON.stringify(window.__ms)
+const VW=1280, VH=720, log=s=>document.getElementById('log').textContent+=s+'\n';
+const load=src=>new Promise(r=>{ const i=new Image(); i.onload=()=>r(i); i.onerror=()=>r(null); i.src=src; });
+const mkF=(t)=>{ const c=document.createElement('canvas'); c.width=VW; c.height=VH; const g=c.getContext('2d'); return CUR={g,VW,VH,SC:1,t,list:[],B:null}; };
+const sheet=(name,cells)=>{ const c=document.createElement('canvas'); c.width=VW; c.height=VH; const g=c.getContext('2d'); const n=cells.length, cw=VW/Math.ceil(Math.sqrt(n)), cols=Math.ceil(Math.sqrt(n)), ch=VH/Math.ceil(n/cols);
+  cells.forEach((cv,i)=>{ g.drawImage(cv,(i%cols)*cw,Math.floor(i/cols)*ch,cw,ch); g.fillStyle='#ff0'; g.font='bold 22px monospace'; g.fillText(name+' '+(i+1),(i%cols)*cw+8,Math.floor(i/cols)*ch+26); });
+  window.__png[name]=c.toDataURL('image/png'); };
+// đo thật: canvas vẽ bằng GPU bất đồng bộ → mỗi lần đọc 1 điểm ảnh để ép vẽ xong; trừ phần nền (base) để ra riêng chi phí hiệu ứng
+let CUR=null;   // khung vừa tạo bằng mkF (khối đo dùng khung này)
+const time=(fn,N=30)=>{ const run=f=>{ const t0=performance.now(); for(let i=0;i<N;i++){ f(); CUR.g.getImageData(0,0,1,1); } return (performance.now()-t0)/N; };
+  run(fn); return +run(fn).toFixed(2); };
+window.__png={}; window.__ms={};
+(async()=>{ try{
+  const FX=CineKit.fx; if(!FX) throw new Error('CineKit.fx chưa gắn');
+  const hero=await load('../../assets/img/cine/MVD_GOJO_BLAST.png'), bg=await load('../../assets/img/cine/CINE_AKA_BG.webp'); if(!hero||!bg) throw new Error('thiếu ảnh thử');
+  const H=CineKit.prep(hero); const hw=300*H.sw/H.sh;
+  const paintBg=(F,col)=>{ F.g.fillStyle=col||'#f4f1ea'; F.g.fillRect(0,0,VW,VH); };
+  // 1. smear: đập xuống (dọc) + lao ngang + chéo
+  const sm=[]; for(const [dx,dy] of [[0,0],[0,260],[-380,0],[160,220]]){ const F=mkF(0); paintBg(F); FX.smear(F,hero,VW/2-hw/2,VH-330,hw,300,{dx,dy,seed:3}); sm.push(F.g.canvas); }
+  sheet('smear',sm); { const F=mkF(0); __ms.smear=time(()=>{ paintBg(F); FX.smear(F,hero,VW/2-hw/2,VH-330,hw,300,{dx:0,dy:260}); }); }
+  // 2. swirl
+  const sw=[]; for(const [t,a,b] of [[0,'255,40,60','90,170,255'],[0.6,'255,40,60','90,170,255'],[1.2,'255,30,40','255,120,60'],[0,'60,140,255','230,80,255']]){ const F=mkF(t); paintBg(F,'#0b0710'); FX.swirl(F,t,{colA:a,colB:b}); F.g.drawImage(H.src,H.sx,H.sy,H.sw,H.sh,VW/2-hw/2,VH-330,hw,300); sw.push(F.g.canvas); }
+  sheet('swirl',sw); { const F=mkF(0); __ms.swirl=time(()=>{ paintBg(F,'#0b0710'); FX.swirl(F,0.3,{}); }); }
+  // 3. halftone flat + luma
+  const ht=[]; { const F=mkF(0); F.g.drawImage(bg,0,0,VW,VH); FX.halftone(F,{a:0.4}); ht.push(F.g.canvas); }
+  { const F=mkF(0); F.g.drawImage(bg,0,0,VW,VH); ht.push(F.g.canvas); }
+  { const F=mkF(0); F.g.drawImage(bg,0,0,VW,VH); FX.halftone(F,{mode:'luma',dot:7,a:1,inv:true,paper:'#111',col:'#f0e6d8'}); ht.push(F.g.canvas); }
+  { const F=mkF(0); F.g.fillStyle='#f4f1ea'; F.g.fillRect(0,0,VW,VH); F.g.drawImage(H.src,H.sx,H.sy,H.sw,H.sh,VW/2-hw/2,VH-330,hw,300); FX.halftone(F,{mode:'luma',dot:5,a:1,paper:'#f4f1ea',col:'#1a1a1a'}); ht.push(F.g.canvas); }
+  sheet('halftone',ht);
+  { const F=mkF(0); __ms.halftone_flat=time(()=>{ F.g.drawImage(bg,0,0,VW,VH); FX.halftone(F,{a:0.4}); }); __ms.halftone_luma=time(()=>{ F.g.drawImage(bg,0,0,VW,VH); FX.halftone(F,{mode:'luma',dot:7,a:1}); }); }
+  // 4. mangaBW: cảnh nhiều màu, giữ xanh lam / đỏ
+  const scene=F=>{ const g=F.g; g.drawImage(bg,0,0,VW,VH); g.fillStyle='rgb(40,120,255)'; g.beginPath(); g.arc(300,380,120,0,7); g.fill(); g.fillStyle='rgb(240,40,40)'; g.beginPath(); g.arc(980,380,120,0,7); g.fill();
+    g.drawImage(H.src,H.sx,H.sy,H.sw,H.sh,VW/2-hw/2,VH-330,hw,300); };
+  const mb=[]; { const F=mkF(0); scene(F); mb.push(F.g.canvas); } { const F=mkF(0); scene(F); FX.mangaBW(F,{keep:'#2878ff'}); mb.push(F.g.canvas); } { const F=mkF(0); scene(F); FX.mangaBW(F,{keep:'#f02828'}); mb.push(F.g.canvas); } { const F=mkF(0); scene(F); FX.mangaBW(F,{keep:'#2878ff'}); FX.halftone(F,{a:0.25,dot:5}); mb.push(F.g.canvas); }
+  sheet('mangaBW',mb); { const F=mkF(0); __ms.mangaBW=time(()=>{ scene(F); FX.mangaBW(F,{keep:'#2878ff'}); },10); __ms.mangaBW_scale025=time(()=>{ scene(F); FX.mangaBW(F,{keep:'#2878ff',scale:0.25}); },10); }
+  // 5. blast: 4 pha
+  const bl=[]; for(const t of [0.05,0.3,0.7,1.15]){ const F=mkF(t); paintBg(F,'#e9e4da'); FX.blast(F,{x:VW/2,y:VH*0.6,t0:0,life:1.4,size:170,seed:4}); bl.push(F.g.canvas); }
+  sheet('blast',bl); { const F=mkF(0.3); __ms.blast=time(()=>{ paintBg(F,'#e9e4da'); FX.blast(F,{x:VW/2,y:VH*0.6,t0:0,life:1.4,size:170,seed:4}); }); }
+  // 6. rimLight: trăng sau lưng, sáng bao quanh / từ trên
+  const night=F=>{ const g=F.g; g.fillStyle='#0d1420'; g.fillRect(0,0,VW,VH); g.fillStyle='#e8edf2'; g.beginPath(); g.arc(VW/2,VH*0.42,230,0,7); g.fill(); };
+  const rl=[]; { const F=mkF(0); night(F); F.g.drawImage(H.src,H.sx,H.sy,H.sw,H.sh,VW/2-hw*0.8,VH-480,hw*1.6,480); rl.push(F.g.canvas); }
+  { const F=mkF(0); night(F); FX.rimLight(F,hero,VW/2-hw*0.8,VH-480,hw*1.6,480,{}); rl.push(F.g.canvas); }
+  { const F=mkF(0); night(F); FX.rimLight(F,hero,VW/2-hw*0.8,VH-480,hw*1.6,480,{dir:-90,col:'255,200,140',w:6}); rl.push(F.g.canvas); }
+  { const F=mkF(0); night(F); FX.rimLight(F,hero,VW/2-hw*0.8,VH-480,hw*1.6,480,{col:'255,60,40',darkCol:'40,8,8',dark:0.9}); rl.push(F.g.canvas); }
+  sheet('rimLight',rl); { const F=mkF(0); __ms.rimLight=time(()=>{ night(F); FX.rimLight(F,hero,VW/2-hw*0.8,VH-480,hw*1.6,480,{}); }); }
+  { const F=mkF(0); __ms._ep_doc_gpu=time(()=>{}); __ms._nen_to_mau=time(()=>paintBg(F)); __ms._nen_anh=time(()=>F.g.drawImage(bg,0,0,VW,VH)); __ms._scene_mbw=time(()=>scene(F),10); }   // phần nền đã nằm trong số đo ở trên → trừ ra
+  log(JSON.stringify(__ms)); window.__ready='OK '+Object.keys(__png).join(',');
+} catch(e){ log('LỖI '+e.stack); window.__ready='ERR '+e.message; } })();
+</script>

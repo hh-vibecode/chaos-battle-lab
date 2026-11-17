@@ -1,0 +1,32 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>view3d</title>
+<style>html,body{margin:0;background:#2b2f36;overflow:hidden}canvas{display:block;width:1000px;height:1000px}</style></head>
+<body>
+<!-- Xem nhanh 1 mô hình .glb từ 4 góc (trước · nghiêng 3/4 · cạnh · trên cao) với kiểu tô anime (toon + viền đen).
+     Mở: http://127.0.0.1:8765/tools/x/view3d.html?src=assets/3d/doge.glb[&color=e0a050]
+     Xong thì window.__ready=true, window.__info={faces, size}; chụp bằng shot (chay-thu). -->
+<script type="module">
+import * as THREE from '../../js/vendor/three/three.module.min.js';
+import { GLTFLoader } from '../../js/vendor/three/GLTFLoader.js';
+import { OutlineEffect } from '../../js/vendor/three/OutlineEffect.js';
+const q = new URLSearchParams(location.search), SRC = q.get('src'), COL = '#' + (q.get('color') || 'e0a050');
+const W = 1000, H = 1000, r = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+r.setSize(W, H); r.setScissorTest(true); document.body.appendChild(r.domElement);
+const fx = new OutlineEffect(r, { defaultThickness: 0.004 });
+const sc = new THREE.Scene(); sc.background = new THREE.Color('#3a4150');
+sc.add(new THREE.HemisphereLight('#ffffff', '#445', 1.2)); const sun = new THREE.DirectionalLight('#fff', 2.2); sun.position.set(2, 4, 3); sc.add(sun);
+const grad = new THREE.DataTexture(new Uint8Array([90, 170, 255]), 3, 1, THREE.RedFormat); grad.minFilter = grad.magFilter = THREE.NearestFilter; grad.needsUpdate = true;
+const gl = await new GLTFLoader().loadAsync('../../' + SRC);
+const obj = gl.scene; let faces = 0;
+obj.traverse(o => { if (o.isMesh) { faces += (o.geometry.index ? o.geometry.index.count : o.geometry.attributes.position.count) / 3;
+  if (!o.geometry.attributes.normal) o.geometry.computeVertexNormals();   // mô hình AI (Hunyuan3D) thường thiếu pháp tuyến → không có thì ánh sáng ra đen kịt
+  const hasMap = o.material && o.material.map; o.material = new THREE.MeshToonMaterial({ color: hasMap ? '#ffffff' : COL, map: hasMap ? o.material.map : null, gradientMap: grad }); } });
+const box = new THREE.Box3().setFromObject(obj), size = box.getSize(new THREE.Vector3()), c = box.getCenter(new THREE.Vector3());
+obj.position.sub(c); obj.position.y += size.y / 2; sc.add(obj);
+const R = Math.max(size.x, size.y, size.z) * 2.6, ty = size.y * 0.5;
+const views = [[0, 0.1], [Math.PI / 4, 0.2], [Math.PI / 2, 0.05], [Math.PI * 0.8, 1.0]];   // [góc quanh trục đứng, độ cao]
+views.forEach(([a, h], i) => { const cam = new THREE.PerspectiveCamera(35, 1, 0.01, 100);
+  cam.position.set(Math.sin(a) * R, ty + h * R, Math.cos(a) * R); cam.lookAt(0, ty, 0);
+  const x = (i % 2) * W / 2, y = (1 - Math.floor(i / 2)) * H / 2; r.setViewport(x, y, W / 2, H / 2); r.setScissor(x, y, W / 2, H / 2); fx.render(sc, cam); });
+window.__info = { faces: Math.round(faces), size: [size.x, size.y, size.z].map(v => +v.toFixed(3)) }; window.__ready = true;
+</script></body></html>
