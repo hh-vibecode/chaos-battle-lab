@@ -2,6 +2,7 @@
 Chi tiết từng meme: `docs/notes/memes.md` · từng phim + cine-kit: `docs/notes/films.md` · mẫu comment YouTube: `docs/notes/youtube-comment.md` · luật gốc đầy đủ (ví dụ, lời anh dặn): `docs/notes/rules-full.md`.
 Đọc file đó KHI làm đúng phần đó (không cần đọc hết mỗi phiên).
 ⏸️ **VIỆC DỞ: đọc `docs/notes/viec-do-fin1.md` ĐẦU PHIÊN** (mục 0: học 3 video impact anh gửi khi anh bảo · làm lại cảnh Chill Guy + cảnh kết Final Part 1).
+⏸️ **Angry Cat (17/11, CHƯA phát hành)**: bộ skill thanh tức giận + hòm đồ 10 vũ khí + bom nguyên tử nằm trong `git stash` trên MAC ("WIP Angry Cat 17/11") — anh bảo để giao cho 1 con khác, chờ anh nói con nào. Ảnh vũ khí GPT dùng lại được; ảnh mèo + 3 ảnh VFX GPT phải làm lại.
 ⚠️ Anh chê 16/11 "làm nhanh xong toàn làm sai" → làm KỸ từng shot, soát từng shot rồi mới sang shot sau. Cách làm phim / VFX / edit nằm trong skill (`dung-phim`, `edit-video`, `viet-kich-ban`, `ve-anh-gpt`…).
 
 ## ⛔ Luật số 0 — luôn làm trên bản mới nhất (anh làm nhiều máy Mac + Windows)
@@ -22,7 +23,7 @@ Chi tiết từng meme: `docs/notes/memes.md` · từng phim + cine-kit: `docs/n
 - ⛔ MEME LUÔN LÀ ẢNH GỐC. Ưu tiên ảnh gốc + chuyển động code + VFX + cắt góc; chỉ vẽ tư thế mới cho cảnh giao tranh tay chân. Cần đổi 1 chi tiết thì sửa đúng 1 chỗ trên ảnh gốc.
 - Vẽ GPT (skill `ve-anh-gpt`): chỉ đổi góc nhìn / tư thế, giữ chất ảnh gốc (upscale trung thành trước, rồi lấy ảnh đó làm --ref; "same photographic meme texture, NOT 3D, NOT plastic"). KHÔNG cho GPT vẽ lại meme trong khung cảnh.
 - 🐕 Buff Doge to GẤP 3 meme thường; chỉ dùng ảnh gốc (rageAvatarUrl) + Haki của game. Ảnh Buff Doge vẽ lại tư thế đã bị anh chê "không giống nguyên tác" → không vẽ lại.
-- VFX phát sáng / vũ khí: ưu tiên GPT vẽ (phát sáng trên nền đen + `lighter`; vật rắn nền xanh + `gkey.js`). Code chỉ lo chuyển động / gắn / nhấp nháy. Không tự vẽ bộ phận nhân vật bằng code.
+- VŨ KHÍ / đồ vật rắn: GPT vẽ nền xanh + `gkey.js`, code lo chuyển động / gắn vào tay. ⚠️ VFX (chém, cột sáng, nổ, hào quang…): HẠN CHẾ ảnh GPT (anh 17/11: "xấu, cứng, AI lắm") → làm bằng CODE / shader / hạt / bóp méo có chuyển động thật; chỉ dùng ảnh GPT cho VFX khi anh bảo. Không tự vẽ bộ phận nhân vật bằng code.
 - Ghép nối phải khéo: mọi chỗ 2 thứ gặp nhau (tay ↔ bàn tay, nhân vật ↔ nền, cảnh ↔ cảnh) phải có phương án (cùng nét, mép mờ, khói / bụi phủ chân, không mép cắt thẳng). Xong phải chụp soát kỹ chỗ nối.
 
 ## 🎞️ Cảnh VFX nặng = dựng THEO LỚP (anh chốt 16/11)
