@@ -3,7 +3,7 @@
 Đọc khi làm việc với đúng meme đó. Nguyên văn từ CLAUDE.md, không tóm.
 
 ## Nhật ký gần đây (cho phiên sau nắm) — Ver 394, 27/10/2026
-- 🦫 **Scream Marmot - The Last Saiyan** (`saiyanmarmot`; đổi tên 31/10, trước là Saiyan Marmot): code khối `MM_*` / `_mm*` trong js/game.js.
+- 🦫 **Scream Marmot - The Last Saiyan** (`saiyanmarmot`; đổi tên 31/10, trước là Saiyan Marmot): code khối `MM_*` / `_mm*` trong js/game.js. Tiếng ầm lúc quăng (`cine_impact` 2.9s) cắt còn 0.8s (anh 17/11: bị vang).
   Thường: chạm là xô 45 + đẩy văng; đi đủ 2s → đứng gồng 1.5s (`marmot_scream`); lần 3 hét 3s = 4 nhịp to dần, nhịp cuối ngắn nhất, lấy hơi ngắn giữa nhịp (`marmot_scream_ssj`, anh dặn 31/10) → biến hình kêu `marmot_ssj` → Super Saiyan vĩnh viễn (hào quang vàng + tia điện vẽ code).
   SSJ: chạm → khựng 0.5s → bắn địch thẳng vào tường (34px/tick) → ghim 1s, 160 dame → tường vỡ (`mmWall`, mép mẻ giữ tới hết trận), địch rời đi thì vụn rơi (`mmFx` 'chunk', 2s sau biến mất).
   Lỗ cũ trùm ±0.8×size quanh điểm đập → địch bay ra ngoài sàn → `_susEject` (thua thẳng). Quân triệu hồi bị xử y hệt (ra ngoài thì `_forceKill`).
@@ -167,5 +167,5 @@
 - KHÔNG dính tường cả trận (anh 17/11 bắt lỗi): trong 4s hồi chiêu (cả trúng lẫn trượt) đi lại như meme thường; hồi xong thì chạy ra tường trái/phải GẦN NHẤT (`_acMove`). Chạm tường lúc hết hồi chiêu → `_acTryGrab` (gọi đầu `bounceWalls`) bám vào (`A.grab`, tâm = `_acHalfW` cho tay chạm mép), nhịp sau phóng móc → phóng móc + "GET OVER HERE" (`ag_getoverhere`, giọng Mortal Kombat có bản quyền)
   → trúng: kéo về (`_acHeld` = nạn nhân bị khoá như `_mmHeld`, không tham gia `_bounceFighters`), quật qua đầu nện vào tường PHÍA TRÊN mèo 3 lần × 50 × (1 + tức/100), rồi hất văng.
   Con miễn hất bay (`_mmCanLaunch` false: Long Cat, Larry, Chonky…) → chỉ ăn 1 cú, không kéo.
-- Tức: bị đánh +5 (không tính DOT), mỗi giây −1, tối đa 100 = +100% dame. Hào quang shader (lửa cam → đỏ → thêm lửa đen từ 70). Cú nện: bụi + đá vụn + vòng xung kích to dần theo dame, ≥80 sóng bóp méo, ≥90 vỡ đoạn rào tường. Tiếng nện đã giảm nhỏ (anh: "đau đầu"). Giọng GET OVER HERE nâng tông ×2.3 + nói nhanh hơn cho non nớt như mèo con (anh chê bản kéo chậm "giống phụ nữ lớn tuổi" — đừng atempo chậm).
+- Tức: bị đánh +5 (không tính DOT), mỗi giây −1, tối đa 100 = +100% dame. Hào quang shader (lửa cam → đỏ → thêm lửa đen từ 70). Cú nện: bụi + đá vụn + vòng xung kích to dần theo dame, ≥80 sóng bóp méo, ≥90 vỡ đoạn rào tường. Tiếng nện đã giảm nhỏ (anh: "đau đầu") và cắt sau 0.45s (anh: hết va tường là ngắt, không để vang). Giọng GET OVER HERE nâng tông ×2.3 + nói nhanh hơn cho non nớt như mèo con (anh chê bản kéo chậm "giống phụ nữ lớn tuổi" — đừng atempo chậm).
 - Bộ skill cũ của Angry Cat (thanh tức + hòm đồ 10 vũ khí + bom nguyên tử) anh bảo để cho 1 con khác → nằm trong `git stash` trên Mac ("WIP Angry Cat 17/11"), dùng tiền tố `AG_` (không đụng `AC_`).

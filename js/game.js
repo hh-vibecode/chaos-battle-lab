@@ -11763,7 +11763,7 @@ function _mmImpact(q){
   const u=q.u, s=u.size||20, h=q.hit, along=_mmAlong(h.side,h.x,h.y), n=_mmN(h.side);
   // 🕳️ lỗ cũ đủ to trùm hết thân → bay xuyên ra ngoài sàn
   if(mmWall.some(b=>b.side===h.side && !b.fresh && along-s*MM_HOLE_OUT>=b.a0 && along+s*MM_HOLE_OUT<=b.a1)){
-    q.st='out'; q.t=0; q.sp=MM_FLY_SPD*0.85; addShake(14,20); playSample('cine_impact',1.0);
+    q.st='out'; q.t=0; q.sp=MM_FLY_SPD*0.85; addShake(14,20); playSample('cine_impact',1.0,0.8);   // tiếng ầm dài 2.9s → cắt 0.8s, không để vang (anh 17/11)
     floatTexts.push({x:u.x,y:u.y-s-30,text:'OUT OF THE ARENA!',color:'#ffd600',life:80,huge:true}); return; }
   q.st='pin'; q.t=0; q.x=h.x-n[0]*s*0.45; q.y=h.y-n[1]*s*0.45;   // lún nửa người vào tường
   // 🧱 tường nứt: gộp với lỗ cũ chồng lên → lỗ to ra
@@ -11790,7 +11790,7 @@ function _mmWorldTick(){
     if(q.st==='hold'){ u.x=q.x; u.y=q.y; _mmZero(q); const f=q.f; if(f && !f.dead){ f.vx=f.vy=0; }
       if(q.t>=MM_HOLD_T){ if(f && !f.dead) q.a=Math.atan2(u.y-f.y,u.x-f.x);
         q.hit=_mmWallHit(u.x,u.y,q.a,u.size||20); q.st='fly'; q.t=0; if(f && f._mm){ f._mm.hold=false; f._mm.cd=MM_SSJ_CD; }
-        playSample('cine_impact',0.9); addShake(12,16); mmFx.push({k:'ring',x:u.x,y:u.y,R:(u.size||20)*3.5,t:0,T:16,c:'255,236,130'}); }
+        playSample('cine_impact',0.9,0.8); addShake(12,16); mmFx.push({k:'ring',x:u.x,y:u.y,R:(u.size||20)*3.5,t:0,T:16,c:'255,236,130'}); }
       continue; }
     if(q.st==='fly'){ const d=Math.hypot(q.hit.x-q.x,q.hit.y-q.y), px=q.x, py=q.y;
       if(d<=MM_FLY_SPD){ q.x=q.hit.x; q.y=q.hit.y; } else { q.x+=Math.cos(q.a)*MM_FLY_SPD; q.y+=Math.sin(q.a)*MM_FLY_SPD; }
@@ -17341,7 +17341,7 @@ function _acTick(f){ const A=_acS(f), T=_acTps();
     if(A.t>=AC_SLAM_T){ A.t=0; A.n++; if(A.n>=AC_SLAMS){ _acRelease(f,true); A.st='roam'; A.cd=Math.round(AC_CD_S*T); } } } }
 // 💥 cú nện: to dần theo dame (bụi, đá vụn, vòng xung kích · ≥80 sóng bóp méo không gian · ≥90 vỡ luôn đoạn rào tường)
 function _acHitFx(f,x,y,dmg){ const k=Math.min(1,(dmg-50)/50), A=f._ac;
-  playSample('se_wall_break',0.3+0.22*k); playSample('cine_heavy_slow',0.28+0.24*k);   // anh 17/11: nhỏ lại, nện 3 phát liền nghe đau đầu addShake(5+12*k,8+10*k);
+  playSample('se_wall_break',0.3+0.22*k,0.45); playSample('cine_heavy_slow',0.28+0.24*k,0.45);   // anh 17/11: nhỏ lại (nện 3 phát liền nghe đau đầu) + hết cú va là TẮT luôn, không để vang addShake(5+12*k,8+10*k);
   acFx.push({k:'hit',x,y,t:0,T:26+Math.round(14*k),R:f.size*(0.9+1.2*k),pw:k,sd:tick+x});
   if(dmg>=80) acFx.push({k:'shock',x,y,t:0,T:24,R:f.size*(1.6+1.4*k)});
   if(dmg>=90){ const side=A.left?'l':'r', j=Math.max(0,Math.min(GC_EDGE_N-1,Math.floor(y/(H/GC_EDGE_N)))); _gcEdgeBreak(side,j,f); } }

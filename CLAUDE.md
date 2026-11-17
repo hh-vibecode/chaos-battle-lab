@@ -16,6 +16,7 @@ Chi tiết từng meme: `docs/notes/memes.md` · từng phim + cine-kit: `docs/n
 - Info trong trận (`CHAR_BLURB_SHORT`) = 1 câu ĐÙA ≤8 từ có MIẾNG CHỐT (twist / phóng đại / nói ngược), bám nguồn gốc meme + gợi skill. Không tả skill. Nháp ≥5 câu, đưa anh 3–4 câu mạnh nhất. CTA Like & Subscribe chỉ hiện khi trận kết thúc.
 - Hiệu ứng động của nền / sân không dùng `Math.random` (băm theo tick) để không xáo seed trận. Sàn có hoạ tiết → không tô `PAPER_BG` để xoá, dùng `_bgRepaint` / `_skyRepaint` / `_floorShatter`.
 - Sound: không mượn tiếng SIGNATURE của meme khác (gầm, theme, giọng). Tiếng chung (hit, nổ, vỡ) dùng chung được. Tìm tiếng: skill `tim-sound`.
+- Sound KHÔNG quá đà (anh 17/11): tiếng va chạm / đập tường hết cú va là NGẮT (`playSample(key,vol,giây)`), không để vang đuôi dài; đòn lặp liên tục thì nhỏ lại.
 - TWIST (`VfxGL.fx.twist`) là hiệu ứng độc quyền của Kamui. Ý tưởng chờ: 1 meme mới dùng twist (xoáy, hố đen, thôi miên).
 - Đừng tự thêm tính năng / hiệu ứng anh không yêu cầu.
 

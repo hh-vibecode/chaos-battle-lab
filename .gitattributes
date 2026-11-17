@@ -1,2 +1,0 @@
-# script shell luôn xuống dòng LF (máy Windows autocrlf=true sẽ đổi sang CRLF làm bash lỗi)
-*.sh text eol=lf
