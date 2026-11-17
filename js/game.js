@@ -826,7 +826,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     friend: { key:'friend', defaultName:'Friend', emoji:'🐈‍⬛', color:'#4a148c', hp:1000, speed:5, size:44, skill:'Thỉnh thoảng há miệng nuốt chửng luôn viên đạn bay tới rồi hồi máu bằng đúng sức đạn đó. Mỗi 2s hoá bóng đêm lao xuyên qua địch rồi rút về trong chớp mắt (100 dame), không gì chạm được nó. Địch còn 70% máu là bị đánh dấu: Friend thôi lướt, từ đó cứ 5s cả sàn tắt đèn — con mồi đứng chết trân trong bóng tối, Friend lặng lẽ luồn ra sau lưng ngoạm một miếng (200 dame), mỗi miếng khoét mất một mảng trên người nó.' },
     friendeldritch: { key:'friendeldritch', defaultName:'FRIEND - Eldritch Apocalypse', emoji:'👁️', color:'#1a0630', hp:1000, speed:3.5, size:88, skill:'Bản khổng lồ của Friend (to gấp 2), KHÔNG dùng chiêu cũ của Friend. Nền quanh sàn đấu đen tuyền, chỉ còn sao trời lấp lánh. Mỗi 5s GẦM: cả sàn rung chuyển, 10 đợt sóng âm trong 1.5s, mỗi đợt 20 dame lên mọi địch trên sân + đẩy lùi nhẹ. Địch lại gần: Friend lao nhẹ người tới húc, 50 dame cận chiến + đẩy lùi nhẹ (0.6s/lần). Địch lại gần 1 trong 4 góc sân: bàn tay bóng tối thò ra từ màn đêm cào 100 dame (mỗi góc 1s/lần).' },
     lebronsunshine: { key:'lebronsunshine', defaultName:'LeSunshine', emoji:'☀️', color:'#ffb300', hp:1000, speed:5, size:46, skill:'Nửa người cầu thủ ném bóng rổ vào địch gần nhất, 40 dame mỗi quả (1.5s/quả). Bóng trúng địch đủ 3 lần → hoá MẶT MEME, gom sáng rồi LOÉ trắng xoá cả sân: mọi địch bị LOÁ 2.5s (đứng khựng, không đánh), xong về dạng thường. Về 0 máu (1 lần/trận): không chết mà lướt ra giữa sân hoá MẶT TRỜI, phát bài You Are My Sunshine, thiêu mọi địch 100 dame/s — nhưng chỉ còn 3 vạch máu, ăn 3 đòn là thua.' },
-    angrycat: { key:'angrycat', defaultName:'Angry Cat', emoji:'😾', color:'#90a4ae', hp:1000, speed:4.5, size:46, skill:'Bám cạnh sân phía xuất phát (đúng dáng ảnh gốc: 1 tay bám cột, 1 tay giơ). Mỗi lần chạm tường (hồi 2.2s, trượt thì 1s) phóng mũi lao + xích kiểu Scorpion về phía địch — GET OVER HERE! — trúng thì kéo về, nắm bằng tay còn lại, NỆN vào tường 3 lần, mỗi lần 50 dame rồi hất văng. TỨC GIẬN: bị đánh +5, mỗi giây −1, tối đa 100 = +100% dame (cú nện tới 100). Hào quang + VFX cú nện mạnh dần theo tức; cú gần tối đa vỡ luôn rào tường. Con miễn bị hất bay (Long Cat, Larry…) thì chỉ ăn 1 cú, không bị kéo.' },
+    angrycat: { key:'angrycat', defaultName:'Angry Cat', emoji:'😾', color:'#90a4ae', hp:1000, speed:4.5, size:46, skill:'Bám cạnh sân trái HOẶC phải (bức gần nhất), tay vươn bám tường, tay kia giơ. Mỗi lần chạm tường (hồi 4s) phóng mũi lao + xích kiểu Scorpion về phía địch — GET OVER HERE! — trúng thì kéo về, nắm bằng tay còn lại, NỆN vào tường 3 lần, mỗi lần 50 dame rồi hất văng. TỨC GIẬN: bị đánh +5, mỗi giây −1, tối đa 100 = +100% dame (cú nện tới 100). Hào quang + VFX cú nện mạnh dần theo tức; cú gần tối đa vỡ luôn rào tường. Con miễn bị hất bay (Long Cat, Larry…) thì chỉ ăn 1 cú, không bị kéo.' },
     chonkydog: { key:'chonkydog', defaultName:'Chonky Dog', emoji:'🐕', color:'#d7a86e', hp:1000, speed:5, size:45, skill:'Cứ vài giây lại phình to gấp mấy lần người rồi đổ sập xuống như một toà nhà, về phía còn trống nhất. Lúc to đùng thì thân nó chặn cứng, ai chạm vào cũng bị hất ra; từ lúc bắt đầu hoá to tới khi dậy nó miễn mọi hiệu ứng đẩy lùi và khống chế, và chỉ chịu 50% sát thương. Ai nằm dưới thân bị đè 350 dame và bẹp dí như bánh kếp suốt 1.5s (đứng im, không làm gì được) rồi mới phồng bật lại, cả sàn đấu rung chuyển nên mọi địch trên sân đều ăn 100 dame dù đứng xa, xong nó lồm cồm dậy về cỡ cũ đi tiếp. Dạng thường cũng nặng nề: mọi cú đẩy lùi chỉ còn 5% lực.' },
     alottadameguy: { key:'alottadameguy', defaultName:'A Lotta Dame Guy', emoji:'🪚', color:'#ffca28', hp:1000, speed:5, size:50, skill:'Cầm dao bấm xỉa liên tục, mỗi nhát 20 dame. Cứ ăn đủ 250 dame là lôi ra cái cưa máy, giật dây 2 phát cho nổ máy — cưa chạy 8s, địch nào lọt vào tầm lam cưa (trừ ngay trên đầu) là bị xẻ 50 dame mỗi 0.2s và lết chậm còn một nửa — xẻ được hơn 200 máu là ổng hét luôn câu tủ "Now that\'s a lotta damage".' },
     arabiccat: { key:'arabiccat', defaultName:'Arabic Cat', emoji:'🐱', color:'#ffb300', hp:1000, speed:5, size:45, skill:'' },
@@ -17273,19 +17273,20 @@ function _lcDraw(f){
   ctx.restore();
 }
 // ===== 😾⛓️ ANGRY CAT — MÓC XÍCH KIỂU SCORPION (17/11/2026, anh thiết kế) — khối AC_* / _ac* =====
-// Bám cạnh sân phía xuất phát (đúng dáng ảnh gốc: 1 tay bám cột, 1 tay giơ). Mỗi lần chạm tường + hết hồi chiêu → phóng mũi lao + xích
+// Bám cạnh sân trái HOẶC phải (bức gần nhất), tay vươn bám tường, tay kia giơ. Mỗi lần chạm tường + hết hồi chiêu → phóng mũi lao + xích
 // về phía địch kèm "GET OVER HERE!" → trúng thì kéo về, nắm bằng tay còn lại, NỆN vào tường 3 lần (50 × hệ số tức mỗi lần) rồi hất văng.
 // TỨC GIẬN: bị đánh +5, mỗi giây −1, tối đa 100 = +100% dame. Hào quang + VFX cú nện mạnh dần theo tức / dame (mặt giữ nguyên ảnh gốc).
-const AC_ANGER_MAX=100, AC_ANGER_HIT=5, AC_DECAY_S=1, AC_SLAM_DMG=50, AC_SLAMS=3, AC_SLAM_T=20, AC_HOOK_SPD=17, AC_PULL_SPD=15, AC_CD_S=2.2, AC_MISS_CD_S=1.0;
+const AC_ANGER_MAX=100, AC_ANGER_HIT=5, AC_DECAY_S=1, AC_SLAM_DMG=50, AC_SLAMS=3, AC_SLAM_T=20, AC_HOOK_SPD=17, AC_PULL_SPD=15, AC_CD_S=4, AC_MISS_CD_S=4;   // hồi chiêu 4s cả lúc trúng lẫn trượt (anh dặn 17/11: 3s rồi tăng lên 4s, tránh spam)
 const AC_PAW=[0.07,0.39];   // tay GIƠ trong ảnh (chưa lật) — phóng móc + nắm địch · tay bám cột ở phía bên kia (cạnh tường)
 const _acImg=src=>{ const im=new Image(); im._noMask=true; im.onload=()=>{ im._crop={sx:0,sy:0,sw:im.naturalWidth,sh:im.naturalHeight}; }; im.src=src; return im; };
-const AC_IMG={ CALM:_acImg('assets/img/angrycat/AC_CALM.webp'),   // giữ đúng mặt gốc cả trận (anh dặn không thêm biểu cảm)
+const AC_IMG={ CALM:_acImg('assets/img/angrycat/AC_CALM.webp'), GRIP:_acImg('assets/img/angrycat/AC_GRIP.webp'),   // GRIP: tay phía tường vươn hẳn ra bám cột (anh dặn 17/11)   // giữ đúng mặt gốc cả trận (anh dặn không thêm biểu cảm)
   KUNAI:_acImg('assets/img/angrycat/AC_KUNAI.webp'), CHAIN:_acImg('assets/img/angrycat/AC_CHAIN.webp') };
 let acFx=[];
 const _acTps=()=>60*GAME_SPEED*TIME_SCALE;
 function _acS(f){ if(!f._ac){ const left=f.x<W/2; f._ac={anger:0,st:'roam',cd:Math.round(0.8*_acTps()),left,hook:null,held:null,n:0,t:0}; } return f._ac; }
 function _acMul(f){ return 1+(f._ac?f._ac.anger:0)/AC_ANGER_MAX; }
-function _acWallX(f){ const A=_acS(f); return A.left ? f.size : W-f.size; }   // tâm mèo khi đang bám tường — đúng mức bounceWalls cho phép (tâm cách tường 1 cỡ thân), sát hơn là không bao giờ "chạm" được
+function _acHalfW(f){ const s=f._lastSprite, dh=s?s.dh:f.size*2; return Math.max(8, dh*(260/420)/2-1); }   // nửa bề ngang dáng GRIP (ảnh 260×420): đầu bàn tay vươn đúng mép ảnh
+function _acWallX(f){ const A=_acS(f), hw=_acHalfW(f); return A.left ? hw : W-hw; }   // tâm mèo khi đang bám tường — đúng mức bounceWalls cho phép (tâm cách tường 1 cỡ thân), sát hơn là không bao giờ "chạm" được
 function _acAtWall(f){ return Math.abs(f.x-_acWallX(f))<3; }
 function _acFace(f){ return _acS(f).left; }   // ảnh gốc: mặt + cột nằm bên phải → bám tường TRÁI thì lật ngang
 // điểm tay giơ (phóng móc / nắm địch) ngoài thế giới
@@ -17294,6 +17295,7 @@ function _acOnHit(f,isDot){ const A=_acS(f); if(!isDot){ A.anger=Math.min(AC_ANG
 function _acRelease(f,fling){ const A=f._ac, u=A&&A.held; if(u){ u._acHeld=null; if(fling && !u.dead && u.vx!==undefined){ const d=A.left?1:-1; u.vx=d*11; u.vy=-2; } } if(A){ A.held=null; A.hook=null; } }
 // 🚶 chỉ bám tường: trượt về tường phía nhà, rồi trượt dọc tường cho ngang tầm địch
 function _acMove(f){ const A=_acS(f); if(A.st!=='roam'){ f.vx=0; f.vy=0; return true; }
+  if(Math.abs(f.x-_acWallX(f))>f.size*1.5) A.left=f.x<W/2;   // bám được CẢ trái lẫn phải (anh dặn 17/11): rời tường thì chạy về tường gần nhất
   const e=_findClosestEnemy(f.team,f.x,f.y), tx=_acWallX(f), ty=Math.max(f.size,Math.min(H-f.size, e?e.y:f.y)), sp=f.topSpeed*_soloMoveMul();
   const dx=tx-f.x, dy=ty-f.y, d=Math.hypot(dx,dy);
   if(d<=sp){ f.x=tx; f.y=ty; f.vx=0; f.vy=0; } else { f.vx=dx/d*sp; f.vy=dy/d*sp; if(Math.abs(dx)>2){ f.vy*=0.35; } f.x+=f.vx; f.y+=f.vy; }
@@ -20249,6 +20251,7 @@ class Fighter {
     playSample('yuki_bounce',0.6);   // giam 30% so voi 0.85
   }
   bounceWalls(){
+    if(this.type==='angrycat' && this._ac){ const hw=_acHalfW(this); this.x=Math.max(hw,Math.min(W-hw,this.x)); this.y=Math.max(this.size,Math.min(H-this.size,this.y)); return; }   // 😾 bám tường: tay vươn chạm đúng mép sân
     if(this.type==='loooongcat'){ const t=_lcTh(this); this.x=Math.max(t,Math.min(W-t,this.x)); this.y=Math.max(t,Math.min(H-t,this.y)); return; }   // 🐱 thân bò sát tường: chỉ chặn theo bề dày thân
     // 🗿 Gigachad khổng lồ (anh dặn 30/10): KHÔNG bó thân trong sân — tường trái/phải/trên chỉ chặn theo cỡ lúc vừa hoá khổng lồ (sW),
     //    thân to hơn thì tràn ra ngoài sân (máy quay lùi ra, xem _camUpdate); tường DƯỚI vẫn chặn đủ size → chân luôn đứng trên sân
@@ -24167,7 +24170,8 @@ class Fighter {
     } else if(this.type==='electricguitarcat' && this._egPose){
       img = this._egPose;   // khung gảy đàn hiện tại, đã chọn theo nhịp ở doAbility()
     } else if(this.type==='angrycat' && AC_IMG.CALM.complete && AC_IMG.CALM.naturalWidth){
-      img = AC_IMG.CALM;   // 😾 giữ đúng ảnh gốc (dáng bám cột + giơ tay)
+      const _A=this._ac, _g=_A && (_A.st!=='roam' || _acAtWall(this)) && AC_IMG.GRIP.complete && AC_IMG.GRIP.naturalWidth;
+      img = _g ? AC_IMG.GRIP : AC_IMG.CALM;   // 😾 ở tường: tay vươn bám cột · đang đi về tường: dáng gốc
     } else if(this.type==='lebronsunshine'){
       const _ok=im=>im && im.complete && im.naturalWidth;   // ☀️ mặt trời · ✨ mặt meme (lúc loé) · 🏀 nửa người ném bóng (thường)
       img = (this._lbSun && _ok(LB_IMG.SUN)) ? LB_IMG.SUN : ((this._lbMeme>0) && _ok(LB_IMG.FACE)) ? LB_IMG.FACE : _ok(LB_IMG.THROW) ? LB_IMG.THROW : avatarImgs[i];

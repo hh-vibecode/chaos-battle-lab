@@ -281,6 +281,7 @@ window.ASSET_GROUP={
 "assets/audio/ny_boing.mp3": "nyancat",
 "assets/audio/bx_nostalgia.mp3": "boxingcat",
 "assets/img/angrycat/AC_CALM.webp": "angrycat",
+"assets/img/angrycat/AC_GRIP.webp": "angrycat",
 "assets/img/angrycat/AC_KUNAI.webp": "angrycat",
 "assets/img/angrycat/AC_CHAIN.webp": "angrycat",
 "assets/audio/ag_getoverhere.mp3": "angrycat",

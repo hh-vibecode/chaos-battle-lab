@@ -162,8 +162,9 @@
 
 ## 😾⛓️ Angry Cat (`angrycat`, 17/11/2026) — khối `AC_*` / `_ac*` trong js/game.js (cạnh `_findClosestEnemy`)
 - Ảnh: GPT phóng nét trung thành đúng con mèo xám trắng tai cụp anh gửi (bỏ tay người + cột đen), GIỮ NGUYÊN mặt gốc cả trận (anh: "không cần thêm biểu cảm") — `AC_CALM`.
-  Dáng ảnh gốc = 1 tay bám cột (phía tường) + 1 tay giơ (`AC_PAW`, phóng móc + nắm địch). Bám tường TRÁI thì lật ảnh. Mũi lao kiểu Scorpion `AC_KUNAI` + đoạn xích lặp `AC_CHAIN` (GPT nền xanh).
-- Bám cạnh sân phía xuất phát, trượt dọc tường cho ngang tầm địch (`_acMove`). Chạm tường + hết hồi chiêu (2.2s; trượt 1s) → phóng móc + "GET OVER HERE" (`ag_getoverhere`, giọng Mortal Kombat có bản quyền)
+  Dáng ảnh gốc = 1 tay bám cột (phía tường) + 1 tay giơ (`AC_PAW`, phóng móc + nắm địch). Mũi lao kiểu Scorpion `AC_KUNAI` + đoạn xích lặp `AC_CHAIN` (GPT nền xanh).
+  Sát tường / đang ra chiêu → `AC_GRIP` (tay phía tường vươn ra bám hẳn vào mép sân, ảnh bám bên PHẢI; bám tường TRÁI thì lật). Không vẽ cột / đổi mép sân (anh: "để sân nguyên bản").
+- Bám tường GẦN NHẤT, trái hoặc phải (`_acMove`; chạm tường = `_acHalfW` + nhánh riêng đầu `bounceWalls`), trượt dọc tường cho ngang tầm địch. Chạm tường + hết hồi chiêu (4s cả trúng lẫn trượt — anh 17/11, tránh spam) → phóng móc + "GET OVER HERE" (`ag_getoverhere`, giọng Mortal Kombat có bản quyền)
   → trúng: kéo về (`_acHeld` = nạn nhân bị khoá như `_mmHeld`, không tham gia `_bounceFighters`), quật qua đầu nện vào tường PHÍA TRÊN mèo 3 lần × 50 × (1 + tức/100), rồi hất văng.
   Con miễn hất bay (`_mmCanLaunch` false: Long Cat, Larry, Chonky…) → chỉ ăn 1 cú, không kéo.
 - Tức: bị đánh +5 (không tính DOT), mỗi giây −1, tối đa 100 = +100% dame. Hào quang shader (lửa cam → đỏ → thêm lửa đen từ 70). Cú nện: bụi + đá vụn + vòng xung kích to dần theo dame, ≥80 sóng bóp méo, ≥90 vỡ đoạn rào tường.
