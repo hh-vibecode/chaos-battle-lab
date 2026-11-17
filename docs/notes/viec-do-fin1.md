@@ -1,4 +1,6 @@
-# VIỆC DỞ — Final Part 1 (ghi 16/11/2026 tối, làm tiếp phiên sau)
+# VIỆC DỞ — Final Part 1 (ghi 16/11/2026 tối)
+
+✅ 17/11: ĐÃ LÀM LẠI cả 2 cảnh — Ver 654–655 Chill Guy (thành phố 3D nối tiếp, trục cố định, meme form gốc, nộ kiểu Gon theo GIF anh gửi D:meme-anime-lab-videosef-gongon-angry.gif, ngắt → Gojo đứng chắn, gật đầu rời đi, kết thủ thế) · Ver 656 cảnh kết quy mô chiến tranh (bãi đổ nát, biển meme, Friend cỡ thiên thạch). CHỜ ANH XEM GÓP Ý.
 
 Đọc file này TRƯỚC khi làm tiếp. Kịch bản đã duyệt: `prompts/kich-ban/fin1-chillguy-ending.md` (mục "ANH CHỐT").
 Bản đang lên: Ver 643 (c44887d). 2 cảnh mới `js/film-fin1c6.js` (Chill Guy) + `js/film-fin1c7.js` (kết) ĐỀU BỊ ANH CHÊ → phải làm lại.
