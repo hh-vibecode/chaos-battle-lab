@@ -158,6 +158,7 @@
   BIG BANG: xoá sổ mọi địch kiểu Hollow Purple (`_mwErased`, không xác) + `_summonFoes` → loé TRẮNG TINH (`_bcWhiteDraw`, không sàn/viền/chữ), chỉ còn
   ổ bánh mì BC_LOAF lơ lửng, thanh máu ghi ∞ → hết trận. Tiếng: `bc_spin` (myinstants jet-engine-startup, rít to dần), `bc_zap` (điện chập lúc đèn nháy).
   (17/11) Hút vào = `bc_suck` (tiếng nổ siêu tân tinh phát NGƯỢC, đỉnh đúng lúc co về 1 điểm — `blackhole` cũ bị nhạc + động cơ át), nổ = `bc_bang` (cùng tiếng phát xuôi, có dải cao) + `ep3_end_boom` (chỉ toàn trầm <200Hz, loa điện thoại gần như câm).
+  Nhạc Interstellar "Mountains" (`bc_interstellar`, anh tải 18/11) chạy từ lúc mở lỗ hổng (rt 130) tới hết trận (cả bài 18.9s), ra menu là tắt.
   Thân ẩn tới hết màn tối có vì sao (`fused`) — trước lộ ảnh thường + thanh máu 1 khung lúc co về 1 điểm; chỉ màn trắng mới vẽ ổ bánh mì đi lại.
 - Ảnh anh gửi (Desktop): dạng thường mèo Xiêm nằm (BC_IDLE, quay mặt TRÁI), BC_BUTTER + BC_LOAF tách từ tấm 2 ảnh. Con số (100 máu, 3s, 200 tick xoay) em tự đặt.
 - Anh gửi TikTok mẫu effect (@ai.disruptor/video/7593888307130649859) — trình duyệt chạy ngầm trên Windows KHÔNG mở được video TikTok; Mac dùng skill `xem-video` để xem và chỉnh lại effect cho giống.

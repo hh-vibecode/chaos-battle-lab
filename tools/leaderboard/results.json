@@ -405,6 +405,26 @@
    "t": 34,
    "src": "render",
    "at": "2026-11-18"
+  },
+  "snooze cat vs mlem cat meme battle": {
+   "title": "Snooze Cat vs Mlem Cat - Meme Battle",
+   "win": [
+    "snoozecat"
+   ],
+   "seed": 4009230340,
+   "t": 38.4,
+   "src": "render",
+   "at": "2026-11-18"
+  },
+  "crunchy cat vs bat cat meme battle": {
+   "title": "Crunchy Cat vs Bat Cat - Meme Battle",
+   "win": [
+    "crunchycat"
+   ],
+   "seed": 4011644057,
+   "t": 32.9,
+   "src": "render",
+   "at": "2026-11-18"
   }
  }
 }
