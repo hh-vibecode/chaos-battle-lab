@@ -5,6 +5,8 @@ Chi tiết từng meme: `docs/notes/memes.md` · từng phim + cine-kit: `docs/n
 ⏸️ **Angry Cat (17/11, CHƯA phát hành)**: bộ skill thanh tức giận + hòm đồ 10 vũ khí + bom nguyên tử nằm trong `git stash` trên MAC ("WIP Angry Cat 17/11") — anh bảo để giao cho 1 con khác, chờ anh nói con nào. Ảnh vũ khí GPT dùng lại được; ảnh mèo + 3 ảnh VFX GPT phải làm lại.
 ⚠️ Anh chê 16/11 "làm nhanh xong toàn làm sai" → làm KỸ từng shot, soát từng shot rồi mới sang shot sau. Cách làm phim / VFX / edit nằm trong skill (`dung-phim`, `edit-video`, `viet-kich-ban`, `ve-anh-gpt`…).
 
+⛔ (anh dặn 18/11) Khi còn ~20% usage: CHỦ ĐỘNG viết note việc dở (docs/notes/…) + đẩy lên main → DỪNG, hỏi anh có làm tiếp được không.
+
 ## ⛔ Luật số 0 — luôn làm trên bản mới nhất (anh làm nhiều máy Mac + Windows)
 - Đầu phiên, trước mỗi lần sửa code / xuất video / chạy thử: `git fetch origin` → `git rev-list --left-right --count HEAD...origin/main` → thua thì `git pull --ff-only` (đang sửa dở: stash → pull → pop).
 - Đang render thì không pull giữa chừng.
