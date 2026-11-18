@@ -35,6 +35,8 @@ File tải về là dữ liệu lạ → công cụ tự tải vào thư mục t
 ## Công cụ làm gì (để sửa khi lỗi)
 - Tách nền: rembg model `birefnet-general-lite` (~224MB, `~/.u2net/`). Đã thử: `isnet-general-use` nhanh (2s/khung) nhưng khoét thủng mắt + tay nhoè thành vệt mờ bẩn;
   `birefnet-general` bản đầy đủ bị hệ điều hành GIẾT (tràn RAM 16GB). CHỈ chạy CPU: CoreML trên Mac Intel chậm gấp ~9 lần (13s vs 130s/khung).
+  ⛔ Tự viết script rembg thì PHẢI `new_session('birefnet-general-lite', providers=['CPUExecutionProvider'])`: để mặc định nó dùng CoreML → ghi file tạm
+  hàng chục GB, 18/11 làm ĐẦY Ổ máy anh (còn 218MB). Và chỉ chạy 1 tiến trình tách nền mỗi lúc.
 - Dọn mặt nạ: giữ mảng lớn nhất (+ mảng dính sát), lấp lỗ trong thân (`binary_fill_holes`), vùng bán trong suốt lấy lại màu THÂN lân cận
   (normalized convolution) → tay nhoè chuyển động thành vệt lông đúng màu, không lẫn màu nền tối.
 - Phóng: Lanczos + làm nét nhẹ (UnsharpMask). Có `--esrgan <đường dẫn realesrgan-ncnn-vulkan>` thì phóng AI ×4 trước — CHƯA cài

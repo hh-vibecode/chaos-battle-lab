@@ -177,3 +177,15 @@
 - KHÔNG đánh thường. Trận có Crunchy: mỗi 1.5s 1 hạt (8 hình GPT nền xanh `CC_K0..7`) bay từ ngoài sân đáp vào điểm bất kì (tối đa 8 hạt). Meme NÀO chạm hạt cũng ăn (không ai chủ động đi tìm, như lát bánh Bread Cat):
   đứng yên ngấu nghiến (`_ccEat`, khoá như `_mmHeld`), vòng tiến độ trên thanh máu. Crunchy 2s, mỗi hạt xong −0.2s (tối thiểu 0.2s) → +100 máu, 100 dame MỌI địch (cả quân triệu hồi). Meme khác luôn 2s, 1/4 hiệu lực (+25 / 25).
 - Tiếng: `cc_chew` (nhai giòn, CHỈ Crunchy, cắt theo thời gian ăn) · `cc_nom` (mèo con ăn nom nom — meme khác, anh dặn) · `cc_bite` (CRUNCH lúc gây dame). Info: "Diet starts tomorrow. Damage starts now." (anh chọn).
+
+## 😴💭 Snooze Cat — GIẤC MƠ (18/11/2026) — khối `SN_*` / `_sn*` trong js/game.js (trước `_blPick`)
+- Cơ chế cũ giữ nguyên, dame Zzz tăng tiến +4/s (trước +5, anh: giảm 20%). Mỗi lần lăn ra ngủ `_snRoll`: tỉ lệ mơ 20%, mỗi giấc không mơ +10%, mơ xong về 20%;
+  mỗi giấc mơ 1 lần/trận, không mơ 2 giấc liền. Mơ thì KHÔNG bắn Zzz, không cộng dồn thời gian ngủ; giấc ngủ kéo dài bằng giấc mơ (`_snSleepT`).
+- Vào / ra mơ: màn hình gợn sóng như nước (`_snPost`, dời từng dải ngang) + cả sân đổi nền (`SN_HELL.jpg` / `SN_HEAVEN.jpg`, GPT vẽ cùng chất phim hoạt hình cổ anh gửi).
+- 😈 Ác mộng (3.6s): Snooze run run + mây đen / vạch u ám kiểu manga trên đầu (`_snGloom`), bong bóng hiện cảnh địa ngục. Lửa bốc từ mép MÀN HÌNH (không vẽ theo mép sân — từng tạo viền chữ nhật lạ).
+  Mỗi meme địch: quỷ (3 tư thế `SN_DEVIL_0..2` — GPT vẽ lại từ ảnh anh gửi, chỉ đưa ảnh con quỷ đã cắt; đưa cả cảnh phim thì GPT chặn) + vạc (`SN_CAULDRON`) đặt chỗ meme đứng
+  nhưng ĐẨY XA Snooze (`need=cw*1.5`), quỷ đứng phía xa Snooze. Xiên nhấc bổng (đầu chĩa tư thế giơ) → chọc nhúng vạc: meme bám đầu chĩa, giãy giụa, nửa dưới bị thân vạc + nửa trước mặt dầu che.
+  Dầu sôi vẽ bằng code (anh: "lõm bõm, đừng để hình cứng"): bong bóng phồng → vỡ loang, vệt sáng trôi, hơi bốc, bắn dầu lúc tõm. 80 dame/s × 2s + cháy 3s; quân triệu hồi có máu cũng ăn dame. Kết thúc: kính vỡ (`ep3_glass`).
+  Meme không hất bay được (`_mmCanLaunch` false) thì chỉ ăn dame tại chỗ. Nạn nhân khoá bằng `_snHeld` (như `_acHeld`).
+- 😇 Mơ đẹp (3s): bong bóng = mèo Happy nhảy (`SN_HAPPY_01..04`, 4 khung sạch từ GIF tenor "happy happy happy" — các khung khác nhoè / dính nền), cột sáng + bậc thang (`SN_STAIRS`) thả xuống, bàn tay thần (`SN_HAND`) xoa đầu 3 cái × 50 = +150.
+- Tiếng: `sn_dream` (đàn hạc) · `sn_laugh` (quỷ cười) · `sn_fire` · `sn_splash` + `sn_sizzle` (tõm + xèo) · `sn_heaven` (hợp xướng) — myinstants.

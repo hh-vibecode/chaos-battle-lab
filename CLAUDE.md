@@ -11,6 +11,7 @@ Chi tiết từng meme: `docs/notes/memes.md` · từng phim + cine-kit: `docs/n
 ## ⛔ Luật số 0 — luôn làm trên bản mới nhất (anh làm nhiều máy Mac + Windows)
 - Đầu phiên, trước mỗi lần sửa code / xuất video / chạy thử: `git fetch origin` → `git rev-list --left-right --count HEAD...origin/main` → thua thì `git pull --ff-only` (đang sửa dở: stash → pull → pop).
 - Đang render thì không pull giữa chừng.
+- 💾 Máy Mac ổ chật (~20GB trống): tính trước khi chạy việc nặng, không tốn ổ / RAM vô ích, mỗi lúc chỉ 1 việc nặng (rembg CHỈ CPU — CoreML ghi file tạm hàng chục GB, 18/11 làm đầy ổ). Xong việc là XOÁ file tạm / khung nháp / video tải về không dùng nữa (anh dặn 18/11).
 - Tin nhắn không liên quan game / phim (vd công nợ, KiotViet = app Kế toán) → hỏi lại 1 câu, không làm.
 
 ## Game — luật code
