@@ -17496,7 +17496,7 @@ function _snBubbleDraw(p){ const r=p.size*(1+0.06*Math.sin(tick*0.3+p._sd)), x=p
   ctx.strokeStyle='rgba(255,255,255,0.5)'; ctx.beginPath(); ctx.arc(x,y,r,4.2,5.7); ctx.stroke();
   ctx.fillStyle='rgba(255,255,255,0.9)'; ctx.beginPath(); ctx.ellipse(x-r*0.38,y-r*0.42,r*0.22,r*0.13,-0.6,0,Math.PI*2); ctx.fill();
   ctx.restore(); }
-function _snPop(p,loud){ snPops.push({x:p.x,y:p.y,r:p.size,t:0,T:14,sd:Math.round(p._sd*7)}); if(loud) playSample('sn_pop',0.5,null,0.9+((p._sd*13)%1)*0.3); }
+function _snPop(p,loud){ snPops.push({x:p.x,y:p.y,r:p.size,t:0,T:14,sd:Math.round(p._sd*7)}); if(loud) playSample('sn_pop',0.9,null,0.9+((p._sd*13)%1)*0.3); }   // 🫧 tiếng trúng đòn = bong bóng vỡ (anh 18/11: thay tiếng hit mặc định — snoozecat trong CHARS_OWN_SOUND)
 function _snPopDraw(){ for(let i=snPops.length-1;i>=0;i--){ const F=snPops[i]; if(++F.t>F.T){ snPops.splice(i,1); continue; } const q=F.t/F.T;
     ctx.save(); ctx.globalAlpha=Math.max(0,1-q); ctx.strokeStyle='rgba(225,245,255,0.95)'; ctx.lineWidth=1.5;
     ctx.beginPath(); ctx.arc(F.x,F.y,F.r*(1+q*0.8),0,Math.PI*2); ctx.stroke();
@@ -18327,7 +18327,7 @@ const CHARS_OWN_HIT_VFX = new Set(['epicsaxguy', 'loadingcat',   // 🏹 Loading
 // đụng độ char khác cũng đang phát nhạc dài, tránh 2 bài chồng lên nhau. KHÔNG đụng tới SFX ngắn (Yelling
 // Women, hit sound...) vì mấy cái đó không nằm trong nhánh check này.
 const MUSIC_LOOP_CHARS = new Set(['pianocat','electricguitarcat','mosquitoviolin','damdamdidi','violinbee']);
-const CHARS_OWN_SOUND = new Set(['angrycat','loooongcat','duolingo','azel','poordog','ninjacat','morsecat','alottadameguy','cornelius','epicsaxguy','yuki','infinitydoge','mosquitoviolin','popcat','holycat','screamcat','flyingcat','beluga','thevoid','huhcat','applecat','cheems','pakistanguy','spidercat',
+const CHARS_OWN_SOUND = new Set(['snoozecat','angrycat','loooongcat','duolingo','azel','poordog','ninjacat','morsecat','alottadameguy','cornelius','epicsaxguy','yuki','infinitydoge','mosquitoviolin','popcat','holycat','screamcat','flyingcat','beluga','thevoid','huhcat','applecat','cheems','pakistanguy','spidercat',
   'feuerkatze','uiacat','loooongcat','catvader','kingcheems','kermit','mewingcat','smartguy','hecker','evillarry','suscat','flowercat','depressedcat','damdamdidi','pianocat','electricguitarcat','bongocat',
   'vampirecat','mlemcat','violinbee']);
 // tìm Image trong kho theo tên hiển thị (đã có _cols/_rows/_frames/_additive sẵn)
