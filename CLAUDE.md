@@ -75,7 +75,7 @@ Chi tiết từng meme: `docs/notes/memes.md` · từng phim + cine-kit: `docs/n
 - Ghi nhớ quan trọng → ghi vào FILE TRONG REPO (bộ nhớ Claude của từng máy không sang máy khác).
 
 ## Skill của repo (`.claude/skills/`)
-`them-meme` · `tach-nen-anh` · `chay-thu` · `phat-hanh` · `xuat-video` (Mac) · `dung-phim` · `xem-video` (Mac) · `tao-vfx` · `ve-anh-gpt` · `viet-kich-ban` · `edit-video` · `tim-sound` (Mac) · `video-sang-sprite` (Mac).
+`hoat-hoa-vfx` (18/11: vụ nổ lan từ tâm, tràng impact, mượt — js/vfx-boom.js) · `them-meme` · `tach-nen-anh` · `chay-thu` · `phat-hanh` · `xuat-video` (Mac) · `dung-phim` · `xem-video` (Mac) · `tao-vfx` · `ve-anh-gpt` · `viet-kich-ban` · `edit-video` · `tim-sound` (Mac) · `video-sang-sprite` (Mac).
 
 ## Phát hành
 - Làm xong là TỰ ĐẨY lên `main` (anh đã dặn, không cần hỏi): Windows `tools/x/release.js --msg "…" --files a,b,c` (tăng số bản, gắn `?v=`, cập nhật assets-manifest.json, commit "Ver N: …", push). Mac `python3 tools/release.py "…"`.
