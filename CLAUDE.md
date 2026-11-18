@@ -1,5 +1,6 @@
 # Chaos Battle Lab — luật làm việc (bản gọn 16/11/2026)
 Chi tiết từng meme: `docs/notes/memes.md` · từng phim + cine-kit: `docs/notes/films.md` · mẫu comment YouTube: `docs/notes/youtube-comment.md` · luật gốc đầy đủ (ví dụ, lời anh dặn): `docs/notes/rules-full.md`.
+🍎 **Mac chưa cài luồng làm phim** (từ khi làm phim trên PC, Mac chỉ update game + nhân vật): phiên Mac đọc `docs/notes/luong-phim-blender.md` mục 2 rồi cài TRƯỚC khi làm phim. VFX nổ / khói / lửa lớn = mô phỏng Blender (`tools/blender/`, cùng file đó mục 4).
 Đọc file đó KHI làm đúng phần đó (không cần đọc hết mỗi phiên).
 ⏸️ Final Part 1: cảnh Chill Guy + cảnh kết đã làm lại 17/11 (Ver 654–656), chờ anh góp ý — chi tiết `docs/notes/viec-do-fin1.md`.
 ⏸️ **Angry Cat (17/11, CHƯA phát hành)**: bộ skill thanh tức giận + hòm đồ 10 vũ khí + bom nguyên tử nằm trong `git stash` trên MAC ("WIP Angry Cat 17/11") — anh bảo để giao cho 1 con khác, chờ anh nói con nào. Ảnh vũ khí GPT dùng lại được; ảnh mèo + 3 ảnh VFX GPT phải làm lại.
