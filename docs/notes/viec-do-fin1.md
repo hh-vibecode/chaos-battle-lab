@@ -1,7 +1,7 @@
 # VIỆC DỞ — Final Part 1
 
 ## 🆕 YÊU CẦU 18/11 (anh gửi — làm THEO THỨ TỰ)
-**① LÀM SKILL / TOOL TRƯỚC** hỗ trợ dựng animation như các video đã học, rồi **làm MẪU 1 VỤ NỔ + IMPACT 5s cho anh xem** (anh dặn "xử lý phần skill trước, xong làm mẫu vụ nổ impact 5s t xem thử"). Học từ:
+**① ✅ XONG 18/11 (Ver 659: js/vfx-boom.js + skill hoat-hoa-vfx + mẫu Anime Lab "Sample · Explosion + impact") — CHỜ ANH XEM mẫu rồi mới sang ② ③.** Gốc: LÀM SKILL / TOOL TRƯỚC hỗ trợ dựng animation như các video đã học, rồi **làm MẪU 1 VỤ NỔ + IMPACT 5s cho anh xem** (anh dặn "xử lý phần skill trước, xong làm mẫu vụ nổ impact 5s t xem thử"). Học từ:
 - https://www.youtube.com/watch?v=aVvT_--q7Ow giây **21–26**: animation vụ nổ lớn rất tốt, bắt đầu từ TÂM lan ra xung quanh.
 - https://youtube.com/shorts/-nOC-UgaLLw : thêm kiến thức về IMPACT.
 - https://m.youtube.com/shorts/MYMWRdhF0l4 : cách làm animation MƯỢT hơn.
