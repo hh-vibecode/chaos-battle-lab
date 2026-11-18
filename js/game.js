@@ -17626,9 +17626,7 @@ function _snHeavenUnder(D,k){ const f=D.f, t=D.t, bk=Math.max(0,Math.min(1,(t-SN
 // lớp TRÊN meme: nửa trước vạc + mây u ám (ác mộng) / bàn tay thần xoa đầu (mơ đẹp) / bắn dầu / vỡ ảo cảnh
 function _snDrawOver(){ const D=snDream; if(!D) return; const k=_snScene(D), t=D.t;
   if(D.kind==='hell'){ for(const v of D.vic) if(v.can && !v.u.dead && t>=SN_HELL.dunk-2) _snCauldron(v,k,true);
-    // 🔱 vẽ lại ĐOẠN CHĨA quanh người meme đè lên meme → thấy chĩa cắm xuyên qua (lúc dìm thì cắt phần chìm dưới dầu)
-    for(const v of D.vic) if(v.can && !v.u.dead && t>=SN_HELL.hold-4 && t<SN_HELL.rel){ const u=v.u, R=(u.size||40)*1.05;
-      _snDevil(D,v,k,()=>{ ctx.beginPath(); ctx.arc(u.x,u.y,R,0,Math.PI*2); ctx.clip(); if(t>=SN_HELL.dunk-2){ ctx.beginPath(); ctx.rect(u.x-R*2,u.y-R*3,R*4,v.oilY-(u.y-R*3)); ctx.clip(); } }); }
+    // 🔱 chĩa nằm SAU lớp meme (quỷ vẽ dưới meme) — meme che giữa cán, mũi chĩa ló ra bên kia = xuyên qua (anh 18/11: không vẽ đè)
     _snGloom(D.f,k); }
   else { const f=D.f, H0=SN_IMG.HAND; if(H0.naturalWidth && t>SN_HEAV.pat[0]-36 && t<SN_HEAV.T-SN_OUT+10){   // bàn tay hạ từ trời xuống, xoa 3 cái
       const hw=f.size*3.2, hh=hw*H0.naturalHeight/H0.naturalWidth, come=Math.min(1,(t-(SN_HEAV.pat[0]-36))/30), go=Math.max(0,(t-(SN_HEAV.T-SN_OUT-6))/16);
