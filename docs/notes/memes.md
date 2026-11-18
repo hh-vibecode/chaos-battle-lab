@@ -195,3 +195,5 @@
   Vạc tối đa 28% bề ngang sân (sân có khi chỉ ~530×510); quỷ luôn đứng phía xa Snooze, vạc dịch vào cho quỷ đủ chỗ. Beluga bị dìm nói trong bong bóng chat: "dont call a doctor. call a priest 💀".
   Beluga thấy giấc mơ → câu riêng `BL_DREAM`. Lúc tỉnh: ảnh `SN_AWAKE` (ngồi thẳng, mắt lim dim — GPT vẽ sát ảnh gốc). Đạn: bong bóng xà phòng mỗi quả 1 cỡ (`isSnBubble`), trúng là nổ + `sn_pop` (thay Zzz).
 - Tiếng: `sn_dream` (đàn hạc) · `sn_laugh` (quỷ cười) · `sn_fire` · `sn_splash` + `sn_sizzle` (tõm + xèo) · `sn_heaven` (hợp xướng) — myinstants.
+- 🍌 Banana Cat (18/11, anh dặn): địch dẫm vỏ → trượt (`_slipBanana`, tối đa 4s) tới khi ĐẬP TƯỜNG rồi mới ngã ngửa sõng soài 1.5s như vỏ chuối Poor Dog (`_pdSprawl` + `pd_fall`). Hết 4s chưa chạm tường cũng ngã.
+- 🐳 Beluga thấy mơ đẹp của Snooze: câu đầu luôn là "grandma? is that you??" (`BL_DREAM_FIRST`).

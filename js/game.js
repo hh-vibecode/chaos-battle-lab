@@ -17650,7 +17650,8 @@ function _snGloom(f,k){ if(f.dead || !snDream || snDream.t<0) return; const s=f.
   ctx.restore(); }
 
 // 💬 Beluga thấy Snooze Cat MƠ (anh 18/11) — ưu tiên hơn câu thường
-const BL_DREAM={ hell:['bro why is it so hot in here','is that a devil with a fork 💀','why is he cooking my teammate','this dream is NOT chill'], heaven:['wait are those stairs to heaven','why is god petting him and not me','bro got a divine headpat 😭','can i come to the nice dream'] };
+const BL_DREAM={ hell:['bro why is it so hot in here','is that a devil with a fork 💀','why is he cooking my teammate','this dream is NOT chill'], heaven:['grandma? is that you??','wait are those stairs to heaven','why is god petting him and not me','bro got a divine headpat 😭'] };
+const BL_DREAM_FIRST={ heaven:'grandma? is that you??' };   // 👵 câu ĐẦU khi thấy bàn tay của Chúa (anh 18/11)
 // 💬 Beluga: chọn câu CHƯA dùng trong trận (hết sạch thì mới cho lặp)
 function _blPick(f,arr){ const u=f._blUsed, fr=u?arr.filter(t=>!u.has(t)):arr, a=fr.length?fr:arr; return a[Math.floor(Math.random()*a.length)]; }
 function _findClosestEnemy(team,x,y){
@@ -19455,7 +19456,7 @@ class Fighter {
           const shorts = ['wait','WAIT','no','bro','what','huh','NO WAY','omg','gg','lol','bruh','ok','???','LMAO','rip','nah','yikes','sir','bro??','HUH','k','sus','real??','why','cope'];
           msgText = _blPick(this,shorts); msgColor = '#80deea';
         }
-        { const _dl=snDream&&snDream.t>=0&&snDream.f.team!==this.team ? BL_DREAM[snDream.kind] : null, _vs=_dl||(this.enemy&&BL_VS[this.enemy.type]), _vf=_vs?_vs.filter(t=>!(this._blUsed&&this._blUsed.has(t))):[]; if(_vf.length && msgColor!=='#ff1744'){ msgText=_vf[Math.floor(Math.random()*_vf.length)];   /* anh 18/11: LUÔN ưu tiên câu về meme địch tới khi dùng hết, không lặp */ const L=msgText.length; dmg=L<=12?40+Math.floor(Math.random()*11):L<=22?70+Math.floor(Math.random()*21):100+Math.floor(Math.random()*21); } }   // 💬 gặp con nào nói câu về con đó
+        { const _df=snDream&&BL_DREAM_FIRST[snDream.kind], _dl=snDream&&snDream.t>=0&&snDream.f.team!==this.team ? (_df && !(this._blUsed&&this._blUsed.has(_df)) && snDream.t>=SN_HEAV.pat[0]-40 ? [_df] : BL_DREAM[snDream.kind]) : null, _vs=_dl||(this.enemy&&BL_VS[this.enemy.type]), _vf=_vs?_vs.filter(t=>!(this._blUsed&&this._blUsed.has(t))):[]; if(_vf.length && msgColor!=='#ff1744'){ msgText=_vf[Math.floor(Math.random()*_vf.length)];   /* anh 18/11: LUÔN ưu tiên câu về meme địch tới khi dùng hết, không lặp */ const L=msgText.length; dmg=L<=12?40+Math.floor(Math.random()*11):L<=22?70+Math.floor(Math.random()*21):100+Math.floor(Math.random()*21); } }   // 💬 gặp con nào nói câu về con đó
         { const _sq=this.enemy&&BL_VS_SEQ[this.enemy.type], _si=this._blSeq||0; if(_sq && _si<_sq.length && (msgColor!=='#ff1744' || _si>0)){ this._blSeq=_si+1; msgText=_sq[_si]; msgColor='#80deea'; const L=msgText.length; dmg=L<=12?40+Math.floor(Math.random()*11):L<=22?70+Math.floor(Math.random()*21):100+Math.floor(Math.random()*21); } }   // 💬 chuỗi câu cố định (đã bắt đầu thì nói liền mạch tới hết)
         if(msgColor!=='#ff1744') (this._blUsed||(this._blUsed=new Set())).add(msgText);   // 💬 chữ trắng: mỗi câu chỉ 1 lần mỗi trận (anh 18/11)
         this._belugaPending = { dmg, msgText, msgColor };
@@ -19888,7 +19889,7 @@ class Fighter {
         this.vy += Math.sin(this._slipDir||0) * _accel;
         const spd3=Math.sqrt(this.vx*this.vx+this.vy*this.vy);
         if(spd3>slipSpd){ this.vx=this.vx/spd3*slipSpd; this.vy=this.vy/spd3*slipSpd; }
-        if(this._slipTimer===0){ this._slipStacks=0; this._slipDir=null; }
+        if(this._slipTimer===0){ this._slipStacks=0; this._slipDir=null; if(this._slipBanana){ this._slipBanana=false; _pdSprawl(this,90,Math.sign(this.vx||1)); playSample('pd_fall',0.9); } }
         this.x+=this.vx; this.y+=this.vy;
         this.bounceWalls();
         if(!(this._confuseTimer>0) && !_fkDoomedFoe(this)) this.doAbility();
@@ -20225,7 +20226,7 @@ class Fighter {
       this.vy += Math.sin(this._slipDir||0) * _accel;
       const spd3=Math.sqrt(this.vx*this.vx+this.vy*this.vy);
       if(spd3>slipSpd){ this.vx=this.vx/spd3*slipSpd; this.vy=this.vy/spd3*slipSpd; }
-      if(this._slipTimer===0){ this._slipStacks=0; this._slipDir=null; }
+      if(this._slipTimer===0){ this._slipStacks=0; this._slipDir=null; if(this._slipBanana){ this._slipBanana=false; _pdSprawl(this,90,Math.sign(this.vx||1)); playSample('pd_fall',0.9); } }
       this.x+=this.vx; this.y+=this.vy; return;
     }
     // ricardo: freeze only during normal dance (HP >= 35%), rage mode moves freely
@@ -20569,6 +20570,7 @@ class Fighter {
     if(this.y+sB>H){ this.y=H-sB; this.vy=-Math.abs(this.vy)*D; this.vx*=D; this._vertBounceCount=isVertical?(this._vertBounceCount||0)+1:0; this._meleeBounceStreak=(this._meleeBounceStreak||0)+1; if(this.type==='flyingcat') this.topSpeed*=1.05; _spiderWall(); _spkWallHit(this,2);
       if(this._screamPushed&&impactSpd>5){ const sd=Math.round(impactSpd*3.5); this.takeDamage(sd,null,false,true); _wc(this.x,H-s,-Math.PI/2); _slipHitVfx(this.x,H,-Math.PI/2); (sd<=50?playSample('hit_light',0.15):sd<=150?playSample('hit_mid',0.3):playSample('hit_heavy',0.35)); this._screamPushed=false; }
     }
+    if(wasSlipping && this._slipBanana && (this.x!==_bx0 || this.y!==_by0)){ this._slipBanana=false; this._slipTimer=0; this._slipDir=null; this._slipStacks=0; _pdSprawl(this,90,Math.sign(this.vx||1)); playSample('pd_fall',0.9); addShake(5,8); }   // 🍌 trượt đập tường → ngã ngửa sõng soài 1.5s như vỏ chuối Poor Dog
     _mwHoleBlock(this);   // 🕳️ rãnh Hollow Purple = vật cản
     // 🛵 SCOOTER CAT va tường → bẻ lái quay đầu về phía SÂN RỘNG (giữa tâm sân và góc xa xe nhất), không cắm đầu vào góc cũ như meme khác
     if(this.type==='scootercat' && !this._scDrift && (this.x!==_bx0 || this.y!==_by0)){
@@ -30828,7 +30830,7 @@ function loop(){
         // hướng slip = hướng đang di chuyển của địch
         const fspd=Math.sqrt(f.vx*f.vx+f.vy*f.vy);
         f._slipDir = fspd>0.5 ? Math.atan2(f.vy,f.vx) : Math.random()*Math.PI*2;
-        f._slipTimer = 120;
+        f._slipTimer = 240; f._slipBanana = true;   // 🍌 trượt TỚI KHI đập tường (tối đa 4s) rồi mới ngã ngửa (anh 18/11)
         f._slipStacks = (f._slipStacks||0) + 1;
         _hitParticles(f.x,f.y,'#fff176',8);
         bananaPeels.splice(i,1); // xoá vỏ khi giẫm
