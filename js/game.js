@@ -24445,7 +24445,7 @@ class Fighter {
     } else if(this.type==='electricguitarcat' && this._egPose){
       img = this._egPose;   // khung gảy đàn hiện tại, đã chọn theo nhịp ở doAbility()
     } else if(this.type==='snoozecat' && !(this.snoozeActive>0) && SN_IMG.AWAKE.naturalWidth){
-      img = SN_IMG.AWAKE;   // 😴 lúc TỈNH: ngồi thẳng, mắt lim dim buồn ngủ (GPT vẽ sát ảnh gốc, anh 18/11) · ngủ thì về ảnh gốc ngửa cổ
+      img = SN_IMG.AWAKE;   // 😴 lúc TỈNH: ngồi thẳng, mắt lim dim buồn ngủ (GPT vẽ theo 2 ảnh mèo mướp vàng anh gửi 18/11) · ngủ thì về ảnh gốc ngửa cổ
     } else if(this.type==='crunchycat' && CC_IDLE.complete && CC_IDLE.naturalWidth){
       img = this._ccEat ? (CC_CHEW[Math.floor(tick/4)%CC_CHEW.length].naturalWidth ? CC_CHEW[Math.floor(tick/4)%CC_CHEW.length] : CC_IDLE) : CC_IDLE;   // 🥣 nhai = hoạt cảnh GIF gốc (15 hình/s)
     } else if(this.type==='angrycat' && AC_IMG.CALM.complete && AC_IMG.CALM.naturalWidth){
