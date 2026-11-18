@@ -198,3 +198,4 @@
 - Tiếng: `sn_dream` (đàn hạc) · `sn_laugh` (quỷ cười) · `sn_fire` · `sn_splash` + `sn_sizzle` (tõm + xèo) · `sn_heaven` (hợp xướng) — myinstants.
 - 🍌 Banana Cat (18/11, anh dặn): địch dẫm vỏ → trượt (`_slipBanana`, tối đa 4s) tới khi ĐẬP TƯỜNG rồi mới ngã ngửa sõng soài 1.5s như vỏ chuối Poor Dog (`_pdSprawl` + `pd_fall`). Hết 4s chưa chạm tường cũng ngã.
 - 🐳 Beluga thấy mơ đẹp của Snooze: câu đầu luôn là "grandma? is that you??" (`BL_DREAM_FIRST`).
+- 😈 (18/11 tối, anh dặn) Ác mộng dàn cảnh CỐ ĐỊNH: vạc to (~42% bề ngang) giữa sân, quỷ đứng bên phải; meme địch tự đi tới đầu chĩa (`v.st`) → bị xiên → dìm SÂU (chỉ lộ đầu + vai, `oilY+s*0.3`); Snooze lui góc trên trái. Hết mơ: meme đứng ngay dưới vạc (`v.drop`) và đánh tiếp, không dịch về chỗ cũ.
