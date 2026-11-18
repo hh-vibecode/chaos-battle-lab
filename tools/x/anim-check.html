@@ -1,0 +1,49 @@
+<!doctype html><meta charset="utf-8"><title>anim check</title>
+<body style="background:#111;color:#ddd;font:12px monospace"><pre id="log"></pre>
+<script>
+// 🎚️ SOÁT CHUYỂN ĐỘNG PHIM cine-kit (18/11/2026 — skill hoat-hoa-vfx mục 8): dựng phim MỖI 1/fps giây, đo từng khung:
+//   lum = độ sáng TB · mot = mức chuyển động (chênh khung trước, ảnh thu nhỏ xám) · tự gắn nhãn: CẮT (đổi shot) · CHỚP (khung trắng / đen gần tuyệt đối = impact) ·
+//   GIẬT (chuyển động nhảy vọt > ×3 so với các khung lân cận mà không phải cắt / chớp) · ĐỨNG (gần như không động > 0.6s).
+// URL: tools/x/anim-check.html?id=<phim>&file=<file>&a=0&b=5&fps=30  → window.__done · window.__sum (bảng chữ) · window.__png (biểu đồ) · window.__json
+// Dùng qua tools/x/anim-check.js <id> (tự bật / tắt trình duyệt + máy chủ, không treo).
+// Dùng cho VIDEO MẪU: tools/x/video-motion.html (cùng phép đo, đọc file mp4).
+const Q=new URLSearchParams(location.search), ID=Q.get('id'), FILE=Q.get('file')||ID;
+const log=s=>{ document.getElementById('log').textContent+=s+'\n'; };
+const load=src=>new Promise(r=>{ const s=document.createElement('script'); s.src=src; s.onload=()=>r(true); s.onerror=()=>r(false); document.body.appendChild(s); });
+window.MOTION=function(frames,fps,cuts){   // frames: [{t,lum,dif}] → nhãn + tóm tắt (dùng chung với video-motion.html)
+  const n=frames.length, med=a=>{ const b=a.slice().sort((x,y)=>x-y); return b[b.length>>1]||0; }, gmax=Math.max(1e-6,...frames.map(f=>f.dif));
+  const isCut=t=>cuts.some(c=>Math.abs(c-t)<1.5/fps);
+  frames.forEach((f,i)=>{ f.tag=[]; if(f.lum>0.86) f.tag.push('CHỚP-trắng'); else if(f.lum<0.05) f.tag.push('CHỚP-đen');
+    if(isCut(f.t)) f.tag.push('CẮT');
+    if(i>2&&i<n-3&&!f.tag.length){ const nb=[frames[i-3],frames[i-2],frames[i-1],frames[i+1],frames[i+2],frames[i+3]].filter(x=>!x.tag||!x.tag.length).map(x=>x.dif), m=med(nb);
+      if(f.dif>gmax*0.12&&f.dif>3*Math.max(m,gmax*0.01)) f.tag.push('GIẬT'); } });
+  const holds=[]; let h0=-1; frames.forEach((f,i)=>{ const still=f.dif<gmax*0.004; if(still&&h0<0) h0=i; if((!still||i===n-1)&&h0>=0){ if((i-h0)/fps>0.6) holds.push([frames[h0].t,frames[i].t]); h0=-1; } });
+  const L=[], add=(t,s)=>L.push(t.toFixed(2)+'s  '+s); let run=null;
+  frames.forEach(f=>{ for(const tg of f.tag){ if(run&&run.tg===tg&&f.t-run.t1<1.5/fps){ run.t1=f.t; run.n++; continue; } if(run) add(run.t0,run.tg+(run.n>1?' ×'+run.n+' khung (tới '+run.t1.toFixed(2)+'s)':'')); run={tg,t0:f.t,t1:f.t,n:1}; } });
+  if(run) add(run.t0,run.tg+(run.n>1?' ×'+run.n+' khung (tới '+run.t1.toFixed(2)+'s)':'')); holds.forEach(([a,b])=>add(a,'ĐỨNG HÌNH tới '+b.toFixed(2)+'s ('+(b-a).toFixed(2)+'s)'));
+  L.sort(); const jit=frames.filter(f=>f.tag.includes('GIẬT')).length;
+  return {lines:L, jitter:jit, summary:(jit?'⚠️ '+jit+' khung GIẬT':'✅ không khung giật')+' · '+frames.filter(f=>f.tag.some(x=>x.startsWith('CHỚP'))).length+' khung chớp · '+holds.length+' đoạn đứng'};
+};
+window.CHART=function(frames,fps,W,title){   // biểu đồ: xanh = chuyển động, vàng = độ sáng, đỏ = GIẬT, trắng = CHỚP, xám = CẮT
+  const H=220, c=document.createElement('canvas'); c.width=W; c.height=H; const g=c.getContext('2d'); g.fillStyle='#111'; g.fillRect(0,0,W,H);
+  const n=frames.length, X=i=>i/(n-1||1)*(W-20)+10, gmax=Math.max(1e-6,...frames.map(f=>f.dif));
+  frames.forEach((f,i)=>{ if(f.tag.includes('CẮT')){ g.fillStyle='#555'; g.fillRect(X(i)-1,0,2,H); } if(f.tag.some(x=>x.startsWith('CHỚP'))){ g.fillStyle='rgba(255,255,255,0.5)'; g.fillRect(X(i)-1,0,3,18); } if(f.tag.includes('GIẬT')){ g.fillStyle='#ff3030'; g.fillRect(X(i)-2,0,4,H); } });
+  g.strokeStyle='#ffd24a'; g.beginPath(); frames.forEach((f,i)=>{ const y=H-20-f.lum*(H-50); i?g.lineTo(X(i),y):g.moveTo(X(i),y); }); g.stroke();
+  g.strokeStyle='#4ad0ff'; g.beginPath(); frames.forEach((f,i)=>{ const y=H-20-Math.sqrt(f.dif/gmax)*(H-50); i?g.lineTo(X(i),y):g.moveTo(X(i),y); }); g.stroke();
+  g.fillStyle='#aaa'; g.font='11px monospace'; for(let s=Math.ceil(frames[0].t);s<=frames[n-1].t;s++){ const i=Math.round((s-frames[0].t)*fps); g.fillText(s+'s',X(i)-6,H-4); } g.fillText(title,10,32); return c; };
+(async()=>{ try{
+  for(const f of ['cine-kit','vfx-gl','cine-cam','vfx-manga']) await load('../../js/'+f+'.js');
+  if(!(await load('../../js/film-'+FILE+'.js'))) throw new Error('không tải được js/film-'+FILE+'.js'); await new Promise(r=>setTimeout(r,60));
+  const film=CineKit.films[ID]; if(!film) throw new Error('không có phim '+ID); const VW=film.def.VW||960, VH=film.def.VH||540, DUR=film.info().dur, FPS=+(Q.get('fps')||30);
+  const TW=320, TH=Math.round(TW*VH/VW), c=CineKit.mk(TW,TH), Wc=CineKit.mk(TW,TH), base=new URL('../../',location.href).href;
+  film._bind(c,Wc,true); for(const k in film.def.imgs) if(!/^(https?:|data:|\/)/.test(film.def.imgs[k])) film.def.imgs[k]=base+film.def.imgs[k]; await film._load();
+  const SW=64, SH=Math.round(SW*VH/VW), s=CineKit.mk(SW,SH), sg=s.getContext('2d',{willReadFrequently:true}); let prev=null; const frames=[];
+  const a=+(Q.get('a')||0), b=Math.min(DUR-1e-3,+(Q.get('b')||DUR));
+  for(let t=a;t<=b+1e-9;t+=1/FPS){ film._render(t); sg.drawImage(c,0,0,SW,SH); const d=sg.getImageData(0,0,SW,SH).data, gr=new Float32Array(SW*SH); let L=0;
+    for(let i=0;i<gr.length;i++){ gr[i]=(d[i*4]*0.3+d[i*4+1]*0.59+d[i*4+2]*0.11)/255; L+=gr[i]; } let D=0; if(prev) for(let i=0;i<gr.length;i++) D+=Math.abs(gr[i]-prev[i]);
+    frames.push({t:+t.toFixed(4),lum:L/gr.length,dif:prev?D/gr.length:0}); prev=gr; }
+  const cuts=(film.def.shots||[]).map(x=>x.t0).filter(x=>x>a&&x<=b);
+  const R=MOTION(frames,FPS,cuts); window.__sum=ID+' '+a+'–'+b.toFixed(2)+'s @'+FPS+'fps: '+R.summary+'\n'+R.lines.join('\n');
+  window.__json=JSON.stringify(frames); window.__png=CHART(frames,FPS,Math.max(900,frames.length*4),ID+' · '+R.summary).toDataURL('image/png'); window.__done='OK '+frames.length+' khung';
+ }catch(e){ window.__done='LỖI '+e.message; } log(window.__done); })();
+</script>

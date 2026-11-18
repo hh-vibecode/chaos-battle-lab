@@ -63,5 +63,65 @@
     if(s.kind==='k'){ const L=VW*0.12, Wd=VH*0.008; g.globalCompositeOperation='lighter'; g.fillStyle='rgba(255,255,255,0.95)';
       for(let i=0;i<4;i++){ const an=i*Math.PI/2, len=i%2?L*0.6:L, c=Math.cos(an), sn=Math.sin(an); g.beginPath(); g.moveTo(cx-sn*Wd,cy+c*Wd); g.lineTo(cx+c*len,cy+sn*len); g.lineTo(cx+sn*Wd,cy-c*Wd); g.closePath(); g.fill(); } }
     g.restore(); }
-  window.VfxBoom={ step, PAL, celPuff, explosion, wallAtCam, strobe, impactOf, gradeOf, impactOverlay };
+  // ── EASE / SPACING theo 12 nguyên tắc hoạt hoạ (u 0→1 → 0→1; cine-kit đã có lin/eio/eout/ein/eout3/ein3/holdSnap/overshoot/brake) ──
+  const ease={
+    anticip:(u,a)=>{ a=a==null?0.12:a; const p=0.28; return u<p?-a*Math.sin(Math.PI*u/p*0.5):-a+(1+a)*E.eout3((u-p)/(1-p)); },   // LẤY ĐÀ: lùi ngược a rồi lao tới
+    settle:(u,amp,n)=>{ amp=amp==null?0.12:amp; n=n||2.5; if(u<0.55) return E.eout3(u/0.55)*(1+amp); const v=(u-0.55)/0.45; return 1+amp*Math.cos(v*Math.PI*n)*Math.pow(1-v,2); },   // THEO ĐÀ: vượt rồi dao động tắt dần
+    slowInOut:(u,k)=>{ k=k||2.2; const a=Math.pow(u,k), b=Math.pow(1-u,k); return a/(a+b); },   // CHẬM VÀO – CHẬM RA (k lớn = giữ lâu 2 đầu)
+    hitStop:(u,at,hold)=>{ at=at==null?0.5:at; hold=hold==null?0.15:hold; const A=1/(1-hold); return u<at?u*A:u<at+hold?at*A:(u-hold)*A; }   // KHỰNG: tới khung chạm `at` đứng yên `hold` rồi đi tiếp (tổng vẫn 0→1)
+  };
+  // nội suy qua các TƯ THẾ CHÍNH: list=[[giây,giá trị (số hoặc mảng),ease tên/hàm],…] — ease của điểm SAU quyết định đoạn trước nó
+  function keys(t,list){ if(t<=list[0][0]) return list[0][1]; for(let i=1;i<list.length;i++){ const [t1,v1,e]=list[i], [t0,v0]=list[i-1]; if(t<=t1){ let u=seg(t,t0,t1); const f=typeof e==='function'?e:(ease[e]||E[e]||E.eio); u=f(u);
+        return Array.isArray(v0)?v0.map((x,j)=>x+(v1[j]-x)*u):v0+(v1-v0)*u; } } return list[list.length-1][1]; }
+  // SOÁT SPACING: fn(t) → số hoặc [x,y,(z)]; báo các khung tốc độ nhảy > ratio lần so với khung trước (giật), bỏ qua khi gần đứng yên
+  function spacingCheck(fn,t0,t1,fps,ratio){ fps=fps||30; ratio=ratio||3; const d=[], jumps=[]; let prev=fn(t0);
+    for(let t=t0+1/fps;t<=t1+1e-9;t+=1/fps){ const v=fn(t), dv=Array.isArray(v)?Math.hypot(...v.map((x,i)=>x-prev[i])):Math.abs(v-prev); d.push([t,dv]); prev=v; }
+    const mx=Math.max(1e-6,...d.map(x=>x[1])); let maxRatio=1;
+    for(let i=1;i<d.length;i++){ const a=d[i-1][1], b=d[i][1]; if(Math.max(a,b)<mx*0.05) continue; const r=Math.max(a,b)/Math.max(1e-6,Math.min(a,b)); if(r>maxRatio) maxRatio=r; if(r>ratio) jumps.push(+d[i][0].toFixed(3)); }
+    return {maxRatio:+maxRatio.toFixed(2), jumps}; }
+  Object.assign(E,{anticip:ease.anticip, settle:ease.settle});   // dùng ease:'anticip' / 'settle' trong shot / track của cine-kit
+  // ── VỤ NỔ MÔ PHỎNG THẬT (Blender Mantaflow, tools/blender/boom_sim.py) — sheet cel đã tô sẵn, dựng như 1 tấm đứng trong thế giới ──
+  //   o = {t0, key (ảnh sheet trong imgs), meta (json đi kèm), x, z, size (bề ngang 1 ô, đv thế giới), twos (vẽ trên 2), hold (giữ khung cuối), alpha, dz}
+  function simSprite(F,t,o){ const u=t-o.t0, M=o.meta, im=F.I[o.key]; if(u<0||!M||!im||!im.naturalWidth) return; const fps=M.fps||30;
+    let fi=Math.floor((o.twos?step(u,fps/2):u)*fps+1e-6), ex=0; if(fi>=M.frames){ if(!o.hold) return; ex=(o.twos?step(u,fps/2):u)-M.frames/fps; fi=M.frames-1; }   // hết mô phỏng: khói vẫn bốc chậm + nở nhẹ (không đứng hình)
+    const q=K.proj(F.B,o.x||0,0,o.z||0); if(!q) return; const ph=M.ph||M.px, sz=o.size*q.s, sh=sz*ph/M.px, c=fi%M.cols, r=Math.floor(fi/M.cols), gx=M.ground[0], gy=M.ground[1];
+    F.list.push({d:q.d-(o.dz||0), fn:()=>{ const g=F.g; g.save(); if(o.alpha!=null) g.globalAlpha=o.alpha; const gr=1+0.05*ex, up=sh*0.035*ex; g.drawImage(im,c*M.px,r*ph,M.px,ph,q.x-gx*sz*gr,q.y-gy*sh*gr-up,sz*gr,sh*gr); g.restore(); }}); }
+  // ── CHẤN ĐỘNG MẶT ĐẤT đi kèm vụ nổ (vật lý thật, không mô phỏng): gọi trong world cùng simSprite ──
+  //   Mặt sóng chấn: r(u) = K·u^0.4 (Sedov–Taylor: phóng rất nhanh rồi CHẬM dần) — vòng sáng dẹt trên đất + bụi bốc thấp ngay mép sóng.
+  //   Nứt đất: mỗi vết dài tới mép sóng (không vượt), dừng ở độ dài riêng. Hố cháy xém dưới tâm.
+  //   Đá: bị hất lên ĐÚNG LÚC mặt sóng đi qua chỗ nó, bay parabol trọng lực g, chạm đất nảy 1 lần (mất 70% đà) rồi NẰM YÊN.
+  //   o = {t0, x, z, K (đv thế giới / s^0.4), crack (dài nứt tối đa), crater (bán kính hố), rocks (số đá), g (trọng lực đv/s²), seed}
+  //   shockAt(o, d) = giây (kể từ t0) mặt sóng tới khoảng cách d → dùng đặt RUNG MÁY / tiếng ầm đúng lúc sóng tới máy.
+  const shockR=(o,u)=>u<=0?0:(o.K||7700)*Math.pow(u,0.4);
+  function shockAt(o,d){ return Math.pow(d/(o.K||7700),2.5); }
+  function groundShock(F,t,o){ const u=t-o.t0; if(u<0) return; const B=F.B, x=o.x||0, z=o.z||0, sd=o.seed||7, r=shockR(o,u), g=o.g||3000, CR=o.crater||900, CL=o.crack||4200;
+    const ring=(rad,y,jit,fr)=>{ const pts=[]; for(let i=0;i<=64;i++){ const a=i/64*TAU, w=rad*(1+jit*(hash(i*13+fr+sd)-0.5)), p=K.proj(B,x+Math.cos(a)*w,y,z+Math.sin(a)*w); if(!p) return null; pts.push(p); } return pts; };
+    const path=(gc,pts)=>{ gc.beginPath(); pts.forEach((p,i)=>i?gc.lineTo(p.x,p.y):gc.moveTo(p.x,p.y)); gc.closePath(); };
+    // hố cháy xém (hiện ngay, đất bị nén lõm)
+    F.under.push(()=>{ const gc=F.g, pts=ring(CR*(0.55+0.45*eout(clamp(u/0.25,0,1))),1,0.18,0); if(!pts) return; gc.save(); gc.fillStyle='rgba(24,18,16,0.82)'; path(gc,pts); gc.fill();
+      const p2=ring(CR*0.6*(0.55+0.45*eout(clamp(u/0.25,0,1))),1,0.25,3); if(p2){ gc.fillStyle='rgba(255,120,40,'+(0.55*(1-clamp(u/1.6,0,1)))+')'; path(gc,p2); gc.fill(); } gc.restore(); });
+    // nứt đất toả ra theo mặt sóng
+    F.under.push(()=>{ const gc=F.g; gc.save(); gc.strokeStyle='rgba(16,12,12,0.9)'; gc.lineCap='round'; gc.lineJoin='round';
+      for(let i=0;i<26;i++){ const a=i/26*TAU+(hash(i+sd*31)-0.5)*0.22, Lmax=CR*0.8+CL*(0.35+0.65*hash(i+sd*37)), L=Math.min(r,Lmax); if(L<CR*0.8) continue;
+        gc.lineWidth=Math.max(1,(1.2+2.6*hash(i+sd*41))*(1-0.4*L/Lmax)); gc.beginPath(); let st=true;
+        for(let j=0;j<=10;j++){ const d=CR*0.8+(L-CR*0.8)*j/10, aa=a+(hash(i*17+j+sd)-0.5)*0.16, p=K.proj(B,x+Math.cos(aa)*d,1,z+Math.sin(aa)*d); if(!p) continue; st?gc.moveTo(p.x,p.y):gc.lineTo(p.x,p.y); st=false; }
+        gc.stroke(); } gc.restore(); });
+    // vòng sóng chấn dẹt sáng trên đất (mờ dần khi đi xa) (mép răng cưa; bụi cuộn sát đất do mô phỏng Blender lo)
+    if(u<1.2){ const k=1-u/1.2; F.under.push(()=>{ const gc=F.g, o1=ring(r,2,0.06,Math.floor(u*15)), i1=ring(r*0.9,2,0.1,Math.floor(u*15)+5); if(!o1||!i1) return; gc.save();
+        gc.fillStyle='rgba(255,246,226,'+(0.75*k)+')'; gc.beginPath(); o1.forEach((p,i)=>i?gc.lineTo(p.x,p.y):gc.moveTo(p.x,p.y)); gc.closePath(); i1.slice().reverse().forEach((p,i)=>i?gc.lineTo(p.x,p.y):gc.moveTo(p.x,p.y)); gc.closePath(); gc.fill('evenodd'); gc.restore(); });
+    }
+    // đá bị hất: phóng lúc sóng tới, parabol, nảy 1 lần, nằm yên
+    const n=o.rocks==null?30:o.rocks;
+    for(let i=0;i<n;i++){ const a=hash(i+sd*71)*TAU, d0=CR*(0.7+2.6*hash(i+sd*73)), tl=shockAt(o,d0), tau=u-tl; if(tau<0) continue;
+      const v0=1-clamp(d0/(CR*3.5),0,0.8), vr=(500+900*hash(i+sd*79))*v0, vy=(900+1500*hash(i+sd*83))*v0, s=(80+170*hash(i+sd*89))*(0.6+0.6*v0);
+      const T1=2*vy/g; let d, y, rot, tt=tau;
+      if(tt<T1){ d=d0+vr*tt; y=vy*tt-0.5*g*tt*tt; rot=tt*(6*(hash(i+sd*97)-0.5)); }
+      else { tt-=T1; const vy2=vy*0.3, vr2=vr*0.3, T2=2*vy2/g, ts=Math.min(tt,T2); d=d0+vr*T1+vr2*ts; y=tt<T2?vy2*ts-0.5*g*ts*ts:0; rot=T1*(6*(hash(i+sd*97)-0.5))+ts*2*(hash(i+sd*97)-0.5); }
+      const q=K.proj(B,x+Math.cos(a)*d,y+s*0.5,z+Math.sin(a)*d); if(!q) continue;
+      F.list.push({d:q.d, fn:()=>{ const gc=F.g, rr=s*q.s; if(rr<0.6) return; gc.save(); gc.translate(q.x,q.y); gc.rotate(rot+i);
+        gc.fillStyle='#3e3631'; gc.beginPath(); gc.moveTo(-rr,-rr*0.5); gc.lineTo(rr*0.7,-rr); gc.lineTo(rr,rr*0.4); gc.lineTo(-rr*0.5,rr); gc.closePath(); gc.fill();
+        gc.fillStyle='#7d7068'; gc.beginPath(); gc.moveTo(-rr,-rr*0.5); gc.lineTo(rr*0.7,-rr); gc.lineTo(rr*0.1,-rr*0.2); gc.closePath(); gc.fill();
+        gc.strokeStyle='#140e0c'; gc.lineWidth=Math.max(1,rr*0.12); gc.beginPath(); gc.moveTo(-rr,-rr*0.5); gc.lineTo(rr*0.7,-rr); gc.lineTo(rr,rr*0.4); gc.lineTo(-rr*0.5,rr); gc.closePath(); gc.stroke(); gc.restore(); }}); }
+  }
+  window.VfxBoom={ groundShock, shockAt, simSprite, step, PAL, celPuff, explosion, wallAtCam, strobe, impactOf, gradeOf, impactOverlay, ease, keys, spacingCheck };
 })();

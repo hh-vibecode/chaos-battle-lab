@@ -49,7 +49,7 @@ Mọi thứ làm phim đều NẰM TRONG REPO: Mac chỉ cần `git pull` là c�
 4. Tô CEL: khói 4 tông phẳng, lửa 4 tông (đỏ → cam → vàng → lõi trắng), viền mực ở mép ngoài + ranh tông tối. Bảng màu `--pal fire|cyan|purple`.
 5. Ra 1 tấm sheet PNG (10 cột, ô 384 px vuông, đáy ô = mặt đất, tâm nổ giữa ngang) + json. Nén / chép vào `assets/img/cine/VFX_<TÊN>.png`.
 6. Trong phim: `VfxBoom.simSprite(F,t,{t0, key:'SIM', meta:{frames:90,cols:10,px:384,fps:30,ground:[0.5,1]}, x, z, size, twos:true, hold:true})` trong `world` — tấm đứng trong thế giới, tự co theo khoảng cách. `twos:true` = vẽ trên 2 (chất anime). Mẫu: `js/film-vfxboom.js`.
-7. Đi kèm bằng code (không mô phỏng): chớp sáng TỨC THÌ tắt trong ~0.2s · sóng chấn bóp méo r ∝ t^0.4 (nhanh rồi chậm, Sedov–Taylor) · rung máy khi sóng chấn TỚI máy (trễ sau chớp, không phải lúc chớp).
+7. Đi kèm bằng code (không mô phỏng) — `VfxBoom.groundShock(F,t,o)`: vòng sóng chấn trên đất, nứt đất theo mép sóng, hố cháy, đá văng parabol nảy 1 lần rồi nằm yên; và chớp sáng TỨC THÌ tắt trong ~0.2s · sóng chấn bóp méo r ∝ t^0.4 (nhanh rồi chậm, Sedov–Taylor) · rung máy khi sóng chấn TỚI máy (trễ sau chớp, không phải lúc chớp).
 
 **Tham số** (`-- --frames 90 --res 128 --px 384 --name boom_sim --blast 3.2 --beta 3.2 --pal fire --skip-bake`): `--blast` bán kính cầu lửa (m), `--beta` độ nổi (cao = bốc lên nhanh, nấm rõ), `--skip-bake` chỉ tô lại khi đã bake (đổi màu / ngưỡng không phải chạy lại mô phỏng).
 **Cache** (vài trăm MB) để ở thư mục tạm / scratchpad, KHÔNG để trong repo. Chỉ commit sheet PNG cuối.
@@ -58,7 +58,7 @@ Mọi thứ làm phim đều NẰM TRONG REPO: Mac chỉ cần `git pull` là c�
 
 ## 5. Trạng thái 18/11
 - Blender 5.2.4 LTS: PC ✅ (`D:\tools\blender-5.2.4-windows-x64`) · Mac ⏳ chưa cài.
-- `boom_sim.py` chạy được trên PC: bản lưới 48 ra đúng chất (cầu lửa → nguội → khói, bóng 3D, viền mực). Đang chạy bản lưới 128 / 90 khung để ghép vào mẫu 5s `vfxboom`.
+- `boom_sim.py` xong trên PC (lưới 128, 90 khung ≈ 2 phút): cầu lửa → sóng chấn quét bụi sát đất (vỏ trụ nở r∝t^0.45, miền 28×28×20 m) → nấm khói. Sheet: `assets/img/cine/VFX_BOOM_SIM_FIRE.png` (ô 384×274). Chấn động mặt đất bằng code: `VfxBoom.groundShock`. Mẫu 5s `vfxboom` đã thay sang bản này.
 - `tools/x/anim-check.js` (soát giật / chớp / đứng hình) chạy được.
 - Việc phim còn dở: `docs/notes/viec-do-fin1.md` (② sửa cảnh Chill Guy, ③ làm lại cảnh kết).
 
