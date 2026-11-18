@@ -17480,7 +17480,7 @@ const SN_PRE=60, SN_DREAM_P0=0.2, SN_DREAM_STEP=0.1, SN_HELL_DPS=80, SN_HEAVEN_H
 const SN_HELL={T:216, lift:30, hold:50, dunk:76, rel:196}, SN_HEAV={T:180, beam:24, pat:[92,112,132]};
 const _snImg=src=>_acImg('assets/img/snoozecat/'+src);
 const SN_IMG={ AWAKE:_snImg('SN_AWAKE.webp'), HELL:_snImg('SN_HELL.jpg'), HEAVEN:_snImg('SN_HEAVEN.jpg'), CAUL:_snImg('SN_CAULDRON.webp'), STAIRS:_snImg('SN_STAIRS.webp'), HAND:_snImg('SN_HAND.webp') };
-const SN_DEVIL=[0,1,2].map(i=>_snImg(`SN_DEVIL_${i}.webp`)), SN_TIP=[[0.94,0.6],[0.88,0.03],[0.95,0.84]];   // đầu chĩa (tỉ lệ trong ảnh): ngang · giơ lên · chọc xuống
+const SN_DEVIL=[0,1,2].map(i=>_snImg(`SN_DEVIL_${i}.webp`)), SN_TIP=[[0.94,0.6],[0.88,0.03],[0.95,0.84]], SN_FDIR=[[1,0],[0.55,-0.83],[0.8,0.6]];   // hướng cán chĩa → đầu chĩa (ảnh quay phải)   // đầu chĩa (tỉ lệ trong ảnh): ngang · giơ lên · chọc xuống
 const SN_HAPPY=Array.from({length:4},(_,i)=>_snImg(`SN_HAPPY_${String(i+1).padStart(2,'0')}.webp`));
 let snDream=null, _snCv=null;
 // 🫧 bong bóng xà phòng (đạn của Snooze): trong suốt, viền ánh cầu vồng đổi màu, đốm sáng, phập phồng · trúng là nổ (vòng + giọt) + tiếng pop
@@ -17544,7 +17544,7 @@ function _snWorldTick(){ const D=snDream; if(!D) return;
     for(const v of D.vic){ const u=v.u; if(u.dead) continue;
       if(v.can && u._snHeld){ const P=_snVicPos(D,v); u.x=P.x; u.y=P.y; u.vx=0; u.vy=0; }
       if(tick30) u.takeDamage(Math.round(SN_HELL_DPS/2),D.f);   // 80 dame mỗi giây (40 / nửa giây)
-      if(t===SN_HELL.rel){ u.burn=Math.max(u.burn||0,180); u._burnDmg=10; u._burnSrc=D.f; } }
+      if(t===SN_HELL.dunk){ u.burn=Math.max(u.burn||0,300); u._burnDmg=10; u._burnSrc=D.f; } }   // 🔥 nhúng vào là bắt đầu cháy (anh 18/11) — cháy suốt 2s trong vạc + 3s sau khi thả
     if(tick30) for(const s of _summonFoes(D.f.team)) _summonTakeDamage(s,Math.round(SN_HELL_DPS/2),D.f);   // quân triệu hồi có máu cũng bị thiêu
     if(t===SN_HELL.rel){ for(const v of D.vic) if(v.u.type==='beluga') v.u._belugaTypeT=undefined;   // trả nhịp gõ bình thường
       playSample('ep3_glass',0.7); addShake(8,12); for(const v of D.vic) if(v.u._snHeld){ v.u._snHeld=false; v.u.x=v.x0; v.u.y=v.y0; } D.fx.push({k:'shatter',t:0,T:SN_OUT+4,sd:tick}); }
@@ -17557,10 +17557,10 @@ function _snWorldTick(){ const D=snDream; if(!D) return;
 // vị trí meme bị xiên = bám đầu chĩa: nhấc bổng (tư thế giơ) → nhúng (tư thế chọc) giãy giụa, nửa dưới chìm trong dầu
 function _snVicPos(D,v){ const t=D.t, s=v.u.size||40;
   if(t<SN_HELL.lift) return {x:v.x0,y:v.y0};
-  const up=_snDevilBox(v,1,v.fx,v.fy).tip, hold={x:up.x,y:up.y-s*0.55};
+  const up=_snDevilBox(v,1,v.fx,v.fy).tip, fd=SN_FDIR[1], hold={x:up.x-(v.flip?-fd[0]:fd[0])*s*0.85, y:up.y-fd[1]*s*0.85};   // 🔱 tâm meme lùi sau đầu chĩa → mũi chĩa xuyên qua giữa người, ló ra bên kia (anh 18/11)
   if(t<SN_HELL.hold){ const e=(t-SN_HELL.lift)/(SN_HELL.hold-SN_HELL.lift), q=1-Math.pow(1-e,3); return {x:v.x0+(hold.x-v.x0)*q, y:v.y0+(hold.y-v.y0)*q}; }   // bị xiên, giật bổng lên
   if(t<SN_HELL.dunk-10){ const w=t*0.6+v.sd; return {x:hold.x+Math.sin(w)*s*0.08, y:hold.y+Math.sin(w*1.9)*s*0.05}; }   // giãy trên đầu chĩa, quỷ cười
-  const dn={x:v.cx+(v.flip?1:-1)*v.cw*0.12, y:v.oilY-s*0.2};
+  const dn={x:v.cx+(v.flip?1:-1)*v.cw*0.12-(v.flip?-SN_FDIR[2][0]:SN_FDIR[2][0])*s*0.45, y:v.oilY-s*0.2};   // vẫn bị chĩa cắm xuyên lúc dìm
   if(t<SN_HELL.dunk){ const e=(t-(SN_HELL.dunk-10))/10; return {x:hold.x+(dn.x-hold.x)*e, y:hold.y+(dn.y-hold.y)*e*e}; }   // phập xuống vạc
   if(t<SN_HELL.rel){ const w=t*0.55+v.sd; return {x:dn.x+Math.sin(w)*s*0.14, y:dn.y+Math.sin(w*1.7)*s*0.07}; }   // giãy giụa trong dầu
   return {x:v.x0,y:v.y0}; }
@@ -17589,8 +17589,8 @@ function _snDrawUnder(){ const D=snDream; if(!D) return; const k=_snScene(D), C=
     if(ap>0) for(const v of D.vic) if(v.can && !v.u.dead){ _snDevil(D,v,ap); _snCauldron(v,ap,false); } }
   else _snHeavenUnder(D,k); }
 // 😈 quỷ cầm chĩa đứng cạnh vạc, đổi tư thế theo pha (chân neo 1 chỗ), nảy nhẹ khi cười
-function _snDevil(D,v,k){ const p=_snPose(D.t), im=SN_DEVIL[p]; if(!im.naturalWidth) return; const rise=Math.max(0,Math.min(1,(D.t-(SN_HELL.lift-14))/14)), b=_snDevilBox(v,p,v.fx,v.fy+(1-rise)*v.dh*0.25), bob=Math.abs(Math.sin(D.t*0.35))*v.dh*0.012;
-  ctx.save(); ctx.globalAlpha=k*rise; if(v.flip){ ctx.translate(b.x+b.w,b.y-bob); ctx.scale(-1,1); ctx.drawImage(im,0,0,b.w,b.h); } else ctx.drawImage(im,b.x,b.y-bob,b.w,b.h); ctx.restore(); }
+function _snDevil(D,v,k,clip){ const p=_snPose(D.t), im=SN_DEVIL[p]; if(!im.naturalWidth) return; const rise=Math.max(0,Math.min(1,(D.t-(SN_HELL.lift-14))/14)), b=_snDevilBox(v,p,v.fx,v.fy+(1-rise)*v.dh*0.25), bob=Math.abs(Math.sin(D.t*0.35))*v.dh*0.012;
+  ctx.save(); if(clip) clip(); ctx.globalAlpha=k*rise; if(v.flip){ ctx.translate(b.x+b.w,b.y-bob); ctx.scale(-1,1); ctx.drawImage(im,0,0,b.w,b.h); } else ctx.drawImage(im,b.x,b.y-bob,b.w,b.h); ctx.restore(); }
 // vạc: front=false → cả vạc + mặt dầu (dưới meme) · front=true → thân vạc + nửa trước mặt dầu đè lên meme (che nửa dưới meme)
 function _snCauldron(v,k,front){ const im=SN_IMG.CAUL; if(!im.naturalWidth) return; const x=v.cx-v.cw/2, y=v.top, w=v.cw, h=v.ch, ox=v.cx, oy=v.oilY, rx=w*0.434, ry=h*0.125;
   ctx.save(); ctx.globalAlpha=k;
@@ -17625,7 +17625,11 @@ function _snHeavenUnder(D,k){ const f=D.f, t=D.t, bk=Math.max(0,Math.min(1,(t-SN
     ctx.save(); ctx.globalAlpha=k*sy; ctx.translate(f.x+side*f.size*1.1, f.y+f.size*0.6-(1-sy)*sh*0.6); if(side<0) ctx.scale(-1,1); ctx.drawImage(S,0,-sh,sw,sh); ctx.restore(); } }
 // lớp TRÊN meme: nửa trước vạc + mây u ám (ác mộng) / bàn tay thần xoa đầu (mơ đẹp) / bắn dầu / vỡ ảo cảnh
 function _snDrawOver(){ const D=snDream; if(!D) return; const k=_snScene(D), t=D.t;
-  if(D.kind==='hell'){ for(const v of D.vic) if(v.can && !v.u.dead && t>=SN_HELL.dunk-2) _snCauldron(v,k,true); _snGloom(D.f,k); }
+  if(D.kind==='hell'){ for(const v of D.vic) if(v.can && !v.u.dead && t>=SN_HELL.dunk-2) _snCauldron(v,k,true);
+    // 🔱 vẽ lại ĐOẠN CHĨA quanh người meme đè lên meme → thấy chĩa cắm xuyên qua (lúc dìm thì cắt phần chìm dưới dầu)
+    for(const v of D.vic) if(v.can && !v.u.dead && t>=SN_HELL.hold-4 && t<SN_HELL.rel){ const u=v.u, R=(u.size||40)*1.05;
+      _snDevil(D,v,k,()=>{ ctx.beginPath(); ctx.arc(u.x,u.y,R,0,Math.PI*2); ctx.clip(); if(t>=SN_HELL.dunk-2){ ctx.beginPath(); ctx.rect(u.x-R*2,u.y-R*3,R*4,v.oilY-(u.y-R*3)); ctx.clip(); } }); }
+    _snGloom(D.f,k); }
   else { const f=D.f, H0=SN_IMG.HAND; if(H0.naturalWidth && t>SN_HEAV.pat[0]-36 && t<SN_HEAV.T-SN_OUT+10){   // bàn tay hạ từ trời xuống, xoa 3 cái
       const hw=f.size*3.2, hh=hw*H0.naturalHeight/H0.naturalWidth, come=Math.min(1,(t-(SN_HEAV.pat[0]-36))/30), go=Math.max(0,(t-(SN_HEAV.T-SN_OUT-6))/16);
       let pat=0; for(const p of SN_HEAV.pat){ const d=t-p; if(d>=-8&&d<=10) pat=Math.max(pat,d<0?(d+8)/8:1-d/10); }
