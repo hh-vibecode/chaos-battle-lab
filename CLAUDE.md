@@ -57,6 +57,11 @@ Chi tiết từng meme: `docs/notes/memes.md` · từng phim + cine-kit: `docs/n
 - Trận giả lập phải TỰ NHIÊN, không can thiệp diễn biến (chỉ lọc seed). Ưu tiên thắng sát, 1vs1 ≤30s, trận đông ≤35s (`--want 3 --pdur 20-30`). Tên: "A vs B - Meme Battle".
 - Skill `xuat-video` / `xem-video` / `video-sang-sprite` chỉ chạy trên Mac.
 
+## 🏆 Leaderboard "Memes in the Multiverse" (anh chốt 18/11)
+- Quay trận xong `render-match` / `render-duo` TỰ GHI ai thắng vào `tools/leaderboard/results.json` (khoá = tên video = tiêu đề Short; quay lại cùng tên → lần mới nhất). Trận quay ngoài 2 công cụ đó → tự thêm bằng `record.js`.
+- `node tools/leaderboard/make.js` → 2 ảnh 9:16 vào `~/Desktop/Meme Battles/0. Leaderboard/`: chỉ Short ĐÃ ĐĂNG (đọc tiêu đề kênh), từ 01/11/2026, bỏ tiêu đề "lore", mọi meme (chưa đấu = mờ cuối bảng), 2vs2 cả đội +1. Short chưa có kết quả → "Thieu ket qua.txt".
+- Mac tự chạy 6h30 sáng thứ 2 (launchd `com.memeautobattler.leaderboard`, log `~/Library/Logs/meme-leaderboard.log`).
+
 ## Máy / công cụ
 - Windows không có node / python / ffmpeg: Node mượn của VS Code (`ELECTRON_RUN_AS_NODE=1 "D:/Microsoft VS Code/Code.exe" file.js` hoặc `powershell -NoProfile -ExecutionPolicy Bypass -File tools/node.ps1 tools/x/X.js`). Công cụ chung ở `tools/x/*.js`.
 - Ổ C gần đầy → mọi thứ để ổ D (`D:\0.van-phong-ao`, công cụ ở `D:\tools\`: codex-cli, codex-home, yt-dlp + deno). Video mẫu ở `D:\meme-anime-lab-videos\`, chép vào `tools/x/_ref/` (gitignore) để trình duyệt ngầm đọc.

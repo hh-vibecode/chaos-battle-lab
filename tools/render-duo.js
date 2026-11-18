@@ -130,4 +130,7 @@ const RESULT = () => { const dead = t => fighters.filter(f => f.team === t).ever
   execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', tmpV, '-i', wav, '-filter_complex', '[1:a]alimiter=limit=0.95[a]', '-map', '0:v', '-map', '[a]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-shortest', OUT], { stdio: 'inherit' });
   fs.unlinkSync(planF); fs.unlinkSync(wav); fs.unlinkSync(tmpV);
   console.log(`✅ ${OUT}  (${plan.length} tiếng · ${END.toFixed(1)}s · ${((Date.now() - t0) / 1000).toFixed(0)}s)`);
+  try { const W = res.win === 0 ? TEAM_A : res.win === 1 ? TEAM_B : [];   // 🏆 ghi kết quả cho leaderboard (anh dặn 18/11)
+    require('./leaderboard/record.js').record({ title: path.basename(OUT), win: W, t: END }); console.log(`🏆 đã ghi kết quả: ${W.join(' & ') || 'hoà'} thắng → tools/leaderboard/results.json`); }
+  catch (e) { console.log('⚠️ không ghi được kết quả leaderboard:', e.message); }
 })();

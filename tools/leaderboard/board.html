@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1080">
+<title>Memes in the Multiverse Leaderboard</title>
+<!-- 🏆 Ảnh leaderboard 9:16 (1080×1920, chụp ×2) — tools/leaderboard/make.js nạp dữ liệu vào window.LB rồi chụp màn hình.
+     Phong cách bám bảng Leaderboard cũ trong game (gỡ ở Ver 20): chữ pixel vàng phát sáng trên nền tím sân đấu. -->
+<link rel="stylesheet" href="../../css/fonts.css">
+<style>
+:root{
+  --bg0:#0b0820; --bg1:#1d1247; --line:rgba(150,120,255,.22); --neon:#8c6bff;
+  --gold:#ffd23f; --silver:#d9e2ff; --bronze:#ff9a52;
+  --win:#38e07b; --loss:#ff5a6e; --draw:#a9a3c9; --ink:#f4f1ff; --mute:#9d93c9;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1920px;overflow:hidden;background:var(--bg0)}
+body{font-family:'Montserrat',system-ui,sans-serif;color:var(--ink);position:relative}
+.px{font-family:'Press Start 2P',monospace}
+/* nền: tím sân đấu + lưới + sao */
+.bg{position:absolute;inset:0;background:
+  radial-gradient(120% 60% at 50% 18%,#3a2390 0%,rgba(58,35,144,0) 60%),
+  radial-gradient(90% 50% at 50% 100%,#24145e 0%,rgba(36,20,94,0) 70%),
+  linear-gradient(180deg,var(--bg1),var(--bg0) 70%)}
+.grid{position:absolute;inset:0;opacity:.5;background-image:
+  linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:60px 60px;mask-image:linear-gradient(180deg,rgba(0,0,0,.9),rgba(0,0,0,.15) 60%,rgba(0,0,0,.5))}
+.stars{position:absolute;inset:0}
+.frame{position:absolute;inset:22px;border:3px solid rgba(160,130,255,.55);border-radius:28px;
+  box-shadow:0 0 30px rgba(140,107,255,.45),inset 0 0 40px rgba(140,107,255,.18)}
+.wrap{position:absolute;inset:22px;padding:46px 40px 30px;display:flex;flex-direction:column}
+/* tiêu đề */
+.head{text-align:center}
+.kicker{font-size:24px;color:#7fe3ff;letter-spacing:4px;text-shadow:0 0 14px rgba(127,227,255,.6)}
+.title{font-size:58px;color:var(--gold);letter-spacing:4px;margin-top:16px;
+  text-shadow:0 0 22px rgba(255,210,63,.6),0 5px 0 #8a4b00}
+.sub{display:inline-flex;gap:14px;align-items:center;margin-top:22px;padding:10px 22px;border-radius:40px;
+  background:rgba(20,12,52,.7);border:2px solid rgba(160,130,255,.4);font-weight:800;font-size:22px;color:#d8cffd;letter-spacing:1px}
+.sub b{color:var(--gold)}
+/* bục top 3 */
+.podium{display:flex;justify-content:center;align-items:flex-end;gap:26px;margin-top:92px;height:400px}
+.pod{width:290px;display:flex;flex-direction:column;align-items:center;position:relative}
+.pod .ava{width:180px;height:180px;border-radius:50%;display:grid;place-items:center;position:relative;
+  background:radial-gradient(circle at 50% 40%,#4b2fb0,#1a0f45 75%)}
+.pod .ava::before{content:"";position:absolute;inset:-9px;border-radius:50%;border:8px solid var(--c);box-shadow:0 0 26px var(--c)}
+.pod .ava img{max-width:84%;max-height:84%;object-fit:contain;filter:drop-shadow(0 6px 8px rgba(0,0,0,.5))}
+.pod.r1 .ava{width:226px;height:226px}
+.pod .rk{position:absolute;top:-24px;font-size:30px;color:#1b1030;background:var(--c);width:62px;height:62px;border-radius:50%;
+  display:grid;place-items:center;box-shadow:0 0 18px var(--c);z-index:2}
+.pod.r1 .rk{top:-40px}
+.crown{position:absolute;top:-100px;font-size:58px;filter:drop-shadow(0 0 12px rgba(255,210,63,.8))}
+.pod .nm{margin-top:20px;font-weight:800;font-size:27px;text-align:center;line-height:1.15;min-height:62px;display:flex;align-items:center}
+.pod .rec{margin-top:10px;display:flex;gap:8px}
+.r1{--c:var(--gold)} .r2{--c:var(--silver)} .r3{--c:var(--bronze)}
+.chip{font-family:'Press Start 2P',monospace;font-size:17px;padding:9px 11px 8px;border-radius:10px;background:rgba(10,6,30,.75)}
+.chip.w{color:var(--win);border:2px solid rgba(56,224,123,.5)} .chip.l{color:var(--loss);border:2px solid rgba(255,90,110,.5)} .chip.d{color:var(--draw);border:2px solid rgba(169,163,201,.45)}
+/* bảng còn lại: 2 cột */
+.cols{display:flex;align-items:center;justify-content:space-between;margin:26px 8px 10px;font-size:15px;color:var(--mute);letter-spacing:2px}
+.cols .h{display:flex;gap:0;width:calc(50% - 10px);justify-content:space-between;padding:0 16px 0 18px}
+.cols .h span:last-child{display:flex;gap:22px}
+.list{flex:1;display:grid;grid-template-columns:1fr 1fr;grid-auto-flow:column;column-gap:20px;row-gap:var(--gap,8px);align-content:start}
+.row{display:flex;align-items:center;gap:12px;height:var(--rh,58px);padding:0 14px 0 12px;border-radius:14px;
+  background:linear-gradient(90deg,rgba(60,38,150,.55),rgba(28,18,70,.55));border:1.5px solid rgba(160,130,255,.25)}
+.row .n{font-family:'Press Start 2P',monospace;font-size:16px;color:#cbbfff;width:40px;text-align:center}
+.row .a{width:calc(var(--rh,58px) - 10px);height:calc(var(--rh,58px) - 10px);border-radius:12px;flex:none;display:grid;place-items:center;
+  background:radial-gradient(circle at 50% 40%,#4b2fb0,#170d3e 80%)}
+.row .a{overflow:hidden} .row .a img{max-width:90%;max-height:90%;object-fit:contain}
+.row .t{flex:1;min-width:0;font-weight:800;font-size:20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .s{display:flex;gap:6px;font-family:'Press Start 2P',monospace;font-size:15px}
+.row .s i{font-style:normal;width:34px;text-align:center;padding:7px 0 6px;border-radius:8px;background:rgba(10,6,30,.6)}
+.row.z{opacity:.5} .row .s .w{color:var(--win)} .row .s .l{color:var(--loss)} .row .s .d{color:var(--draw)}
+.foot{display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-weight:800;font-size:20px;color:var(--mute)}
+.foot .h{color:#cbbfff}
+</style>
+</head>
+<body>
+<div class="bg"></div><div class="grid"></div><canvas class="stars" width="1080" height="1920"></canvas><div class="frame"></div>
+<div class="wrap">
+  <div class="head">
+    <div class="kicker px">MEMES IN THE MULTIVERSE</div>
+    <div class="title px">LEADERBOARD</div>
+    <div class="sub" id="sub"></div>
+  </div>
+  <div class="podium" id="podium"></div>
+  <div class="cols"><div class="h"><span>RANK · MEME</span><span><span>W</span><span>L</span><span>D</span></span></div><div class="h"><span>RANK · MEME</span><span><span>W</span><span>L</span><span>D</span></span></div></div>
+  <div class="list" id="list"></div>
+  <div class="foot"><span class="h">@meme-autobattler</span><span id="tot"></span></div>
+</div>
+<script>
+// 🏆 dữ liệu (make.js): window.LB = { period, updated, matches, page, pages, rows:[{name,img,w,l,d,rk}] }
+//   rows = MỌI meme đã xếp hạng (rk null = chưa đấu trận nào → cuối bảng, mờ) · ảnh 1: bục top 3 + rows[3..cut) · ảnh 2: rows[cut..)
+function render(LB){
+  const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  document.getElementById('sub').innerHTML=`<b>${esc(LB.period)}</b> · ${LB.matches} MATCHES · UPDATED ${esc(LB.updated)}`;
+  const rows=LB.rows, pod=document.getElementById('podium'), first=LB.page===1;
+  if(first){ const top=rows.slice(0,3), order=[1,0,2];
+    pod.innerHTML=order.filter(i=>top[i]).map(i=>{ const x=top[i], c='r'+(i+1);
+      return `<div class="pod ${c}">${i===0?'<div class="crown">👑</div>':''}<div class="rk px">${x.rk}</div>
+        <div class="ava"><img src="${esc(x.img)}"></div><div class="nm">${esc(x.name)}</div>
+        <div class="rec"><span class="chip w">${x.w}W</span><span class="chip l">${x.l}L</span><span class="chip d">${x.d}D</span></div></div>`; }).join(''); }
+  else pod.style.display='none';
+  const rest=first?rows.slice(3,LB.cut):rows.slice(LB.cut), half=Math.ceil(rest.length/2), list=document.getElementById('list');
+  list.style.gridTemplateRows=`repeat(${half},auto)`;
+  // hàng cỡ vừa phải (không dồn nhỏ — anh 18/11): tối đa 60px, chỉ co khi trang quá nhiều
+  const avail=list.getBoundingClientRect().height || 1000, gap=8, rh=Math.max(40,Math.min(60,Math.floor((avail-gap*(half-1))/half)));
+  list.style.setProperty('--rh',rh+'px'); list.style.setProperty('--gap',gap+'px');
+  list.innerHTML=rest.map(x=>`<div class="row${x.rk==null?' z':''}"><span class="n">${x.rk==null?'–':x.rk}</span><span class="a"><img src="${esc(x.img)}"></span>
+    <span class="t">${esc(x.name)}</span><span class="s"><i class="w">${x.w}</i><i class="l">${x.l}</i><i class="d">${x.d}</i></span></div>`).join('');
+  document.getElementById('tot').textContent=`${rows.length} MEMES · ${LB.page}/${LB.pages}`;
+  // sao: băm cố định (ảnh tuần nào cũng giống nhau)
+  const cv=document.querySelector('.stars'), g=cv.getContext('2d'); let s=7;
+  const rnd=()=>((s=(s*16807)%2147483647)/2147483647);
+  for(let i=0;i<140;i++){ const x=rnd()*1080, y=rnd()*1920, r=rnd()*1.6+0.3; g.globalAlpha=0.25+rnd()*0.6; g.fillStyle=rnd()<0.2?'#a8e6ff':'#ffffff'; g.beginPath(); g.arc(x,y,r,0,7); g.fill(); }
+  return Promise.all([...document.images].map(im=>im.complete?0:new Promise(r=>{im.onload=im.onerror=r;})));
+}
+window.renderLB=render;
+</script>
+</body>
+</html>
