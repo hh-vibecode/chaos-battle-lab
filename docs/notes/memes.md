@@ -181,7 +181,7 @@
 - Hạt rơi mỗi 1s, điểm đáp cách chỗ hạt trước ≥ 1/3 bề ngang sân và ngoài tầm cận chiến của mọi meme (`size*2.2`). Ảnh: đã bỏ đuôi thừa + lông lòi ra, làm mềm viền. Info: "Diet starts tomorrow. Damage starts now." (anh chọn).
 
 ## 😴💭 Snooze Cat — GIẤC MƠ (18/11/2026) — khối `SN_*` / `_sn*` trong js/game.js (trước `_blPick`)
-- Cơ chế cũ giữ nguyên, dame Zzz tăng tiến +4/s (trước +5, anh: giảm 20%). Mỗi lần lăn ra ngủ `_snRoll`: tỉ lệ mơ 20%, mỗi giấc không mơ +10%, mơ xong về 20%;
+- Cơ chế cũ giữ nguyên, dame tăng tiến +5/s (18/11 thử giảm còn +4, anh cho về như cũ). Mỗi lần lăn ra ngủ `_snRoll`: tỉ lệ mơ 20%, mỗi giấc không mơ +10%, mơ xong về 20%;
   mỗi giấc mơ 1 lần/trận, không mơ 2 giấc liền. Mơ thì KHÔNG bắn Zzz, không cộng dồn thời gian ngủ; giấc ngủ kéo dài bằng giấc mơ (`_snSleepT`).
 - Vào / ra mơ: màn hình gợn sóng như nước (`_snPost`, dời từng dải ngang) + cả sân đổi nền (`SN_HELL.jpg` / `SN_HEAVEN.jpg`, GPT vẽ cùng chất phim hoạt hình cổ anh gửi).
 - 😈 Ác mộng (3.6s): Snooze run run + mây đen / vạch u ám kiểu manga trên đầu (`_snGloom`), bong bóng hiện cảnh địa ngục. Lửa bốc từ mép MÀN HÌNH (không vẽ theo mép sân — từng tạo viền chữ nhật lạ).
