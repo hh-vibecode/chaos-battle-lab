@@ -67,7 +67,7 @@ Chi tiết từng meme: `docs/notes/memes.md` · từng phim + cine-kit: `docs/n
 - Ổ C gần đầy → mọi thứ để ổ D (`D:\0.van-phong-ao`, công cụ ở `D:\tools\`: codex-cli, codex-home, yt-dlp + deno). Video mẫu ở `D:\meme-anime-lab-videos\`, chép vào `tools/x/_ref/` (gitignore) để trình duyệt ngầm đọc.
 - Trình duyệt ngầm: cổng 9455 (9333 hay bị phiên khác chiếm). `tools/x/serve.js` cổng 8765 (hỗ trợ tua video).
 - ⚠️ (anh 17/11, máy báo tốn bộ nhớ) Tiến trình chạy ngầm (serve.js, Edge headless, cdp…): CẦN mới bật, dùng xong TẮT NGAY (`cdp.js --stop`, `serve.js --stop --port …`). Đang dùng liên tục lâu thì để; không dùng nữa thì tắt. Chỉ tắt tiến trình của mình (đừng giết server / trình duyệt của phiên khác, vd cổng 8798).
-- Mac: iCloud "Optimize Mac Storage" có thể dọn file repo thành file rỗng → kiểm `find . -type f -flags +dataless`.
+- Mac: repo ở `~/Projects/chaos-battle-lab` (18/11 chuyển khỏi Desktop vì iCloud "Optimize Mac Storage" dọn file repo thành file rỗng, kể cả .git). `~/Desktop/1. chaos-battle-lab` chỉ còn là lối tắt (symlink). Đừng đưa repo lại vào Desktop / Documents.
 - Mac: iCloud còn có thể đổi tên `.git/index` thành `.git/index 2` → git thấy index RỖNG, commit chỉ còn vài file (Ver 651/652 ngày 17/11 làm hỏng site, đã khôi phục). `release.js` giờ tự chặn; gặp thì `git read-tree HEAD` rồi chạy lại.
 - Làm ra công cụ / quy trình dùng lại được → tự đề xuất hoặc tạo skill mới.
 - Ghi nhớ quan trọng → ghi vào FILE TRONG REPO (bộ nhớ Claude của từng máy không sang máy khác).

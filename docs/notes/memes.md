@@ -171,3 +171,9 @@
   Con miễn hất bay (`_mmCanLaunch` false: Long Cat, Larry, Chonky…) → chỉ ăn 1 cú, không kéo.
 - Tức: bị đánh +5 (không tính DOT), mỗi giây −1, tối đa 100 = +100% dame. Hào quang shader (lửa cam → đỏ → thêm lửa đen từ 70). Cú nện: bụi + đá vụn + vòng xung kích to dần theo dame, ≥80 sóng bóp méo, ≥90 vỡ đoạn rào tường. Tiếng nện đã giảm nhỏ (anh: "đau đầu") và cắt sau 0.45s (anh: hết va tường là ngắt, không để vang). Giọng GET OVER HERE nâng tông ×2.0 rồi chậm lại 10% (bản anh chọn) cho non nớt như mèo con (anh chê bản kéo chậm "giống phụ nữ lớn tuổi" — đừng atempo chậm).
 - Bộ skill cũ của Angry Cat (thanh tức + hòm đồ 10 vũ khí + bom nguyên tử) anh bảo để cho 1 con khác → nằm trong `git stash` trên Mac ("WIP Angry Cat 17/11"), dùng tiền tố `AG_` (không đụng `AC_`).
+
+## 🥣 Crunchy Cat (`crunchycat`, 18/11/2026) — khối `CC_*` / `_cc*` trong js/game.js (cạnh `_findClosestEnemy`)
+- Ảnh: 12 khung nhai tách từ GIF tenor "cat crunch" (`video-sang-sprite`, đoạn 0.15–1.0s — đoạn sau zoom sát quá, tai chạm mép), mép dưới làm mờ (ảnh cận bị cắt ngang). `CC_IDLE` = khung miệng khép, cũng là avatar.
+- KHÔNG đánh thường. Trận có Crunchy: mỗi 1.5s 1 hạt (8 hình GPT nền xanh `CC_K0..7`) bay từ ngoài sân đáp vào điểm bất kì (tối đa 8 hạt). Meme NÀO chạm hạt cũng ăn (không ai chủ động đi tìm, như lát bánh Bread Cat):
+  đứng yên ngấu nghiến (`_ccEat`, khoá như `_mmHeld`), vòng tiến độ trên thanh máu. Crunchy 2s, mỗi hạt xong −0.2s (tối thiểu 0.2s) → +100 máu, 100 dame MỌI địch (cả quân triệu hồi). Meme khác luôn 2s, 1/4 hiệu lực (+25 / 25).
+- Tiếng: `cc_chew` (nhai giòn, CHỈ Crunchy, cắt theo thời gian ăn) · `cc_nom` (mèo con ăn nom nom — meme khác, anh dặn) · `cc_bite` (CRUNCH lúc gây dame). Info: "Diet starts tomorrow. Damage starts now." (anh chọn).
