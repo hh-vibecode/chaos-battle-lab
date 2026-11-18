@@ -175,7 +175,7 @@
 ## 🥣 Crunchy Cat (`crunchycat`, 18/11/2026) — khối `CC_*` / `_cc*` trong js/game.js (cạnh `_findClosestEnemy`)
 - Ảnh: 12 khung nhai tách từ GIF tenor "cat crunch" (`video-sang-sprite`, đoạn 0.15–1.0s — đoạn sau zoom sát quá, tai chạm mép), mép dưới làm mờ (ảnh cận bị cắt ngang). `CC_IDLE` = khung miệng khép, cũng là avatar.
 - KHÔNG đánh thường. Trận có Crunchy: mỗi 1.5s 1 hạt (8 hình GPT nền xanh `CC_K0..7`) bay từ ngoài sân đáp vào điểm bất kì (tối đa 8 hạt). Meme NÀO chạm hạt cũng ăn (không ai chủ động đi tìm, như lát bánh Bread Cat):
-  đứng yên ngấu nghiến (`_ccEat`, khoá như `_mmHeld`), vòng tiến độ trên thanh máu. Crunchy 2s, mỗi hạt xong −0.2s (tối thiểu 0.2s) → +100 máu, 100 dame MỌI địch (cả quân triệu hồi). Meme khác luôn 2s, 1/4 hiệu lực (+25 / 25).
+  đứng yên ngấu nghiến (`_ccEat`, khoá như `_mmHeld`), vòng tiến độ trên thanh máu. Crunchy 2s, mỗi hạt xong −0.2s (tối thiểu 0.2s) → +100 máu, 100 dame MỌI địch (cả quân triệu hồi). Meme khác: ăn 1.5s, mỗi 7s mới được 1 hạt (`_ccNext`, anh 18/11), 1/4 hiệu lực (+25 / 25).
 - Tiếng (anh 18/11 sửa lại vì em gán ngược): `cc_nom` = mèo thật nhai hạt rau ráu — CHỈ Crunchy (cắt theo thời gian ăn) · `cc_gulp` = meme khác chỉ "khợp" 1 cái (myinstants "Chomp") · `cc_bite` (CRUNCH lúc gây dame).
 - Hạt rơi mỗi 1s, điểm đáp cách chỗ hạt trước ≥ 1/3 bề ngang sân và ngoài tầm cận chiến của mọi meme (`size*2.2`). Ảnh: đã bỏ đuôi thừa + lông lòi ra, làm mềm viền. Info: "Diet starts tomorrow. Damage starts now." (anh chọn).
 

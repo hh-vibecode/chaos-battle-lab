@@ -827,7 +827,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     friendeldritch: { key:'friendeldritch', defaultName:'FRIEND - Eldritch Apocalypse', emoji:'👁️', color:'#1a0630', hp:1000, speed:3.5, size:88, skill:'Bản khổng lồ của Friend (to gấp 2), KHÔNG dùng chiêu cũ của Friend. Nền quanh sàn đấu đen tuyền, chỉ còn sao trời lấp lánh. Mỗi 5s GẦM: cả sàn rung chuyển, 10 đợt sóng âm trong 1.5s, mỗi đợt 20 dame lên mọi địch trên sân + đẩy lùi nhẹ. Địch lại gần: Friend lao nhẹ người tới húc, 50 dame cận chiến + đẩy lùi nhẹ (0.6s/lần). Địch lại gần 1 trong 4 góc sân: bàn tay bóng tối thò ra từ màn đêm cào 100 dame (mỗi góc 1s/lần).' },
     lebronsunshine: { key:'lebronsunshine', defaultName:'LeSunshine', emoji:'☀️', color:'#ffb300', hp:1000, speed:5, size:46, skill:'Nửa người cầu thủ ném bóng rổ vào địch gần nhất, 40 dame mỗi quả (1.5s/quả). Bóng trúng địch đủ 3 lần → hoá MẶT MEME, gom sáng rồi LOÉ trắng xoá cả sân: mọi địch bị LOÁ 2.5s (đứng khựng, không đánh), xong về dạng thường. Về 0 máu (1 lần/trận): không chết mà lướt ra giữa sân hoá MẶT TRỜI, phát bài You Are My Sunshine, thiêu mọi địch 100 dame/s — nhưng chỉ còn 3 vạch máu, ăn 3 đòn là thua.' },
     angrycat: { key:'angrycat', defaultName:'Angry Cat', emoji:'😾', color:'#90a4ae', hp:1000, speed:4.5, size:46, skill:'Đi lại khắp sân như thường; mỗi lần chạm tường trái HOẶC phải lúc hết hồi chiêu (4s) thì tay vươn bám hẳn vào tường, tay kia phóng mũi lao + xích kiểu Scorpion về phía địch — GET OVER HERE! — trúng thì kéo về, nắm bằng tay còn lại, NỆN vào tường 3 lần, mỗi lần 50 dame rồi hất văng. TỨC GIẬN: bị đánh +5, mỗi giây −1, tối đa 100 = +100% dame (cú nện tới 100). Hào quang + VFX cú nện mạnh dần theo tức; cú gần tối đa vỡ luôn rào tường. Con miễn bị hất bay (Long Cat, Larry…) thì chỉ ăn 1 cú, không bị kéo.' },
-    crunchycat: { key:'crunchycat', defaultName:'Crunchy Cat', emoji:'🥣', color:'#ffb74d', hp:1000, speed:5, size:45, skill:'KHÔNG có đòn đánh thường. Trận có Crunchy: mỗi 1.5s 1 hạt thức ăn mèo (nhiều hình, nhiều màu) bay từ ngoài sân đáp vào 1 điểm bất kì. Meme NÀO chạm hạt cũng ăn được: đứng ngấu nghiến 2s rồi mới có tác dụng. Crunchy ăn 1 hạt: +100 máu và gây 100 dame cho MỌI địch; mỗi hạt ăn xong ăn nhanh thêm 0.2s (tối thiểu 0.2s). Meme địch ăn chỉ được 1/4: +25 máu, 25 dame cho phe Crunchy.' },
+    crunchycat: { key:'crunchycat', defaultName:'Crunchy Cat', emoji:'🥣', color:'#ffb74d', hp:1000, speed:5, size:45, skill:'KHÔNG có đòn đánh thường. Trận có Crunchy: mỗi 1.5s 1 hạt thức ăn mèo (nhiều hình, nhiều màu) bay từ ngoài sân đáp vào 1 điểm bất kì. Meme NÀO chạm hạt cũng ăn được: đứng ngấu nghiến 2s rồi mới có tác dụng. Crunchy ăn 1 hạt: +100 máu và gây 100 dame cho MỌI địch; mỗi hạt ăn xong ăn nhanh thêm 0.2s (tối thiểu 0.2s). Meme địch ăn trong 1.5s, mỗi 7s mới ăn được 1 hạt, và chỉ được 1/4: +25 máu, 25 dame cho phe Crunchy.' },
     chonkydog: { key:'chonkydog', defaultName:'Chonky Dog', emoji:'🐕', color:'#d7a86e', hp:1000, speed:5, size:45, skill:'Cứ vài giây lại phình to gấp mấy lần người rồi đổ sập xuống như một toà nhà, về phía còn trống nhất. Lúc to đùng thì thân nó chặn cứng, ai chạm vào cũng bị hất ra; từ lúc bắt đầu hoá to tới khi dậy nó miễn mọi hiệu ứng đẩy lùi và khống chế, và chỉ chịu 50% sát thương. Ai nằm dưới thân bị đè 350 dame và bẹp dí như bánh kếp suốt 1.5s (đứng im, không làm gì được) rồi mới phồng bật lại, cả sàn đấu rung chuyển nên mọi địch trên sân đều ăn 100 dame dù đứng xa, xong nó lồm cồm dậy về cỡ cũ đi tiếp. Dạng thường cũng nặng nề: mọi cú đẩy lùi chỉ còn 5% lực.' },
     alottadameguy: { key:'alottadameguy', defaultName:'A Lotta Dame Guy', emoji:'🪚', color:'#ffca28', hp:1000, speed:5, size:50, skill:'Cầm dao bấm xỉa liên tục, mỗi nhát 20 dame. Cứ ăn đủ 250 dame là lôi ra cái cưa máy, giật dây 2 phát cho nổ máy — cưa chạy 8s, địch nào lọt vào tầm lam cưa (trừ ngay trên đầu) là bị xẻ 50 dame mỗi 0.2s và lết chậm còn một nửa — xẻ được hơn 200 máu là ổng hét luôn câu tủ "Now that\'s a lotta damage".' },
     arabiccat: { key:'arabiccat', defaultName:'Arabic Cat', emoji:'🐱', color:'#ffb300', hp:1000, speed:5, size:45, skill:'' },
@@ -13795,7 +13795,7 @@ const CHAR_BLURB = {
   friend: "Swallows bullets to heal and dashes through you as a shadow. Once you are marked, the lights go out, and something takes a bite out of your back.",
   friendeldritch: "Friend, twice the size, with a brand new kit. Everything around the arena goes pitch black under a sky of stars. Up close it lunges and rams you for 50 with a light knockback. Every 5s it ROARS: the floor shakes and 10 sound waves in 1.5s hit every enemy for 20 each and push them back. Step near any corner and a shadow hand claws out of the dark for 100 (1s per corner).",
   angrycat: "Clings to its side of the arena. Every time it touches the wall it throws a chain spear — GET OVER HERE! — drags you in and slams you into the wall three times. Hitting it makes it angrier, and anger makes every slam hurt more, up to double.",
-  crunchycat: "No basic attack. Colorful kibble flies into the arena every 1.5s and any meme can eat it (2s of munching). Each kibble Crunchy Cat eats heals 100 HP, deals 100 damage to every enemy, and makes it eat 0.2s faster. Enemies who eat one only get a quarter of that.",
+  crunchycat: "No basic attack. Colorful kibble flies into the arena every 1.5s and any meme can eat it (2s of munching). Each kibble Crunchy Cat eats heals 100 HP, deals 100 damage to every enemy, and makes it eat 0.2s faster. Enemies can only eat one every 7s (1.5s of munching) and get just a quarter of that.",
   lebronsunshine: "Throws basketballs (40 each, every 1.5s). Three hits turn him into the meme face: he charges up and flashes the whole arena white, blinding every enemy for 2.5s. At 0 HP he does not die: he glides to the center as the sun, You Are My Sunshine starts playing and every enemy burns for 100 per second, but he only has 3 hits left.",
   chonkydog: "Balloons up, wobbles like a tower, then topples onto whoever is underneath. Then does it again.",
   alottadameguy: "Pokes you with a pocket knife until you hit him hard enough — then he pulls out a chainsaw, yanks the cord twice and saws through anything in reach — except whatever is directly above his head — for 8 seconds.",
@@ -17397,7 +17397,8 @@ function _acShockPost(){ if(!window.VfxGL || !VfxGL.fx) return; const cv=ctx.can
 // đứng ngấu nghiến (Crunchy 2s, mỗi hạt ăn xong nhanh thêm 0.2s, tối thiểu 0.2s · meme khác luôn 2s) rồi Crunchy +100 máu + 100 dame MỌI địch
 // (kể cả quân triệu hồi có máu) · meme khác chỉ được 1/4 (+25 máu, 25 dame). Crunchy nhai = hoạt cảnh GIF gốc (tenor "cat crunch") + tiếng nhai giòn;
 // meme khác ăn = tiếng mèo con ăn "nom nom". Crunchy KHÔNG có đòn đánh thường.
-const CC_SPAWN_S=1,   // anh 18/11: 1.5s → 1s
+const CC_FOE_EAT_S=1.5, CC_FOE_CD_S=7, CC_SPAWN_S=1,   // anh 18/11: meme địch mỗi 7s mới ăn được 1 hạt, ăn trong 1.5s
+        // anh 18/11: 1.5s → 1s
       CC_EAT_S=2, CC_EAT_STEP_S=0.2, CC_EAT_MIN_S=0.2, CC_HEAL=100, CC_DMG=100, CC_FOE_K=0.25, CC_MAX_KIB=8, CC_FLY_S=0.75;
 const CC_IDLE=_acImg('assets/img/crunchycat/CC_IDLE.webp');
 const CC_CHEW=Array.from({length:12},(_,i)=>_acImg(`assets/img/crunchycat/CC_CHEW_${String(i+1).padStart(2,'0')}.webp`));
@@ -17405,7 +17406,7 @@ const CC_KIB=Array.from({length:8},(_,i)=>_acImg(`assets/img/crunchycat/CC_K${i}
 const CC_KIB_COL=['#ff8a1e','#e53935','#8bc34a','#ffc107','#9c27b0','#a0522d','#ff5c9a','#2f8fd8'];   // màu vụn của từng hình (cá, sao, tim, tam giác, xương, vòng, chữ thập, hoa)
 let ccKibs=[], ccFx=[], ccSpawnT=0;
 const _ccR=()=>Math.max(9,W*0.028);   // bán kính hạt trên sàn
-function _ccEatS(u){ return u.type==='crunchycat' ? Math.max(CC_EAT_MIN_S, CC_EAT_S-CC_EAT_STEP_S*(u._ccN||0)) : CC_EAT_S; }
+function _ccEatS(u){ return u.type==='crunchycat' ? Math.max(CC_EAT_MIN_S, CC_EAT_S-CC_EAT_STEP_S*(u._ccN||0)) : CC_FOE_EAT_S; }
 let ccLastXY=null;
 function _ccSpawn(){ const m=W*0.12, side=Math.floor(Math.random()*4), o=40;
   const sx=side===0?Math.random()*W:side===1?W+o:side===2?Math.random()*W:-o, sy=side===0?-o:side===1?Math.random()*H:side===2?H+o:Math.random()*H;
@@ -17437,9 +17438,10 @@ function _ccWorldTick(){
       if(++E.t%7===0) ccFx.push({k:'crumb',x:u.x,y:u.y-u.size*0.15,t:0,T:24,i:E.i,sd:tick+Math.round(u.x)});
       if(E.t>=E.T){ u._ccEat=null; _ccFinish(u,E); } continue; }
     if(u.dead || u._mmHeld || u._acHeld || u._raidHide || koWinner) continue;
+    if(u.type!=='crunchycat' && (u._ccNext||0)>tick) continue;   // ⏳ meme địch: hồi 7s mới ăn hạt tiếp
     const K=ccKibs.find(q=>q.st==='lay' && Math.hypot(q.tx-u.x,q.ty-u.y)<=u.size*0.75+r); if(!K) continue;
     ccKibs.splice(ccKibs.indexOf(K),1);
-    const full=u.type==='crunchycat', S=_ccEatS(u), T=Math.max(2,Math.round(S*_acTps()));
+    const full=u.type==='crunchycat', S=_ccEatS(u), T=Math.max(2,Math.round(S*_acTps())); if(!full) u._ccNext=tick+Math.round(CC_FOE_CD_S*_acTps());
     u._ccEat={t:0,T,i:K.i,full,snd:full?playSample('cc_nom',1.0,Math.min(1.8,S)):playSample('cc_gulp',0.7)}   /* anh 18/11: tiếng nhai hạt rau ráu là CỦA Crunchy — meme khác chỉ 'khợp' 1 cái */; u.vx=0; u.vy=0; } }
 // hạt nằm trên sàn (dưới meme)
 function _ccDrawUnder(){ if(!ccKibs.length && !ccFx.length) return; const r=_ccR();
