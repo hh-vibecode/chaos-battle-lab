@@ -176,7 +176,8 @@
 - Ảnh: 12 khung nhai tách từ GIF tenor "cat crunch" (`video-sang-sprite`, đoạn 0.15–1.0s — đoạn sau zoom sát quá, tai chạm mép), mép dưới làm mờ (ảnh cận bị cắt ngang). `CC_IDLE` = khung miệng khép, cũng là avatar.
 - KHÔNG đánh thường. Trận có Crunchy: mỗi 1.5s 1 hạt (8 hình GPT nền xanh `CC_K0..7`) bay từ ngoài sân đáp vào điểm bất kì (tối đa 8 hạt). Meme NÀO chạm hạt cũng ăn (không ai chủ động đi tìm, như lát bánh Bread Cat):
   đứng yên ngấu nghiến (`_ccEat`, khoá như `_mmHeld`), vòng tiến độ trên thanh máu. Crunchy 2s, mỗi hạt xong −0.2s (tối thiểu 0.2s) → +100 máu, 100 dame MỌI địch (cả quân triệu hồi). Meme khác luôn 2s, 1/4 hiệu lực (+25 / 25).
-- Tiếng: `cc_chew` (nhai giòn, CHỈ Crunchy, cắt theo thời gian ăn) · `cc_nom` (mèo con ăn nom nom — meme khác, anh dặn) · `cc_bite` (CRUNCH lúc gây dame). Info: "Diet starts tomorrow. Damage starts now." (anh chọn).
+- Tiếng (anh 18/11 sửa lại vì em gán ngược): `cc_nom` = mèo thật nhai hạt rau ráu — CHỈ Crunchy (cắt theo thời gian ăn) · `cc_gulp` = meme khác chỉ "khợp" 1 cái (myinstants "Chomp") · `cc_bite` (CRUNCH lúc gây dame).
+- Hạt rơi mỗi 1s, điểm đáp cách chỗ hạt trước ≥ 1/3 bề ngang sân và ngoài tầm cận chiến của mọi meme (`size*2.2`). Ảnh: đã bỏ đuôi thừa + lông lòi ra, làm mềm viền. Info: "Diet starts tomorrow. Damage starts now." (anh chọn).
 
 ## 😴💭 Snooze Cat — GIẤC MƠ (18/11/2026) — khối `SN_*` / `_sn*` trong js/game.js (trước `_blPick`)
 - Cơ chế cũ giữ nguyên, dame Zzz tăng tiến +4/s (trước +5, anh: giảm 20%). Mỗi lần lăn ra ngủ `_snRoll`: tỉ lệ mơ 20%, mỗi giấc không mơ +10%, mơ xong về 20%;
@@ -188,4 +189,9 @@
   Dầu sôi vẽ bằng code (anh: "lõm bõm, đừng để hình cứng"): bong bóng phồng → vỡ loang, vệt sáng trôi, hơi bốc, bắn dầu lúc tõm. 80 dame/s × 2s + cháy 3s; quân triệu hồi có máu cũng ăn dame. Kết thúc: kính vỡ (`ep3_glass`).
   Meme không hất bay được (`_mmCanLaunch` false) thì chỉ ăn dame tại chỗ. Nạn nhân khoá bằng `_snHeld` (như `_acHeld`).
 - 😇 Mơ đẹp (3s): bong bóng = mèo Happy nhảy (`SN_HAPPY_01..04`, 4 khung sạch từ GIF tenor "happy happy happy" — các khung khác nhoè / dính nền), cột sáng + bậc thang (`SN_STAIRS`) thả xuống, bàn tay thần (`SN_HAND`) xoa đầu 3 cái × 50 = +150.
+- (18/11 sửa theo anh) Lần ngủ ĐẦU không mơ (`S.n`). Trước giấc mơ hiện bong bóng báo trước 1s (`SN_PRE`, `snDream.t<0`, chưa chuyển cảnh), vào mơ là bong bóng biến mất.
+  Ác mộng: chỉ còn vạch u ám kiểu manga trên đầu (bỏ mây đen), Snooze giãy giụa vặn mình (`rotation`), TỰ TRƯỢT ra chỗ trống không đè vạc + quỷ (`D.fgo`). Máy quay giữ toàn sân lúc mơ.
+  Quỷ vẽ lại theo ảnh anh gửi (đã xoá Tom) trên nền HỒNG (`#FF00FF`, tự tách nền — nền xanh ăn mất chĩa + giày xanh), 3 tư thế chung 1 tỉ lệ (ảnh chừa 22% trên cho chĩa giơ).
+  Vạc tối đa 28% bề ngang sân (sân có khi chỉ ~530×510); quỷ luôn đứng phía xa Snooze, vạc dịch vào cho quỷ đủ chỗ. Beluga bị dìm nói trong bong bóng chat: "dont call a doctor. call a priest 💀".
+  Beluga thấy giấc mơ → câu riêng `BL_DREAM`. Lúc tỉnh: ảnh `SN_AWAKE` (ngồi thẳng, mắt lim dim — GPT vẽ sát ảnh gốc). Đạn: bong bóng xà phòng mỗi quả 1 cỡ (`isSnBubble`), trúng là nổ + `sn_pop` (thay Zzz).
 - Tiếng: `sn_dream` (đàn hạc) · `sn_laugh` (quỷ cười) · `sn_fire` · `sn_splash` + `sn_sizzle` (tõm + xèo) · `sn_heaven` (hợp xướng) — myinstants.
