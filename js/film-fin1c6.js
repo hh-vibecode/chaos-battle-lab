@@ -208,7 +208,7 @@
   // ⏱️ nhanh – chậm đan xen: linh cảm / khói tan / thủ thế CHẬM · né, đập NHANH
   const RETIME=[[0,T.help,1],[T.help,T.tilt,0.95],[T.tilt,T.dive,1],[T.dive,T.sense,0.9],[T.sense,T.turn,1.15],[T.turn,T.emerge,0.9],[T.emerge,T.fire,1],[T.fire,T.half,0.9],
     [T.half,T.halfHit,0.9],[T.halfHit,T.clear,1.1],[T.clear,T.rage,1.1],[T.rage,T.block,1.1],[T.block,T.face,1],[T.face,T.DUR,1.1]];
-  const def={ id:'fin1c6', title:'Final 1 · Chill Guy', cast:['cry','chillguy','dp','mw','vo'], sfxOk:{pd_truck_crash:'tiếng xe đâm CHUNG (không phải tiếng đặc trưng Poor Dog)'}, DUR:T.DUR, VW:960, VH:540, fadeIn:false, fadeOut:false, imgs:IMG, theme:t=>theme(t), shots, world,
+  const def={ id:'fin1c6', title:'Final 1 · Chill Guy', cast:['cry','chillguy','dp','mw'], sfxOk:{pd_truck_crash:'tiếng xe đâm CHUNG (không phải tiếng đặc trưng Poor Dog)'}, DUR:T.DUR, VW:960, VH:540, fadeIn:false, fadeOut:false, imgs:IMG, theme:t=>theme(t), shots, world,
     // 🔊 không nhạc nền (tiếng thành phố + đám đông) · LẶNG lúc linh cảm · tiếng va chạm NGẮT khi hết cú (anh 17/11)
     sfx:[[0.2,'se_collapse_b',0.45,1.6,'mưa gạch đá, nhà đổ xa'],
       [T.help+0.5,'se_step_in',0.5,0.4,'Pop Cat vấp ngã, Chill Guy dừng lại đỡ dậy'],
@@ -222,9 +222,8 @@
       [T.rage,'l2p_riser',0.6,T.rage2-T.rage,'cực cận: Chill Guy hoá bóng đen, 2 mắt trắng rực, nộ dâng lên'],[T.rage2,'chillguy_uppercut',0.9,T.block-T.rage2,'I\'M NOT CHILL ANYMORE: hào quang nộ bùng toàn thân'],[T.rage2+0.02,'kn_boom_low',0.55,0.5,'+ lớp nổ trầm: hào quang nộ BÙNG như vụ nổ, đất nứt (lớp của tiếng nộ)'],
       [T.run+0.1,'se_step_in',0.4,0.4,'Chill Guy quay người chạy vào làn khói'],
       [T.face+0.3,'l2p_riser',0.55,T.DUR-T.face-0.3,'Gojo và Pain đối mặt, sức ép dâng lên'],[T.ready+0.4,'ep3_whoosh',0.5,0.6,'+ gió cuốn bụi, đá vụn bị nâng lên giữa 2 bên (lớp của sức ép)']],
-    // 🎵 KHÔNG nhạc nền / tiếng nền (anh 18/11: anh tự thêm) — chỉ tim đập căng thẳng lúc linh cảm + giọng thật Gojo "Nah, I'd win" (myinstants nah-id-win-v1)
-    mus:[{src:'assets/audio/cine_heart.mp3',ra:T.sense+0.3,rb:T.turn,off:0,vol:0.6,fi:0.12,fo:0.12},
-      {src:'assets/audio/vo_gojo_nahidwin.mp3',ra:T.block+0.25,rb:T.block+0.9,off:0,vol:0.5,fi:0.01,fo:0.04,vo:true}],
+    // 🎵 KHÔNG nhạc nền / tiếng nền (anh 18/11: anh tự thêm) — chỉ tim đập căng thẳng lúc linh cảm · câu Gojo CHỈ BẰNG CHỮ (anh 19/11: không lồng giọng)
+    mus:[{src:'assets/audio/cine_heart.mp3',ra:T.sense+0.3,rb:T.turn,off:0,vol:0.6,fi:0.12,fo:0.12}],
     impact:t=>{ const s=strobe(t); return s&&IMPC[s.kind]?IMPC[s.kind]:0; },
     grade:t=>{ const s=strobe(t); if(t>=T.rage&&t<T.rage2) return null;   // khung nộ Gon: trắng tinh trên đen tuyệt đối (không chỉnh màu đè)
       if(s&&s.kind==='w') return {white:1}; if(s&&s.kind==='k') return {bright:0.02};
@@ -246,7 +245,7 @@
       if(t>=T.rage2&&t<T.block){ const k=seg(t,T.rage2,T.rage2+0.15), fr=Math.floor(t*12); g.save(); g.font='900 '+Math.round(VH*0.072*lerp(1.35,1,k))+'px Montserrat, Arial Black, sans-serif'; g.textAlign='center';
         g.lineWidth=8; g.strokeStyle='#000'; g.fillStyle='#ff2a1a'; g.translate(VW/2+(hash(fr)-0.5)*5,VH*0.17+(hash(fr+7)-0.5)*4); g.strokeText("I'M NOT CHILL ANYMORE",0,0); g.fillText("I'M NOT CHILL ANYMORE",0,0); g.restore(); }   // chữ đỏ đúng game
       if(t>=T.block+0.25&&t<T.block+1.5){ const k=seg(t,T.block+0.25,T.block+0.35)*(1-seg(t,T.block+1.3,T.block+1.5)); g.save(); g.globalAlpha=k; g.font='800 '+Math.round(VH*0.042)+'px Montserrat, "Segoe UI", sans-serif'; g.textAlign='center';
-        g.lineJoin='round'; g.lineWidth=6; g.strokeStyle='#000'; g.strokeText("Nah, I'd win.",VW/2,VH*0.86); g.fillStyle='#fff'; g.fillText("Nah, I'd win.",VW/2,VH*0.86); g.restore(); }   // phụ đề giọng Gojo
+        g.lineJoin='round'; g.lineWidth=6; g.strokeStyle='#000'; g.strokeText("Nah, I'd win.",VW/2,VH*0.86); g.fillStyle='#fff'; g.fillText("Nah, I'd win.",VW/2,VH*0.86); g.restore(); }   // câu thoại Gojo bằng CHỮ (không lồng giọng)
       if(!s&&!(t>=T.rage&&t<T.rage2)) K.letterbox(F,t>=T.sense+0.5&&t<T.turn?0.5:(t>=T.ready?0.6*seg(t,T.ready,T.ready+0.5):0)); if(!s&&!(t>=T.rage&&t<T.rage2)) K.vignette(F,0.5); } };   // khung chớp phải trắng / đen TUYỆT ĐỐI (không viền tối)
   CineKit.film(W&&W.retime?W.retime(RETIME,def):def);
 })();
