@@ -6,18 +6,23 @@
 - https://youtube.com/shorts/-nOC-UgaLLw : thêm kiến thức về IMPACT.
 - https://m.youtube.com/shorts/MYMWRdhF0l4 : cách làm animation MƯỢT hơn.
 - Ảnh mẫu thiên thạch (Naruto Tengai Shinsei, khối đá khổng lồ xé mây rơi xuống) = cách Friend phải xuất hiện ở cảnh kết.
-**② SỬA CẢNH CHILL GUY `fin1c6`** (anh chê "làm cẩn thận tí đi"):
+**② ✅ XONG 19/11 (Ver 672) — CHỜ ANH XEM.** Đã: bỏ nhạc/tiếng nền · tiếng khớp hình cho MỌI phim (K.SND_LEAD trong js/cine-kit.js: phát sớm đúng khoảng lặng đầu đo được, 41 tiếng) · mọi tiếng có độ dài (ngắt khi hết hình) · linh cảm = tim đập (bỏ ep3_shine) · né = dáng đứng + nghiêng (bỏ CGK) · khung nộ Gon làm lại SO SONG SONG với GIF (tools/x/compare.js) · Gojo/Pain đặc, chạm đất, bụi chân · Gojo nói "Nah, I'd win." (assets/audio/vo_gojo_nahidwin.mp3, myinstants nah-id-win-v1) + phụ đề · film-lint + sfx-lint sạch (chỉ còn lưu ý không nhạc — đúng ý anh).
+  Gốc ② **② SỬA CẢNH CHILL GUY `fin1c6`** (anh chê "làm cẩn thận tí đi"):
 - BỎ HẾT NHẠC NỀN (anh tự thêm). Sound phải KHỚP HÌNH: hết VFX / hành động là NGẮT tiếng (vd Bread Cat xoay xong chuyển cảnh mà tiếng còn kéo dài — sai). Nhiều sound bị CHẬM so với hình (Bat Cat cũng chậm) → kiểm khoảng LẶNG ĐẦU FILE tiếng, cắt cho đúng onset.
 - Không dùng tiếng phi tiêu (shuriken) cho Chill Guy → dùng tiếng CĂNG THẲNG.
 - Khung nộ: vẽ GIỐNG HẲN GIF Gon anh gửi (`D:/meme-anime-lab-videos/ref-gon/gon-angry.gif`), bản hiện tại "sơ sài".
 - Gojo vs Pain lần đầu gặp mắt: meme bị XUYÊN THẤU (mờ), KHÔNG BÁM ĐẤT → phải đặc, chân chạm đất.
 - Gojo xuất hiện phải NÓI ("Leave it to me" hay tương tự — phụ đề + giọng).
 - Chill Guy NÉ: KHÔNG dùng tư thế đá / đấm (skill1) — né bình thường (ảnh đứng + chuyển động).
-**③ LÀM LẠI CẢNH KẾT `fin1c7`** ("như đấm vào mồm, quá lộn xộn, hiệu ứng xấu"):
+**③ ⏳ CHƯA LÀM (dừng 19/11 hỏi anh — luật ~20% usage).** Khi làm: dựng theo ảnh mẫu D:meme-anime-lab-videosef-fin1-ending (Madara vs Liên minh 0:54, thiên thạch 11:19) và SO SONG SONG bằng tools/x/compare.js từng shot · tiếng Bread Cat xoay phải NGẮT khi chuyển cảnh · vụ nổ bánh mì có thể dùng mô phỏng Blender (tools/blender/boom_sim.py --pal …).
+  **③ LÀM LẠI CẢNH KẾT `fin1c7`** ("như đấm vào mồm, quá lộn xộn, hiệu ứng xấu"):
 - Bánh mì xoay → NỔ là TẤT CẢ meme đã phải xuất hiện (không rơi lắt nhắt). Gigachad + Chonky đứng ĐẰNG XA, chỉ to hơn ~10 lần meme thường.
 - Sau đó mới triệu hồi (Ninja) — làm cho RA HỒN.
 - Friend ĐÁP TỪ TRÊN TRỜI, XÉ MÂY bước ra như quả thiên thạch trong ảnh mẫu.
 - Xử lý KỸ toàn cảnh, đẹp, không lộn xộn.
+
+## 🧊 Blender — đề xuất nâng cấp (anh 19/11: "xem blender có thể nâng cấp đc cái gì request t xem thử") — CHỜ ANH CHỌN
+(xem danh sách trong tin nhắn 19/11; chi tiết luồng: docs/notes/luong-phim-blender.md)
 
 ## ⏸️ TRẠNG THÁI 17/11 tối (anh dừng vì hết token — LÀM TIẾP từ đây)
 ✅ ĐÃ LÀM LẠI cả 2 cảnh, đã đẩy main:

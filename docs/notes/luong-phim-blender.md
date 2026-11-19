@@ -54,6 +54,7 @@ Mọi thứ làm phim đều NẰM TRONG REPO: Mac chỉ cần `git pull` là c�
 **Tham số** (`-- --frames 90 --res 128 --px 384 --name boom_sim --blast 3.2 --beta 3.2 --pal fire --skip-bake`): `--blast` bán kính cầu lửa (m), `--beta` độ nổi (cao = bốc lên nhanh, nấm rõ), `--skip-bake` chỉ tô lại khi đã bake (đổi màu / ngưỡng không phải chạy lại mô phỏng).
 **Cache** (vài trăm MB) để ở thư mục tạm / scratchpad, KHÔNG để trong repo. Chỉ commit sheet PNG cuối.
 
+**Đề xuất nâng cấp gửi anh 19/11 (chờ anh chọn):** ① nhà sập vỡ THẬT (Cell Fracture + rigid body: mảng tường gãy, rơi, nảy đúng trọng lực) cho cảnh Doge húc nhà / Shinra Tensei · ② đá + mảnh vụn văng bằng rigid body (thay đá vẽ code) · ③ sóng chấn mặt đất bằng mô phỏng (mặt đất lưới bị đẩy phồng / vỡ) · ④ thư viện VFX dựng sẵn 1 lần: nổ nhỏ / vừa / cực lớn, khói phép màu (tím Gojo, đỏ Pain), bụi đổ nhà, cột lửa · ⑤ vải bay (áo choàng Pain, cờ) · ⑥ Grease Pencil: VFX nét vẽ tay 2D (chém, sét, vệt tốc độ) · ⑦ góc máy 3D thật cho vật khổng lồ (Friend xé mây như thiên thạch: mây mô phỏng bị xé toạc) · ⑧ mây / khí quyển mô phỏng (biển mây cảnh kết).
 **Hướng mở rộng** (chưa làm, làm khi cần): đá văng = rigid body Blender (rơi đúng trọng lực, nảy, nằm yên) · bụi chân nổ cuộn ra (nguồn khói dẹt sát đất) · khói phép thuật nhiều màu · Grease Pencil (nét vẽ tay 2D trong Blender) cho VFX dạng nét · nhiều góc máy (xoay miền khí).
 
 ## 5. Trạng thái 18/11
