@@ -18,6 +18,7 @@ DX = opt('--width', 28.0); DZ = opt('--height', 20.0)          # miền khí r�
 SURGE = opt('--surge', 12.0)                                     # bán kính vòng bụi sóng chấn đi tới (m), 0 = tắt
 NZ = int(round(RES * DZ / DX))
 SKIP_BAKE = '--skip-bake' in argv
+TILES = opt('--tiles', 0.0); TILE = opt('--tile', 1.4); KSH = opt('--kshock', 25.67); LIFT = opt('--lift', 5.0); FD = opt('--fire-delay', 0)   # sàn mô phỏng (bán kính m) · cỡ ô · K sóng chấn (m/s^0.4 — phim 7700 đv = 25.67 m) · cầu lửa bùng trễ FD khung sau sóng
 STEP = opt('--step', 2)   # giữ 1 khung / STEP (2 = 'vẽ trên 2' 15 hình/giây như anime) → sheet nhẹ, ô to nét hơn
 os.makedirs(OUT, exist_ok=True); CACHE = os.path.join(OUT, 'cache')
 
@@ -25,7 +26,7 @@ os.makedirs(OUT, exist_ok=True); CACHE = os.path.join(OUT, 'cache')
 bpy.ops.wm.read_factory_settings(use_empty=True)
 sc = bpy.context.scene; sc.frame_start, sc.frame_end = 1, N; sc.render.fps = 30
 bpy.ops.mesh.primitive_cube_add(size=1, location=(0, 0, DZ / 2)); dom = bpy.context.object; dom.name = 'Domain'; dom.scale = (DX, DX, DZ)
-bpy.ops.object.transform_apply(scale=True)
+bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
 m = dom.modifiers.new('Fluid', 'FLUID'); m.fluid_type = 'DOMAIN'; ds = m.domain_settings
 ds.domain_type = 'GAS'; ds.resolution_max = RES; ds.cache_directory = CACHE; ds.cache_type = 'ALL'
 ds.cache_frame_start = 1; ds.cache_frame_end = N; ds.use_adaptive_domain = False
@@ -42,6 +43,10 @@ bpy.ops.mesh.primitive_uv_sphere_add(radius=1, location=(0, 0, 0.3)); src = bpy.
 fm = src.modifiers.new('Fluid', 'FLUID'); fm.fluid_type = 'FLOW'; fs = fm.flow_settings
 fs.flow_type = 'BOTH'; fs.flow_behavior = 'INFLOW'; fs.flow_source = 'MESH'; fs.surface_distance = 0.6; fs.use_initial_velocity = True
 KEYS = {1: (0.35, 2.0, 3.0, 2.6, 30.0), 3: (0.62, 2.0, 3.0, 2.6, 22.0), 5: (0.85, 1.8, 3.0, 2.4, 12.0), 6: (0.92, 1.6, 3.0, 2.2, 8.0), 7: (0.95, 0.0, 0.0, 0.0, 0.0)}
+KEYS = {f + FD: v for f, v in KEYS.items()}
+if FD > 0:
+    fs.density = fs.temperature = fs.fuel_amount = fs.velocity_normal = 0.0
+    for p in ('density', 'temperature', 'fuel_amount', 'velocity_normal'): fs.keyframe_insert(p, frame=1); fs.keyframe_insert(p, frame=FD)
 for f, (rr, dens, temp, fuel, vel) in KEYS.items():
     s = BLAST * rr; src.scale = (s, s, s * 0.85)
     fs.density, fs.temperature, fs.fuel_amount, fs.velocity_normal = dens, temp, fuel, vel
@@ -62,6 +67,65 @@ if SURGE > 0:
         rs.density = 0.0 if f > F1 else 1.6 * (1 - 0.65 * u); rs.velocity_normal = 0.0 if f > F1 else 6.0 * (1 - u) + 1.0
         rs.keyframe_insert('density', frame=f); rs.keyframe_insert('velocity_normal', frame=f)
     rs.density = 0.0; rs.keyframe_insert('density', frame=1)
+
+
+# 🧱 SÀN BẬT THEO SÓNG CHẤN — CÙNG MÔI TRƯỜNG VẬT LÝ với vụ nổ (anh 19/11: "nền vs vụ nổ phải liên kết, thực sự cùng môi trường vật lý tác động")
+#   Mặt sóng chấn r = K·t^0.4 (cùng K với phim) tới ô nào thì TẤM NỀN ĐẤT dưới ô đó đội lên đẩy ô văng (va chạm thật, ∝ r^−0.8) — Blender tự giải bay / va / rơi / nảy.
+#   Mỗi Ô SÀN = khối bê tông có khối lượng (rigid body) nằm trên mặt đất cứng; ô va nhau, rơi theo trọng lực,
+#   nảy, nằm lại lệch (sàn vỡ). Gần tâm sóng nhanh → hất mạnh; xa sóng chậm → nhẹ dần (vật lý tự ra, không vẽ). Cùng time_scale với khói lửa.
+#   Ra: <out>/<name>_tiles.json = vị trí + góc xoay THẬT của từng ô đã di chuyển, mỗi STEP khung → phim dựng lại ô trong thế giới 3D (VfxBoom.simTiles).
+if TILES > 0:
+    # nền cứng sâu (mặt trên z = −0.3) + dưới MỖI ô sàn 1 TẤM NỀN ĐẤT (vật rắn bị động, hoạt hoạ) mặt trên z = 0
+    bpy.ops.mesh.primitive_cube_add(size=1, location=(0, 0, -1.3)); gnd = bpy.context.object; gnd.name = 'Ground'; gnd.scale = (TILES * 3, TILES * 3, 2.0)
+    bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
+    bpy.ops.rigidbody.world_add(); rbw = sc.rigidbody_world; rbw.time_scale = TS; rbw.substeps_per_frame = 12; rbw.solver_iterations = 20
+    rbw.point_cache.frame_start = 1; rbw.point_cache.frame_end = N
+    bpy.ops.rigidbody.object_add(type='PASSIVE'); gnd.rigid_body.collision_shape = 'BOX'; gnd.rigid_body.friction = 0.8; gnd.rigid_body.restitution = 0.2; gnd.select_set(False)
+    # SÓNG ĐẤT: đúng khung mặt sóng chấn tới (t = (r/K)^2.5) tấm nền dưới ô bị ĐỘI LÊN rất nhanh (KUP khung) — mép NGOÀI cao hơn — rồi lún xuống chậm.
+    #   Ô sàn bị chính mặt đất ĐẨY văng lên qua VA CHẠM (Bullet giải chuẩn: vật động chạm vật bị động đang chuyển động) → bay / va nhau / rơi / nảy / nằm lại.
+    #   Độ đội ∝ r^−0.8 (gần tâm đất đội mạnh, xa yếu dần).
+    TL = []; n = int(TILES / TILE) + 1; TH = 0.25; PT = 0.3; KUP = 2; FT = TS / 30.0
+    def rbadd(o, kind):
+        bpy.context.view_layer.objects.active = o; o.select_set(True); bpy.ops.rigidbody.object_add(type=kind); o.select_set(False); return o.rigid_body
+    for i in range(-n, n + 1):
+        for j in range(-n, n + 1):
+            cx, cy = i * TILE, j * TILE; r = math.hypot(cx, cy)
+            if r > TILES or r < BLAST * 0.8: continue
+            ux, uy = cx / r, cy / r; hh = 0.5 + 0.5 * ((i * 7919 + j * 104729) % 1000) / 1000.0   # mặt đất không đều: mỗi chỗ đội 1 khác
+            vup = LIFT * (4.0 / max(r, 4.0)) ** 0.8 * hh * (1.5 if r < BLAST * 2 else 1.0)          # vận tốc đất đội lên (m/s, thời gian mô phỏng)
+            heave = vup * KUP * FT; ang = min(0.35, (0.4 + 0.6 * hh) * heave / TILE)                  # đội cao bao nhiêu trong KUP khung · nghiêng mép ngoài
+            ta = (r / KSH) ** 2.5; fa = max(2, 1 + int(round(ta * 30)) + 1)
+            bpy.ops.mesh.primitive_cube_add(size=1, location=(cx, cy, -PT / 2)); pl = bpy.context.object; pl.scale = (TILE * 0.99, TILE * 0.99, PT); bpy.ops.object.transform_apply(location=False, rotation=False, scale=True); pl.select_set(False)
+            rp = rbadd(pl, 'PASSIVE'); rp.kinematic = True; rp.collision_shape = 'BOX'; rp.friction = 0.9; rp.restitution = 0.1; rp.collision_margin = 0.002
+            pl.location = (cx, cy, -PT / 2); pl.rotation_euler = (0, 0, 0)
+            for fk in (1, fa - 1): pl.keyframe_insert('location', frame=fk); pl.keyframe_insert('rotation_euler', frame=fk)
+            pl.location = (cx + ux * heave * 0.4, cy + uy * heave * 0.4, -PT / 2 + heave); pl.rotation_euler = (-uy * ang, ux * ang, 0)
+            pl.keyframe_insert('location', frame=fa - 1 + KUP); pl.keyframe_insert('rotation_euler', frame=fa - 1 + KUP)
+            pl.location = (cx, cy, -PT / 2 - 0.05); pl.rotation_euler = (-uy * ang * 0.3, ux * ang * 0.3, 0)
+            pl.keyframe_insert('location', frame=fa - 1 + KUP + 8); pl.keyframe_insert('rotation_euler', frame=fa - 1 + KUP + 8)
+            try:
+                for fc in pl.animation_data.action.fcurves:
+                    for k in fc.keyframe_points: k.interpolation = 'LINEAR'
+            except Exception: pass
+            bpy.ops.mesh.primitive_cube_add(size=1, location=(cx, cy, TH / 2 + 0.002)); tl = bpy.context.object; tl.scale = (TILE * 0.985, TILE * 0.985, TH); bpy.ops.object.transform_apply(location=False, rotation=False, scale=True); tl.select_set(False)
+            r2 = rbadd(tl, 'ACTIVE'); r2.mass = 400 * TILE * TILE * TH; r2.friction = 0.7; r2.restitution = 0.25; r2.collision_shape = 'BOX'; r2.collision_margin = 0.004; r2.use_deactivation = False
+            TL.append((tl, cx, cy))
+    print('Ô SÀN', len(TL), flush=True)
+    rec = {}
+    for f in range(1, N + 1):
+        sc.frame_set(f)
+        if (f - 1) % STEP: continue
+        for k, (tl, cx, cy) in enumerate(TL):
+            m = tl.matrix_world; p = m.translation; q = m.to_quaternion()
+            rec.setdefault(k, []).append([round(p.x, 3), round(p.y, 3), round(p.z - TH / 2 - 0.002, 3), round(q.w, 4), round(q.x, 4), round(q.y, 4), round(q.z, 4)])
+    moved = {}
+    for k, fr in rec.items():
+        cx, cy = TL[k][1], TL[k][2]
+        if max(abs(a[0] - cx) + abs(a[1] - cy) + abs(a[2]) + abs(1 - abs(a[3])) * 4 for a in fr) > 0.01: moved[k] = fr
+    json.dump({'fps': 30 / STEP, 'frames': len(next(iter(rec.values()))) if rec else 0, 'unit': 'm', 'tile': [TILE * 0.985, TILE * 0.985, TH], 'K': KSH,
+               'rest': [[TL[k][1], TL[k][2]] for k in moved], 'anim': [moved[k] for k in moved]}, open(os.path.join(OUT, NAME + '_tiles.json'), 'w'), separators=(',', ':'))
+    print('SÀN xong:', len(moved), '/', len(TL), 'ô di chuyển', flush=True)
+    if '--tiles-only' in argv: sys.exit(0)
 
 if not SKIP_BAKE:
     bpy.context.view_layer.objects.active = dom; dom.select_set(True)
@@ -123,6 +187,8 @@ cells = []
 for p in proj:
     if p is None: cells.append(np.zeros((PH, PX, 4), np.float32)); continue
     A = blur(up(p[0], PX, PH), 2); S = blur(up(p[1], PX, PH), 3); Fl = blur(up(p[2] / Fn, PX, PH), 2)
+    EDGE = np.clip(np.minimum(np.arange(PX), PX - 1 - np.arange(PX)) / (PX * 0.14), 0, 1)[None, :] ** 1.5   # khói chạm MÉP miền mô phỏng → mỏng dần (không bị cắt thẳng đứng)
+    A = A * EDGE
     alpha = np.clip((A - 0.10) / 0.06, 0, 1)
     band = np.where(S > Q[2], 3, np.where(S > Q[1], 2, np.where(S > Q[0], 1, 0)))
     col = np.zeros((PH, PX, 3), np.float32)

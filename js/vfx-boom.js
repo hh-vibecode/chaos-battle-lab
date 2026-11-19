@@ -170,5 +170,25 @@
     F.list.push({d:P.d-2, fn:()=>{ const gc=F.g, r=Math.max(2,R*(0.12+0.88*eio(u))*P.s)*(1+0.12*Math.sin(t*(30+40*u))); gc.save(); gc.globalCompositeOperation='lighter';   // LÕI: lớn dần, co giật nhanh dần
       let gr=gc.createRadialGradient(P.x,P.y,0,P.x,P.y,r*3.2); gr.addColorStop(0,'rgba('+col+',0.55)'); gr.addColorStop(1,'rgba('+col+',0)'); gc.fillStyle=gr; gc.fillRect(P.x-r*3.2,P.y-r*3.2,r*6.4,r*6.4);
       gc.globalCompositeOperation='source-over'; gc.fillStyle='rgba('+col+',1)'; gc.beginPath(); gc.arc(P.x,P.y,r,0,TAU); gc.fill(); gc.fillStyle='#fff'; gc.beginPath(); gc.arc(P.x,P.y,r*0.62,0,TAU); gc.fill(); gc.restore(); }}); }
-  window.VfxBoom={ charge, groundShock, shockAt, simSprite, step, PAL, celPuff, explosion, wallAtCam, strobe, impactOf, gradeOf, impactOverlay, ease, keys, spacingCheck };
+  // ── SÀN MÔ PHỎNG BLENDER (cùng môi trường vật lý với vụ nổ — tools/blender/boom_sim.py --tiles): dựng lại TỪNG Ô SÀN đúng vị trí + góc xoay Blender giải ra mỗi khung ──
+  //   o = {t0, data (JSON _tiles), x, z (tâm nổ trong phim), unit (đv / m, mặc định 300), light (0–1 ánh vụ nổ hắt lên mặt ô), lightCol:[r,g,b]}
+  //   Ô CHƯA bị sóng chạm → không vẽ (sàn thành phố hiện như cũ, không lộ đường nối) · ô đã rời chỗ → hộp 3D + HỐ tối ở chỗ cũ.
+  function simTiles(F,t,o){ const D=o.data; if(!D||!D.anim) return; const u=t-o.t0; if(u<0) return; const B=F.B, U=o.unit||300, X0=o.x||0, Z0=o.z||0, fi=Math.floor(u*D.fps+1e-6);
+    const [tw,td,th]=D.tile, hw=tw/2, hd=td/2, hh=th/2, LC=o.lightCol||[255,160,80];
+    const P=(X,Y,Z)=>K.proj(B,X0+X*U,(Z-th-0.002)*U,Z0+Y*U);   // Blender (X phải, Y sâu, Z lên) → phim (x, y lên, z sâu); mặt ô lúc nằm yên = mặt đất phim
+    const CORN=[[-hw,-hd,-hh],[hw,-hd,-hh],[hw,hd,-hh],[-hw,hd,-hh],[-hw,-hd,hh],[hw,-hd,hh],[hw,hd,hh],[-hw,hd,hh]], FACES=[[4,5,6,7,'top'],[0,1,5,4,'s'],[1,2,6,5,'s'],[2,3,7,6,'s'],[3,0,4,7,'s']];
+    for(let k=0;k<D.anim.length;k++){ const A=D.anim[k], a=A[Math.min(fi,A.length-1)], [rx,ry]=D.rest[k];
+      const a0=A[0]; if(Math.hypot(a[0]-a0[0],a[1]-a0[1])+Math.abs(a[2]-a0[2])+Math.abs(Math.abs(a[3])-Math.abs(a0[3]))*4+Math.abs(a[4]-a0[4])+Math.abs(a[5]-a0[5])<0.03) continue;   // chưa động (so với khung ĐẦU: bỏ qua lún vài mm lúc bắt đầu mô phỏng)
+      const [qw,qx,qy,qz]=[a[3],a[4],a[5],a[6]], cz=a[2]+hh+0.002, rot=([x,y,z])=>{ const ix=qw*x+qy*z-qz*y, iy=qw*y+qz*x-qx*z, iz=qw*z+qx*y-qy*x, iw=-qx*x-qy*y-qz*z;
+        return [ix*qw+iw*-qx+iy*-qz-iz*-qy, iy*qw+iw*-qy+iz*-qx-ix*-qz, iz*qw+iw*-qz+ix*-qy-iy*-qx]; };
+      const pts=CORN.map(c=>{ const r=rot(c); return P(a[0]+r[0],a[1]+r[1],cz+r[2]); }); if(pts.some(p=>!p)) continue;
+      const hole=[[-hw,-hd],[hw,-hd],[hw,hd],[-hw,hd]].map(([x,y])=>P(rx+x,ry+y,th+0.003)); const c=P(a[0],a[1],cz); if(!c) continue;
+      if(!hole.some(p=>!p)) F.under.push(()=>{ const gc=F.g; gc.save(); gc.fillStyle='#0b0808'; gc.beginPath(); hole.forEach((p,i)=>i?gc.lineTo(p.x,p.y):gc.moveTo(p.x,p.y)); gc.closePath(); gc.fill(); gc.restore(); });
+      const d=Math.hypot(rx,ry), L=clamp((1-d/18)*1.1,0,1)*(1-0.7*seg(u,0.5,2.5))*(o.light==null?0.6:o.light), sh=0.85+0.3*hash(k*13+7);
+      const top='rgb('+((60*sh*(1-L)+LC[0]*L*0.9)|0)+','+((55*sh*(1-L)+LC[1]*L*0.9)|0)+','+((58*sh*(1-L)+LC[2]*L*0.9)|0)+')';
+      const fs=FACES.map(f=>({f, dz:(pts[f[0]].d+pts[f[1]].d+pts[f[2]].d+pts[f[3]].d)/4})).sort((p,q)=>q.dz-p.dz);   // vẽ mặt xa trước (hộp lồi)
+      F.list.push({d:c.d, fn:()=>{ const gc=F.g; gc.save(); gc.lineJoin='round'; gc.strokeStyle='#0d0909'; gc.lineWidth=Math.max(1.2,tw*U*c.s*0.025);
+        for(const {f} of fs){ gc.fillStyle=f[4]==='top'?top:'#3a3133'; gc.beginPath(); for(let i=0;i<4;i++){ const p=pts[f[i]]; i?gc.lineTo(p.x,p.y):gc.moveTo(p.x,p.y); } gc.closePath(); gc.fill(); gc.stroke(); }
+        gc.restore(); }}); } }
+  window.VfxBoom={ simTiles, charge, groundShock, shockAt, simSprite, step, PAL, celPuff, explosion, wallAtCam, strobe, impactOf, gradeOf, impactOverlay, ease, keys, spacingCheck };
 })();

@@ -7,16 +7,20 @@
   if(!window.CineKit || CineKit.films.vfxboom) return;
   const BASE=((document.currentScript&&document.currentScript.src)||'js/film-vfxboom.js').replace(/film-[^\/]*$/,''), V=window.GAME_VERSION?'?v='+GAME_VERSION.build:'';
   for(const [gl,f] of [['PIXI_FILTERS_GLSL','vendor/pixi-filters/glsl.js'],['Fin1City','fin1-city.js'],['Fin1Fight','fin1-fight.js'],['VfxBoom','vfx-boom.js']]) if(!window[gl]){ try{ const x=new XMLHttpRequest(); x.open('GET',BASE+f+V,false); x.send(); (0,eval)(x.responseText); }catch(e){} }
+  const JX=p=>{ try{ const x=new XMLHttpRequest(); x.open('GET',BASE+p+V,false); x.send(); return JSON.parse(x.responseText); }catch(e){ return null; } };
+  const SIMJ=(JX('../assets/img/cine/VFX_BOOM_SIM_FIRE.json')||{frames:45,cols:6,px:768,ph:549,fps:15,ground:[0.5,1.0]});
   const K=CineKit, {seg,lerp,clamp,hash}=K, EA=K.EASE, eout=EA.eout, ein=EA.ein, W=window.Fin1Fight, B=window.VfxBoom, VW=960, VH=540, H=120;
-  const T={ dash:0.35, hit:0.75, wide:1.1, charge:1.2, hush:2.0, boom:2.2, big:2.55, DUR:7.0 };
+  const T={ dash:0.35, hit:0.75, wide:1.1, charge:1.2, hush:2.0, boom:2.2, big:2.2+10/30, DUR:7.0 };   // big = cầu lửa bùng sau sóng 10 khung (đúng --fire-delay 10 trong mô phỏng)
   const T0={ boom:2.2 };
   const CITY=Fin1City({seed:3, x0:-14000, x1:14000, rows:1, near:13000, collapse:[{x:0,z:3200,t:T0.boom+0.2,r:40000,v:5200}]});   // nhà đổ ĐÚNG LÚC sóng chấn tới (tốc độ TB mặt sóng ~5200 đv/s), toà gần đổ trước
   const IMG={ ...window.FIN1_CITY_IMGS, GOJO:'assets/img/mewingcat/MEW_GOJO_IMG.webp', PAIN:'assets/img/depressedcat/DP_PAIN_IMG.webp', SIM:'assets/img/cine/VFX_BOOM_SIM_FIRE.png' };
   const BOOM={t0:T.boom, x:0, z:3200};
   // vụ nổ MÔ PHỎNG THẬT (Blender Mantaflow → tô cel, tools/blender/boom_sim.py): cầu lửa phồng nhanh → nguội → khí nóng bốc thành nấm → khói tan
-  const SIM={t0:T.big, key:'SIM', meta:{frames:45,cols:6,px:768,ph:549,fps:15,ground:[0.5,1.0]}, x:BOOM.x, z:BOOM.z, size:8400, hold:true}   // sheet đã 'vẽ trên 2' (15 hình/giây), ô 768px;   // 28 m mô phỏng = 8400 đv (300 đv/m; meme ~120)
+  const SIM={t0:T.boom, key:'SIM', meta:SIMJ, x:BOOM.x, z:BOOM.z, size:8400, hold:true}   // sheet đã 'vẽ trên 2' (15 hình/giây), ô 768px;   // 28 m mô phỏng = 8400 đv (300 đv/m; meme ~120)
   // chấn động mặt đất (code, vật lý): sóng chấn r=K·u^0.4, nứt đất theo mép sóng, hố cháy, đá văng parabol nảy 1 lần rồi nằm yên
-  const GS={t0:T.boom, x:BOOM.x, z:BOOM.z, K:7700, crack:4200, crater:900, rocks:30, seed:7, tile:420, tileR:7200, dust:200};   // sàn chia ô 420 đv bật theo sóng tới tận máy
+  const GS={t0:T.boom, x:BOOM.x, z:BOOM.z, K:7700, crack:4200, crater:900, rocks:0, plates:0, seed:7, dust:200};   // vòng sóng âm + nứt + hố (code, CÙNG K với mô phỏng) · sàn + mảnh = Blender
+  // SÀN BẬT THEO SÓNG — mô phỏng CHUNG môi trường vật lý với vụ nổ (Blender: sóng chấn r = 25.67 m·t^0.4 = 7700 đv·t^0.4 đội đất hất từng ô sàn, ô bay / va / rơi / nảy / nằm lại)
+  const TILES={t0:T.boom, data:JX('../assets/img/cine/VFX_BOOM_SIM_TILES.json'), x:BOOM.x, z:BOOM.z, unit:300};
   const T_CAM=T.boom+B.shockAt(GS,5600);   // máy toàn cảnh cách tâm ~5600 đv → sóng chấn tới máy lúc này (rung + tiếng ầm)
   const FADE={};
   function faded(F,key){ if(FADE[key]) return FADE[key]; const im=F.I[key]; if(!im||!im.complete||!im.naturalWidth) return null; const c=document.createElement('canvas'); c.width=im.naturalWidth; c.height=im.naturalHeight; const x=c.getContext('2d'); x.drawImage(im,0,0);
@@ -29,7 +33,7 @@
     if(t<T.wide){ const k=ein(seg(t,T.dash,T.hit)), gx=lerp(-520,-70,k), px=lerp(520,70,k);
       if(t<T.dash||t>=T.hit){ leader(F,'GOJO',t<T.hit?-520:-70,t,{preset:'ki',k:0.8,seed:3}); leader(F,'PAIN',t<T.hit?520:70,t,{preset:'cursed',k:0.8,seed:9}); }
       else { W.dash(F,t,T.dash,T.hit,[-520,H,0],[-70,H,0],{w:34,col:'130,200,255',core:'255,255,255'}); W.dash(F,t,T.dash,T.hit,[520,H,0],[70,H,0],{w:34,col:'190,120,255',core:'255,255,255'}); } }   // pha lao = 2 VỆT (không vẽ người)
-    else { B.charge(F,t,{t0:T.charge,t1:T.boom,x:BOOM.x,y:160,z:BOOM.z,R:420}); B.groundShock(F,t,GS); B.simSprite(F,t,SIM); } }
+    else { B.charge(F,t,{t0:T.charge,t1:T.boom,x:BOOM.x,y:160,z:BOOM.z,R:420}); B.groundShock(F,t,GS); B.simTiles(F,t,TILES); B.simSprite(F,t,SIM); } }
   const STROBE=[[T.hit,'bw wb bw k w wb bw w c w',0.5,0.45]];
   CineKit.film({ id:'vfxboom', title:'Anime Lab · Mẫu vụ nổ + impact', DUR:T.DUR, VW, VH, fadeIn:false, fadeOut:false, imgs:IMG, theme:t=>CITY.TH_NIGHT, shots, world,
     // 🔊 không nhạc · mỗi tiếng ĐÚNG lúc hình, hết hình thì NGẮT (tham số giây thứ 4)

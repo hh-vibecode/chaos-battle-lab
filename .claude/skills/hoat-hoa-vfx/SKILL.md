@@ -9,6 +9,8 @@ Module: `js/vfx-boom.js` → `window.VfxBoom`. Phim mẫu: `js/film-vfxboom.js` 
 ## 1. Vụ nổ lớn — DÙNG MÔ PHỎNG BLENDER (18/11, anh chê bản vẽ tay "nhiều sạn, chưa hiểu vật lý")
 - Lửa / khói: `tools/blender/boom_sim.py` (Mantaflow, đọc lưới 3D → tô cel) → sheet `assets/img/cine/VFX_*.png` → `VfxBoom.simSprite(F,t,o)`. Cách chạy, tham số: `docs/notes/luong-phim-blender.md` mục 4. ~2 phút / loại, làm 1 lần dùng mãi (đổi màu `--skip-bake` vài giây).
 - Chấn động MẶT ĐẤT (anh: "phần quan trọng nhất"): `VfxBoom.groundShock(F,t,o)` — mặt sóng r=K·u^0.4 (nhanh rồi chậm), nứt đất chạy theo mép sóng, hố cháy, đá hất ĐÚNG LÚC sóng qua → parabol trọng lực → nảy 1 lần → nằm yên. `VfxBoom.shockAt(o,d)` = lúc sóng tới khoảng cách d → đặt RUNG MÁY + tiếng ầm đúng lúc sóng tới máy (không phải lúc chớp).
+- 🧱 SÀN bật theo sóng = MÔ PHỎNG chung với vụ nổ (`boom_sim.py --tiles` → `VfxBoom.simTiles`), KHÔNG vẽ ô bằng code (anh 19/11: vẽ ra không chuẩn). Tích tụ: `VfxBoom.charge`.
+- NHỊP anh chốt 19/11: TÍCH TỤ (~1s, trời tối dần, lõi sáng lớn + co giật, tia / bụi bị hút vào) → LẶNG 0.2s → NỔ = chớp → SÓNG ÂM đi trước (vòng sáng + bóp méo) → SÀN BẬT lần lượt từ tâm ra hết màn ngay sau sóng → NỔ TO (cầu lửa, trễ ~0.33s).
 - Trình tự vật lý: CHỚP tức thì (tắt ~0.2s) → cầu lửa phồng nhanh rồi chậm → sóng chấn quét đất + bụi cuộn sát đất → lửa nguội trắng→vàng→cam→khói → khí nóng bốc thành nấm → khói vẫn bốc chậm khi hết mô phỏng.
 - Mẫu: `js/film-vfxboom.js`. Soát: `tools/x/anim-check.js <id>` (chỉ được còn GIẬT ở khung chớp nổ).
 
