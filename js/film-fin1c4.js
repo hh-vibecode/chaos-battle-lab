@@ -741,11 +741,7 @@
     //   cận chiến: JJK S2 — Gojo vs Toji OST · Pain bay lên cast Shinra: Girei (Pain's Theme) · từ lãnh địa: "The Honored One" — chỗ LẶNG rồi BÙNG của bài (file 74–76s) rơi đúng lúc Hollow Purple lao ra khỏi khói
     mus:[{src:'assets/audio/mus_jjk_toji.m4a',ra:0,rb:T.rise+0.4,off:1.0,vol:0.22,fi:0.6,fo:0.9},
       {src:'assets/audio/mus_girei.m4a',ra:T.rise,rb:T.dom+0.25,off:8.0,vol:0.45,fi:0.7,fo:0.5},
-      // 🗣️ (13/11 anh chê VOICEVOX "rất đần") GIỌNG THẬT Gojo (Yuichi Nakamura, clip anime trên myinstants) — phát như lồng tiếng (vo:true → nhạc tự nén theo giọng)
-      //   vo_gojo_domain = "Domain Expansion: Infinite Void" (11.5s): 0.4–3.0s "Ryōiki Tenkai" lúc kết ấn · 8.8s→hết "Muryōkūsho" lúc hư không bung · vo_gojo_murasaki = "Kyoshiki… Murasaki" (giọng 1.0–5.4s)
-      {src:'assets/audio/vo_gojo_domain.mp3',ra:T.dEye,rb:T.dEye+2.0,off:0.4,vol:1.0,fi:0.05,fo:0.3,vo:true},
-      {src:'assets/audio/vo_gojo_domain.mp3',ra:T.dIn+0.1,rb:T.dIn+2.1,off:8.8,vol:1.0,fi:0.05,fo:0.5,vo:true},
-      {src:'assets/audio/vo_gojo_murasaki.mp3',ra:T.look+0.2,rb:T.look+3.6,off:1.0,vol:0.75,fi:0.03,fo:0.4,vo:true},
+      // 🔇 (anh 19/11) KHÔNG lồng giọng — tên chiêu + dòng mô tả bằng CHỮ trên màn hình (skillName / voidTitle).
       {src:'assets/audio/mus_honored.m4a',ra:T.dom,rb:TCZ,off:Math.max(0,75.8-(Rnew(T.smoke)-Rnew(T.dom))),vol:0.35,fi:0.4,fo:0.05},   // (16/11) nhạc TẮT HẲN lúc 2 lực chạm nhau (câm lặng tuyệt đối)
       {src:'assets/audio/mus_honored.m4a',ra:TCZ+ZF,rb:T.DUR,off:Math.max(0,75.8-(Rnew(T.smoke)-Rnew(T.dom)))+(Rnew(TCZ+ZF)-Rnew(T.dom)),vol:0.35,fi:0.8,fo:2.0}],   // vào lại sau vụ nổ, vẫn khớp chỗ bùng ở Hollow Purple
     theme:t=>theme(t), shots:window.Fin1Fight?Fin1Fight.cutify(shots,{keep:[[T.land,T.look]]}):shots,   // (13/11 anh: hạn chế zoom / máy trượt trong khung 3D — cắt góc tĩnh)
@@ -907,9 +903,9 @@
       // chia khung: phủ màu 2 phe + vạch
       if(C&&t>=T.split&&t<T.wide){ C.splitTint(F,t,T.split,T.wide-T.split,'rgba(60,140,255,0.28)','rgba(255,60,70,0.28)'); g.save(); g.fillStyle='#fff'; g.fillRect(VW/2-2,0,4,VH); g.restore(); }
       // tên chiêu (chữ tiếng Anh)
-      skillName(g,F,t,T.cast+0.1,1.05,'SHINRA TENSEI',null,'255,120,110');
-      skillName(g,F,t,T.dImp+0.05,1.3,'DOMAIN EXPANSION',null,'110,180,255');
-      skillName(g,F,t,T.smoke+0.12,0.75,'HOLLOW PURPLE',null,'190,120,255');
+      skillName(g,F,t,T.cast+0.1,1.05,'SHINRA TENSEI','ALMIGHTY PUSH · REPELS ALL THINGS','255,120,110');
+      skillName(g,F,t,T.dImp+0.05,1.3,'DOMAIN EXPANSION','INFINITE VOID · ENDLESS INFORMATION','110,180,255');
+      skillName(g,F,t,T.smoke+0.12,1.1,'HOLLOW PURPLE','IMAGINARY TECHNIQUE · ERASES ALL MATTER','190,120,255');
       K.sfxText(F,'DON!',VW*0.5,VH*0.3,{t0:T.clash,life:0.5,px:84,rot:-8});
       K.sfxText(F,'BAM!',VW*0.42,VH*0.3,{t0:5.3,life:0.45,px:80,rot:8,col:'#9fd0ff'});
       K.sfxText(F,'DOOON!!',VW*0.48,VH*0.28,{t0:10.35,life:0.55,px:84,rot:-6,col:'#c9a7ff'});
