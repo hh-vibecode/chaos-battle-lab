@@ -15,7 +15,8 @@
   {"t0":17.77,"t1":19.09,"co":"cận","goc":"giun","hanhDong":"khói tan: Chill Guy bước ra, nộ bắt đầu bốc","loai":"thở","anh":[],"sfx":[],"ghiChu":""},
   {"t0":19.09,"t1":20.74,"co":"cực cận","goc":"ngang","hanhDong":"KHUNG NỘ KIỂU GON: bóng đen, 2 mắt trắng rực, tia năng lượng trắng bám viền thân","loai":"ra chiêu","anh":[],"sfx":[],"ghiChu":""},
   {"t0":20.74,"t1":21.84,"co":"toàn","goc":"giun","hanhDong":"hào quang nộ BÙNG toàn thân, I'M NOT CHILL ANYMORE","loai":"ra chiêu","anh":[],"sfx":[],"ghiChu":""},
-  {"t0":21.84,"t1":24.34,"co":"trung","goc":"ngang","hanhDong":"NGẮT: Gojo đã đứng chắn trước · Chill Guy tắt nộ, gật đầu, quay đi vào làn khói","loai":"đối mặt","anh":[],"sfx":[],"ghiChu":""},
-  {"t0":24.34,"t1":25.88,"co":"toàn","goc":"ngang","hanhDong":"Gojo và Pain đối mặt, đá vụn bị nâng lên giữa 2 bên","loai":"đối mặt","anh":[],"sfx":[],"ghiChu":""},
-  {"t0":25.88,"t1":27.64,"co":"trung","goc":"ngang","hanhDong":"thủ thế, hào quang dâng, sắp giao tranh → cắt sang Bat Cat","loai":"đối mặt","anh":[],"sfx":[],"ghiChu":""}
+  {"t0":21.84,"t1":22.74,"co":"toàn","goc":"ngang","hanhDong":"MÀN ĐEN, im bặt: chữ \"Chill, leave it to me.\" (chưa thấy ai) → rồi mới cắt sang Gojo","loai":"thở","anh":[],"sfx":[],"ghiChu":"anh 19/11: tim đập to lúc nộ, bỗng hiện chữ, rồi mới thấy Gojo"},
+  {"t0":22.74,"t1":25.24,"co":"trung","goc":"ngang","hanhDong":"NGẮT: Gojo đã đứng chắn trước · Chill Guy tắt nộ, gật đầu, quay đi vào làn khói","loai":"đối mặt","anh":[],"sfx":[],"ghiChu":""},
+  {"t0":25.24,"t1":26.78,"co":"toàn","goc":"ngang","hanhDong":"Gojo và Pain đối mặt, đá vụn bị nâng lên giữa 2 bên","loai":"đối mặt","anh":[],"sfx":[],"ghiChu":""},
+  {"t0":26.78,"t1":28.54,"co":"trung","goc":"ngang","hanhDong":"thủ thế, hào quang dâng, sắp giao tranh → cắt sang Bat Cat","loai":"đối mặt","anh":[],"sfx":[],"ghiChu":""}
 ]
