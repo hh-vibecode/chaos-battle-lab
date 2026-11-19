@@ -52,6 +52,8 @@ Chi tiết từng meme: `docs/notes/memes.md` · từng phim + cine-kit: `docs/n
 
 ## 🔎 Soát phim trước khi báo xong
 - Chụp mỗi giây 1 khung (`film-check.js <id> --t …`, ≥360px) + soát cận mọi chỗ nối / nghi. Dò: vật che nhân vật, vật sát máy phình to, nhân vật lơ lửng / chìm, đi lùi, cỡ không đồng nhất, chỗ nối vũ khí / xích, khoá track bỏ trống z/y.
+- 🪞 (anh 19/11 "so sánh là kĩ năng rất cần thiết") Có MẪU (GIF / video / ảnh anh gửi) → làm xong phải ĐẶT SONG SONG so: `tools/x/compare.js <id> --t … --ref tools/x/_ref/<mẫu> --rt …` (mỗi hàng: khung mình | khung mẫu), liệt kê từng điểm lệch, sửa, so lại rồi mới báo. GIF → bảng khung: `tools/x/gif-frames.html`.
+- 🔊 Tiếng mới: đo lặng đầu (`tools/x/sfx-measure.html` → `__leadJson`) thêm vào `K.SND_LEAD` (js/cine-kit.js) — phim tự phát sớm cho tiếng khớp hình.
 - `tools/x/film-lint.js` + `sfx-lint.js` phải SẠCH. Shotlist `js/shots/<id>.json` phải khớp giờ sau RETIME.
 
 ## 🎥 Xuất video

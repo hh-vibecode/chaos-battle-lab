@@ -18,6 +18,7 @@ DX = opt('--width', 28.0); DZ = opt('--height', 20.0)          # miền khí r�
 SURGE = opt('--surge', 12.0)                                     # bán kính vòng bụi sóng chấn đi tới (m), 0 = tắt
 NZ = int(round(RES * DZ / DX))
 SKIP_BAKE = '--skip-bake' in argv
+STEP = opt('--step', 2)   # giữ 1 khung / STEP (2 = 'vẽ trên 2' 15 hình/giây như anime) → sheet nhẹ, ô to nét hơn
 os.makedirs(OUT, exist_ok=True); CACHE = os.path.join(OUT, 'cache')
 
 # ---------- cảnh + bake ----------
@@ -93,7 +94,7 @@ def blur(a, k):
 PH = int(round(PX * DZ / DX))
 KD = 6.0 * RES / 128.0 / 1.0   # độ đục mỗi ô
 proj = []
-for f in range(1, N + 1):
+for f in range(1, N + 1, STEP):
     G = grids(f)
     if G is None: proj.append(None); continue
     d = np.clip(G['density'], 0, None); fl = np.clip(G['flame'], 0, None)   # trục (x, y, z); máy nhìn từ -y
@@ -112,7 +113,8 @@ print('ngưỡng tông khói', [round(float(q), 3) for q in Q], flush=True)
 Fn = max(1e-6, float(np.percentile(np.concatenate([p[2][p[2] > 1e-3] for p in proj if p is not None] or [np.ones(1)]), 96)))
 
 C = lambda *c: np.array(c, np.float32)
-SMOKE = [C(.27, .22, .22), C(.47, .41, .39), C(.70, .64, .57), C(.93, .88, .79)]
+SMOKE = [C(.24, .19, .20), C(.45, .38, .36), C(.70, .62, .55), C(.94, .88, .78)]
+WARM = [C(.42, .16, .12), C(.74, .34, .17), C(.95, .60, .30), C(1.0, .86, .60)]   # khói ĐƯỢC LỬA HẮT SÁNG (gần lửa) — cel 2 vùng, không chuyển mờ
 FIREP = {'fire': [C(.66, .16, .08), C(.95, .44, .10), C(1, .80, .24), C(1, .98, .88)],
          'cyan': [C(.16, .30, .70), C(.16, .66, 1), C(.56, .96, 1), C(1, 1, 1)],
          'purple': [C(.30, .10, .60), C(.62, .30, 1), C(.88, .70, 1), C(1, 1, 1)]}[PAL]
@@ -125,6 +127,8 @@ for p in proj:
     band = np.where(S > Q[2], 3, np.where(S > Q[1], 2, np.where(S > Q[0], 1, 0)))
     col = np.zeros((PH, PX, 3), np.float32)
     for i in range(4): col = np.where((band == i)[..., None], SMOKE[i], col)
+    glow = blur(Fl, 10 if PX >= 600 else 6) > 0.06
+    for i in range(4): col = np.where(((band == i) & glow)[..., None], WARM[i], col)
     fb = np.where(Fl > 0.60, 3, np.where(Fl > 0.32, 2, np.where(Fl > 0.14, 1, np.where(Fl > 0.05, 0, -1))))
     fb = np.where(alpha > 0.3, fb, -1)
     for i in range(4): col = np.where((fb == i)[..., None], FIREP[i], col)
@@ -138,12 +142,12 @@ for p in proj:
     col = np.where(edge[..., None], INK, col); alpha = np.where(edge, 1.0, alpha)
     cells.append(np.concatenate([col, alpha[..., None]], -1))
 
-cols = math.ceil(math.sqrt(N)); rows = math.ceil(N / cols)
+NF = len(cells); cols = math.ceil(math.sqrt(NF * PH / PX)); rows = math.ceil(NF / cols)
 sheet = np.zeros((rows * PH, cols * PX, 4), np.float32)
 for i, c in enumerate(cells):
     r0, c0 = divmod(i, cols); sheet[r0 * PH:(r0 + 1) * PH, c0 * PX:(c0 + 1) * PX] = c
 im = bpy.data.images.new(NAME, cols * PX, rows * PH, alpha=True)
 im.pixels.foreach_set(np.ascontiguousarray(sheet[::-1]).ravel())
 im.filepath_raw = os.path.join(OUT, NAME + '.png'); im.file_format = 'PNG'; im.save()
-json.dump({'frames': N, 'cols': cols, 'px': PX, 'ph': PH, 'fps': 30, 'ground': [0.5, 1.0], 'widthM': DX, 'heightM': DZ, 'surgeM': SURGE, 'blastM': BLAST}, open(os.path.join(OUT, NAME + '.json'), 'w'))
+json.dump({'frames': NF, 'cols': cols, 'px': PX, 'ph': PH, 'fps': 30 / STEP, 'ground': [0.5, 1.0], 'widthM': DX, 'heightM': DZ, 'surgeM': SURGE, 'blastM': BLAST}, open(os.path.join(OUT, NAME + '.json'), 'w'))
 print('XONG', os.path.join(OUT, NAME + '.png'), flush=True)

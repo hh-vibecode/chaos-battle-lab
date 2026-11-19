@@ -375,7 +375,12 @@
   //         theme (nền K.drawWorldBg), shots (máy quay), world(F,t) (đặt nhân vật + hiệu ứng thế giới), screen(F,t) (hiệu ứng màn hình),
   //         impact(t) → 0 / 'bw' / 'inv' / 'red' (khung impact) , shake(t) → biên độ rung (px logic),
 //         post(F,t) → hậu kỳ shader (js/vfx-gl.js): {shocks:[{x,y,z | sx,sy, r,w,str}], zoom:{x,y,z | sx,sy, k}, chroma, heat:{k,t}} (đơn vị logic) }
+  // 🔊 KHOẢNG LẶNG ĐẦU của file tiếng (đo 19/11 bằng tools/x/sfx-measure.html → window.__leadJson, ngưỡng −30 dB so với đỉnh): phim phát SỚM đúng chừng đó
+  //   để tiếng VÀO ĐÚNG KHUNG HÌNH (anh chê 18/11 "sound chậm hơn hình"). Áp cho mọi phim (xem web + render-cine xuất video dùng chung info().sfx). Tiếng mới → đo + thêm vào đây.
+  K.SND_LEAD={bat_grapple:0.032, bk_howl:0.491, br_tick:0.025, chillguy_uppercut:0.042, cine_heavy_slow:0.086, cry_banana_cat:0.033, dc_chain:0.036, ed_hit7:0.046, ep3_chain:0.025, ep3_charge:0.035, ep3_explode:0.02, ep3_glass:0.346, ep3_klunk:0.043, ep3_quake:0.058, fin_crow_fly:0.206, gigachad_roar:0.027, king_knight_summon:0.299, kn_boom_low:0.06, kn_explode_crunch:0.025, kn_punch_heavy:0.036, l2p_chains:0.831, l2p_chime:0.207, l2p_riser:0.721, l2p_rumble:0.089, l2p_shimmer:0.057, l2p_whoosh:0.254, ninja_sub:0.027, pd_truck_crash:0.046, se_collapse:0.031, se_collapse_b:0.066, se_glass:0.031, se_impact_stop:0.026, se_katana_a:0.03, se_katana_b:0.068, se_machdash:0.03, se_quake:0.061, se_slash:0.034, se_super_hit:0.026, se_tremor:0.028, se_whoosh_fast:0.043, vine_boom:0.087};
+  K.leadShift=sfx=>(sfx||[]).map(s=>{ const L=K.SND_LEAD[s[1]]||0; if(!L) return s; const o=s.slice(); o[0]=Math.max(0,s[0]-L); if(o[3]!=null) o[3]=s[3]+L; return o; });
   K.film=def=>{ const id=def.id, VW=def.VW||540, VH=def.VH||960, DUR=def.DUR;
+    if(def.sfx&&!def._leadDone){ def.sfx=K.leadShift(def.sfx); def._leadDone=true; }
     // ảnh chỉ TẢI khi phim phát (play / tập gọi _load) → tập nhiều cảnh: xuất riêng 1 cảnh chỉ nạp ảnh của cảnh đó (đỡ tràn RAM)
     const I={}, IP=def.imgs||{}; for(const k of Object.keys(IP)) I[k]=new Image(); let imgsOn=false;
     const loadImgs=()=>{ if(imgsOn) return; imgsOn=true; for(const [k,p] of Object.entries(IP)) I[k].src=p; };

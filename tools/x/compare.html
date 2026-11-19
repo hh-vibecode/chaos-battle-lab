@@ -1,0 +1,33 @@
+<!doctype html><meta charset="utf-8"><title>so sánh với mẫu</title>
+<!-- 🪞 SO SÁNH SONG SONG phim cine-kit với MẪU (anh dặn 19/11: "làm xong phải đặt song song so với ảnh mẫu" · "so sánh là 1 kĩ năng rất cần thiết")
+     Mỗi hàng: [khung phim mình dựng ở giây t] | [khung MẪU ở giây rt] — mẫu là GIF / video mp4 / ảnh png-jpg-webp.
+     tools/x/compare.html?id=<phim>&file=<file>&t=19.1,19.5&ref=tools/x/_ref/gon-angry.gif&rt=0,0.5&w=480
+       ref nhiều file: ref=a.png,b.png (rt bỏ trống = ảnh tĩnh) · nhãn: lab=A1 cận,A2 toàn
+     → window.__done · window.__png (bảng so sánh). Dùng qua tools/x/compare.js (tự bật / tắt trình duyệt + máy chủ). -->
+<body style="background:#111;color:#ddd;font:12px monospace"><pre id="log"></pre>
+<script>
+const Q=new URLSearchParams(location.search), ID=Q.get('id'), FILE=Q.get('file')||ID, W=+(Q.get('w')||480);
+const TS=(Q.get('t')||'').split(',').filter(Boolean).map(Number), REFS=(Q.get('ref')||'').split(',').filter(Boolean), RT=(Q.get('rt')||'').split(',').map(x=>x===''?null:+x), LAB=(Q.get('lab')||'').split(',');
+const load=src=>new Promise(r=>{ const s=document.createElement('script'); s.src=src; s.onload=()=>r(true); s.onerror=()=>r(false); document.body.appendChild(s); });
+async function refFrame(src,t){ const url='/'+src;
+  if(/\.(gif|webp|apng)$/i.test(src)&&'ImageDecoder' in window){ const buf=await (await fetch(url)).arrayBuffer(), dec=new ImageDecoder({data:buf,type:/\.gif$/i.test(src)?'image/gif':'image/webp'}); await dec.tracks.ready;
+    const n=dec.tracks.selectedTrack.frameCount; let acc=0, idx=0; for(let i=0;i<n;i++){ const r=await dec.decode({frameIndex:i}), d=(r.image.duration||1e5)/1e6; if(t==null||acc+d>t){ idx=i; return r.image; } acc+=d; } return (await dec.decode({frameIndex:n-1})).image; }
+  if(/\.(mp4|webm|mov|m4v)$/i.test(src)){ const v=document.createElement('video'); v.muted=true; v.src=url; v.preload='auto'; await new Promise((ok,no)=>{ v.onloadeddata=ok; v.onerror=()=>no(new Error('không mở được '+src)); });
+    v.currentTime=t||0; await new Promise(ok=>{ v.onseeked=ok; }); const c=document.createElement('canvas'); c.width=v.videoWidth; c.height=v.videoHeight; c.getContext('2d').drawImage(v,0,0); return c; }
+  const im=new Image(); im.src=url; await im.decode(); return im; }
+(async()=>{ try{
+  for(const f of ['cine-kit','vfx-gl','cine-cam','vfx-manga']) await load('../../js/'+f+'.js');
+  if(!(await load('../../js/film-'+FILE+'.js'))) throw new Error('không tải được js/film-'+FILE+'.js'); await new Promise(r=>setTimeout(r,60));
+  const film=CineKit.films[ID]; if(!film) throw new Error('không có phim '+ID); const VW=film.def.VW||960, VH=film.def.VH||540;
+  const H=Math.round(W*VH/VW), c=CineKit.mk(W,H), Wc=CineKit.mk(W,H), base=new URL('../../',location.href).href;
+  film._bind(c,Wc,true); for(const k in film.def.imgs) if(!/^(https?:|data:|\/)/.test(film.def.imgs[k])) film.def.imgs[k]=base+film.def.imgs[k]; await film._load();
+  const rows=Math.max(TS.length,REFS.length?1:0), out=document.createElement('canvas'); out.width=W*2+12; out.height=rows*(H+22); const g=out.getContext('2d');
+  g.fillStyle='#111'; g.fillRect(0,0,out.width,out.height); g.font='13px monospace';
+  for(let i=0;i<rows;i++){ const y=i*(H+22)+20, t=TS[i]; film._render(t); g.drawImage(c,0,y,W,H);
+    const src=REFS[Math.min(i,REFS.length-1)], rt=RT[i]!=null?RT[i]:(RT.length===1&&RT[0]!=null?RT[0]+0:null);
+    if(src){ const im=await refFrame(src,rt), iw=im.displayWidth||im.naturalWidth||im.width, ih=im.displayHeight||im.naturalHeight||im.height, k=Math.min(W/iw,H/ih), dw=iw*k, dh=ih*k;
+      g.fillStyle='#000'; g.fillRect(W+12,y,W,H); g.drawImage(im,W+12+(W-dw)/2,y+(H-dh)/2,dw,dh); }
+    g.fillStyle='#7fd0ff'; g.fillText('MÌNH · '+ID+' '+t.toFixed(2)+'s'+(LAB[i]?' · '+LAB[i]:''),4,y-5); g.fillStyle='#ffd24a'; g.fillText('MẪU · '+(src||'—').split('/').pop()+(rt!=null?' '+rt.toFixed(2)+'s':''),W+16,y-5); }
+  window.__png=out.toDataURL('image/png'); window.__done='OK '+rows+' hàng';
+ }catch(e){ window.__done='LỖI '+e.message; } document.getElementById('log').textContent=window.__done; })();
+</script>

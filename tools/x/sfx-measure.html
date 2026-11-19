@@ -3,7 +3,7 @@
      tools/x/sonniss-index.js) + đỉnh dBFS + độ dài + lặng đầu + giây đỉnh. Mở qua serve.js:
        tools/x/sfx-measure.html?keys=se_kick,se_aura      (đọc assets/audio/<key>.mp3; key có đuôi .m4a/.wav thì đọc đúng file)
        &env=2   → thêm đường độ to mỗi 2s (nhạc dài: tìm đoạn dạo / cao trào)
-     → window.__done = 'OK …' và window.__out = các dòng SND_LUFS dán thẳng vào js/game.js. Chạy ngầm bằng cdp.js (steps: waitfor window.__done / eval window.__out). -->
+     → window.__done = 'OK …' · window.__leadJson = {key: giây lặng đầu} (phim tự phát sớm — js/cine-kit.js K.SND_LEAD) · window.__out = các dòng SND_LUFS dán thẳng vào js/game.js. Chạy ngầm bằng cdp.js (steps: waitfor window.__done / eval window.__out). -->
 <pre id="o">…</pre>
 <script>
 function biquad(x,b,a){ const y=new Float64Array(x.length); let x1=0,x2=0,y1=0,y2=0; for(let n=0;n<x.length;n++){ const v=b[0]*x[n]+b[1]*x1+b[2]*x2-a[1]*y1-a[2]*y2; x2=x1; x1=x[n]; y2=y1; y1=v; y[n]=v; } return y; }
@@ -19,16 +19,17 @@ function lufs(x,fs){
   return L(g.reduce((p,v)=>p+v,0)/g.length);
 }
 (async()=>{
-  const q=new URLSearchParams(location.search), keys=(q.get('keys')||'').split(',').filter(Boolean), ac=new OfflineAudioContext(1,44100,44100), out=[], info=[];
+  const LEAD={}; window.__lead=LEAD; const q=new URLSearchParams(location.search), keys=(q.get('keys')||'').split(',').filter(Boolean), ac=new OfflineAudioContext(1,44100,44100), out=[], info=[];
   for(const k of keys){
     try{ const ab=await ac.decodeAudioData(await (await fetch('/assets/audio/'+k+(/\.\w+$/.test(k)?'':'.mp3'))).arrayBuffer()), sr=ab.sampleRate, N=ab.length, x=new Float32Array(N);
       for(let c=0;c<ab.numberOfChannels;c++){ const d=ab.getChannelData(c); for(let i=0;i<N;i++) x[i]+=d[i]/ab.numberOfChannels; }
       let pk=0,pi=0,lead=-1; for(let i=0;i<N;i++){ const a=Math.abs(x[i]); if(a>pk){pk=a;pi=i;} if(lead<0&&a>0.0056) lead=i; }   // lặng đầu: dưới -45 dBFS
       if(q.get('env')){ const st=+q.get('env')||2, e=[]; for(let t=0;t+st<=N/sr;t+=st){ const i0=Math.round(t*sr), i1=Math.round((t+st)*sr); let m=0; for(let i=i0;i<i1;i++) m+=x[i]*x[i]; e.push(Math.round(10*Math.log10(m/(i1-i0)+1e-12))); } info.push(k+' độ to (dB RMS) mỗi '+st+'s: '+e.join(' ')); }   // ?env=2: đường độ to theo thời gian (tìm đoạn dạo / cao trào của nhạc dài)
+      let on=0; for(let i=0;i<N;i++) if(Math.abs(x[i])>pk*0.03){ on=i; break; } LEAD[k.replace(/.w+$/,'')]=+(on/sr).toFixed(3);   // KHOẢNG LẶNG ĐẦU THẬT (dưới −30 dB so với đỉnh) → phim phát sớm đúng chừng đó để tiếng khớp hình (anh chê 18/11 tiếng chậm hơn hình)
       const L=lufs(x,sr); out.push(`${k}:[${L.toFixed(1)},${(20*Math.log10(pk)).toFixed(1)}]`);
-      info.push(`${k.padEnd(16)} dài ${(N/sr).toFixed(2)}s · lặng đầu ${(Math.max(0,lead)/sr).toFixed(2)}s · đỉnh ở ${(pi/sr).toFixed(2)}s · LUFS ${L.toFixed(1)} · đỉnh ${(20*Math.log10(pk)).toFixed(1)} dBFS`);
+      info.push(`${k.padEnd(16)} dài ${(N/sr).toFixed(2)}s · lặng đầu ${(Math.max(0,lead)/sr).toFixed(2)}s (−30dB/đỉnh: ${LEAD[k.replace(/.w+$/,'')]}s) · đỉnh ở ${(pi/sr).toFixed(2)}s · LUFS ${L.toFixed(1)} · đỉnh ${(20*Math.log10(pk)).toFixed(1)} dBFS`);
     }catch(e){ info.push(k+' LỖI '+e.message); }
   }
-  window.__out=out.join(', ')+'\n'+info.join('\n'); document.getElementById('o').textContent=window.__out; window.__done='OK '+out.length+'/'+keys.length;
+  window.__out=out.join(', ')+'\n'+info.join('\n'); document.getElementById('o').textContent=window.__out; window.__leadJson=JSON.stringify(LEAD); window.__done='OK '+out.length+'/'+keys.length;
 })();
 </script>

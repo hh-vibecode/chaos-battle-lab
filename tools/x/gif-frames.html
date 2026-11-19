@@ -1,0 +1,17 @@
+<!doctype html><meta charset="utf-8"><title>gif frames</title>
+<!-- 🎞️ TÁCH GIF / ẢNH ĐỘNG thành BẢNG KHUNG có số giây (Windows không ffmpeg — dùng ImageDecoder của trình duyệt)
+     tools/x/gif-frames.html?src=tools/x/_ref/x.gif&w=220&cols=8&max=48  → window.__done · window.__png (bảng) · window.__sum (số khung, thời lượng từng khung)
+     Chạy ngầm bằng cdp.js: goto … / waitfor window.__done / eval window.__sum / evalsave <tên> window.__png -->
+<body style="background:#111;color:#ddd;font:12px monospace"><pre id="o"></pre><script>
+(async()=>{ try{
+  const q=new URLSearchParams(location.search), src=q.get('src'), W=+(q.get('w')||220), COLS=+(q.get('cols')||8), MAX=+(q.get('max')||48);
+  const buf=await (await fetch('/'+src)).arrayBuffer(), type=/\.webp$/i.test(src)?'image/webp':/\.png$/i.test(src)?'image/png':'image/gif';
+  const dec=new ImageDecoder({data:buf,type}); await dec.tracks.ready; const n=Math.min(MAX,dec.tracks.selectedTrack.frameCount);
+  const fr=[]; let t=0; for(let i=0;i<n;i++){ const r=await dec.decode({frameIndex:i}), im=r.image; fr.push({im,t,d:(im.duration||0)/1e6}); t+=(im.duration||0)/1e6; }
+  const H=Math.round(W*fr[0].im.displayHeight/fr[0].im.displayWidth), rows=Math.ceil(n/COLS), c=document.createElement('canvas'); c.width=COLS*W; c.height=rows*(H+16); const g=c.getContext('2d');
+  g.fillStyle='#111'; g.fillRect(0,0,c.width,c.height); g.font='12px monospace'; g.fillStyle='#ff0';
+  fr.forEach((f,i)=>{ const x=(i%COLS)*W, y=Math.floor(i/COLS)*(H+16); g.drawImage(f.im,x,y+16,W,H); g.fillText('#'+i+' '+f.t.toFixed(2)+'s',x+3,y+12); });
+  window.__sum=n+' khung · dài '+t.toFixed(2)+'s · '+fr[0].im.displayWidth+'×'+fr[0].im.displayHeight+' · thời lượng khung: '+fr.map(f=>f.d.toFixed(2)).join(' ');
+  window.__png=c.toDataURL('image/png'); window.__done='OK '+n;
+ }catch(e){ window.__done='LỖI '+e.message; } document.getElementById('o').textContent=window.__done+'\n'+(window.__sum||''); })();
+</script>

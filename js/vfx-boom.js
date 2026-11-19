@@ -110,6 +110,25 @@
     if(u<1.2){ const k=1-u/1.2; F.under.push(()=>{ const gc=F.g, o1=ring(r,2,0.06,Math.floor(u*15)), i1=ring(r*0.9,2,0.1,Math.floor(u*15)+5); if(!o1||!i1) return; gc.save();
         gc.fillStyle='rgba(255,246,226,'+(0.75*k)+')'; gc.beginPath(); o1.forEach((p,i)=>i?gc.lineTo(p.x,p.y):gc.moveTo(p.x,p.y)); gc.closePath(); i1.slice().reverse().forEach((p,i)=>i?gc.lineTo(p.x,p.y):gc.moveTo(p.x,p.y)); gc.closePath(); gc.fill('evenodd'); gc.restore(); });
     }
+    // MẢNG ĐẤT bị sóng chấn hất bật: lúc mặt sóng đi qua, tấm đất nhảy lên (sin) + mép ngoài bị đội lên, rơi xuống vẫn CHỔNG NGHIÊNG (mặt đường vỡ)
+    const NP=o.plates==null?22:o.plates;
+    for(let i=0;i<NP;i++){ const a=hash(i+sd*111)*TAU, d=CR*1.05+CL*0.5*Math.pow(hash(i+sd*113),0.9), tau=u-shockAt(o,d); if(tau<0) continue;
+      const fall=1-0.55*d/(CR+CL), w=(110+200*hash(i+sd*117))*fall, Hs=w*(0.6+0.8*hash(i+sd*119))*fall, up=tau<0.45?Math.sin(Math.PI*tau/0.45)*Hs:0, tl=(0.25+0.45*hash(i+sd*121))*clamp(tau/0.2,0,1)*w;
+      const ca=Math.cos(a), sa=Math.sin(a), P=(rr,tt,y)=>K.proj(B,x+ca*rr-sa*tt,y,z+sa*rr+ca*tt), dn=d-w/2, df=d+w/2;
+      const q=[P(dn,-w/2,up),P(dn,w/2,up),P(df,w/2,up+tl),P(df,-w/2,up+tl)], qs=[P(df,w/2,0),P(df,-w/2,0)], c=K.proj(B,x+ca*d,up,z+sa*d); if(q.some(p=>!p)||qs.some(p=>!p)||!c) continue;
+      F.list.push({d:c.d, fn:()=>{ const gc=F.g; gc.save(); gc.lineJoin='round'; gc.strokeStyle='#120c0b'; gc.lineWidth=Math.max(1,w*c.s*0.03);
+        gc.fillStyle='#231c19'; gc.beginPath(); gc.moveTo(q[3].x,q[3].y); gc.lineTo(q[2].x,q[2].y); gc.lineTo(qs[0].x,qs[0].y); gc.lineTo(qs[1].x,qs[1].y); gc.closePath(); gc.fill(); gc.stroke();   // mặt cắt đất lộ ra
+        gc.fillStyle='#5b524b'; gc.beginPath(); q.forEach((p,j)=>j?gc.lineTo(p.x,p.y):gc.moveTo(p.x,p.y)); gc.closePath(); gc.fill(); gc.stroke();
+        gc.fillStyle='#857a70'; gc.beginPath(); gc.moveTo(q[0].x,q[0].y); gc.lineTo(q[1].x,q[1].y); gc.lineTo((q[1].x+q[2].x)/2,(q[1].y+q[2].y)/2); gc.lineTo((q[0].x+q[3].x)/2,(q[0].y+q[3].y)/2); gc.closePath(); gc.fill(); gc.restore(); }}); }
+    // MÀN BỤI dựng lên NGAY MÉP SÓNG (đất bị cày tung) — chạy theo mép sóng, thấp dần + mờ dần khi đi xa; cel 2 tông + viền mực, mỗi đoạn xếp lớp theo độ sâu
+    if(u<1.4&&r<CL*1.5){ const k=(1-u/1.4)*(1-clamp(r/(CL*1.5),0,1)), NS=96, Hd=(o.dust||260)*k*(0.5+0.5*clamp(u/0.12,0,1)), fr=Math.floor(u*15);   // THẤP, mờ dần theo khoảng cách (không thành bức tường che vụ nổ / đè máy)
+      for(let j=0;j<NS;j++){ const a0=j/NS*TAU, a1=(j+1)/NS*TAU, am=(a0+a1)/2, h0=Hd*(0.2+1.0*Math.pow(hash(j*7+fr+sd),2)), h1=Hd*(0.2+1.0*Math.pow(hash(((j+1)%NS)*7+fr+sd),2)), hm=Hd*(0.3+1.4*Math.pow(hash(j*7+fr+sd+3),2));   // đỉnh lởm chởm KHÔNG đều
+        const pa=K.proj(B,x+Math.cos(a0)*r,0,z+Math.sin(a0)*r), pb=K.proj(B,x+Math.cos(a1)*r,0,z+Math.sin(a1)*r), ta=K.proj(B,x+Math.cos(a0)*r*0.985,h0,z+Math.sin(a0)*r*0.985), tb=K.proj(B,x+Math.cos(a1)*r*0.985,h1,z+Math.sin(a1)*r*0.985), tm=K.proj(B,x+Math.cos(am)*r*0.98,hm,z+Math.sin(am)*r*0.98);
+        if(!pa||!pb||!ta||!tb||!tm) continue;
+        F.list.push({d:(pa.d+pb.d)/2, fn:()=>{ const gc=F.g; gc.save(); gc.globalAlpha=0.35+0.55*k;
+          gc.fillStyle='#6d6057'; gc.beginPath(); gc.moveTo(pa.x,pa.y); gc.lineTo(ta.x,ta.y); gc.lineTo(tm.x,tm.y); gc.lineTo(tb.x,tb.y); gc.lineTo(pb.x,pb.y); gc.closePath(); gc.fill();
+          gc.fillStyle='#b9a894'; gc.beginPath(); gc.moveTo(ta.x,ta.y); gc.lineTo(tm.x,tm.y); gc.lineTo(tb.x,tb.y); gc.lineTo(tb.x+(pb.x-tb.x)*0.35,tb.y+(pb.y-tb.y)*0.35); gc.lineTo(ta.x+(pa.x-ta.x)*0.3,ta.y+(pa.y-ta.y)*0.3); gc.closePath(); gc.fill();
+          gc.strokeStyle='#140e0c'; gc.lineWidth=Math.max(1,ta.s*14); gc.beginPath(); gc.moveTo(ta.x,ta.y); gc.lineTo(tm.x,tm.y); gc.lineTo(tb.x,tb.y); gc.stroke(); gc.restore(); }}); } }
     // đá bị hất: phóng lúc sóng tới, parabol, nảy 1 lần, nằm yên
     const n=o.rocks==null?30:o.rocks;
     for(let i=0;i<n;i++){ const a=hash(i+sd*71)*TAU, d0=CR*(0.7+2.6*hash(i+sd*73)), tl=shockAt(o,d0), tau=u-tl; if(tau<0) continue;

@@ -35,7 +35,7 @@
     const c=document.createElement('canvas'); c.width=im.naturalWidth; c.height=im.naturalHeight; const x=c.getContext('2d'); x.drawImage(im,0,0);
     x.globalCompositeOperation='destination-out'; const gr=x.createLinearGradient(0,c.height*0.62,0,c.height); gr.addColorStop(0,'rgba(0,0,0,0)'); gr.addColorStop(1,'rgba(0,0,0,1)'); x.fillStyle=gr; x.fillRect(0,0,c.width,c.height);
     c.complete=true; c.naturalWidth=c.width; c.naturalHeight=c.height; F.I[key+'_F']=c; return FADE[key]=c; }
-  const bust=(F,key,x,z,y,h,o)=>{ if(!faded(F,key)) return; return W.actor(F,Object.assign({key:key+'_F',dir:0,x,z,y,h,shadow:false},o||{})); };
+  const bust=(F,key,x,z,y,h,o)=>W.actor(F,Object.assign({key,dir:0,x,z,y,h,shadow:y<5},o||{}));   // 19/11: ảnh ĐẶC (bỏ mờ mép dưới — anh chê 'xuyên thấu'); y=0 → chạm đất + bóng
   // vật rời (atlas) đặt trong thế giới: tâm vật ở (x,y,z), cao h, xoay rot (rad trên màn hình) — xếp lớp theo độ sâu
   function obj(F,k,x,y,z,h,rot,o){ const im=F.I.OBJ; if(!im||!im.naturalWidth) return; const P=K.proj(F.B,x,y,z); if(!P) return; const b=OB[k]; o=o||{};
     F.list.push({d:P.d+(o.dd||0), fn:()=>{ const g=F.g, hh=h*P.s, ww=hh*b[2]/b[3]; g.save(); if(o.a!=null) g.globalAlpha=o.a; g.translate(P.x,P.y); g.rotate(rot||0); if(o.flip) g.scale(-1,1); g.filter=NIGHT; g.drawImage(im,b[0],b[1],b[2],b[3],-ww/2,-hh/2,ww,hh); g.restore(); }}); }
@@ -104,7 +104,7 @@
       man(F,'BAN',SAFE-115,SZ+10,BANH,{y:(1-put)*CGW*0.32}); man(F,'CG',SAFE,SZ,CGW,{look:turned?LOOKR:{x:SAFE-200,z:SZ},life:{breath:0.6,squash:put<1?0.25*Math.sin(Math.PI*put):0}}); return; }
     if(t<T.emerge){ const k=seg(t,T.turn+0.15,T.carHit), jump=seg(t,T.carHit-0.22,T.carHit+0.25), cgx=lerp(SAFE,CGB,eout(jump)), air=jump>0&&jump<1;
       man(F,'BAN',SAFE-115,SZ+10,BANH,{a:1-seg(t,T.turn,T.turn+0.3)});   // Banana chạy khỏi khung lúc xe tới
-      man(F,air?'CGK':'CG',cgx,SZ,air?CGW*0.95:CGW,{y:Math.sin(Math.PI*jump)*130,look:LOOKR});
+      man(F,'CG',cgx,SZ,CGW,{y:Math.sin(Math.PI*jump)*130,look:LOOKR,lean:air?14*Math.sin(Math.PI*jump):0});   // né = dáng đứng gốc + nghiêng người (không tư thế đá)
       if(t<T.carHit) obj(F,'car',lerp(-200,SAFE,k),lerp(460,70,k*k),lerp(80,SZ,k),lerp(170,190,k),t*7);   // xe bay xoay vòng từ phải tới
       else if(t<T.carHit+0.5){ const v=seg(t,T.carHit,T.carHit+0.5); obj(F,'car',lerp(SAFE,CAR_END[0],eout(v)),60,CAR_END[2],190,lerp(0.4,CAR_END[4],eout(v))); objShadow(F,lerp(SAFE,CAR_END[0],eout(v)),CAR_END[2],180,0.4); }
       if(t>=T.carHit){ K.smoke(F,{x:SAFE-120,z:SZ+40,t0:T.carHit,n:12,spread:600,rise:180,life:1.6,size:220,seed:71,a:0.55,tint:'120,104,100'}); K.sparks(F,{x:SAFE-80,y:40,z:SZ+40,t0:T.carHit,n:40,speed:900,life:0.6,seed:72,col:'255,200,110'}); }
@@ -115,7 +115,7 @@
       LIFT.forEach(([k,dx,yy,dz,h],i)=>{ const r=eout(seg(t,T.lift+0.12*i,T.lift+0.9+0.12*i)); obj(F,k,PX+dx,lerp(h*0.5,yy,r)+Math.sin(t*3+i)*10,PZ+dz,h,Math.sin(t*1.3+i)*0.18); }); return; }
     if(t<T.half){ const seg4=[T.fire,T.f2,T.f3,T.f4,T.half]; let i=0; while(i<3&&t>=seg4[i+1]) i++;
       const a=seg4[i], dg=seg(t,a+0.28,a+0.5), x=lerp(DODGE[i],DODGE[i+1],eout(dg)), air=dg>0&&dg<1;
-      man(F,air?'CGK':'CG',x,SZ,air?CGW*0.95:CGW,{y:Math.sin(Math.PI*dg)*90,look:LOOKR});
+      man(F,'CG',x,SZ,CGW,{y:Math.sin(Math.PI*dg)*90,look:LOOKR,lean:air?12*Math.sign(DODGE[i+1]-DODGE[i])*Math.sin(Math.PI*dg):0});
       const k=seg(t,a,a+0.32), it=LIFT[i], from=[PX+it[1],it[2],PZ+it[3]], to=[DODGE[i],it[4]*0.5,SZ+120];
       if(t<a+0.32) obj(F,it[0],lerp(from[0],to[0],k),lerp(from[1],to[1],k)+Math.sin(Math.PI*k)*120,lerp(from[2],to[2],k),it[4],t*8);
       else { K.smoke(F,{x:to[0],z:to[2],t0:a+0.32,n:10,spread:500,rise:160,life:1.2,size:200,seed:90+i,a:0.55,tint:'120,104,100'}); K.debris(F,{x:to[0],y:50,z:to[2],t0:a+0.32,n:18,speed:1000,life:1.0,size:30,seed:95+i,col:'#4a4246'}); }
@@ -132,31 +132,48 @@
         K.smoke(F,{x:cgx,z:EZ,t0:T.rage2,n:14,spread:900,rise:120,life:1.4,size:220,seed:141,a:0.5,tint:'60,20,20'}); }   // bùng: vòng sóng đỏ, bụi bị thổi bạt, đá vụn nâng lên
       if(t<T.block+0.6) K.smoke(F,{x:DODGE[4],z:SZ,t0:T.halfHit,n:30,spread:1600,rise:500,life:3.5,size:560,seed:101,a:0.85*(1-seg(t,T.clear,T.rage+0.2)),tint:'120,104,100'});
       if(t>=T.run) K.smoke(F,{x:cgx-900,z:EZ,t0:T.run-2,n:16,spread:700,rise:200,life:6,size:420,seed:111,a:0.7,tint:'110,96,92'}); }   // làn khói Chill Guy chạy vào
-    if(t>=T.block) bust(F,'GOJO',GX,GZ,H*0.45+Math.sin(t*1.7)*6,GOH,{aura:{preset:'ki',k:t>=T.face?1:0.55,seed:3}});   // đã đứng sẵn (cắt thẳng vào, không loé xuất hiện)
+    if(t>=T.block){ bust(F,'GOJO',GX,GZ,0,GOH,{aura:{preset:'ki',k:t>=T.face?1:0.55,seed:3},life:{breath:0.5}}); K.smoke(F,{x:GX,z:GZ-10,t0:T.block-1,n:6,spread:240,rise:30,life:3,size:110,seed:151,a:0.45,tint:'110,96,92'}); }   // ĐỨNG CHẠM ĐẤT, bụi phủ chân   // đã đứng sẵn (cắt thẳng vào, không loé xuất hiện)
     const rd=seg(t,T.ready,T.DUR);   // THỦ THẾ: 2 bên nhích lại gần, hào quang dâng mạnh, gió cuốn bụi + đá vụn lơ lửng giữa 2 con
-    bust(F,'PAIN',t>=T.face?PX2-40*eio(rd):painX(t),painZ(t),H*0.6+Math.sin(t*2)*8,PAH,{aura:{preset:'cursed',k:t>=T.face?1+0.6*rd:0.8,seed:9}});
+    if(t>=T.block) K.smoke(F,{x:PX2,z:GZ-10,t0:T.block-1,n:6,spread:260,rise:30,life:3,size:120,seed:152,a:0.45,tint:'110,96,92'});
+    bust(F,'PAIN',t>=T.face?PX2-40*eio(rd):painX(t),painZ(t),t>=T.block?0:H*0.6+Math.sin(t*2)*8,PAH,{aura:{preset:'cursed',k:t>=T.face?1+0.6*rd:0.8,seed:9}});
     if(t>=T.face) standoff(F,t,rd); }
   function rocks(F,t,t0,cx,cz,spread,seed){ for(let i=0;i<10;i++){ const k=seg(t,t0+0.08*i,t0+0.9+0.08*i); if(k<=0) continue; const x=cx+(hash(i+seed)-0.5)*spread, y=20+k*(90+140*hash(i+seed+1))+Math.sin(t*3+i)*8, z=cz+(hash(i+seed+2)-0.5)*spread*0.4;
       const P=K.proj(F.B,x,y,z); if(!P) continue; F.list.push({d:P.d, fn:()=>{ const g=F.g, r=Math.max(1.5,(6+8*hash(i+seed+3))*P.s); g.save(); g.fillStyle='#3d3538'; g.translate(P.x,P.y); g.rotate(t*2+i);
         g.beginPath(); g.moveTo(-r,-r*0.6); g.lineTo(r*0.8,-r); g.lineTo(r,r*0.5); g.lineTo(-r*0.6,r); g.closePath(); g.fill(); g.restore(); }}); } }
-  // ───── KHUNG NỘ KIỂU GON ─────
+  // ───── KHUNG NỘ KIỂU GON (19/11 làm lại GIỐNG GIF anh gửi — D:/meme-anime-lab-videos/ref-gon/gon-angry.gif, tách khung bằng tools/x/gif-frames.html) ─────
+  //   GIF: CẬN MẶT choán cả khung · nền + mặt ĐEN tuyệt đối · 2 MẮT tròn trắng RẤT TO (Ø ~1/6 khung) có quầng · LỬA TRẮNG lởm chởm dày chạy dọc MỌI NÉT
+  //   (viền ngoài + nét trong: tai, mõm, miệng, lông mày), lưỡi lửa liếm lên trên · đốm trắng li ti · mảnh vỡ xám mờ trôi qua · hình đổi mỗi 0.1s (10 hình/giây).
   const CG_EYES=[[0.54,0.18],[0.673,0.18]];   // 2 mắt trên ảnh gốc avatar Chill Guy (đo lưới 17/11)
-  let EDGE=null;   // điểm VIỀN thân (tỉ lệ ảnh) — tính 1 lần từ kênh alpha
-  function edgePts(c){ if(EDGE) return EDGE; const x=c.src.getContext('2d'), d=x.getImageData(c.sx,c.sy,c.sw,c.sh).data, W=c.sw, H2=c.sh, st=3, A=(i,j)=>i<0||j<0||i>=W||j>=H2?0:d[(j*W+i)*4+3]; EDGE=[];
-    for(let j=0;j<H2;j+=st) for(let i=0;i<W;i+=st) if(A(i,j)>120&&(A(i-st,j)<60||A(i+st,j)<60||A(i,j-st)<60||A(i,j+st)<60)) EDGE.push([i/W,j/H2]); return EDGE; }
-  function gonRage(F,t){ const g=F.g, VW=F.VW, VH=F.VH, c=K.prep(F.I.CG); if(!c) return; const P=K.proj(F.B,DODGE[4],0,EZ); if(!P) return; const hh=CGW*P.s, ww=hh*c.sw/c.sh, flip=true;   // nhìn về phía Pain (phải) → ảnh vốn quay trái nên LẬT
-    const X=fx=>P.x+(flip?(0.5-fx):(fx-0.5))*ww, Y=fy=>P.y-hh+fy*hh, fr=Math.floor(t*10), u=seg(t,T.rage,T.rage2);
-    g.save(); g.fillStyle='rgba(14,12,16,0.8)'; g.fillRect(0,0,VW,VH);   // nền chìm vào tối như GIF (vẫn đọc ra dáng bóng đen)
-    g.save(); g.translate(P.x,P.y); g.scale(flip?-1:1,1); g.drawImage(K.tinted(c,'#000000'),-ww/2,-hh,ww,hh); g.restore();   // cả người = BÓNG ĐEN
-    const E=edgePts(c); g.lineCap='round'; g.lineJoin='round'; g.globalCompositeOperation='lighter';
-    for(let i=0;i<E.length;i++){ const sd=fr*977+i*13; if(hash(sd)>0.11+0.1*u) continue; const [ex,ey]=E[i], x0=X(ex), y0=Y(ey);   // tia trắng lởm chởm bám viền, bắn ra ngoài + hơi hướng lên
-      let dx=x0-X(0.5), dy=y0-Y(0.55); const dl=Math.hypot(dx,dy)||1; dx/=dl; dy=dy/dl-0.6; const len=hh*(0.04+0.1*hash(sd+1))*(1+0.6*u);
-      g.strokeStyle='rgba(255,255,255,'+(0.55+0.45*hash(sd+2))+')'; g.lineWidth=Math.max(1.5,hh*(0.009+0.012*hash(sd+3))); g.beginPath(); g.moveTo(x0,y0); let px=x0, py=y0;
-      for(let k=1;k<=4;k++){ px+=dx*len/4+(hash(sd+k*5)-0.5)*len*0.5; py+=dy*len/4+(hash(sd+k*7)-0.5)*len*0.5; g.lineTo(px,py); } g.stroke(); }
-    for(let i=0;i<40;i++){ const k=((t*0.9+hash(i+300))%1), x=X(0.1+0.8*hash(i+301))+Math.sin(t*5+i)*6, y=Y(1-k*1.2);   // tàn sáng trắng bay lên
-      g.fillStyle='rgba(255,255,255,'+(0.8*(1-k))+')'; g.fillRect(x,y,Math.max(1.5,hh*0.006),Math.max(3,hh*0.016)); }
-    for(const [fx,fy] of CG_EYES){ const ex=X(fx), ey=Y(fy), R=Math.max(3,hh*0.021)*(1+0.06*Math.sin(t*30));   // 2 MẮT tròn trắng rực
-      const gr=g.createRadialGradient(ex,ey,0,ex,ey,R*2); gr.addColorStop(0,'rgba(255,255,255,1)'); gr.addColorStop(0.5,'rgba(255,255,255,1)'); gr.addColorStop(0.62,'rgba(255,255,255,0.3)'); gr.addColorStop(1,'rgba(255,255,255,0)'); g.fillStyle=gr; g.fillRect(ex-R*2,ey-R*2,R*4,R*4); }
+  let LINES=null;   // nét của ảnh gốc: [x,y (tỉ lệ ảnh), tx,ty (hướng dọc nét), out (1 = viền ngoài), nx,ny (pháp tuyến hướng ra)] — tính 1 lần (Sobel độ sáng + mép alpha)
+  function lineArt(c){ if(LINES) return LINES; const x=c.src.getContext('2d'), d=x.getImageData(c.sx,c.sy,c.sw,c.sh).data, W=c.sw, H2=c.sh;
+    const A=(i,j)=>i<0||j<0||i>=W||j>=H2?0:d[(j*W+i)*4+3]/255, Lm=(i,j)=>{ if(i<0||j<0||i>=W||j>=H2) return 1; const k=(j*W+i)*4, a=d[k+3]/255; return a<0.5?1:(d[k]*0.3+d[k+1]*0.59+d[k+2]*0.11)/255; };
+    LINES=[]; for(let j=1;j<H2-1;j++) for(let i=1;i<W-1;i++){ const gx=Lm(i+1,j-1)+2*Lm(i+1,j)+Lm(i+1,j+1)-Lm(i-1,j-1)-2*Lm(i-1,j)-Lm(i-1,j+1), gy=Lm(i-1,j+1)+2*Lm(i,j+1)+Lm(i+1,j+1)-Lm(i-1,j-1)-2*Lm(i,j-1)-Lm(i+1,j-1), m=Math.hypot(gx,gy);
+      const ax=A(i+1,j)-A(i-1,j), ay=A(i,j+1)-A(i,j-1), out=A(i,j)>0.5&&Math.hypot(ax,ay)>0.3;
+      if(m>0.9||out){ const ux=out?-ax:gx, uy=out?-ay:gy, ul=Math.hypot(ux,uy)||1; LINES.push([i/W,j/H2,-uy/ul,ux/ul,out?1:0,ux/ul,uy/ul]); } }
+    return LINES; }
+  function gonRage(F,t){ const g=F.g, VW=F.VW, VH=F.VH, c=K.prep(F.I.CG); if(!c) return; const L=lineArt(c), u=seg(t,T.rage,T.rage2), fr=Math.floor(t*10);   // 10 hình/giây như GIF
+    const sp=VH*0.27, sc=sp/((CG_EYES[1][0]-CG_EYES[0][0])*c.sw)*(1+0.06*u), mx=(CG_EYES[0][0]+CG_EYES[1][0])/2, my=CG_EYES[0][1];   // khoảng 2 mắt = 20% cao khung (Chill Guy mặt dài, mắt gần nhau → lùi máy để thấy viền mặt chụm xuống cằm như GIF), máy dí sát dần
+    const jx=(hash(fr*3+1)-0.5)*VH*0.008, jy=(hash(fr*3+2)-0.5)*VH*0.008, cx=VW*0.44+jx, cy=VH*0.36+jy;
+    const X=fx=>cx-(fx-mx)*c.sw*sc, Y=fy=>cy+(fy-my)*c.sh*sc;   // LẬT ngang: ảnh gốc quay TRÁI, nộ nhìn về Pain (PHẢI)
+    g.save(); g.fillStyle='#000'; g.fillRect(0,0,VW,VH);
+    // mảnh vỡ xám mờ trôi qua (vài khung có)
+    for(let i=0;i<3;i++){ const sd=Math.floor(fr/3)*7+i*31; if(hash(sd)>0.5) continue; const px=VW*hash(sd+1), py=VH*hash(sd+2), R=VH*(0.12+0.2*hash(sd+3)), an=hash(sd+4)*TAU;
+      g.fillStyle='rgba(150,150,150,'+(0.04+0.05*hash(sd+5))+')'; g.beginPath(); for(let k=0;k<4;k++){ const a=an+k*TAU/4+(hash(sd+k+6)-0.5)*0.9, rr=R*(0.5+0.6*hash(sd+k+10)); k?g.lineTo(px+Math.cos(a)*rr,py+Math.sin(a)*rr*0.5):g.moveTo(px+Math.cos(a)*rr,py+Math.sin(a)*rr*0.5); } g.closePath(); g.fill(); }
+    // LỬA TRẮNG dọc mọi nét (so GIF 19/11): MẢNG lửa dày, CHÁY THEO CỤM (mỗi khung cụm khác sáng / tắt), lưỡi lửa THON DÀI liếm ra ngoài + lên — không phải lông mảnh đều
+    g.globalCompositeOperation='lighter'; g.lineCap='round'; g.lineJoin='round'; g.shadowColor='rgba(255,255,255,0.55)'; g.shadowBlur=VH*0.012; const ps=sc;   // quầng sáng nhẹ như GIF   // ps = px màn / px ảnh
+    for(let i=0;i<L.length;i++){ const [fx,fy,tx,ty,out,nx,ny]=L[i], cell=hash(Math.floor(fx*26)*73+Math.floor(fy*26)*151+fr*977); if(cell<0.3) continue;   // cụm tắt khung này
+      const sd=fr*7919+i*31; if(hash(sd)<0.25) continue; const x0=X(fx), y0=Y(fy); if(x0<-80||x0>VW+80||y0<-80||y0>VH+80) continue;
+      const len=ps*(2.2+3.5*hash(sd+1)), w=Math.max(2.5,VH*(0.006+0.01*hash(sd+2))*(0.7+0.6*cell));
+      g.strokeStyle='rgba(255,255,255,'+(0.75+0.25*hash(sd+3))+')'; g.lineWidth=w; g.beginPath(); g.moveTo(x0+tx*len*0.5,y0-ty*len*0.5); g.lineTo(x0+(hash(sd+4)-0.5)*ps,y0+(hash(sd+5)-0.5)*ps); g.lineTo(x0-tx*len*0.5,y0+ty*len*0.5); g.stroke();   // hướng dọc nét đã lật theo X (−tx)
+      if(out&&hash(sd+6)<0.22+0.14*u){ let sx=-tx, sy=ty; if(sy>0){ sx=-sx; sy=-sy; } let dx=sx*0.75-nx*0.25, dy=sy*0.75+ny*0.25-0.6;   // vuốt DỌC nét + hướng lên (như GIF), không chĩa ngang như gai
+        const dl=Math.hypot(dx,dy)||1; dx/=dl; dy/=dl; const LL=VH*(0.05+0.14*hash(sd+7))*(0.8+0.5*u), bw=VH*(0.012+0.02*hash(sd+8)), px=-dy, py=dx;   // LƯỠI LỬA thon: chân rộng → mũi nhọn, uốn
+        const bend=(hash(sd+9)-0.5)*LL*0.5, mx2=x0+dx*LL*0.5+px*bend, my2=y0+dy*LL*0.5+py*bend, tx2=x0+dx*LL+px*bend*1.6, ty2=y0+dy*LL+py*bend*1.6;
+        g.fillStyle='rgba(255,255,255,'+(0.7+0.3*hash(sd+10))+')'; g.beginPath(); g.moveTo(x0-px*bw/2,y0-py*bw/2); g.quadraticCurveTo(mx2-px*bw*0.35,my2-py*bw*0.35,tx2,ty2); g.quadraticCurveTo(mx2+px*bw*0.35,my2+py*bw*0.35,x0+px*bw/2,y0+py*bw/2); g.closePath(); g.fill(); } }
+    for(let i=0;i<70;i++){ const sd=fr*331+i*17, x=VW*hash(sd), y=VH*hash(sd+1); if(Math.abs(x-cx)>VH*0.9) continue; g.fillStyle='rgba(255,255,255,'+(0.4+0.6*hash(sd+2))+')'; g.fillRect(x,y,Math.max(1.5,VH*0.004),Math.max(2,VH*(0.006+0.012*hash(sd+3)))); }   // đốm trắng li ti
+    g.globalCompositeOperation='source-over'; g.shadowBlur=0;
+    for(const [fx,fy] of CG_EYES){ const ex=X(fx), ey=Y(fy), R=sp*0.3*(1+0.03*Math.sin(t*40));   // 2 MẮT tròn trắng TO, mép hơi rung, có quầng
+      const gr=g.createRadialGradient(ex,ey,R*0.85,ex,ey,R*1.5); gr.addColorStop(0,'rgba(255,255,255,0.45)'); gr.addColorStop(1,'rgba(255,255,255,0)'); g.fillStyle=gr; g.fillRect(ex-R*1.6,ey-R*1.6,R*3.2,R*3.2);
+      g.fillStyle='#fff'; g.beginPath(); for(let k=0;k<=20;k++){ const a=k/20*TAU, rr=R*(1+0.035*(hash(fr*41+k)-0.5)); k?g.lineTo(ex+Math.cos(a)*rr,ey+Math.sin(a)*rr):g.moveTo(ex+Math.cos(a)*rr,ey+Math.sin(a)*rr); } g.closePath(); g.fill(); }
     g.restore(); }
   function standoff(F,t,rd){ const cx=(GX+PX2)/2;
     K.smoke(F,{x:cx,z:GZ+40,t0:T.face-0.5,n:14,spread:900,rise:60,life:4,size:160,seed:121,a:0.35,tint:'120,104,100'});   // bụi gió quét sát đất
@@ -191,27 +208,28 @@
   // ⏱️ nhanh – chậm đan xen: linh cảm / khói tan / thủ thế CHẬM · né, đập NHANH
   const RETIME=[[0,T.help,1],[T.help,T.tilt,0.95],[T.tilt,T.dive,1],[T.dive,T.sense,0.9],[T.sense,T.turn,1.15],[T.turn,T.emerge,0.9],[T.emerge,T.fire,1],[T.fire,T.half,0.9],
     [T.half,T.halfHit,0.9],[T.halfHit,T.clear,1.1],[T.clear,T.rage,1.1],[T.rage,T.block,1.1],[T.block,T.face,1],[T.face,T.DUR,1.1]];
-  const def={ id:'fin1c6', title:'Final 1 · Chill Guy', DUR:T.DUR, VW:960, VH:540, fadeIn:false, fadeOut:false, imgs:IMG, theme:t=>theme(t), shots, world,
+  const def={ id:'fin1c6', title:'Final 1 · Chill Guy', cast:['cry','chillguy','dp','mw','vo'], sfxOk:{pd_truck_crash:'tiếng xe đâm CHUNG (không phải tiếng đặc trưng Poor Dog)'}, DUR:T.DUR, VW:960, VH:540, fadeIn:false, fadeOut:false, imgs:IMG, theme:t=>theme(t), shots, world,
     // 🔊 không nhạc nền (tiếng thành phố + đám đông) · LẶNG lúc linh cảm · tiếng va chạm NGẮT khi hết cú (anh 17/11)
     sfx:[[0.2,'se_collapse_b',0.45,1.6,'mưa gạch đá, nhà đổ xa'],
       [T.help+0.5,'se_step_in',0.5,0.4,'Pop Cat vấp ngã, Chill Guy dừng lại đỡ dậy'],
-      [T.tilt+0.1,'se_collapse',0.6,1.3,'toà nhà nghiêng dần đổ về phía Banana Cat'],[T.tilt+0.35,'cry_banana_cat',0.85,null,'+ Banana Cat ngồi khóc ngước lên (lớp của tiếng nhà đổ)'],
-      [T.dive,'se_whoosh_fast',0.7,0.4,'Chill Guy hoá vệt sáng lao tới ôm Banana'],[T.crash,'l2p_crack',0.9,0.7,'toà nhà đập sập xuống ngay sau lưng'],[T.crash+0.01,'kn_boom_low',0.5,0.6,'+ lớp trầm: toà nhà nằm rạp trên đường'],
-      [T.turn-0.35,'ep3_shine',0.45,null,'Chill Guy linh cảm, quay phắt lại'],
-      [T.turn+0.2,'l2p_whoosh',0.7,0.6,'chiếc xe bay xoay vòng tới'],[T.carHit,'pd_truck_crash',1,0.9,'xe đâm sầm, lật nhào trên mặt đường — Chill Guy nhảy né kịp'],
-      [T.emerge+0.2,'l2p_sub',0.5,null,'Depressed (Pain) lơ lửng bước ra từ khói'],[T.rin,'ep3_shine',0.5,null,'+ Rinnegan loé (lớp của tiếng trầm)'],
-      [T.lift,'l2p_riser',0.6,null,'cột đèn, mảng tường bị hút lên lơ lửng quanh Pain'],
-      [T.fire+0.32,'se_rock_break',0.8,0.6,'cột đèn đập xuống chỗ Chill Guy vừa né'],[T.f2+0.32,'se_wall_break',0.8,0.6,'mảng tường lớn vỡ tung'],[T.f3+0.32,'kn_boom_low',0.65,0.5,'mảng tường nhỏ nổ bụi'],[T.f4+0.32,'se_collapse',0.75,0.7,'mảng tường cuối sập xuống'],
-      [T.halfHit,'cine_deep_impact',1,1.2,'NỬA TOÀ NHÀ đập trúng Chill Guy'],[T.halfHit+0.02,'se_tremor',0.5,1.0,'+ đất rung, bụi phủ kín (lớp của cú nện)'],
-      [T.rage,'l2p_riser',0.6,T.rage2-T.rage,'cực cận: Chill Guy hoá bóng đen, 2 mắt trắng rực, nộ dâng lên'],[T.rage+0.15,'bc_zap',0.35,T.rage2-T.rage-0.2,'+ tia năng lượng trắng lách tách quanh viền thân (lớp của tiếng nộ dâng)'],[T.rage2,'chillguy_uppercut',0.9,T.block-T.rage2,'I\'M NOT CHILL ANYMORE: hào quang nộ bùng toàn thân'],[T.rage2+0.02,'kn_boom_low',0.55,0.5,'+ lớp trầm: đất nứt, sóng nộ toả ra (lớp của tiếng nộ)'],
+      [T.tilt+0.1,'se_collapse',0.6,1.3,'toà nhà nghiêng, gạch đá rơi rào rào xuống phía Banana Cat'],[T.tilt+0.35,'cry_banana_cat',0.85,T.dive-T.tilt-0.35,'+ Banana Cat ngồi khóc ngước lên (lớp của tiếng nhà đổ)'],
+      [T.dive,'se_whoosh_fast',0.7,0.4,'Chill Guy hoá vệt sáng lao tới ôm Banana'],[T.crash,'l2p_crack',0.9,0.7,'toà nhà đập sập xuống ngay sau lưng'],
+            [T.carHit,'pd_truck_crash',1,0.9,'xe đâm sầm, lật nhào trên mặt đường — Chill Guy nhảy né kịp'],
+      [T.emerge+0.2,'l2p_sub',0.5,T.lift-T.emerge-0.2,'Depressed (Pain) lơ lửng bước ra từ khói, Rinnegan loé'],
+      [T.lift,'l2p_riser',0.6,T.fire-T.lift,'cột đèn, mảng tường bị hút lên lơ lửng quanh Pain'],
+      [T.fire+0.32,'se_rock_break',0.8,0.6,'cột đèn đập xuống chỗ Chill Guy vừa né'],[T.f2+0.32,'se_wall_break',0.8,0.6,'mảng tường lớn vỡ tung'],[T.f3+0.32,'kn_boom_low',0.65,0.5,'mảng tường nhỏ nổ bụi'],[T.f4+0.32,'se_collapse',0.75,0.7,'mảng tường cuối rơi đập xuống đất'],
+      [T.halfHit,'cine_deep_impact',1,1.2,'NỬA TOÀ NHÀ đập trúng Chill Guy'],[T.halfHit+0.12,'se_tremor',0.5,1.0,'+ đất rung, bụi phủ kín (lớp của cú nện)'],
+      [T.rage,'l2p_riser',0.6,T.rage2-T.rage,'cực cận: Chill Guy hoá bóng đen, 2 mắt trắng rực, nộ dâng lên'],[T.rage2,'chillguy_uppercut',0.9,T.block-T.rage2,'I\'M NOT CHILL ANYMORE: hào quang nộ bùng toàn thân'],[T.rage2+0.02,'kn_boom_low',0.55,0.5,'+ lớp nổ trầm: hào quang nộ BÙNG như vụ nổ, đất nứt (lớp của tiếng nộ)'],
       [T.run+0.1,'se_step_in',0.4,0.4,'Chill Guy quay người chạy vào làn khói'],
-      [T.face+0.3,'l2p_riser',0.55,null,'Gojo và Pain đối mặt, sức ép dâng lên'],[T.ready+0.4,'ep3_whoosh',0.5,0.6,'+ gió cuốn bụi, đá vụn bị nâng lên giữa 2 bên (lớp của sức ép)']],
-    mus:[{src:'assets/audio/fin_crowd.mp3',ra:0,rb:T.sense,off:0,vol:0.45,fi:0.3,fo:0.3},{src:'assets/audio/fin_city.mp3',ra:0,rb:T.sense,off:0,vol:0.3,fi:0.3,fo:0.3},
-      {src:'assets/audio/fin_city.mp3',ra:T.turn,rb:T.DUR,off:8,vol:0.22,fi:0.4,fo:0.6}],
+      [T.face+0.3,'l2p_riser',0.55,T.DUR-T.face-0.3,'Gojo và Pain đối mặt, sức ép dâng lên'],[T.ready+0.4,'ep3_whoosh',0.5,0.6,'+ gió cuốn bụi, đá vụn bị nâng lên giữa 2 bên (lớp của sức ép)']],
+    // 🎵 KHÔNG nhạc nền / tiếng nền (anh 18/11: anh tự thêm) — chỉ tim đập căng thẳng lúc linh cảm + giọng thật Gojo "Nah, I'd win" (myinstants nah-id-win-v1)
+    mus:[{src:'assets/audio/cine_heart.mp3',ra:T.sense+0.3,rb:T.turn,off:0,vol:0.6,fi:0.12,fo:0.12},
+      {src:'assets/audio/vo_gojo_nahidwin.mp3',ra:T.block+0.25,rb:T.block+0.9,off:0,vol:0.5,fi:0.01,fo:0.04,vo:true}],
     impact:t=>{ const s=strobe(t); return s&&IMPC[s.kind]?IMPC[s.kind]:0; },
-    grade:t=>{ const s=strobe(t); if(s&&s.kind==='w') return {white:1}; if(s&&s.kind==='k') return {bright:0.02};
+    grade:t=>{ const s=strobe(t); if(t>=T.rage&&t<T.rage2) return null;   // khung nộ Gon: trắng tinh trên đen tuyệt đối (không chỉnh màu đè)
+      if(s&&s.kind==='w') return {white:1}; if(s&&s.kind==='k') return {bright:0.02};
       if(t>=T.sense+0.5&&t<T.turn) return {sat:0.55,bright:0.92};   // linh cảm: màu nhạt đi
-      const E=K.edit; return E.mix(E.burn(t,T.halfHit+0.34,T.halfHit+0.5,0.1),E.rgb(t,T.carHit+0.1,0.4,6),E.rgb(t,T.rage2+0.1,0.5,10),E.duotone(t,T.rage,T.block,'#0a0000','#ff3a22',0.08,0.45)); },
+      const E=K.edit; return E.mix(E.burn(t,T.halfHit+0.34,T.halfHit+0.5,0.1),E.rgb(t,T.carHit+0.1,0.4,6),E.rgb(t,T.rage2+0.1,0.5,10),E.duotone(t,T.rage2,T.block,'#0a0000','#ff3a22',0.08,0.45)); },
     shake:t=>{ let s=0; const h=(a,amp,d)=>{ if(t>=a&&t<a+d) s=Math.max(s,amp*(1-(t-a)/d)); };
       if(t<T.sense) s=1; h(T.crash,10,0.5); h(T.carHit,14,0.6); for(const x of [T.fire,T.f2,T.f3,T.f4]) h(x+0.32,6,0.3); h(T.halfHit,24,1.0); h(T.rage,6,0.8); if(t>=T.rage&&t<T.block) s=Math.max(s,t<T.rage2?2:4); h(T.rage2,12,0.6);
       if(t>=T.ready) s=Math.max(s,1+2*seg(t,T.ready,T.DUR)); return s; },
@@ -227,6 +245,8 @@
       if(t>=T.rage2&&t<T.block) K.speedLines(F,{k:0.45*(1-seg(t,T.rage2+0.3,T.block)),n:60,r0:0.35,col:'rgba(255,120,90,0.7)'});
       if(t>=T.rage2&&t<T.block){ const k=seg(t,T.rage2,T.rage2+0.15), fr=Math.floor(t*12); g.save(); g.font='900 '+Math.round(VH*0.072*lerp(1.35,1,k))+'px Montserrat, Arial Black, sans-serif'; g.textAlign='center';
         g.lineWidth=8; g.strokeStyle='#000'; g.fillStyle='#ff2a1a'; g.translate(VW/2+(hash(fr)-0.5)*5,VH*0.17+(hash(fr+7)-0.5)*4); g.strokeText("I'M NOT CHILL ANYMORE",0,0); g.fillText("I'M NOT CHILL ANYMORE",0,0); g.restore(); }   // chữ đỏ đúng game
-      if(!s) K.letterbox(F,t>=T.sense+0.5&&t<T.turn?0.5:(t>=T.ready?0.6*seg(t,T.ready,T.ready+0.5):0)); if(!s) K.vignette(F,0.5); } };   // khung chớp phải trắng / đen TUYỆT ĐỐI (không viền tối)
+      if(t>=T.block+0.25&&t<T.block+1.5){ const k=seg(t,T.block+0.25,T.block+0.35)*(1-seg(t,T.block+1.3,T.block+1.5)); g.save(); g.globalAlpha=k; g.font='800 '+Math.round(VH*0.042)+'px Montserrat, "Segoe UI", sans-serif'; g.textAlign='center';
+        g.lineJoin='round'; g.lineWidth=6; g.strokeStyle='#000'; g.strokeText("Nah, I'd win.",VW/2,VH*0.86); g.fillStyle='#fff'; g.fillText("Nah, I'd win.",VW/2,VH*0.86); g.restore(); }   // phụ đề giọng Gojo
+      if(!s&&!(t>=T.rage&&t<T.rage2)) K.letterbox(F,t>=T.sense+0.5&&t<T.turn?0.5:(t>=T.ready?0.6*seg(t,T.ready,T.ready+0.5):0)); if(!s&&!(t>=T.rage&&t<T.rage2)) K.vignette(F,0.5); } };   // khung chớp phải trắng / đen TUYỆT ĐỐI (không viền tối)
   CineKit.film(W&&W.retime?W.retime(RETIME,def):def);
 })();
