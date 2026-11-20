@@ -22,7 +22,8 @@
 - Cấu trúc bản trống (vòng #): 0 intro · 1–4 riff · 5–8 đoạn B · 9–12 đoạn C · 13–16 đoạn D · 17 nghỉ · 18–19 riff kết · sau 19 = nốt kết.
 - Bảng vòng nào của bản nào khớp vòng nào của trống: chạy lại `tools/x/music-match.html` (lệnh trong đầu file).
 
-## Bản phối v3 (3:06, anh 20/11 "ngắn thế" / "k đc 3p hả") —  →  → Lưới 119.717 BPM, mỗi hàng 1 vòng 8.02s. 0:00–0:12.5 mưa + piano Grim Cat → SẤM.
+## Bản phối v3 (3:06, anh 20/11 "ngắn thế" / "k đc 3p hả") — `tools/x/mega-arrange.js` → `tools/x/music-mix.html` → `D:/meme-anime-lab-videos/megalovania/Megalovania mix v3.wav`
+Lưới 119.717 BPM, mỗi hàng 1 vòng 8.02s. 0:00–0:12.5 mưa + piano Grim Cat → SẤM.
 | giờ | đoạn |
 |---|---|
 | 0:12.5 | Sans (sax) mở đầu trên intro nguyên bản |
