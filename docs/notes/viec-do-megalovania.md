@@ -22,20 +22,20 @@
 - Cấu trúc bản trống (vòng #): 0 intro · 1–4 riff · 5–8 đoạn B · 9–12 đoạn C · 13–16 đoạn D · 17 nghỉ · 18–19 riff kết · sau 19 = nốt kết.
 - Bảng vòng nào của bản nào khớp vòng nào của trống: chạy lại `tools/x/music-match.html` (lệnh trong đầu file).
 
-## Bản phối v2 (2:42) — `tools/x/mega-arrange.js` → `tools/x/music-mix.html` → `D:/meme-anime-lab-videos/megalovania/Megalovania mix v2.wav`
-| giây | đoạn |
+## Bản phối v3 (3:06, anh 20/11 "ngắn thế" / "k đc 3p hả") —  →  → Lưới 119.717 BPM, mỗi hàng 1 vòng 8.02s. 0:00–0:12.5 mưa + piano Grim Cat → SẤM.
+| giờ | đoạn |
 |---|---|
-| 0–12.5 | mưa + piano Grim Cat (intro) → SẤM đúng phách đầu |
-| 12.5 | Sans (sax) mở đầu trên intro nguyên bản |
-| 20.5 | + Bongo (trống vào) + Piano Cat |
-| 28.5 | + Guitar Cat |
-| 44.5 | + 2 Violin (đỉnh riff) |
-| 52.5–84.5 | TUTTI, sân khấu mở (đoạn B) |
-| 84.5 | Phần 2: nghỉ — Sans một mình |
-| 92.5 | SOLO 2 violin (đoạn C) |
-| 108.5 | SOLO guitar |
-| 124.5 | TUTTI (đoạn D) |
-| 140.5 | KẾT riff → nốt kết + sấm (156.8) |
+| 0:12.5 | Sans (sax) mở đầu trên intro nguyên bản |
+| 0:20.5 | + Bongo (trống vào) + Piano Cat |
+| 0:28.5 | + Guitar Cat |
+| 0:44.6 | + 2 Violin (đỉnh riff) |
+| 0:52.6–1:24.7 | TUTTI, sân khấu mở (đoạn B) |
+| 1:24.7 | Phần 2: nghỉ — Sans một mình |
+| 1:32.7 | SOLO 2 violin (đoạn C) |
+| 1:48.7 | Piano Cat + Bongo Cat tỏa sáng |
+| 1:56.7 | SOLO guitar |
+| 2:12.8–2:44.9 | TUTTI (đoạn D) |
+| 2:44.9 | KẾT riff → 3:00.9 nốt kết + sấm → hết 3:05.4 |
 - ⏸️ CHỜ ANH NGHE v2. Em không nghe được: đã soát bằng số (độ to từng giây không hụt, khớp lưới ±10ms) — giai điệu có chỏi nhau không thì anh phải nghe.
 
 ## Công cụ mới (tools/x, chạy qua serve.js + cdp.js, Windows không cần ffmpeg)
