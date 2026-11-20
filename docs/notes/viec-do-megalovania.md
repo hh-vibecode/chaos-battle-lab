@@ -63,5 +63,11 @@ Bài học: đo tempo thật bằng plan thử (snapRange 0.25, xem độ lệch
 - Đã soát bảng khung ~30 mốc + sfx-lint sạch. CHƯA: js/shots/megaband.json (film-lint), Blender (kính vỡ 0:52 + nổ cuối — đang làm bằng code), đổi khung theo onset thật
   (đang theo lưới 1/8), xuất video (Mac, khi anh bảo: render-cine megaband, 16:9 4K 50fps).
 
+## Sửa sau khi anh xem (20/11, Ver 683–685)
+- Muỗi đứng riêng: lơ lửng GIỮA khung trên lòng cầu thang; VFX muỗi = nốt nhạc đơn giản (bỏ tia dây — anh chê xấu).
+- Tutti cháy hơn: cắt [4,2,2,2,2,2,1,1] phách / vòng + góc nghiêng, zoom giật phách đầu ô, loé đèn theo phách, đèn rọi mảnh đỏ / xanh, hàng cột lửa mép sân khấu cách 1 ô, đám đông nhảy đồng loạt, impact 2 màu + RGB đầu vòng.
+- Người diễn nổi bật: đèn ngược sau lưng + vũng sáng chân, nền tối + mờ ở cảnh cận, ánh môi trường phủ nhẹ hơn.
+- Guitar: quạt dây theo 1/8 (cặp O3/CALM ↔ O1/O2), solo: headbang lúc sét, ngả người cuối câu, ô cuối quỳ → giơ tay. Mọi bộ khung neo chung tỉ lệ + điểm chân (sprBlend o.ref).
+
 ## Tiếp theo
 1. Anh nghe v2 → sửa phối. 2. Viết kịch bản + bảng phân cảnh (skill viet-kich-ban) cho anh duyệt. 3. Dựng (dung-phim, Blender cho sét / lửa / lâu đài). 4. Xuất khi anh bảo (Mac).
