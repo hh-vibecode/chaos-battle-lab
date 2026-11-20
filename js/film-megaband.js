@@ -193,9 +193,8 @@
           gr.addColorStop(0,'rgba(220,235,255,0.55)'); gr.addColorStop(1,'rgba(220,235,255,0)'); g.strokeStyle=gr; g.stroke(); } });
       for(let j=0;j<8;j++){ const bi=Math.floor(b*2)-j; if(bi<0) continue; const f=clamp((b*2-bi)/8,0,1)*0.95+0.05, l=Math.floor(hash(bi*3.3)*5), p=at(f,l); note(g,p[0],p[1],V.s(15)*(1-0.3*f),NOTE_COL[bi%7],1-f*0.9); } }
     // 🦟 Mosquito: 2 sợi DÂY đàn mảnh rung theo vĩ, toả ra sau lưng rồi mờ dần (soát 20/11: dây thẳng xuống mép khung trông lạ)
-    if(w==='mosq'){ const k=0.3+0.5*pulse(t,0.18,2), sx0=x+r.w*0.3, sy0=y-r.h*0.62, L=V.s(170); lightOn(g,()=>{ for(let s=0;s<2;s++){ const an=-0.5+s*0.55;
-        const gr=g.createLinearGradient(sx0,sy0,sx0+Math.cos(an)*L,sy0+Math.sin(an)*L); gr.addColorStop(0,'rgba(255,225,190,'+k+')'); gr.addColorStop(1,'rgba(255,225,190,0)'); g.strokeStyle=gr; g.lineWidth=V.s(1.4); g.beginPath();
-        for(let i=0;i<=16;i++){ const f=i/16, px=sx0+Math.cos(an)*L*f, py=sy0+Math.sin(an)*L*f, vib=Math.sin(f*Math.PI*3+t*40+s)*V.s(5)*f*k; i?g.lineTo(px-Math.sin(an)*vib,py+Math.cos(an)*vib):g.moveTo(px,py); } g.stroke(); } }); }
+    // 🦟 Mosquito (anh 20/11: "làm nốt nhạc đơn giản thôi, cái tia xấu quá"): nốt nhạc ấm bay ra từ cây đàn theo phách, trôi lên rồi tan
+    if(w==='mosq'){ for(let j=0;j<4;j++){ const bi=Math.floor(b)-j; if(bi<0) continue; const u=(b-bi)/4, sd=bi*4.3; note(g,x+r.w*(0.2+0.1*hash(sd))+u*V.s(70)*(hash(sd+2)-0.2),y-r.h*0.6-u*V.s(90)+Math.sin(u*8+sd)*V.s(6),V.s(14),['255,200,120','255,160,90','255,225,150'][bi%3],(1-u)*0.85); } }
     if(w==='bee'){ const n=Math.min(22,1+Math.floor(Math.max(0,b-(o.beeFrom||0)))); for(let i=0;i<n;i++){ const a=i/22*TAU+t*0.9, R=V.s(120)+V.s(30)*Math.sin(t*2+i), bx=x+Math.cos(a)*R*1.4, by=y-r.h*0.5+Math.sin(a)*R*0.6;
         spr(F,'BEE'+(1+i%3),bx,by,V.s(26),{shadow:false,rot:Math.sin(t*9+i)*0.2}); } } }
   // 🐱🐶 đám đông nhìn từ sân khấu (mặt hướng máy): 3 hàng, xếp theo bề ngang thật của ảnh (KHÔNG đè nhau), hàng sau tối + nhạt (không khí), ánh lửa cam hắt từ sân khấu
@@ -225,7 +224,8 @@
     if(who==='bongo'){ const V=cryptScene(F,t,z*1.15,0.5,drift(0.62,0.6),{lit:o.lit,drum:1}); const [x,y]=V.at(0.5,0.84); const r=member(F,t,'bongo',x,y,V.s(260),{env:['#806040',0.3],rim:['#ffaa60',0.3],from:SEC.bp}); if(r&&t>=SEC.bp) sig(F,t,'bongo',x,y,r,V,{}); return V; }
     if(who==='piano'){ const V=hallScene(F,t,z*1.1,0.5,drift(0.66,0.64),{lit:o.lit}); const [x,y]=V.at(0.5,0.86); const r=member(F,t,'piano',x,y,V.s(300),{env:['#806050',0.3],rim:['#ffb070',0.3],from:SEC.bp}); if(r&&t>=SEC.bp) sig(F,t,'piano',x,y,r,V,{}); return V; }
     if(who==='guitar'){ const V=towerScene(F,t,z*1.1,0.5,drift(0.62,0.6),{}); const [x,y]=V.at(0.5,0.9); const r=member(F,t,'guitar',x,y,V.s(340),{env:envOf('cyan'),rim:['#c0d0ff',0.35],from:SEC.gtr}); if(r&&t>=SEC.gtr) sig(F,t,'guitar',x,y,r,V,{}); rain(F,t,1); return V; }
-    if(who==='mosq'||who==='bee'){ const V=stairsScene(F,t,z*1.2,who==='mosq'?0.3:0.72,drift(0.5,0.48),{}); const [x,y]=who==='mosq'?V.at(0.24,0.36):V.at(0.75,0.72); const r=member(F,t,who,x,y,V.s(260),{env:envOf('red'),rim:rimOf('red'),from:SEC.vio});
+    // muỗi bay → lơ lửng GIỮA khung trên lòng cầu thang (anh 20/11: bị dính sát mép trên khung); máy căn theo giữa thân, không lia quá mép ảnh nền
+    if(who==='mosq'||who==='bee'){ const V=stairsScene(F,t,z*1.2,who==='mosq'?0.47:0.72,who==='mosq'?drift(0.42,0.4):drift(0.5,0.48),{}); const [x,y]=who==='mosq'?V.at(0.47,0.56):V.at(0.75,0.72); const r=member(F,t,who,x,y,V.s(260),{env:envOf('red'),rim:rimOf('red'),from:SEC.vio});
       if(r&&t>=SEC.vio) sig(F,t,who,x,y,r,V,{beeFrom:beatF(SEC.vio)}); return V; } }
   const GRID6=[[[0,0],[0.34,0],[0.32,0.5],[0,0.5]],[[0.34,0],[0.67,0],[0.65,0.5],[0.32,0.5]],[[0.67,0],[1,0],[1,0.5],[0.65,0.5]],[[0,0.5],[0.32,0.5],[0.34,1],[0,1]],[[0.32,0.5],[0.65,0.5],[0.67,1],[0.34,1]],[[0.65,0.5],[1,0.5],[1,1],[0.67,1]]];
   function grid6(F,t){ const W=['sans','bongo','piano','guitar','mosq','bee']; GRID6.forEach((p,i)=>panel(F,p,()=>{ const g=F.g; g.save(); const cx=(p[0][0]+p[2][0])/2, cy=(p[0][1]+p[2][1])/2; g.translate(cx*VW,cy*VH); g.scale(0.5,0.5); g.translate(-VW/2,-VH/2); soloView(F,t,W[i],{z:1.25}); g.restore(); },false));
@@ -281,7 +281,7 @@
     if(t<SEC.vio){ const b=Math.floor((t-SEC.build)/B4), u=((t-SEC.build)%B4)/B4; soloView(F,t,['sans','bongo','piano','guitar'][b],{z:1.15+0.25*u+0.15*b,k:u}); const fl=boltK(t,bar(3,b)+1.2,0.3); K.flash(F,fl*0.2,'#e8f8ff'); return; }
     // 7 · 44.6 mây tím rách → trăng lưỡi liềm ĐỎ, 2 violin trên cầu thang → 6 ô
     if(t<SEC.tutti){ const b=Math.floor((t-SEC.vio)/B4);
-      if(b===0){ const V=stairsScene(F,t,1.0+0.05*seg(t,SEC.vio,SEC.vio+B4),0.5,0.5,{cres:1}); const [mx,my]=V.at(0.24,0.36), [bx,by]=V.at(0.75,0.72);
+      if(b===0){ const V=stairsScene(F,t,1.0+0.05*seg(t,SEC.vio,SEC.vio+B4),0.5,0.5,{cres:1}); const [mx,my]=V.at(0.45,0.56), [bx,by]=V.at(0.75,0.72);
         const r1=member(F,t,'mosq',mx,my,V.s(220),{env:envOf('red'),rim:rimOf('red'),from:SEC.vio}), r2=member(F,t,'bee',bx,by,V.s(160),{env:envOf('red'),rim:rimOf('red'),from:SEC.vio});
         if(r1) sig(F,t,'mosq',mx,my,r1,V,{}); if(r2) sig(F,t,'bee',bx,by,r2,V,{beeFrom:beatF(SEC.vio)}); const op=1-seg(t,SEC.vio,SEC.vio+0.6); if(op>0){ const V2=view(F,'STAIRS',1,0.5,0.5); g.save(); g.globalAlpha=op; g.fillStyle=PAL.storm.mid; g.fillRect(0,0,VW,VH); g.restore(); }
         label(F,t,SEC.vio+0.4,'VIOLIN MOSQUITO  ·  VIOLIN BUMBLEBEE','under the blood moon'); return; }
