@@ -1,0 +1,56 @@
+<!doctype html><meta charset="utf-8"><title>music-analyze</title>
+<!-- 🎼 PHÂN TÍCH BẢN NHẠC để phối nhiều bản cover với nhau (Mac + Windows, không ffmpeg / python): giải mã bằng WebAudio (22050Hz mono) →
+     • tempo (tự tương quan đường onset) + LƯỚI PHÁCH (bám phách kiểu Ellis, quy hoạch động) + tempo từng đoạn 16 phách (bản chơi tay hay trôi nhịp)
+     • tông (chroma + mẫu Krumhansl) · độ to mỗi giây (dB)
+     tools/x/music-analyze.html?src=tools/x/_ref/mega/sax.mp3[&bpm=120]   (bpm = gợi ý tempo, mặc định 120)
+     → window.__res (JSON) · window.__done.  Chạy ngầm qua cdp.js:  eval JSON.stringify(window.__res)
+     Mỗi đoạn trong __res.chromaBeats = chroma TB mỗi phách (12 số 0–9, C..B) → so 2 bản để tìm độ lệch (tools/x/music-align.html). -->
+<pre id="o">…</pre><script>
+const q=new URLSearchParams(location.search), SR=22050, N=2048, HOP=256, FPS=SR/HOP;
+function fft(re,im){ const n=re.length; for(let i=1,j=0;i<n;i++){ let b=n>>1; for(;j&b;b>>=1) j^=b; j^=b; if(i<j){ [re[i],re[j]]=[re[j],re[i]]; [im[i],im[j]]=[im[j],im[i]]; } }
+  for(let len=2;len<=n;len<<=1){ const a=-2*Math.PI/len, wr=Math.cos(a), wi=Math.sin(a); for(let i=0;i<n;i+=len){ let cr=1,ci=0; for(let k=0;k<len/2;k++){ const ur=re[i+k],ui=im[i+k], vr=re[i+k+len/2]*cr-im[i+k+len/2]*ci, vi=re[i+k+len/2]*ci+im[i+k+len/2]*cr;
+    re[i+k]=ur+vr; im[i+k]=ui+vi; re[i+k+len/2]=ur-vr; im[i+k+len/2]=ui-vi; const t=cr*wr-ci*wi; ci=cr*wi+ci*wr; cr=t; } } } }
+const KMAJ=[6.35,2.23,3.48,2.33,4.38,4.09,2.52,5.19,2.39,3.66,2.29,2.88], KMIN=[6.33,2.68,3.52,5.38,2.60,3.53,2.54,4.75,3.98,2.69,3.34,3.17], PC=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+function corr(a,b){ const n=a.length, ma=a.reduce((s,x)=>s+x,0)/n, mb=b.reduce((s,x)=>s+x,0)/n; let sab=0,saa=0,sbb=0; for(let i=0;i<n;i++){ sab+=(a[i]-ma)*(b[i]-mb); saa+=(a[i]-ma)**2; sbb+=(b[i]-mb)**2; } return sab/Math.sqrt(saa*sbb+1e-12); }
+(async()=>{ const src=q.get('src'), ab=await (await fetch('/'+src)).arrayBuffer(), ac=new OfflineAudioContext(1,SR,SR), au=await ac.decodeAudioData(ab);
+  const L=au.getChannelData(0), R=au.numberOfChannels>1?au.getChannelData(1):L, n=L.length, x=new Float32Array(n); for(let i=0;i<n;i++) x[i]=(L[i]+R[i])/2;
+  const nF=Math.floor((n-N)/HOP), win=new Float32Array(N).map((_,i)=>0.5-0.5*Math.cos(2*Math.PI*i/N)), re=new Float32Array(N), im=new Float32Array(N);
+  const onset=new Float32Array(nF), chroma=[], prev=new Float32Array(N/2), rms=new Float32Array(nF), flat=new Float32Array(nF);   // flat = độ phẳng phổ 150–3000Hz (gần 0 = rõ nốt / có giai điệu, cao = trống / ồn)
+  const binPc=new Int8Array(N/2).fill(-1); for(let k=1;k<N/2;k++){ const f=k*SR/N; if(f>=55&&f<=4200) binPc[k]=((Math.round(12*Math.log2(f/440))+9)%12+12)%12; }
+  for(let f=0;f<nF;f++){ let e=0; for(let i=0;i<N;i++){ const v=x[f*HOP+i]; re[i]=v*win[i]; im[i]=0; e+=v*v; } rms[f]=e/N; fft(re,im);
+    let fl=0, lg=0, ar=0, nb=0; const c=new Float32Array(12); for(let k=1;k<N/2;k++){ const a=Math.hypot(re[k],im[k]), m=Math.log1p(1000*a); const d=m-prev[k]; if(d>0) fl+=d; prev[k]=m;
+      if(binPc[k]>=0) c[binPc[k]]+=a*a;   // chroma = CÔNG SUẤT thật (log làm phẳng hết, 20/11)
+      const fq=k*SR/N; if(fq>=150&&fq<=3000){ const pw=a*a+1e-12; lg+=Math.log(pw); ar+=pw; nb++; } }
+    onset[f]=fl; chroma.push(c); flat[f]=Math.exp(lg/nb)/(ar/nb); }
+  // onset: trừ trung bình trượt, chuẩn hoá
+  const on=new Float32Array(nF), W=Math.round(FPS*0.5); let s=0; const cs=new Float64Array(nF+1); for(let i=0;i<nF;i++) cs[i+1]=cs[i]+onset[i];
+  for(let i=0;i<nF;i++){ const a=Math.max(0,i-W), b=Math.min(nF,i+W); on[i]=Math.max(0,onset[i]-(cs[b]-cs[a])/(b-a)); } let sd=0; for(const v of on) sd+=v*v; sd=Math.sqrt(sd/nF)||1; for(let i=0;i<nF;i++) on[i]/=sd;
+  // tempo: tự tương quan, trọng số log-gauss quanh bpm gợi ý
+  const hint=+(q.get('bpm')||120), ac2=[]; for(let bpm=60;bpm<=220;bpm+=0.25){ const lag=60*FPS/bpm; let sum=0; for(let i=Math.ceil(lag);i<nF;i++){ const j=i-lag, j0=Math.floor(j), fr=j-j0; sum+=on[i]*(on[j0]*(1-fr)+on[j0+1]*fr); }
+    ac2.push({bpm, v:sum/nF, w:sum/nF*Math.exp(-0.5*(Math.log2(bpm/hint)/0.9)**2)}); }
+  const peaks=ac2.filter((p,i)=>i>0&&i<ac2.length-1&&p.v>=ac2[i-1].v&&p.v>=ac2[i+1].v).sort((a,b)=>b.w-a.w).slice(0,5).map(p=>({bpm:p.bpm, v:+p.v.toFixed(3)}));
+  const T=+(q.get('force')||peaks[0].bpm), P=60*FPS/T;
+  // bám phách (Ellis 2007): điểm[t] = onset[t] + max(điểm[τ] − α·log²((t−τ)/P)),  τ ∈ [t−2P, t−P/2]
+  const sc=new Float32Array(nF), bk=new Int32Array(nF).fill(-1), A=+(q.get('alpha')||100);
+  for(let t=0;t<nF;t++){ let best=0, bi=-1; for(let tau=Math.max(0,Math.round(t-2*P)); tau<=t-Math.round(P/2); tau++){ const v=sc[tau]-A*Math.log((t-tau)/P)**2; if(v>best||bi<0){ best=v; bi=tau; } } sc[t]=on[t]+(bi>=0?best:0); bk[t]=bi; }
+  let t=0; for(let i=Math.max(0,nF-Math.round(P*2));i<nF;i++) if(sc[i]>sc[t]||t<nF-Math.round(P*2)) t=i; const beats=[]; while(t>=0){ beats.unshift(t); t=bk[t]; }
+  const bt=beats.map(f=>+(f/FPS).toFixed(3));
+  // tempo từng đoạn 16 phách
+  const seg=[]; for(let i=0;i+16<bt.length;i+=16){ seg.push({t:bt[i], bpm:+(60*16/(bt[i+16]-bt[i])).toFixed(2)}); }
+  // chroma theo phách + tông
+  const cb=[]; for(let i=0;i<beats.length-1;i++){ const c=new Float32Array(12); for(let f=beats[i];f<beats[i+1];f++) for(let k=0;k<12;k++) c[k]+=chroma[f][k]; const mx=Math.max(...c)||1; cb.push(Array.from(c,v=>Math.round(9*v/mx))); }
+  const tot=new Array(12).fill(0); for(const c of chroma) for(let k=0;k<12;k++) tot[k]+=Math.sqrt(c[k]); const keys=[];
+  for(let r=0;r<12;r++){ const rot=a=>a.map((_,i)=>a[(i-r+12)%12]); keys.push({k:PC[r]+' major', v:corr(tot,rot(KMAJ))}, {k:PC[r]+' minor', v:corr(tot,rot(KMIN))}); } keys.sort((a,b)=>b.v-a.v);
+  // độ to mỗi giây (dB)
+  const loud=[], flatS=[]; for(let sec=0;sec<au.duration-0.5;sec++){ let e=0,c=0; const fs=[]; for(let f=Math.round(sec*FPS); f<Math.min(nF,Math.round((sec+1)*FPS)); f++){ e+=rms[f]; c++; fs.push(flat[f]); } loud.push(Math.round(10*Math.log10(e/Math.max(1,c)+1e-10)));
+    fs.sort((a,b)=>a-b); flatS.push(+(fs[fs.length>>1]||0).toFixed(3)); }
+  // 🎸 BASS theo phách: FFT 8192 (2.7Hz/ô) dải 36–300Hz → chroma bass mỗi phách → nốt gốc (vòng hợp âm, tìm phách đầu ô nhịp)
+  const NB=8192, HB=1024, wb=new Float32Array(NB).map((_,i)=>0.5-0.5*Math.cos(2*Math.PI*i/NB)), rb=new Float32Array(NB), ib=new Float32Array(NB), bpcB=new Int8Array(NB/2).fill(-1);
+  for(let k=1;k<NB/2;k++){ const f=k*SR/NB; if(f>=36&&f<=300) bpcB[k]=((Math.round(12*Math.log2(f/440))+9)%12+12)%12; }
+  const bassBeats=[]; for(let i=0;i<beats.length-1;i++){ const c=new Float32Array(12); const s0=Math.round(beats[i]*HOP), s1=Math.round(beats[i+1]*HOP);
+    for(let p=s0; p+NB<=Math.max(s0+NB,s1) && p+NB<n; p+=HB){ for(let j=0;j<NB;j++){ rb[j]=x[p+j]*wb[j]; ib[j]=0; } fft(rb,ib); for(let k=1;k<NB/2;k++) if(bpcB[k]>=0) c[bpcB[k]]+=Math.hypot(rb[k],ib[k])**2; }
+    const mx=Math.max(...c)||1; bassBeats.push(Array.from(c,v=>Math.round(9*v/mx))); }
+  window.__res={src, dur:+au.duration.toFixed(2), tempoPeaks:peaks, bpm:T, beats:bt.length, beat0:bt[0], bt, seg, key:keys.slice(0,3).map(k=>k.k+' '+k.v.toFixed(2)), loud, flat:flatS, chromaBeats:cb, bassBeats};
+  document.getElementById('o').textContent=JSON.stringify({...window.__res, bt:undefined, chromaBeats:undefined},null,1); window.__done=true;
+})().catch(e=>{ document.getElementById('o').textContent='ERR '+e; window.__err=String(e); window.__done=true; });
+</script>

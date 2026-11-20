@@ -1,0 +1,51 @@
+<!doctype html><meta charset="utf-8"><title>music-mix</title>
+<!-- 🎚️ TRỘN NHIỀU BẢN COVER THÀNH 1 BÀI (Mac + Windows, không ffmpeg): đọc PLAN json → OfflineAudioContext 44.1k stereo → WAV.
+     tools/x/music-mix.html?plan=tools/x/_ref/mega/plan.json
+     PLAN = { dur, bpm:120, t0 (giây của phách 0 trên lưới ra), tracks:{tên:'đường dẫn'},
+              clips:[{trk, src (giây ~ phách đầu khúc trong bản gốc), beat (phách đặt vào lưới), beats (dài bao nhiêu phách), gain, pan, fi, fo, hp, lp, snap:true}],
+              free:[{trk, src, at (giây), dur, gain, pan, fi, fo, rate}],     ← khúc không bám lưới (intro tự do, tiếng hiệu ứng)
+              master:{gain, comp:true} }
+     snap: tự dò độ lệch ±80ms (bước 1ms) + tốc 0.996–1.004 sao cho các CÚ (onset) của khúc trùng lưới 1/16 nốt của 120 BPM nhất → đặt chuẩn tới 1ms,
+           tốc lệch nhỏ chỉnh bằng playbackRate (đổi cao độ ≤ 7 cent, tai không nghe ra).
+     → window.__report (độ lệch / tốc từng khúc) · window.__n (số mẩu) · window.__chunk(i) (dataURL mẩu WAV, nối lại = file WAV) · window.__done -->
+<pre id="o">…</pre><script>
+const q=new URLSearchParams(location.search), SR=44100, ENV_HOP=0.001;
+const log=s=>{ document.getElementById('o').textContent+=s+'\n'; };
+function wavBytes(L,R){ const n=L.length, buf=new ArrayBuffer(44+n*4), v=new DataView(buf); const w=(o,s)=>{ for(let i=0;i<s.length;i++) v.setUint8(o+i,s.charCodeAt(i)); };
+  w(0,'RIFF'); v.setUint32(4,36+n*4,true); w(8,'WAVE'); w(12,'fmt '); v.setUint32(16,16,true); v.setUint16(20,1,true); v.setUint16(22,2,true); v.setUint32(24,SR,true); v.setUint32(28,SR*4,true); v.setUint16(32,4,true); v.setUint16(34,16,true); w(36,'data'); v.setUint32(40,n*4,true);
+  let o=44; for(let i=0;i<n;i++){ for(const x of [L[i],R[i]]){ const s=Math.max(-1,Math.min(1,x)); v.setInt16(o,s<0?s*0x8000:s*0x7fff,true); o+=2; } } return new Uint8Array(buf); }
+function b64(u){ let s=''; for(let i=0;i<u.length;i+=0x8000) s+=String.fromCharCode.apply(null,u.subarray(i,i+0x8000)); return btoa(s); }
+// đường onset 1ms: năng lượng dải > 150Hz (bỏ bass ù), tăng dương, làm mượt 4ms
+function onsetEnv(buf){ const L=buf.getChannelData(0), R=buf.numberOfChannels>1?buf.getChannelData(1):L, hop=Math.round(SR*ENV_HOP), n=Math.floor(L.length/hop), e=new Float32Array(n);
+  let y=0, xp=0; const a=Math.exp(-2*Math.PI*150/SR); let k=0, acc=0, c=0;
+  for(let i=0;i<L.length;i++){ const x=(L[i]+R[i])/2, hp=a*(y+x-xp); y=hp; xp=x; acc+=hp*hp; if(++c===hop){ if(k<n) e[k++]=Math.log(1e-9+acc/hop); acc=0; c=0; } }
+  const d=new Float32Array(n); for(let i=4;i<n;i++) d[i]=Math.max(0,e[i]-e[i-4]); const s=new Float32Array(n); for(let i=3;i<n-3;i++){ let t=0; for(let j=-3;j<=3;j++) t+=d[i+j]; s[i]=t/7; } return s; }
+// RNG = tầm dò độ lệch (giây), RR = tầm dò tốc (0 = giữ tốc 1: đặt bpm của plan = tempo THẬT của các bản thì không cần kéo giãn)
+//   ⚠️ 20/11: bản thu đều có thể KHÔNG đúng 120.000 (Megalovania các bản ~119.72) → đo trước (music-mix plan thử snapRange 0.25, xem độ lệch tăng đều theo vòng).
+function snap(env, src, beats, bpm, RNG=0.08, RR=0.004){ const P=60/bpm, W=[1,0.3,0.6,0.3]; let best=-1, bo=0, br=1;   // phách 1, 1/16, 1/8, 1/16
+  const at=t=>{ const i=Math.round(t/ENV_HOP); return i>=0&&i<env.length?env[i]:0; };
+  for(let r=1-RR;r<=1+RR+1e-6;r+=0.0005) for(let o=-RNG;o<=RNG+0.0005;o+=0.001){ let s=0; for(let k=0;k<beats*4;k++) s+=W[k%4]*at(src+o+k*P/4*r); if(s>best){ best=s; bo=o; br=r; } }
+  let s0=0; for(let k=0;k<beats*4;k++) s0+=W[k%4]*at(src+k*P/4); return {off:bo, rate:br, gain:best/(s0||1e-9)}; }
+(async()=>{ const plan=await (await fetch('/'+q.get('plan')+'?'+Date.now())).json(), bpm=plan.bpm||120, P=60/bpm, dur=plan.dur;
+  const dec=new OfflineAudioContext(2,SR,SR), buf={}, env={};
+  for(const [k,u] of Object.entries(plan.tracks)){ buf[k]=await dec.decodeAudioData(await (await fetch('/'+u)).arrayBuffer()); log('nạp '+k+' '+buf[k].duration.toFixed(1)+'s'); }
+  const ac=new OfflineAudioContext(2,Math.ceil(dur*SR),SR), bus=ac.createGain(); bus.gain.value=(plan.master&&plan.master.gain)||1;
+  let out=bus; if(!plan.master||plan.master.comp!==false){ const c=ac.createDynamicsCompressor(); c.threshold.value=-16; c.knee.value=8; c.ratio.value=3; c.attack.value=0.005; c.release.value=0.15; bus.connect(c); out=c; }
+  out.connect(ac.destination);
+  const report=[];
+  const place=(cl,at,len,src,rate)=>{ const b=buf[cl.trk]; if(!b) return; const s=ac.createBufferSource(); s.buffer=b; s.playbackRate.value=rate; let node=s;
+    if(cl.hp){ const f=ac.createBiquadFilter(); f.type='highpass'; f.frequency.value=cl.hp; node.connect(f); node=f; }
+    if(cl.lp){ const f=ac.createBiquadFilter(); f.type='lowpass'; f.frequency.value=cl.lp; node.connect(f); node=f; }
+    const g=ac.createGain(), G=cl.gain??1, fi=cl.fi??0.008, fo=cl.fo??0.03; g.gain.setValueAtTime(0,at); g.gain.linearRampToValueAtTime(G,at+fi); g.gain.setValueAtTime(G,Math.max(at+fi,at+len-fo)); g.gain.linearRampToValueAtTime(0,at+len);
+    if(cl.env) for(const [tt,vv] of cl.env) g.gain.linearRampToValueAtTime(G*vv, at+tt);   // đường âm lượng thêm [[giây trong khúc, hệ số]]
+    node.connect(g); let tail=g; if(cl.pan){ const p=ac.createStereoPanner(); p.pan.value=cl.pan; g.connect(p); tail=p; } tail.connect(bus);
+    s.start(Math.max(0,at), Math.max(0,src), len*rate+0.05); };
+  for(const cl of plan.clips||[]){ let off=0, rate=1, gn=1; if(cl.snap!==false){ env[cl.trk]=env[cl.trk]||onsetEnv(buf[cl.trk]); const r=snap(env[cl.trk],cl.src,Math.min(cl.beats,64),bpm,cl.snapRange??plan.snapRange??0.08,plan.snapRate??0.004); off=r.off; rate=r.rate; gn=r.gain; }
+    const at=plan.t0+cl.beat*P, len=cl.beats*P; place(cl,at,len,cl.src+off,rate); report.push({trk:cl.trk, beat:cl.beat, src:cl.src, offMs:Math.round(off*1000), rate:+rate.toFixed(4), snapGain:+gn.toFixed(2)}); }
+  for(const fr of plan.free||[]) place(fr,fr.at,fr.dur,fr.src,fr.rate||1);
+  const r=await ac.startRendering(), L=r.getChannelData(0), R=r.getChannelData(1); let pk=0; for(let i=0;i<L.length;i++) pk=Math.max(pk,Math.abs(L[i]),Math.abs(R[i]));
+  const norm=pk>0?0.89/pk:1; for(let i=0;i<L.length;i++){ L[i]*=norm; R[i]*=norm; }   // đỉnh −1 dBFS
+  const bytes=wavBytes(L,R), CH=6*1024*1024; window.__n=Math.ceil(bytes.length/CH); window.__chunk=i=>'data:audio/wav;base64,'+b64(bytes.subarray(i*CH,(i+1)*CH));
+  window.__report={peak:+pk.toFixed(3), norm:+norm.toFixed(3), clips:report}; log(JSON.stringify(window.__report)); window.__done=true;
+})().catch(e=>{ log('ERR '+e.stack); window.__err=String(e); window.__done=true; });
+</script>

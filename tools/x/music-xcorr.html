@@ -1,0 +1,30 @@
+<!doctype html><meta charset="utf-8"><title>music-xcorr</title>
+<!-- 🎼 ĐỘ LỆCH CHÍNH XÁC giữa 2 bản cover cùng bài (Mac + Windows): chroma CÔNG SUẤT từng khung 11.6ms (trừ TB) của A và B →
+     tương quan chéo, gộp theo VÒNG lặp (cycle giây, Megalovania 4 ô × 2s = 8s) → độ lệch tốt nhất trong vòng, chính xác ~12ms.
+     tools/x/music-xcorr.html?a=tools/x/_ref/mega/sax.mp3&b=tools/x/_ref/mega/piano.mp3&cycle=8[&a0=8&a1=60&b0=..&b1=..]
+     Kết quả lag (giây): thời điểm t ở B ≙ t + lag ở A (mod cycle). → window.__res {top:[{lag, z}]} · window.__done -->
+<pre id="o">…</pre><script>
+const q=new URLSearchParams(location.search), SR=22050, N=4096, HOP=256, FPS=SR/HOP;
+function fft(re,im){ const n=re.length; for(let i=1,j=0;i<n;i++){ let b=n>>1; for(;j&b;b>>=1) j^=b; j^=b; if(i<j){ let t=re[i]; re[i]=re[j]; re[j]=t; t=im[i]; im[i]=im[j]; im[j]=t; } }
+  for(let len=2;len<=n;len<<=1){ const a=-2*Math.PI/len, wr=Math.cos(a), wi=Math.sin(a); for(let i=0;i<n;i+=len){ let cr=1,ci=0; for(let k=0;k<len/2;k++){ const ur=re[i+k],ui=im[i+k], vr=re[i+k+len/2]*cr-im[i+k+len/2]*ci, vi=re[i+k+len/2]*ci+im[i+k+len/2]*cr;
+    re[i+k]=ur+vr; im[i+k]=ui+vi; re[i+k+len/2]=ur-vr; im[i+k+len/2]=ui-vi; const t=cr*wr-ci*wi; ci=cr*wi+ci*wr; cr=t; } } } }
+async function chroma(u,t0,t1){ const ac=new OfflineAudioContext(1,SR,SR), au=await ac.decodeAudioData(await (await fetch('/'+u)).arrayBuffer());
+  const L=au.getChannelData(0), R=au.numberOfChannels>1?au.getChannelData(1):L, a=Math.floor((t0||0)*SR), b=Math.min(L.length,Math.floor((t1||au.duration)*SR));
+  const win=new Float32Array(N).map((_,i)=>0.5-0.5*Math.cos(2*Math.PI*i/N)), re=new Float32Array(N), im=new Float32Array(N), pc=new Int8Array(N/2).fill(-1), out=[];
+  for(let k=1;k<N/2;k++){ const f=k*SR/N; if(f>=60&&f<=2500) pc[k]=((Math.round(12*Math.log2(f/440))+9)%12+12)%12; }
+  for(let p=a;p+N<=b;p+=HOP){ for(let i=0;i<N;i++){ re[i]=(L[p+i]+R[p+i])/2*win[i]; im[i]=0; } fft(re,im); const c=new Float32Array(12); for(let k=1;k<N/2;k++) if(pc[k]>=0) c[pc[k]]+=re[k]*re[k]+im[k]*im[k];
+    let s=0; for(let k=0;k<12;k++){ c[k]=Math.sqrt(c[k]); s+=c[k]; } const m=s/12; let nn=0; for(let k=0;k<12;k++){ c[k]-=m; nn+=c[k]*c[k]; } nn=Math.sqrt(nn)||1; for(let k=0;k<12;k++) c[k]/=nn; out.push(c); }
+  return {fr:out, t0:a/SR}; }
+(async()=>{ const cyc=+(q.get('cycle')||8), A=await chroma(q.get('a'),+q.get('a0')||0,+q.get('a1')||0), B=await chroma(q.get('b'),+q.get('b0')||0,+q.get('b1')||0);
+  const C=Math.round(cyc*FPS), sc=new Float64Array(C), cn=new Float64Array(C), step=2;
+  // lag d (khung): B[i] so A[i+d]; d chạy hết dải, cộng vào ô (d mod C)
+  for(let d=-B.fr.length+1; d<A.fr.length; d++){ const i0=Math.max(0,-d), i1=Math.min(B.fr.length, A.fr.length-d); if(i1-i0<FPS*6) continue; let s=0, n=0;
+    for(let i=i0;i<i1;i+=step){ const x=B.fr[i], y=A.fr[i+d]; s+=x[0]*y[0]+x[1]*y[1]+x[2]*y[2]+x[3]*y[3]+x[4]*y[4]+x[5]*y[5]+x[6]*y[6]+x[7]*y[7]+x[8]*y[8]+x[9]*y[9]+x[10]*y[10]+x[11]*y[11]; n++; }
+    const m=((d%C)+C)%C; sc[m]+=s; cn[m]+=n; }
+  const v=Array.from(sc,(s,i)=>s/(cn[i]||1)), mu=v.reduce((a,b)=>a+b,0)/C, sd=Math.sqrt(v.reduce((a,b)=>a+(b-mu)**2,0)/C)||1;
+  const pk=v.map((x,i)=>({i,x})).filter((p,i)=>p.x>=v[(i+C-1)%C]&&p.x>=v[(i+1)%C]).sort((a,b)=>b.x-a.x).slice(0,5);
+  // lag thời gian: tB ≙ tA ⇒ tA = tB + lag   (cộng bù t0 cắt đoạn)
+  const top=pk.map(p=>({lag:+(((p.i/FPS + A.t0 - B.t0) % cyc + cyc) % cyc).toFixed(3), z:+((p.x-mu)/sd).toFixed(2)}));
+  window.__res={cycle:cyc, top}; document.getElementById('o').textContent=JSON.stringify(window.__res); window.__done=true;
+})().catch(e=>{ document.getElementById('o').textContent='ERR '+e.stack; window.__err=String(e); window.__done=true; });
+</script>

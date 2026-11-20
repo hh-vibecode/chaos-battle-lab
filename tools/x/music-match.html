@@ -1,0 +1,26 @@
+<!doctype html><meta charset="utf-8"><title>music-match</title>
+<!-- 🎼 GHÉP ĐOẠN THEO GIAI ĐIỆU (Mac + Windows): bản XƯƠNG SỐNG (ref) + các bản khác, mỗi bản có GỐC VÒNG (giây đầu vòng đầu tiên, từ music-xcorr) →
+     cắt mọi bản thành từng vòng (cycle giây) → chroma công suất từng khung 11.6ms (trừ TB) → độ giống từng cặp (vòng ref j, vòng bản X i), khung khớp theo thời gian trong vòng.
+     tools/x/music-match.html?ref=drum:tools/x/_ref/mega/drum.mp3:0.574&t=sax:tools/x/_ref/mega/sax.mp3:0.26&t=…&cycle=8
+     → window.__res = {ref:{name, n, loud[]}, tracks:{name:{n, loud[], sim:[[i theo j]]}}} · window.__done
+     sim[j][i] = độ giống vòng j của ref với vòng i của bản đó (−1..1). Vòng của chính 1 bản so nhau: ?self=1 thêm tracks[name].self. -->
+<pre id="o">…</pre><script>
+const q=new URLSearchParams(location.search), SR=22050, N=4096, HOP=256, FPS=SR/HOP, CYC=+(q.get('cycle')||8);
+function fft(re,im){ const n=re.length; for(let i=1,j=0;i<n;i++){ let b=n>>1; for(;j&b;b>>=1) j^=b; j^=b; if(i<j){ let t=re[i]; re[i]=re[j]; re[j]=t; t=im[i]; im[i]=im[j]; im[j]=t; } }
+  for(let len=2;len<=n;len<<=1){ const a=-2*Math.PI/len, wr=Math.cos(a), wi=Math.sin(a); for(let i=0;i<n;i+=len){ let cr=1,ci=0; for(let k=0;k<len/2;k++){ const ur=re[i+k],ui=im[i+k], vr=re[i+k+len/2]*cr-im[i+k+len/2]*ci, vi=re[i+k+len/2]*ci+im[i+k+len/2]*cr;
+    re[i+k]=ur+vr; im[i+k]=ui+vi; re[i+k+len/2]=ur-vr; im[i+k+len/2]=ui-vi; const t=cr*wr-ci*wi; ci=cr*wi+ci*wr; cr=t; } } } }
+async function cycles(u,org){ const ac=new OfflineAudioContext(1,SR,SR), au=await ac.decodeAudioData(await (await fetch('/'+u)).arrayBuffer());
+  const L=au.getChannelData(0), R=au.numberOfChannels>1?au.getChannelData(1):L, win=new Float32Array(N).map((_,i)=>0.5-0.5*Math.cos(2*Math.PI*i/N)), re=new Float32Array(N), im=new Float32Array(N), pc=new Int8Array(N/2).fill(-1);
+  for(let k=1;k<N/2;k++){ const f=k*SR/N; if(f>=60&&f<=2500) pc[k]=((Math.round(12*Math.log2(f/440))+9)%12+12)%12; }
+  const nf=Math.round(CYC*FPS), cs=[], loud=[];
+  for(let t=org; (t+CYC)*SR+N<=L.length; t+=CYC){ const fr=[]; let e=0; for(let f=0;f<nf;f++){ const p=Math.round(t*SR+f*HOP); for(let i=0;i<N;i++){ const x=(L[p+i]+R[p+i])/2; re[i]=x*win[i]; im[i]=0; e+=x*x; } fft(re,im);
+      const c=new Float32Array(12); for(let k=1;k<N/2;k++) if(pc[k]>=0) c[pc[k]]+=re[k]*re[k]+im[k]*im[k]; let s=0; for(let k=0;k<12;k++){ c[k]=Math.sqrt(c[k]); s+=c[k]; } const m=s/12; let nn=0; for(let k=0;k<12;k++){ c[k]-=m; nn+=c[k]*c[k]; } nn=Math.sqrt(nn)||1; for(let k=0;k<12;k++) c[k]/=nn; fr.push(c); }
+    cs.push(fr); loud.push(Math.round(10*Math.log10(e/(nf*N)+1e-10))); }
+  return {cs, loud}; }
+const sim=(a,b)=>{ let s=0; for(let f=0;f<a.length;f+=2){ const x=a[f], y=b[f]; for(let k=0;k<12;k++) s+=x[k]*y[k]; } return s/Math.ceil(a.length/2); };
+(async()=>{ const [rn,ru,ro]=q.get('ref').split(':'), ref=await cycles(ru,+ro), res={ref:{name:rn, n:ref.cs.length, loud:ref.loud}, tracks:{}};
+  for(const spec of q.getAll('t')){ const [nm,u,o]=spec.split(':'), X=await cycles(u,+o), M=ref.cs.map(rc=>X.cs.map(xc=>+sim(rc,xc).toFixed(3)));
+    const T={n:X.cs.length, loud:X.loud, sim:M}; if(q.get('self')) T.self=X.cs.map(a=>X.cs.map(b=>+sim(a,b).toFixed(2))); res.tracks[nm]=T; document.getElementById('o').textContent+=nm+' xong\n'; }
+  window.__res=res; window.__done=true; document.getElementById('o').textContent+='XONG';
+})().catch(e=>{ document.getElementById('o').textContent='ERR '+e.stack; window.__err=String(e); window.__done=true; });
+</script>

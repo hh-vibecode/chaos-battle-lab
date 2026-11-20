@@ -1,0 +1,30 @@
+<!doctype html><meta charset="utf-8"><title>music-tempo</title>
+<!-- 🎼 TEMPO THẬT cực chính xác của bản thu theo máy đếm nhịp (Mac + Windows): đường onset 2ms → biên độ Fourier tại tần số nốt 1/8 (bpm/30 Hz),
+     quét bpm a..b bước 0.002 → đỉnh = tempo thật (±0.005 BPM) + PHA lưới (giây của 1 phách bất kỳ, mod 60/bpm). Đo thêm từng nửa bài để biết có trôi không.
+     tools/x/music-tempo.html?src=tools/x/_ref/mega/drum.mp3[&a=119&b=121&t0=&t1=]
+     → window.__res {bpm, beat (giây 1 phách gần t0), half:[{bpm},{bpm}]} · window.__done -->
+<pre id="o">…</pre><script>
+const q=new URLSearchParams(location.search), SR=22050, H=0.002;
+function env(L,R){ const hop=Math.round(SR*H), n=Math.floor(L.length/hop), e=new Float32Array(n); let y=0,xp=0,acc=0,c=0,k=0; const a=Math.exp(-2*Math.PI*150/SR);
+  for(let i=0;i<L.length;i++){ const x=(L[i]+R[i])/2, hp=a*(y+x-xp); y=hp; xp=x; acc+=hp*hp; if(++c===hop){ if(k<n) e[k++]=Math.log(1e-9+acc/hop); acc=0; c=0; } }
+  const d=new Float32Array(n); for(let i=2;i<n;i++) d[i]=Math.max(0,e[i]-e[i-2]); return d; }
+function scan(d,i0,i1,a,b,st){ let best=0,bb=a,ph=0; for(let bpm=a;bpm<=b;bpm+=st){ const w=2*Math.PI*(bpm/30)*H; let re=0,im=0; for(let i=i0;i<i1;i++){ const v=d[i]; if(v){ re+=v*Math.cos(w*i); im-=v*Math.sin(w*i); } }
+    const m=Math.hypot(re,im); if(m>best){ best=m; bb=bpm; ph=Math.atan2(im,re); } } return {bpm:bb, ph, mag:best}; }
+(async()=>{ const ac=new OfflineAudioContext(1,SR,SR), au=await ac.decodeAudioData(await (await fetch('/'+q.get('src'))).arrayBuffer());
+  const L=au.getChannelData(0), R=au.numberOfChannels>1?au.getChannelData(1):L, d=env(L,R), n=d.length, i0=Math.floor((+q.get('t0')||0)/H), i1=Math.min(n,Math.floor((+q.get('t1')||1e9)/H));
+  const a=+(q.get('a')||118.5), b=+(q.get('b')||121.5); let r=scan(d,i0,i1,a,b,0.01); r=scan(d,i0,i1,r.bpm-0.02,r.bpm+0.02,0.001);
+  // pha: tín hiệu ~ cos(w i + φ0) đỉnh khi w i = −φ (atan2 của tổng với e^{−iwi}) → giây đỉnh nốt 1/8 đầu tiên
+  const P8=30/r.bpm, tpk=((-r.ph)/(2*Math.PI))*P8, first=((tpk%P8)+P8)%P8;
+  const m=(i0+i1)>>1, h1=scan(d,i0,m,r.bpm-0.3,r.bpm+0.3,0.002), h2=scan(d,m,i1,r.bpm-0.3,r.bpm+0.3,0.002);
+  // 📈 THEO DÕI LƯỚI: cửa sổ 6s (bước 3s) → độ lệch lưới 120 BPM danh nghĩa tốt nhất (±250ms, bước 1ms, trọng số phách 1 / 1/16 .3 / 1/8 .6) → nối (unwrap theo 0.5s) → khớp thẳng (bỏ điểm lệch)
+  const W=[1,0.3,0.6,0.3], at=t=>{ const i=Math.round(t/H); return i>=0&&i<n?d[i]:0; }, pts=[];
+  for(let w0=i0*H; w0+6<=i1*H; w0+=3){ let best=-1, bo=0; for(let o=-0.25;o<0.25;o+=0.001){ let s=0; for(let k=0;k<48;k++) s+=W[k%4]*at(w0+o+k*0.125); if(s>best){ best=s; bo=o; } } pts.push({t:w0, o:bo}); }
+  for(let i=1;i<pts.length;i++){ while(pts[i].o-pts[i-1].o>0.25) pts[i].o-=0.5; while(pts[i].o-pts[i-1].o<-0.25) pts[i].o+=0.5; }
+  let use=pts.slice(), sl=0, ic=0; for(let it=0;it<4;it++){ const nn=use.length, mx=use.reduce((a,p)=>a+p.t,0)/nn, my=use.reduce((a,p)=>a+p.o,0)/nn; let sxy=0,sxx=0; for(const p of use){ sxy+=(p.t-mx)*(p.o-my); sxx+=(p.t-mx)**2; } sl=sxy/sxx; ic=my-sl*mx;
+    const res=pts.map(p=>Math.abs(p.o-(ic+sl*p.t))), sd=Math.sqrt(use.reduce((a,p)=>a+(p.o-(ic+sl*p.t))**2,0)/nn); use=pts.filter((p,i)=>res[i]<Math.max(0.012,2.2*sd)); }
+  const resid=pts.map(p=>Math.round(1000*(p.o-(ic+sl*p.t))));
+  // lưới thật: phách tại t = ic + k·0.5·(1+sl)/(1)… (độ lệch tăng sl giây mỗi giây ⇒ chu kỳ phách thật = 0.5(1+sl))
+  window.__res={bpm:+r.bpm.toFixed(4), eighth0:+first.toFixed(4), half:[+h1.bpm.toFixed(3),+h2.bpm.toFixed(3)],
+    track:{bpm:+(120/(1+sl)).toFixed(4), beat0:+(((ic%0.5)+0.5)%0.5).toFixed(4), used:use.length+'/'+pts.length, residMs:resid.join(' ')}}; document.getElementById('o').textContent=JSON.stringify(window.__res); window.__done=true;
+})().catch(e=>{ document.getElementById('o').textContent='ERR '+e.stack; window.__err=String(e); window.__done=true; });
+</script>
