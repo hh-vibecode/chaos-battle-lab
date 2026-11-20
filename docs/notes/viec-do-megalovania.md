@@ -69,5 +69,8 @@ Bài học: đo tempo thật bằng plan thử (snapRange 0.25, xem độ lệch
 - Người diễn nổi bật: đèn ngược sau lưng + vũng sáng chân, nền tối + mờ ở cảnh cận, ánh môi trường phủ nhẹ hơn.
 - Guitar: quạt dây theo 1/8 (cặp O3/CALM ↔ O1/O2), solo: headbang lúc sét, ngả người cuối câu, ô cuối quỳ → giơ tay. Mọi bộ khung neo chung tỉ lệ + điểm chân (sprBlend o.ref).
 
+- (Ver 686) Anh: lửa vẽ tay (cột lửa + gargoyle phun lửa) "không cần thiết" → đài phun TIA LỬA LẠNH (hạt có trọng lực) ở mép sân khấu, gargoyle mắt loé đỏ + khói lạnh bốc lên.
+  Bỏ khung impact (cảnh tối → cả khung 1 mảng màu, như lỗi) → loé sáng ấm 0.12s đầu vòng.
+
 ## Tiếp theo
 1. Anh nghe v2 → sửa phối. 2. Viết kịch bản + bảng phân cảnh (skill viet-kich-ban) cho anh duyệt. 3. Dựng (dung-phim, Blender cho sét / lửa / lâu đài). 4. Xuất khi anh bảo (Mac).

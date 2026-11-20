@@ -181,16 +181,28 @@
     lightOn(g,()=>{ for(const [col,r0,dir] of [['80,220,255',1,1],['255,70,90',0.72,-1]]){ g.strokeStyle='rgba('+col+','+(0.55*rk)+')'; g.lineWidth=V.s(3); g.beginPath(); g.ellipse(rx,ry,RR*r0,RR*r0*0.16,0,0,TAU); g.stroke();
         for(let i=0;i<24;i++){ const a=i/24*TAU+t*0.2*dir, x=rx+Math.cos(a)*RR*r0*0.92, y=ry+Math.sin(a)*RR*r0*0.16*0.92; g.fillStyle='rgba('+col+','+(0.6*rk)+')'; g.fillRect(x-V.s(4),y-V.s(1.5),V.s(8),V.s(3)); } } });
     // gargoyle trên 2 bệ + phun lửa ở cú nhấn
-    const gk=o.fire||0; for(const [key,u,dir] of [['GL',0.165,1],['GR',0.835,-1]]){ const [x,y]=V.at(u,0.612); const r=spr(F,key,x,y,V.s(150),{env:['#7a6a90',0.35],rim:['#ff7a40',0.25*lit],shadow:false});
-      if(r&&gk>0) fireJet(F,x+dir*r.w*0.36,y-r.h*0.7,dir,-0.35,V.s(260),V.s(26),t,dir>0?3:9,gk); }
+    // gargoyle (anh 20/11: bỏ lửa vẽ tay — "không cần thiết, trông giả"): MẮT loé đỏ theo phách + cú nhấn phả KHÓI LẠNH trắng (kiểu máy CO2 sân khấu)
+    const gk=o.fire||0, gT0=Math.max(cs(cycK(t)),t>=bar(19,3)?bar(19,3):-1); for(const [key,u,dir] of [['GL',0.165,1],['GR',0.835,-1]]){ const [x,y]=V.at(u,0.612); const r=spr(F,key,x,y,V.s(150),{env:['#7a6a90',0.35],rim:['#ff7a40',0.25*lit],shadow:false});
+      if(r&&lit>0.5){ const ex=x+dir*r.w*0.2, ey=y-r.h*0.8; lightOn(g,()=>{ glowDot(g,ex,ey,V.s(16),'255,40,30',0.5+0.5*pulse(t,0.15)); glowDot(g,ex,ey,V.s(5),'255,200,180',0.8); }); }
+      if(r&&gk>0) cryo(F,x+dir*r.w*0.36,y-r.h*0.7,dir,t,gT0,V); }
     for(const [key,u] of [['AMP1',0.255],['AMP2',0.745]]){ const [x,y]=V.at(u,0.79); spr(F,key,x,y,V.s(120),{env:['#6a5a80',0.3],rim:['#ff7a40',0.2*lit]}); }
     // 🔦 đèn rọi quét từ trên (anh 20/11 "chưa đủ cháy"): 4 luồng đổi đỏ / xanh theo ô nhịp, sáng theo phách
     if(o.beams){ const red=Math.floor(Math.max(0,beatF(t))/4)%2===0; lightOn(g,()=>{ for(let i=0;i<4;i++){ const x0=VW*(0.15+0.23*i), sw=Math.sin(t*0.9+i*1.7)*VW*0.22, x1=x0+sw, col=(i%2===0)===red?'255,40,60':'40,200,255', a=0.06+0.07*pulse(t,0.14);   // soát 20/11: tia rộng + sáng quá phủ bạc cả sân khấu → mảnh, đậm màu, nhạt hơn
         const lg=g.createLinearGradient(x0,-20,x1,VH); lg.addColorStop(0,'rgba('+col+','+(a*1.3)+')'); lg.addColorStop(1,'rgba('+col+',0)'); g.fillStyle=lg; g.beginPath(); g.moveTo(x0-5,-20); g.lineTo(x0+5,-20); g.lineTo(x1+55,VH); g.lineTo(x1-55,VH); g.closePath(); g.fill(); } }); }
-    // 🔥 hàng cột lửa mép trước sân khấu: phun ở phách đầu, cách 1 ô nhịp 1 lần (o.pyro = độ cao 0–1) + tia lửa bắn
-    if(o.pyro>0.01){ const fr=Math.floor(t*24); for(const [u,s] of [[0.13,1],[0.27,2],[0.73,3],[0.87,4]]){ const [x,y]=V.at(u,0.86); fireJet(F,x,y,0,-1,V.s(330),V.s(34),t,s*11,o.pyro);
-        lightOn(g,()=>{ for(let i=0;i<10;i++){ const q=hash(fr*7+i+s*31), hh=V.s(380)*o.pyro*q; g.fillStyle='rgba(255,210,120,'+(0.8*o.pyro)+')'; g.fillRect(x+(hash(fr+i*3+s)-0.5)*V.s(120)*q,y-hh,V.s(3),V.s(3)); } }); } }
+    // ✨ ĐÀI PHUN TIA LỬA LẠNH mép trước sân khấu (anh 20/11: thay cột lửa vẽ tay): phun ở phách đầu, cách 1 ô nhịp 1 lần — hạt có trọng lực, vệt đuôi, lấp lánh
+    if(o.pyro!=null){ const bb=Math.floor(Math.max(0,beatF(t))/4), b0=bb-(bb%2), t0=T0+b0*4*P; for(const [u,s] of [[0.13,1],[0.27,2],[0.73,3],[0.87,4]]){ const [x,y]=V.at(u,0.86); sparkFount(F,x,y,t,t0,s+b0*7,V); } }
     return V; }
+  function sparkFount(F,x,y,t,t0,seed,V){ const g=F.g, age=t-t0; if(age<0||age>1.8) return; const N=150, emit=0.8, G=V.s(1100), life=0.95;
+    lightOn(g,()=>{ g.lineCap='round'; for(let i=0;i<N;i++){ const a=age-i/N*emit; if(a<0||a>life) continue; const h1=hash(seed*97+i), h2=hash(seed*31+i*7), v=V.s(760)*(0.7+0.4*h1), an=-Math.PI/2+(h2-0.5)*0.32;
+        const vx=Math.cos(an)*v, vy=Math.sin(an)*v, px=x+vx*a, py=y+vy*a+0.5*G*a*a, dvy=vy+G*a, sp=Math.hypot(vx,dvy)||1, L=V.s(8)+sp*0.02, f=1-a/life, tw=0.6+0.4*hash(Math.floor(t*30)+i);
+        const ex=px-vx/sp*L, ey=py-dvy/sp*L; g.strokeStyle='rgba(255,170,80,'+(0.35*f*tw).toFixed(3)+')'; g.lineWidth=V.s(5)*(0.5+0.5*f); g.beginPath(); g.moveTo(px,py); g.lineTo(ex,ey); g.stroke();   // quầng
+        g.strokeStyle='rgba(255,'+Math.round(205+50*f)+','+Math.round(140+110*f)+','+(f*tw).toFixed(3)+')'; g.lineWidth=V.s(2.2)*(0.5+0.5*f); g.beginPath(); g.moveTo(px,py); g.lineTo(ex,ey); g.stroke(); }   // lõi
+      glowDot(g,x,y,V.s(90),'255,200,120',0.55*Math.max(0,1-age/emit)); }); }
+  // 💨 khói lạnh (CO2) phả ra từ miệng gargoyle: cụm khói tròn mềm nở ra, trôi theo hướng phả rồi tan
+  //   soát 20/11: phả ngang thì che Mosquito / Bee → bốc LÊN trên đầu gargoyle, nhỏ + nhạt
+  function cryo(F,x,y,dir,t,t0,V){ const age=t-t0; if(age<0||age>1.8) return; const g=F.g; for(let i=0;i<14;i++){ const a=age-i*0.03; if(a<0||a>1.3) continue; const f=a/1.3, d=V.s(20)+V.s(170)*eout(Math.min(1,a/0.9))*(0.8+0.4*hash(i*5));
+      const px=x+dir*d*0.18+(hash(i*3)-0.5)*V.s(26)*f, py=y-d, r=V.s(12)+V.s(46)*f; const rg=g.createRadialGradient(px,py,0,px,py,r);
+      rg.addColorStop(0,'rgba(225,235,245,'+(0.22*(1-f)).toFixed(3)+')'); rg.addColorStop(1,'rgba(225,235,245,0)'); g.fillStyle=rg; g.fillRect(px-r,py-r,2*r,2*r); } }
   // vị trí ban nhạc trên sân khấu (toạ độ tấm STAGE) — cao thấp khác nhau, không thành 1 hàng: Sans bệ cao giữa, 2 côn trùng bay 2 bên kính màu, 3 con dưới sân khấu tròn
   const SPOT={ sans:[0.5,0.645,190], mosq:[0.31,0.47,150], bee:[0.69,0.47,145], piano:[0.32,0.80,170], bongo:[0.5,0.84,150], guitar:[0.68,0.80,180] };   // soát 20/11: toàn cảnh ban nhạc nhỏ quá → to thêm ~1.25×
   // 🌟 NỔI BẬT người đang diễn (anh 20/11: "không để lẫn vào nền và effect"): đèn NGƯỢC sau lưng + vũng sáng dưới chân, ánh môi trường phủ NHẸ hơn (giữ màu gốc),
@@ -263,7 +275,8 @@
   // 🔥 năng lượng tutti (anh 20/11 "chưa đủ cháy, sôi động"): cột lửa phách đầu cách 1 ô · loé đèn theo phách · zoom giật phách đầu ô
   const pyroK=t=>{ const b=Math.floor(Math.max(0,beatF(t))/4); if(b%2) return 0; const a=T0+b*4*P; return t<a?0:Math.max(0,1-seg(t,a+0.15,a+0.75))*seg(t,a,a+0.06); };
   const punchK=t=>0.045*pulse(t,0.12,0.25);
-  function beatFlash(F,t){ const g=F.g, a=0.05*pulse(t,0.09)+0.09*pulse(t,0.12,0.25); if(a<0.01) return; lightOn(g,()=>{ g.fillStyle='rgba(255,140,90,'+a+')'; g.fillRect(-50,-50,VW+100,VH+100); }); }
+  function beatFlash(F,t){ const g=F.g, a=0.05*pulse(t,0.09)+0.09*pulse(t,0.12,0.25); if(a>=0.01) lightOn(g,()=>{ g.fillStyle='rgba(255,140,90,'+a+')'; g.fillRect(-50,-50,VW+100,VH+100); });
+    const k=cycK(t), st=t-cs(k); if(TUTTI_K.includes(k)&&k!==5&&st<0.12) K.flash(F,0.45*(1-st/0.12),'#fff1e0'); }   // loé ấm đầu mỗi vòng tutti
   // 1 vòng tutti = 8 shot dài [4,2,2,2,2,2,1,1] phách (nhanh – chậm đan xen): toàn → chính → cận → đám đông → toàn nghiêng → cận → chính → toàn
   const TSEG=[[0,4,'wide'],[4,2,'lead'],[6,2,'close'],[8,2,'crowd'],[10,2,'wide2'],[12,2,'close'],[14,1,'lead'],[15,1,'wide']];
   function tuttiShot(F,t,k){ const bt=(t-cs(k))/P, si=TSEG.findIndex(s=>bt>=s[0]&&bt<s[0]+s[1]), S0=TSEG[Math.max(0,si)], u=clamp((bt-S0[0])/S0[1],0,1), bi=Math.floor(bt/4), n=k*8+Math.max(0,si), kind=S0[2];
@@ -363,7 +376,7 @@
     shake:t=>{ let s=0; const h=(a,amp,d)=>{ if(t>=a&&t<a+d) s=Math.max(s,amp*(1-(t-a)/d)); }; h(T0,7,0.5); h(SEC.gtr,4,0.4); h(SEC.tutti,8,0.6); h(SEC.tutti2,6,0.5); h(END,12,1.0);
       for(let b=0;b<8;b+=2) h(bar(12+(b>>2)+0,(b+1)%4),5,0.35); for(const k of TUTTI_K){ h(cs(k),6,0.45); for(let b=1;b<4;b++) h(bar(k,b),2.2,0.2); } return s; },
     // khung impact 2 màu ở đầu mỗi vòng tutti (bỏ vòng 5 — đang vỡ kính) + tách RGB
-    impact:t=>{ const E=K.edit; for(const k of TUTTI_K){ if(k===5) continue; const r=E.impacts(t,cs(k),6,'red',3); if(r) return r; } return E.impacts(t,cs(5)+0.7,3,'red',3)||0; },
+    // (soát 20/11) BỎ khung impact: cảnh tối → không tách được người, cả khung thành 1 mảng màu đặc trông như lỗi. Thay = loé sáng ấm 0.12s đầu vòng (beatFlash) + RGB + rung.
     grade:t=>{ const E=K.edit; return E.mix(E.rgb(t,T0,0.4,6),E.rgb(t,SEC.tutti,0.5,8),E.rgb(t,END,0.8,10),...TUTTI_K.map(k=>E.rgb(t,cs(k),0.3,5))); } });
   function isTutti(t){ const k=cycK(t); return TUTTI_K.includes(k); }
 })();
