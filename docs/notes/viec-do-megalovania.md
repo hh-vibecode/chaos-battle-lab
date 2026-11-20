@@ -44,5 +44,15 @@ Lưới 119.717 BPM, mỗi hàng 1 vòng 8.02s. 0:00–0:12.5 mưa + piano Grim 
 `music-mix.html` (trộn theo plan → WAV, khớp lưới 1ms) · `music-tempo.html` (thử, KHÔNG chính xác — đừng tin) · `music-align.js` / `music-bars.js` / `music-sections.js` (thử, kém với nhạc lặp vòng).
 Bài học: đo tempo thật bằng plan thử (snapRange 0.25, xem độ lệch tăng đều theo vòng) — beat tracker + Fourier sai ±0.3 BPM.
 
+## Kịch bản + ảnh (20/11)
+- Kịch bản: prompts/kich-ban/megaband.md (anh bảo "làm đi"; còn chờ anh trả lời: dùng chung khung trăng đỏ cho cầu thang + đỉnh tháp?).
+- 9 ảnh GPT CHỈ KIẾN TRÚC (trời xanh lá #00FF00 để tách), đã soát đạt — bản gốc ở D:/meme-anime-lab-videos/megalovania/nen-gpt/ (chưa đưa vào assets):
+  n1 lâu đài vách đá · n2 ban công + kính màu (Sans) · n3 hầm mộ (Bongo, trong nhà) · n4 đại sảnh organ (Piano, trong nhà) · n5 đỉnh tháp (Guitar)
+  n6 cầu thang đổ nát (2 violin; kính đèn đường bị tô xanh → thủng khi tách, thắp đèn bằng code che) · n7 sân khấu sân trong + cổng vòm (tutti)
+  n8 đỉnh tháp cao nhất (solo violin) · n9 2 cánh cổng (mỗi cánh 1 vòm riêng → code cắt theo 2 nửa vòm cổng n7).
+  Lệnh vẽ: file .prompt.txt cạnh ảnh. Vẽ thêm: tools/x/gpt-image.sh (luật: chỉ kiến trúc, không trăng / mây / mưa / sét / đèn / lửa — anh nhắc 20/11).
+- Việc dựng tiếp: gkey.js tách trời (n1 n2 n5–n9) → webp / jpg 0.86 vào assets/img/cine/MB_*; film js/film-megaband.js (16:9, CineKit, panels cho các ô);
+  trời / trăng / mây / mưa / sét / lửa / nến / đám đông 61 meme bằng code; nhạc = mix v3 (cần mã hoá mp3/webm để đưa vào assets/audio — Windows không ffmpeg).
+
 ## Tiếp theo
 1. Anh nghe v2 → sửa phối. 2. Viết kịch bản + bảng phân cảnh (skill viet-kich-ban) cho anh duyệt. 3. Dựng (dung-phim, Blender cho sét / lửa / lâu đài). 4. Xuất khi anh bảo (Mac).

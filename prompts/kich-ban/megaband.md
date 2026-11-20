@@ -37,8 +37,12 @@ rồi chỉ còn mưa và lâu đài lặng im dưới trăng.
 - **Electric Guitar Cat** (11 ảnh loop `EG_LOOP`, mỗi nốt sang 1 ảnh, nhịp ĐỀU — anh chốt Ver 464): SÓNG ÂM màu theo nốt; solo = sét đánh xuống đàn.
 - **Violin Mosquito** (ảnh thật): sợi DÂY sáng mảnh nối từ vĩ cầm ra (dây của skill game) rung theo nốt.
 - **Violin Bumblebee** (6 khung kéo đàn `VB_FR`): đàn ONG CON bay vòng quanh trăng, mỗi phách thêm 1 con (đúng game).
-- Đám mèo nhảy dưới sân khấu (ảnh gốc, nhún / xoay theo phách): Pop Cat (há mồm theo phách), U I A Cat (xoay OIIA), Maxwell (xoay), Damdam Didi Cat (lắc đầu),
-  Nyan Cat (bay ngang vệt cầu vồng 1 lần), Huh Cat, Banana Cat, Clapping Cat (vỗ tay theo phách).
+- ĐÁM ĐÔNG dưới sân khấu = MỌI meme mèo + chó trong game (anh 20/11: "con nào là mèo chó meme cho hết vô") — 61 con, trừ 3 con trong ban nhạc
+  (danh sách: CHAR_DEFS có Cat / Dog / Doge / Cheems / Maxwell / Yuki…; loadingcat dùng avatar_v2, arabiccat chưa có ảnh → bỏ tới khi có).
+  Ảnh gốc, nhún / xoay đúng kiểu meme theo phách (Pop Cat há mồm, U I A / Maxwell xoay, Damdam Didi lắc đầu, Clapping vỗ tay, Nyan bay ngang 1 lần…).
+  · Đứng LẪN LỘN mèo + chó (xen kẽ), các hàng sâu dần, KHÔNG con nào đè lên con nào (xếp theo khung bao, chừa khe).
+  · KHÔNG LỘ PNG (anh dặn): làm mịn mép alpha 1–2px; hàng sau NGƯỢC SÁNG lửa sân khấu → gần như bóng đen viền sáng đỏ cam; xa dần nhạt màu (phối cảnh không khí);
+    sương / khói mỏng xen giữa các hàng; khói phủ chân; tàn lửa bay ở tiền cảnh; cả đám nhuộm chung ánh lửa với sân khấu.
 
 ## Nhịp (mốc = giây trong bài; mỗi khối ghi shot chính — cắt theo ô nhịp 2s, nhanh hơn ở tutti)
 | # | giờ | chuyện gì xảy ra | máy / khung | VFX / môi trường | tiếng (ngoài nhạc) |
