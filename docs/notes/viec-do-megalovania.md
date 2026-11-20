@@ -75,23 +75,23 @@ Bài học: đo tempo thật bằng plan thử (snapRange 0.25, xem độ lệch
 - (Ver 687) Nến đại sảnh (30 ngọn) + hầm mộ (24 ngọn) + mắt / miệng gargoyle ĐO bằng tools/x/plate-grid.html. Mọi meme đám đông cầm 2 lightstick lắc ĐÚNG NHỊP
   (1 lần / phách; solo: qua lại theo ô nhịp). Solo guitar chuyển lên SÂN KHẤU: tắt đèn, 1 đèn rọi xuống Guitar giữa phía trước, zoom, khán giả lightstick bên dưới; solo violin xen 2 cảnh khán giả.
 
-## ⚠️ LỖI PHỐI (anh 20/11 tối: "nhạc lộn xộn, không theo đúng bài") — tìm ra trên Mac, CHƯA sửa
-- Lý do: `mega-arrange.js` chọn số VÒNG cho từng bản RIÊNG RẼ (theo music-match = chroma cả dải → vòng nào cũng ra vòng hợp âm D C B B♭ giống nhau,
-  KHÔNG phân biệt được riff / đoạn B / C / D) → cùng 1 lúc các bản chơi 2–3 đoạn KHÁC NHAU của bài (bản trống còn có cả giai điệu gốc nên chỏi càng rõ).
-- Đo lại bằng giai điệu (chroma 400–2200 Hz, so từng khung) trên sax + guitar + chính mb_mix.webm:
-  sax (bản đủ 1:46): vòng 0–3 riff · 4–7 đoạn B (B1–B4) · 8–11 đoạn C · 12 nốt kết. Guitar metal (56s): 0–3 riff · 4–5 = B1, B2 (hết bài ở đó).
-  Bản trống (theo note): 0 intro · 1–4 riff · 5–8 B ⇒ ĐÚNG phải là sax = guitar = trống − 1.
-  Plan đang để: hàng "P1 dồn lên" trống 3 (riff) + sax 4 / guitar 4 (B1) → mix đo ra riff 0.49 + B1 0.57 cùng lúc; "+2 Violin" ra 3 thứ chồng (riff, B1, B2);
-  TUTTI sax 5,6,5,6 (B2 B3 B2 B3) + guitar 4,5,4,5 (B1 B2 B1 B2) lệch nhau 1 vòng, LẶP 2 vòng trên nền 4 vòng khác nhau → mix ra 2 đoạn B chồng (B2+B3, B3+B4).
-  Piano lúc = trống (P1), lúc = trống+1 (tutti), đoạn D 13,15,11,17 (nhảy lung tung); violin lúc +1 lúc −1.
-- Thêm: sax trong assets chỉ là bản CẮT 60s (hết giữa đoạn B) — bản ĐỦ 1:46 (có cả B + C) ở Mac `~/Desktop/0. meme/UNDERTALE Megalovania 🎷 Saxophone Cover.mp3` (bản cắt = bản đủ từ 0.1s).
-- Cách sửa: mỗi hàng của plan ghi 1 VỊ TRÍ BÀI (vòng của bản trống), mỗi bản có BẢNG vị trí bài → vòng của bản đó (đo bằng chroma giai điệu, không đoán);
-  bản nào không có đoạn đó (guitar sau B2, sax sau C) thì NGHỈ, không lặp vòng khác bù vào. Cần drum / piano / violin (chỉ có trên Windows) để đo bảng của 3 bản đó.
-- 🎹 Piano Cat "không rõ âm, như không chơi" (anh 20/11): đo mb_mix.webm theo kênh trái / phải (piano pan +0.35, guitar −0.35):
-  lúc piano vào (0:20.5) năng lượng 2 bên gần như KHÔNG đổi (Side −27.0 → −26.7 dB), lúc guitar vào tăng +4.5 dB ⇒ piano nhỏ hơn guitar ~14 dB trong bản phối.
-  Lý do: music-mix.html KHÔNG cân độ to từng bản — G (drum 0.6, piano 0.6, guitar 0.5…) nhân thẳng vào file gốc; bản piano tutorial thu nhỏ, bản trống là bản master đầy (nhạc gốc + trống)
-  và còn to lên đúng lúc piano vào (0.45 → 0.6), giai điệu synth gốc trong bản trống cùng tầm cao với piano → piano bị nuốt.
-  Sửa: đo độ to (RMS / LUFS) từng bản trên đúng đoạn dùng → cân về cùng mức rồi mới đặt G theo vai trò; piano vào thì kéo bản trống xuống hoặc cắt dải giữa của nó.
+## ✅ Bản phối v4 (20/11 tối, Mac) — sửa "nhạc lộn xộn" + "piano như không chơi" + anh: con nào vào thì các con khác nhỏ lại
+- Lỗi v1–v3: mỗi bản tự chọn số vòng (music-match so cả dải → vòng nào cũng 4 hợp âm D C B B♭ ⇒ không phân biệt đoạn) → 2–3 đoạn bài chồng nhau;
+  và không cân độ to (piano v3 nhỏ hơn guitar ~14 dB, bản trống = bản master đầy còn to lên đúng lúc piano vào).
+- Giờ: mỗi hàng = 1 NHÃN đoạn, bảng LAB trong `tools/x/mega-arrange.js` (nhãn → vòng của từng bản). Soát: `python3 tools/x/music-check.py tools/x/_ref/mega/plan.json`
+  (độ giống giai điệu từng cặp bản / hàng; dò cấu trúc 1 bản: `--map`). Trộn (Mac): `python3 tools/x/music-mix.py tools/x/_ref/mega/plan.json ra.wav --levels`
+  (cân RMS từng đoạn nguồn về cùng mức `lvl`, in bảng dB từng bản / hàng) → `ffmpeg -i ra.wav -c:a libopus -b:a 160k -ar 48000 assets/audio/mb_mix.webm`.
+  ⚠️ music-mix.html (Windows) CHƯA hiểu `lvl` / `lvlRef` (chỉ Mac trộn được v4).
+- Nguồn tải lại (Mac: `~/.local/bin/yt-dlp --js-runtimes node -f bestaudio -x --audio-format mp3` — yt-dlp của python 3.9 quá cũ, YouTube chặn):
+  drum USYOr_NqqsU · violin nQc5pMBwzF0 (Taylor Davis) · piano J1-ltspBXNU (Sheet Music Boss tutorial) · guitar vp1Rq_gtTSM (Kfir Ochaion, ĐỦ BÀI — anh gửi 20/11, thay bản metal 56s)
+  · Grim Cat xplnuJ16SWk (intro) · sax = `~/Desktop/0. meme/UNDERTALE Megalovania 🎷 Saxophone Cover.mp3` (bản đủ 1:46; assets chỉ là bản cắt 60s). Để ở tools/x/_ref/mega/.
+- Gốc riff (giây, file tải trên): trống 7.651 (vòng k = −0.368 + k·C; k1–2 chỉ có nhạc gốc, trống vào k3) · sax 0.425 · piano 5.702 · guitar 0.308 · violin 4.337. Lệch theo thời gian < 10ms.
+  (File trống trên Windows lệch file tải này +1.012s → số vòng cũ của note = k ở đây.)
+- Cấu trúc (piano): riff×4 · B1 B2 B3 B4 B3 B4 · C1 C2 C1' C3 · D×4 · đoạn kết E. Trống k = piano + 1, guitar = violin = piano (tới C), sax: riff, B1–B4 (không lặp), C (8–11), hết.
+  Violin sau ~132s nhỏ / lệch lưới, không có D; sax không có D / E → v4 KHÔNG dùng D / E: P2 tutti = B1–B4 lại, kết = riff cả ban + phách 1 của B1 mọi bản (hợp âm chung) + sấm.
+- Nổi bật khi vào (P1): con vào +4 dB, con khác −7 dB (hàng Bongo+Piano: trống giữ mức thường); hàng 'dồn lên' mỗi ô nhịp 1 con (sax, trống, piano, guitar — đúng thứ tự phim quay).
+  Solo P2: con solo +2, trống nền −8. Đổi mức: LEAD / DUCK / SOLO_BG trong mega-arrange.js.
+- Bảng giờ không đổi (20 hàng × 8.019s từ 12.5s, dài 177.9s) → phim film-megaband.js không phải sửa giờ. ⏸️ CHỜ ANH NGHE (em không nghe được: soát bằng số).
 
 ## Tiếp theo
 1. Anh nghe v2 → sửa phối. 2. Viết kịch bản + bảng phân cảnh (skill viet-kich-ban) cho anh duyệt. 3. Dựng (dung-phim, Blender cho sét / lửa / lâu đài). 4. Xuất khi anh bảo (Mac).
