@@ -203,7 +203,7 @@
 ## 💀 Sans - The Unknown (`sans`, 20/11/2026) — khối `SX_*` / `_sx*` trong js/game.js (trước `_snImg`)
 - Vào trận = thế giới Undertale (`_sxUt()`): `_floorDraw` → `_sxFloorUT` (đen + khung trắng), trời đen, viền đá ẩn, thanh máu `_sxHpBar` (vàng / đỏ / KR tím), body `ut-mode` (css/game.css). Sans ảnh pixel `SX_PIXEL` (cắt từ ảnh HUD anh gửi — tạm, anh gửi file sạch thì thay).
 - CHỈ nhận dame cận chiến: `_sxIsMelee` trong `_takeDamageCore` (thân thật cách ≤ `SX_MELEE_GAP`, không DOT/cháy) → còn lại `_sxMiss` (MISS + giật né). Đạn `projectiles` bỏ qua Sans; `_sxDodge` lách đạn (projectiles + CV_SYS).
-- 5s/lần 24 khung hình (`_sxStartTp` → `battleFreezeTimer` 1.5s, `_sxFreezeTick` chạy trong nhánh đóng băng; đạn chung cũng đứng yên). Ảo ảnh KHÔNG khung (anh 20/11: "chuyển động không có ô vuông").
+- 5s/lần khung hình kiểu Naoya — anh 20/11: gói trong 1s, 12 bước, ảo ảnh mờ hơn Sans thật (`_sxStartTp` → `battleFreezeTimer` 1s, `_sxFreezeTick` chạy trong nhánh đóng băng; đạn chung cũng đứng yên). Ảo ảnh KHÔNG khung (anh 20/11: "chuyển động không có ô vuông").
 - Gaster Blaster: lần n = n đầu (tối đa 6) ngoài mép sàn, chốt vị trí địch lúc hiện, tích 1s, tia 150. Ảnh `SX_BLASTER` = GPT vẽ hộ (ảnh anh dán chưa lưu được file) — chờ anh gửi file gốc.
 - ≤75% máu: `_sxPost` chụp canvas → mảnh Voronoi vỡ (d3) → sàn tím cũ. Dạng thổi kèn `SX_PLAY_0..2` (GPT từ ảnh anh), nhạc `sx_megalovania` (sax cover anh tải, 0.1→60s), từ 7.79s Electric Guitar Cat chơi `piano_megalovania` lệch −0.04s (đo chroma + onset, tự kéo lại khi lệch >0.06s), từ 15.79s Bongo Cat gõ theo phách (120 BPM, phách đầu 0.29s). Lửa xanh lam 10/0.5s tới hết trận (`_sxKarma`, cả quân triệu hồi).
 - Địch thua Sans: `_sxAshSpawn` (cháy thành tro) + tiếng `sx_dust` thay `death_break`.

@@ -4,7 +4,8 @@
 //   - Chỉ đọc TIÊU ĐỀ Short trên kênh (yt-dlp --flat-playlist, không tải video) → chỉ video đã công khai (video đang lên lịch không hiện ra).
 //   - Tính từ 01/11/2026 (Short đầu tiên: START_ID) tới mới nhất, BỎ tiêu đề có "lore". Mỗi lần chạy tính lại TỪ ĐẦU theo danh sách
 //     → không cộng trùng, không sót tuần nào (1 video đếm 1 lần theo mã video, cùng tiêu đề đăng 2 lần cũng chỉ đếm 1).
-//   - Ai thắng: tra tools/leaderboard/results.json (render-match / render-duo tự ghi khi quay xong). Short chưa có kết quả → KHÔNG tính,
+//   - Ai thắng: render-match / render-duo chỉ ghi LỊCH SỬ (history.json). Thấy Short trên kênh → lần quay mới nhất cùng tên được đưa vào
+//     results.json (khoá theo mã video, anh dặn 20/11). Short chưa có kết quả → KHÔNG tính,
 //     ghi ra "Thieu ket qua.txt" cạnh ảnh để bổ sung.
 //   - 2vs2: cả đội thắng đều +1 thắng. Last One Standing: con sống sót +1 thắng, các con khác +1 thua. Hoà (win rỗng): mọi con +1 hoà.
 //   - Xếp hạng: nhiều trận thắng hơn đứng trên → bằng thì ít thua hơn → bằng hết thì cùng hạng.
@@ -13,7 +14,7 @@ const ROOT = path.resolve(__dirname, '../..'), args = process.argv.slice(2), opt
 const CHANNEL = 'https://www.youtube.com/@meme-autobattler/shorts';
 const START_ID = 'mijHGZlNGV0';   // "Gigachad vs Infinity Doge" — Short đầu tiên của 01/11/2026 (anh chỉ mốc)
 const OUT_DIR = opt('--out', path.join(os.homedir(), 'Desktop/Meme Battles/0. Leaderboard'));
-const { load, norm } = require('./record.js');
+const { load, norm, publish } = require('./record.js');
 
 // tên trong tiêu đề → key meme: lấy defaultName trong CHAR_DEFS (phần trước " - ") + vài tên gọi tắt anh hay dùng
 const G = fs.readFileSync(path.join(ROOT, 'js/game.js'), 'utf8'), DEFS = {};
@@ -45,7 +46,7 @@ const teamsOf = title => title.replace(/^\(rematch\)\s*/i, '').replace(/\s+-\s+(
   for (const e of all.slice(0, cut + 1)) {
     if (/lore/i.test(e.title) || seenId.has(e.id)) continue; seenId.add(e.id);
     const nt = norm(e.title); if (seenTitle.has(nt)) { missing.push(`TRÙNG TIÊU ĐỀ (đếm 1 lần): ${e.title}  [${e.id}]`); continue; } seenTitle.add(nt);
-    const teams = teamsOf(e.title), r = db[nt];
+    const teams = teamsOf(e.title), r = publish(nt, e.id) || db[nt];   // ✅ Short đã lên kênh → lấy lần quay mới nhất trong history.json vào leaderboard (khoá theo mã video)
     if (teams.length < 2 || teams.flat().some(k => !k)) { missing.push(`TÊN MEME LẠ: ${e.title}  [${e.id}]`); continue; }
     if (!r) { missing.push(`CHƯA CÓ KẾT QUẢ: ${e.title}  [${e.id}]`); continue; }
     const W = new Set(r.win || []);

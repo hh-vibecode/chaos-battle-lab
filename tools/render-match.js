@@ -222,8 +222,8 @@ const ok = r => (!DIROK || DIROK.test(r.dir || '')) && (DOMAIN == null || (r.dom
   execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', tmpV, '-i', wav, '-filter_complex', '[1:a]alimiter=limit=0.95[a]', '-map', '0:v', '-map', '[a]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-shortest', OUT], { stdio: 'inherit' });
   fs.unlinkSync(planF); fs.unlinkSync(wav); fs.unlinkSync(tmpV);
   console.log(`✅ ${OUT}  (seed ${SEED} · ${END.toFixed(1)}s · ${plan.length} tiếng · mất ${((Date.now() - T0) / 1000).toFixed(0)}s)`);
-  // 🏆 ghi kết quả cho leaderboard (anh dặn 18/11) — khoá = tên video; quay lại cùng tên thì lần mới nhất đè lên
+  // 📝 ghi LỊCH SỬ lần quay (anh 20/11: chỉ vào leaderboard khi Short đã đăng — make.js tự đưa vào)
   try { const W = _fin.win ? (FFA ? [_fin.win] : (_fin.win === 'a' ? TA : TB)) : [];
-    require('./leaderboard/record.js').record({ title: path.basename(OUT), win: W, seed: SEED, t: END }); console.log(`🏆 đã ghi kết quả: ${W.join(' & ') || 'hoà'} thắng → tools/leaderboard/results.json`); }
+    require('./leaderboard/record.js').record({ title: path.basename(OUT), win: W, seed: SEED, t: END }); console.log(`🏆 đã ghi kết quả: ${W.join(' & ') || 'hoà'} thắng → lịch sử tools/leaderboard/history.json (chưa vào leaderboard — chờ Short lên kênh)`); }
   catch (e) { console.log('⚠️ không ghi được kết quả leaderboard:', e.message); }
 })();

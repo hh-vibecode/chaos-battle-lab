@@ -64,7 +64,7 @@ Chi tiết từng meme: `docs/notes/memes.md` · từng phim + cine-kit: `docs/n
 - Skill `xuat-video` / `xem-video` / `video-sang-sprite` chỉ chạy trên Mac.
 
 ## 🏆 Leaderboard "Memes in the Multiverse" (anh chốt 18/11)
-- Quay trận xong `render-match` / `render-duo` TỰ GHI ai thắng vào `tools/leaderboard/results.json` (khoá = tên video = tiêu đề Short; quay lại cùng tên → lần mới nhất). Trận quay ngoài 2 công cụ đó → tự thêm bằng `record.js`.
+- ⛔ (anh 20/11) Quay xong KHÔNG ghi vào leaderboard — `render-match` / `render-duo` chỉ ghi LỊCH SỬ `tools/leaderboard/history.json`. `make.js` thấy Short đã lên kênh mới đưa lần quay mới nhất cùng tên vào `results.json` (khoá theo mã video). Trận quay ngoài 2 công cụ đó → `record.js` `record()` (cũng chỉ vào lịch sử).
 - `node tools/leaderboard/make.js` → 2 ảnh 9:16 vào `~/Desktop/Meme Battles/0. Leaderboard/`: chỉ Short ĐÃ ĐĂNG (đọc tiêu đề kênh), từ 01/11/2026, bỏ tiêu đề "lore", mọi meme (chưa đấu = mờ cuối bảng), 2vs2 cả đội +1. Short chưa có kết quả → "Thieu ket qua.txt".
 - Mac tự chạy 6h30 sáng thứ 2 (launchd `com.memeautobattler.leaderboard`, log `~/Library/Logs/meme-leaderboard.log`).
 

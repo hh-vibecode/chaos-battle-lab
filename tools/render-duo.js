@@ -131,6 +131,6 @@ const RESULT = () => { const dead = t => fighters.filter(f => f.team === t).ever
   fs.unlinkSync(planF); fs.unlinkSync(wav); fs.unlinkSync(tmpV);
   console.log(`✅ ${OUT}  (${plan.length} tiếng · ${END.toFixed(1)}s · ${((Date.now() - t0) / 1000).toFixed(0)}s)`);
   try { const W = res.win === 0 ? TEAM_A : res.win === 1 ? TEAM_B : [];   // 🏆 ghi kết quả cho leaderboard (anh dặn 18/11)
-    require('./leaderboard/record.js').record({ title: path.basename(OUT), win: W, t: END }); console.log(`🏆 đã ghi kết quả: ${W.join(' & ') || 'hoà'} thắng → tools/leaderboard/results.json`); }
+    require('./leaderboard/record.js').record({ title: path.basename(OUT), win: W, t: END }); console.log(`🏆 đã ghi kết quả: ${W.join(' & ') || 'hoà'} thắng → lịch sử tools/leaderboard/history.json (chưa vào leaderboard — chờ Short lên kênh)`); }
   catch (e) { console.log('⚠️ không ghi được kết quả leaderboard:', e.message); }
 })();
