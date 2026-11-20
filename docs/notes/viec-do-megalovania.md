@@ -87,6 +87,11 @@ Bài học: đo tempo thật bằng plan thử (snapRange 0.25, xem độ lệch
 - Thêm: sax trong assets chỉ là bản CẮT 60s (hết giữa đoạn B) — bản ĐỦ 1:46 (có cả B + C) ở Mac `~/Desktop/0. meme/UNDERTALE Megalovania 🎷 Saxophone Cover.mp3` (bản cắt = bản đủ từ 0.1s).
 - Cách sửa: mỗi hàng của plan ghi 1 VỊ TRÍ BÀI (vòng của bản trống), mỗi bản có BẢNG vị trí bài → vòng của bản đó (đo bằng chroma giai điệu, không đoán);
   bản nào không có đoạn đó (guitar sau B2, sax sau C) thì NGHỈ, không lặp vòng khác bù vào. Cần drum / piano / violin (chỉ có trên Windows) để đo bảng của 3 bản đó.
+- 🎹 Piano Cat "không rõ âm, như không chơi" (anh 20/11): đo mb_mix.webm theo kênh trái / phải (piano pan +0.35, guitar −0.35):
+  lúc piano vào (0:20.5) năng lượng 2 bên gần như KHÔNG đổi (Side −27.0 → −26.7 dB), lúc guitar vào tăng +4.5 dB ⇒ piano nhỏ hơn guitar ~14 dB trong bản phối.
+  Lý do: music-mix.html KHÔNG cân độ to từng bản — G (drum 0.6, piano 0.6, guitar 0.5…) nhân thẳng vào file gốc; bản piano tutorial thu nhỏ, bản trống là bản master đầy (nhạc gốc + trống)
+  và còn to lên đúng lúc piano vào (0.45 → 0.6), giai điệu synth gốc trong bản trống cùng tầm cao với piano → piano bị nuốt.
+  Sửa: đo độ to (RMS / LUFS) từng bản trên đúng đoạn dùng → cân về cùng mức rồi mới đặt G theo vai trò; piano vào thì kéo bản trống xuống hoặc cắt dải giữa của nó.
 
 ## Tiếp theo
 1. Anh nghe v2 → sửa phối. 2. Viết kịch bản + bảng phân cảnh (skill viet-kich-ban) cho anh duyệt. 3. Dựng (dung-phim, Blender cho sét / lửa / lâu đài). 4. Xuất khi anh bảo (Mac).
