@@ -50,6 +50,8 @@ Bài học: đo tempo thật bằng plan thử (snapRange 0.25, xem độ lệch
   n1 lâu đài vách đá · n2 ban công + kính màu (Sans) · n3 hầm mộ (Bongo, trong nhà) · n4 đại sảnh organ (Piano, trong nhà) · n5 đỉnh tháp (Guitar)
   n6 cầu thang đổ nát (2 violin; kính đèn đường bị tô xanh → thủng khi tách, thắp đèn bằng code che) · n7 sân khấu sân trong + cổng vòm (tutti)
   n8 đỉnh tháp cao nhất (solo violin) · n9 2 cánh cổng (mỗi cánh 1 vòm riêng → code cắt theo 2 nửa vòm cổng n7).
+  n10 SÂN KHẤU NHÀ THỜ ĐỔ NÁT (bố cục theo ảnh mẫu anh gửi 20/11, gọn hơn: vòm hở trời 2 bên, kính màu lớn giữa + bệ cao, sân khấu tròn có bậc, 2 bệ vuông) — THAY n7 cho đoạn tutti
+  n11 đạo cụ rời: 2 gargoyle há miệng (phun lửa bằng code ở cú nhấn) + 2 loa. n7 / n9 (sân trong + cổng) bỏ — chuyển cảnh 0:52 = 6 ô vỡ như kính.
   Lệnh vẽ: file .prompt.txt cạnh ảnh. Vẽ thêm: tools/x/gpt-image.sh (luật: chỉ kiến trúc, không trăng / mây / mưa / sét / đèn / lửa — anh nhắc 20/11).
 - Việc dựng tiếp: gkey.js tách trời (n1 n2 n5–n9) → webp / jpg 0.86 vào assets/img/cine/MB_*; film js/film-megaband.js (16:9, CineKit, panels cho các ô);
   trời / trăng / mây / mưa / sét / lửa / nến / đám đông 61 meme bằng code; nhạc = mix v3 (cần mã hoá mp3/webm để đưa vào assets/audio — Windows không ffmpeg).
