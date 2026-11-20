@@ -110,6 +110,12 @@ const endAt = T0 + A.length * C;
 for (const trk of TR) { const src = +(ORG[trk] + C * LAB.B1[trk]).toFixed(3);
   plan.free.push({ trk, src, at: endAt, dur: 3.2, pre: XFADE, lvlRef: { src, dur: C }, lvl: LVL + BASE[trk], gain: 1, pan: PAN[trk], fi: 0.004, fo: 2.9, verb: 2.0 }); }
 plan.free.push({ trk: 'thunder', src: 0, at: endAt - 0.02, dur: 4.5, gain: 0.7, fi: 0.004, fo: 2 });
+// 🙌 đám đông "woah" NHẸ — anh 20/11: CHỈ 2 lần, đúng lúc cả ban chơi chung lần 1 (sân khấu mở, hàng 5) và lần 2 (hết solo, hàng 14). Không rải khắp nơi.
+//   woah = myinstants audience-gasp-2-wow (cắt 0.2–3.4s) · nền hò reo rất nhỏ = myinstants crowd-cheering-applause (0.15–6.1s). Tiếng "woah" bật đúng phách 1 rồi lên đỉnh ~0.3s sau (khán giả phản ứng).
+plan.tracks.woah = 'tools/x/_ref/mega/crowd_woah.mp3'; plan.tracks.cheer = 'tools/x/_ref/mega/crowd_cheer.mp3';
+for (const k of [5, 14]) { const a = T0 + k * C;
+  plan.free.push({ trk: 'woah', src: 0, at: +(a - 0.12).toFixed(3), dur: 3.2, lvl: LVL - 5, gain: 1, fi: 0.02, fo: 1.0 });
+  plan.free.push({ trk: 'cheer', src: 0, at: +(a - 0.18).toFixed(3), dur: 5.9, lvl: LVL - 12, gain: 1, fi: 0.3, fo: 2.5 }); }
 fs.mkdirSync(path.join(__dirname, '_ref/mega'), { recursive: true }); fs.writeFileSync(path.join(__dirname, '_ref/mega/plan.json'), JSON.stringify(plan, null, 1));
 console.log('dài', plan.dur.toFixed(1) + 's', plan.clips.length, 'khúc');
 for (const r of plan.rows) console.log(' ', r.at.toFixed(1).padStart(6) + 's', r.lab.padEnd(4), r.name.padEnd(22), r.play.map(t => t + ':' + LAB[r.lab][t]).join(' '));

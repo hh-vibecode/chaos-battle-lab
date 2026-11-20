@@ -1,5 +1,6 @@
 # 🎚️ TRỘN NHIỀU BẢN COVER THEO PLAN (Mac: python3 + numpy + ffmpeg) — cùng định dạng plan với tools/x/music-mix.html (bản Windows, chạy trong trình duyệt).
 #   python3 tools/x/music-mix.py tools/x/_ref/mega/plan.json <ra.wav> [--levels]
+#   --stems <thư mục>: ghi thêm WAV riêng TỪNG BẢN đúng như trong bản trộn (trước nén) → tools/x/music-notes.py dò nốt cho phim
 #   --levels: in bảng độ to (dB RMS, trước nén) của TỪNG BẢN ở từng hàng của plan.rows → soát con nào bị nuốt / con mới vào có nổi lên không.
 # PLAN: { dur, bpm, t0, snapRange, tracks:{tên:đường dẫn}, clips:[…], free:[…], master:{gain, comp} }
 #   clip: {trk, src (giây phách đầu trong bản gốc), beat (phách trên lưới ra), beats, gain, pan, fi, fo, env, lvl, snap}
@@ -15,7 +16,7 @@
 import sys, json, os, subprocess, wave, numpy as np
 SR = 44100
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-plan = json.load(open(sys.argv[1])); OUT = sys.argv[2]; LEVELS = '--levels' in sys.argv; STEM = {}
+plan = json.load(open(sys.argv[1])); OUT = sys.argv[2]; LEVELS = '--levels' in sys.argv; STEMDIR = sys.argv[sys.argv.index('--stems') + 1] if '--stems' in sys.argv else None; LEVELS = LEVELS or bool(STEMDIR); STEM = {}
 P = 60 / plan.get('bpm', 120); dur = plan['dur']
 def dec(p):
     b = subprocess.run(['ffmpeg', '-v', 'error', '-i', os.path.join(ROOT, p), '-ac', '2', '-ar', str(SR), '-f', 'f32le', '-'], capture_output=True).stdout
@@ -86,6 +87,10 @@ if LEVELS and plan.get('rows'):
             a = int(r['at'] * SR); b = int((r['at'] + C) * SR); v = rms_db(STEM[k][a:b])
             cells.append(f'{v:8.1f}' if v > -60 else '       ·')
         print(f"{r['k']:3d}  {r['lab']:5s} {r['name'][:22]:22s} " + ''.join(cells))
+if STEMDIR:
+    os.makedirs(STEMDIR, exist_ok=True)
+    for k, v in STEM.items():
+        with wave.open(os.path.join(STEMDIR, k + '.wav'), 'wb') as w: w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR); w.writeframes((np.clip(v * 2, -1, 1) * 32767).astype('<i2').tobytes())
 out *= plan.get('master', {}).get('gain', 1)
 if plan.get('master', {}).get('comp', True):
     hop = SR // 1000; n = len(out) // hop; lv = np.abs(out[:n * hop]).max(1).reshape(n, hop).max(1)

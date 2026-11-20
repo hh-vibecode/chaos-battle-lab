@@ -75,6 +75,18 @@ Bài học: đo tempo thật bằng plan thử (snapRange 0.25, xem độ lệch
 - (Ver 687) Nến đại sảnh (30 ngọn) + hầm mộ (24 ngọn) + mắt / miệng gargoyle ĐO bằng tools/x/plate-grid.html. Mọi meme đám đông cầm 2 lightstick lắc ĐÚNG NHỊP
   (1 lần / phách; solo: qua lại theo ô nhịp). Solo guitar chuyển lên SÂN KHẤU: tắt đèn, 1 đèn rọi xuống Guitar giữa phía trước, zoom, khán giả lightstick bên dưới; solo violin xen 2 cảnh khán giả.
 
+## ✅ v6 (20/11 khuya) — sôi động hơn + hình chạy theo NỐT THẬT
+- Đám đông "woah" NHẸ chỉ 2 lần (anh: "1 woah khi band chung lần 1, 1 woah lần 2", "nhẹ đủ nghe, không ảnh hưởng âm nhạc"): hàng 5 (0:52.6) + hàng 14 (2:04.8).
+  woah = myinstants audience-gasp-2-wow (0.2–3.4s), nền hò reo = myinstants crowd-cheering-applause (0.15–6.1s) → tools/x/_ref/mega/crowd_*.mp3 (chỉ trộn vào nhạc, game không phát).
+  Đo: woah thấp hơn cả ban ~10 dB, hò reo ~19 dB.
+- Bảng nốt: `python3 tools/x/music-mix.py tools/x/_ref/mega/plan.json ra.wav --stems <dir>` → `python3 tools/x/music-notes.py <dir> --film js/film-megaband.js`
+  (ghi khối `// <NOTES>` trong phim: thời điểm từng nốt, độ mạnh, nốt nhấn thưa, cao độ sax). ⚠️ TRỘN LẠI NHẠC thì PHẢI chạy lại 2 lệnh này.
+  Độ chính xác (đoạn tutti): trống ±15ms (tinh chỉnh theo năng lượng 1ms), piano ±21, sax / violin / guitar ±25–28ms (nốt mềm, giữ đỉnh flux).
+- Phim: Sans đổi vị trí ống trombone theo cao độ từng nốt sax (cao → SX0 thụt, thấp → SX2 kéo ra) · Bongo mỗi tiếng trống đổi tay, cú mạnh đập 2 tay, nghỉ giơ tay
+  · Piano nhấn phím đúng nốt · Muỗi / Ong đổi vĩ / khung mỗi nốt violin · nhún người theo nốt của chính con đó (Guitar giữ như cũ — anh khen)
+  · nốt nhạc bay ra (chữ ký) theo nốt nhấn thật · LIGHTSTICK lắc theo nốt nhấn của nhạc cụ đang chính trong đoạn đó (tutti / kết = trống, Sans một mình = sax, solo violin = violin, solo guitar = guitar).
+- Mắt Sans đầu phim: thay đốm sáng bằng NGỌN LỬA XANH vẽ code (eyeFlame), đặt đúng con ngươi đo trên ảnh (112, 59 / 395×420) qua memberPt (bám nhún / nghiêng). Cũ lệch xuống trái + không nhún theo.
+
 ## ✅ Bản phối v5 (20/11 tối, Mac) — "như cả ban cùng diễn 1 bài", cháy hơn, nối mượt (anh: v4 "chạy trên sound 1 bài là chính", "chuyển nối chật nhịp")
 - Lý do v4 nghe như 1 bài + chơi đè: bản trống = NGUYÊN BÀI GỐC Undertale + trống; violin / sax / guitar cover đều có nhạc đệm riêng → 3–4 lớp đệm chồng nhau.
 - TÁCH NHẠC CỤ bằng Demucs htdemucs_6s (Mac: venv `~/.venvs/demucs` — torch 2.2.2 + numpy<2, máy Intel không cài được torch mới):
