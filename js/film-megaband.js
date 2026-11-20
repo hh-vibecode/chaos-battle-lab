@@ -10,6 +10,7 @@
   const BPM=119.717, P=60/BPM, C=16*P, T0=12.5, cs=k=>T0+k*C, bar=(k,b)=>cs(k)+b*4*P, END=cs(20), DUR=177.8;
   const beatF=t=>(t-T0)/P, cycK=t=>Math.floor((t-T0)/C);
   const pulse=(t,dec,div)=>{ const b=beatF(t)*(div||1); if(b<0) return 0; return Math.exp(-(b-Math.floor(b))*P/(div||1)/dec); };   // 1 đúng phách → tắt dần
+  const TUTTI_K=[5,6,7,8,14,15,16,17,18,19];   // các vòng cả nhóm chơi (+ riff kết)
   const SEC={ sans:cs(0), bp:cs(1), gtr:cs(2), build:cs(3), vio:cs(4), tutti:cs(5), brk:cs(9), vsolo:cs(10), gsolo:cs(12), tutti2:cs(14), fin:cs(18), end:END };
   // ═════════ ẢNH ═════════
   const MB='assets/img/cine/megaband/', IMG={ CASTLE:MB+'MB_CASTLE.webp', BALC:MB+'MB_BALCONY.webp', CRYPT:MB+'MB_CRYPT.jpg', HALL:MB+'MB_HALL.jpg', TOWER:MB+'MB_TOWER.webp',
@@ -34,7 +35,8 @@
   // khung nhìn 1 tấm nền: zm (1 = vừa khít), cx, cy (điểm ảnh đặt giữa khung, 0–1) → biến đổi ảnh → màn hình
   function view(F,key,zm,cx,cy){ const im=F.I[key]; const W=im&&im.naturalWidth||1600, H=im&&im.naturalHeight||900, sc=Math.max(VW/W,VH/H)*zm*1.03, w=W*sc, h=H*sc;
     return {key, im, sc, w, h, x0:VW*0.5-w*cx, y0:VH*0.5-h*cy, at(u,v){ return [this.x0+u*this.w, this.y0+v*this.h]; }, s(px){ return px*this.sc; }}; }
-  function plate(F,V,o){ if(!V.im||!V.im.naturalWidth) return; const g=F.g; o=o||{}; g.save(); if(o.alpha!=null) g.globalAlpha=o.alpha; g.drawImage(V.im,V.x0,V.y0,V.w,V.h);
+  function plate(F,V,o){ if(!V.im||!V.im.naturalWidth) return; const g=F.g; o=o||{}; g.save(); if(o.alpha!=null) g.globalAlpha=o.alpha; if(o.blur) g.filter='blur('+(o.blur*(F.SC||1)).toFixed(1)+'px)';   // blur = nền mờ ở cảnh cận (tách người khỏi nền)
+    g.drawImage(V.im,V.x0,V.y0,V.w,V.h); g.filter='none';
     if(o.tint){ g.globalCompositeOperation='source-atop'; } g.restore();
     if(o.shade){ g.save(); g.globalCompositeOperation='multiply'; g.globalAlpha=o.shade[1]; g.fillStyle=o.shade[0]; g.fillRect(-50,-50,VW+100,VH+100); g.restore(); } }
   // ảnh meme: chân ở (x,y), cao h · o: flip, rot, sx, sy, alpha, env:[màu,độ] (nhuộm ánh môi trường), rim:[màu,độ], dark (bóng đen), shadow, mist
@@ -54,19 +56,24 @@
   // 🎨 HOÀ VÀO CẢNH (anh 20/11: "tránh làm nhân vật nổi như png ở nền"): dựng ảnh trên LỚP RIÊNG trước khi dán —
   //   giảm độ rực (ảnh thật gần tông nét vẽ phẳng) · phủ ánh môi trường · TỐI DẦN VỀ CHÂN · ánh hắt mỏng phía trên · mép mềm nhẹ · bóng tiếp đất.
   const BLC={}; const blCv=(k,w,h)=>{ const c=BLC[k]||(BLC[k]=K.mk(w,h)); if(c.width<w||c.height<h){ c.width=Math.max(c.width,w); c.height=Math.max(c.height,h); } return c; };
-  function sprBlend(F,key,x,y,h,o){ const c=K.prep(F.I[key]); if(!c) return null; const g=F.g, SCk=F.SC||1, w=h*c.sw/c.sh; o=o||{}; const al=o.alpha==null?1:o.alpha;
+  // o.ref = khung CHUẨN của bộ khung (cùng khổ ảnh): cả bộ dùng chung 1 tỉ lệ + 1 điểm chân → đổi khung KHÔNG to nhỏ / nhảy chỗ (soát 20/11: cắt sát từng khung rồi phóng về cùng
+  //   chiều cao làm khung quỳ của Guitar bị phóng to). Không có ref = cắt sát như cũ.
+  function sprBlend(F,key,x,y,h,o){ o=o||{}; const c=K.prep(F.I[key]); if(!c) return null; const I0=o.ref&&F.I[o.ref], I1=F.I[key], same=I0&&I1&&I0.naturalWidth===I1.naturalWidth&&I0.naturalHeight===I1.naturalHeight, c0=same?K.prep(I0):null, g=F.g, SCk=F.SC||1, al=o.alpha==null?1:o.alpha;
+    const R=c0?{sx:0,sy:0,sw:c.src.width,sh:c.src.height}:{sx:c.sx,sy:c.sy,sw:c.sw,sh:c.sh}, kk=h/(c0?c0.sh:c.sh), W=R.sw*kk, H=R.sh*kk, w=(c0?c0.sw:c.sw)*kk;
+    const AX=c0?(c0.sx+c0.sw/2)*kk:W/2, AY=c0?(c0.sy+c0.sh)*kk:H;   // điểm neo (giữa chân) tính từ góc trái trên của vùng vẽ
     if(o.shadow!==false && al>0.05){ g.save(); g.globalAlpha=0.55*al; g.translate(x,y); g.scale(1,0.16); const rg=g.createRadialGradient(0,0,0,0,0,w*0.55); rg.addColorStop(0,'rgba(0,0,0,0.85)'); rg.addColorStop(1,'rgba(0,0,0,0)'); g.fillStyle=rg; g.beginPath(); g.arc(0,0,w*0.55,0,TAU); g.fill(); g.restore(); }
-    const pw=Math.ceil(w*SCk)+6, ph=Math.ceil(h*SCk)+6, oc=blCv(o.slot||key,pw,ph), x2=oc.getContext('2d'); x2.setTransform(1,0,0,1,0,0); x2.globalCompositeOperation='source-over'; x2.globalAlpha=1; x2.clearRect(0,0,oc.width,oc.height);
-    const img=()=>x2.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,3,3,pw-6,ph-6); img();
+    const pw=Math.ceil(W*SCk)+6, ph=Math.ceil(H*SCk)+6, oc=blCv(o.slot||key,pw,ph), x2=oc.getContext('2d'); x2.setTransform(1,0,0,1,0,0); x2.globalCompositeOperation='source-over'; x2.globalAlpha=1; x2.clearRect(0,0,oc.width,oc.height);
+    const img=()=>x2.drawImage(c.src,R.sx,R.sy,R.sw,R.sh,3,3,pw-6,ph-6); img();
     if(o.desat){ x2.globalCompositeOperation='saturation'; x2.globalAlpha=o.desat; x2.fillStyle='#808080'; x2.fillRect(0,0,pw,ph); x2.globalAlpha=1; }
     if(o.env){ x2.globalCompositeOperation='multiply'; x2.globalAlpha=o.env[1]; x2.fillStyle=o.env[0]; x2.fillRect(0,0,pw,ph); x2.globalAlpha=1; }
     x2.globalCompositeOperation='destination-in'; img();   // cắt lại đúng hình (saturation / multiply tô cả vùng trong suốt)
     x2.globalCompositeOperation='source-atop';
-    const lg=x2.createLinearGradient(0,0,0,ph); lg.addColorStop(0,'rgba(0,0,0,0)'); lg.addColorStop(0.62,'rgba(0,0,0,0)'); lg.addColorStop(1,'rgba(4,6,14,'+(o.foot==null?0.5:o.foot)+')'); x2.fillStyle=lg; x2.fillRect(0,0,pw,ph);
-    if(o.rim){ const rg=x2.createLinearGradient(0,0,0,ph*0.35); rg.addColorStop(0,o.rim[0]); rg.addColorStop(1,'rgba(0,0,0,0)'); x2.globalAlpha=o.rim[1]*0.5; x2.fillStyle=rg; x2.fillRect(0,0,pw,ph*0.35); x2.globalAlpha=1; }
+    const yTop=(AY-h)*SCk+3, yFoot=AY*SCk+3;
+    const lg=x2.createLinearGradient(0,yTop,0,yFoot); lg.addColorStop(0,'rgba(0,0,0,0)'); lg.addColorStop(0.62,'rgba(0,0,0,0)'); lg.addColorStop(1,'rgba(4,6,14,'+(o.foot==null?0.5:o.foot)+')'); x2.fillStyle=lg; x2.fillRect(0,0,pw,ph);
+    if(o.rim){ const rg=x2.createLinearGradient(0,yTop,0,yTop+h*SCk*0.35); rg.addColorStop(0,o.rim[0]); rg.addColorStop(1,'rgba(0,0,0,0)'); x2.globalAlpha=o.rim[1]*0.5; x2.fillStyle=rg; x2.fillRect(0,0,pw,ph); x2.globalAlpha=1; }
     if(o.dark){ x2.globalAlpha=o.dark; x2.fillStyle='#05040a'; x2.fillRect(0,0,pw,ph); x2.globalAlpha=1; }
     g.save(); g.globalAlpha=al; g.translate(x,y); if(o.rot) g.rotate(o.rot); g.scale((o.flip?-1:1)*(o.sx||1),o.sy||1); g.filter='blur('+(0.45*SCk).toFixed(2)+'px)';
-    g.drawImage(oc,0,0,pw,ph,-w/2-3/SCk,-h-3/SCk,pw/SCk,ph/SCk); g.filter='none'; g.drawImage(oc,0,0,pw,ph,-w/2-3/SCk,-h-3/SCk,pw/SCk,ph/SCk); g.restore();   // lớp mờ dưới + lớp nét trên = mép mềm, thân vẫn nét
+    g.drawImage(oc,0,0,pw,ph,-AX-3/SCk,-AY-3/SCk,pw/SCk,ph/SCk); g.filter='none'; g.drawImage(oc,0,0,pw,ph,-AX-3/SCk,-AY-3/SCk,pw/SCk,ph/SCk); g.restore();   // lớp mờ dưới + lớp nét trên = mép mềm, thân vẫn nét
     if(o.mist){ g.save(); g.globalAlpha=o.mist*al; g.translate(x,y); g.scale(1,0.22); const rg=g.createRadialGradient(0,0,0,0,0,w*0.75); rg.addColorStop(0,'rgba(130,150,170,0.75)'); rg.addColorStop(1,'rgba(130,150,170,0)'); g.fillStyle=rg; g.beginPath(); g.arc(0,0,w*0.75,0,TAU); g.fill(); g.restore(); }
     return {w,h,c}; }
   const lightOn=(g,fn)=>{ g.save(); g.globalCompositeOperation='lighter'; fn(); g.restore(); };
@@ -127,14 +134,22 @@
   // ═════════ BAN NHẠC: khung gốc theo phách + nhún nhẹ (không bóp méo) ═════════
   const beatI=(t,div)=>Math.floor(Math.max(0,beatF(t))*(div||1));
   const POSE={ sans:t=>'SX'+[0,1,2,1][beatI(t)%4], bongo:t=>{ const i=beatI(t,2); return (i%8===0)?'BG3':(i%2?'BG2':'BG1'); }, piano:t=>beatI(t)%2?'PC1':'PC0',
-    guitar:t=>EG[beatI(t,2)%EG.length], mosq:t=>['MQ0','MQ1','MQ0','MQ2'][beatI(t)%4], bee:t=>'VB'+(1+beatI(t,2)%6) };
+    // 🎸 anh 20/11: "tập trung vào tư thế tay lên xuống, dùng chuẩn theo cách chơi guitar theo điệu nhạc" — không phát lần lượt cả 11 khung:
+    //   nền = QUẠT DÂY lên / xuống theo nốt 1/8 (cặp khung tay ở dây, 2 ô nhịp đổi cặp) · solo: sét đánh = HEADBANG đúng phách, cuối câu = NGẢ NGƯỜI (nốt cao),
+    //   ô cuối solo = QUỲ GỐI rồi GIƠ TAY rock · tutti: headbang phách đầu mỗi câu 4 ô
+    guitar:t=>{ const B=Math.max(0,beatF(t)), br=Math.floor(B/4), bb=B-br*4, e=Math.floor(B*2)%2;
+      if(t>=SEC.gsolo&&t<SEC.tutti2){ const sb=Math.floor((t-SEC.gsolo)/B4), q=(t-SEC.gsolo)/P-sb*4;
+        if(sb===7) return q<2?'EG_KNEEL':(q<3?'EG_FIST':'EG_O4'); if(sb%2===1&&q<1) return 'EG_BANG'; if(sb%4===2&&q>=2.5) return q<3.25?'EG_SKY':'EG_BACK'; }
+      else if(br%4===0&&bb<0.5) return 'EG_BANG';
+      return ((Math.floor(br/2)%2)?['EG_O1','EG_O2']:['EG_O3','EG_CALM'])[e]; }, mosq:t=>['MQ0','MQ1','MQ0','MQ2'][beatI(t)%4], bee:t=>'VB'+(1+beatI(t,2)%6) };
   const HB={ sans:1.0, bongo:0.8, piano:0.9, guitar:0.95, mosq:0.95, bee:0.85 };   // cỡ tương đối (Sans = 1)
   // vẽ 1 thành viên: chân (x,y), cao h · bob theo phách (lên nhanh về chậm), nghiêng nhẹ theo ô nhịp, côn trùng bay lơ lửng
   function member(F,t,who,x,y,h,o){ o=o||{}; const pb=pulse(t,0.16), sw=Math.sin((beatF(t)/4)*Math.PI)*0.025, fly=(who==='mosq'||who==='bee');
     const by=fly?Math.sin(t*2.1+(who==='bee'?1.5:0))*h*0.06:-pb*h*0.035, sy=fly?1:1-0.025*pb, sx=fly?1:1+0.015*pb;
     const play=o.play==null?(t>=(o.from||0)):o.play, key=play?POSE[who](t):(who==='sans'?'SX0':who==='bongo'?'BG0':who==='piano'?'PC0':who==='guitar'?'EG_CALM':who==='mosq'?'MQ0':'VB1');
     const photo=(who!=='sans'&&who!=='bongo');   // ảnh THẬT (Keyboard Cat, Guitar, Mosquito, Bee) → bớt rực cho gần nét vẽ phẳng
-    return sprBlend(F,key,x,y+by,h*HB[who],Object.assign({rot:fly?Math.sin(t*1.7)*0.05:sw,sx,sy,shadow:!fly,desat:photo?0.28:0.1,foot:fly?0.2:0.5,slot:who+(o.slot||'')},o)); }
+    const REF={sans:'SX0',bongo:'BG0',piano:'PC0',guitar:'EG_CALM',bee:'VB1'}[who];   // bộ khung cùng khổ → neo chung (Mosquito các ảnh khác khổ → cắt sát)
+    return sprBlend(F,key,x,y+by,h*HB[who],Object.assign({rot:fly?Math.sin(t*1.7)*0.05:sw,sx,sy,shadow:!fly,desat:photo?0.28:0.1,foot:fly?0.2:0.5,slot:who+(o.slot||''),ref:REF},o)); }
 
   // ═════════ CẢNH (mỗi cảnh vẽ được trong 1 ô) ═════════
   const envOf=pal=>pal==='red'?['#c06070',0.35]:['#5a90a8',0.38], rimOf=pal=>pal==='red'?['#ff7a40',0.35]:['#a0fff0',0.28];
@@ -155,7 +170,7 @@
   function spireScene(F,t,zm,cx,cy,o){ o=o||{}; sky(F,t,{pal:'red',moon:{x:VW*0.5,y:VH*0.28,r:150,cres:1},bats:8,cloudSpd:1.6}); const V=view(F,'SPIRE',zm,cx,cy); plate(F,V,{shade:['#502a40',0.2]}); return V; }
   // 🏰 SÂN KHẤU nhà thờ đổ nát (bố cục theo ảnh mẫu anh gửi): trăng máu qua vòm hở, kính màu giữa sáng + viền neon, vòng ký tự trên sàn, gargoyle phun lửa ở cú nhấn
   function stageScene(F,t,zm,cx,cy,o){ o=o||{}; const g=F.g, lit=o.lit==null?1:o.lit;
-    sky(F,t,{pal:o.pal||'red',moon:{x:VW*0.18,y:VH*0.2,r:62},bats:12,cloudK:0.9}); const V=view(F,'STAGE',zm,cx,cy); plate(F,V,{shade:['#3a2a40',0.18]});
+    sky(F,t,{pal:o.pal||'red',moon:{x:VW*0.18,y:VH*0.2,r:62},bats:12,cloudK:0.9}); const V=view(F,'STAGE',zm,cx,cy); plate(F,V,{shade:['#2a1e34',lit>0.5?0.34:0.18],blur:zm>=2?1.4:0});
     // kính màu: chiếu sáng từ phía sau (clip theo vòm) + viền neon xanh / đỏ
     const arch=()=>{ const p=[[0.392,0.643],[0.392,0.17],[0.43,0.07],[0.5,0.015],[0.57,0.07],[0.607,0.17],[0.607,0.643]].map(([u,v])=>V.at(u,v)); g.beginPath(); p.forEach((q,i)=>i?g.lineTo(q[0],q[1]):g.moveTo(q[0],q[1])); };
     const wk=lit*(0.55+0.45*pulse(t,0.25));
@@ -169,11 +184,21 @@
     const gk=o.fire||0; for(const [key,u,dir] of [['GL',0.165,1],['GR',0.835,-1]]){ const [x,y]=V.at(u,0.612); const r=spr(F,key,x,y,V.s(150),{env:['#7a6a90',0.35],rim:['#ff7a40',0.25*lit],shadow:false});
       if(r&&gk>0) fireJet(F,x+dir*r.w*0.36,y-r.h*0.7,dir,-0.35,V.s(260),V.s(26),t,dir>0?3:9,gk); }
     for(const [key,u] of [['AMP1',0.255],['AMP2',0.745]]){ const [x,y]=V.at(u,0.79); spr(F,key,x,y,V.s(120),{env:['#6a5a80',0.3],rim:['#ff7a40',0.2*lit]}); }
+    // 🔦 đèn rọi quét từ trên (anh 20/11 "chưa đủ cháy"): 4 luồng đổi đỏ / xanh theo ô nhịp, sáng theo phách
+    if(o.beams){ const red=Math.floor(Math.max(0,beatF(t))/4)%2===0; lightOn(g,()=>{ for(let i=0;i<4;i++){ const x0=VW*(0.15+0.23*i), sw=Math.sin(t*0.9+i*1.7)*VW*0.22, x1=x0+sw, col=(i%2===0)===red?'255,40,60':'40,200,255', a=0.06+0.07*pulse(t,0.14);   // soát 20/11: tia rộng + sáng quá phủ bạc cả sân khấu → mảnh, đậm màu, nhạt hơn
+        const lg=g.createLinearGradient(x0,-20,x1,VH); lg.addColorStop(0,'rgba('+col+','+(a*1.3)+')'); lg.addColorStop(1,'rgba('+col+',0)'); g.fillStyle=lg; g.beginPath(); g.moveTo(x0-5,-20); g.lineTo(x0+5,-20); g.lineTo(x1+55,VH); g.lineTo(x1-55,VH); g.closePath(); g.fill(); } }); }
+    // 🔥 hàng cột lửa mép trước sân khấu: phun ở phách đầu, cách 1 ô nhịp 1 lần (o.pyro = độ cao 0–1) + tia lửa bắn
+    if(o.pyro>0.01){ const fr=Math.floor(t*24); for(const [u,s] of [[0.13,1],[0.27,2],[0.73,3],[0.87,4]]){ const [x,y]=V.at(u,0.86); fireJet(F,x,y,0,-1,V.s(330),V.s(34),t,s*11,o.pyro);
+        lightOn(g,()=>{ for(let i=0;i<10;i++){ const q=hash(fr*7+i+s*31), hh=V.s(380)*o.pyro*q; g.fillStyle='rgba(255,210,120,'+(0.8*o.pyro)+')'; g.fillRect(x+(hash(fr+i*3+s)-0.5)*V.s(120)*q,y-hh,V.s(3),V.s(3)); } }); } }
     return V; }
   // vị trí ban nhạc trên sân khấu (toạ độ tấm STAGE) — cao thấp khác nhau, không thành 1 hàng: Sans bệ cao giữa, 2 côn trùng bay 2 bên kính màu, 3 con dưới sân khấu tròn
   const SPOT={ sans:[0.5,0.645,190], mosq:[0.31,0.47,150], bee:[0.69,0.47,145], piano:[0.32,0.80,170], bongo:[0.5,0.84,150], guitar:[0.68,0.80,180] };   // soát 20/11: toàn cảnh ban nhạc nhỏ quá → to thêm ~1.25×
-  function bandOnStage(F,t,V,o){ o=o||{}; const pal=o.pal||'red', env=envOf(pal), rim=rimOf(pal); const order=['sans','mosq','bee','piano','guitar','bongo'];
-    for(const w of order){ if(o.only&&!o.only.includes(w)) continue; const [u,v,h]=SPOT[w], [x,y]=V.at(u,v); const r=member(F,t,w,x,y,V.s(h),{env,rim,mist:(w==='mosq'||w==='bee')?0:0.35,dark:o.dark||0});
+  // 🌟 NỔI BẬT người đang diễn (anh 20/11: "không để lẫn vào nền và effect"): đèn NGƯỢC sau lưng + vũng sáng dưới chân, ánh môi trường phủ NHẸ hơn (giữ màu gốc),
+  //   nền đã tối + mờ hơn ở stageScene (o.focus), hiệu ứng lớn (lửa / đèn rọi) vẽ TRƯỚC người
+  function bandOnStage(F,t,V,o){ o=o||{}; const pal=o.pal||'red', env=[envOf(pal)[0],envOf(pal)[1]*0.55], rim=[rimOf(pal)[0],rimOf(pal)[1]*1.4], g=F.g; const order=['sans','mosq','bee','piano','guitar','bongo'];
+    for(const w of order){ if(o.only&&!o.only.includes(w)) continue; const [u,v,h]=SPOT[w], [x,y]=V.at(u,v), hh=V.s(h)*HB[w], fly=(w==='mosq'||w==='bee'), bk=0.3+0.15*pulse(t,0.2);
+      lightOn(g,()=>{ glowDot(g,x,y-hh*0.5,hh*0.85,pal==='red'?'255,190,150':'170,230,255',bk); if(!fly){ g.save(); g.translate(x,y); g.scale(1,0.2); glowDot(g,0,0,hh*0.7,'255,210,170',0.35); g.restore(); } });
+      const r=member(F,t,w,x,y,V.s(h),{env,rim,mist:fly?0:0.25,dark:o.dark||0});
       if(r&&o.sig) sig(F,t,w,x,y,r,V,o); } }
   // chữ ký từng con (đúng skill game) — chỉ khi o.sig
   function sig(F,t,w,x,y,r,V,o){ const g=F.g, b=beatF(t);
@@ -203,7 +228,7 @@
       while(x<VW+20){ const k=CROWD[idx%CROWD.length]; idx++; const c=K.prep(F.I['C_'+k]); if(!c) { x+=h*0.6; continue; } const w=Math.min(h*1.6,h*c.sw/c.sh); list.push([k,x+w/2,w]); x+=w+gap+h*0.15*hash(idx); }
       placed.push([y,h,depth,list]); }
     for(const [y,h,depth,list] of placed){ const dk=depth*0.22;
-      for(const [k,x,w] of list){ const ph=hash(k.length*13+x), b=pulse(t+ph*0.08,0.18), bob=-b*h*0.07, spin=(k==='uiacat'||k==='maxwell')?Math.cos(t*TAU*1.0+ph*6):1;
+      for(const [k,x,w] of list){ const ph=hash(k.length*13+x), b=pulse(t+ph*0.08,0.18), bob=-b*h*0.07-(o.jump?pulse(t,0.2,0.25)*h*0.16:0)/* jump: cả đám nhảy ĐỒNG LOẠT phách đầu ô */, spin=(k==='uiacat'||k==='maxwell')?Math.cos(t*TAU*1.0+ph*6):1;
         let key='C_'+k; if(k==='popcat') key=beatI(t+ph*0.1)%2?'C_popcat_o':'C_popcat'; if(k==='clappingcat') key='C_clap'+(1+beatI(t,2)%3);
         const rot=k==='damdamdidi'?Math.sin(beatF(t)*Math.PI)*0.18:Math.sin(beatF(t)*Math.PI/2+ph*6)*0.04;
         spr(F,key,x,y+bob+(hash(x*3.1)-0.5)*h*0.12,h,{sx:spin,rot,env:['#c07050',0.25+dk],rim:['#ff8a40',0.35-0.1*depth],dark:o.sil!=null?o.sil:(back?0.15+dk*1.4:dk),shadow:depth===0}); }
@@ -235,17 +260,25 @@
   const B4=4*P;   // 1 ô nhịp
   function label(F,t,a,txt,sub){ const k=seg(t,a,a+0.4)*(1-seg(t,a+2.6,a+3.2)); if(k<=0.01) return; const g=F.g; g.save(); g.globalAlpha=k; g.font='700 22px Georgia, serif'; g.fillStyle='#f4ecff'; g.shadowColor='rgba(0,0,0,0.8)'; g.shadowBlur=8;
     g.fillText(txt,36,VH-44); if(sub){ g.font='500 12px Georgia, serif'; g.fillStyle='rgba(220,210,240,0.85)'; g.fillText(sub,37,VH-26); } g.restore(); }
-  function tuttiShot(F,t,k){ const bi=Math.floor((t-cs(k))/B4), u=((t-cs(k))%B4)/B4, n=k*4+bi, kind=['wide','lead','crowd','close'][bi%4];
+  // 🔥 năng lượng tutti (anh 20/11 "chưa đủ cháy, sôi động"): cột lửa phách đầu cách 1 ô · loé đèn theo phách · zoom giật phách đầu ô
+  const pyroK=t=>{ const b=Math.floor(Math.max(0,beatF(t))/4); if(b%2) return 0; const a=T0+b*4*P; return t<a?0:Math.max(0,1-seg(t,a+0.15,a+0.75))*seg(t,a,a+0.06); };
+  const punchK=t=>0.045*pulse(t,0.12,0.25);
+  function beatFlash(F,t){ const g=F.g, a=0.05*pulse(t,0.09)+0.09*pulse(t,0.12,0.25); if(a<0.01) return; lightOn(g,()=>{ g.fillStyle='rgba(255,140,90,'+a+')'; g.fillRect(-50,-50,VW+100,VH+100); }); }
+  // 1 vòng tutti = 8 shot dài [4,2,2,2,2,2,1,1] phách (nhanh – chậm đan xen): toàn → chính → cận → đám đông → toàn nghiêng → cận → chính → toàn
+  const TSEG=[[0,4,'wide'],[4,2,'lead'],[6,2,'close'],[8,2,'crowd'],[10,2,'wide2'],[12,2,'close'],[14,1,'lead'],[15,1,'wide']];
+  function tuttiShot(F,t,k){ const bt=(t-cs(k))/P, si=TSEG.findIndex(s=>bt>=s[0]&&bt<s[0]+s[1]), S0=TSEG[Math.max(0,si)], u=clamp((bt-S0[0])/S0[1],0,1), bi=Math.floor(bt/4), n=k*8+Math.max(0,si), kind=S0[2];
     const lead=k<9?['sans','guitar','piano','bongo'][k-5]:['mosq','bee','guitar','sans'][k-14]||'sans';
-    const accent=(t-cs(k))<1.4, fire=accent&&(k===8||k===16||k===17)?1-seg(t,cs(k)+0.9,cs(k)+1.4):(bi===0&&u<0.35?0.6*(1-u/0.35):0);
-    if(kind==='wide'||kind==='close'||kind==='lead'){ const who=kind==='close'?['piano','bongo','mosq','bee','guitar','sans'][n%6]:lead; const sp=SPOT[who];
-      const zm=kind==='wide'?1.02+0.04*u:2.3+0.15*u, cx=kind==='wide'?0.5:sp[0], cy=kind==='wide'?0.55:sp[1]-0.12;
-      const V=stageScene(F,t,zm,cx,cy,{fire,lit:1}); bandOnStage(F,t,V,{sig:true,beeFrom:beatF(cs(5))}); fog(F,t,VH*0.95,0.5,'120,90,110'); embers(F,t,0.8);
-      if(kind==='wide') crowdSil(F,t,V);
+    const accent=(t-cs(k))<1.4, fire=accent&&(k===8||k===16||k===17)?1-seg(t,cs(k)+0.9,cs(k)+1.4):(bi===0&&bt<1.4?0.6*(1-bt/1.4):0), pyro=pyroK(t);
+    if(kind!=='crowd'){ const who=kind==='close'?['piano','bongo','mosq','bee','guitar','sans'][n%6]:lead; const sp=SPOT[who]; const wide=kind==='wide'||kind==='wide2';
+      const zm=wide?(kind==='wide2'?1.18:1.02)+0.04*u:2.3+0.15*u, cx=wide?(kind==='wide2'?(n%2?0.42:0.58):0.5):sp[0], cy=wide?(kind==='wide2'?0.6:0.55):sp[1]-0.12, roll=kind==='wide2'?(n%2?-0.06:0.06):0;
+      const g=F.g; if(roll){ g.translate(VW/2,VH/2); g.rotate(roll); g.scale(1.1,1.1); g.translate(-VW/2,-VH/2); }
+      const V=stageScene(F,t,zm,cx,cy,{fire,lit:1,beams:true,pyro}); bandOnStage(F,t,V,{sig:true,beeFrom:beatF(cs(5))}); fog(F,t,VH*0.95,0.5,'120,90,110'); embers(F,t,1.3);
+      if(wide) crowdSil(F,t,V);
       if(k===6&&bi===3) blaster(F,t,V,bar(6,3)); if(k===17&&bi===3) blaster(F,t,V,bar(17,3));
       if(k===7&&bi===3) nyan(F,t,bar(7,3)); }
     else { const g=F.g; g.fillStyle='#120a12'; g.fillRect(0,0,VW,VH); lightOn(g,()=>{ for(let i=0;i<3;i++){ const x=VW*(0.2+0.3*i)+Math.sin(t*0.8+i*2)*120; const lg=g.createLinearGradient(x,0,x+Math.sin(t+i)*200,VH); lg.addColorStop(0,'rgba(255,120,80,0.28)'); lg.addColorStop(1,'rgba(255,120,80,0)'); g.fillStyle=lg; g.beginPath(); g.moveTo(x-20,0); g.lineTo(x+20,0); g.lineTo(x+Math.sin(t+i)*200+140,VH); g.lineTo(x+Math.sin(t+i)*200-140,VH); g.closePath(); g.fill(); } });
-      fog(F,t,VH*0.6,0.6,'110,70,90'); crowd(F,t,{start:(n*7)%CROWD.length}); embers(F,t,1); } }
+      fog(F,t,VH*0.6,0.6,'110,70,90'); crowd(F,t,{start:(n*7)%CROWD.length,jump:true}); embers(F,t,1.3); }
+    beatFlash(F,t); }
   // tia Gaster Blaster bắn lên trời (chữ ký Sans, 1 lần / cao trào)
   function blaster(F,t,V,a){ const u=seg(t,a,a+1.6); if(u<=0||u>=1) return; const g=F.g; for(const [uu,dir] of [[0.38,-1],[0.62,1]]){ const [x,y]=V.at(uu,0.2); const s=V.s(140);
       spr(F,'SXB',x,y+s*0.3,s,{shadow:false,flip:dir>0,rot:dir*0.3}); const k=u<0.25?u/0.25*0.4:u<0.85?1:1-(u-0.85)/0.15; if(u>0.25) lightOn(g,()=>{ g.save(); g.translate(x,y-s*0.3); g.rotate(-Math.PI/2+dir*0.3);
@@ -305,8 +338,8 @@
     // 13 · 124.8 TUTTI lại (lửa mạnh hơn) · 14 · 156.9 KẾT riff: mỗi ô nhịp 1 con cận mặt
     if(t<SEC.fin){ tuttiShot(F,t,cycK(t)); const rk=1-seg(t,SEC.tutti2,SEC.tutti2+0.5); if(rk>0) K.flash(F,rk*0.7,'#fff'); return; }
     if(t<SEC.end){ const b=Math.floor((t-SEC.fin)/B4), who=['sans','bongo','piano','guitar','mosq','bee','all','all'][b]; const u=((t-SEC.fin)%B4)/B4;
-      if(who==='all'){ const V=stageScene(F,t,1.02+0.08*u,0.5,0.55,{fire:b===7?seg(t,bar(19,3),bar(19,3)+0.3):0.5}); bandOnStage(F,t,V,{sig:true,beeFrom:beatF(cs(5))}); crowdSil(F,t,V); embers(F,t,1.2); fog(F,t,VH*0.95,0.5,'120,90,110'); return; }
-      const sp=SPOT[who], V=stageScene(F,t,2.8+0.25*u,sp[0],sp[1]-0.12,{fire:0}); bandOnStage(F,t,V,{sig:true,beeFrom:beatF(cs(5))}); embers(F,t,1); return; }
+      if(who==='all'){ const V=stageScene(F,t,1.02+0.08*u,0.5,0.55,{fire:b===7?seg(t,bar(19,3),bar(19,3)+0.3):0.5,beams:true,pyro:Math.max(pyroK(t),b===7?seg(t,bar(19,3),bar(19,3)+0.4):0)}); bandOnStage(F,t,V,{sig:true,beeFrom:beatF(cs(5))}); crowdSil(F,t,V); embers(F,t,1.5); fog(F,t,VH*0.95,0.5,'120,90,110'); beatFlash(F,t); return; }
+      const sp=SPOT[who], V=stageScene(F,t,2.8+0.25*u,sp[0],sp[1]-0.12,{fire:0,beams:true,pyro:pyroK(t)}); bandOnStage(F,t,V,{sig:true,beeFrom:beatF(cs(5))}); embers(F,t,1.3); beatFlash(F,t); return; }
     // 15 · 172.9 nốt kết: tia sét khổng lồ đánh xuống cả lâu đài → trắng xoá → lâu đài lặng dưới trăng xanh
     { const u=seg(t,END,DUR); const V=castleScene(F,t,1.0-0.03*u,0.52,0.5,{rain:0.35,win:0.4}); const bk=boltK(t,END,0.8); bolt(F,VW*0.62,-20,VW*0.6,VH*0.5,333,bk,null,9); K.flash(F,Math.max(bk,1-seg(t,END,END+1.2)),'#ffffff');
       const tk=seg(t,END+1.4,END+2.4); if(tk>0){ g.save(); g.globalAlpha=tk; g.textAlign='center'; g.font='700 46px Georgia, serif'; g.fillStyle='#eafcff'; g.shadowColor='rgba(80,220,255,0.8)'; g.shadowBlur=18; g.fillText('MEGALOVANIA',VW/2,VH*0.86); g.font='500 14px Georgia, serif'; g.shadowBlur=6; g.fillText('MEME BAND  ·  LIVE AT THE CASTLE',VW/2,VH*0.86+26); g.restore(); } } }
@@ -326,8 +359,11 @@
     sfx:[[SEC.tutti,'ep3_glass',0.55,1.2,'6 ô hình vỡ như kính, mở ra sân khấu nhà thờ']],
     mus:[{src:'assets/audio/mb_mix.webm', ra:0, rb:DUR, off:0, vol:1, fi:0, fo:0.4}],
     shots:[{t0:0,t1:DUR,a:{tx:0,ty:100,tz:0,dist:600,yaw:0,pitch:0,fov:50},ease:'lin'}],
-    world:(F,t)=>{ F.list.push({d:-1e9, fn:()=>{ F.g.save(); frame(F,t); F.g.restore(); }}); },
+    world:(F,t)=>{ F.list.push({d:-1e9, fn:()=>{ const g=F.g; g.save(); if(isTutti(t)){ const s=1+punchK(t); g.translate(VW/2,VH/2); g.scale(s,s); g.translate(-VW/2,-VH/2); } frame(F,t); g.restore(); }}); },
     shake:t=>{ let s=0; const h=(a,amp,d)=>{ if(t>=a&&t<a+d) s=Math.max(s,amp*(1-(t-a)/d)); }; h(T0,7,0.5); h(SEC.gtr,4,0.4); h(SEC.tutti,8,0.6); h(SEC.tutti2,6,0.5); h(END,12,1.0);
-      for(let b=0;b<8;b+=2) h(bar(12+(b>>2)+0,(b+1)%4),5,0.35); return s; },
-    grade:t=>{ const E=K.edit; return E.mix(E.rgb(t,T0,0.4,6),E.rgb(t,SEC.tutti,0.5,8),E.rgb(t,END,0.8,10)); } });
+      for(let b=0;b<8;b+=2) h(bar(12+(b>>2)+0,(b+1)%4),5,0.35); for(const k of TUTTI_K){ h(cs(k),6,0.45); for(let b=1;b<4;b++) h(bar(k,b),2.2,0.2); } return s; },
+    // khung impact 2 màu ở đầu mỗi vòng tutti (bỏ vòng 5 — đang vỡ kính) + tách RGB
+    impact:t=>{ const E=K.edit; for(const k of TUTTI_K){ if(k===5) continue; const r=E.impacts(t,cs(k),6,'red',3); if(r) return r; } return E.impacts(t,cs(5)+0.7,3,'red',3)||0; },
+    grade:t=>{ const E=K.edit; return E.mix(E.rgb(t,T0,0.4,6),E.rgb(t,SEC.tutti,0.5,8),E.rgb(t,END,0.8,10),...TUTTI_K.map(k=>E.rgb(t,cs(k),0.3,5))); } });
+  function isTutti(t){ const k=cycK(t); return TUTTI_K.includes(k); }
 })();
