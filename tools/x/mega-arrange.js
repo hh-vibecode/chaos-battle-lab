@@ -22,10 +22,9 @@ const A = [
   ['P2 nghỉ — Sans',        17,  0,  null, null, null,  { drum: 0.8 }],
   ['P2 SOLO violin',        9,   null, null, null, 10,  { drum: 0.45, violin: 1.25 }],
   ['P2 SOLO violin',        10,  null, null, null, 11,  { drum: 0.45, violin: 1.25 }],
-  ['P2 Piano + Bongo',      11,  null, 11,   null, null, { drum: 0.75, piano: 1.45 }],   // anh "k đc 3p hả" → mỗi con 1 khoảnh khắc, tổng > 3:00
   ['P2 SOLO guitar',        3,   null, null, 4,    null, { drum: 0.45, guitar: 1.3 }],
   ['P2 SOLO guitar',        4,   null, null, 5,    null, { drum: 0.45, guitar: 1.3 }],
-  ['P2 TUTTI đoạn D',       13,  5,  13,   4,    12],   // anh 20/11 "ngắn thế" → thêm 2 vòng, phần 2 cũng 4 vòng tutti
+  ['P2 TUTTI đoạn D',       13,  5,  13,   4,    12],   // đoạn D có thật trong bài (v2 bỏ qua) — anh 20/11: KHÔNG thêm đoạn tự nghĩ ra
   ['P2 TUTTI đoạn D',       14,  6,  15,   5,    13],
   ['P2 TUTTI',              15,  5,  11,   3,    14],
   ['P2 TUTTI',              16,  6,  17,   4,    15],

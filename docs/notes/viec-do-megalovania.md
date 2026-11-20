@@ -14,6 +14,7 @@
 - Máy Windows: `tools/x/_ref/mega/` = sax.mp3 (= assets/audio/sx_megalovania.mp3), guitar.mp3 (= piano_megalovania.mp3), drum.mp3 / piano.mp3 / violin.mp3
   (anh để trên Desktop: "Undertale Megalovania Drum Cover", "UNDERTALE MEGALOVANIA Piano Tutorial", "… Violin Cover Taylor Davis"), piano2.m4a (YouTube xplnuJ16SWk, Grim Cat Piano).
 - Bản trống = trống chơi ĐÈ lên nguyên bản Undertale (có cả giai điệu) → dùng làm XƯƠNG SỐNG / nhạc nền.
+- Độ dài: bài gốc ~2:45 (bản trống / piano / violin đều gần 3p vì là CẢ BÀI); sax + guitar chỉ ~1 phút (đoạn đầu bài).
 - Grim Cat: chơi tay, tempo tự do 124–137 → chỉ dùng làm INTRO (piano lẻ loi + mưa), không chồng lên lưới.
 
 ## Số đo (đã kiểm chéo)
@@ -22,7 +23,7 @@
 - Cấu trúc bản trống (vòng #): 0 intro · 1–4 riff · 5–8 đoạn B · 9–12 đoạn C · 13–16 đoạn D · 17 nghỉ · 18–19 riff kết · sau 19 = nốt kết.
 - Bảng vòng nào của bản nào khớp vòng nào của trống: chạy lại `tools/x/music-match.html` (lệnh trong đầu file).
 
-## Bản phối v3 (3:06, anh 20/11 "ngắn thế" / "k đc 3p hả") — `tools/x/mega-arrange.js` → `tools/x/music-mix.html` → `D:/meme-anime-lab-videos/megalovania/Megalovania mix v3.wav`
+## Bản phối v3 (2:58, anh 20/11 "ngắn thế": thêm đoạn D có thật của bài; anh dặn KHÔNG thêm đoạn tự nghĩ ra) — `tools/x/mega-arrange.js` → `tools/x/music-mix.html` → `D:/meme-anime-lab-videos/megalovania/Megalovania mix v3.wav`
 Lưới 119.717 BPM, mỗi hàng 1 vòng 8.02s. 0:00–0:12.5 mưa + piano Grim Cat → SẤM.
 | giờ | đoạn |
 |---|---|
@@ -33,10 +34,9 @@ Lưới 119.717 BPM, mỗi hàng 1 vòng 8.02s. 0:00–0:12.5 mưa + piano Grim 
 | 0:52.6–1:24.7 | TUTTI, sân khấu mở (đoạn B) |
 | 1:24.7 | Phần 2: nghỉ — Sans một mình |
 | 1:32.7 | SOLO 2 violin (đoạn C) |
-| 1:48.7 | Piano Cat + Bongo Cat tỏa sáng |
-| 1:56.7 | SOLO guitar |
-| 2:12.8–2:44.9 | TUTTI (đoạn D) |
-| 2:44.9 | KẾT riff → 3:00.9 nốt kết + sấm → hết 3:05.4 |
+| 1:48.7 | SOLO guitar |
+| 2:04.8–2:36.8 | TUTTI (đoạn D → đoạn D cuối) |
+| 2:36.8 | KẾT riff → 2:52.9 nốt kết + sấm → hết 2:57.4 |
 - ⏸️ CHỜ ANH NGHE v2. Em không nghe được: đã soát bằng số (độ to từng giây không hụt, khớp lưới ±10ms) — giai điệu có chỏi nhau không thì anh phải nghe.
 
 ## Công cụ mới (tools/x, chạy qua serve.js + cdp.js, Windows không cần ffmpeg)
