@@ -75,5 +75,18 @@ Bài học: đo tempo thật bằng plan thử (snapRange 0.25, xem độ lệch
 - (Ver 687) Nến đại sảnh (30 ngọn) + hầm mộ (24 ngọn) + mắt / miệng gargoyle ĐO bằng tools/x/plate-grid.html. Mọi meme đám đông cầm 2 lightstick lắc ĐÚNG NHỊP
   (1 lần / phách; solo: qua lại theo ô nhịp). Solo guitar chuyển lên SÂN KHẤU: tắt đèn, 1 đèn rọi xuống Guitar giữa phía trước, zoom, khán giả lightstick bên dưới; solo violin xen 2 cảnh khán giả.
 
+## ⚠️ LỖI PHỐI (anh 20/11 tối: "nhạc lộn xộn, không theo đúng bài") — tìm ra trên Mac, CHƯA sửa
+- Lý do: `mega-arrange.js` chọn số VÒNG cho từng bản RIÊNG RẼ (theo music-match = chroma cả dải → vòng nào cũng ra vòng hợp âm D C B B♭ giống nhau,
+  KHÔNG phân biệt được riff / đoạn B / C / D) → cùng 1 lúc các bản chơi 2–3 đoạn KHÁC NHAU của bài (bản trống còn có cả giai điệu gốc nên chỏi càng rõ).
+- Đo lại bằng giai điệu (chroma 400–2200 Hz, so từng khung) trên sax + guitar + chính mb_mix.webm:
+  sax (bản đủ 1:46): vòng 0–3 riff · 4–7 đoạn B (B1–B4) · 8–11 đoạn C · 12 nốt kết. Guitar metal (56s): 0–3 riff · 4–5 = B1, B2 (hết bài ở đó).
+  Bản trống (theo note): 0 intro · 1–4 riff · 5–8 B ⇒ ĐÚNG phải là sax = guitar = trống − 1.
+  Plan đang để: hàng "P1 dồn lên" trống 3 (riff) + sax 4 / guitar 4 (B1) → mix đo ra riff 0.49 + B1 0.57 cùng lúc; "+2 Violin" ra 3 thứ chồng (riff, B1, B2);
+  TUTTI sax 5,6,5,6 (B2 B3 B2 B3) + guitar 4,5,4,5 (B1 B2 B1 B2) lệch nhau 1 vòng, LẶP 2 vòng trên nền 4 vòng khác nhau → mix ra 2 đoạn B chồng (B2+B3, B3+B4).
+  Piano lúc = trống (P1), lúc = trống+1 (tutti), đoạn D 13,15,11,17 (nhảy lung tung); violin lúc +1 lúc −1.
+- Thêm: sax trong assets chỉ là bản CẮT 60s (hết giữa đoạn B) — bản ĐỦ 1:46 (có cả B + C) ở Mac `~/Desktop/0. meme/UNDERTALE Megalovania 🎷 Saxophone Cover.mp3` (bản cắt = bản đủ từ 0.1s).
+- Cách sửa: mỗi hàng của plan ghi 1 VỊ TRÍ BÀI (vòng của bản trống), mỗi bản có BẢNG vị trí bài → vòng của bản đó (đo bằng chroma giai điệu, không đoán);
+  bản nào không có đoạn đó (guitar sau B2, sax sau C) thì NGHỈ, không lặp vòng khác bù vào. Cần drum / piano / violin (chỉ có trên Windows) để đo bảng của 3 bản đó.
+
 ## Tiếp theo
 1. Anh nghe v2 → sửa phối. 2. Viết kịch bản + bảng phân cảnh (skill viet-kich-ban) cho anh duyệt. 3. Dựng (dung-phim, Blender cho sét / lửa / lâu đài). 4. Xuất khi anh bảo (Mac).
