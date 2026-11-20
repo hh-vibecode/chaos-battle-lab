@@ -1,0 +1,15 @@
+<!doctype html><meta charset="utf-8"><title>audio-encode</title>
+<!-- 🎧 NÉN WAV → WEBM/OPUS ngay trong trình duyệt (Windows không ffmpeg). Phát file qua AudioContext → MediaRecorder (chạy THỜI GIAN THẬT: bài 3 phút = 3 phút).
+     tools/x/audio-encode.html?src=<wav|mp3>&kbps=160   → window.__out (dataURL audio/webm) · window.__info · window.__done   (chạy qua cdp.js, evalsave) -->
+<pre id=o>…</pre><script>
+const q=new URLSearchParams(location.search);
+(async()=>{ const ac=new AudioContext({sampleRate:48000}), buf=await ac.decodeAudioData(await (await fetch('/'+q.get('src'))).arrayBuffer());
+  const dst=ac.createMediaStreamDestination(); dst.channelCount=2; const s=ac.createBufferSource(); s.buffer=buf; s.connect(dst);
+  const rec=new MediaRecorder(dst.stream,{mimeType:'audio/webm;codecs=opus', audioBitsPerSecond:1000*(+q.get('kbps')||160)}), parts=[];
+  rec.ondataavailable=e=>{ if(e.data.size) parts.push(e.data); };
+  rec.onstop=async()=>{ const b=new Blob(parts,{type:'audio/webm'}); window.__out=await new Promise(r=>{ const fr=new FileReader(); fr.onload=()=>r(fr.result); fr.readAsDataURL(b); });
+    window.__info={dur:+buf.duration.toFixed(2), bytes:b.size}; document.getElementById('o').textContent=JSON.stringify(window.__info); window.__done=1; };
+  await ac.resume(); rec.start(1000); s.start(); s.onended=()=>setTimeout(()=>rec.stop(),300);
+  setInterval(()=>{ document.getElementById('o').textContent='đang ghi '+ac.currentTime.toFixed(0)+'/'+buf.duration.toFixed(0)+'s'; },1000);
+})().catch(e=>{ window.__err=String(e); window.__done=1; });
+</script>

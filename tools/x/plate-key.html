@@ -1,0 +1,13 @@
+<!doctype html><meta charset="utf-8"><title>plate-key</title>
+<!-- 🟩 TÁCH TRỜI XANH của ẢNH NỀN GPT (giữ NGUYÊN KHUNG, không cắt sát như gkey.js) → webp có trong suốt (hoặc jpg nếu không có xanh).
+     Luật alpha như gkey.js: d = G − max(R,B); d ≥ hi → trong suốt, d ≤ lo → đặc, giữa = mờ dần; khử viền xanh (G kẹp về max(R,B)) ở mép.
+     tools/x/plate-key.html?src=<png>&fmt=webp|jpg&q=0.86&hi=90&lo=25[&w=1920]   → window.__out (dataURL) · window.__info · window.__done -->
+<canvas id=c></canvas><script>
+const q=new URLSearchParams(location.search), hi=+(q.get('hi')||90), lo=+(q.get('lo')||25), fmt=q.get('fmt')||'webp', Q=+(q.get('q')||0.86);
+const im=new Image(); im.onload=()=>{ const W=+(q.get('w')||im.naturalWidth), H=Math.round(im.naturalHeight*W/im.naturalWidth), c=document.getElementById('c'); c.width=W; c.height=H;
+  const g=c.getContext('2d'); g.drawImage(im,0,0,W,H); const d=g.getImageData(0,0,W,H), p=d.data; let keyed=0;
+  if(fmt!=='jpg') for(let i=0;i<p.length;i+=4){ const r=p[i], gg=p[i+1], b=p[i+2], m=Math.max(r,b), k=gg-m;
+    if(k>=hi){ p[i+3]=0; keyed++; } else if(k>lo){ const a=1-(k-lo)/(hi-lo); p[i+3]=Math.round(255*a); p[i+1]=m; keyed++; } else if(k>0) p[i+1]=m; }
+  g.putImageData(d,0,0); window.__out=c.toDataURL(fmt==='jpg'?'image/jpeg':'image/webp',Q); window.__info={W,H,keyedPct:+(100*keyed/(W*H)).toFixed(1)}; window.__done=1; };
+im.onerror=()=>{ window.__err='load fail'; window.__done=1; }; im.src='/'+q.get('src');
+</script>

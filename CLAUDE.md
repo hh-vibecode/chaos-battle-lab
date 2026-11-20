@@ -34,6 +34,10 @@ Chi tiết từng meme: `docs/notes/memes.md` · từng phim + cine-kit: `docs/n
   Có dùng thì câu lệnh phải hạn chế TỐI ĐA nét vẽ AI + chi tiết dư thừa + quá đà: "simple, flat, minimal detail, clean shapes, hand-drawn anime cel, NOT AI art, no extra details, no glow, no texture noise, no clutter".
 - VŨ KHÍ / đồ vật rắn: GPT vẽ nền xanh + `gkey.js`, code lo chuyển động / gắn vào tay. ⚠️ VFX (chém, cột sáng, nổ, hào quang…): HẠN CHẾ ảnh GPT (anh 17/11: "xấu, cứng, AI lắm") → làm bằng CODE / shader / hạt / bóp méo có chuyển động thật; chỉ dùng ảnh GPT cho VFX khi anh bảo. Không tự vẽ bộ phận nhân vật bằng code.
 - Ghép nối phải khéo: mọi chỗ 2 thứ gặp nhau (tay ↔ bàn tay, nhân vật ↔ nền, cảnh ↔ cảnh) phải có phương án (cùng nét, mép mờ, khói / bụi phủ chân, không mép cắt thẳng). Xong phải chụp soát kỹ chỗ nối.
+- 🎨 PHIM: NHÂN VẬT PHẢI HOÀ VÀO CẢNH, không nổi như PNG dán lên nền (anh chốt 20/11, áp MỌI phim). Dựng ảnh trên LỚP RIÊNG rồi mới dán: bớt rực ảnh thật (~0.25–0.3)
+  · multiply ánh môi trường · TỐI DẦN VỀ CHÂN · ánh hắt MỎNG từ phía nguồn sáng (dải màu phía trên — KHÔNG viền lệch nhiều hướng, thành đường viền bao) · mép mềm (lớp mờ dưới + lớp nét trên)
+  · bóng tiếp đất + sương chân hình BẦU DỤC mềm (không hộp chữ nhật) · đám đông / vật xa: ngược sáng gần đen + nhạt dần theo xa. Mẫu: `sprBlend` trong js/film-megaband.js.
+- PHIM: VFX vòng tròn toả (sóng âm hình vòng) anh chê "xấu lắm" (20/11) → không dùng; hiệu ứng nhạc = nốt, khuông nhạc, vạch nhấn, dây rung.
 
 ## 🎞️ Cảnh VFX nặng = dựng THEO LỚP (anh chốt 16/11)
 - NỀN = chỉ khung cảnh (GPT, nét anime VẼ TAY: tô phẳng, 2–3 tông, viền mực — "NOT AI art"). Không nhân vật, không hiệu ứng.

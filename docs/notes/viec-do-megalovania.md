@@ -56,5 +56,12 @@ Bài học: đo tempo thật bằng plan thử (snapRange 0.25, xem độ lệch
 - Việc dựng tiếp: gkey.js tách trời (n1 n2 n5–n9) → webp / jpg 0.86 vào assets/img/cine/MB_*; film js/film-megaband.js (16:9, CineKit, panels cho các ô);
   trời / trăng / mây / mưa / sét / lửa / nến / đám đông 61 meme bằng code; nhạc = mix v3 (cần mã hoá mp3/webm để đưa vào assets/audio — Windows không ffmpeg).
 
+## Phim bản 1 (20/11) — js/film-megaband.js, Meme Cinema → ANIME LAB → 'Megalovania · Meme Band in the Castle'
+- Dựng 2D theo lớp (như fin1f1): trời / trăng / mây / mưa / sương / sét / nến / lửa / dơi / tàn lửa / vòng ký tự / kính màu / nốt / khuông nhạc / dây / ong = CODE; nền = assets/img/cine/megaband/MB_*.
+- Nhạc: assets/audio/mb_mix.webm (Opus 160k, nén trong trình duyệt: tools/x/audio-encode.html + tools/x/webm-duration.js chèn độ dài — thiếu thì trình duyệt báo 7.7s).
+- Nhân vật hoà cảnh: sprBlend (luật mới CLAUDE.md). Bỏ VFX vòng tròn (anh chê) → Bongo vạch nhấn + nốt, Guitar khuông nhạc 5 dòng, Sans nốt từ loa kèn.
+- Đã soát bảng khung ~30 mốc + sfx-lint sạch. CHƯA: js/shots/megaband.json (film-lint), Blender (kính vỡ 0:52 + nổ cuối — đang làm bằng code), đổi khung theo onset thật
+  (đang theo lưới 1/8), xuất video (Mac, khi anh bảo: render-cine megaband, 16:9 4K 50fps).
+
 ## Tiếp theo
 1. Anh nghe v2 → sửa phối. 2. Viết kịch bản + bảng phân cảnh (skill viet-kich-ban) cho anh duyệt. 3. Dựng (dung-phim, Blender cho sét / lửa / lâu đài). 4. Xuất khi anh bảo (Mac).

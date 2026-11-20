@@ -1,5 +1,11 @@
 # VIỆC DỞ — Final Part 1
 
+## 🎨 SỬA 20/11 (anh dặn): NHÂN VẬT HOÀ VÀO CẢNH cho mọi cảnh Final
+Luật mới (CLAUDE.md mục Ảnh / VFX): không dán PNG thẳng lên nền. Áp vào các cảnh Final 1 (fin1c1–c5, fin1f1–f3, Chill Guy, cảnh kết):
+thay chỗ vẽ meme (`spr` trong js/film-fin1f1.js / js/fin1-plate.js …) bằng cách dựng như `sprBlend` trong js/film-megaband.js — bớt rực, multiply ánh môi trường,
+tối dần về chân, ánh hắt mỏng phía nguồn sáng (bỏ viền glow lệch 4 hướng), mép mềm, bóng + sương chân bầu dục. Nên đưa `sprBlend` vào cine-kit (K.blend…) để mọi phim dùng chung.
+Chưa làm — chờ phiên làm Final.
+
 ## 🆕 YÊU CẦU 18/11 (anh gửi — làm THEO THỨ TỰ)
 **① ✅ XONG 18/11 (Ver 659: js/vfx-boom.js + skill hoat-hoa-vfx + mẫu Anime Lab "Sample · Explosion + impact") — CHỜ ANH XEM mẫu rồi mới sang ② ③.** Gốc: LÀM SKILL / TOOL TRƯỚC hỗ trợ dựng animation như các video đã học, rồi **làm MẪU 1 VỤ NỔ + IMPACT 5s cho anh xem** (anh dặn "xử lý phần skill trước, xong làm mẫu vụ nổ impact 5s t xem thử"). Học từ:
 - https://www.youtube.com/watch?v=aVvT_--q7Ow giây **21–26**: animation vụ nổ lớn rất tốt, bắt đầu từ TÂM lan ra xung quanh.
