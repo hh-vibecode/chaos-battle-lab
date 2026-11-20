@@ -29,27 +29,37 @@ const LAB = {
   C4:  { drum: 14, sax: 11, piano: 13, guitar: 13, violin: 13 },
 };
 // ⚠️ đoạn kết thật của bài (trống k19–21, piano 18–19, guitar 18) sax + violin KHÔNG có → kết bằng riff cả ban + 1 phách hợp âm chung (phách 1 của B1, mọi bản) + sấm.
-const TR = ['drum', 'sax', 'piano', 'guitar', 'violin'];
+// v5 (anh 20/11: "như cả ban cùng diễn 1 bài", "đang chạy trên sound 1 bài là chính"): bản trống = NGUYÊN BÀI GỐC + trống, các cover khác có nhạc đệm riêng
+//   → TÁCH bằng Demucs (htdemucs_6s, tools/x/_ref/mega/stems/): Bongo = chỉ trống, bass = bass của bài gốc (móng chung cả ban), mỗi con = đúng nhạc cụ của nó.
+//   ⚠️ file tách mp3 của Demucs TRỄ đúng 25.0 ms so với bản gốc (khoảng lặng của bộ mã hoá mp3) → cộng SD vào gốc vòng. Đo lại nếu tách lại bằng cách khác.
+const SD = 0.025;
+for (const k in LAB) LAB[k].bass = LAB[k].drum;
+for (const t in ORG) ORG[t] += SD;
+ORG.bass = ORG.drum + 0.007;   // bass = cùng bản gốc với trống, nốt êm nên KHÔNG tự dò nhịp: đi theo độ lệch dò được của trống (+7ms)
+const TR = ['drum', 'bass', 'sax', 'piano', 'guitar', 'violin'];
 // độ to (dB) so với mức chuẩn sau khi CÂN (music-mix.py đo RMS từng đoạn nguồn rồi đưa về cùng mức `lvl`)
-const BASE = { drum: -1, sax: 0, piano: 0, guitar: -1, violin: -1 }, PAN = { drum: 0, sax: 0, piano: 0.3, guitar: -0.3, violin: 0.12 };
-const LEAD = 4, DUCK = -7, SOLO_BG = -8;          // dB: con được giới thiệu to lên · các con khác nhỏ lại · nền dưới solo
+const BASE = { drum: 0, bass: -3, sax: 0, piano: 0, guitar: 0, violin: -1 }, PAN = { drum: 0, bass: 0, sax: 0, piano: 0.3, guitar: -0.3, violin: 0.15 };
+const LEAD = 4, DUCK = -7, SOLO_BG = -6;
+// file tách (Demucs) của sax / violin / piano: tiếng chính nằm ở dòng nào thì ghi vào đây (đo năng lượng từng dòng: xem note)
+const STEM = { sax: 'tools/x/_ref/mega/stems/htdemucs_6s/sax/other.mp3', violin: 'tools/x/_ref/mega/stems/htdemucs_6s/violin/other.mp3', piano: 'tools/x/_ref/mega/stems/htdemucs_6s/piano/piano.mp3' };          // dB: con được giới thiệu to lên · các con khác nhỏ lại · nền dưới solo
 // hàng: [tên, nhãn, bản chơi, con nổi bật (vào / giới thiệu), kiểu]
-//   nổi bật = 1 tên hoặc mảng (cùng lúc) · {bars:[…]} = mỗi ô nhịp (2s) 1 con (hàng 'dồn lên', phim quay từng con 1 ô)
+//   nổi bật = 1 tên hoặc mảng (cùng lúc) · '=x' = x giữ mức thường · {bars:[…]} = mỗi ô nhịp (2s) 1 con (hàng 'dồn lên', phim quay từng con 1 ô)
+const RHY = ['drum', 'bass'];
 const A = [
-  ['P1 Sans mở đầu',       'R1a', ['sax'],                                   null],
-  ['P1 + Bongo + Piano',   'R2a', ['drum', 'sax', 'piano'],                  ['piano', '=drum']],   // '=x' = giữ mức thường (trống vào cùng lúc nhưng bản trống có cả nhạc gốc → không đẩy lên kẻo lấn piano)
-  ['P1 + Guitar',          'R2b', ['drum', 'sax', 'piano', 'guitar'],        'guitar'],
-  ['P1 dồn lên',           'R2a', ['drum', 'sax', 'piano', 'guitar'],        { bars: ['sax', 'drum', 'piano', 'guitar'] }],
-  ['P1 + 2 Violin (đỉnh)', 'B1',  TR,                                        'violin'],
+  ['P1 Sans mở đầu',       'R1a', ['sax'],                                    null],
+  ['P1 + Bongo + Piano',   'R2a', [...RHY, 'sax', 'piano'],                   ['piano', '=drum', '=bass']],
+  ['P1 + Guitar',          'R2b', [...RHY, 'sax', 'piano', 'guitar'],         'guitar'],
+  ['P1 dồn lên',           'R2a', [...RHY, 'sax', 'piano', 'guitar'],         { bars: ['sax', ['drum', '=bass'], 'piano', 'guitar'] }],
+  ['P1 + 2 Violin (đỉnh)', 'B1',  TR,                                         'violin'],
   ['P1 TUTTI sân khấu',    'B2',  TR, null],
   ['P1 TUTTI',             'B3',  TR, null],
   ['P1 TUTTI',             'B4',  TR, null],
   ['P1 TUTTI',             'B3r', TR, null],
-  ['P2 nghỉ — Sans',       'B4r', ['drum', 'sax'],                           'sax', 'solo'],
-  ['P2 SOLO violin',       'C1',  ['drum', 'violin'],                        'violin', 'solo'],
-  ['P2 SOLO violin',       'C2',  ['drum', 'violin'],                        'violin', 'solo'],
-  ['P2 SOLO guitar',       'C3',  ['drum', 'guitar'],                        'guitar', 'solo'],
-  ['P2 SOLO guitar',       'C4',  ['drum', 'guitar'],                        'guitar', 'solo'],
+  ['P2 nghỉ — Sans',       'B4r', [...RHY, 'sax'],                            'sax', 'solo'],
+  ['P2 SOLO violin',       'C1',  [...RHY, 'violin'],                         'violin', 'solo'],
+  ['P2 SOLO violin',       'C2',  [...RHY, 'violin'],                         'violin', 'solo'],
+  ['P2 SOLO guitar',       'C3',  [...RHY, 'guitar'],                         'guitar', 'solo'],
+  ['P2 SOLO guitar',       'C4',  [...RHY, 'guitar'],                         'guitar', 'solo'],
   ['P2 TUTTI',             'B1',  TR, null],
   ['P2 TUTTI',             'B2',  TR, null],
   ['P2 TUTTI',             'B3',  TR, null],
@@ -57,30 +67,40 @@ const A = [
   ['P2 KẾT riff',          'R2a', TR, null],
   ['P2 KẾT riff',          'R2b', TR, null],
 ];
-const T0 = 12.5, CB = 16, LVL = -20, RAMP = 0.25;
-const plan = { dur: T0 + A.length * C + 5, bpm: BPM, t0: T0, snapRange: 0.03, snapRate: 0,
-  tracks: { drum: 'tools/x/_ref/mega/drum.mp3', sax: 'tools/x/_ref/mega/sax.mp3', piano: 'tools/x/_ref/mega/piano.mp3', guitar: 'tools/x/_ref/mega/guitarfull.mp3', violin: 'tools/x/_ref/mega/violin.mp3',
+const T0 = 12.5, CB = 16, LVL = -20, BAR = C / 4;
+// đổi mức kiểu nhạc thật: TO LÊN thì dồn dần trong UP giây TRƯỚC phách 1 (trống / bass từ nền solo vào tutti: dồn cả 1 ô nhịp), NHỎ ĐI thì lặng dần DOWN giây SAU phách 1
+const UP = 1.0, DOWN = 0.3, XFADE = 0.04, VERB = 1.2;
+const ST = 'tools/x/_ref/mega/stems/htdemucs_6s/';
+const plan = { dur: T0 + A.length * C + 5, bpm: BPM, t0: T0, snapRange: 0.012, snapRate: 0, xfade: XFADE,
+  tracks: { drum: ST + 'drum/drums.mp3', bass: ST + 'drum/bass.mp3', sax: STEM.sax, piano: STEM.piano, guitar: ST + 'guitarfull/guitar.mp3', violin: STEM.violin,
     grim: 'tools/x/_ref/mega/piano2.mp3', rain: 'assets/audio/dp_rain.mp3', thunder: 'assets/audio/thunder_big.mp3' },
   clips: [], free: [], master: { gain: 1, comp: true }, rows: [] };
-// dB của 1 bản ở hàng k (hoặc ở ô nhịp b của hàng k)
-function dbAt(trk, k, b) { const row = A[k], hi = row[3], solo = row[4] === 'solo';
-  let who = hi && hi.bars ? [hi.bars[b]] : hi == null ? [] : [].concat(hi);
-  if (!who.length) return BASE[trk];
-  if (who.includes('=' + trk)) return BASE[trk];
+function dbAt(trk, k, b) { const row = A[k]; if (!row || !row[2].includes(trk)) return null;
+  const hi = row[3], solo = row[4] === 'solo', who = hi && hi.bars ? [].concat(hi.bars[b]) : hi == null ? [] : [].concat(hi);
+  if (!who.length || who.includes('=' + trk)) return BASE[trk];
   if (who.includes(trk)) return BASE[trk] + (solo ? 2 : LEAD);
   return BASE[trk] + (solo ? SOLO_BG : DUCK); }
+const lin = d => +Math.pow(10, d / 20).toFixed(4);
 for (const trk of TR) { let cur = null;
   A.forEach((row, k) => { const ci = row[2].includes(trk) ? LAB[row[1]][trk] : null;
     if (ci == null) { cur = null; return; }
     if (cur && cur.next === ci && cur.k + cur.n === k) { cur.n++; cur.next++; cur.clip.beats += CB; }
-    else { const clip = { trk, src: +(ORG[trk] + C * ci).toFixed(3), beat: k * CB, beats: CB, lvl: LVL, gain: 1, pan: PAN[trk], fi: 0.006, fo: 0.02, env: [] };
-      plan.clips.push(clip); cur = { clip, next: ci + 1, k, n: 1 }; }
-    // đường âm lượng: mỗi ô nhịp (2s) 1 mức, đổi mức trong RAMP giây ở đầu ô
-    const t0 = (k - cur.k) * C;
-    for (let b = 0; b < 4; b++) { const g = Math.pow(10, dbAt(trk, k, b) / 20), a = t0 + b * C / 4;
-      cur.clip.env.push([+(a).toFixed(3), g], [+(a + RAMP).toFixed(3), g]); } }); }
-// tránh RAMP ngược: điểm đầu mỗi ô = mức của ô TRƯỚC (đổi mức trơn trong RAMP giây)
-for (const cl of plan.clips) { const e = cl.env; for (let i = 2; i < e.length; i += 2) e[i][1] = e[i - 1][1]; }
+    else { const clip = { trk, src: +(ORG[trk] + C * ci).toFixed(3), beat: k * CB, beats: CB, lvl: LVL, gain: 1, pan: PAN[trk], fi: 0.006, fo: 0.02, env: [], ...(trk === 'bass' ? { snap: false } : {}) };
+      // nhảy nguồn giữa 2 hàng liền nhau (vd solo C4 → tutti B1): dồn mức lên phải nằm ở CUỐI khúc trước
+      const prev = cur && cur.k + cur.n === k ? cur.clip : null, d0 = dbAt(trk, k, 0), pd0 = prev ? dbAt(trk, k - 1, 3) : null;
+      if (prev && d0 > pd0 + 0.1) { const L = prev.beats * 60 / BPM, up = RHY.includes(trk) && A[k - 1][4] === 'solo' ? BAR : UP;
+        prev.env.push([+(L - up).toFixed(3), lin(pd0)], [+L.toFixed(3), lin(d0)]); clip.env.push([-0.1, lin(d0)]); }
+      else if (prev && d0 < pd0 - 0.1) clip.env.push([-0.1, lin(pd0)], [DOWN, lin(d0)]);
+      else if (prev) clip.env.push([-0.1, lin(d0)]);
+      plan.clips.push(clip); cur = { clip, next: ci + 1, k, n: 1, jumped: !!prev }; }
+    const t0 = (k - cur.k) * C, e = cur.clip.env;
+    for (let b = 0; b < 4; b++) { const d = dbAt(trk, k, b), a = t0 + b * BAR;
+      const pd = (b > 0 || k > cur.k) ? dbAt(trk, b > 0 ? k : k - 1, b > 0 ? b - 1 : 3) : null;
+      if (pd == null) { if (!(b === 0 && cur.jumped && k === cur.k)) e.push([-0.1, lin(d)]); continue; }
+      if (d > pd + 0.1) { const up = RHY.includes(trk) && b === 0 && A[k - 1][4] === 'solo' ? BAR : UP; e.push([+(a - up).toFixed(3), lin(pd)], [+a.toFixed(3), lin(d)]); }
+      else if (d < pd - 0.1) e.push([+a.toFixed(3), lin(pd)], [+(a + DOWN).toFixed(3), lin(d)]); }
+    // RỜI sân khấu sau hàng này (hàng sau không chơi) → ngân đuôi
+    if (k + 1 < A.length && !A[k + 1][2].includes(trk)) cur.clip.verb = VERB; }); }
 plan.rows = A.map((r, k) => ({ k, name: r[0], lab: r[1], at: +(T0 + k * C).toFixed(3), play: r[2], src: Object.fromEntries(r[2].map(t => [t, +(ORG[t] + C * LAB[r[1]][t]).toFixed(3)])) }));
 // intro tự do: mưa + piano Grim Cat (nhịp tự do) + sấm đúng phách 0; đuôi: phách 1 của B1 ở MỌI bản cùng lúc (hợp âm kết chung) rồi tắt dần
 plan.free.push({ trk: 'rain', src: 0, at: 0, dur: T0 + 6, gain: 0.5, fi: 1.5, fo: 4 });
@@ -88,7 +108,7 @@ plan.free.push({ trk: 'grim', src: 3.0, at: 0.6, dur: T0 - 0.6, lvl: LVL - 2, ga
 plan.free.push({ trk: 'thunder', src: 0, at: T0 - 0.05, dur: 4, gain: 0.8, fi: 0.004, fo: 1.5 });
 const endAt = T0 + A.length * C;
 for (const trk of TR) { const src = +(ORG[trk] + C * LAB.B1[trk]).toFixed(3);
-  plan.free.push({ trk, src, at: endAt, dur: 3.2, lvlRef: { src, dur: C }, lvl: LVL + BASE[trk], gain: 1, pan: PAN[trk], fi: 0.004, fo: 2.9 }); }
+  plan.free.push({ trk, src, at: endAt, dur: 3.2, pre: XFADE, lvlRef: { src, dur: C }, lvl: LVL + BASE[trk], gain: 1, pan: PAN[trk], fi: 0.004, fo: 2.9, verb: 2.0 }); }
 plan.free.push({ trk: 'thunder', src: 0, at: endAt - 0.02, dur: 4.5, gain: 0.7, fi: 0.004, fo: 2 });
 fs.mkdirSync(path.join(__dirname, '_ref/mega'), { recursive: true }); fs.writeFileSync(path.join(__dirname, '_ref/mega/plan.json'), JSON.stringify(plan, null, 1));
 console.log('dài', plan.dur.toFixed(1) + 's', plan.clips.length, 'khúc');

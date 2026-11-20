@@ -75,7 +75,19 @@ Bài học: đo tempo thật bằng plan thử (snapRange 0.25, xem độ lệch
 - (Ver 687) Nến đại sảnh (30 ngọn) + hầm mộ (24 ngọn) + mắt / miệng gargoyle ĐO bằng tools/x/plate-grid.html. Mọi meme đám đông cầm 2 lightstick lắc ĐÚNG NHỊP
   (1 lần / phách; solo: qua lại theo ô nhịp). Solo guitar chuyển lên SÂN KHẤU: tắt đèn, 1 đèn rọi xuống Guitar giữa phía trước, zoom, khán giả lightstick bên dưới; solo violin xen 2 cảnh khán giả.
 
-## ✅ Bản phối v4 (20/11 tối, Mac) — sửa "nhạc lộn xộn" + "piano như không chơi" + anh: con nào vào thì các con khác nhỏ lại
+## ✅ Bản phối v5 (20/11 tối, Mac) — "như cả ban cùng diễn 1 bài", cháy hơn, nối mượt (anh: v4 "chạy trên sound 1 bài là chính", "chuyển nối chật nhịp")
+- Lý do v4 nghe như 1 bài + chơi đè: bản trống = NGUYÊN BÀI GỐC Undertale + trống; violin / sax / guitar cover đều có nhạc đệm riêng → 3–4 lớp đệm chồng nhau.
+- TÁCH NHẠC CỤ bằng Demucs htdemucs_6s (Mac: venv `~/.venvs/demucs` — torch 2.2.2 + numpy<2, máy Intel không cài được torch mới):
+  `~/.venvs/demucs/bin/python -m demucs -n htdemucs_6s --mp3 --mp3-bitrate 320 -j 1 -o tools/x/_ref/mega/stems <file>.mp3` (~2–4 phút / bài, CPU).
+  Dùng: Bongo = drum/drums · bass = drum/bass (bass bài gốc, MÓNG CHUNG cả ban) · Sans = sax/other · Piano = piano/piano · Guitar = guitarfull/guitar · violin = violin/other.
+  (drum/guitar = synth giai điệu của bài gốc → BỎ. violin/bass = nhạc đệm của Taylor Davis → bỏ. Violin sau 132s là phần khác — bản phối không dùng.)
+  ⚠️ mp3 Demucs TRỄ đúng 25.0 ms so với bản gốc → `SD` trong mega-arrange.js. Bass nốt êm → không tự dò nhịp, đi theo độ lệch của trống.
+- NỐI MƯỢT: v4 có lỗ hụt 10–20 ms (−25…−28 dB) ngay trước phách 1 ở mọi chỗ nối (khúc cũ tắt 20ms TRƯỚC ranh giới) → v5 nối gối 40 ms (sin/cos, `xfade`),
+  con RỜI sân khấu thì ngân đuôi 1.2s (`verb`), to lên = dồn 1s TRƯỚC phách 1, nhỏ đi = lặng 0.3s SAU; trống + bass từ nền solo vào tutti dồn cả ô nhịp cuối. Đo chỗ nối: hết hụt (−12…−16 dB).
+- Phim: lúc 2 violin vào (0:44.6) cảnh cầu thang tối 0.6s rồi mới hiện → hình hụt sau tiếng → giờ lộ đúng phách (0.12s) + loé đỏ hồng.
+- Vẫn: mỗi hàng 1 nhãn đoạn bài (bảng LAB), con vào / giới thiệu +4 dB, con khác −7, solo +2 / nền −6. ⏸️ CHỜ ANH NGHE + XEM (anh 20/11: CHƯA xuất video).
+
+## (cũ) Bản phối v4 (20/11 tối, Mac) — sửa "nhạc lộn xộn" + "piano như không chơi" + anh: con nào vào thì các con khác nhỏ lại
 - Lỗi v1–v3: mỗi bản tự chọn số vòng (music-match so cả dải → vòng nào cũng 4 hợp âm D C B B♭ ⇒ không phân biệt đoạn) → 2–3 đoạn bài chồng nhau;
   và không cân độ to (piano v3 nhỏ hơn guitar ~14 dB, bản trống = bản master đầy còn to lên đúng lúc piano vào).
 - Giờ: mỗi hàng = 1 NHÃN đoạn, bảng LAB trong `tools/x/mega-arrange.js` (nhãn → vòng của từng bản). Soát: `python3 tools/x/music-check.py tools/x/_ref/mega/plan.json`
