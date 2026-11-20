@@ -64,11 +64,13 @@ rồi chỉ còn mưa và lâu đài lặng im dưới trăng.
 - Nhạc = bản mix (đã có mưa intro + sấm ở 0:12.5 và nốt kết). Không lồng giọng, không thoại. Chữ trên màn hình chỉ: tên từng con khi vào (1 dòng nhỏ, tiếng Anh) + tiêu đề cuối.
 - Tiếng thêm (ít): cổng nổ 0:52.6 (trầm + đá đổ) · sét đánh đàn ở solo guitar (1 lớp giòn ngắn, NGẮT ngay, nhỏ dưới nhạc) — tiếng chung có sẵn, không mượn tiếng signature của meme khác.
 
-## Ảnh cần vẽ (GPT chỉ vẽ NỀN, nét anime vẽ tay phẳng 2–3 tông, "NOT AI art", không nhân vật)
-1. Lâu đài trên vách đá dưới trăng tròn xanh ngọc, trời giông (toàn cảnh) · 2. Ô cửa sổ đại sảnh có nến (trung) · 3. Ban công lâu đài + kính màu (Sans)
-4. Hầm mộ nến + xích (Bongo) · 5. Đại sảnh nến + ống đàn organ (Piano) · 6. Đỉnh tháp trong mưa (Guitar) · 7. Cầu thang đá đổ nát + trăng lưỡi liềm đỏ (2 violin)
-8. Sân trong lâu đài = sân khấu đá nhiều tầng (bậc cao giữa, 2 cột, tầng dưới, sàn trước cho đám đông) + cổng lớn · 9. Đỉnh tháp cao nhất giữa mây tím (solo violin)
-Vật rời (phông xanh): 2 cánh cổng lâu đài (để nổ tung), mảnh đá vỡ. Sét / lửa / khói / sóng âm / nốt nhạc = CODE (VfxGL) — chỉ dùng Blender nếu cổng nổ cần mảnh vỡ vật lý.
+## Ảnh cần vẽ — GPT CHỈ VẼ KIẾN TRÚC / ĐÁ (luật repo + anh nhắc 20/11: "ảnh nền thôi, mây mưa sét, ánh đèn, trăng, vfx m xử lý")
+Nét anime vẽ tay phẳng 2–3 tông, "NOT AI art", không nhân vật. TRỜI = nền xanh lá phẳng #00FF00 (tách ra); không trăng, mây, mưa, sương, sét; cửa sổ TỐI, nến KHÔNG cháy.
+1. Lâu đài trên vách đá (toàn cảnh) · 2. Ban công lâu đài + kính màu tối (Sans) · 3. Hầm mộ, giá nến chưa thắp + xích (Bongo) · 4. Đại sảnh, giá nến + ống đàn organ (Piano)
+5. Đỉnh tháp có lỗ châu mai (Guitar) · 6. Cầu thang đá đổ nát (2 violin) · 7. Sân trong = sân khấu đá nhiều tầng + cổng lớn (tutti) · 8. Đỉnh tháp cao nhất (solo violin)
+Vật rời (phông xanh): 2 cánh cổng lâu đài (để nổ tung), mảnh đá vỡ.
+CODE lo hết: trời (dải màu đêm), TRĂNG (xanh ngọc tròn ↔ đỏ lưỡi liềm, quầng sáng), MÂY cuộn, MƯA xiên, SƯƠNG, SÉT, ÁNH ĐÈN cửa sổ, LỬA NẾN, cột lửa, khói,
+tàn lửa, sóng âm, nốt nhạc, dây sáng, ong con, tia Blaster. Blender chỉ khi cổng nổ cần mảnh vỡ vật lý.
 
 ## Em còn phân vân
 - Cầu thang của 2 violin + đỉnh tháp solo: em định dùng chung 1 khung trăng đỏ (đổi góc) cho đỡ ảnh — được không?
