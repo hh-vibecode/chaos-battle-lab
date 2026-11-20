@@ -1526,6 +1526,14 @@ html.is-mobile .desk-only { display:none; }
 body.hm-dark #battleScreen, body.hm-dark #battleScreen.cam-mode, body.hm-dark #duoScreen, body.hm-dark #ffa3Screen,
 body.hm-dark #battleScreen.cam-mode .battle-settings { background:radial-gradient(ellipse at 50% 40%, #1c1533, #07050d 72%) !important; }   /* 30/10: tối như khói dày (canvas vẽ khói động), không đen kịt */
 
+/* 💀 trận có Sans (còn ở thế giới Undertale): trang ngoài sàn đen tuyền, chữ trắng — class do game.js tự bật/tắt mỗi khung (_sxDomSet) */
+body.ut-mode #battleScreen, body.ut-mode #battleScreen.cam-mode, body.ut-mode #duoScreen, body.ut-mode #ffa3Screen,
+body.ut-mode #battleScreen.cam-mode .battle-settings { background:#000 !important; }
+body.ut-mode .vs-label .n1, body.ut-mode .vs-label .n2 { color:#fff !important; text-shadow:none !important; }
+body.ut-mode .vs-label .sep { color:#fff; }
+body.ut-mode .mech-info .mech-name, body.ut-mode .mech-info .mech-col.p1 .mech-name, body.ut-mode .mech-info .mech-col.p2 .mech-name { color:#fff; }
+body.ut-mode .mech-info .mech-desc, body.ut-mode .mech-info .mech-desc b { color:#ddd; }
+
 /* 👹 BOSS RAID — sàn 16:9 phủ kín màn, ẩn mọi khối info/CTA kiểu Solo */
 #battleScreen.boss-mode { justify-content:center; }
 #battleScreen.boss-mode #arena { width:min(100vw, 177.78vh); height:auto; max-height:100vh; max-width:100vw; }

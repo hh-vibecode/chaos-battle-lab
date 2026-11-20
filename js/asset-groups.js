@@ -285,6 +285,16 @@ window.ASSET_GROUP={
 "assets/audio/bx_nostalgia.mp3": "boxingcat",
 "assets/img/angrycat/AC_CALM.webp": "angrycat",
 "assets/img/angrycat/AC_GRIP.webp": "angrycat",
+"assets/img/sans/SX_PIXEL.webp": "sans",
+"assets/img/sans/SX_BLASTER.webp": "sans",
+"assets/img/sans/SX_PLAY_0.webp": "sans",
+"assets/img/sans/SX_PLAY_1.webp": "sans",
+"assets/img/sans/SX_PLAY_2.webp": "sans",
+"assets/audio/sx_megalovania.mp3": "sans",
+"assets/audio/sx_blaster.mp3": "sans",
+"assets/audio/sx_dust.mp3": "sans",
+"assets/avatars/sans/avatarUrl.webp": "sans",
+"assets/avatars/sans/thumb.webp": "critical",
 "assets/img/crunchycat/CC_IDLE.webp": "crunchycat",
 "assets/img/crunchycat/CC_CHEW_01.webp": "crunchycat",
 "assets/img/crunchycat/CC_CHEW_02.webp": "crunchycat",
@@ -1188,6 +1198,7 @@ window.ASSET_GROUP={
 "assets/vfxlib/vfx_slash3_color5.webp": "critical"
 };
 window.AVATAR_THUMB={
+"assets/avatars/sans/avatarUrl.webp": "assets/avatars/sans/thumb.webp",
 "assets/avatars/huhcat/avatarUrl.webp": "assets/avatars/huhcat/thumb.webp",
 "assets/avatars/popcat/avatarUrl.webp": "assets/avatars/popcat/thumb.webp",
 "assets/avatars/ricardo/avatarUrl.webp": "assets/avatars/ricardo/thumb.webp",
