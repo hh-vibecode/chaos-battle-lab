@@ -72,5 +72,8 @@ Bài học: đo tempo thật bằng plan thử (snapRange 0.25, xem độ lệch
 - (Ver 686) Anh: lửa vẽ tay (cột lửa + gargoyle phun lửa) "không cần thiết" → đài phun TIA LỬA LẠNH (hạt có trọng lực) ở mép sân khấu, gargoyle mắt loé đỏ + khói lạnh bốc lên.
   Bỏ khung impact (cảnh tối → cả khung 1 mảng màu, như lỗi) → loé sáng ấm 0.12s đầu vòng.
 
+- (Ver 687) Nến đại sảnh (30 ngọn) + hầm mộ (24 ngọn) + mắt / miệng gargoyle ĐO bằng tools/x/plate-grid.html. Mọi meme đám đông cầm 2 lightstick lắc ĐÚNG NHỊP
+  (1 lần / phách; solo: qua lại theo ô nhịp). Solo guitar chuyển lên SÂN KHẤU: tắt đèn, 1 đèn rọi xuống Guitar giữa phía trước, zoom, khán giả lightstick bên dưới; solo violin xen 2 cảnh khán giả.
+
 ## Tiếp theo
 1. Anh nghe v2 → sửa phối. 2. Viết kịch bản + bảng phân cảnh (skill viet-kich-ban) cho anh duyệt. 3. Dựng (dung-phim, Blender cho sét / lửa / lâu đài). 4. Xuất khi anh bảo (Mac).

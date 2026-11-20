@@ -1,0 +1,17 @@
+<!doctype html><meta charset="utf-8"><title>plate-grid</title>
+<!-- 📏 ĐO TOẠ ĐỘ trên ảnh nền / ảnh vật (để đặt nến, mắt, tay… đúng chỗ — anh dặn 20/11 "phải rất để ý vị trí"):
+     phóng 1 vùng ảnh lên (u0..u1, v0..v1 = tỉ lệ 0–1 của ảnh), kẻ lưới mảnh mỗi `step`, ghi số mỗi `lab` → chụp màn hình rồi đọc toạ độ.
+     tools/x/plate-grid.html?src=assets/img/cine/megaband/MB_HALL.jpg&u0=0&u1=0.3&v0=0.35&v1=0.65&step=0.01&lab=0.05&w=1400
+     Toạ độ đọc được = (u, v) của ẢNH GỐC (đúng như view().at(u,v) trong phim). Nền ca-rô để thấy vùng trong suốt. -->
+<body style="margin:0;background:#222"><canvas id=c></canvas><script>
+const q=new URLSearchParams(location.search), u0=+(q.get('u0')||0), u1=+(q.get('u1')||1), v0=+(q.get('v0')||0), v1=+(q.get('v1')||1), st=+(q.get('step')||0.01), lab=+(q.get('lab')||0.05), W=+(q.get('w')||1400);
+const im=new Image(); im.onload=()=>{ const sw=(u1-u0)*im.naturalWidth, sh=(v1-v0)*im.naturalHeight, H=Math.round(W*sh/sw), c=document.getElementById('c'); c.width=W; c.height=H; const g=c.getContext('2d');
+  for(let y=0;y<H;y+=16) for(let x=0;x<W;x+=16){ g.fillStyle=((x+y)/16)%2?'#555':'#777'; g.fillRect(x,y,16,16); }
+  g.drawImage(im,u0*im.naturalWidth,v0*im.naturalHeight,sw,sh,0,0,W,H);
+  const X=u=>(u-u0)/(u1-u0)*W, Y=v=>(v-v0)/(v1-v0)*H, n=x=>Math.round(x/st);
+  for(let u=Math.ceil(u0/st)*st;u<=u1+1e-9;u+=st){ const big=Math.abs(n(u)*st/lab-Math.round(n(u)*st/lab))<1e-6; g.strokeStyle=big?'rgba(255,60,60,0.9)':'rgba(0,255,255,0.35)'; g.lineWidth=big?1.5:1; g.beginPath(); g.moveTo(X(u),0); g.lineTo(X(u),H); g.stroke();
+    if(big){ g.fillStyle='#ff4040'; g.font='bold 14px monospace'; g.fillText(u.toFixed(2),X(u)+2,14); } }
+  for(let v=Math.ceil(v0/st)*st;v<=v1+1e-9;v+=st){ const big=Math.abs(n(v)*st/lab-Math.round(n(v)*st/lab))<1e-6; g.strokeStyle=big?'rgba(255,60,60,0.9)':'rgba(0,255,255,0.35)'; g.lineWidth=big?1.5:1; g.beginPath(); g.moveTo(0,Y(v)); g.lineTo(W,Y(v)); g.stroke();
+    if(big){ g.fillStyle='#ff4040'; g.font='bold 14px monospace'; g.fillText(v.toFixed(2),2,Y(v)-2); } }
+  window.__done=1; }; im.src='/'+q.get('src');
+</script>

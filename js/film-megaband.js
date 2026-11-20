@@ -158,12 +158,17 @@
   function g2glow(F,x,y,r,k,t){ const g=F.g; lightOn(g,()=>{ glowDot(g,x,y,r*(1+0.06*Math.sin(t*9)),'255,160,70',0.45*k); glowDot(g,x,y,r*0.45,'255,210,140',0.5*k); }); }
   function balconyScene(F,t,zm,cx,cy,o){ o=o||{}; sky(F,t,{pal:'cyan',moon:{x:VW*0.82,y:VH*0.2,r:70},bats:4}); const V=view(F,'BALC',zm,cx,cy); plate(F,V,{shade:['#3a6a80',0.12]});
     const [gx,gy]=V.at(0.5,0.3); lightOn(F.g,()=>glowDot(F.g,gx,gy,V.s(330),'120,90,200',0.16+0.08*pulse(t,0.3))); return V; }
-  const CRYPT_C=[[0.052,0.31],[0.08,0.29],[0.105,0.315],[0.333,0.47],[0.346,0.458],[0.359,0.47],[0.637,0.47],[0.65,0.458],[0.663,0.47],[0.895,0.315],[0.92,0.29],[0.947,0.31],[0.1,0.48],[0.12,0.47],[0.135,0.485],[0.865,0.485],[0.88,0.47],[0.9,0.48]];
+  // 🕯️ ĐẦU BẤC NẾN đo bằng tools/x/plate-grid.html (anh 20/11: "nến không chuẩn, phải rất để ý vị trí") — [u, v, cỡ lửa theo cỡ nến]. Mép phải ngoài khung đo = đối xứng.
+  const CRYPT_C=[[0.0525,0.3012,9],[0.0816,0.2775,9],[0.1048,0.3107,9],[0.104,0.4751,7],[0.12,0.4656,8],[0.1349,0.4893,7],[0.188,0.5163,4.5],[0.2,0.4988,4.5],[0.2115,0.5154,4.5],
+    [0.3381,0.4642,4.5],[0.3504,0.4528,4.5],[0.3629,0.4642,4.5],[0.6371,0.4642,4.5],[0.6496,0.4528,4.5],[0.6619,0.4642,4.5],[0.788,0.5154,4.5],[0.8,0.4988,4.5],[0.812,0.5163,4.5],
+    [0.8664,0.4884,7],[0.8821,0.4576,8],[0.8981,0.4751,7],[0.9005,0.3116,9],[0.9232,0.2784,9],[0.9465,0.311,9]];
   function cryptScene(F,t,zm,cx,cy,o){ o=o||{}; const V=view(F,'CRYPT',zm,cx,cy); plate(F,V,{shade:['#2a4a5a',0.25]}); const on=o.lit==null?1:o.lit, g=F.g;
-    CRYPT_C.forEach(([u,v],i)=>{ const [x,y]=V.at(u,v); flame(g,x,y,V.s(9),t,i+1,clamp(on*3-i*0.12,0,1)*(1+0.25*(o.drum?pulse(t,0.12):0))); }); fog(F,t,VH*0.9,0.5,'90,110,120'); return V; }
-  const HALL_C=[[0.033,0.47],[0.047,0.45],[0.067,0.43],[0.087,0.45],[0.1,0.47],[0.168,0.57],[0.18,0.555],[0.2,0.565],[0.255,0.6],[0.27,0.59],[0.285,0.6],[0.725,0.6],[0.74,0.59],[0.755,0.6],[0.8,0.565],[0.82,0.555],[0.832,0.57],[0.9,0.47],[0.913,0.45],[0.933,0.43],[0.953,0.45],[0.967,0.47]];
+    CRYPT_C.forEach(([u,v,s],i)=>{ const [x,y]=V.at(u,v-0.002); flame(g,x,y,V.s(s),t,i+1,clamp(on*3-i*0.08,0,1)*(1+0.25*(o.drum?pulse(t,0.12):0))); }); fog(F,t,VH*0.9,0.5,'90,110,120'); return V; }
+  const HALL_C=[[0.0314,0.4778,7],[0.0461,0.4543,7],[0.0666,0.4274,7],[0.086,0.4558,7],[0.1005,0.4793,7],[0.1679,0.5744,5],[0.1766,0.5611,5],[0.1875,0.5456,5],[0.1986,0.5623,5],[0.2076,0.5759,5],
+    [0.246,0.61,4],[0.2529,0.5998,4],[0.261,0.5879,4],[0.2691,0.6003,4],[0.2761,0.6105,4],[0.7261,0.61,4],[0.7331,0.5998,4],[0.7414,0.588,4],[0.7495,0.5998,4],[0.7568,0.61,4],
+    [0.7975,0.5744,5],[0.8069,0.5608,5],[0.8176,0.5448,5],[0.8287,0.5608,5],[0.8379,0.5744,5],[0.9012,0.4785,7],[0.916,0.4547,7],[0.9354,0.4274,7],[0.9548,0.4547,7],[0.9696,0.4785,7]];
   function hallScene(F,t,zm,cx,cy,o){ o=o||{}; const V=view(F,'HALL',zm,cx,cy); plate(F,V,{shade:['#2a4050',0.2]}); const on=o.lit==null?1:o.lit, g=F.g;
-    HALL_C.forEach(([u,v],i)=>{ const [x,y]=V.at(u,v); flame(g,x,y,V.s(8),t,i+40,clamp(on*4-i*0.15,0,1)); }); const [ox,oy]=V.at(0.5,0.35); lightOn(g,()=>glowDot(g,ox,oy,V.s(420),'255,150,80',0.12*on)); return V; }
+    HALL_C.forEach(([u,v,s],i)=>{ const [x,y]=V.at(u,v-0.002); flame(g,x,y,V.s(s),t,i+40,clamp(on*4-i*0.1,0,1)); }); const [ox,oy]=V.at(0.5,0.35); lightOn(g,()=>glowDot(g,ox,oy,V.s(420),'255,150,80',0.12*on)); return V; }
   function towerScene(F,t,zm,cx,cy,o){ o=o||{}; sky(F,t,{pal:o.pal||'storm',moon:o.moon,bats:3,cloudK:1,cloudSpd:2}); const V=view(F,'TOWER',zm,cx,cy); plate(F,V,{shade:['#30486a',0.15]}); return V; }
   function stairsScene(F,t,zm,cx,cy,o){ o=o||{}; sky(F,t,{pal:o.pal||'red',moon:{x:VW*0.7,y:VH*0.3,r:110,cres:o.cres==null?1:o.cres},bats:10}); const V=view(F,'STAIRS',zm,cx,cy); plate(F,V,{shade:['#503048',0.15]});
     const [lx,ly]=V.at(0.872,0.51); lightOn(F.g,()=>{ glowDot(F.g,lx,ly,V.s(90),'255,170,90',0.6); }); flame(F.g,lx,ly+V.s(12),V.s(7),t,77,1); return V; }
@@ -183,8 +188,10 @@
     // gargoyle trên 2 bệ + phun lửa ở cú nhấn
     // gargoyle (anh 20/11: bỏ lửa vẽ tay — "không cần thiết, trông giả"): MẮT loé đỏ theo phách + cú nhấn phả KHÓI LẠNH trắng (kiểu máy CO2 sân khấu)
     const gk=o.fire||0, gT0=Math.max(cs(cycK(t)),t>=bar(19,3)?bar(19,3):-1); for(const [key,u,dir] of [['GL',0.165,1],['GR',0.835,-1]]){ const [x,y]=V.at(u,0.612); const r=spr(F,key,x,y,V.s(150),{env:['#7a6a90',0.35],rim:['#ff7a40',0.25*lit],shadow:false});
-      if(r&&lit>0.5){ const ex=x+dir*r.w*0.2, ey=y-r.h*0.8; lightOn(g,()=>{ glowDot(g,ex,ey,V.s(16),'255,40,30',0.5+0.5*pulse(t,0.15)); glowDot(g,ex,ey,V.s(5),'255,200,180',0.8); }); }
-      if(r&&gk>0) cryo(F,x+dir*r.w*0.36,y-r.h*0.7,dir,t,gT0,V); }
+      // mắt / miệng ĐO trên ảnh (plate-grid): trái mắt (0.843,0.198) miệng (0.857,0.343) · phải mắt (0.164,0.196) miệng (0.150,0.343) — anh 20/11: mắt đỏ nhầm chỗ
+      const E=dir>0?[0.843,0.198,0.857,0.343]:[0.164,0.196,0.150,0.343], at=(u,v)=>[x-r.w/2+u*r.w,y-r.h+v*r.h];
+      if(r&&lit>0.5){ const [ex,ey]=at(E[0],E[1]); lightOn(g,()=>{ glowDot(g,ex,ey,r.w*0.09,'255,40,30',0.45+0.5*pulse(t,0.15)); glowDot(g,ex,ey,r.w*0.025,'255,210,190',0.85); }); }
+      if(r&&gk>0){ const [mx,my]=at(E[2],E[3]); cryo(F,mx,my,dir,t,gT0,V); } }
     for(const [key,u] of [['AMP1',0.255],['AMP2',0.745]]){ const [x,y]=V.at(u,0.79); spr(F,key,x,y,V.s(120),{env:['#6a5a80',0.3],rim:['#ff7a40',0.2*lit]}); }
     // 🔦 đèn rọi quét từ trên (anh 20/11 "chưa đủ cháy"): 4 luồng đổi đỏ / xanh theo ô nhịp, sáng theo phách
     if(o.beams){ const red=Math.floor(Math.max(0,beatF(t))/4)%2===0; lightOn(g,()=>{ for(let i=0;i<4;i++){ const x0=VW*(0.15+0.23*i), sw=Math.sin(t*0.9+i*1.7)*VW*0.22, x1=x0+sw, col=(i%2===0)===red?'255,40,60':'40,200,255', a=0.06+0.07*pulse(t,0.14);   // soát 20/11: tia rộng + sáng quá phủ bạc cả sân khấu → mảnh, đậm màu, nhạt hơn
@@ -243,10 +250,24 @@
       for(const [k,x,w] of list){ const ph=hash(k.length*13+x), b=pulse(t+ph*0.08,0.18), bob=-b*h*0.07-(o.jump?pulse(t,0.2,0.25)*h*0.16:0)/* jump: cả đám nhảy ĐỒNG LOẠT phách đầu ô */, spin=(k==='uiacat'||k==='maxwell')?Math.cos(t*TAU*1.0+ph*6):1;
         let key='C_'+k; if(k==='popcat') key=beatI(t+ph*0.1)%2?'C_popcat_o':'C_popcat'; if(k==='clappingcat') key='C_clap'+(1+beatI(t,2)%3);
         const rot=k==='damdamdidi'?Math.sin(beatF(t)*Math.PI)*0.18:Math.sin(beatF(t)*Math.PI/2+ph*6)*0.04;
-        spr(F,key,x,y+bob+(hash(x*3.1)-0.5)*h*0.12,h,{sx:spin,rot,env:['#c07050',0.25+dk],rim:['#ff8a40',0.35-0.1*depth],dark:o.sil!=null?o.sil:(back?0.15+dk*1.4:dk),shadow:depth===0}); }
+        const yy=y+bob+(hash(x*3.1)-0.5)*h*0.12; spr(F,key,x,yy,h,{sx:spin,rot,env:['#c07050',0.25+dk],rim:['#ff8a40',0.35-0.1*depth],dark:o.sil!=null?o.sil:(back?0.15+dk*1.4:dk),shadow:depth===0});
+        if(o.sticks!==false) sticks(g,t,x,yy,w,h,ph,o.sway,depth); }
       fog(F,t,y-h*0.2,0.25+0.1*depth,'90,60,70'); } }
+  // 🎆 MỖI MEME 2 LIGHTSTICK cầm 2 bên (anh 20/11), LẮC ĐÚNG NHỊP: mặc định 1 lần lắc / phách (chạm đầu mút đúng lúc phách đánh) · sway:'slow' = qua lại theo ô nhịp (đoạn solo)
+  const STICK_COL=['255,60,200','80,230,255','120,255,140','255,230,80','255,120,60','180,120,255'];
+  function sticks(g,t,x,y,w,h,ph,sway,depth){ const slow=sway==='slow', B=beatF(t)-0.02*ph, sw=slow?Math.cos(Math.PI*B/2)*0.55:Math.cos(Math.PI*B)*0.42, col=STICK_COL[Math.floor(ph*97)%STICK_COL.length], L=h*0.46, dim=depth===2?0.6:1;
+    lightOn(g,()=>{ g.lineCap='round'; for(const s of [-1,1]){ const hx=x+s*w*0.3, hy=y-h*0.36, an=-Math.PI/2+s*0.32+sw, tx=hx+Math.cos(an)*L, ty=hy+Math.sin(an)*L;
+        g.strokeStyle='rgba('+col+','+(0.22*dim)+')'; g.lineWidth=h*0.1; g.beginPath(); g.moveTo(hx,hy); g.lineTo(tx,ty); g.stroke();
+        g.strokeStyle='rgba('+col+','+(0.95*dim)+')'; g.lineWidth=h*0.035; g.beginPath(); g.moveTo(hx,hy); g.lineTo(tx,ty); g.stroke();
+        g.strokeStyle='rgba(255,255,255,'+(0.8*dim)+')'; g.lineWidth=h*0.012; g.beginPath(); g.moveTo(hx+(tx-hx)*0.1,hy+(ty-hy)*0.1); g.lineTo(tx,ty); g.stroke();
+        glowDot(g,tx,ty,h*0.14,col,0.35*dim); } }); }
   // 🐱 hàng bóng đen đám đông ở mép dưới khung sân khấu rộng (ngược sáng — thấy được viền sáng, không lộ PNG)
-  function crowdSil(F,t,V){ crowd(F,t,{rows:[[VH*1.06,70,0],[VH*1.0,58,1]],gap:6,back:true,sil:0.82}); }   // soát 20/11: hàng mép dưới còn rõ màu → ngược sáng gần đen
+  // cảnh khán giả lúc SOLO: sảnh tối, 2 luồng đèn chậm, lightstick lắc qua lại theo ô nhịp (anh 20/11)
+  function crowdShot(F,t,sway,start,col){ const g=F.g; g.fillStyle='#0b060d'; g.fillRect(-50,-50,VW+100,VH+100);
+    lightOn(g,()=>{ for(let i=0;i<2;i++){ const x=VW*(0.3+0.4*i)+Math.sin(t*0.5+i*2)*90, lg=g.createLinearGradient(x,0,x,VH); lg.addColorStop(0,'rgba('+col+',0.2)'); lg.addColorStop(1,'rgba('+col+',0)'); g.fillStyle=lg;
+      g.beginPath(); g.moveTo(x-12,0); g.lineTo(x+12,0); g.lineTo(x+170,VH); g.lineTo(x-170,VH); g.closePath(); g.fill(); } });
+    fog(F,t,VH*0.62,0.6,'80,55,75'); crowd(F,t,{start:start%CROWD.length,sway}); embers(F,t,0.4); }
+  function crowdSil(F,t,V,sway){ crowd(F,t,{rows:[[VH*1.06,70,0],[VH*1.0,58,1]],gap:6,back:true,sil:0.82,sway}); }   // soát 20/11: hàng mép dưới còn rõ màu → ngược sáng gần đen
 
   // ═════════ CÁC Ô (chia khung) ═════════
   // ô = đa giác (tỉ lệ khung) → clip, vẽ cảnh riêng trong ô, viền ô = vạch sáng mảnh
@@ -339,15 +360,24 @@
       lightOn(g,()=>{ const [x,y]=V.at(0.5,0.5); const lg=g.createLinearGradient(x,0,x,y+V.s(40)); lg.addColorStop(0,'rgba(170,240,255,0.25)'); lg.addColorStop(1,'rgba(170,240,255,0.04)'); g.fillStyle=lg; g.beginPath(); g.moveTo(x-V.s(40),0); g.lineTo(x+V.s(40),0); g.lineTo(x+V.s(120),y+V.s(40)); g.lineTo(x-V.s(120),y+V.s(40)); g.closePath(); g.fill(); });
       rain(F,t,0.8); fog(F,t,VH*0.9,0.7); return; }
     // 11 · 92.7 SOLO 2 VIOLIN trên đỉnh tháp cao nhất, trăng đỏ, sét nhánh ở ô nhịp chẵn
-    if(t<SEC.gsolo){ const b=Math.floor((t-SEC.vsolo)/B4), u=((t-SEC.vsolo)%B4)/B4, view4=b%4; const zm=[1.0,1.9,1.9,1.3][view4], cx=[0.5,0.38,0.62,0.5][view4], cy=[0.42,0.42,0.42,0.45][view4];
+    if(t<SEC.gsolo){ const b=Math.floor((t-SEC.vsolo)/B4), u=((t-SEC.vsolo)%B4)/B4, view4=b%4;
+      if(b===3||b===7){ crowdShot(F,t,'slow',b*9,'255,90,120'); return; }   // anh 20/11: đoạn solo có khán giả giơ lightstick lắc qua lại
+      const zm=[1.0,1.9,1.9,1.3][view4], cx=[0.5,0.38,0.62,0.5][view4], cy=[0.42,0.42,0.42,0.45][view4];
       const V=spireScene(F,t,zm+0.06*u,cx,cy); if(b%2===0){ const bk=boltK(t,bar(10+(b>>2),b%4)+0.02,0.4); bolt(F,VW*(0.2+0.6*hash(b)),-10,VW*(0.3+0.4*hash(b+3)),VH*0.6,90+b,bk,'255,190,200',2.5); K.flash(F,bk*0.15,'#ffe0e8'); }
       const [mx,my]=V.at(0.4,0.42), [bx,by]=V.at(0.6,0.42); const r1=member(F,t,'mosq',mx,my,V.s(150),{env:envOf('red'),rim:rimOf('red')}), r2=member(F,t,'bee',bx,by,V.s(140),{env:envOf('red'),rim:rimOf('red'),flip:false});
       if(r1) sig(F,t,'mosq',mx,my,r1,V,{}); if(r2) sig(F,t,'bee',bx,by,r2,V,{beeFrom:beatF(SEC.vsolo)-22}); embers(F,t,0.5,'255,120,140'); return; }
-    // 12 · 108.7 SOLO GUITAR: sét đánh xuống đàn ở ô nhịp lẻ, sóng âm thổi bạt mưa
-    if(t<SEC.tutti2){ const b=Math.floor((t-SEC.gsolo)/B4), u=((t-SEC.gsolo)%B4)/B4; const zm=[1.0,1.6,2.4,1.2][b%4], cy=[0.6,0.62,0.55,0.62][b%4];
-      const V=towerScene(F,t,zm+0.05*u,0.5,cy,{pal:'storm',moon:{x:VW*0.72,y:VH*0.22,r:70}}); const [x,y]=V.at(0.5,0.9); const r=member(F,t,'guitar',x,y,V.s(340),{env:envOf('cyan'),rim:['#c0d0ff',0.4]}); if(r) sig(F,t,'guitar',x,y,r,V,{});
-      if(b%2===1){ const a=bar(12+(b>>2),b%4), bk=boltK(t,a,0.45); if(r) bolt(F,x+V.s(40)+(hash(b)-0.5)*VW*0.3,-10,x+r.w*0.1,y-r.h*0.45,200+b,bk,null,4); K.flash(F,bk*0.45,'#eef6ff'); }
-      rain(F,t,1,0.28+0.5*pulse(t,0.3,2)); return; }
+    // 12 · 108.7 SOLO GUITAR TRÊN SÂN KHẤU (anh 20/11): TẮT HẾT ĐÈN, chỉ 1 vệt đèn rọi xuống Guitar đứng giữa phía trước, máy zoom vào nó,
+    //   khán giả bên dưới giơ lightstick lắc qua lại theo ô nhịp · sét đánh xuống đàn ở ô nhịp lẻ (qua mái vòm hở)
+    if(t<SEC.tutti2){ const b=Math.floor((t-SEC.gsolo)/B4), u=((t-SEC.gsolo)%B4)/B4;
+      if(b===2||b===6){ crowdShot(F,t,'slow',b*11,'255,230,200'); return; }
+      const zm=[1.15,1.9,0,2.6,1.4,2.2,0,2.9][b], cy=[0.66,0.68,0,0.66,0.67,0.69,0,0.67][b];
+      const V=stageScene(F,t,zm+0.08*u,0.5,cy,{lit:0.06,pal:'red'}); g.save(); g.globalAlpha=0.6; g.fillStyle='#030208'; g.fillRect(-50,-50,VW+100,VH+100); g.restore();   // tắt đèn: cả sân khấu chìm tối
+      const [x,y]=V.at(0.5,0.86), H=V.s(230);
+      lightOn(g,()=>{ const lg=g.createLinearGradient(x,-20,x,y); lg.addColorStop(0,'rgba(255,240,215,0.32)'); lg.addColorStop(1,'rgba(255,240,215,0.1)'); g.fillStyle=lg; g.beginPath(); g.moveTo(x-H*0.12,-20); g.lineTo(x+H*0.12,-20); g.lineTo(x+H*0.75,y+H*0.05); g.lineTo(x-H*0.75,y+H*0.05); g.closePath(); g.fill();
+        g.save(); g.translate(x,y); g.scale(1,0.22); glowDot(g,0,0,H*0.9,'255,235,205',0.55); g.restore(); });
+      const r=member(F,t,'guitar',x,y,H,{env:['#c09080',0.15],rim:['#fff0dc',0.6],mist:0.2}); if(r) sig(F,t,'guitar',x,y,r,V,{solo:true});
+      if(b%2===1){ const a=bar(12+(b>>2),b%4), bk=boltK(t,a,0.45); if(r) bolt(F,x+(hash(b)-0.5)*VW*0.5,-10,x+r.w*0.1,y-r.h*0.45,200+b,bk,null,4); K.flash(F,bk*0.35,'#eef6ff'); }
+      crowdSil(F,t,V,'slow'); embers(F,t,0.4); return; }
     // 13 · 124.8 TUTTI lại (lửa mạnh hơn) · 14 · 156.9 KẾT riff: mỗi ô nhịp 1 con cận mặt
     if(t<SEC.fin){ tuttiShot(F,t,cycK(t)); const rk=1-seg(t,SEC.tutti2,SEC.tutti2+0.5); if(rk>0) K.flash(F,rk*0.7,'#fff'); return; }
     if(t<SEC.end){ const b=Math.floor((t-SEC.fin)/B4), who=['sans','bongo','piano','guitar','mosq','bee','all','all'][b]; const u=((t-SEC.fin)%B4)/B4;
