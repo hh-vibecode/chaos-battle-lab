@@ -66,6 +66,7 @@ Chi tiết từng meme: `docs/notes/memes.md` · từng phim + cine-kit: `docs/n
 
 ## 🎥 Xuất video
 - CHỈ xuất khi anh bảo rõ. Xuất xong không tự đổi tên video đã quay.
+- 📂 (anh 21/11) Video xuất xong (phim lẫn trận) + thumbnail → để vào `~/Desktop/Meme Battles/` (thumbnail: thư mục con `<Tên> thumbnail/`). Quay ở `out/` trong repo (gitignore, không phải iCloud), xong mới chuyển file cuối sang; đoạn quay `*.chunks` giữ ở `out/` tới khi anh duyệt rồi xoá.
 - Mọi video 50fps. Phim 4K (16:9 3840×2160, 9:16 2160×3840). Trận đấu giả lập: 9:16 dọc 3K 1620×2880.
 - Phim chạy `render-cine … --cache --chunk 5` (chia đợt, tắt máy chạy lại đúng lệnh là tiếp). Mac: không chạy song song nhiều tiến trình (tràn RAM): render-cine `--jobs 3`, render-match `--par` ≤2.
 - Trận giả lập phải TỰ NHIÊN, không can thiệp diễn biến (chỉ lọc seed). Ưu tiên thắng sát, 1vs1 ≤30s, trận đông ≤35s (`--want 3 --pdur 20-30`). Tên: "A vs B - Meme Battle".

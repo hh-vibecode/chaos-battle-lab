@@ -60,7 +60,8 @@ Phim có sẵn: `war`, `l2e2`, `l2e3` (bảng `FILMS` đầu file). Phim dựng 
 ## Theo dõi + báo anh
 - Chạy nền, đọc log định kỳ: render-cine in `khung i/N` mỗi 10 khung; render-match in `thử #k`, `⏱️ chạy thử mất…`, rồi `Ns video`.
 - Ước thời gian từ tốc độ vài phút đầu rồi báo anh; xong gửi đường dẫn file + thời lượng + seed (trận đấu).
-- Video ra để ngoài repo hoặc thư mục bị .gitignore — KHÔNG commit mp4.
+- Quay vào `out/` (gitignore) — KHÔNG commit mp4. Xong (đã soát độ dài) → CHUYỂN file cuối sang `~/Desktop/Meme Battles/` (anh dặn 21/11, cả phim lẫn trận; thumbnail vào thư mục con `<Tên> thumbnail/`). `*.chunks` giữ ở `out/` tới khi anh duyệt.
+- Máy Mac thiếu `playwright` trong repo (21/11): chạy kèm `NODE_PATH=$(dirname $(find ~/.npm/_npx -maxdepth 3 -type d -name playwright | head -1))` — có sẵn bản trong bộ đệm npx, Chromium ở `~/Library/Caches/ms-playwright`.
 
 ## ⚠️ Cần làm / chưa kiểm (28/10/2026)
 - `--par`, `--hw` (render-match) và `--cache`, `--redo`, `--hw`, `--webcodecs`, số tiến trình tự động (render-cine) viết trên máy Windows, CHƯA chạy trên Mac.
