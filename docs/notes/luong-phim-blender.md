@@ -71,3 +71,5 @@ Mọi thứ làm phim đều NẰM TRONG REPO: Mac chỉ cần `git pull` là c�
 
 ## Nhật ký cài đặt
 - 18/11/2026 · PC Windows · Blender 5.2.4 LTS (zip không cài, ổ D) · i5-14400F, 16GB, RX 560.
+
+- 21/11/2026 · MacBook này chip **Intel (x86_64)** → Blender 5.2.x chỉ có bản `macos-arm64` (download.blender.org/release/Blender5.2/) → KHÔNG cài được cùng bản với PC. Mô phỏng Blender làm trên PC; Mac dựng VFX nổ bằng code (js/vfx-boom.js) + dùng sheet mô phỏng đã commit (VFX_BOOM_SIM_FIRE). Playwright: repo không có node_modules → chạy kèm `NODE_PATH=<thư mục node_modules của playwright trong ~/.npm/_npx>`.

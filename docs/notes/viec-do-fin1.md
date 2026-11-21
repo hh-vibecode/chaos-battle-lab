@@ -4,7 +4,7 @@
 Luật mới (CLAUDE.md mục Ảnh / VFX): không dán PNG thẳng lên nền. Áp vào các cảnh Final 1 (fin1c1–c5, fin1f1–f3, Chill Guy, cảnh kết):
 thay chỗ vẽ meme (`spr` trong js/film-fin1f1.js / js/fin1-plate.js …) bằng cách dựng như `sprBlend` trong js/film-megaband.js — bớt rực, multiply ánh môi trường,
 tối dần về chân, ánh hắt mỏng phía nguồn sáng (bỏ viền glow lệch 4 hướng), mép mềm, bóng + sương chân bầu dục. Nên đưa `sprBlend` vào cine-kit (K.blend…) để mọi phim dùng chung.
-Chưa làm — chờ phiên làm Final.
+✅ fin1c7 đã làm 21/11 (hàm `bake` / `blend` trong js/film-fin1c7.js: nướng sẵn ảnh 4 tông gần / giữa / xa / anh hùng + 3 cỡ 180 / 520 / gốc ≤1600px, mép đáy mờ, vẽ được hàng nghìn meme). ⏳ CÒN: fin1c1–c6, fin1f1–f3 chưa áp — nên đưa bake/blend vào cine-kit (K.blend) rồi thay K.sprite / W.actor ở từng cảnh, soát từng cảnh vì anh đã duyệt hình các cảnh đó.
 
 ## 🆕 YÊU CẦU 18/11 (anh gửi — làm THEO THỨ TỰ)
 **① ✅ XONG 18/11 (Ver 659: js/vfx-boom.js + skill hoat-hoa-vfx + mẫu Anime Lab "Sample · Explosion + impact") — CHỜ ANH XEM mẫu rồi mới sang ② ③.** Gốc: LÀM SKILL / TOOL TRƯỚC hỗ trợ dựng animation như các video đã học, rồi **làm MẪU 1 VỤ NỔ + IMPACT 5s cho anh xem** (anh dặn "xử lý phần skill trước, xong làm mẫu vụ nổ impact 5s t xem thử"). Học từ:
@@ -20,7 +20,8 @@ Chưa làm — chờ phiên làm Final.
 - Gojo vs Pain lần đầu gặp mắt: meme bị XUYÊN THẤU (mờ), KHÔNG BÁM ĐẤT → phải đặc, chân chạm đất.
 - Gojo xuất hiện phải NÓI ("Leave it to me" hay tương tự — phụ đề + giọng).
 - Chill Guy NÉ: KHÔNG dùng tư thế đá / đấm (skill1) — né bình thường (ảnh đứng + chuyển động).
-**③ ⏳ CHƯA LÀM (dừng 19/11 hỏi anh — luật ~20% usage).** Khi làm: dựng theo ảnh mẫu D:meme-anime-lab-videosef-fin1-ending (Madara vs Liên minh 0:54, thiên thạch 11:19) và SO SONG SONG bằng tools/x/compare.js từng shot · tiếng Bread Cat xoay phải NGẮT khi chuyển cảnh · vụ nổ bánh mì có thể dùng mô phỏng Blender (tools/blender/boom_sim.py --pal …).
+**③ ✅ DỰNG LẠI 21/11 trên Mac (kịch bản `prompts/kich-ban/fin1c7-v2.md`, 46.6s) — CHỜ ANH XEM.** Còn: so song song với 2 ảnh mẫu (Madara 0:54, thiên thạch 11:19 — chỉ có ở ổ D máy PC) bằng tools/x/compare.js. (Gốc: dừng 19/11 hỏi anh.) Khi làm: dựng theo ảnh mẫu D:meme-anime-lab-videos
+ef-fin1-ending (Madara vs Liên minh 0:54, thiên thạch 11:19) và SO SONG SONG bằng tools/x/compare.js từng shot · tiếng Bread Cat xoay phải NGẮT khi chuyển cảnh · vụ nổ bánh mì có thể dùng mô phỏng Blender (tools/blender/boom_sim.py --pal …).
   **③ LÀM LẠI CẢNH KẾT `fin1c7`** ("như đấm vào mồm, quá lộn xộn, hiệu ứng xấu"):
 - Bánh mì xoay → NỔ là TẤT CẢ meme đã phải xuất hiện (không rơi lắt nhắt). Gigachad + Chonky đứng ĐẰNG XA, chỉ to hơn ~10 lần meme thường.
 - Sau đó mới triệu hồi (Ninja) — làm cho RA HỒN.
