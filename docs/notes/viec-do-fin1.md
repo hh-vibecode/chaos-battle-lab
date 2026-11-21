@@ -2,7 +2,7 @@
 
 ## 🎨 SỬA 20/11 (anh dặn): NHÂN VẬT HOÀ VÀO CẢNH cho mọi cảnh Final
 Luật mới (CLAUDE.md mục Ảnh / VFX): không dán PNG thẳng lên nền. Áp vào các cảnh Final 1 (fin1c1–c5, fin1f1–f3, Chill Guy, cảnh kết):
-thay chỗ vẽ meme (`spr` trong js/film-fin1f1.js / js/fin1-plate.js …) bằng cách dựng như `sprBlend` trong js/film-megaband.js — bớt rực, multiply ánh môi trường,
+thay chỗ vẽ meme (`spr` trong js/film-fin1f1.js / js/fin1-plate.js …) bằng cách dựng như `sprBlend` trong docs/mau-phim/film-megaband.js — bớt rực, multiply ánh môi trường,
 tối dần về chân, ánh hắt mỏng phía nguồn sáng (bỏ viền glow lệch 4 hướng), mép mềm, bóng + sương chân bầu dục. Nên đưa `sprBlend` vào cine-kit (K.blend…) để mọi phim dùng chung.
 ✅ fin1c7 đã làm 21/11 (hàm `bake` / `blend` trong js/film-fin1c7.js: nướng sẵn ảnh 4 tông gần / giữa / xa / anh hùng + 3 cỡ 180 / 520 / gốc ≤1600px, mép đáy mờ, vẽ được hàng nghìn meme). ⏳ CÒN: fin1c1–c6, fin1f1–f3 chưa áp — nên đưa bake/blend vào cine-kit (K.blend) rồi thay K.sprite / W.actor ở từng cảnh, soát từng cảnh vì anh đã duyệt hình các cảnh đó.
 

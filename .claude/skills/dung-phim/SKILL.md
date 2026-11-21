@@ -11,7 +11,7 @@ Anh nạp clip anime → bảng cảnh + luật đạo diễn + công thức cod
 
 Đọc trước: `CLAUDE.md` (tỉ lệ cỡ nhân vật, phân việc ảnh — ảnh nhân vật do ANH vẽ ChatGPT, Claude chỉ làm chuyển động + VFX bằng code),
 bộ nhớ: mỗi nhịp 1 hành động có lý do, không VFX nứt đất, mỗi nhịp 1 tiếng, skill của meme phải giống trong game.
-Mẫu đầy đủ: `js/film-dvc.js` (Buff Doge vs Samurai Cheems, ~7.6s) — copy file này rồi sửa.
+Mẫu đầy đủ: `docs/mau-phim/film-dvc.js` (Buff Doge vs Samurai Cheems, ~7.6s) — copy file này rồi sửa.
 
 ## 🎞️ CẢNH VFX NẶNG = NỀN VẼ GPT THEO LỚP + NHÂN VẬT ẢNH GỐC GẮN BẰNG CODE (anh chốt 16/11/2026: "ghi nhớ cách này")
 - Cảnh chấn động / tụ lực / nổ / sét / đá vỡ kiểu anime (vd ảnh edit đỏ – đen anh gửi 16/11, video Zenitsu 0:43–0:48) → KHÔNG dựng full 3D, KHÔNG vẽ VFX bằng code nét mảnh.
@@ -26,7 +26,7 @@ Mẫu đầy đủ: `js/film-dvc.js` (Buff Doge vs Samurai Cheems, ~7.6s) — co
 
 ## ⚔️ MẸO CẢNH COMBAT (học từ phim người que đánh nhau — Animator vs Animation, Xiao Xiao; anh dặn 3/11/2026 ÁP CHO MỌI CẢNH ĐÁNH)
 Cảnh đánh nào cũng phải có đủ các mẹo dưới đây — đây là thứ làm đòn "có lực", thiếu là trông đều đều, nhạt:
-1. **Lấy đà (anticipation)**: trước mỗi cú lao/đấm, LÙI ngược hướng 2–4 khung (~0.1–0.15s) rồi mới bung ra. Mẫu: hàm `dash()` trong `js/film-mvd.js`
+1. **Lấy đà (anticipation)**: trước mỗi cú lao/đấm, LÙI ngược hướng 2–4 khung (~0.1–0.15s) rồi mới bung ra. Mẫu: hàm `dash()` trong `docs/mau-phim/film-mvd.js`
    (35% đầu lùi 18 đơn vị, 65% sau `ein` lao tới).
 2. **Khung nhoè (smear)**: chỉ bật `smear` ở đoạn NHANH NHẤT của cú lao (1–3 khung), không nhoè suốt.
 3. **Khựng khi trúng đòn (hit-stop)** — quan trọng nhất: đúng khung chạm, NHÂN VẬT + vật thể ĐỨNG HÌNH 0.1–0.16s, còn hiệu ứng / máy quay / rung vẫn chạy;
@@ -42,10 +42,10 @@ Cảnh đánh nào cũng phải có đủ các mẹo dưới đây — đây là
 11. **KHÔNG bó vào khung giữa** (anh chê 3/11): đặt nhân vật lệch 1/3 khung (`ox` ±0.08–0.14), nghiêng máy (`roll`), đổi phía máy theo từng đòn, máy bám theo vật đang bay.
 12. **Cắt dày, chiêu ra NHANH**: mỗi shot 0.25–1s ở đoạn cao trào; gồng chiêu ≤0.5s, cắt xen 2 bên (gồng A → gồng B → bắn A → bắn B → toàn cảnh va nhau); tránh vật bay chậm 2–3s.
 13. **CHIA KHUNG CHÉO** (`def.panels(t)` trong cine-kit: mỗi ô 1 máy riêng, `clip` đa giác tỉ lệ khung) cho 2 việc xảy ra cùng lúc:
-    2 con biến hình đồng thời, 2 con bị hất văng mỗi con nửa khung (máy bám theo con đó) → rồi MỞ RA toàn cảnh rộng. Kẻ đường chéo trắng-đen ở `screen()`. Mẫu: `panels()` + `splitLine()` trong js/film-mvd.js.
+    2 con biến hình đồng thời, 2 con bị hất văng mỗi con nửa khung (máy bám theo con đó) → rồi MỞ RA toàn cảnh rộng. Kẻ đường chéo trắng-đen ở `screen()`. Mẫu: `panels()` + `splitLine()` trong docs/mau-phim/film-mvd.js.
 14. **Chưởng phải có lực + MÔI TRƯỜNG CHỊU ẢNH HƯỞNG** (anh dặn 3/11): ánh chưởng hắt màu xuống nền (`glow`), vết cháy xém tối tồn tại lâu (`scorch` — KHÔNG vẽ vết nứt đất),
     tảng đá sàn bật tung (`slabs`), mưa bị sóng xung kích thổi bạt / bị đẩy ra (Shinra) (`BLASTS` trong screen), bụi + hạt sáng bị HÚT vào lúc gồng (`suck`),
-    mây bị vụ nổ cuối thổi tung, trời quang ra; chưởng to + có vệt đuôi; rung + sóng méo + loé ở cả lúc BẮN chứ không chỉ lúc trúng. Mẫu: js/film-mvd.js.
+    mây bị vụ nổ cuối thổi tung, trời quang ra; chưởng to + có vệt đuôi; rung + sóng méo + loé ở cả lúc BẮN chứ không chỉ lúc trúng. Mẫu: docs/mau-phim/film-mvd.js.
 
 ## 🎴 MẸO ANIME TRUYỀN HÌNH: ÍT VẼ MÀ VẪN ĐẸP, CÓ LỰC (anh dặn 12/11/2026: "học làm sao để dễ nhất mà vẫn đẹp và hiệu quả")
 Anime TV làm cảnh đánh với rất ít hình vẽ: dồn công vào vài khung quyết định, phần còn lại để HIỆU ỨNG, MÁY QUAY, ÂM THANH gánh.

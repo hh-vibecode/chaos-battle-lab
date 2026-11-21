@@ -26915,14 +26915,11 @@ const CINEMA_EN={   // tên/mô tả tiếng Anh cho các cảnh mẫu của Sce
   void:['Swallowed by the Void','Sucked into a black hole, spun around and shattered'],
 };
 let _scPlayer=null;   // đang ở chế độ XEM PHIM: {bak:cảnh đang dựng, loop}
-function openCinema(folder){
+function openCinema(){
   _cineGalleryClose();
-  if(folder==='__war') return _openWarFolder();
-  // 📂 trang chủ chỉ có 2 thư mục: Meme Lore 1 (mọi phim cũ) · Meme Lore 2 (các tập mới, khung dọc 9:16)
-  const LORE={ __top:{ title:'🎬 MEME CINEMA', back:null, items:[{id:'__lore1', ic:'📼', name:'Meme Lore 1', desc:'Memes Assemble I & II and the classic scenes', folder:true},
-                                                              {id:'__lore2', ic:'🌑', name:'Meme Lore 2', desc:'Pain is coming… (Shorts 9:16)', folder:true},
-                                                              {id:'__lab', ic:'🧪', name:'Anime Lab', desc:'Test scenes for the new anime film kit', folder:true}]},
-    __fin1:{ title:'👁️ FINAL · PART 1', back:'__lore2', items:[   // 10/11: thư mục riêng của Final Part 1 — trận phụ fin1f1–f3 thêm vào đây
+  // 🧹 21/11 anh: Rạp phim CHỈ còn Final Part 1 cho nhẹ. Phim cũ (Meme Lore 1, Meme Lore 2 Ep 0–4 + Prologue, Anime Lab) đã gỡ khỏi app;
+  //    code để học nằm ở docs/mau-phim/ (cách làm: skill dung-phim / edit-video / hoat-hoa-vfx…), bản đầy đủ còn trong lịch sử git.
+  const items=[   // Final Part 1: cả tập + từng cảnh + trận phụ fin1f1–f3 + trailer
       {id:'ck:fin1full', ic:'🎞️', name:'Full episode · Final Part 1', desc:'The whole episode in one go: Friend returns, the Meowkatsuki on the rooftop, the guardians land, and Chill Guy meets Gojo, four fights joined end to end, Gojo vs Pain, and both sides gathering their armies. (16:9)', dur:342},
       {id:'ck:fin1', ic:'🎬', name:'Story · Friend returns', desc:'A peaceful city, an ice cream, a shadow over the sky. Friend has returned, and the Meowkatsuki appear on a rooftop. (16:9)', dur:66.4},
       {id:'ck:fin1c5', ic:'♾️', name:'Bridge · The guardians land', desc:'An infinity sign seals the planet, Bread Cat spins and pillars of light fall across the city: the guardians of the meme multiverse have arrived. (16:9)', dur:21.6},
@@ -26932,51 +26929,21 @@ function openCinema(folder){
       {id:'ck:fin1f1', ic:'⛓️', name:'Fight · Chud vs Buff Doge', desc:'Ambushed in a night park the moment they land: red-hot chains and a freezing lick. Buff Doge breaks out and the chains-versus-fists brawl moves into the ruins, until Armament Haki snaps the chains. (16:9)', dur:47.4},
       {id:'ck:fin1c4', ic:'⚔️', name:'Fight · Gojo Cat vs Pain Cat', desc:'Close combat, Shinra Tensei, Domain Expansion: Infinite Void and Hollow Purple. (16:9)', dur:61},
       {id:'ck:fin1c7', ic:'🌌', name:'Ending · Two armies', desc:'On the flattened battlefield Bread Cat spins open a portal and a sea of memes pours in with Gigachad and Chonky Dog as giants; Ninja Cat\'s summoning seal raises Evil Gary, Catvader and a demon army; Pain calls Friend back, as big as a meteor. To be continued at Christmas. (16:9)', dur:39.50},
-      {id:'ck:fin1tr', ic:'📱', name:'Trailer 9:16', desc:'Vertical teaser: Friend rises over the city, Banana Cat screams, the Meowkatsuki step into the light.', dur:18}]},
-    __lore2:{ title:'🌑 MEME LORE 2', back:'', items:[{id:'__fin1', ic:'👁️', name:'Final · Part 1', desc:'Friend has returned and the Meowkatsuki step out of the shadows: the story, the big fights and the trailer.', folder:true},{id:'ck:l2pro', ic:'🌌', name:'Prologue · The Dark Age', desc:"Long before the memes… Friend devoured worlds, until three Supreme Memes and The Void sealed it away. (16:9)", dur:170},
-                                                       {id:'__l2e0', ic:'🐹', name:'Ep 0 · The Truth', desc:"What really happened behind that window…", dur:25},
-                                                       {id:'__dpwindow', ic:'🪟', name:'Ep 1 · Depressed Cat Comes Home', desc:"He looks up at the window… This world shall know pain.", dur:23},
-                                                       {id:'__l2e2', ic:'🗿', name:'Ep 2 · Into the Dark', desc:"A dark gate opens and Evil Gary falls into a cave… where something is waiting.", dur:25},
-                                                       {id:'__l2e3', ic:'🌋', name:'Ep 3 · The High Ground', desc:"Grumpy fights his master, Supreme Cat, and falls into the lava… then the Meowcatsuki arrive.", dur:41},
-                                                       {id:'__l2e4', ic:'🖤', name:'Ep 4 · Rise of Catvader', desc:"Grumpy is reborn as Catvader… and the Meowcatsuki set Friend free.", dur:59}]},
-    __lab:{ title:'🧪 ANIME LAB', back:'', items:[{id:'ck:megaband', ic:'🎸', name:'Megalovania · Meme Band in the Castle', desc:'A stormy gothic castle wakes up one musician at a time: Sans, Bongo Cat, Piano Cat, Electric Guitar Cat and the two violins play a five-cover Megalovania, then the panels shatter into a cathedral fire stage with every cat and dog meme dancing below. (16:9 music video)', dur:177.8},{id:'ck:vfxboom', ic:'💥', name:'Sample · Explosion + impact (5s)', desc:'Test of the new animation tools: two streaks clash into an impact-frame strobe, then a huge explosion grows from one point and its dust wall rolls over the camera. (16:9)', dur:5.2},{id:'ck:mvd', ic:'😤', name:'Mewing Cat vs Depressed Cat', desc:'Statues vs storm, Gojo vs Pain, Hollow Purple vs Shinra Tensei: an even fight.', dur:23},{id:'ck:dvc', ic:'⚔️', name:'Test · Buff Doge vs Samurai Cheems', desc:'Anime fight test: orbiting camera, high angles, smoke, slashes, impact frames.', dur:8}]} };
-  const L=LORE[folder||'__top'];
+      {id:'ck:fin1tr', ic:'📱', name:'Trailer 9:16', desc:'Vertical teaser: Friend rises over the city, Banana Cat screams, the Meowkatsuki step into the light.', dur:18}];
   const ov=document.createElement('div'); ov.id='cinemaGallery';
   ov.style.cssText='position:fixed;inset:0;z-index:9000;background:radial-gradient(ellipse at top,#2a1b3d,#0b0712 70%);overflow:auto;padding:28px 16px 40px;font-family:system-ui,Arial,sans-serif;color:#fff;';
-  const items=L?L.items:[{id:'__endgame', ic:'🦸', name:'Memes Assemble', desc:"Stalin's last stand against Evil Gary — Avengers: Endgame style", dur:37},
-               {id:'__war', ic:'⚔️', name:'Memes Assemble II', desc:"The War of Evil Gary — the last battle… and something in the dark", dur:218, folder:true}]   // thời lượng thật (tính cả slow-mo) — đổi khi phim dài/ngắn đi
-    .concat(SC_PRESETS.map(P=>({id:P.id, ic:P.ic, name:(CINEMA_EN[P.id]||[P.name])[0], desc:(CINEMA_EN[P.id]||[0,P.desc])[1], dur:Math.round(P.dur/SC_FPS)})));
   ov.innerHTML=`<div style="max-width:980px;margin:0 auto"><div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
-    <button onclick="${L&&L.back!=null?`openCinema('${L.back}')`:(folder==='__lore1'?'openCinema()':'_cineGalleryClose()')}" style="font-size:20px;background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.25);border-radius:10px;padding:6px 14px;cursor:pointer">◀</button>
-    <div style="font-size:28px;font-weight:900;letter-spacing:1px">${L?L.title:'📼 MEME LORE 1'}</div></div>
+    <button onclick="_cineGalleryClose()" style="font-size:20px;background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.25);border-radius:10px;padding:6px 14px;cursor:pointer">◀</button>
+    <div style="font-size:28px;font-weight:900;letter-spacing:1px">👁️ FINAL · PART 1</div></div>
     <div id="cinemaGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px"></div></div>`;
   document.body.appendChild(ov);
   const grid=ov.querySelector('#cinemaGrid');
   for(const it of items){ const c=document.createElement('button');
     c.style.cssText='text-align:left;background:linear-gradient(160deg,rgba(255,255,255,0.10),rgba(255,255,255,0.03));border:1px solid rgba(255,255,255,0.18);border-radius:16px;padding:16px;color:#fff;cursor:pointer;display:flex;flex-direction:column;gap:8px;min-height:150px;transition:transform .12s,border-color .12s';
     c.onmouseenter=()=>{ c.style.transform='translateY(-3px)'; c.style.borderColor='#ffcc80'; }; c.onmouseleave=()=>{ c.style.transform=''; c.style.borderColor='rgba(255,255,255,0.18)'; };
-    c.innerHTML=`<div style="font-size:38px">${it.ic}</div><div style="font-size:18px;font-weight:800">${it.name}</div><div style="font-size:13px;opacity:.75;line-height:1.35;flex:1">${it.desc}</div><div style="font-size:12px;opacity:.6">${it.folder?'📂 Open':'▶ '+it.dur+'s'}</div>`;
-    c.onclick=()=>{ _cineGalleryClose(); if(it.id.startsWith('ck:')) playCineKit(it.id.slice(3),{onEnd:()=>openCinema(folder||'__top')});   /* 16/11 anh: xem xong / đóng phim → về đúng thư mục tập phim, không về menu */ else if(it.id==='__lore1'||it.id==='__lore2'||it.id==='__lab'||(it.folder&&LORE[it.id])) openCinema(it.id);   /* 10/11: mọi thư mục khai trong LORE (vd __fin1) — trước bị rơi xuống playScenePreset → về menu */ else if(it.id==='__endgame') playCineEndgame(); else if(it.id==='__war') openCinema('__war'); else if(it.id==='__dpwindow') playCineDpWindow(); else if(it.id==='__l2e2') playCineL2E2(); else if(it.id==='__l2e3') playCineL2E3(); else if(it.id==='__l2e0') playCineL2E0(); else if(it.id==='__l2e4') playCineL2E4(); else playScenePreset(it.id); };
+    c.innerHTML=`<div style="font-size:38px">${it.ic}</div><div style="font-size:18px;font-weight:800">${it.name}</div><div style="font-size:13px;opacity:.75;line-height:1.35;flex:1">${it.desc}</div><div style="font-size:12px;opacity:.6">▶ ${it.dur}s</div>`;
+    c.onclick=()=>{ _cineGalleryClose(); playCineKit(it.id.slice(3),{onEnd:()=>openCinema()}); };   /* 16/11 anh: xem xong / đóng phim → về lại danh sách phim, không về menu */
     grid.appendChild(c); }
-}
-// 📂 thư mục Memes Assemble II: ô "cả phim" + từng cảnh nhỏ (danh sách do js/cine-war.js tự tính)
-function _openWarFolder(){
-  const ov=document.createElement('div'); ov.id='cinemaGallery';
-  ov.style.cssText='position:fixed;inset:0;z-index:9000;background:radial-gradient(ellipse at top,#2a1b3d,#0b0712 70%);overflow:auto;padding:28px 16px 40px;font-family:system-ui,Arial,sans-serif;color:#fff;';
-  ov.innerHTML=`<div style="max-width:980px;margin:0 auto"><div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
-    <button onclick="openCinema('__lore1')" style="font-size:20px;background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.25);border-radius:10px;padding:6px 14px;cursor:pointer">◀</button>
-    <div style="font-size:28px;font-weight:900;letter-spacing:1px">⚔️ MEMES ASSEMBLE II</div></div>
-    <div id="cinemaGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px"><div style="opacity:.6">Loading…</div></div></div>`;
-  document.body.appendChild(ov);
-  _cineWarLoad().then(()=>{ const grid=ov.querySelector('#cinemaGrid'); if(!grid) return; grid.innerHTML='';
-    const CH=window._cineWarChapters?window._cineWarChapters():[], full={name:'Full Movie', ic:'🎬', a:0, b:null, full:true};
-    [full].concat(CH).forEach((it,i)=>{ const c=document.createElement('button');
-      c.style.cssText='text-align:left;background:linear-gradient(160deg,rgba(255,255,255,0.10),rgba(255,255,255,0.03));border:1px solid '+(it.full?'#ffcc80':'rgba(255,255,255,0.18)')+';border-radius:14px;padding:14px;color:#fff;cursor:pointer;display:flex;flex-direction:column;gap:6px;min-height:110px;transition:transform .12s,border-color .12s';
-      c.onmouseenter=()=>{ c.style.transform='translateY(-3px)'; c.style.borderColor='#ffcc80'; }; c.onmouseleave=()=>{ c.style.transform=''; c.style.borderColor=it.full?'#ffcc80':'rgba(255,255,255,0.18)'; };
-      const dur=it.full?'':`▶ ${Math.max(1,Math.round(it.b-it.a))}s`;
-      c.innerHTML=`<div style="font-size:30px">${it.ic}</div><div style="font-size:12px;opacity:.55">${it.full?'':'Part '+i}</div><div style="font-size:16px;font-weight:800;line-height:1.25">${it.name}</div><div style="font-size:12px;opacity:.6;margin-top:auto">${dur}</div>`;
-      c.onclick=()=>{ _cineGalleryClose(); playCineWar(it.full?{wide:true}:{wide:true, part:{a:it.a, b:it.b, name:'Part '+i+' · '+it.name}}); };
-      grid.appendChild(c); }); });
 }
 function _cineGalleryClose(){ const g=document.getElementById('cinemaGallery'); if(g) g.remove(); }
 function playScenePreset(id){
@@ -27028,11 +26995,6 @@ function _cinePanelMake(host,api){
   _cinePanelCur=P; P.update(); return P;
 }
 window._cinePanelMake=_cinePanelMake; window._cinePanelRemove=_cinePanelRemove;
-// 🎬 Cinematic "Memes Assemble" (Stalin vs Evil Gary kiểu Avengers: Endgame) — file riêng js/cine-endgame.js, chỉ tải khi bấm
-function playCineDpWindow(){   // 🪟 phim ngắn Depressed Cat về nhà (js/cine-dpwindow.js, chỉ tải khi bấm)
-  if(window._cineDW) return window._cineDW();
-  const v=window.GAME_VERSION?'?v='+GAME_VERSION.build:'', s=document.createElement('script'); s.src='js/cine-dpwindow.js'+v; s.onload=()=>window._cineDW&&window._cineDW(); document.body.appendChild(s);
-}
 // 🎬 phim dựng bằng CINE-KIT (js/cine-kit.js + js/film-<id>.js, chỉ tải khi bấm) · opts.offline/scale = xuất video (tools/render-cine.js <id>)
 function playCineKit(id,opts){
   const v=window.GAME_VERSION?'?v='+GAME_VERSION.build:'';
@@ -27040,32 +27002,6 @@ function playCineKit(id,opts){
   return Promise.all([window.CineKit?0:load('js/cine-kit.js'), window.CineKitFx?0:load('js/vfx-manga.js'), window.VfxGL?0:load('js/vfx-gl.js'), window.PIXI_FILTERS_GLSL?0:load('js/vendor/pixi-filters/glsl.js'), window.Proton?0:load('js/vendor/proton/proton.min.js')]).then(()=>CineKit.cam?0:load('js/cine-cam.js')).then(()=>CineKit.films[id]?0:load('js/film-'+id+'.js'))   // cine-cam = CineKit.cam (góc máy + hiệu ứng làm sẵn): sau cine-kit, trước phim
     .then(()=>new Promise(r=>{ let n=0; (function w(){ if(CineKit.films[id] || n++>100) return r(); setTimeout(w,50); })(); }))   // cảnh của 1 tập (vd fin1c2): tệp cảnh tải tiếp file tập → chờ phim đăng ký xong
     .then(()=>{ const f=CineKit.films[id]; if(f) f.play(opts); return !!f; });
-}
-function playCineL2E3(opts){   // 🌋 Meme Lore 2 · Tập 3 "The High Ground" (js/cine-lore2ep3.js, chỉ tải khi bấm) · opts.offline/scale = xuất video
-  if(window._cineL2E3) return window._cineL2E3(opts);
-  const v=window.GAME_VERSION?'?v='+GAME_VERSION.build:'', s=document.createElement('script'); s.src='js/cine-lore2ep3.js'+v; s.onload=()=>window._cineL2E3&&window._cineL2E3(opts); document.body.appendChild(s);
-}
-function playCineL2E0(opts){   // 🐹 Meme Lore 2 · Tập 0 "The Truth" — sự thật đằng sau cảnh cửa sổ của Ep 1 (js/cine-lore2ep0.js, chỉ tải khi bấm)
-  if(window._cineL2E0) return window._cineL2E0(opts);
-  const v=window.GAME_VERSION?'?v='+GAME_VERSION.build:'', s=document.createElement('script'); s.src='js/cine-lore2ep0.js'+v; s.onload=()=>window._cineL2E0&&window._cineL2E0(opts); document.body.appendChild(s);
-}
-function playCineL2E4(opts){ return playCineL2E3(Object.assign({},opts,{part:2})); }   // 🖤 Meme Lore 2 · Tập 4 "Rise of Catvader" = phần sau của js/cine-lore2ep3.js (part 2)
-function playCineL2E2(opts){   // 🗿 Meme Lore 2 · Tập 2 "Into the Dark" (js/cine-lore2ep2.js, chỉ tải khi bấm) · opts.offline/scale = xuất video
-  if(window._cineL2E2) return window._cineL2E2(opts);
-  const v=window.GAME_VERSION?'?v='+GAME_VERSION.build:'', s=document.createElement('script'); s.src='js/cine-lore2ep2.js'+v; s.onload=()=>window._cineL2E2&&window._cineL2E2(opts); document.body.appendChild(s);
-}
-function _cineWarLoad(){   // tải kịch bản phim (chưa phát)
-  if(window._cineWar) return Promise.resolve();
-  const v=window.GAME_VERSION?'?v='+GAME_VERSION.build:'', load=src=>new Promise(r=>{ const s=document.createElement('script'); s.src=src+v; s.onload=r; s.onerror=r; document.body.appendChild(s); });
-  return (window._cineBG?Promise.resolve():load('js/cine-bg.js')).then(()=>load('js/cine-war.js'));
-}
-function playCineWar(opts){   // ⚔️ Memes Assemble II — The War of Evil Gary (js/cine-war.js, dùng chung nền js/cine-bg.js) · opts.wide = bản 16:9 · opts.part = chỉ xem 1 cảnh nhỏ
-  _cineWarLoad().then(()=>window._cineWar&&window._cineWar(opts));
-}
-function playCineEndgame(){
-  if(window._cineEG) return window._cineEG();
-  const v=window.GAME_VERSION?'?v='+GAME_VERSION.build:'', load=src=>new Promise(r=>{ const s=document.createElement('script'); s.src=src+v; s.onload=r; s.onerror=r; document.body.appendChild(s); });
-  load('js/cine-bg.js').then(()=>load('js/cine-endgame.js')).then(()=>window._cineEG&&window._cineEG());   // nền chi tiết trước, rồi kịch bản
 }
 function stopAllBattleMusic(keepFr){
   for(const f of fighters) if(f._bxMus){ try{ f._bxMus.pause(); _longSfx.delete(f._bxMus); }catch(e){} f._bxMus=null; }   // 🥊🎵 nhạc đấm gió Boxing Cat

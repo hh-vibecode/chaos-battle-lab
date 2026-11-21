@@ -53,10 +53,10 @@ Bài học: đo tempo thật bằng plan thử (snapRange 0.25, xem độ lệch
   n10 SÂN KHẤU NHÀ THỜ ĐỔ NÁT (bố cục theo ảnh mẫu anh gửi 20/11, gọn hơn: vòm hở trời 2 bên, kính màu lớn giữa + bệ cao, sân khấu tròn có bậc, 2 bệ vuông) — THAY n7 cho đoạn tutti
   n11 đạo cụ rời: 2 gargoyle há miệng (phun lửa bằng code ở cú nhấn) + 2 loa. n7 / n9 (sân trong + cổng) bỏ — chuyển cảnh 0:52 = 6 ô vỡ như kính.
   Lệnh vẽ: file .prompt.txt cạnh ảnh. Vẽ thêm: tools/x/gpt-image.sh (luật: chỉ kiến trúc, không trăng / mây / mưa / sét / đèn / lửa — anh nhắc 20/11).
-- Việc dựng tiếp: gkey.js tách trời (n1 n2 n5–n9) → webp / jpg 0.86 vào assets/img/cine/MB_*; film js/film-megaband.js (16:9, CineKit, panels cho các ô);
+- Việc dựng tiếp: gkey.js tách trời (n1 n2 n5–n9) → webp / jpg 0.86 vào assets/img/cine/MB_*; film docs/mau-phim/film-megaband.js (16:9, CineKit, panels cho các ô);
   trời / trăng / mây / mưa / sét / lửa / nến / đám đông 61 meme bằng code; nhạc = mix v3 (cần mã hoá mp3/webm để đưa vào assets/audio — Windows không ffmpeg).
 
-## Phim bản 1 (20/11) — js/film-megaband.js, Meme Cinema → ANIME LAB → 'Megalovania · Meme Band in the Castle'
+## Phim bản 1 (20/11) — docs/mau-phim/film-megaband.js, Meme Cinema → ANIME LAB → 'Megalovania · Meme Band in the Castle'
 - Dựng 2D theo lớp (như fin1f1): trời / trăng / mây / mưa / sương / sét / nến / lửa / dơi / tàn lửa / vòng ký tự / kính màu / nốt / khuông nhạc / dây / ong = CODE; nền = assets/img/cine/megaband/MB_*.
 - Nhạc: assets/audio/mb_mix.webm (Opus 160k, nén trong trình duyệt: tools/x/audio-encode.html + tools/x/webm-duration.js chèn độ dài — thiếu thì trình duyệt báo 7.7s).
 - Nhân vật hoà cảnh: sprBlend (luật mới CLAUDE.md). Bỏ VFX vòng tròn (anh chê) → Bongo vạch nhấn + nốt, Guitar khuông nhạc 5 dòng, Sans nốt từ loa kèn.
@@ -79,7 +79,7 @@ Bài học: đo tempo thật bằng plan thử (snapRange 0.25, xem độ lệch
 - Đám đông "woah" NHẸ chỉ 2 lần (anh: "1 woah khi band chung lần 1, 1 woah lần 2", "nhẹ đủ nghe, không ảnh hưởng âm nhạc"): hàng 5 (0:52.6) + hàng 14 (2:04.8).
   woah = myinstants audience-gasp-2-wow (0.2–3.4s), nền hò reo = myinstants crowd-cheering-applause (0.15–6.1s) → tools/x/_ref/mega/crowd_*.mp3 (chỉ trộn vào nhạc, game không phát).
   Đo: woah thấp hơn cả ban ~10 dB, hò reo ~19 dB.
-- Bảng nốt: `python3 tools/x/music-mix.py tools/x/_ref/mega/plan.json ra.wav --stems <dir>` → `python3 tools/x/music-notes.py <dir> --film js/film-megaband.js`
+- Bảng nốt: `python3 tools/x/music-mix.py tools/x/_ref/mega/plan.json ra.wav --stems <dir>` → `python3 tools/x/music-notes.py <dir> --film docs/mau-phim/film-megaband.js`
   (ghi khối `// <NOTES>` trong phim: thời điểm từng nốt, độ mạnh, nốt nhấn thưa, cao độ sax). ⚠️ TRỘN LẠI NHẠC thì PHẢI chạy lại 2 lệnh này.
   Độ chính xác (đoạn tutti): trống ±15ms (tinh chỉnh theo năng lượng 1ms), piano ±21, sax / violin / guitar ±25–28ms (nốt mềm, giữ đỉnh flux).
 - Phim: Sans đổi vị trí ống trombone theo cao độ từng nốt sax (cao → SX0 thụt, thấp → SX2 kéo ra) · Bongo mỗi tiếng trống đổi tay, cú mạnh đập 2 tay, nghỉ giơ tay

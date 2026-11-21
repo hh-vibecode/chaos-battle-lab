@@ -1,0 +1,33 @@
+<!doctype html><meta charset="utf-8"><title>film bench</title>
+<body style="background:#111;color:#ddd;font:12px monospace"><pre id="log"></pre>
+<script>
+// ⏱️ ĐO ĐỘ NẶNG PHIM khi xem trong app: dựng từng khung ở cỡ xem trước (CineKit.PREVIEW_K, cạnh dài 960) và đo ms / khung.
+//   Xem trong app dựng 30 khung/giây (K.BUF_FPS) → mỗi khung phải < 33 ms, nếu không máy dựng chậm hơn tốc độ xem → "Đang nạp…" / khựng.
+// URL: tools/x/film-bench.html?id=fin1c7&file=fin1c7&step=0.1   → window.__done = JSON {id, dur, load, avg, p95, max, slow:[[giây, ms]…], perSec:[…]}
+const Q = new URLSearchParams(location.search), ID = Q.get('id'), FILE = Q.get('file') || ID, STEP = +(Q.get('step') || 0.1);
+const load = src => new Promise(r => { const s = document.createElement('script'); s.src = src; s.onload = () => r(true); s.onerror = () => r(false); document.body.appendChild(s); });
+(async () => {
+  try {
+    for (const f of ['cine-kit', 'vfx-gl', 'cine-cam', 'vfx-manga']) await load('../../js/' + f + '.js');
+    if (!(await load('../../js/film-' + FILE + '.js'))) throw new Error('không tải được js/film-' + FILE + '.js');
+    await new Promise(r => setTimeout(r, 60));
+    const film = CineKit.films[ID]; if (!film) throw new Error('không có phim ' + ID);
+    const VW = film.def.VW || 960, VH = film.def.VH || 540, DUR = film.info().dur, PK = CineKit.PREVIEW_K(VW, VH);
+    const c = CineKit.mk(VW * PK, VH * PK), W = CineKit.mk(c.width, c.height);
+    const SEQ = !film._bind && film.parts ? film.parts.map(p => CineKit.films[p]) : null, OFFS = SEQ ? film.offsets() : null;
+    const base = new URL('../../', location.href).href;
+    const tl = performance.now(); let nImg = 0;
+    for (const f of (SEQ || [film])) { f._bind(c, W, true); for (const k in f.def.imgs) { nImg++; if (!/^(https?:|data:|\/)/.test(f.def.imgs[k])) f.def.imgs[k] = base + f.def.imgs[k]; } await f._load(); }
+    const loadMs = performance.now() - tl;
+    const renderAt = t => { if (!SEQ) return film._render(t); let i = 0; for (let j = 0; j < OFFS.length; j++) if (t >= OFFS[j]) i = j; SEQ[i]._bind(c, W, true); SEQ[i]._render(t - OFFS[i]); };
+    const g = c.getContext('2d'), rec = [];
+    for (let t = 0; t < DUR - 1e-3; t += STEP) { const a = performance.now(); try { renderAt(t); } catch (e) {} g.getImageData(0, 0, 1, 1); rec.push([+t.toFixed(2), performance.now() - a]); }   // getImageData 1px = ép GPU vẽ xong (như VideoFrame lấy khung)
+    const ms = rec.map(r => r[1]).sort((a, b) => a - b), avg = ms.reduce((a, b) => a + b, 0) / ms.length;
+    const perSec = []; for (const [t, m] of rec) { const s = Math.floor(t); perSec[s] = perSec[s] || [0, 0, 0]; perSec[s][0] += m; perSec[s][1]++; perSec[s][2] = Math.max(perSec[s][2], m); }
+    window.__done = JSON.stringify({ id: ID, dur: +DUR.toFixed(1), px: c.width + 'x' + c.height, imgs: nImg, load: Math.round(loadMs), avg: +avg.toFixed(1), p95: +ms[Math.floor(ms.length * 0.95)].toFixed(1), max: +ms[ms.length - 1].toFixed(1),
+      over33: rec.filter(r => r[1] > 33).length + '/' + rec.length, perSec: perSec.map((p, s) => p ? [s, Math.round(p[0] / p[1]), Math.round(p[2])] : null).filter(Boolean),
+      slow: rec.slice().sort((a, b) => b[1] - a[1]).slice(0, 12).map(r => [r[0], Math.round(r[1])]) });
+  } catch (e) { window.__done = 'LỖI ' + e.message; }
+  document.getElementById('log').textContent = window.__done;
+})();
+</script>

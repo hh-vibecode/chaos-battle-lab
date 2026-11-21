@@ -2,6 +2,7 @@
 Chi tiết từng meme: `docs/notes/memes.md` · từng phim + cine-kit: `docs/notes/films.md` · mẫu comment YouTube: `docs/notes/youtube-comment.md` · luật gốc đầy đủ (ví dụ, lời anh dặn): `docs/notes/rules-full.md`.
 🍎 **Mac chưa cài luồng làm phim** (từ khi làm phim trên PC, Mac chỉ update game + nhân vật): phiên Mac đọc `docs/notes/luong-phim-blender.md` mục 2 rồi cài TRƯỚC khi làm phim. VFX nổ / khói / lửa lớn = mô phỏng Blender (`tools/blender/`, cùng file đó mục 4).
 Đọc file đó KHI làm đúng phần đó (không cần đọc hết mỗi phiên).
+🎬 (anh 21/11) Rạp phim trong app CHỈ còn Final Part 1; phim cũ gỡ khỏi app, code để học ở `docs/mau-phim/` (README ở đó).
 ⏸️ Final Part 1: cảnh kết `fin1c7` DỰNG LẠI 21/11 theo kịch bản bản 2 (Big Bang → biển meme, triệu hồi, Friend thiên thạch), chờ anh xem; còn áp "hoà vào cảnh" cho các cảnh Final khác — chi tiết `docs/notes/viec-do-fin1.md`.
 ⏸️ **Angry Cat (17/11, CHƯA phát hành)**: bộ skill thanh tức giận + hòm đồ 10 vũ khí + bom nguyên tử nằm trong `git stash` trên MAC ("WIP Angry Cat 17/11") — anh bảo để giao cho 1 con khác, chờ anh nói con nào. Ảnh vũ khí GPT dùng lại được; ảnh mèo + 3 ảnh VFX GPT phải làm lại.
 ⚠️ Anh chê 16/11 "làm nhanh xong toàn làm sai" → làm KỸ từng shot, soát từng shot rồi mới sang shot sau. Cách làm phim / VFX / edit nằm trong skill (`dung-phim`, `edit-video`, `viet-kich-ban`, `ve-anh-gpt`…).
@@ -36,7 +37,7 @@ Chi tiết từng meme: `docs/notes/memes.md` · từng phim + cine-kit: `docs/n
 - Ghép nối phải khéo: mọi chỗ 2 thứ gặp nhau (tay ↔ bàn tay, nhân vật ↔ nền, cảnh ↔ cảnh) phải có phương án (cùng nét, mép mờ, khói / bụi phủ chân, không mép cắt thẳng). Xong phải chụp soát kỹ chỗ nối.
 - 🎨 PHIM: NHÂN VẬT PHẢI HOÀ VÀO CẢNH, không nổi như PNG dán lên nền (anh chốt 20/11, áp MỌI phim). Dựng ảnh trên LỚP RIÊNG rồi mới dán: bớt rực ảnh thật (~0.25–0.3)
   · multiply ánh môi trường · TỐI DẦN VỀ CHÂN · ánh hắt MỎNG từ phía nguồn sáng (dải màu phía trên — KHÔNG viền lệch nhiều hướng, thành đường viền bao) · mép mềm (lớp mờ dưới + lớp nét trên)
-  · bóng tiếp đất + sương chân hình BẦU DỤC mềm (không hộp chữ nhật) · đám đông / vật xa: ngược sáng gần đen + nhạt dần theo xa. Mẫu: `sprBlend` trong js/film-megaband.js.
+  · bóng tiếp đất + sương chân hình BẦU DỤC mềm (không hộp chữ nhật) · đám đông / vật xa: ngược sáng gần đen + nhạt dần theo xa. Mẫu: `sprBlend` trong docs/mau-phim/film-megaband.js.
 - 📏 PHIM: hiệu ứng gắn vào CHI TIẾT của ảnh (lửa nến, mắt, miệng, tay cầm…) phải ĐO toạ độ bằng `tools/x/plate-grid.html` (phóng vùng + lưới số), KHÔNG ước lượng
   (anh 20/11: mắt gargoyle + nến đặt lệch — "phải rất để ý vị trí"). Bộ khung cùng khổ thì neo chung 1 tỉ lệ + điểm chân (không cắt sát từng khung → nhảy cỡ).
 - PHIM: VFX vòng tròn toả (sóng âm hình vòng) anh chê "xấu lắm" (20/11) → không dùng; hiệu ứng nhạc = nốt, khuông nhạc, vạch nhấn, dây rung.

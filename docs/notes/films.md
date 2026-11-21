@@ -8,7 +8,7 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
 - **Đã có (29/10):** `js/cine-kit.js` = bộ khung chung (máy quay 2.5D: bay vòng / góc cao chéo / ngước / qua vai / nghiêng; sân đá phối cảnh + trời + núi;
   khói toon, sóng xung kích, vệt chém, hào quang theo bóng nhân vật, tia lửa, đá văng, speed lines, khung impact, chữ tượng thanh; khung chạy + bảng điều khiển + xuất offline).
   Phim mới chỉ cần `js/film-<id>.js` gọi `CineKit.film({...})`; `playCineKit(id)` trong game.js tải khi bấm; `tools/render-cine.js <id>` tự nhận phim cine-kit.
-  Bài thử: `js/film-dvc.js` — Buff Doge vs Samurai Cheems ~7.6s (Meme Cinema → 🧪 Anime Lab). Dùng ảnh có sẵn (Buff Doge P1–P5/haki, Samurai Cheems đứng/quay lưng/chém).
+  Bài thử: `docs/mau-phim/film-dvc.js` — Buff Doge vs Samurai Cheems ~7.6s (Meme Cinema → 🧪 Anime Lab). Dùng ảnh có sẵn (Buff Doge P1–P5/haki, Samurai Cheems đứng/quay lưng/chém).
   Skill: `dung-phim` (quy trình + API + mẫu câu lệnh ChatGPT vẽ khung chính), `xem-video` (`tools/xem-video.py`: file hoặc link YouTube + mốc giây → bảng cảnh theo chỗ cắt máy, 3 khung/cảnh, nhịp, nét phác).
 - **VFX sinh bằng shader (29/10):** `js/vfx-gl.js` (aura lửa bám dáng người 7 preset + chỉnh tự do, hậu kỳ sóng bóp méo / zoom blur / tách màu / khí nóng), nạp sẵn trong game + phim;
   xem trước bằng `tools/vfx-preview.js` (bảng khung + mp4). Sét manga `VfxGL.boltSet`, khói/hơi `VfxGL.puff`, tô lại bộ phận (tay haki/giáp/đổi màu) `tools/part-paint.py`. Skill `tao-vfx`. Anh dặn: VFX dùng rất nhiều từ game tới phim → ưu tiên CÔNG CỤ sinh hiệu ứng, không vẽ khối tay, không ảnh VFX có sẵn.
@@ -27,7 +27,7 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
   TRELLIS demo hỏng (lỗi null); Tripo/Meshy/Mixamo cần đăng nhập → anh NGẠI đăng nhập nhiều tool, chỉ chịu chi ≤10$ và phải gọi API được từ Claude.
 - Công cụ: `tools/x/cdp.js` có `goto <path>` và `waitfor <js>` (xem đầu file).
 
-## 🎬 Meme Lore 2 · Ep 0 "The Truth" (31/10) — `js/cine-lore2ep0.js`
+## 🎬 Meme Lore 2 · Ep 0 "The Truth" (31/10) — `docs/mau-phim/cine-lore2ep0.js`
 - Sự thật đằng sau cảnh cửa sổ Ep 1, KHÔNG thoại: hẻm tối (Hamster bị 2 tay bóng tối đuổi, vả vào góc) → Chill Guy đá gãy 1 tay, ôm Hamster chạy, bị cào lưng
   → thềm nhà Ep 1 (mèo trắng đi làm về) → trong phòng băng bó, cúi ngó Hamster → bóng chồng trên cửa sổ → Depressed Cat hiểu lầm → nụ cười Friend trong khe hẻm tối.
 - Dựng trên engine Ep 1 (phố/nhà/cửa sổ/bó hoa/mặt bầm CHÉP sang để khớp từng nét) + xuất offline: `node tools/render-cine.js l2e0 out.mp4` (mặc định 4K).
@@ -37,7 +37,7 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
 - ⏱️ (11/11 anh dặn) Tập Final 1 nhắm dài **ÍT NHẤT 8–9 PHÚT** → cảnh nào cần thì MỞ RỘNG thoải mái (thêm shot, kéo dài nhịp, thêm chi tiết), KHÔNG nén thời lượng tới mức mất chi tiết / bị vội.
   (12/11) Không còn giới hạn thời lượng bắt buộc — số anh nói chỉ là xấp xỉ, dài hơn vẫn được (mục "PHIM KHÔNG CÒN GIỚI HẠN THỜI LƯỢNG" ở trên).
 - ☁️ (11/11) Khói chung của cine-kit (`K.smoke`) làm lại: 6 kiểu cụm mây mềm mép lởm chởm, xoay ngẫu nhiên, nhuộm màu chỉ trên phần khói (anh chê khói cũ như bóng bay xám).
-- 🧩 (9/11, anh chốt) Trận **Mewing/Gojo Cat vs Depressed/Pain Cat** là 1–2 CẢNH NẰM TRONG Final Part 1 (không phải phim riêng). Bản cũ `js/film-mvd.js` (9:16, 23s, Anime Lab) chỉ để tham khảo.
+- 🧩 (9/11, anh chốt) Trận **Mewing/Gojo Cat vs Depressed/Pain Cat** là 1–2 CẢNH NẰM TRONG Final Part 1 (không phải phim riêng). Bản cũ `docs/mau-phim/film-mvd.js` (9:16, 23s, Anime Lab) chỉ để tham khảo.
   Kịch bản anh viết: cận chiến đa dạng, nhịp không đều → Pain dùng Almighty Push hất Gojo văng xa → Pain bay thẳng lên trời cast SHINRA TENSEI, nổ xoá nửa thành phố;
   lúc Pain cast, Gojo kịp mở LÃNH ĐỊA (infinity domain) bọc mình, tránh vụ nổ → Pain đáp đất xem kết quả → HOLLOW PURPLE bất ngờ lao ra từ khói bụi, Pain đỡ khó khăn bằng trường lực
   → dồn hết sức Almighty Push hất quả cầu lên trời, nổ tím trên không → 2 bên đối diện, ngang tài ngang sức. Anh muốn "wow", sát nguyên tác, nền thành phố phong phú, chiêu thể hiện huỷ diệt diện rộng.
@@ -132,7 +132,7 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
 - 💡 (5/11) ChatGPT giờ vẽ được SPRITE SHEET / GIF nhiều khung theo lưới đều → khi cần nhân vật CHUYỂN ĐỘNG (đi, chạy, khóc, vỗ cánh…) xin anh sprite sheet
   (cùng cỡ, cùng đường chân, cách đều, nền xanh) thay vì 1–2 ảnh tĩnh; mẫu lệnh ở cuối PROMPT.txt trên.
 
-## 🌌 Meme Lore 2 · Prologue "The Dark Age" (2/11/2026) — `js/film-l2pro.js` (cine-kit, id `l2pro`, 16:9, 170s)
+## 🌌 Meme Lore 2 · Prologue "The Dark Age" (2/11/2026) — `docs/mau-phim/film-l2pro.js` (cine-kit, id `l2pro`, 16:9, 170s)
 - Anh yêu cầu: phim dài 2:30–3:00, NGANG, kiểu visual novel (chữ dẫn truyện tiếng Anh ở dải đen dưới, hiện từng từ, tên có màu: Friend tím, Supreme vàng, The Void trắng)
   + hình minh hoạ vũ trụ. Anh dặn "phải hoành tráng, không là trông ngáo" → bóng to, máy trôi chậm, sao/tinh vân nhiều lớp, gợi tả hơn là đánh nhau lộ liễu.
 - Mạch: Dark Age (sao → thế giới → Friend mở mắt sau hành tinh → xúc tu đâm lõi, hành tinh vỡ → nuốt từng thế giới) → tàn lửa cơn giận → 3 ngôi sao →
@@ -154,7 +154,7 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
   về 130–150 từ/phút, mỗi câu 1 tốc độ (anh: "không đều trong khoảng 130–150 là hợp lý"). Lần sau tạo giọng mới: chỉnh Speed ~1.3 ngay trên MiniMax cho tự nhiên hơn.
   Giọng TTS hay lỗi đọc → anh nhắc "nghe chuẩn ngữ pháp": Claude không tự nghe được, phải nhờ anh nghe lại bản đọc.
 
-## 🧪 Anime Lab · Mewing Cat vs Depressed Cat (3/11/2026) — `js/film-mvd.js` (cine-kit, id `mvd`, 9:16, 23s)
+## 🧪 Anime Lab · Mewing Cat vs Depressed Cat (3/11/2026) — `docs/mau-phim/film-mvd.js` (cine-kit, id `mvd`, 9:16, 23s)
 - DỰNG LẠI (anh chê bó khung giữa + chậm): mốc ở object `T`, cắt dày, khung lệch, chiêu cuối cắt xen nhanh, CHIA KHUNG CHÉO lúc biến hình đồng thời (8.2–10s) và lúc 2 con trượt lùi (15.4–16.6s, trượt ±330) rồi mở toàn cảnh rộng.
 - Anh: fight 25–30s cực cháy, chuyển cảnh anime, tung chiêu liên tục, kết bằng 2 chiêu cuối hất 2 con lùi — NGANG TÀI NGANG SỨC. Chiêu bám game:
   Mewing (tư thế mewing → tượng Moai, dạng Gojo, HOLLOW PURPLE) vs Depressed (mây/mưa/sét, dạng Pain, SHINRA TENSEI, mưa đứng hình khi hoá Pain).

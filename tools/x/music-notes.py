@@ -1,6 +1,6 @@
 # 🎵 DÒ NỐT THẬT của từng nhạc cụ trong bản trộn → bảng nốt cho phim (hình đổi khung / lightstick lắc ĐÚNG lúc nhạc cụ đó kêu, không theo lưới phách).
 #   python3 tools/x/music-mix.py tools/x/_ref/mega/plan.json ra.wav --stems <thư mục>      (WAV riêng từng bản, đúng giờ như bản trộn)
-#   python3 tools/x/music-notes.py <thư mục> --film js/film-megaband.js [--tracks drum,sax,piano,guitar,violin]
+#   python3 tools/x/music-notes.py <thư mục> --film docs/mau-phim/film-megaband.js [--tracks drum,sax,piano,guitar,violin]
 # Ghi vào phim khối giữa 2 dòng `// <NOTES>` … `// </NOTES>`:
 #   const NOTES = { sax: { t:[centi giây…], s:[độ mạnh 1–9…], acc:[centi giây các nốt NHẤN, thưa — cho lightstick] }, … }
 # Cách dò: spectral flux (log biên độ, 11.6ms / khung) → đỉnh cục bộ vượt ngưỡng trượt (trung vị 0.6s + delta), cách nhau ≥ GAP, bỏ chỗ bản đó gần như im (< −50 dB).

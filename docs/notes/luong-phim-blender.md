@@ -48,7 +48,7 @@ Mọi thứ làm phim đều NẰM TRONG REPO: Mac chỉ cần `git pull` là c�
 3. **Không render Cycles** (khói bị lốm đốm nhiễu) → đọc thẳng lưới 3D trong cache OpenVDB (`import openvdb` có sẵn trong Blender) → chiếu chính diện + đổ bóng 3D (ánh sáng trên-trái) bằng numpy.
 4. Tô CEL: khói 4 tông phẳng, lửa 4 tông (đỏ → cam → vàng → lõi trắng), viền mực ở mép ngoài + ranh tông tối. Bảng màu `--pal fire|cyan|purple`.
 5. Ra 1 tấm sheet PNG (10 cột, ô 384 px vuông, đáy ô = mặt đất, tâm nổ giữa ngang) + json. Nén / chép vào `assets/img/cine/VFX_<TÊN>.png`.
-6. Trong phim: `VfxBoom.simSprite(F,t,{t0, key:'SIM', meta:{frames:90,cols:10,px:384,fps:30,ground:[0.5,1]}, x, z, size, twos:true, hold:true})` trong `world` — tấm đứng trong thế giới, tự co theo khoảng cách. `twos:true` = vẽ trên 2 (chất anime). Mẫu: `js/film-vfxboom.js`.
+6. Trong phim: `VfxBoom.simSprite(F,t,{t0, key:'SIM', meta:{frames:90,cols:10,px:384,fps:30,ground:[0.5,1]}, x, z, size, twos:true, hold:true})` trong `world` — tấm đứng trong thế giới, tự co theo khoảng cách. `twos:true` = vẽ trên 2 (chất anime). Mẫu: `docs/mau-phim/film-vfxboom.js`.
 7. Đi kèm bằng code (không mô phỏng) — `VfxBoom.groundShock(F,t,o)`: vòng sóng chấn trên đất, nứt đất theo mép sóng, hố cháy, đá văng parabol nảy 1 lần rồi nằm yên; và chớp sáng TỨC THÌ tắt trong ~0.2s · sóng chấn bóp méo r ∝ t^0.4 (nhanh rồi chậm, Sedov–Taylor) · rung máy khi sóng chấn TỚI máy (trễ sau chớp, không phải lúc chớp).
 
 **Tham số** (`-- --frames 90 --res 128 --px 384 --name boom_sim --blast 3.2 --beta 3.2 --pal fire --skip-bake`): `--blast` bán kính cầu lửa (m), `--beta` độ nổi (cao = bốc lên nhanh, nấm rõ), `--skip-bake` chỉ tô lại khi đã bake (đổi màu / ngưỡng không phải chạy lại mô phỏng).

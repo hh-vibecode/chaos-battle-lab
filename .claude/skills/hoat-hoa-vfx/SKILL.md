@@ -4,7 +4,7 @@ description: Dựng HOẠT HOẠ VFX kiểu anime bằng code cho phim Meme Cine
 ---
 
 # Hoạt hoạ VFX (18/11/2026 — học từ video anh gửi, đã đếm khung 30 khung/giây)
-Module: `js/vfx-boom.js` → `window.VfxBoom`. Phim mẫu: `js/film-vfxboom.js` (Meme Cinema → Anime Lab → "Sample · Explosion + impact"). Phim nạp module bằng XHR như film-vfxboom.js dòng đầu.
+Module: `js/vfx-boom.js` → `window.VfxBoom`. Phim mẫu: `docs/mau-phim/film-vfxboom.js` (21/11 đã gỡ khỏi app, code giữ để đọc học). Phim nạp module bằng XHR như film-vfxboom.js dòng đầu.
 
 ## 1. Vụ nổ lớn — DÙNG MÔ PHỎNG BLENDER (18/11, anh chê bản vẽ tay "nhiều sạn, chưa hiểu vật lý")
 - Lửa / khói: `tools/blender/boom_sim.py` (Mantaflow, đọc lưới 3D → tô cel) → sheet `assets/img/cine/VFX_*.png` → `VfxBoom.simSprite(F,t,o)`. Cách chạy, tham số: `docs/notes/luong-phim-blender.md` mục 4. ~2 phút / loại, làm 1 lần dùng mãi (đổi màu `--skip-bake` vài giây).
@@ -12,7 +12,7 @@ Module: `js/vfx-boom.js` → `window.VfxBoom`. Phim mẫu: `js/film-vfxboom.js` 
 - 🧱 SÀN bật theo sóng = MÔ PHỎNG chung với vụ nổ (`boom_sim.py --tiles` → `VfxBoom.simTiles`), KHÔNG vẽ ô bằng code (anh 19/11: vẽ ra không chuẩn). Tích tụ: `VfxBoom.charge`.
 - NHỊP anh chốt 19/11: TÍCH TỤ (~1s, trời tối dần, lõi sáng lớn + co giật, tia / bụi bị hút vào) → LẶNG 0.2s → NỔ = chớp → SÓNG ÂM đi trước (vòng sáng + bóp méo) → SÀN BẬT lần lượt từ tâm ra hết màn ngay sau sóng → NỔ TO (cầu lửa, trễ ~0.33s).
 - Trình tự vật lý: CHỚP tức thì (tắt ~0.2s) → cầu lửa phồng nhanh rồi chậm → sóng chấn quét đất + bụi cuộn sát đất → lửa nguội trắng→vàng→cam→khói → khí nóng bốc thành nấm → khói vẫn bốc chậm khi hết mô phỏng.
-- Mẫu: `js/film-vfxboom.js`. Soát: `tools/x/anim-check.js <id>` (chỉ được còn GIẬT ở khung chớp nổ).
+- Mẫu: `docs/mau-phim/film-vfxboom.js`. Soát: `tools/x/anim-check.js <id>` (chỉ được còn GIẬT ở khung chớp nổ).
 
 ### (cũ) `VfxBoom.explosion(F,t,o)` — vẽ tay bằng code, KHÔNG dùng cho cảnh mới (vật lý sai: vòm lớn chậm, tường bụi tăng tốc, đá lơ lửng)
 Mẫu: youtube aVvT_--q7Ow giây 21–26. Trình tự (giây kể từ `o.t0`):
