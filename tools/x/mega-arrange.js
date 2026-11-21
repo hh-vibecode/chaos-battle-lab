@@ -17,14 +17,14 @@ const LAB = {
   R1b: { drum: 2, sax: 1, piano: 1, guitar: 1, violin: 1 },
   R2a: { drum: 3, sax: 2, piano: 2, guitar: 2, violin: 2 },
   R2b: { drum: 4, sax: 3, piano: 3, guitar: 3, violin: 3 },
-  B1:  { drum: 5, sax: 4, piano: 4, guitar: 4, violin: 4 },
-  B2:  { drum: 6, sax: 5, piano: 5, guitar: 5, violin: 5 },
+  B1:  { drum: 5, sax: 4, piano: 4, guitar: 4, violin: 4, violin2: 4 },
+  B2:  { drum: 6, sax: 5, piano: 5, guitar: 5, violin: 5, violin2: 5 },
   B3:  { drum: 7, sax: 6, piano: 6, guitar: 6, violin: 6 },
   B4:  { drum: 8, sax: 7, piano: 7, guitar: 7, violin: 7 },
   B3r: { drum: 9, sax: 6, piano: 8, guitar: 8, violin: 8 },   // B3 B4 lặp lại trong bài (sax bỏ đoạn lặp → dùng lại vòng B3 / B4 của nó)
   B4r: { drum: 10, sax: 7, piano: 9, guitar: 9, violin: 9 },
-  C1:  { drum: 11, sax: 8, piano: 10, guitar: 10, violin: 10, violin2: 10 },
-  C2:  { drum: 12, sax: 9, piano: 11, guitar: 11, violin: 11, violin2: 11 },
+  C1:  { drum: 11, sax: 8, piano: 10, guitar: 10, violin: 10 },
+  C2:  { drum: 12, sax: 9, piano: 11, guitar: 11, violin: 11 },
   C3:  { drum: 13, sax: 10, piano: 12, guitar: 12, violin: 12 },
   C4:  { drum: 14, sax: 11, piano: 13, guitar: 13, violin: 13 },
 };
@@ -38,9 +38,10 @@ for (const t in ORG) ORG[t] += SD;
 ORG.bass = ORG.drum + 0.007;   // bass = cùng bản gốc với trống, nốt êm nên KHÔNG tự dò nhịp: đi theo độ lệch dò được của trống (+7ms)
 // 🎻 (anh 21/11) SOLO violin = bản Rob Landes "Megalovania Violin Duel" (YouTube JJx_5VOHSO0 → tools/x/_ref/mega/violin2.mp3), CHỈ 2 hàng solo C1–C2.
 //   Bản đó 120.00 BPM (trống đệm theo nhịp máy, pha đứng yên) → kéo chậm về 119.717 (atempo 0.99764, giữ cao độ) = stems/htdemucs_6s/violin2/duel_s.wav (other + vocals: Demucs xếp 1 trong 2 violin của phần đấu vào 'vocals' — đoạn solo 2 dòng to ngang nhau).
+//   ⚠️ phần ĐẤU (vòng 10–11, hợp âm C1 C2) chơi NHỊP TỰ DO (không ra tempo, nốt rải ±60 ms quanh lưới) → anh nghe lệch nhịp lúc vào / ra solo → solo dùng vòng 4–5 (B1 B2, bám lưới 0.46 / 0.50).
 //   Cấu trúc (so piano + bass bài gốc): vòng 0–3 riff · 4–9 B · 10–11 = đoạn C1 C2 (2 violin ĐẤU — hợp âm đúng C1 C2, giai điệu ứng tác) · 12–13 riff · 14 D.
 //   Gốc vòng = lưới phách TRỐNG ĐỆM của bản đó (đo trên file đã kéo chậm, ổn định 0.447–0.460 s suốt bài) = 0.455 s; khúc tự canh ±40 ms (dưới nửa ô 1/16 = 62 ms, rộng hơn thì bắt nhầm ô ở phần đấu nhịp tự do).
-ORG.violin2 = 0.455;
+ORG.violin2 = 0.478;   // (21/11) đo nốt trong bản trộn so với violin Taylor Davis vòng 1 (lệch TB −1 ms, anh duyệt): ở 0.455 + snap thì solo TRỄ ĐỀU +38 ms → đặt thẳng, tắt snap
 const TR = ['drum', 'bass', 'sax', 'piano', 'guitar', 'violin'];
 // độ to (dB) so với mức chuẩn sau khi CÂN (music-mix.py đo RMS từng đoạn nguồn rồi đưa về cùng mức `lvl`)
 const BASE = { drum: 0, bass: -3, sax: 0, piano: 0, guitar: 0, violin: -1, violin2: -1 }, PAN = { drum: 0, bass: 0, sax: 0, piano: 0.3, guitar: -0.3, violin: 0.15, violin2: 0.15 };
@@ -61,8 +62,8 @@ const A = [
   ['P1 TUTTI',             'B4',  TR, null],
   ['P1 TUTTI',             'B3r', TR, null],
   ['P2 nghỉ — Sans',       'B4r', [...RHY, 'sax'],                            'sax', 'solo'],
-  ['P2 SOLO violin',       'C1',  [...RHY, 'violin2'],                        'violin2', 'solo'],
-  ['P2 SOLO violin',       'C2',  [...RHY, 'violin2'],                        'violin2', 'solo'],
+  ['P2 SOLO violin',       'B1',  [...RHY, 'violin2'],                        'violin2', 'solo'],   // (21/11) B1 B2 của Rob Landes (theo nhịp máy) — phần ĐẤU C1 C2 của bản đó chơi TỰ DO, đặt lên nền đều thì lệch nhịp (anh nghe ra)
+  ['P2 SOLO violin',       'B2',  [...RHY, 'violin2'],                        'violin2', 'solo'],
   ['P2 SOLO guitar',       'C3',  [...RHY, 'guitar'],                         'guitar', 'solo'],
   ['P2 SOLO guitar',       'C4',  [...RHY, 'guitar'],                         'guitar', 'solo'],
   ['P2 TUTTI',             'B1',  TR, null],
@@ -90,13 +91,20 @@ for (const trk of [...TR, 'violin2']) { let cur = null;
   A.forEach((row, k) => { const ci = row[2].includes(trk) ? LAB[row[1]][trk] : null;
     if (ci == null) { cur = null; return; }
     if (cur && cur.next === ci && cur.k + cur.n === k) { cur.n++; cur.next++; cur.clip.beats += CB; }
-    else { const clip = { trk, src: +(ORG[trk] + C * ci).toFixed(3), beat: k * CB, beats: CB, lvl: LVL, gain: 1, pan: PAN[trk], fi: 0.006, fo: 0.02, env: [], ...(trk === 'bass' ? { snap: false } : {}), ...(trk === 'violin2' ? { snapRange: 0.04 } : {}) };
+    else { const clip = { trk, src: +(ORG[trk] + C * ci).toFixed(3), beat: k * CB, beats: CB, lvl: LVL, gain: 1, pan: PAN[trk], fi: 0.006, fo: 0.02, env: [], ...(trk === 'bass' ? { snap: false } : {}), ...(trk === 'violin2' ? { snap: false } : {}) };
       // nhảy nguồn giữa 2 hàng liền nhau (vd solo C4 → tutti B1): dồn mức lên phải nằm ở CUỐI khúc trước
       const prev = cur && cur.k + cur.n === k ? cur.clip : null, d0 = dbAt(trk, k, 0), pd0 = prev ? dbAt(trk, k - 1, 3) : null;
       if (prev && d0 > pd0 + 0.1) { const L = prev.beats * 60 / BPM, up = RHY.includes(trk) && A[k - 1][4] === 'solo' ? BAR : UP;
         prev.env.push([+(L - up).toFixed(3), lin(pd0)], [+L.toFixed(3), lin(d0)]); clip.env.push([-0.1, lin(d0)]); }
       else if (prev && d0 < pd0 - 0.1) clip.env.push([-0.1, lin(pd0)], [DOWN, lin(d0)]);
       else if (prev) clip.env.push([-0.1, lin(d0)]);
+      // (21/11) solo violin chuyển sang đoạn B → trống / bass tách thêm khúc ở hàng 10 + 12. Bản anh duyệt: trống / bass hàng 4–13 là 1 KHÚC LIỀN (trống snap +5 ms).
+      //   → khúc hàng 12 (solo guitar) nối ĐÚNG TỪNG MẪU như khúc liền cũ; mọi khúc hàng 4 / 10 / 12 cân độ to theo đoạn nguồn của khúc liền cũ (hàng 4–13) ⇒ ngoài 2 hàng solo violin y như bản đã duyệt.
+      if (RHY.includes(trk) && (k === 4 || k === 10 || k === 12)) { const s4 = +(ORG[trk] + C * LAB.B1[trk]).toFixed(3), o4 = trk === 'drum' ? 0.005 : 0;   // làm tròn y như khúc liền cũ (src toFixed(3)) — lệch 0.4 ms cũng đủ khác mẫu tiếng trống
+        clip.lvlRef = { src: +s4.toFixed(5), dur: +(10 * C).toFixed(5) };
+        if (k === 4 && trk === 'drum') { clip.snap = false; clip.src = +(s4 + o4).toFixed(5); }
+        if (k === 10) { clip.snap = false; clip.src = +(ORG[trk] + C * ci + o4).toFixed(5); }
+        if (k === 12) { clip.snap = false; clip.src = +(s4 + o4 + (k - 4) * C).toFixed(5); } }
       plan.clips.push(clip); cur = { clip, next: ci + 1, k, n: 1, jumped: !!prev }; }
     const t0 = (k - cur.k) * C, e = cur.clip.env;
     for (let b = 0; b < 4; b++) { const d = dbAt(trk, k, b), a = t0 + b * BAR;

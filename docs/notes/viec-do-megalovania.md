@@ -125,6 +125,13 @@ Bài học: đo tempo thật bằng plan thử (snapRange 0.25, xem độ lệch
 - Bảng nốt phim: chạy music-notes trên violin cũ + mới gộp, rồi GHÉP: ngoài đoạn solo giữ nguyên nốt cũ (ngưỡng nốt nhấn tính theo cả bài nên chạy lại làm dịch 2 nốt nhấn ở chỗ khác).
 - So bản trộn mới với cũ: chỉ khác 92–108s. Video: quay lại đúng đoạn 92–111s (--redo), còn lại dùng đoạn cũ trong out/megaband-16x9-4k.mp4.chunks.
 - ⚠️ Em không nghe được: violin mới khớp lưới bằng số (lệch −18 ms sau snap, các bản khác +3…+8). Anh nghe kỹ chỗ vào solo 1:32.7 và chỗ ra 1:48.7.
+- ❌→✅ v8 (21/11, anh: "chuyển từ sax solo sang violin solo, từ violin sang guitar bị lệch nhịp, không mượt"; "chỉ xử lý phần solo, 1:20 đổ về đầu ổn hết"):
+  · Nguyên nhân 1: phần ĐẤU (vòng 10–11) của bản Rob Landes chơi NHỊP TỰ DO (dò tempo không ra số nào, nốt rải ±60 ms quanh lưới) → đặt lên trống + bass đều thì lệch.
+    → solo dùng vòng 4–5 = B1 B2 của bản đó (theo nhịp máy); trống + bass 2 hàng solo chơi B1 B2 (cùng đoạn). Sax KHÔNG lọt vào solo (đo: sax tắt đúng 92.7s, chỉ vang 0.5s).
+  · Nguyên nhân 2: gốc vòng đặt trễ +38 ms (snap còn đẩy sai chiều). Cách đo đúng: so lệch TB nốt–lưới với violin Taylor Davis vòng 1 (anh duyệt, −1 ms) → ORG.violin2 = 0.478, tắt snap → solo lệch TB −3 / 0 ms.
+  · Giữ NGUYÊN phần đã duyệt: trống / bass tách khúc ở hàng 4 / 10 / 12 nhưng nối đúng từng mẫu như khúc liền cũ (src làm tròn toFixed(3) như cũ, trống +5 ms, cân độ to theo đoạn cũ lvlRef)
+    → so WAV với bản đã duyệt: chỉ khác 92–109s. Bảng nốt: ngoài solo giữ nguyên của bản duyệt (commit 33cd6e6), trong solo dò lại (trống + violin).
+  · Video: quay lại 92–111s → Desktop/Meme Battles/"Megalovania - Meme Band in the Castle v3.mp4".
 
 ## Tiếp theo
 1. Anh nghe v2 → sửa phối. 2. Viết kịch bản + bảng phân cảnh (skill viet-kich-ban) cho anh duyệt. 3. Dựng (dung-phim, Blender cho sét / lửa / lâu đài). 4. Xuất khi anh bảo (Mac).
