@@ -322,8 +322,6 @@
 
   // ═════════ SHOT (mỗi ô nhịp 2s 1 góc trong đoạn tutti) ═════════
   const B4=4*P;   // 1 ô nhịp
-  function label(F,t,a,txt,sub){ const k=seg(t,a,a+0.4)*(1-seg(t,a+2.6,a+3.2)); if(k<=0.01) return; const g=F.g; g.save(); g.globalAlpha=k; g.font='700 22px Georgia, serif'; g.fillStyle='#f4ecff'; g.shadowColor='rgba(0,0,0,0.8)'; g.shadowBlur=8;
-    g.fillText(txt,36,VH-44); if(sub){ g.font='500 12px Georgia, serif'; g.fillStyle='rgba(220,210,240,0.85)'; g.fillText(sub,37,VH-26); } g.restore(); }
   // 🔥 năng lượng tutti (anh 20/11 "chưa đủ cháy, sôi động"): cột lửa phách đầu cách 1 ô · loé đèn theo phách · zoom giật phách đầu ô
   const pyroK=t=>{ const b=Math.floor(Math.max(0,beatF(t))/4); if(b%2) return 0; const a=T0+b*4*P; return t<a?0:Math.max(0,1-seg(t,a+0.15,a+0.75))*seg(t,a,a+0.06); };
   const punchK=t=>0.045*pulse(t,0.12,0.25);
@@ -361,20 +359,20 @@
     if(t<SEC.bp){ const b=Math.floor((t-T0)/B4), u=((t-T0)%B4)/B4;
       if(b===0){ const V=balconyScene(F,t,1.25,0.5,0.6); const [x,y]=V.at(0.5,0.79), rev=seg(t,T0+0.9,T0+1.6); const r=member(F,t,'sans',x,y,V.s(330),{env:envOf('cyan'),rim:rimOf('cyan'),from:T0+1.2,dark:1-rev});
         if(r){ const ek=seg(t,T0+0.35,T0+0.55)*(1-0.6*rev), [ex,ey]=memberPt(F,r,112,59); eyeFlame(g,ex,ey,r.h*0.025,t,ek); }
-        bolt(F,VW*0.72,-20,VW*0.6,VH*0.55,12,boltK(t,T0,0.5),null,4); K.flash(F,boltK(t,T0,0.5)*0.85,'#e8f8ff'); rain(F,t,0.8); label(F,t,T0+1.4,'SANS','the trombone of judgment'); return; }
+        bolt(F,VW*0.72,-20,VW*0.6,VH*0.55,12,boltK(t,T0,0.5),null,4); K.flash(F,boltK(t,T0,0.5)*0.85,'#e8f8ff'); rain(F,t,0.8); return; }
       const z=[1,1.25,2.6,1.0][b], cy=[0.6,0.6,0.42,0.58][b]; const V=balconyScene(F,t,z+0.05*u,b===2?0.52:0.5,cy); const [x,y]=V.at(0.5,0.79); member(F,t,'sans',x,y,V.s(330),{env:envOf('cyan'),rim:rimOf('cyan'),from:T0});
-      rain(F,t,0.7); fog(F,t,VH*0.95,0.4); label(F,t,T0+1.4,'SANS','the trombone of judgment'); return; }
+      rain(F,t,0.7); fog(F,t,VH*0.95,0.4); return; }
     // 4 · 20.5 chia 3 ô: Sans | Bongo (hầm mộ) | Piano (đại sảnh) — nến bùng dần
     if(t<SEC.gtr){ const op=eout(seg(t,SEC.bp,SEC.bp+0.5)), a=lerp(1,0.34,op), lit=seg(t,SEC.bp,SEC.bp+2.5);
       panel(F,[[0,0],[a,0],[a-0.03,1],[0,1]],()=>soloView(F,t,'sans',{z:1.1}));
       if(op>0.01){ panel(F,[[a,0],[0.67,0],[0.64,1],[a-0.03,1]],()=>soloView(F,t,'bongo',{lit})); panel(F,[[0.67,0],[1,0],[1,1],[0.64,1]],()=>soloView(F,t,'piano',{lit})); edge(F,[a,0],[a-0.03,1]); edge(F,[0.67,0],[0.64,1]); }
-      label(F,t,SEC.bp+0.6,'BONGO CAT  ·  PIANO CAT','the crypt and the great hall wake up'); return; }
+      return; }
     // 5 · 28.5 sét rạch ô thứ 4: Guitar trên đỉnh tháp
     if(t<SEC.build){ const op=eout(seg(t,SEC.gtr,SEC.gtr+0.35));
       const X=[0,0.25,0.5,0.75,1].map((x,i)=>i===0||i===4?x:lerp([0,0.34,0.67,1][i],x,op)); const P=i=>[[X[i],0],[X[i+1],0],[X[i+1]-(i<3?0.03:0),1],[X[i]-(i>0?0.03:0),1]];
       panel(F,P(0),()=>soloView(F,t,'sans',{z:1.1})); panel(F,P(1),()=>soloView(F,t,'bongo',{})); panel(F,P(2),()=>soloView(F,t,'piano',{})); panel(F,P(3),()=>soloView(F,t,'guitar',{}));
       for(let i=1;i<4;i++) edge(F,[X[i],0],[X[i]-0.03,1]); const bk=boltK(t,SEC.gtr,0.45); bolt(F,X[3]*VW,-10,(X[3]-0.03)*VW,VH+10,44,bk,null,3); K.flash(F,bk*0.4,'#e8f8ff');
-      label(F,t,SEC.gtr+0.5,'ELECTRIC GUITAR CAT','lightning on the highest tower'); return; }
+      return; }
     // 6 · 36.6 dồn lên: mỗi ô nhịp 1 con toàn khung, mây cuộn nhanh dần
     if(t<SEC.vio){ const b=Math.floor((t-SEC.build)/B4), u=((t-SEC.build)%B4)/B4; soloView(F,t,['sans','bongo','piano','guitar'][b],{z:1.15+0.25*u+0.15*b,k:u}); const fl=boltK(t,bar(3,b)+1.2,0.3); K.flash(F,fl*0.2,'#e8f8ff'); return; }
     // 7 · 44.6 mây tím rách → trăng lưỡi liềm ĐỎ, 2 violin trên cầu thang → 6 ô
@@ -382,7 +380,7 @@
       if(b===0){ const V=stairsScene(F,t,1.0+0.05*seg(t,SEC.vio,SEC.vio+B4),0.5,0.5,{cres:1}); const [mx,my]=V.at(0.45,0.56), [bx,by]=V.at(0.75,0.72);
         const r1=member(F,t,'mosq',mx,my,V.s(220),{env:envOf('red'),rim:rimOf('red'),from:SEC.vio}), r2=member(F,t,'bee',bx,by,V.s(160),{env:envOf('red'),rim:rimOf('red'),from:SEC.vio});
         if(r1) sig(F,t,'mosq',mx,my,r1,V,{}); if(r2) sig(F,t,'bee',bx,by,r2,V,{beeFrom:beatF(SEC.vio)}); const op=1-seg(t,SEC.vio,SEC.vio+0.12); if(op>0){ g.save(); g.globalAlpha=op; g.fillStyle=PAL.storm.mid; g.fillRect(0,0,VW,VH); g.restore(); } K.flash(F,boltK(t,SEC.vio,0.4)*0.45,'#ffe0e8');   // lộ cảnh ĐÚNG phách 1 (cũ: tối 0.6s → hình hụt sau tiếng violin vào, anh 20/11 'chật nhịp')
-        label(F,t,SEC.vio+0.4,'VIOLIN MOSQUITO  ·  VIOLIN BUMBLEBEE','under the blood moon'); return; }
+        return; }
       grid6(F,t); return; }
     // 8 · 52.6 6 ô vỡ như kính → sân khấu nhà thờ · 9 · TUTTI
     if(t<SEC.brk){ const k=cycK(t); tuttiShot(F,t,k); const sh=seg(t,SEC.tutti,SEC.tutti+0.7); if(sh<1) shatter(F,t,sh); return; }
