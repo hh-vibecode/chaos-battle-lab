@@ -23,8 +23,8 @@ const LAB = {
   B4:  { drum: 8, sax: 7, piano: 7, guitar: 7, violin: 7 },
   B3r: { drum: 9, sax: 6, piano: 8, guitar: 8, violin: 8 },   // B3 B4 lặp lại trong bài (sax bỏ đoạn lặp → dùng lại vòng B3 / B4 của nó)
   B4r: { drum: 10, sax: 7, piano: 9, guitar: 9, violin: 9 },
-  C1:  { drum: 11, sax: 8, piano: 10, guitar: 10, violin: 10 },
-  C2:  { drum: 12, sax: 9, piano: 11, guitar: 11, violin: 11 },
+  C1:  { drum: 11, sax: 8, piano: 10, guitar: 10, violin: 10, violin2: 10 },
+  C2:  { drum: 12, sax: 9, piano: 11, guitar: 11, violin: 11, violin2: 11 },
   C3:  { drum: 13, sax: 10, piano: 12, guitar: 12, violin: 12 },
   C4:  { drum: 14, sax: 11, piano: 13, guitar: 13, violin: 13 },
 };
@@ -36,9 +36,14 @@ const SD = 0.025;
 for (const k in LAB) LAB[k].bass = LAB[k].drum;
 for (const t in ORG) ORG[t] += SD;
 ORG.bass = ORG.drum + 0.007;   // bass = cùng bản gốc với trống, nốt êm nên KHÔNG tự dò nhịp: đi theo độ lệch dò được của trống (+7ms)
+// 🎻 (anh 21/11) SOLO violin = bản Rob Landes "Megalovania Violin Duel" (YouTube JJx_5VOHSO0 → tools/x/_ref/mega/violin2.mp3), CHỈ 2 hàng solo C1–C2.
+//   Bản đó 120.00 BPM (trống đệm theo nhịp máy, pha đứng yên) → kéo chậm về 119.717 (atempo 0.99764, giữ cao độ) = stems/htdemucs_6s/violin2/duel_s.wav (other + vocals: Demucs xếp 1 trong 2 violin của phần đấu vào 'vocals' — đoạn solo 2 dòng to ngang nhau).
+//   Cấu trúc (so piano + bass bài gốc): vòng 0–3 riff · 4–9 B · 10–11 = đoạn C1 C2 (2 violin ĐẤU — hợp âm đúng C1 C2, giai điệu ứng tác) · 12–13 riff · 14 D.
+//   Gốc vòng = lưới phách TRỐNG ĐỆM của bản đó (đo trên file đã kéo chậm, ổn định 0.447–0.460 s suốt bài) = 0.455 s; khúc tự canh ±40 ms (dưới nửa ô 1/16 = 62 ms, rộng hơn thì bắt nhầm ô ở phần đấu nhịp tự do).
+ORG.violin2 = 0.455;
 const TR = ['drum', 'bass', 'sax', 'piano', 'guitar', 'violin'];
 // độ to (dB) so với mức chuẩn sau khi CÂN (music-mix.py đo RMS từng đoạn nguồn rồi đưa về cùng mức `lvl`)
-const BASE = { drum: 0, bass: -3, sax: 0, piano: 0, guitar: 0, violin: -1 }, PAN = { drum: 0, bass: 0, sax: 0, piano: 0.3, guitar: -0.3, violin: 0.15 };
+const BASE = { drum: 0, bass: -3, sax: 0, piano: 0, guitar: 0, violin: -1, violin2: -1 }, PAN = { drum: 0, bass: 0, sax: 0, piano: 0.3, guitar: -0.3, violin: 0.15, violin2: 0.15 };
 const LEAD = 4, DUCK = -7, SOLO_BG = -6;
 // file tách (Demucs) của sax / violin / piano: tiếng chính nằm ở dòng nào thì ghi vào đây (đo năng lượng từng dòng: xem note)
 const STEM = { sax: 'tools/x/_ref/mega/stems/htdemucs_6s/sax/other.mp3', violin: 'tools/x/_ref/mega/stems/htdemucs_6s/violin/other.mp3', piano: 'tools/x/_ref/mega/stems/htdemucs_6s/piano/piano.mp3' };          // dB: con được giới thiệu to lên · các con khác nhỏ lại · nền dưới solo
@@ -56,8 +61,8 @@ const A = [
   ['P1 TUTTI',             'B4',  TR, null],
   ['P1 TUTTI',             'B3r', TR, null],
   ['P2 nghỉ — Sans',       'B4r', [...RHY, 'sax'],                            'sax', 'solo'],
-  ['P2 SOLO violin',       'C1',  [...RHY, 'violin'],                         'violin', 'solo'],
-  ['P2 SOLO violin',       'C2',  [...RHY, 'violin'],                         'violin', 'solo'],
+  ['P2 SOLO violin',       'C1',  [...RHY, 'violin2'],                        'violin2', 'solo'],
+  ['P2 SOLO violin',       'C2',  [...RHY, 'violin2'],                        'violin2', 'solo'],
   ['P2 SOLO guitar',       'C3',  [...RHY, 'guitar'],                         'guitar', 'solo'],
   ['P2 SOLO guitar',       'C4',  [...RHY, 'guitar'],                         'guitar', 'solo'],
   ['P2 TUTTI',             'B1',  TR, null],
@@ -72,7 +77,7 @@ const T0 = 12.5, CB = 16, LVL = -20, BAR = C / 4;
 const UP = 1.0, DOWN = 0.3, XFADE = 0.04, VERB = 1.2;
 const ST = 'tools/x/_ref/mega/stems/htdemucs_6s/';
 const plan = { dur: T0 + A.length * C + 5, bpm: BPM, t0: T0, snapRange: 0.012, snapRate: 0, xfade: XFADE,
-  tracks: { drum: ST + 'drum/drums.mp3', bass: ST + 'drum/bass.mp3', sax: STEM.sax, piano: STEM.piano, guitar: ST + 'guitarfull/guitar.mp3', violin: STEM.violin,
+  tracks: { drum: ST + 'drum/drums.mp3', bass: ST + 'drum/bass.mp3', sax: STEM.sax, piano: STEM.piano, guitar: ST + 'guitarfull/guitar.mp3', violin: STEM.violin, violin2: ST + 'violin2/duel_s.wav',
     grim: 'tools/x/_ref/mega/piano2.mp3', rain: 'assets/audio/dp_rain.mp3', thunder: 'assets/audio/thunder_big.mp3' },
   clips: [], free: [], master: { gain: 1, comp: true }, rows: [] };
 function dbAt(trk, k, b) { const row = A[k]; if (!row || !row[2].includes(trk)) return null;
@@ -81,11 +86,11 @@ function dbAt(trk, k, b) { const row = A[k]; if (!row || !row[2].includes(trk)) 
   if (who.includes(trk)) return BASE[trk] + (solo ? 2 : LEAD);
   return BASE[trk] + (solo ? SOLO_BG : DUCK); }
 const lin = d => +Math.pow(10, d / 20).toFixed(4);
-for (const trk of TR) { let cur = null;
+for (const trk of [...TR, 'violin2']) { let cur = null;
   A.forEach((row, k) => { const ci = row[2].includes(trk) ? LAB[row[1]][trk] : null;
     if (ci == null) { cur = null; return; }
     if (cur && cur.next === ci && cur.k + cur.n === k) { cur.n++; cur.next++; cur.clip.beats += CB; }
-    else { const clip = { trk, src: +(ORG[trk] + C * ci).toFixed(3), beat: k * CB, beats: CB, lvl: LVL, gain: 1, pan: PAN[trk], fi: 0.006, fo: 0.02, env: [], ...(trk === 'bass' ? { snap: false } : {}) };
+    else { const clip = { trk, src: +(ORG[trk] + C * ci).toFixed(3), beat: k * CB, beats: CB, lvl: LVL, gain: 1, pan: PAN[trk], fi: 0.006, fo: 0.02, env: [], ...(trk === 'bass' ? { snap: false } : {}), ...(trk === 'violin2' ? { snapRange: 0.04 } : {}) };
       // nhảy nguồn giữa 2 hàng liền nhau (vd solo C4 → tutti B1): dồn mức lên phải nằm ở CUỐI khúc trước
       const prev = cur && cur.k + cur.n === k ? cur.clip : null, d0 = dbAt(trk, k, 0), pd0 = prev ? dbAt(trk, k - 1, 3) : null;
       if (prev && d0 > pd0 + 0.1) { const L = prev.beats * 60 / BPM, up = RHY.includes(trk) && A[k - 1][4] === 'solo' ? BAR : UP;

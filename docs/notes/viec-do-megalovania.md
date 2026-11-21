@@ -117,5 +117,14 @@ Bài học: đo tempo thật bằng plan thử (snapRange 0.25, xem độ lệch
   Solo P2: con solo +2, trống nền −8. Đổi mức: LEAD / DUCK / SOLO_BG trong mega-arrange.js.
 - Bảng giờ không đổi (20 hàng × 8.019s từ 12.5s, dài 177.9s) → phim film-megaband.js không phải sửa giờ. ⏸️ CHỜ ANH NGHE (em không nghe được: soát bằng số).
 
+## ✅ v7 (21/11) — SOLO violin đổi sang bản Rob Landes "Megalovania Violin Duel" (anh gửi YouTube JJx_5VOHSO0; anh: "chỉ thay sound violin mấy phần solo thôi")
+- File: tools/x/_ref/mega/violin2.mp3 (yt-dlp) → Demucs → stems/htdemucs_6s/violin2/. Violin nằm ở `other` + `vocals` (phần đấu 2 violin: Demucs xếp 1 violin vào vocals, đoạn solo 2 dòng to ngang nhau)
+  → gộp + kéo chậm 120.00 → 119.717 BPM (atempo 0.99764, giữ cao độ) = `duel_s.wav`. Bản này theo nhịp máy (trống đệm pha đứng yên).
+- Cấu trúc bản này (so piano + bass bài gốc): vòng 0–3 riff · 4–9 B · **10–11 = C1 C2** (2 violin đấu, giai điệu ứng tác trên đúng hợp âm C1 C2) · 12–13 riff · 14 D. Gốc vòng 0.455 s (file đã kéo chậm).
+- mega-arrange.js: dòng `violin2` CHỈ ở 2 hàng solo (92.7–108.7s); tutti / đỉnh vẫn violin Taylor Davis. snapRange ±40 ms (±100 bắt nhầm ô 1/16 ở phần nhịp tự do).
+- Bảng nốt phim: chạy music-notes trên violin cũ + mới gộp, rồi GHÉP: ngoài đoạn solo giữ nguyên nốt cũ (ngưỡng nốt nhấn tính theo cả bài nên chạy lại làm dịch 2 nốt nhấn ở chỗ khác).
+- So bản trộn mới với cũ: chỉ khác 92–108s. Video: quay lại đúng đoạn 92–111s (--redo), còn lại dùng đoạn cũ trong out/megaband-16x9-4k.mp4.chunks.
+- ⚠️ Em không nghe được: violin mới khớp lưới bằng số (lệch −18 ms sau snap, các bản khác +3…+8). Anh nghe kỹ chỗ vào solo 1:32.7 và chỗ ra 1:48.7.
+
 ## Tiếp theo
 1. Anh nghe v2 → sửa phối. 2. Viết kịch bản + bảng phân cảnh (skill viet-kich-ban) cho anh duyệt. 3. Dựng (dung-phim, Blender cho sét / lửa / lâu đài). 4. Xuất khi anh bảo (Mac).
