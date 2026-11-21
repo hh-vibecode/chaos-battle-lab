@@ -331,8 +331,10 @@
   //   Chuyển tab: phim tạm dừng, máy VẪN dựng tiếp ở nền (vòng hẹn giờ thay rAF); bộ nén / giải nén bị trình duyệt thu hồi → tự tạo lại, dựng tiếp từ chỗ dở.
   //   Phần đã dựng giữ suốt lúc xem → tua lùi không dựng lại. r = {DUR, cv, render(t) im lặng, audio(t), audioStop(), seekAudio(s)} · dv = canvas hiện.
   K.BUF_FPS=30; K.BUF_LEAD=1.5;
+  //   🧮 (anh 21/11 "xem review cho chuẩn mà không lag") CHỜ THÔNG MINH: đo tốc độ dựng thật (khung/giây) → phim nặng hơn tốc độ xem thì chờ dựng đủ để phát MỘT MẠCH tới hết, không đứng giữa chừng:
+  //      cần dựng trước = phần còn lại × (1 − tốc độ dựng × 0.85 / 30). Máy dựng kịp thì vẫn chỉ chờ 1.5s như cũ. Màn chờ hiện % + số giây còn phải chờ.
   K.bufPlayer=(r,dv)=>{ if(!window.VideoEncoder||!window.VideoDecoder) return null; const FPS=K.BUF_FPS, W=r.cv.width&~1, H=r.cv.height&~1, dg=dv.getContext('2d'), dur=Math.floor(r.DUR*FPS);
-    let C=null, enc=null, dec=null, chunks=[], keys=[], nextI=0, encStart=0, forceKey=true, frames=[], decI=0, skipTo=0, playT=0, clock0=0, paused=false, waiting=true, hidden=false, dead=false, err=null, bgT=null, flushed=false;
+    let rate=0, rw0=0, rwI=0, C=null, enc=null, dec=null, chunks=[], keys=[], nextI=0, encStart=0, forceKey=true, frames=[], decI=0, skipTo=0, playT=0, clock0=0, paused=false, waiting=true, hidden=false, dead=false, err=null, bgT=null, flushed=false;
     const CODECS=['avc1.640028','avc1.4d0028','avc1.42e028'];
     async function cfg(){ for(const c of CODECS){ const o={codec:c, width:W, height:H, bitrate:4e6, framerate:FPS, latencyMode:'realtime', avc:{format:'annexb'}, hardwareAcceleration:'prefer-software'};   /* 16/11 đo: bộ nén PHẦN CỨNG kẹt khi tạo lại lúc tua (không ra khung) — phần mềm ổn định + đủ nhanh ở 960×540 */
         try{ if((await VideoEncoder.isConfigSupported(o)).supported) return o; }catch(e){} } return null; }
@@ -343,6 +345,7 @@
       const md=new VideoDecoder({output:v=>{ if(md!==dec){ v.close(); return; } const i=Math.round(v.timestamp*FPS/1e6); if(i<skipTo){ v.close(); return; } frames.push({i,v}); }, error:()=>{ setTimeout(()=>{ if(!dead&&md===dec) newDec(Math.floor(cur()*FPS)); },0); }}); dec=md;
       dec.configure({codec:C.codec, codedWidth:W, codedHeight:H, hardwareAcceleration:'prefer-hardware', optimizeForLatency:true}); skipTo=fromI; if(!chunks[fromI]){ decI=fromI; return; }   /* chưa dựng tới → chờ khung khoá (đặt ép ở chỗ tua) */
       let k=fromI; while(k>0&&chunks[k-1]&&!(chunks[k].type==='key')) k--; while(k<fromI&&!(chunks[k]&&chunks[k].type==='key')) k++; decI=k; }   // lùi về khung khoá gần nhất mà các khung tới chỗ tua đều đã dựng
+    const need=w=>{ const rem=(dur-w)/FPS; if(!(rate>0)) return Math.min(K.BUF_LEAD,rem); return Math.min(rem,Math.max(K.BUF_LEAD,rem*(1-rate*0.85/FPS)+0.5)); };   // giây phải dựng sẵn trước khi phát
     const now=()=>performance.now()/1000, cur=()=>(paused||waiting||hidden)?playT:Math.min(r.DUR,playT+(now()-clock0));
     function pump(ms){ if(!enc||enc.state==='closed') return; const t1=performance.now();   // ① DỰNG trước (không cần trang đang hiện)
       while(nextI<=dur && performance.now()-t1<ms && enc.encodeQueueSize<12){ r.render(nextI/FPS); const vf=new VideoFrame(r.cv,{timestamp:Math.round(nextI*1e6/FPS)}); enc.encode(vf,{keyFrame:forceKey||nextI%FPS===0}); forceKey=false; vf.close(); nextI++; }
@@ -352,6 +355,7 @@
     document.addEventListener('visibilitychange',onVis);
     function tick(){ if(dead||!C) return;
       const t=cur(), want=Math.min(dur,Math.floor(t*FPS)), lead=(Math.min(nextI,chunks.length)-want)/FPS;
+      { const pn=performance.now(); if(!rw0||nextI<rwI){ rw0=pn; rwI=nextI; } else if(pn-rw0>1000){ const r1=(nextI-rwI)/((pn-rw0)/1000); rate=rate?rate*0.6+r1*0.4:r1; rw0=pn; rwI=nextI; } }   // tốc độ dựng thật (khung/giây)
       { let h=Math.max(decI,want); while(h<=dur&&chunks[h]) h++; if(h<=dur&&h<encStart&&h-want<FPS*6){ nextI=h; newEnc(); flushed=false; } }   // phía trước có chỗ hổng → dựng lấp
       pump(waiting?30:14);
       // ② GIẢI NÉN khung đã dựng (theo thứ tự, dừng ở khung chưa có)
@@ -359,12 +363,13 @@
       while(frames.length>1&&frames[1].i<=want){ try{ frames.shift().v.close(); }catch(e){} }
       // ③ HIỆN theo đồng hồ; chưa đủ khung → dừng nạp (đồng hồ đứng, tiếng tắt)
       const have=frames.length&&frames[0].i<=want+1;
-      if(waiting){ if(frames.length&&(lead>=Math.min(K.BUF_LEAD,(dur-want)/FPS)||nextI>dur)&&!paused){ waiting=false; clock0=now(); } }
+      const nd=need(want);
+      if(waiting){ if(frames.length&&((rate>0&&lead>=nd)||nextI>dur)&&!paused){ waiting=false; clock0=now(); } }
       else if(!have&&want<dur&&!paused){ playT=t; waiting=true; r.audioStop(); }
       if(frames.length) dg.drawImage(frames[0].v,0,0,dv.width,dv.height); else { dg.fillStyle='#000'; dg.fillRect(0,0,dv.width,dv.height); }
       if(!waiting&&!paused&&!hidden&&t<r.DUR) r.audio(t);
-      if(waiting&&!paused){ const k=Math.max(0,Math.min(1,lead/K.BUF_LEAD)); dg.save(); dg.fillStyle='rgba(0,0,0,0.5)'; const w=dv.width*0.3, x=(dv.width-w)/2, y=dv.height*0.52; dg.fillRect(x-8,y-dv.height*0.05,w+16,dv.height*0.075);
-        dg.fillStyle='rgba(255,255,255,0.25)'; dg.fillRect(x,y,w,4); dg.fillStyle='#fff'; dg.fillRect(x,y,w*k,4); dg.font=`${Math.round(dv.height*0.03)}px sans-serif`; dg.textAlign='center'; dg.fillText('Đang nạp… '+Math.round(k*100)+'%',dv.width/2,y-dv.height*0.015); dg.restore(); } }
+      if(waiting&&!paused){ const k=Math.max(0,Math.min(1,lead/Math.max(0.01,nd))), eta=rate>0?Math.max(0,(nd-lead)*FPS/rate):0; dg.save(); dg.fillStyle='rgba(0,0,0,0.5)'; const w=dv.width*0.3, x=(dv.width-w)/2, y=dv.height*0.52; dg.fillRect(x-8,y-dv.height*0.05,w+16,dv.height*0.075);
+        dg.fillStyle='rgba(255,255,255,0.25)'; dg.fillRect(x,y,w,4); dg.fillStyle='#fff'; dg.fillRect(x,y,w*k,4); dg.font=`${Math.round(dv.height*0.03)}px sans-serif`; dg.textAlign='center'; dg.fillText('Đang dựng phim… '+Math.round(k*100)+'%'+(eta>=2?' · còn ~'+(eta>=60?Math.floor(eta/60)+' phút '+Math.round(eta%60)+'s':Math.round(eta)+'s'):''),dv.width/2,y-dv.height*0.015); dg.restore(); } }
     return { dv, tick, t:cur, built:()=>!waiting, bufferedTo:()=>{ let h=Math.max(0,Math.floor(cur()*FPS)); while(h<=dur&&chunks[h]) h++; return Math.min(r.DUR,h/FPS); },   // đã dựng liền mạch tới giây nào (thanh nạp kiểu YouTube) dbg:()=>({nextI,decI,len:chunks.length,frames:frames.length,f0:frames[0]&&frames[0].i,waiting,dec:dec&&dec.state,dq:dec&&dec.decodeQueueSize,enc:enc&&enc.state,keys:keys.slice(-4),has:[decI,decI+1].map(i=>!!chunks[i])}),
       seek:s=>{ s=clamp(s,0,r.DUR); playT=s; clock0=now(); waiting=true; r.audioStop(); r.seekAudio(s); const fi=Math.min(dur,Math.floor(s*FPS)); if(!chunks[fi]&&!(fi>=nextI&&fi<nextI+FPS)){ nextI=fi; newEnc(); flushed=false; } newDec(fi); },   // tua tới chỗ CHƯA dựng → dựng ngay từ chỗ tua (khung đầu là khung khoá)
       toggle:()=>{ if(paused){ paused=false; clock0=now(); } else { playT=cur(); paused=true; r.audioStop(); } }, paused:()=>paused||waiting,
