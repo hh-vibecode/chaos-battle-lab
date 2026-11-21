@@ -1,4 +1,4 @@
-# fin1c7 — Kết Part 1 · BẢN 3: Catvader đánh lén Gojo (21/11/2026 — CHỜ ANH DUYỆT)
+# fin1c7 — Kết Part 1 · BẢN 3: Catvader đánh lén Gojo (21/11/2026 — ANH ĐÃ DUYỆT, đang dựng)
 Lời anh 21/11: "gojo đang fight với pain căng thẳng, trong 1 khoảnh khắc khi gojo đang chiếm ưu thế, tích tụ purple lần 2 định kết liễu pain đang yếu,
 1 lưỡi laze đâm xuyên qua người nó và slash 1 nhát chém, gojo tách làm 2, catvader đứng sau đánh lén thành công hiện ra. Các meme hốt hoảng chạy tới,
 catvader rút về phía pain. Các meme bên kia tập hợp các thứ như cảnh cũ." · "giảm bớt số lượng meme" · "lấy 20-30 con tiêu biểu thôi" · "bên evil mới cần đông".
@@ -69,3 +69,16 @@ Phe Evil: Pain · Catvader · Mlem · Chud · Ninja · Bat · Evil Gary + binh �
 2. Màn chia đôi cuối (26): Gojo đã chết, vậy bên trái là ai? Em đề xuất **Chill Guy**, nối lại cảnh c6: Gojo từng chắn cho nó ("Leave it to me"), giờ nó nhặt băng mắt của Gojo, mắt nộ kiểu Gon lần 2.
 3. Nhát chém: kiểu kiếm laze cháy xém, không máu (đúng Star Wars, an toàn YouTube). Được không?
 4. Câu thoại nhịp 6 "It's over, Pain." Giữ, đổi, hay bỏ?
+
+## ✅ ANH CHỐT 21/11 ("chill guy đi · ok hết")
+1. Bỏ hẳn Bread Cat Big Bang + cổng đa vũ trụ. Gigachad + Chonky đứng CỠ THƯỜNG trong hàng phe thiện.
+2. Màn chia đôi cuối: TRÁI = Chill Guy (nhặt băng mắt Gojo, nộ kiểu Gon lần 2 — nối cảnh c6) · PHẢI = Pain + Catvader.
+3. Chém kiểu kiếm laze cháy xém, không máu.
+4. Nhạc: Imperial March (nhịp 13) + "Sadness and Sorrow" (đoạn C) + em tự chọn nhạc phe Evil (không Portals, không mus_girei).
+5. Giữ thoại nhịp 6 "It's over, Pain."
+6. (anh 21/11) "nói chung cảnh cuối muốn BI THƯƠNG tí và làm cảm giác PHE TỐT BỊ ÁP ĐẢO" → cách dựng:
+   - Phe thiện: góc CAO nhìn xuống (nhỏ bé), màu lạnh nhạt, tro rơi như tuyết; nhịp CHẬM ở 12–19 (Gojo đứt đôi → khựng dài, Banana khóc, đứng quanh xác).
+   - Phe Evil: góc THẤP ngước lên, đông kín tới chân trời, ánh đỏ; Friend che nửa trời.
+   - Khung chênh lệch (25) + chia đôi (26): Chill Guy gần như đứng 1 mình trước biển quỷ + Friend.
+7. (anh 21/11) Nhịp 12: đứt đôi → NỬA TRÊN NGẢ NẰM NGANG ra, 2 nửa TÁCH nhau 1 chút (mép cháy xém, không máu). Từ nhịp 13 trở đi KHÔNG hiện xác nữa — chỉ để lại BÓNG trên mặt đất (an toàn chính sách YouTube).
+8. Rinnegan đo trên FIN_DP_CROUCH: mắt (u,v) = (0.788,0.181) và (0.841,0.189) theo khung ảnh cắt sát → nhịp 5 + 14 dùng ảnh CROUCH (đầu ngẩng).

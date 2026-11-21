@@ -3,7 +3,7 @@ Chi tiết từng meme: `docs/notes/memes.md` · từng phim + cine-kit: `docs/n
 🍎 **Mac chưa cài luồng làm phim** (từ khi làm phim trên PC, Mac chỉ update game + nhân vật): phiên Mac đọc `docs/notes/luong-phim-blender.md` mục 2 rồi cài TRƯỚC khi làm phim. VFX nổ / khói / lửa lớn = mô phỏng Blender (`tools/blender/`, cùng file đó mục 4).
 Đọc file đó KHI làm đúng phần đó (không cần đọc hết mỗi phiên).
 🎬 (anh 21/11) Rạp phim trong app CHỈ còn Final Part 1; phim cũ gỡ khỏi app, code để học ở `docs/mau-phim/` (README ở đó).
-⏸️ Final Part 1: cảnh kết `fin1c7` anh ĐỔI CỐT TRUYỆN 21/11 (Catvader đánh lén chém đôi Gojo; phe thiện chỉ 20–30 meme, phe Evil đông) → kịch bản bản 3 `prompts/kich-ban/fin1c7-v3.md` CHỜ ANH DUYỆT rồi mới dựng (bản 2 đang dựng sẽ thay); còn áp "hoà vào cảnh" cho các cảnh Final khác — chi tiết `docs/notes/viec-do-fin1.md`.
+⏸️ Final Part 1: cảnh kết `fin1c7` anh ĐỔI CỐT TRUYỆN 21/11 (Catvader đánh lén chém đôi Gojo; phe thiện chỉ 20–30 meme, phe Evil đông) → kịch bản bản 3 `prompts/kich-ban/fin1c7-v3.md` (anh duyệt) ĐÃ DỰNG 21/11 (58.8s, thay bản 2), CHỜ ANH XEM; còn áp "hoà vào cảnh" cho các cảnh Final khác — chi tiết `docs/notes/viec-do-fin1.md`.
 ⏸️ **Angry Cat (17/11, CHƯA phát hành)**: bộ skill thanh tức giận + hòm đồ 10 vũ khí + bom nguyên tử nằm trong `git stash` trên MAC ("WIP Angry Cat 17/11") — anh bảo để giao cho 1 con khác, chờ anh nói con nào. Ảnh vũ khí GPT dùng lại được; ảnh mèo + 3 ảnh VFX GPT phải làm lại.
 ⚠️ Anh chê 16/11 "làm nhanh xong toàn làm sai" → làm KỸ từng shot, soát từng shot rồi mới sang shot sau. Cách làm phim / VFX / edit nằm trong skill (`dung-phim`, `edit-video`, `viet-kich-ban`, `ve-anh-gpt`…).
 

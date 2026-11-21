@@ -1,5 +1,12 @@
 # VIỆC DỞ — Final Part 1
 
+## 🆕 21/11 tối — CẢNH KẾT BẢN 3 `fin1c7` (anh đổi cốt truyện) — ĐÃ DỰNG, CHỜ ANH XEM
+Kịch bản + mọi lời anh chốt: `prompts/kich-ban/fin1c7-v3.md` (mục ✅ ANH CHỐT 1–8). 58.8s, 35 shot (`js/shots/fin1c7.json`), film-lint + sfx-lint cảnh này 0 lỗi.
+- Gojo áp đảo → gom Hollow Purple lần 2 → Catvader đâm lén bằng kiếm laze từ sau → chém ngang → Gojo đứt đôi (nửa trên nằm ngang, tách 1 khe, cháy xém KHÔNG máu) → từ đó chỉ còn BÓNG (chính sách YouTube).
+- Phe thiện 24 meme tiêu biểu (`GOOD`), góc cao màu lạnh tro rơi; phe Evil đông (binh đoàn quỷ ~1700 con). Chia đôi: Chill Guy đứng 1 mình + băng mắt Gojo bay trên đất (ảnh Chill Guy đút tay túi → không cầm được) / Pain + Catvader.
+- Nhạc mới (cắt chỉ giữ đoạn dùng): `mus_imperial` (Imperial March, lúc Catvader lộ diện), `mus_sadness` (Sadness and Sorrow), `mus_despair` (Despair). Tải bằng yt-dlp bản macOS độc lập (bản pip trên Mac quá cũ — Python 3.9).
+- Biết còn yếu: chưa nghe thật tiếng / nhạc (Claude không nghe được) · Chill Guy "nộ" mới là quầng tối đỏ (chưa làm lại khung Gon như c6) · nhịp 6 + 25 meme còn nhỏ trong khung toàn.
+
 ## 🎨 SỬA 20/11 (anh dặn): NHÂN VẬT HOÀ VÀO CẢNH cho mọi cảnh Final
 Luật mới (CLAUDE.md mục Ảnh / VFX): không dán PNG thẳng lên nền. Áp vào các cảnh Final 1 (fin1c1–c5, fin1f1–f3, Chill Guy, cảnh kết):
 thay chỗ vẽ meme (`spr` trong js/film-fin1f1.js / js/fin1-plate.js …) bằng cách dựng như `sprBlend` trong docs/mau-phim/film-megaband.js — bớt rực, multiply ánh môi trường,
