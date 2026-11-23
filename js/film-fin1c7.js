@@ -28,7 +28,7 @@
     sense:16.6, senseHit:16.9, doge:17.9, field:18.9, hit:19.2, crack:19.45, blast:19.8, fly:20.3, land:20.95, painUp:21.9,
     run:23.3, banana:25.5, mourn:26.9,
     aka:30.3, ninja:32.3, shar:32.45, crouch:33.05, slam:33.3, seal:33.7, smoke:35.5, shard:38.7, quiet:39.8, sky:40.7, dive:42.5, brake:44.3, hover:45.9,
-    look:48.3, face:49.5, wide:50.7, split2:52.9, rage:53.3, boom:56.1, tbc:56.5, xmas:57.9, DUR:60.3 };
+    look:48.3, face:49.5, wide:50.7, split2:52.9, rage:53.3, boom:56.1, tbc:56.5, DUR:59.3 };   // (anh 23/11) màn cuối CHỈ chữ TO BE CONTINUED…, không báo thêm gì
 
   // ───────── ẢNH (chỉ ảnh gốc + 4 tấm nền) ─────────
   const av=k=>'assets/avatars/'+k+'/avatarUrl.'+(k==='violinbee'||k==='saiyanmarmot'?'png':'webp');
@@ -613,7 +613,7 @@
       motes(F,t,{n:24,col:'255,110,50',core:'255,220,160',sp:30,up:true,a:0.7,seed:90}); }
     g.restore();
     g.save(); g.strokeStyle='#ffffff'; g.lineWidth=5; g.beginPath(); g.moveTo(VW*0.56,0); g.lineTo(VW*0.44,VH); g.stroke(); g.restore(); });
-  S(T.boom,T.DUR,{co:'toàn',goc:'ngang',loai:'chuyển cảnh',hd:'BÙM trắng xoá → TO BE CONTINUED… → FINAL · PART 2 — CHRISTMAS 2026',anh:[],sfx:['l2p_explode']},(F,t,u)=>{ F.g.fillStyle='#000'; F.g.fillRect(0,0,VW,VH); });
+  S(T.boom,T.DUR,{co:'toàn',goc:'ngang',loai:'chuyển cảnh',hd:'BÙM trắng xoá → TO BE CONTINUED…',anh:[],sfx:['l2p_explode']},(F,t,u)=>{ F.g.fillStyle='#000'; F.g.fillRect(0,0,VW,VH); });
   const shotAt=t=>{ let s=SH[0]; for(const x of SH) if(t>=x.t0) s=x; return s; };
 
   // ═════════ MÀN HÌNH (sau grade) ═════════
@@ -692,9 +692,9 @@
     screen(F,t){ const g=F.g, s=strobeAt(t);
       if(s){ B.impactOverlay(F,s); return; }
       if(t>=T.slash&&t<T.split){ smearSlash(F,t); sliceFrame(F,t); }
-      if(t>=T.boom+0.35){ g.fillStyle='#000'; g.fillRect(0,0,VW,VH); const a1=seg(t,T.tbc,T.tbc+0.6), a2=seg(t,T.xmas,T.xmas+0.8), out=1-seg(t,T.DUR-0.8,T.DUR); g.save(); g.textAlign='center';
-        g.fillStyle='rgba(255,255,255,'+(a1*out)+')'; g.font='900 '+Math.round(VH*0.09)+'px Montserrat, Arial Black, sans-serif'; g.fillText('TO BE CONTINUED…',VW/2,VH*0.46);
-        g.fillStyle='rgba(255,90,90,'+(a2*out)+')'; g.font='700 '+Math.round(VH*0.045)+'px Montserrat, Arial, sans-serif'; g.fillText('FINAL · PART 2 — CHRISTMAS 2026',VW/2,VH*0.58); g.restore(); return; }
+      if(t>=T.boom+0.35){ g.fillStyle='#000'; g.fillRect(0,0,VW,VH); const a1=seg(t,T.tbc,T.tbc+0.6), out=1-seg(t,T.DUR-0.8,T.DUR); g.save(); g.textAlign='center';
+        g.fillStyle='rgba(255,255,255,'+(a1*out)+')'; g.font='900 '+Math.round(VH*0.09)+'px Montserrat, Arial Black, sans-serif'; g.textBaseline='middle'; g.fillText('TO BE CONTINUED…',VW/2,VH*0.5);
+        g.restore(); return; }
       // chữ (chỉ TÊN CHIÊU — anh 23/11) / thoại ngắn
       if(t>=T.title&&t<T.stab) title(g,'HOLLOW PURPLE',0.9,seg(t,T.title,T.title+0.25)*(t>=T.hush?0.75+0.25*Math.sin(t*30):1),'#ead6ff');
       if(t>=T.slam+0.15&&t<T.smoke-0.4) title(g,'KUCHIYOSE NO JUTSU',0.2,seg(t,T.slam+0.15,T.slam+0.35)*(1-seg(t,T.smoke-0.9,T.smoke-0.4)));

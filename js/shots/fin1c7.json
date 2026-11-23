@@ -32,5 +32,5 @@
   {"t0":49.5,"t1":50.7,"co":"cực cận","goc":"giun","hanhDong":"Cực cận mặt Friend: 2 mắt vàng / hồng sáng rực, nhe răng","loai":"đối mặt","anh":["PL","FR"],"sfx":[],"ghiChu":""},
   {"t0":50.7,"t1":52.9,"co":"toàn","goc":"ngang","hanhDong":"Toàn chênh lệch: trái 47 meme tụ quanh xác Gojo · phải biển quỷ đông tới chân trời · trên trời chân + bụng Friend khổng lồ tràn nửa trời (chỉ thấy 1 phần)","loai":"thở","anh":["PV","FR","DM_brute","DM_wraith","M_chillguy"],"sfx":[],"ghiChu":""},
   {"t0":52.9,"t1":56.1,"co":"trung","goc":"chéo","hanhDong":"CHIA ĐÔI chéo: trái Chill Guy NỘ — hoá bóng đen 2 mắt trắng, hào quang đen–đỏ bốc ngùn ngụt dâng theo nhịp tim, đất nứt đỏ, đá vụn bị nhấc bổng, máy dí dần + rung (xác Gojo nằm đôi ở tiền cảnh) / phải Pain + Catvader ngẩng lên","loai":"đối mặt","anh":["PG","M_chillguy","PAIN","VADER"],"sfx":["l2p_whoosh","l2p_riser","se_aura"],"ghiChu":""},
-  {"t0":56.1,"t1":60.3,"co":"toàn","goc":"ngang","hanhDong":"BÙM trắng xoá → TO BE CONTINUED… → FINAL · PART 2 — CHRISTMAS 2026","loai":"chuyển cảnh","anh":[],"sfx":["l2p_explode"],"ghiChu":""}
+  {"t0":56.1,"t1":59.3,"co":"toàn","goc":"ngang","hanhDong":"BÙM trắng xoá → TO BE CONTINUED…","loai":"chuyển cảnh","anh":[],"sfx":["l2p_explode"],"ghiChu":""}
 ]
