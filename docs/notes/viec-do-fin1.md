@@ -1,6 +1,15 @@
 # VIỆC DỞ — Final Part 1
 
-## 🛠️ 23/11 — DỰNG LẠI CẢNH KẾT fin1c7 (bản 4) — KẾ HOẠCH CODE (chưa bắt đầu sửa js/film-fin1c7.js)
+## ✅ 23/11 tối — ĐÃ DỰNG LẠI fin1c7 BẢN 4 (58s, 32 shot) — CHỜ ANH XEM video trong app
+- Cách dựng mới = LỚP 2D kiểu anime (bỏ thành phố 3D + sàn lưới): 4 nền GPT vẽ tay cùng nét `assets/img/cine/FIN_C7_PL_{GROUND,LOW,HIGH,VAST}` (trời đã tách → trời + mây = CODE:
+  tích vân cel 3 lớp trôi lệch, trần mây nhìn từ dưới khi ngước, đỏ rực từ trong, lỗ rách mép mềm) · meme ảnh gốc nướng hoà cảnh (light wrap, ánh hắt, mép đáy mờ) · nền cận cảnh làm mờ ·
+  hậu kỳ khuếch tán sáng + hạt phim. Điểm gắn VFX đo bằng plate-grid (bảng `PT` đầu file).
+- Lời anh trong lúc làm (đã làm): xác Gojo KHÔNG làm mờ đen nữa — để NẰM ĐÔI ở các cảnh sau (cắt dưới cằm, không qua mặt) · quỷ triệu hồi = 8 con MỚI `FIN_C7_DM_*`
+  (thực thể: brute / imp / ghoul / knight / beast · linh hồn bán trong suốt: wraith / shade / winged), to nhỏ đa dạng, bỏ EG_SOUL của phần 1 · nhóm Akatsuki MẶC ÁO (FIN_AKA_*) ·
+  Friend CỠ THÀNH PHỐ, trong khung toàn CHỈ thấy 1 phần (shot lơ lửng: mở ở chân + biển quỷ tí hon → máy ngước dọc thân tới mặt cười).
+- Còn biết yếu: chưa nghe thật tiếng / nhạc (despair off 0.4 như bản 3) · cảnh Gojo đứt đôi 2 nửa vẫn là ảnh phẳng cắt thẳng.
+
+## 🛠️ 23/11 — DỰNG LẠI CẢNH KẾT fin1c7 (bản 4) — KẾ HOẠCH CODE (đã làm xong, xem mục trên)
 Kịch bản + mọi lời anh chốt: `prompts/kich-ban/fin1c7-v4.md` (đọc HẾT, nhất là 3 mục ✅ cuối file). Đã xong liên quan: fin1c4 kết ở nổ tím trên trời (Ver 704) · Chill Guy phụ đề (Ver 703).
 1. **Ảnh = CHỈ ảnh gốc** (anh: "dùng nhiều form không nguyên bản từ Friend tới meme"): Gojo MEW_GOJO_IMG · Pain DP_PAIN_IMG · Buff Doge doge/rageAvatarUrl (luật Buff Doge) · mọi con khác avatarUrl.
    BỎ khỏi IMG: G1 G6 P1 PPUSH PKB PCR (MVD_*/FIN_*) · DBA · BANC (Banana dùng avatarUrl, không ảnh khóc) · VADER_S/VADER_F (Catvader avatarUrl, kiếm laze = code saber() gắn ở tay — đo toạ độ bằng tools/x/plate-grid.html) · FR_DIVE/FR_ROAR · SIM (không nổ).
