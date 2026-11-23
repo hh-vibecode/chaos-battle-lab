@@ -778,7 +778,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     flowercat: { key:'flowercat', defaultName:'Flower Cat - The Transcendent One', emoji:'🌸', color:'#f8bbd0', hp:1000, speed:5, size:43, skill:'2s sau khi vào trận, 1 bông hoa xuất hiện ở góc xa nhất, nảy khắp sàn (không máu, không hại ai) tới khi chạm ĐÚNG Flower Cat. Khi chạm: hồi 69 máu rồi vào chuỗi Siêu Việt 2s (không gian bóp méo → nứt vỡ → sét), cuối cùng gây 350 dame. 3s sau bông hoa mới xuất hiện.' },
     loadingcat: { key:'loadingcat', defaultName:'Loading Cat', emoji:'⏳', color:'#90a4ae', hp:1000, speed:5, size:47, skill:'Có 1 mũi tên Yaka (kiểu Yondu) vĩnh viễn. Xen kẽ ngẫu nhiên: Loading 3-7s (đứng yên, vòng loading xoay giữa trán, điều khiển mũi tên bay theo quán tính lượn vòng đâm xuyên địch — mỗi lượt xuyên qua 80 dame + thủng 1 lỗ nhỏ, phải lượn vòng lại mới đâm tiếp) rồi Di chuyển 3-5s (mũi tên cắm im vào tường, đi lang thang bình thường).' },
     capybara: { key:'capybara', emoji:'🐹', color:'#8d6e63', hp:1000, speed:5, size:52, defaultName:'Capybara', skill:'Vào trận đã ở DẠNG DUNG HỢP (2 con cưỡi nhau) 1000 máu, CHỈ có đúng 1 chiêu: cứ 2.5s lại đứng yên tích lực 1s rồi lao húc về phía địch — trúng thì 150 dmg và đẩy văng rất mạnh (chỉ đẩy văng, không có dame đập tường). Không có đòn cận chiến nào ở dạng này. Khi ăn đòn chí mạng, thay vì chết thì BẬT VĂNG ra làm 2 con — con dùng AVATAR CHÍNH 300 máu (không đánh, chỉ lạch bạch đi qua đi lại), con CẦM DAO (ô ảnh phụ) 200 máu và còn đánh cận chiến 45 dmg. Sống sót qua 5s ở dạng tách thì 2 con hợp lại làm 1 với 500 máu (rồi lại tụt xuống 0 là tách tiếp, lặp vô hạn); mất 1 con trong 5s đó thì không hợp lại được nữa.' },
-    catexe: { key:'catexe', defaultName:'Cat.exe', emoji:'💻', color:'#2f6fe0', hp:1000, speed:5, size:46, skill:'Không đánh thường — chỉ HÚC (55 dame / cú). Mỗi lần va chạm địch hoặc tường +20% RAM (thanh dưới chân). RAM ≥50%: RỚT KHUNG HÌNH — cứ 0.3s mới giật cóc tới chỗ mới 1 lần, có lúc giật LÙI, sát tường có lúc lag văng ra ngoài sân rồi giật về (lỡ hết lag lúc đang ở ngoài là rơi xuống vũ trụ, thua luôn). Địch húc vào nó lúc đang lag (hoặc lúc ngáo) bị MÉO MẶT, mỗi cú lõm thêm 1 chỗ + bầm đỏ. RAM 100% → NOT RESPONDING 10s: mặt ngáo phát sáng, lao thẳng nhanh gấp đôi, cứ 0.6s để lại 1 bản sao treo hình (giữ 3 bản, húc vào bị nảy như tường + 45 dame), mọi cú húc KHÔNG gây dame ngay mà treo Loading… trên đầu địch (65 / cú); hết 10s nổ dồn toàn bộ + 20% sát thương chuẩn rồi về mặt nghiêm túc, RAM về 0.' },
+    catexe: { key:'catexe', defaultName:'Cat.exe', emoji:'💻', color:'#2f6fe0', hp:1000, speed:5, size:46, skill:'Không đánh thường — chỉ HÚC (55 dame / cú). Mỗi lần va chạm địch hoặc tường +20% RAM (thanh dưới chân), lúc thường đi mượt. RAM 100% → NOT RESPONDING 10s: mặt ngáo phát sáng, RỚT KHUNG HÌNH — lao thẳng nhưng cứ 0.3s mới giật cóc tới chỗ mới 1 lần, có lúc giật LÙI, sát tường có lúc lag văng ra ngoài sân rồi giật về (hết 10s mà đang ở ngoài là rơi xuống vũ trụ, thua luôn); địch húc vào nó lúc này bị MÉO MẶT, mỗi cú lõm thêm 1 chỗ + bầm đỏ; cứ 0.6s để lại 1 bản sao treo hình (giữ 3 bản, húc vào bị nảy như tường + 45 dame), mọi cú húc KHÔNG gây dame ngay mà treo Loading… trên đầu địch (65 / cú); hết 10s nổ dồn toàn bộ + 20% sát thương chuẩn rồi về mặt nghiêm túc, RAM về 0.' },
     sans: { key:'sans', defaultName:'Sans - The Unknown', emoji:'💀', color:'#5b8fd6', hp:1000, speed:5, size:46, skill:'Không có đòn đánh thường. Vào trận cả sân là THẾ GIỚI UNDERTALE (nền đen, khung trắng, thanh máu vàng/đỏ) và Sans ở dạng pixel. CHỈ nhận sát thương từ đòn CẬN CHIẾN — đạn, tia, nổ, cháy, độc đều MISS; đạn bay tới gần thì nó lách nhẹ cho đạn sượt qua, đạn dò đường bay xuyên người. Mỗi 5s dùng KHUNG HÌNH kiểu Naoya: cả sân đóng băng 1s, Sans đi trọn 12 bước định sẵn (để lại ảo ảnh mờ) rồi dừng ở chỗ xa địch nhất; tới nơi gọi thêm 1 đầu rồng Gaster Blaster (lần thứ n = n đầu, tối đa 6) ngoài mép sàn, mỗi đầu bám địch suốt 1s tích tụ (ngắm đón đầu, chốt 0.1s trước khi bắn) rồi bắn tia plasma trắng khổng lồ 100 dmg. Vào trận 8s: màn hình Undertale vỡ tan, sàn thường hiện lại, Sans thoát ra thế giới thật và thổi kèn Megalovania — Electric Guitar Cat và Bongo Cat hiện ra chơi cùng; từ đó mọi địch bị lửa xanh lam thiêu 20 máu/giây tới hết trận. Địch thua Sans cháy thành tro.' },
     fanchar: { key:'fanchar', defaultName:'Fan', emoji:'🧑', color:'#8ab4ff', hp:1000, speed:5, size:48, skill:'Nhân vật của người bình luận — skill riêng do chính họ nghĩ ra (xem FAN_SKILLS).' },
     yuki: { key:'yuki', defaultName:'Yuki - The Round One', emoji:'🦭', color:'#90caf9', hp:1000, speed:5, size:48, skill:'Hải cẩu tròn béo, KHÔNG có đòn đánh nào. Có đúng 2 chiêu. (1) VA ĐẬP: chạm vào ai là gây 50 sát thương, lúc nào cũng vậy. (2) PHẢN ĐÒN: mọi đòn đánh trúng nó gom thành 40% sát thương PHẢN, nhưng dame đó không nổ ngay mà bay theo nó — húc trúng ai mới giao tận nơi, bay hết đà không chạm được ai thì mất trắng. Trong lúc đang bay nó cứng người hơn, chịu ít hơn 25% sát thương. Cú đánh đồng thời hất chính nó bay VĂNG RA XA kẻ vừa đánh như quả bóng bi-a — đòn càng nặng bay càng nhanh và càng lâu — rồi nó cứ thế nảy tưng tưng dội hết tường này sang tường khác, đường bay hoàn toàn tuỳ vào góc dội chứ nó KHÔNG tự lái về phía ai. Ai xui nằm đúng đường nảy thì ăn trọn. Cú va đập SAU KHI đã dội tường mới hất văng được đối thủ, và mỗi lần hất văng thì từ chính con địch đó BẮN RA 1 con cá bay vòng cung rồi nằm lại — Yuki nhặt cá thì hồi 50 máu. Đòn càng nặng thì nó bay càng xa và rung như thạch càng dữ.' },
@@ -12067,9 +12067,9 @@ const NJ_SHARINGAN_IMG=new Image(); NJ_SHARINGAN_IMG.src='assets/img/ninjacat/NJ
 const NJ_GEN_VANISH=30, NJ_GEN_STAB=26, NJ_GEN_STAB_HIT=6, NJ_GEN_DMG=150, NJ_GEN_FREEZE=45, NJ_GEN_BLADE=2.1, NJ_GEN_TIP=1.25;   // dài lưỡi = 2.1×thân Ninja · mũi lòi ra tới 1.25×thân địch tính từ tâm   // 45 frame = 0.75s đứng hình lúc đâm
 // ===================== 💻 CAT.EXE — "Cat.exe has stopped working" (anh 23/11) =====================
 // Không đánh thường: chỉ HÚC (55). Mỗi va chạm ĐỊCH hoặc TƯỜNG +20% RAM (thanh dưới chân).
-// • RAM ≥50% — RỚT KHUNG HÌNH: vị trí THẬT chạy ngầm (gx,gy), thân hiện (x,y) chỉ cập nhật mỗi 0.3s → giật cóc. Có nhịp giật LÙI
+// • (anh 23/11: CHỈ lúc NOT RESPONDING mới lag — RAM ≥50% không còn lag) RỚT KHUNG HÌNH: vị trí THẬT chạy ngầm (gx,gy), thân hiện (x,y) chỉ cập nhật mỗi 0.3s → giật cóc. Có nhịp giật LÙI
 //   (về hẳn chỗ cũ), sát tường có nhịp lag văng RA NGOÀI sân rồi giật về; hết lag lúc đang ở ngoài → rơi xuống vũ trụ = thua thẳng
-//   (_susEject). Va chạm tính theo thân đang HIỆN → con lao / đạn nhắm vào ảnh đang khựng.
+//   (_susEject) — 'hết lag' = hết Not Responding. Va chạm tính theo thân đang HIỆN → con lao / đạn nhắm vào ảnh đang khựng.
 // • Ai va vào nó lúc đang lag / ngáo → MÉO MẶT kiểu filter đấm mặt (video anh gửi 23/11): mỗi cú 1 vết lõm vĩnh viễn + bầm đỏ,
 //   càng đánh càng méo (_cxDent / _cxDented — bẻ điểm ảnh của chính ảnh meme, không vẽ thêm gì).
 // • RAM 100% → NOT RESPONDING 10s: ảnh ngáo + loé sáng sau đầu (vẽ code), lao thẳng nhanh, cứ 0.6s để lại 1 bản sao treo hình
@@ -12077,9 +12077,9 @@ const NJ_GEN_VANISH=30, NJ_GEN_STAB=26, NJ_GEN_STAB_HIT=6, NJ_GEN_DMG=150, NJ_GE
 //   + 20% sát thương chuẩn rồi về mặt nghiêm túc, RAM 0. (2 mốc 10s / 4s trong mô tả của anh vênh nhau → em chọn 10s, chỉnh CX_NR_T)
 const CX_TPS=60*GAME_SPEED*TIME_SCALE;
 const CX_RAM_HIT=20, CX_RAM_CD=Math.round(0.35*CX_TPS), CX_LAG_AT=50, CX_STEP=Math.round(0.3*CX_TPS);
-const CX_BACK_P=0.22, CX_OUT_P=0.08, CX_FALL_P=0.12, CX_STAY_P=0.2;   // mỗi nhịp lag: giật lùi · văng ra ngoài (khi sát tường) · đang ở ngoài thì hết lag (rơi) / kẹt thêm 1 nhịp
+const CX_BACK_P=0.22, CX_OUT_P=0.1, CX_STAY_P=0.25;   // mỗi nhịp lag: giật lùi · văng ra ngoài (khi sát tường) · đang ở ngoài thì kẹt thêm 1 nhịp
 const CX_DMG=55, CX_NR_DMG=65, CX_GHOST_DMG=45, CX_HIT_CD=Math.round(0.5*CX_TPS), CX_BONUS=0.2;
-const CX_NR_T=Math.round(10*CX_TPS), CX_NR_SPD=1.15, CX_GHOST_EVERY=Math.round(0.6*CX_TPS), CX_GHOST_N=3;
+const CX_NR_T=Math.round(10*CX_TPS), CX_NR_SPD=0.6, CX_GHOST_EVERY=Math.round(0.6*CX_TPS), CX_GHOST_N=3;
 const CX_FALL_T=Math.round(1.4*CX_TPS), CX_DENT_MAX=10;
 const CX_FR=['CX_RUN','CX_NR'].map(n=>{ const im=new Image(); im._noMask=true;
   im.onload=()=>{ im._crop={sx:0,sy:0,sw:im.naturalWidth,sh:im.naturalHeight}; }; im.src='assets/img/catexe/'+n+'.webp'; return im; });   // 2 ảnh cùng khổ, cùng khung cắt → đổi dạng không nhảy cỡ
@@ -12087,28 +12087,31 @@ let cxGhosts=[], cxFx=[];
 const _cxH=a=>{ const s=Math.sin(a*127.1+311.7)*43758.5453; return s-Math.floor(s); };   // băm theo tick (hiệu ứng nhìn — không đụng Math.random)
 function _cxS(f){ return f._cx||(f._cx={ram:0,ramCD:0,nr:0,lag:false,step:CX_STEP,fx:f.x,fy:f.y,gx:f.x,gy:f.y,hist:[],out:0,fall:0,fvx:0,fvy:0,gT:0,trail:[],flare:0,glitch:0}); }
 function _cxNR(f){ return !!(f && f._cx && f._cx.nr>0); }
-function _cxLagOn(f){ const C=f && f._cx; return !!(C && !f.dead && C.nr<=0 && !C.fall && C.ram>=CX_LAG_AT); }
+function _cxLagOn(f){ const C=f && f._cx; return !!(C && !f.dead && C.nr>0 && !C.fall); }   // anh 23/11: CHỈ lúc ngáo (Not Responding) mới giật lag
 function _cxFoes(f){ const out=[]; for(const o of fighters) if(o.team!==f.team && !o.dead && o.hp>0 && !_sdGone(o)) out.push(o); for(const u of _summonFoes(f.team)) out.push(u); return out; }
 function _cxDmg(o,d,src,isTrue){ if(!o || o.dead || o.hp<=0) return; if(fighters.includes(o)) o.takeDamage(d,src,false,false,'',null,false,!!isTrue); else _summonTakeDamage(o,d,src,false,false); }
 // ⏱️ update(): đang lag thì chạy logic ở vị trí THẬT rồi trả thân về chỗ đang hiện
 function _cxUpdate(f){ const C=_cxS(f);
   if(C.fall){ _cxFallTick(f); return; }
-  if(!_cxLagOn(f)){ if(C.lag){ C.lag=false; C.out=0; } return f._updateCore(); }
+  if(!_cxLagOn(f)){ if(C.lag && _cxLagEnd(f)) return; return f._updateCore(); }
   if(!C.lag){ C.lag=true; C.fx=C.gx=f.x; C.fy=C.gy=f.y; C.step=CX_STEP; C.hist=[]; C.out=0; }
   if(!C.out){ C.gx+=f.x-C.fx; C.gy+=f.y-C.fy; }   // bị va / bị đẩy trúng thân đang hiện → dời cả đường thật theo
   f.x=C.gx; f.y=C.gy;
   f._updateCore();
   if(f.dead || C.fall) return;
-  if(!_cxLagOn(f)){ C.lag=false; C.out=0; return; }   // vừa đầy RAM trong tick này → hoá ngáo ngay ở chỗ thật
+  if(!_cxLagOn(f)){ C.gx=f.x; C.gy=f.y; _cxLagEnd(f); return; }   // hết ngáo trong tick này
   C.gx=f.x; C.gy=f.y;
   if(--C.step<=0){ C.step=CX_STEP; _cxLagStep(f); if(C.fall) return; }
   f.x=C.fx; f.y=C.fy;
 }
+// hết lag (hết Not Responding): đang ở ngoài sân → rơi xuống vũ trụ; trong sân → thân về đúng chỗ thật
+function _cxLagEnd(f){ const C=f._cx; C.lag=false;
+  if(C.out && !f.dead){ _cxFallStart(f); return true; }
+  C.out=0; if(!f.dead){ f.x=C.gx; f.y=C.gy; } return false; }
 function _cxLagStep(f){ const C=f._cx, s=f.size;
   C.glitch=Math.max(C.glitch,5);
   if(C.out){ const r=Math.random();
-    if(r<CX_FALL_P){ _cxFallStart(f); return; }   // 💀 hết lag đúng lúc đang ở ngoài sân
-    if(r<CX_FALL_P+CX_STAY_P) return;             // kẹt ngoài thêm 1 nhịp
+    if(r<CX_STAY_P) return;             // kẹt ngoài thêm 1 nhịp
     C.out=0; C.fx=C.gx; C.fy=C.gy; return; }      // giật về
   C.hist.push([C.gx,C.gy]); if(C.hist.length>4) C.hist.shift();
   const r=Math.random(), walls=[[C.gx,0],[W-C.gx,1],[C.gy,2],[H-C.gy,3]].sort((a,b)=>a[0]-b[0]);
@@ -12131,7 +12134,7 @@ function _cxFallTick(f){ const C=f._cx; f.vx=0; f.vy=0; C.fall++;
 // 🧠 +RAM mỗi va chạm (địch / tường) — đầy 100% thì sập (đang ở ngoài sân thì rơi luôn)
 function _cxRam(f){ const C=_cxS(f); if(f.dead || C.nr>0 || C.fall || C.ramCD>0) return;
   C.ramCD=CX_RAM_CD; C.ram=Math.min(100,C.ram+CX_RAM_HIT);
-  if(C.ram>=100){ if(C.out) _cxFallStart(f); else _cxCrash(f); } }
+  if(C.ram>=100) _cxCrash(f); }
 function _cxCrash(f){ const C=f._cx;
   C.nr=CX_NR_T; C.lag=false; C.out=0; C.gT=0; C.trail=[]; C.flare=Math.round(0.8*CX_TPS); C.glitch=Math.round(0.45*CX_TPS);
   const e=_findClosestEnemy(f.team,f.x,f.y), a=e?Math.atan2(e.y-f.y,e.x-f.x):Math.random()*Math.PI*2, sp=f.topSpeed*CX_NR_SPD;
@@ -12192,7 +12195,7 @@ function _cxBump(f1,f2){ for(const [c,o] of [[f1,f2],[f2,f1]]){
   if(c.type!=='catexe' || c.dead || o.team===c.team || o.dead || (o.hp!==undefined && o.hp<=0)) continue;
   const C=_cxS(c); if(C.fall) continue;
   if(tick-(o._cxHitT??-1e9)<CX_HIT_CD) continue; o._cxHitT=tick;
-  const busy=_cxLagOn(c)||C.nr>0;
+  const busy=C.nr>0;
   if(C.nr>0){ _cxPendAdd(o,c,CX_NR_DMG); playSample('hit_light',0.3,0.25); }
   else _cxDmg(o,CX_DMG,c,false);
   if(busy) _cxDent(o,c.x,c.y);
@@ -12204,7 +12207,9 @@ function _cxWall(f){ _cxRam(f);
 function _cxNrMove(f){ const sp=f.topSpeed*CX_NR_SPD, v=Math.hypot(f.vx,f.vy), a=v>0.05?Math.atan2(f.vy,f.vx):(f._lastAngle||0);
   f.vx=Math.cos(a)*sp; f.vy=Math.sin(a)*sp; f._lastAngle=a; f.x+=f.vx; f.y+=f.vy; }
 function _cxDropGhost(f){ const L=f._cxDraw; if(!L) return;
-  cxGhosts.push({f,x:f.x,y:f.y,r:f.size,img:L.img,sx:L.sx,sy:L.sy,sw:L.sw,sh:L.sh,dw:L.dw,dh:L.dh,fl:!!(f._lastSprite&&f._lastSprite.fl),t:0,hit:new Map()});
+  const C=f._cx, gx=C&&C.lag?C.fx:f.x, gy=C&&C.lag?C.fy:f.y;
+  if(gx<0 || gy<0 || gx>W || gy>H) return;   // đang lag ra ngoài sân: không để bản sao ngoài đó
+  cxGhosts.push({f,x:gx,y:gy,r:f.size,img:L.img,sx:L.sx,sy:L.sy,sw:L.sw,sh:L.sh,dw:L.dw,dh:L.dh,fl:!!(f._lastSprite&&f._lastSprite.fl),t:0,hit:new Map()});
   const mine=cxGhosts.filter(g=>g.f===f); if(mine.length>CX_GHOST_N) cxGhosts.splice(cxGhosts.indexOf(mine[0]),1); }
 // ⏱️ gọi trong _updateCore
 function _cxTick(f){ const C=_cxS(f);
@@ -12212,7 +12217,8 @@ function _cxTick(f){ const C=_cxS(f);
   if(C.nr>0){
     if(--C.nr<=0){ _cxRecover(f); return; }
     if(++C.gT>=CX_GHOST_EVERY){ C.gT=0; _cxDropGhost(f); }
-    if(tick%2===0){ C.trail.push({x:f.x,y:f.y,tk:tick}); if(C.trail.length>8) C.trail.shift(); }
+    { const px=C.lag?C.fx:f.x, py=C.lag?C.fy:f.y, L=C.trail[C.trail.length-1];   // vệt in theo chỗ thân đang HIỆN (mỗi cú giật để lại 1 bản)
+      if(!L || Math.hypot(L.x-px,L.y-py)>2){ C.trail.push({x:px,y:py,tk:tick}); if(C.trail.length>8) C.trail.shift(); } }
   }
 }
 // 🌍 sau _bounceFighters: bản sao treo hình chặn địch như tường
@@ -14184,7 +14190,7 @@ const CHAR_FACTS = {
 };
 // giới thiệu ngắn 2-3 dòng cho màn chờ (tiếng Anh, game full English) — viết tay dựa trên cơ chế thật, không tự động cắt câu
 const CHAR_BLURB = {
-  catexe: "No attacks, only body slams. Every bump fills its RAM: past 50% it lags and teleports in jerks, sometimes right off the arena. At 100% it stops responding for 10s: frozen copies block like walls and every hit gets stuck Loading..., then it all lands at once +20%.",
+  catexe: "No attacks, only body slams. Every bump fills its RAM. At 100% it stops responding for 10s: it lags across the arena in jerks (sometimes right off it), frozen copies block like walls and every hit gets stuck Loading..., then it all lands at once +20%.",
   boxingcat: "Shadow-boxes to warm up — every jab adds to the damage counter over its head and the fire around it grows. The first two times you step in, it blinks away to keep charging; then the bell rings, and the third time you get everything stored in one punch.",
   breadcat: "No basic attack. Every 3s a slice of buttered toast falls from heaven onto a random spot. Picking one up heals 100 HP and starts the Buttered Cat Paradox: it spins for 5s, getting more terrifying each second. Hit it 3 times to break the spin; if it survives, lightning tears the arena apart, everything is pulled into its vortex and the Big Bang erases every enemy.",
   saiyanmarmot: "Melee shover: touches the enemy to shove them away like fighting marmots (45). Every 2s of walking it stops and powers up for 1.5s; the 3rd time it screams for 3s and goes Super Saiyan for good. Super Saiyan: every shove freezes for 0.5s, then blasts the enemy straight into the wall and pins them there (160), breaking off a chunk of wall. Hit the same broken spot and the hole can get big enough to send the enemy flying out of the arena — instant win.",
