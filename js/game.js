@@ -2796,7 +2796,8 @@ const AUDIO_SAMPLES = {};
       pd_piano: 'assets/audio/pd_piano.mp3',
       pd_truck_crash: 'assets/audio/pd_truck_crash.mp3',   // 🚚 Poor Dog: xe tải đâm (myinstants car-crash-short, cắt 1.7s)   // 🎹 Poor Dog: đàn piano rơi đập vỡ (user gửi) — cú đập ở 0.09s
       pd_slip: 'assets/audio/pd_slip.mp3', pd_fall: 'assets/audio/pd_fall.mp3', pd_pot: 'assets/audio/pd_pot.mp3', duo_correct: 'assets/audio/duo_correct.mp3', azel_beat: 'assets/audio/azel_beat.mp3', ep3_blip: 'assets/audio/ep3_blip.mp3', ep3_shine: 'assets/audio/ep3_shine.mp3', ep3_glass: 'assets/audio/ep3_glass.mp3', ep3_charge: 'assets/audio/ep3_charge.mp3', ep3_quake: 'assets/audio/ep3_quake.mp3', ep3_titan: 'assets/audio/ep3_titan.mp3', ep3_explode: 'assets/audio/ep3_explode.mp3', ep3_chain: 'assets/audio/ep3_chain.mp3', ep3_pain4: 'assets/audio/ep3_pain4.mp3', ep3_kamui: 'assets/audio/ep3_kamui.mp3', ep3_end_boom: 'assets/audio/ep3_end_boom.mp3',   /* 💥 myinstants "super dramatic boom" (0→2.5s, nhỏ dần) — Grumpy mở mắt, hết tập 3 */   /* 🌀 myinstants "Kamui" (kamui_Mcbv97W) — tiếng xoáy không gian, cắt 1.9→4.15s (đỉnh ở cuối) */ fr_titan_roar: 'assets/audio/fr_titan_roar.mp3', bc_spin: 'assets/audio/bc_spin.mp3', bc_suck: 'assets/audio/bc_suck.mp3', bc_interstellar: 'assets/audio/bc_interstellar.mp3',   // 🌌 màn trắng sau Big Bang: Interstellar "Mountains" (anh tải 18/11, cả bài — Hans Zimmer, video có thể dính Content ID)
-      bc_bang: 'assets/audio/bc_bang.mp3',   // 🍞 hút = tiếng nổ siêu tân tinh phát NGƯỢC (myinstants "Supernova Explosion" 0–2.6s, đỉnh ở 2.3s) · nổ = cùng tiếng đó phát xuôi 0–2.4s bc_zap: 'assets/audio/bc_zap.mp3', vb_warmup: 'assets/audio/vb_warmup6.mp3', vb_bumblebee: 'assets/audio/vb_bumblebee.mp3', vb_buzz: 'assets/audio/vb_buzz.wav', vb_swarm: 'assets/audio/vb_swarm.wav', vb_rush: 'assets/audio/vb_rush.wav', vb_sting: 'assets/audio/vb_sting.wav', rf_world_revolving: 'assets/audio/rf_world_revolving.mp3',   /* 👁️ Friend Raid phase 1: The World Revolving (Deltarune, myinstants full version 101s) */   /* 🐝 Violin Bee: bản khởi động + Flight of the Bumblebee (Katica Illényi) anh gửi · myinstants Bee Buzzing / BEES SWARMING / Bee Swarm / Cartoon Pinched or Pricked (cắt lại) */   /* 🍞 Bread Cat: động cơ rít (myinstants jet-engine-startup) · điện chập (myinstants electricity) */   /* 🎬 4s Pain theme lúc Akatsuki xuất hiện · 🐈‍⬛ tiếng gầm RIÊNG của Friend (hổ gầm hạ tông — không mượn gầm Gigachad) */   /* 🎬 Ep 3: có file nhưng trước đây QUÊN khai → phim bị câm ở các nhịp này */ ep3_lava: 'assets/audio/ep3_lava.mp3', ep3_rock: 'assets/audio/ep3_rock.mp3', ep3_whoosh: 'assets/audio/ep3_whoosh.mp3', ep3_dark: 'assets/audio/ep3_dark.mp3', ep3_ratchet: 'assets/audio/ep3_ratchet.mp3', ep3_klunk: 'assets/audio/ep3_klunk.mp3', ep4_step1:'assets/audio/ep4_step1.mp3', ep4_step2:'assets/audio/ep4_step2.mp3', ep4_step3:'assets/audio/ep4_step3.mp3',   /* 🦶 tập 4: bước chân lính trên sỏi (myinstants 'Walking on Gravel', cắt 3 bước) */ ep4_creak:'assets/audio/ep4_creak.mp3',   /* 🛏️ cáng gỗ kẽo kẹt (myinstants 'Wood Creaking' 1.35–2.55s) */ l2p_whoosh:'assets/audio/l2p_whoosh.mp3', l2p_sub:'assets/audio/l2p_sub.mp3', l2p_shimmer:'assets/audio/l2p_shimmer.mp3', l2p_riser:'assets/audio/l2p_riser.mp3', l2p_rumble:'assets/audio/l2p_rumble.mp3', l2p_crack:'assets/audio/l2p_crack.mp3', l2p_shatter:'assets/audio/l2p_shatter.mp3', l2p_explode:'assets/audio/l2p_explode.mp3', l2p_tentacle:'assets/audio/l2p_tentacle.mp3', l2p_chains:'assets/audio/l2p_chains.mp3', l2p_chime:'assets/audio/l2p_chime.mp3',   /* 🌌 Prologue: 7 tiếng tự tổng hợp bằng code (whoosh…shatter) + 4 tiếng chung myinstants (Very big explosion, Tentacle Groaning, Chains Rattling, Crystal Chime) */ ep3_arm: 'assets/audio/ep3_arm.mp3', ep3_hydraulic: 'assets/audio/ep3_hydraulic.mp3', ep3_breath: 'assets/audio/ep3_breath.mp3', ep3_force: 'assets/audio/ep3_force.mp3', ep3_choke: 'assets/audio/ep3_choke.mp3', ep3_boom: 'assets/audio/ep3_boom.mp3',   // 🌋 phim Meme Lore 2 tập 3 (myinstants)
+      bc_bang: 'assets/audio/bc_bang.mp3',   // 🍞 hút = tiếng nổ siêu tân tinh phát NGƯỢC (myinstants "Supernova Explosion" 0–2.6s, đỉnh ở 2.3s) · nổ = cùng tiếng đó phát xuôi 0–2.4s
+      bc_zap: 'assets/audio/bc_zap.mp3', vb_warmup: 'assets/audio/vb_warmup6.mp3', vb_bumblebee: 'assets/audio/vb_bumblebee.mp3', vb_buzz: 'assets/audio/vb_buzz.wav', vb_swarm: 'assets/audio/vb_swarm.wav', vb_rush: 'assets/audio/vb_rush.wav', vb_sting: 'assets/audio/vb_sting.wav', rf_world_revolving: 'assets/audio/rf_world_revolving.mp3',   /* 👁️ Friend Raid phase 1: The World Revolving (Deltarune, myinstants full version 101s) */   /* 🐝 Violin Bee: bản khởi động + Flight of the Bumblebee (Katica Illényi) anh gửi · myinstants Bee Buzzing / BEES SWARMING / Bee Swarm / Cartoon Pinched or Pricked (cắt lại) */   /* 🍞 Bread Cat: động cơ rít (myinstants jet-engine-startup) · điện chập (myinstants electricity) */   /* 🎬 4s Pain theme lúc Akatsuki xuất hiện · 🐈‍⬛ tiếng gầm RIÊNG của Friend (hổ gầm hạ tông — không mượn gầm Gigachad) */   /* 🎬 Ep 3: có file nhưng trước đây QUÊN khai → phim bị câm ở các nhịp này */ ep3_lava: 'assets/audio/ep3_lava.mp3', ep3_rock: 'assets/audio/ep3_rock.mp3', ep3_whoosh: 'assets/audio/ep3_whoosh.mp3', ep3_dark: 'assets/audio/ep3_dark.mp3', ep3_ratchet: 'assets/audio/ep3_ratchet.mp3', ep3_klunk: 'assets/audio/ep3_klunk.mp3', ep4_step1:'assets/audio/ep4_step1.mp3', ep4_step2:'assets/audio/ep4_step2.mp3', ep4_step3:'assets/audio/ep4_step3.mp3',   /* 🦶 tập 4: bước chân lính trên sỏi (myinstants 'Walking on Gravel', cắt 3 bước) */ ep4_creak:'assets/audio/ep4_creak.mp3',   /* 🛏️ cáng gỗ kẽo kẹt (myinstants 'Wood Creaking' 1.35–2.55s) */ l2p_whoosh:'assets/audio/l2p_whoosh.mp3', l2p_sub:'assets/audio/l2p_sub.mp3', l2p_shimmer:'assets/audio/l2p_shimmer.mp3', l2p_riser:'assets/audio/l2p_riser.mp3', l2p_rumble:'assets/audio/l2p_rumble.mp3', l2p_crack:'assets/audio/l2p_crack.mp3', l2p_shatter:'assets/audio/l2p_shatter.mp3', l2p_explode:'assets/audio/l2p_explode.mp3', l2p_tentacle:'assets/audio/l2p_tentacle.mp3', l2p_chains:'assets/audio/l2p_chains.mp3', l2p_chime:'assets/audio/l2p_chime.mp3',   /* 🌌 Prologue: 7 tiếng tự tổng hợp bằng code (whoosh…shatter) + 4 tiếng chung myinstants (Very big explosion, Tentacle Groaning, Chains Rattling, Crystal Chime) */ ep3_arm: 'assets/audio/ep3_arm.mp3', ep3_hydraulic: 'assets/audio/ep3_hydraulic.mp3', ep3_breath: 'assets/audio/ep3_breath.mp3', ep3_force: 'assets/audio/ep3_force.mp3', ep3_choke: 'assets/audio/ep3_choke.mp3', ep3_boom: 'assets/audio/ep3_boom.mp3',   // 🌋 phim Meme Lore 2 tập 3 (myinstants)
       id_split: 'assets/audio/id_split.mp3', sa_spot_on: 'assets/audio/sa_spot_on.mp3', sa_menacing: 'assets/audio/sa_menacing.mp3', sa_pathetic: 'assets/audio/sa_pathetic.mp3', duo_win: 'assets/audio/duo_win.mp3', nj_sharingan: 'assets/audio/nj_sharingan.mp3', pd_whimper: 'assets/audio/pd_whimper.mp3', pd_th_pan: 'assets/audio/pd_th_pan.mp3', pd_th_slap: 'assets/audio/pd_th_slap.mp3', az_salt: 'assets/audio/az_salt.mp3', duo_wrong: 'assets/audio/duo_wrong.mp3', duo_mibombo: 'assets/audio/duo_mibombo.mp3', duo_eye_laser: 'assets/audio/duo_eye_laser.mp3', duo_big_laser: 'assets/audio/duo_big_laser.mp3', duo_ice_break: 'assets/audio/duo_ice_break.mp3', dl_shark_bite: 'assets/audio/dl_shark_bite.mp3', dl_drip: 'assets/audio/dl_drip.mp3', dl_pour: 'assets/audio/dl_pour.mp3',   // 🍌 Poor Dog: dẫm vỏ chuối — đoạn 1 trượt chân · đoạn 2 ngã đập lưng xuống đất (slipandfall — user gửi, tách 2 đoạn)
       ninja_kunai: 'assets/audio/ninja_kunai.mp3',   // 🥷 Ninja Cat ném kunai (ninja-star-throw — user gửi, đã cắt khoảng lặng)
       morse_dot: 'assets/audio/morse_dot.mp3',     // 📡 Morse Code Cat: bíp ngắn (dấu chấm)
@@ -26942,7 +26943,7 @@ function openCinema(){
     c.style.cssText='text-align:left;background:linear-gradient(160deg,rgba(255,255,255,0.10),rgba(255,255,255,0.03));border:1px solid rgba(255,255,255,0.18);border-radius:16px;padding:16px;color:#fff;cursor:pointer;display:flex;flex-direction:column;gap:8px;min-height:150px;transition:transform .12s,border-color .12s';
     c.onmouseenter=()=>{ c.style.transform='translateY(-3px)'; c.style.borderColor='#ffcc80'; }; c.onmouseleave=()=>{ c.style.transform=''; c.style.borderColor='rgba(255,255,255,0.18)'; };
     c.innerHTML=`<div style="font-size:38px">${it.ic}</div><div style="font-size:18px;font-weight:800">${it.name}</div><div style="font-size:13px;opacity:.75;line-height:1.35;flex:1">${it.desc}</div><div style="font-size:12px;opacity:.6">▶ ${it.dur}s</div>`;
-    c.onclick=()=>{ _cineGalleryClose(); playCineKit(it.id.slice(3),{onEnd:()=>openCinema()}); };   /* 16/11 anh: xem xong / đóng phim → về lại danh sách phim, không về menu */
+    c.onclick=()=>{ _cineGalleryClose(); playCineKit(it.id.slice(3),{onEnd:()=>openCinema(), title:it.name}); };   /* 16/11 anh: xem xong / đóng phim → về lại danh sách phim, không về menu */
     grid.appendChild(c); }
 }
 function _cineGalleryClose(){ const g=document.getElementById('cinemaGallery'); if(g) g.remove(); }
@@ -26984,19 +26985,65 @@ function _cinePanelMake(host,api){
   el.querySelector('[data-a=close]').onclick=()=>api.close();
   // 📐 khung đen DƯỚI phim đủ chỗ (phim ngang trên màn cao) → bảng xuống nằm ngang trong khoảng đen đó, không che phim (anh dặn 13/11)
   let _lk='';
-  const layout=()=>{ const cv=host.querySelector('canvas'); if(!cv||!cv.width) return;
-    const r=cv.getBoundingClientRect(), key=[innerWidth,innerHeight,r.left,r.top,r.width,r.height,cv.width,cv.height].join(); if(key===_lk) return; _lk=key;
-    const k=Math.min(r.width/cv.width, r.height/cv.height), ch=cv.height*k;   // ảnh thật trong canvas (object-fit:contain)
+  const layout=()=>{ const cv=host.querySelector('canvas,video'); if(!cv) return; const cw=cv.videoWidth||cv.width, chh=cv.videoHeight||cv.height; if(!cw||!chh) return;   // phim = <video> đã xuất sẵn (23/11) hoặc canvas
+    const r=cv.getBoundingClientRect(), key=[innerWidth,innerHeight,r.left,r.top,r.width,r.height,cw,chh].join(); if(key===_lk) return; _lk=key;
+    const k=Math.min(r.width/cw, r.height/chh), ch=chh*k;   // ảnh thật trong canvas / video (object-fit:contain)
     const oy=getComputedStyle(cv).objectPosition.split(' ')[1]==='0%'?0:(r.height-ch)/2, bot=r.top+oy+ch, free=innerHeight-bot;
-    if(free>=58){ el.classList.add('dock-b'); el.style.width=Math.min(1100, cv.width*k-20, innerWidth-20)+'px'; el.style.top=(bot+Math.max(4,(free-el.offsetHeight)/2))+'px'; }
+    if(free>=58){ el.classList.add('dock-b'); el.style.width=Math.min(1100, cw*k-20, innerWidth-20)+'px'; el.style.top=(bot+Math.max(4,(free-el.offsetHeight)/2))+'px'; }
     else { el.classList.remove('dock-b'); el.style.top=''; el.style.width=''; } };
   addEventListener('resize',()=>{ _lk=''; });
   const P={ el, update(){ layout(); const d=api.dur(), t=Math.min(api.t(),d); if(!drag) rg.value=Math.round(t/d*1000); { const pp=(drag?rg.value/10:t/d*100).toFixed(2), bb=(Math.max(t,api.buffered?api.buffered():d)/d*100).toFixed(2); rg.style.background=`linear-gradient(to right,#ffb74d 0 ${pp}%,rgba(255,255,255,0.5) ${pp}% ${bb}%,rgba(255,255,255,0.14) ${bb}% 100%)`; }   /* thanh NẠP kiểu YouTube (16/11): cam = đã xem · xám đậm = đã dựng · xám nhạt = chưa */ tm.textContent=t.toFixed(1)+'s / '+d.toFixed(1)+'s'; pb.textContent=api.playing()?'⏸':'▶'; } };
   _cinePanelCur=P; P.update(); return P;
 }
 window._cinePanelMake=_cinePanelMake; window._cinePanelRemove=_cinePanelRemove;
-// 🎬 phim dựng bằng CINE-KIT (js/cine-kit.js + js/film-<id>.js, chỉ tải khi bấm) · opts.offline/scale = xuất video (tools/render-cine.js <id>)
+// 🎞️ (23/11 anh: xem "Story · Chill Guy" tới giây ~7 là TREO CẢ MÁY — lỗi nguy hiểm nhất) APP CHỈ PHÁT VIDEO ĐÃ XUẤT SẴN, KHÔNG VẼ PHIM TRỰC TIẾP NỮA.
+//   Đo (tools/x/film-bench.html): cảnh Chill Guy từ giây 7 tốn 0.2–4 GIÂY / khung (cần < 0.033) → trình duyệt vừa vẽ vừa nén liên tục, chiếm hết CPU / GPU / RAM.
+//   Anh chốt: "phim đều phải được xử lý từ trước, ở app chỉ là bản video". Video xuất bằng tools/x/film-video.js → video/<id>.mp4 + video/films.json
+//   (video/ nằm NGOÀI assets/ → bộ nạp game không tải trước; chỉ tải khi bấm xem, phát kiểu YouTube vừa tải vừa xem).
+//   Tập đầy đủ fin1full = phát NỐI các phần (không xuất riêng cho đỡ nặng repo). Phim chưa có video → báo, KHÔNG lùi về vẽ trực tiếp.
+const FILM_PLAYLIST={ fin1full:['fin1','fin1c5','fin1c6','fin1f2','fin1f3','fin1f1','fin1c4','fin1c7'] };   // khớp PARTS trong js/film-fin1full.js (fin1 = fin1c1–c3)
+let _filmIdx=null;
+function _filmIndex(){ return _filmIdx||(_filmIdx=fetch('video/films.json',{cache:'no-store'}).then(r=>r.ok?r.json():{}).catch(()=>({}))).then(ix=>{ if(!Object.keys(ix).length) _filmIdx=null; return ix; }); }
+function playFilmVideo(id,opts){ opts=opts||{};
+  const ov=document.createElement('div'); ov.style.cssText='position:fixed;inset:0;z-index:99999;background:#000;display:flex;align-items:center;justify-content:center;';
+  document.body.appendChild(ov); try{ stopAllBattleMusic(); }catch(e){}
+  let closed=false, raf=0, endT=0; const vids=[];
+  const close=()=>{ if(closed) return; closed=true; cancelAnimationFrame(raf); for(const v of vids){ try{ v.pause(); v.removeAttribute('src'); v.load(); }catch(e){} } _cinePanelRemove(); ov.remove(); if(opts.onEnd) try{ opts.onEnd(); }catch(e){} };
+  const msg=t=>{ ov.innerHTML=''; const b=document.createElement('div'); b.style.cssText='color:#fff;font:600 18px Montserrat,system-ui,sans-serif;text-align:center;line-height:1.6;padding:20px';
+    b.innerHTML=t+'<br><button style="margin-top:14px;font:600 15px Montserrat,system-ui,sans-serif;padding:8px 20px;border-radius:10px;border:1px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.1);color:#fff;cursor:pointer">✕ Close</button>';
+    b.querySelector('button').onclick=close; ov.appendChild(b); };
+  msg('Loading…');
+  return _filmIndex().then(IX=>{ if(closed) return false;
+    const parts=(FILM_PLAYLIST[id]||[id]).map(k=>IX[k]);
+    if(!parts.length||parts.some(p=>!p)){ msg('This film is not ready as a video yet.'); return false; }
+    ov.innerHTML='';
+    const offs=[]; let D=0; for(const p of parts){ offs.push(D); D+=p.dur; }
+    const css=`height:100vh;max-width:100vw;aspect-ratio:${parts[0].w}/${parts[0].hgt};object-fit:contain;object-position:center top;background:#000;`;
+    for(let k=0;k<2;k++){ const v=document.createElement('video'); v.playsInline=true; v.preload='auto'; v.style.cssText=css; v.dataset.k='-1'; vids.push(v); }
+    let cur=vids[0], i=0, wantPlay=true;
+    const other=()=>vids[0]===cur?vids[1]:vids[0];
+    const show=()=>{ for(const v of vids){ if(v===cur){ if(!v.parentNode) ov.insertBefore(v,ov.firstChild); } else if(v.parentNode) v.remove(); } };
+    const setSrc=(v,j)=>{ if(+v.dataset.k!==j){ v.src=parts[j].file+'?h='+parts[j].h; v.dataset.k=String(j); } };
+    const preloadNext=()=>{ if(i+1<parts.length) setSrc(other(),i+1); };
+    const go=(j,t)=>{ if(+cur.dataset.k!==j){ if(+other().dataset.k===j){ cur.pause(); cur=other(); } else setSrc(cur,j); } i=j; show();
+      try{ cur.currentTime=Math.max(0,t); }catch(e){} if(wantPlay) cur.play().catch(()=>{ wantPlay=false; }); else cur.pause(); preloadNext(); };
+    for(const v of vids){
+      v.addEventListener('ended',()=>{ if(v!==cur) return; if(i+1<parts.length) go(i+1,0); });   // hết phần → nối phần sau (đã tải sẵn ở thẻ thứ 2)
+      v.addEventListener('error',()=>{ if(v===cur&&!closed) msg('Could not load the video. Check the connection and try again.'); }); }
+    const T=()=>Math.min(D,offs[i]+(cur.currentTime||0));
+    const seek=s=>{ s=Math.max(0,Math.min(D-0.05,s)); let j=0; for(let k=0;k<offs.length;k++) if(s>=offs[k]) j=k; go(j,s-offs[j]); };
+    const panel=_cinePanelMake(ov,{ title:opts.title||'', dur:()=>D, t:T, playing:()=>!cur.paused&&!cur.ended,
+      toggle:()=>{ if(cur.ended&&i===parts.length-1){ wantPlay=true; seek(0); return; } wantPlay=cur.paused; if(wantPlay) cur.play().catch(()=>{ wantPlay=false; }); else cur.pause(); },
+      seek, buffered:()=>{ const b=cur.buffered, ct=cur.currentTime; for(let k=0;k<b.length;k++) if(ct>=b.start(k)-0.3&&ct<=b.end(k)+0.3) return offs[i]+b.end(k); return T(); },
+      replay:()=>{ wantPlay=true; seek(0); }, close });
+    const loop=()=>{ if(closed) return; raf=requestAnimationFrame(loop); panel.update();
+      if(opts.onEnd&&i===parts.length-1&&cur.ended){ if(!endT) endT=performance.now(); if(performance.now()-endT>1000) close(); } else endT=0; };   // xem hết → về danh sách phim (anh dặn 16/11)
+    go(0,0); loop(); return true; });
+}
+// 🎬 phim dựng bằng CINE-KIT (js/cine-kit.js + js/film-<id>.js) — trong app CHỈ còn dùng cho công cụ xuất (opts.offline: tools/x/film-video.js, render-cine.js, sfx-audit.js).
+//   Xem phim trong app → playFilmVideo (video xuất sẵn). opts.live = vẽ trực tiếp, chỉ để dò lỗi khi dựng phim (KHÔNG dùng cho người xem).
 function playCineKit(id,opts){
+  if(!(opts&&(opts.offline||opts.live))) return playFilmVideo(id,opts);
   const v=window.GAME_VERSION?'?v='+GAME_VERSION.build:'';
   const load=src=>new Promise(r=>{ const s=document.createElement('script'); s.src=src+v; s.onload=r; s.onerror=r; document.body.appendChild(s); });
   return Promise.all([window.CineKit?0:load('js/cine-kit.js'), window.CineKitFx?0:load('js/vfx-manga.js'), window.VfxGL?0:load('js/vfx-gl.js'), window.PIXI_FILTERS_GLSL?0:load('js/vendor/pixi-filters/glsl.js'), window.Proton?0:load('js/vendor/proton/proton.min.js')]).then(()=>CineKit.cam?0:load('js/cine-cam.js')).then(()=>CineKit.films[id]?0:load('js/film-'+id+'.js'))   // cine-cam = CineKit.cam (góc máy + hiệu ứng làm sẵn): sau cine-kit, trước phim

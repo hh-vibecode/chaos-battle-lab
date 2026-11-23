@@ -66,6 +66,10 @@ Chi tiết từng meme: `docs/notes/memes.md` · từng phim + cine-kit: `docs/n
 - `tools/x/film-lint.js` + `sfx-lint.js` phải SẠCH. Shotlist `js/shots/<id>.json` phải khớp giờ sau RETIME.
 
 ## 🎥 Xuất video
+- 🎞️ (anh 23/11 — lỗi NGUY HIỂM NHẤT: xem phim Chill Guy tới giây 7 là treo cả máy) APP KHÔNG VẼ PHIM TRỰC TIẾP NỮA: rạp phim CHỈ phát `video/<id>.mp4` (+ `video/films.json`).
+  Xuất bằng `tools/x/film-video.js <id…> | --all` (Windows + Mac, không cần ffmpeg, 1280×720 30fps, ~1 phút / phim). Sửa / thêm phim xong → chạy lại cho ĐÚNG phim đó rồi phát hành kèm `video/<id>.mp4,video/films.json`.
+  Video cho app KHÁC video YouTube (luật "chỉ xuất khi anh bảo" bên dưới là cho video YouTube 4K). Phim mới → thêm id vào `FILMS` (film-video.js) + rạp `openCinema` (game.js); tập nối nhiều phần = `FILM_PLAYLIST`.
+  `video/` phải nằm NGOÀI `assets/` (js/boot.js tải về máy MỌI file trong assets/ lúc mở game).
 - CHỈ xuất khi anh bảo rõ. Xuất xong không tự đổi tên video đã quay.
 - 📂 (anh 21/11) Video xuất xong (phim lẫn trận) + thumbnail → để vào `~/Desktop/Meme Battles/` (thumbnail: thư mục con `<Tên> thumbnail/`). Quay ở `out/` trong repo (gitignore, không phải iCloud), xong mới chuyển file cuối sang; đoạn quay `*.chunks` giữ ở `out/` tới khi anh duyệt rồi xoá.
 - Mọi video 50fps. Phim 4K (16:9 3840×2160, 9:16 2160×3840). Trận đấu giả lập: 9:16 dọc 3K 1620×2880.
