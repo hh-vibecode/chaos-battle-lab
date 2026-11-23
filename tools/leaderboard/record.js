@@ -17,6 +17,7 @@ const latest = k => { const L = loadHistory().renders.filter(e => e.k === k); re
 // ✅ Short đã đăng (mã video id) → đưa lần quay mới nhất vào leaderboard. Đã khoá (pub) thì giữ nguyên.
 //    ⚠️ (23/11) cùng tên mà các lần quay ra NGƯỜI THẮNG KHÁC NHAU → KHÔNG tự đoán (anh đăng có khi KHÔNG phải bản mới nhất: Ninja Cat vs Sans quay 3 lần,
 //    đăng bản Sans thắng mà bảng ghi Ninja) → trả {conflict:n}, make.js ghi vào "Thieu ket qua.txt" để soát video rồi ghi tay.
+//    ⚠️ KHÔNG khớp lần quay theo độ dài video: anh luôn rút gọn video trước khi đăng (`dur` trong history.json chỉ là độ dài video trên kênh, để tham khảo).
 function publish(k, id) {
   const db = load(), cur = db.matches[k]; if (cur && cur.pub) return cur;
   const L = loadHistory().renders.filter(e => e.k === k), wins = new Set(L.map(e => [...(e.win || [])].sort().join(',')));
