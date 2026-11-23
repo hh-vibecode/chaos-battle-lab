@@ -22,7 +22,9 @@ for (const m of G.matchAll(/(\w+):\s*\{\s*key:'(\w+)',\s*defaultName:'([^']*)'/g
 const short = n => n.split(' - ')[0].trim();
 const BY_NAME = {}; for (const k in DEFS) BY_NAME[short(DEFS[k]).toLowerCase()] = k;
 Object.assign(BY_NAME, { 'stalin': 'stalincat', 'drooling cat': 'droolingcat', 'jonin cheems': 'samuraicheems', 'joninn cheems': 'samuraicheems',
-  'fine dog': 'finedog', 'friend': 'friendeldritch', 'giant friend': 'friendeldritch', 'friend eldritch': 'friendeldritch', 'mosquito violin': 'mosquitoviolin' });
+  'fine dog': 'finedog', 'giant friend': 'friendeldritch', 'friend eldritch': 'friendeldritch', 'mosquito violin': 'mosquitoviolin' });
+// ⚠️ (23/11 anh: "giant friend chưa thua trận nào") "Friend" trong tiêu đề = Friend THƯỜNG (`friend`, "Maybe Not A Friend"). Giant Friend (`friendeldritch`) cũng hay đặt tiêu đề "Friend"
+//    → video nào là Giant Friend thì ghi đội cụ thể vào results.json: "teams":[["friendeldritch"],…] (make.js ưu tiên teams hơn tiêu đề). Soát bằng khung đầu trận (tên phụ dưới tên).
 const NAME = { friendeldritch: 'Giant Friend', finedog: 'Fine Dog', samuraicheems: 'Jonin Cheems', droolingcat: 'Drooling Cats' };   // tên hiện trên bảng
 const HIDE = new Set(['trainingdummy', 'fanchar']);   // không phải meme đấu thật
 // avatar: đúng ảnh game dùng (_mcDefaultAvatars), không có thì assets/avatars/<key>/avatarUrl.*
@@ -52,8 +54,9 @@ const teamsOf = title => title.replace(/^\(rematch\)\s*/i, '').replace(/\s+-\s+(
   for (const e of all.slice(0, cut + 1)) {
     if (/lore/i.test(e.title) || seenId.has(e.id)) continue; seenId.add(e.id);
     const nt = norm(e.title); if (seenTitle.has(nt)) { missing.push(`TRÙNG TIÊU ĐỀ (đếm 1 lần): ${e.title}  [${e.id}]`); continue; } seenTitle.add(nt);
-    const teams = teamsOf(e.title), r = publish(nt, e.id) || db[nt];   // ✅ Short đã lên kênh → lấy lần quay mới nhất trong history.json vào leaderboard (khoá theo mã video)
+    const r = publish(nt, e.id) || db[nt], teams = r && r.teams || teamsOf(e.title);   // ✅ Short đã lên kênh → lấy lần quay trong history.json vào leaderboard (khoá theo mã video) · teams ghi tay > tiêu đề
     if (teams.length < 2 || teams.flat().some(k => !k)) { missing.push(`TÊN MEME LẠ: ${e.title}  [${e.id}]`); continue; }
+    if (r && r.conflict) { missing.push(`CHƯA CHẮC AI THẮNG (quay ${r.conflict} lần, người thắng khác nhau — xem video rồi ghi "win" vào results.json): ${e.title}  [${e.id}]`); continue; }
     if (!r) { missing.push(`CHƯA CÓ KẾT QUẢ: ${e.title}  [${e.id}]`); continue; }
     const W = new Set(r.win || []);
     if (W.size && !teams.some(t => t.every(k => W.has(k)))) { missing.push(`KẾT QUẢ KHÔNG KHỚP TIÊU ĐỀ (thắng: ${[...W].join(',')}): ${e.title}  [${e.id}]`); continue; }

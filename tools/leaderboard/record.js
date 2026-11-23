@@ -15,8 +15,12 @@ function record({ title, win, seed, t, src }) {
   h.renders.push(e); fs.writeFileSync(HFILE, JSON.stringify(h, null, 1) + '\n'); return e; }
 const latest = k => { const L = loadHistory().renders.filter(e => e.k === k); return L.length ? L[L.length - 1] : null; };
 // ✅ Short đã đăng (mã video id) → đưa lần quay mới nhất vào leaderboard. Đã khoá (pub) thì giữ nguyên.
+//    ⚠️ (23/11) cùng tên mà các lần quay ra NGƯỜI THẮNG KHÁC NHAU → KHÔNG tự đoán (anh đăng có khi KHÔNG phải bản mới nhất: Ninja Cat vs Sans quay 3 lần,
+//    đăng bản Sans thắng mà bảng ghi Ninja) → trả {conflict:n}, make.js ghi vào "Thieu ket qua.txt" để soát video rồi ghi tay.
 function publish(k, id) {
   const db = load(), cur = db.matches[k]; if (cur && cur.pub) return cur;
+  const L = loadHistory().renders.filter(e => e.k === k), wins = new Set(L.map(e => [...(e.win || [])].sort().join(',')));
+  if (wins.size > 1 && !(cur && cur.src === 'video')) return { conflict: L.length };
   const h = latest(k); let r = cur;
   if (h && (!cur || !cur.at || h.at.slice(0, 10) >= cur.at)) r = { title: h.title, win: h.win, seed: h.seed, t: h.t, src: h.src, at: h.at.slice(0, 10) };
   if (!r) return null;
