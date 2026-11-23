@@ -5,6 +5,13 @@
 - film-lint + sfx-lint sạch (2 lưu ý im lặng có chủ ý: lặng trước cú đâm, màn đen sau BÙM). Shotlist `js/shots/fin1c7.json` sinh lại từ `window.__fin1c7SH`.
 - Còn biết yếu: chưa nghe thật tiếng (đã đổi nhạc cho vừa độ dài file); aura Chill Guy là shader + lưỡi lửa code (chưa so mẫu nào); vạch linh cảm tự nghĩ kiểu anime (không có mẫu).
 - VIỆC TIẾP anh giao: rà 3 trận Bat Cat (fin1f2) · Ninja (fin1f3) · Doge (fin1f1) xem cải thiện được gì — ĐỀ XUẤT trước, chưa tự sửa.
+  ✅ ĐÃ RÀ 23/11 (chụp mỗi giây + lint) — CHỜ ANH CHỌN làm mục nào:
+  1. Cả 3 trận CHƯA áp "nhân vật hoà cảnh" (bake/blend như fin1c7): meme dán phẳng, không bóng chân, sáng rực giữa cảnh đêm đỏ → đưa bake/blend vào cine-kit (K.blend) rồi áp, giữ nguyên dàn cảnh anh đã duyệt.
+  2. fin1f2 (cầu treo) + fin1f3 (đại lộ) vẫn là THÀNH PHỐ 3D khối xám (kiểu anh chê ở cảnh kết bản 3), meme tí hon ở khung toàn → dựng lại nền theo lớp 2D (GPT vẽ tay + trời / mây code) như fin1f1 / fin1c7. Việc lớn, đổi hình anh đã duyệt.
+  3. fin1f1: khung chết 23.5–27.5 (chỉ vệt tia + nhà, ~4s) · cận Doge 15.5–16.5 trên nền XANH PHẲNG không phải cảnh · 2 khung toàn meme tí hon (4.5, 10.5–11.5).
+  4. fin1f2: đoạn khói xám 25.5–29.5 đục, meme bé · fin1f3: nhiều khung toàn meme ~30px.
+  5. sfx-lint (luật mới hơn lúc dựng): fin1f1 14 lỗi (nhãn sai loại tiếng, chồng tiếng) · fin1f2 4 · fin1f3 5 (2 tiếng bắt đầu cùng lúc) — sửa nhanh.
+  6. fin1f3 dùng 32 tư thế GPT vẽ lại Ninja / Berserk (anh dặn 13/11 "nhiều tư thế") — trái luật sau này "meme luôn ảnh gốc" → hỏi anh giữ hay đổi.
 
 ## ✅ 23/11 tối — ĐÃ DỰNG LẠI fin1c7 BẢN 4 (58s, 32 shot) — CHỜ ANH XEM video trong app
 - Cách dựng mới = LỚP 2D kiểu anime (bỏ thành phố 3D + sàn lưới): 4 nền GPT vẽ tay cùng nét `assets/img/cine/FIN_C7_PL_{GROUND,LOW,HIGH,VAST}` (trời đã tách → trời + mây = CODE:
