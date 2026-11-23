@@ -137,3 +137,6 @@ Công cụ: film-check.js tự bật / tắt trình duyệt (dùng nó để ch�
 - `js/fin1-plate.js` = bộ vẽ 2D dùng chung (bg, spr, obj, streak, zap, star4, impact3, runner) — vẫn dùng được cho lớp hiệu ứng màn hình, nhưng nhân vật / vật nên vào thế giới 3D thành phố để nối cảnh.
 - `tools/x/serve.js` đã hỗ trợ tua video (Range) → chụp khung video mẫu tham khảo nhanh (`tools/x/video-frames.html`).
 - Tải video mẫu: `D:\tools\yt-dlp\yt-dlp.exe -f "18/b[ext=mp4][height<=720]"` (không cắt đoạn được vì máy không có ffmpeg) → chép vào `tools/x/_ref/`.
+
+## ⚡ 23/11 tối — fin1f3 thêm 4s ĐỐI KHÁNG SIÊU TỐC (Ver 709) — chi tiết `prompts/kich-ban/fin1f3-v3.md` mục ANH CHỐT. CÒN: làm mượt các pha đấu kiếm trước đó (anh dặn).
+- Lỗi đã gặp: video-frames.html treo nếu mốc b > độ dài video (callback khung ngừng khi video hết) → đặt b < duration.
