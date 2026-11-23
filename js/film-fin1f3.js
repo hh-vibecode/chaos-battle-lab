@@ -22,7 +22,7 @@
   const NCX=-140, BCX=-540;   // sau nhát lướt qua nhau: Ninja PHẢI, Berserk TRÁI, quay lưng vào nhau
   const TB=0.42, TSPLIT=0.62, TBLD=1.4;
   const BLD_CUT=[-1800,-1250,-700,-150,400,950,1500];
-  const CITY=Fin1City({seed:3, collapse:BLD_CUT.map((x,i)=>({x,z:1500+250*(i%2),t:T.cut+TBLD+0.04*i,r:520,v:9000}))});
+  const CITY=Fin1City({seed:3, fog0:200, fogR:2600, fogMax:0.62, collapse:BLD_CUT.map((x,i)=>({x,z:1500+250*(i%2),t:T.cut+TBLD+0.04*i,r:520,v:9000}))});
   const TH_GENJ=Object.assign({},CITY.TH_RISE,{sky:['#3a0000','#a00606','#ff2414'],fog:'110,4,4',fogRGB:[110,4,4],ground:['70,8,8','58,6,6','24,2,2'],bld:b=>[26+6*b.hue,4,6],
     pano:Object.assign({},CITY.TH_RISE.pano,{glow:'255,40,20'}),tex:Object.assign({},CITY.TH_RISE.tex,{tint:[120,24,22]})});
   const theme=t=>(t>=T.eye2&&t<T.fall)?TH_GENJ:(t>=T.rage)?CITY.TH_RISE:CITY.TH_NIGHT;
@@ -90,7 +90,8 @@
     S(T.gen,T.genE,{tx:-60,ty:110,tz:0,dist:120,yaw:-20,pitch:0,fov:40}),                                                                                             // 8 (cực cận Sharingan vẽ ở screen) — Berserk nhìn thẳng vào: mầm ảo thuật
     S(T.genE,T.wind,{tx:-80,ty:95,tz:0,dist:420,yaw:6,pitch:2,fov:48},{tx:0,ty:95,tz:0,dist:460,yaw:4,pitch:2,fov:48},'lin'),                                          // 9 Berserk hất văng Ninja bằng sức thô
     S(T.wind,T.perch+0.35,{tx:120,ty:30,tz:-60,dist:1000,yaw:-16,pitch:30,fov:50},{tx:160,ty:30,tz:-60,dist:960,yaw:-14,pitch:30,fov:50},'lin'),                       // 10 góc cao chéo: bổ dọc → Ninja nhảy lùi, đường vỡ hố, xe lật, Ninja đáp nóc xe
-    S(T.perch+0.35,T.glass+0.35,{tx:280,ty:110,tz:0,dist:760,yaw:-8,pitch:3,fov:50},{tx:580,ty:140,tz:350,dist:1060,yaw:-8,pitch:4,fov:52},'brake'),                     // 11 quét ngang xẻ đôi xe → Ninja dựng kiếm đỡ → văng xuyên kính cửa hàng
+    S(T.perch+0.35,T.sweep+0.15,{tx:280,ty:110,tz:0,dist:760,yaw:-8,pitch:3,fov:50},{tx:300,ty:110,tz:0,dist:740,yaw:-8,pitch:3,fov:50},'lin'),
+    S(T.sweep+0.15,T.glass+0.35,{tx:660,ty:120,tz:760,dist:700,yaw:-50,pitch:2,fov:50},{tx:670,ty:120,tz:770,dist:680,yaw:-50,pitch:2,fov:50},'lin'),   // (23/11 anh: cảnh văng vào tường lỗi) CẮT sang góc tĩnh chéo trước cửa hàng: Ninja văng ngang khung đập vỡ kính                     // 11 quét ngang xẻ đôi xe → Ninja dựng kiếm đỡ → văng xuyên kính cửa hàng
     S(T.glass+0.35,T.c0,{tx:760,ty:115,tz:900,dist:520,yaw:-14,pitch:0,fov:48},{tx:690,ty:110,tz:600,dist:500,yaw:-14,pitch:0,fov:48},'lin'),                              // 12 THỞ: kính rơi lả tả, Ninja bước ra phủi áo
     S(T.c0,T.eye,{tx:180,ty:92,tz:0,dist:560,yaw:-6,pitch:2,fov:48},{tx:50,ty:92,tz:0,dist:500,yaw:-6,pitch:2,fov:48},'lin'),                                          // 13 1 shot ngang: 3 nhát — đỡ, đỡ, nhát 3 rạch vai; Berserk lấy đà đâm
     S(T.eye,T.hit60-0.15,{tx:140,ty:110,tz:0,dist:150,yaw:-20,pitch:0,fov:40}),                                                                                       // 14 (cực cận Mangekyou vẽ ở screen) — kích hoạt TRƯỚC khi đòn tới
@@ -214,8 +215,11 @@
       CITY.box(F,x0,x1,8+dy,58+dy,c.z0,c.z1,col,'#4a4652','rgba(220,70,50,0.18)');
       if(o.flip){ for(const wx of [x0+30,x1-60]) for(const wz of [c.z0+6,c.z1-30]) CITY.box(F,wx,wx+30,58+dy,80+dy,wz,wz+24,'#111014','#1c1a20',null); }   // xe lật: 4 bánh chổng lên trời
       else CITY.box(F,x0+40,x1-35,58,98,c.z0+10,c.z1-10,'#1d1c24','#2c3442','rgba(160,190,230,0.25)'); } }
-  function pane(F,t){ if(t>=T.glass) return; CITY.box(F,PANE.x0-20,PANE.x1+20,PANE.y1,PANE.y1+40,PANE.z-14,PANE.z,'#3a2a26','#4a3a34',null);   // mái hiên cửa hàng
+  function pane(F,t){ CITY.box(F,PANE.x0-20,PANE.x1+20,PANE.y1,PANE.y1+40,PANE.z-14,PANE.z,'#3a2a26','#4a3a34',null);   // mái hiên cửa hàng
     const P=[[PANE.x0,0,PANE.z],[PANE.x1,0,PANE.z],[PANE.x1,PANE.y1,PANE.z],[PANE.x0,PANE.y1,PANE.z]].map(p=>K.proj(F.B,...p)); if(P.some(p=>!p)) return;
+    if(t>=T.glass){ F.list.push({d:Math.min(...P.map(p=>p.d))-2, fn:()=>{ const g=F.g, L=(a,b,k)=>({x:lerp(a.x,b.x,k),y:lerp(a.y,b.y,k)}); g.save(); g.fillStyle='rgba(6,4,8,0.35)'; g.beginPath(); P.forEach((p,i)=>i?g.lineTo(p.x,p.y):g.moveTo(p.x,p.y)); g.closePath(); g.fill();   // (23/11) kính đã VỠ: lỗ tối + răng cưa kính còn bám khung (không biến mất)
+      g.fillStyle='rgba(170,210,245,0.3)'; g.strokeStyle='rgba(235,245,255,0.8)'; g.lineWidth=1.2; for(const [A,B,C,D] of [[P[0],P[1],P[3],P[2]],[P[3],P[2],P[0],P[1]],[P[0],P[3],P[1],P[2]],[P[1],P[2],P[0],P[3]]]) for(let k=0;k<4;k++){ const u0=k/4, u1=(k+1)/4, m=(u0+u1)/2, dep=0.1+0.22*hash(k*7+(A===P[0]?1:A===P[3]?2:3)), a=L(A,B,u0), b=L(A,B,u1), c0=L(A,B,m), c=L(c0,L(C,D,m),dep); g.beginPath(); g.moveTo(a.x,a.y); g.lineTo(b.x,b.y); g.lineTo(c.x,c.y); g.closePath(); g.fill(); g.stroke(); }
+      g.restore(); }}); return; }
     F.list.push({d:Math.min(...P.map(p=>p.d))-2, fn:()=>{ const g=F.g; g.save(); g.fillStyle='rgba(150,190,230,0.16)'; g.strokeStyle='rgba(220,235,255,0.55)'; g.lineWidth=1.5; g.beginPath(); P.forEach((p,i)=>i?g.lineTo(p.x,p.y):g.moveTo(p.x,p.y)); g.closePath(); g.fill(); g.stroke();
       g.strokeStyle='rgba(255,255,255,0.35)'; g.beginPath(); g.moveTo(lerp(P[0].x,P[1].x,0.2),lerp(P[0].y,P[3].y,0.2)); g.lineTo(lerp(P[0].x,P[1].x,0.45),lerp(P[0].y,P[3].y,0.75)); g.stroke(); g.restore(); }}); }
   function crater(F,t){ if(t<T.slam) return; const k=eout(seg(t,T.slam,T.slam+0.15)), pts=[]; for(let i=0;i<24;i++){ const an=i/24*TAU, r=(70+20*hash(i*3.3))*k; pts.push(K.proj(F.B,120+Math.cos(an)*r*1.4,1,Math.sin(an)*r)); }
@@ -337,7 +341,8 @@
     if(t>=T.slam&&t<T.slam+1.8){ K.debris(F,{x:120,y:10,z:0,t0:T.slam,n:30,speed:900,life:1.3,size:26,seed:31,col:'#4a4246'}); K.smoke(F,{x:120,z:0,t0:T.slam,n:14,spread:420,rise:120,life:1.6,size:120,seed:32,a:0.55,tint:'130,104,96'});
       if(t<T.slam+0.6){ const u=seg(t,T.slam,T.slam+0.6); K.ring(F,120,0,40+380*eout(u),12,0.55*(1-u),'240,220,200'); } }
     if(t>=T.sweep&&t<T.sweep+1.0) K.sparks(F,{x:385,y:60,z:-35,t0:T.sweep,n:30,speed:600,life:0.6,seed:93,col:'255,200,140'});   // thép xe bị xẻ
-    if(t>=T.glass&&t<T.glass+2.4) K.debris(F,{x:PANE.x,y:120,z:PANE.z-20,t0:T.glass,n:40,speed:500,life:2.2,size:12,seed:95,col:'#cfe6ff'});   // kính vỡ rơi lả tả
+    if(t>=T.glass&&t<T.c0) K.debris(F,{x:PANE.x,y:110,z:PANE.z-15,t0:T.glass,n:46,speed:420,grav:1500,life:T.c0-T.glass,size:15,seed:95,col:'rgba(190,225,255,0.55)',edge:'rgba(255,255,255,0.9)',tri:true});   // (23/11 anh chê) kính vỡ = mảnh TAM GIÁC trong suốt viền sáng, văng mạnh rồi RƠI NHANH nằm trên đất (trước đây: lục giác bay vọt, lơ lửng như tuyết)
+    if(t>=T.glass&&t<T.glass+0.18){ const Q=K.proj(F.B,PANE.x,110,PANE.z-10); if(Q) F.list.push({d:Q.d-5, fn:()=>{ const g=F.g, k=1-seg(t,T.glass,T.glass+0.18); g.save(); g.globalCompositeOperation='lighter'; const rg=g.createRadialGradient(Q.x,Q.y,0,Q.x,Q.y,260*Q.s); rg.addColorStop(0,'rgba(255,255,255,'+k+')'); rg.addColorStop(0.3,'rgba(190,225,255,'+(0.6*k)+')'); rg.addColorStop(1,'rgba(190,225,255,0)'); g.fillStyle=rg; g.fillRect(Q.x-260*Q.s,Q.y-260*Q.s,520*Q.s,520*Q.s); g.restore(); }}); }   // loé đúng khung đập kính
     if(rk>0.5&&t<T.fall){ K.smoke(F,{x:b0.x,z:b0.z,t0:Math.floor(t*5)/5,n:3,spread:60,rise:160,life:0.9,size:60,seed:Math.floor(t*5)+400,a:0.5*rk,tint:'190,40,30'});
       K.sparks(F,{x:b0.x,y:40,z:b0.z,t0:Math.floor(t*6)/6,n:6,speed:260,life:0.6,seed:Math.floor(t*6)+500,col:'255,120,60'}); }
     // 🌀 KAMUI: ① xuyên thấu (thân xoắn quanh lưỡi kiếm) → ② hút Ninja tại chỗ → ③ xoáy mở TRÊN KHÔNG SAU LƯNG Berserk, nhả Ninja lộn ngược ra

@@ -48,7 +48,7 @@
   function drawBuilding(F,b,t,th){ const B=F.B, k=t>=b.ta?eout(seg(t,b.ta,b.ta+0.55)):0, h=b.h*(1-0.93*k);   // k = độ đổ (sóng Shinra)
     const crashShake=b.shakeAt!=null&&t>=b.shakeAt&&t<b.shakeAt+0.6?(hash(Math.floor(t*40))-0.5)*30:0;
     const pc=K.proj(B,b.cx,h*0.5,b.cz); if(!pc) return;
-    F.list.push({d:pc.d+Math.max(b.x1-b.x0,b.z1-b.z0)*0.35, fn:()=>{ const g=F.g, cam=B.pos, fogK=clamp((pc.d-2500)/9000,0,0.85)*(o.fogMul?o.fogMul(t):1), fog=th.fogRGB;
+    F.list.push({d:pc.d+Math.max(b.x1-b.x0,b.z1-b.z0)*0.35, fn:()=>{ const g=F.g, cam=B.pos, fogK=clamp((pc.d-(o.fog0==null?2500:o.fog0))/(o.fogR||9000),0,o.fogMax||0.85)*(o.fogMul?o.fogMul(t):1), fog=th.fogRGB;
       const base=th.bld(b), lit=k<0.2;
       const P=(x,y,z)=>K.proj(B,x+crashShake,y,z);
       const poly=(...ps)=>{ g.beginPath(); ps.forEach((p,i)=>i?g.lineTo(p.x,p.y):g.moveTo(p.x,p.y)); g.closePath(); };

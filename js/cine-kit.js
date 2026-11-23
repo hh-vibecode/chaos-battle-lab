@@ -101,7 +101,7 @@
   K.TONE={ nightRed:{desat:0.25, env:['#8a6672',0.32], foot:0.5, rim:['#ffb0a0',0.4,'top'], wrap:['#9a4858',0.45]},
     nightBlue:{desat:0.3, env:['#6a7088',0.36], foot:0.55, rim:['#c8d2ff',0.35,'top'], wrap:['#5a6688',0.45]},
     nightRedDeep:{desat:0.32, env:['#7a4654',0.5], foot:0.6, rim:['#ff8a78',0.55,'top'], wrap:['#8a3444',0.55]},
-    nightCity:{desat:0.22, env:['#7c7488',0.3], foot:0.55, rim:['#ffcf9a',0.35,'top'], wrap:['#5a5070',0.42]} };
+    nightCity:{desat:0.15, env:['#8c8498',0.18], foot:0.4, rim:['#ffd8b0',0.6,'top'], wrap:['#6a6080',0.28]} };   // (23/11 anh: nhân vật trận Ninja đừng chìm vào nền) — nhẹ tay hơn, viền sáng rõ hơn
   const TONED=new Map(); let TONEID=0;
   K.toned=(c,tone,maxH)=>{ if(!c||!tone) return c; const o=typeof tone==='string'?K.TONE[tone]:tone; if(!o) return c;
     const sid=c.src._tid||(c.src._tid=++TONEID), tid=o._tid||(o._tid=++TONEID), sc=Math.min(1,(maxH||900)/c.sh), key=sid+'|'+c.sx+'|'+c.sy+'|'+c.sw+'|'+c.sh+'|'+tid+'|'+(sc<1?Math.round(c.sh*sc):0);
@@ -263,12 +263,12 @@
       F.list.push({d:P.d-5, fn:()=>{ const g=F.g; g.save(); g.globalCompositeOperation='lighter'; g.strokeStyle=`rgba(${e.col||'255,220,140'},${1-u})`; g.lineWidth=Math.max(1,2.2*P.s*3); g.lineCap='round';
         g.beginPath(); g.moveTo(Q.x,Q.y); g.lineTo(P.x,P.y); g.stroke(); g.restore(); }}); } };
   // đá vụn văng theo trọng lực (đa giác tối màu, có xoay)
-  K.debris=(F,e)=>{ const t=F.t-e.t0; if(t<0||t>e.life) return;
+  K.debris=(F,e)=>{ const t=F.t-e.t0; if(t<0||t>e.life) return;   // e.grav: trọng lực (kính vỡ rơi nhanh) · e.tri: mảnh tam giác · e.edge: màu viền
     for(let i=0;i<e.n;i++){ const s=e.seed*13+i, ang=(e.dir||0)*D2R+(hash(s)-0.5)*(e.cone||360)*D2R, el=(0.25+0.6*hash(s+1))*Math.PI/2, v=e.speed*(0.35+0.65*hash(s+2));
-      let y=(e.y||0)+Math.sin(el)*v*t-500*t*t; if(y<0) y=0; const x=e.x+Math.cos(ang)*Math.cos(el)*v*t, z=e.z+Math.sin(ang)*Math.cos(el)*v*t, P=K.proj(F.B,x,y+4,z); if(!P) continue;
+      let y=(e.y||0)+Math.sin(el)*v*t-(e.grav||500)*t*t; if(y<0) y=0; const x=e.x+Math.cos(ang)*Math.cos(el)*v*t, z=e.z+Math.sin(ang)*Math.cos(el)*v*t, P=K.proj(F.B,x,y+4,z); if(!P) continue;
       const r=e.size*(0.35+0.65*hash(s+3))*P.s, rot=t*(hash(s+4)*14-7), a=1-seg(t,e.life*0.7,e.life);
       F.list.push({d:P.d, fn:()=>{ const g=F.g; g.save(); g.globalAlpha=a; g.translate(P.x,P.y); g.rotate(rot); g.fillStyle=e.col||'#5b4a42'; g.strokeStyle='rgba(0,0,0,0.6)'; g.lineWidth=Math.max(0.5,r*0.12);
-        g.beginPath(); for(let k=0;k<6;k++){ const th=k/6*Math.PI*2, rr=r*(0.6+0.4*hash(s+10+k)); k?g.lineTo(Math.cos(th)*rr,Math.sin(th)*rr):g.moveTo(Math.cos(th)*rr,Math.sin(th)*rr); } g.closePath(); g.fill(); g.stroke(); g.restore(); }}); } };
+        if(e.edge) g.strokeStyle=e.edge; const nk=e.tri?3:6; g.beginPath(); for(let k=0;k<nk;k++){ const th=k/nk*Math.PI*2+(e.tri?hash(s+20+k)*0.9:0), rr=r*(e.tri?0.4+0.9*hash(s+10+k):0.6+0.4*hash(s+10+k)); k?g.lineTo(Math.cos(th)*rr,Math.sin(th)*rr):g.moveTo(Math.cos(th)*rr,Math.sin(th)*rr); } g.closePath(); g.fill(); g.stroke(); g.restore(); }}); } };
 
   // ───────── hiệu ứng màn hình (vẽ sau thế giới) ─────────
   // tia tập trung kiểu manga: n nêm trắng/đen từ mép vào, đổi hình 12 lần/giây

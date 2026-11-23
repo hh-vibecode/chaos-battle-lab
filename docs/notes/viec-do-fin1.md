@@ -140,3 +140,7 @@ Công cụ: film-check.js tự bật / tắt trình duyệt (dùng nó để ch�
 
 ## ⚡ 23/11 tối — fin1f3 thêm 4s ĐỐI KHÁNG SIÊU TỐC (Ver 709) — chi tiết `prompts/kich-ban/fin1f3-v3.md` mục ANH CHỐT. CÒN: làm mượt các pha đấu kiếm trước đó (anh dặn).
 - Lỗi đã gặp: video-frames.html treo nếu mốc b > độ dài video (callback khung ngừng khi video hết) → đặt b < duration.
+- ✅ 23/11 khuya (Ver 710) anh: "mượt = nhân vật không chìm vào nền, nền trận Ninja hơi phức tạp" + "chuyển động hợp lý hơn, nhất là cảnh hất văng vào tường":
+  nền đại lộ thêm SƯƠNG GẦN (Fin1City fog0 / fogR / fogMax — tuỳ chọn mới, mặc định không đổi) → nhà + cửa sổ dịu, nhân vật nổi · tông nightCity nhẹ tay hơn + viền sáng rõ hơn ·
+  cảnh văng vào kính: CẮT sang góc tĩnh chéo trước cửa hàng (không lùi máy), loé đúng khung đập, kính vỡ răng cưa bám khung (không biến mất), mảnh TAM GIÁC trong suốt rơi nhanh nằm trên đất
+  (K.debris thêm grav / tri / edge). ⏳ CÒN: soát chuyển động các pha khác — xin anh chỉ mốc giây pha nào còn vô lý (rẻ hơn em dò cả phim).
