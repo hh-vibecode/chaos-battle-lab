@@ -1,5 +1,12 @@
 // Tự sinh bởi tools/split_assets.py — đường dẫn file → nhóm tải ("critical" = tải trước khi vào game; tên nhân vật = tải khi nhân vật đó vào trận / tải ngầm)
 window.ASSET_GROUP={
+"assets/avatars/catexe/avatarUrl.webp": "catexe",
+"assets/avatars/catexe/thumb.webp": "critical",
+"assets/img/catexe/CX_RUN.webp": "catexe",
+"assets/img/catexe/CX_NR.webp": "catexe",
+"assets/audio/cx_error.mp3": "catexe",
+"assets/audio/cx_crit.mp3": "catexe",
+"assets/audio/cx_shutdown.mp3": "catexe",
 "assets/audio/mw_gojo.mp3": "mewingcat",
 "assets/audio/mw_gojo_travel.mp3": "mewingcat",
 "assets/img/mewingcat/MEW_GOJO_IMG.webp": "mewingcat",
@@ -1215,6 +1222,7 @@ window.ASSET_GROUP={
 "assets/vfxlib/vfx_slash3_color5.webp": "critical"
 };
 window.AVATAR_THUMB={
+"assets/avatars/catexe/avatarUrl.webp": "assets/avatars/catexe/thumb.webp",
 "assets/avatars/sans/avatarUrl.webp": "assets/avatars/sans/thumb.webp",
 "assets/avatars/huhcat/avatarUrl.webp": "assets/avatars/huhcat/thumb.webp",
 "assets/avatars/popcat/avatarUrl.webp": "assets/avatars/popcat/thumb.webp",
