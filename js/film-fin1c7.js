@@ -426,14 +426,14 @@
       // chữ / thoại (chỉ tiếng Anh, không lồng giọng)
       if(t>=T.say&&t<T.charge) line(g,"It's over, Pain.",seg(t,T.say,T.say+0.2)*(1-seg(t,T.charge-0.25,T.charge)));
       if(t>=T.charge+0.7&&t<T.stab){ const a=seg(t,T.charge+0.7,T.charge+0.9)*(t>=T.hush?0.7+0.3*Math.sin(t*30):1); g.save(); g.beginPath(); g.rect(0,0,VW*(0.5+0.07*Math.sin(t*2)),VH); g.clip();   // HOLLOW PURPLE hiện DỞ 1 nửa (chưa kịp bắn)
-        title(g,'HOLLOW PURPLE','IMAGINARY TECHNIQUE  ·  ERASES ALL MATTER',0.17,a,'#e6d0ff'); g.restore(); }
+        title(g,'HOLLOW PURPLE',null,0.17,a,'#e6d0ff'); g.restore(); }
       if(t>=T.banana+0.15&&t<T.doge) { const a=seg(t,T.banana+0.15,T.banana+0.3); g.save(); g.globalAlpha=a; g.textAlign='center'; g.translate(VW*0.5+(hash(Math.floor(t*20))-0.5)*6,VH*0.2); g.font='900 '+Math.round(VH*0.11)+'px Montserrat, Arial Black, sans-serif'; g.lineWidth=8; g.strokeStyle='#000'; g.strokeText('NOOOO!',0,0); g.fillStyle='#ffffff'; g.fillText('NOOOO!',0,0); g.restore(); }
       if(t>=T.mourn&&t<T.aka) ash(F,t,seg(t,T.mourn,T.mourn+1)*(1-seg(t,T.aka-0.4,T.aka)));
       if(t>=T.wide&&t<T.split2) ash(F,t,0.7,0,VW*0.45);
       if(t>=T.split2&&t<T.boom) ash(F,t,0.6,0,VW*0.5);
       // 21 · Sharingan xoay
       if(t>=T.shar&&t<T.crouch){ const c=K.prep(F.I.SHAR), u=seg(t,T.shar,T.crouch); g.save(); g.fillStyle='rgba(20,0,0,0.78)'; g.fillRect(0,0,VW,VH); if(c){ const sz=VH*(0.9+0.15*u); g.translate(VW/2,VH/2); g.rotate(u*4.2); g.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,-sz/2,-sz/2,sz,sz); } g.restore(); }
-      if(t>=T.slam+0.15&&t<T.seal+0.9) title(g,'KUCHIYOSE NO JUTSU','SUMMONING TECHNIQUE  ·  CALLS FORTH THE LEGION OF HELL',0.2,seg(t,T.slam+0.15,T.slam+0.35)*(1-seg(t,T.seal+0.5,T.seal+0.9)));
+      if(t>=T.slam+0.15&&t<T.seal+0.9) title(g,'KUCHIYOSE NO JUTSU',null,0.2,seg(t,T.slam+0.15,T.slam+0.35)*(1-seg(t,T.seal+0.5,T.seal+0.9)));
       // 23 · mảnh linh hồn Friend trong tay Pain
       if(t>=T.shard&&t<T.sky){ const k=eout(seg(t,T.shard,T.shard+0.6)), x=VW*0.66, y=VH*0.3-k*VH*0.05, sz=VH*0.075;
         g.save(); g.translate(x,y); g.rotate(Math.sin(t*2)*0.2); lighter(g,()=>glowDot(g,0,0,sz*3.4,'190,120,255',0.65*k*(0.75+0.25*Math.sin(t*9)))); g.globalAlpha=k;

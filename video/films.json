@@ -60,33 +60,50 @@
   "at": "2026-11-23 09:35 (giờ VN)"
  },
  "fin1c4": {
-  "file": "https://github.com/hh-vibecode/chaos-battle-lab/releases/download/films/fin1c4-5e337e554c.mp4",
-  "h": "5e337e554c",
+  "file": "https://github.com/hh-vibecode/chaos-battle-lab/releases/download/films/fin1c4-30a3a11cc2.mp4",
+  "h": "30a3a11cc2",
   "w": 1280,
   "hgt": 720,
   "dur": 60.977,
   "fps": 30,
-  "bytes": 20210209,
-  "at": "2026-11-23 09:36 (giờ VN)"
+  "bytes": 20197006,
+  "at": "2026-11-23 10:58 (giờ VN)",
+  "prev": {
+   "file": "https://github.com/hh-vibecode/chaos-battle-lab/releases/download/films/fin1c4-ac1715fcef.mp4",
+   "h": "ac1715fcef",
+   "bytes": 20210251
+  }
  },
  "fin1c7": {
-  "file": "https://github.com/hh-vibecode/chaos-battle-lab/releases/download/films/fin1c7-c7c2b27926.mp4",
-  "h": "c7c2b27926",
+  "file": "https://github.com/hh-vibecode/chaos-battle-lab/releases/download/films/fin1c7-1d80a5b597.mp4",
+  "h": "1d80a5b597",
   "w": 1280,
   "hgt": 720,
   "dur": 58.8,
   "fps": 30,
-  "bytes": 18519319,
-  "at": "2026-11-23 09:32 (giờ VN)"
+  "bytes": 18518234,
+  "at": "2026-11-23 10:59 (giờ VN)",
+  "prev": {
+   "file": "https://github.com/hh-vibecode/chaos-battle-lab/releases/download/films/fin1c7-ae73c514be.mp4",
+   "h": "ae73c514be",
+   "bytes": 18519692
+  }
  },
  "fin1tr": {
-  "file": "https://github.com/hh-vibecode/chaos-battle-lab/releases/download/films/fin1tr-56484dfb1f.mp4",
-  "h": "56484dfb1f",
+  "file": "https://github.com/hh-vibecode/chaos-battle-lab/releases/download/films/fin1tr-c96a2f833f.mp4",
+  "h": "c96a2f833f",
   "w": 720,
   "hgt": 1280,
   "dur": 20.15,
   "fps": 30,
-  "bytes": 6879712,
-  "at": "2026-11-23 09:37 (giờ VN)"
+  "bytes": 6879747,
+  "at": "2026-11-23 11:02 (giờ VN)",
+  "prev": {
+   "file": "https://github.com/hh-vibecode/chaos-battle-lab/releases/download/films/fin1tr-56484dfb1f.mp4",
+   "h": "56484dfb1f",
+   "bytes": 6879712,
+   "at": "2026-11-23 09:37 (giờ VN)",
+   "dur": 20.15
+  }
  }
 }

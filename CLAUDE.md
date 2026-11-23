@@ -55,7 +55,7 @@ Chi tiết từng meme: `docs/notes/memes.md` · từng phim + cine-kit: `docs/n
 - Nhịp: shot TB 1.3–1.8s nhưng NHANH – CHẬM ĐAN XEN (bùng nổ cực nhanh → khựng / thở → căng chậm). Không giãn đều. Không theo AMV. Mỗi trận 1 cấu trúc riêng.
 - Pha nhanh (húc, lướt, tràng đòn) = vệt tốc độ / bóng mờ / smear + VFX va chạm, không cần vẽ người.
 - Tỉ lệ nhất quán giữa vật khổng lồ và meme ở mọi góc (meme ~100–170 đơn vị thế giới). Vật khổng lồ trông to = đưa máy lại gần, không phóng to meme.
-- Tiếng: mỗi cú 1 tiếng đúng chất, không dùng lại cho cú khác loại; cú nặng 2–3 lớp ('+'); ≤9 tiếng / 10s; nhạc lặng 0.3–0.7s trước cú quyết định. Nhạc: mỗi trận 1 bản epic chạy dài (không lặp đoạn ngắn), KHÔNG lồng giọng (anh 19/11): thoại + tên chiêu CHỈ bằng CHỮ trên màn hình — tên chiêu + 1 dòng mô tả ngầu (vd HOLLOW PURPLE / IMAGINARY TECHNIQUE · ERASES ALL MATTER).
+- Tiếng: mỗi cú 1 tiếng đúng chất, không dùng lại cho cú khác loại; cú nặng 2–3 lớp ('+'); ≤9 tiếng / 10s; nhạc lặng 0.3–0.7s trước cú quyết định. Nhạc: mỗi trận 1 bản epic chạy dài (không lặp đoạn ngắn), KHÔNG lồng giọng (anh 19/11): thoại + tên chiêu CHỈ bằng CHỮ trên màn hình — CHỈ TÊN CHIÊU, KHÔNG dòng mô tả (anh 23/11, vd chỉ "HOLLOW PURPLE").
 - Sakuga / impact frame / Yutapon / explosion FX / sao 4 cánh: checklist ở skill `edit-video` mục 8.
 - Video mẫu dài: không tự dò cả video → hỏi anh mốc phút, hoặc đọc phụ đề (rẻ) rồi chỉ chụp đúng đoạn cần.
 

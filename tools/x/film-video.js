@@ -90,8 +90,11 @@ const fmt = s => s >= 60 ? Math.floor(s / 60) + 'p' + String(Math.round(s % 60))
       const dst = path.join(VDIR, id + '.mp4'), buf = fs.readFileSync(gotFile); if (buf.length !== st.info.bytes) throw new Error(`file nhận ${buf.length} byte ≠ ${st.info.bytes}`);
       fs.renameSync(gotFile, dst);
       const I = readIndex(), vn = new Date(Date.now() + 7 * 3600e3);
-      I[id] = { file: 'video/' + id + '.mp4', h: crypto.createHash('md5').update(buf).digest('hex').slice(0, 10), w: st.info.w, hgt: st.info.h, dur: st.info.dur, fps: st.info.fps, bytes: buf.length,
-        at: vn.toISOString().slice(0, 16).replace('T', ' ') + ' (giờ VN)' };
+      // ⚠️ (23/11 lỗi đã gây: ghi đè file = đường dẫn trong máy TRƯỚC khi đẩy → film-release tưởng không có bản trước, xoá mất bản trước của fin1c4 / fin1c7)
+      //    → có đẩy lên release thì GIỮ NGUYÊN file / h / bytes / prev cũ, để film-release.js đọc đúng link bản đang phát và dời nó sang prev.
+      const meta = { w: st.info.w, hgt: st.info.h, dur: st.info.dur, fps: st.info.fps };
+      //    --no-upload (chỉ xuất thử) → KHÔNG đụng films.json (app vẫn phát bản trên release).
+      if (!has('--no-upload')) I[id] = Object.assign({}, I[id] || {}, meta);
       const sorted = {}; for (const k of Object.keys(I).sort((a, b) => FILMS.indexOf(a) - FILMS.indexOf(b))) sorted[k] = I[k];
       fs.writeFileSync(INDEX, JSON.stringify(sorted, null, 1) + '\n');
       const i = st.info; console.log(`  ✅ video/${id}.mp4 · ${i.w}×${i.h} · ${i.dur}s · ${(i.bytes / 1048576).toFixed(1)} MB · ${i.vcodec} + ${i.acodec} · ${i.sfx} tiếng + ${i.mus} nhạc${i.miss.length ? ' · ⚠️ THIẾU tiếng: ' + i.miss.join(', ') : ''} · vẽ ${i.msPerFrame} ms/khung · tổng ${fmt((Date.now() - T0) / 1000)}`);

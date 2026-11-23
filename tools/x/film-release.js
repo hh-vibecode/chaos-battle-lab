@@ -42,12 +42,25 @@ async function publish(id, file, o) { o = o || {};
   for (const a of rel.assets || []) if (!keepNames.has(a.name) && a.name.startsWith(id + '-') && /^[0-9a-f]{10}\.mp4$/.test(a.name.slice(id.length + 1))) { await gh('DELETE', `/repos/${R}/releases/assets/${a.id}`); console.log(`  🗑️ xoá bản cũ nhất ${a.name}`); }
   if (!o.keep) fs.rmSync(file, { force: true });
   return url; }
-module.exports = { publish };
+// --as-prev: đưa 1 file lên làm BẢN TRƯỚC (không đụng bản đang phát) — dùng để khôi phục bản trước bị mất (vd dựng lại từ code cũ trong git)
+async function publishPrev(id, file, o) { o = o || {};
+  const R = repo(), rel = await release(R), buf = fs.readFileSync(file), h = crypto.createHash('md5').update(buf).digest('hex').slice(0, 10), name = `${id}-${h}.mp4`;
+  const I = readIndex(); if (!I[id] || !/^https?:/.test(I[id].file || '')) throw new Error(id + ' chưa có bản đang phát trên release');
+  if (I[id].h === h) throw new Error('file trùng bản đang phát');
+  let asset = (rel.assets || []).find(a => a.name === name);
+  if (!asset) asset = await gh('POST', rel.upload_url.replace(/\{.*\}$/, '') + '?name=' + encodeURIComponent(name), buf, 'video/mp4');
+  if (asset.size !== buf.length) throw new Error(`đẩy ${name} lệch cỡ ${asset.size} ≠ ${buf.length}`);
+  const curName = decodeURIComponent(I[id].file.split('/').pop());
+  I[id].prev = { file: asset.browser_download_url, h, bytes: buf.length }; fs.writeFileSync(INDEX, JSON.stringify(I, null, 1) + '\n');
+  for (const a of rel.assets || []) if (a.name !== name && a.name !== curName && a.name.startsWith(id + '-') && /^[0-9a-f]{10}\.mp4$/.test(a.name.slice(id.length + 1))) { await gh('DELETE', `/repos/${R}/releases/assets/${a.id}`); console.log(`  🗑️ xoá ${a.name}`); }
+  if (!o.keep) fs.rmSync(file, { force: true });
+  return asset.browser_download_url; }
+module.exports = { publish, publishPrev };
 if (require.main === module) (async () => {
   const args = process.argv.slice(2), keep = args.includes('--keep');
   const ids = args.includes('--all') ? fs.readdirSync(VDIR).filter(f => /\.mp4$/.test(f)).map(f => f.slice(0, -4)) : args.filter(a => !a.startsWith('--'));
   if (!ids.length) { console.error('cách dùng: film-release.js <id…> | --all [--keep]'); process.exit(2); }
   let bad = 0; for (const id of ids) { const f = path.join(VDIR, id + '.mp4'); if (!fs.existsSync(f)) { console.log(`❌ ${id}: không có ${path.relative(ROOT, f)}`); bad++; continue; }
-    try { const u = await publish(id, f, { keep }); console.log(`✅ ${id} → ${u}`); } catch (e) { bad++; console.log(`❌ ${id}: ${e.message}`); } }
+    try { const u = await (args.includes("--as-prev") ? publishPrev : publish)(id, f, { keep }); console.log(`✅ ${id}${args.includes("--as-prev") ? " (bản trước)" : ""} → ${u}`); } catch (e) { bad++; console.log(`❌ ${id}: ${e.message}`); } }
   process.exit(bad ? 1 : 0);
 })();

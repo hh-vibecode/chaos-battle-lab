@@ -903,9 +903,9 @@
       // chia khung: phủ màu 2 phe + vạch
       if(C&&t>=T.split&&t<T.wide){ C.splitTint(F,t,T.split,T.wide-T.split,'rgba(60,140,255,0.28)','rgba(255,60,70,0.28)'); g.save(); g.fillStyle='#fff'; g.fillRect(VW/2-2,0,4,VH); g.restore(); }
       // tên chiêu (chữ tiếng Anh)
-      skillName(g,F,t,T.cast+0.1,1.05,'SHINRA TENSEI','ALMIGHTY PUSH · REPELS ALL THINGS','255,120,110');
-      skillName(g,F,t,T.dImp+0.05,1.3,'DOMAIN EXPANSION','INFINITE VOID · ENDLESS INFORMATION','110,180,255');
-      skillName(g,F,t,T.smoke+0.12,1.1,'HOLLOW PURPLE','IMAGINARY TECHNIQUE · ERASES ALL MATTER','190,120,255');
+      skillName(g,F,t,T.cast+0.1,1.05,'SHINRA TENSEI',null,'255,120,110');
+      skillName(g,F,t,T.dImp+0.05,1.3,'DOMAIN EXPANSION',null,'110,180,255');
+      skillName(g,F,t,T.smoke+0.12,1.1,'HOLLOW PURPLE',null,'190,120,255');
       K.sfxText(F,'DON!',VW*0.5,VH*0.3,{t0:T.clash,life:0.5,px:84,rot:-8});
       K.sfxText(F,'BAM!',VW*0.42,VH*0.3,{t0:5.3,life:0.45,px:80,rot:8,col:'#9fd0ff'});
       K.sfxText(F,'DOOON!!',VW*0.48,VH*0.28,{t0:10.35,life:0.55,px:84,rot:-6,col:'#c9a7ff'});
