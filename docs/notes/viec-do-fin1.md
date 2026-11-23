@@ -1,7 +1,7 @@
 # VIỆC DỞ — Final Part 1
 
 ## 🛠️ 23/11 — DỰNG LẠI CẢNH KẾT fin1c7 (bản 4) — KẾ HOẠCH CODE (chưa bắt đầu sửa js/film-fin1c7.js)
-Kịch bản + mọi lời anh chốt:  (đọc HẾT, nhất là 3 mục ✅ cuối file). Đã xong liên quan: fin1c4 kết ở nổ tím trên trời (Ver 704) · Chill Guy phụ đề (Ver 703).
+Kịch bản + mọi lời anh chốt: `prompts/kich-ban/fin1c7-v4.md` (đọc HẾT, nhất là 3 mục ✅ cuối file). Đã xong liên quan: fin1c4 kết ở nổ tím trên trời (Ver 704) · Chill Guy phụ đề (Ver 703).
 1. **Ảnh = CHỈ ảnh gốc** (anh: "dùng nhiều form không nguyên bản từ Friend tới meme"): Gojo MEW_GOJO_IMG · Pain DP_PAIN_IMG · Buff Doge doge/rageAvatarUrl (luật Buff Doge) · mọi con khác avatarUrl.
    BỎ khỏi IMG: G1 G6 P1 PPUSH PKB PCR (MVD_*/FIN_*) · DBA · BANC (Banana dùng avatarUrl, không ảnh khóc) · VADER_S/VADER_F (Catvader avatarUrl, kiếm laze = code saber() gắn ở tay — đo toạ độ bằng tools/x/plate-grid.html) · FR_DIVE/FR_ROAR · SIM (không nổ).
    Rinnegan đo lại trên DP_PAIN_IMG đã K.prep: mắt (0.463,0.299) (0.702,0.268) (số của fin1c6 painEyes).
@@ -9,7 +9,7 @@ Kịch bản + mọi lời anh chốt:  (đọc HẾT, nhất là 3 mục ✅ cu
 3. **Trời có MÂY THẬT** (code, 3D): lớp mây ở độ cao ~6000–9000, puff (tự sinh canvas mềm như puffImgs của cine-kit) đặt cố định theo hash, trôi theo t, đáy hắt ánh lửa; đoạn D đỏ dần từ trong. Vẽ trong F.under trước nhà, KHÔNG phủ xuống dưới đường chân trời.
 4. **Friend**: xé lỗ tầng mây (puff quanh tâm lỗ bị đẩy ra, vòng mây bạt) → lao xuống (ảnh GỐC nghiêng chúi + vệt lửa ma sát + khói đuôi bằng code) → PHANH giữa trời, KHÔNG nổ / không vfx-boom / không SIM → LƠ LỬNG nhấp nhô ngay TRÊN ĐẦU PHE EVIL, cao trên khoảng không (đáy Friend ~y 2500+), CỰC TO: chỉ thấy 1 phần (thân tràn mép khung; cao ~H*120 = 14400 đơn vị ở khoảng cách ~10000). Gió ép xuống thổi rạp bụi / tro, bóng phủ bãi. Tiếng phanh = gió ép trầm, bỏ se_big_explode / kn_explode_crunch / se_quake ở T.land.
 5. **Meme TO trong khung**: H=120, fov 46 → dist ≈ 283 cho meme cao 1/2 khung. Hầu hết shot trung / cận; khung toàn chỉ ở 25 (2 phe) + 24c (Friend lơ lửng).
-6. Xong: film-lint + sfx-lint sạch · js/shots/fin1c7.json khớp · soát từng shot (film-check) ·  · release (gồm video/films.json). Sửa luôn dur rạp phim game.js: fin1c4 61 → 54.
+6. Xong: film-lint + sfx-lint sạch · js/shots/fin1c7.json khớp · soát từng shot (film-check) · `tools/x/film-video.js fin1c7` · release (gồm video/films.json). Sửa luôn dur rạp phim game.js: fin1c4 61 → 54.
 
 ## 🆕 23/11 — anh CHÊ cảnh kết bản 3, LÀM LẠI TOÀN BỘ cách dựng: kịch bản `prompts/kich-ban/fin1c7-v4.md` (CHỜ ANH DUYỆT 3 câu hỏi cuối file). Friend xé mây → KHÔNG nổ → LƠ LỬNG, to ~40× meme; chỉ ảnh gốc; trời có mây thật; meme to trong khung.
 
