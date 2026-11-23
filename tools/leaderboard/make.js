@@ -30,13 +30,19 @@ const AVM = {}; for (const m of ((G.match(/const _mcDefaultAvatars=\{([^\n]*)/) 
 AVM.arabiccat = AVM.arabiccat || (G.match(/const AR_FR=\[\s*'([^']+)'/) || [])[1];
 const avatar = k => { if (AVM[k]) return AVM[k]; for (const f of ['avatarUrl.webp', 'avatarUrl.png', 'thumb.webp']) if (fs.existsSync(path.join(ROOT, 'assets/avatars', k, f))) return `assets/avatars/${k}/${f}`; return ''; };
 
+function edgePath() { const c = process.platform === 'win32'
+    ? ['C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe', 'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe', 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe']
+    : ['/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge'];
+  const p = c.find(f => fs.existsSync(f)); if (!p) throw new Error('không có playwright, cũng không thấy Edge / Chrome'); return p; }
 function shorts() {
-  const off = opt('--offline', null);
-  const raw = off ? fs.readFileSync(off, 'utf8') : execFileSync('python3', ['-m', 'yt_dlp', '--flat-playlist', '-J', CHANNEL], { encoding: 'utf8', maxBuffer: 64 << 20, stdio: ['ignore', 'pipe', 'ignore'] });
+  const off = opt('--offline', null), YTW = 'D:\\tools\\yt-dlp\\yt-dlp.exe';   // 🪟 Windows: yt-dlp bản exe (không có python3)
+  const raw = off ? fs.readFileSync(off, 'utf8') : process.platform === 'win32' && fs.existsSync(YTW)
+    ? execFileSync(YTW, ['--flat-playlist', '-J', CHANNEL], { encoding: 'utf8', maxBuffer: 64 << 20, stdio: ['ignore', 'pipe', 'ignore'] })
+    : execFileSync('python3', ['-m', 'yt_dlp', '--flat-playlist', '-J', CHANNEL], { encoding: 'utf8', maxBuffer: 64 << 20, stdio: ['ignore', 'pipe', 'ignore'] });
   return (JSON.parse(raw).entries || []).map(e => ({ id: e.id, title: e.title || '' }));
 }
 // "A & B vs C - Meme Battle" → [['a','b'],['c']] (null = tên lạ)
-const teamsOf = title => title.replace(/^\(rematch\)\s*/i, '').replace(/\s+-\s+(Meme Battle|Last One Standing Mode).*$/i, '')
+const teamsOf = title => title.replace(/^\(rematch\)\s*/i, '').replace(/\s+-\s+(Meme Battle|Last One Standing(?: Mode)?).*$/i, '')
   .split(/\s+vs\.?\s+/i).map(s => s.split(/\s*&\s*/).map(n => BY_NAME[n.trim().toLowerCase()] || null));
 
 (async () => {
@@ -62,16 +68,27 @@ const teamsOf = title => title.replace(/^\(rematch\)\s*/i, '').replace(/\s+-\s+(
   let rk = 0; rows.forEach((x, i) => { const p = rows[i - 1]; if (!played(x)) { x.rk = null; return; } if (!p || p.w !== x.w || p.l !== x.l || p.d !== x.d) rk = i + 1; x.rk = rk; });
   const d = new Date(), dd = String(d.getDate()).padStart(2, '0'), mm = String(d.getMonth() + 1).padStart(2, '0'), stamp = `${dd}-${mm}-${d.getFullYear()}`;
   fs.mkdirSync(OUT_DIR, { recursive: true });
-  const { chromium } = require('playwright');
-  const br = await chromium.launch(); const pg = await br.newPage({ viewport: { width: 1080, height: 1920 }, deviceScaleFactor: 2 });
   // 2 ảnh 9:16 (anh 18/11: dài quá → chia 2 bảng, không dồn nhỏ): ảnh 1 = bục top 3 + CUT-3 hạng kế · ảnh 2 = phần còn lại
   const CUT = Math.min(rows.length, 43), pngs = [];
+  let PW = null; try { PW = require('playwright'); } catch (e) {}
+  if (!PW) {   // 🪟 (23/11) máy KHÔNG có playwright (Windows): Edge / Chrome chạy ngầm tự chụp — dữ liệu nhúng thẳng vào bản sao board.html
+    const html = fs.readFileSync(path.join(__dirname, 'board.html'), 'utf8'), exe = edgePath();
+    for (const page of [1, 2]) {
+      const LB = { period: 'SINCE 01/11/2026', updated: `${dd}/${mm}/${d.getFullYear()}`, matches: counted, rows, page, pages: 2, cut: CUT };
+      const tmp = path.join(__dirname, `_lb-page${page}.html`), png = path.join(OUT_DIR, `Leaderboard ${stamp} (${page}-2).png`);
+      fs.writeFileSync(tmp, html.replace('</body>', `<script>window.addEventListener('load',()=>document.fonts.ready.then(()=>window.renderLB(${JSON.stringify(LB)})));</script></body>`));
+      const prof = path.join(os.tmpdir(), 'lb-edge-profile'); try { fs.rmSync(png, { force: true }); } catch (e) {}
+      execFileSync(exe, ['--headless=new', '--disable-gpu', '--hide-scrollbars', `--user-data-dir=${prof}`, '--window-size=1080,1920', '--force-device-scale-factor=2', '--virtual-time-budget=8000', `--screenshot=${png}`, 'file:///' + tmp.replace(/\\/g, '/')], { stdio: 'ignore', timeout: 120000 });
+      fs.rmSync(tmp, { force: true }); if (!fs.existsSync(png)) throw new Error('Edge không chụp được ' + png); pngs.push(png); }
+  } else {
+  const br = await PW.chromium.launch(); const pg = await br.newPage({ viewport: { width: 1080, height: 1920 }, deviceScaleFactor: 2 });
   for (const page of [1, 2]) {
     await pg.goto('file://' + path.join(__dirname, 'board.html')); await pg.evaluate(() => document.fonts.ready);
     await pg.evaluate(LB => window.renderLB(LB), { period: 'SINCE 01/11/2026', updated: `${dd}/${mm}/${d.getFullYear()}`, matches: counted, rows, page, pages: 2, cut: CUT });
     await pg.waitForTimeout(400);
     const png = path.join(OUT_DIR, `Leaderboard ${stamp} (${page}-2).png`); await pg.screenshot({ path: png }); pngs.push(png); }
-  await br.close(); const png = pngs.join('\n   ');
+  await br.close(); }
+  const png = pngs.join('\n   ');
   const miss = path.join(OUT_DIR, 'Thieu ket qua.txt');
   if (missing.length) fs.writeFileSync(miss, `Leaderboard ${stamp} — ${missing.length} Short CHƯA được tính (bổ sung kết quả vào tools/leaderboard/results.json rồi chạy lại):\n\n` + missing.join('\n') + '\n');
   else if (fs.existsSync(miss)) fs.unlinkSync(miss);
