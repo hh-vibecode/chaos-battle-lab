@@ -1,5 +1,11 @@
 # VIỆC DỞ — Final Part 1
 
+## ✅ 23/11 tối — fin1c7 BẢN 4.1 (60.3s, 34 shot) — anh sửa đoạn giữa + aura Chill Guy + 47 meme — CHỜ ANH XEM
+- Chi tiết lời anh + bảng nhịp: `prompts/kich-ban/fin1c7-v4.md` mục "ANH SỬA 23/11 tối". Đứt đôi → lộ Catvader sau lưng → linh cảm → Doge đấm vỡ trường lực → Catvader văng về cạnh Pain → phe thiện tới.
+- film-lint + sfx-lint sạch (2 lưu ý im lặng có chủ ý: lặng trước cú đâm, màn đen sau BÙM). Shotlist `js/shots/fin1c7.json` sinh lại từ `window.__fin1c7SH`.
+- Còn biết yếu: chưa nghe thật tiếng (đã đổi nhạc cho vừa độ dài file); aura Chill Guy là shader + lưỡi lửa code (chưa so mẫu nào); vạch linh cảm tự nghĩ kiểu anime (không có mẫu).
+- VIỆC TIẾP anh giao: rà 3 trận Bat Cat (fin1f2) · Ninja (fin1f3) · Doge (fin1f1) xem cải thiện được gì — ĐỀ XUẤT trước, chưa tự sửa.
+
 ## ✅ 23/11 tối — ĐÃ DỰNG LẠI fin1c7 BẢN 4 (58s, 32 shot) — CHỜ ANH XEM video trong app
 - Cách dựng mới = LỚP 2D kiểu anime (bỏ thành phố 3D + sàn lưới): 4 nền GPT vẽ tay cùng nét `assets/img/cine/FIN_C7_PL_{GROUND,LOW,HIGH,VAST}` (trời đã tách → trời + mây = CODE:
   tích vân cel 3 lớp trôi lệch, trần mây nhìn từ dưới khi ngước, đỏ rực từ trong, lỗ rách mép mềm) · meme ảnh gốc nướng hoà cảnh (light wrap, ánh hắt, mép đáy mờ) · nền cận cảnh làm mờ ·

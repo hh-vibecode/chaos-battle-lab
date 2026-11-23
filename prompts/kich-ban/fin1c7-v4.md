@@ -65,3 +65,21 @@ Lời anh: "lúc Pain vừa đẩy được cầu tím đi, đang thở dốc kh
 Bỏ: va nhau, Almighty Push vs Vô hạn, cầu Xanh hút, cầu Đỏ đấm văng xuyên 2 toà, câu "It's over, Pain.", gom Xanh + Đỏ.
 ↳ (anh 23/11) "đến cảnh đẩy cầu đi là HẾT phần giao tranh Pain vs Gojo". Cảnh đẩy cầu tím lên trời ĐÃ nằm ở cuối fin1c4 → BỎ A1 ở đây.
   fin1c7 mở thẳng bằng A2: nổ tím còn loé trên trời phía sau, Pain thở dốc khổ sở → A3 ngẩng thấy Gojo tụ 3 cầu tím trên đầu → B đâm lén.
+
+## ✅ ANH SỬA 23/11 tối (đã dựng — bản 4.1, 60.3s)
+Lời anh: "chém đứt đôi người mới thấy Vader đứng sau lưng, sau đó Vader có linh cảm, thấy Doge lao tới đấm đụng trường lực nên đỡ nhưng vẫn bị đấm văng đi về phía Depress.
+Rồi các meme mới tới, rồi các cảnh tiếp đó… aura Chill Guy cảnh cuối cần làm căng hơn tí nữa, và cần bổ sung thêm các meme cho cảnh cuối. Tổng tầm 40–50 con." · "nhớ các nguyên tắc về tính đồng bộ với nền khi add các meme".
+| # | chuyện gì xảy ra → phản ứng | máy |
+|---|---|---|
+| B (giữ) | lặng → bật kiếm → đâm xuyên → cầu xì tắt → chém ngang cả khung | |
+| B1 | Gojo đứt đôi: nửa trên rơi xuống → LỘ Catvader đứng ngay sau lưng (ngược sáng, kiếm còn chìa ngang) | trung |
+| B2 | Catvader góc thấp (Imperial March) | thấp ngước |
+| B3 | LINH CẢM: cận mũ Catvader, tim đập, khung tối + màu rút, vạch linh cảm loé 2 nhịp, bóng Haki ập vào từ mép trái | cận |
+| B4 | Buff Doge (Haki) lao tới — máy bám theo, vạch tốc độ, bóng mờ | trung |
+| B5 | Catvader dựng TRƯỜNG LỰC đỏ → đấm nện vào (impact) → gợn + nứt lan → VỠ tung, cú đấm xuyên qua → Catvader văng khỏi khung | trung |
+| B6 | Catvader văng lộn vòng qua bãi → cày đất, trượt tới cạnh Pain, đứng dậy | toàn |
+| B7 | Pain: Rinnegan sáng lại (ánh kiếm đỏ bên cạnh) | cận |
+| C | phe thiện chạy tới (47 con, hàng xa nhỏ dần) → Banana khóc → đứng thành MÓNG NGỰA hở phía máy quanh xác Gojo; Buff Doge (gấp 3) đứng mũi phải | |
+| 26 | chia đôi: Chill Guy quay mặt về phía Pain / Catvader → hoá bóng đen, aura ĐỎ nhiều lưỡi lửa + sét đỏ dâng theo nhịp tim (tim đập to), đất nứt đỏ, đá to bị nhấc bổng, tro bốc ngược, máy dí dần + rung, mắt loé sao 4 cánh → BÙM | chia đôi |
+Thêm 22 meme: germancat cheems kermit suscat scaredhamster rickroll trollface bongocat capybara beluga wetcat snoozecat spidercat vampirecat sans uiacat aliencat epicsaxguy finedog pianocat screamcat rubikcat
+(không godly Supreme / Flower / The Void, không phe ác, không Angry Cat — chưa phát hành). Mọi meme vẽ qua `meme()` (nướng theo tông cảnh, bóng chân, cỡ theo độ sâu nền).

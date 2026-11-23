@@ -9,10 +9,11 @@
 //   • Mỗi shot 1 góc TĨNH (máy chỉ trôi rất nhẹ), đổi pha = CẮT. Nền sau lưng cận cảnh làm mờ (độ sâu trường ảnh).
 //   • Hậu kỳ kiểu satsuei: khuếch tán sáng (diffusion), hạt phim, vignette, dải sáng theo nguồn (para).
 //   A  Pain thở dốc sau khi đẩy cầu tím lên trời (nối cuối fin1c4) → ngẩng: Gojo lơ lửng trên cao TỤ 3 CẦU TÍM → B đánh lén: LẶNG → bật kiếm → lưỡi laze xuyên ngực
-//      → cầu tím xì tắt → chém ngang cắt cả khung → Gojo đứt đôi (không máu) → Catvader lộ diện → Pain: Rinnegan sáng lại
-//   C  Phe thiện chạy tới · Banana khóc · Buff Doge (Haki) lao vào → Force giữ giữa trời → đẩy văng · Catvader bật về cạnh Pain · phe thiện đứng quanh xác Gojo nằm đôi (góc cao, lạnh)
+//      → cầu tím xì tắt → chém ngang cắt cả khung → Gojo đứt đôi (không máu), nửa trên rơi xuống mới LỘ Catvader đứng ngay sau lưng → Catvader góc thấp
+//   B2 Catvader LINH CẢM (tim đập, vạch loé) → Buff Doge (Haki) lao tới đấm → Catvader dựng TRƯỜNG LỰC đỡ → nứt → vỡ, vẫn bị đấm văng về cạnh Pain → Pain: Rinnegan sáng lại
+//   C  Phe thiện chạy tới (47 con) · Banana khóc · phe thiện đứng thành hình móng ngựa quanh xác Gojo nằm đôi (góc cao, lạnh)
 //   D  Akatsuki đáp xuống · Ninja KUCHIYOSE · binh đoàn quỷ · Pain giơ mảnh linh hồn · trần mây đỏ rực → Friend XÉ MÂY lao xuống → PHANH giữa trời, KHÔNG NỔ → LƠ LỬNG
-//      khổng lồ trên đầu phe Evil (chỉ thấy 1 phần) · phe thiện ngẩng nhìn · khung chênh lệch · chia đôi Chill Guy / Pain + Catvader → BÙM → TO BE CONTINUED.
+//      khổng lồ trên đầu phe Evil (chỉ thấy 1 phần) · phe thiện ngẩng nhìn · khung chênh lệch · chia đôi Chill Guy NỘ (aura đen–đỏ theo nhịp tim) / Pain + Catvader → BÙM → TO BE CONTINUED.
 (function(){
   if(!window.CineKit || CineKit.films.fin1c7) return;
   const BASE=((document.currentScript&&document.currentScript.src)||'js/film-fin1c7.js').replace(/film-[^\/]*$/,''), V=window.GAME_VERSION?'?v='+GAME_VERSION.build:'';
@@ -21,15 +22,21 @@
   const backOut=k=>{ const s=1.7; k-=1; return 1+k*k*((s+1)*k+s); };
 
   // ───────── NHỊP (giây) ─────────
-  const T={ a2:2.2, a3:4.0, a4:5.9, title:6.7, hush:8.2, ignite:8.55, stab:8.9, eye:10.1, fizz:10.35, slash:11.3, cut:11.42, split:11.9, reveal:14.4, painUp:16.8,
-    run:18.4, banana:20.6, doge:22.0, freeze:22.55, pushB:23.55, leap:24.4, mourn:25.6,
-    aka:29.0, ninja:31.0, shar:31.15, crouch:31.75, slam:32.0, seal:32.4, smoke:34.2, shard:37.4, quiet:38.5, sky:39.4, dive:41.2, brake:43.0, hover:44.6,
-    look:47.0, face:48.2, wide:49.4, split2:51.6, boom:53.8, tbc:54.2, xmas:55.6, DUR:58.0 };
+  // (anh 23/11 tối) chém đứt đôi → nửa trên rơi mới LỘ Catvader đứng ngay sau lưng → Catvader LINH CẢM → Buff Doge lao tới đấm, Catvader dựng TRƯỜNG LỰC đỡ
+  //   nhưng vẫn bị đấm văng về phía Pain → rồi phe thiện mới tới · cảnh cuối thêm meme (47 con phe thiện) · aura nộ Chill Guy căng hơn
+  const T={ a2:2.2, a3:4.0, a4:5.9, title:6.7, hush:8.2, ignite:8.55, stab:8.9, eye:10.1, fizz:10.35, slash:11.3, cut:11.42, split:11.9, reveal:14.8,
+    sense:16.6, senseHit:16.9, doge:17.9, field:18.9, hit:19.2, crack:19.45, blast:19.8, fly:20.3, land:20.95, painUp:21.9,
+    run:23.3, banana:25.5, mourn:26.9,
+    aka:30.3, ninja:32.3, shar:32.45, crouch:33.05, slam:33.3, seal:33.7, smoke:35.5, shard:38.7, quiet:39.8, sky:40.7, dive:42.5, brake:44.3, hover:45.9,
+    look:48.3, face:49.5, wide:50.7, split2:52.9, rage:53.3, boom:56.1, tbc:56.5, xmas:57.9, DUR:60.3 };
 
   // ───────── ẢNH (chỉ ảnh gốc + 4 tấm nền) ─────────
   const av=k=>'assets/avatars/'+k+'/avatarUrl.'+(k==='violinbee'||k==='saiyanmarmot'?'png':'webp');
   const GOOD=['chillguy','bananacat','popcat','huhcat','clappingcat','berserkcat','breadcat','boxingcat','feuerkatze','stalincat','duolingo','violinbee','saiyanmarmot','nyancat',
-    'samuraicheems','kingcheems','electricguitarcat','mosquitoviolin','maxwell','mechaniccat','loooongcat','lebronsunshine','gigachad','chonkydog'];
+    'samuraicheems','kingcheems','electricguitarcat','mosquitoviolin','maxwell','mechaniccat','loooongcat','lebronsunshine','gigachad','chonkydog',
+    // + 22 con (anh 23/11 tối: "tổng tầm 40–50 con") — không godly (Supreme / Flower / The Void), không phe ác, không Angry Cat (chưa phát hành)
+    'germancat','cheems','kermit','suscat','scaredhamster','rickroll','trollface','bongocat','capybara','beluga','wetcat','snoozecat','spidercat','vampirecat',
+    'sans','uiacat','aliencat','epicsaxguy','finedog','pianocat','screamcat','rubikcat'];
   const IMG={ PG:'assets/img/cine/FIN_C7_PL_GROUND.webp', PL:'assets/img/cine/FIN_C7_PL_LOW.webp', PH:'assets/img/cine/FIN_C7_PL_HIGH.jpg', PV:'assets/img/cine/FIN_C7_PL_VAST.webp',
     GOJO:'assets/img/mewingcat/MEW_GOJO_IMG.webp', PAIN:'assets/img/depressedcat/DP_PAIN_IMG.webp', VADER:av('catvader'),
     DB:'assets/avatars/doge/rageAvatarUrl.webp', DH:'assets/img/doge/DG_HAKI_IDLE.webp', FR:av('friend'),
@@ -310,9 +317,14 @@
     const P=PAL.night, vw={p:'PG',zm:1.18,cx:0.5,cy:0.6}, M=plateView(F,vw,u), g=F.g;
     skyBand(F,t,P,M.hz); plate(F,M,P); wisps(F,t,{n:6,x0:-60,x1:VW+60,y:M.hz+VH*0.03,r:80,a:0.4,tint:'80,66,84',seed:31});
     meme(F,'GOJO',VW*0.48,VH*0.66+Math.sin(t*1.7)*2,VH*0.34,{tone:'night',fade:0.25,back:['255,50,40',0.35],mist:['70,60,80',0.5]}); });
-  S(T.split,T.reveal,{co:'trung',goc:'ngang',loai:'thở',hd:'Gojo đứt đôi: nửa trên ngả NẰM NGANG xuống đất, 2 nửa tách 1 khe, mép cháy xém hồng (không máu), khói mỏng; màu rút dần — khựng dài',anh:['PG','GOJO'],sfx:['cine_drop']},(F,t,u)=>{
-    const P=PAL.night, vw={p:'PG',zm:2.0,cx:0.5,cy:0.66,blur:3,zm2:2.05}, M=plateView(F,vw,u), g=F.g;
+  S(T.split,T.reveal,{co:'trung',goc:'ngang',loai:'giới thiệu',hd:'Gojo đứt đôi: nửa trên ngả rơi NẰM NGANG xuống đất (mép cháy xém, không máu) → LỘ Catvader đứng NGAY SAU LƯNG, kiếm laze đỏ còn chìa ngang sau nhát chém; màu rút dần — khựng dài',anh:['PG','GOJO','VADER'],sfx:['cine_drop','catvader_breathe']},(F,t,u)=>{
+    const P=PAL.night, lt=LS(t,T.split), vw={p:'PG',zm:2.0,cx:0.5,cy:0.66,blur:3,zm2:2.05}, M=plateView(F,vw,u), g=F.g;
     skyBand(F,t,P,M.hz,{cs:1.4}); plate(F,M,P); wisps(F,t,{n:6,x0:-60,x1:VW+60,y:M.hz+VH*0.05,r:90,a:0.4,tint:'80,66,84',seed:33});
+    // Catvader đứng ngay SAU LƯNG Gojo (lùi sau 1 chút → nhỏ hơn): thân Gojo che kín, nửa trên rơi xuống mới lộ ra — ngược sáng, chỉ ánh kiếm đỏ hắt lên
+    const rv=seg(lt,0.4,1.3), vx=VW*0.665, vy=VH*0.875, vh=VH*0.58;
+    lighter(g,()=>glowDot(g,vx-VW*0.1,VH*0.78,VH*0.5,'255,40,30',0.22+0.25*rv));
+    const vm=meme(F,'VADER',vx,vy,vh,{tone:'saber',fade:0.12,dark:0.62-0.42*rv,back:['255,40,30',0.25+0.25*rv],shadow:[vy,0.45],mist:['60,50,60',0.5]});
+    const [hx,hy]=vm.pt(PT.vaderGlove[0],PT.vaderGlove[1]), an=Math.PI-0.1, L=VH*0.66; saber(g,hx,hy,hx+Math.cos(an)*L,hy+Math.sin(an)*L,VH*0.011,1);   // kiếm còn chìa ngang sau nhát chém (thân Gojo che phần giữa)
     gojoSplit(F,t,VW*0.66,VH*0.92,VH*0.74);
     wisps(F,t,{n:5,x0:VW*0.1,x1:VW*0.9,y:VH*0.96,r:120,a:0.5,tint:'70,60,74',seed:34,sp:6}); });
   // Gojo ĐỨT ĐÔI: cắt chính ẢNH GỐC theo đường ngang (v=CUTV của ảnh đã cắt sát)
@@ -330,24 +342,102 @@
     half(false,bot); half(true,top); if(o.still) return;
     for(let i=0;i<8;i++){ const f=((t-T.split)*0.5+hash(i+70))%1; g.save(); g.globalAlpha=0.28*(1-f)*glow; g.translate(x+(hash(i+71)-0.5)*ww*0.6+top.dx*0.5,gy+cy-f*h*0.5); g.drawImage(puffT(i%5,'150,130,140'),-h*0.06,-h*0.06,h*0.12*(1+f),h*0.12*(1+f)); g.restore(); }
     dust(F,t,T.split+0.75,x+top.dx,gy,ww*0.9,{tint:'90,80,90',a:0.5,seed:7}); }
-  S(T.reveal,T.painUp,{co:'trung',goc:'giun',loai:'giới thiệu',hd:'Khói tan: CATVADER đứng sừng sững góc thấp, kiếm laze đỏ giơ chéo lên, ánh đỏ hắt lên người, thở máy (Imperial March)',anh:['PL','VADER'],sfx:['catvader_breathe']},(F,t,u)=>{
+  S(T.reveal,T.sense,{co:'trung',goc:'giun',loai:'giới thiệu',hd:'CATVADER đứng sừng sững góc thấp, kiếm laze đỏ giơ chéo lên, ánh đỏ hắt lên người, khói còn vờn (Imperial March)',anh:['PL','VADER'],sfx:[]},(F,t,u)=>{
     const P=PAL.night, lt=LS(t,T.reveal), vw={p:'PL',zm:1.3,cx:0.5,cy:0.6,blur:2,zm2:1.35}, M=plateView(F,vw,u), g=F.g;
     skyUp(F,t,P,{cx:VW*0.55,cy:-VH*0.25,swirl:0.02}); plate(F,M,P,{dark:0.75});
     lighter(g,()=>glowDot(g,VW*0.4,VH*0.5,VH*0.7,'255,40,30',0.32));
     const br=Math.sin(lt*2.2)*0.5+0.5, m=meme(F,'VADER',VW*0.57,VH*1.12,VH*1.06*(1+0.006*br),{tone:'saber',fade:0.12,back:['255,40,30',0.45]});
     const [hx,hy]=m.pt(PT.vaderGlove[0],PT.vaderGlove[1]), L=VH*0.82, an=-1.86; saber(g,hx,hy,hx+Math.cos(an)*L,hy+Math.sin(an)*L,VH*0.014,1);
     lighter(g,()=>glowDot(g,hx+Math.cos(an)*L*0.4,hy+Math.sin(an)*L*0.4,VH*0.35,'255,50,40',0.28));
-    const clear=seg(t,T.reveal-0.2,T.reveal+1.8); wisps(F,t,{n:12,x0:-100,x1:VW+100,y:VH*0.6,dy:VH*0.7,r:160,a:0.75*(1-clear),tint:'64,52,60',seed:41,sp:22}); });
-  S(T.painUp,T.run,{co:'cận',goc:'ngang',loai:'đối mặt',hd:'Pain (mặt buồn đúng meme) — Rinnegan SÁNG LẠI, vòng tím rực',anh:['PG','PAIN'],sfx:['ep3_shine']},(F,t,u)=>{
-    const P=PAL.night, lt=LS(t,T.painUp), vw={p:'PG',zm:2.4,cx:0.62,cy:0.62,blur:5}, M=plateView(F,vw,u), g=F.g, k=seg(t,T.painUp+0.3,T.painUp+0.6);
+    wisps(F,t,{n:9,x0:-100,x1:VW+100,y:VH*0.75,dy:VH*0.5,r:150,a:0.35,tint:'64,52,60',seed:41,sp:22}); });
+  // ── B2 · Catvader LINH CẢM → Buff Doge đấm vào TRƯỜNG LỰC → vỡ, Catvader văng về phía Pain (anh 23/11 tối) ──
+  S(T.sense,T.doge,{co:'cận',goc:'ngang',loai:'đối mặt',hd:'Cận mũ Catvader: LINH CẢM — khựng, tim đập, cả khung tối sầm, vạch linh cảm loé quanh đầu; mép trái loé bóng đen viền đỏ (Haki đang lao tới)',anh:['PG','VADER'],sfx:[]},(F,t,u)=>{
+    const P=PAL.night, vw={p:'PG',zm:2.5,cx:0.64,cy:0.62,blur:6}, M=plateView(F,vw,u), g=F.g, hit=seg(t,T.senseHit,T.senseHit+0.1), z=1+0.07*eout(seg(t,T.senseHit,T.senseHit+0.3)), cxz=VW*0.56, cyz=VH*0.32;
+    g.save(); g.translate(cxz,cyz); g.scale(z,z); g.translate(-cxz,-cyz);
+    skyBand(F,t,P,M.hz,{cs:1.6}); plate(F,M,P,{dark:0.8});
+    lighter(g,()=>glowDot(g,VW*0.3,VH*0.95,VH*0.8,'255,40,30',0.3));
+    const vm=meme(F,'VADER',VW*0.56,VH*1.78,VH*1.72,{tone:'saber',fade:0.05,back:['255,40,30',0.4]});
+    g.restore();
+    if(vm&&t>=T.senseHit){ const a=1-0.6*seg(t,T.senseHit+0.35,T.doge), hx=cxz+(vm.x-cxz)*z, top=cyz+((vm.y-vm.h)-cyz)*z, hw=vm.w*z;
+      g.save(); const vg=g.createRadialGradient(hx,top+hw*0.35,hw*0.3,hx,top+hw*0.35,VW*0.75); vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,'rgba(0,0,0,'+(0.7*a)+')'); g.fillStyle=vg; g.fillRect(0,0,VW,VH); g.restore();   // khung tối sầm quanh đầu
+      const ph=(t-T.senseHit)%0.55, pul=t<T.senseHit+1.1&&ph<0.32?1-ph/0.32*0.5:0;   // loé 2 nhịp theo tim đập
+      if(pul>0){ g.save(); g.lineCap='round'; g.lineJoin='round';   // vạch LINH CẢM kiểu anime: tia gấp khúc DÀY viền mực loé quanh mũ (đặt theo khung ảnh đã cắt sát)
+        for(let i=0;i<9;i++){ const an=-Math.PI*(0.08+0.84*i/8), r0=hw*0.44, L=hw*(0.22+0.1*hash(i+800))*(0.7+0.3*hit)*(0.85+0.15*pul), bx=hx+Math.cos(an)*r0, by=top+hw*0.32+Math.sin(an)*r0*0.8, nx=-Math.sin(an), ny=Math.cos(an);
+          const path=()=>{ g.beginPath(); g.moveTo(bx,by); g.lineTo(bx+Math.cos(an)*L*0.5+nx*L*0.2,by+Math.sin(an)*L*0.5+ny*L*0.2); g.lineTo(bx+Math.cos(an)*L,by+Math.sin(an)*L); };
+          path(); g.strokeStyle='rgba(10,4,8,'+(0.8*a*pul)+')'; g.lineWidth=11; g.stroke(); path(); g.strokeStyle='rgba(255,255,255,'+(a*pul)+')'; g.lineWidth=6; g.stroke(); }
+        g.restore(); } }
+    const hk=seg(t,T.doge-0.45,T.doge); if(hk>0){ g.save(); const lg=g.createLinearGradient(0,0,VW*0.35*hk,0); lg.addColorStop(0,'rgba(6,2,4,0.95)'); lg.addColorStop(0.8,'rgba(120,10,20,0.5)'); lg.addColorStop(1,'rgba(255,40,30,0)'); g.fillStyle=lg; g.fillRect(0,0,VW*0.35*hk,VH); g.restore(); } });   // Haki đen viền đỏ ập vào từ mép trái
+  // Buff Doge lao tới: máy bám theo (nền nhoè + vạch tốc độ ngang), bóng mờ, bụi cày
+  const dogeB=F=>bake(F,'DH','cold',2,0);
+  function hStreaks(g,t,a,col,seed){ if(a<=0.01) return; g.save(); g.lineCap='round'; for(let i=0;i<34;i++){ const y=VH*hash(i*3.1+seed), sp=VW*(2.2+2*hash(i+seed)), L=VW*(0.12+0.3*hash(i*1.7+seed)), x=VW+L-((t*sp+hash(i*5.3+seed)*VW*2)%(VW*2+L*2));
+      g.strokeStyle='rgba('+col+','+(a*(0.25+0.45*hash(i*2.2+seed)))+')'; g.lineWidth=1+2.5*hash(i*4.4+seed); g.beginPath(); g.moveTo(x,y); g.lineTo(x+L,y); g.stroke(); } g.restore(); }
+  S(T.doge,T.field,{co:'trung',goc:'ngang',loai:'đánh',hd:'Buff Doge bật Haki LAO tới: máy bám theo, nền nhoè + vạch tốc độ ngang, bóng mờ phía sau, bụi cày dưới chân',anh:['PG','DH'],sfx:['se_machdash']},(F,t,u)=>{
+    const P=PAL.cold, k=seg(t,T.doge,T.field), vw={p:'PG',zm:1.6,cx:lerp(0.2,0.5,k),cy:0.63,blur:7}, M=plateView(F,vw,u), g=F.g;
+    skyBand(F,t,P,M.hz,{cs:1.4}); plate(F,M,P); hStreaks(g,t,0.8,'200,210,230',1);
+    const dh=VH*0.92, x=lerp(VW*0.3,VW*0.56,eout(k)), y=VH*1.02, rot=0.1+0.03*Math.sin(t*30);
+    for(let i=4;i>=1;i--) meme(F,'DH',x-i*VW*0.085,y,dh,{tone:'cold',rot,a:0.1*(5-i),cheap:true});   // bóng mờ phía sau
+    meme(F,'DH',x,y,dh,{tone:'cold',rot,shadow:[y-VH*0.02,0.4]});
+    dust(F,t,T.doge+0.05,x-dh*0.35,VH*1.0,dh*0.8,{tint:'96,104,118',a:0.6,seed:13,life:0.9}); dust(F,t,T.doge+0.45,x-dh*0.3,VH*1.0,dh*0.8,{tint:'96,104,118',a:0.5,seed:14,life:0.8});
+    hStreaks(g,t,0.45,'235,240,250',7); });
+  // TRƯỜNG LỰC Force (đỏ, hình vòm bầu dục che Catvader): quầng mép, vạch quét, gợn từ điểm chạm, VẾT NỨT lan, rồi vỡ thành mảnh
+  function forceField(g,t,cx,cy,rx,ry,a,hx,hy,ck,seed){ if(a<=0.01) return;
+    g.save(); g.beginPath(); g.ellipse(cx,cy,rx,ry,0,0,TAU); g.clip();
+    lighter(g,()=>{ const gr=g.createRadialGradient(cx,cy,0,cx,cy,Math.max(rx,ry)); gr.addColorStop(0,'rgba(255,40,30,'+(0.05*a)+')'); gr.addColorStop(0.75,'rgba(255,50,40,'+(0.16*a)+')'); gr.addColorStop(1,'rgba(255,90,70,'+(0.55*a)+')'); g.fillStyle=gr; g.fillRect(cx-rx,cy-ry,2*rx,2*ry);
+      for(let i=0;i<7;i++){ const y=cy-ry+((t*90+i*ry*0.3)%(2*ry)); g.fillStyle='rgba(255,120,100,'+(0.1*a)+')'; g.fillRect(cx-rx,y,2*rx,1.5); }   // vạch quét
+      if(hx!=null) for(let j=0;j<3;j++){ const f=((t*2.4)+j/3)%1; g.strokeStyle='rgba(255,170,150,'+(0.5*a*(1-f))+')'; g.lineWidth=2.5; g.beginPath(); g.arc(hx,hy,ry*1.6*f,0,TAU); g.stroke(); } });   // gợn từ điểm chạm
+    g.restore();
+    lighter(g,()=>{ g.strokeStyle='rgba(255,110,90,'+(0.85*a)+')'; g.lineWidth=3; g.beginPath(); g.ellipse(cx,cy,rx,ry,0,0,TAU); g.stroke(); g.strokeStyle='rgba(255,230,220,'+(0.6*a)+')'; g.lineWidth=1.2; g.beginPath(); g.ellipse(cx,cy,rx*0.985,ry*0.99,0,0,TAU); g.stroke();
+      if(ck>0&&hx!=null){ g.lineCap='round'; for(let i=0;i<11;i++){ const an=hash(i+seed)*TAU, Lm=Math.max(rx,ry)*(0.5+0.9*hash(i+seed+1)), L=Lm*eout(clamp(ck*1.3-hash(i+seed+2)*0.3,0,1)); if(L<2) continue;
+        let x=hx, y=hy; g.beginPath(); g.moveTo(x,y); for(let s=1;s<=5;s++){ const aa=an+(hash(i*7+s+seed)-0.5)*0.7; x=hx+Math.cos(aa)*L*s/5; y=hy+Math.sin(aa)*L*s/5; g.lineTo(x,y); }
+        g.strokeStyle='rgba(255,90,60,'+(0.5*a)+')'; g.lineWidth=5; g.stroke(); g.strokeStyle='rgba(255,245,235,'+a+')'; g.lineWidth=1.6; g.stroke(); } } }); }
+  S(T.field,T.fly,{co:'trung',goc:'ngang',loai:'đánh',hd:'Catvader dựng TRƯỜNG LỰC đỏ → nắm đấm Haki của Doge nện vào: khựng, gợn, vết nứt lan → trường lực VỠ tung thành mảnh, cú đấm xuyên qua → Catvader bị đấm văng khỏi khung (về phía Pain)',anh:['PG','DH','VADER'],sfx:['ep3_force','cine_haki_hit','l2p_shatter','cine_deep_impact']},(F,t,u)=>{
+    const P=PAL.cold, vw={p:'PG',zm:1.15,cx:0.56,cy:0.56}, M=plateView(F,vw,u), g=F.g, lt=LS(t,T.field), con=T.hit, gy=M.Y(0.85);   // máy lùi + hạ để thấy trọn mặt Buff Doge
+    skyBand(F,t,P,M.hz); plate(F,M,P); wisps(F,t,{n:6,x0:-60,x1:VW+60,y:M.hz+VH*0.03,r:80,a:0.35,tint:'76,86,100',seed:61});
+    // Catvader (bên phải) — bị ép lùi dần khi Doge dồn lực, rồi văng vọt ra mép phải
+    const vh=M.hOf(0.85,1.25), push=t<T.blast?VW*0.035*eout(seg(t,con,T.blast)):0, bk=seg(t,T.blast,T.blast+0.28), vx=VW*0.7+push+bk*bk*VW*0.75, vy=gy-Math.sin(Math.min(1,bk)*Math.PI*0.5)*VH*0.12, vrot=0.9*bk;
+    if(bk>0) for(let i=1;i<=3;i++){ const kb=Math.max(0,bk-i*0.08); meme(F,'VADER',VW*0.7+VW*0.035+kb*kb*VW*0.75,gy-Math.sin(kb*Math.PI*0.5)*VH*0.12,vh,{tone:'saber',fade:0.12,rot:0.9*kb,a:0.12*(4-i),cheap:true}); }
+    const vm=meme(F,'VADER',vx,vy,vh,{tone:'saber',fade:0.12,rot:vrot,shadow:bk<0.3?[gy,0.5]:null,mist:bk<0.3?['70,76,90',0.6]:null});
+    if(bk<1){ const [hx,hy]=vm.pt(PT.vaderGlove[0],PT.vaderGlove[1]); saber(g,hx,hy,hx+vh*0.28,hy-vh*0.75,Math.max(2,vh*0.012),1-bk); }
+    lighter(g,()=>glowDot(g,vx-vh*0.1,gy-vh*0.6,vh*0.9,'255,50,40',0.2+0.25*(t<T.blast?1:1-bk)));
+    // trường lực trước mặt Catvader
+    const fcx=VW*0.7+push-vh*0.12, fcy=gy-vh*0.52, rx=vh*0.62, ry=vh*0.68, hx=fcx-rx*0.96, hy=fcy-ry*0.12;
+    const fa=t<T.blast?eout(seg(t,T.field,T.field+0.12)):0; forceField(g,t,fcx,fcy,rx,ry,fa*(t>=con&&t<con+0.15?1.4:1),t>=con?hx:null,hy,seg(t,con,T.blast)*(t>=T.crack?1:0.45),900);
+    if(t>=T.blast){ const sk=seg(t,T.blast,T.blast+0.9); lighter(g,()=>{ for(let i=0;i<30;i++){ const an=(hash(i+930)-0.5)*2.4, sp=VW*(0.25+0.5*hash(i+931)), x=hx+Math.cos(an)*sp*sk+rx*0.4*(hash(i+933)-0.3), y=hy+Math.sin(an)*sp*sk*0.6+sk*sk*VH*0.35+(hash(i+934)-0.5)*ry, s=(5+12*hash(i+932))*(1-0.5*sk);
+        g.save(); g.translate(x,y); g.rotate(sk*6*(hash(i+935)-0.5)+i); g.globalAlpha=1-sk; g.fillStyle='rgba(255,80,60,0.55)'; g.strokeStyle='rgba(255,220,210,0.9)'; g.lineWidth=1; g.beginPath(); g.moveTo(-s,-s*0.4); g.lineTo(s*0.7,-s*0.6); g.lineTo(s*0.2,s*0.7); g.closePath(); g.fill(); g.stroke(); g.restore(); } }); }   // mảnh trường lực vỡ bay
+    // Buff Doge (to ~2.4× Catvader — luật Buff Doge to gấp 3 meme thường) lao từ trái vào, nắm đấm chạm mép trường lực
+    const b=dogeB(F); if(b){ const dh=Math.min(vh*2.4,gy+VH*0.02-VH*0.04), dw=dh*b.ar, xc=hx-dw*0.36, dy0=gy+VH*0.02, ink=seg(t,T.field,con), dx=t<con?lerp(-dw*0.6,xc,ein(ink)):t<T.blast?xc+Math.sin(t*50)*1.5:xc+VW*0.1*eout(seg(t,T.blast,T.blast+0.3)), rot=t<T.blast?0.1:0.1-0.06*seg(t,T.blast,T.blast+0.3);
+      if(t<con+0.05) for(let i=3;i>=1;i--) meme(F,'DH',dx-i*VW*0.07,dy0,dh,{tone:'cold',rot,a:0.1*(4-i),cheap:true});
+      meme(F,'DH',dx,dy0,dh,{tone:'cold',rot,shadow:[gy+VH*0.02,0.45]}); }
+    if(t>=con&&t<con+0.2) lighter(g,()=>{ glowDot(g,hx,hy,VH*0.4,'255,200,180',0.8*(1-seg(t,con,con+0.2))); });
+    if(t>=T.blast&&t<T.blast+0.25) lighter(g,()=>glowDot(g,hx,hy,VH*0.7,'255,230,220',0.9*(1-seg(t,T.blast,T.blast+0.25))));
+    dust(F,t,T.blast+0.02,hx+VW*0.05,gy,VW*0.4,{tint:'96,104,118',a:0.6,seed:15,life:1.0,n:11}); });
+  // Catvader văng lộn vòng qua bãi → rơi cày đất, trượt tới đứng cạnh Pain
+  S(T.fly,T.painUp,{co:'toàn',goc:'ngang',loai:'chuyển cảnh',hd:'Toàn: Catvader bị đấm văng lộn vòng qua bãi đổ nát (vệt kiếm đỏ xoay), rơi cày đất, trượt tới cạnh Pain rồi đứng thẳng dậy',anh:['PG','VADER','PAIN'],sfx:['se_rock_break']},(F,t,u)=>{
+    const P=PAL.cold, vw={p:'PG',zm:1.1,cx:0.58,cy:0.6}, M=plateView(F,vw,u), g=F.g;
+    skyBand(F,t,P,M.hz); plate(F,M,P); wisps(F,t,{n:6,x0:-60,x1:VW+60,y:M.hz+VH*0.03,r:80,a:0.35,tint:'76,86,100',seed:62});
+    const py=M.Y(0.84), ph=M.hOf(0.84,1.3); meme(F,'PAIN',M.X(0.86),py+Math.sin(t*1.8)*3,ph,{tone:'cold',fade:0.3,mist:['70,76,90',0.7]});
+    const gv=0.855, h=M.hOf(gv,1.25), gy=M.Y(gv), k=seg(t,T.fly,T.land), sk=seg(t,T.land,T.land+0.4), up=seg(t,T.land+0.45,T.land+0.75);
+    const pos=kk=>{ const e=eio(kk); return [M.X(lerp(0.12,0.66,e)), gy-Math.sin(kk*Math.PI)*VH*0.3-(1-kk)*VH*0.12]; };
+    let x, y, rot, sy=1;
+    if(t<T.land){ [x,y]=pos(k); rot=TAU*1.4*k; for(let i=1;i<=3;i++){ const kb=Math.max(0,k-i*0.05), [bx,by]=pos(kb); meme(F,'VADER',bx,by,h,{tone:'saber',fade:0.12,rot:TAU*1.4*kb,a:0.13*(4-i),cheap:true}); } }
+    else { x=M.X(lerp(0.66,0.73,eout(sk))); y=gy; rot=lerp(0.5,0,eout(seg(t,T.land+0.2,T.land+0.75))); sy=1-0.14*(1-up)*(sk>0?1:0); }
+    const vm=meme(F,'VADER',x,y,h,{tone:'saber',fade:0.12,rot,sy,shadow:[gy,t<T.land?0.25:0.5],mist:t>=T.land?['70,76,90',0.6]:null});
+    const [hx,hy]=vm.pt(PT.vaderGlove[0],PT.vaderGlove[1]), an=-1.86+rot; saber(g,hx,hy,hx+Math.cos(an)*h*0.8,hy+Math.sin(an)*h*0.8,Math.max(2,h*0.012),1);
+    if(t>=T.land){ dust(F,t,T.land,x,gy,h*1.2,{tint:'96,104,118',a:0.65,seed:16,life:1.2,n:11}); for(let i=0;i<8;i++){ const f=seg(t,T.land,T.land+0.7+0.3*hash(i+960)); if(f>=1) continue; rock(g,x+(hash(i+961)-0.3)*h*0.8+f*h*0.6*(hash(i+962)-0.2),gy-Math.sin(f*Math.PI)*h*(0.3+0.4*hash(i+963)),2+4*hash(i+964),f*8+i,'#2a2c36'); } }   // đá vụn bắn lên khi cày đất
+    ash(F,t,0.3); });
+  S(T.painUp,T.run,{co:'cận',goc:'ngang',loai:'đối mặt',hd:'Pain (mặt buồn đúng meme) — Catvader vừa đáp cạnh bên, Rinnegan SÁNG LẠI, vòng tím rực',anh:['PG','PAIN'],sfx:['ep3_shine']},(F,t,u)=>{
+    const P=PAL.cold, lt=LS(t,T.painUp), vw={p:'PG',zm:2.4,cx:0.62,cy:0.62,blur:5}, M=plateView(F,vw,u), g=F.g, k=seg(t,T.painUp+0.3,T.painUp+0.6);
     skyBand(F,t,P,M.hz,{cs:1.6}); plate(F,M,P);
-    const m=meme(F,'PAIN',0,0,VH*1.75,{tone:'night',anchor:[PT.painFace[0],PT.painFace[1],VW*0.44,VH*0.46-lt*5]});
+    lighter(g,()=>glowDot(g,VW*0.02,VH*0.7,VH*0.6,'255,40,30',0.22));   // ánh kiếm đỏ của Catvader vừa đáp ngay bên trái
+    const m=meme(F,'PAIN',0,0,VH*1.75,{tone:'cold',anchor:[PT.painFace[0],PT.painFace[1],VW*0.44,VH*0.46-lt*5]});
     rinne(g,m,k*(0.8+0.2*Math.sin(t*12)),VH*0.026);
     if(k>0) lighter(g,()=>{ for(const [uu,vv] of PT.painEyes){ const [ex,ey]=m.pt(uu,vv); g.strokeStyle='rgba(200,150,255,'+(0.5*k)+')'; g.lineWidth=1.5; for(let r=1;r<4;r++){ g.beginPath(); g.arc(ex,ey,VH*0.012*r*(1+0.4*(1-k)),0,TAU); g.stroke(); } } }); });
 
   // ── C · Phe thiện ────────────────────────────────────────────────────────────
   const RUN=[['chillguy',0.30,0.95,1],['bananacat',0.42,0.9,0],['popcat',0.2,0.86,0],['huhcat',0.52,0.8,0],['clappingcat',0.1,0.79,0],['berserkcat',0.36,0.75,0],['breadcat',0.6,0.74,0],
     ['boxingcat',0.24,0.71,0],['duolingo',0.46,0.7,0],['nyancat',0.66,0.69,0],['maxwell',0.14,0.68,0],['kingcheems',0.55,0.675,0],['stalincat',0.33,0.665,0],['violinbee',0.06,0.66,0]];
+  // các con còn lại chạy ở hàng XA (nhỏ dần theo độ sâu của nền, cùng tông lạnh) — đủ cả phe thiện
+  GOOD.filter(k=>!RUN.some(r=>r[0]===k)).forEach((k,i)=>RUN.push([k,0.02+0.62*hash(i+320),0.618+0.042*hash(i+321),0]));
   const FLIP={chillguy:1};   // ảnh vốn quay mặt TRÁI → lật khi chạy sang phải
   S(T.run,T.banana,{co:'toàn',goc:'ngang',loai:'chuyển cảnh',hd:'Phe thiện hốt hoảng chạy tới từ trái qua bãi đổ nát, bụi tung sau chân (màu lạnh)',anh:['PG','M_chillguy','M_bananacat'],sfx:['se_step_in']},(F,t,u)=>{
     const P=PAL.cold, vw={p:'PG',zm:1.28,cx:0.42,cy:0.6}, M=plateView(F,vw,u), g=F.g;
@@ -357,40 +447,22 @@
     for(const [k,uu,v] of L){ const i=RUN.findIndex(r=>r[0]===k), t0=T.run-0.7+hash(i+300)*1.3+(v-0.66)*-0.6, kk=seg(t,t0,t0+1.5), e=eout(kk), x=M.X(uu-0.55*(1-e)), y=M.Y(v), h=M.hOf(v), hop=kk<1?Math.abs(Math.sin((t-t0)*11+i))*h*0.08*(1-e):0;
       if(t<t0) continue; meme(F,'M_'+k,x,y-hop,h,{tone:'cold',flip:!!FLIP[k],rot:kk<1?0.08*(1-e):0,shadow:[y,0.5],a:Math.min(1,kk*5)}); dust(F,t,t0+0.15,x-h*0.25,y,h*0.7,{tint:'96,104,118',a:0.45,seed:i+5,life:1.2}); }
     ash(F,t,0.35); });
-  S(T.banana,T.doge,{co:'cận',goc:'ngang',loai:'đối mặt',hd:'Cận Banana Cat khóc thét "NOOOO!"',anh:['PG','M_bananacat'],sfx:['cry_banana_cat']},(F,t,u)=>{
+  S(T.banana,T.mourn,{co:'cận',goc:'ngang',loai:'đối mặt',hd:'Cận Banana Cat khóc thét "NOOOO!"',anh:['PG','M_bananacat'],sfx:['cry_banana_cat']},(F,t,u)=>{
     const P=PAL.cold, vw={p:'PG',zm:2.5,cx:0.4,cy:0.64,blur:5}, M=plateView(F,vw,u), g=F.g, sh=(hash(Math.floor(t*24))-0.5)*5;
     skyBand(F,t,P,M.hz,{cs:1.6}); plate(F,M,P);
     meme(F,'M_bananacat',VW*0.5+sh,VH*1.14,VH*1.16,{tone:'cold',fade:0.1}); ash(F,t,0.4); });
-  S(T.doge,T.leap,{co:'trung',goc:'ngang',loai:'đánh',hd:'Buff Doge bật Haki lao vào Catvader → FORCE giữ đứng giữa không trung, đá vụn cũng đứng yên → đẩy văng ngược về phe mình',anh:['PG','DH','VADER'],sfx:['cine_haki_hit','ep3_force','cine_deep_impact']},(F,t,u)=>{
-    const P=PAL.cold, vw={p:'PG',zm:1.05,cx:0.5,cy:0.6}, M=plateView(F,vw,u), g=F.g;
-    skyBand(F,t,P,M.hz); plate(F,M,P);
-    const vx=M.X(0.72), vy=M.Y(0.86), vh=M.hOf(0.86,1.25), vm=meme(F,'VADER',vx,vy,vh,{tone:'saber',fade:0.12,shadow:[vy,0.5],mist:['70,76,90',0.6]});
-    const [hx,hy]=vm.pt(PT.vaderGlove[0],PT.vaderGlove[1]); saber(g,hx,hy,hx-vh*0.25,hy-vh*0.8,Math.max(2,vh*0.012),1);
-    const dv=0.72, dh=M.hOf(dv,3), gx0=M.X(-0.25), gx1=M.X(0.46), gy=M.Y(dv); let x=gx0, y=gy, rot=0;
-    if(t<T.freeze){ const k=seg(t,T.doge,T.freeze); x=lerp(gx0,gx1,ein(k)); y=gy-Math.sin(k*Math.PI*0.5)*VH*0.18; rot=0.12; }
-    else if(t<T.pushB){ x=gx1+Math.sin(t*45)*1.5; y=gy-VH*0.18; rot=0.12; }
-    else { const k=seg(t,T.pushB,T.pushB+0.6); x=lerp(gx1,M.X(-0.4),eout(k)); y=gy-VH*0.18*(1-ein(Math.min(1,k*1.4))); rot=0.12-0.5*k; }
-    if(t<T.freeze) for(let i=1;i<=3;i++) meme(F,'DH',x-i*VW*0.05,y,dh,{tone:'cold',a:0.12*(4-i),rot});   // vệt lao
-    meme(F,'DH',x,y,dh,{tone:'cold',rot,shadow:[gy,0.35*(1-(gy-y)/VH)]});
-    const fz=t>=T.freeze-0.05&&t<T.pushB+0.3; if(fz){ const a=t<T.pushB?seg(t,T.freeze-0.05,T.freeze+0.1):1-seg(t,T.pushB,T.pushB+0.3), R=VH*0.32*(t<T.pushB?1:1+2*seg(t,T.pushB,T.pushB+0.3)); forceRing(g,t,gx1,gy-VH*0.18-dh*0.45,R,a);
-      for(let i=0;i<12;i++){ rock(g,gx1+(hash(i+110)-0.5)*VW*0.32,gy-VH*0.05-hash(i+111)*VH*0.45,3+5*hash(i+112),hash(i+113)*TAU,'#2a2c36'); } }   // đá vụn đứng yên giữa không trung
-    lighter(g,()=>glowDot(g,hx,hy-vh*0.3,vh*0.6,'255,50,40',0.18+0.2*(fz?1:0)));
-    dust(F,t,T.pushB+0.45,M.X(0.02),gy,dh*0.8,{tint:'96,104,118',a:0.55,seed:9,life:1.3}); });
-  S(T.leap,T.mourn,{co:'toàn',goc:'ngang',loai:'chuyển cảnh',hd:'Nhân lúc đó Catvader bật lùi 1 vòng qua đống đổ nát, đáp xuống cạnh Pain',anh:['PG','VADER','PAIN'],sfx:['ep3_whoosh','se_step_in']},(F,t,u)=>{
-    const P=PAL.cold, vw={p:'PG',zm:1.1,cx:0.58,cy:0.6}, M=plateView(F,vw,u), g=F.g;
-    skyBand(F,t,P,M.hz); plate(F,M,P);
-    const py=M.Y(0.84), ph=M.hOf(0.84,1.3); meme(F,'PAIN',M.X(0.84),py+Math.sin(t*1.8)*3,ph,{tone:'cold',fade:0.3,mist:['70,76,90',0.7]});
-    const k=seg(t,T.leap,T.leap+0.75), e=eio(k), x=M.X(lerp(0.56,0.73,e)), gyv=lerp(0.86,0.85,e), y=M.Y(gyv)-Math.sin(k*Math.PI)*VH*0.32, h=M.hOf(gyv,1.25);
-    if(k<1) for(let i=1;i<=3;i++){ const kb=Math.max(0,k-i*0.06), eb=eio(kb); meme(F,'VADER',M.X(lerp(0.56,0.73,eb)),M.Y(lerp(0.86,0.85,eb))-Math.sin(kb*Math.PI)*VH*0.32,h,{tone:'saber',fade:0.12,rot:-TAU*kb,a:0.14*(4-i)}); }
-    meme(F,'VADER',x,y,h,{tone:'saber',fade:0.12,rot:-TAU*k,shadow:[M.Y(gyv),0.45*(k>=1?1:0.3)],mist:k>=1?['70,76,90',0.6]:null});
-    dust(F,t,T.leap+0.75,x,M.Y(0.85),h*0.9,{tint:'96,104,118',a:0.5,seed:12}); });
   // phe thiện đứng quanh chỗ Gojo nằm (xác 2 nửa vẫn nằm đó — anh 23/11: không cần làm mờ đen), góc cao nhìn xuống: nhỏ bé, lạnh, tro rơi như tuyết
-  const RING=GOOD.map((k,i)=>{ const a=Math.PI*0.62+i/GOOD.length*Math.PI*1.25+(hash(i+400)-0.5)*0.12, r=0.2+0.06*hash(i+401); return {k,u:0.4+Math.cos(a)*r*1.05,v:0.52+Math.sin(a)*r*0.72}; });
+  //   47 con (anh 23/11 tối: "tổng tầm 40–50") xếp 3 VÒNG đồng tâm hở phía máy (vòng trong = meme quan trọng), vòng sau khuất 1 phần sau vòng trước như đám đông thật;
+  //   Buff Doge (to gấp 3 — luật Buff Doge, ảnh gốc rageAvatarUrl) đứng giữa hàng sau cùng. Mọi con cùng tông lạnh + bóng chân, cỡ theo độ sâu của nền.
+  //   hình MÓNG NGỰA hở về phía máy (trái → sau → phải) để không con nào che xác Gojo ở giữa
+  const RING=(()=>{ const R=[], rings=[[0,13,0.2],[13,16,0.29],[29,GOOD.length-29,0.38]];
+    for(const [i0,n,r0] of rings) for(let j=0;j<n;j++){ const i=i0+j, a=Math.PI*0.8+(j+0.5)/n*Math.PI*1.4+(hash(i+400)-0.5)*0.05, r=r0+0.02*(hash(i+401)-0.5); R.push({key:'M_'+GOOD[i],k:GOOD[i],u:0.42+Math.cos(a)*r*1.1,v:0.53+Math.sin(a)*r*0.72}); }
+    R.push({key:'DB',k:'doge',u:0.79,v:0.74,s:3}); return R; })();   // Buff Doge to gấp 3 → đứng ở mũi PHẢI móng ngựa (gần máy) mới lọt khung, không che xác Gojo
   function goodRing(F,M,t,o){ o=o||{}; const L=RING.slice().sort((a,b)=>a.v-b.v);
-    for(const m of L){ if(o.only&&!o.only.includes(m.k)) continue; const x=M.X(m.u), y=M.Y(m.v), h=M.hOf(m.v,(m.k==='gigachad'||m.k==='chonkydog')?1.2:1);
-      meme(F,'M_'+m.k,x,y,h,{tone:'cold',sy:0.92,shadow:[y,0.55],dark:o.dark||0}); } }
-  S(T.mourn,T.aka,{co:'toàn',goc:'chim',loai:'thở',hd:'Góc CAO nhìn xuống: ~24 meme phe thiện đứng quanh xác Gojo nằm đôi, nhỏ bé, màu lạnh, tro rơi như tuyết',anh:['PH','M_chillguy','M_gigachad'],sfx:[]},(F,t,u)=>{
-    const P=PAL.cold, vw={p:'PH',zm:1.25,cx:0.4,cy:0.53,zm2:1.32}, M=plateView(F,vw,u), g=F.g;
+    for(const m of L){ if(o.only&&!o.only.includes(m.k)) continue; const x=M.X(m.u), y=M.Y(m.v), h=M.hOf(m.v,m.s||((m.k==='gigachad'||m.k==='chonkydog')?1.2:1));
+      meme(F,m.key,x,y,h,{tone:'cold',sy:0.92,shadow:[y,0.55],dark:o.dark||0}); } }
+  S(T.mourn,T.aka,{co:'toàn',goc:'chim',loai:'thở',hd:'Góc CAO nhìn xuống: 47 meme phe thiện đứng thành 3 vòng quanh xác Gojo nằm đôi, nhỏ bé, màu lạnh, tro rơi như tuyết',anh:['PH','M_chillguy','M_gigachad','DB'],sfx:[]},(F,t,u)=>{
+    const P=PAL.cold, vw={p:'PH',zm:1.1,cx:0.42,cy:0.5,zm2:1.16}, M=plateView(F,vw,u), g=F.g;
     g.fillStyle=P.sky[0]; g.fillRect(0,0,VW,VH); plate(F,M,P,{dark:0.4});
     gojoSplit(F,t,M.X(0.43),M.Y(0.55),M.hOf(0.55,1.15),{still:true,tone:'cold'}); goodRing(F,M,t); ash(F,t,0.75*seg(t,T.mourn,T.mourn+1)); });
 
@@ -491,21 +563,48 @@
     const P=PAL.red, g=F.g, lt=LS(t,T.face); skyUp(F,t,P,{cx:VW*0.5,cy:VH*0.2,glow2:0.5,swirl:0.06});
     const b=bake(F,'FR','friend',2,0); if(!b) return; const sh=(hash(Math.floor(t*30))-0.5)*3, m=meme(F,'FR',0,0,VH*3.1*(1+0.01*lt),{tone:'friend',anchor:[PT.frMid[0],PT.frMid[1],VW*0.5+sh,VH*0.42]});
     frEyes(g,m,0.7+0.3*Math.sin(t*7)); });
-  S(T.wide,T.split2,{co:'toàn',goc:'ngang',loai:'thở',hd:'Toàn chênh lệch: trái ~15 meme thưa quanh xác Gojo · phải biển quỷ đông tới chân trời · trên trời chân + bụng Friend khổng lồ tràn nửa trời (chỉ thấy 1 phần)',anh:['PV','FR','DM_brute','DM_wraith','M_chillguy'],sfx:[]},(F,t,u)=>{
+  S(T.wide,T.split2,{co:'toàn',goc:'ngang',loai:'thở',hd:'Toàn chênh lệch: trái 47 meme tụ quanh xác Gojo · phải biển quỷ đông tới chân trời · trên trời chân + bụng Friend khổng lồ tràn nửa trời (chỉ thấy 1 phần)',anh:['PV','FR','DM_brute','DM_wraith','M_chillguy'],sfx:[]},(F,t,u)=>{
     const P=PAL.red, vw={p:'PV',zm:1.0,cx:0.5,cy:0.266,zm2:1.03}, M=plateView(F,vw,u), g=F.g, lt=LS(t,T.wide);
     skyBand(F,t,P,M.hz,{red:0.6,redX:VW*0.7,wind:2,cs:1.2});
     friend(F,VW*0.74,M.hz-VH*0.05+Math.sin(lt*1.9)*VH*0.01,VW*1.25,{});   // cỡ thành phố: chỉ thấy chân + bụng tràn nửa trời, mặt ở ngoài khung
     plate(F,M,P); army(F,M,t,{all:true,dark:0.3}); gojoSplit(F,t,M.X(0.17),M.Y(0.6),M.hOf(0.6,1.9),{still:true,tone:'cold'});
-    const L=RING.slice(0,16).map((m,i)=>({k:m.k,v:0.58+0.1*hash(i+600),u:0.04+0.27*hash(i+601)})).sort((a,b)=>a.v-b.v); for(const m of L){ const y=M.Y(m.v); if(y>VH+10) continue; meme(F,'M_'+m.k,M.X(m.u),y,M.hOf(m.v,1.7),{tone:'cold',shadow:[y,0.5]}); }
+    // cả 47 con phe thiện tụ thành khối bên trái (4 hàng so le, hàng sau nhỏ + nhạt dần) — vẫn lép vế trước biển quỷ
+    const L=RING.map((m,i)=>{ const row=i%4, c=Math.floor(i/4); return {key:m.key,k:m.k,s:m.s,v:0.575+row*0.028+0.01*hash(i+600),u:0.02+(c+0.5*(row%2)+0.4*hash(i+601))*0.026}; }).sort((a,b)=>a.v-b.v);
+    for(const m of L){ const y=M.Y(m.v); if(y>VH+10) continue; meme(F,m.key,M.X(m.u),y,M.hOf(m.v,1.7*(m.s||1)),{tone:'cold',shadow:[y,0.5]}); }
     ash(F,t,0.6,0,VW*0.42); });
   // 26 · CHIA ĐÔI: trái Chill Guy (gần như 1 mình, nộ kiểu Gon: bóng đen + 2 mắt trắng) sau xác Gojo nằm đôi (tiền cảnh mờ) · phải Pain + Catvader
-  S(T.split2,T.boom,{co:'trung',goc:'chéo',loai:'đối mặt',hd:'CHIA ĐÔI chéo: trái Chill Guy nộ (bóng đen, 2 mắt trắng) sau xác Gojo nằm đôi ở tiền cảnh / phải Pain + Catvader ngẩng lên',anh:['PG','M_chillguy','PAIN','VADER'],sfx:['l2p_whoosh']},(F,t,u)=>{
-    const g=F.g, lt=LS(t,T.split2);
+  // (anh 23/11 tối: "aura Chill Guy cảnh cuối cần làm căng hơn") → hoá bóng đen → hào quang ĐEN–ĐỎ bốc ngùn ngụt (shader VfxGL, bám dáng người) dâng theo NHỊP TIM,
+  //   đất dưới chân nứt rực đỏ, đá vụn bị nhấc bổng, gió hút vào người, máy dí dần + rung, 2 mắt trắng loé chói ngay trước BÙM
+  const beatOf=t=>{ const p=(t*1.7)%1; return Math.max(Math.exp(-p*14),0.7*Math.exp(-Math.abs(p-0.2)*16)); };   // lub-dub
+  //   3 lớp: (1) lưỡi lửa vẽ tay (code) bám vòm quanh thân, bốc lên + tắt dần — đỏ sáng xen đỏ thẫm · (2) lửa shader VfxGL nhiều lưỡi, cuộn nhanh · (3) sét đỏ chập chờn quanh người
+  function rageAura(F,b,x,y,w,h,k,t,flip){ if(k<=0.01||!b) return; const g=F.g, cy=y-h*0.5, rx=w*0.52, ry=h*0.56;
+    lighter(g,()=>{ for(let i=0;i<26;i++){ const s=i*1.37, ph=(t*(1.6+0.8*hash(s))+hash(s+1))%1, an=Math.PI*(1.06+0.88*hash(s+2)), bx=x+Math.cos(an)*rx*(0.92+0.1*hash(s+3)), by=cy+Math.sin(an)*ry, L=h*(0.16+0.3*hash(s+4))*k*(1-ph*0.5), wd=w*(0.05+0.05*hash(s+5))*(1-ph), lift=ph*h*0.35*k, sway=Math.sin(t*7+i)*w*0.04;
+        const col=i%3===0?'120,0,14':'255,'+(40+50*hash(s+6)|0)+',24', a=k*(i%3===0?0.5:0.8)*Math.sin(ph*Math.PI); if(a<=0.01||wd<0.5) continue;
+        g.fillStyle='rgba('+col+','+a+')'; g.beginPath(); g.moveTo(bx-wd,by-lift); g.quadraticCurveTo(bx+sway-wd*0.3,by-lift-L*0.55,bx+sway*1.6,by-lift-L); g.quadraticCurveTo(bx+sway*0.4+wd*0.4,by-lift-L*0.45,bx+wd,by-lift); g.closePath(); g.fill(); } });
+    let ok=false; if(window.VfxGL&&VfxGL.drawAura) ok=VfxGL.drawAura(g,b.cv,{sx:0,sy:0,sw:b.cv.width,sh:b.cv.height,x,y,w,h,flip,res:340,c0:'#ffd2b8',c1:'#ff3418',c2:'#80000e',dark:0,speed:2.6,scale:5.6,warp:0.65,rise:0.24+0.22*k,gain:1,tongues:2.8,t,k:Math.min(1,1.1*k),seed:9});
+    if(!ok){ const sil=silOf(b,'rgb(200,20,24)'); lighter(g,()=>{ for(let i=0;i<3;i++){ const sc=1.05+0.06*i+0.02*Math.sin(t*23+i); g.save(); g.globalAlpha=k*(0.45-0.12*i); g.translate(x,y); g.scale((flip?-1:1)*sc,sc+0.05*i); g.drawImage(sil,-w/2,-h,w,h); g.restore(); } }); }   // máy không có WebGL
+    const fr=Math.floor(t*15); if(k>0.35&&window.VfxGL&&VfxGL.boltSet) lighter(g,()=>{ for(let j=0;j<2;j++){ if(hash(fr*3+j)>0.55+0.35*(1-k)) continue; const an=Math.PI*(1.1+0.8*hash(fr*7+j)), px=x+Math.cos(an)*rx*1.05, py=cy+Math.sin(an)*ry;
+      VfxGL.boltSet(g,px,py,an+(hash(fr+j*5)-0.5)*1.2,h*(0.18+0.15*hash(fr*11+j)),Math.max(1.4,h*0.004),fr*13+j,{branches:true,core:'#fff0ea',rim:'#ff3020',glow:'rgba(255,40,30,0.35)'}); } }); }   // sét đỏ chập chờn
+  S(T.split2,T.boom,{co:'trung',goc:'chéo',loai:'đối mặt',hd:'CHIA ĐÔI chéo: trái Chill Guy NỘ — hoá bóng đen 2 mắt trắng, hào quang đen–đỏ bốc ngùn ngụt dâng theo nhịp tim, đất nứt đỏ, đá vụn bị nhấc bổng, máy dí dần + rung (xác Gojo nằm đôi ở tiền cảnh) / phải Pain + Catvader ngẩng lên',anh:['PG','M_chillguy','PAIN','VADER'],sfx:['l2p_whoosh','l2p_riser','se_aura']},(F,t,u)=>{
+    const g=F.g, lt=LS(t,T.split2), rg=ein(seg(t,T.rage,T.boom-0.2)), bt=beatOf(t)*seg(t,T.rage,T.rage+0.4), K2=Math.min(1,rg*0.8+0.25*bt+(t>=T.rage?0.2:0));
     g.save(); g.beginPath(); g.moveTo(0,0); g.lineTo(VW*0.56,0); g.lineTo(VW*0.44,VH); g.lineTo(0,VH); g.closePath(); g.clip();
-    { const P=PAL.cold, M=plateView(F,{p:'PG',zm:2.1,cx:0.3,cy:0.64,blur:4},u); skyBand(F,t,P,M.hz,{cs:1.5}); plate(F,M,P);
-      const r=seg(t,T.split2+0.3,T.split2+0.8), m=meme(F,'M_chillguy',VW*0.24,VH*1.04,VH*0.98,{tone:'cold',fade:0.04,dark:0.86*r,back:['150,20,30',0.6*r]});
-      if(r>0) lighter(g,()=>{ for(const [uu,vv] of PT.chillEyes){ const [ex,ey]=m.pt(uu,vv); glowDot(g,ex,ey,VH*0.05,'255,255,255',0.5*r); g.fillStyle='rgba(255,255,255,'+r+')'; g.beginPath(); g.arc(ex,ey,VH*0.014,0,TAU); g.fill(); } });
-      gojoSplit(F,t,VW*0.36,VH*1.05,VH*0.62,{still:true,tone:'cold',blur:2.5}); ash(F,t,0.6,0,VW*0.56); }
+    { const jx=(hash(Math.floor(t*30))-0.5)*(1.5+6*rg), jy=(hash(Math.floor(t*30)+5)-0.5)*(1+4*rg); g.translate(jx,jy);   // khung trái rung mạnh dần
+      const zm=lerp(2.1,2.5,ein(u)), cx=VW*0.27, gy=VH*1.04, P=PAL.cold, M=plateView(F,{p:'PG',zm,cx:0.3,cy:0.64,blur:4},u), hh=VH*0.98*zm/2.1;
+      skyBand(F,t,P,M.hz,{cs:1.5}); plate(F,M,P,{light:[[cx,VH*0.9,VW*0.5,'255,30,20',0.45*K2]]});
+      // đất nứt rực đỏ toả từ chân
+      if(rg>0) lighter(g,()=>{ for(let i=0;i<11;i++){ const an=Math.PI*(1.0+i/10)+(hash(i+1500)-0.5)*0.25, L=VW*0.55*eout(rg); let x=cx, y=VH*0.99; g.beginPath(); g.moveTo(x,y); for(let s=1;s<=6;s++){ x=cx+Math.cos(an)*L*s/6+(hash(i*9+s+1500)-0.5)*18; y=VH*0.99-Math.sin(an)*L*s/6*0.22; g.lineTo(x,y); }
+          g.strokeStyle='rgba(255,40,20,'+(0.35*K2)+')'; g.lineWidth=7; g.stroke(); g.strokeStyle='rgba(255,170,120,'+(0.9*K2)+')'; g.lineWidth=2; g.stroke(); } glowDot(g,cx,VH*0.99,VW*0.35,'255,40,20',0.5*K2); });
+      // đá vụn bị NHẤC BỔNG quanh người (lên chậm, rung)
+      for(let i=0;i<14;i++){ const f=clamp((rg*1.3-hash(i+1520)*0.5),0,1); if(f<=0) continue; const x=cx+(hash(i+1521)-0.5)*VW*0.5+Math.sin(t*20+i)*1.5*f, y=VH*(0.97-0.05*hash(i+1522))-eout(f)*VH*(0.15+0.45*hash(i+1523)), R=7+13*hash(i+1524);
+        lighter(g,()=>glowDot(g,x,y+R*0.5,R*2.2,'255,40,20',0.35*f)); rock(g,x,y,R,t*(0.5+hash(i+1525))+i,'#241618'); }   // đá to rõ, ánh đỏ hắt từ dưới
+      windLines(g,t,cx,VH*0.55,true,0.55*rg,28,70,'255,170,160');
+      const b=bake(F,'M_chillguy','cold',2,0.04), r=seg(t,T.split2+0.2,T.rage);
+      if(b) rageAura(F,b,cx,gy,hh*b.ar,hh,K2,t,true);
+      const m=meme(F,'M_chillguy',cx,gy,hh,{tone:'cold',fade:0.04,flip:true,dark:0.9*r,back:['200,20,30',(0.5+0.4*bt)*r]});   // quay mặt sang PHẢI (về phía Pain / Catvader)
+      if(m&&r>0){ const fl=seg(t,T.boom-0.4,T.boom-0.15), big=1+0.6*bt*rg+2.2*fl; lighter(g,()=>{ for(const [uu,vv] of PT.chillEyes){ const [ex,ey]=m.pt(uu,vv); glowDot(g,ex,ey,VH*0.06*big,'255,255,255',0.55*r); glowDot(g,ex,ey,VH*0.12*big,'255,60,40',0.3*rg); g.fillStyle='rgba(255,255,255,'+r+')'; g.beginPath(); g.arc(ex,ey,VH*0.014*(1+0.3*fl),0,TAU); g.fill();
+          if(fl>0){ g.strokeStyle='rgba(255,255,255,'+(0.9*fl)+')'; g.lineWidth=2; const L=VH*0.22*fl; g.beginPath(); g.moveTo(ex-L,ey); g.lineTo(ex+L,ey); g.moveTo(ex,ey-L*0.5); g.lineTo(ex,ey+L*0.5); g.stroke(); } } }); }   // mắt loé chói kiểu sao 4 cánh ngay trước BÙM
+      gojoSplit(F,t,VW*0.36,VH*1.05,VH*0.62,{still:true,tone:'cold',blur:2.5}); ash(F,t,0.6*(1-rg),0,VW*0.56);
+      motes(F,t,{n:40,col:'255,60,40',core:'255,200,180',sp:40+60*rg,up:true,a:0.9*rg,seed:91}); }   // tro bị hút bốc ngược lên
     g.restore();
     g.save(); g.beginPath(); g.moveTo(VW*0.56,0); g.lineTo(VW,0); g.lineTo(VW,VH); g.lineTo(VW*0.44,VH); g.closePath(); g.clip();
     { const P=PAL.red, M=plateView(F,{p:'PG',zm:2.0,cx:0.66,cy:0.64,blur:4},u); skyBand(F,t,P,M.hz,{cs:1.5,red:0.6}); plate(F,M,P);
@@ -518,7 +617,7 @@
   const shotAt=t=>{ let s=SH[0]; for(const x of SH) if(t>=x.t0) s=x; return s; };
 
   // ═════════ MÀN HÌNH (sau grade) ═════════
-  const STROBES=[[T.stab,'k r k',0.5,0.5],[T.slam,'bw wb bw',0.5,0.78]];
+  const STROBES=[[T.stab,'k r k',0.5,0.5],[T.hit,'k k',0.54,0.66],[T.blast,'w bw wb',0.54,0.66],[T.slam,'bw wb bw',0.5,0.78]];
   const strobeAt=t=>B?B.strobe(t,STROBES):null;
   const title=(g,txt,y,a,col,size)=>{ if(a<=0.01) return; g.save(); g.globalAlpha=a; g.textAlign='center'; g.shadowColor='rgba(0,0,0,0.85)'; g.shadowBlur=12; g.fillStyle=col||'#ffe2d0'; g.font='900 '+Math.round(VH*(size||0.075))+'px Shojumaru, Georgia, serif'; g.fillText(txt,VW/2,VH*y); g.restore(); };
   let SL=null;   // nhát chém "cắt cả khung"
@@ -549,13 +648,14 @@
       [T.fizz,'l2p_shimmer',0.5,0.6,'3 cầu tím chập chờn rồi xì tắt'],
       [T.slash,'lightsaber_whoosh_01',0.9,0.45,'Catvader rút kiếm, xoay người chém ngang'],[T.cut,'ed_hit7',0.8,0.45,'+ nhát chém cắt ngang cả khung (lớp của nhát chém)'],
       [T.split+0.8,'cine_drop',0.5,0.6,'nửa trên của Gojo ngả rơi xuống chạm đất'],
-      [T.reveal+0.2,'catvader_breathe',0.8,1.6,'khói tan, Catvader đứng lộ diện, thở máy'],
+      [T.split+1.4,'catvader_breathe',0.8,2.0,'nửa trên Gojo rơi xuống: lộ Catvader đứng ngay sau lưng, thở máy'],
+      [T.doge,'se_machdash',0.7,0.6,'Buff Doge bật Haki lao vút tới'],
+      [T.field,'ep3_force',0.7,0.5,'Catvader dựng trường lực Force đỏ trước mặt'],[T.hit,'cine_haki_hit',0.9,0.45,'nắm đấm Haki của Doge nện vào trường lực'],
+      [T.blast,'l2p_shatter',0.8,0.7,'trường lực VỠ tung thành mảnh'],[T.blast+0.02,'cine_deep_impact',0.8,0.6,'+ cú đấm xuyên qua, Catvader bị đấm văng (lớp của cú vỡ)'],
+      [T.land,'se_rock_break',0.6,0.6,'Catvader rơi cày đất, trượt tới cạnh Pain'],
       [T.painUp+0.3,'ep3_shine',0.5,0.6,'Pain: Rinnegan loé sáng lại'],
       [T.run+0.2,'se_step_in',0.6,0.8,'phe thiện hốt hoảng chạy tới'],
       [T.banana,'cry_banana_cat',0.9,1.3,'Banana Cat khóc thét'],
-      [T.doge+0.05,'cine_haki_hit',0.7,0.4,'Buff Doge bật Haki lao vào Catvader'],[T.freeze,'ep3_force',0.8,0.9,'Catvader dùng Force: Doge đứng khựng giữa không trung'],
-      [T.pushB,'cine_deep_impact',0.8,0.6,'Force đẩy Doge văng ngược về phe mình'],[T.pushB+0.45,'se_rock_break',0.5,0.6,'+ Doge rơi cày đất (lớp của cú văng)'],
-      [T.leap,'ep3_whoosh',0.5,0.5,'Catvader bật lùi 1 vòng qua đống đổ nát (vút)'],[T.leap+0.75,'se_step_in',0.6,0.4,'Catvader đáp xuống cạnh Pain'],
       [T.aka+0.16,'se_step_in',0.5,0.3,'Mlem đáp xuống'],[T.aka+0.66,'cine_drop',0.5,0.4,'+ Chud rơi đáp xuống (lớp của nhóm Akatsuki đáp)'],[T.aka+1.16,'se_step_in',0.45,0.3,'+ Ninja đáp xuống (lớp của nhóm Akatsuki đáp)'],[T.aka+1.66,'se_rock_break',0.4,0.4,'+ Bat đáp xuống đống gạch vụn (lớp của nhóm Akatsuki đáp)'],
       [T.shar,'l2p_shimmer',0.6,0.4,'Sharingan xoay'],
       [T.slam,'kn_boom_low',0.9,1.0,'Ninja ĐẬP tay xuống đất, đất nổ rền'],[T.slam+0.02,'se_super_hit',0.6,0.5,'+ lớp đập chát (Ninja đập tay)'],
@@ -566,24 +666,29 @@
       [T.dive,'fr_dash',0.9,1.6,'Friend lao đầu xé toạc tầng mây'],[T.dive+0.3,'se_whoosh_fast',0.6,1.2,'+ xé gió (lớp của Friend lao)'],
       [T.brake,'l2p_whoosh',0.9,1.0,'Friend PHANH gấp giữa trời: gió ép bạt xuống (không nổ)'],[T.brake+0.05,'l2p_rumble',0.7,1.5,'+ gió ép trầm rền (lớp của cú phanh)'],
       [T.hover+0.3,'fr_titan_roar',0.9,1.6,'Friend lơ lửng trên đầu phe Evil, gầm'],
-      [T.split2,'l2p_whoosh',0.6,0.6,'màn hình chia đôi: Chill Guy / Pain + Catvader'],[T.boom,'l2p_explode',1,2.0,'BÙM — nổ trắng xoá']],
+      [T.split2,'l2p_whoosh',0.6,0.6,'màn hình chia đôi: Chill Guy / Pain + Catvader'],
+      [T.rage+0.4,'l2p_riser',0.6,T.boom-T.rage-0.4,'Chill Guy nộ: hào quang đen–đỏ dâng lên, đất nứt, đá bị nhấc bổng'],[T.rage+0.05,'se_aura',0.5,T.boom-T.rage-0.05,'+ hào quang bốc cháy ngùn ngụt (lớp của nộ)'],
+      [T.boom,'l2p_explode',1,2.0,'BÙM — nổ trắng xoá']],
     // 🎵 nối nhạc trận Gojo (mus_honored) → TẮT CỤT lúc lặng trước cú đâm · Imperial March (Catvader lộ diện, 1 lần) · Sadness and Sorrow (Banana khóc → đứng quanh bóng Gojo) · Despair (phe Evil → hết)
     mus:[{src:'assets/audio/mus_honored.m4a',ra:0,rb:T.hush,off:96,vol:0.28,fi:0.6,fo:0.08},
-      {src:'assets/audio/mus_imperial.m4a',ra:T.reveal,rb:T.banana-0.1,off:0.05,vol:0.42,fi:0.05,fo:0.9},
-      {src:'assets/audio/mus_sadness.m4a',ra:T.banana,rb:T.aka,off:0.2,vol:0.4,fi:0.4,fo:0.8},
-      {src:'assets/audio/mus_despair.m4a',ra:T.aka,rb:T.boom+0.2,off:0.4,vol:0.45,fi:0.5,fo:0.2}],
+      {src:'assets/audio/mus_imperial.m4a',ra:T.split+1.2,rb:T.split+1.2+8.3,off:0.05,vol:0.42,fi:0.05,fo:0.9},   // vào đúng lúc lộ Catvader, chạy hết bài (8.5s) qua cả pha Doge
+      {src:'assets/audio/mus_sadness.m4a',ra:T.painUp+0.2,rb:T.aka+0.8,off:0.2,vol:0.4,fi:0.6,fo:0.8},
+      {src:'assets/audio/mus_despair.m4a',ra:T.aka+0.8,rb:T.boom-0.05,off:0,vol:0.45,fi:0.5,fo:0.2},
+      {src:'assets/audio/cine_heart.mp3',ra:T.senseHit-0.05,rb:T.doge+0.1,off:0,vol:0.6,fi:0.05,fo:0.15},   // tim đập lúc Catvader linh cảm (như linh cảm Chill Guy fin1c6)
+      {src:'assets/audio/cine_heart.mp3',ra:T.rage,rb:T.boom,off:0,vol:0.95,fi:0.05,fo:0.02}],              // TIM ĐẬP TO lúc Chill Guy nộ, tắt phụt khi BÙM
     duckAuto:{decisive:[T.stab]},
     impact:t=>{ const s=strobeAt(t); return s?B.impactOf(s,true):0; },
     grade:t=>{ const s=strobeAt(t); if(s) return B.gradeOf(s)||{}; if(t>=T.boom&&t<T.boom+0.4) return {white:1-seg(t,T.boom+0.2,T.boom+0.4)};
       if(t>=T.split&&t<T.reveal) return {sat:lerp(1,0.55,seg(t,T.split,T.split+1.2))};   // đứt đôi: màu rút dần (khựng, bi thương)
+      if(t>=T.senseHit&&t<T.doge) return {sat:0.45};   // linh cảm: màu rút
       if(t>=T.mourn&&t<T.aka) return {sat:0.7,bright:0.95};
       if(t>=T.look&&t<T.face) return {sat:0.75};
       return null; },
     shake:t=>{ let s=0; const h=(a,amp,d)=>{ if(t>=a&&t<a+d) s=Math.max(s,amp*(1-(t-a)/d)); };
-      if(t>=T.a3&&t<T.hush) s=Math.max(s,0.6+1.4*seg(t,T.a3,T.hush)); h(T.stab,5,0.3); h(T.cut,7,0.4); h(T.pushB,6,0.4); for(let i=0;i<4;i++) h(T.aka+i*0.5+0.16,3,0.25); h(T.slam,9,0.5); h(T.smoke+0.2,3,1.6);
-      if(t>=T.sky&&t<T.brake) s=Math.max(s,1.5+4*seg(t,T.sky,T.brake)); h(T.brake,10,0.9); h(T.hover+0.3,3,1.2); h(T.face,4,1.0); h(T.boom,18,0.4); return s; },
+      if(t>=T.a3&&t<T.hush) s=Math.max(s,0.6+1.4*seg(t,T.a3,T.hush)); h(T.stab,5,0.3); h(T.cut,7,0.4); h(T.senseHit,2,0.3); h(T.hit,6,0.35); h(T.blast,9,0.5); h(T.land,5,0.35); for(let i=0;i<4;i++) h(T.aka+i*0.5+0.16,3,0.25); h(T.slam,9,0.5); h(T.smoke+0.2,3,1.6);
+      if(t>=T.sky&&t<T.brake) s=Math.max(s,1.5+4*seg(t,T.sky,T.brake)); h(T.brake,10,0.9); h(T.hover+0.3,3,1.2); h(T.face,4,1.0); if(t>=T.rage&&t<T.boom) s=Math.max(s,0.8+3.2*seg(t,T.rage,T.boom)); h(T.boom,18,0.4); return s; },
     post(F,t){ const fx={shocks:[]}, sh=(a,x,y,rm,d,str)=>{ if(t>=a&&t<a+d){ const u=(t-a)/d; fx.shocks.push({sx:x,sy:y,r:20+rm*eout(u),w:60,str:str*(1-u)}); fx.chroma=Math.max(fx.chroma||0,0.3*(1-u)); } };
-      sh(T.stab,VW*0.3,VH*0.75,500,0.4,12); sh(T.pushB,VW*0.45,VH*0.45,420,0.4,10); sh(T.slam,VW*0.5,VH*0.98,900,0.5,16); sh(T.brake,VW*0.5,VH*0.35,1000,0.7,18); return fx; },
+      sh(T.stab,VW*0.3,VH*0.75,500,0.4,12); sh(T.hit,VW*0.54,VH*0.66,420,0.35,10); sh(T.blast,VW*0.54,VH*0.66,800,0.5,16); sh(T.slam,VW*0.5,VH*0.98,900,0.5,16); sh(T.brake,VW*0.5,VH*0.35,1000,0.7,18); return fx; },
     screen(F,t){ const g=F.g, s=strobeAt(t);
       if(s){ B.impactOverlay(F,s); return; }
       if(t>=T.slash&&t<T.split){ smearSlash(F,t); sliceFrame(F,t); }
@@ -593,7 +698,7 @@
       // chữ (chỉ TÊN CHIÊU — anh 23/11) / thoại ngắn
       if(t>=T.title&&t<T.stab) title(g,'HOLLOW PURPLE',0.9,seg(t,T.title,T.title+0.25)*(t>=T.hush?0.75+0.25*Math.sin(t*30):1),'#ead6ff');
       if(t>=T.slam+0.15&&t<T.smoke-0.4) title(g,'KUCHIYOSE NO JUTSU',0.2,seg(t,T.slam+0.15,T.slam+0.35)*(1-seg(t,T.smoke-0.9,T.smoke-0.4)));
-      if(t>=T.banana+0.15&&t<T.doge){ const a=seg(t,T.banana+0.15,T.banana+0.3); g.save(); g.globalAlpha=a; g.textAlign='center'; g.translate(VW*0.5+(hash(Math.floor(t*20))-0.5)*6,VH*0.2); g.font='900 '+Math.round(VH*0.11)+'px Montserrat, Arial Black, sans-serif'; g.lineWidth=8; g.strokeStyle='#000'; g.strokeText('NOOOO!',0,0); g.fillStyle='#ffffff'; g.fillText('NOOOO!',0,0); g.restore(); }
+      if(t>=T.banana+0.15&&t<T.mourn){ const a=seg(t,T.banana+0.15,T.banana+0.3); g.save(); g.globalAlpha=a; g.textAlign='center'; g.translate(VW*0.5+(hash(Math.floor(t*20))-0.5)*6,VH*0.2); g.font='900 '+Math.round(VH*0.11)+'px Montserrat, Arial Black, sans-serif'; g.lineWidth=8; g.strokeStyle='#000'; g.strokeText('NOOOO!',0,0); g.fillStyle='#ffffff'; g.fillText('NOOOO!',0,0); g.restore(); }
       // 21 · Sharingan xoay (cắt xen 0.6s)
       if(t>=T.shar&&t<T.crouch){ const c=K.prep(F.I.SHAR), uu=seg(t,T.shar,T.crouch); g.save(); g.fillStyle='rgba(20,0,0,0.82)'; g.fillRect(0,0,VW,VH); if(c){ const sz=VH*(0.9+0.15*uu); g.translate(VW/2,VH/2); g.rotate(uu*4.2); g.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,-sz/2,-sz/2,sz,sz); } g.restore(); }
       if(t>=T.brake&&t<T.brake+0.25){ g.save(); g.globalAlpha=0.5*(1-seg(t,T.brake,T.brake+0.25)); g.fillStyle='#ffd8c0'; g.fillRect(0,0,VW,VH); g.restore(); }   // loé ngắn đúng khung phanh (không nổ)
