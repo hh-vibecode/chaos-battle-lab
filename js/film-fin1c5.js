@@ -103,8 +103,8 @@
     g.restore(); }
   CineKit.film({ id:'fin1c5', title:'Final 1 · Cảnh 5 · Avatar đầu tiên', DUR:T.DUR, VW, VH, fadeIn:false, fadeOut:false,
     imgs:IMG, cast:['dp','bc'],
-    sfx:[[0.15,'l2p_sub',0.5,0.45,'màu trở về trên nóc nhà, nền trầm'],
-      [T.look+0.3,'ep3_shine',0.5,0.6,'Depressed ngẩng đầu nhìn trời'],
+    sfx:[
+      
       [T.sky+0.2,'ep3_shine',0.7,1.4,'dấu vô hạn vàng trắng hiện dần trên trời'],
       [T.space+0.1,'l2p_sub',0.6,1.9,'vũ trụ: hành tinh bị dấu vô hạn phong ấn, cột sáng lung linh'],
       [T.spin,'bc_spin',0.9,2.0,'Bread Cat xoay giữa trời, rít to dần'],[T.spin+0.6,'bc_zap',0.8,null,'trời chớp sáng tối, điện chập'],

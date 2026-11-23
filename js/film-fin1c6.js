@@ -221,8 +221,8 @@
       [T.fire+0.32,'se_rock_break',0.8,0.43,'cột đèn đập xuống chỗ Chill Guy vừa né'],[T.f2+0.32,'se_wall_break',0.8,0.43,'mảng tường lớn vỡ tung'],[T.f3+0.32,'kn_boom_low',0.65,0.5,'mảng tường nhỏ nổ bụi'],[T.f4+0.32,'se_collapse',0.75,0.43,'mảng tường cuối rơi đập xuống đất'],
       [T.halfHit,'cine_deep_impact',1,1.2,'NỬA TOÀ NHÀ đập trúng Chill Guy'],[T.halfHit+0.12,'se_tremor',0.5,1.0,'+ đất rung, bụi phủ kín (lớp của cú nện)'],
       [T.rage,'l2p_riser',0.6,T.rage2-T.rage,'cực cận: Chill Guy hoá bóng đen, 2 mắt trắng rực, nộ dâng lên'],[T.rage2,'chillguy_uppercut',0.9,T.say-T.rage2,'I\'M NOT CHILL ANYMORE: hào quang nộ bùng toàn thân'],[T.rage2+0.02,'kn_boom_low',0.55,0.5,'+ lớp nổ trầm: hào quang nộ BÙNG như vụ nổ, đất nứt (lớp của tiếng nộ)'],
-      [T.run+0.1,'se_step_in',0.4,0.4,'Chill Guy quay người chạy vào làn khói'],
-      [T.face+0.3,'l2p_riser',0.55,1.21,'Gojo và Pain đối mặt, sức ép dâng lên'],[T.ready+0.4,'ep3_whoosh',0.5,0.6,'+ gió cuốn bụi, đá vụn bị nâng lên giữa 2 bên (lớp của sức ép)']],
+      
+      [T.ready+0.4,'ep3_whoosh',0.5,0.6,'+ gió cuốn bụi, đá vụn bị nâng lên giữa 2 bên (lớp của sức ép)']],
     // 🎵 KHÔNG nhạc nền / tiếng nền (anh 18/11: anh tự thêm) — chỉ tim đập căng thẳng lúc linh cảm · TIM ĐẬP TO lúc nộ (tắt phụt khi hiện chữ) · câu Gojo CHỈ BẰNG CHỮ (anh 19/11: không lồng giọng)
     mus:[{src:'assets/audio/cine_heart.mp3',ra:T.sense+0.3,rb:T.turn,off:0,vol:0.6,fi:0.12,fo:0.12},
       {src:'assets/audio/cine_heart.mp3',ra:T.rage,rb:T.say,off:0,vol:1.0,fi:0.05,fo:0.02}],

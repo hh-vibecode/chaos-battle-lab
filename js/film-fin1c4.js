@@ -699,7 +699,7 @@
     cast:['mw','dp','ps'],   // Gojo = Mewing Cat (mw_), Pain = Depressed Cat (dp_, ps_) — sfx-lint
     // 🔊 (10/11 sửa theo tools/x/sfx-lint.js) [giây, key, to, dài, NHÃN]. Mỗi chiêu 1 tiếng riêng: giọng "Shinra Tensei" (ps_shinra) CHỈ lúc cast, cắt 1.5s lấy phần giọng
     //    (phần nổ trong file kêu sớm hơn hình 5s); Almighty Push = ep3_force; bỏ tiếng mượn fr_dash / sm_schwing / lightsaber / mewing_statue_break.
-    sfx:[[0.1,'l2p_rumble',0.5,2.73,'toàn cảnh đại lộ đổ nát, gió bụi'],
+    sfx:[
       [T.cuG,'ep3_shine',0.5,1.26,'cận Gojo thủ thế, hào quang xanh bật lên'],   // (23/11: bỏ tiếng chuông l2p_shimmer)
       [T.cuP,'dp_cloak',0.7,0.98,'cận Pain, áo choàng Akatsuki phất'],
       [T.dash,'ep3_whoosh',0.8,null,'2 bên lấy đà lao vào nhau'],
@@ -735,7 +735,7 @@
       [T.boom,'ep3_explode',1,1.1,'NỔ TÍM trên không, sóng nổ đập trúng mây'],[T.boom+0.01,'ed_hit10',0.6,1.09,'+ lớp edit: nổ trầm to của vụ nổ tím'],[T.boom+0.3,'ep3_quake',0.6,0.8,'rung dội xuống mặt đất'],
 
       [T.split,'ep3_shine',0.7,0.15,'mặt chia đôi loé'],
-      [T.wide,'l2p_sub',0.4,0.15,'toàn cảnh kết, nền trầm, tối dần']],
+      ],
     duckAuto:{decisive:[T.push,T.sh,TCZ+ZF*ZPH.imp,T.boom]},   // 🎚️ nhạc nhường tiếng: Almighty Push · Shinra Tensei · nổ tím
     // 🎵 (13/11 anh chốt: nhạc anime epic CHẠY DÀI, mỗi đoạn 1 bài, không lặp file ngắn) · âm lượng quy về cùng độ to cũ (-25 LUFS sau vol)
     //   cận chiến: JJK S2 — Gojo vs Toji OST · Pain bay lên cast Shinra: Girei (Pain's Theme) · từ lãnh địa: "The Honored One" — chỗ LẶNG rồi BÙNG của bài (file 74–76s) rơi đúng lúc Hollow Purple lao ra khỏi khói

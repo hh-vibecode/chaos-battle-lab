@@ -314,7 +314,7 @@
       [T.ram,'se_super_hit',1,1.05,'vệt vàng húc trúng Chud, cuốn Chud bay khỏi khung'],[T.ram+0.08,'kn_punch_heavy',0.6,null,'+ lớp trầm của cú húc'],
       [T.h1,'se_wall_break',0.9,2.9,'vệt sáng đâm xuyên toà nhà thứ nhất, nổ tung'],[T.h2,'se_rock_break',0.75,2.2,'xuyên toà nhà thứ hai, nổ tung'],[T.h3,'se_collapse',0.8,1.5,'xuyên toà nhà thứ ba, nổ tung, gạch đá rơi rào rào'],
       [T.dust+0.2,'se_collapse_b',0.6,1.26,'cột bụi bốc cao, nhà đổ rền'],
-      [T.mturn+0.4,'l2p_sub',0.35,0.85,'Mlem chậm rãi quay sang Clapping'],[T.raise+0.3,'ep3_shine',0.45,1.44,'Clapping giơ tay như meme'],
+      
       [T.rise+0.1,'se_rock_break',0.45,1.08,'đá vụn lăn xuống, Buff Doge + Chud đứng dậy giữa đống đổ nát'],
       [T.release,'l2p_chains',1,0.67,'THIÊN LA ĐỊA VÕNG: 2 xích bủa ra mọi hướng, rít xé gió'],[T.release+0.34,'ep3_klunk',0.6,0.37,'+ đầu xích cắm phập vào cột, tường, mặt đất (lớp của tiếng xích bủa)'],
       [T.l1,'dc_chain',0.9,null,'roi xích thứ nhất quất xuống, Doge đỡ bằng tay'],[T.l2,'se_punch_high',0.8,0.82,'+ Doge đấm gạt roi thứ hai (lớp của tràng roi)'],
@@ -324,9 +324,9 @@
       [T.storm+1.2,'se_quake',0.5,2.0,'+ Doge khuỵu gối nện xuống, mặt đất nứt (lớp cuối của tràng roi)'],
       [T.haki,'ep3_shine',0.5,0.77,'+ cực cận: mắt Doge loé đỏ (lớp đầu của Haki thức tỉnh)'],[T.hakiOn,'cine_haki',0.9,1.2,'HAKI thức tỉnh: khí đen bốc, sét đỏ, trận đứng hình'],
       [T.pull+0.2,'l2p_riser',0.45,1.18,'mọi sợi xích căng rung siết vào Doge'],
-      [T.snap,'kn_explode_crunch',0.9,0.63,'Doge bùng Haki giật đứt gãy cả lưới xích, mắt xích văng khắp nơi'],[T.shock+0.2,'l2p_sub',0.4,0.48,'+ cận Chud sững người (lớp đuôi của tiếng xích đứt)'],
+      [T.snap,'kn_explode_crunch',0.9,0.63,'Doge bùng Haki giật đứt gãy cả lưới xích, mắt xích văng khắp nơi'],
       [T.clash-0.3,'se_machdash',0.85,0.66,'2 con hoá 2 vệt lao vào nhau'],[T.clash,'se_impact_stop',1,null,'nắm đấm haki đụng Chud giữa đường: va chạm, khựng'],[T.clash+0.01,'ed_hit5',0.55,0.46,'+ lớp edit: impact bùng lúc 2 con va nhau'],
-      [T.far+0.25,'l2p_explode',0.7,0.65,'chân trời loé tím: vụ nổ xa (trận Gojo vs Pain)'],[T.whip,'l2p_whoosh',0.7,0.92,'máy quay ngoắt về phía ánh tím'],[T.tunnel+0.6,'l2p_riser',0.7,0.28,'+ lao đi theo ánh tím (lớp đuôi của cú ngoắt máy)']],
+      [T.far+0.25,'l2p_explode',0.7,0.65,'chân trời loé tím: vụ nổ xa (trận Gojo vs Pain)'],],
     mus:[{src:'assets/audio/cine_heart.mp3',ra:T.shake,rb:T.imp1,off:0,vol:0.55,fi:0.1,fo:0.15}],   // 🔇 (anh 23/11) BỎ HẾT nhạc nền — anh tự lồng nhạc khi dựng; phim chỉ giữ tiếng hiệu ứng + đòn đánh (bỏ Kusari, Overtaken) — còn tim đập
     shots,
     impact:t=>{ const E=K.edit; return E.first(E.impacts(t,T.stomp,6,[['#000000','#ffd84a'],['#ffffff','#000000']],3),E.impacts(t,T.ram,3,[['#000000','#ffd84a']],3),E.impacts(t,T.punch,3,[['#000000','#ffd84a']],3),E.impacts(t,T.snap,6,[['#000000','#ff3a2a'],['#ff3a2a','#000000']],3),E.impacts(t,T.clash,6,[['#000000','#ff3a2a'],['#ffffff','#000000']],3)); },

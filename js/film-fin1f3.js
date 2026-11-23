@@ -419,7 +419,7 @@
       [T.f2,'se_katana_b',0.75,null,'+ trượt sát đất chém gối, Berserk cắm kiếm đỡ thấp (lớp của tràng đòn)'],
       [T.f3,'se_sword_clash',0.6,null,'+ đâm sườn, Berserk gạt văng (lớp của tràng đòn)'],
       [T.f4,'se_slash',1,0.75,'đạp kiếm bật cao chém chéo xuống, trúng ngực Berserk'],[T.f4+0.01,'cine_flesh',0.55,null,'+ lớp thịt nhát chém trúng ngực'],
-      [T.kneel,'ep3_breath',0.5,1.3,'Berserk khuỵu 1 gối thở dốc, máu nhỏ giọt'],
+      
       [T.rage,'cine_haki',0.8,1.8,'Berserk nổi điên: lửa đỏ bốc từ chân lên'],
       [T.blitz,'se_katana_a',0.8,null,'⚡ 2 con lao vào nhau ĐỐI KHÁNG SIÊU TỐC: tràng kiếm va liên hồi giữa biển lửa'],[T.blitz+0.46,'se_katana_b',0.55,null,'+ kiếm va (lớp của tràng siêu tốc)'],[T.blitz+0.88,'se_slash',0.5,null,'+ vệt chém xé gió (lớp của tràng siêu tốc)'],[T.blitz+1.34,'se_sword_clash',0.6,null,'+ kiếm va nặng (lớp của tràng siêu tốc)'],
       [T.blitz+1.95,'se_bomb',0.9,null,'cú va nổ tung thành cầu lửa lớn, đá văng'],[T.blitz+2.1,'kn_boom_low',0.6,null,'+ lớp trầm của vụ nổ'],[T.blitz+2.76,'se_katana_b',0.6,null,'+ lao ra từ khói nổ, kiếm va tiếp (lớp của tràng siêu tốc)'],[T.blitz+3.22,'se_sword_clash',0.7,0.78,'+ cú va cuối, 2 con bật tách ra (lớp của tràng siêu tốc)'],

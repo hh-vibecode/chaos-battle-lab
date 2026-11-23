@@ -266,8 +266,8 @@
     sfxOk:{ popcat:'đòn thường của Pop Cat: MỖI phát vòng khói 1 tiếng pop, đúng như game — minigun = cả loạt pop', huh_sample:'Huh bắn HUH + kêu huh? (tiếng của chính nó)', br_boom:'bom dơi: mỗi lần nổ 1 tiếng' },
     sfx:[[0.1,'l2p_rumble',0.4,2.3,'cầu treo trong đêm, gió trên cầu'],
       [T.col,'cine_impact',0.8,2.1,'2 cột sáng bạc + hồng giáng xuống mặt cầu'],
-      [T.perch+0.2,'l2p_sub',0.45,1.8,'lộ Bat ngồi xổm trên dầm tháp, nền trầm'],
-      [T.eyeB+0.1,'ep3_shine',0.4,0.9,'cực cận mắt Bat nheo lại, loé'],
+      
+      
       [T.scan,'ep3_blip',0.6,null,'chế độ thám tử: khoá 2 mục tiêu, vạch đường nấp qua 3 xe + trụ đèn'],
       ...POPK,
       [T.fire+0.1,'se_machdash',0.55,0.7,'+ lớp gió rít của luồng đạn khói liên thanh'],
@@ -277,7 +277,7 @@
       [T.fl1,'se_whoosh_fast',0.65,null,'Bat vụt qua gầm xe tải'],[T.fl2,'ep3_whoosh',0.5,null,'+ lộn qua nắp capo xe C (lớp của tràng lướt)'],[T.fl3,'se_whoosh_fast',0.45,null,'+ trượt vào sau trụ đèn (lớp của tràng lướt)'],
       [T.fl4,'l2p_explode',0.7,1.95,'xe tải bị rỉa nổ tung sau lưng Bat'],
       [T.pil+0.3,'se_rock_break',0.55,1.3,'bê tông mép trụ đèn bị rỉa toé ra'],
-      [T.cease+0.1,'ep3_breath',0.5,1.7,'Pop ngừng bắn, thở hổn hển, mồm bốc khói'],
+      
       [T.huhC,'l2p_riser',0.55,1.4,'Huh gồng hết sức, quầng hồng tụ lại'],
       [T.huhF,'huh_sample',1,null,'Huh bắn chữ HUH KHỔNG LỒ bám theo Bat'],[T.huhF+0.1,'kn_boom_low',0.5,0.9,'+ lớp trầm: tiếng nổ dội khi chữ HUH khổng lồ phóng đi'],
       [KNOCK,'se_collapse_b',0.6,0.58,'chữ HUH cày qua xe C, hất văng'],
@@ -289,7 +289,7 @@
       [T.ring,'br_tick',0.6,1.6,'khói tan: vòng bom dơi nháy nhanh dần chờ nổ, tích tắc — nhạc tắt phụt'],
       [T.huh,'huh_sample',0.55,null,'Huh quay sang Pop, kêu khẽ "huh?"'],[T.pop+0.15,'popcat',0.5,null,'Pop quay sang Huh, đáp khẽ "pop"'],
       [T.det,'br_boom',1,null,'6 quả bom dơi nổ cùng lúc'],
-      [T.hole,'l2p_whoosh',0.7,1.25,'+ máy chui qua lỗ vòng khói của vụ nổ sang trận Ninja vs Berserk']],
+      ],
     duckAuto:{decisive:[T.boom,T.det]},
     mus:[],   // 🔇 (anh 23/11) BỎ HẾT nhạc nền — anh tự lồng nhạc khi dựng; phim chỉ giữ tiếng hiệu ứng + đòn đánh
     theme:t=>theme(t), shots, panels,
