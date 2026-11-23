@@ -31,7 +31,10 @@
    "seed": 3534626120,
    "t": 29,
    "src": "render",
-   "at": "2026-11-20T04:07:27.115Z"
+   "at": "2026-11-20T04:07:27.115Z",
+   "pub": "Pn5_45VXjTU",
+   "dur": 31,
+   "chk": "2026-11-23 xem video"
   },
   {
    "title": "Snooze Cat vs Beluga - Meme Battle",
@@ -75,7 +78,10 @@
    "seed": null,
    "t": null,
    "src": "anh-bao",
-   "at": "2026-11-23T04:26:16.069Z"
+   "at": "2026-11-23T04:26:16.069Z",
+   "pub": "SIN6nfZidH4",
+   "dur": 31.5,
+   "chk": "2026-11-23 xem video"
   },
   {
    "title": "Beluga vs Duolingo vs Morse Code Cat vs Fine Dog - Last One Standing",
@@ -86,7 +92,591 @@
    "seed": null,
    "t": null,
    "src": "anh-bao",
-   "at": "2026-11-23T04:26:16.075Z"
+   "at": "2026-11-23T04:26:16.075Z",
+   "pub": "zWEbCQfl9B0",
+   "dur": 22.6,
+   "chk": "2026-11-23 xem video"
+  },
+  {
+   "title": "Mewing Cat vs Azel - Meme Battle",
+   "k": "mewing cat vs azel meme battle",
+   "win": [
+    "mewingcat"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "WMhYOc9ARSE",
+   "dur": 27.8,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
+  },
+  {
+   "title": "Supreme Cat vs Friend - Meme Battle",
+   "k": "supreme cat vs friend meme battle",
+   "win": [
+    "supremearbiter"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "aKiM2A7Xjyw",
+   "dur": 22.5,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)",
+   "teams": [
+    [
+     "supremearbiter"
+    ],
+    [
+     "friend"
+    ]
+   ]
+  },
+  {
+   "title": "Azel & Electric Guitar Cat vs Scared Dog & Scared Hamster - Meme Battle",
+   "k": "azel electric guitar cat vs scared dog scared hamster meme battle",
+   "win": [
+    "azel",
+    "electricguitarcat"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "LNK5yrbVLQo",
+   "dur": 46,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
+  },
+  {
+   "title": "Violin Bumblebee vs Gigachad - Meme Battle",
+   "k": "violin bumblebee vs gigachad meme battle",
+   "win": [
+    "violinbee"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "zRHTKrWStOQ",
+   "dur": 17.2,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
+  },
+  {
+   "title": "Adolf Catler & Stalin vs Evil Gary & Evil Larry - Meme Battle",
+   "k": "adolf catler stalin vs evil gary evil larry meme battle",
+   "win": [
+    "feuerkatze",
+    "stalincat"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "MAZJHLwEY8Y",
+   "dur": 35.3,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
+  },
+  {
+   "title": "Mechanic Cat vs Epic Sax Guy - Meme Battle",
+   "k": "mechanic cat vs epic sax guy meme battle",
+   "win": [
+    "mechaniccat"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "gwxFSOmkhLQ",
+   "dur": 31.8,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
+  },
+  {
+   "title": "Violin Bumblebee vs Cornelius - Meme Battle",
+   "k": "violin bumblebee vs cornelius meme battle",
+   "win": [
+    "violinbee"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "kSWN0ej4QpI",
+   "dur": 20,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
+  },
+  {
+   "title": "Electric Guitar Cat vs Berserk Cat - Meme Battle",
+   "k": "electric guitar cat vs berserk cat meme battle",
+   "win": [
+    "electricguitarcat"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "RU8mFRd4WsU",
+   "dur": 22.9,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
+  },
+  {
+   "title": "Azel vs Chill Guy - Meme Battle",
+   "k": "azel vs chill guy meme battle",
+   "win": [
+    "chillguy"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "9AhzfEoG-Fg",
+   "dur": 26.8,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
+  },
+  {
+   "title": "Arabic Cat vs Violin Mosquito - Meme Battle",
+   "k": "arabic cat vs violin mosquito meme battle",
+   "win": [
+    "mosquitoviolin"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "FgxyHaoRacY",
+   "dur": 24.6,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
+  },
+  {
+   "title": "Catvader vs Morse Code Cat - Meme Battle",
+   "k": "catvader vs morse code cat meme battle",
+   "win": [
+    "catvader"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "pttEELKE5rE",
+   "dur": 21.2,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
+  },
+  {
+   "title": "Bread Cat vs U I A Cat - Meme Battle",
+   "k": "bread cat vs u i a cat meme battle",
+   "win": [
+    "breadcat"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "jZQVZCfQxGw",
+   "dur": 23.4,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
+  },
+  {
+   "title": "Duolingo vs Beluga - Meme Battle",
+   "k": "duolingo vs beluga meme battle",
+   "win": [
+    "beluga"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "laajghbLRc0",
+   "dur": 22.9,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
+  },
+  {
+   "title": "Ninja Cat vs Jonin Cheems - Meme Battle",
+   "k": "ninja cat vs jonin cheems meme battle",
+   "win": [
+    "ninjacat"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "ykGwBaFPX5w",
+   "dur": 20.7,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
+  },
+  {
+   "title": "Depressed Cat vs Sus Dog - Meme Battle",
+   "k": "depressed cat vs sus dog meme battle",
+   "win": [
+    "depressedcat"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "OmaVIvIls1M",
+   "dur": 27.4,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
+  },
+  {
+   "title": "Poor Dog vs Clapping Cat - Meme Battle",
+   "k": "poor dog vs clapping cat meme battle",
+   "win": [
+    "poordog"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "rU3dTdqrAnI",
+   "dur": 16.6,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
+  },
+  {
+   "title": "The Void vs Pop Cat - Meme Battle",
+   "k": "the void vs pop cat meme battle",
+   "win": [
+    "thevoid"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "KzASNIZBFcs",
+   "dur": 24.6,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
+  },
+  {
+   "title": "Flower Cat vs Infinity Doge - Meme Battle",
+   "k": "flower cat vs infinity doge meme battle",
+   "win": [
+    "flowercat"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "SlzDLhrIphI",
+   "dur": 19.8,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
+  },
+  {
+   "title": "Gigachad vs Infinity Doge - Meme Battle",
+   "k": "gigachad vs infinity doge meme battle",
+   "win": [
+    "gigachad"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "mijHGZlNGV0",
+   "dur": 25.3,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
+  },
+  {
+   "title": "Duolingo vs Adolf Catler - Meme Battle",
+   "k": "duolingo vs adolf catler meme battle",
+   "win": [
+    "duolingo"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "6XOOaoa1yUc",
+   "dur": 24,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
+  },
+  {
+   "title": "Drooling Cats vs Spider Cat - Meme Battle",
+   "k": "drooling cats vs spider cat meme battle",
+   "win": [
+    "droolingcat"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "3En0DJQIBf8",
+   "dur": 38.2,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
+  },
+  {
+   "title": "Beluga vs Stalin Cat - Meme Battle",
+   "k": "beluga vs stalin cat meme battle",
+   "win": [
+    "stalincat"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "wwcu4irHtao",
+   "dur": 17.6,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
+  },
+  {
+   "title": "Friend vs Evil Larry vs Evil Gary vs Flower Cat - Last One Standing Mode",
+   "k": "friend vs evil larry vs evil gary vs flower cat last one standing mode",
+   "win": [
+    "friendeldritch"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "kgZnHFtiQLI",
+   "dur": 39.5,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)",
+   "teams": [
+    [
+     "friendeldritch"
+    ],
+    [
+     "evillarry"
+    ],
+    [
+     "evilgary"
+    ],
+    [
+     "flowercat"
+    ]
+   ]
+  },
+  {
+   "title": "Violin Mosquito vs Violin Bumblebee - Meme Battle",
+   "k": "violin mosquito vs violin bumblebee meme battle",
+   "win": [
+    "violinbee"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "NU_J1cN1deA",
+   "dur": 19,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
+  },
+  {
+   "title": "(Rematch) Violin Mosquito vs Gigachad - Meme Battle",
+   "k": "rematch violin mosquito vs gigachad meme battle",
+   "win": [
+    "gigachad"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "wW8bHxE4aco",
+   "dur": 14.9,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
+  },
+  {
+   "title": "Drooling Cat vs Wet Cat - Meme Battle",
+   "k": "drooling cat vs wet cat meme battle",
+   "win": [
+    "wetcat"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "8OQFwASA6jU",
+   "dur": 24.9,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
+  },
+  {
+   "title": "Scream Marmot vs Poor Dog - Meme Battle",
+   "k": "scream marmot vs poor dog meme battle",
+   "win": [
+    "saiyanmarmot"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "rH3eScbiGcU",
+   "dur": 19.9,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
+  },
+  {
+   "title": "Azel vs Bongo Cat - Meme Battle",
+   "k": "azel vs bongo cat meme battle",
+   "win": [
+    "azel"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "mYvUALHE7Cs",
+   "dur": 29,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
+  },
+  {
+   "title": "Scream Marmot vs Troll Face - Meme Battle",
+   "k": "scream marmot vs troll face meme battle",
+   "win": [
+    "saiyanmarmot"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "0DJk05Mxa7c",
+   "dur": 27.5,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
+  },
+  {
+   "title": "Azel vs Fine Dog - Meme Battle",
+   "k": "azel vs fine dog meme battle",
+   "win": [
+    "azel"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "kFK5-yMxD4g",
+   "dur": 21.9,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
+  },
+  {
+   "title": "Drooling Cat vs Chill Guy - Meme Battle",
+   "k": "drooling cat vs chill guy meme battle",
+   "win": [
+    "droolingcat"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "lX6u7QthhZE",
+   "dur": 32,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
+  },
+  {
+   "title": "Boxing Cat vs Violin Bumblebee - Meme Battle",
+   "k": "boxing cat vs violin bumblebee meme battle",
+   "win": [
+    "boxingcat"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "YfoOYGxUfCc",
+   "dur": 21.8,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
+  },
+  {
+   "title": "Boxing Cat vs Yuki - Meme Battle",
+   "k": "boxing cat vs yuki meme battle",
+   "win": [
+    "boxingcat"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "8MxzkWXx6bY",
+   "dur": 22.7,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
+  },
+  {
+   "title": "Clapping Cat & Doge vs Violin Bumblebee & Violin Mosquito - Meme Battle",
+   "k": "clapping cat doge vs violin bumblebee violin mosquito meme battle",
+   "win": [
+    "clappingcat",
+    "doge"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "_ir7_n6959E",
+   "dur": 26.3,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
+  },
+  {
+   "title": "Drooling Cats & Wet Cat vs Fine Dog & Stalin Cat - Meme Battle",
+   "k": "drooling cats wet cat vs fine dog stalin cat meme battle",
+   "win": [
+    "droolingcat",
+    "wetcat"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "5-ByEM1DzFM",
+   "dur": 23.4,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
+  },
+  {
+   "title": "Loooong Cat vs Scream Cat - Meme Battle",
+   "k": "loooong cat vs scream cat meme battle",
+   "win": [
+    "loooongcat"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "6EnU4YLpI1Q",
+   "dur": 21.4,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
+  },
+  {
+   "title": "Crunchy Cat vs Bat Cat - Meme Battle",
+   "k": "crunchy cat vs bat cat meme battle",
+   "win": [
+    "crunchycat"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "56VY6X3spZM",
+   "dur": 29.2,
+   "chk": "2026-11-23 xem video",
+   "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
   }
  ]
 }
