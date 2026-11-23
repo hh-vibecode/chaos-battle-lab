@@ -699,51 +699,47 @@
     cast:['mw','dp','ps'],   // Gojo = Mewing Cat (mw_), Pain = Depressed Cat (dp_, ps_) — sfx-lint
     // 🔊 (10/11 sửa theo tools/x/sfx-lint.js) [giây, key, to, dài, NHÃN]. Mỗi chiêu 1 tiếng riêng: giọng "Shinra Tensei" (ps_shinra) CHỈ lúc cast, cắt 1.5s lấy phần giọng
     //    (phần nổ trong file kêu sớm hơn hình 5s); Almighty Push = ep3_force; bỏ tiếng mượn fr_dash / sm_schwing / lightsaber / mewing_statue_break.
-    sfx:[[0.1,'l2p_rumble',0.5,null,'toàn cảnh đại lộ đổ nát, gió bụi'],
-      [T.cuG,'l2p_shimmer',0.5,null,'cận Gojo thủ thế, hào quang xanh bật lên'],
-      [T.cuP,'dp_cloak',0.7,null,'cận Pain, áo choàng Akatsuki phất'],
+    sfx:[[0.1,'l2p_rumble',0.5,2.73,'toàn cảnh đại lộ đổ nát, gió bụi'],
+      [T.cuG,'ep3_shine',0.5,1.26,'cận Gojo thủ thế, hào quang xanh bật lên'],   // (23/11: bỏ tiếng chuông l2p_shimmer)
+      [T.cuP,'dp_cloak',0.7,0.98,'cận Pain, áo choàng Akatsuki phất'],
       [T.dash,'ep3_whoosh',0.8,null,'2 bên lấy đà lao vào nhau'],
-      [T.clash,'cine_haki_hit',1,null,'va nhau giữa đường, khựng'],
-      [5.1,'ep3_whoosh',0.7,null,'+ vút: Gojo vung đòn (lớp đầu của cú đấm)'],[5.3,'cine_strongpunch',1,null,'Gojo đấm trúng Pain'],
-      [6.2,'l2p_whoosh',0.6,null,'Pain lao tới, Gojo cúi né'],[6.9,'cine_haki_hit',0.9,null,'Gojo phản đòn từ dưới lên trúng'],
-      [8.2,'ep3_whoosh',0.7,null,'+ vút: Pain vung đòn (lớp đầu của cú đấm)'],[8.45,'cine_strongpunch',1,null,'Pain đấm trúng, Gojo văng lùi'],
-      [10.12,'ep3_whoosh',0.8,null,'2 bên lao vào nhau lần 2'],[10.35,'cine_impact',1,null,'VA NHAU MẠNH, âm bản đỏ'],
-      [11.72,'ep3_whoosh',0.7,null,'+ vút: Gojo vung đòn (lớp đầu của cú đấm)'],[11.95,'cine_strongpunch',0.9,null,'Gojo đấm, Pain đỡ trượt lùi'],
-      [12.8,'se_glass',0.75,null,'Pain trượt lùi vào kính cửa hàng, kính vỡ tung, mảnh kính che khung'],
+      [T.clash,'cine_haki_hit',1,1.5,'va nhau giữa đường, khựng'],
+      [5.1,'ep3_whoosh',0.7,null,'+ vút: Gojo vung đòn (lớp đầu của cú đấm)'],[5.3,'cine_strongpunch',1,0.54,'Gojo đấm trúng Pain'],
+      [6.2,'l2p_whoosh',0.6,0.93,'Pain lao tới, Gojo cúi né'],[6.9,'cine_haki_hit',0.9,0.37,'Gojo phản đòn từ dưới lên trúng'],
+      [8.2,'ep3_whoosh',0.7,null,'+ vút: Pain vung đòn (lớp đầu của cú đấm)'],[8.45,'cine_strongpunch',1,0.42,'Pain đấm trúng, Gojo văng lùi'],
+      [10.12,'ep3_whoosh',0.8,null,'2 bên lao vào nhau lần 2'],[10.35,'cine_impact',1,0.74,'VA NHAU MẠNH, âm bản đỏ'],
+      [11.72,'ep3_whoosh',0.7,null,'+ vút: Gojo vung đòn (lớp đầu của cú đấm)'],[11.95,'cine_strongpunch',0.9,0.88,'Gojo đấm, Pain đỡ trượt lùi'],
+      [12.8,'se_glass',0.75,0.83,'Pain trượt lùi vào kính cửa hàng, kính vỡ tung, mảnh kính che khung'],
       [T.pushC+0.05,'ep3_force',1,null,'Pain gồng lực đẩy, vòng lực co vào'],
-      [T.push,'cine_deep_impact',0.9,null,'bức tường lực trúng Gojo'],[T.push+0.2,'l2p_whoosh',0.8,null,'Gojo bị hất văng xa (đường hầm tốc độ)'],
-      [T.crash+0.05,'cine_heavy_slow',0.9,null,'Gojo đâm sầm vào toà nhà, nổ tung khoét lỗ thủng lớn'],[T.crash+0.4,'ep3_rock',0.6,null,'gạch đá toà nhà đổ xuống'],
-      [T.rise,'l2p_riser',0.7,null,'Pain bay thẳng lên trời'],
-      [T.cast+0.1,'ps_shinra',1,1.5,'Pain dang tay hô "Shinra Tensei" (chỉ phần giọng)'],
-      [T.dom+0.2,'ep3_shine',0.6,null,'băng mắt kéo lên, mắt Lục Nhãn xanh loé sáng'],
-      [T.dImp,'ep3_kamui',0.8,null,'mực đen bung từ sau lưng, không gian bị nuốt'],
-      [T.dVoid,'cine_deep_impact',1,null,'hư không bung, máy lao vào đường hầm'],[T.dVoid+0.01,'ed_hit6',0.5,null,'+ lớp edit: bùng sáng khi hư không bung (âm bản → đổi màu)'],
-      [T.dIn,'l2p_chime',0.6,null,'trắng xoá → hố đen Vô Lượng Không Xứ'],
-      [T.dOut,'ep3_quake',0.6,null,'vòm lãnh địa trồi lên giữa đống đổ nát'],
-      [T.imp,'ep3_charge',0.6,null,'Shinra dồn lực: màn đen, chấm sáng co lại'],
+      [T.push,'cine_deep_impact',0.9,0.45,'bức tường lực trúng Gojo'],[T.push+0.2,'l2p_whoosh',0.8,1.55,'Gojo bị hất văng xa (đường hầm tốc độ)'],
+      [T.crash+0.05,'cine_heavy_slow',0.9,0.85,'Gojo đâm sầm vào toà nhà, nổ tung khoét lỗ thủng lớn'],[T.crash+0.4,'ep3_rock',0.6,0.5,'gạch đá toà nhà đổ xuống'],
+      [T.rise,'l2p_riser',0.7,1.4,'Pain bay thẳng lên trời'],
+      [T.cast+0.1,'ps_shinra',1,0.7,'Pain dang tay hô "Shinra Tensei" (chỉ phần giọng)'],
+      [T.dom+0.2,'ep3_shine',0.6,0.39,'băng mắt kéo lên, mắt Lục Nhãn xanh loé sáng'],
+      [T.dImp,'ep3_kamui',0.8,1.93,'mực đen bung từ sau lưng, không gian bị nuốt'],
+      [T.dVoid,'cine_deep_impact',1,1.37,'hư không bung, máy lao vào đường hầm'],[T.dVoid+0.01,'ed_hit6',0.5,null,'+ lớp edit: bùng sáng khi hư không bung (âm bản → đổi màu)'],
+      [T.dIn,'l2p_sub',0.6,1.38,'trắng xoá → hố đen Vô Lượng Không Xứ'],   // (23/11: bỏ tiếng chuông l2p_chime)
+      [T.dOut,'ep3_quake',0.6,0.68,'vòm lãnh địa trồi lên giữa đống đổ nát'],
+      [T.imp,'ep3_charge',0.6,0.54,'Shinra dồn lực: màn đen, chấm sáng co lại'],
       [T.sh,'ep3_explode',1,TCZ-T.sh+0.03,'SHINRA TENSEI nổ, sóng đập trúng thành phố lan xoá tất cả'],
       [TCZ,'l2p_whoosh',0.5,null,'sóng Shinra chạm vòm lãnh địa: năng lượng 2 bên bị HÚT dồn về 1 điểm (rồi câm lặng tuyệt đối)'],
-      [TCZ+ZF*0.426,'ed_hit9',0.9,null,'điểm tụ rung, sét 2 màu bủa quanh: tích tụ dâng lên → bùng'],
-      [TCZ+ZF*ZPH.imp,'ed_hit10',1,null,'NỔ: điểm tụ bùng thành nhiều khối cầu lửa, càn quét cả vùng'],[TCZ+ZF*(ZPH.imp+0.02),'cine_deep_impact',0.8,null,'+ lớp trầm của vụ nổ điểm tụ'],[T.sh-1.27,'ed_hit1',0.6,null,'+ lớp edit: tụ lực dâng lên rồi bùng đúng lúc Shinra Tensei nổ'],[T.sh+0.25,'ep3_quake',0.8,null,'+ nhà đổ rạp theo vòng sóng (lớp của tiếng nổ Shinra)'],
-      [T.sh+0.6,'l2p_explode',0.7,null,'nhà phía ngoài nổ tiếp'],[T.wave+0.3,'l2p_rumble',0.8,null,'tường bụi ập tới vòm của Gojo'],
-      [T.land,'cine_drop',0.6,null,'Pain rơi từ trên trời xuống'],[T.land+0.95,'cine_impact',0.8,null,'Pain đập đất giữa hố'],
+      [TCZ+ZF*0.426,'ed_hit9',0.9,1.0,'điểm tụ rung, sét 2 màu bủa quanh: tích tụ dâng lên → bùng'],
+      [TCZ+ZF*ZPH.imp,'ed_hit10',1,null,'NỔ: điểm tụ bùng thành nhiều khối cầu lửa, càn quét cả vùng'],[TCZ+ZF*(ZPH.imp+0.02),'cine_deep_impact',0.8,2.01,'+ lớp trầm của vụ nổ điểm tụ'],[T.sh-1.27,'ed_hit1',0.6,0.92,'+ lớp edit: tụ lực dâng lên rồi bùng đúng lúc Shinra Tensei nổ'],[T.sh+0.25,'ep3_quake',0.8,1.25,'+ nhà đổ rạp theo vòng sóng (lớp của tiếng nổ Shinra)'],
+      [T.sh+0.6,'l2p_explode',0.7,0.9,'nhà phía ngoài nổ tiếp'],[T.wave+0.3,'l2p_rumble',0.8,1.89,'tường bụi ập tới vòm của Gojo'],
+      [T.land,'cine_drop',0.6,1.2,'Pain rơi từ trên trời xuống'],[T.land+0.95,'cine_impact',0.8,1.25,'Pain đập đất giữa hố'],
       [T.smoke+0.1,'mw_gojo',1,null,'Hollow Purple hình thành trong khói (ánh xanh + đỏ)'],
-      [T.fire,'l2p_riser',0.6,null,'+ cầu tím xé khói lao tới (lớp của tiếng Hollow Purple)'],[T.fire+0.33-1.0,'ed_hit9',0.6,null,'+ lớp edit: tụ lực rồi nổ đúng lúc Hollow Purple phóng ra'],
-      [T.block,'cine_haki_hit',1,null,'Pain đỡ cầu bằng trường lực'],[T.block+0.5,'mw_gojo_travel',0.6,2.6,'+ cầu tím ép, Pain bị đẩy trượt lùi (lớp kéo dài của cú đỡ)'],
-      [T.heave,'ep3_force',0.9,null,'Pain dồn hết sức đẩy'],[T.heave+0.25,'cine_deep_impact',1,null,'+ lực đẩy của Pain đập trúng quả cầu, hất nó lên trời'],
+      [T.fire,'l2p_riser',0.6,1.19,'+ cầu tím xé khói lao tới (lớp của tiếng Hollow Purple)'],[T.fire+0.33-1.0,'ed_hit9',0.6,null,'+ lớp edit: tụ lực rồi nổ đúng lúc Hollow Purple phóng ra'],
+      [T.block,'cine_haki_hit',1,0.69,'Pain đỡ cầu bằng trường lực'],[T.block+0.5,'mw_gojo_travel',0.6,0.85,'+ cầu tím ép, Pain bị đẩy trượt lùi (lớp kéo dài của cú đỡ)'],
+      [T.heave,'ep3_force',0.9,null,'Pain dồn hết sức đẩy'],[T.heave+0.25,'cine_deep_impact',1,0.65,'+ lực đẩy của Pain đập trúng quả cầu, hất nó lên trời'],
       [T.up,'l2p_whoosh',0.7,null,'cầu tím bay vút lên'],
-      [T.boom,'ep3_explode',1,null,'NỔ TÍM trên không, sóng nổ đập trúng mây'],[T.boom+0.01,'ed_hit10',0.6,null,'+ lớp edit: nổ trầm to của vụ nổ tím'],[T.boom+0.3,'ep3_quake',0.6,null,'rung dội xuống mặt đất'],
+      [T.boom,'ep3_explode',1,1.1,'NỔ TÍM trên không, sóng nổ đập trúng mây'],[T.boom+0.01,'ed_hit10',0.6,1.09,'+ lớp edit: nổ trầm to của vụ nổ tím'],[T.boom+0.3,'ep3_quake',0.6,0.8,'rung dội xuống mặt đất'],
 
-      [T.split,'ep3_shine',0.7,null,'mặt chia đôi loé'],
-      [T.wide,'l2p_sub',0.4,null,'toàn cảnh kết, nền trầm, tối dần']],
+      [T.split,'ep3_shine',0.7,0.15,'mặt chia đôi loé'],
+      [T.wide,'l2p_sub',0.4,0.15,'toàn cảnh kết, nền trầm, tối dần']],
     duckAuto:{decisive:[T.push,T.sh,TCZ+ZF*ZPH.imp,T.boom]},   // 🎚️ nhạc nhường tiếng: Almighty Push · Shinra Tensei · nổ tím
     // 🎵 (13/11 anh chốt: nhạc anime epic CHẠY DÀI, mỗi đoạn 1 bài, không lặp file ngắn) · âm lượng quy về cùng độ to cũ (-25 LUFS sau vol)
     //   cận chiến: JJK S2 — Gojo vs Toji OST · Pain bay lên cast Shinra: Girei (Pain's Theme) · từ lãnh địa: "The Honored One" — chỗ LẶNG rồi BÙNG của bài (file 74–76s) rơi đúng lúc Hollow Purple lao ra khỏi khói
-    mus:[{src:'assets/audio/mus_jjk_toji.m4a',ra:0,rb:T.rise+0.4,off:1.0,vol:0.22,fi:0.6,fo:0.9},
-      {src:'assets/audio/mus_girei.m4a',ra:T.rise,rb:T.dom+0.25,off:8.0,vol:0.45,fi:0.7,fo:0.5},
-      // 🔇 (anh 19/11) KHÔNG lồng giọng — tên chiêu + dòng mô tả bằng CHỮ trên màn hình (skillName / voidTitle).
-      {src:'assets/audio/mus_honored.m4a',ra:T.dom,rb:TCZ,off:Math.max(0,75.8-(Rnew(T.smoke)-Rnew(T.dom))),vol:0.35,fi:0.4,fo:0.05},   // (16/11) nhạc TẮT HẲN lúc 2 lực chạm nhau (câm lặng tuyệt đối)
-      {src:'assets/audio/mus_honored.m4a',ra:TCZ+ZF,rb:T.DUR,off:Math.max(0,75.8-(Rnew(T.smoke)-Rnew(T.dom)))+(Rnew(TCZ+ZF)-Rnew(T.dom)),vol:0.35,fi:0.8,fo:2.0}],   // vào lại sau vụ nổ, vẫn khớp chỗ bùng ở Hollow Purple
+    mus:[],   // 🔇 (anh 23/11) BỎ HẾT nhạc nền — anh tự lồng nhạc khi dựng; phim chỉ giữ tiếng hiệu ứng + đòn đánh
     theme:t=>theme(t), shots:window.Fin1Fight?Fin1Fight.cutify(shots,{keep:[[T.land,T.look]]}):shots,   // (13/11 anh: hạn chế zoom / máy trượt trong khung 3D — cắt góc tĩnh)
     panels:t=>C?C.splitFace(t,T.split,T.wide-T.split,{tx:-490,ty:78,tz:0,dist:190,yaw:16,pitch:-4,fov:40,ox:-0.25},{tx:505,ty:105,tz:0,dist:190,yaw:-16,pitch:-4,fov:40,ox:0.25})   /* 9/11: ảnh nghiêng (G9/P9) → mỗi ô hiện TRỌN ĐẦU 1 con, tâm máy dời vào giữa ô (ox ±0.25) */:null,
     // 🎬 EDIT kiểu CapCut / AMV (16/11, skill edit-video): impact frame 2 màu đặc ở cú quyết định, duotone lúc dồn lực, cháy trắng ở vụ nổ, đổi màu liên tục ở chiêu, tách RGB sau va chạm

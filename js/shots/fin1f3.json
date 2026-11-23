@@ -5,12 +5,12 @@
   {"t0":6.6,"t1":8.4,"co":"cận","goc":"ngang","hanhDong":"đối mặt: Ninja rút Kusanagi","loai":"đối mặt","anh":["N_DRAW"],"sfx":["ep3_shine"],"ghiChu":""},
   {"t0":8.4,"t1":9,"co":"trung","goc":"ngang","hanhDong":"Ninja ném 3 kunai → Berserk dựng ngang đại kiếm làm khiên, kunai bật ra tia lửa","loai":"đánh","anh":["N_THROW","B_SHIELD"],"sfx":["ninja_kunai","ep3_klunk"],"ghiChu":""},
   {"t0":9,"t1":10.1,"co":"trung","goc":"ngang","hanhDong":"nấp sau loạt kunai, Ninja lao chém từ trên → Berserk giơ kiếm đỡ trên: KHOÁ KIẾM, tia lửa","loai":"đánh","anh":["N_LEAP","B_GUARDHI"],"sfx":["se_step_in","se_sword_clash"],"ghiChu":""},
-  {"t0":10.1,"t1":10.9,"co":"cực cận","goc":"ngang","hanhDong":"khoá kiếm mặt sát mặt: Berserk nhìn thẳng mắt Sharingan (mầm ảo thuật)","loai":"đối mặt","anh":["NJS"],"sfx":["l2p_chime"],"ghiChu":""},
+  {"t0":10.1,"t1":10.9,"co":"cực cận","goc":"ngang","hanhDong":"khoá kiếm mặt sát mặt: Berserk nhìn thẳng mắt Sharingan (mầm ảo thuật)","loai":"đối mặt","anh":["NJS"],"sfx":[],"ghiChu":""},
   {"t0":10.9,"t1":11.9,"co":"trung","goc":"ngang","hanhDong":"Berserk dồn sức thô hất văng Ninja, Ninja trượt lùi","loai":"đánh","anh":["B_SWEEP","N_CROUCH"],"sfx":["se_pushback"],"ghiChu":""},
   {"t0":11.9,"t1":13.35,"co":"toàn","goc":"chéo","hanhDong":"bổ dọc: Ninja nhảy lùi né → đường vỡ hố, xe lật → Ninja đáp nóc xe lật","loai":"đánh","anh":["B_OVERHEAD","B_CHOP3","N_DODGE","N_CROUCH"],"sfx":["se_big_slash","se_rock_break"],"ghiChu":""},
   {"t0":13.35,"t1":14.15,"co":"toàn","goc":"ngang","hanhDong":"Berserk lao quét ngang xẻ đôi xe → Ninja dựng kiếm đỡ → văng xuyên kính cửa hàng","loai":"đánh","anh":["B_CHARGE","B_SWEEP","N_BLOCK","N_KNOCK"],"sfx":["se_big_slash","se_sword_clash","se_glass"],"ghiChu":""},
   {"t0":14.15,"t1":14.85,"co":"toàn","goc":"chéo","hanhDong":"CẮT sang góc tĩnh chéo trước cửa hàng: Ninja bị quét văng bay vào khung, đập VỠ kính (loé), kính còn răng cưa bám khung, mảnh tam giác văng rồi rơi nằm trên đất","loai":"đánh","anh":["N_KNOCK"],"sfx":["se_glass"],"ghiChu":"23/11 anh chê cảnh văng vào tường lỗi"},
-  {"t0":14.85,"t1":16.4,"co":"trung","goc":"ngang","hanhDong":"kính rơi lả tả, Ninja bước ra phủi áo","loai":"thở","anh":["N0"],"sfx":[],"ghiChu":""},
+  {"t0":14.85,"t1":16.4,"co":"trung","goc":"ngang","hanhDong":"kính rơi lả tả, Ninja BẬT NHẢY vọt ra khỏi cửa hàng, đáp ngay trước cửa rồi đứng dậy","loai":"thở","anh":["N0"],"sfx":["se_whoosh_fast","se_step_in"],"ghiChu":""},
   {"t0":16.4,"t1":19.4,"co":"trung","goc":"ngang","hanhDong":"Ninja lướt vào 3 nhát: Berserk gạt nhát 1, đỡ thấp nhát 2, nhát 3 lách qua rạch vai → Berserk lấy đà đâm","loai":"đánh","anh":["N_HSLASH","N_UPSLASH","N_STAB","B_PARRY","B_GUARDLO","B_HITSH"],"sfx":["se_katana_a","se_katana_b","se_slash"],"ghiChu":""},
   {"t0":19.4,"t1":19.95,"co":"cực cận","goc":"ngang","hanhDong":"mắt Mangekyou loé — Kamui kích hoạt TRƯỚC khi đòn tới","loai":"đối mặt","anh":["NJS"],"sfx":["nj_sharingan"],"ghiChu":""},
   {"t0":19.95,"t1":21.4,"co":"trung","goc":"ngang","hanhDong":"Berserk đâm: đại kiếm XUYÊN qua Ninja như không khí, Kamui nuốt Ninja, Berserk ngơ ngác","loai":"ra chiêu","anh":["B_THRUST","N0"],"sfx":["ep3_whoosh","ep3_kamui"],"ghiChu":""},
@@ -31,7 +31,7 @@
   {"t0":39.07,"t1":39.87,"co":"toàn","goc":"chim","hanhDong":"toàn cao: CẢ DÃY NHÀ 2 bên đường bị xẻ ngang, đổ sập","loai":"nổ lớn","anh":[],"sfx":["cine_heavy_slow"],"ghiChu":""},
   {"t0":39.87,"t1":41.07,"co":"trung","goc":"ngang","hanhDong":"2 nửa người nằm trên đường — lặng","loai":"thở","anh":[],"sfx":[],"ghiChu":""},
   {"t0":41.07,"t1":42.27,"co":"toàn","goc":"giun","hanhDong":"2 nửa hoá bầy quạ bay vút lên trời, máy ngước theo","loai":"chuyển cảnh","anh":[],"sfx":["fin_crow_fly","fin_crow_caw"],"ghiChu":""},
-  {"t0":42.27,"t1":44.47,"co":"toàn","goc":"giun","hanhDong":"THẾ GIỚI ẢO THUẬT: trời đỏ, 2 mắt Sharingan, quạ lượn","loai":"chuyển cảnh","anh":["NJS"],"sfx":["l2p_shimmer"],"ghiChu":""},
+  {"t0":42.27,"t1":44.47,"co":"toàn","goc":"giun","hanhDong":"THẾ GIỚI ẢO THUẬT: trời đỏ, 2 mắt Sharingan, quạ lượn","loai":"chuyển cảnh","anh":["NJS"],"sfx":["l2p_sub"],"ghiChu":""},
   {"t0":44.47,"t1":46.02,"co":"trung","goc":"giun","hanhDong":"góc giun: Berserk hú lên, hào quang bùng","loai":"ra chiêu","anh":["BH"],"sfx":["bk_howl"],"ghiChu":""},
   {"t0":46.02,"t1":48.07,"co":"toàn","goc":"ngang","hanhDong":"chém vỡ ảo cảnh → mảnh kính rơi, lộ công viên trận Chud vs Doge","loai":"chuyển cảnh","anh":["B_CHOP3"],"sfx":["se_glass","l2p_shatter"],"ghiChu":""}
 ]

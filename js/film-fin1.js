@@ -774,41 +774,35 @@
   // cảnh 2 (đuôi quật, 9/11): vút đúng đầu đoạn quét · va đúng khung đuôi chạm (d1 toà đầu +0.65 · d3 ô kính đầu +0.5 · d4 +0.42 · d6 +0.62)
   // 🔊 (10/11 sửa theo tools/x/sfx-lint.js) mỗi dòng: [giây, key, to, dài, NHÃN = việc đang xảy ra trên hình] — mỗi nhịp 1 tiếng, không mượn tiếng meme khác
   const sfx=[
-    [T.splat,'cine_impact',0.25,null,'que kem rơi bẹp xuống vỉa hè'],
-    [T.cry+0.4,'cry_banana_cat',0.95,null,'Banana Cat ngước lên khóc thét'],
-    [T.roar-0.14,'fr_titan_roar',0.8,null,'Friend gầm trên trời (góc giun)'],
+    [T.splat,'cine_impact',0.25,0.8,'que kem rơi bẹp xuống vỉa hè'],
+    [T.cry+0.4,'cry_banana_cat',0.95,1.3,'Banana Cat ngước lên khóc thét'],
+    [T.roar-0.14,'fr_titan_roar',0.8,2.34,'Friend gầm trên trời (góc giun)'],
     [T.glass+0.1,'l2p_shatter',0.75,null,'sóng âm tiếng gầm quét tới, ô kính đầu tiên nổ'],
-    [T.glass+0.35,'ep3_glass',0.7,null,'cả dãy tủ kính vỡ theo vòng sóng'],
-    [T.glass+0.65,'se_glass',0.55,null,'mảnh kính rơi rào rào xuống vỉa hè'],
-    [T.d1+0.42,'l2p_whoosh',0.6,null,'đuôi bóng tối quét ngang dãy nhà'],
-    [T.d1+0.65,'l2p_explode',0.55,null,'đuôi va vào nhà, nổ lửa'],
-    [T.d1+0.86,'cine_deep_impact',0.5,null,'khối nhà sập theo đường quét'],
-    [T.d2a+0.22,'cine_deep_impact',0.45,null,'đuôi đập xuống sau lưng dân đang chạy'],
+    [T.glass+0.35,'ep3_glass',0.7,1.15,'cả dãy tủ kính vỡ theo vòng sóng'],
+    [T.glass+0.65,'se_glass',0.55,0.85,'mảnh kính rơi rào rào xuống vỉa hè'],
+    [T.d1+0.42,'l2p_whoosh',0.6,1.58,'đuôi bóng tối quét ngang dãy nhà'],
+    [T.d1+0.65,'l2p_explode',0.55,1.35,'đuôi va vào nhà, nổ lửa'],
+    [T.d1+0.86,'cine_deep_impact',0.5,1.14,'khối nhà sập theo đường quét'],
+    [T.d2a+0.22,'cine_deep_impact',0.45,1.58,'đuôi đập xuống sau lưng dân đang chạy'],
     [T.d3+0.32,'ep3_whoosh',0.55,null,'đuôi lao thẳng vào mặt kính toà nhà'],
-    [T.d3+0.5,'ep3_glass',0.7,null,'kính vỡ bay về phía máy'],
+    [T.d3+0.5,'ep3_glass',0.7,1.2,'kính vỡ bay về phía máy'],
     [T.d3+1.42,'l2p_whoosh',0.6,null,'đuôi rút ra khỏi toà nhà'],
     [T.d4+0.22,'ep3_whoosh',0.5,null,'đuôi vung lên quật dọc xuống phố'],
-    [T.d4+0.42,'cine_deep_impact',0.8,null,'đuôi đập mặt phố, xe văng lên'],
-    [T.d5,'l2p_whoosh',0.45,null,'góc chim: nhiều đuôi lao xuống thành phố'],
-    [T.d5+0.4,'l2p_explode',0.45,null,'nổ lửa khắp các khối nhà'],
-    [T.d5b,'l2p_explode',0.55,null,'góc giun: cột lửa khói bốc lên trời'],
-    [T.d6+0.45,'l2p_whoosh',0.5,null,'đuôi lao vào tháp đứng trước trăng máu'],
+    [T.d4+0.42,'cine_deep_impact',0.8,1.58,'đuôi đập mặt phố, xe văng lên'],
+    [T.d5,'l2p_whoosh',0.45,1.0,'góc chim: nhiều đuôi lao xuống thành phố'],
+    [T.d5+0.4,'l2p_explode',0.45,0.6,'nổ lửa khắp các khối nhà'],
+    [T.d5b,'l2p_explode',0.55,1.0,'góc giun: cột lửa khói bốc lên trời'],
+    [T.d6+0.45,'l2p_whoosh',0.5,1.55,'đuôi lao vào tháp đứng trước trăng máu'],
     [T.d6+0.62,'l2p_crack',0.7,null,'tháp gãy ngang, đổ nghiêng']];
-  for(let i=0;i<5;i++) sfx.push([T.booms+i*0.6,'vine_boom',0.85,null,'khung cận mặt thành viên '+(i+1)+'/5 trượt vào']);   // 5 tiếng vine boom = 5 khung trượt vào
-  sfx.push([T.akaT,'cine_deep_impact',0.8,null,'logo MEOWKATSUKI đập xuống sau lưng cả nhóm']);   // MEOWKATSUKI đập xuống
+  for(let i=0;i<5;i++) sfx.push([T.booms+i*0.6,'vine_boom',0.85,0.6,'khung cận mặt thành viên '+(i+1)+'/5 trượt vào']);   // 5 tiếng vine boom = 5 khung trượt vào
+  sfx.push([T.akaT,'cine_deep_impact',0.8,1.0,'logo MEOWKATSUKI đập xuống sau lưng cả nhóm']);   // MEOWKATSUKI đập xuống
+  // 🔇 (anh 23/11) BỎ HẾT nhạc nền — anh tự lồng nhạc khi dựng; phim chỉ giữ tiếng hiệu ứng + đòn đánh (bỏ: nền chiến tranh, cine_epic, Girei, dp_akatsuki). Còn lại: nhạc xe kem CHỈ ở cảnh đầu (anh giữ) + TIẾNG MÔI TRƯỜNG gắn với hình:
   const mus=[
-    {src:A+'fin_icecream.mp3', ra:0, rb:T.shadow+0.6, vol:0.32, fo:1.2},                         // nhạc xe kem leng keng: phố bình yên
-    {src:A+'fin_city.mp3', ra:0, rb:T.shadow+1, vol:0.3, loop:true, fo:1},                      // tiếng xe cộ
-    {src:A+'cine_heart.mp3', ra:T.shadow+0.4, rb:T.reveal+0.4, vol:0.7, fi:0.4, fo:0.4},         // tim đập lúc bóng đen trùm xuống
-    {src:A+'cine_ambient_war.mp3', ra:T.reveal, rb:T.roof+0.8, vol:0.55, fi:1, fo:1.2},
-    {src:A+'fin_crowd.mp3', ra:T.d1+0.6, rb:T.d7+1, vol:0.45, loop:true, fi:0.5, fo:1},           // đám đông la hét
-    {src:A+'fin_collapse.mp3', ra:T.d6+0.6, rb:T.d7+1.5, vol:0.6, fo:0.8},                        // toà nhà sập
-    {src:A+'cine_epic.mp3', ra:T.d1, rb:T.roof, vol:0.6, loop:true, fi:0.3, fo:1.0},   // file 12.1s < 14.5s cảnh phá → lặp (10/11)
-    // 🎵 (13/11 anh chốt) nhạc CHẠY DÀI, không lặp file ngắn: Girei (Pain's Theme bản đủ 2:14) suốt nóc nhà → nối sang cảnh 5 (fin1c5 đọc tiếp đúng chỗ, GIREI_AT)
-    //    dp_akatsuki (nhạc Pain 2, dính bản quyền) CHỈ 5s đúng lúc Depressed Cat nói "…know pain" (57.6s)
-    {src:A+'mus_girei.m4a', ra:T.roof, rb:57.3, vol:0.5, fi:1.2, fo:0.4},
-    {src:A+'dp_akatsuki.mp3', ra:57.3, rb:62.3, vol:0.75, fi:0.2, fo:0.8},
-    {src:A+'mus_girei.m4a', ra:61.9, rb:DUR, off:61.9-T.roof, vol:0.5, fi:1.0, fo:0.05} ];
+    {src:A+'fin_icecream.mp3', ra:0, rb:T.shadow, vol:0.32, fo:0.8},                         // nhạc xe kem leng keng: phố bình yên (cảnh đầu, tắt khi bóng đen trùm)
+    {src:A+'fin_city.mp3', ra:0, rb:T.shadow, vol:0.3, loop:true, fo:0.6},                      // tiếng xe cộ
+    {src:A+'cine_heart.mp3', ra:T.shadow+0.4, rb:T.reveal, vol:0.7, fi:0.4, fo:0.3},         // tim đập lúc bóng đen trùm xuống
+    {src:A+'fin_crowd.mp3', ra:T.d1+0.6, rb:T.d7, vol:0.45, loop:true, fi:0.5, fo:0.5},           // đám đông la hét
+    {src:A+'fin_collapse.mp3', ra:T.d6+0.6, rb:T.d7, vol:0.6, fo:0.4} ];   // (23/11 anh: tiếng không kéo sang đoạn khác → tắt đúng mốc đoạn)                      // toà nhà sập
   window.FIN1_GIREI_AT=DUR-T.roof;   // giây trong file Girei lúc hết nóc nhà → fin1c5 phát tiếp từ đây   // file 8.3s < 32s cảnh nóc nhà → lặp, không tắt giữa chừng (anh chê 10/11)                     // theme Akatsuki: 5 bóng lộ diện
 
   // 🧩 (9/11/2026) Tập chia CẢNH: MAIN là bản vẽ cả tập theo giây gốc; mỗi cảnh = 1 phim con cắt 1 khoảng giây của MAIN (fin1c1, fin1c2, fin1c3),
@@ -902,8 +896,7 @@
       imgs:Object.fromEntries(keys.filter(k=>MAIN.imgs[k]).map(k=>[k,MAIN.imgs[k]])), sfx:sfxT,
       mus:[{src:A+'fin_crowd.mp3', ra:0, rb:RV+0.1, vol:0.55, fo:0.3},                        // đám đông la hét (đoạn hoảng loạn)
            {src:A+'cine_heart.mp3', ra:RV-0.05, rb:RV+0.7, vol:0.7, fi:0.15, fo:0.3},                 // tim đập lúc Friend ló ra
-           {src:A+'cine_ambient_war.mp3', ra:0, rb:dlg+0.3, vol:0.5, fi:0.4, fo:0.5},
-           {src:A+'mus_girei.m4a', ra:dlg, rb:DURT, vol:0.5, fi:0.6, fo:1.2}],   // 13/11: Girei bản đủ thay dp_akatsuki 8s lặp
+],   // 🔇 (anh 23/11) BỎ HẾT nhạc nền — anh tự lồng nhạc khi dựng; phim chỉ giữ tiếng hiệu ứng + đòn đánh
       shots:[{t0:0,t1:DURT,a:{}}],
       impact:t=>MAIN.impact(src(t)), shake:t=>MAIN.shake(src(t)),
       world(F,t){ const e=at(t), s=src(t), g=F.g; g.save(); g.translate(TW/2,TH/2); g.scale(e.kz,e.kz); g.translate(-e.cx,-e.cy); MAIN.world(F,s); g.restore(); },

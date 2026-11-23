@@ -134,7 +134,7 @@ const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css
   for (const [R, k, v, d] of info.sfx) { if (R < T0 - 0.05 || R >= T1 || !info.src[k]) continue;
     let gn = v * lufsGain(k); if (!info.music.includes(k) && musOn(R)) gn *= 0.75;
     inputs.push('-i', path.join(ROOT, info.src[k]));
-    filters.push(`[${n+1}:a]${d ? `atrim=0:${d},` : ''}volume=${gn.toFixed(3)},adelay=${Math.max(0, Math.round((R - T0) * 1000))}|${Math.max(0, Math.round((R - T0) * 1000))},aformat=channel_layouts=stereo[a${n}]`); n++; }
+    filters.push(`[${n+1}:a]${d ? `atrim=0:${d},afade=t=out:st=${Math.max(0, d - 0.06).toFixed(3)}:d=0.06,` : ''}volume=${gn.toFixed(3)},adelay=${Math.max(0, Math.round((R - T0) * 1000))}|${Math.max(0, Math.round((R - T0) * 1000))},aformat=channel_layouts=stereo[a${n}]`); n++; }
   for (const m of info.mus) { const a = Math.max(m.ra, T0), b = Math.min(m.rb, T1); if (b <= a) continue;
     const off = a - m.ra + (m.off || 0), len = b - a;
     inputs.push(...(m.loop ? ['-stream_loop', '-1'] : []), '-i', path.join(ROOT, m.src));

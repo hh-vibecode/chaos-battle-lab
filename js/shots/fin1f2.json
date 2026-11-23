@@ -2,7 +2,7 @@
   {"t0":0,"t1":2.4,"co":"toàn","goc":"ngang","hanhDong":"2 cột sáng bạc + hồng giáng xuống giữa cầu treo, Pop + Huh hiện ra","loai":"giới thiệu","anh":["P0","U0"],"sfx":["cine_impact"],"ghiChu":""},
   {"t0":2.4,"t1":4.4,"co":"trung","goc":"ngang","hanhDong":"Pop + Huh ngơ ngác nhìn quanh, máy đẩy chậm","loai":"giới thiệu","anh":["P0","U0"],"sfx":[],"ghiChu":""},
   {"t0":4.4,"t1":6.4,"co":"toàn","goc":"giun","hanhDong":"Bat ngồi xổm trên dầm tháp, trăng máu sau lưng","loai":"giới thiệu","anh":["BPE"],"sfx":["l2p_sub"],"ghiChu":""},
-  {"t0":6.4,"t1":7.4,"co":"cực cận","goc":"ngang","hanhDong":"mắt Bat nheo lại, loé","loai":"đối mặt","anh":["BPE"],"sfx":["l2p_chime"],"ghiChu":""},
+  {"t0":6.4,"t1":7.4,"co":"cực cận","goc":"ngang","hanhDong":"mắt Bat nheo lại, loé","loai":"đối mặt","anh":["BPE"],"sfx":["ep3_shine"],"ghiChu":""},
   {"t0":7.4,"t1":10.4,"co":"toàn","goc":"chim","hanhDong":"CHẾ ĐỘ THÁM TỬ: khoá Pop + Huh, vạch đường nấp qua 3 xe + trụ đèn","loai":"giới thiệu","anh":["P0","U0"],"sfx":["ep3_blip"],"ghiChu":""},
   {"t0":10.4,"t1":11.3,"co":"cận","goc":"giun","hanhDong":"Pop ngẩng lên thấy mắt loé trên tháp, há mồm — lặng","loai":"đối mặt","anh":["P1"],"sfx":[],"ghiChu":""},
   {"t0":11.3,"t1":12.1,"co":"cận","goc":"ngang","hanhDong":"MINIGUN: Pop xả vòng khói liên thanh lên tháp, giật lùi, mặt đường nứt","loai":"ra chiêu","anh":["P0","P1"],"sfx":["popcat","se_machdash"],"ghiChu":""},

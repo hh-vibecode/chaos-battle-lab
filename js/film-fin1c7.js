@@ -304,7 +304,7 @@
     wisps(F,t,{n:4,x0:ex-30,x1:ex+30,y:ey-20-lt*30,r:34,a:0.45*(1-seg(t,T.eye-0.3,T.eye)),tint:'120,100,110',seed:21,sp:4,dy:30});
     const oa=1-0.5*seg(t,T.stab,T.eye); [[VW*0.33,VH*0.03],[VW*0.5,-VH*0.02],[VW*0.66,VH*0.03]].forEach(([x,y],i)=>orb(g,x,y,40*(0.9+0.2*Math.sin(t*31+i)),t,oa*(hash(Math.floor(t*20)+i)>0.25?1:0.35)));
     g.restore(); });
-  S(T.eye,T.slash,{co:'cực cận',goc:'ngang',loai:'đối mặt',hd:'Cực cận mặt Gojo: run, ánh đỏ của lưỡi kiếm hắt từ dưới; 3 cầu trên đầu trôi lệch nhau rồi XÌ TẮT thành khói tím',anh:['PL','GOJO'],sfx:['l2p_shimmer']},(F,t,u)=>{
+  S(T.eye,T.slash,{co:'cực cận',goc:'ngang',loai:'đối mặt',hd:'Cực cận mặt Gojo: run, ánh đỏ của lưỡi kiếm hắt từ dưới; 3 cầu trên đầu trôi lệch nhau rồi XÌ TẮT thành khói tím',anh:['PL','GOJO'],sfx:['sn_sizzle']},(F,t,u)=>{
     const P=PAL.night, vw={p:'PL',zm:2.2,cx:0.5,cy:0.55,blur:6}, M=plateView(F,vw,u), g=F.g, fz=seg(t,T.fizz,T.fizz+0.55);
     skyUp(F,t,P,{cx:VW*0.5,cy:-VH*0.2,swirl:0.03,glow:[[VW*0.5,-VH*0.1,VW*0.6,'190,110,255',0.45*(1-fz)]]}); plate(F,M,P,{dark:0.7});
     const tr=(hash(Math.floor(t*40))-0.5)*3;
@@ -473,7 +473,7 @@
     skyBand(F,t,P,M.hz,{cs:1.5,red:0.4}); plate(F,M,P);
     meme(F,key,VW*(i%2?0.56:0.46),y,VH*hk,{tone:'red',sy:sq,sx:2-sq,fade:0.06});
     dust(F,t,t0+0.16,VW*(i%2?0.56:0.46),y0-VH*0.04,VH*0.6,{tint:'120,70,64',a:0.6,seed:20+i,life:0.8}); motes(F,t,{n:24,col:'255,110,50',core:'255,220,160',sp:40,up:true,a:0.8,seed:30+i}); }));
-  S(T.ninja,T.seal,{co:'cận',goc:'ngang',loai:'ra chiêu',hd:'Cận Ninja: Sharingan xoay loé → ngồi thụp → ĐẬP tay xuống đất, đất nứt sáng đỏ; chữ KUCHIYOSE NO JUTSU',anh:['PG','NINJA','SHAR'],sfx:['l2p_shimmer','kn_boom_low','se_super_hit']},(F,t,u)=>{
+  S(T.ninja,T.seal,{co:'cận',goc:'ngang',loai:'ra chiêu',hd:'Cận Ninja: Sharingan xoay loé → ngồi thụp → ĐẬP tay xuống đất, đất nứt sáng đỏ; chữ KUCHIYOSE NO JUTSU',anh:['PG','NINJA','SHAR'],sfx:['ep3_shine','kn_boom_low','se_super_hit']},(F,t,u)=>{
     const P=PAL.red, vw={p:'PG',zm:2.4,cx:0.5,cy:0.64,blur:4}, M=plateView(F,vw,u), g=F.g, cr=eout(seg(t,T.crouch,T.slam)), hit=seg(t,T.slam,T.slam+0.6);
     skyBand(F,t,P,M.hz,{cs:1.6,red:0.5}); plate(F,M,P);
     if(t>=T.slam) lighter(g,()=>{ for(let i=0;i<9;i++){ const an=Math.PI*(1.05+0.9*i/8)+(hash(i+500)-0.5)*0.2, L=VW*0.7*eout(hit); g.strokeStyle='rgba(255,90,40,'+(0.85*(1-0.5*hit))+')'; g.lineWidth=3; g.beginPath(); let x=VW*0.5, y=VH*1.0; g.moveTo(x,y); for(let s=1;s<=6;s++){ x=VW*0.5+Math.cos(an)*L*s/6+(hash(i*9+s)-0.5)*20; y=VH*1.0+Math.sin(an)*-L*s/6*0.25; g.lineTo(x,y); } g.stroke(); } glowDot(g,VW*0.5,VH*0.98,VH*0.5,'255,80,30',0.6*(1-0.5*hit)); });
@@ -507,7 +507,7 @@
       for(let j=0;j<6;j++){ const f=clamp(lt/2.6,0,1), r=h*(0.16+0.2*eout(f))*(0.7+0.5*hash(i*9+j)), py=y-h*eout(Math.min(1,lt*1.4))*(0.2+0.8*j/5); g.save(); g.globalAlpha=0.7*(1-ein(f)); g.translate(x+(hash(i*9+j+1)-0.5)*h*0.3,py); g.drawImage(puffT(j%5,'40,12,14',0.88),-r,-r,2*r,2*r); g.restore(); }
       if(lt<0.25) lighter(g,()=>glowDot(g,x,y-h*0.1,h*0.5,'255,90,40',0.7*(1-lt/0.25))); }
     motes(F,t,{n:40,col:'255,110,50',core:'255,220,160',sp:34,up:true,a:0.7,seed:60}); });
-  S(T.shard,T.sky,{co:'cận',goc:'ngang',loai:'đối mặt',hd:'Cận Pain giơ mảnh linh hồn Friend, mảnh loé tím → LẶNG',anh:['PG','PAIN'],sfx:['l2p_chime']},(F,t,u)=>{
+  S(T.shard,T.sky,{co:'cận',goc:'ngang',loai:'đối mặt',hd:'Cận Pain giơ mảnh linh hồn Friend, mảnh loé tím → LẶNG',anh:['PG','PAIN'],sfx:['ep3_shine']},(F,t,u)=>{
     const P=PAL.red, lt=LS(t,T.shard), vw={p:'PG',zm:2.3,cx:0.55,cy:0.62,blur:5}, M=plateView(F,vw,u), g=F.g, q=seg(t,T.quiet,T.sky);
     skyBand(F,t,P,M.hz,{cs:1.6,red:0.3+0.5*q}); plate(F,M,P);
     const m=meme(F,'PAIN',0,0,VH*1.25,{tone:'red',anchor:[PT.painFace[0],PT.painFace[1],VW*0.36,VH*0.42]}); rinne(g,m,0.8,VH*0.018);
@@ -644,24 +644,24 @@
     cast:['fr','mlem','ninja','gary','catvader','dp','mw','doge','bananacat','cry','lightsaber'],
     sfxOk:{demon_roar1:'tiếng gầm quỷ của phim — đúng binh đoàn ác quỷ', burn_loop:'tiếng lửa cháy chung — vệt lửa của ấn triệu hồi'},
     sfx:[[T.a3,'ep3_charge',0.6,T.a4-T.a3,'Gojo tụ 3 cầu tím trên đầu, gió và đá bị hút lên'],[T.a4,'se_charge',0.5,T.hush-T.a4,'+ 3 cầu tím lớn dần, ngân dâng (lớp của tụ cầu)'],
-      [T.ignite,'lightsaber_on',0.9,0.5,'tiếng bật kiếm laze ngay sau lưng Gojo'],[T.stab,'se_super_hit',0.8,0.5,'lưỡi laze đỏ đâm xuyên ngực Gojo'],[T.stab+0.02,'se_impact_stop',0.6,0.4,'+ khựng đúng khung xuyên (lớp của cú đâm)'],
-      [T.fizz,'l2p_shimmer',0.5,0.6,'3 cầu tím chập chờn rồi xì tắt'],
+      [T.ignite,'lightsaber_on',0.9,0.35,'tiếng bật kiếm laze ngay sau lưng Gojo'],[T.stab,'se_super_hit',0.8,0.5,'lưỡi laze đỏ đâm xuyên ngực Gojo'],[T.stab+0.02,'se_impact_stop',0.6,0.4,'+ khựng đúng khung xuyên (lớp của cú đâm)'],
+      [T.fizz,'sn_sizzle',0.5,0.6,'3 cầu tím chập chờn rồi xì tắt'],   // (23/11: bỏ tiếng chuông)
       [T.slash,'lightsaber_whoosh_01',0.9,0.45,'Catvader rút kiếm, xoay người chém ngang'],[T.cut,'ed_hit7',0.8,0.45,'+ nhát chém cắt ngang cả khung (lớp của nhát chém)'],
       [T.split+0.8,'cine_drop',0.5,0.6,'nửa trên của Gojo ngả rơi xuống chạm đất'],
       [T.split+1.4,'catvader_breathe',0.8,2.0,'nửa trên Gojo rơi xuống: lộ Catvader đứng ngay sau lưng, thở máy'],
       [T.doge,'se_machdash',0.7,0.6,'Buff Doge bật Haki lao vút tới'],
       [T.field,'ep3_force',0.7,0.5,'Catvader dựng trường lực Force đỏ trước mặt'],[T.hit,'cine_haki_hit',0.9,0.45,'nắm đấm Haki của Doge nện vào trường lực'],
-      [T.blast,'l2p_shatter',0.8,0.7,'trường lực VỠ tung thành mảnh'],[T.blast+0.02,'cine_deep_impact',0.8,0.6,'+ cú đấm xuyên qua, Catvader bị đấm văng (lớp của cú vỡ)'],
+      [T.blast,'l2p_shatter',0.8,0.5,'trường lực VỠ tung thành mảnh'],[T.blast+0.02,'cine_deep_impact',0.8,0.48,'+ cú đấm xuyên qua, Catvader bị đấm văng (lớp của cú vỡ)'],
       [T.land,'se_rock_break',0.6,0.6,'Catvader rơi cày đất, trượt tới cạnh Pain'],
       [T.painUp+0.3,'ep3_shine',0.5,0.6,'Pain: Rinnegan loé sáng lại'],
       [T.run+0.2,'se_step_in',0.6,0.8,'phe thiện hốt hoảng chạy tới'],
       [T.banana,'cry_banana_cat',0.9,1.3,'Banana Cat khóc thét'],
       [T.aka+0.16,'se_step_in',0.5,0.3,'Mlem đáp xuống'],[T.aka+0.66,'cine_drop',0.5,0.4,'+ Chud rơi đáp xuống (lớp của nhóm Akatsuki đáp)'],[T.aka+1.16,'se_step_in',0.45,0.3,'+ Ninja đáp xuống (lớp của nhóm Akatsuki đáp)'],[T.aka+1.66,'se_rock_break',0.4,0.4,'+ Bat đáp xuống đống gạch vụn (lớp của nhóm Akatsuki đáp)'],
-      [T.shar,'l2p_shimmer',0.6,0.4,'Sharingan xoay'],
-      [T.slam,'kn_boom_low',0.9,1.0,'Ninja ĐẬP tay xuống đất, đất nổ rền'],[T.slam+0.02,'se_super_hit',0.6,0.5,'+ lớp đập chát (Ninja đập tay)'],
+      [T.shar,'ep3_shine',0.6,0.6,'Sharingan xoay'],
+      [T.slam,'kn_boom_low',0.9,0.4,'Ninja ĐẬP tay xuống đất, đất nổ rền'],[T.slam+0.02,'se_super_hit',0.6,0.38,'+ lớp đập chát (Ninja đập tay)'],
       [T.seal,'burn_loop',0.6,1.8,'ấn triệu hồi chạy như vệt lửa cháy khắp nửa bãi'],
       [T.smoke+0.15,'se_bomb',0.6,0.6,'cột khói nổ bùng lần lượt'],[T.smoke+0.8,'demon_roar1',0.8,1.4,'binh đoàn ác quỷ trồi lên gầm vang'],[T.smoke+1.0,'gary_titan_roar',0.7,1.4,'+ Evil Gary gầm (lớp của triệu hồi)'],
-      [T.shard,'l2p_chime',0.6,1.0,'Pain giơ mảnh linh hồn Friend, loé tím'],
+      [T.shard,'ep3_shine',0.6,1.0,'Pain giơ mảnh linh hồn Friend, loé tím'],
       [T.sky,'l2p_rumble',0.8,1.8,'trần mây đỏ rực từ bên trong, rền theo nhịp tim'],
       [T.dive,'fr_dash',0.9,1.6,'Friend lao đầu xé toạc tầng mây'],[T.dive+0.3,'se_whoosh_fast',0.6,1.2,'+ xé gió (lớp của Friend lao)'],
       [T.brake,'l2p_whoosh',0.9,1.0,'Friend PHANH gấp giữa trời: gió ép bạt xuống (không nổ)'],[T.brake+0.05,'l2p_rumble',0.7,1.5,'+ gió ép trầm rền (lớp của cú phanh)'],
@@ -670,11 +670,8 @@
       [T.rage+0.4,'l2p_riser',0.6,T.boom-T.rage-0.4,'Chill Guy nộ: hào quang đen–đỏ dâng lên, đất nứt, đá bị nhấc bổng'],[T.rage+0.05,'se_aura',0.5,T.boom-T.rage-0.05,'+ hào quang bốc cháy ngùn ngụt (lớp của nộ)'],
       [T.boom,'l2p_explode',1,2.0,'BÙM — nổ trắng xoá']],
     // 🎵 nối nhạc trận Gojo (mus_honored) → TẮT CỤT lúc lặng trước cú đâm · Imperial March (Catvader lộ diện, 1 lần) · Sadness and Sorrow (Banana khóc → đứng quanh bóng Gojo) · Despair (phe Evil → hết)
-    mus:[{src:'assets/audio/mus_honored.m4a',ra:0,rb:T.hush,off:96,vol:0.28,fi:0.6,fo:0.08},
-      {src:'assets/audio/mus_imperial.m4a',ra:T.split+1.2,rb:T.split+1.2+8.3,off:0.05,vol:0.42,fi:0.05,fo:0.9},   // vào đúng lúc lộ Catvader, chạy hết bài (8.5s) qua cả pha Doge
-      {src:'assets/audio/mus_sadness.m4a',ra:T.painUp+0.2,rb:T.aka+0.8,off:0.2,vol:0.4,fi:0.6,fo:0.8},
-      {src:'assets/audio/mus_despair.m4a',ra:T.aka+0.8,rb:T.boom-0.05,off:0,vol:0.45,fi:0.5,fo:0.2},
-      {src:'assets/audio/cine_heart.mp3',ra:T.senseHit-0.05,rb:T.doge+0.1,off:0,vol:0.6,fi:0.05,fo:0.15},   // tim đập lúc Catvader linh cảm (như linh cảm Chill Guy fin1c6)
+    // 🔇 (anh 23/11) BỎ HẾT nhạc nền — anh tự lồng nhạc khi dựng; phim chỉ giữ tiếng hiệu ứng + đòn đánh (bỏ Honored One, Imperial March, Sadness and Sorrow, Despair) — còn tim đập:
+    mus:[{src:'assets/audio/cine_heart.mp3',ra:T.senseHit-0.05,rb:T.doge,off:0,vol:0.6,fi:0.05,fo:0.15},   // tim đập lúc Catvader linh cảm (như linh cảm Chill Guy fin1c6)
       {src:'assets/audio/cine_heart.mp3',ra:T.rage,rb:T.boom,off:0,vol:0.95,fi:0.05,fo:0.02}],              // TIM ĐẬP TO lúc Chill Guy nộ, tắt phụt khi BÙM
     duckAuto:{decisive:[T.stab]},
     impact:t=>{ const s=strobeAt(t); return s?B.impactOf(s,true):0; },

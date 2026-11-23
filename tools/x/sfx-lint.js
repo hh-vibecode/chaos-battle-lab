@@ -75,8 +75,8 @@ for (const r of rows) { count[r.key] = (count[r.key] || 0) + 1; const c = CAT[r.
 for (const [k, n] of Object.entries(count)) { const p = pre(k), owned = p && !GENERIC.includes(p); if (n > 1 && owned && !(k in sfxOk)) { const ts = rows.filter(r => r.key === k).map(r => fmt(r.t)).join(', '); F('🔁', rows.find(r => r.key === k).t, `${k} dùng ${n} lần (${ts}) — ${(CAT[k] && CAT[k].note.slice(0, 80)) || ''}`); rows.filter(r => r.key === k).forEach(r => r.fl && r.fl.push('🔁 LẶP ×' + n)); }
   else if (n > 3) F('ℹ️', rows.find(r => r.key === k).t, `${k} dùng ${n} lần — nghe lặp, cân nhắc đổi tiếng khác cho vài chỗ`); }
 for (let i = 1; i < rows.length; i++) if (rows[i].t - rows[i - 1].t < 0.15 && rows[i].key !== rows[i - 1].key && !/^\s*\+/.test(rows[i].label)) { rows[i].fl && rows[i].fl.push('👥 CHỒNG'); F('👥', rows[i].t, `${rows[i - 1].key} + ${rows[i].key} bắt đầu cách nhau ${(rows[i].t - rows[i - 1].t).toFixed(2)}s`); }
-// 🎚️ DÀY: đếm tiếng sự kiện (bỏ lớp '+' và tiếng nền ≥ 4s không cắt) trong cửa sổ 10s trượt
-{ const ev = rows.filter(r => !/^\s*\+/.test(r.label) && !(r.dur && r.dur >= 4 && !r.d)); let worst = null;
+// 🎚️ DÀY: đếm tiếng sự kiện (bỏ lớp '+' và tiếng nền ≥ 4s — kể cả đã cắt cho khỏi kéo sang đoạn sau, 23/11) trong cửa sổ 10s trượt
+{ const ev = rows.filter(r => !/^\s*\+/.test(r.label) && !(r.dur && r.dur >= 4)); let worst = null;
   for (const a of ev) { const n = ev.filter(b => b.t >= a.t && b.t < a.t + 10).length; if (n > 9 && (!worst || n > worst.n)) worst = { t: a.t, n }; }
   if (worst) F('🎚️', worst.t, `${worst.n} tiếng trong 10s từ ${fmt(worst.t)} — tối đa 9 (lộn xộn, mất lực): bỏ tiếng cho động tác phụ, gộp thành lớp '+' của cú chính`); }
 // 🎯 LỆCH NGHĨA: tiếng có loại RÕ NGHĨA trong tools/x/sfx-catalog.json (rơi / giọng / vỡ / nổ) mà NHÃN không nói tới việc đó (10/11: anh chê tiếng rơi gắn chỗ không có gì rơi)
