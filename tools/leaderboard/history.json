@@ -31,10 +31,7 @@
    "seed": 3534626120,
    "t": 29,
    "src": "render",
-   "at": "2026-11-20T04:07:27.115Z",
-   "pub": "Pn5_45VXjTU",
-   "dur": 31,
-   "chk": "2026-11-23 xem video"
+   "at": "2026-11-20T04:07:27.115Z"
   },
   {
    "title": "Snooze Cat vs Beluga - Meme Battle",
@@ -67,7 +64,10 @@
    "seed": 4147204179,
    "t": 35.4,
    "src": "render",
-   "at": "2026-11-20T04:26:33.410Z"
+   "at": "2026-11-20T04:26:33.410Z",
+   "pub": "uEO1XwhzqOI",
+   "dur": 31.3,
+   "chk": "2026-11-23 anh xác nhận lần quay đã đăng"
   },
   {
    "title": "Supreme Cat vs Bread Cat vs Flower Cat vs The Void - Last One Standing",
@@ -677,6 +677,21 @@
    "dur": 29.2,
    "chk": "2026-11-23 xem video",
    "note": "ghi bù: người thắng đọc từ video đã đăng (khung cuối + thanh máu)"
+  },
+  {
+   "title": "Ninja Cat vs Sans - Meme Battle",
+   "k": "ninja cat vs sans meme battle",
+   "win": [
+    "sans"
+   ],
+   "seed": null,
+   "t": null,
+   "src": "video",
+   "at": "2026-11-23T08:00:00.000Z",
+   "pub": "Pn5_45VXjTU",
+   "dur": 31,
+   "chk": "2026-11-23 xem video",
+   "note": "người thắng đọc từ video đã đăng; quay 3 lần (2 Sans thắng, 1 Ninja thắng) — anh không nhớ đăng lần nào nên không gắn seed"
   }
  ]
 }
