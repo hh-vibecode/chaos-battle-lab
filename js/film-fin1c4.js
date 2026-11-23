@@ -62,7 +62,7 @@
   const T={ cuG:2.2, cuP:2.9, dash:3.6, clash:4.05, sep:13.0, pushC:13.8, push:14.45, crash:15.3, still:16.6, rise:18.0, cast:19.8, gUp:21.0, dom:21.5,
     dEye:22.0, dImp:22.8,   /* 11/11 anh dặn: hiện MẮT trước (dom→dEye) rồi mới tới ảnh giơ tay kết ấn (dEye→dImp) */ dVoid:23.2, dIn:24.5, dOut:25.8,
     imp:26.6, sh:26.9, wave:28.8, rest:29.8, land:32.0, look:33.6, smoke:34.6, fire:35.4, block:35.9, heave:38.6, up:39.2, imp2:39.9, boom:40.2,
-    rest2:41.7, face:43.2, cuG2:45.6, cuP2:46.3, split:47.0, wide:48.6, DUR:50.0 };
+    rest2:41.7, face:43.2, cuG2:45.6, cuP2:46.3, split:47.0, wide:48.6, DUR:43.2 };   // (anh 23/11) "đến cảnh đẩy cầu đi là HẾT phần giao tranh" → bỏ đoạn 2 bên đứng đối diện (face…wide), phim kết sau nổ tím trên trời; cảnh kết fin1c7 mở bằng Pain thở dốc
   const H=120, PCX=240;                 // H = cỡ chuẩn 1 con · PCX = chỗ Pain cast (tâm Shinra)
   const STY=300;                        // 1 tầng nhà = 300 đơn vị (≈2.5× meme)
   const CRASH_X=-2650;                  // Gojo đâm vào toà nhà cuối đại lộ
@@ -671,8 +671,8 @@
   // 12/11 tối (anh: bản giãn đều "lê thê", phải NHANH – CHẬM ĐAN XEN): tràng đòn chạy nhanh hơn gốc (×0.85–0.9), mỗi hiệp 1 nhịp THỞ rõ (×1.6–2.2),
   //   đoạn truyện / dư chấn về tốc độ gốc, chỉ giữ chậm chỗ căng thật (lãnh địa, Pain gồng đỡ Hollow Purple, đối mặt cuối). [giây cũ a, b, hệ số]
   const RETIME=[[0,2.2,1.3],[2.2,3.6,2.2],[3.6,4.05,0.5],[4.05,4.55,0.75],[4.55,5.0,0.8],[5.0,5.8,0.75],[5.8,6.3,0.8],[6.3,7.45,0.8],[7.45,8.15,0.9],[8.15,9.4,0.8],[9.4,10.0,1.2],[10.0,10.95,0.75],[10.95,11.6,0.8],
-    [11.6,12.6,1.1],[12.6,13.8,1.1],   /* (16/11 anh: tay đôi nhanh hơn) trao đổi ×0.75–0.8, chỉ 1 nhịp thở ngắn giữa trận (9.4–10) */[13.8,16.6,1],[16.6,18.0,1.5],[18.0,21.5,1.0],[21.5,26.6,1.4],[26.6,TCZ,1.0],[TCZ,TCZ+ZF,ZX/ZF],[TCZ+ZF,29.8,1.0],[29.8,34.6,1.0],[34.6,35.9,1.0],[35.9,38.6,1.5],[38.6,41.7,1.0],
-    [41.7,45.6,1.15],[45.6,47.0,1.7],[47.0,50.0,1.3]];
+    [11.6,12.6,1.1],[12.6,13.8,1.1],   /* (16/11 anh: tay đôi nhanh hơn) trao đổi ×0.75–0.8, chỉ 1 nhịp thở ngắn giữa trận (9.4–10) */[13.8,16.6,1],[16.6,18.0,1.5],[18.0,21.5,1.0],[21.5,26.6,1.4],[26.6,TCZ,1.0],[TCZ,TCZ+ZF,ZX/ZF],[TCZ+ZF,29.8,1.0],[29.8,34.6,1.0],[34.6,35.9,1.0],[35.9,38.6,1.6],[38.6,41.7,1.0],
+    [41.7,43.2,2.397],[43.2,45.6,1.15],[45.6,47.0,1.7],[47.0,50.0,1.3]];
   const RT=(()=>{ let n=0; return RETIME.map(([a,b,k])=>{ const o={a,b,k,n0:n}; n+=(b-a)*k; o.n1=n; return o; }); })();
   const Rold=tn=>{ for(const r of RT) if(tn<r.n1) return r.a+(tn-r.n0)/r.k; const L=RT[RT.length-1]; return L.b+(tn-L.n1); };   // giây mới → giây cũ
   const Rnew=to=>{ for(const r of RT) if(to<r.b) return r.n0+(Math.max(r.a,to)-r.a)*r.k; const L=RT[RT.length-1]; return L.n1+(to-L.b); };   // giây cũ → giây mới
@@ -733,7 +733,7 @@
       [T.heave,'ep3_force',0.9,null,'Pain dồn hết sức đẩy'],[T.heave+0.25,'cine_deep_impact',1,null,'+ lực đẩy của Pain đập trúng quả cầu, hất nó lên trời'],
       [T.up,'l2p_whoosh',0.7,null,'cầu tím bay vút lên'],
       [T.boom,'ep3_explode',1,null,'NỔ TÍM trên không, sóng nổ đập trúng mây'],[T.boom+0.01,'ed_hit10',0.6,null,'+ lớp edit: nổ trầm to của vụ nổ tím'],[T.boom+0.3,'ep3_quake',0.6,null,'rung dội xuống mặt đất'],
-      [T.face,'l2p_rumble',0.4,null,'2 bên đối diện giữa hố, gió bụi'],
+
       [T.split,'ep3_shine',0.7,null,'mặt chia đôi loé'],
       [T.wide,'l2p_sub',0.4,null,'toàn cảnh kết, nền trầm, tối dần']],
     duckAuto:{decisive:[T.push,T.sh,TCZ+ZF*ZPH.imp,T.boom]},   // 🎚️ nhạc nhường tiếng: Almighty Push · Shinra Tensei · nổ tím
