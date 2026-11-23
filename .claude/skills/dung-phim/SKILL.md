@@ -167,7 +167,7 @@ Anh chê điều gì MỚI → thêm 1 dòng vào bảng này ngay trong phiên 
    (1 dòng = 1 shot nhìn thấy, phủ kín 0→DUR; mẫu `js/shots/fin1c4.json`; giá trị co / goc / loai xem đầu `tools/x/film-lint.js`).
    film-check tự chạy `tools/x/film-lint.js <id>` → `<out>/<id>-shots.md`: đánh 0.2–0.9s, không shot > 3s, ≥ 3 cỡ / 10s, thở 1.4–1.6s sau nổ lớn,
    âm bản ±0.1s ở mỗi va chạm (nhãn tiếng có đấm / trúng / va / đập), ảnh có trong imgs. Chỉ báo anh khi film-lint **0 lỗi** (lệch có chủ ý thì ghi lý do cho anh).
-   🎞️ **(23/11) App CHỈ phát video**: soát xong → `tools/x/film-video.js <id>` (Windows / Mac, ~1 phút) ra `video/<id>.mp4` + `video/films.json`, phát hành kèm 2 file đó. Không có video thì anh KHÔNG xem được phim trong app (app không vẽ trực tiếp nữa — vẽ trực tiếp làm treo máy anh). Phim mới → thêm id vào `FILMS` trong film-video.js + rạp `openCinema`.
+   🎞️ **(23/11) App CHỈ phát video**: soát xong → `tools/x/film-video.js <id>` (Windows / Mac, ~1 phút) tự đẩy video lên GitHub Releases (giữ 2 bản: mới nhất + bản trước) + ghi link vào `video/films.json` → phát hành CHỈ films.json (video không vào repo). Không có video thì anh KHÔNG xem được phim trong app (app không vẽ trực tiếp nữa — vẽ trực tiếp làm treo máy anh). Phim mới → thêm id vào `FILMS` trong film-video.js + rạp `openCinema`.
 5. **Xuất** (chỉ khi anh bảo): `node tools/render-cine.js <id> out.mp4 --scale 1.3333` (9:16 2K) — phim cine-kit tự nhận, không cần thêm vào `FILMS`. Xem skill `xuat-video`.
 
 ## 🧩 TẬP DÀI = NHIỀU CẢNH (anh chốt 9/11/2026) — `CineKit.seq`

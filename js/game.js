@@ -26998,8 +26998,8 @@ function _cinePanelMake(host,api){
 window._cinePanelMake=_cinePanelMake; window._cinePanelRemove=_cinePanelRemove;
 // 🎞️ (23/11 anh: xem "Story · Chill Guy" tới giây ~7 là TREO CẢ MÁY — lỗi nguy hiểm nhất) APP CHỈ PHÁT VIDEO ĐÃ XUẤT SẴN, KHÔNG VẼ PHIM TRỰC TIẾP NỮA.
 //   Đo (tools/x/film-bench.html): cảnh Chill Guy từ giây 7 tốn 0.2–4 GIÂY / khung (cần < 0.033) → trình duyệt vừa vẽ vừa nén liên tục, chiếm hết CPU / GPU / RAM.
-//   Anh chốt: "phim đều phải được xử lý từ trước, ở app chỉ là bản video". Video xuất bằng tools/x/film-video.js → video/<id>.mp4 + video/films.json
-//   (video/ nằm NGOÀI assets/ → bộ nạp game không tải trước; chỉ tải khi bấm xem, phát kiểu YouTube vừa tải vừa xem).
+//   Anh chốt: "phim đều phải được xử lý từ trước, ở app chỉ là bản video". Video xuất bằng tools/x/film-video.js, nằm trên GitHub Releases "films"
+//   (tools/x/film-release.js — không vào lịch sử git, bản cũ xoá hẳn) · video/films.json (trong repo) giữ link → bộ nạp game không tải trước; chỉ tải khi bấm xem.
 //   Tập đầy đủ fin1full = phát NỐI các phần (không xuất riêng cho đỡ nặng repo). Phim chưa có video → báo, KHÔNG lùi về vẽ trực tiếp.
 const FILM_PLAYLIST={ fin1full:['fin1','fin1c5','fin1c6','fin1f2','fin1f3','fin1f1','fin1c4','fin1c7'] };   // khớp PARTS trong js/film-fin1full.js (fin1 = fin1c1–c3)
 let _filmIdx=null;
@@ -27023,7 +27023,7 @@ function playFilmVideo(id,opts){ opts=opts||{};
     let cur=vids[0], i=0, wantPlay=true;
     const other=()=>vids[0]===cur?vids[1]:vids[0];
     const show=()=>{ for(const v of vids){ if(v===cur){ if(!v.parentNode) ov.insertBefore(v,ov.firstChild); } else if(v.parentNode) v.remove(); } };
-    const setSrc=(v,j)=>{ if(+v.dataset.k!==j){ v.src=parts[j].file+'?h='+parts[j].h; v.dataset.k=String(j); } };
+    const setSrc=(v,j)=>{ if(+v.dataset.k!==j){ const p=parts[j]; v.src=/^https?:/.test(p.file)?p.file:p.file+'?h='+p.h; v.dataset.k=String(j); } };   // link GitHub Releases đã mang mã băm trong tên file
     const preloadNext=()=>{ if(i+1<parts.length) setSrc(other(),i+1); };
     const go=(j,t)=>{ if(+cur.dataset.k!==j){ if(+other().dataset.k===j){ cur.pause(); cur=other(); } else setSrc(cur,j); } i=j; show();
       try{ cur.currentTime=Math.max(0,t); }catch(e){} if(wantPlay) cur.play().catch(()=>{ wantPlay=false; }); else cur.pause(); preloadNext(); };

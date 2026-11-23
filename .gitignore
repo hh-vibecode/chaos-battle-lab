@@ -7,3 +7,7 @@ tools/.audio-dur.json
 # video xuất ra (render-cine / render-match) — file nặng, KHÔNG đẩy lên repo
 out/
 tools/x/_ref/
+
+# video phim cho app: nằm trên GitHub Releases "films" (tools/x/film-release.js), KHÔNG commit vào repo — chỉ video/films.json
+video/*.mp4
+video/*.part

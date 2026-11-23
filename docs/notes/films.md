@@ -7,7 +7,7 @@ Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh y
 (ảnh mẫu: góc cao chéo từ trên xuống, 2 nhân vật xoay người, khói + vệt chém + năng lượng — kiểu Jujutsu Kaisen).
 - **Đã có (29/10):** `js/cine-kit.js` = bộ khung chung (máy quay 2.5D: bay vòng / góc cao chéo / ngước / qua vai / nghiêng; sân đá phối cảnh + trời + núi;
   khói toon, sóng xung kích, vệt chém, hào quang theo bóng nhân vật, tia lửa, đá văng, speed lines, khung impact, chữ tượng thanh; khung chạy + bảng điều khiển + xuất offline).
-  Phim mới chỉ cần `js/film-<id>.js` gọi `CineKit.film({...})`; ⚠️ (23/11) app KHÔNG vẽ phim trực tiếp nữa: rạp phát `video/<id>.mp4` xuất bằng `tools/x/film-video.js <id>` (xem CLAUDE.md mục Xuất video); `playCineKit(id,{live:true})` chỉ để dò lỗi lúc dựng; `tools/render-cine.js <id>` tự nhận phim cine-kit.
+  Phim mới chỉ cần `js/film-<id>.js` gọi `CineKit.film({...})`; ⚠️ (23/11) app KHÔNG vẽ phim trực tiếp nữa: rạp phát video (GitHub Releases, link trong `video/films.json`) xuất bằng `tools/x/film-video.js <id>` (xem CLAUDE.md mục Xuất video); `playCineKit(id,{live:true})` chỉ để dò lỗi lúc dựng; `tools/render-cine.js <id>` tự nhận phim cine-kit.
   Bài thử: `docs/mau-phim/film-dvc.js` — Buff Doge vs Samurai Cheems ~7.6s (Meme Cinema → 🧪 Anime Lab). Dùng ảnh có sẵn (Buff Doge P1–P5/haki, Samurai Cheems đứng/quay lưng/chém).
   Skill: `dung-phim` (quy trình + API + mẫu câu lệnh ChatGPT vẽ khung chính), `xem-video` (`tools/xem-video.py`: file hoặc link YouTube + mốc giây → bảng cảnh theo chỗ cắt máy, 3 khung/cảnh, nhịp, nét phác).
 - **VFX sinh bằng shader (29/10):** `js/vfx-gl.js` (aura lửa bám dáng người 7 preset + chỉnh tự do, hậu kỳ sóng bóp méo / zoom blur / tách màu / khí nóng), nạp sẵn trong game + phim;

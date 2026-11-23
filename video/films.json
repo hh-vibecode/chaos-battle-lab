@@ -1,6 +1,6 @@
 {
  "fin1": {
-  "file": "video/fin1.mp4",
+  "file": "https://github.com/hh-vibecode/chaos-battle-lab/releases/download/films/fin1-893fbb5b15.mp4",
   "h": "893fbb5b15",
   "w": 1280,
   "hgt": 720,
@@ -10,7 +10,7 @@
   "at": "2026-11-23 09:33 (giờ VN)"
  },
  "fin1c5": {
-  "file": "video/fin1c5.mp4",
+  "file": "https://github.com/hh-vibecode/chaos-battle-lab/releases/download/films/fin1c5-c50b3bac29.mp4",
   "h": "c50b3bac29",
   "w": 1280,
   "hgt": 720,
@@ -20,7 +20,7 @@
   "at": "2026-11-23 09:33 (giờ VN)"
  },
  "fin1c6": {
-  "file": "video/fin1c6.mp4",
+  "file": "https://github.com/hh-vibecode/chaos-battle-lab/releases/download/films/fin1c6-4a072f6832.mp4",
   "h": "4a072f6832",
   "w": 1280,
   "hgt": 720,
@@ -30,7 +30,7 @@
   "at": "2026-11-23 09:31 (giờ VN)"
  },
  "fin1f2": {
-  "file": "video/fin1f2.mp4",
+  "file": "https://github.com/hh-vibecode/chaos-battle-lab/releases/download/films/fin1f2-5da87fb8a1.mp4",
   "h": "5da87fb8a1",
   "w": 1280,
   "hgt": 720,
@@ -40,7 +40,7 @@
   "at": "2026-11-23 09:34 (giờ VN)"
  },
  "fin1f3": {
-  "file": "video/fin1f3.mp4",
+  "file": "https://github.com/hh-vibecode/chaos-battle-lab/releases/download/films/fin1f3-115db165ea.mp4",
   "h": "115db165ea",
   "w": 1280,
   "hgt": 720,
@@ -50,7 +50,7 @@
   "at": "2026-11-23 09:35 (giờ VN)"
  },
  "fin1f1": {
-  "file": "video/fin1f1.mp4",
+  "file": "https://github.com/hh-vibecode/chaos-battle-lab/releases/download/films/fin1f1-bc12de8b1f.mp4",
   "h": "bc12de8b1f",
   "w": 1280,
   "hgt": 720,
@@ -60,7 +60,7 @@
   "at": "2026-11-23 09:35 (giờ VN)"
  },
  "fin1c4": {
-  "file": "video/fin1c4.mp4",
+  "file": "https://github.com/hh-vibecode/chaos-battle-lab/releases/download/films/fin1c4-5e337e554c.mp4",
   "h": "5e337e554c",
   "w": 1280,
   "hgt": 720,
@@ -70,7 +70,7 @@
   "at": "2026-11-23 09:36 (giờ VN)"
  },
  "fin1c7": {
-  "file": "video/fin1c7.mp4",
+  "file": "https://github.com/hh-vibecode/chaos-battle-lab/releases/download/films/fin1c7-c7c2b27926.mp4",
   "h": "c7c2b27926",
   "w": 1280,
   "hgt": 720,
@@ -80,7 +80,7 @@
   "at": "2026-11-23 09:32 (giờ VN)"
  },
  "fin1tr": {
-  "file": "video/fin1tr.mp4",
+  "file": "https://github.com/hh-vibecode/chaos-battle-lab/releases/download/films/fin1tr-56484dfb1f.mp4",
   "h": "56484dfb1f",
   "w": 720,
   "hgt": 1280,

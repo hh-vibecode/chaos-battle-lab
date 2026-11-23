@@ -9,7 +9,9 @@
 //   --all            = mọi phim đang có trong rạp (danh sách FILMS bên dưới; fin1full = phát nối các phần, không xuất riêng)
 //   --long 1280      = cạnh dài video (mặc định 1280 → 1280×720 / 720×1280) · --fps 30 · --kbps 2500 (hình) · --akbps 128 (tiếng)
 //   --port 8796 --cdp-port 9496 (đổi nếu bận)
-// Sửa phim xong → chạy lại lệnh này cho đúng phim đó rồi phát hành (release.js --files video/<id>.mp4,video/films.json,…). Phim nào chưa có video thì app báo
+//   (23/11, anh chọn hướng 2) xuất xong TỰ ĐẨY lên GitHub Releases "films" (tools/x/film-release.js: cần token, xem đầu file đó) + xoá bản cũ trên release
+//   + xoá file trong máy · --no-upload = chỉ xuất (thử) · --keep = giữ file trong máy. video/*.mp4 bị .gitignore — KHÔNG commit video vào repo.
+// Sửa phim xong → chạy lại lệnh này cho đúng phim đó rồi phát hành CHỈ video/films.json (release.js --files video/films.json,…). Phim nào chưa có video thì app báo
 //   "chưa có bản video" chứ KHÔNG vẽ trực tiếp nữa.
 const fs = require('fs'), path = require('path'), os = require('os'), http = require('http'), crypto = require('crypto'), { spawn, execSync } = require('child_process');
 const ROOT = path.resolve(__dirname, '..', '..'), args = process.argv.slice(2), opt = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; }, has = k => args.includes(k);
@@ -93,6 +95,8 @@ const fmt = s => s >= 60 ? Math.floor(s / 60) + 'p' + String(Math.round(s % 60))
       const sorted = {}; for (const k of Object.keys(I).sort((a, b) => FILMS.indexOf(a) - FILMS.indexOf(b))) sorted[k] = I[k];
       fs.writeFileSync(INDEX, JSON.stringify(sorted, null, 1) + '\n');
       const i = st.info; console.log(`  ✅ video/${id}.mp4 · ${i.w}×${i.h} · ${i.dur}s · ${(i.bytes / 1048576).toFixed(1)} MB · ${i.vcodec} + ${i.acodec} · ${i.sfx} tiếng + ${i.mus} nhạc${i.miss.length ? ' · ⚠️ THIẾU tiếng: ' + i.miss.join(', ') : ''} · vẽ ${i.msPerFrame} ms/khung · tổng ${fmt((Date.now() - T0) / 1000)}`);
+      if (!has('--no-upload')) { try { console.log(`  ☁️ đã đẩy lên release: ${await require('./film-release.js').publish(id, dst, { keep: has('--keep') })}`); }
+        catch (e) { bad++; console.log(`  ❌ CHƯA đẩy lên release (${e.message}) — file vẫn ở video/${id}.mp4, chạy lại: tools/x/film-release.js ${id}`); } }
     } catch (e) { bad++; console.log(`\n  ❌ ${id}: ${String(e.message || e).slice(0, 800)}`); if (P && P.logs.length) console.log('  ' + P.logs.slice(-5).join('\n  ')); try { if (gotFile) fs.rmSync(gotFile, { force: true }); } catch (e2) {} }
     try { if (P) P.ws.close(); } catch (e) {} killBrowser(); await sleep(1500);
   }
