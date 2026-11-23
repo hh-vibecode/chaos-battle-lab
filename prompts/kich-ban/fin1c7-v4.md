@@ -48,3 +48,20 @@ Muốn to cỡ đó mà không vỡ hạt: dùng ảnh gốc 700px phóng bằng
 1. Friend lơ lửng ở đâu: **ngay trên đầu phe Evil** (em đề xuất: như "chống lưng" cho phe Evil) hay giữa trời, trên cả 2 phe?
 2. Cỡ "~40 lần meme, choán nửa trên khung" đủ chưa, hay to nữa (che kín trời, chỉ thấy 1 phần thân)?
 3. Đoạn A–C (Gojo, đánh lén, phe thiện): giữ câu chuyện, chỉ làm lại hình (meme to, ảnh gốc, trời mây) — đúng ý anh chứ? Hay anh muốn đổi cả truyện đoạn nào?
+
+## ✅ ANH CHỐT 23/11
+1. Friend lơ lửng NGAY TRÊN ĐẦU PHE EVIL (chống lưng), nhưng vẫn ở TRÊN KHOẢNG KHÔNG (cao, không sát đất) và CỰC KỲ TO: trong khung CHỈ THẤY 1 PHẦN của nó (thân tràn khỏi mép khung).
+2. (Câu 2 gộp vào 1: to tới mức chỉ thấy 1 phần.)
+3. Giữ truyện bản 3, LÀM LẠI HẾT hình cho KỸ — anh chê "sơ sài quá, dùng nhiều form không nguyên bản từ Friend tới meme" → MỌI meme kể cả Friend chỉ dùng form GỐC.
+
+## ✅ ANH ĐỔI ĐOẠN MỞ 23/11 (thay cả đoạn A "Gojo áp đảo" của bản 3)
+Lời anh: "lúc Pain vừa đẩy được cầu tím đi, đang thở dốc khổ sở, thì thấy Gojo đang tụ thêm 3 quả cầu nữa trên đầu nó. Sau đó sang cảnh bị đâm lén xuyên qua trước luôn."
+| # | chuyện gì xảy ra → phản ứng | máy | ảnh |
+|---|---|---|---|
+| A1 | Nối cuối fin1c4: quả cầu TÍM (Hollow Purple) lao tới, Pain dồn hết sức Shinra Tensei ĐẨY lệch nó đi — cầu tím bay vọt lên trời / ra xa, cày nát dãy nhà phía sau | trung, Pain TO giữa khung, cầu tím choán nửa khung | DP_PAIN_IMG gốc · cầu = code |
+| A2 | Pain THỞ DỐC, khổ sở: người rung theo nhịp thở, hạ thấp, khói bốc, Rinnegan chập chờn mờ | cận trung | DP_PAIN_IMG gốc |
+| A3 | Pain ngẩng lên → thấy Gojo lơ lửng trên cao, trên đầu Gojo đang TỤ 3 QUẢ CẦU TÍM mới (lớn dần, xoáy, hút gió + đá) | ngước từ chỗ Pain (Gojo nhỏ trên cao, 3 cầu sáng rực) → cận Gojo + 3 cầu | MEW_GOJO_IMG gốc · cầu = code |
+| B | NGAY SAU ĐÓ sang đánh lén: lặng → bật kiếm → lưỡi laze đỏ đâm xuyên ngực Gojo từ sau (giữ như bản 3 từ nhịp 8) | | |
+Bỏ: va nhau, Almighty Push vs Vô hạn, cầu Xanh hút, cầu Đỏ đấm văng xuyên 2 toà, câu "It's over, Pain.", gom Xanh + Đỏ.
+↳ (anh 23/11) "đến cảnh đẩy cầu đi là HẾT phần giao tranh Pain vs Gojo". Cảnh đẩy cầu tím lên trời ĐÃ nằm ở cuối fin1c4 → BỎ A1 ở đây.
+  fin1c7 mở thẳng bằng A2: nổ tím còn loé trên trời phía sau, Pain thở dốc khổ sở → A3 ngẩng thấy Gojo tụ 3 cầu tím trên đầu → B đâm lén.

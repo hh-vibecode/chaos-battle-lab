@@ -125,11 +125,11 @@
       if(t<T.halfHit){ man(F,'CG',DODGE[4],SZ,CGW,{look:LOOKR}); obj(F,'half',DODGE[4]+40,lerp(2600,205,ein(k)),SZ+60,560,lerp(0.05,0.2,k)); objShadow(F,DODGE[4]+40,SZ+60,300*k,0.5*k); }
       else { K.smoke(F,{x:DODGE[4],z:SZ,t0:T.halfHit,n:30,spread:1600,rise:500,life:3.5,size:560,seed:101,a:0.85,tint:'120,104,100'}); K.debris(F,{x:DODGE[4],y:100,z:SZ,t0:T.halfHit,n:50,speed:1800,life:1.8,size:60,seed:102,col:'#4a4246'}); }
       return; }
-    const cgx=DODGE[4], rageOn=t>=T.rage&&t<T.say, nod=t>=T.nod&&t<T.nod+0.4?Math.sin(Math.PI*seg(t,T.nod,T.nod+0.4)):0;   // bước ra khỏi đống đổ nát, đứng cạnh nửa toà nhà
+    const cgx=DODGE[4], rageOn=t>=T.rage&&t<T.block, nod=t>=T.nod&&t<T.nod+0.4?Math.sin(Math.PI*seg(t,T.nod,T.nod+0.4)):0;   // bước ra khỏi đống đổ nát, đứng cạnh nửa toà nhà
     const runX=t<T.run?cgx:lerp(cgx,cgx-700,ein(seg(t,T.run,T.face)));
     if(t<T.face){ const auraK=t<T.rage?0.5*seg(t,T.rage-0.5,T.rage):rageOn?1:0, walk=seg(t,T.clear,T.rage);   // NGẮT ở T.block: hào quang tắt phụt
       man(F,'CG',runX,t<T.rage?lerp(SZ,EZ,eout(walk)):EZ,CGW,{look:t<T.run?LOOKR:LOOKL,aura:auraK>0.01&&!(t>=T.rage&&t<T.rage2)?{preset:'haki',k:(t>=T.rage2?1.7:1.15)*auraK,seed:4}:null,life:{breath:rageOn?1.9:0.6,squash:0.25*nod}});
-      if(t>=T.rage2&&t<T.say){ K.ring(F,cgx,EZ,60+900*eout(seg(t,T.rage2,T.rage2+0.5)),36,1-seg(t,T.rage2,T.rage2+0.5),'255,70,40'); rocks(F,t,T.rage2,cgx,EZ,500,140);
+      if(t>=T.rage2&&t<T.block){ K.ring(F,cgx,EZ,60+900*eout(seg(t,T.rage2,T.rage2+0.5)),36,1-seg(t,T.rage2,T.rage2+0.5),'255,70,40'); rocks(F,t,T.rage2,cgx,EZ,500,140);
         K.smoke(F,{x:cgx,z:EZ,t0:T.rage2,n:14,spread:900,rise:120,life:1.4,size:220,seed:141,a:0.5,tint:'60,20,20'}); }   // bùng: vòng sóng đỏ, bụi bị thổi bạt, đá vụn nâng lên
       if(t<T.block+0.6) K.smoke(F,{x:DODGE[4],z:SZ,t0:T.halfHit,n:30,spread:1600,rise:500,life:3.5,size:560,seed:101,a:0.85*(1-seg(t,T.clear,T.rage+0.2)),tint:'120,104,100'});
       if(t>=T.run) K.smoke(F,{x:cgx-900,z:EZ,t0:T.run-2,n:16,spread:700,rise:200,life:6,size:420,seed:111,a:0.7,tint:'110,96,92'}); }   // làn khói Chill Guy chạy vào
@@ -230,9 +230,9 @@
     grade:t=>{ const s=strobe(t); if(t>=T.rage&&t<T.rage2) return null;   // khung nộ Gon: trắng tinh trên đen tuyệt đối (không chỉnh màu đè)
       if(s&&s.kind==='w') return {white:1}; if(s&&s.kind==='k') return {bright:0.02};
       if(t>=T.sense+0.5&&t<T.turn) return {sat:0.55,bright:0.92};   // linh cảm: màu nhạt đi
-      const E=K.edit; return E.mix(E.burn(t,T.halfHit+0.34,T.halfHit+0.5,0.1),E.rgb(t,T.carHit+0.1,0.4,6),E.rgb(t,T.rage2+0.1,0.5,10),E.duotone(t,T.rage2,T.say,'#0a0000','#ff3a22',0.08,0.45)); },
+      const E=K.edit; return E.mix(E.burn(t,T.halfHit+0.34,T.halfHit+0.5,0.1),E.rgb(t,T.carHit+0.1,0.4,6),E.rgb(t,T.rage2+0.1,0.5,10),E.duotone(t,T.rage2,T.block,'#0a0000','#ff3a22',0.08,0.45)); },
     shake:t=>{ let s=0; const h=(a,amp,d)=>{ if(t>=a&&t<a+d) s=Math.max(s,amp*(1-(t-a)/d)); };
-      if(t<T.sense) s=1; h(T.crash,10,0.5); h(T.carHit,14,0.6); for(const x of [T.fire,T.f2,T.f3,T.f4]) h(x+0.32,6,0.3); h(T.halfHit,24,1.0); h(T.rage,6,0.8); if(t>=T.rage&&t<T.say) s=Math.max(s,t<T.rage2?2:4); h(T.rage2,12,0.6);
+      if(t<T.sense) s=1; h(T.crash,10,0.5); h(T.carHit,14,0.6); for(const x of [T.fire,T.f2,T.f3,T.f4]) h(x+0.32,6,0.3); h(T.halfHit,24,1.0); h(T.rage,6,0.8); if(t>=T.rage&&t<T.block) s=Math.max(s,t<T.rage2?2:t<T.say?4:2); h(T.rage2,12,0.6);
       if(t>=T.ready) s=Math.max(s,1+2*seg(t,T.ready,T.DUR)); return s; },
     post(F,t){ const fx={shocks:[]}, sh=(a,x,y,z,rm,d,str)=>{ if(t>=a&&t<a+d){ const u=(t-a)/d; fx.shocks.push({x,y,z,r:20+rm*eout(u),w:30,str:str*(1-u)}); fx.chroma=Math.max(fx.chroma||0,0.3*(1-u)); } };
       sh(T.crash,BX,40,BZ+200,700,0.5,16); sh(T.carHit,SAFE,40,SZ,600,0.5,20); sh(T.halfHit,DODGE[4],60,SZ,900,0.8,30); sh(T.rage,DODGE[4],80,EZ,500,0.7,16); sh(T.rage2,DODGE[4],100,EZ,800,0.7,24); return fx; },
@@ -246,8 +246,9 @@
       if(t>=T.rage2&&t<T.say) K.speedLines(F,{k:0.45*(1-seg(t,T.rage2+0.3,T.say)),n:60,r0:0.35,col:'rgba(255,120,90,0.7)'});
       if(t>=T.rage2&&t<T.say){ const k=seg(t,T.rage2,T.rage2+0.15), fr=Math.floor(t*12); g.save(); g.font='900 '+Math.round(VH*0.072*lerp(1.35,1,k))+'px Montserrat, Arial Black, sans-serif'; g.textAlign='center';
         g.lineWidth=8; g.strokeStyle='#000'; g.fillStyle='#ff2a1a'; g.translate(VW/2+(hash(fr)-0.5)*5,VH*0.17+(hash(fr+7)-0.5)*4); g.strokeText("I'M NOT CHILL ANYMORE",0,0); g.fillText("I'M NOT CHILL ANYMORE",0,0); g.restore(); }   // chữ đỏ đúng game
-      if(t>=T.say&&t<T.block){ const k=seg(t,T.say+0.12,T.say+0.2); g.save(); g.fillStyle='#000'; g.fillRect(0,0,VW,VH); g.globalAlpha=k; g.font='800 '+Math.round(VH*0.06)+'px Montserrat, "Segoe UI", sans-serif'; g.textAlign='center'; g.textBaseline='middle';
-        g.fillStyle='#fff'; g.fillText('Chill, leave it to me.',VW/2,VH/2); g.restore(); }   // MÀN ĐEN + CHỮ (giọng chưa lộ mặt) → rồi mới cắt sang Gojo
-      if(!s&&!(t>=T.rage&&t<T.rage2)&&!(t>=T.say&&t<T.block)) K.letterbox(F,t>=T.sense+0.5&&t<T.turn?0.5:(t>=T.ready?0.6*seg(t,T.ready,T.ready+0.5):0)); if(!s&&!(t>=T.rage&&t<T.rage2)&&!(t>=T.say&&t<T.block)) K.vignette(F,0.5); } };   // khung chớp phải trắng / đen TUYỆT ĐỐI (không viền tối)
+      if(!s&&!(t>=T.rage&&t<T.rage2)) K.letterbox(F,t>=T.sense+0.5&&t<T.turn?0.5:(t>=T.ready?0.6*seg(t,T.ready,T.ready+0.5):0)); if(!s&&!(t>=T.rage&&t<T.rage2)) K.vignette(F,0.5);   // khung chớp phải trắng / đen TUYỆT ĐỐI (không viền tối)
+      // (anh 23/11: "mắc gì màn hình đen, sub nhỏ ở dưới khung hình thôi") giọng Gojo chưa lộ mặt = PHỤ ĐỀ NHỎ dưới khung, Chill Guy vẫn đang nộ trong hình
+      if(t>=T.say&&t<T.block){ const k=seg(t,T.say,T.say+0.15)*(1-seg(t,T.block-0.1,T.block)); g.save(); g.globalAlpha=k; g.font='italic 700 '+Math.round(VH*0.042)+'px Montserrat, "Segoe UI", sans-serif'; g.textAlign='center'; g.textBaseline='middle';
+        g.lineWidth=4; g.strokeStyle='rgba(0,0,0,0.85)'; g.strokeText('Chill, leave it to me.',VW/2,VH*0.9); g.fillStyle='#fff'; g.fillText('Chill, leave it to me.',VW/2,VH*0.9); g.restore(); } } };
   CineKit.film(W&&W.retime?W.retime(RETIME,def):def);
 })();
