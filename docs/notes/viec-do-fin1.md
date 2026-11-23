@@ -1,5 +1,7 @@
 # VIỆC DỞ — Final Part 1
 
+## 🆕 23/11 — anh CHÊ cảnh kết bản 3, LÀM LẠI TOÀN BỘ cách dựng: kịch bản `prompts/kich-ban/fin1c7-v4.md` (CHỜ ANH DUYỆT 3 câu hỏi cuối file). Friend xé mây → KHÔNG nổ → LƠ LỬNG, to ~40× meme; chỉ ảnh gốc; trời có mây thật; meme to trong khung.
+
 ## 🆕 21/11 tối — CẢNH KẾT BẢN 3 `fin1c7` (anh đổi cốt truyện) — ĐÃ DỰNG, CHỜ ANH XEM
 Kịch bản + mọi lời anh chốt: `prompts/kich-ban/fin1c7-v3.md` (mục ✅ ANH CHỐT 1–8). 58.8s, 35 shot (`js/shots/fin1c7.json`), film-lint + sfx-lint cảnh này 0 lỗi.
 - Gojo áp đảo → gom Hollow Purple lần 2 → Catvader đâm lén bằng kiếm laze từ sau → chém ngang → Gojo đứt đôi (nửa trên nằm ngang, tách 1 khe, cháy xém KHÔNG máu) → từ đó chỉ còn BÓNG (chính sách YouTube).
