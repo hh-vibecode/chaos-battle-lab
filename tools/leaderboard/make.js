@@ -56,7 +56,7 @@ const teamsOf = title => title.replace(/^\(rematch\)\s*/i, '').replace(/\s+-\s+(
     const nt = norm(e.title); if (seenTitle.has(nt)) { missing.push(`TRÙNG TIÊU ĐỀ (đếm 1 lần): ${e.title}  [${e.id}]`); continue; } seenTitle.add(nt);
     const r = publish(nt, e.id) || db[nt], teams = r && r.teams || teamsOf(e.title);   // ✅ Short đã lên kênh → lấy lần quay trong history.json vào leaderboard (khoá theo mã video) · teams ghi tay > tiêu đề
     if (teams.length < 2 || teams.flat().some(k => !k)) { missing.push(`TÊN MEME LẠ: ${e.title}  [${e.id}]`); continue; }
-    if (r && r.conflict) { missing.push(`CHƯA CHẮC AI THẮNG (quay ${r.conflict} lần, người thắng khác nhau — xem video rồi ghi "win" vào results.json): ${e.title}  [${e.id}]`); continue; }
+    if (r && r.conflict) { missing.push(`CẦN HỎI ANH AI THẮNG (quay ${r.conflict} lần, người thắng khác nhau — anh bảo rồi ghi "win" + src:"anh" vào results.json): ${e.title}  [${e.id}]`); continue; }
     if (!r) { missing.push(`CHƯA CÓ KẾT QUẢ: ${e.title}  [${e.id}]`); continue; }
     const W = new Set(r.win || []);
     if (W.size && !teams.some(t => t.every(k => W.has(k)))) { missing.push(`KẾT QUẢ KHÔNG KHỚP TIÊU ĐỀ (thắng: ${[...W].join(',')}): ${e.title}  [${e.id}]`); continue; }

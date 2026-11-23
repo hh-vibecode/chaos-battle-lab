@@ -15,13 +15,14 @@ function record({ title, win, seed, t, src }) {
   h.renders.push(e); fs.writeFileSync(HFILE, JSON.stringify(h, null, 1) + '\n'); return e; }
 const latest = k => { const L = loadHistory().renders.filter(e => e.k === k); return L.length ? L[L.length - 1] : null; };
 // ✅ Short đã đăng (mã video id) → đưa lần quay mới nhất vào leaderboard. Đã khoá (pub) thì giữ nguyên.
-//    ⚠️ (23/11) cùng tên mà các lần quay ra NGƯỜI THẮNG KHÁC NHAU → KHÔNG tự đoán (anh đăng có khi KHÔNG phải bản mới nhất: Ninja Cat vs Sans quay 3 lần,
-//    đăng bản Sans thắng mà bảng ghi Ninja) → trả {conflict:n}, make.js ghi vào "Thieu ket qua.txt" để soát video rồi ghi tay.
+//    LUẬT ANH (23/11): ① anh BẢO trận nào con nào thắng → ghi đúng thế (src 'anh', ưu tiên nhất) · ② trận quay random → kết quả lần quay CUỐI
+//    · ③ trận nào KHÔNG CHẮC thì HỎI anh: cùng tên mà các lần quay ra người thắng khác nhau (anh chưa nói) → trả {conflict:n}, chưa tính,
+//    make.js ghi vào "Thieu ket qua.txt" mục CẦN HỎI ANH (vd Ninja Cat vs Sans: quay 3 lần, lần cuối Ninja thắng nhưng anh bảo Sans thắng).
 //    ⚠️ KHÔNG khớp lần quay theo độ dài video: anh luôn rút gọn video trước khi đăng (`dur` trong history.json chỉ là độ dài video trên kênh, để tham khảo).
 function publish(k, id) {
   const db = load(), cur = db.matches[k]; if (cur && cur.pub) return cur;
   const L = loadHistory().renders.filter(e => e.k === k), wins = new Set(L.map(e => [...(e.win || [])].sort().join(',')));
-  if (wins.size > 1 && !(cur && cur.src === 'video')) return { conflict: L.length };
+  if (wins.size > 1 && !(cur && cur.src === 'anh')) return { conflict: L.length };
   const h = latest(k); let r = cur;
   if (h && (!cur || !cur.at || h.at.slice(0, 10) >= cur.at)) r = { title: h.title, win: h.win, seed: h.seed, t: h.t, src: h.src, at: h.at.slice(0, 10) };
   if (!r) return null;
