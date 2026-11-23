@@ -37,7 +37,7 @@ Chi tiết từng meme: `docs/notes/memes.md` · từng phim + cine-kit: `docs/n
 - Ghép nối phải khéo: mọi chỗ 2 thứ gặp nhau (tay ↔ bàn tay, nhân vật ↔ nền, cảnh ↔ cảnh) phải có phương án (cùng nét, mép mờ, khói / bụi phủ chân, không mép cắt thẳng). Xong phải chụp soát kỹ chỗ nối.
 - 🎨 PHIM: NHÂN VẬT PHẢI HOÀ VÀO CẢNH, không nổi như PNG dán lên nền (anh chốt 20/11, áp MỌI phim). Dựng ảnh trên LỚP RIÊNG rồi mới dán: bớt rực ảnh thật (~0.25–0.3)
   · multiply ánh môi trường · TỐI DẦN VỀ CHÂN · ánh hắt MỎNG từ phía nguồn sáng (dải màu phía trên — KHÔNG viền lệch nhiều hướng, thành đường viền bao) · mép mềm (lớp mờ dưới + lớp nét trên)
-  · bóng tiếp đất + sương chân hình BẦU DỤC mềm (không hộp chữ nhật) · đám đông / vật xa: ngược sáng gần đen + nhạt dần theo xa. Mẫu: `sprBlend` trong docs/mau-phim/film-megaband.js.
+  · bóng tiếp đất + sương chân hình BẦU DỤC mềm (không hộp chữ nhật) · đám đông / vật xa: ngược sáng gần đen + nhạt dần theo xa. Mẫu: `sprBlend` trong docs/mau-phim/film-megaband.js. Hàm CHUNG (23/11): `K.toned(c,tone)` + đặt `F.tone=K.TONE.<tên>` đầu world() → mọi K.sprite / W.actor tự nướng.
 - 📏 PHIM: hiệu ứng gắn vào CHI TIẾT của ảnh (lửa nến, mắt, miệng, tay cầm…) phải ĐO toạ độ bằng `tools/x/plate-grid.html` (phóng vùng + lưới số), KHÔNG ước lượng
   (anh 20/11: mắt gargoyle + nến đặt lệch — "phải rất để ý vị trí"). Bộ khung cùng khổ thì neo chung 1 tỉ lệ + điểm chân (không cắt sát từng khung → nhảy cỡ).
 - PHIM: VFX vòng tròn toả (sóng âm hình vòng) anh chê "xấu lắm" (20/11) → không dùng; hiệu ứng nhạc = nốt, khuông nhạc, vạch nhấn, dây rung.

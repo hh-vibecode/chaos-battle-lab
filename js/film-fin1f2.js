@@ -75,7 +75,9 @@
   const fuseOn=(t,t0,t1)=>{ const left=1-seg(t,t0,t1), per=lerp(0.05,0.3,left); return Math.floor((t-t0)/per)%2===0; };
 
   // ───────── MÁY QUAY ─────────  (Pop + Huh luôn TRÁI, Bat luôn PHẢI)
-  const S=(t0,t1,a,b,ease)=>({t0,t1,a,b:b||a,ease:ease||'eio'});
+  const TIGHT=a=>(a&&a.dist>=480&&a.dist<=1100)?Object.assign({},a,{dist:a.dist*0.8}):a;   // (23/11 anh: meme bé quá ở khung toàn) kéo máy gần lại 20% cho mọi khung toàn
+  const S=(t0,t1,a,b,ease)=>{ b=b||a; const ok=TIGHT(a)!==a&&TIGHT(b)!==b;   // chỉ kéo gần khi CẢ đầu lẫn cuối shot đều là khung toàn (tránh máy giật cỡ giữa shot)
+    return {t0,t1,a:ok?TIGHT(a):a,b:ok?TIGHT(b):b,ease:ease||'eio'}; };
   const shots=W.cutify(C.seq([
     S(0,T.look,{tx:-580,ty:150,tz:15,dist:760,yaw:24,pitch:-6,fov:52,roll:2},{tx:-590,ty:130,tz:15,dist:690,yaw:22,pitch:-5,fov:52,roll:2},'lin'),            // 1 toàn góc thấp dọc mặt cầu: 2 cột sáng giáng xuống, Pop + Huh hiện ra
     ...C.pushIn(T.look,{d:T.perch-T.look,tx:-580,ty:70,tz:15,dist:330,dist1:290,yaw:22,pitch:-6,fov:44,ox:-0.1}),                                                    // 2 Pop + Huh ngơ ngác nhìn quanh
@@ -170,7 +172,8 @@
   function cracks(F,p,k){ if(k<=0.02) return; for(let i=0;i<7;i++){ const an=i/7*TAU+0.4, L=(60+50*hash(i*3.1))*k, pts=[[p.x,1,p.z]]; let x=p.x, z=p.z;
       for(let j=1;j<=4;j++){ x+=Math.cos(an+(hash(i*7+j)-0.5)*0.8)*L/4; z+=Math.sin(an+(hash(i*9+j)-0.5)*0.8)*L/4*0.7; pts.push([x,1,z]); } W.line(F,pts,2.2,'rgba(10,8,12,0.85)'); } }
   // ───────── THẾ GIỚI ─────────
-  function world(F,t){ const pn=F.panel||{}; if(pn.next) return drawNext(F,t);
+  function world(F,t){ F.tone=K.TONE.nightRedDeep; const pn=F.panel||{};   // meme nướng hoà ánh trăng đỏ (K.toned)
+    if(pn.next) return drawNext(F,t);
     const th=theme(t), b0=bat(t), p0=pop(t), u0=huh(t);
     CITY.draw(F,t,th);
     CARS.forEach((c,i)=>car(F,c,i,t)); pillar(F,t);

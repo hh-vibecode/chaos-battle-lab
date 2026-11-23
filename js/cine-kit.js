@@ -95,7 +95,31 @@
   // ───────── vật thể trong thế giới (sắp theo độ sâu) ─────────
   // sprite: o = {img, x,z, y(độ cao khỏi đất), h (cao theo đơn vị thế giới), flip, lean (độ, nghiêng ảnh), a, white (0–1 loé trắng),
   //              smear:{dx,dy,dz,n} vệt nhoè theo vận tốc thế giới, aura:{col:'r,g,b', k}, shadow:true}
-  K.sprite=(F,o)=>{ const c=K.prep(o.img); if(!c) return; const P=K.proj(F.B,o.x,o.y||0,o.z); if(!P) return;
+  // 🎨 NHÂN VẬT HOÀ VÀO CẢNH (luật anh chốt 20/11 — áp MỌI phim; bản gốc: bake() của js/film-fin1c7.js): nướng 1 lần / (ảnh, tông, cỡ) một bản ảnh đã
+  //   bớt rực (desat) · multiply ánh môi trường (env) · TỐI DẦN VỀ CHÂN (foot) · ánh hắt MỎNG 1 phía nguồn sáng (rim [màu, độ, top|left|right|bottom]) ·
+  //   LIGHT WRAP (màu nền ăn vào mép: wrap [màu, độ]). Trả về đối tượng giống K.prep → dùng thẳng thay ảnh gốc. tone = object (vd K.TONE.nightRed) hoặc tên.
+  K.TONE={ nightRed:{desat:0.25, env:['#8a6672',0.32], foot:0.5, rim:['#ffb0a0',0.4,'top'], wrap:['#9a4858',0.45]},
+    nightBlue:{desat:0.3, env:['#6a7088',0.36], foot:0.55, rim:['#c8d2ff',0.35,'top'], wrap:['#5a6688',0.45]},
+    nightRedDeep:{desat:0.32, env:['#7a4654',0.5], foot:0.6, rim:['#ff8a78',0.55,'top'], wrap:['#8a3444',0.55]},
+    nightCity:{desat:0.22, env:['#7c7488',0.3], foot:0.55, rim:['#ffcf9a',0.35,'top'], wrap:['#5a5070',0.42]} };
+  const TONED=new Map(); let TONEID=0;
+  K.toned=(c,tone,maxH)=>{ if(!c||!tone) return c; const o=typeof tone==='string'?K.TONE[tone]:tone; if(!o) return c;
+    const sid=c.src._tid||(c.src._tid=++TONEID), tid=o._tid||(o._tid=++TONEID), sc=Math.min(1,(maxH||900)/c.sh), key=sid+'|'+c.sx+'|'+c.sy+'|'+c.sw+'|'+c.sh+'|'+tid+'|'+(sc<1?Math.round(c.sh*sc):0);
+    let r=TONED.get(key); if(r) return r;
+    const w=Math.max(2,Math.round(c.sw*sc)), h=Math.max(2,Math.round(c.sh*sc)), cv=K.mk(w,h), x=cv.getContext('2d'), img=()=>x.drawImage(c.src,c.sx,c.sy,c.sw,c.sh,0,0,w,h);
+    img();
+    if(o.desat){ x.globalCompositeOperation='saturation'; x.globalAlpha=o.desat; x.fillStyle='#808080'; x.fillRect(0,0,w,h); x.globalAlpha=1; }
+    if(o.env){ x.globalCompositeOperation='multiply'; x.globalAlpha=o.env[1]; x.fillStyle=o.env[0]; x.fillRect(0,0,w,h); x.globalAlpha=1; }
+    x.globalCompositeOperation='destination-in'; img(); x.globalCompositeOperation='source-atop';
+    if(o.foot){ const lg=x.createLinearGradient(0,0,0,h); lg.addColorStop(0,'rgba(0,0,0,0)'); lg.addColorStop(0.6,'rgba(0,0,0,0)'); lg.addColorStop(1,'rgba(6,4,10,'+o.foot+')'); x.fillStyle=lg; x.fillRect(0,0,w,h); }
+    if(o.rim){ const d=o.rim[2], lg=d==='left'?x.createLinearGradient(0,0,w*0.35,0):d==='right'?x.createLinearGradient(w,0,w*0.65,0):d==='bottom'?x.createLinearGradient(0,h,0,h*0.6):x.createLinearGradient(0,0,0,h*0.32);
+      lg.addColorStop(0,o.rim[0]); lg.addColorStop(1,'rgba(0,0,0,0)'); x.globalAlpha=o.rim[1]*0.55; x.fillStyle=lg; x.fillRect(0,0,w,h); x.globalAlpha=1; }
+    if(o.wrap){ const e=K.mk(w,h), ex=e.getContext('2d'); ex.drawImage(cv,0,0); ex.globalCompositeOperation='source-in'; ex.fillStyle=o.wrap[0]; ex.fillRect(0,0,w,h);
+      ex.globalCompositeOperation='destination-out'; ex.filter='blur('+Math.max(1.2,h*0.012).toFixed(1)+'px)'; ex.drawImage(cv,0,0); ex.filter='none';
+      x.globalCompositeOperation='source-atop'; x.globalAlpha=o.wrap[1]; x.drawImage(e,0,0); x.globalAlpha=1; }
+    x.globalCompositeOperation='source-over';
+    r={src:cv,sx:0,sy:0,sw:w,sh:h,tint:{}}; if(TONED.size>400) TONED.delete(TONED.keys().next().value); TONED.set(key,r); return r; };
+  K.sprite=(F,o)=>{ let c=K.prep(o.img); if(!c) return; const tn=o.tone===undefined?F.tone:o.tone; if(tn) c=K.toned(c,tn); const P=K.proj(F.B,o.x,o.y||0,o.z); if(!P) return;
     F.list.push({d:P.d, fn:()=>drawSprite(F,c,o,P)});
     if(o.shadow!==false) F.shadows.push({x:o.x,z:o.z,r:(o.h*c.sw/c.sh)*0.42,a:0.38*clamp(1-(o.y||0)/(o.h*1.5),0,1)}); };
   // ───────── SỨC SỐNG: lưới biến dạng LIÊN TỤC cả ảnh (không cắt ô → mặt / kính / chữ chỉ dịch + giãn rất nhẹ, không vỡ) ─────────

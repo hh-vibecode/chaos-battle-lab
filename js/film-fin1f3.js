@@ -77,7 +77,9 @@
     if(t>=T.kam&&t<T.emerge-0.2) return 1-ein(seg(t,T.kam,T.kam+0.45)); if(t>=T.emerge-0.2&&t<T.emerge+0.1) return eout(seg(t,T.emerge-0.2,T.emerge+0.1)); return 1; };
   const bkS=t=>t<0.6?eout(seg(t,0.15,0.6)):1;   // bước ra từ cột sáng đỏ
   // ───────── MÁY QUAY ─────────  máy luôn PHÍA TRƯỚC trục 2 người (yaw −40…40): ai bên trái vẫn bên trái
-  const S=(t0,t1,a,b,ease)=>({t0,t1,a,b:b||a,ease:ease||'eio'});
+  const TIGHT=a=>(a&&a.dist>=480&&a.dist<=1100)?Object.assign({},a,{dist:a.dist*0.8}):a;   // (23/11 anh: meme bé quá ở khung toàn) kéo máy gần lại 20% cho mọi khung toàn
+  const S=(t0,t1,a,b,ease)=>{ b=b||a; const ok=TIGHT(a)!==a&&TIGHT(b)!==b;   // chỉ kéo gần khi CẢ đầu lẫn cuối shot đều là khung toàn (tránh máy giật cỡ giữa shot)
+    return {t0,t1,a:ok?TIGHT(a):a,b:ok?TIGHT(b):b,ease:ease||'eio'}; };
   const shots=W.cutify(C.seq([
     S(0,T.gather,{tx:-200,ty:100,tz:0,dist:360,yaw:12,pitch:-5,fov:48},{tx:-200,ty:100,tz:0,dist:342,yaw:12,pitch:-5,fov:48},'lin'),   // (16/11) trung cảnh: Berserk đứng yên trong cột sáng đỏ, vác đại kiếm
     S(T.gather,T.formed,{tx:25,ty:110,tz:0,dist:620,yaw:-4,pitch:-2,fov:50},{tx:25,ty:110,tz:0,dist:595,yaw:-4,pitch:-2,fov:50},'lin'),   // toàn: bầy quạ sà xuống tụ lại SAU LƯNG Berserk thành Ninja
@@ -222,7 +224,8 @@
     if(false){ const P=K.proj(F.B,LAMP[0],300,LAMP[1]); if(P) F.list.push({d:P.d-1, fn:()=>{ const g=F.g, S=64*P.s; g.save(); g.translate(P.x,P.y-S*0.2); g.scale(-1,1); g.shadowColor='rgba(255,90,60,0.9)'; g.shadowBlur=S*0.25; g.fillStyle='#07060a'; crowShape(g,S,0.15+0.1*Math.sin(t*3)); g.restore(); }}); }
     else for(let i=0;i<26;i++){ const u=seg(t,T.gather+0.03*i%0.5,T.formed-0.1), a=hash(i*3.1)*TAU, r0=500+300*hash(i*5.2), x=250+Math.cos(a)*r0*(1-eio(u)), y=90+(200+200*hash(i*7.7))*(1-eio(u)), z=Math.sin(a)*r0*0.6*(1-eio(u)), P=K.proj(F.B,x,y,z); if(!P||u>=1) continue;
       F.list.push({d:P.d, fn:()=>{ const g=F.g, S=30*P.s*(1-0.5*u); g.save(); g.translate(P.x,P.y); if(Math.cos(a)>0) g.scale(-1,1); g.fillStyle='#07060a'; crowShape(g,S,Math.abs(Math.sin(t*22+i))); g.restore(); }}); } }
-  function world(F,t0){ const pn=F.panel||{}; if(pn.next){ F.t=t0; return drawNext(F,t0); } const t=pn.freeze?T.fall-1e-4:t0; F.t=t;
+  function world(F,t0){ F.tone=K.TONE.nightCity; const pn=F.panel||{};   // meme nướng hoà đèn phố đêm (K.toned)
+    if(pn.next){ F.t=t0; return drawNext(F,t0); } const t=pn.freeze?T.fall-1e-4:t0; F.t=t;
     const th=theme(t), g0=W.track(NK,hs(t)), b0=W.track(BK,hs(t)), rk=rageK(t);
     CITY.draw(F,t,th);
     lightPillar(F,-200,0,t,0.0,'255,70,50');

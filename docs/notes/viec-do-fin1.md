@@ -5,7 +5,12 @@
 - film-lint + sfx-lint sạch (2 lưu ý im lặng có chủ ý: lặng trước cú đâm, màn đen sau BÙM). Shotlist `js/shots/fin1c7.json` sinh lại từ `window.__fin1c7SH`.
 - Còn biết yếu: chưa nghe thật tiếng (đã đổi nhạc cho vừa độ dài file); aura Chill Guy là shader + lưỡi lửa code (chưa so mẫu nào); vạch linh cảm tự nghĩ kiểu anime (không có mẫu).
 - VIỆC TIẾP anh giao: rà 3 trận Bat Cat (fin1f2) · Ninja (fin1f3) · Doge (fin1f1) xem cải thiện được gì — ĐỀ XUẤT trước, chưa tự sửa.
-  ✅ ĐÃ RÀ 23/11 (chụp mỗi giây + lint) — CHỜ ANH CHỌN làm mục nào:
+  ✅ 23/11 anh: "làm hết" + "tư thế 3 trận ổn, chỉ xử lý lại logic hình ảnh vs VFX" (KHÔNG đổi tư thế, KHÔNG dựng lại nền). ĐÃ LÀM:
+     tiếng 3 trận sạch lint · hàm chung `K.toned` + `F.tone` trong cine-kit (nhân vật hoà cảnh) áp cả 3 trận (fin1f1 nightRed + cận băng tông ICY · fin1f2 nightRedDeep · fin1f3 nightCity) ·
+     fin1f1: bóng chân bầu dục mềm, toà nhà bị xuyên nghiêng đổ chậm + mép gãy cháy + cột khói dày + tàn lửa, cận Doge trong băng có phản quang / sương giá / vết nứt lan ·
+     fin1f2 + fin1f3: khung toàn kéo máy gần 20% (TIGHT, chỉ khi cả đầu + cuối shot là khung toàn). Video 3 trận xuất lại.
+     CHƯA làm: mục 2 (nền 3D → 2D) — anh bảo không cần. Mục 6 bỏ (anh: tư thế ổn).
+  (danh sách rà gốc bên dưới)
   1. Cả 3 trận CHƯA áp "nhân vật hoà cảnh" (bake/blend như fin1c7): meme dán phẳng, không bóng chân, sáng rực giữa cảnh đêm đỏ → đưa bake/blend vào cine-kit (K.blend) rồi áp, giữ nguyên dàn cảnh anh đã duyệt.
   2. fin1f2 (cầu treo) + fin1f3 (đại lộ) vẫn là THÀNH PHỐ 3D khối xám (kiểu anh chê ở cảnh kết bản 3), meme tí hon ở khung toàn → dựng lại nền theo lớp 2D (GPT vẽ tay + trời / mây code) như fin1f1 / fin1c7. Việc lớn, đổi hình anh đã duyệt.
   3. fin1f1: khung chết 23.5–27.5 (chỉ vệt tia + nhà, ~4s) · cận Doge 15.5–16.5 trên nền XANH PHẲNG không phải cảnh · 2 khung toàn meme tí hon (4.5, 10.5–11.5).
