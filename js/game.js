@@ -14291,7 +14291,7 @@ const CHAR_BLURB = {
 // trong lúc trận đang chạy. Ở đây chốt cứng: MỖI CON 1 CÂU NGẮN, chỉ đủ hiểu skill là gì, để phóng chữ thật to mà
 // không rối mắt. Giữ nguyên CHAR_BLURB dài cho các chế độ khác (1vs1 / Tournament / 3-Way).
 const CHAR_BLURB_SHORT = {
-  catexe: "Not responding. Your damage is still loading.",
+  catexe: "Runs perfectly. Until you touch it.",
   saiyanmarmot: "AAAAAAAH! Power level: through the wall.",
   breadcat: "It's not broken. It's butter bread cat paradox.",
   poordog: "Kick a poor dog. Karma kicks back.",
