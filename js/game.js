@@ -4721,12 +4721,15 @@ function _saWinText(){
 // 🐹 MÀN THẮNG CỦA SCARED HAMSTER (Solo 1vs1): camera áp sát, bóng tối vây kín chỉ chừa 1 vòng sáng quanh nó,
 // từng cặp mắt lần lượt mở ra trong bóng tối và chớp chớp; nó run rẩy ôm thánh giá (HM_SCARED) + tiếng stalker.
 let hmWin=null; const HM_WIN_Z=3;
-function _hmWinStart(f){ hmWin={f, t:0, eyes:[]}; playSample('hm_stalker',1.0); }
+function _hmWinStart(f,fr){ hmWin={f, fr:fr||null, t:0, eyes:[]}; playSample('hm_stalker',1.0); }
+// 🐈‍⬛🐹 (anh 24/11) đội FRIEND + SCARED HAMSTER thắng 2vs2: cùng màn thắng của hamster, Friend đứng SÁT trước mặt nó nhìn chằm chằm (về phía giữa sàn)
+function _hmWinFrPos(q){ const f=q.f, fr=q.fr; if(q.fx===undefined){ const side=q.x<W/2?1:-1; q.fx=q.x+side*(f.size+fr.size)*0.6; q.fy=q.y+f.size*0.12; } return [q.fx,q.fy]; }
 function _hmWinTick(){
   if(!hmWin) return; const q=hmWin, f=q.f; q.t++;
   if(q.x===undefined){ q.x=f.x; q.y=f.y; } f.x=q.x; f.y=q.y; f.vx=0; f.vy=0;   // đứng chết trân tại chỗ
+  if(q.fr && !q.fr.dead){ const fr=q.fr, P=_hmWinFrPos(q), k=Math.min(1,q.t/40); fr.x+=(P[0]-fr.x)*(0.08+0.5*k*k); fr.y+=(P[1]-fr.y)*(0.08+0.5*k*k); fr.vx=0; fr.vy=0; }   // Friend lừ lừ áp sát rồi đứng im
   if(q.t>=24 && q.t%11===0 && q.eyes.length<12){   // 👁️ mở thêm 1 cặp mắt ở chỗ tối còn trống trong khung hình
-    const vw=_viewW||W, vh=_viewH||H, hw=vw/2/(_camZ||1)*0.9, hh=vh/2/(_camZ||1)*0.9, C=_hmWinC(f);
+    const vw=_viewW||W, vh=_viewH||H, hw=vw/2/(_camZ||1)*0.9, hh=vh/2/(_camZ||1)*0.9, C=_hmWinL();
     for(let tr=0;tr<20;tr++){ const x=C.x+(Math.random()*2-1)*hw, y=C.y+(Math.random()*2-1)*hh;
       if(Math.hypot(x-C.x,y-C.y)<C.r*1.75) continue;   // chỉ mở trong vùng đã tối hẳn
       if(q.eyes.some(e=>Math.hypot(e.x-x,e.y-y)<e.r*7)) continue;
@@ -4734,8 +4737,10 @@ function _hmWinTick(){
   for(const e of q.eyes){ e.t++; if(e.bt>=0){ if(++e.bt>=8) e.bt=-1; } else if(--e.nb<=0){ e.bt=0; e.nb=35+Math.random()*70; } }
 }
 function _hmWinC(f){ const L=f._lastSprite, h=L?L.dh:f.size*2; return {x:f.x, y:f.y-f.size*0.15, r:h*0.62}; }   // tâm + bán kính vòng sáng quanh hamster (theo chiều cao hình đang vẽ)
+function _hmWinL(){ const q=hmWin, A=_hmWinC(q.f); if(!q.fr || q.fr.dead) return A; const B=_hmWinC(q.fr), d=Math.hypot(B.x-A.x,B.y-A.y);   // có Friend: vòng sáng ôm cả 2 (lệch về hamster)
+  return {x:A.x+(B.x-A.x)*0.42, y:A.y+(B.y-A.y)*0.42, r:Math.max(A.r, d*0.5+Math.max(A.r,B.r)*0.7)}; }
 function _hmWinDraw(){
-  if(!hmWin) return; const f=hmWin.f, t=hmWin.t, k=Math.min(1,t/35), C=_hmWinC(f);
+  if(!hmWin) return; const f=hmWin.f, t=hmWin.t, k=Math.min(1,t/35), C=_hmWinL();
   const g=ctx.createRadialGradient(C.x,C.y,C.r*0.8,C.x,C.y,C.r*1.45);
   g.addColorStop(0,'rgba(0,0,0,0)'); g.addColorStop(1,`rgba(0,0,0,${0.97*k})`);
   ctx.save(); ctx.fillStyle=g; ctx.fillRect(-W,-H,W*3,H*3); ctx.restore();
@@ -17405,7 +17410,7 @@ function _gcCamFitZ(x0,y0,x1,y1){ const p=24; return Math.min((_viewW||W)/((x1-x
 function _camUpdate(){
   if(!_camInit){ _camX=W/2; _camY=H/2; _camZ=1; _camInit=true; }
   if(frRem && frRem.rec && !frRem.done){ const P=frRem.rec.P, C=frRem.rec.C; _camZ+=(2.1-_camZ)*0.06; _camX+=((P.x+C.x)/2-_camX)*0.08; _camY+=((P.y+C.y)/2-_camY)*0.08; return; }   // 🐈‍⬛ zoom vào đống mảnh Friend + cổng
-  if(hmWin && hmWin.f){ const C=_hmWinC(hmWin.f); _camZ+=(HM_WIN_Z-_camZ)*0.05; _camX+=(C.x-_camX)*0.12; _camY+=(C.y-_camY)*0.12; return; }   // 🐹 áp sát hamster
+  if(hmWin && hmWin.f){ const C=_hmWinL(); _camZ+=((hmWin.fr?HM_WIN_Z*0.72:HM_WIN_Z)-_camZ)*0.05; _camX+=(C.x-_camX)*0.12; _camY+=(C.y-_camY)*0.12; return; }   // 🐹 áp sát hamster
   if(saWin && saWin.f){ const F=_saFacePos(saWin.f); _camZ+=(SA_WIN_Z-_camZ)*0.05; _camX+=(F.x-_camX)*0.12; _camY+=(F.y-_camY)*0.12; return; }   // ⚡😼 áp sát khuôn mặt khinh khỉnh
   if(smCine && smCine.e){ const a=smCine.f, b=smCine.e;   // ⚔️🎬 kết liễu: zoom thẳng vào 2 con
     _camZ+=(SM_CINE_Z-_camZ)*0.12; _camX+=((a.x+b.x)/2-_camX)*0.15; _camY+=((a.y+b.y)/2-_camY)*0.15; return; }
@@ -24514,6 +24519,7 @@ class Fighter {
     { const _nj=this._njFaceBy, _G=_nj && !_nj.dead && _nj._njGen; if(_G && _G.st==='stab' && _G.e===this) shouldFaceLeft=this._njFaceL; else if(_nj) this._njFaceBy=null; }   // 🥷 đang bị Ninja Cat đâm sau lưng: giữ nguyên hướng nhìn (không quay lại nhìn Ninja → kiếm luôn xuyên từ LƯNG)
     // if image faces right by default: flip when shouldFaceLeft
     // if image faces left by default: flip when NOT shouldFaceLeft
+    if(hmWin && hmWin.fr===this) shouldFaceLeft = hmWin.f.x < this.x;   // 🐈‍⬛ màn thắng Friend + Hamster: Friend nhìn thẳng vào hamster
     let facingLeft = this.facingDefault==='right' ? shouldFaceLeft : !shouldFaceLeft;
     // 🥊 Chill Guy — ảnh "Đấm móc kết liễu" (skill1AvatarUrl): user báo ảnh này bị lật NGƯỢC hướng địch dù
     // cùng chung công thức facingLeft với avatar thường — nghĩa là ảnh đấm được vẽ mặc định NGƯỢC chiều so
@@ -24854,7 +24860,7 @@ class Fighter {
     if(this===koWinner && !this.dead && this.type==='depressedcat'){ offX+=(Math.random()-0.5)*s*0.05; offY+=(Math.random()-0.5)*s*0.025; }   // 😿 thắng: đứng rung nhẹ (dạng Pain) thay vì nhảy
     if(this.type==='sans' && this._sx && this._sx.flick>0){ const _k=Math.sin(Math.PI*this._sx.flick/12); offX+=Math.cos(this._sx.flickA)*s*0.55*_k; offY+=Math.sin(this._sx.flickA)*s*0.55*_k; }   // 💀 lách tia / đòn xa: giật người sang bên rồi về
     if(this.type==='snoozecat' && this._snDream==='hell' && snDream && snDream.t>=0){ const _w=tick*0.42; offX+=Math.sin(_w)*s*0.1+Math.sin(tick*2.1)*s*0.025; offY+=Math.abs(Math.sin(_w*1.3))*-s*0.05; rotation+=Math.sin(_w)*0.16+Math.sin(tick*1.7)*0.03; }   // 😴 ác mộng: giãy giụa, vặn mình qua lại (anh 18/11)
-    if(this===koWinner && !this.dead && !(saWin && saWin.f===this) && !(hmWin && hmWin.f===this) && !(psCine && psCine.f===this) && this.type!=='depressedcat'){   // (Arbiter / Hamster / Depressed Cat thắng: không nhảy)
+    if(this===koWinner && !this.dead && !(saWin && saWin.f===this) && !(hmWin && (hmWin.f===this || hmWin.fr===this)) && !(psCine && psCine.f===this) && this.type!=='depressedcat'){   // (Arbiter / Hamster / Depressed Cat thắng: không nhảy)
       const _vt=Date.now();
       offY -= Math.abs(Math.sin(_vt/170))*s*0.55;
       rotation += Math.sin(_vt/140)*0.13;
@@ -25289,7 +25295,7 @@ class Fighter {
         ctx.drawImage(_au.cv, -_pw/2, -_ph/2 - dh*0.03*(1+Math.sin(tick*0.25)), _pw, _ph);
         ctx.globalCompositeOperation='lighter'; ctx.globalAlpha=0.25+0.15*Math.sin(tick*0.25); ctx.drawImage(_au.cv, -_pw/2, -_ph/2, _pw, _ph); ctx.restore();
       }
-      if(!(fanCtx && this.slotIdx===0) && !(saWin && saWin.f===this) && !(hmWin && hmWin.f===this) && !(psCine && psCine.f===this) && !(this.type==='loooongcat' && (this._lcTrail || this._lcDiveT!==undefined))){   // (cảnh "Pathetic." của Arbiter: bỏ viền đội) · 🐱 Loooong Cat vẽ cả con ở _lcDraw, viền theo avatar sẽ thành mảng màu đè lên đầu
+      if(!(fanCtx && this.slotIdx===0) && !(saWin && saWin.f===this) && !(hmWin && (hmWin.f===this || hmWin.fr===this)) && !(psCine && psCine.f===this) && !(this.type==='loooongcat' && (this._lcTrail || this._lcDiveT!==undefined))){   // (cảnh "Pathetic." của Arbiter: bỏ viền đội) · 🐱 Loooong Cat vẽ cả con ở _lcDraw, viền theo avatar sẽ thành mảng màu đè lên đầu
         const _tc = _teamColor(this.team);
         // 👥 2vs2: viền team tô đậm + toả sáng mạnh hơn hẳn để phân biệt rõ 2 đội (4 người cùng lúc, dễ rối) — các chế độ khác giữ nguyên viền mảnh cũ
         ctx.save(); ctx.shadowColor=_tc; ctx.shadowBlur = (duoCtx||ffa3Ctx)?10:4;
@@ -26666,7 +26672,7 @@ class Fighter {
     }
 
     // HP bar — pill shape, smaller
-    const _saNoBar=!!((saWin && saWin.f===this) || (hmWin && hmWin.f===this) || (psCine && psCine.f===this)); if(_saNoBar){ ctx.save(); ctx.globalAlpha=0; }   // ⚡😼 cảnh "Pathetic.": ẩn thanh máu khỏi mặt
+    const _saNoBar=!!((saWin && saWin.f===this) || (hmWin && (hmWin.f===this || hmWin.fr===this)) || (psCine && psCine.f===this)); if(_saNoBar){ ctx.save(); ctx.globalAlpha=0; }   // ⚡😼 cảnh "Pathetic.": ẩn thanh máu khỏi mặt
     const _gcBigBar=this.type==='gigachad' && this.size>=(this._gcBaseSize||this.size)*GIGACHAD_BIG_MUL;   // 🗿 khổng lồ: thanh máu giữ cỡ lúc vừa hoá to, nằm TRÊN ĐẦU (đầu được nhô khỏi sân)
     const barSize = _gcBigBar ? Math.min(s,(this._gcBaseSize||s)*GIGACHAD_BIG_MUL) : s;
     const bw=barSize*3.12, bh=9, bx=this.x-bw/2, by=_gcBigBar ? (this._gcVis ? this._gcVis.y-this._gcVis.h/2-14 : this.y-s-22) : Math.max(4, this.y-s-22); // width +20% (2.6→3.12)
@@ -32965,7 +32971,7 @@ function loop(){
         if(loop._koTimer===13 && fighters.some(f=>!f.dead && f.type==='duolingo')) playSample('duo_win',1.0);   // 🦉 Duolingo thắng: nhạc hoàn thành bài học của app
         if(loop._koTimer===13 && fighters.some(f=>!f.dead && f.type==='catvader')){ const a=AUDIO_SAMPLES['cv_win']; if(a){ try{ const c=a.cloneNode(); c.volume=1; _mixRoute(c); c.play().catch(()=>{}); }catch(e){} } }   // ⚔️ Catvader thắng: "I am your father" (không ghi sổ tiếng dài → hết zoom không bị cắt ngang)
         if(loop._koTimer===EG_EXIT_START){ const _w=fighters.filter(f=>!f.dead); if(_w.length===1 && _w[0].type==='evilgary') _egExitStart(_w[0]); }   // 😈 Evil Gary thắng: màn biến mất
-        if(loop._koTimer===42){ const _w=fighters.filter(f=>!f.dead); if(_w.length===1 && _w[0].type==='supremearbiter' && _camActive()) _saWinStart(_w[0]); if(_w.length===1 && _w[0].type==='scaredhamster' && _camActive()) _hmWinStart(_w[0]); if(_w.length===1 && _w[0].type==='depressedcat') playSample('sad_cat_cry',0.9); }   // 😿 thắng: kêu meo   // ⚡ Arbiter thắng: màn "Pathetic."
+        if(loop._koTimer===42){ const _w=fighters.filter(f=>!f.dead); if(_w.length===1 && _w[0].type==='supremearbiter' && _camActive()) _saWinStart(_w[0]); if(_w.length===1 && _w[0].type==='scaredhamster' && _camActive()) _hmWinStart(_w[0]); { const _hm=_w.find(x=>x.type==='scaredhamster'), _fr=_w.find(x=>x.type==='friend'); if(_w.length===2 && _hm && _fr && _hm.team===_fr.team && _camActive()) _hmWinStart(_hm,_fr); } if(_w.length===1 && _w[0].type==='depressedcat') playSample('sad_cat_cry',0.9); }   // 😿 thắng: kêu meo   // ⚡ Arbiter thắng: màn "Pathetic."
         if(loop._koTimer>=42){
           const _song=fighters.filter(f=>!f.dead);
           _camFocus = (!_hasLarry && !frEgg && bcBangT==null && bcStarT==null && _song.length) ? _song : null;   // 🍞 Big Bang của Bread Cat: KHÔNG zoom, giữ cả khung trắng trống trải (anh dặn 3/11) · cả bên thắng, không chỉ 1 con — 🥚 cảnh chân thân Friend: không zoom thắng

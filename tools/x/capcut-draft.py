@@ -104,6 +104,19 @@ name = A.name; dst = os.path.join(ROOT, name)
 if os.path.exists(dst): sys.exit(f'❌ đã có dự án "{name}" — đặt tên khác hoặc xoá trong CapCut')
 shutil.copytree(tpl, dst)
 for f in glob.glob(os.path.join(dst, '**', '*.tmp'), recursive=True) + glob.glob(os.path.join(dst, '**', '*.bak'), recursive=True): os.remove(f)
+# 📂 (anh 24/11: mở dự án báo "Couldn't find … 0/108 media linked") CapCut chạy trong SANDBOX macOS → không mở được file trong repo / Desktop
+#    anh chưa từng chọn qua hộp thoại. Gom MỌI file vào ngay trong thư mục dự án (hard link — không tốn thêm ổ; khác ổ thì chép) rồi trỏ đường dẫn vào đó.
+MED = os.path.join(dst, 'Resources', 'media'); os.makedirs(MED, exist_ok=True)
+for k in ('videos', 'audios'):
+    for m in M.get(k, []):
+        p0 = m.get('path')
+        if not p0 or not os.path.exists(p0): continue
+        t = os.path.join(MED, os.path.basename(p0))
+        if not os.path.exists(t):
+            try: os.link(p0, t)
+            except OSError: shutil.copy2(p0, t)
+        m['path'] = t
+print(f'📂 media gom vào {MED}')
 now = int(time.time() * 1_000_000)
 D2 = copy.deepcopy(D); D2.update(materials=M, tracks=tracks, duration=us(vdur), fps=float(info.get('fps', 50)), name='', create_time=now // 1_000_000, update_time=now // 1_000_000,
     canvas_config={**D['canvas_config'], 'ratio': 'original', 'width': vw, 'height': vh})
