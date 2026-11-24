@@ -223,7 +223,12 @@ const ok = r => (!DIROK || DIROK.test(r.dir || '')) && (DOMAIN == null || (r.dom
     plan.push({ f, t: a.t, end: a.end, ct: a.ct, loop: a.loop, rate: a.rate, keep: music.has(a.key), duck: BG_DUCK.has(a.key), g: g * 0.8 * (BG_LEVEL[a.key] || 1) }); }   // nhạc: theo ĐÚNG tốc thật (hình bám nhạc theo tốc này, vd Azel ×1.15) + giữ cao độ như Chrome
   const planF = OUT + '.plan.json', wav = OUT + '.mix.wav'; fs.writeFileSync(planF, JSON.stringify({ dur: END, plan }));
   execFileSync('python3', [path.join(__dirname, 'mix-plan.py'), planF, wav], { stdio: 'inherit' });
-  execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', tmpV, '-i', wav, '-filter_complex', '[1:a]alimiter=limit=0.95[a]', '-map', '0:v', '-map', '[a]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-shortest', OUT], { stdio: 'inherit' });
+  // 🔉 (anh 24/11) CÂN ĐỘ TO: trận dồn nhiều tiếng từng ra −8 LUFS (Commeowder 190 tiếng — bẹp tiếng, loa laptop rè; YouTube cũng tự hạ mọi video về −14)
+  //    → to hơn −14 LUFS thì HẠ về −14 (không bao giờ tăng), rồi chặn đỉnh −1 dB
+  let LG = 0; try { const r = require('child_process').spawnSync('ffmpeg', ['-nostats', '-i', wav, '-af', 'alimiter=limit=0.95,ebur128', '-f', 'null', '-'], { encoding: 'utf8' });
+    const m = [...(r.stderr || '').matchAll(/I:\s+(-?[\d.]+) LUFS/g)].pop(); if (m) LG = Math.min(0, -14 - parseFloat(m[1])); } catch (e) {}
+  if (LG < 0) console.log(`🔉 bản trộn to hơn −14 LUFS → hạ ${LG.toFixed(1)} dB`);
+  execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', tmpV, '-i', wav, '-filter_complex', `[1:a]alimiter=limit=0.95,volume=${LG.toFixed(2)}dB,alimiter=limit=0.89[a]`, '-map', '0:v', '-map', '[a]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-shortest', OUT], { stdio: 'inherit' });
   fs.unlinkSync(planF); fs.unlinkSync(wav); fs.unlinkSync(tmpV);
   console.log(`✅ ${OUT}  (seed ${SEED} · ${END.toFixed(1)}s · ${plan.length} tiếng · mất ${((Date.now() - T0) / 1000).toFixed(0)}s)`);
   // 📝 ghi LỊCH SỬ lần quay (anh 20/11: chỉ vào leaderboard khi Short đã đăng — make.js tự đưa vào)

@@ -11,6 +11,7 @@ description: Xuất video MP4 của Chaos Battle Lab trên MacBook — phim Meme
 > 🎞️ **50fps mặc định cho MỌI video** (anh chốt 3/11, dọc lẫn ngang): render-match / render-duo giả lập vẫn 60 tick/s (`--fps`, đừng đổi) nhưng xuất `--ofps 50`; render-cine `--fps` mặc định 50. Ghi chú 60fps / 30fps cũ bên dưới là trước ngày này.
 
 > 🔊 **(anh 24/11) TIẾNG MÁY GIẬT khi đang xuất = trình duyệt ngầm phát tiếng thật** (bị `taskpolicy -b` bóp CPU → coreaudiod quá tải → CapCut / YouTube cũng giật, tưởng hỏng loa). Mọi `chromium.launch` / Chrome headless PHẢI có `--disable-audio-output` (`--mute-audio` không đủ). Đang quay thì soát `/usr/bin/log show --last 2m --predicate 'process == "coreaudiod"' | grep -c HALS_OverloadMessage` = 0. Kẹt rồi: `osascript -e 'do shell script "killall coreaudiod" with administrator privileges'`.
+> 🔉 **(anh 24/11) Video trận tự CÂN ĐỘ TO**: render-match đo bản trộn, to hơn −14 LUFS thì hạ về −14 (không tăng) + chặn đỉnh −1 dB. Trước đó trận nhiều tiếng (Commeowder 190 tiếng) ra −8 LUFS = bẹp tiếng, loa laptop rè. Soát: `ffmpeg -nostats -i x.mp4 -vn -af ebur128 -f null - 2>&1 | grep ' I:'`.
 
 Bài học: có lần phim 4 phút mất 4–5 TIẾNG vì mỗi lần sửa 1 cảnh lại quay lại CẢ phim ở độ phân giải cao.
 Nguyên tắc: **xem thử rẻ → sửa → chỉ quay lại đoạn bị sửa → bản cuối 1 lần.** Luôn chạy NỀN (run_in_background) và báo anh tiến độ.
