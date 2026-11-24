@@ -14,9 +14,14 @@ dự án CapCut "Final Part 1 - tieng le" (`tools/x/capcut-draft.py`, mỗi ti�
 - Sửa dự án = sửa `draft_info.json` (+ bản trong `Timelines/*/`) khi CapCut ĐÃ TẮT (`osascript -e 'tell application "CapCut" to quit'`; tự tắt / tự mở được).
 - Chống vỡ tiếng: `tools/x/capcut-clean.py "<dự án>"` (file gốc vỡ đỉnh → adeclip, đỉnh về −1 dB, WAV sạch ở `<media>/clean/`; fade 30 ms chỗ cắt ngang)
   rồi `tools/x/capcut-normalize.py "<dự án>"` (mỗi clip đỉnh ≤ −1 dB + mô phỏng bản trộn, vượt thì hạ đều). ⚠️ 24/11 anh nghe rè hoá ra là LOA MÁY anh lỗi.
-- Bản YouTube Final Part 1: mở đầu = Gojo vs Pain (toàn cảnh → cận Gojo → cận Pain → lao vào · cú va âm bản, ~4.7s) → loé trắng → `fin1yt`
-  (js/film-fin1.js, `YT_EXT`: cảnh phố giữ thêm 2s, chữ "MEMES IN THE MULTIVERSE / proudly presents / a MEME LORE story" lồng sau mái nhà + thẻ tên meme)
-  → phim từ T.cry=14s. Ráp bằng `tools/x/capcut-fin1yt.py <video fin1yt>` (dời mọi tiếng +HOOK+EXT, chép tiếng của đoạn mở đầu, nền phố phủ thêm 2s).
+- Bản YouTube Final Part 1 = MEME LORE 2: THE BATTLE OF THE MULTIVERSE (bản 3, 24/11): mở đầu = TRÀNG GIAO TRANH NHANH Gojo vs Pain 3.9s (anh: "giao tranh nhanh
+  rồi lao vào nhau, không phải đứng nhìn" — 7 pha cắt từ fin1c4, cú va DOOON có thêm 3 lớp tiếng cho LỰC, tiếng vút ở mỗi chỗ chuyển pha)
+  → INTRO KÊNH 3s `kenhintro` (js/film-kenhintro.js, DÙNG LẠI cho video sau: vũ trụ + khe nứt không gian, meme của game lao ra, chữ tên kênh bay ra từ khe
+  rồi đập, BÙM huy hiệu Doge = avatar kênh `assets/img/kenh/KENH_DOGE.jpg`, kính pixel "deal with it" vẽ bằng code rơi xuống mặt + vine boom)
+  → `fin1yt` (cảnh phố giữ thêm 2s: "PROUDLY PRESENTS" → "MEME LORE 2 / THE BATTLE OF THE MULTIVERSE" chữ kim loại kiểu poster phim siêu anh hùng + thẻ tên meme)
+  → phim từ T.cry=14s. Ráp: `tools/x/capcut-fin1yt.py <video kenhintro> <video fin1yt>` (luôn ráp lại từ `draft_info.json.bak-coldopen`; mốc cắt + lớp tiếng ở đầu file).
+- 🎚️ GỘP TIẾNG: `tools/x/capcut-premix.py "<dự án>"` trộn mọi đoạn tiếng (âm lượng + fade) thành 1 WAV trên 1 track → CapCut nhẹ; `--undo` trả lại các track cũ để sửa
+  từng tiếng. Ráp lại bằng capcut-fin1yt.py thì chạy premix lại sau đó. (24/11: tiếng máy giật KHÔNG phải do CapCut mà do trình duyệt ngầm khi quay — xem CLAUDE.md 🔊.)
   Thumbnail 4 bản: `~/Desktop/Meme Battles/Final Part 1 thumbnail/`.
 
 ## 🎬 Bộ dựng phim anime (bắt đầu 28/10, dựng xong khung 29/10/2026)

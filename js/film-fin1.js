@@ -849,19 +849,53 @@
     shots:[{t0:0,t1:b-a,a:{}}],
     impact:t=>MAIN.impact(t+a), shake:t=>MAIN.shake(t+a), world:(F,t)=>MAIN.world(F,t+a), post:(F,t)=>MAIN.post(F,t+a), screen:(F,t)=>MAIN.screen(F,t+a) }));
   // 📺 (anh 24/11) BẢN YOUTUBE 'fin1yt' = cảnh 1 tới đúng lúc Banana Cat khóc (T.cry), toàn cảnh phố GIỮ LÂU THÊM YT_EXT giây cho intro kênh:
-  //    "MEMES IN THE MULTIVERSE · proudly presents · a MEME LORE story" mọc lên giữa trời, nằm SAU dãy tháp gần (lồng vào cảnh, trôi theo máy với độ sâu riêng),
+  //    (bản 2, 24/11: tên kênh ra INTRO KÊNH RIÊNG js/film-kenhintro.js) "proudly presents" → "MEME LORE 2 · THE BATTLE OF THE MULTIVERSE" mọc lên giữa trời, nằm SAU dãy tháp gần (lồng vào cảnh, trôi theo máy với độ sâu riêng),
   //    rồi thẻ tên nhân vật bám theo từng meme lúc máy lia vào phố — hết đúng lúc cắt sang Banana Cat ở xe kem. Chỉ dùng cho video YouTube (CapCut ghép), không vào rạp phim.
   const YT_EXT=2.0, YT_PAR=0.22;   // (anh 24/11) Gojo vs Pain lao vào nhau → LOÉ TRẮNG mở ra cảnh phố + chữ kênh giữ 2s → máy mới chạy như phim
   const ytK=(t,a,b,fi,fo)=>Math.min(seg(t,a,a+(fi||0.5)), 1-seg(t,b-(fo||0.5),b));
   function ytWord(g,txt,x,y,px,ls,wt,col,a,rise,glow){ if(a<=0.01) return; g.save(); g.globalAlpha=a; g.font=`${wt} ${px}px ${SANS}`; g.letterSpacing=ls+'px'; g.textAlign='center'; g.textBaseline='middle';
     g.shadowColor=glow||'rgba(10,25,60,0.75)'; g.shadowBlur=px*0.45*SCv; g.lineJoin='round'; g.lineWidth=px*0.07; g.strokeStyle='rgba(15,30,70,0.55)'; g.strokeText(txt,x+ls/2,y+rise);
     g.fillStyle=col; g.fillText(txt,x+ls/2,y+rise); g.shadowBlur=0; g.fillText(txt,x+ls/2,y+rise); g.restore(); }
+  const ytChrome=(g,px)=>{ const L=g.createLinearGradient(0,-px*0.55,0,px*0.5); L.addColorStop(0,'#ffffff'); L.addColorStop(0.44,'#e6edfc'); L.addColorStop(0.52,'#97abd6'); L.addColorStop(0.78,'#dce5f7'); L.addColorStop(1,'#7489b8'); return L; };   // kim loại: sáng trên, vạch tối giữa, ánh dưới
+  function ytFlare(g,x,y,k,w,col){ if(k<=0.01) return; g.save(); g.globalCompositeOperation='lighter';   // loé ống kính anamorphic: vệt ngang mảnh + lõi tròn
+    const L=g.createLinearGradient(x-w,0,x+w,0); L.addColorStop(0,`rgba(${col},0)`); L.addColorStop(0.5,`rgba(${col},${0.9*k})`); L.addColorStop(1,`rgba(${col},0)`); g.fillStyle=L; g.fillRect(x-w,y-1.5,w*2,3);
+    const R=g.createRadialGradient(x,y,0,x,y,44); R.addColorStop(0,`rgba(255,255,255,${k})`); R.addColorStop(0.25,`rgba(${col},${0.45*k})`); R.addColorStop(1,`rgba(${col},0)`); g.fillStyle=R; g.fillRect(x-44,y-44,88,88); g.restore(); }
+  function ytPresents(g,t,X){ const a=ytK(t,0.3,2.25,0.4,0.35); if(a<=0) return; const y=-172, ls=26-14*E.eout(seg(t,0.3,2.2)), S='PROUDLY PRESENTS';   // chữ giãn dần vào (tracking)
+    g.save(); g.globalAlpha=a; g.font=`700 24px ${SANS}`; g.letterSpacing=ls+'px'; g.textAlign='center'; g.textBaseline='middle'; const w=g.measureText(S).width;
+    g.lineJoin='round'; g.lineWidth=5; g.strokeStyle='rgba(10,18,40,0.7)'; g.strokeText(S,X+ls/2,y); g.fillStyle='#ffffff'; g.fillText(S,X+ls/2,y);
+    const lk=E.eout(seg(t,0.4,1.0)); g.strokeStyle='rgba(255,255,255,0.9)'; g.lineWidth=1.5; g.beginPath(); g.moveTo(X-w/2-18,y); g.lineTo(X-w/2-18-90*lk,y); g.moveTo(X+w/2+18,y); g.lineTo(X+w/2+18+90*lk,y); g.stroke(); g.restore();
+    const fk=0.55*lk*(1-seg(t,1.0,1.7)); ytFlare(g,X-w/2-18-90*lk,y,fk,120,'200,220,255'); ytFlare(g,X+w/2+18+90*lk,y,fk,120,'200,220,255'); }
+  function ytTitle(g,t,X){ const a=ytK(t,2.1,5.6,0.08,0.7); if(a<=0) return; const k=E.eout3(seg(t,2.1,2.32)), sc=1.55-0.55*k, y=-214, px=92;   // ĐẬP xuống từ to
+    g.save(); g.font=`900 ${px}px ${SANS}`; g.letterSpacing='12px'; const A='MEME LORE ', B='2', wA=g.measureText(A).width, wB=g.measureText(B).width, x0=-(wA+wB)/2+6;
+    g.globalAlpha=a; g.translate(X,y); g.scale(sc,sc); g.textAlign='left'; g.textBaseline='middle';
+    for(let i=6;i>=1;i--){ g.fillStyle=`rgb(${18+i*3},${24+i*3},${46+i*4})`; g.fillText(A,x0,i*1.6); g.fillText(B,x0+wA,i*1.6); }   // khối chữ (chiều sâu) kiểu poster
+    g.lineJoin='round'; g.lineWidth=7; g.strokeStyle='#0c1326'; g.strokeText(A,x0,0); g.strokeText(B,x0+wA,0);
+    g.shadowColor='rgba(120,170,255,0.75)'; g.shadowBlur=30*SCv; g.fillStyle=ytChrome(g,px); g.fillText(A,x0,0);
+    const R=g.createLinearGradient(0,-px*0.5,0,px*0.5); R.addColorStop(0,'#ffd2c4'); R.addColorStop(0.45,'#ff3b2f'); R.addColorStop(1,'#860a12'); g.shadowColor='rgba(255,40,40,0.9)'; g.fillStyle=R; g.fillText(B,x0+wA,0); g.shadowBlur=0;
+    g.globalCompositeOperation='lighter';
+    const fl=t>=2.3?1-seg(t,2.3,2.48):0; if(fl>0){ g.fillStyle=`rgba(255,255,255,${fl*0.9})`; g.fillText(A,x0,0); g.fillText(B,x0+wA,0); }   // loé trắng lúc chạm
+    const sw=seg(t,2.75,3.4), w=wA+wB; if(sw>0&&sw<1){ const xs=x0-60+(w+120)*E.eio(sw), L=g.createLinearGradient(xs-50,0,xs+50,0); L.addColorStop(0,'rgba(255,255,255,0)'); L.addColorStop(0.5,'rgba(255,255,255,0.85)'); L.addColorStop(1,'rgba(255,255,255,0)'); g.fillStyle=L; g.fillText(A,x0,0); g.fillText(B,x0+wA,0); }
+    g.restore();
+    ytFlare(g,X,y,t>=2.3?1-seg(t,2.3,2.95):0,540,'140,190,255');                                   // loé ngang bùng lúc đập
+    if(sw>0&&sw<1) ytFlare(g,X+x0-60+(w+120)*E.eio(sw),y-24,Math.sin(sw*Math.PI)*0.85,300,'170,210,255'); }   // loé chạy theo vệt sáng
+  function ytSub(g,t,X){ const a=ytK(t,2.45,5.6,0.05,0.7); if(a<=0) return; const y=-126, S='THE BATTLE OF THE MULTIVERSE';   // hiện TỪNG CHỮ, chữ mới nhấp nháy + vạch chém đỏ 2 bên
+    g.save(); g.globalAlpha=a; g.font=`800 34px ${SANS}`; g.letterSpacing='10px'; g.textAlign='left'; g.textBaseline='middle';
+    const w=g.measureText(S).width, x0=X-w/2+5, n=S.length, shown=(t-2.45)/0.55*n, lk=E.eout(seg(t,2.4,2.75));
+    g.strokeStyle='rgba(255,60,50,0.95)'; g.lineWidth=2.5; g.beginPath(); g.moveTo(x0-24,y); g.lineTo(x0-24-160*lk,y); g.moveTo(x0+w+14,y); g.lineTo(x0+w+14+160*lk,y); g.stroke();
+    let x=x0; g.lineJoin='round'; g.lineWidth=5; g.strokeStyle='#1a0a10';
+    for(let i=0;i<n;i++){ const ch=S[i], cw=g.measureText(ch).width; if(i<shown){ const age=shown-i, fk=age<2?(hash(i*13+Math.floor(t*40))>0.4?1:0.25):1;
+        g.globalAlpha=a*fk; g.strokeText(ch,x,y); g.fillStyle=age<1.5?'#ffffff':'#ffe2dc'; g.fillText(ch,x,y); } x+=cw; }
+    g.restore(); }
+  function ytEmbers(g,t,X){ const a=ytK(t,2.3,5.6,0.2,0.7); if(a<=0) return; g.save(); g.globalCompositeOperation='lighter';   // tàn lửa bay lên quanh tên phim (băm cố định)
+    for(let i=0;i<46;i++){ const life=1.6+hash(i*3.3)*1.4, st=2.3+hash(i*7.1)*1.2, q=(t-st)/life; if(q<0||q>1) continue;
+      const x=X+(hash(i*1.7)-0.5)*560+Math.sin(t*2+i)*8, y=-170+(hash(i*5.9)-0.3)*90-q*90, r=0.8+hash(i*2.9)*1.6, al=a*Math.sin(q*Math.PI);
+      g.fillStyle=i%3?`rgba(255,170,90,${al})`:`rgba(150,200,255,${al})`; g.beginPath(); g.arc(x,y,r,0,TAU); g.fill(); }
+    g.restore(); }
   const YT_INTRO={
     sky(g,cx){ const t=TT+YT_EXT; if(t>6.2) return; g.save(); g.translate(cx*(1-YT_PAR),0); const X=300*YT_PAR;   // cùng hệ lớp nhà: trôi chậm hơn tháp gần → có chiều sâu
-      const a1=ytK(t,0.05,5.2,0.5,0.7), a2=ytK(t,0.45,2.6,0.5,0.4), a3=ytK(t,2.7,5.2,0.5,0.7);
-      ytWord(g,'MEMES IN THE MULTIVERSE',X,-214,92,10,'900','#ffffff',a1,(1-E.eout(seg(t,0.05,0.9)))*40,'rgba(30,60,120,0.5)');
-      ytWord(g,'proudly presents',X,-126,38,6,'italic 600','#fff8e8',a2,(1-E.eout(seg(t,0.45,1.1)))*16);
-      ytWord(g,'a  MEME LORE  story',X,-126,38,8,'800','#ffe6e6',a3,(1-E.eout(seg(t,2.7,3.3)))*16,'rgba(150,20,30,0.55)');
+      // (anh 24/11 bản 2) tên kênh đã có INTRO KÊNH 3s (kenhintro) ngay trước → trong cảnh chỉ còn "proudly presents" rồi TÊN PHIM
+      // (anh 24/11 "làm ngầu, kiểu phim siêu anh hùng") chữ khối kim loại + loé ống kính anamorphic + vệt sáng lướt + tàn lửa bay
+      ytPresents(g,t,X); ytEmbers(g,t,X); ytTitle(g,t,X); ytSub(g,t,X);
       g.restore(); },
     tags(g,t,tw,y0){ const T0=YT_EXT;   // thẻ tên kiểu anime: vạch mảnh từ đầu meme lên + tên, hiện lần lượt theo hướng máy lia
       const L=[['capy','CAPYBARA',640,y0+12,20,2.4,6.6],['chill','CHILL GUY',700+tw*24,y0+30,36,3.0,6.8],['doge','DOGE',985,y0+14,24,4.0,7.0],['cheems','CHEEMS',1262,y0+20,22,4.9,7.0],['corn','CORNELIUS',1508,y0-22,20,5.6,7.0]];   // giây theo phim gốc (máy lia 2.2→7, cắt sang xe kem lúc 7)
