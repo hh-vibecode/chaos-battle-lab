@@ -8,6 +8,17 @@ Luật vẽ + cách đo chi phí ở 4K trước khi báo xong: skill `dung-phim
 từng tập, `tools/x/canh-ram.sh` trần nửa RAM). Final Part 1 xuất 24/11: 8 tập 4K ở `out/Final-Part-1/`, phim ghép `~/Desktop/Meme Battles/Final Part 1 - 4K khong tieng.mp4`,
 dự án CapCut "Final Part 1 - tieng le" (`tools/x/capcut-draft.py`, mỗi tiếng 1 clip).
 
+## ✂️ CapCut trên Mac — bài học 24/11/2026 (Final Part 1 bản YouTube)
+- CapCut chạy SANDBOX: không mở được file trong repo / Desktop anh chưa chọn qua hộp thoại ("0/108 media linked"). capcut-draft.py giờ tự gom
+  file vào `<dự án>/Resources/media` (hard link). Dự án cũ: gom về 1 thư mục rồi anh bấm Link media chọn thư mục đó 1 lần.
+- Sửa dự án = sửa `draft_info.json` (+ bản trong `Timelines/*/`) khi CapCut ĐÃ TẮT (`osascript -e 'tell application "CapCut" to quit'`; tự tắt / tự mở được).
+- Chống vỡ tiếng: `tools/x/capcut-clean.py "<dự án>"` (file gốc vỡ đỉnh → adeclip, đỉnh về −1 dB, WAV sạch ở `<media>/clean/`; fade 30 ms chỗ cắt ngang)
+  rồi `tools/x/capcut-normalize.py "<dự án>"` (mỗi clip đỉnh ≤ −1 dB + mô phỏng bản trộn, vượt thì hạ đều). ⚠️ 24/11 anh nghe rè hoá ra là LOA MÁY anh lỗi.
+- Bản YouTube Final Part 1: mở đầu = Gojo vs Pain (toàn cảnh → cận Gojo → cận Pain → lao vào · cú va âm bản, ~4.7s) → loé trắng → `fin1yt`
+  (js/film-fin1.js, `YT_EXT`: cảnh phố giữ thêm 2s, chữ "MEMES IN THE MULTIVERSE / proudly presents / a MEME LORE story" lồng sau mái nhà + thẻ tên meme)
+  → phim từ T.cry=14s. Ráp bằng `tools/x/capcut-fin1yt.py <video fin1yt>` (dời mọi tiếng +HOOK+EXT, chép tiếng của đoạn mở đầu, nền phố phủ thêm 2s).
+  Thumbnail 4 bản: `~/Desktop/Meme Battles/Final Part 1 thumbnail/`.
+
 ## 🎬 Bộ dựng phim anime (bắt đầu 28/10, dựng xong khung 29/10/2026)
 Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh yêu cầu, đặc biệt cảnh COMBAT NHANH kiểu anime, góc máy liên tục, góc khó
 (ảnh mẫu: góc cao chéo từ trên xuống, 2 nhân vật xoay người, khói + vệt chém + năng lượng — kiểu Jujutsu Kaisen).
