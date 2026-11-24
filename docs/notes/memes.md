@@ -202,12 +202,12 @@
 
 ## 💀 Sans - The Unknown (`sans`, 20/11/2026) — khối `SX_*` / `_sx*` trong js/game.js (trước `_snImg`)
 - Vào trận = thế giới Undertale (`_sxUt()`): `_floorDraw` → `_sxFloorUT` (đen + khung trắng), trời đen, viền đá ẩn, thanh máu `_sxHpBar` (vàng / đỏ / KR tím), body `ut-mode` (css/game.css). Sans ảnh pixel `SX_PIXEL` (cắt từ ảnh HUD anh gửi — tạm, anh gửi file sạch thì thay).
-- CHỈ nhận dame cận chiến: `_sxIsMelee` trong `_takeDamageCore` (thân thật cách ≤ `SX_MELEE_GAP`, không DOT/cháy) → còn lại `_sxMiss` (MISS + giật né). Đạn `projectiles` bỏ qua Sans; `_sxDodge` lách đạn (projectiles + CV_SYS).
-- 5s/lần khung hình kiểu Naoya — anh 20/11: gói trong 1s, 12 bước, ảo ảnh mờ hơn Sans thật (`_sxStartTp` → `battleFreezeTimer` 1s, `_sxFreezeTick` chạy trong nhánh đóng băng; đạn chung cũng đứng yên). Ảo ảnh KHÔNG khung (anh 20/11: "chuyển động không có ô vuông").
-- Gaster Blaster: lần n = n đầu (tối đa 6) ngoài mép sàn, bám địch suốt 1s tích tụ (ngắm đón đầu, chốt 0.1s trước khi bắn — anh 20/11), tia 100. Ảnh `SX_BLASTER` = GPT vẽ hộ (ảnh anh dán chưa lưu được file) — chờ anh gửi file gốc.
+- (anh 24/11) CHỈ 1 MÁU + 25 LẦN NÉ (`SX_DODGE`): MỌI dạng dame (cận chiến, đạn thường, dò đường, tia, nổ, AOE, aura, cháy, độc) → `_sxDodgeHit` trong `_takeDamageCore` trừ 1 lần né + MISS; dame liên tục cùng nguồn tối đa 1 lần né / `SX_DOT_GAP` 0.5s. Hết né → dính 1 đòn là gục. Số né còn lại vẽ cạnh thanh máu (`_sxDodgeTag`). Đã bỏ luật chỉ-cận-chiến + lách đạn (đạn giờ trúng Sans).
+- (anh 24/11) ĐÃ BỎ khung hình kiểu Naoya khỏi Sans — anh để dành cho Jotajo Cat; code `_sxStartTp` / `_sxFreezeTick` / `_sxEndTp` còn giữ để mang sang. Đầu rồng giờ mỗi `SX_GB_CD` 4s gọi 1 lần, lần thứ n = n đầu (trần an toàn `SX_GB_MAX` 12), chốt vị trí địch lúc hiện (bỏ bám đuổi, né được như bản đầu), trúng tia → cháy LỬA XANH như Adolf (`burn` 4s, 10 dame / 0.5s, `_sxBlueBurn` đổi màu lửa). Sprite `SX_BLASTER.webp` vẽ lại 24/11 (sọ rồng mõm dài, mắt xếch, hàm tách ở `SX_GB_JAW` 0.805, con ngươi trắng loé lúc sắp bắn), to ×1.5 (`_sxGbH` 138), tia giữ bề rộng cũ (`_sxBeamBase` 92).
+- Gaster Blaster: ngoài mép sàn, tích tụ 1s, tia 100 (cơ chế mới 24/11 ở dòng trên).
 - Sau 8s vào trận (`SX_REAL_T`, anh 20/11) (không theo máu): `_sxPost` chụp canvas → mảnh Voronoi vỡ (d3) → sàn tím cũ. Dạng thổi kèn `SX_PLAY_0..2` (GPT từ ảnh anh), nhạc `sx_megalovania` (sax cover anh tải, 0.1→60s), từ 7.79s Electric Guitar Cat chơi `piano_megalovania` lệch −0.04s (đo chroma + onset, tự kéo lại khi lệch >0.06s), từ 15.79s Bongo Cat gõ theo phách (120 BPM, phách đầu 0.29s). Lửa xanh lam 10/0.5s tới hết trận (`_sxKarma`, cả quân triệu hồi).
 - Địch thua Sans: `_sxAshSpawn` (cháy thành tro) + tiếng `sx_dust` thay `death_break`.
-- Em tự đặt: tầm cận chiến 52, lách đạn nhìn trước 130, đầu rồng tối đa 6, Sans không có đòn đánh thường, di chuyển mặc định.
+- Em tự đặt: trần đầu rồng 12, dame liên tục 1 lần né / 0.5s, Sans không có đòn đánh thường, di chuyển mặc định.
 
 ## 💻 Cat.exe (`catexe`, 23/11/2026) — khối `CX_*` / `_cx*` trong js/game.js (ngay trước khối Commander Cat)
 - Thiết kế anh gửi 23/11 (bản "Tích lũy lỗi → System Crash"). Ảnh = 2 ảnh gốc anh để ở Desktop (mặt nghiêm `CX_RUN`, mặt ngáo `CX_NR`), tách nền rembg CPU, cắt CHUNG 1 khung → đổi dạng không nhảy cỡ. Tia sáng sau đầu trong ảnh ngáo đã gọt bỏ, vẽ lại bằng code (`_cxFlareDraw`).
