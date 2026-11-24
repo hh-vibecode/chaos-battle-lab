@@ -42,11 +42,14 @@ function audioDurations() {
   if (dirty) fs.writeFileSync(cf, JSON.stringify(c)); return out;
 }
 let DURS = null;
+// 📡 Morse Cat nhớ câu đã gõ giữa các VIDEO (anh 24/11): trang nào cũng nạp cùng 1 trí nhớ (chạy thử = quay thật), quay xong ghi lại
+const MC_SAID_F = path.join(__dirname, 'x', 'morse-said.json'), MC_SAID = fs.existsSync(MC_SAID_F) ? fs.readFileSync(MC_SAID_F, 'utf8') : null;
 async function openMatch(br, PORT, seed, cw) {
   if (!DURS) DURS = audioDurations();
   const css = 559, dpr = cw / css;   // khung 9:16 trên màn 1920×1080 rộng ~559px CSS → dpr cho ra đúng cw pixel
   const pg = await br.newPage({ viewport: { width: 1920, height: 1080 }, deviceScaleFactor: dpr });
   pg.on('pageerror', e => console.log('⚠️', e.message.slice(0, 160)));
+  if (MC_SAID != null) await pg.addInitScript(s => { try { localStorage.setItem('cbs_mc_said', s); } catch (e) {} }, MC_SAID);
   await pg.goto(`http://127.0.0.1:${PORT}/`);
   await pg.waitForFunction(() => !document.getElementById('bootScreen'), null, { timeout: 300000 });
   await pg.evaluate(({ A, B, cw, DUO, TA, TB, FFA }) => { const n = k => roster.findIndex(c => c.charKey === k);
@@ -205,7 +208,8 @@ const ok = r => (!DIROK || DIROK.test(r.dir || '')) && (DOMAIN == null || (r.dom
     if (i > MAXSEC * FPS) break;
   }
   ff.stdin.end(); await new Promise(r => ff.on('close', r));
-  const res = await pg.evaluate(RESULT), info = await pg.evaluate(() => ({ aud: __aud, lufs: SND_LUFS, music: [...SND_MUSIC] }));
+  const res = await pg.evaluate(RESULT), info = await pg.evaluate(() => ({ aud: __aud, lufs: SND_LUFS, music: [...SND_MUSIC], mc: fighters.some(f => f.type === 'morsecat') ? localStorage.getItem('cbs_mc_said') : null }));
+  if (info.mc) { fs.writeFileSync(MC_SAID_F, JSON.stringify(JSON.parse(info.mc), null, 1)); console.log('📡 Morse Cat: đã nhớ câu đã gõ → tools/x/morse-said.json'); }
   await br.close(); srv.close();
   const _fin = { ...res, t: res.t - (DUR ? DUR_OFF : 0) };   // kết quả cuối đã là độ dài video thật → bỏ phần cộng ước lượng khi in/so
   console.log(`  kết quả: ${fmt(_fin)}`); if ((WIN || CLOSE != null || DUR) && !ok(_fin)) console.log('⚠️ trận quay ra KHÁC lúc chạy thử!');

@@ -22,7 +22,7 @@ for (const m of G.matchAll(/(\w+):\s*\{\s*key:'(\w+)',\s*defaultName:'([^']*)'/g
 const short = n => n.split(' - ')[0].trim();
 const BY_NAME = {}; for (const k in DEFS) BY_NAME[short(DEFS[k]).toLowerCase()] = k;
 Object.assign(BY_NAME, { 'stalin': 'stalincat', 'drooling cat': 'droolingcat', 'jonin cheems': 'samuraicheems', 'joninn cheems': 'samuraicheems',
-  'fine dog': 'finedog', 'giant friend': 'friendeldritch', 'friend eldritch': 'friendeldritch', 'mosquito violin': 'mosquitoviolin' });
+  'fine dog': 'finedog', 'skyrim guard': 'windguy', 'commeowder': 'commandercat', 'joseph catlin': 'stalincat', 'gojo cat': 'mewingcat', 'giant friend': 'friendeldritch', 'friend eldritch': 'friendeldritch', 'mosquito violin': 'mosquitoviolin' });
 // ⚠️ (23/11 anh: "giant friend chưa thua trận nào") "Friend" trong tiêu đề = Friend THƯỜNG (`friend`, "Maybe Not A Friend"). Giant Friend (`friendeldritch`) cũng hay đặt tiêu đề "Friend"
 //    → video nào là Giant Friend thì ghi đội cụ thể vào results.json: "teams":[["friendeldritch"],…] (make.js ưu tiên teams hơn tiêu đề). Soát bằng khung đầu trận (tên phụ dưới tên).
 const NAME = { friendeldritch: 'Giant Friend', finedog: 'Fine Dog', samuraicheems: 'Jonin Cheems', droolingcat: 'Drooling Cats' };   // tên hiện trên bảng
