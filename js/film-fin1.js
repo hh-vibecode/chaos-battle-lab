@@ -314,6 +314,7 @@
   // ───────── CẢNH ─────────
   // nền thành phố TRỜI SÁNG (cảnh 1): tháp xa mờ sương (par 0.12, mỗi tầng 11, THẤP + THƯA — phông vẽ đã có thành phố xa) → cao tầng trung cảnh có chi tiết
   //   (par 0.32, mỗi tầng 22, 15–34 tầng, THƯA: khe rộng để lộ trời + nhà xa trong phông FIN_BG_DAY — anh dặn 10/11: ~35–45% khung mở đầu là trời)
+  let INTRO=null;   // 🎬 intro kênh bản YouTube (fin1yt): chữ lồng VÀO cảnh phố — trước dãy tháp, SAU mái dãy cửa hàng (chân chữ khuất sau mái), thẻ tên bám meme
   function cityBack(g,cx,y0){ skyline(g,cx,0.12,y0-60,3,70,160,200,46,60,'#a3bcd8','rgba(255,255,255,0.55)',0.12,{far:1,fl:11,haze:0.5,hazeCol:'#d8e7f6',band:'rgba(70,95,130,0.22)',gap:150});
     skyline(g,cx,0.32,y0-30,7,46,340,420,78,70,'#8ea7c2','#fff4c2',0.16,{fl:22,det:1,haze:0.2,hazeCol:'#d0e1f3',gap:340}); }
   // phố bình yên: dân phố = meme NHỎ (≈ MEME_H) đi 2 chiều ở nhiều độ sâu trên vỉa hè (xa nhỏ hơn, vẽ trước) · xe + buýt chạy đúng làn
@@ -327,14 +328,14 @@
     for(const lane of [1,-1]) for(let i=0;i<8;i++){ const dir=i%2?1:-1; if(dir!==lane) continue; const v=panic?0:(110+30*H(i,61)), x=((i*530+dir*tw*v)%4200+4200)%4200-800, y=y0+(dir>0?LANE_A:LANE_B);
       if(i===4) bus(g,x,y,dir); else car(g,x,y,104,CARC[i%CARC.length],dir); } }
   function scStreet(g,t){ const k=seg(t,0,7), kz=E.eio(seg(t,2.2,7)), cx=lerp(300,980,E.eio(k)), y0=400, tw=K.twos(t);
-    cam(g,cx,lerp(130,318,kz),lerp(0.52,1.0,kz)); sky(g,t,0,0,y0-385); cityBack(g,cx,y0);   // toàn cảnh rộng GIỮ ~2s, máy hơi NGƯỚC (trời ~40% khung, thấy làn xe gần, khung có viền điện ảnh) → đẩy dần vào mặt phố
+    cam(g,cx,lerp(130,318,kz),lerp(0.52,1.0,kz)); sky(g,t,0,0,y0-385); cityBack(g,cx,y0); if(INTRO) INTRO.sky(g,cx);   // toàn cảnh rộng GIỮ ~2s, máy hơi NGƯỚC (trời ~40% khung, thấy làn xe gần, khung có viền điện ảnh) → đẩy dần vào mặt phố
     // hy = y0-385: chân dãy tháp trong phông vẽ nằm ngay trên mái dãy cửa hàng → khe giữa các nhà lộ thành phố xa của phông
     shops(g,y0,cx-1000,cx+1000); propsBack(g,y0,cx-1000,cx+1000); street(g,y0);
     // meme quen trên phố (cùng cỡ dân phố): Chill Guy thong thả · Doge ngồi ghế · Cheems trước tiệm · Capy chờ xe buýt
     pic(g,'chill',700+tw*24,y0+30,36); pic(g,'doge',985,y0+14,24); pic(g,'cheems',1262,y0+20,22); pic(g,'capy',640,y0+12,20,{flip:true});
     townLife(g,t,y0,0,false);
     stand(g,1500,y0+30); pic(g,'corn',1508,y0-22,20,{flip:true});
-    propsFront(g,y0,cx-1000,cx+1000); }
+    propsFront(g,y0,cx-1000,cx+1000); if(INTRO) INTRO.tags(g,t,tw,y0); }
   // trung cảnh: Banana Cat đi tới xe kem, Cornelius đưa kem — máy ZOOM (meme vẫn nhỏ, tủ kính / mái hiên phía sau to hơn nhiều)
   function scStand(g,t){ const u=t-T.stand, y0=400, cx=1482+u*3, z=3.7;
     cam(g,cx,y0-12,z); sky(g,t,0,0,y0-50); shops(g,y0,1200,1800); propsBack(g,y0,1200,1800); street(g,y0);
@@ -847,6 +848,32 @@
     mus:MAIN.mus.filter(m=>m.rb>a&&m.ra<b).map(m=>({...m, ra:Math.max(0,m.ra-a), rb:Math.min(b,m.rb)-a, off:(m.off||0)+Math.max(0,a-m.ra), fi:m.ra>=a?m.fi:0, fo:m.rb<=b?m.fo:0})),   // chỉ dùng khi xem LẺ cảnh
     shots:[{t0:0,t1:b-a,a:{}}],
     impact:t=>MAIN.impact(t+a), shake:t=>MAIN.shake(t+a), world:(F,t)=>MAIN.world(F,t+a), post:(F,t)=>MAIN.post(F,t+a), screen:(F,t)=>MAIN.screen(F,t+a) }));
+  // 📺 (anh 24/11) BẢN YOUTUBE 'fin1yt' = cảnh 1 tới đúng lúc Banana Cat khóc (T.cry), toàn cảnh phố GIỮ LÂU THÊM YT_EXT giây cho intro kênh:
+  //    "MEMES IN THE MULTIVERSE · proudly presents · a MEME LORE story" mọc lên giữa trời, nằm SAU dãy tháp gần (lồng vào cảnh, trôi theo máy với độ sâu riêng),
+  //    rồi thẻ tên nhân vật bám theo từng meme lúc máy lia vào phố — hết đúng lúc cắt sang Banana Cat ở xe kem. Chỉ dùng cho video YouTube (CapCut ghép), không vào rạp phim.
+  const YT_EXT=2.0, YT_PAR=0.22;   // (anh 24/11) Gojo vs Pain lao vào nhau → LOÉ TRẮNG mở ra cảnh phố + chữ kênh giữ 2s → máy mới chạy như phim
+  const ytK=(t,a,b,fi,fo)=>Math.min(seg(t,a,a+(fi||0.5)), 1-seg(t,b-(fo||0.5),b));
+  function ytWord(g,txt,x,y,px,ls,wt,col,a,rise,glow){ if(a<=0.01) return; g.save(); g.globalAlpha=a; g.font=`${wt} ${px}px ${SANS}`; g.letterSpacing=ls+'px'; g.textAlign='center'; g.textBaseline='middle';
+    g.shadowColor=glow||'rgba(10,25,60,0.75)'; g.shadowBlur=px*0.45*SCv; g.lineJoin='round'; g.lineWidth=px*0.07; g.strokeStyle='rgba(15,30,70,0.55)'; g.strokeText(txt,x+ls/2,y+rise);
+    g.fillStyle=col; g.fillText(txt,x+ls/2,y+rise); g.shadowBlur=0; g.fillText(txt,x+ls/2,y+rise); g.restore(); }
+  const YT_INTRO={
+    sky(g,cx){ const t=TT+YT_EXT; if(t>6.2) return; g.save(); g.translate(cx*(1-YT_PAR),0); const X=300*YT_PAR;   // cùng hệ lớp nhà: trôi chậm hơn tháp gần → có chiều sâu
+      const a1=ytK(t,0.05,5.2,0.5,0.7), a2=ytK(t,0.45,2.6,0.5,0.4), a3=ytK(t,2.7,5.2,0.5,0.7);
+      ytWord(g,'MEMES IN THE MULTIVERSE',X,-214,92,10,'900','#ffffff',a1,(1-E.eout(seg(t,0.05,0.9)))*40,'rgba(30,60,120,0.5)');
+      ytWord(g,'proudly presents',X,-126,38,6,'italic 600','#fff8e8',a2,(1-E.eout(seg(t,0.45,1.1)))*16);
+      ytWord(g,'a  MEME LORE  story',X,-126,38,8,'800','#ffe6e6',a3,(1-E.eout(seg(t,2.7,3.3)))*16,'rgba(150,20,30,0.55)');
+      g.restore(); },
+    tags(g,t,tw,y0){ const T0=YT_EXT;   // thẻ tên kiểu anime: vạch mảnh từ đầu meme lên + tên, hiện lần lượt theo hướng máy lia
+      const L=[['capy','CAPYBARA',640,y0+12,20,2.4,6.6],['chill','CHILL GUY',700+tw*24,y0+30,36,3.0,6.8],['doge','DOGE',985,y0+14,24,4.0,7.0],['cheems','CHEEMS',1262,y0+20,22,4.9,7.0],['corn','CORNELIUS',1508,y0-22,20,5.6,7.0]];   // giây theo phim gốc (máy lia 2.2→7, cắt sang xe kem lúc 7)
+      const tt=TT; for(const [,nm,x,y,h,a,b] of L){ const k=ytK(tt,a,b,0.35,0.3); if(k<=0) continue; const top=y-h-4, up=34*E.eout(seg(tt,a,a+0.35)), lx=x+10;
+        g.save(); g.globalAlpha=k; g.strokeStyle='rgba(255,255,255,0.95)'; g.lineWidth=1.1; g.beginPath(); g.moveTo(x,top); g.lineTo(lx,top-up); g.lineTo(lx+8+nm.length*8.2*E.eout(seg(tt,a+0.1,a+0.45)),top-up); g.stroke();
+        g.font=`900 13px ${SANS}`; g.letterSpacing='2px'; g.textAlign='left'; g.textBaseline='bottom'; const tw2=g.measureText(nm).width;
+        g.fillStyle='rgba(12,16,28,0.62)'; g.beginPath(); g.roundRect(lx-2,top-up-17,tw2+9,16,3); g.fill();   // nền tối mờ cho chữ nổi trên tường màu nhạt
+        g.fillStyle='#fff'; g.fillText(nm,lx+2,top-up-1.5); g.restore(); } } };
+  CineKit.film({ id:'fin1yt', title:'Final 1 · Mở đầu YouTube (intro kênh)', VW, VH, cast:['cry','fr','dp'], DUR:T.cry+YT_EXT, imgs:pick(CUTS[0][4]), fadeIn:false, fadeOut:false,
+    sfx:[], mus:[], shots:[{t0:0,t1:T.cry+YT_EXT,a:{}}],
+    impact:t=>MAIN.impact(t-YT_EXT), shake:t=>MAIN.shake(t-YT_EXT),
+    world:(F,t)=>{ INTRO=YT_INTRO; try{ MAIN.world(F,t-YT_EXT); } finally{ INTRO=null; } }, post:(F,t)=>MAIN.post(F,t-YT_EXT), screen:(F,t)=>{ MAIN.screen(F,t-YT_EXT); if(t<0.45) K.flash(F,1-E.eout(t/0.45),'#fff'); } });   // loé trắng nối từ cú va của Gojo vs Pain
   // TẬP: thứ tự cảnh. Thêm cảnh mới: tạo js/film-<id>.js (CineKit.film, fadeIn/fadeOut:false), nạp trước dòng này, thêm id vào đây (+ nhạc nền vào mus nếu cần).
   // 📱 TRAILER DỌC 9:16 'fin1tr' (anh dặn 10/11): Friend xuất hiện → Banana Cat hoảng sợ → nhảy sang thoại Akatsuki → giới thiệu thành viên.
   //    Hình = CẮT KHUNG DỌC từ bản vẽ ngang MAIN (lấy 304×540 quanh tâm cx của khung gốc, phóng ×1.78). Phụ đề + 5 thẻ thành viên vẽ RIÊNG cho khung dọc
