@@ -43,7 +43,7 @@ const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css
   const br = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required', ...(args.includes('--cpu') ? [] : ['--enable-gpu', '--use-angle=metal', '--ignore-gpu-blocklist'])] });   // ⚡ bật GPU thật (trước chạy WebGL bằng CPU → shader cực chậm) · --cpu để thử lại kiểu cũ
   const pg = await br.newPage({ viewport: WIDE ? { width: 1280, height: 720 } : { width: 720, height: 1280 } });
   pg.on('pageerror', e => console.log('⚠️', e.message.slice(0, 160)));
-  await pg.goto(`http://127.0.0.1:${PORT}/`);
+  await pg.goto(`http://127.0.0.1:${PORT}/`, { timeout: 120000 });   // máy bận (Mac 4K, nhiều tiến trình) trang tải >30s → nới 120s (24/11)
   await pg.waitForFunction(() => !document.getElementById('bootScreen'), null, { timeout: 300000 });
   // 2) mở phim ở chế độ offline (không tiếng, không chạy theo đồng hồ)
   if (FM.kit) {   // 🎬 CINE-KIT: tải bộ khung + phim, gắn tên hàm chuẩn để phần dưới dùng chung

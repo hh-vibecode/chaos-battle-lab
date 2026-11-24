@@ -152,6 +152,7 @@
       const ax=A(i+1,j)-A(i-1,j), ay=A(i,j+1)-A(i,j-1), out=A(i,j)>0.5&&Math.hypot(ax,ay)>0.3;
       if(m>0.9||out){ const ux=out?-ax:gx, uy=out?-ay:gy, ul=Math.hypot(ux,uy)||1; LINES.push([i/W,j/H2,-uy/ul,ux/ul,out?1:0,ux/ul,uy/ul]); } }
     return LINES; }
+  let _gonC=null; const gonLayer=(w,h)=>{ if(!_gonC||_gonC.width!==w||_gonC.height!==h) _gonC=K.mk(w,h); return _gonC; };   // lớp lửa dùng lại mỗi khung (không tạo canvas 4K mới mỗi khung)
   function gonRage(F,t){ const g=F.g, VW=F.VW, VH=F.VH, c=K.prep(F.I.CG); if(!c) return; const L=lineArt(c), u=seg(t,T.rage,T.rage2), fr=Math.floor(t*10);   // 10 hình/giây như GIF
     const sp=VH*0.27, sc=sp/((CG_EYES[1][0]-CG_EYES[0][0])*c.sw)*(1+0.06*u), mx=(CG_EYES[0][0]+CG_EYES[1][0])/2, my=CG_EYES[0][1];   // khoảng 2 mắt = 20% cao khung (Chill Guy mặt dài, mắt gần nhau → lùi máy để thấy viền mặt chụm xuống cằm như GIF), máy dí sát dần
     const jx=(hash(fr*3+1)-0.5)*VH*0.008, jy=(hash(fr*3+2)-0.5)*VH*0.008, cx=VW*0.44+jx, cy=VH*0.36+jy;
@@ -161,16 +162,24 @@
     for(let i=0;i<3;i++){ const sd=Math.floor(fr/3)*7+i*31; if(hash(sd)>0.5) continue; const px=VW*hash(sd+1), py=VH*hash(sd+2), R=VH*(0.12+0.2*hash(sd+3)), an=hash(sd+4)*TAU;
       g.fillStyle='rgba(150,150,150,'+(0.04+0.05*hash(sd+5))+')'; g.beginPath(); for(let k=0;k<4;k++){ const a=an+k*TAU/4+(hash(sd+k+6)-0.5)*0.9, rr=R*(0.5+0.6*hash(sd+k+10)); k?g.lineTo(px+Math.cos(a)*rr,py+Math.sin(a)*rr*0.5):g.moveTo(px+Math.cos(a)*rr,py+Math.sin(a)*rr*0.5); } g.closePath(); g.fill(); }
     // LỬA TRẮNG dọc mọi nét (so GIF 19/11): MẢNG lửa dày, CHÁY THEO CỤM (mỗi khung cụm khác sáng / tắt), lưỡi lửa THON DÀI liếm ra ngoài + lên — không phải lông mảnh đều
-    g.globalCompositeOperation='lighter'; g.lineCap='round'; g.lineJoin='round'; g.shadowColor='rgba(255,255,255,0.55)'; g.shadowBlur=VH*0.012; const ps=sc;   // quầng sáng nhẹ như GIF   // ps = px màn / px ảnh
+    // ⚡ (24/11) LỬA vẽ lên 1 LỚP RIÊNG, gom nét theo độ dày / độ sáng → mỗi nhóm 1 lần stroke / fill, quầng sáng phủ 1 LẦN cho cả lớp (hình giữ nguyên).
+    //   Trước: MỖI nét (hàng chục nghìn điểm viền) tự bật shadowBlur → ở 4K Chrome ngốn hết RAM / GPU, làm SẬP cả máy Mac khi xuất (24/11).
+    const GT=g.getTransform(), GPX=Math.hypot(GT.a,GT.b)||1, FL=gonLayer(VW*GPX,VH*GPX), fg=FL.getContext('2d'); fg.setTransform(1,0,0,1,0,0); fg.clearRect(0,0,FL.width,FL.height); fg.setTransform(GPX,0,0,GPX,0,0); fg.globalCompositeOperation='lighter'; fg.lineCap='round'; fg.lineJoin='round'; const ps=sc;   // lớp đúng độ phân giải THẬT của khung (4K không mờ) · ps = px màn / px ảnh
+    const qa=a=>Math.round(a*8)/8, WQ=VH*0.0015, qw=w=>Math.max(2.5,Math.round(w/WQ)*WQ), SB=new Map(), TB=new Map(), bk=(M,k)=>M.get(k)||(M.set(k,[]),M.get(k));
     for(let i=0;i<L.length;i++){ const [fx,fy,tx,ty,out,nx,ny]=L[i], cell=hash(Math.floor(fx*26)*73+Math.floor(fy*26)*151+fr*977); if(cell<0.3) continue;   // cụm tắt khung này
       const sd=fr*7919+i*31; if(hash(sd)<0.25) continue; const x0=X(fx), y0=Y(fy); if(x0<-80||x0>VW+80||y0<-80||y0>VH+80) continue;
       const len=ps*(2.2+3.5*hash(sd+1)), w=Math.max(2.5,VH*(0.006+0.01*hash(sd+2))*(0.7+0.6*cell));
-      g.strokeStyle='rgba(255,255,255,'+(0.75+0.25*hash(sd+3))+')'; g.lineWidth=w; g.beginPath(); g.moveTo(x0+tx*len*0.5,y0-ty*len*0.5); g.lineTo(x0+(hash(sd+4)-0.5)*ps,y0+(hash(sd+5)-0.5)*ps); g.lineTo(x0-tx*len*0.5,y0+ty*len*0.5); g.stroke();   // hướng dọc nét đã lật theo X (−tx)
+      bk(SB,qw(w)+'|'+qa(0.75+0.25*hash(sd+3))).push(x0+tx*len*0.5,y0-ty*len*0.5, x0+(hash(sd+4)-0.5)*ps,y0+(hash(sd+5)-0.5)*ps, x0-tx*len*0.5,y0+ty*len*0.5);   // hướng dọc nét đã lật theo X (−tx)
       if(out&&hash(sd+6)<0.22+0.14*u){ let sx=-tx, sy=ty; if(sy>0){ sx=-sx; sy=-sy; } let dx=sx*0.75-nx*0.25, dy=sy*0.75+ny*0.25-0.6;   // vuốt DỌC nét + hướng lên (như GIF), không chĩa ngang như gai
         const dl=Math.hypot(dx,dy)||1; dx/=dl; dy/=dl; const LL=VH*(0.05+0.14*hash(sd+7))*(0.8+0.5*u), bw=VH*(0.012+0.02*hash(sd+8)), px=-dy, py=dx;   // LƯỠI LỬA thon: chân rộng → mũi nhọn, uốn
         const bend=(hash(sd+9)-0.5)*LL*0.5, mx2=x0+dx*LL*0.5+px*bend, my2=y0+dy*LL*0.5+py*bend, tx2=x0+dx*LL+px*bend*1.6, ty2=y0+dy*LL+py*bend*1.6;
-        g.fillStyle='rgba(255,255,255,'+(0.7+0.3*hash(sd+10))+')'; g.beginPath(); g.moveTo(x0-px*bw/2,y0-py*bw/2); g.quadraticCurveTo(mx2-px*bw*0.35,my2-py*bw*0.35,tx2,ty2); g.quadraticCurveTo(mx2+px*bw*0.35,my2+py*bw*0.35,x0+px*bw/2,y0+py*bw/2); g.closePath(); g.fill(); } }
-    for(let i=0;i<70;i++){ const sd=fr*331+i*17, x=VW*hash(sd), y=VH*hash(sd+1); if(Math.abs(x-cx)>VH*0.9) continue; g.fillStyle='rgba(255,255,255,'+(0.4+0.6*hash(sd+2))+')'; g.fillRect(x,y,Math.max(1.5,VH*0.004),Math.max(2,VH*(0.006+0.012*hash(sd+3)))); }   // đốm trắng li ti
+        bk(TB,qa(0.7+0.3*hash(sd+10))).push(x0-px*bw/2,y0-py*bw/2, mx2-px*bw*0.35,my2-py*bw*0.35, tx2,ty2, mx2+px*bw*0.35,my2+py*bw*0.35, x0+px*bw/2,y0+py*bw/2); } }
+    for(const [k,A] of SB){ const [w,a]=k.split('|').map(Number); fg.strokeStyle='rgba(255,255,255,'+a+')'; fg.lineWidth=w; fg.beginPath();
+      for(let j=0;j<A.length;j+=6){ fg.moveTo(A[j],A[j+1]); fg.lineTo(A[j+2],A[j+3]); fg.lineTo(A[j+4],A[j+5]); } fg.stroke(); }
+    for(const [a,A] of TB){ fg.fillStyle='rgba(255,255,255,'+a+')'; fg.beginPath();
+      for(let j=0;j<A.length;j+=10){ fg.moveTo(A[j],A[j+1]); fg.quadraticCurveTo(A[j+2],A[j+3],A[j+4],A[j+5]); fg.quadraticCurveTo(A[j+6],A[j+7],A[j+8],A[j+9]); fg.closePath(); } fg.fill(); }
+    for(let i=0;i<70;i++){ const sd=fr*331+i*17, x=VW*hash(sd), y=VH*hash(sd+1); if(Math.abs(x-cx)>VH*0.9) continue; fg.fillStyle='rgba(255,255,255,'+(0.4+0.6*hash(sd+2))+')'; fg.fillRect(x,y,Math.max(1.5,VH*0.004),Math.max(2,VH*(0.006+0.012*hash(sd+3)))); }   // đốm trắng li ti
+    g.globalCompositeOperation='lighter'; g.shadowColor='rgba(255,255,255,0.55)'; g.shadowBlur=VH*0.012; g.drawImage(FL,0,0,VW,VH);   // quầng sáng nhẹ như GIF — 1 lần cho cả lớp
     g.globalCompositeOperation='source-over'; g.shadowBlur=0;
     for(const [fx,fy] of CG_EYES){ const ex=X(fx), ey=Y(fy), R=sp*0.3*(1+0.03*Math.sin(t*40));   // 2 MẮT tròn trắng TO, mép hơi rung, có quầng
       const gr=g.createRadialGradient(ex,ey,R*0.85,ex,ey,R*1.5); gr.addColorStop(0,'rgba(255,255,255,0.45)'); gr.addColorStop(1,'rgba(255,255,255,0)'); g.fillStyle=gr; g.fillRect(ex-R*1.6,ey-R*1.6,R*3.2,R*3.2);
