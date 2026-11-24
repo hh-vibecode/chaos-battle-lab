@@ -72,7 +72,9 @@ def clip(rel, name, t, off, ln, gain):
     s = copy.deepcopy(aseg0); g = max(0.0, min(A.max_gain, gain))
     s.update(id=U(), material_id=am['id'], source_timerange={'start': us(off), 'duration': us(ln)}, target_timerange={'start': us(max(0, t)), 'duration': us(ln)},
              extra_material_refs=extras(aseg0), volume=g, last_nonzero_volume=g if g > 0 else 1.0)
+    META[s['id']] = (p, off, ln, max(0, t))
     return s
+META = {}
 beds, sfx = [], []
 for m in info['mus']:   # tiếng nền: file lặp thì nối nhiều đoạn
     t, off = m['ra'], m['off']; nm = os.path.basename(m['src']).rsplit('.', 1)[0]
@@ -86,6 +88,25 @@ for i, s in enumerate(info['sfx']):
     p, fd = adur(s['file']); ln = s['d'] or fd
     c = clip(s['file'], f"{s['label'] or s['key']} ({s['key']})", s['t'], 0, ln, s['gain'])
     if c: sfx.append(c)
+# 🔇 CHỐNG RÈ (anh 24/11: "có tiếng rè rè"): CapCut không có bộ giới hạn như render-cine → (1) mỗi clip: âm lượng không đẩy đỉnh quá −1 dBFS,
+#    (2) mô phỏng cả bản trộn (mono 22.05 kHz) → chỗ nhiều tiếng chồng mà vẫn vượt −1.5 dBFS thì hạ ĐỀU mọi clip cho vừa (giữ tương quan to nhỏ).
+import numpy as np
+SR = 22050; _pcm = {}
+def pcm(p):
+    if p not in _pcm: _pcm[p] = np.frombuffer(subprocess.run(['ffmpeg', '-v', 'error', '-i', p, '-ac', '1', '-ar', str(SR), '-f', 'f32le', '-'], capture_output=True, check=True).stdout, dtype=np.float32)
+    return _pcm[p]
+allseg = beds + sfx; ncap = 0
+for sg in allseg:
+    p, off, ln, t = META[sg['id']]; x = pcm(p); pk = float(np.abs(x[int(off * SR):int((off + ln) * SR)]).max()) if x.size else 0
+    cap = (10 ** (-1 / 20)) / pk if pk > 0 else A.max_gain
+    if sg['volume'] > cap: sg['volume'] = sg['last_nonzero_volume'] = cap; ncap += 1
+mix = np.zeros(int((vdur + 2) * SR), np.float32)
+for sg in allseg:
+    p, off, ln, t = META[sg['id']]; x = pcm(p)[int(off * SR):int((off + ln) * SR)]; a = int(t * SR); x = x[:max(0, mix.size - a)]
+    mix[a:a + x.size] += x * sg['volume']
+mpk = float(np.abs(mix).max()); lim = 10 ** (-1.5 / 20); k = min(1.0, lim / mpk) if mpk > 0 else 1.0
+for sg in allseg: sg['volume'] *= k; sg['last_nonzero_volume'] = sg['volume'] if sg['volume'] > 0 else 1.0
+print(f'🔇 chống rè: chặn đỉnh {ncap} clip · đỉnh bản trộn {20 * np.log10(mpk):+.1f} dBFS → hạ đều {20 * np.log10(k):+.1f} dB')
 def lanes(segs, label):   # xếp vào ít track nhất, không chồng nhau trong 1 track
     segs.sort(key=lambda s: s['target_timerange']['start']); L = []
     for s in segs:
