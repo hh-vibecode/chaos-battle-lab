@@ -216,7 +216,7 @@
       [T.tilt+0.1,'se_collapse',0.6,1.3,'toà nhà nghiêng, gạch đá rơi rào rào xuống phía Banana Cat'],[T.tilt+0.35,'cry_banana_cat',0.85,T.dive-T.tilt-0.35,'+ Banana Cat ngồi khóc ngước lên (lớp của tiếng nhà đổ)'],
       [T.dive,'se_whoosh_fast',0.7,0.4,'Chill Guy hoá vệt sáng lao tới ôm Banana'],[T.crash,'l2p_crack',0.9,0.7,'toà nhà đập sập xuống ngay sau lưng'],
             [T.carHit,'pd_truck_crash',1,0.58,'xe đâm sầm, lật nhào trên mặt đường — Chill Guy nhảy né kịp'],
-      [T.emerge+0.2,'l2p_sub',0.5,T.lift-T.emerge-0.2,'Depressed (Pain) lơ lửng bước ra từ khói, Rinnegan loé'],
+      [T.emerge+0.2,'dp_rinnegan',0.8,T.lift-T.emerge-0.2,'Depressed (Pain) lơ lửng bước ra từ khói, Rinnegan loé'],
       [T.lift,'l2p_riser',0.6,T.fire-T.lift,'cột đèn, mảng tường bị hút lên lơ lửng quanh Pain'],
       [T.fire+0.32,'se_rock_break',0.8,0.43,'cột đèn đập xuống chỗ Chill Guy vừa né'],[T.f2+0.32,'se_wall_break',0.8,0.43,'mảng tường lớn vỡ tung'],[T.f3+0.32,'kn_boom_low',0.65,0.5,'mảng tường nhỏ nổ bụi'],[T.f4+0.32,'se_collapse',0.75,0.43,'mảng tường cuối rơi đập xuống đất'],
       [T.halfHit,'cine_deep_impact',1,1.2,'NỬA TOÀ NHÀ đập trúng Chill Guy'],[T.halfHit+0.12,'se_tremor',0.5,1.0,'+ đất rung, bụi phủ kín (lớp của cú nện)'],

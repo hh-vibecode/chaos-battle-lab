@@ -406,7 +406,7 @@
 //         post(F,t) → hậu kỳ shader (js/vfx-gl.js): {shocks:[{x,y,z | sx,sy, r,w,str}], zoom:{x,y,z | sx,sy, k}, chroma, heat:{k,t}} (đơn vị logic) }
   // 🔊 KHOẢNG LẶNG ĐẦU của file tiếng (đo 19/11 bằng tools/x/sfx-measure.html → window.__leadJson, ngưỡng −30 dB so với đỉnh): phim phát SỚM đúng chừng đó
   //   để tiếng VÀO ĐÚNG KHUNG HÌNH (anh chê 18/11 "sound chậm hơn hình"). Áp cho mọi phim (xem web + render-cine xuất video dùng chung info().sfx). Tiếng mới → đo + thêm vào đây.
-  K.SND_LEAD={se_charge:0.03, lightsaber_on:0.073, gary_titan_roar:0.027, bat_grapple:0.032, bk_howl:0.491, br_tick:0.025, chillguy_uppercut:0.042, cine_heavy_slow:0.086, cry_banana_cat:0.033, dc_chain:0.036, ed_hit7:0.046, ep3_chain:0.025, ep3_charge:0.035, ep3_explode:0.02, ep3_glass:0.346, ep3_klunk:0.043, ep3_quake:0.058, fin_crow_fly:0.206, gigachad_roar:0.027, king_knight_summon:0.299, kn_boom_low:0.06, kn_explode_crunch:0.025, kn_punch_heavy:0.036, l2p_chains:0.831, l2p_chime:0.207, l2p_riser:0.721, l2p_rumble:0.089, l2p_shimmer:0.057, l2p_whoosh:0.254, ninja_sub:0.027, pd_truck_crash:0.046, se_collapse:0.031, se_collapse_b:0.066, se_glass:0.031, se_impact_stop:0.026, se_katana_a:0.03, se_katana_b:0.068, se_machdash:0.03, se_quake:0.061, se_slash:0.034, se_super_hit:0.026, se_tremor:0.028, se_whoosh_fast:0.043, vine_boom:0.087};
+  K.SND_LEAD={fin_meteor:0.13, se_charge:0.03, lightsaber_on:0.073, gary_titan_roar:0.027, bat_grapple:0.032, bk_howl:0.491, br_tick:0.025, chillguy_uppercut:0.042, cine_heavy_slow:0.086, cry_banana_cat:0.033, dc_chain:0.036, ed_hit7:0.046, ep3_chain:0.025, ep3_charge:0.035, ep3_explode:0.02, ep3_glass:0.346, ep3_klunk:0.043, ep3_quake:0.058, fin_crow_fly:0.206, gigachad_roar:0.027, king_knight_summon:0.299, kn_boom_low:0.06, kn_explode_crunch:0.025, kn_punch_heavy:0.036, l2p_chains:0.831, l2p_chime:0.207, l2p_riser:0.721, l2p_rumble:0.089, l2p_shimmer:0.057, l2p_whoosh:0.254, ninja_sub:0.027, pd_truck_crash:0.046, se_collapse:0.031, se_collapse_b:0.066, se_glass:0.031, se_impact_stop:0.026, se_katana_a:0.03, se_katana_b:0.068, se_machdash:0.03, se_quake:0.061, se_slash:0.034, se_super_hit:0.026, se_tremor:0.028, se_whoosh_fast:0.043, vine_boom:0.087};
   K.leadShift=sfx=>(sfx||[]).map(s=>{ const L=K.SND_LEAD[s[1]]||0; if(!L) return s; const o=s.slice(); o[0]=Math.max(0,s[0]-L); if(o[3]!=null) o[3]=s[3]+L; return o; });
   K.film=def=>{ const id=def.id, VW=def.VW||540, VH=def.VH||960, DUR=def.DUR;
     if(def.sfx&&!def._leadDone){ def.sfx=K.leadShift(def.sfx); def._leadDone=true; }
@@ -494,7 +494,7 @@
       try{ stopAllBattleMusic(); }catch(e){}
       decodeImgs().then(()=>{ if(!overlay) return; ready=true; paused=false; played={}; t0=performance.now(); if(BP) BP.start(); });
       paused=false; played={}; t0=performance.now(); if(!OFF) raf=requestAnimationFrame(frame); }
-    const api={ play, stop, seekTo:s=>{ if(ready) seek(s); }, _bp:()=>BP, ready:()=>ready, step:R=>{ if(OFF && ready) renderAt(R); }, canvas:()=>cv, info:()=>({dur:DUR, sfx:(def.sfx||[]).map(([a,k,v,d])=>[a,k,v,d]), mus:K._musInfo(def.mus), slow:def.slow||[], duck:DUCK}), def,
+    const api={ play, stop, seekTo:s=>{ if(ready) seek(s); }, _bp:()=>BP, ready:()=>ready, step:R=>{ if(OFF && ready) renderAt(R); }, canvas:()=>cv, info:()=>({dur:DUR, sfx:(def.sfx||[]).map(([a,k,v,d])=>[a,k,v,d]), sfxLabels:(def.sfx||[]).map(x=>typeof x[4]==='string'?x[4]:''), mus:K._musInfo(def.mus), slow:def.slow||[], duck:DUCK}), def,
       // dùng bởi K.seq (tập nhiều cảnh): vẽ lên canvas của tập, tải ảnh, đặt lại tiếng khi tua
       _bind:(c,W,off)=>{ cv=c; W2=W; w2=W.getContext('2d'); SC=c.width/VW; OFF=off?{}:null; }, _load:decodeImgs, _render:t=>renderAt(t),
       _seek:s=>{ played={}; (def.sfx||[]).forEach((x,i)=>{ if(x[0]<s) played['s'+i]=1; }); }, _sfxTick:t=>sfxTick(t) };
@@ -550,8 +550,8 @@
       Promise.all(parts().map(f=>f._load())).then(()=>{ if(!overlay) return; ready=true; paused=false; t0=performance.now(); if(BP) BP.start(); });
       paused=false; t0=performance.now(); if(!OFF) raf=requestAnimationFrame(frame); }
     const api={ play, stop, seekTo:s=>{ if(ready) seek(s); }, _bp:()=>BP, ready:()=>ready, step:R=>{ if(OFF && ready) renderAt(R); }, canvas:()=>cv, def, parts:def.parts, offsets:()=>offs.slice(),
-      info:()=>{ const I={dur:DUR, sfx:[], mus:K._musInfo(def.mus), slow:[], duck:duckS()};
-        parts().forEach((f,i)=>{ const o=offs[i], d=f.info(); for(const s of d.sfx) if(s[0]<d.dur) I.sfx.push([s[0]+o,s[1],s[2],s[3]]);
+      info:()=>{ const I={dur:DUR, sfx:[], sfxLabels:[], mus:K._musInfo(def.mus), slow:[], duck:duckS()};
+        parts().forEach((f,i)=>{ const o=offs[i], d=f.info(); (d.sfx||[]).forEach((s,j)=>{ if(s[0]<d.dur){ I.sfx.push([s[0]+o,s[1],s[2],s[3]]); I.sfxLabels.push(((d.sfxLabels||[])[j])||''); } });
           for(const s of d.slow||[]) I.slow.push(Array.isArray(s)?s.map((v,j)=>j<2?v+o:v):s); });
         return I; } };
     K.films[id]=api; return api; };

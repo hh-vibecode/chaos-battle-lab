@@ -5,6 +5,7 @@ description: Xuất video MP4 của Chaos Battle Lab trên MacBook — phim Meme
 
 # Xuất video (macOS)
 
+> 😴 **(anh 23/11 bực: "không biết để ý máy ngủ à") MỌI lệnh xuất dài trên Mac phải bọc `caffeinate -i …`** (máy ngủ = xuất dừng, 23/11 mất ~20 phút). Gập nắp vẫn ngủ → nhắc anh mở nắp + cắm sạc. Chạy nền thì cứ ~10 phút soát log một lần, dừng / lỗi là báo anh ngay.
 > ⏯️ **Phim xuất lâu → LUÔN `--cache --chunk 5`** (anh dặn 4/11: phải tắt máy được giữa chừng): chạy lại đúng lệnh là xuất tiếp phần còn thiếu. render-cine đã bật GPU (nhanh ~5.6×).
 > 🎞️ **50fps mặc định cho MỌI video** (anh chốt 3/11, dọc lẫn ngang): render-match / render-duo giả lập vẫn 60 tick/s (`--fps`, đừng đổi) nhưng xuất `--ofps 50`; render-cine `--fps` mặc định 50. Ghi chú 60fps / 30fps cũ bên dưới là trước ngày này.
 

@@ -521,7 +521,7 @@
   S(T.sky,T.dive,{co:'toàn',goc:'giun',loai:'chuyển cảnh',hd:'Ngước thẳng lên: trần mây dày ĐỎ RỰC từ bên trong, xoáy quanh 1 tâm, sét đỏ trong mây, đập theo nhịp tim',anh:['PL'],sfx:['l2p_rumble']},(F,t,u)=>{
     const P=PAL.red, vw={p:'PL',zm:1.1,cx:0.5,cy:0.6}, M=plateView(F,vw,u), k=seg(t,T.sky,T.dive), beat=Math.pow(Math.max(0,Math.sin(t*Math.PI*1.6)),6);
     skyUp(F,t,P,{cx:VW*0.5,cy:VH*0.3,swirl:0.05+0.1*k,glow2:0.25+0.6*k+0.25*beat,bolt:k}); plate(F,M,P,{dark:0.8}); ash(F,t,0.3); });
-  S(T.dive,T.brake,{co:'toàn',goc:'giun',loai:'ra chiêu',hd:'Friend XÉ TOẠC trần mây: lỗ mây rách toang, vòng mây bị thổi bạt, vệt lửa ma sát; lao thẳng xuống, to dần',anh:['PL','FR'],sfx:['fr_dash','se_whoosh_fast']},(F,t,u)=>{
+  S(T.dive,T.brake,{co:'toàn',goc:'giun',loai:'ra chiêu',hd:'Friend XÉ TOẠC trần mây: lỗ mây rách toang, vòng mây bị thổi bạt, vệt lửa ma sát; lao thẳng xuống, to dần',anh:['PL','FR'],sfx:['fin_meteor','se_whoosh_fast']},(F,t,u)=>{
     const P=PAL.red, vw={p:'PL',zm:1.06,cx:0.5,cy:0.62}, M=plateView(F,vw,u), g=F.g, k=seg(t,T.dive,T.brake), hole=eout(seg(t,T.dive,T.dive+0.7)), cx=VW*0.5, cy=VH*0.3;
     skyUp(F,t,P,{cx,cy,swirl:0.15,glow2:0.9,bolt:0.6,hole,blow:0.35*eout(k)});
     const w=VW*lerp(0.06,1.05,ein(k)*0.85+k*0.15), m=friend(F,cx+Math.sin(t*9)*2*k,cy+w*0.5,w,{rot:Math.sin(t*3)*0.04});
@@ -530,7 +530,7 @@
       frEyes(g,m,0.4+0.6*k); }
     plate(F,M,P,{dark:0.8});
     K.speedLines(F,{k:0.3+0.4*k,cx,cy,n:46}); });
-  S(T.brake,T.hover,{co:'cận',goc:'giun',loai:'ra chiêu',hd:'KHÔNG NỔ: Friend PHANH gấp giữa trời ngay trên đầu (vượt xuống chút rồi bật lại), lửa tắt dần, gió ép xuống thổi bạt mây + bụi',anh:['PL','FR'],sfx:['l2p_rumble','l2p_whoosh']},(F,t,u)=>{
+  S(T.brake,T.hover,{co:'cận',goc:'giun',loai:'ra chiêu',hd:'KHÔNG NỔ: Friend PHANH gấp giữa trời ngay trên đầu (vượt xuống chút rồi bật lại), lửa tắt dần, gió ép xuống thổi bạt mây + bụi',anh:['PL','FR'],sfx:['fin_brake_boom','l2p_rumble']},(F,t,u)=>{
     const P=PAL.red, vw={p:'PL',zm:1.06,cx:0.5,cy:0.62}, M=plateView(F,vw,u), g=F.g, lt=LS(t,T.brake), cx=VW*0.5, cy=VH*0.3;
     skyUp(F,t,P,{cx,cy,swirl:0.1,glow2:0.7-0.3*seg(lt,0,1.5),hole:1,blow:0.35+0.3*eout(seg(lt,0,0.8))});
     const k=seg(lt,0,0.5), w=VW*(lt<0.12?lerp(1.05,1.32,eout(lt/0.12)):lerp(1.32,1.2,backOut(k)*0+eout(k))), bob=Math.sin(lt*2.2)*4;
@@ -540,7 +540,7 @@
     plate(F,M,P,{dark:0.85}); dust(F,t,T.brake+0.05,VW*0.5,VH*1.02,VW*0.9,{tint:'110,50,44',a:0.65,seed:77,life:1.4,n:12}); });
   // Friend CỠ THÀNH PHỐ (anh 23/11: "friend vẫn bé quá", "size của nó là size thành phố", "trong bối cảnh chung chỉ nhìn được 1 phần của nó")
   //   → mở ở chân trời: biển quỷ tí hon + chân Friend treo lơ lửng phía trên → máy NGƯỚC DỌC THÂN (tilt-up) tới khi lộ mặt cười. Không lúc nào thấy trọn con.
-  S(T.hover,T.look,{co:'toàn',goc:'ngang',loai:'thở',hd:'Friend CỠ THÀNH PHỐ lơ lửng trên đầu phe Evil: mở ở chân trời (biển quỷ tí hon, chân Friend treo phía trên, gió ép thổi bạt bụi) → máy NGƯỚC dọc thân khổng lồ tới mặt cười',anh:['PV','FR','DM_brute','DM_wraith'],sfx:['fr_titan_roar']},(F,t,u)=>{
+  S(T.hover,T.look,{co:'toàn',goc:'ngang',loai:'thở',hd:'Friend CỠ THÀNH PHỐ lơ lửng trên đầu phe Evil: mở ở chân trời (biển quỷ tí hon, chân Friend treo phía trên, gió ép thổi bạt bụi) → máy NGƯỚC dọc thân khổng lồ tới mặt cười',anh:['PV','FR','DM_brute','DM_wraith'],sfx:[]},(F,t,u)=>{
     const P=PAL.red, vw={p:'PV',zm:1.1,cx:0.55,cy:0.245}, M=plateView(F,vw,0), g=F.g, lt=LS(t,T.hover), b=bake(F,'FR','friend',2,0), fw=VW*1.25, fh=b?fw/b.ar:fw, legY=M.hz-VH*0.05;
     const TILT=Math.max(0,(fh*0.77-legY)+VH*0.24), tk=eio(seg(lt,0.55,1.95)), ty=TILT*tk, bob=Math.sin(lt*1.9)*VH*0.01;
     g.save(); g.translate(0,ty);
@@ -653,7 +653,7 @@
       [T.field,'ep3_force',0.7,0.5,'Catvader dựng trường lực Force đỏ trước mặt'],[T.hit,'cine_haki_hit',0.9,0.45,'nắm đấm Haki của Doge nện vào trường lực'],
       [T.blast,'l2p_shatter',0.8,0.5,'trường lực VỠ tung thành mảnh'],[T.blast+0.02,'cine_deep_impact',0.8,0.48,'+ cú đấm xuyên qua, Catvader bị đấm văng (lớp của cú vỡ)'],
       [T.land,'se_rock_break',0.6,0.6,'Catvader rơi cày đất, trượt tới cạnh Pain'],
-      [T.painUp+0.3,'ep3_shine',0.5,0.6,'Pain: Rinnegan loé sáng lại'],
+      [T.painUp+0.3,'dp_rinnegan',0.8,1.2,'Pain: Rinnegan loé sáng lại'],
       
       [T.banana,'cry_banana_cat',0.9,1.3,'Banana Cat khóc thét'],
       [T.aka+0.16,'se_step_in',0.5,0.3,'Mlem đáp xuống'],[T.aka+0.66,'cine_drop',0.5,0.4,'+ Chud rơi đáp xuống (lớp của nhóm Akatsuki đáp)'],[T.aka+1.16,'se_step_in',0.45,0.3,'+ Ninja đáp xuống (lớp của nhóm Akatsuki đáp)'],[T.aka+1.66,'se_rock_break',0.4,0.4,'+ Bat đáp xuống đống gạch vụn (lớp của nhóm Akatsuki đáp)'],
@@ -663,9 +663,8 @@
       [T.smoke+0.15,'se_bomb',0.6,0.6,'cột khói nổ bùng lần lượt'],[T.smoke+0.8,'demon_roar1',0.8,1.4,'binh đoàn ác quỷ trồi lên gầm vang'],[T.smoke+1.0,'gary_titan_roar',0.7,1.4,'+ Evil Gary gầm (lớp của triệu hồi)'],
       [T.shard,'ep3_shine',0.6,1.0,'Pain giơ mảnh linh hồn Friend, loé tím'],
       [T.sky,'l2p_rumble',0.8,1.8,'trần mây đỏ rực từ bên trong, rền theo nhịp tim'],
-      [T.dive,'fr_dash',0.9,1.6,'Friend lao đầu xé toạc tầng mây'],[T.dive+0.3,'se_whoosh_fast',0.6,1.2,'+ xé gió (lớp của Friend lao)'],
-      [T.brake,'l2p_whoosh',0.9,1.0,'Friend PHANH gấp giữa trời: gió ép bạt xuống (không nổ)'],[T.brake+0.05,'l2p_rumble',0.7,1.5,'+ gió ép trầm rền (lớp của cú phanh)'],
-      [T.hover+0.3,'fr_titan_roar',0.9,1.6,'Friend lơ lửng trên đầu phe Evil, gầm'],
+      [T.dive,'fin_meteor',1,1.6,'Friend lao đầu xé toạc tầng mây']   /* (23/11 anh: tiếng của Friend không hợp → tiếng xé gió mạnh) */,[T.dive+0.3,'se_whoosh_fast',0.6,1.2,'+ xé gió (lớp của Friend lao)'],
+      [T.brake,'fin_brake_boom',1,1.6,'Friend PHANH gấp giữa trời: sóng ép trầm bạt xuống (không nổ)'],[T.brake+0.15,'l2p_rumble',0.7,1.5,'+ gió ép trầm rền (lớp của cú phanh)'],
       
       [T.rage+0.4,'l2p_riser',0.6,T.boom-T.rage-0.4,'Chill Guy nộ: hào quang đen–đỏ dâng lên, đất nứt, đá bị nhấc bổng'],[T.rage+0.05,'se_aura',0.5,T.boom-T.rage-0.05,'+ hào quang bốc cháy ngùn ngụt (lớp của nộ)'],
       [T.boom,'l2p_explode',1,2.0,'BÙM — nổ trắng xoá']],

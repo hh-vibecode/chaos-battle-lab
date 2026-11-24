@@ -57,6 +57,12 @@ const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css
   const info = await pg.evaluate(FM => { const I = window[FM.info](); const src = {}, lufs = {};
     for (const s of I.sfx) { const a = AUDIO_SAMPLES[s[1]]; if (a) src[s[1]] = new URL(a.src, location.href).pathname; if (SND_LUFS[s[1]]) lufs[s[1]] = SND_LUFS[s[1]]; }
     return { ...I, src, lufs, music: [...SND_MUSIC] }; }, FM);
+  // 🎬→CapCut (anh 23/11): --info-json <file> = chỉ ghi LỊCH TIẾNG đúng như khâu trộn (giây, file, độ dài, âm lượng đã chuẩn hoá) rồi thoát — tools/x/capcut-draft.py dựng dự án CapCut từ file này
+  { const ij = sopt('--info-json'); if (ij) { const lg = k => { const m = info.lufs[k]; return m ? Math.max(0.05, Math.min(8, Math.pow(10, (-14 - m[0]) / 20))) : 1; };
+      const musOn = R => info.mus.some(m => R >= m.ra && R < m.rb), labs = info.sfxLabels || [];
+      const sfx = info.sfx.filter(s => info.src[s[1]]).map(([R, k, v, d], i) => ({ t: R, key: k, file: info.src[k].replace(/^\//, ''), d: d || null, gain: v * lg(k) * (!info.music.includes(k) && musOn(R) ? 0.75 : 1), label: labs[i] || '' }));
+      const mus = info.mus.map(m => ({ src: m.src.replace(/^\/?/, ''), ra: m.ra, rb: m.rb, off: m.off || 0, loop: !!m.loop, gain: m.vol == null ? 1 : m.vol, fi: m.fi || 0, fo: m.fo || 0 }));
+      fs.writeFileSync(path.resolve(ij), JSON.stringify({ film, dur: info.dur, fps: FPS, sfx, mus }, null, 1)); console.log('📝 lịch tiếng → ' + ij + ` (${sfx.length} tiếng, ${mus.length} tiếng nền)`); await br.close(); srv.close(); return; } }
   const T0 = opt('--from') || 0, T1 = Math.min(info.dur, opt('--to') || info.dur), N = Math.ceil((T1 - T0) * FPS);
   const F0 = PART ? opt('--f0') : 0, F1 = PART ? opt('--f1') : N;
   if (!PART) console.log(`🎬 ${film} ${WIDE ? '16:9' : '9:16'} ${W}×${H} · ${(T1 - T0).toFixed(1)}s · ${N} khung · ${JOBS} tiến trình`);
@@ -127,6 +133,7 @@ const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css
   await br.close(); srv.close();
   if (PART) return;
   }
+  if (args.includes('--no-audio')) { fs.renameSync(tmpV, OUT); console.log('✅ ' + OUT + ' (KHÔNG tiếng — tiếng nằm trong dự án CapCut, xem --info-json)'); return; }   // 🎬→CapCut (anh 23/11)
   // 4) tiếng: trộn lại đúng lịch SFX + nhạc nền (chuẩn hoá -14 LUFS y như trong game)
   const lufsGain = k => { const m = info.lufs[k]; if (!m) return 1; return Math.max(0.05, Math.min(8, Math.pow(10, (-14 - m[0]) / 20))); };
   const inputs = [], filters = [], VOI = []; let n = 0;
