@@ -57,6 +57,7 @@ Chi tiết từng meme: `docs/notes/memes.md` · từng phim + cine-kit: `docs/n
 - Tỉ lệ nhất quán giữa vật khổng lồ và meme ở mọi góc (meme ~100–170 đơn vị thế giới). Vật khổng lồ trông to = đưa máy lại gần, không phóng to meme.
 - Tiếng: mỗi cú 1 tiếng đúng chất, không dùng lại cho cú khác loại; cú nặng 2–3 lớp ('+'); ≤9 tiếng / 10s; nhạc lặng 0.3–0.7s trước cú quyết định. Nhạc: mỗi trận 1 bản epic chạy dài (không lặp đoạn ngắn), KHÔNG lồng giọng (anh 19/11): thoại + tên chiêu CHỈ bằng CHỮ trên màn hình — CHỈ TÊN CHIÊU, KHÔNG dòng mô tả (anh 23/11, vd chỉ "HOLLOW PURPLE").
 - Sakuga / impact frame / Yutapon / explosion FX / sao 4 cánh: checklist ở skill `edit-video` mục 8.
+- ⚡ (anh 24/11: xuất 4K cảnh Chill Guy làm SẬP máy 2 lần) Cảnh phức tạp KHÔNG được "căng": cấm `shadowBlur` / `filter` trong vòng lặp từng phần tử, gom lệnh vẽ, không tạo canvas mỗi khung, đo khung nặng nhất ở 4K (≤ ~0.5 s/khung) trước khi báo xong — skill `dung-phim` mục "⚡ NGÂN SÁCH VẼ".
 - Video mẫu dài: không tự dò cả video → hỏi anh mốc phút, hoặc đọc phụ đề (rẻ) rồi chỉ chụp đúng đoạn cần.
 
 ## 🔎 Soát phim trước khi báo xong

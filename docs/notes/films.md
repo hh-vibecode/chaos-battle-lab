@@ -2,6 +2,12 @@
 
 Đọc khi sửa / dựng đúng phim đó. Nguyên văn từ CLAUDE.md, không tóm.
 
+## ⚡ Bài học 24/11/2026 — cảnh quá "căng" làm sập máy khi xuất 4K
+fin1c6 khung nộ Gon: mỗi nét lửa (hàng chục nghìn) tự bật `shadowBlur` → 4K treo / sập Mac 2 lần. Đã sửa (gom nét + 1 lớp + quầng sáng 1 lần, Ver 718).
+Luật vẽ + cách đo chi phí ở 4K trước khi báo xong: skill `dung-phim` mục "⚡ NGÂN SÁCH VẼ". Xuất trên Mac: skill `xuat-video` (1 tiến trình ưu tiên nền,
+từng tập, `tools/x/canh-ram.sh` trần nửa RAM). Final Part 1 xuất 24/11: 8 tập 4K ở `out/Final-Part-1/`, phim ghép `~/Desktop/Meme Battles/Final Part 1 - 4K khong tieng.mp4`,
+dự án CapCut "Final Part 1 - tieng le" (`tools/x/capcut-draft.py`, mỗi tiếng 1 clip).
+
 ## 🎬 Bộ dựng phim anime (bắt đầu 28/10, dựng xong khung 29/10/2026)
 Mục tiêu anh đặt: Claude dựng được ~70–75% cảnh bất kỳ anh yêu cầu, đặc biệt cảnh COMBAT NHANH kiểu anime, góc máy liên tục, góc khó
 (ảnh mẫu: góc cao chéo từ trên xuống, 2 nhân vật xoay người, khói + vệt chém + năng lượng — kiểu Jujutsu Kaisen).

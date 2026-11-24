@@ -13,6 +13,24 @@ Anh nạp clip anime → bảng cảnh + luật đạo diễn + công thức cod
 bộ nhớ: mỗi nhịp 1 hành động có lý do, không VFX nứt đất, mỗi nhịp 1 tiếng, skill của meme phải giống trong game.
 Mẫu đầy đủ: `docs/mau-phim/film-dvc.js` (Buff Doge vs Samurai Cheems, ~7.6s) — copy file này rồi sửa.
 
+## ⚡ NGÂN SÁCH VẼ — CẢNH PHỨC TẠP KHÔNG ĐƯỢC "CĂNG" (anh 24/11/2026: xuất 4K làm SẬP máy Mac 2 lần — "từ h các cảnh phức tạp cũng k nhất thiết phải căng như cảnh chill guy")
+**Lỗi gốc (fin1c6, khung nổi nộ kiểu Gon `gonRage`)**: vẽ lửa trắng dọc TỪNG điểm viền của ảnh (hàng chục nghìn nét), MỖI nét `stroke()` riêng
+với `shadowBlur` + `'lighter'` bật sẵn. Ở 720p (xem trong app) còn chịu được; ở 4K quầng sáng to gấp 3 → mỗi khung hàng chục nghìn lần làm mờ
+4K → Chrome phình RAM / GPU vô hạn → treo, sập cả máy. Sửa (Ver 718): gom nét theo (độ dày, độ sáng) → ~10 lần stroke / fill trên 1 LỚP RIÊNG
+dùng lại (đúng độ phân giải thật), quầng sáng phủ **1 lần** cho cả lớp → hình y hệt, 7 khung mất 14s.
+**Thiếu gì**: không có ngân sách / không đo chi phí ở 4K trước khi báo xong — chỉ soát hình ở độ phân giải thấp.
+**Luật từ nay (mọi cảnh, nhất là cảnh nhiều chi tiết)**:
+1. ⛔ `shadowBlur` / `ctx.filter` (blur, drop-shadow) **KHÔNG BAO GIỜ trong vòng lặp từng phần tử** (hạt, nét, đá, quỷ, đám đông…). Muốn phát sáng:
+   vẽ cả nhóm lên 1 lớp (canvas dùng lại) rồi làm mờ / đổ bóng **1 lần**, hoặc dùng ảnh quầng sáng dựng sẵn (`glow()` / `blob()` kiểu film-fin1.js) dán bằng `drawImage`.
+2. **Gom lệnh vẽ**: nhiều nét / hình cùng màu-độ dày-độ trong → 1 `beginPath()` … 1 `stroke()`/`fill()` (lượng tử hoá độ dày / alpha vài mức nếu cần).
+3. **Không tạo canvas / gradient / đọc điểm ảnh (`getImageData`) mỗi khung**: dựng 1 lần rồi lưu (cache), canvas 4K tạo mới mỗi khung là rò RAM.
+4. **Số lượng tỉ lệ với cái THẤY ĐƯỢC**: hàng nghìn phần tử nhỏ hơn 1–2px ở khung hình thì gộp / bỏ bớt; đám đông xa dùng 1 ảnh dải bóng, không vẽ từng con.
+5. Chi phí tính ở **4K** (= 4× 1080p, 9× 720p): mục tiêu ≤ ~0.5 s / khung ở 4K trên MacBook Intel. Khung nào > 2 s là phải tối ưu trước khi báo xong.
+6. **Đo trước khi báo xong** (bước soát bắt buộc, có rào an toàn): chạy thử 5–10 khung NẶNG NHẤT của cảnh ở 4K:
+   `node tools/render-cine.js <id> out/_thu.mp4 --wide --4k --from A --to B --jobs 1 --no-audio` + `tools/x/canh-ram.sh <PID>` → đọc `vẽ … ms/khung`
+   trong log; xoá file thử sau đó. (Chrome > 3GB hoặc cụm > nửa RAM → rào tự tắt = cảnh đang rò / quá nặng.)
+7. Hiệu ứng "nhiều lửa / nhiều hạt" muốn đậm: tăng **độ dày / độ sáng / kích thước** từng nét chứ không tăng **số nét**.
+
 ## 🎞️ CẢNH VFX NẶNG = NỀN VẼ GPT THEO LỚP + NHÂN VẬT ẢNH GỐC GẮN BẰNG CODE (anh chốt 16/11/2026: "ghi nhớ cách này")
 - Cảnh chấn động / tụ lực / nổ / sét / đá vỡ kiểu anime (vd ảnh edit đỏ – đen anh gửi 16/11, video Zenitsu 0:43–0:48) → KHÔNG dựng full 3D, KHÔNG vẽ VFX bằng code nét mảnh.
 - Cách làm:
