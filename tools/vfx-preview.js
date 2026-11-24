@@ -19,7 +19,7 @@ const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.webp': 'image/w
     if (q.url === '/' ) { r.writeHead(200, { 'Content-Type': 'text/html' }); r.end('<!doctype html><body style="margin:0"></body>'); return; }
     fs.readFile(f, (e, d) => { if (e) { r.writeHead(404); r.end(); return; } r.writeHead(200, { 'Content-Type': MIME[path.extname(f)] || 'application/octet-stream' }); r.end(d); }); });
   await new Promise(r => srv.listen(0, '127.0.0.1', r)); const PORT = srv.address().port;
-  const b = await chromium.launch({ args: ['--enable-gpu', '--use-angle=metal', '--ignore-gpu-blocklist'] }); const p = await b.newPage();
+  const b = await chromium.launch({ args: ['--disable-audio-output', '--enable-gpu', '--use-angle=metal', '--ignore-gpu-blocklist'] }); const p = await b.newPage();
   const errs = []; p.on('pageerror', e => errs.push(e.message)); p.on('console', m => { if (m.type() === 'error') errs.push(m.text()); });
   await p.goto(`http://127.0.0.1:${PORT}/`);
   for (const s of ['js/vendor/proton/proton.min.js', 'js/vendor/pixi-filters/glsl.js', 'js/vfx-gl.js', 'js/cine-kit.js']) await p.addScriptTag({ url: '/' + s + '?v=' + Date.now() });

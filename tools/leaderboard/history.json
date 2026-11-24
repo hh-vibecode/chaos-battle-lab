@@ -692,6 +692,39 @@
    "dur": 31,
    "chk": "2026-11-23 xem video",
    "note": "người thắng đọc từ video đã đăng; quay 3 lần (2 Sans thắng, 1 Ninja thắng) — anh không nhớ đăng lần nào nên không gắn seed"
+  },
+  {
+   "title": "Snooze Cat vs Nyan Cat - Meme Battle",
+   "k": "snooze cat vs nyan cat meme battle",
+   "win": [
+    "snoozecat"
+   ],
+   "seed": 222002405,
+   "t": 38.8,
+   "src": "render",
+   "at": "2026-11-24T11:49:44.804Z"
+  },
+  {
+   "title": "Drooling Cats vs Sans - Meme Battle",
+   "k": "drooling cats vs sans meme battle",
+   "win": [
+    "sans"
+   ],
+   "seed": 224657362,
+   "t": 22.1,
+   "src": "render",
+   "at": "2026-11-24T12:05:15.338Z"
+  },
+  {
+   "title": "Skyrim Guard vs Poor Dog - Meme Battle",
+   "k": "skyrim guard vs poor dog meme battle",
+   "win": [
+    "poordog"
+   ],
+   "seed": 225658635,
+   "t": 21.6,
+   "src": "render",
+   "at": "2026-11-24T12:17:06.164Z"
   }
  ]
 }

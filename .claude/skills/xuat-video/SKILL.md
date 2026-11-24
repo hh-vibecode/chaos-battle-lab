@@ -10,6 +10,7 @@ description: Xuất video MP4 của Chaos Battle Lab trên MacBook — phim Meme
 > ⏯️ **Phim xuất lâu → LUÔN `--cache --chunk 5`** (anh dặn 4/11: phải tắt máy được giữa chừng): chạy lại đúng lệnh là xuất tiếp phần còn thiếu. render-cine đã bật GPU (nhanh ~5.6×).
 > 🎞️ **50fps mặc định cho MỌI video** (anh chốt 3/11, dọc lẫn ngang): render-match / render-duo giả lập vẫn 60 tick/s (`--fps`, đừng đổi) nhưng xuất `--ofps 50`; render-cine `--fps` mặc định 50. Ghi chú 60fps / 30fps cũ bên dưới là trước ngày này.
 
+> 🔊 **(anh 24/11) TIẾNG MÁY GIẬT khi đang xuất = trình duyệt ngầm phát tiếng thật** (bị `taskpolicy -b` bóp CPU → coreaudiod quá tải → CapCut / YouTube cũng giật, tưởng hỏng loa). Mọi `chromium.launch` / Chrome headless PHẢI có `--disable-audio-output` (`--mute-audio` không đủ). Đang quay thì soát `/usr/bin/log show --last 2m --predicate 'process == "coreaudiod"' | grep -c HALS_OverloadMessage` = 0. Kẹt rồi: `osascript -e 'do shell script "killall coreaudiod" with administrator privileges'`.
 
 Bài học: có lần phim 4 phút mất 4–5 TIẾNG vì mỗi lần sửa 1 cảnh lại quay lại CẢ phim ở độ phân giải cao.
 Nguyên tắc: **xem thử rẻ → sửa → chỉ quay lại đoạn bị sửa → bản cuối 1 lần.** Luôn chạy NỀN (run_in_background) và báo anh tiến độ.

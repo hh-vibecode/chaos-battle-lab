@@ -81,10 +81,10 @@ const teamsOf = title => title.replace(/^\(rematch\)\s*/i, '').replace(/\s+-\s+(
       const tmp = path.join(__dirname, `_lb-page${page}.html`), png = path.join(OUT_DIR, `Leaderboard ${stamp} (${page}-2).png`);
       fs.writeFileSync(tmp, html.replace('</body>', `<script>window.addEventListener('load',()=>document.fonts.ready.then(()=>window.renderLB(${JSON.stringify(LB)})));</script></body>`));
       const prof = path.join(os.tmpdir(), 'lb-edge-profile'); try { fs.rmSync(png, { force: true }); } catch (e) {}
-      execFileSync(exe, ['--headless=new', '--disable-gpu', '--hide-scrollbars', `--user-data-dir=${prof}`, '--window-size=1080,1920', '--force-device-scale-factor=2', '--virtual-time-budget=8000', `--screenshot=${png}`, 'file:///' + tmp.replace(/\\/g, '/')], { stdio: 'ignore', timeout: 120000 });
+      execFileSync(exe, ['--headless=new', '--disable-audio-output', '--disable-gpu', '--hide-scrollbars', `--user-data-dir=${prof}`, '--window-size=1080,1920', '--force-device-scale-factor=2', '--virtual-time-budget=8000', `--screenshot=${png}`, 'file:///' + tmp.replace(/\\/g, '/')], { stdio: 'ignore', timeout: 120000 });
       fs.rmSync(tmp, { force: true }); if (!fs.existsSync(png)) throw new Error('Edge không chụp được ' + png); pngs.push(png); }
   } else {
-  const br = await PW.chromium.launch(); const pg = await br.newPage({ viewport: { width: 1080, height: 1920 }, deviceScaleFactor: 2 });
+  const br = await PW.chromium.launch({ args: ['--disable-audio-output'] }); const pg = await br.newPage({ viewport: { width: 1080, height: 1920 }, deviceScaleFactor: 2 });
   for (const page of [1, 2]) {
     await pg.goto('file://' + path.join(__dirname, 'board.html')); await pg.evaluate(() => document.fonts.ready);
     await pg.evaluate(LB => window.renderLB(LB), { period: 'SINCE 01/11/2026', updated: `${dd}/${mm}/${d.getFullYear()}`, matches: counted, rows, page, pages: 2, cut: CUT });

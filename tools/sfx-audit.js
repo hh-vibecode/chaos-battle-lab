@@ -40,7 +40,7 @@ function analyze(file) {
   const srv = http.createServer((q, r) => { const f = path.join(ROOT, decodeURIComponent(q.url.split('?')[0])).replace(/\/$/, '/index.html');
     fs.readFile(f, (e, d) => { if (e) { r.writeHead(404); r.end(); return; } r.writeHead(200, { 'Content-Type': MIME[path.extname(f)] || 'application/octet-stream' }); r.end(d); }); });
   await new Promise(r => srv.listen(0, '127.0.0.1', r));
-  const b = await chromium.launch({ args: ['--enable-gpu', '--use-angle=metal', '--ignore-gpu-blocklist'] }); const p = await b.newPage({ viewport: { width: 720, height: 1280 } });
+  const b = await chromium.launch({ args: ['--disable-audio-output', '--enable-gpu', '--use-angle=metal', '--ignore-gpu-blocklist'] }); const p = await b.newPage({ viewport: { width: 720, height: 1280 } });
   await p.goto(`http://127.0.0.1:${srv.address().port}/?v=${Date.now()}`); await p.waitForFunction(() => !document.getElementById('bootScreen'), null, { timeout: 180000 });
   let FM = FILMS[film];
   if (!FM) { await p.evaluate(async id => { await playCineKit(id, { offline: true, scale: 0.4 }); const f = CineKit.films[id]; window.__s = f.step; window.__c = f.canvas; window.__i = f.info; window.__r = f.ready; }, film); FM = { step: '__s', canvas: '__c', info: '__i', ready: '__r' }; }

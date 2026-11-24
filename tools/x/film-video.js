@@ -49,7 +49,7 @@ async function cdpUp() { try { return (await fetch(`http://127.0.0.1:${CDPP}/jso
 async function openPage() {
   if (await cdpUp()) throw new Error(`cổng ${CDPP} đang bị trình duyệt khác dùng — thêm --cdp-port <cổng khác>`);
   fs.mkdirSync(PROFILE, { recursive: true });
-  browser = spawn(browserPath(), ['--headless=new', `--remote-debugging-port=${CDPP}`, `--user-data-dir=${PROFILE}`, '--window-size=1280,800', '--autoplay-policy=no-user-gesture-required', '--no-first-run', '--mute-audio',
+  browser = spawn(browserPath(), ['--headless=new', `--remote-debugging-port=${CDPP}`, `--user-data-dir=${PROFILE}`, '--window-size=1280,800', '--autoplay-policy=no-user-gesture-required', '--no-first-run', '--mute-audio', '--disable-audio-output',
     '--disable-background-timer-throttling', '--disable-renderer-backgrounding', '--disable-backgrounding-occluded-windows', '--ignore-gpu-blocklist', 'about:blank'], { detached: process.platform !== 'win32', stdio: 'ignore' });
   for (let i = 0; i < 60 && !(await cdpUp()); i++) await sleep(250);
   const tab = (await (await fetch(`http://127.0.0.1:${CDPP}/json`)).json()).find(t => t.type === 'page'); if (!tab) throw new Error('không mở được trang');

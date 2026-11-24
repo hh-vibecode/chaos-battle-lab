@@ -78,7 +78,7 @@ const RESULT = () => { const dead = t => fighters.filter(f => f.team === t).ever
   const srv = http.createServer((q, r) => { const f = path.join(ROOT, decodeURIComponent(q.url.split('?')[0])).replace(/\/$/, '/index.html');
     fs.readFile(f, (e, d) => { if (e) { r.writeHead(404); r.end(); return; } r.writeHead(200, { 'Content-Type': MIME[path.extname(f)] || 'application/octet-stream' }); r.end(d); }); });
   await new Promise(r => srv.listen(0, '127.0.0.1', r)); const PORT = srv.address().port;
-  const br = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required'] });
+  const br = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required', '--disable-audio-output'] });
   const ok = r => r.win === WIN && r.dom != null && Math.abs(r.dom - DOMAIN) <= 0.25 && r.alive > 0;   // con thắng phải còn sống tới hết đoạn zoom
   if (opt('--probe', null) != null) { const pg = await openMatch(br, PORT, +opt('--probe'));
     for (let k = 0; k < 40; k++) { const fin = await pg.evaluate(STEP, { n: 150, FPS, DOMAIN });

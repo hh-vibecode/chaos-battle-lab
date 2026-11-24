@@ -42,7 +42,7 @@ async function main() {
     if (await portBusy()) throw new Error(`port ${PORT} already in use by another browser - pick another port`);
     fs.mkdirSync(PROFILE, { recursive: true });
     const ch = spawn(browserPath(), ['--headless=new', `--remote-debugging-port=${PORT}`, `--user-data-dir=${PROFILE}`, '--window-size=1280,1000',
-      '--autoplay-policy=no-user-gesture-required', '--no-first-run', '--mute-audio', '--disable-background-timer-throttling',
+      '--autoplay-policy=no-user-gesture-required', '--no-first-run', '--mute-audio', '--disable-audio-output', '--disable-background-timer-throttling',
       '--disable-renderer-backgrounding', '--disable-backgrounding-occluded-windows', URL0], { detached: true, stdio: 'ignore' });
     ch.unref(); fs.writeFileSync(PIDF, String(ch.pid));
     for (let i = 0; i < 40 && !(await portBusy()); i++) await sleep(250);
