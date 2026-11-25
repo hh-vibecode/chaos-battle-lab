@@ -11321,7 +11321,14 @@ function _lbDrawUnder(){ for(const f of fighters){ if(f.type!=='lebronsunshine' 
     ctx.fillStyle=g; ctx.beginPath(); ctx.arc(f.x,f.y,R,0,Math.PI*2); ctx.fill(); ctx.restore(); } }
 // TRÊN meme: bóng rổ · tia sáng hút vào lúc gom sáng · LOÉ (ảnh loé GPT + trắng xoá + sóng) · bình minh · 3 vạch mặt trời · sao loá / lửa thiêu trên địch
 function _lbDrawTop(){
-  const bi=LB_IMG.BALL; for(const b of lbBalls){ if(!(bi.complete && bi.naturalWidth)) break; ctx.save(); ctx.translate(b.x,b.y); ctx.rotate(b.spin); ctx.drawImage(bi,-b.r,-b.r,b.r*2,b.r*2); ctx.restore(); }
+  const bi=LB_IMG.BALL;
+  // 🏀 (anh 25/11) ảnh dạng thường KHÔNG còn cầm bóng — bóng chỉ hiện trong tay lúc NGẢ NGƯỜI LẤY ĐÀ, tới khung bật người thì rời tay bay đi (_lbRelease)
+  if(bi.complete && bi.naturalWidth) for(const f of fighters){ if(f.type!=='lebronsunshine' || f.dead || f._lbSun || f._lbMeme>0 || !(f._lbThrowT>0)) continue;
+    const t=LB_THROW_T-f._lbThrowT; if(t>=LB_THROW_REL) continue;
+    const u=t/LB_THROW_REL, fc=_lbFace(f), s=f.size, rot=-0.14*u*fc, dx=fc*s*0.95, dy=-s*0.32;   // cùng phép ngả người của hoạt cảnh (xoay quanh tâm + lùi lại)
+    const x=f.x-s*0.14*u*fc+dx*Math.cos(rot)-dy*Math.sin(rot), y=f.y+dx*Math.sin(rot)+dy*Math.cos(rot), r=13*Math.min(1,(t+1)/3);
+    ctx.save(); ctx.translate(x,y); ctx.rotate(-u*0.6*fc); ctx.drawImage(bi,-r,-r,r*2,r*2); ctx.restore(); }
+  for(const b of lbBalls){ if(!(bi.complete && bi.naturalWidth)) break; ctx.save(); ctx.translate(b.x,b.y); ctx.rotate(b.spin); ctx.drawImage(bi,-b.r,-b.r,b.r*2,b.r*2); ctx.restore(); }
   const FL=LB_IMG.FLARE, flOk=FL.complete && FL.naturalWidth;
   for(let i=lbFx.length-1;i>=0;i--){ const q=lbFx[i]; q.t++; if(q.t>=q.T){ lbFx.splice(i,1); continue; } const u=q.t/q.T, f=q.f, C=_fxCoverRect(1.3);
     ctx.save(); ctx.globalCompositeOperation='lighter';
