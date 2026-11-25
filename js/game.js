@@ -18005,7 +18005,7 @@ const SN_HELL={T:216, lift:30, hold:50, dunk:76, rel:196}, SN_HEAV={T:180, beam:
 //   chốt 0.1s trước khi bắn — anh 20/11) rồi bắn tia plasma trắng khổng lồ 100 dame.
 // • Địch thua Sans: CHÁY THÀNH TRO (bạc màu, rã thành bụi từ trên xuống, để lại đống tro) thay vì vỡ mảnh; tiếng bụi Undertale.
 const SX_TP_CD=300, SX_FRZ=60, SX_PLAN=6, SX_RUN=42, SX_STEPS=12, SX_BREAK=50;   // anh 20/11: đóng băng + dịch chuyển gói trong 1s, 12 bước cho đỡ rối
-const SX_GB_CHG=60, SX_GB_FIRE=34, SX_GB_OUT=22, SX_GB_DMG=100, SX_GB_CD=240, SX_GB_MAX=12, SX_DODGE=25, SX_DOT_GAP=30, SX_GB_BURN=240, SX_GB_JAW=0.805, SX_GB_MOUTH=0.82, SX_GB_EYE_X=0.318, SX_GB_EYE_Y=0.427;   // anh 24/11: sprite vẽ lại (sọ rồng mõm dài, mắt xếch), to hơn 50%
+const SX_GB_CHG=60, SX_GB_FIRE=34, SX_GB_OUT=22, SX_GB_DMG=100, SX_GB_CD=240, SX_GB_MAX=12, SX_DODGE=25, SX_DOT_GAP=30, SX_GB_BURN=240, SX_GB_JAW=0.762, SX_GB_MOUTH=0.762, SX_GB_EYE_X=0.258, SX_GB_EYE_Y=0.393;   // anh 25/11: sprite vẽ lại theo ảnh mẫu Gaster Blaster nhìn thẳng (sừng vểnh, vết nứt trán, mắt có con ngươi, răng nanh) —   // anh 24/11: sprite vẽ lại (sọ rồng mõm dài, mắt xếch), to hơn 50%
 const SX_REAL_T=480, SX_SLIDE=0.65, SX_SLIDE_N=6;   // né: lướt 0.65 thân người trong 6 khung
 const SX_BPM=120, SX_BEAT0=0.29, SX_BASS_AT=7.79, SX_DRUM_AT=15.79, SX_GTR_LAG=0.04;   // đo trên sx_megalovania.mp3 (bản metal piano_megalovania đi sớm hơn 0.04s)
 const SX_SHAT_CRACK=9, SX_SHAT_T=64;

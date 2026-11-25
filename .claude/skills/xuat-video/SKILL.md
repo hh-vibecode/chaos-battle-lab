@@ -12,6 +12,7 @@ description: Xuất video MP4 của Chaos Battle Lab trên MacBook — phim Meme
 
 > 🔊 **(anh 24/11) TIẾNG MÁY GIẬT khi đang xuất = trình duyệt ngầm phát tiếng thật** (bị `taskpolicy -b` bóp CPU → coreaudiod quá tải → CapCut / YouTube cũng giật, tưởng hỏng loa). Mọi `chromium.launch` / Chrome headless PHẢI có `--disable-audio-output` (`--mute-audio` không đủ). Đang quay thì soát `/usr/bin/log show --last 2m --predicate 'process == "coreaudiod"' | grep -c HALS_OverloadMessage` = 0. Kẹt rồi: `osascript -e 'do shell script "killall coreaudiod" with administrator privileges'`.
 > 🔉 **(anh 24/11) Video trận tự CÂN ĐỘ TO**: render-match đo bản trộn và đưa về −14 LUFS CẢ 2 CHIỀU (to thì hạ, nhỏ thì tăng tối đa +10 dB — anh dặn "cả to lẫn bé") + chặn đỉnh −1 dB. Trước đó trận nhiều tiếng (Commeowder 190 tiếng) ra −8 LUFS = bẹp tiếng, loa laptop rè. Soát: `ffmpeg -nostats -i x.mp4 -vn -af ebur128 -f null - 2>&1 | grep ' I:'`.
+> ⚡ **(anh 25/11) TRẬN ĐẤU quay NHANH 5–10 phút/trận như xưa**: `caffeinate -i nice -n 5 node tools/render-match.js … --par 2` — KHÔNG `taskpolicy -b` cho trận (macOS bóp CPU nặng: 24/11 có trận mất 5 tiếng). `taskpolicy -b` + `--jobs 1` chỉ giữ cho PHIM 4K dài. Chạy thử vừa đủ (`--want 3 --min 6`). Máy phải CẮM SẠC: chạy pin là máy vẫn tự ngủ dù có caffeinate (24/11 21:12, pin 32%).
 
 Bài học: có lần phim 4 phút mất 4–5 TIẾNG vì mỗi lần sửa 1 cảnh lại quay lại CẢ phim ở độ phân giải cao.
 Nguyên tắc: **xem thử rẻ → sửa → chỉ quay lại đoạn bị sửa → bản cuối 1 lần.** Luôn chạy NỀN (run_in_background) và báo anh tiến độ.
