@@ -16892,6 +16892,7 @@ function _skyDraw(vw,vh){   // vẽ trong toạ độ MÀN HÌNH (đã setTransf
 }
 // mặt sân (toạ độ world 0..W × 0..H) — dùng chung cho mọi chế độ
 function _paintFloorTop(g){ const u=W/480;
+  if(fanCtx){ _paintSnowFloor(g); return; }   // 🎄 Commenter Battle: sàn tuyết
   g.save(); g.beginPath(); if(g.roundRect) g.roundRect(0,0,W,H,FLOOR_R*u); else g.rect(0,0,W,H); g.clip();   // bo góc sân
   let gr=g.createRadialGradient(W/2,H/2,Math.min(W,H)*0.12,W/2,H/2,Math.hypot(W,H)*0.58); gr.addColorStop(0,'#25224a'); gr.addColorStop(0.6,'#2b2752'); gr.addColorStop(1,'#3a3274'); g.fillStyle=gr; g.fillRect(0,0,W,H);
   const T=60*u, nx=Math.ceil(W/T), ny=Math.ceil(H/T);   // ô đá rất mờ
@@ -16901,6 +16902,20 @@ function _paintFloorTop(g){ const u=W/480;
     g.fillStyle=lg; if(x1===0) g.fillRect(0,Math.min(y0,y0+y1*L),W,L); else g.fillRect(Math.min(x0,x0+x1*L),0,L,H); }
   g.restore();
   g.strokeStyle='rgba(185,165,255,0.35)'; g.lineWidth=1.2*u; g.beginPath(); if(g.roundRect) g.roundRect(6*u,6*u,W-12*u,H-12*u,Math.max(1,FLOOR_R-6)*u); else g.rect(6*u,6*u,W-12*u,H-12*u); g.stroke();   // đường viền sáng mảnh bên trong
+  g.restore();
+}
+// ❄️ SÀN TUYẾT (Commenter Battle, anh 25/11): trắng tuyết nhưng KHÔNG trắng tinh — tông xanh xám lạnh nhạt + bóng xanh
+//    dồn về mép, để meme trắng (Yuki, Huh Cat…) và VFX sáng vẫn nổi. Vân tuyết + hạt lấp lánh băm theo vị trí (không Math.random).
+function _paintSnowFloor(g){ const u=W/480;
+  g.save(); g.beginPath(); if(g.roundRect) g.roundRect(0,0,W,H,FLOOR_R*u); else g.rect(0,0,W,H); g.clip();
+  let gr=g.createRadialGradient(W/2,H*0.45,Math.min(W,H)*0.1,W/2,H/2,Math.hypot(W,H)*0.6); gr.addColorStop(0,'#e3ebf3'); gr.addColorStop(0.65,'#d5e0eb'); gr.addColorStop(1,'#b6c7da'); g.fillStyle=gr; g.fillRect(0,0,W,H);
+  for(let i=0;i<46;i++){ const x=W*_skH(i*7+3), y=H*_skH(i*7+5), r=(40+90*_skH(i*7+6))*u, lt=_skH(i*7+8)<0.55;   // ụ / trũng tuyết mờ
+    const rg=g.createRadialGradient(x,y,0,x,y,r); rg.addColorStop(0,lt?'rgba(255,255,255,0.22)':'rgba(120,145,180,0.10)'); rg.addColorStop(1,lt?'rgba(255,255,255,0)':'rgba(120,145,180,0)');
+    g.fillStyle=rg; g.save(); g.translate(x,y); g.scale(1.6,0.7); g.translate(-x,-y); g.beginPath(); g.arc(x,y,r,0,Math.PI*2); g.fill(); g.restore(); }
+  for(let i=0;i<900;i++){ const x=W*_skH(i+7000), y=H*_skH(i+8000), k=_skH(i+9000);   // hạt tuyết lấp lánh
+    g.fillStyle=k<0.7?'rgba(255,255,255,'+(0.35+0.5*k).toFixed(3)+')':'rgba(150,175,210,0.25)'; g.fillRect(x,y,(k<0.08?1.6:0.9)*u,(k<0.08?1.6:0.9)*u); }
+  for(const [x0,y0,x1,y1] of [[0,0,0,1],[0,H,0,-1],[0,0,1,0],[W,0,-1,0]]){ const L=60*u, lg=g.createLinearGradient(x0,y0,x0+x1*L,y0+y1*L);   // bóng xanh sát mép (tuyết dồn vào tường)
+    lg.addColorStop(0,'rgba(90,120,165,0.28)'); lg.addColorStop(1,'rgba(90,120,165,0)'); g.fillStyle=lg; if(x1===0) g.fillRect(0,Math.min(y0,y0+y1*L),W,L); else g.fillRect(Math.min(x0,x0+x1*L),0,L,H); }
   g.restore();
 }
 function _floorBuild(){ const u=W/480, ML=60*u, MT=30*u, MB=210*u;
@@ -27089,8 +27104,9 @@ function _buildWatermark(){
   b.fillStyle='rgba(255,255,255,0.5)'; _dia(cx-130,cy-1); _dia(cx+130,cy-1);
   b.globalAlpha=1;
   b.font='bold 21px "Arial","Helvetica",sans-serif';
-  b.strokeStyle='rgba(0,0,0,0.45)'; b.lineWidth=2; b.strokeText('meme-autobattler',cx,cy-1);
-  b.fillStyle='rgba(255,255,255,0.9)'; b.fillText('meme-autobattler',cx,cy-1);
+  const _snow=!!fanCtx;   // 🎄 sàn tuyết sáng → chữ kênh màu xanh than thay vì trắng
+  b.strokeStyle=_snow?'rgba(255,255,255,0.6)':'rgba(0,0,0,0.45)'; b.lineWidth=2; b.strokeText('meme-autobattler',cx,cy-1);
+  b.fillStyle=_snow?'rgba(40,62,98,0.9)':'rgba(255,255,255,0.9)'; b.fillText('meme-autobattler',cx,cy-1);
   b.globalAlpha=0.5; b.strokeStyle='rgba(255,255,255,0.35)'; b.lineWidth=1;
   b.beginPath(); b.moveTo(cx-112,cy+14); b.lineTo(cx+112,cy+14); b.stroke();
 }
@@ -34203,9 +34219,10 @@ function _fanEnterBattle(){
   document.documentElement.classList.add('fan-page');   // nền trang ĐEN quanh khung đã thu nhỏ
   const vs=document.getElementById('vsLabel'); if(vs) vs.style.display='none';
   const rb=document.getElementById('tbRosterBar'); if(rb) rb.style.display='none';
-  _fanRenderSidePanels();
-  document.getElementById('fanSidePanelLeft').style.display='block';
-  document.getElementById('fanSidePanelRight').style.display='block';
+  // 🎄 (anh 25/11) bỏ 2 cột chữ mô tả 2 bên — chỉ còn sàn to + cảnh Giáng sinh (js/xmas-bg.js) quanh sàn
+  document.getElementById('fanSidePanelLeft').style.display='none';
+  document.getElementById('fanSidePanelRight').style.display='none';
+  if(window.XmasBg) XmasBg.start(document.getElementById('battleScreen'), document.getElementById('arena'));
   // 🎬 KHÔNG vào trận ngay: dừng ở màn chờ "PRESS TO START" để fan bấm ▶ Start khi đã sẵn sàng quay màn hình.
   // Buff đã chốt xong nằm trong fanBuff, chỉ được áp vào lúc startGame() đẻ nhân vật.
   loadAvatars(()=>showVsWaitScreen());
@@ -34224,6 +34241,7 @@ function closeBoss(){
 }
 function closeFan(){
   fanCtx=null; fanBuff=null; loop._fanDone=false;
+  if(window.XmasBg) XmasBg.stop();   // 🎄 tắt cảnh Giáng sinh
   document.getElementById('fanWheelOverlay').classList.remove('open');
   document.getElementById('fanResultOverlay').classList.remove('open');
   picks=[null,null];

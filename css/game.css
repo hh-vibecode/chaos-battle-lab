@@ -673,7 +673,16 @@ body {
 #battleScreen.cam-mode { justify-content:center; }
 /* ⭐ COMMENTER BATTLE — 16:9: sàn mở rộng như 4-way (bỏ giới hạn 53vh mặc định của #arena), info
    không còn nằm dưới sàn nữa mà tách hẳn ra 2 panel CĂN LỀ 2 bên màn hình (xem #fanSidePanelLeft/Right). */
-#battleScreen.fan-mode #arena { max-height:51.2vh; }  /* 80vh → 64vh → 51.2vh: giảm thêm 20% nữa theo yêu cầu mới nhất */
+/* 🎄 (anh 25/11) sàn TO: cao gần kín khung 16:9 (sàn vẫn gần vuông 815×781, không kéo thành chữ nhật dài) —
+   2 khoảng trống 2 bên là cảnh Giáng sinh (js/xmas-bg.js), không còn cột chữ. */
+#battleScreen.fan-mode #arena { max-height:calc(92vh - 24px); max-width:none; }
+#battleScreen.fan-mode .battle-frame { position:relative; z-index:2; border:0; background:none; padding:0; box-shadow:none; }
+/* viền sàn kiểu KẸO GẬY đỏ trắng + bóng đổ tách sàn khỏi nền đêm (thay viền tím phát sáng) */
+#battleScreen.fan-mode .arena-wrap {
+  border:11px solid #d42a2a; border-radius:0;
+  border-image:repeating-linear-gradient(45deg,#d42a2a 0 13px,#fbf7f2 13px 26px) 11;
+  box-shadow:0 0 0 3px #6e0f18, 0 0 0 5px rgba(255,240,220,0.5), 0 16px 44px rgba(0,0,0,0.55), 0 0 60px rgba(255,220,150,0.18);
+}
 #battleScreen.fan-mode .battle-frame { margin-top:0; }
 /* ⭐ #battleScreen mặc định đóng gói mọi thứ lên SÁT TRÊN (justify-content:flex-start) — hợp cho các mode khác
    vì còn info/CTA text đọc xuôi bên dưới sàn, nhưng Commenter Battle đã tách info ra 2 panel 2 bên rồi nên sàn
@@ -684,7 +693,8 @@ body {
    4 phía xung quanh để ĐEN — quay xong vào CapCut kéo phóng ra 4 góc là khít. Màn hiển thị nhỏ hơn + canvas vẽ ở
    độ phân giải thấp hơn tương ứng (ARENA_FAN.ss) → đỡ lag. Loá/tối nền (_camPageFlash) chỉ tô trong khung này,
    viền đen ngoài không đổi. */
-#battleScreen.fan-mode { transform:scale(0.8); transform-origin:50% 50%; }
+/* 🎄 (anh 25/11) BỎ thu nhỏ 0.8 + viền đen: cảnh Giáng sinh phủ kín cả khung 16:9, sàn to */
+#battleScreen.fan-mode { overflow:hidden; height:100vh; }
 html.fan-page, html.fan-page body { background:#000 !important; }
 /* ⚠️ #bottomCtaWrap (info 2 nhân vật P1/P2 kiểu Solo 1vs1 + dòng CTA) là hệ thống CHUNG cho MỌI trận
    không-cam-mode — trước đây fanCtx luôn cam-mode nên nó tự bị ẩn theo. Giờ fanCtx bỏ cam-mode, nó sẽ

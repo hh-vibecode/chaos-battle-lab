@@ -1,5 +1,5 @@
 // Drive a headless Edge/Chrome page through the DevTools protocol (Mac + Windows, no npm deps, Node >= 22).
-//   node tools/x/cdp.js --steps steps.txt --out <dir> [--port 9455] [--launch] [--url http://127.0.0.1:8765/] [--profile <dir>]
+//   node tools/x/cdp.js --steps steps.txt --out <dir> [--port 9455] [--launch] [--url http://127.0.0.1:8765/] [--profile <dir>] [--size 1920x1080]
 //   node tools/x/cdp.js --stop [--profile <dir>]          -> close ONLY the browser this tool launched
 // Steps file, one command per line ('#' = comment). Every JS command must be ONE line:
 //   eval <js>              evaluate (promises awaited), print result
@@ -41,7 +41,7 @@ async function main() {
   if (has('--launch')) {
     if (await portBusy()) throw new Error(`port ${PORT} already in use by another browser - pick another port`);
     fs.mkdirSync(PROFILE, { recursive: true });
-    const ch = spawn(browserPath(), ['--headless=new', `--remote-debugging-port=${PORT}`, `--user-data-dir=${PROFILE}`, '--window-size=1280,1000',
+    const ch = spawn(browserPath(), ['--headless=new', `--remote-debugging-port=${PORT}`, `--user-data-dir=${PROFILE}`, `--window-size=${opt('--size','1280x1000').replace('x',',')}`,
       '--autoplay-policy=no-user-gesture-required', '--no-first-run', '--mute-audio', '--disable-audio-output', '--disable-background-timer-throttling',
       '--disable-renderer-backgrounding', '--disable-backgrounding-occluded-windows', URL0], { detached: true, stdio: 'ignore' });
     ch.unref(); fs.writeFileSync(PIDF, String(ch.pid));
