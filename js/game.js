@@ -27476,7 +27476,7 @@ function startGame(skipVsIntro){
   document.getElementById('pauseOverlay').classList.remove('visible');
   stopAllBattleMusic();
   _gameTickAccum=0;
-  bhFarEat=0; bxQuake=[]; gcTitleBrk=null; gcEdgeBrk=[]; _gcEdgeSeg={}; _gcEdgeBroken=null; pdPeels=[]; pdFx=[]; pdTexts=[]; njSmoke=[]; cxGhosts=[]; cxFx=[]; sxBlasters=[]; sxFx=[]; sxTp=null; sxAsh=[]; sxShat=null; _sxBand=null; acFx=[]; ccKibs=[]; ccFx=[]; ccSpawnT=0; ccLastXY=null; snDream=null; snPops=[]; njKamui=[]; flBreaks=[]; mmFly=[]; mmWall=[]; mmFx=[]; gdQi=[]; gdBooms=[]; feWaves=[]; feClaws=[]; lbBalls=[]; lbFx=[]; bcToasts=[]; bcFx=[]; bcDark=0; bcPx=null; bcBangT=null; bcStarT=null; idMito=[]; fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; bxFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; cvFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; frRem=null; dpRainK=0; dpRipples=[]; dpWx={cloud:0, rain:0, storm:0, nextBolt:0, bolt:null, nextFlash:0, flash:null}; psCine=null; psAfter=null; psWipe=null; psShards=[]; psDust=[]; psCrater=null; mwBits=[]; mwShards=[]; mwKitkat=[]; scEcho=[]; hmShadows=[]; hmEyes=[]; _hmEyeCD=150; hmWisps=[]; _hmWispCD=120; saWin=null; saShatter=null; hmWin=null; saBolts=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; _dlReset(); _wcRainReset(); _azReset(); _vbReset(); _rfReset(); _duoReset(); popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flCos=null; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susFx=[]; susDark=null; dogeFx=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; cmFx=[]; cmBul=[]; _cmKbL.clear(); batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[]; tick=0;
+  bhFarEat=0; bxQuake=[]; gcTitleBrk=null; gcEdgeBrk=[]; _gcEdgeSeg={}; _gcEdgeBroken=null; pdPeels=[]; pdFx=[]; pdTexts=[]; njSmoke=[]; cxGhosts=[]; cxFx=[]; sxBlasters=[]; sxFx=[]; sxTp=null; sxAsh=[]; sxShat=null; _sxBand=null; acFx=[]; ccKibs=[]; ccFx=[]; ccSpawnT=0; ccLastXY=null; snDream=null; snPops=[]; njKamui=[]; flBreaks=[]; mmFly=[]; mmWall=[]; mmFx=[]; gdQi=[]; gdBooms=[]; feWaves=[]; feClaws=[]; lbBalls=[]; lbFx=[]; bcToasts=[]; bcFx=[]; bcDark=0; bcPx=null; bcBangT=null; bcStarT=null; idMito=[]; fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; bxFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; cvFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; frRem=null; dpRainK=0; dpRipples=[]; dpWx={cloud:0, rain:0, storm:0, nextBolt:0, bolt:null, nextFlash:0, flash:null}; psCine=null; psAfter=null; psWipe=null; psShards=[]; psDust=[]; psCrater=null; mwBits=[]; mwShards=[]; mwKitkat=[]; scEcho=[]; hmShadows=[]; hmEyes=[]; _hmEyeCD=150; hmWisps=[]; _hmWispCD=120; saWin=null; saShatter=null; hmWin=null; saBolts=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; _dlReset(); _wcRainReset(); _azReset(); _vbReset(); _rfReset(); _duoReset(); popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; fanFx=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flCos=null; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susFx=[]; susDark=null; dogeFx=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; cmFx=[]; cmBul=[]; _cmKbL.clear(); batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[]; tick=0;
   _matchStats=Array.from({length:8},()=>({dmg:0,hits:0,healed:0,attempted:0}));
   screenShake={x:0,y:0,dur:0,str:0}; afterImages=[]; slowMoTimer=0; hitStopFrames=0; hitStopCD=0; koZoom=0; _camReset();
   loop._koTimer=null; loop._resInit=false; loop._resT=null; loop._resClick=false; loop._rtDone=false; loop._statsT=0; loop._lbPrompted=false; loop._ctaText=null; loop._mechShown=false; loop._fanDone=false; loop._wcMeowDone=false;
@@ -27913,7 +27913,7 @@ function resetGame(){
   document.getElementById('pauseOverlay').classList.remove('visible');
   _gameTickAccum=0;
   stopAllBattleMusic();
-  bhFarEat=0; bxQuake=[]; gcTitleBrk=null; gcEdgeBrk=[]; _gcEdgeSeg={}; _gcEdgeBroken=null; pdPeels=[]; pdFx=[]; pdTexts=[]; njSmoke=[]; cxGhosts=[]; cxFx=[]; sxBlasters=[]; sxFx=[]; sxTp=null; sxAsh=[]; sxShat=null; _sxBand=null; acFx=[]; ccKibs=[]; ccFx=[]; ccSpawnT=0; ccLastXY=null; snDream=null; snPops=[]; njKamui=[]; flBreaks=[]; mmFly=[]; mmWall=[]; mmFx=[]; gdQi=[]; gdBooms=[]; feWaves=[]; feClaws=[]; lbBalls=[]; lbFx=[]; bcToasts=[]; bcFx=[]; bcDark=0; bcPx=null; bcBangT=null; bcStarT=null; idMito=[]; fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; bxFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; cvFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; frRem=null; dpRainK=0; dpRipples=[]; dpWx={cloud:0, rain:0, storm:0, nextBolt:0, bolt:null, nextFlash:0, flash:null}; psCine=null; psAfter=null; psWipe=null; psShards=[]; psDust=[]; psCrater=null; mwBits=[]; mwShards=[]; mwKitkat=[]; scEcho=[]; hmShadows=[]; hmEyes=[]; _hmEyeCD=150; hmWisps=[]; _hmWispCD=120; saWin=null; saShatter=null; hmWin=null; saBolts=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; _dlReset(); _wcRainReset(); _azReset(); _vbReset(); _rfReset(); _duoReset(); popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flCos=null; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susFx=[]; susDark=null; dogeFx=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; cmFx=[]; cmBul=[]; _cmKbL.clear(); batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[];
+  bhFarEat=0; bxQuake=[]; gcTitleBrk=null; gcEdgeBrk=[]; _gcEdgeSeg={}; _gcEdgeBroken=null; pdPeels=[]; pdFx=[]; pdTexts=[]; njSmoke=[]; cxGhosts=[]; cxFx=[]; sxBlasters=[]; sxFx=[]; sxTp=null; sxAsh=[]; sxShat=null; _sxBand=null; acFx=[]; ccKibs=[]; ccFx=[]; ccSpawnT=0; ccLastXY=null; snDream=null; snPops=[]; njKamui=[]; flBreaks=[]; mmFly=[]; mmWall=[]; mmFx=[]; gdQi=[]; gdBooms=[]; feWaves=[]; feClaws=[]; lbBalls=[]; lbFx=[]; bcToasts=[]; bcFx=[]; bcDark=0; bcPx=null; bcBangT=null; bcStarT=null; idMito=[]; fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; bxFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; cvFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; frRem=null; dpRainK=0; dpRipples=[]; dpWx={cloud:0, rain:0, storm:0, nextBolt:0, bolt:null, nextFlash:0, flash:null}; psCine=null; psAfter=null; psWipe=null; psShards=[]; psDust=[]; psCrater=null; mwBits=[]; mwShards=[]; mwKitkat=[]; scEcho=[]; hmShadows=[]; hmEyes=[]; _hmEyeCD=150; hmWisps=[]; _hmWispCD=120; saWin=null; saShatter=null; hmWin=null; saBolts=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; _dlReset(); _wcRainReset(); _azReset(); _vbReset(); _rfReset(); _duoReset(); popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; fanFx=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flCos=null; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susFx=[]; susDark=null; dogeFx=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; cmFx=[]; cmBul=[]; _cmKbL.clear(); batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[];
   screenShake={x:0,y:0,dur:0,str:0}; slowMoTimer=0; hitStopFrames=0; hitStopCD=0; koZoom=0;
   showVsWaitScreen();
 }
@@ -29986,7 +29986,7 @@ function loop(){
   // (theo quy ước chung cho mọi triệu hồi CÓ MÁU). Vung rìu qua _mspSwingTick, rìu + vệt chém vẽ ở _mspDrawAxes().
   for(let mci=mspClones.length-1; mci>=0; mci--){
     const mc=mspClones[mci];
-    if(mc.dead || mc.hp<=0){ spawnParticles(mc.x,mc.y,'#4dd0e1',10); mspClones.splice(mci,1); continue; }
+    if(mc.dead || mc.hp<=0){ if(mc.onDeath && !mc._dz){ mc._dz=1; try{ mc.onDeath(mc); }catch(e){} } spawnParticles(mc.x,mc.y,mc.ai?(mc.evil?'#ff1744':'#ffffff'):'#4dd0e1',10); mspClones.splice(mci,1); continue; }   // ⭐ quân con commenter đợt 25/11: onDeath (gubby nổ)
     if(battleFreezeTimer<=0){
       mc.burn=Math.max(0,(mc.burn||0)-1); mc.burnTickCD=Math.max(0,(mc.burnTickCD||0)-1);
       if(mc.burn>0 && mc.burnTickCD<=0 && mc.hp>0){ mc.takeDamage(mc._burnDmg||20, mc._burnSrc||null, false, true, '🔥', null); mc.burnTickCD=30; spawnParticles(mc.x,mc.y,'#ff7043',5,true); }
@@ -30000,7 +30000,7 @@ function loop(){
         * ((mc._maxwellSlowTimer>0)?0.75:1) * ((mc._droolSlowTimer>0)?0.75:1) * ((mc._cvSlowTimer>0)?0.75:1) * ((mc._ldSawSlowT>0)?LD_SLOW:1)
         * ((mc._pakistanSlowTimer>0)?0.75:1) * ((mc._sgSlowTimer>0)?0.75:1) * _soulSlowMul(mc) * _saSlowMul(mc);
       mc.flash=Math.max(0,mc.flash-1);
-      const top=((mc.owner&&mc.owner.topSpeed)||5*MOVE_MULT)*_soloMoveMul()*_slow;   // cùng tốc chạy với thân chính (kể cả hệ số tốc của chế độ)
+      const top=((mc.owner&&mc.owner.topSpeed)||5*MOVE_MULT)*_soloMoveMul()*_slow*(mc.spd||1);   // cùng tốc chạy với thân chính (kể cả hệ số tốc của chế độ)
       if((mc._vertBounceCount||0)>2){
         const bAng=mc._lastAngle||0, kick=(Math.random()<0.5?1:-1)*(Math.PI/9+Math.random()*Math.PI/9), bspd=Math.hypot(mc.vx,mc.vy)||top*0.5;
         mc.vx=Math.cos(bAng+kick)*bspd; mc.vy=Math.sin(bAng+kick)*bspd; mc._vertBounceCount=0;
@@ -30015,7 +30015,7 @@ function loop(){
         if(v>top){ mc.vx=mc.vx/v*top; mc.vy=mc.vy/v*top; }
         if(mEn) mc._facingRight=(mEn.x-mc.x)>0;
       }
-      _mspSwingTick(mc, mEn, mc, mc.stun>0);
+      if(mc.ai) _fanMinionAI(mc, mEn); else _mspSwingTick(mc, mEn, mc, mc.stun>0);   // ⭐ quân con commenter: đụng là đánh · bản sao Magicspeller: vung rìu
       mc.x+=mc.vx; mc.y+=mc.vy;
       const D=0.85, vert=Math.abs(mc.vx)<Math.abs(mc.vy)*0.6;
       if(mc.x-mc.size<0){ mc.x=mc.size; mc.vx=Math.abs(mc.vx)*D; mc.vy*=D; mc._vertBounceCount=0; mc._lastAngle=Math.atan2(mc.vy,mc.vx); }
@@ -30372,6 +30372,7 @@ function loop(){
         _tsDrawHarpoon(_ts, _ts.x+Math.cos(L.ang)*r, _ts.y+Math.sin(L.ang)*r, L.ang, L.mul>1, false); }
     }
   }
+  _fanWorld();   // ⭐ commenter đợt 25/11: kiếm ném, comment bay, bom chữ C, kính, tia, nắm đấm (toạ độ thế giới)
   // ⭐ COMMENTER BATTLE — firdhansnowboarder: vệt tuyết + bóng tuyết đang bay đều nằm ở TOẠ ĐỘ THẾ GIỚI THẬT
   // (f._fsTrail/f._fsBalls, xem tick()) nên PHẢI vẽ ở đây — draw(f,s) chạy trong transform local của con f,
   // dùng draw(f,s) cho thứ ở xa thân nó là toạ độ bị lệch/nhân đôi transform (xem quy ước ở đầu FAN_SKILLS).
@@ -32953,7 +32954,7 @@ function loop(){
   // _ffa3PowerupTick() không còn được gọi cho ffa3Ctx/duoCtx nữa, hộp/countdown/CTA-đếm-ngược đều không xuất hiện.
   // 🐌 Gary đang hồi sinh thì đội CHƯA thua (không tính là chết hẳn)
   // 🪓 TheGreatMagicspeller: thân chính chết mà còn BẢN SAO sống thì phe đó CHƯA thua — phải chết hết cả bản sao
-  const _teamDown=t=>{ const a=fighters.filter(f=>f.team===t); return a.length>0 && a.every(f=>f.dead) && !mspClones.some(c=>c.team===t && !c.dead && c.hp>0); };
+  const _teamDown=t=>{ const a=fighters.filter(f=>f.team===t); return a.length>0 && a.every(f=>f.dead) && !mspClones.some(c=>c.team===t && !c.ai && !c.dead && c.hp>0) && !fanFx.some(q=>q.holdTeam===t); };   // ⭐ quân con commenter (ai) không giữ phe sống · bom chữ C đang chờ nổ thì chưa kết trận
   const dead0=_teamDown(0);
   const dead1=_teamDown(1);
   // 🏆 LAST ONE STANDING: 4 team riêng biệt (0-3, không phải team0 vs team1) nên dead0/dead1 không đủ để biết
@@ -34031,9 +34032,11 @@ function _ffa3RenderSlots(){
 function _ffa3RenderGrid(){
   const grid=document.getElementById('ffa3PickGrid');
   grid.innerHTML='';
+  { const cv=document.getElementById('fanCmtView'); if(cv) cv.style.display='none'; }   // 💬 ảnh comment chỉ hiện ở màn chọn commenter
   // ⭐ Fan Battle chọn NHÂN VẬT CỦA NGƯỜI BÌNH LUẬN (FAN_SKILLS), không phải meme trong roster
   if(_pickMode==='fan'){
-    const keys=Object.keys(FAN_SKILLS);
+    const _ord=k=>{ const S=FAN_SKILLS[k]; return S.q ? S.q : 100+(S.part||50); };   // 🔢 hàng chờ #1,#2… trước, người đã lên tập (P1…P6) sau
+    const keys=Object.keys(FAN_SKILLS).sort((a,b)=>_ord(a)-_ord(b));
     keys.forEach(k=>{
       const S=FAN_SKILLS[k];
       const card=document.createElement('div');
@@ -34044,7 +34047,10 @@ function _ffa3RenderGrid(){
       const av=_url
         ? `<img src="${_url}" style="border-radius:50%">`
         : `<div style="font-size:2rem">🧑</div>`;
-      card.innerHTML=`<div class="rt-av">${av}</div><div class="rt-nm">${_p.main}</div>`
+      const _tag=S.q ? `<div style="position:absolute;left:6px;top:6px;background:#ffd54f;color:#1a1a1a;font:800 12px Arial;padding:2px 6px;border-radius:6px">#${S.q}</div>`
+        : S.part ? `<div style="position:absolute;left:6px;top:6px;background:rgba(20,20,30,0.75);color:#fff;font:700 11px Arial;padding:2px 6px;border-radius:6px">P${S.part} ✓</div>` : '';
+      card.style.position='relative';
+      card.innerHTML=_tag+(S.cmt?'<div style="position:absolute;right:6px;bottom:6px;font-size:13px" title="Có ảnh comment">💬</div>':'')+`<div class="rt-av">${av}</div><div class="rt-nm">${_p.main}</div>`
         +`<button class="fan-av-btn" title="Đổi ảnh đại diện">✎</button>`
         +(_fanAvatars[k]?`<button class="fan-av-btn fan-av-x" title="Bỏ ảnh">✕</button>`:'');
       card.onclick=()=>{ _fanPickKey=k; _ffa3PickedIdxs=[0]; _ffa3RenderGrid(); };
@@ -34055,6 +34061,11 @@ function _ffa3RenderGrid(){
       grid.appendChild(card);
     });
     if(!keys.length) grid.innerHTML='<div style="color:#888;padding:20px">Chưa có nhân vật fan nào — xem FAN_SKILLS trong code.</div>';
+    // 💬 ẢNH CHỤP COMMENT THẬT trên YouTube của người đang chọn (assets/fan-comments/<key>.png) — để soát lại họ xin gì + dùng cho đầu video
+    { let cv=document.getElementById('fanCmtView'); if(!cv){ cv=document.createElement('div'); cv.id='fanCmtView'; cv.style.cssText='margin:12px auto 0;max-width:820px;text-align:center'; grid.parentNode.insertBefore(cv, grid.nextSibling); }
+      const S=_fanPickKey && FAN_SKILLS[_fanPickKey];
+      cv.style.display=(S && S.cmt)?'block':'none';
+      cv.innerHTML=(S && S.cmt)?`<img src="${S.cmt}" style="width:100%;border-radius:10px;background:#fff;box-shadow:0 4px 18px rgba(0,0,0,0.4)">`:''; }
     _ffa3RenderSlots();
     const _ok = !!_fanPickKey;
     document.getElementById('ffa3PickHint').textContent=_ok
@@ -34273,7 +34284,7 @@ function closeFan(){
   document.getElementById('mainMenuScreen').classList.add('active');
 }
 function _ffa3ClearArrays(){
-  bhFarEat=0; bxQuake=[]; gcTitleBrk=null; gcEdgeBrk=[]; _gcEdgeSeg={}; _gcEdgeBroken=null; pdPeels=[]; pdFx=[]; pdTexts=[]; njSmoke=[]; cxGhosts=[]; cxFx=[]; sxBlasters=[]; sxFx=[]; sxTp=null; sxAsh=[]; sxShat=null; _sxBand=null; acFx=[]; ccKibs=[]; ccFx=[]; ccSpawnT=0; ccLastXY=null; snDream=null; snPops=[]; njKamui=[]; flBreaks=[]; mmFly=[]; mmWall=[]; mmFx=[]; gdQi=[]; gdBooms=[]; feWaves=[]; feClaws=[]; lbBalls=[]; lbFx=[]; bcToasts=[]; bcFx=[]; bcDark=0; bcPx=null; bcBangT=null; bcStarT=null; idMito=[]; fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; bxFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; cvFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; frRem=null; dpRainK=0; dpRipples=[]; dpWx={cloud:0, rain:0, storm:0, nextBolt:0, bolt:null, nextFlash:0, flash:null}; psCine=null; psAfter=null; psWipe=null; psShards=[]; psDust=[]; psCrater=null; mwBits=[]; mwShards=[]; mwKitkat=[]; scEcho=[]; hmShadows=[]; hmEyes=[]; _hmEyeCD=150; hmWisps=[]; _hmWispCD=120; saWin=null; saShatter=null; hmWin=null; saBolts=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; _dlReset(); _wcRainReset(); _azReset(); _vbReset(); _rfReset(); _duoReset(); popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flCos=null; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susFx=[]; susDark=null; dogeFx=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; cmFx=[]; cmBul=[]; _cmKbL.clear(); batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[]; tick=0;
+  bhFarEat=0; bxQuake=[]; gcTitleBrk=null; gcEdgeBrk=[]; _gcEdgeSeg={}; _gcEdgeBroken=null; pdPeels=[]; pdFx=[]; pdTexts=[]; njSmoke=[]; cxGhosts=[]; cxFx=[]; sxBlasters=[]; sxFx=[]; sxTp=null; sxAsh=[]; sxShat=null; _sxBand=null; acFx=[]; ccKibs=[]; ccFx=[]; ccSpawnT=0; ccLastXY=null; snDream=null; snPops=[]; njKamui=[]; flBreaks=[]; mmFly=[]; mmWall=[]; mmFx=[]; gdQi=[]; gdBooms=[]; feWaves=[]; feClaws=[]; lbBalls=[]; lbFx=[]; bcToasts=[]; bcFx=[]; bcDark=0; bcPx=null; bcBangT=null; bcStarT=null; idMito=[]; fighters=[]; projectiles=[]; bombs=[]; floatTexts=[]; particles=[]; deathShards=[]; dcShards=[]; dcRageFx=[]; bxFx=[]; rcFx=[]; smFx=[]; egHitFx=[]; cvFx=[]; holyLasers=[]; holyFires=[]; hwParts=[]; ldBlood=[]; ldSplats=[]; ldMist=[]; rbBits=[]; ldSprayP=[]; arStoneBits=[]; arPoofs=[]; arDust=[]; sdFx=[]; sdBanner=null; mwPurple=null; mwHole=null; frRem=null; dpRainK=0; dpRipples=[]; dpWx={cloud:0, rain:0, storm:0, nextBolt:0, bolt:null, nextFlash:0, flash:null}; psCine=null; psAfter=null; psWipe=null; psShards=[]; psDust=[]; psCrater=null; mwBits=[]; mwShards=[]; mwKitkat=[]; scEcho=[]; hmShadows=[]; hmEyes=[]; _hmEyeCD=150; hmWisps=[]; _hmWispCD=120; saWin=null; saShatter=null; hmWin=null; saBolts=[]; smCine=null; smPre=null; _smPin=null; egAwaken=null; _smWater=null; if(typeof _mixGain!=='undefined' && _mixGain){ try{ _mixGain.gain.cancelScheduledValues(0); _mixGain.gain.value=1; }catch(e){} } scPuffs=[]; scEmbers=[]; sdActors=[]; sdProjs=[]; sdZzz=[]; _dlReset(); _wcRainReset(); _azReset(); _vbReset(); _rfReset(); _duoReset(); popRingFx=[]; batRangs=[]; clapFx=[]; evilSouls=[]; egWisps=[]; mvFx=[]; snowBursts=[]; _cdgQuake=0; _fkSuicideF=null; cnPans=[]; cnCooks=[]; cnTexts=[]; saxSquirtles=[]; saxWaves=[]; esgNotes=[]; fkPuffs=[]; fkWisps=[]; fkSkulls=[]; _fkDmgT=0; _fkSecT=0; _fkGasA=0; frSeq=null; frEgg=null; cdgDust=[]; scFires=[]; impactStars=[]; airCracks=[]; mlemSplashFx=[]; fireBursts=[]; emoDmgFx=[]; germanSoldiers=[]; battleFreezeTimer=0; blackHoles=[]; bananaPeels=[]; coughGerms=[]; coughBlobs=[]; droolPuddles=[]; _drlTrailCache=null; _drlBubbles=[]; alienUfos=[]; maxwellTnts=[]; dogeKnights=[]; mewingStatues=[]; scaredGhosts=[]; dawaeSwarm=[]; capybaraKnives=[]; cryCats=[]; dogeClones=[]; mspClones=[]; fanFx=[]; wgChickens=[]; wgFallItems=[]; wgDragon=null; wgTornado=null; _idFlashes=[]; mvPulses=[]; _elTrailCache=null; slapPortals=[]; uiaClones=[]; rrRollTexts=[]; fdSmoke=[]; _elRitT=0; _elEye=null; _elEyePend=null; kingLasers=[]; kingHealRings=[]; kingSummonFx=[]; dddComboFx=[]; musicNoteFx=[]; bongoRings=[]; stalinBlasts=[]; stalinCharges=[]; apples=[]; flowers=[]; flowerShatters=[]; flCos=null; flowerZoom=0; flowerSpotlight=0; flowerSeqT=0; flowerSeqFC=null; loadingArrows=[]; susSummons=[]; susExplosions=[]; susFx=[]; susDark=null; dogeFx=[]; susVoteT=0; susVotePhase=null; susVoteCat=null; susVoteTarget=null; swordSlashes=[]; holyBeams=[]; knifeBoomerangs=[]; heckerBolts=[]; yukiFish=[]; commanderSoldiers=[]; cmFx=[]; cmBul=[]; _cmKbL.clear(); batSwarm=[]; vfxAnims=[]; speedLines=[]; arenaShock=0; confetti=[]; koWinner=null; depressedOverlays=[]; rainbowTrails=[]; cars=[]; lightningBolts=[]; tick=0;
   screenShake={x:0,y:0,dur:0,str:0}; slowMoTimer=0; hitStopFrames=0; hitStopCD=0; koZoom=0;
 }
 function ffa3Start(){
@@ -38571,7 +38582,7 @@ function _mspDrawAxes(){
 }
 // bản sao vẽ y hệt QUẢ BÓNG avatar của thân chính (xem nhánh _fanBall trong Fighter.draw)
 function _mspDrawCloneBall(mc){
-  const own=mc.owner, img=own ? avatarImgs[own.slotIdx] : null, R=mc.size;
+  const own=mc.owner, R=mc.size, img=(mc.img && mc.img.complete && mc.img.naturalWidth) ? mc.img : (own ? avatarImgs[own.slotIdx] : null);   // ⭐ meme được gọi ra giúp (cinarmeydan) mang ảnh riêng
   ctx.save(); ctx.translate(mc.x,mc.y);
   ctx.globalAlpha=0.22; ctx.fillStyle='#000'; ctx.beginPath(); ctx.ellipse(0,R*0.92,R*0.78,R*0.2,0,0,Math.PI*2); ctx.fill(); ctx.globalAlpha=1;
   const fl = own && own.facingDefault==='left' ? mc._facingRight : !mc._facingRight;   // quay mặt về địch như thân chính
@@ -38586,12 +38597,13 @@ function _mspDrawCloneBall(mc){
   const g=ctx.createRadialGradient(-R*0.35,-R*0.4,R*0.1,0,0,R*1.15);
   g.addColorStop(0,'rgba(255,255,255,0.30)'); g.addColorStop(0.45,'rgba(255,255,255,0)'); g.addColorStop(1,'rgba(0,0,0,0.45)');
   ctx.fillStyle=g; ctx.beginPath(); ctx.arc(0,0,R,0,Math.PI*2); ctx.fill();
+  if(mc.evil){ ctx.fillStyle='rgba(215,0,30,0.4)'; ctx.fillRect(-R,-R,R*2,R*2); }   // 😈 gubby ác: nhuộm đỏ
   ctx.restore();
-  ctx.lineWidth=Math.max(2,R*0.10); ctx.strokeStyle=_teamColor(mc.team); ctx.beginPath(); ctx.arc(0,0,R,0,Math.PI*2); ctx.stroke();
+  ctx.lineWidth=Math.max(2,R*0.10); ctx.strokeStyle=mc.evil?'#ff1744':_teamColor(mc.team); ctx.beginPath(); ctx.arc(0,0,R,0,Math.PI*2); ctx.stroke();
   ctx.lineWidth=Math.max(1,R*0.04); ctx.strokeStyle='rgba(255,255,255,0.55)'; ctx.beginPath(); ctx.arc(0,0,R*0.9,-2.5,-0.9); ctx.stroke();
   ctx.restore();
 }
-const TS_EYE={x:-0.3, y:-0.12};
+const TS_EYE={x:0.48, y:-0.46};   // 🔴 mắt TRÁI của lính Ursus trên ảnh đại diện tanphamnhat969 (= tròng kính đỏ bên PHẢI khi nhìn vào ảnh), đơn vị = bán kính bóng
 // 🪝 vẽ 1 cây lao móc (mũi có ngạnh) ở toạ độ thế giới, mũi tại (x,y) hướng theo góc a; chain=true thì kéo dây xích về chủ
 function _tsDrawHarpoon(f, x, y, a, red, chain){
   const len=46, ca=Math.cos(a), sa=Math.sin(a), tx=x-ca*len, ty=y-sa*len;
@@ -38614,12 +38626,67 @@ function _tsDrawHarpoon(f, x, y, a, red, chain){
   ctx.lineTo(-20,9); ctx.lineTo(-10,2); ctx.lineTo(-14,6); ctx.closePath(); ctx.fill(); ctx.stroke();
   ctx.restore();
 }   // 🔴 tanphamnhat969: chỗ MẮT TRÁI trên avatar (đơn vị = cỡ đang vẽ s) — chỉnh khi có ảnh thật
+
+// ===================== ⭐ COMMENTER BATTLE — đồ dùng chung cho đợt commenter 25/11 (#2–#6) =====================
+//  · fanFx: hiệu ứng / đạn bay ở TOẠ ĐỘ THẾ GIỚI ({t,T?,upd(q)→false = xong, draw(q), holdTeam?}), chạy + vẽ trong _fanWorld() (gọi trong loop)
+//  · quân con có máu (bản sao Roxzag, gubby, meme được gọi ra giúp) đi CHUNG mảng mspClones với ai:'touch' → đủ nối sẵn
+//    (nhận đòn, va chạm, reset, hp bar); KHÔNG tính là "phe còn sống" như bản sao Magicspeller (_teamDown chỉ đếm bản sao không có ai)
+let fanFx=[];
+const _fanTps=()=>60*GAME_SPEED*TIME_SCALE;
+function _fanFoesOf(f){ const out=[];
+  for(const arr of _hpSummonArrays()) for(const u of arr) if(u && !u.dead && u.team!==f.team && !(u.hp<=0)) out.push(u);
+  for(const o of fighters) if(o!==f && !o.dead && o.team!==f.team) out.push(o);
+  return out; }
+function _fanNearest(f,x,y){ let b=null, bd=1e9; for(const u of _fanFoesOf(f)){ const d=Math.hypot(u.x-x,u.y-y); if(d<bd){ bd=d; b=u; } } return b; }
+function _fanRayWall(x,y,a){ const c=Math.cos(a), s=Math.sin(a), ts=[]; if(c>1e-6) ts.push((W-x)/c); if(c<-1e-6) ts.push(-x/c); if(s>1e-6) ts.push((H-y)/s); if(s<-1e-6) ts.push(-y/s); return Math.max(0,Math.min(...ts)); }
+function _fanMinion(f, o){
+  const a=Math.random()*Math.PI*2, sz=o.size||f.size*0.55, r=f.size+sz+6;
+  const m={ team:f.team, owner:f, ai:'touch', kind:o.kind, x:Math.max(sz,Math.min(W-sz,f.x+Math.cos(a)*r)), y:Math.max(sz,Math.min(H-sz,f.y+Math.sin(a)*r)),
+    hp:o.hp, maxHp:o.hp, size:sz, vx:Math.cos(a)*3, vy:Math.sin(a)*3, _lastAngle:a, flash:0, dead:false,
+    dmg:o.dmg, hitCD:o.hitCD, _hitCD:20, img:o.img||null, evil:!!o.evil, spd:o.spd||1, onDeath:o.onDeath||null,
+    takeDamage(dmg,attacker,isHuh,isBurn,dotIcon,hitFx){ _summonTakeDamage(this, dmg, attacker, isHuh, isBurn, dotIcon, hitFx); } };
+  mspClones.push(m); return m; }
+function _fanMinionAI(mc, e){   // quân con: đi lang thang như meme (vòng mspClones lo), ĐỤNG địch là gây dame theo nhịp riêng
+  mc._hitCD=Math.max(0,(mc._hitCD||0)-1);
+  if(!e || mc.stun>0 || mc._hitCD>0) return;
+  if(Math.hypot(e.x-mc.x,e.y-mc.y) < mc.size+(e.size||20)+MELEE_REACH){
+    e.takeDamage(mc.dmg, mc.owner||null); mc._hitCD=mc.hitCD;
+    _hitParticles(e.x,e.y,mc.evil?'#ff1744':'#ffffff',5,false,true); playSample('hit_light',0.18); } }
+function _fanWorld(){
+  if(!fanCtx && !fanFx.length) return;
+  const run=battleFreezeTimer<=0;
+  for(let i=fanFx.length-1;i>=0;i--){ const q=fanFx[i];
+    if(run){ q.t++; if((q.upd && q.upd(q)===false) || (q.T && q.t>=q.T)){ fanFx.splice(i,1); continue; } }
+    ctx.save(); try{ q.draw(q); } catch(e){} finally{ ctx.restore(); } } }
+
+// 🗡️ #3 InaudibleDisc — kiếm ném: bay thẳng → cắm tường 0.5s → xoay ngắm địch gần nhất 0.7s → bay tiếp → chạm tường lần 2 thì gãy
+function _idDrawSword(x,y,a){ ctx.translate(x,y); ctx.rotate(a); ctx.shadowColor='#ff1744'; ctx.shadowBlur=12; ctx.fillStyle='#0b0b0b';
+  ctx.beginPath(); ctx.moveTo(14,0); ctx.lineTo(4,-6); ctx.lineTo(-30,-6); ctx.lineTo(-30,6); ctx.lineTo(4,6); ctx.closePath(); ctx.fill();   // lưỡi (mũi ở gốc toạ độ + 14)
+  ctx.fillRect(-36,-14,6,28); ctx.fillRect(-50,-4,14,8); ctx.beginPath(); ctx.arc(-53,0,6,0,Math.PI*2); ctx.fill(); }   // chắn tay · chuôi · núm
+function _idThrow(f,t){ f._idSwordOut=true; playSample('wg_blade_throw',0.55);
+  fanFx.push({ t:0, owner:f, x:f.x, y:f.y, a:Math.atan2(t.y-f.y,t.x-f.x), st:'fly', walls:0, stick:0, hit:new Set(), spin:0,
+    upd(q){ const o=q.owner; if(!o || o.dead){ return false; }
+      if(q.st==='stick'){ q.stick++;
+        if(q.stick>=30){ const n=_fanNearest(o,q.x,q.y); if(n){ const ta=Math.atan2(n.y-q.y,n.x-q.x); let d=ta-q.a; while(d>Math.PI) d-=Math.PI*2; while(d<-Math.PI) d+=Math.PI*2; q.a+=d*0.25; } }
+        if(q.stick>=72){ q.st='fly'; q.hit.clear(); playSample('wg_blade_throw',0.45); } return true; }
+      q.x+=Math.cos(q.a)*15; q.y+=Math.sin(q.a)*15;
+      for(const u of _fanFoesOf(o)){ if(q.hit.has(u)) continue;
+        if(Math.hypot(u.x-q.x,u.y-q.y)<(u.size||20)+12){ q.hit.add(u); u.takeDamage(Math.round(0.12*(u.maxHp||1000)), o);
+          playSample('se_slash',0.5); addShake(4,6); _hitParticles(u.x,u.y,'#ff1744',10,false,true); } }
+      if(q.x<14||q.x>W-14||q.y<14||q.y>H-14){ q.x=Math.max(14,Math.min(W-14,q.x)); q.y=Math.max(14,Math.min(H-14,q.y)); q.walls++;
+        if(q.walls>=2){ o._idSwordOut=false; spawnParticles(q.x,q.y,'#212121',12); playSample('bk_clang',0.4); return false; }
+        q.st='stick'; q.stick=0; playSample('bk_clang',0.35); addShake(2,4); }
+      return true; },
+    draw(q){ _idDrawSword(q.x,q.y,q.a); } });
+}
+
 const FAN_SKILLS = {
   // ————————————————————————————————————————————————————————————————
   // @Train_Kidd — "constantly spinning and dealing 5 damage per hit
   //                (and healing 1 health for itself per hit)"
   // ————————————————————————————————————————————————————————————————
   trainkidd: {
+    part: 1,
     name: 'Train_Kidd',
     avatar: null,               // 👈 CHỜ ẢNH: lưu ảnh đại diện vào thư mục game rồi báo tôi, tôi nhúng vào đây
     // Máu/tốc xuất phát như mọi meme; sức mạnh dồn hết vào đòn quay.
@@ -38659,6 +38726,7 @@ const FAN_SKILLS = {
   //  ⚠️ máu chốt lại 1000 theo yêu cầu của m (bỏ số 500 gốc trong comment cho đơn giản)
   // ————————————————————————————————————————————————————————————————
   lixianfei: {
+    part: 2, cmt: 'assets/fan-comments/lixianfei.png',
     name: 'Li Xianfei',
     avatar: null,               // 👈 CHỜ ẢNH: lưu ảnh đại diện vào thư mục game rồi báo tôi, tôi nhúng vào đây
     hp: 1000, size: 30, speed: 1,   // size ~ nửa mặc định (48) rồi +25% theo yêu cầu (24→30), speed cực chậm so với mọi meme khác (5)
@@ -38686,6 +38754,7 @@ const FAN_SKILLS = {
   // ⚠️ CHỈ dùng cho Commenter Battle (FAN_SKILLS) — KHÔNG đụng vào roster 56 con chính.
   // ————————————————————————————————————————————————————————————————
   henrry13devotina: {
+    part: 4, cmt: 'assets/fan-comments/henrry13devotina.png',
     name: 'henrry13devotina',
     avatar: null,               // 👈 CHỜ ẢNH: lưu ảnh đại diện vào thư mục game rồi báo tôi, tôi nhúng vào đây
     hp: 1000, size: 48, speed: 5,
@@ -38730,6 +38799,7 @@ const FAN_SKILLS = {
   // ⚠️ CHỈ dùng cho Commenter Battle (FAN_SKILLS) — KHÔNG đụng vào roster 56 con chính.
   // ————————————————————————————————————————————————————————————————
   magicspeller: {
+    part: 5, cmt: 'assets/fan-comments/magicspeller.png',
     name: 'TheGreatMagicspeller',
     avatar: null,               // 👈 CHỜ ẢNH: lưu ảnh đại diện vào thư mục game rồi báo tôi, tôi nhúng vào đây
     hp: 1000, size: 48, speed: 5,
@@ -38759,6 +38829,7 @@ const FAN_SKILLS = {
   //                        vệt tuyết làm chậm, chu kỳ rút xuống 5s)
   // ————————————————————————————————————————————————————————————————
   firdhansnowboarder: {
+    part: 3,
     name: 'Firdhan_snowboarder',
     avatar: null,               // 👈 CHỜ ẢNH: lưu ảnh đại diện vào thư mục game rồi báo tôi, tôi nhúng vào đây
     hp: 1000, size: 48, speed: 3,
@@ -38856,6 +38927,7 @@ const FAN_SKILLS = {
   // ⚠️ CHỈ dùng cho Commenter Battle (FAN_SKILLS) — KHÔNG đụng vào roster 56 con chính.
   // ————————————————————————————————————————————————————————————————
   hamodehw3u: {
+    part: 6, cmt: 'assets/fan-comments/hamodehw3u.png',
     name: 'HamodehHamodeh-w3u',
     avatar: null,               // 👈 CHỜ ẢNH: lưu ảnh đại diện vào thư mục game rồi báo tôi, tôi nhúng vào đây
     hp: 1000, size: 48, speed: 5,
@@ -38931,8 +39003,9 @@ const FAN_SKILLS = {
   // ⚠️ CHỈ dùng cho Commenter Battle (FAN_SKILLS) — KHÔNG đụng vào roster 56 con chính.
   // ————————————————————————————————————————————————————————————————
   tanphamnhat969: {
+    q: 1, cmt: 'assets/fan-comments/tanphamnhat969.png',
     name: 'tanphamnhat969',
-    avatar: null,               // 👈 CHỜ ẢNH: lưu ảnh đại diện vào thư mục game rồi báo tôi, tôi nhúng vào đây
+    avatar: 'assets/avatars/fan/tanphamnhat969.jpg',               // 👈 CHỜ ẢNH: lưu ảnh đại diện vào thư mục game rồi báo tôi, tôi nhúng vào đây
     hp: 1000, size: 48, speed: 5,
     desc: "Fires a chained harpoon every 5s — get too close and it lunges to skewer you instead. Below half HP its left eye burns red and every hit doubles.",
     init(f){ const tps=60*GAME_SPEED*TIME_SCALE; f._tsCD=Math.round(2.5*tps); f._tsHarpoons=[]; f._tsLunge=null; f._tsMorale=false; f._tsMoraleT=0; },
@@ -39007,6 +39080,92 @@ const FAN_SKILLS = {
       ctx.restore();
     },
   },
+
+  // ————————————————————————————————————————————————————————————————
+  // #2 @RoxzagVax (Part 5, 25/11 cân lại): "Minion Spawns (every 8 seconds) Mini Clones of myself that is 2 hit/very low hp and
+  //   deals 2.5 damage per touch · Myself: Punches the nearest entity after 2.5 seconds and the damage is 5 · Last Ability: Last breath
+  //   makes me not die 1 time while killing all my minions and making my punches 1 second faster and plus 5 damage but i also become 40 hp"
+  //  → số nhân lên cho ngang meme thường: bản sao 80 máu (2 đòn) chạm 25 · đấm 70 / 2.5s · Last Breath: còn 400 máu, đấm 140 / 1.5s
+  // ————————————————————————————————————————————————————————————————
+  roxzagvax: {
+    name: 'RoxzagVax', q: 2, avatar: 'assets/avatars/fan/roxzagvax.jpg', cmt: 'assets/fan-comments/roxzagvax.png',
+    hp: 1000, size: 48, speed: 5,
+    desc: "Every 8s a mini clone of himself joins the fight (80 HP, hits on touch). Punches the nearest enemy every 2.5s. Last Breath: the first killing blow leaves him at 400 HP, pops every clone, and his punches come faster and twice as hard.",
+    init(f){ const T=_fanTps(); f._rvPunchCD=Math.round(1.2*T); f._rvSpawnCD=Math.round(3*T); f._rvLB=false; f._rvLBT=0; },
+    tick(f, e, dist, cham){
+      const T=_fanTps();
+      if(f._rvLB) f._rvLBT++;
+      else if(--f._rvSpawnCD<=0){ f._rvSpawnCD=Math.round(8*T);
+        if(mspClones.filter(c=>c.owner===f && c.kind==='rv' && !c.dead && c.hp>0).length<5){
+          _fanMinion(f,{kind:'rv', hp:80, dmg:25, hitCD:Math.round(0.6*T), size:f.size*0.5, spd:1.15});
+          spawnParticles(f.x,f.y,'#ff5252',10,false,true); playSample('ar_clone',0.45); } }
+      if(--f._rvPunchCD>0 || f._isHardCC()) return;
+      const t=_fanNearest(f,f.x,f.y); if(!t){ f._rvPunchCD=10; return; }
+      if(Math.hypot(t.x-f.x,t.y-f.y)-f.size-(t.size||20)>110){ f._rvPunchCD=6; return; }   // chưa tới tầm đấm: chờ
+      f._rvPunchCD=Math.round((f._rvLB?1.5:2.5)*T);
+      t.takeDamage(f._rvLB?140:70, f);
+      playSample('se_punch_heavy',0.55); addShake(f._rvLB?7:4,8); _hitParticles(t.x,t.y,f._rvLB?'#ff1744':'#ffd54f',9,false,true);
+      const a=Math.atan2(t.y-f.y,t.x-f.x), x0=f.x, y0=f.y, x1=t.x, y1=t.y, big=f._rvLB;
+      fanFx.push({ t:0, T:14, draw(q){ const u=q.t/q.T, k=u<0.4?u/0.4:1, fade=u<0.6?1:1-(u-0.6)/0.4, px=x0+(x1-x0)*k*0.8, py=y0+(y1-y0)*k*0.8, sz=big?46:36;   // 👊 nắm đấm phóng tới
+        ctx.globalAlpha=fade; ctx.translate(px,py); if(Math.cos(a)<0) ctx.scale(-1,1); ctx.font=`${sz}px serif`; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('👊',0,0); } });
+    },
+    onHurt(f, dmg, atk){
+      if(f._rvLB || f.hp-dmg>0 || (f._fanLives||1)>1) return false;   // còn mạng (bánh LIVES) thì để luật mạng lo trước
+      f._rvLB=true; f._rvLBT=0; f.hp=400;   // 💀 LAST BREATH: không chết 1 lần
+      for(const c of mspClones) if(c.owner===f && c.kind==='rv') c.hp=0;   // bản sao nổ hết
+      spawnParticles(f.x,f.y,'#ff1744',24,false,true); playSample('se_charge',0.6); addShake(8,14);
+      floatTexts.push({x:f.x,y:f.y-f.size-34,text:'LAST BREATH',color:'#ff1744',life:70,big:true});
+      return true;
+    },
+    draw(f, s){
+      if(!f._rvLB) return;   // Last Breath: vòng đỏ đập như tim quanh quả bóng
+      const p=0.5+0.5*Math.sin(f._rvLBT*0.25);
+      ctx.save(); ctx.strokeStyle=`rgba(255,23,68,${0.5+0.4*p})`; ctx.lineWidth=Math.max(2,s*0.1); ctx.shadowColor='#ff1744'; ctx.shadowBlur=12;
+      ctx.beginPath(); ctx.arc(0,0,s*(1.1+0.06*p),0,Math.PI*2); ctx.stroke(); ctx.restore();
+    },
+  },
+
+  // ————————————————————————————————————————————————————————————————
+  // #3 @InaudibleDisc (Part 6, bản rút gọn 25/11 — bản gốc quá dài / OP so với luật kênh): "I take 8% max health damage from all
+  //   attacks with 1s immunity between hits · I deal 20% of missing health as contact damage with 0.4s cooldown · I throw a sword every
+  //   7 seconds… it lodges on the wall and re-aims at an enemy after 0.5s, then flies again after 0.7s of lockon, breaking when it hits
+  //   the 2nd wall" (kiếm vẽ theo ảnh đại diện của anh ta: kiếm đen trên nền đỏ)
+  //  → mọi đòn = đúng 80, miễn 0.8s · chém 25 + 15% máu đã mất mỗi 0.8s · kiếm ném 12% máu tối đa của mục tiêu.
+  //    BỎ: miễn chiêu giết ngay / miễn hút máu / bánh recruit đảo ngược (quá phức tạp, báo anh)
+  // ————————————————————————————————————————————————————————————————
+  inaudibledisc: {
+    name: 'InaudibleDisc', q: 3, avatar: 'assets/avatars/fan/inaudibledisc.jpg', cmt: 'assets/fan-comments/inaudibledisc.png',
+    hp: 1000, size: 48, speed: 5,
+    desc: "Every hit on it deals exactly 80, then it shrugs off everything for 0.8s — small pokes hurt, huge blows barely matter. Its slashes hit harder the more HP it is missing, and every 7s it hurls its sword, which sticks in a wall, re-aims and flies again.",
+    init(f){ const T=_fanTps(); f._idImm=0; f._idCD=0; f._idThrowCD=Math.round(3*T); f._idSwordOut=false; },
+    tick(f, e, dist, cham){
+      const T=_fanTps();
+      f._idImm=Math.max(0,f._idImm-1); f._idCD=Math.max(0,f._idCD-1);
+      if(f._isHardCC()) return;
+      if(f._idCD<=0){ const t=_fanNearest(f,f.x,f.y);
+        if(t && Math.hypot(t.x-f.x,t.y-f.y)<f.size+(t.size||20)+MELEE_REACH){
+          t.takeDamage(Math.round(25+0.15*Math.max(0,f.maxHp-f.hp)), f); f._idCD=Math.round(0.8*T);
+          playSample('se_slash',0.35); _hitParticles(t.x,t.y,'#ff1744',6,false,true);
+          const a=Math.atan2(t.y-f.y,t.x-f.x), o=f;
+          fanFx.push({ t:0, T:10, draw(q){ const u=q.t/q.T, R=o.size+26; ctx.globalCompositeOperation='lighter';   // vệt chém đỏ
+            ctx.strokeStyle=`rgba(255,40,60,${0.85*(1-u)})`; ctx.lineWidth=7*(1-u)+2; ctx.lineCap='round';
+            ctx.beginPath(); ctx.arc(o.x,o.y,R,a-1.1+u*0.6,a+0.5+u*0.6); ctx.stroke(); } }); } }
+      if(!f._idSwordOut && --f._idThrowCD<=0){ const t=_fanNearest(f,f.x,f.y); if(t){ f._idThrowCD=Math.round(7*T); _idThrow(f,t); } else f._idThrowCD=10; }
+    },
+    onHurt(f, dmg, atk){
+      if(f._idPass) return false;
+      if(f._idImm>0) return true;                       // đang miễn: bỏ qua đòn
+      f._idImm=Math.round(0.8*_fanTps());
+      f._idPass=true; try{ f.takeDamage(80, atk); } finally{ f._idPass=false; }   // mọi đòn thành đúng 80
+      return true;
+    },
+    draw(f, s){
+      if(!(f._idImm>0)) return;   // vừa ăn đòn: lớp khiên mờ
+      ctx.save(); ctx.strokeStyle=`rgba(255,255,255,${0.15+0.35*f._idImm/(0.8*_fanTps())})`; ctx.lineWidth=Math.max(2,s*0.07);
+      ctx.beginPath(); ctx.arc(0,0,s*1.12,0,Math.PI*2); ctx.stroke(); ctx.restore();
+    },
+  },
+
 
 };
 

@@ -9,9 +9,22 @@ Kênh: @meme-autobattler, mục video dài. Tên video: `Commenter vs 3 Random M
 Hàng chờ + yêu cầu từng người: bảng anh đã duyệt 25/11 (ảnh thông báo `out/commenter-queue.html`). Khi bắt đầu tập mới: kéo lại comment 6+ tập
 (`D:/tools/yt-dlp/yt-dlp.exe --skip-download --write-comments` / Mac `python3 -m yt_dlp …`) xem có ai mới / ai sửa skill, rồi cập nhật hàng chờ.
 
+## 0. Ảnh comment + số thứ tự (anh dặn 25/11)
+- Mỗi commenter trong `FAN_SKILLS` có `q` (số hàng chờ #1, #2…) hoặc `part` (đã lên tập P1…P6) — màn chọn commenter hiện badge số + 💬
+  và **ẢNH CHỤP COMMENT THẬT** của người đang chọn ngay dưới lưới.
+- Ảnh comment nằm trong repo: **`assets/fan-comments/<key>.png`** (avatar + tên + nội dung, chụp từ YouTube ×2 cho nét). Mac pull về là có —
+  **đầu video lấy thẳng file này** (Finder: `~/Projects/chaos-battle-lab/assets/fan-comments/`). Ảnh đại diện: `assets/avatars/fan/<key>.jpg`.
+- Chụp comment mới (Windows / Mac): `tools/x/cdp.js --launch --size 1280x1000 --url https://www.youtube.com/ --steps …` với link
+  `watch?v=<video>&lc=<mã comment>` (YouTube đưa comment đó lên đầu) → ẩn `#masthead-container`, bấm "Read more" → `shotclip <key> <js>`
+  lấy khung gộp `#author-thumbnail` + `#header-author` + `#content-text` với `scale:2`. Mã comment lấy từ `yt-dlp --write-comments` (trường `id`).
+- Chưa có ảnh comment (comment xin skill không nằm ở 6 tập dài, chắc ở Shorts): Train_Kidd, Firdhan_snowboarder (bản snowball cũ).
+
 ## 1. Quy trình (anh chốt 25/11)
 1. **Chọn commenter**: người kế tiếp trong hàng chờ (hoặc anh chỉ định). Skill của họ chưa có trong `FAN_SKILLS` (js/game.js) → code trước
    (giữ đúng mô tả, chỉnh số cho cân như kênh từng làm; skill quá phức tạp / OP thì rút gọn và báo anh). Chạy thử bằng nút 🎯 TRAINING.
+   ⛔ (anh 25/11) Con nào PHỨC TẠP, thấy sẽ MẤT RẤT NHIỀU THỜI GIAN (nhiều cơ chế, cần vẽ / tìm nhiều thứ, đụng luật game chung, vd InaudibleDisc
+   bản đủ, Z4CK Stick War, triệu hồi nhiều loại) → BÀN VỚI ANH TRƯỚC (đề xuất bản rút gọn + ước lượng công), anh gật mới làm. Con đơn giản thì cứ làm, không cần hỏi.
+   Mỗi đợt làm ÍT con và làm cho XONG hẳn (anh 25/11: "hoàn thiện 1 2 3 thôi, làm 5 con luôn sợ k nổi"); #4–#6 đã code sẵn nằm ở `docs/notes/commenter-4-6-cho.js`.
 2. **Chọn 3 meme đối thủ**: anh với Claude bàn, chốt 3 con → đặt vào 🎛️ SETUP ROLL (ô Đối thủ 1–3), các bánh buff / recruit / lives để Random.
 3. **Phần bánh quay**: ANH TỰ QUAY trong game (quay màn hình), Claude không làm. Ghi lại kết quả anh quay được (buff nào, mấy đồng minh, mấy mạng).
 4. **Phần trận**: chạy NGẪU NHIÊN như các trận meme đang quay (không can thiệp diễn biến, chỉ lọc seed) với ĐÚNG kết quả bánh quay của anh
