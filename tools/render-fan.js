@@ -16,7 +16,12 @@ const args = process.argv.slice(2), OUT = path.resolve(args[0] || 'fan.mp4');
 const opt = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; };
 const FAN = opt('--fan', 'tanphamnhat969'), FPS = +opt('--fps', 60), OFPS = +opt('--ofps', 50), VW = +opt('--w', 1920), VH = Math.round(VW * 9 / 16);
 const SIM = +opt('--sim', 0), BEST = +opt('--best', 10), MAXSEC = +opt('--max', 200), HOLD = +opt('--hold', 5);
-const BL = opt('--blen', '15-45').split('-').map(Number);   // độ dài trận ưu tiên khi tự chọn seed
+const BL = opt('--blen', '15-45').split('-').map(Number);
+const FOES = opt('--foes', null) ? opt('--foes').split(',') : null;   // --foes friend,feuerkatze,samuraicheems: CHỐT 3 đối thủ (🎛️ SETUP ROLL của game) — máy loto vẫn quay y hệt, chỉ dừng đúng 3 con này; bánh buff / recruit / lives vẫn random
+const BUFF = opt('--buff', null) ? opt('--buff').split(',') : null;   // --buff spd[,hp…]: ép các lượt ĐẦU của bánh BUFF ra đúng ô (k của FAN_WHEELS.buff: none dmg spd hp inv all), lượt sau random
+const BSEED = opt('--bseed', null) == null ? null : +opt('--bseed');   // --bseed N: seed RIÊNG cho TRẬN (đặt lại random lúc bấm START) → bánh quay giữ nguyên theo --seed, chỉ trận đổi
+const BSIM = +opt('--bsim', 0);   // --bsim 5: giữ bánh quay của --seed, chạy thử 5 seed TRẬN (bseed = seed+1…+5) → lấy trận căng nhất rồi QUAY 1 lần (anh 25/11)
+const SIMW = +opt('--simw', 0) || null;   // chạy thử ở bề rộng nào (mặc định = đúng bề rộng lúc quay → hạn chế lệch kết quả thử ↔ quay, xem skill tap-commenter)   // độ dài trận ưu tiên khi tự chọn seed
 let SEED = opt('--seed', null) == null ? null : +opt('--seed');
 const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.gif': 'image/gif', '.mp3': 'audio/mpeg', '.ogg': 'audio/ogg', '.wav': 'audio/wav', '.svg': 'image/svg+xml', '.woff2': 'font/woff2', '.ttf': 'font/ttf' };
 const GPU = args.includes('--cpu') ? ['--autoplay-policy=no-user-gesture-required', '--disable-audio-output']
@@ -33,10 +38,17 @@ function audioDurations() {
 }
 let DURS = null;
 
-async function openFan(br, PORT, seed, cw) {
+async function openFan(br, PORT, seed, cw, bseed) {
   if (!DURS) DURS = audioDurations();
   const pg = await br.newPage({ viewport: { width: CSSW, height: CSSH }, deviceScaleFactor: cw / CSSW });
   pg.on('pageerror', e => console.log('⚠️', e.message.slice(0, 160)));
+  // ⏸️ ĐỒNG HỒ ẢO CHỜ ẢNH: đếm ảnh đang tải; STEP không cho đồng hồ chạy khi còn ảnh dở → lúc THỬ (chạy nhanh) và lúc QUAY (chạy chậm)
+  //    ra y hệt nhau (25/11: ảnh trận về theo giờ thật làm thử ≠ quay, có trận thử còn chưa kịp vào trận).
+  await pg.addInitScript(() => { window.__pend = 0; const D = Object.getOwnPropertyDescriptor(HTMLImageElement.prototype, 'src');
+    Object.defineProperty(HTMLImageElement.prototype, 'src', { configurable: true, get() { return D.get.call(this); }, set(v) {
+      if (v && !this.__pw) { this.__pw = 1; window.__pend++; const done = () => { if (this.__pw) { this.__pw = 0; window.__pend--; } this.removeEventListener('load', done); this.removeEventListener('error', done); };
+        this.addEventListener('load', done); this.addEventListener('error', done); }
+      D.set.call(this, v); } }); });
   await pg.goto(`http://127.0.0.1:${PORT}/`);
   await pg.waitForFunction(() => !document.getElementById('bootScreen'), null, { timeout: 300000 });
   await pg.waitForTimeout(800);
@@ -51,7 +63,7 @@ async function openFan(br, PORT, seed, cw) {
     const keys = [...MOSQUITO_SONGS, ...PIANO_SONGS, ...GUITAR_SONGS, ...BONGO_SONGS];
     for (const k of keys) { const a = AUDIO_SAMPLES[k]; if (!a) continue; const u = new URL(a.src, location.href).pathname; try { const buf = await (await fetch(u)).arrayBuffer(); const ab = await AC.decodeAudioData(buf); const d = new Float32Array(ab.length); for (let c = 0; c < ab.numberOfChannels; c++) { const x = ab.getChannelData(c); for (let i = 0; i < d.length; i++) d[i] += x[i] / ab.numberOfChannels; } __pcm[u] = { d, sr: ab.sampleRate }; } catch (e) {} }
   }, { DURS });
-  await pg.evaluate(({ seed, FAN }) => {
+  await pg.evaluate(({ seed, FAN, FOES, BUFF, BSEED }) => {
     let s = seed >>> 0; Math.random = () => { s = (s + 0x6D2B79F5) >>> 0; let t = s; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
     window.__vt = 0; const p0 = performance.now(), d0 = Date.now(); performance.now = () => p0 + __vt * 1000; Date.now = () => d0 + Math.round(__vt * 1000);
     window.__raf = new Map(); let rid = 0; window.requestAnimationFrame = cb => { __raf.set(++rid, cb); return rid; }; window.cancelAnimationFrame = i => { __raf.delete(i); };
@@ -102,17 +114,22 @@ async function openFan(br, PORT, seed, cw) {
         } }
       else if (D.st === 'go' && t >= D.at) { fanWheelDone(); D.st = 'enter'; }
       else if (D.st === 'enter') { if (document.getElementById('battleScreen').classList.contains('active') && !fighters.length && fanCtx) { M('waitscreen'); D.st = 'press'; D.at = t + 1.3; } }
-      else if (D.st === 'press' && t >= D.at) { _battleStartCornerClick(); M('fight'); D.st = 'fight'; }
+      else if (D.st === 'press' && t >= D.at) { if (BSEED != null) { let s2 = BSEED >>> 0; Math.random = () => { s2 = (s2 + 0x6D2B79F5) >>> 0; let q = s2; q = Math.imul(q ^ (q >>> 15), q | 1); q ^= q + Math.imul(q ^ (q >>> 7), q | 61); return ((q ^ (q >>> 14)) >>> 0) / 4294967296; }; }
+        _battleStartCornerClick(); M('fight', { bseed: BSEED }); D.st = 'fight'; }
       else if (D.st === 'fight') { if (document.getElementById('fanResultOverlay').classList.contains('open')) { M('result_screen', { win: koWinnerTeam() }); D.st = 'hold'; D.at = t; } }
     };
     const koWinnerTeam = () => { const a0 = fighters.some(f => f.team === 0 && !f.dead), a1 = fighters.some(f => f.team === 1 && !f.dead); return a0 && !a1 ? 'fan' : a1 && !a0 ? 'memes' : 'draw'; };
+    _fanRigClear();
+    if (BUFF) BUFF.forEach((k, j) => { const i = FAN_WHEELS.buff.seg.findIndex(x => x.k === k); if (i < 0) throw new Error('không có ô buff ' + k); _fwRig.buff[j] = i; });
+    if (FOES) { _fwRig.foes = FOES.map(k => { const i = roster.findIndex(c => c && c.charKey === k); if (i < 0) throw new Error('không thấy meme ' + k); return i; }); }
     _pickMode = 'fan'; _fanPickKey = FAN; fanStart();   // = chọn commenter + bấm ▶ 1 VS 3 → màn "Who are you up against, bro?"
-  }, { seed, FAN });
+  }, { seed, FAN, FOES, BUFF, BSEED: bseed == null ? null : bseed });
   return pg;
 }
 // 1 bước = 1 tick game (60/s): đạo diễn → timer → rAF → tua CSS animation → đồng hồ +1/FPS
 const STEP = ({ n, FPS, HOLD }) => {
   for (let k = 0; k < n; k++) {
+    if (window.__pend > 0 && (window.__pw0 = (window.__pw0 || 0) + 1) < 4000) return 'wait'; window.__pw0 = 0;
     __vEnded(); __dir();
     __tm.sort((a, b) => a.at - b.at || a.id - b.id);
     while (__tm.length && __tm[0].at <= __vt) { const t = __tm.shift(); if (t.rep) __tm.push({ ...t, at: t.at + t.rep }); try { t.fn(...t.a); } catch (e) {} }
@@ -128,8 +145,8 @@ const RESULT = () => { const m = __marks, f0 = m.find(x => x.ev === 'fight'), rs
   const win = rs ? rs.win : null, wt = win === 'fan' ? 0 : win === 'memes' ? 1 : null;
   return { t: __vt, foes: (m.find(x => x.ev === 'foes') || {}).foes, res: m.filter(x => x.ev === 'result').map(x => x.txt), win,
     blen: f0 && rs ? rs.t - f0.t : null, wk: wt == null ? null : sum(T(wt), 'hp') / T(wt).reduce((s, f) => s + f.maxHp, 0),
-    hp: fighters.map(f => [f.type, f.team, Math.max(0, Math.round(f.hp)), f.maxHp, f._fanLives || 0]) }; };
-const fmt = r => `${(r.foes || []).join(' x ')} · ${r.res.join(' | ')} · ${r.win ? (r.win === 'fan' ? 'COMMENTER thắng' : r.win === 'memes' ? '3 meme thắng' : 'hoà') : 'chưa xong'}${r.blen != null ? ' · trận ' + r.blen.toFixed(1) + 's' : ''}${r.wk != null ? ' · đội thắng còn ' + Math.round(r.wk * 100) + '% máu' : ''}`;
+    hp: fighters.map(f => [f.type, f.team, Math.max(0, Math.round(f.hp)), f.maxHp, f._fanLives || 0]), dealt: Math.round((fighters.find(f => f.slotIdx === 0) || {})._duoDealt || 0) }; };
+const fmt = r => `${(r.foes || []).join(' x ')} · ${r.res.join(' | ')} · ${r.win ? (r.win === 'fan' ? 'COMMENTER thắng' : r.win === 'memes' ? '3 meme thắng' : 'hoà') : 'chưa xong'}${r.blen != null ? ' · trận ' + r.blen.toFixed(1) + 's' : ''}${r.wk != null ? ' · đội thắng còn ' + Math.round(r.wk * 100) + '% máu' : ''} · commenter gây ${r.dealt}`;
 
 (async () => {
   const srv = http.createServer((q, r) => { const f = path.join(ROOT, decodeURIComponent(q.url.split('?')[0])).replace(/\/$/, '/index.html');
@@ -137,28 +154,38 @@ const fmt = r => `${(r.foes || []).join(' x ')} · ${r.res.join(' | ')} · ${r.w
   await new Promise(r => srv.listen(0, '127.0.0.1', r)); const PORT = srv.address().port;
   const br = await chromium.launch({ args: GPU });
   const T0 = Date.now(), base = Date.now();
-  const simulate = async sd => { const pg = await openFan(br, PORT, sd, 480);
-    while (!(await pg.evaluate(STEP, { n: 240, FPS, HOLD: 0.5 })) && (await pg.evaluate(() => __vt)) < MAXSEC) {}
+  const simulate = async (sd, bs) => { const pg = await openFan(br, PORT, sd, SIMW || VW, bs);
+    for (;;) { const r = await pg.evaluate(STEP, { n: 240, FPS, HOLD: 0.5 }); if (r === true) break; if (r === 'wait') { await pg.waitForTimeout(15); continue; } if ((await pg.evaluate(() => __vt)) >= MAXSEC) break; }
     const r = await pg.evaluate(RESULT); await pg.close(); return r; };
-  if (SIM || (SEED == null && BEST > 0)) {
+  let BS = BSEED;
+  if (BSIM) {   // 🎡 bánh quay cố định (--seed), thử BSIM seed trận
+    if (SEED == null) { console.log('❌ --bsim cần --seed (seed bánh quay)'); process.exit(1); }
+    const rows = [];
+    for (let k = 1; k <= BSIM; k++) { const bs = SEED + k; const r = await simulate(SEED, bs); rows.push({ bs, r }); console.log(`  trận #${k} bseed ${bs}: ${fmt(r)}`); }
+    fs.writeFileSync(OUT + '.sim.json', JSON.stringify(rows, null, 1));
+    const ok = rows.filter(x => x.r.win && x.r.win !== 'draw' && x.r.wk > 0);
+    if (!ok.length) { console.log('❌ không trận nào có người thắng'); await br.close(); srv.close(); process.exit(1); }
+    ok.sort((a, b) => a.r.wk - b.r.wk); BS = ok[0].bs;   // căng nhất = đội thắng còn ÍT máu nhất (anh 25/11: lấy trận căng nhất, không xét độ dài) console.log(`🏆 trận căng nhất: bseed ${BS} · ${fmt(ok[0].r)}`);
+  }
+  function inB(r) { return r.blen >= BL[0] && r.blen <= BL[1] ? 1 : 0; }
+  if (!BSIM && (SIM || (SEED == null && BEST > 0))) {
     const N = SIM || BEST, rows = [];
-    for (let k = 0; k < N; k++) { const sd = SEED != null ? SEED + k : ((base + k * 7919) >>> 0); const r = await simulate(sd); rows.push({ sd, r }); console.log(`  #${k + 1} seed ${sd}: ${fmt(r)}`); }
+    for (let k = 0; k < N; k++) { const sd = SEED != null ? SEED + k : ((base + k * 7919) >>> 0); const r = await simulate(sd, BSEED); rows.push({ sd, r }); console.log(`  #${k + 1} seed ${sd}: ${fmt(r)}`); }
     fs.writeFileSync(OUT + '.sim.json', JSON.stringify(rows, null, 1));
     if (SIM) { console.log(`✅ chạy thử xong ${N} seed · ${((Date.now() - T0) / 1000).toFixed(0)}s`); await br.close(); srv.close(); return; }
     const ok = rows.filter(x => x.r.win && x.r.win !== 'draw' && x.r.wk > 0);
     ok.sort((a, b) => (inB(b.r) - inB(a.r)) || (a.r.wk - b.r.wk));
-    function inB(r) { return r.blen >= BL[0] && r.blen <= BL[1] ? 1 : 0; }
     if (!ok.length) { console.log('❌ không seed nào ra người thắng'); await br.close(); srv.close(); process.exit(1); }
     SEED = ok[0].sd; console.log(`🏆 chọn seed ${SEED} · ${fmt(ok[0].r)}`);
   }
-  console.log(`🎬 quay seed ${SEED} · ${VW}x${VH} @${OFPS}fps`);
-  const pg = await openFan(br, PORT, SEED, VW);
+  console.log(`🎬 quay seed ${SEED}${BS != null ? ' · trận bseed ' + BS : ''} · ${VW}x${VH} @${OFPS}fps`);
+  const pg = await openFan(br, PORT, SEED, VW, BS);
   const cdp = await pg.context().newCDPSession(pg);
   const tmpV = OUT + '.video.mp4';
   const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(OFPS), '-c:v', 'mjpeg', '-i', '-', '-vf', `scale=${VW}:${VH}:flags=lanczos`, '-threads', '2', '-c:v', 'libx264', '-preset', 'medium', '-crf', '17', '-pix_fmt', 'yuv420p', '-r', String(OFPS), tmpV], { stdio: ['pipe', 'inherit', 'inherit'] });
   let i = 0;
   for (;;) {
-    const fin = await pg.evaluate(STEP, { n: 1, FPS, HOLD }); i++;
+    const fin = await pg.evaluate(STEP, { n: 1, FPS, HOLD }); if (fin === 'wait') { await pg.waitForTimeout(15); continue; } i++;
     if (Math.floor(i * OFPS / FPS) > Math.floor((i - 1) * OFPS / FPS)) { const { data } = await cdp.send('Page.captureScreenshot', { format: 'jpeg', quality: 93, optimizeForSpeed: true });
       if (!ff.stdin.write(Buffer.from(data, 'base64'))) await new Promise(r => ff.stdin.once('drain', r)); }
     if (i % 600 === 0) console.log(`  ${(i / FPS).toFixed(0)}s video · ${((Date.now() - T0) / 1000).toFixed(0)}s`);
@@ -168,7 +195,7 @@ const fmt = r => `${(r.foes || []).join(' x ')} · ${r.res.join(' | ')} · ${r.w
   const res = await pg.evaluate(RESULT), info = await pg.evaluate(() => ({ aud: __aud, lufs: SND_LUFS, music: [...SND_MUSIC], marks: __marks }));
   await br.close(); srv.close();
   console.log(`  kết quả: ${fmt(res)}`);
-  fs.writeFileSync(OUT + '.marks.json', JSON.stringify({ seed: SEED, fan: FAN, dur: i / FPS, marks: info.marks, res }, null, 1));
+  fs.writeFileSync(OUT + '.marks.json', JSON.stringify({ seed: SEED, bseed: BS, fan: FAN, dur: i / FPS, marks: info.marks, res }, null, 1));
   // 🔊 trộn tiếng (y render-match)
   const END = i / FPS, ev = new Map();
   for (const a of info.aud) { if (a.ev === 'play') ev.set(a.id + ':' + a.t, { ...a, end: END }); else for (const [, v] of ev) if (v.id === a.id && v.end === END && a.t >= v.t) v.end = a.t; }

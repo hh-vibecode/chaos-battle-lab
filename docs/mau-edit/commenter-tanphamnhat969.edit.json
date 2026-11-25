@@ -1,70 +1,14 @@
-{
- "rec": "out/fan/tanphamnhat969.mp4",
- "comment": "assets/fan-comments/tanphamnhat969.png",
- "taunt": "can bro solo my 3 random memes",
- "taunt_style": "red",
- "taunt_rot": 5,
- "intro": 3.0,
- "label_at": 1.0,
- "intro_sfx": [
-  [
-   "~/Desktop/#memesource/vine-boom.mp3",
-   0.05,
-   1.0
+{ "rec": "out/fan/p7.mp4",
+  "comment": "assets/fan-comments/tanphamnhat969.png",
+  "taunt": "can bro solo my 3 random memes", "taunt_style": "red", "taunt_rot": 5,
+  "intro": 3.0, "label_at": 1.0,
+  "intro_sfx": [["~/Desktop/#memesource/vine-boom.mp3", 0.05, 1.0], ["~/Desktop/#memesource/annnouce.mp3", 1.0, 0.9]],
+  "inserts": [
+    {"at": 4.3,  "kind": "full", "media": "~/Desktop/#memesource/let the game begin.mp4", "dur": 1.75, "sound": "self"},
+    {"at": 10.8, "kind": "full", "media": "~/Desktop/#memesource/speed.gif", "dur": 1.5, "caption": "bro got speed 💀", "sound": "~/Desktop/#memesource/vine-boom.mp3"},
+    {"at": 15.2, "kind": "full", "media": "~/Desktop/#memesource/uuuuuuu.mov", "dur": 1.84, "caption": "bro reaction:", "key": true, "crop": "iw:ih*0.9:0:0", "sound": "self"},
+    {"at": 19.5, "kind": "sticker", "media": "~/Desktop/#memesource/hâhhahaa.mov", "dur": 1.59, "pos": "br", "h": 0.45, "key": true, "crop": "iw:ih*0.9:0:0", "sound": "self"},
+    {"at": 24.0, "kind": "full", "media": "~/Desktop/#memesource/images.jpeg", "dur": 2.2, "caption": "bro is a lone wolf 😂😂😂", "crop": "387:315:0:100", "sound": "~/Desktop/#memesource/tf_nemesis.mp3"},
+    {"at": 28.5, "kind": "full", "media": "~/Desktop/#memesource/berserk-skeletons.gif", "dur": 2.2, "caption": "bro have no mercy", "sound": "~/Desktop/#memesource/berserk-skeleton-meme.mp3", "svol": 0.9}
   ],
-  [
-   "~/Desktop/#memesource/annnouce.mp3",
-   1.0,
-   0.9
-  ]
- ],
- "inserts": [
-  {
-   "at": 4.3,
-   "kind": "full",
-   "media": "~/Desktop/#memesource/let the game begin.mp4",
-   "dur": 1.75,
-   "sound": "self"
-  },
-  {
-   "at": 10.9,
-   "kind": "full",
-   "media": "~/Desktop/#memesource/berserk-skeletons.gif",
-   "dur": 2.0,
-   "caption": "bro have no mercy",
-   "sound": "~/Desktop/#memesource/berserk-skeleton-meme.mp3",
-   "svol": 0.9
-  },
-  {
-   "at": 15.3,
-   "kind": "full",
-   "media": "~/Desktop/#memesource/uuuuuuu.mov",
-   "dur": 1.84,
-   "caption": "bro reaction:",
-   "key": true,
-   "sound": "self",
-   "crop": "iw:ih*0.9:0:0"
-  },
-  {
-   "at": 24.0,
-   "kind": "full",
-   "media": "~/Desktop/#memesource/images.jpeg",
-   "dur": 2.2,
-   "caption": "bro is a lone wolf 😂😂😂",
-   "sound": "~/Desktop/#memesource/tf_nemesis.mp3",
-   "crop": "387:315:0:100"
-  },
-  {
-   "at": 28.3,
-   "kind": "sticker",
-   "media": "~/Desktop/#memesource/hâhhahaa.mov",
-   "dur": 1.59,
-   "pos": "br",
-   "h": 0.45,
-   "key": true,
-   "sound": "self",
-   "crop": "iw:ih*0.9:0:0"
-  }
- ],
- "out": "out/fan/edit-test.mp4"
-}
+  "out": "~/Desktop/Meme Battles/Commenter vs 3 Random Memes - Part 7 (Friend x Adolf Catler x Joninn Cheems).mp4" }

@@ -39000,6 +39000,8 @@ const FAN_SKILLS = {
   //   [Peak Morale] When at 50% HP or below, the left eye of this commenter glows red, doubling the
   //                 damage dealt of all of this commenter's abilities"
   //  Lao móc + dây xích bay ở toạ độ thế giới thật → vẽ trong loop() (khối "tanphamnhat969"), không dùng draw(f,s).
+  //  ⚖️ (anh 25/11 chê "vừa yếu vừa chậm": số gốc 60/120 mỗi 5s chỉ ~12 dame/s, trận thử cả 24s gây đúng 300) → nhân số như các commenter khác:
+  //     CHỈ đổi dame (anh 25/11: giữ nguyên skill commenter, chỉ cân dame / range): lao móc 150 · lao đâm 300 · nhịp 5s đúng comment.
   // ⚠️ CHỈ dùng cho Commenter Battle (FAN_SKILLS) — KHÔNG đụng vào roster 56 con chính.
   // ————————————————————————————————————————————————————————————————
   tanphamnhat969: {
@@ -39030,7 +39032,7 @@ const FAN_SKILLS = {
         h.x+=h.vx; h.y+=h.vy; h.life--;
         let hit=null; for(const u of foes()) if(Math.hypot(u.x-h.x,u.y-h.y)<(u.size||20)+6){ hit=u; break; }
         if(hit){
-          hit.takeDamage(60*h.mul, f);
+          hit.takeDamage(150*h.mul, f);
           playSample('hit_mid',0.45); addShake(4,7);
           _hitParticles(hit.x,hit.y,h.mul>1?'#ff1744':'#cfd8dc',8,false,true);
           h.stuck=hit; h.ox=h.x-hit.x; h.oy=h.y-hit.y; h.t=0; h.stickT=Math.round(0.35*tps);
@@ -39042,7 +39044,7 @@ const FAN_SKILLS = {
         f.x+=L.vx; f.y+=L.vy; f.vx=0; f.vy=0;
         f.x=Math.max(f.size, Math.min(W-f.size, f.x)); f.y=Math.max(f.size, Math.min(H-f.size, f.y));
         if(!L.hit){ for(const u of foes()) if(Math.hypot(u.x-f.x,u.y-f.y)<f.size+(u.size||20)+MELEE_REACH){
-          L.hit=true; u.takeDamage(120*L.mul, f);
+          L.hit=true; u.takeDamage(300*L.mul, f);
           playSample('hit_heavy',0.5); addShake(7,10);
           _hitParticles(u.x,u.y,L.mul>1?'#ff1744':'#eceff1',12,false,true);
           L.t=Math.min(L.t,4); break; } }

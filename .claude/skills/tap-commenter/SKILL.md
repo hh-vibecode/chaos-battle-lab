@@ -21,7 +21,10 @@ Hàng chờ + yêu cầu từng người: bảng anh đã duyệt 25/11 (ảnh t
 
 ## 1. Quy trình (anh chốt 25/11)
 1. **Chọn commenter**: người kế tiếp trong hàng chờ (hoặc anh chỉ định). Skill của họ chưa có trong `FAN_SKILLS` (js/game.js) → code trước
-   (giữ đúng mô tả, chỉnh số cho cân như kênh từng làm; skill quá phức tạp / OP thì rút gọn và báo anh). Chạy thử bằng nút 🎯 TRAINING.
+   (giữ đúng mô tả, chỉnh số cho cân như kênh từng làm; skill quá phức tạp / OP thì rút gọn và báo anh).
+   ⛔ (anh 25/11) CÂN BẰNG = CHỈ đổi DAME + TẦM (range) khi quá mạnh / quá yếu — GIỮ NGUYÊN cơ chế của commenter, KHÔNG tự thêm đòn / cơ chế
+   (vd đòn chạm thường, ngắm đón đầu). Số trong comment thường quá nhỏ so với meme 1000 máu (tanphamnhat969 60/120 mỗi 5s ≈ 12 dame/s → yếu hẳn) → nhân lên.
+   KHÔNG tự đổi nhịp ra đòn (25/11 lỡ đổi 5s→2.5s, anh gạt: "ai bảo tăng speed") — muốn nhanh hơn thì ép buff +25% SPEED ở bánh quay (`--buff spd`). Chạy thử bằng nút 🎯 TRAINING.
    ⛔ (anh 25/11) Con nào PHỨC TẠP, thấy sẽ MẤT RẤT NHIỀU THỜI GIAN (nhiều cơ chế, cần vẽ / tìm nhiều thứ, đụng luật game chung, vd InaudibleDisc
    bản đủ, Z4CK Stick War, triệu hồi nhiều loại) → BÀN VỚI ANH TRƯỚC (đề xuất bản rút gọn + ước lượng công), anh gật mới làm. Con đơn giản thì cứ làm, không cần hỏi.
    Mỗi đợt làm ÍT con và làm cho XONG hẳn (anh 25/11: "hoàn thiện 1 2 3 thôi, làm 5 con luôn sợ k nổi"); #4–#6 đã code sẵn nằm ở `docs/notes/commenter-4-6-cho.js`.
@@ -32,11 +35,33 @@ Hàng chờ + yêu cầu từng người: bảng anh đã duyệt 25/11 (ảnh t
    tiếng game trộn + −14 LUFS. Bánh quay = CSS transition → công cụ tua mọi `document.getAnimations()` theo đồng hồ ảo.
    - `--sim 16 --max 150` chạy thử 16 seed (~40s/seed) in đối thủ + kết quả bánh + ai thắng + máu còn → `--seed N` quay (~4–5 phút).
    - Ra kèm `<out>.marks.json`: mốc giây (theo bản quay) của foes / từng spin / từng result / fight / result_screen → làm bảng chèn meme.
-   - ⚠️ (25/11) Lúc THỬ (dpr thấp, bước 240 tick) và lúc QUAY có thể ra trận KHÁC (seed 311614088: thử = commenter thắng sát, quay = 3 meme thắng).
-     Bánh quay khớp, chỉ trận lệch — nghi ảnh tải không đồng bộ / loadAvatars lúc vào trận. CHƯA sửa → quay xong phải xem lại kết quả thật.
-   - Muốn ép kết quả bánh (anh đã quay sẵn) thì dùng 🎛️ SETUP ROLL (`_fwRig`) — chưa có cờ dòng lệnh, thêm khi cần.
+   - ✅ (25/11) Lệch THỬ ↔ QUAY đã sửa: ảnh trận tải theo giờ thật làm đồng hồ ảo lệch → giờ đồng hồ ảo ĐỨNG CHỜ khi còn ảnh đang tải (đếm qua
+     HTMLImageElement.src). Đã kiểm: trận thử và trận quay cùng bseed ra y hệt (32.0s / 74% · 91.7s / 52%).
+   - Ép kết quả: `--foes k1,k2,k3` (3 đối thủ) · `--buff spd,hp…` (các lượt đầu bánh BUFF) — dùng 🎛️ SETUP ROLL (`_fwRig`) của game.
 4. (bỏ — gộp vào bước 3)
 5. **Edit** (mục 3) → xuất 16:9 → để vào `~/Desktop/Meme Battles/`.
+
+⛔ LUẬT (anh 25/11, mọi tập sau): TÁCH 2 PHẦN — (1) phần BUFF (máy loto + 3 bánh) làm 1 LẦN, chốt kết quả cố định (--seed) ·
+(2) áp đúng buff đó vào 5 TRẬN thử (--bsim 5), lấy trận căng nhất, quay 1 lần. Không quay đi quay lại cả cụm.
+
+## 1b. LUỒNG CHẠY THẬT (Mac, làm trọn 25/11 cho #1 tanphamnhat969 — làm theo đúng thứ tự)
+```bash
+cd ~/Projects/chaos-battle-lab && git fetch && git pull --ff-only
+export NODE_PATH=$(dirname $(find ~/.npm/_npx -maxdepth 3 -type d -name playwright | head -1))
+# ① SETUP xong hết rồi mới chạy (anh 25/11): đối thủ = --foes, buff ép = --buff, bánh quay CỐ ĐỊNH theo --seed (quay 1 lần là xong, không đổi),
+#    TRẬN thử 5 seed riêng (--bsim 5 → bseed = seed+1…+5, đặt lại random lúc bấm START) → tự lấy trận căng nhất (sát nút) → QUAY 1 lần (~10–15 phút cả cụm)
+nice -n 10 node tools/render-fan.js out/fan/<key>.mp4 --fan <key> --foes friend,feuerkatze,samuraicheems --buff spd --seed 20261125 --bsim 5 --max 150
+#    ra <out>.marks.json (giây từng kết quả bánh) · căng nhất = đội thắng còn ÍT máu nhất (không xét độ dài trận)
+#    muốn quay lại đúng trận đã chọn: --seed <S> --bseed <B>
+# ③ soạn spec edit theo marks.json (mẫu docs/mau-edit/commenter-tanphamnhat969.edit.json): mỗi kết quả đáng phản ứng 1 meme, chèn ~0.5s sau "result"
+nice -n 10 python3 tools/x/fan-edit.py out/fan/<key>.edit.json      # out = ~/Desktop/Meme Battles/Commenter vs 3 Random Memes - Part N (A x B x C).mp4
+# ④ soát: khung 1s/lần + cận từng mốc chèn (ffmpeg -ss <giây> … -frames:v 1)
+# ⑤ DỌN (anh 25/11 "cái gì không dùng nữa clear đi cho đỡ nặng máy"): xoá out/fan/* (bản quay gốc, sim.json, marks), out/fanedit_*,
+#    bản edit cũ / bản thử trên Desktop khi đã có bản mới; giữ spec .edit.json mẫu trong docs/mau-edit/ nếu có điểm mới
+```
+- Máy anh là ưu tiên số 1: mọi lệnh nặng `nice -n 10`, ffmpeg trong 2 công cụ đã khoá 2 luồng (25/11 dựng 640% CPU làm máy đơ). Mỗi lúc 1 việc nặng.
+- Mở đầu: dải comment + nhãn trượt vào từ phải (vượt quá rồi dừng, chữ hiện dần), tiếng `vine-boom` (0.05s) + `annnouce` (1.0s) CHẠY HẾT,
+  tràn sang phần máy bốc (anh 25/11: không cắt tiếng announce).
 
 ## 2. Bố cục 1 tập (đo từ Part 1–3, mỗi tập ~67s)
 | Đoạn | Giây (xấp xỉ) | Nội dung | Edit chèn |

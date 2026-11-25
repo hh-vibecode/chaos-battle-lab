@@ -57,7 +57,7 @@ def _emoji_img(s, size):
 def _tlen(d, s, f, size):
     return sum(d.textlength(t, font=f) if not e else _emoji_img(t, size).width + size * 0.08 for e, t in _runs(s))
 
-def label_png(text, path, style='red', rot=0.0, size=58, maxw=900):
+def label_png(text, path, style='red', rot=0.0, size=58, maxw=900, draw_text=True):
     """thẻ chữ: nền trắng, chữ đỏ/đen đậm (kiểu nhãn CapCut anh dùng), có thể nghiêng; emoji màu"""
     f = font(size)
     words, lines, cur = text.split(), [], ''
@@ -71,7 +71,7 @@ def label_png(text, path, style='red', rot=0.0, size=58, maxw=900):
     padx, pady = int(size * 0.45), int(size * 0.28)
     img = Image.new('RGBA', (tw + 2 * padx, lh * len(lines) + 2 * pady), (255, 255, 255, 255))
     d = ImageDraw.Draw(img); col = (225, 20, 28) if style == 'red' else (10, 10, 10)
-    for i, l in enumerate(lines):
+    for i, l in enumerate(lines if draw_text else []):
         x = (img.width - _tlen(d, l, f, size)) / 2; y = pady + i * lh + int(size * 0.02)
         for e, t in _runs(l):
             if e:
@@ -98,17 +98,32 @@ def main():
     base = Image.new('RGB', (W, H), (0, 0, 0)); ImageDraw.Draw(base).rectangle([0, band_y, W, band_y + band_h], fill=(255, 255, 255))
     base.paste(com, ((W - cw) // 2, band_y + 20))
     base.save(os.path.join(tmp, 'intro0.png'))
-    lp = os.path.join(tmp, 'label.png'); lw, lh = label_png(S.get('taunt', 'can bro solo my 3 random memes'), lp, S.get('taunt_style', 'red'), float(S.get('taunt_rot', 5)), 62, 760)
-    b1 = base.copy(); L = Image.open(lp); b1.paste(L, ((W - lw) // 2 - 120, max(10, band_y - lh + 30)), L); b1.save(os.path.join(tmp, 'intro1.png'))
-    sfx = S.get('intro_sfx', [])
-    cmd = ['ffmpeg', '-y', '-loglevel', 'error', '-loop', '1', '-t', str(LA), '-i', os.path.join(tmp, 'intro0.png'), '-loop', '1', '-t', str(IN - LA), '-i', os.path.join(tmp, 'intro1.png')]
-    for f, t, v in sfx: cmd += ['-i', X(f)]
-    fc = '[0:v][1:v]concat=n=2:v=1:a=0,fps=%d,format=yuv420p[v];' % FPS
-    am = []
-    for k, (f, t, v) in enumerate(sfx):
-        fc += '[%d:a]aresample=%d,aformat=channel_layouts=stereo,volume=%s,adelay=%d|%d[s%d];' % (k + 2, SR, v, int(t * 1000), int(t * 1000), k); am.append('[s%d]' % k)
-    fc += 'anullsrc=r=%d:cl=stereo,atrim=0:%s[sil];' % (SR, IN) + '[sil]' + ''.join(am) + 'amix=inputs=%d:normalize=0:duration=first[a]' % (len(am) + 1)
-    p = os.path.join(tmp, 'seg_intro.mkv'); run(cmd + ['-filter_complex', fc, '-map', '[v]', '-map', '[a]', '-t', str(IN)] + VENC + AENC + [p]); segs.append(p)
+    # 🏷️ nhãn khiêu khích XUẤT HIỆN có chuyển động (học tập 1 của anh): thẻ trắng trượt vào từ PHẢI rất nhanh (~0.22s),
+    #    vượt quá một chút rồi dừng (easeOutBack), chữ hiện dần theo sau. Vẽ từng khung bằng Pillow → ffmpeg.
+    tx = S.get('taunt', 'can bro solo my 3 random memes'); st = S.get('taunt_style', 'red'); rt = float(S.get('taunt_rot', 5))
+    lp = os.path.join(tmp, 'label.png'); lw, lh = label_png(tx, lp, st, rt, 62, 760)
+    bp = os.path.join(tmp, 'labelbox.png'); label_png(tx, bp, st, rt, 62, 760, draw_text=False)
+    LF, LB = Image.open(lp).convert('RGBA'), Image.open(bp).convert('RGBA')
+    lx, ly = (W - lw) // 2 - 120, max(10, band_y - lh + 30)
+    TR = float(S.get('taunt_in', 0.22)); SL = float(S.get('taunt_slide', 300))
+    def ease_back(u, k=1.9): u -= 1; return 1 + (k + 1) * u ** 3 + k * u ** 2
+    def with_alpha(im, a):
+        if a >= 1: return im
+        im = im.copy(); im.putalpha(im.getchannel('A').point(lambda v: int(v * max(0, a)))); return im
+    ff = subprocess.Popen(['ffmpeg', '-y', '-loglevel', 'error', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', '%dx%d' % (W, H), '-r', str(FPS), '-i', '-',
+                           '-f', 'lavfi', '-t', str(IN), '-i', 'anullsrc=r=%d:cl=stereo' % SR, '-map', '0:v', '-map', '1:a', '-t', str(IN)] + VENC + AENC + [os.path.join(tmp, 'seg_intro.mkv')], stdin=subprocess.PIPE)
+    for n in range(int(round(IN * FPS))):
+        t = n / FPS; fr = base
+        if t >= LA:
+            u = min(1.0, (t - LA) / TR); fr = base.copy(); x = int(lx + SL * (1 - ease_back(u)))
+            box_a = min(1.0, u / 0.25); txt_a = max(0.0, min(1.0, (u - 0.3) / 0.6))
+            fr.paste(with_alpha(LB, box_a), (x, ly), with_alpha(LB, box_a))
+            if txt_a > 0: fr.paste(with_alpha(LF, txt_a), (x, ly), with_alpha(LF, txt_a))
+        ff.stdin.write(fr.tobytes())
+    ff.stdin.close(); ff.wait()
+    if ff.returncode: print('lỗi dựng mở đầu'); sys.exit(1)
+    segs.append(os.path.join(tmp, 'seg_intro.mkv'))
+    sfx = S.get('intro_sfx', [])   # 🔊 tiếng mở đầu trộn ở BƯỚC CUỐI theo giây tuyệt đối → chạy HẾT, tràn sang phần máy bốc (anh 25/11)
     # ---------- 2. BẢN QUAY + CHÈN MEME ----------
     ins = sorted(S.get('inserts', []), key=lambda x: x['at'])
     stickers = [x for x in ins if x['kind'] == 'sticker']; fulls = [x for x in ins if x['kind'] == 'full']
@@ -162,6 +177,12 @@ def main():
     # ---------- 3. NỐI + CÂN ĐỘ TO −14 LUFS ----------
     lst = os.path.join(tmp, 'list.txt'); open(lst, 'w').write(''.join("file '%s'\n" % s for s in segs))
     cat = os.path.join(tmp, 'cat.mkv'); run(['ffmpeg', '-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', lst, '-c', 'copy', cat])
+    if sfx:
+        cat2 = os.path.join(tmp, 'cat2.mkv'); cmd = ['ffmpeg', '-y', '-loglevel', 'error', '-i', cat]
+        for f, t, v in sfx: cmd += ['-i', X(f)]
+        fc = ''.join('[%d:a]aresample=%d,aformat=channel_layouts=stereo,volume=%s,adelay=%d|%d[s%d];' % (k + 1, SR, v, int(t * 1000), int(t * 1000), k) for k, (f, t, v) in enumerate(sfx))
+        fc += '[0:a]' + ''.join('[s%d]' % k for k in range(len(sfx))) + 'amix=inputs=%d:normalize=0:duration=first[a]' % (len(sfx) + 1)
+        run(cmd + ['-filter_complex', fc, '-map', '0:v', '-map', '[a]', '-c:v', 'copy'] + AENC + [cat2]); cat = cat2
     r = subprocess.run(['ffmpeg', '-nostats', '-i', cat, '-vn', '-af', 'ebur128', '-f', 'null', '-'], capture_output=True, text=True)
     mm = re.findall(r'I:\s+(-?[\d.]+) LUFS', r.stderr); g = max(-20, min(10, -14 - float(mm[-1]))) if mm else 0
     out = X(S['out']); os.makedirs(os.path.dirname(out), exist_ok=True)

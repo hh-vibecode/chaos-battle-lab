@@ -24,6 +24,7 @@ Chi tiết từng meme: `docs/notes/memes.md` · từng phim + cine-kit: `docs/n
 - Sound KHÔNG quá đà (anh 17/11): tiếng va chạm / đập tường hết cú va là NGẮT (`playSample(key,vol,giây)`), không để vang đuôi dài; đòn lặp liên tục thì nhỏ lại.
 - TWIST (`VfxGL.fx.twist`) là hiệu ứng độc quyền của Kamui. Ý tưởng chờ: 1 meme mới dùng twist (xoáy, hố đen, thôi miên).
 - Đừng tự thêm tính năng / hiệu ứng anh không yêu cầu.
+- Commenter Battle: cân skill commenter CHỈ bằng dame + tầm, giữ nguyên cơ chế họ viết (anh 25/11).
 
 ## Ảnh / VFX
 - ⛔ MEME LUÔN LÀ ẢNH GỐC. Ưu tiên ảnh gốc + chuyển động code + VFX + cắt góc; chỉ vẽ tư thế mới cho cảnh giao tranh tay chân. Cần đổi 1 chi tiết thì sửa đúng 1 chỗ trên ảnh gốc.
