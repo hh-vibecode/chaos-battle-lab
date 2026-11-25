@@ -18006,7 +18006,7 @@ const SN_HELL={T:216, lift:30, hold:50, dunk:76, rel:196}, SN_HEAV={T:180, beam:
 // • Địch thua Sans: CHÁY THÀNH TRO (bạc màu, rã thành bụi từ trên xuống, để lại đống tro) thay vì vỡ mảnh; tiếng bụi Undertale.
 const SX_TP_CD=300, SX_FRZ=60, SX_PLAN=6, SX_RUN=42, SX_STEPS=12, SX_BREAK=50;   // anh 20/11: đóng băng + dịch chuyển gói trong 1s, 12 bước cho đỡ rối
 const SX_GB_CHG=60, SX_GB_FIRE=34, SX_GB_OUT=22, SX_GB_DMG=100, SX_GB_CD=240, SX_GB_MAX=12, SX_DODGE=25, SX_DOT_GAP=30, SX_GB_BURN=240, SX_GB_JAW=0.805, SX_GB_MOUTH=0.82, SX_GB_EYE_X=0.318, SX_GB_EYE_Y=0.427;   // anh 24/11: sprite vẽ lại (sọ rồng mõm dài, mắt xếch), to hơn 50%
-const SX_REAL_T=480;
+const SX_REAL_T=480, SX_SLIDE=0.65, SX_SLIDE_N=6;   // né: lướt 0.65 thân người trong 6 khung
 const SX_BPM=120, SX_BEAT0=0.29, SX_BASS_AT=7.79, SX_DRUM_AT=15.79, SX_GTR_LAG=0.04;   // đo trên sx_megalovania.mp3 (bản metal piano_megalovania đi sớm hơn 0.04s)
 const SX_SHAT_CRACK=9, SX_SHAT_T=64;
 const SX_IMG={ PIX:_acImg('assets/img/sans/SX_PIXEL.webp'), GB:_acImg('assets/img/sans/SX_BLASTER.webp'), PLAY:[0,1,2].map(i=>_acImg('assets/img/sans/SX_PLAY_'+i+'.webp')) };
@@ -18022,8 +18022,11 @@ function _sxDodgeHit(f,atk,dot){ const S=_sxS(f); if(S.dg<=0) return false;
   S.dg--; _sxMiss(f,atk); return true; }
 function _sxMiss(f,atk){ const S=_sxS(f);
   if(tick-S.missT>14){ S.missT=tick; floatTexts.push({x:f.x,y:f.y-f.size-16,text:'MISS',color:'#bdbdbd',life:30,big:true}); }
-  if(atk && atk.x!=null && S.flick<=0){ S.flickA=Math.atan2(f.y-atk.y,f.x-atk.x)+(Math.random()<0.5?1:-1)*Math.PI/2; S.flick=12; } }
+  if(atk && atk.x!=null){ const a=Math.atan2(f.y-atk.y,f.x-atk.x)+(Math.random()<0.5?1:-1)*Math.PI/2;
+    if(S.flick<=0){ S.flickA=a; S.flick=12; }
+    S.slideA=a; S.slideN=SX_SLIDE_N; } }   // 💀 (anh 25/11) né là DỊCH NGƯỜI THẬT sang bên (vuông góc hướng đòn), không chỉ giật hình
 function _sxTick(f){ const S=_sxS(f); if(S.flick>0) S.flick--;
+  if(S.slideN>0){ S.slideN--; const d=f.size*SX_SLIDE/SX_SLIDE_N; f.x=Math.max(f.size,Math.min(W-f.size,f.x+Math.cos(S.slideA)*d)); f.y=Math.max(f.size,Math.min(H-f.size,f.y+Math.sin(S.slideA)*d)); }   // lướt né trong 6 khung
   S.age=(S.age||0)+1;
   if(!S.real && S.age>=SX_REAL_T && !sxShat){ S.real=true; sxShat={st:'snap',f}; }   // 🪞 anh 20/11: vào trận 8s là tự thoát ra thế giới thật (không cần xuống ngưỡng máu) — cuối khung này chụp màn hình Undertale rồi cho vỡ
   if(f._isHardCC && f._isHardCC()) return;
@@ -24859,7 +24862,7 @@ class Fighter {
     // 🏆 con thắng nhảy ăn mừng lúc KO
     if(hmWin && hmWin.f===this){ offX+=(Math.random()-0.5)*s*0.07; offY+=(Math.random()-0.5)*s*0.03; }   // 🐹 run bần bật
     if(this===koWinner && !this.dead && this.type==='depressedcat'){ offX+=(Math.random()-0.5)*s*0.05; offY+=(Math.random()-0.5)*s*0.025; }   // 😿 thắng: đứng rung nhẹ (dạng Pain) thay vì nhảy
-    if(this.type==='sans' && this._sx && this._sx.flick>0){ const _k=Math.sin(Math.PI*this._sx.flick/12); offX+=Math.cos(this._sx.flickA)*s*0.55*_k; offY+=Math.sin(this._sx.flickA)*s*0.55*_k; }   // 💀 lách tia / đòn xa: giật người sang bên rồi về
+    if(this.type==='sans' && this._sx && this._sx.flick>0){ const _k=Math.sin(Math.PI*this._sx.flick/12); offX+=Math.cos(this._sx.flickA)*s*0.3*_k; offY+=Math.sin(this._sx.flickA)*s*0.3*_k; }   // 💀 lách tia / đòn xa: giật thêm chút cho nhanh mắt (người đã lướt thật ở _sxTick)
     if(this.type==='snoozecat' && this._snDream==='hell' && snDream && snDream.t>=0){ const _w=tick*0.42; offX+=Math.sin(_w)*s*0.1+Math.sin(tick*2.1)*s*0.025; offY+=Math.abs(Math.sin(_w*1.3))*-s*0.05; rotation+=Math.sin(_w)*0.16+Math.sin(tick*1.7)*0.03; }   // 😴 ác mộng: giãy giụa, vặn mình qua lại (anh 18/11)
     if(this===koWinner && !this.dead && !(saWin && saWin.f===this) && !(hmWin && (hmWin.f===this || hmWin.fr===this)) && !(psCine && psCine.f===this) && this.type!=='depressedcat'){   // (Arbiter / Hamster / Depressed Cat thắng: không nhảy)
       const _vt=Date.now();
