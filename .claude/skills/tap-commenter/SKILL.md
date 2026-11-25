@@ -26,12 +26,16 @@ Hàng chờ + yêu cầu từng người: bảng anh đã duyệt 25/11 (ảnh t
    bản đủ, Z4CK Stick War, triệu hồi nhiều loại) → BÀN VỚI ANH TRƯỚC (đề xuất bản rút gọn + ước lượng công), anh gật mới làm. Con đơn giản thì cứ làm, không cần hỏi.
    Mỗi đợt làm ÍT con và làm cho XONG hẳn (anh 25/11: "hoàn thiện 1 2 3 thôi, làm 5 con luôn sợ k nổi"); #4–#6 đã code sẵn nằm ở `docs/notes/commenter-4-6-cho.js`.
 2. **Chọn 3 meme đối thủ**: anh với Claude bàn, chốt 3 con → đặt vào 🎛️ SETUP ROLL (ô Đối thủ 1–3), các bánh buff / recruit / lives để Random.
-3. **Phần bánh quay**: ANH TỰ QUAY trong game (quay màn hình), Claude không làm. Ghi lại kết quả anh quay được (buff nào, mấy đồng minh, mấy mạng).
-4. **Phần trận**: chạy NGẪU NHIÊN như các trận meme đang quay (không can thiệp diễn biến, chỉ lọc seed) với ĐÚNG kết quả bánh quay của anh
-   (nạp vào `_fwRig` để buff / recruit / lives khớp video bánh quay). Quay nhiều seed → **anh với Claude nhặt trận căng nhất** (sát nút, lật kèo).
-   ⚠️ CHƯA có công cụ quay tự động cho chế độ này (render-match / render-duo không nhận fanCtx) → lần đầu trên Mac phải viết `tools/render-fan.js`
-   theo mẫu render-match.js: vào trận qua `fanTraining()`-kiểu nhưng nạp `fanBuff` từ kết quả anh quay, khung 16:9, `--seeds N --want K` lọc trận
-   căng, cân tiếng −14 LUFS như render-match. Sàn Giáng sinh (js/xmas-bg.js) là lớp DOM ngoài canvas → công cụ phải chụp CẢ trang, không chỉ canvas.
+3. **Phần bánh quay + trận** (anh 25/11: Claude quay LUÔN cả bánh quay, không chờ anh): `tools/render-fan.js` (Mac, cần
+   `NODE_PATH=$(dirname $(find ~/.npm/_npx -maxdepth 3 -type d -name playwright | head -1))`) quay TRỌN từ màn "Who are you up against, bro?"
+   → máy loto → 3 bánh → PRESS TO START → trận → bảng kết quả (giữ 5s), 1920×1080 50fps, tự bấm nút nhịp người thật (dừng ~1.25s sau mỗi kết quả),
+   tiếng game trộn + −14 LUFS. Bánh quay = CSS transition → công cụ tua mọi `document.getAnimations()` theo đồng hồ ảo.
+   - `--sim 16 --max 150` chạy thử 16 seed (~40s/seed) in đối thủ + kết quả bánh + ai thắng + máu còn → `--seed N` quay (~4–5 phút).
+   - Ra kèm `<out>.marks.json`: mốc giây (theo bản quay) của foes / từng spin / từng result / fight / result_screen → làm bảng chèn meme.
+   - ⚠️ (25/11) Lúc THỬ (dpr thấp, bước 240 tick) và lúc QUAY có thể ra trận KHÁC (seed 311614088: thử = commenter thắng sát, quay = 3 meme thắng).
+     Bánh quay khớp, chỉ trận lệch — nghi ảnh tải không đồng bộ / loadAvatars lúc vào trận. CHƯA sửa → quay xong phải xem lại kết quả thật.
+   - Muốn ép kết quả bánh (anh đã quay sẵn) thì dùng 🎛️ SETUP ROLL (`_fwRig`) — chưa có cờ dòng lệnh, thêm khi cần.
+4. (bỏ — gộp vào bước 3)
 5. **Edit** (mục 3) → xuất 16:9 → để vào `~/Desktop/Meme Battles/`.
 
 ## 2. Bố cục 1 tập (đo từ Part 1–3, mỗi tập ~67s)
@@ -55,9 +59,18 @@ Hàng chờ + yêu cầu từng người: bảng anh đã duyệt 25/11 (ảnh t
   dưới meme. Chữ: tiếng lóng ngắn, mở bằng "bro …", chữ đen (hoặc đỏ) trên thẻ trắng.
 - Chèn NGAY SAU khi bánh dừng ở kết quả đáng phản ứng; mỗi lượt quay tối đa 1 meme, không chèn liên tục mọi lượt.
 - Phần trận để nguyên.
-- **Sound**: lúc soạn skill (Windows) Claude KHÔNG nghe được 3 tập nên chưa biết anh dùng tiếng gì cho từng meme. Lần đầu trên Mac: tách tiếng
-  3 tập (ffmpeg) quanh các mốc chèn meme, so với kho sound của anh, ghi lại vào mục này (meme nào đi với tiếng nào).
-- **Kho meme + sound của anh ở MÁY MAC** (chưa biết đường dẫn): lần đầu hỏi anh 1 câu rồi GHI ĐƯỜNG DẪN vào đây.
+- **Kho meme + sound của anh (Mac)**: `~/Desktop/#memesource/` (anh gọi "meme source"; thư mục con `happy/`). Trong đó:
+  `let the game begin.mp4` = Anchorman (có tiếng) · `nnerrvous dog.gif` = chó nâu hoảng · `scared dog.mp4` = chó trắng · `i mean alright.mp4` = anh ăn burger trong xe (có tiếng)
+  · `willem-dafoe.gif` · `berserk-skeletons.gif` + `berserk-skeleton-meme.mp3` · `cat-cat-turning-head.gif` = mèo cam nhếch mép · `sus-cat-2…gif` = mèo cam ăn
+  · `shocked-surprised.gif` = mèo sốc · `speed.gif` · `images.jpeg` = sói cô đơn (ảnh có viền trắng → crop `387:315:0:100`)
+  · PHÔNG XANH 2334×1166 có tiếng (dưới đáy dính nhãn "Tạm dừng" → crop `iw:ih*0.9:0:0`): `crying black guy.mov`, `uuuuuuu.mov` = Moistcr1tikal, `hâhhahaa.mov` = anh mũ xanh cười, `WTF.mov`
+  · tiếng lẻ: `vine-boom.mp3`, `annnouce.mp3`, `annouce dota.mp3`, `tf_nemesis.mp3`, `fahhhhhh.mp3`, `canon-event.mp3`, `dexter-meme.mp3`, `among-us-role-reveal-sound.mp3`, `what-bottom-text…mp3`, `discord ping.mp3`, `happy/*.mp3`.
+- **Tiếng đi với meme** (dò 25/11 bằng tương quan chéo tiếng 3 tập với kho): mở đầu P1 `vine-boom` (lúc hiện comment) + `annnouce` (lúc hiện nhãn) · P3 `annouce dota` ·
+  Anchorman = tiếng của chính clip ("let the game begin") · burger = tiếng clip `i mean alright` (P1 + P2) · sói lone wolf = `tf_nemesis.mp3` (P2) ·
+  Moist = tiếng clip `uuuuuuu` · mặt người khóc = tiếng clip `crying black guy` · skeleton = `berserk-skeleton-meme.mp3`.
+- **Edit bằng ffmpeg (anh 25/11: CapCut hay ffmpeg tuỳ, cái nào tiện)**: `python3 tools/x/fan-edit.py <spec.json>` (mẫu: `docs/mau-edit/commenter-tanphamnhat969.edit.json`, giải thích
+  đầu file) — mở đầu màn đen + dải comment trắng + nhãn đỏ nghiêng, meme `full` = CẮT CHEN (bản quay dừng, meme full màn viền đen + thẻ chữ, rồi quay tiếp → không che
+  kết quả bánh), `sticker` = dán đè góc (phông xanh tự tách nền + khử ám xanh), cân −14 LUFS. Font Montserrat ExtraBold `tools/x/fonts/`, emoji màu Apple.
 - **Dựng dự án CapCut tự động**: mở rộng `tools/x/capcut-draft.py` (đang dựng track video + mỗi tiếng 1 clip) thêm track meme chèn (ảnh / video
   + thời điểm + kiểu a/b/c + chữ), để anh mở ra chỉnh tay. CapCut PHẢI TẮT khi chạy.
 - Soạn bảng chèn (giây · kết quả bánh · meme · chữ · sound) đưa anh duyệt TRƯỚC khi dựng.
