@@ -11,6 +11,7 @@ const { spawn, execFileSync } = require('child_process');
 const http = require('http'), fs = require('fs'), path = require('path');
 const ROOT = path.resolve(__dirname, '..');
 const args = process.argv.slice(2), film = args[0] || 'war', OUT = path.resolve(args[1] || `cine-${film}.mp4`);
+require('./x/job-status.js')('film', OUT);   // 📊 báo tiến độ lên Studio (tools/x/fan-studio.js, http://localhost:8790)
 const WIDE = args.includes('--wide'), K4 = args.includes('--4k'), FPS = (i => i >= 0 ? +args[i + 1] : 50)(args.indexOf('--fps')), SUB = 2;   // 🎞️ mặc định 50fps (anh chốt 3/11, mọi video dọc lẫn ngang) · --fps N để đổi
 const _sc = (() => { const i = args.indexOf('--scale'); return i >= 0 ? parseFloat(args[i + 1]) : null; })(), RK = K4 ? 2 : (_sc || 2);   // 🎬 PHIM LUÔN 4K (anh chốt 3/11): mặc định ×2 = 3840×2160 ngang / 2160×3840 dọc · --scale 0.5 để xem thử nhanh
 const FILMS = { war: { play: 'playCineWar', step: '_cineWarStep', canvas: '_cineWarCanvas', info: '_cineWarInfo' },

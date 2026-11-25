@@ -59,6 +59,9 @@ nice -n 10 python3 tools/x/fan-edit.py out/fan/<key>.edit.json      # out = ~/De
 # ⑤ DỌN (anh 25/11 "cái gì không dùng nữa clear đi cho đỡ nặng máy"): xoá out/fan/* (bản quay gốc, sim.json, marks), out/fanedit_*,
 #    bản edit cũ / bản thử trên Desktop khi đã có bản mới; giữ spec .edit.json mẫu trong docs/mau-edit/ nếu có điểm mới
 ```
+- 🖥️ Xem / sửa bằng STUDIO: `node tools/x/studio.js` → http://localhost:8790, tab 💬 Commenter: chọn spec (out/fan/*.edit.json), dòng thời gian
+  Video / Sticker / Chữ / Tiếng / Tiếng game, bấm khối = phát đúng đoạn, kéo = dời mốc, kéo mép = đổi độ dài, ô bên phải đổi meme / chữ / tiếng → 💾 Lưu → ▶ Dựng lại.
+  Xem trước ghép trên trình duyệt (gần đúng; crop ảnh chưa hiện trong xem trước). Lúc quay / dựng, tab hiện tiến độ + khung đang quay + bảng trận thử.
 - Máy anh là ưu tiên số 1: mọi lệnh nặng `nice -n 10`, ffmpeg trong 2 công cụ đã khoá 2 luồng (25/11 dựng 640% CPU làm máy đơ). Mỗi lúc 1 việc nặng.
 - Mở đầu: dải comment + nhãn trượt vào từ phải (vượt quá rồi dừng, chữ hiện dần), tiếng `vine-boom` (0.05s) + `annnouce` (1.0s) CHẠY HẾT,
   tràn sang phần máy bốc (anh 25/11: không cắt tiếng announce).

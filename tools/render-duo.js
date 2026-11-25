@@ -9,6 +9,7 @@ const { spawn, execFileSync } = require('child_process');
 const http = require('http'), fs = require('fs'), path = require('path');
 const ROOT = path.resolve(__dirname, '..');
 const args = process.argv.slice(2), OUT = path.resolve(args[0] || 'duo.mp4');
+require('./x/job-status.js')('match', OUT);   // 📊 báo tiến độ lên Studio (tools/x/fan-studio.js, http://localhost:8790)
 const opt = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; };
 const TEAM_A = opt('--a', 'evilgary,evillarry').split(','), TEAM_B = opt('--b', 'feuerkatze,stalincat').split(',');
 const WIN = +opt('--win', 1), DOMAIN = +opt('--domain', 3), SEEDS = +opt('--seeds', 40), FPS = +opt('--fps', 60), OFPS = +opt('--ofps', 50), VW = +opt('--w', 1440);

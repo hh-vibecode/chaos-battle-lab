@@ -13,6 +13,7 @@ const { spawn, execFileSync } = require('child_process');
 const http = require('http'), fs = require('fs'), path = require('path');
 const ROOT = path.resolve(__dirname, '..');
 const args = process.argv.slice(2), OUT = path.resolve(args[0] || 'match.mp4');
+require('./x/job-status.js')('match', OUT);   // 📊 báo tiến độ lên Studio (tools/x/fan-studio.js, http://localhost:8790)
 const opt = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; };
 // 🎵 nhạc NỀN (không phải đòn đánh của meme): nhỏ hẳn + tự NÉN XUỐNG khi có tiếng đánh nhau (anh dặn 3/11: nhường tiếng meme, giảm rủi ro bản quyền)
 const BG_DUCK = new Set(['flyingcat_theme','bc_interstellar']), BG_LEVEL = { flyingcat_theme: 0.45, bc_interstellar: 0.6 };   // 🌌 nhạc màn trắng Bread Cat: vừa phải + tự nhỏ xuống dưới tiếng hút / nổ (anh 18/11)

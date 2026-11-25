@@ -22,6 +22,15 @@ FONT = os.path.join(os.path.dirname(__file__), 'fonts', 'Montserrat.ttf')
 W, H, FPS, SR = 1920, 1080, 50, 48000
 X = lambda p: os.path.expanduser(p) if p else p
 
+# 📊 trạng thái cho trang theo dõi (tools/x/fan-studio.js) — cùng file với render-fan.js
+STF = os.path.join(ROOT, 'out', 'status', 'commenter.json'); _ST = {}
+def st(**kw):
+    import time
+    _ST.update(kw); _ST['at'] = int(time.time() * 1000)
+    try:
+        os.makedirs(os.path.dirname(STF), exist_ok=True); open(STF + '.tmp', 'w').write(json.dumps(_ST, ensure_ascii=False)); os.replace(STF + '.tmp', STF)
+    except Exception: pass
+
 def font(sz, w='ExtraBold'):
     try:
         f = ImageFont.truetype(FONT, sz); f.set_variation_by_name(w); return f
@@ -31,7 +40,7 @@ def font(sz, w='ExtraBold'):
 def run(cmd):
     if cmd[:1] == ['ffmpeg'] and '-filter_threads' not in cmd: cmd = cmd[:1] + ['-filter_threads', '2'] + cmd[1:]   # 🐢 nhường máy anh (25/11: dựng ăn 640% CPU làm máy đơ)
     r = subprocess.run(cmd, capture_output=True, text=True)
-    if r.returncode: print(' '.join(cmd)); print(r.stderr[-2000:]); sys.exit(1)
+    if r.returncode: print(' '.join(cmd)); print(r.stderr[-2000:]); st(phase='lỗi', err=r.stderr[-600:]); sys.exit(1)
     return r
 
 def dur_of(f):
@@ -83,6 +92,8 @@ def label_png(text, path, style='red', rot=0.0, size=58, maxw=900, draw_text=Tru
 
 def main():
     S = json.load(open(sys.argv[1]))
+    import time
+    st(kind='commenter', tool='fan-edit.py', pid=os.getpid(), spec=os.path.abspath(sys.argv[1]), out=X(S['out']), phase='mở đầu', started=int(time.time() * 1000), step=0, steps=len(S.get('inserts', [])) + 3, log=[])
     tmp = tempfile.mkdtemp(prefix='fanedit_', dir=os.path.join(ROOT, 'out'))
     rec = os.path.join(ROOT, S['rec']) if not os.path.isabs(X(S['rec'])) else X(S['rec'])
     RD = dur_of(rec)
@@ -124,6 +135,7 @@ def main():
     if ff.returncode: print('lỗi dựng mở đầu'); sys.exit(1)
     segs.append(os.path.join(tmp, 'seg_intro.mkv'))
     sfx = S.get('intro_sfx', [])   # 🔊 tiếng mở đầu trộn ở BƯỚC CUỐI theo giây tuyệt đối → chạy HẾT, tràn sang phần máy bốc (anh 25/11)
+    st(phase='dán sticker', step=1)
     # ---------- 2. BẢN QUAY + CHÈN MEME ----------
     ins = sorted(S.get('inserts', []), key=lambda x: x['at'])
     stickers = [x for x in ins if x['kind'] == 'sticker']; fulls = [x for x in ins if x['kind'] == 'full']
@@ -147,7 +159,7 @@ def main():
     # 2b. cắt bản quay ở mốc full-insert, chen clip meme vào giữa
     cut = 0.0
     for k, s in enumerate(fulls):
-        at = s['at']
+        at = s['at']; st(phase='chèn meme %d/%d: %s' % (k + 1, len(fulls), os.path.basename(X(s['media']))), step=2 + k)
         if at > cut + 0.02:
             p = os.path.join(tmp, 'seg_r%02d.mkv' % k); run(['ffmpeg', '-y', '-loglevel', 'error', '-ss', '%.3f' % cut, '-to', '%.3f' % at, '-i', rec2] + VENC + AENC + [p]); segs.append(p)
         cut = at
@@ -174,6 +186,7 @@ def main():
         p = os.path.join(tmp, 'seg_m%02d.mkv' % k); run(cmd + ['-filter_complex', vf + ';' + af, '-map', '[v]', '-map', '[a]', '-t', str(d)] + VENC + AENC + [p]); segs.append(p)
     tail_end = S.get('rec_end', RD)
     p = os.path.join(tmp, 'seg_rz.mkv'); run(['ffmpeg', '-y', '-loglevel', 'error', '-ss', '%.3f' % cut, '-to', '%.3f' % tail_end, '-i', rec2] + VENC + AENC + [p]); segs.append(p)
+    st(phase='nối + cân độ to', step=_ST['steps'] - 1)
     # ---------- 3. NỐI + CÂN ĐỘ TO −14 LUFS ----------
     lst = os.path.join(tmp, 'list.txt'); open(lst, 'w').write(''.join("file '%s'\n" % s for s in segs))
     cat = os.path.join(tmp, 'cat.mkv'); run(['ffmpeg', '-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', lst, '-c', 'copy', cat])
@@ -188,6 +201,7 @@ def main():
     out = X(S['out']); os.makedirs(os.path.dirname(out), exist_ok=True)
     run(['ffmpeg', '-y', '-loglevel', 'error', '-i', cat, '-c:v', 'copy', '-af', 'volume=%.2fdB,alimiter=limit=0.89' % g, '-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', out])
     shutil.rmtree(tmp)
+    st(phase='xong', step=_ST['steps'], done=out)
     print('✅ %s  (%.1fs, độ to %+.1f dB → −14 LUFS)' % (out, dur_of(out), g))
 
 if __name__ == '__main__':

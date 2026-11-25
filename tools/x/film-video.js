@@ -15,6 +15,7 @@
 //   "chưa có bản video" chứ KHÔNG vẽ trực tiếp nữa.
 const fs = require('fs'), path = require('path'), os = require('os'), http = require('http'), crypto = require('crypto'), { spawn, execSync } = require('child_process');
 const ROOT = path.resolve(__dirname, '..', '..'), args = process.argv.slice(2), opt = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; }, has = k => args.includes(k);
+require('./job-status.js')('film', null);   // 📊 báo tiến độ lên Studio (tools/x/fan-studio.js, http://localhost:8790)
 const FILMS = ['fin1', 'fin1c5', 'fin1c6', 'fin1f2', 'fin1f3', 'fin1f1', 'fin1c4', 'fin1c7', 'fin1tr'];   // phải khớp rạp phim trong js/game.js (openCinema) — fin1full = nối các phần này
 const VALS = new Set(['--long', '--fps', '--kbps', '--akbps', '--port', '--cdp-port']);
 const IDS = has('--all') ? FILMS : args.filter((a, i) => !a.startsWith('--') && !VALS.has(args[i - 1]));

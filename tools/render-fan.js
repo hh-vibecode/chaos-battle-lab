@@ -37,6 +37,10 @@ function audioDurations() {
   if (dirty) fs.writeFileSync(cf, JSON.stringify(c)); return out;
 }
 let DURS = null;
+// 📊 TRẠNG THÁI cho Studio (tools/x/fan-studio.js): out/status/commenter.json + commenter-live.jpg (khung đang quay) — file nhỏ, không làm chậm việc quay
+const JS = require('./x/job-status.js')('commenter', OUT, { trials: [], prog: null, marks: null, phase: 'mở trang' }), ST = JS.ST, st = JS.set, LIVEF = JS.live;
+process.on('uncaughtException', e => { st({ phase: 'lỗi', err: String(e && e.stack || e).slice(0, 600) }, true); console.error(e); process.exit(1); });
+process.on('unhandledRejection', e => { st({ phase: 'lỗi', err: String(e && e.stack || e).slice(0, 600) }, true); console.error(e); process.exit(1); });
 
 async function openFan(br, PORT, seed, cw, bseed) {
   if (!DURS) DURS = audioDurations();
@@ -161,7 +165,7 @@ const fmt = r => `${(r.foes || []).join(' x ')} · ${r.res.join(' | ')} · ${r.w
   if (BSIM) {   // 🎡 bánh quay cố định (--seed), thử BSIM seed trận
     if (SEED == null) { console.log('❌ --bsim cần --seed (seed bánh quay)'); process.exit(1); }
     const rows = [];
-    for (let k = 1; k <= BSIM; k++) { const bs = SEED + k; const r = await simulate(SEED, bs); rows.push({ bs, r }); console.log(`  trận #${k} bseed ${bs}: ${fmt(r)}`); }
+    for (let k = 1; k <= BSIM; k++) { const bs = SEED + k; st({ phase: `chạy thử trận ${k}/${BSIM}` }, true); const r = await simulate(SEED, bs); rows.push({ bs, r }); ST.trials.push({ seed: SEED, bseed: bs, txt: fmt(r), win: r.win, wk: r.wk, blen: r.blen, dealt: r.dealt, res: r.res, foes: r.foes }); console.log(`  trận #${k} bseed ${bs}: ${fmt(r)}`); }
     fs.writeFileSync(OUT + '.sim.json', JSON.stringify(rows, null, 1));
     const ok = rows.filter(x => x.r.win && x.r.win !== 'draw' && x.r.wk > 0);
     if (!ok.length) { console.log('❌ không trận nào có người thắng'); await br.close(); srv.close(); process.exit(1); }
@@ -170,15 +174,16 @@ const fmt = r => `${(r.foes || []).join(' x ')} · ${r.res.join(' | ')} · ${r.w
   function inB(r) { return r.blen >= BL[0] && r.blen <= BL[1] ? 1 : 0; }
   if (!BSIM && (SIM || (SEED == null && BEST > 0))) {
     const N = SIM || BEST, rows = [];
-    for (let k = 0; k < N; k++) { const sd = SEED != null ? SEED + k : ((base + k * 7919) >>> 0); const r = await simulate(sd, BSEED); rows.push({ sd, r }); console.log(`  #${k + 1} seed ${sd}: ${fmt(r)}`); }
+    for (let k = 0; k < N; k++) { const sd = SEED != null ? SEED + k : ((base + k * 7919) >>> 0); st({ phase: `chạy thử seed ${k + 1}/${N}` }, true); const r = await simulate(sd, BSEED); ST.trials.push({ seed: sd, bseed: BSEED, txt: fmt(r), win: r.win, wk: r.wk, blen: r.blen, dealt: r.dealt, res: r.res, foes: r.foes }); rows.push({ sd, r }); console.log(`  #${k + 1} seed ${sd}: ${fmt(r)}`); }
     fs.writeFileSync(OUT + '.sim.json', JSON.stringify(rows, null, 1));
-    if (SIM) { console.log(`✅ chạy thử xong ${N} seed · ${((Date.now() - T0) / 1000).toFixed(0)}s`); await br.close(); srv.close(); return; }
+    if (SIM) { st({ phase: 'xong (chạy thử)' }, true); console.log(`✅ chạy thử xong ${N} seed · ${((Date.now() - T0) / 1000).toFixed(0)}s`); await br.close(); srv.close(); return; }
     const ok = rows.filter(x => x.r.win && x.r.win !== 'draw' && x.r.wk > 0);
     ok.sort((a, b) => (inB(b.r) - inB(a.r)) || (a.r.wk - b.r.wk));
     if (!ok.length) { console.log('❌ không seed nào ra người thắng'); await br.close(); srv.close(); process.exit(1); }
     SEED = ok[0].sd; console.log(`🏆 chọn seed ${SEED} · ${fmt(ok[0].r)}`);
   }
   console.log(`🎬 quay seed ${SEED}${BS != null ? ' · trận bseed ' + BS : ''} · ${VW}x${VH} @${OFPS}fps`);
+  st({ phase: 'quay', pick: { seed: SEED, bseed: BS }, prog: { vt: 0 } }, true);
   const pg = await openFan(br, PORT, SEED, VW, BS);
   const cdp = await pg.context().newCDPSession(pg);
   const tmpV = OUT + '.video.mp4';
@@ -187,14 +192,16 @@ const fmt = r => `${(r.foes || []).join(' x ')} · ${r.res.join(' | ')} · ${r.w
   for (;;) {
     const fin = await pg.evaluate(STEP, { n: 1, FPS, HOLD }); if (fin === 'wait') { await pg.waitForTimeout(15); continue; } i++;
     if (Math.floor(i * OFPS / FPS) > Math.floor((i - 1) * OFPS / FPS)) { const { data } = await cdp.send('Page.captureScreenshot', { format: 'jpeg', quality: 93, optimizeForSpeed: true });
-      if (!ff.stdin.write(Buffer.from(data, 'base64'))) await new Promise(r => ff.stdin.once('drain', r)); }
+      const buf = Buffer.from(data, 'base64'); if (i % 90 === 0) { try { fs.writeFileSync(LIVEF + '.tmp', buf); fs.renameSync(LIVEF + '.tmp', LIVEF); } catch (e) {} }
+      if (!ff.stdin.write(buf)) await new Promise(r => ff.stdin.once('drain', r)); }
+    if (i % 60 === 0) { if (i % 300 === 0) ST.marks = await pg.evaluate(() => __marks); st({ prog: { vt: i / FPS, real: (Date.now() - T0) / 1000, stage: await pg.evaluate(() => __D.st) } }); }
     if (i % 600 === 0) console.log(`  ${(i / FPS).toFixed(0)}s video · ${((Date.now() - T0) / 1000).toFixed(0)}s`);
     if (fin || i > MAXSEC * FPS) break;
   }
   ff.stdin.end(); await new Promise(r => ff.on('close', r));
   const res = await pg.evaluate(RESULT), info = await pg.evaluate(() => ({ aud: __aud, lufs: SND_LUFS, music: [...SND_MUSIC], marks: __marks }));
   await br.close(); srv.close();
-  console.log(`  kết quả: ${fmt(res)}`);
+  console.log(`  kết quả: ${fmt(res)}`); st({ phase: 'trộn tiếng', marks: info.marks, result: fmt(res) }, true);
   fs.writeFileSync(OUT + '.marks.json', JSON.stringify({ seed: SEED, bseed: BS, fan: FAN, dur: i / FPS, marks: info.marks, res }, null, 1));
   // 🔊 trộn tiếng (y render-match)
   const END = i / FPS, ev = new Map();
@@ -210,5 +217,6 @@ const fmt = r => `${(r.foes || []).join(' x ')} · ${r.res.join(' | ')} · ${r.w
     const m = [...(r.stderr || '').matchAll(/I:\s+(-?[\d.]+) LUFS/g)].pop(); if (m) LG = Math.max(-20, Math.min(10, -14 - parseFloat(m[1]))); } catch (e) {}
   execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', tmpV, '-i', wav, '-filter_complex', `[1:a]alimiter=limit=0.95,volume=${LG.toFixed(2)}dB,alimiter=limit=0.89[a]`, '-map', '0:v', '-map', '[a]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-shortest', OUT], { stdio: 'inherit' });
   fs.unlinkSync(planF); fs.unlinkSync(wav); fs.unlinkSync(tmpV);
+  st({ phase: 'xong', done: OUT, marksFile: OUT + '.marks.json' }, true);
   console.log(`✅ ${OUT}  (seed ${SEED} · ${END.toFixed(1)}s · ${plan.length} tiếng · mất ${((Date.now() - T0) / 1000).toFixed(0)}s) · mốc: ${path.basename(OUT)}.marks.json`);
 })();
