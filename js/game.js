@@ -18005,11 +18005,11 @@ const SN_HELL={T:216, lift:30, hold:50, dunk:76, rel:196}, SN_HEAV={T:180, beam:
 //   chốt 0.1s trước khi bắn — anh 20/11) rồi bắn tia plasma trắng khổng lồ 100 dame.
 // • Địch thua Sans: CHÁY THÀNH TRO (bạc màu, rã thành bụi từ trên xuống, để lại đống tro) thay vì vỡ mảnh; tiếng bụi Undertale.
 const SX_TP_CD=300, SX_FRZ=60, SX_PLAN=6, SX_RUN=42, SX_STEPS=12, SX_BREAK=50;   // anh 20/11: đóng băng + dịch chuyển gói trong 1s, 12 bước cho đỡ rối
-const SX_GB_CHG=60, SX_GB_FIRE=34, SX_GB_OUT=22, SX_GB_DMG=100, SX_GB_CD=240, SX_GB_MAX=12, SX_DODGE=25, SX_DOT_GAP=30, SX_GB_BURN=240, SX_GB_JAW=0.762, SX_GB_MOUTH=0.762, SX_GB_EYE_X=0.258, SX_GB_EYE_Y=0.393;   // anh 25/11: sprite vẽ lại theo ảnh mẫu Gaster Blaster nhìn thẳng (sừng vểnh, vết nứt trán, mắt có con ngươi, răng nanh) —   // anh 24/11: sprite vẽ lại (sọ rồng mõm dài, mắt xếch), to hơn 50%
+const SX_GB_CHG=60, SX_GB_FIRE=34, SX_GB_OUT=22, SX_GB_DMG=100, SX_GB_CD=240, SX_GB_MAX=12, SX_DODGE=25, SX_DOT_GAP=30, SX_GB_BURN=240, SX_GB_JAW=0.833, SX_GB_MOUTH=0.83, SX_GB_EYE_X=0.309, SX_GB_EYE_Y=0.485;   // anh 25/11: sprite vẽ lại theo ảnh mẫu Gaster Blaster nhìn thẳng (sừng vểnh, vết nứt trán, mắt có con ngươi, răng nanh) —   // anh 24/11: sprite vẽ lại (sọ rồng mõm dài, mắt xếch), to hơn 50%
 const SX_REAL_T=480, SX_SLIDE=0.65, SX_SLIDE_N=6;   // né: lướt 0.65 thân người trong 6 khung
 const SX_BPM=120, SX_BEAT0=0.29, SX_BASS_AT=7.79, SX_DRUM_AT=15.79, SX_GTR_LAG=0.04;   // đo trên sx_megalovania.mp3 (bản metal piano_megalovania đi sớm hơn 0.04s)
 const SX_SHAT_CRACK=9, SX_SHAT_T=64;
-const SX_IMG={ PIX:_acImg('assets/img/sans/SX_PIXEL.webp'), GB:_acImg('assets/img/sans/SX_BLASTER.webp'), PLAY:[0,1,2].map(i=>_acImg('assets/img/sans/SX_PLAY_'+i+'.webp')) };
+const SX_IMG={ PIX:_acImg('assets/img/sans/SX_PIXEL.webp'), GB:_acImg('assets/img/sans/SX_BLASTER.webp'), GBHD:_acImg('assets/img/sans/SX_BLASTER_HD.webp'), PLAY:[0,1,2].map(i=>_acImg('assets/img/sans/SX_PLAY_'+i+'.webp')) };
 let sxBlasters=[], sxFx=[], sxTp=null, sxAsh=[], sxShat=null, _sxMus=null, _sxGtr=null, _sxBand=null, _sxWM=null;
 const _sxOk=im=>im && im.complete && im.naturalWidth>0;
 const _sxBlueBurn=o=>(o.burn||0)>0 && !!o._burnSrc && o._burnSrc.type==='sans';   // 💙 cháy do tia Gaster Blaster = lửa XANH
@@ -18065,7 +18065,11 @@ function _sxGbPos(b){ const u=W/480, ca=Math.cos(b.a), sa=Math.sin(b.a); let bac
   if(b.t>SX_GB_CHG+SX_GB_FIRE){ const o=(b.t-SX_GB_CHG-SX_GB_FIRE)/SX_GB_OUT; back+=o*o*110*u; al=Math.max(0,1-o); }
   return {x:b.x-ca*back, y:b.y-sa*back, rot, al}; }
 function _sxJaw(b){ if(b.t<SX_GB_CHG) return 0.3*Math.max(0,b.t)/SX_GB_CHG; if(b.t<SX_GB_CHG+4) return 0.3+0.7*(b.t-SX_GB_CHG)/4; if(b.t<=SX_GB_CHG+SX_GB_FIRE) return 1; return Math.max(0,1-(b.t-SX_GB_CHG-SX_GB_FIRE)/SX_GB_OUT); }
-function _sxMouth(b){ const P=_sxGbPos(b), gh=_sxGbH(), d=gh*(SX_GB_MOUTH-0.5)+_sxJaw(b)*gh*0.12; return {x:P.x+Math.cos(b.a)*d, y:P.y+Math.sin(b.a)*d}; }
+// 🐲 (anh 25/11) 2 BẢN đầu rồng: PIXEL = đúng ảnh anh gửi (khung Undertale) · NÉT MỊN = lúc Sans đã thoát ra sàn thật. Mỗi bản 1 bộ số đo (tỉ lệ trong ảnh)
+const SX_GB_HD={JAW:0.83, MOUTH:0.83, EX:0.314, EY:0.494};   // đo trên SX_BLASTER_HD.webp (GPT vẽ lại nét mịn từ đúng ảnh anh gửi)
+function _sxGbV(b){ const hd=b.f && b.f._sx && b.f._sx.real && _sxOk(SX_IMG.GBHD);
+  return hd?{im:SX_IMG.GBHD,JAW:SX_GB_HD.JAW,MOUTH:SX_GB_HD.MOUTH,EX:SX_GB_HD.EX,EY:SX_GB_HD.EY,smooth:true}:{im:SX_IMG.GB,JAW:SX_GB_JAW,MOUTH:SX_GB_MOUTH,EX:SX_GB_EYE_X,EY:SX_GB_EYE_Y,smooth:false}; }
+function _sxMouth(b){ const P=_sxGbPos(b), gh=_sxGbH(), d=gh*(_sxGbV(b).MOUTH-0.5)+_sxJaw(b)*gh*0.12; return {x:P.x+Math.cos(b.a)*d, y:P.y+Math.sin(b.a)*d}; }
 function _sxBeamW(b){ const p=(b.t-SX_GB_CHG)/SX_GB_FIRE; if(p<0||p>1) return 0;
   const env=p<0.1?p/0.1*1.25:p<0.2?1.25-(p-0.1)/0.1*0.25:p<0.7?1:Math.max(0,1-(p-0.7)/0.3);
   return _sxBeamBase()*0.6*env*(1+0.07*Math.sin(b.t*1.9)); }
@@ -18134,14 +18138,14 @@ function _sxDrawOver(){ const u=W/480; _sxWM=ctx.getTransform();
   for(const b of sxBlasters){ if(b.t<0) continue; _sxDrawGb(b); }
   if(sxBlasters.some(b=>b.t>=SX_GB_CHG && b.t<SX_GB_CHG+3)){ ctx.save(); ctx.setTransform(1,0,0,1,0,0); ctx.fillStyle='rgba(255,255,255,0.22)'; ctx.fillRect(0,0,ctx.canvas.width,ctx.canvas.height); ctx.restore(); }
   for(const A of sxAsh) _sxDrawAsh(A); }
-function _sxDrawGb(b){ const im=SX_IMG.GB; if(!_sxOk(im)) return; const P=_sxGbPos(b), gh=_sxGbH(), iw=im.naturalWidth, ih=im.naturalHeight, gw=gh*iw/ih, jy=Math.round(ih*SX_GB_JAW), jo=_sxJaw(b)*gh*0.12, ch=b.t<SX_GB_CHG?b.t/SX_GB_CHG:1;
-  ctx.save(); ctx.translate(P.x,P.y); ctx.rotate(b.a-Math.PI/2+P.rot); ctx.globalAlpha*=P.al; ctx.imageSmoothingEnabled=false;
-  if(ch>0.2){ ctx.globalCompositeOperation='lighter'; const g=ctx.createRadialGradient(0,gh*(SX_GB_MOUTH-0.5)+jo,0,0,gh*(SX_GB_MOUTH-0.5)+jo,gh*0.45*ch); g.addColorStop(0,`rgba(255,255,255,${0.7*ch})`); g.addColorStop(0.4,`rgba(150,210,255,${0.35*ch})`); g.addColorStop(1,'rgba(120,180,255,0)'); ctx.fillStyle=g; ctx.fillRect(-gh,-gh*0.2,gh*2,gh*1.4); ctx.globalCompositeOperation='source-over'; }
-  ctx.drawImage(im,0,jy,iw,ih-jy,-gw/2,-gh/2+gh*SX_GB_JAW+jo,gw,gh*(1-SX_GB_JAW));   // hàm dưới há ra
-  ctx.drawImage(im,0,0,iw,jy,-gw/2,-gh/2,gw,gh*SX_GB_JAW);
+function _sxDrawGb(b){ const V=_sxGbV(b), im=V.im; if(!_sxOk(im)) return; const P=_sxGbPos(b), gh=_sxGbH(), iw=im.naturalWidth, ih=im.naturalHeight, gw=gh*iw/ih, jy=Math.round(ih*V.JAW), jo=_sxJaw(b)*gh*0.12, ch=b.t<SX_GB_CHG?b.t/SX_GB_CHG:1;
+  ctx.save(); ctx.translate(P.x,P.y); ctx.rotate(b.a-Math.PI/2+P.rot); ctx.globalAlpha*=P.al; ctx.imageSmoothingEnabled=!!V.smooth;
+  if(ch>0.2){ ctx.globalCompositeOperation='lighter'; const g=ctx.createRadialGradient(0,gh*(V.MOUTH-0.5)+jo,0,0,gh*(V.MOUTH-0.5)+jo,gh*0.45*ch); g.addColorStop(0,`rgba(255,255,255,${0.7*ch})`); g.addColorStop(0.4,`rgba(150,210,255,${0.35*ch})`); g.addColorStop(1,'rgba(120,180,255,0)'); ctx.fillStyle=g; ctx.fillRect(-gh,-gh*0.2,gh*2,gh*1.4); ctx.globalCompositeOperation='source-over'; }
+  ctx.drawImage(im,0,jy,iw,ih-jy,-gw/2,-gh/2+gh*V.JAW+jo,gw,gh*(1-V.JAW));   // hàm dưới há ra
+  ctx.drawImage(im,0,0,iw,jy,-gw/2,-gh/2,gw,gh*V.JAW); ctx.imageSmoothingEnabled=false;
   const eo=b.t<SX_GB_CHG-12?0:Math.min(1,(b.t-SX_GB_CHG+12)/6);   // 👁️ con ngươi trắng loé trong hốc mắt lúc sắp há mồm bắn
-  if(eo>0){ const ps=gh*0.04*eo, ey=-gh/2+gh*SX_GB_EYE_Y; ctx.fillStyle='#fff';
-    for(const ex of [SX_GB_EYE_X,1-SX_GB_EYE_X]) ctx.fillRect(-gw/2+gw*ex-ps/2,ey-ps/2,ps,ps); }
+  if(eo>0){ const ps=gh*0.04*eo, ey=-gh/2+gh*V.EY; ctx.fillStyle='#fff';
+    for(const ex of [V.EX,1-V.EX]) ctx.fillRect(-gw/2+gw*ex-ps/2,ey-ps/2,ps,ps); }
   ctx.restore(); }
 // ⚡ tia plasma trắng: quầng xanh loang · viền tách RGB · thân trắng sữa · lõi trắng tinh · vệt sáng chạy dọc · loé + vòng sóng ở miệng
 function _sxDrawBeam(b){ const w=_sxBeamW(b); if(w<0.5) return; const u=W/480, m=_sxMouth(b), L=2600*u, ft=b.t-SX_GB_CHG;
