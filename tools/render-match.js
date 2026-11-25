@@ -224,10 +224,10 @@ const ok = r => (!DIROK || DIROK.test(r.dir || '')) && (DOMAIN == null || (r.dom
   const planF = OUT + '.plan.json', wav = OUT + '.mix.wav'; fs.writeFileSync(planF, JSON.stringify({ dur: END, plan }));
   execFileSync('python3', [path.join(__dirname, 'mix-plan.py'), planF, wav], { stdio: 'inherit' });
   // 🔉 (anh 24/11) CÂN ĐỘ TO: trận dồn nhiều tiếng từng ra −8 LUFS (Commeowder 190 tiếng — bẹp tiếng, loa laptop rè; YouTube cũng tự hạ mọi video về −14)
-  //    → to hơn −14 LUFS thì HẠ về −14 (không bao giờ tăng), rồi chặn đỉnh −1 dB
+  //    → đưa về −14 LUFS CẢ 2 CHIỀU (anh 24/11: "cả to lẫn bé" — to thì hạ, nhỏ thì tăng, tối đa +10 dB), rồi chặn đỉnh −1 dB
   let LG = 0; try { const r = require('child_process').spawnSync('ffmpeg', ['-nostats', '-i', wav, '-af', 'alimiter=limit=0.95,ebur128', '-f', 'null', '-'], { encoding: 'utf8' });
-    const m = [...(r.stderr || '').matchAll(/I:\s+(-?[\d.]+) LUFS/g)].pop(); if (m) LG = Math.min(0, -14 - parseFloat(m[1])); } catch (e) {}
-  if (LG < 0) console.log(`🔉 bản trộn to hơn −14 LUFS → hạ ${LG.toFixed(1)} dB`);
+    const m = [...(r.stderr || '').matchAll(/I:\s+(-?[\d.]+) LUFS/g)].pop(); if (m) LG = Math.max(-20, Math.min(10, -14 - parseFloat(m[1]))); } catch (e) {}
+  if (Math.abs(LG) > 0.3) console.log(`🔉 cân độ to về −14 LUFS: ${LG > 0 ? '+' : ''}${LG.toFixed(1)} dB`);
   execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', tmpV, '-i', wav, '-filter_complex', `[1:a]alimiter=limit=0.95,volume=${LG.toFixed(2)}dB,alimiter=limit=0.89[a]`, '-map', '0:v', '-map', '[a]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-shortest', OUT], { stdio: 'inherit' });
   fs.unlinkSync(planF); fs.unlinkSync(wav); fs.unlinkSync(tmpV);
   console.log(`✅ ${OUT}  (seed ${SEED} · ${END.toFixed(1)}s · ${plan.length} tiếng · mất ${((Date.now() - T0) / 1000).toFixed(0)}s)`);
