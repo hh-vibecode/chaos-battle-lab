@@ -5,6 +5,7 @@
 //   eval <js>              evaluate (promises awaited), print result
 //   evalsave <name> <js>   js returns a dataURL ('data:image/png;base64,...', jpeg, audio/wav…) -> <out>/<name>.<ext>
 //   shot <name>            page screenshot -> <out>/<name>.png
+//   shotclip <name> <js>   js returns {x,y,w,h[,scale]} in page coords -> screenshot of just that box
 //   wait <seconds>
 //   reload                 reload bypassing HTTP cache + service worker, wait until the game finished booting
 //   goto <path|url>        open another page of the same server (e.g. tools/x/view3d.html?src=assets/3d/doge.glb)
@@ -15,7 +16,9 @@
 const fs = require('fs'), path = require('path'), os = require('os'), { spawn, execSync } = require('child_process');
 const args = process.argv.slice(2), opt = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; }, has = k => args.includes(k);
 const PORT = +opt('--port', 9455), URL0 = opt('--url', 'http://127.0.0.1:8765/'), OUT = path.resolve(opt('--out', '.'));
-const PROFILE = path.resolve(opt('--profile', path.join(os.tmpdir(), 'cbl-browser-profile'))), PIDF = path.join(PROFILE, 'cbl-pid.txt');
+// 💽 (anh 25/11) Windows: KHÔNG để gì ở ổ C (máy lag) → profile trình duyệt ngầm ở D:/tools/tmp; Mac giữ thư mục tạm của hệ thống
+const _TMP = (process.platform === 'win32' && fs.existsSync('D:/tools')) ? (fs.mkdirSync('D:/tools/tmp', { recursive: true }), 'D:/tools/tmp') : os.tmpdir();
+const PROFILE = path.resolve(opt('--profile', path.join(_TMP, 'cbl-browser-profile'))), PIDF = path.join(PROFILE, 'cbl-pid.txt');
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 function browserPath() {
@@ -68,6 +71,11 @@ async function main() {
       const mm = typeof v === 'string' && v.match(/^data:([a-z]+)\/([a-z0-9.+-]+);base64,/);   // 16/11: nhận mọi dataURL (png, jpeg, wav…) — đuôi file theo kiểu
       if (mm) { const ext = mm[2] === 'jpeg' ? 'jpg' : mm[2] === 'wav' || mm[2] === 'x-wav' ? 'wav' : mm[2]; fs.writeFileSync(path.join(OUT, nm + '.' + ext), Buffer.from(v.slice(mm[0].length), 'base64')); console.log('saved ' + nm + '.' + ext); } else console.log('evalsave fail: ' + String(v).slice(0, 200)); }
     else if (cmd === 'shot') { const r = await send('Page.captureScreenshot', { format: 'png' }); fs.writeFileSync(path.join(OUT, rest + '.png'), Buffer.from(r.result.data, 'base64')); console.log('shot ' + rest); }
+    else if (cmd === 'shotclip') { const s2 = rest.indexOf(' '), nm = rest.slice(0, s2), b = await ev(rest.slice(s2 + 1));   // shotclip <name> <js trả {x,y,w,h} toạ độ trang> → chụp đúng vùng đó (vd 1 comment YouTube)
+      if (!b || typeof b !== 'object' || !(b.w > 0)) { console.log('shotclip ' + nm + ': không có vùng (' + JSON.stringify(b) + ')'); continue; }
+      // 25/11: captureBeyondViewport làm Chrome đổi khổ trang → trang (YouTube) xếp lại chữ, khung đo lệch → chỉ bật khi vùng vượt màn hình ({beyond:true})
+      const r = await send('Page.captureScreenshot', { format: 'png', captureBeyondViewport: !!b.beyond, clip: { x: b.x, y: b.y, width: b.w, height: b.h, scale: b.scale || 1 } });
+      fs.writeFileSync(path.join(OUT, nm + '.png'), Buffer.from(r.result.data, 'base64')); console.log('shotclip ' + nm); }
     else if (cmd === 'wait') await sleep(parseFloat(rest) * 1000);
     else if (cmd === 'goto') { await send('Page.navigate', { url: new URL(rest, new URL(URL0).origin + '/').href }); await sleep(800); for (let k = 0; k < 60; k++) { if (await ev('document.readyState') === 'complete') break; await sleep(500); } console.log('goto ' + rest); }
     else if (cmd === 'waitfor') { let v; for (let k = 0; k < 240; k++) { v = await ev(rest); if (v && !String(v).startsWith('EXC')) break; await sleep(500); } console.log('waitfor -> ' + v); }   // waitfor <js expression> (truthy, tối đa 2 phút)

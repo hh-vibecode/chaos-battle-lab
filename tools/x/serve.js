@@ -2,7 +2,7 @@
 // Run in background:  node tools/x/serve.js [--port 8765]   (Windows: powershell -NoProfile -File tools/node.ps1 tools/x/serve.js)
 const http = require('http'), fs = require('fs'), path = require('path');
 const args = process.argv.slice(2), opt = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; };
-const ROOT = path.resolve(__dirname, '..', '..'), PORT = +opt('--port', 8765), PIDF = path.join(require('os').tmpdir(), `cbl-serve-${PORT}.pid`);
+const ROOT = path.resolve(__dirname, '..', '..'), PORT = +opt('--port', 8765), PIDF = path.join((process.platform === 'win32' && fs.existsSync('D:/tools')) ? (fs.mkdirSync('D:/tools/tmp', { recursive: true }), 'D:/tools/tmp') : require('os').tmpdir(), `cbl-serve-${PORT}.pid`);   // 💽 (anh 25/11) Windows: không để gì ở ổ C
 // node tools/x/serve.js --stop [--port 8765]  -> stop the server started earlier (pid file in the temp dir)
 if (args.includes('--stop')) { try { process.kill(+fs.readFileSync(PIDF, 'utf8')); console.log('server stopped'); } catch (e) { console.log('no server running'); } fs.rmSync(PIDF, { force: true }); process.exit(0); }
 fs.writeFileSync(PIDF, String(process.pid));

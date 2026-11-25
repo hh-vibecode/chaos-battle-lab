@@ -90,6 +90,14 @@ Chi tiết từng meme: `docs/notes/memes.md` · từng phim + cine-kit: `docs/n
 ## Máy / công cụ
 - Windows không có node / python / ffmpeg: Node mượn của VS Code (`ELECTRON_RUN_AS_NODE=1 "D:/Microsoft VS Code/Code.exe" file.js` hoặc `powershell -NoProfile -ExecutionPolicy Bypass -File tools/node.ps1 tools/x/X.js`). Công cụ chung ở `tools/x/*.js`.
 - Ổ C gần đầy → mọi thứ để ổ D (`D:\0.van-phong-ao`, công cụ ở `D:\tools\`: codex-cli, codex-home, yt-dlp + deno). Video mẫu ở `D:\meme-anime-lab-videos\`, chép vào `tools/x/_ref/` (gitignore) để trình duyệt ngầm đọc.
+- ⛔💽 (anh 25/11, máy lag + hết bộ nhớ ảo) Windows: **KHÔNG cài, KHÔNG để BẤT CỨ GÌ ở ổ C** — file nháp / tải về / ảnh chụp thử / profile trình duyệt ngầm / sao lưu
+  → `D:\tools\tmp\` (nháp của Claude: `D:\tools\tmp\cbl-work\`, KHÔNG dùng thư mục scratchpad hay `%TEMP%` trên C). `cdp.js` + `serve.js` đã tự để profile / pid ở `D:\tools\tmp`.
+  Lệnh tự chế mở Edge headless (`--user-data-dir`) cũng phải trỏ D. Xong việc xoá nháp. Chỉ ngoại lệ: file anh BẢO để ra Desktop.
+  📌 (anh 25/11) Thứ gì KHÔNG dùng nữa → XOÁ SẠCH ngay (profile trình duyệt, nháp, ảnh chụp thử, video tải về, file cài); thứ CÒN DÙNG → CHUYỂN sang ổ D.
+  Hồ sơ trình duyệt của công cụ repo (film-check / film-listen / film-video / compare / cdp) giờ đều nằm ở `D:\tools\tmp`.
+  ⛔ KHÔNG BAO GIỜ sờ vào dữ liệu Windows / hệ thống ở ổ C (Windows, Program Files, ProgramData, AppData của app khác, Chrome / Edge của anh, .claude) —
+  chỉ được dọn đúng thư mục tạm do CHÍNH công cụ / phiên mình tạo ra.
+- ⚠️ (25/11) KHÔNG chạy 2 phiên Claude cùng lúc trên cùng thư mục repo (2 nick đã đè nhau: phiên này tắt nhầm trình duyệt ngầm của phiên kia — cùng profile `cbl-browser-profile` + cổng 9455). Đổi nick thì phiên cũ phải dừng hẳn.
 - Trình duyệt ngầm: cổng 9455 (9333 hay bị phiên khác chiếm). `tools/x/serve.js` cổng 8765 (hỗ trợ tua video).
 - ⚠️ (anh 17/11, máy báo tốn bộ nhớ) Tiến trình chạy ngầm (serve.js, Edge headless, cdp…): CẦN mới bật, dùng xong TẮT NGAY (`cdp.js --stop`, `serve.js --stop --port …`). Đang dùng liên tục lâu thì để; không dùng nữa thì tắt. Chỉ tắt tiến trình của mình (đừng giết server / trình duyệt của phiên khác, vd cổng 8798).
 - Mac: repo ở `~/Projects/chaos-battle-lab` (18/11 chuyển khỏi Desktop vì iCloud "Optimize Mac Storage" dọn file repo thành file rỗng, kể cả .git). `~/Desktop/1. chaos-battle-lab` chỉ còn là lối tắt (symlink). Đừng đưa repo lại vào Desktop / Documents.

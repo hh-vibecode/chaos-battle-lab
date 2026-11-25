@@ -21,7 +21,7 @@ const IDS = has('--all') ? FILMS : args.filter((a, i) => !a.startsWith('--') && 
 if (!IDS.length) { console.error('cách dùng: film-video.js <idPhim…> | --all  [--long 1280 --fps 30 --kbps 2500]'); process.exit(2); }
 const LONG = +opt('--long', 1280), FPS = +opt('--fps', 30), KBPS = +opt('--kbps', 2500), AKBPS = +opt('--akbps', 128), PORT = +opt('--port', 8796), CDPP = +opt('--cdp-port', 9496);
 const VDIR = path.join(ROOT, 'video'), INDEX = path.join(VDIR, 'films.json'); fs.mkdirSync(VDIR, { recursive: true });
-const PROFILE = path.join(os.tmpdir(), 'film-video-profile-' + CDPP);
+const PROFILE = path.join((process.platform === 'win32' && require('fs').existsSync('D:/tools') ? 'D:/tools/tmp' : os.tmpdir()), 'film-video-profile-' + CDPP);
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.gif': 'image/gif', '.mp3': 'audio/mpeg', '.wav': 'audio/wav', '.ogg': 'audio/ogg', '.svg': 'image/svg+xml', '.glb': 'model/gltf-binary', '.woff2': 'font/woff2', '.ttf': 'font/ttf', '.mp4': 'video/mp4', '.webm': 'video/webm' };
 // máy chủ tĩnh + nhận file: POST /__save/<id> → video/<id>.mp4.part (driver đổi tên khi kiểm xong)

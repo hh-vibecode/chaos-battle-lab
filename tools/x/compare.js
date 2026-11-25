@@ -4,14 +4,14 @@
 const fs = require('fs'), path = require('path'), os = require('os'), { spawn, spawnSync } = require('child_process');
 const ROOT = path.resolve(__dirname, '..', '..'), args = process.argv.slice(2), opt = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; }, has = k => args.includes(k);
 const ID = args[0]; if (!ID || ID.startsWith('--')) { console.error('cách dùng: compare.js <idPhim> --t … --ref … [--rt …] [--out …]'); process.exit(2); }
-const OUT = path.resolve(opt('--out', path.join(os.tmpdir(), 'film-check'))), MAX = +opt('--max', 240), PORT = +opt('--port', 8794), CDPP = +opt('--cdp-port', 9494);
+const OUT = path.resolve(opt('--out', path.join((process.platform === 'win32' && require('fs').existsSync('D:/tools') ? 'D:/tools/tmp' : os.tmpdir()), 'film-check'))), MAX = +opt('--max', 240), PORT = +opt('--port', 8794), CDPP = +opt('--cdp-port', 9494);
 fs.mkdirSync(OUT, { recursive: true });
 // file phim: id có file riêng thật (> 2KB) thì dùng; cảnh cắt từ file chung (fin1c2 → film-fin1.js) thì bỏ đuôi cN
 let FILE = opt('--file', null);
 if (!FILE) { const own = path.join(ROOT, 'js', 'film-' + ID + '.js'); FILE = fs.existsSync(own) && fs.statSync(own).size > 2048 ? ID : ID.replace(/c\d+$/, ''); }
 const q = new URLSearchParams({ id: ID, file: FILE, w: opt('--w', '480') }); for (const k of ['t', 'ref', 'rt', 'lab']) if (opt('--' + k)) q.set(k, opt('--' + k));
 const NODE = process.execPath, ENV = Object.assign({}, process.env, { ELECTRON_RUN_AS_NODE: '1' });
-const PROFILE = path.join(os.tmpdir(), 'compare-profile-' + PORT), steps = path.join(OUT, '.steps.txt'), png = path.join(OUT, ID + '-compare.png'), log = path.join(OUT, '.cdp.log'), txt = path.join(OUT, ID + '-compare.txt');
+const PROFILE = path.join((process.platform === 'win32' && require('fs').existsSync('D:/tools') ? 'D:/tools/tmp' : os.tmpdir()), 'compare-profile-' + PORT), steps = path.join(OUT, '.steps.txt'), png = path.join(OUT, ID + '-compare.png'), log = path.join(OUT, '.cdp.log'), txt = path.join(OUT, ID + '-compare.txt');
 fs.writeFileSync(steps, `goto tools/x/compare.html?${q}
 waitfor window.__done
 waitfor window.__done

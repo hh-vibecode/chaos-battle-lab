@@ -4,14 +4,14 @@
 const fs = require('fs'), path = require('path'), os = require('os'), { spawn, spawnSync } = require('child_process');
 const ROOT = path.resolve(__dirname, '..', '..'), args = process.argv.slice(2), opt = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; }, has = k => args.includes(k);
 const ID = args[0]; if (!ID || ID.startsWith('--')) { console.error('cách dùng: film-check.js <idPhim> [--t …] [--out …]'); process.exit(2); }
-const OUT = path.resolve(opt('--out', path.join(os.tmpdir(), 'film-check'))), MAX = +opt('--max', 240), PORT = +opt('--port', 8796), CDPP = +opt('--cdp-port', 9496);
+const OUT = path.resolve(opt('--out', path.join((process.platform === 'win32' && require('fs').existsSync('D:/tools') ? 'D:/tools/tmp' : os.tmpdir()), 'film-check'))), MAX = +opt('--max', 240), PORT = +opt('--port', 8796), CDPP = +opt('--cdp-port', 9496);
 fs.mkdirSync(OUT, { recursive: true });
 // file phim: id có file riêng thật (> 2KB) thì dùng; cảnh cắt từ file chung (fin1c2 → film-fin1.js) thì bỏ đuôi cN
 let FILE = opt('--file', null);
 if (!FILE) { const own = path.join(ROOT, 'js', 'film-' + ID + '.js'); FILE = fs.existsSync(own) && fs.statSync(own).size > 2048 ? ID : ID.replace(/c\d+$/, ''); }
 const q = new URLSearchParams({ id: ID, file: FILE, fps: opt('--fps', '30') }); if (opt('--a')) q.set('a', opt('--a')); if (opt('--b')) q.set('b', opt('--b'));
 const NODE = process.execPath, ENV = Object.assign({}, process.env, { ELECTRON_RUN_AS_NODE: '1' });
-const PROFILE = path.join(os.tmpdir(), 'film-check-profile-' + PORT), steps = path.join(OUT, '.steps.txt'), png = path.join(OUT, ID + '-motion.png'), log = path.join(OUT, '.cdp.log'), txt = path.join(OUT, ID + '-motion.txt');
+const PROFILE = path.join((process.platform === 'win32' && require('fs').existsSync('D:/tools') ? 'D:/tools/tmp' : os.tmpdir()), 'film-check-profile-' + PORT), steps = path.join(OUT, '.steps.txt'), png = path.join(OUT, ID + '-motion.png'), log = path.join(OUT, '.cdp.log'), txt = path.join(OUT, ID + '-motion.txt');
 fs.writeFileSync(steps, `goto tools/x/anim-check.html?${q}\nwaitfor window.__done\nwaitfor window.__done\nwaitfor window.__done\neval window.__done\neval window.__sum\nevalsave ${ID}-motion window.__png\n`);
 try { fs.rmSync(png, { force: true }); } catch (e) {}
 const kids = [];

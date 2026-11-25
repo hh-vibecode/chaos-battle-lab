@@ -8,7 +8,7 @@
 const fs = require('fs'), path = require('path'), os = require('os'), { spawn, spawnSync } = require('child_process');
 const ROOT = path.resolve(__dirname, '..', '..'), args = process.argv.slice(2), opt = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; }, has = k => args.includes(k);
 const ID = args[0]; if (!ID || ID.startsWith('--')) { console.error('cách dùng: film-check.js <idPhim> [--t …] [--out …]'); process.exit(2); }
-const OUT = path.resolve(opt('--out', path.join(os.tmpdir(), 'film-check'))), MAX = +opt('--max', 240), PORT = +opt('--port', 8795), CDPP = +opt('--cdp-port', 9495);
+const OUT = path.resolve(opt('--out', path.join((process.platform === 'win32' && require('fs').existsSync('D:/tools') ? 'D:/tools/tmp' : os.tmpdir()), 'film-check'))), MAX = +opt('--max', 240), PORT = +opt('--port', 8795), CDPP = +opt('--cdp-port', 9495);
 fs.mkdirSync(OUT, { recursive: true });
 // file phim: id có file riêng thật (> 2KB) thì dùng; cảnh cắt từ file chung (fin1c2 → film-fin1.js) thì bỏ đuôi cN
 let FILE = opt('--file', null);
@@ -16,7 +16,7 @@ if (!FILE) { const own = path.join(ROOT, 'js', 'film-' + ID + '.js'); FILE = fs.
 const q = new URLSearchParams({ id: ID, file: FILE, w: opt('--w', '320'), cols: opt('--cols', '6') });
 if (opt('--t')) q.set('t', opt('--t')); else { q.set('step', opt('--step', '0.5')); if (opt('--a')) q.set('a', opt('--a')); if (opt('--b')) q.set('b', opt('--b')); }
 const NODE = process.execPath, ENV = Object.assign({}, process.env, { ELECTRON_RUN_AS_NODE: '1' });
-const PROFILE = path.join(os.tmpdir(), 'film-check-profile-' + PORT), steps = path.join(OUT, '.steps.txt'), png = path.join(OUT, ID + '.png'), log = path.join(OUT, '.cdp.log');
+const PROFILE = path.join((process.platform === 'win32' && require('fs').existsSync('D:/tools') ? 'D:/tools/tmp' : os.tmpdir()), 'film-check-profile-' + PORT), steps = path.join(OUT, '.steps.txt'), png = path.join(OUT, ID + '.png'), log = path.join(OUT, '.cdp.log');
 fs.writeFileSync(steps, `goto tools/x/film-sheet.html?${q}\nwaitfor window.__done\nwaitfor window.__done\nwaitfor window.__done\neval window.__done\nevalsave ${ID} window.__png\n`);
 try { fs.rmSync(png, { force: true }); } catch (e) {}
 const kids = [];
