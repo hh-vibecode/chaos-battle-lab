@@ -23,7 +23,6 @@
 ## 🤸 Luật mới: meme tương tác thì thân phải chuyển động tương ứng (anh 26/11, CLAUDE.md)
 - Cần rà TẤT CẢ meme cũ: con nào ném / nhổ / tóm / đập mà ảnh đứng im → ghi tên vào đây rồi làm dần. CHƯA rà.
 
-## 🐱 Battle Cat — còn 1 lỗi nhỏ
-- Cat God chưởng lỗ: meme rơi xuống lỗ thì teo nhỏ nhưng VŨ KHÍ (gậy Cheems…) + THANH MÁU không teo theo.
+## 🐱 Battle Cat — ✅ Ver 759 (Mac): rơi xuống lỗ giờ teo CẢ CỤM (thân + vũ khí + thanh máu) — `draw()` bọc `_drawBody()`.
 
 ## 🏟️ Sân (Ver 755–756) — xong; chờ anh xem sân Biển có làm sóng trắng khó thấy không (sàn sáng hơn sân khác).

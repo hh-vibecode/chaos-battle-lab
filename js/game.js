@@ -25085,7 +25085,15 @@ class Fighter {
     }
   }
 
+  // 🐱🕳️ bị Cat God chưởng rơi xuống lỗ: teo CẢ CỤM quanh tâm meme (thân + vũ khí + thanh máu + mọi thứ vẽ kèm), không chỉ ảnh thân
   draw(){
+    const _fk=this._btcFallK||0;
+    if(!(_fk>0)) return this._drawBody();
+    const z=Math.max(0.05,1-_fk*0.95);
+    ctx.save(); ctx.translate(this.x,this.y); ctx.scale(z,z); ctx.translate(-this.x,-this.y);
+    try{ this._drawBody(); } finally { ctx.restore(); }
+  }
+  _drawBody(){
     if(this._mwErased || this._dpGone || this._bcGone) return;   // 🍞 _bcGone: đã bị cuốn vào tâm xoáy Bread Cat · 🌀 _dpGone: Depressed Cat đã bị Kamui xoáy đi
     if(this.type==='infinitydoge' && this._idMito) return;   // 🟠 đang tách kiểu slime: vẽ bằng _idMitoDraw   // 🟣 đã bị Hollow Purple xoá sổ — không còn gì để vẽ
     _arPin(this);   // 🗿 đang là tượng: luôn vẽ đúng chỗ bị hoá
@@ -25108,7 +25116,7 @@ class Fighter {
     const s=this.size*((this.type==='boxingcat')?1.22:(this.type==='poordog')?1.3:(this.type==='chonkydog')?1.1:(this.type==='vampirecat'&&this._vampBatForm)?1.2:(this.type==='doge'&&this.dogeBuffed)?1.1:(this.type==='feuerkatze'&&(this._fkSaluteNow||0)>0)?1.1:(this.type==='germancat'&&this.germanSpeechTimer>0)?1.4:(this.type==='evillarry'&&this.actionState==='attack')?1.2:(this.type==='grumpycat'&&this._rageActive)?1.3:(this.type==='maxwell'&&(this._mwPhase==='spin'||this._mwPhase==='reveal'))?1.2:(this.type==='uiacat'&&this.oiiaSpinTimer>0)?1.265:(this.type==='capybara'&&this._cbFused)?0.9:(this.type==='capybara'&&!this._cbFused&&!this._cbIsKnife)?0.8:1)*(1-(this._rbShrinkFrac||0)); // bị Rubik Cat hút vào hố đen thì thu nhỏ dần về 0 thay vì vỡ mảnh vụn
     let scaleX=1,scaleY=1,offX=0,offY=0,rotation=0;
     if(this._bcSuckK){ const z=Math.max(0.03,1-this._bcSuckK); scaleX*=z; scaleY*=z; }
-    if(this._btcFallK>0){ const z=Math.max(0.05,1-this._btcFallK*0.95); scaleX*=z; scaleY*=z; rotation+=this._btcFallK*this._btcFallK*6; }   // 🐱🕳️ bị Cat God chưởng rơi xuống lỗ
+    if(this._btcFallK>0){ rotation+=this._btcFallK*this._btcFallK*6; }   // 🐱🕳️ bị Cat God chưởng rơi xuống lỗ: xoay thân (teo cả cụm làm ở draw())
     if(this._gkHeld && this._gkHeld._gk){ const _hd=this._gkHeld._gk.dir||1, _k=this._gkSpin||0; rotation+=_hd*(Math.PI/2+Math.PI*0.5*_k*_k); }   // 😼 bị BÊ NGANG trên đầu → lúc quật xoay DỐC ĐẦU cắm xuống sàn (anh 26/11)
     if(this.type==='gigachadcat'){ const _gp=_gkPose(this); if(_gp){ scaleX*=_gp[0]; scaleY*=_gp[1]; offX+=_gp[2]; offY+=_gp[3]; rotation+=_gp[4]; } }   // 😼 động tác thân khi nhổ sàn / tóm / ném / gầm
     if(this.type==='battlecat' && this._btc && this._btc.sq>0){ const _bq=_btcSquash(this); scaleX*=_bq[0]; scaleY*=_bq[1]; }   // 🐱 nhún khi meow / cắn / gồng tung sóng
