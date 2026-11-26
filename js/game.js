@@ -17394,7 +17394,7 @@ const ARENA_THEMES={
     crys:['#efe9ff','#a38bff','#4e6bff'], crysGlow:'rgba(150,130,255,0.9)', crysHalo:'170,140,255', block:['#3c3474','#5a4fa0','#221c46','#30285e'], side:['#3e3577','#17132e'], ledge:'#2f2860', ledgeHi:'rgba(215,205,255,0.5)',
     peb:['#4f4492','#211a42','rgba(165,180,255,0.55)'] },
   beach:{ ring:['#3b2614','#fff1d6','#9a6c3c','rgba(120,230,240,0.9)','rgba(80,210,230,0.8)'], name:'Beach', sky:['#3f9fd6','#7cc6ea','#bfe6f3'], neb:[], stars:0,
-    floor:['#9d9384','#958b7c','#82796c'], tileHi:'255,250,240', tileLo:'50,42,32', grid:'rgba(60,50,40,0.05)', edge:['rgba(150,205,210,0.18)','rgba(150,205,210,0.06)','rgba(150,205,210,0)'], inner:'rgba(240,232,220,0.30)',
+    floor:['#807666','#787061','#665e52'], tileHi:'255,250,240', tileLo:'50,42,32', grid:'rgba(60,50,40,0.05)', edge:['rgba(150,205,210,0.18)','rgba(150,205,210,0.06)','rgba(150,205,210,0)'], inner:'rgba(240,232,220,0.30)',
     glow:['rgba(40,200,220,0.30)','rgba(40,170,210,0.12)','rgba(40,170,210,0)'], rockD:'#3b2614', rockL:'#d8a865', rimLight:['rgba(120,230,240,0.7)','rgba(150,235,245,0.55)'],
     crys:['#fff1ea','#ff9b8a','#ff5a6e'], crysGlow:'rgba(255,140,130,0.8)', crysHalo:'255,150,140', block:['#9a6c3c','#b98754','#5c3c1f','#71492a'], side:['#8a5f34','#3e2814'], ledge:'#7a5530', ledgeHi:'rgba(255,236,200,0.6)',
     peb:['#b48452','#5c3c1f','rgba(140,230,240,0.55)'] },
@@ -17427,7 +17427,6 @@ function _atSkyExtra(g,vw,vh){ const k=ARENA_THEME, H_=_skH;
     g.fillStyle='#fff6d6'; g.beginPath(); g.arc(sx,sy,sr,0,Math.PI*2); g.fill();
     const hz=vh*0.42; gr=g.createLinearGradient(0,hz,0,vh); gr.addColorStop(0,'#2fb3c9'); gr.addColorStop(0.45,'#1a8fb3'); gr.addColorStop(1,'#0f5f8a'); g.fillStyle=gr; g.fillRect(0,hz,vw,vh-hz);
     g.fillStyle='rgba(255,255,255,0.35)'; g.fillRect(0,hz,vw,1.5);
-    for(let i=0;i<70;i++){ const y=hz+(vh-hz)*Math.pow(H_(i+300),1.6), w=(10+40*H_(i+310))*(0.4+(y-hz)/(vh-hz)), x=vw*H_(i+320); g.fillStyle=`rgba(255,255,255,${0.10+0.18*H_(i+330)})`; g.fillRect(x,y,w,1.2); }   // vệt sóng
     for(let i=0;i<5;i++){ const cx=vw*H_(i+400), cy=vh*(0.05+0.25*H_(i+410)), r=vw*(0.06+0.06*H_(i+420)); g.fillStyle='rgba(255,255,255,0.85)'; for(let j=0;j<4;j++){ g.beginPath(); g.arc(cx+(j-1.5)*r*0.7,cy+(j%2?-r*0.25:0),r*(0.55+0.2*(j%2)),0,Math.PI*2); g.fill(); } }   // mây
   } else if(k==='xmas'){   // 🌌 cực quang xanh lá + đồi tuyết xa + cây thông bóng tối ở chân trời
     for(let b=0;b<3;b++){ g.save(); g.globalCompositeOperation='lighter'; for(let i=0;i<40;i++){ const x=vw*i/40, y=vh*(0.12+0.06*b)+Math.sin(i*0.35+b*2)*vh*0.04, h=vh*(0.12+0.05*H_(i+b*50)); const gr=g.createLinearGradient(0,y,0,y+h); gr.addColorStop(0,'rgba(80,255,170,0)'); gr.addColorStop(0.5,`rgba(${b===1?'120,200,255':'80,255,170'},${0.07+0.05*H_(i+b*90)})`); gr.addColorStop(1,'rgba(80,255,170,0)'); g.fillStyle=gr; g.fillRect(x,y,vw/40+1,h); } g.restore(); }
@@ -17451,8 +17450,21 @@ function _atSkyAnim(vw,vh){ const k=ARENA_THEME, t=tick;
   else if(k==='volcano'){ ctx.save(); ctx.globalCompositeOperation='lighter';   // 🔥 tàn lửa bay lên + tro xám rơi
     for(let i=0;i<70;i++){ const sp=0.4+0.8*_skH(i+8000), x=((vw*_skH(i+8100)+Math.sin(t*0.03+i)*10)%vw+vw)%vw, y=vh-((_skH(i+8200)*vh+t*sp)%(vh+10)), a=0.4+0.6*Math.abs(Math.sin(t*0.08+i)); ctx.fillStyle=`rgba(255,${120+80*_skH(i+8300)|0},40,${a})`; ctx.fillRect(x,y,1.8,1.8); }
     ctx.restore(); }
-  else if(k==='beach'){ ctx.save(); ctx.globalCompositeOperation='lighter';   // ✨ mặt biển lấp lánh
-    const hz=vh*0.42; for(let i=0;i<60;i++){ const x=vw*_skH(i+9000), y=hz+(vh-hz)*_skH(i+9100), a=Math.max(0,Math.sin(t*(0.04+0.04*_skH(i+9200))+i*2)); ctx.fillStyle=`rgba(255,255,230,${a*0.6})`; ctx.fillRect(x,y,3*a+0.5,1); }
+  else if(k==='beach'){   // 🌊 BIỂN SỐNG ĐỘNG (anh 26/11): sóng lừng trôi vào · ngọn sóng trắng gợn trôi ngang, nhấp nhô, nổi lên rồi tan · lấp lánh dưới mặt trời
+    const hz=vh*0.42, D=vh-hz; ctx.save();
+    for(let j=0;j<8;j++){ const p=(j/8+t*0.0011)%1, e=Math.pow(p,1.7), y=hz+D*e, h=D*0.04*(0.25+e*1.8), a=0.07*Math.sin(p*Math.PI);   // dải sóng lừng sáng / tối xen kẽ, từ chân trời trôi dần xuống
+      ctx.fillStyle=`rgba(255,255,255,${a})`; ctx.fillRect(0,y,vw,h); ctx.fillStyle=`rgba(0,40,70,${a*0.9})`; ctx.fillRect(0,y+h,vw,h*0.8); }
+    ctx.lineCap='round'; ctx.strokeStyle='#ffffff';
+    for(let r=0;r<18;r++){ const p=(r+0.5)/18, e=Math.pow(p,1.6), y0=hz+D*e, amp=1+6*e, w=6+32*e, n=7+Math.round(5*(1-e)), dir=r%2?1:-1, sp=(0.08+0.35*e)*dir;
+      ctx.lineWidth=1+2.6*e;
+      for(let i=0;i<n;i++){ const ph=_skH(r*31+i+9600), x=(((ph*vw+t*sp)%(vw+2*w))+vw+2*w)%(vw+2*w)-w, y=y0+Math.sin(t*0.05+ph*20)*amp*0.6,
+          a=Math.max(0,Math.sin(t*(0.022+0.02*_skH(r*31+i+9700))+ph*40));   // ngọn sóng bạc đầu: nổi lên → trắng nhất → tan
+        if(a<0.05) continue; ctx.globalAlpha=a*(0.45+0.45*e); const ww=w*(0.6+0.4*a);
+        ctx.beginPath(); ctx.moveTo(x-ww,y); ctx.quadraticCurveTo(x-ww*0.3,y-amp*a,x,y-amp*0.4*a); ctx.quadraticCurveTo(x+ww*0.4,y+amp*0.15,x+ww,y); ctx.stroke(); } }
+    ctx.globalAlpha=1; ctx.globalCompositeOperation='lighter';
+    const sx=vw*0.78; for(let i=0;i<80;i++){ const p=_skH(i+9800), e=Math.pow(p,1.4), y=hz+D*e, spread=12+vw*0.16*e, x=sx+(_skH(i+9900)-0.5)*2*spread*(0.6+0.4*Math.sin(t*0.01+i)),   // vệt lấp lánh dưới mặt trời: hẹp ở chân trời, loe dần về gần
+        a=Math.max(0,Math.sin(t*(0.07+0.06*_skH(i+9950))+i*2.3)); if(a<0.1) continue; ctx.fillStyle=`rgba(255,250,220,${a*0.75})`; ctx.fillRect(x-(1+4*e)*a,y,(2+8*e)*a+0.5,1+e); }
+    for(let i=0;i<50;i++){ const x=vw*_skH(i+9000), y=hz+D*_skH(i+9100), a=Math.max(0,Math.sin(t*(0.04+0.04*_skH(i+9200))+i*2)); if(a<0.1) continue; ctx.fillStyle=`rgba(255,255,230,${a*0.45})`; ctx.fillRect(x,y,3*a+0.5,1); }   // lấp lánh rải rác
     ctx.restore(); }
   else if(k==='grass'){ ctx.save(); ctx.fillStyle='rgba(40,40,40,0.55)'; ctx.lineWidth=1.2; ctx.strokeStyle='rgba(40,40,40,0.6)';   // 🐦 vài con chim xa bay ngang
     for(let i=0;i<3;i++){ const x=((t*(0.3+0.15*i)+vw*_skH(i+9500))%(vw+60))-30, y=vh*(0.12+0.1*i)+Math.sin(t*0.05+i)*4, w=4+Math.abs(Math.sin(t*0.15+i))*3; ctx.beginPath(); ctx.moveTo(x-6,y-w*0.5); ctx.quadraticCurveTo(x-3,y-w,x,y); ctx.quadraticCurveTo(x+3,y-w,x+6,y-w*0.5); ctx.stroke(); }

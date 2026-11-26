@@ -92,8 +92,8 @@ Chi tiết từng meme: `docs/notes/memes.md` · từng phim + cine-kit: `docs/n
 - 📂 (anh 21/11) Video xuất xong (phim lẫn trận) + thumbnail → để vào `~/Desktop/Meme Battles/` (thumbnail: thư mục con `<Tên> thumbnail/`). Quay ở `out/` trong repo (gitignore, không phải iCloud), xong mới chuyển file cuối sang; đoạn quay `*.chunks` giữ ở `out/` tới khi anh duyệt rồi xoá.
 - Mọi video 50fps. Phim 4K (16:9 3840×2160, 9:16 2160×3840). Trận đấu giả lập: 9:16 dọc 3K 1620×2880.
 - Phim chạy `render-cine … --cache --chunk 5` (chia đợt, tắt máy chạy lại đúng lệnh là tiếp). 🐢 (anh 24/11) ƯU TIÊN SỐ 1 = MÁY ANH VẬN HÀNH BÌNH THƯỜNG — việc nặng (xuất phim, tách nền, quét…) luôn NHƯỜNG máy. XUẤT TỪ TỪ, KHÔNG CẦN NHANH: Mac xuất TỪNG TẬP riêng, `--jobs 1` + `caffeinate -i taskpolicy -b` (ưu tiên nền, máy anh không lag) + `tools/x/canh-ram.sh <PID>` (trần nửa RAM, máy căng tự tạm dừng); không hạ độ phân giải / bỏ hiệu ứng cho kịp. render-match `--par` ≤2. ⚡ (anh 25/11) TRẬN ĐẤU thì quay nhanh 5–10 phút/trận: `nice -n 5` + `--par 2`, KHÔNG `taskpolicy -b` (skill xuat-video).
-- 🎬 (anh 26/11, giữ chân Shorts) Edit video trận: đưa 1–2s CĂNG NHẤT lên MỞ ĐẦU (vd Punching Cat đấm mạnh, cận biểu cảm / chiêu bất ngờ) → transition kéo màn TỐI vào trận;
-  phần trận bắt đầu ở chỗ CHỈ CÒN 0.3–0.5s là 2 bên chạm nhau / ra skill (cắt hết đoạn đi bộ đầu) — tối ưu tối đa thời gian. Luân phiên SÂN (màu / map) giữa các Short để kênh không "cùng 1 khung hình".
+- 🎬 (anh 26/11, giữ chân Shorts) Edit video trận: video VÀO THẲNG trận ở chỗ 2 con SẮP VA CHẠM (còn ~0.3–0.5s là chạm nhau / ra skill), cắt hết đoạn đi bộ đầu — tối ưu tối đa thời gian.
+  ⛔ KHÔNG đưa 1–2s cao trào lên mở đầu nữa (anh bỏ 26/11 tối: "rắc rối") — không hook, không transition kéo màn. Luân phiên SÂN (màu / map) giữa các Short để kênh không "cùng 1 khung hình".
 - Trận giả lập phải TỰ NHIÊN, không can thiệp diễn biến (chỉ lọc seed). Ưu tiên thắng sát, 1vs1 ≤30s, trận đông ≤35s (`--want 3 --pdur 20-30`). Tên video: CHỈ "A vs B" (2vs2 "A & B vs C & D"), KHÔNG thêm " - Meme Battle" (anh 25/11).
 - Skill `xuat-video` / `xem-video` / `video-sang-sprite` chỉ chạy trên Mac.
 

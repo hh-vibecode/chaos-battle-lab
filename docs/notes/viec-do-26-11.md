@@ -36,4 +36,4 @@
 ## 🐱 Battle Cat + 💻 Cat.exe — ✅ Ver 759–760 (Mac): RƠI MẤT (lỗ Cat God / Cat.exe rơi vào vũ trụ) = teo CẢ CỤM (thân + vũ khí + thanh máu)
   về gần 0, cuối pha mờ hẳn, chết thì BIẾN MẤT không vỡ mảnh (anh 26/11) — `draw()` bọc `_drawBody()`, cờ `_fellAway` chặn `_fighterDeathFx`.
 
-## 🏟️ Sân (Ver 755–756) — xong; chờ anh xem sân Biển có làm sóng trắng khó thấy không (sàn sáng hơn sân khác).
+## 🏟️ Sân (Ver 755–756) — xong. ✅ Ver 763 (anh 26/11 tối): sân Biển sàn cát tối lại (ngang sân Cỏ) cho sóng / vòng trắng nổi; biển ĐỘNG: ngọn sóng bạc đầu gợn trôi ngang + nhấp nhô + nổi lên rồi tan, dải sóng lừng trôi từ chân trời vào, vệt lấp lánh dưới mặt trời (`_atSkyAnim` nhánh beach, ~0.35 ms/khung).
