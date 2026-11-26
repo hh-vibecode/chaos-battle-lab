@@ -1,5 +1,15 @@
 // Tự sinh bởi tools/split_assets.py — đường dẫn file → nhóm tải ("critical" = tải trước khi vào game; tên nhân vật = tải khi nhân vật đó vào trận / tải ngầm)
 window.ASSET_GROUP={
+"assets/avatars/gigachadcat/avatarUrl.webp": "gigachadcat",
+"assets/avatars/gigachadcat/thumb.webp": "critical",
+"assets/img/gigachadcat/GK_STAND.webp": "gigachadcat",
+"assets/img/gigachadcat/GK_LIFT.webp": "gigachadcat",
+"assets/img/gigachadcat/GK_THROW.webp": "gigachadcat",
+"assets/img/gigachadcat/GK_CARRY.webp": "gigachadcat",
+"assets/img/gigachadcat/GK_SUPLEX.webp": "gigachadcat",
+"assets/audio/gk_meow.mp3": "gigachadcat",
+"assets/audio/gk_meow_big.mp3": "gigachadcat",
+"assets/audio/gk_meow_long.mp3": "gigachadcat",
 "assets/avatars/battlecat/avatarUrl.webp": "battlecat",
 "assets/avatars/battlecat/thumb.webp": "critical",
 "assets/img/battlecat/BTC_WALL.webp": "battlecat",
@@ -1232,6 +1242,7 @@ window.ASSET_GROUP={
 "assets/vfxlib/vfx_slash3_color5.webp": "critical"
 };
 window.AVATAR_THUMB={
+"assets/avatars/gigachadcat/avatarUrl.webp": "assets/avatars/gigachadcat/thumb.webp",
 "assets/avatars/battlecat/avatarUrl.webp": "assets/avatars/battlecat/thumb.webp",
 "assets/avatars/catexe/avatarUrl.webp": "assets/avatars/catexe/thumb.webp",
 "assets/avatars/sans/avatarUrl.webp": "assets/avatars/sans/thumb.webp",

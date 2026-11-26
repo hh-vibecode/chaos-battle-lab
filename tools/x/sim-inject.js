@@ -40,16 +40,21 @@
     rs = (o.seed >>> 0) || 1;
     startGame('instant');
     if (o.force) { try { (0, eval)(o.force); } catch (e) { S.errs.push('force: ' + e.message); } }
+    // 🎯 BÙ NHÌN đo dame (anh 26/11): đối thủ bất tử, KHÔNG skill, đi lại như meme thường, chạm vào thì đánh 40 / 0.8s (để meme có chiêu phản / chiêu khi bị đánh vẫn kích)
+    if (o.dummy) { const d = fighters.find(f => f.slotIdx === 1); if (d) { d.type = '__dummy__'; d.maxHp = d.hp = 1e7; d._dmCD = 30;
+      d.doAbility = function () { if (--this._dmCD > 0) return; const e = this.enemy; if (e && !e.dead && Math.hypot(e.x - this.x, e.y - this.y) < this.size + (e.size || 20) + MELEE_REACH) { e.takeDamage(40, this); this._dmCD = 48; } }; } }
     const t0 = RT.now(), v0 = __vt, max = o.max || 90; let koAt = null;
     while (__vt - v0 < max) {
       step(120); await yieldReal(0);
       const dead = fighters.some(f => f.dead);
       if (dead && koAt == null) koAt = __vt - v0;
-      if (koAt != null && __vt - v0 > koAt + 0.2) break;
+      if (!o.dummy && koAt != null && __vt - v0 > koAt + 0.2) break;
+      if (o.dummy && fighters.find(f => f.slotIdx === 0 && f.dead)) break;
     }
     const hp = fighters.map(f => [f.type, Math.max(0, Math.round(f.hp)), f.maxHp, !!f.dead]);
     const a = fighters.find(f => f.slotIdx === 0), b = fighters.find(f => f.slotIdx === 1);
     let win = null; if (a && b) { if (a.dead && !b.dead) win = B; else if (b.dead && !a.dead) win = A; else if (!a.dead && !b.dead) win = (a.hp / a.maxHp >= b.hp / b.maxHp ? A : B) + '?'; }
-    return { A, B, seed: o.seed, win, t: +(koAt != null ? koAt : __vt - v0).toFixed(1), hp, realSec: +((RT.now() - t0) / 1000).toFixed(1), errs: S.errs.slice(0, 4), extra: o.extra ? (() => { try { return (0, eval)(o.extra); } catch (e) { return 'extra: ' + e.message; } })() : undefined };
+    const dealt = Math.round((_matchStats[0] && _matchStats[0].dmg) || 0);
+    return { A, B, seed: o.seed, dealt, win, t: +(koAt != null ? koAt : __vt - v0).toFixed(1), hp, realSec: +((RT.now() - t0) / 1000).toFixed(1), errs: S.errs.slice(0, 4), extra: o.extra ? (() => { try { return (0, eval)(o.extra); } catch (e) { return 'extra: ' + e.message; } })() : undefined };
   };
 })();
