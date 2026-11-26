@@ -749,7 +749,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     bananacat:  { key:'bananacat',  defaultName:'Banana Cat',   emoji:'🍌', color:'#fff176', hp:1000, speed:5, size:43, skill:'Mỗi 2s dừng khóc 1.7s → để vỏ chuối. Địch giẫm: lao theo hướng đang đi, dame va tường tỉ lệ nghịch với thời gian. Vỏ tồn tại 12s rồi tự biến mất (mất ngay khi có người giẫm trúng), có thể chồng nhiều vỏ.' },
     suscat:     { key:'suscat',     defaultName:'SUS Cat',      emoji:'📮', color:'#f44336', hp:1000, speed:5, size:38, skill:'Mỗi 3s triệu hồi ngẫu nhiên 1 quân bài ở góc xa nhất sân: Imposter đỏ bắn 3 phát bám mục tiêu (100 dmg/phát), Imposter cận chiến va trúng 180 dmg, Imposter đen tự nổ 150 dmg + choáng 2s cho MỌI người trong bán kính (cũng tự kích nổ khi chạm lính Đức), Imposter cam đứng cách ~140 há đầu phóng LƯỠI đâm 140 dmg + kéo địch lại gần, Imposter vàng TẮT ĐÈN cả sân (địch chậm 25% tối đa 3s) rồi lao vào đâm 120 dmg, Crew va trúng 50 dmg. ĐÚNG 1 LẦN MỖI TRẬN: địch tụt xuống ≤200 máu là nó triệu tập HỌP KHẨN cắt ngang trận — cả sàn đóng băng, vòng quay 50/50 phán xem địch có phải IMPOSTER không. Trúng thì địch bị đáp thẳng ra ngoài vũ trụ, chết ngay lập tức bất kể còn bao nhiêu máu — mà bảng chữ hiện ra lại ghi rõ nó KHÔNG phải imposter, "all imposters remain", tức vote trượt sạch và thằng còn đứng lại trên sàn mới là imposter thật. Trật thì cuộc họp tan ngay, đánh tiếp bình thường.' },
     nyancat:    { key:'nyancat',    defaultName:'Nyan Cat',     emoji:'🌈', color:'#e040fb', hp:1000, speed:5, size:43.2, skill:'Rainbow Trail: chạm tường → kéo cầu vồng; dải ĐANG KÉO chạm địch gây 150 (dải đó tan). Chạm tường tiếp → dải nối xong thành VẬT CẢN THẠCH co giãn: địch chạm vào bị nảy bật ngược theo quán tính, mất 50; chạm lần thứ 3 thì dải đứt, lần đó mất 100. Không còn tăng tốc khi chạm tường.' },
-    loooongcat: { key:'loooongcat', defaultName:'Loooong Cat',  emoji:'🐱', color:'#eeeeee', hp:1000, speed:2.4, size:52, skill:'RẮN SĂN MỒI kiểu game Nokia. Vào trận là con mèo meme đi bộ tới CỔNG LCD ở góc dưới phía mình, chui vào cổng 1s rồi trồi ra thành rắn: đầu ra trước, thân ra được 1 đoạn bằng con mèo thì đuôi ra và cắm ở cổng. Sau đó đầu bò DỌC LÊN theo tường, hết cột quay đầu chữ U sang cột kế bên (góc trái lấp dần sang phải, góc phải ngược lại), thân dài ra mãi. Bò chậm, nhưng mỗi lần đầu húc trúng địch thì nhanh thêm 5% (cộng dồn, tối đa ×3) — đầu húc KHÔNG gây dame. Địch KHÔNG BAO GIỜ bị đẩy xuyên qua thân: bị dồn dần vào khoảng sân còn trống, hẹp dần theo từng cột — kẹt hết chỗ đứng là NỔ TUNG. Cả thân là TƯỜNG chặn người lẫn đạn; chỉ ĐẦU ăn sát thương. Bò kín sân → mọi kẻ địch còn sống bị ép tan. Miễn nhiễm mọi khống chế (choáng, chậm, đóng băng, đẩy lùi…).' },
+    loooongcat: { key:'loooongcat', defaultName:'Loooong Cat',  emoji:'🐱', color:'#eeeeee', hp:1000, speed:2.4, size:52, skill:'RẮN SĂN MỒI kiểu game Nokia. Vào trận là con mèo meme đi LANG THANG như meme thường, tới GẦN 1 trong 4 CỔNG LCD ở 4 góc thì chui vào cổng 1s rồi trồi ra thành rắn: đầu ra trước, thân ra được 1 đoạn bằng con mèo thì đuôi ra và cắm ở cổng. Sau đó đầu bò DỌC theo tường (cổng dưới bò lên, cổng trên bò xuống), hết cột quay đầu chữ U sang cột kế bên (góc trái lấp dần sang phải, góc phải ngược lại), thân dài ra mãi. Bò chậm, nhưng mỗi lần đầu húc trúng địch thì GÂY 50 DAME + nhanh thêm 5% (cộng dồn, tối đa ×3). Địch KHÔNG BAO GIỜ bị đẩy xuyên qua thân: bị dồn dần vào khoảng sân còn trống, hẹp dần theo từng cột — kẹt hết chỗ đứng là NỔ TUNG. Cả thân là TƯỜNG chặn người lẫn đạn; chỉ ĐẦU ăn sát thương. Bò kín sân → mọi kẻ địch còn sống bị ép tan. Miễn nhiễm mọi khống chế (choáng, chậm, đóng băng, đẩy lùi…).' },
     flyingcat:  { key:'flyingcat',  defaultName:'Flying Cat',   emoji:'🦅', color:'#ffcc80', hp:1000, speed:5, size:43, skill:'Vẫn bay lượn đuổi theo địch và càng dội tường càng nhanh, nhưng giờ có ba bản sao tí hon của chính nó bay vòng quanh như vệ tinh. Quỹ đạo nở dần ra rồi thu lại, càng ra xa quay càng nhanh, vệ tinh nào sượt qua địch là cắt một nhát.' },
     snoozecat:  { key:'snoozecat',  defaultName:'Snooze Cat',   emoji:'😴', color:'#90caf9', hp:1000, speed:5, size:45, skill:'Ngủ 1.7s mỗi 1.7s: bắn Zzz (10 + 5/s ngủ dồn cả trận), hồi 20 HP. Drowsy: mỗi 10% máu mất → +5% mọi buff. MỖI LẦN NGỦ có thể MƠ (20%, mỗi giấc không mơ +10%, mỗi giấc mơ 1 lần/trận, không mơ 2 giấc liền) — mơ thì không bắn Zzz, cả sân chuyển cảnh: ÁC MỘNG = địa ngục, quỷ xiên từng meme địch nhúng vạc dầu sôi 2s (80 dame/s + cháy) · MƠ ĐẸP = tia sáng + bậc thang thiên đường, bàn tay thần xoa đầu → +150 máu.' },
     depressedcat:{ key:'depressedcat',defaultName:'Depressed Cat',emoji:'😿',color:'#78909c',hp:1000, speed:5, size:43, skill:'Kẻ tan nát cõi lòng — giờ cả thế giới phải trả giá. Còn sống trên sân là mọi kẻ địch chậm 20% (tốc chạy + tốc đánh) suốt trận. Kêu than 3s (nghỉ 1.5s): mọi kẻ địch +1 nấc Depression (cục pin dưới chân nó tụt 1 vạch), trời theo nấc: mây đen kéo đến → mưa nhỏ → mưa to + sét → bão. Đủ 5 nấc: dạng Pain, Shinra Tensei xoá sổ cả sân.' },
@@ -12554,7 +12554,7 @@ function _btcDrawCats(){
   }
 }
 // cú cắn (2 hàm răng khép lại) + sóng xung kích + cảnh Cat God — TRÊN meme
-let _btcWaveTmp=null;
+
 function _btcDrawOver(){
   for(const q of btcFx){
     if(q.k==='bite'){ const u=q.t/q.T, close=Math.min(1,u/0.45), al=u<0.6?1:1-(u-0.6)/0.4, x=q.o&&!q.o.dead?q.o.x:q.x, y=q.o&&!q.o.dead?q.o.y:q.y, s=q.s;
@@ -12564,19 +12564,20 @@ function _btcDrawOver(){
         ctx.fillStyle='#ffffff'; ctx.fill(); ctx.lineWidth=2.2; ctx.strokeStyle='#111'; ctx.stroke(); }
       ctx.restore(); }
   }
-  // 🌊 sóng xung kích: bóp méo không gian từ tâm (shader) + mép sóng trắng mảnh + bụi
-  for(const q of btcFx){ if(q.k!=='shock') continue; const u=q.t/q.T;
-    if(window.VfxGL && VfxGL.fx){ const cv=ctx.canvas, T=ctx.getTransform(), sc=Math.hypot(T.a,T.b)||1, p=T.transformPoint(new DOMPoint(q.x,q.y)), RR=Math.round(BTC_SHOCK_R*1.15*sc),
-        x0=Math.max(0,Math.round(p.x-RR)), y0=Math.max(0,Math.round(p.y-RR)), w=Math.min(cv.width-x0,RR*2), h=Math.min(cv.height-y0,RR*2);
-      if(w>8 && h>8){ const c=_btcWaveTmp||(_btcWaveTmp=document.createElement('canvas')); if(c.width!==w||c.height!==h){ c.width=w; c.height=h; } const g=c.getContext('2d'); g.clearRect(0,0,w,h); g.drawImage(cv,x0,y0,w,h,0,0,w,h);
-        const o=VfxGL.fx.shockwave(c,{x:p.x-x0,y:p.y-y0,time:u*0.75,speed:BTC_SHOCK_R*1.4*sc,amplitude:BTC_SHOCK_R*0.1*sc*(1-u),wavelength:BTC_SHOCK_R*0.45*sc,brightness:1.08});
-        if(o){ g.clearRect(0,0,w,h); g.drawImage(o,0,0); const gr=g.createRadialGradient(p.x-x0,p.y-y0,RR*0.75,p.x-x0,p.y-y0,RR); gr.addColorStop(0,'rgba(0,0,0,1)'); gr.addColorStop(1,'rgba(0,0,0,0)');
-          g.globalCompositeOperation='destination-in'; g.fillStyle=gr; g.fillRect(0,0,w,h); g.globalCompositeOperation='source-over';
-          ctx.save(); ctx.setTransform(1,0,0,1,0,0); ctx.drawImage(c,x0,y0); ctx.restore(); } } }
-    const R=BTC_SHOCK_R*(1-Math.pow(1-u,2.2)), al=(1-u);
-    ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.strokeStyle=`rgba(255,255,255,${0.55*al})`; ctx.lineWidth=3+5*(1-u);
-    ctx.beginPath(); ctx.ellipse(q.x,q.y+q.f.size*0.6,R,R*0.55,0,0,Math.PI*2); ctx.stroke(); ctx.restore();   // mép sóng ép dẹt theo mặt sàn
-    if(q.t%3===0 && u<0.7){ for(let k=0;k<6;k++){ const a=_btcH(q.t*7+k)*Math.PI*2; spawnParticles(q.x+Math.cos(a)*R,q.y+q.f.size*0.6+Math.sin(a)*R*0.55,'#d7ccc8',1,false,false); } }
+  // 🌊 sóng xung kích RIÊNG của Battle Cat (anh 26/11: mỗi meme 1 VFX, không xài shader chung): đúng chất hoạt hình phẳng của
+  //    The Battle Cats — 1 VÀNH SÓNG TRẮNG mép gợn răng cưa, viền MỰC ĐEN dày, ép dẹt theo sàn, lan ra rồi mỏng dần
+  //    + 12 nét mực đen toả ra lúc bung (kiểu nét tốc độ truyện tranh) + bụi trắng chỗ mép sóng quét qua.
+  for(const q of btcFx){ if(q.k!=='shock') continue; const u=q.t/q.T, cy=q.y+q.f.size*0.6;
+    const R=BTC_SHOCK_R*(1-Math.pow(1-u,2.4)), band=Math.max(2,(BTC_SHOCK_R*0.16)*(1-u)), al=u<0.75?1:1-(u-0.75)/0.25, N=36;
+    const ring=(r,j)=>{ for(let k=0;k<=N;k++){ const a=k/N*Math.PI*2, w=r+(k%2?j:-j*0.4)+Math.sin(a*5+q.t*0.4)*j*0.3; const x=q.x+Math.cos(a)*w, y=cy+Math.sin(a)*w*0.5; k?ctx.lineTo(x,y):ctx.moveTo(x,y); } ctx.closePath(); };
+    ctx.save(); ctx.globalAlpha=al; ctx.lineJoin='round';
+    ctx.beginPath(); ring(R+band,band*0.55); ring(Math.max(1,R-band*0.2),band*0.2);   // 2 mép CÙNG 1 path → tô vành bằng evenodd
+    ctx.fillStyle='#ffffff'; ctx.fill('evenodd'); ctx.lineWidth=Math.max(1.5,3.2*(1-u)+1); ctx.strokeStyle='#141414'; ctx.stroke();
+    if(u<0.35){ const k=u/0.35; ctx.strokeStyle='#141414'; ctx.lineCap='round';   // nét mực toả ra lúc bung
+      for(let i=0;i<12;i++){ const a=i/12*Math.PI*2+_btcH(i+q.x)*0.4, r0=q.f.size*(0.9+1.6*k), r1=r0+q.f.size*(0.7+0.5*_btcH(i*3+q.y))*(1-k);
+        ctx.lineWidth=(3.5-2.5*k)*(0.7+0.6*_btcH(i*7)); ctx.beginPath(); ctx.moveTo(q.x+Math.cos(a)*r0,cy+Math.sin(a)*r0*0.5-q.f.size*0.4); ctx.lineTo(q.x+Math.cos(a)*r1,cy+Math.sin(a)*r1*0.5-q.f.size*0.4); ctx.stroke(); } }
+    ctx.restore();
+    if(q.t%3===0 && u<0.7){ for(let k=0;k<5;k++){ const a=_btcH(q.t*7+k)*Math.PI*2; spawnParticles(q.x+Math.cos(a)*R,cy+Math.sin(a)*R*0.5,'#ffffff',1,false,false); } }
   }
   if(btcGod) _btcDrawGod();
 }
@@ -14524,7 +14525,7 @@ const CHAR_BLURB = {
   bananacat: "Drops banana peels and dashes off — stepping on one sends you sliding out of control.",
   suscat: "Summons imposters to gang up on the enemy. Once a match, when the enemy drops to 200 HP, it calls a real emergency meeting: the whole floor freezes for a 50/50 vote on whether they are the Imposter. Win the roll and they get ejected into space on the spot — no matter how much HP they had left — and the report cheerfully confirms they were not the Imposter and that all imposters remain, leaving SUS Cat alone on the floor.",
   nyancat: "Draws rainbows from wall to wall. A rainbow still being drawn hurts a lot on contact; a finished one turns into bouncy jelly that throws you back and snaps on the third hit.",
-  loooongcat: "Plays Nokia Snake. Walks into the retro LCD gate in a bottom corner, pops out as a snake with its tail plugged in, then crawls up and down column by column until the arena is full and crushes whatever is left alive. The head plows through enemies, biting them and getting 5% faster each time. The body is a wall that blocks memes and shots, and only the head can be hurt.",
+  loooongcat: "Plays Nokia Snake. Wanders like any meme until it gets near one of the retro LCD gates in the 4 corners, dives in and pops out as a snake with its tail plugged in, then crawls column by column until the arena is full and crushes whatever is left alive. The head plows through enemies, biting them for 50 and getting 5% faster each time. The body is a wall that blocks memes and shots, and only the head can be hurt.",
   flyingcat: "Speeds up off every wall while three tiny copies of itself orbit it, slicing anything they pass.",
   snoozecat: "Alternates between napping and waking; asleep it fires Zzz at enemies and heals itself through the cycle. Every nap may turn into a dream that rewrites the arena: a nightmare where a devil dunks every enemy into boiling oil, or a heavenly dream where a divine hand pats it for 150 HP.",
   depressedcat: "A heartbroken cat, and now the whole world pays: every enemy is slowed while it lives, each lament darkens the sky into a storm, and the fifth one ends in Shinra Tensei.",
@@ -17832,9 +17833,9 @@ function _camUpdate(){
 function addShake(str,dur){ if(str>screenShake.str){ screenShake={x:0,y:0,dur,str}; } }
 // tìm mục tiêu địch GẦN NHẤT tính cả đơn vị triệu hồi (clone/lính) — coi như char thường, dùng chung cho mọi hệ thống hit-detection
 // ===== 🐱 LOOOONG CAT — RẮN SĂN MỒI kiểu game Nokia (làm lại 13/11/2026 theo thiết kế của anh) =====
-// Vào trận là đúng con mèo avatar, đi bộ tới CỔNG LCD ở góc DƯỚI phía mình → chạm cổng thì đuôi NỐI vào góc, nằm xuống thành rắn
+// Vào trận là đúng con mèo avatar, đi LANG THANG như meme thường; tới GẦN 1 trong 4 CỔNG LCD ở 4 góc (anh 26/11) → chui vào, đuôi NỐI vào góc, nằm xuống thành rắn
 // rồi bò DỌC LÊN theo tường, hết cột quay đầu chữ U sang cột kế bên (góc trái lấp dần sang phải, góc phải ngược lại); thân dài ra mãi.
-// Thân = TƯỜNG: chặn người + đạn, không gây dame, không ăn dame. Chỉ ĐẦU cắn được và chỉ ĐẦU ăn dame. Mỗi lần cắn → bò nhanh thêm 5%.
+// Thân = TƯỜNG: chặn người + đạn, không gây dame, không ăn dame. Chỉ ĐẦU cắn được (50 dame, anh 26/11) và chỉ ĐẦU ăn dame. Mỗi lần cắn → bò nhanh thêm 5%.
 // Ảnh: đuôi + khúc thân lặp cắt từ 1 ảnh GPT nhìn từ trên xuống (cùng bề dày + chất lông, đuôi có dải mờ đè lên thân giấu mối nối);
 // ĐẦU rắn (LC_HEAD, cùng ảnh GPT nhìn từ trên xuống, 2 chân trước gập) XOAY THEO HƯỚNG BÒ — anh thử mặt cố định nhìn ra, thấy không hợp lý → bỏ.
 // Ảnh có tay duỗi CHỈ dùng cho con mèo đi bộ lúc chưa vào cổng (avatar).
@@ -17844,7 +17845,7 @@ const LC_SRC_BODY=165, LC_SRC_FEATHER=60;   // ảnh thân (px): bề dày thân
 const LC_SRC_FACE=100;                      // ảnh LC_HEAD (nhìn từ trên xuống, tai chĩa về trước): mặt cách mũi đầu 100px → đầu chìa trước để MẶT nằm đúng tâm va chạm
 const LC_BODY_K=0.85;                                         // bề dày thân vẽ = size × hệ số (anh giảm 15% bề ngang 13/11)
 const LC_DIVE_T=60;   // chui vào cổng 1s (anh dặn)
-const LC_BITE=60, LC_BITE_CD=30, LC_SPD_UP=1.05, LC_SPD_MAX=3, LC_STEP=5;   // (em tự đặt dame cắn, hồi cắn 0.5s/mục tiêu, trần ×3 tốc)
+const LC_BITE=50, LC_BITE_CD=30, LC_SPD_UP=1.05, LC_SPD_MAX=3, LC_STEP=5;   // (em tự đặt dame cắn, hồi cắn 0.5s/mục tiêu, trần ×3 tốc)
 function _lcTh(f){ return f.size*LC_BODY_K*0.5; }                 // bán kính thân = đúng mép hình
 function _lcSkip(f){ return Math.ceil(f.size*1.3/LC_STEP); }      // số điểm vệt sát đầu là CỔ + ĐẦU, không tính là thân
 // điểm thân (bỏ khúc đầu) gần (x,y) nhất trong bán kính r, không có → null
@@ -17871,27 +17872,29 @@ function _lcBlockShot(walls,p){
     if(q){ _hitParticles(p.x,p.y,'#f3efe6',5); return true; } }
   return false;
 }
-// cổng LCD ở 2 góc dưới: tâm + cỡ
-function _lcPad(f,left){ const sz=Math.round(f.size*LC_BODY_K*1.5); return {x:left?sz/2+4:W-sz/2-4, y:H-sz/2-4, sz}; }
-// đi bộ (dạng avatar) tới cổng góc dưới phía mình; chạm cổng → nối đuôi, thành rắn
+// cổng LCD ở CẢ 4 GÓC (anh 26/11): tâm + cỡ · c = 0 trái-dưới · 1 phải-dưới · 2 trái-trên · 3 phải-trên
+const LC_CORNERS=[[true,false],[false,false],[true,true],[false,true]];
+function _lcPad(f,left,top){ const sz=Math.round(f.size*LC_BODY_K*1.5); return {x:left?sz/2+4:W-sz/2-4, y:top?sz/2+4:H-sz/2-4, sz}; }
+const LC_NEAR_K=1.6;   // tới gần cổng (tâm cách tâm < 1.6 × cỡ cổng) mới chui được
+// dạng mèo đi bộ: đi LANG THANG như meme thường (moveLogic chung) — KHÔNG bị hút về góc (anh 26/11). Tới gần 1 cổng → chui vào.
+// trả true = đã tự lo di chuyển tick này (đang chui), false = để moveLogic chung chạy
 function _lcWalk(f){
-  if(f._lcLeft===undefined) f._lcLeft=f.x<W/2;
-  const q=_lcPad(f,f._lcLeft), dx=q.x-f.x, dy=q.y-f.y, d=Math.hypot(dx,dy), sp=f.topSpeed;
-  f.vx=0; f.vy=0;
-  if(f._lcDiveT!==undefined){ if(++f._lcDiveT>=LC_DIVE_T) _lcInit(f); return; }   // đang chui vào cổng
-  if(d<=sp){ f.x=q.x; f.y=q.y; f._lcDiveT=0; f._lcGhost=f._lastSprite?{...f._lastSprite, x:f.x, y:f.y}:null; }   // chạm cổng → bắt đầu chui (chụp lại hình đang hiện)
-  else { f.vx=dx/d*sp; f.vy=dy/d*sp; f.x+=f.vx; f.y+=f.vy; }
+  if(f._lcDiveT!==undefined){ f.vx=0; f.vy=0; if(++f._lcDiveT>=LC_DIVE_T) _lcInit(f); return true; }   // đang chui vào cổng
+  for(let c=0;c<4;c++){ const [l,t]=LC_CORNERS[c], q=_lcPad(f,l,t);
+    if(Math.hypot(q.x-f.x,q.y-f.y) < q.sz*LC_NEAR_K){   // tới gần cổng → bắt đầu chui (chụp hình đang hiện, mèo trượt vào giữa màn LCD trong lúc chui)
+      f._lcCorner=c; f._lcLeft=l; f._lcTop=t; f._lcDiveT=0; f._lcGhost=f._lastSprite?{...f._lastSprite, x:f.x, y:f.y}:null; f.x=q.x; f.y=q.y; f.vx=0; f.vy=0; return true; } }
+  return false;
 }
-// NỐI GÓC: đuôi cắm vào góc dưới, vệt thân bắt đầu từ đó; dựng đường bò dọc từng cột
+// NỐI GÓC: đuôi cắm vào góc, vệt thân bắt đầu từ đó; dựng đường bò dọc từng cột (cổng dưới bò LÊN trước, cổng trên bò XUỐNG trước)
 function _lcInit(f){
-  const th=_lcTh(f), left=(f._lcLeft!==undefined)?f._lcLeft:f.x<W/2, D=f.size*LC_BODY_K;
-  const A={x:f.x, y:f.y};                                 // con rắn chui ra từ GIỮA màn LCD của cổng góc dưới
+  const th=_lcTh(f), left=(f._lcLeft!==undefined)?f._lcLeft:f.x<W/2, top=!!f._lcTop, D=f.size*LC_BODY_K;
+  const A={x:f.x, y:f.y};                                 // con rắn chui ra từ GIỮA màn LCD của cổng góc
   const T=[]; { const dx=f.x-A.x, dy=f.y-A.y, d=Math.hypot(dx,dy), n=Math.max(1,Math.round(d/LC_STEP)); for(let i=0;i<=n;i++) T.push({x:f.x-dx*i/n, y:f.y-dy*i/n}); }
-  f._lcTrail=T; f._lcAng=-Math.PI/2; f._lcSpd=1; f._lcBite=new Map(); f._lcLinkT=tick; f._lcLeft=left;
+  f._lcTrail=T; f._lcAng=top?Math.PI/2:-Math.PI/2; f._lcSpd=1; f._lcBite=new Map(); f._lcLinkT=tick; f._lcLeft=left;
   // các cột: từ tường bên góc nối sang tường đối diện, cột đầu + cột cuối sát tường
   const cols=[]; for(let x=th; x<W-th-D*0.4; x+=D) cols.push(x); cols.push(W-th);
   if(!left) for(let i=0;i<cols.length;i++) cols[i]=W-cols[i];
-  const P=[], PC=[]; let side=-1;   // -1 = đang bò lên · PC = chốt thuộc cột nào (để biết khoảng sân còn trống)
+  const P=[], PC=[]; let side=top?1:-1;   // -1 = đang bò lên · +1 = bò xuống (cổng trên) · PC = chốt thuộc cột nào (để biết khoảng sân còn trống)
   for(let c=0;c<cols.length;c++){
     const R=c<cols.length-1 ? Math.abs(cols[c+1]-cols[c])/2 : 0;
     const ye=side>0 ? H-th-R : th+R;   // vòng chữ U phình ra sát đúng tường trên / dưới
@@ -17909,8 +17912,8 @@ function _lcInit(f){
 const _lcEaseO=k=>1-Math.pow(1-k,3), _lcEaseI=k=>k*k*k;
 function _lcPadsDraw(f){
   const BG='#c7f0d8', INK='#43523d', lt=f._lcLinkT, age=lt===undefined?-1:tick-lt, dv=f._lcDiveT;
-  for(const left of [true,false]){
-    const q=_lcPad(f,left), mine=(f._lcLeft===undefined ? (f.x<W/2)===left : f._lcLeft===left);
+  for(let c=0;c<4;c++){ const [left,top]=LC_CORNERS[c];
+    const q=_lcPad(f,left,top), mine=(f._lcCorner===undefined ? Math.hypot(f.x-q.x,f.y-q.y)<q.sz*LC_NEAR_K*2.2 : f._lcCorner===c);   // chưa chọn cổng: cổng nào mèo đang lại gần thì sáng
     let a=1; if(age>=0 && !mine) a=Math.max(0,1-age/40); if(a<=0) continue;
     const sz=q.sz, p=Math.max(2,Math.round(sz/16)), x0=Math.round(q.x-sz/2), y0=Math.round(q.y-sz/2);
     // độ sáng cổng: tới gần sáng dần → chui vào sáng rực → trồi ra thì dịu về mức nối
@@ -18019,7 +18022,8 @@ function _lcSqueeze(f){
     if(inLane && along<hr+r){
       // 🐍 đầu húc (mỗi mục tiêu 0.5s/lần): bò nhanh thêm 5% — không dame, không hồi máu
       if(tick-(f._lcBite.get(v)??-999)>=LC_BITE_CD){
-        f._lcBite.set(v,tick);   // (anh bỏ 15/11: đầu chạm địch KHÔNG gây dame, KHÔNG hồi máu — chỉ húc đẩy + bò nhanh thêm 5%)
+        f._lcBite.set(v,tick);   // (anh 26/11: đầu húc trúng địch GÂY 50 dame — trước 15/11 bỏ dame, nay bật lại; vẫn không hồi máu) + bò nhanh thêm 5%
+        v.takeDamage(LC_BITE,f);
         f._lcSpd=Math.min(LC_SPD_MAX,(f._lcSpd||1)*LC_SPD_UP);
         floatTexts.push({x:f.x,y:f.y-f.size-16,text:'+5% SPD',color:'#fff59d',life:34});
         _hitParticles(v.x,v.y,'#ffffff',6); playSample('lc_chomp',0.9);
@@ -21121,7 +21125,7 @@ class Fighter {
     // 🐈 Slap Cat: đang vung tay vả → đứng khựng lại (vẫn tích lực bình thường, xem doAbility)
     if(this.type==='slapcat' && (this._slapFreeze||0)>0){ this.vx*=0.7; this.vy*=0.7; this.x+=this.vx; this.y+=this.vy; return; }
     // 🐱 LOOOONG CAT: đầu rắn tự săn mồi (xem _lcMove), không dùng AI lang thang/đuổi địch
-    if(this.type==='loooongcat'){ if(this._lcPath) _lcMove(this); else _lcWalk(this); return; }   // chưa nối góc: đi bộ tới cổng góc dưới
+    if(this.type==='loooongcat'){ if(this._lcPath){ _lcMove(this); return; } if(_lcWalk(this)) return; }   // chưa nối góc: đi lang thang như meme thường, tới GẦN 1 trong 4 cổng góc mới chui (anh 26/11)
     // 😈 EVIL LARRY: đi DỌC ĐƯỜNG VẼ ngôi sao quỷ, chặn hẳn AI lang thang/đuổi địch
     if(this.type==='evillarry' && this._elPath && !this._elDone){
       const _tp=this._elPath[this._elIdx];
