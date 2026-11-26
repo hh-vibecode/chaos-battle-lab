@@ -71,3 +71,15 @@ Anh đã lên lịch sẵn tới 30/11; đổi 2 trận yếu: 27/11 Doge vs Ang
 | T5 3/12 | Crunchy Cat vs Chill Guy (Chill Guy SONG PHI kết liễu, còn 1 máu — lọc seed bằng `--inject` quan sát + `--dirok 'cg=kick'`) | Friend vs Clapping Cat (Friend thắng 140) |
 | T6 4/12 | Snooze Cat vs Fine Dog (Snooze thắng 113) | Adolf Catler vs Evil Larry (Adolf còn 1 máu đúng lúc nghi lễ xong) |
 Chọn cặp bằng `render-match --sim 4` (đọc skill trước, bỏ cặp một chiều). Cặp đã thử mà BỎ: Sans vs Azel (Azel thắng 11s nguyên máu), Scream Cat vs Friend (Scream thắng y hệt mọi seed), LeSunshine vs Scared Dog (LeSunshine không mất máu), Azel vs Evil Larry (luôn hoà — nghi lễ giết cả 2), Azel vs Poor Dog / Adolf vs Poor Dog (Poor Dog thắng còn 300–600), Giant Friend vs Gigachad / Spider Cat (Giant Friend thua cả 4), Yuki vs Evil Larry (Yuki không gây dame khi Larry không đánh).
+
+## VPN · đăng 1 hay 2 video/ngày · từ khoá (trả lời anh chiều 26/11, phiên Mac)
+- **VPN: đừng tắt.** YouTube không chọn người xem theo IP người đăng; video hẹn giờ do máy chủ YouTube tự công bố. Tỉ lệ nước gần như giữ nguyên (VN ~14% → ~13%, US ~10% → ~9%).
+  Anh nghi bật kiếm tiền (24/10) + VPN bị "để ý" → chưa xác nhận cũng chưa loại được. Bật thì dùng 1 nước CỐ ĐỊNH (vd luôn US).
+  Cách thử (CHƯA chốt với anh): tuần 1/12–4/12 xen kẽ BẬT / TẮT VPN lúc TẢI LÊN (1/12: sáng bật, tối tắt · 2/12: sáng tắt, tối bật · 3/12 như 1/12 · 4/12 như 2/12),
+  6/12 đo sau 48h: lượt hiện feed · ở lại xem · tỉ lệ view Mỹ (~10–15 credit vidIQ). Mỗi nhóm 4 video → phải chênh rõ mới kết luận.
+- **Số video/ngày: giữ 2** khi đủ 2 trận tốt (sáng 8h vs tối 19h ngang nhau: từ 24/10 trung vị 89K vs 92K; tối có 8/30 video ≥200K, sáng 4/31). Thiếu trận tốt → đăng 1 video lúc 19h, đừng đăng trận yếu cho đủ.
+  Đang thử VPN thì KHÔNG đổi số video / giờ đăng cùng lúc.
+- **Từ khoá: chỉ ~1,3% view từ tìm kiếm** (10–23/11: 67K / ~5,1 triệu) → phần phụ. Người ta gõ TÊN MEME (evil larry 5.8K, gigachad 4.8K, ricardo milos 4.0K, sus 3.4K, azel 2.6K, "meme battle" 2.5K…).
+  → Gọi meme đúng tên người ta gõ: **Mosquito Violin** (không "Violin Mosquito"), **UIA Cat** (không "U I A Cat"), **Commander Cat** (không "Commeowder").
+  → Mô tả 1 dòng có tên 2 meme + hashtag riêng từng con (vd `#evillarry #adolfcatler #memes #memebattle #shorts`), bỏ `#autobattler`.
+  → Từ khoá đang lên (ý tưởng meme mới): huss huss huss (~750K/tháng, đã gắn LeSunshine Ver 749) · crab rave ~350K · gta 6 meme ~306K · jensen huang meme ~211K · ahh almost almost ~188K · while they're out partying ~189K.
