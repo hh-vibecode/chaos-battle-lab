@@ -969,6 +969,39 @@
    "t": 30.5,
    "src": "render",
    "at": "2026-11-26T04:58:22.118Z"
+  },
+  {
+   "title": "Crunchy Cat vs Chill Guy",
+   "k": "crunchy cat vs chill guy",
+   "win": [
+    "chillguy"
+   ],
+   "seed": 374813411,
+   "t": 34.4,
+   "src": "render",
+   "at": "2026-11-26T05:37:50.080Z"
+  },
+  {
+   "title": "LeSunshine vs Smart Guy",
+   "k": "lesunshine vs smart guy",
+   "win": [
+    "lebronsunshine"
+   ],
+   "seed": 374701140,
+   "t": 34.1,
+   "src": "render",
+   "at": "2026-11-26T05:42:18.687Z"
+  },
+  {
+   "title": "Giant Friend vs Evil Gary",
+   "k": "giant friend vs evil gary",
+   "win": [
+    "friendeldritch"
+   ],
+   "seed": 374856548,
+   "t": 26.5,
+   "src": "render",
+   "at": "2026-11-26T05:45:24.591Z"
   }
  ]
 }
