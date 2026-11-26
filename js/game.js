@@ -17237,10 +17237,13 @@ const SOLO_MOVE_MUL = 5.8/5;   // chốt 5.8 (thử 5.5 rồi 6 trước đó)
 // ⭐ COMMENTER BATTLE: sàn rộng 815 (gấp ~1.54 sàn 1vs1) mà tốc chạy lại ×1 → đi hết sân mất gần gấp đôi, nhìn lờ đờ
 //    như lag. Nhân ×1.5 (nhanh hơn 1vs1 ~30%) cho vừa cỡ sân. Chỉ tốc CHẠY — tốc đạn/thời gian skill giữ nguyên.
 const FAN_MOVE_MUL = 1.5;
-function _soloMoveMul(){ return (fanCtx||bossCtx) ? FAN_MOVE_MUL : (ffa3Ctx||duoCtx) ? 1 : SOLO_MOVE_MUL; }
+// ⚡ (anh 26/11: "nhịp trận hơi chậm" → áp MỌI chế độ, từ các trận quay sau) NHỊP TRẬN: meme to thêm 10% + chạy nhanh thêm 10%.
+const PACE_K = 1.1;
+function _paceK(){ return PACE_K; }
+function _soloMoveMul(){ return ((fanCtx||bossCtx) ? FAN_MOVE_MUL : (ffa3Ctx||duoCtx) ? 1 : SOLO_MOVE_MUL) * PACE_K; }
 function _memeScale(){
   const _mul = (ffa3Ctx||duoCtx||fanCtx||bossCtx) ? MEME_SIZE_MUL_OTHER : MEME_SIZE_MUL;
-  return (fanCtx ? 1.2 : bossCtx ? 0.8 : 1) * _mul;
+  return (fanCtx ? 1.2 : bossCtx ? 0.8 : 1) * _mul * _paceK();
 }
 // Cỡ nhân vật commenter: vẫn thu theo tỉ lệ chung của chế độ, nhưng nhân thêm 2.5 lần — nó là NHÂN VẬT CHÍNH
 // của video, để bằng cỡ 3 con meme kia thì nhìn chìm nghỉm.
