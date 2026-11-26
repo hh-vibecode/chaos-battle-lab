@@ -31792,6 +31792,7 @@ function loop(){
     // ☭ ĐANG KẾT HỢP (2s nạp sáng): lưỡi liềm TẠM DUNG HỢP vào biểu tượng búa-liềm — đứng yên, ngừng xoay,
     // không gây dame và KHÔNG VẼ RA (hình búa liềm bắt chéo ở giữa đã có sẵn lưỡi liềm rồi, để nó bay lởn vởn
     // bên ngoài là thành 2 cái liềm). Xong chuỗi thì nó bung ra bay tiếp từ đúng chỗ đó.
+    if(ap._stalinSickle && ap.owner && ap.owner.dead){ spawnParticles(ap.x,ap.y,'#9e9e9e',6,false,false); apples.splice(i,1); continue; }   // ☭ (26/11) Stalin chết → liềm rơi vỡ tan, không bay lởn vởn trong cảnh mừng thắng
     if(ap._stalinSickle && ap.owner && ap.owner._slCharging) continue;
     // 🌍 quả TRÁI ĐẤT của Gary: giữ NGUYÊN tốc (nhanh hơn tốc thường 15%) suốt trận. Hệ thống nảy dùng chung với
     // Apple Cat có giảm tốc 0.9 mỗi lần chạm tường/địch, để nguyên thì nó tụt dần còn ~3% chứ không phải 15%.

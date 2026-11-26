@@ -88,6 +88,18 @@ Anh xem lịch: 8/10 trận quay 26/11 bị bỏ (lỗi / chán) → mỗi trậ
 | 7 | Infinity Doge vs Chonky Dog | mỗi cú đổ sập: 350 cho thân bị đè + 100 cho TỪNG thân → đàn slime vơi dần; Chonky lúc to chịu 50% | ưu tiên Infinity (0-2) | Beach |
 | 8–10 | (CHƯA CHỌN) | quét skill MỌI meme tìm cặp khắc chế rõ → sim kiểm sức rồi mới đưa anh | | |
 
+### ✅ ĐÃ QUAY 26/11 tối (7 trận, ~/Desktop/Meme Battles/, 3K 9:16 50fps, lọc seed bằng `--inject out/inject-diemnhan.js --dirok …` — chỉ ĐỌC diễn biến)
+| Trận | Seed | Dài | Kết quả + điểm nhấn |
+|---|---|---|---|
+| LeSunshine vs Smart Guy (Space) | 408859978 | 34s | 2 cú SLAM DUNK (~9s, ~20s), loé trắng sân, cuối hoá MẶT TRỜI thắng ngược còn 2/3 vạch |
+| Cat.exe vs Scared Dog (Volcano) | 410328355 | 20.5s | Not Responding dồn Scared Dog còn 62 máu → lag văng ra mép trên, nhỏ dần rơi mất → Scared Dog thắng (đổi từ Ricardo: Ricardo thắng 5/5, Cat.exe không áp sát được) |
+| Battle Cat vs Friend (Beach) | 410609764 | 29s | CAT GOD (thử 22 lần) chưởng lỗ, Friend rơi, Battle Cat đứng ngoài → BATTLE CAT THẮNG còn 200 (không phải hoà) · Guitar Cat góc dưới = cameo nhạc Friend (cố ý) |
+| Gigacat vs Gigachad (Volcano) | 409199659 | 43s | Gigachad to dần ~22s, Gigacat hoá khổng lồ ~29s, suplex con to hơn mình → Gigacat thắng 301/2400 · ~20s đầu chỉ đi lại → anh cắt từ ~19s |
+| Evil Gary vs Gary (Space — ghi nhầm `christmas`, mã đúng là `xmas`) | 409454510 | 27s | Trái Đất to dần, 5 cánh sao → cõi linh hồn, Gary trúng độc → Evil Gary thắng |
+| A Lotta Dame Guy vs Stalin Cat (Space) | 409655537 | 25s | 2 lần cưa máy, A Lotta thắng còn 50 · quay lại 2 lần sau khi sửa lỗi (Ver 767: domain mở sau khi Stalin chết · Ver 768: liềm bay lởn vởn sau khi chết) |
+| Infinity Doge vs Chonky Dog (Grass) | 409809698 | 33s | đàn slime tách cả chục con, Chonky phình to đổ sập đè cả đàn → Chonky thắng 610 |
+Bài học công cụ: `--arena` dùng mã `space / beach / xmas / grass / volcano` · render-match tải trang >30s làm hỏng lô → Ver 767 chờ 3 phút + tải lại 1 lần.
+
 ## VPN · đăng 1 hay 2 video/ngày · từ khoá (trả lời anh chiều 26/11, phiên Mac)
 - **VPN: đừng tắt.** YouTube không chọn người xem theo IP người đăng; video hẹn giờ do máy chủ YouTube tự công bố. Tỉ lệ nước gần như giữ nguyên (VN ~14% → ~13%, US ~10% → ~9%).
   Anh nghi bật kiếm tiền (24/10) + VPN bị "để ý" → chưa xác nhận cũng chưa loại được. Bật thì dùng 1 nước CỐ ĐỊNH (vd luôn US).

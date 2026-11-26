@@ -1068,6 +1068,50 @@
    "t": 33.3,
    "src": "render",
    "at": "2026-11-26T15:18:28.565Z"
+  },
+  {
+   "title": "A Lotta Dame Guy vs Stalin Cat",
+   "k": "a lotta dame guy vs stalin cat",
+   "win": [
+    "alottadameguy"
+   ],
+   "seed": 409655537,
+   "t": 25,
+   "src": "render",
+   "at": "2026-11-26T15:24:09.395Z"
+  },
+  {
+   "title": "Cat.exe vs Scared Dog",
+   "k": "cat exe vs scared dog",
+   "win": [
+    "scareddog"
+   ],
+   "seed": 410328355,
+   "t": 20.5,
+   "src": "render",
+   "at": "2026-11-26T15:26:12.399Z"
+  },
+  {
+   "title": "Battle Cat vs Friend",
+   "k": "battle cat vs friend",
+   "win": [
+    "battlecat"
+   ],
+   "seed": 410609764,
+   "t": 28.9,
+   "src": "render",
+   "at": "2026-11-26T15:32:18.606Z"
+  },
+  {
+   "title": "A Lotta Dame Guy vs Stalin Cat",
+   "k": "a lotta dame guy vs stalin cat",
+   "win": [
+    "alottadameguy"
+   ],
+   "seed": 409655537,
+   "t": 25,
+   "src": "render",
+   "at": "2026-11-26T15:35:12.199Z"
   }
  ]
 }
