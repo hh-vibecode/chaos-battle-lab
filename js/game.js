@@ -11324,7 +11324,8 @@ const LB_FLASH_CD=480, LB_SP_CD=240, LB_SP_FIRST=150, LB_SP_X=22, LB_SP_NX=4, LB
 const LB_HAND_F=[0.52,-0.30], LB_HAND_B=[-0.43,-0.04], LB_FLOOR=[0.05,1.02];
 function _lbSpPose(f){ const t=f._lbSpT||0, s=f.size, fc=_lbFace(f);   // dáng người lúc chài / nhảy / đập (chỉ dịch + xoay ảnh)
   if(t<=0) return {ox:0,oy:0,rot:0};
-  if(t<=LB_SP_DRIB){ const p=((t-1)%LB_SP_X)/LB_SP_X; return {ox:0, oy:s*0.05*Math.sin(Math.PI*p), rot:0.05*fc*Math.sin(Math.PI*2*(t-1)/(LB_SP_X*2))}; }
+  if(t<=LB_SP_DRIB){ const p=((t-1)%LB_SP_X)/LB_SP_X, d=Math.sin(Math.PI*p), side=Math.sin(Math.PI*2*(t-1)/(LB_SP_X*2));   // (anh 26/11: chài rõ hơn) khuỵu gối mỗi nhịp bóng chạm sàn + nghiêng người theo tay đón bóng
+    return {ox:s*0.06*fc*side, oy:s*0.1*d, rot:0.1*fc*side, sx:1+0.04*d, sy:1-0.07*d}; }
   if(t<LB_SP_SLAM){ const k=(t-LB_SP_DRIB)/LB_SP_TOSS, e=1-Math.pow(1-k,2); return {ox:-s*0.08*fc*e, oy:-s*0.55*e, rot:-0.14*fc*e}; }   // bật nhảy, ngả ra sau lấy đà
   const k=Math.min(1,(t-LB_SP_SLAM)/(LB_SP_END-LB_SP_SLAM)); return {ox:s*0.12*fc*(1-k), oy:-s*0.55*(1-k)*(1-k), rot:0.3*fc*(1-k)}; }   // vụt tay đập xuống rồi tiếp đất
 function _lbSpBall(f){ const t=f._lbSpT||0, s=f.size, fc=_lbFace(f), P=_lbSpPose(f), L=(a)=>[f.x+P.ox+fc*a[0]*s, f.y+P.oy+a[1]*s];   // vị trí bóng (thế giới) + độ bẹp
@@ -25600,7 +25601,7 @@ class Fighter {
     if(this.type==='lebronsunshine'){ const _fc=this._lastFacingLeft?-1:1;   // ☀️ hoạt cảnh LeSunshine (chỉ dịch hình)
       if(this._lbSun){ const _k=1.5+0.06*Math.sin(tick*0.08); scaleX*=_k; scaleY*=_k; rotation+=tick*0.006; }   // mặt trời to, xoay chậm
       else if(this._lbMeme>0){ const _c=Math.min(1,this._lbMeme/LB_CHARGE_T), _k=1+0.35*_c+(this._lbMeme>=LB_CHARGE_T?0.08*Math.sin(tick*0.4):0); scaleX*=_k; scaleY*=_k; offX+=(_skH(tick*1.7)-0.5)*4*_c*(this._lbMeme<LB_CHARGE_T); }   // gom sáng: phình + rung
-      else if(this._lbSpT>0){ const _P=_lbSpPose(this); offX+=_P.ox; offY+=_P.oy; rotation+=_P.rot; }   // 🏐 chài bóng nhún người · bật nhảy · vụt tay đập
+      else if(this._lbSpT>0){ const _P=_lbSpPose(this); offX+=_P.ox; offY+=_P.oy; rotation+=_P.rot; if(_P.sy){ scaleX*=_P.sx; scaleY*=_P.sy; } }   // 🏐 chài bóng nhún người · bật nhảy · vụt tay đập
       else if(this._lbThrowT>0){ const _t=LB_THROW_T-this._lbThrowT; if(_t<LB_THROW_REL){ const _u=_t/LB_THROW_REL; rotation-=0.14*_u*_fc; offX-=this.size*0.14*_u*_fc; } else { const _u=Math.min(1,(_t-LB_THROW_REL)/4), _d=1-(_t-LB_THROW_REL)/(LB_THROW_T-LB_THROW_REL); rotation+=0.1*_u*_d*_fc; offX+=this.size*0.12*_u*_d*_fc; } }   // ngả lấy đà → bật tới
       else offY+=Math.abs(Math.sin(tick*0.18))*-this.size*0.05;
       if(!this._lbSun && !(this._lbMeme>0)){ scaleX*=1.25; scaleY*=1.25; } }   // ảnh nửa người rộng (chừa tay + bóng) → vẽ to thêm cho thân bằng cỡ meme khác   // 👁️ lao người tới va địch (chỉ dịch hình)

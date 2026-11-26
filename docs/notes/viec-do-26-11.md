@@ -23,11 +23,9 @@
 
 ## 🤸 Luật mới: meme tương tác thì thân phải chuyển động tương ứng (anh 26/11, CLAUDE.md)
 - ✅ ĐÃ RÀ (Mac 26/11): đọc mô tả skill 71 meme → 11 con nghi, chụp 16 khung / 0.3s mỗi con khi đấu Doge để xem tận mắt.
-  ❗ THÂN ĐỨNG IM lúc tương tác → CẦN LÀM chuyển động (chờ anh chọn thứ tự):
-    · **Stalin Cat**: quăng búa / nhặt búa: ảnh y nguyên, chỉ cái búa đổi góc → cần vung tay ném + cúi nhặt.
-    · **LeSunshine**: chài bóng qua 2 tay + bật nhảy đập: ảnh y nguyên (bóng tự nảy) → cần nhún theo nhịp chài, bật người lên lúc đập.
-    · **Cornelius**: phi chảo mỗi 1.5s: ảnh chạy y nguyên → cần giật người ném.
-    · **Slap Cat**: đứng khựng lại vả (tay thò qua cổng): ảnh mèo ngồi y nguyên → cần ngả người vung tay.
+  ⚠️ SỬA LẠI (soát code 26/11 tối): 4 con từng ghi "thân đứng im" thật ra ĐỀU ĐÃ CÓ động tác — khung chụp 0.3s/lần lọt mất (động tác chỉ 0.3–0.5s):
+    Cornelius ngả người mỗi lần phi chảo (`_cnThrowT`) · Stalin Cat lao người lúc quăng búa (attackAvatarTimer) · Slap Cat 3 khung giơ chân → vả · LeSunshine nhún / bật nhảy / vụt (`_lbSpPose`).
+    → Ver 765: nhịp CHÀI của LeSunshine làm rõ hơn (khuỵu gối 10% + nghiêng người theo tay đón bóng + bẹp nhẹ mỗi nhịp). Rà kiểu chụp thưa KHÔNG tin được — phải soát code (`_atkPop`/pose) hoặc chụp dày lúc ép chiêu.
   ✅ Đã có chuyển động: Crunchy Cat (nhai), Cough Cat (khung ho), Kermit (nhiều dáng), Mechanic Cat (khung lắp), Dam Dam Didi (lắc đầu), Bread Cat (xoay),
      Gigacat, Cat.exe, Battle Cat, Doorbell Chud, Capybara, Alotta Dame Guy, Samurai Cheems.
   ❔ Chưa thấy được: Angry Cat (trong 5s chụp không phóng xích lần nào) — soát lại khi ép chiêu.
