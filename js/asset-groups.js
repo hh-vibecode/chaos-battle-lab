@@ -10,6 +10,8 @@ window.ASSET_GROUP={
 "assets/audio/gk_meow.mp3": "gigachadcat",
 "assets/audio/gk_meow_big.mp3": "gigachadcat",
 "assets/audio/gk_meow_long.mp3": "gigachadcat",
+"assets/audio/gk_theme.mp3": "gigachadcat",
+"assets/audio/gk_bell.mp3": "gigachadcat",
 "assets/avatars/battlecat/avatarUrl.webp": "battlecat",
 "assets/avatars/battlecat/thumb.webp": "critical",
 "assets/img/battlecat/BTC_WALL.webp": "battlecat",

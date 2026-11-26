@@ -7,10 +7,12 @@
 - Cơ chế (anh 26/11): dạng mèo bị đánh → meow trầm + sóng âm đẩy lùi, dame = 50% dame vừa nhận · ≤40% máu → hồi 25%, hoá Gigachad khổng lồ (meow dài, phát chậm 0.82) ·
   hồi chiêu 3s: địch sát bên → BÊ NGANG qua đầu → đổ người ra sau SUPLEX, địch DỐC ĐẦU cắm sàn (200, choáng 1s, nứt mặt sàn) · không ai sát → cúi cắm tay, nhổ 1 mảnh LỚP MẶT sàn (để hố lõi đá) ném đón đầu (150 vùng).
 - ❗ CẦN LÀM NỐT:
-  1. **Cân bằng**: máu đang 3000 (anh đặt 1000; em nâng để bớt thua). Thắng Doge 3/10 ở 2600 máu, chưa đo lại ở 3000. Đo bù nhìn 25s: 761 dame (Doge 791).
-     → chốt theo chuẩn mới của anh (1000–1200 dame / 25s, xem dưới) rồi hạ máu về cho hợp.
+  1. ✅ (Mac 26/11, Ver 761) **Cân bằng**: máu 3000→2400, bê quật 200→280, ném mảnh sàn 150→210 → trận 22–46s (như meme cũ, máu 3000 thì 40–60s),
+     thắng Doge 6/10 · Ricardo 4/10 · Cheems 9/10 (`sim.js gigachadcat --vs doge,ricardo,cheems --n 10`).
   2. ✅ (Mac 26/11 đã chụp kiểm: bê ngang qua đầu → ngả ra sau → địch cắm đầu xuống sàn → choáng — đúng) **Soát hình lúc BÊ NGANG + dốc đầu cắm sàn** — `rotation` của địch trong draw khi `_gkHeld` (xoay 90° → 180° theo `_gkSpin`).
-  4. Nghe lại 3 tiếng (`gk_meow` / `gk_meow_big` / `gk_meow_long`, myinstants) — em không nghe được, chọn theo tên + độ dài.
+  4. 🔊 (Ver 761) THÊM: `gk_theme` = Can You Feel My Heart (Gigachad theme, myinstants, 5.2s) vang lên khi to xong hẳn · `gk_bell` = chuông WWE ding ding ding lúc suplex cắm sàn ·
+     `gk_meow_long` nâng +21 dB (cũ -41.6 LUFS, game chỉ bù ×8 nên vẫn nhỏ). Cú quật giờ đi CUNG TRÒN quanh hông + 30% đầu giữ dáng bê → địch luôn bám tay.
+     ❗ Anh nghe lại 5 tiếng `gk_*` (em không nghe được, chọn theo tên + phổ).
   5. Câu info ngắn đang là "Meows in bass. Lifts the floor." — đưa anh chọn thêm.
 
 ## ⚖️ Chuẩn cân bằng mới (anh 26/11): dame gây ra trong 22–25s ≈ 1000–1200
