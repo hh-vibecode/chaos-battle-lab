@@ -230,3 +230,6 @@
   Crazed Macho Cat 49%: 100 máu (fan 75), cắn 125 (fan) / 1s (em đặt), đi nhanh 1.15×.
   Cat God 2%: `_btcGodStart` → chạy theo thời gian THẬT ở tầng loop như cảnh Evil Gary: đứng hình cả trận, sân tối + cột sáng trời, thần hạ xuống 4.2s, meow 4.5s, 5.3s ĐÒN (anh đổi 26/11, bỏ giết sạch): CỘT SÁNG xuyên dọc CẢ MÀN HÌNH + impact frame → CHƯỞNG THỦNG 1 LỖ TRÒN giữa sân (bán kính 27% cạnh ngắn, `btcHole`, nhìn xuống trời sao, vành nứt) → ai đứng trên lỗ (CẢ PHE MÌNH, kể cả Battle Cat, cả quân triệu hồi) rơi xoáy xuống lỗ 1s rồi `_susEject` (thua thẳng). Đứng ngoài thì sống → có thể hoà / tự hại đội. Lỗ liền lại 1.2s.
 - Sóng xung kích: anh xem bản vành trắng viền mực (Ver 753) → bảo dùng lại bản cũ (shader bóp méo + vành sáng mảnh) — "cái đấy đẹp".
+- 💡 Ý tưởng nâng chất lượng Battle Cat (để bàn với anh, CHƯA làm): ① mỗi lần gọi mèo hiện thanh "cat food" + tiếng ví tiền kiểu game gốc (người chơi Battle Cats nhận ra ngay → comment) ·
+  ② Cat God 2% quá hiếm cho video → khi quay lọc seed có Cat God, tiêu đề kiểu "2% chance" kích thảo luận ("có thật 2% không?") · ③ thêm Cat dạng tiến hoá (Titan Cat / Jamiera) khi đủ 3 lần gọi → cao trào cuối trận ·
+  ④ lỗ thủng Cat God nuốt CẢ Battle Cat = cảnh "tự hại" rất dễ viral nếu đúng lúc sắp thắng → lọc seed chọn cảnh này.
