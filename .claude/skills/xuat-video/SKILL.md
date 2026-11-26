@@ -52,6 +52,7 @@ Phim có sẵn: `war`, `l2e2`, `l2e3` (bảng `FILMS` đầu file). Phim dựng 
 - Thấy lệch: đừng đoán — ghi log `__vt` / `__vpos(a)` bằng `--inject`, hoặc đo độ lên tiếng file: nguyên nhân thường là ở file âm thanh hoặc logic game gọi tiếng muộn.
 
 ## Trận đấu giả lập 1vs1 — `tools/render-match.js out.mp4 --a <key> --b <key>`
+- 🏟️🎨 (anh 26/11) **Sân `--arena <key>`**: luân phiên sân giữa các Short, NHƯNG chỉ chọn sân ĐỐI MÀU với cả 2 meme — không chọn sân trùng / gần màu meme (vd Gigacat màu kem ✗ Beach). Phân vân thì chụp thử 1 khung ở 2 sân, chọn sân meme nổi hơn. Chi tiết màu từng sân: CLAUDE.md mục 5 SÂN.
 - Mặc định: chạy thử 10 trận (`--best`), chọn trận SÁT NÚT nhất (con thắng còn ít máu nhất), quay 2K 9:16 60fps.
 - Nhanh hơn: `--hw`. `--par 2` (chạy thử 2 trận cùng lúc, kết quả y hệt) CHỈ khi máy đang rảnh — KHÔNG dùng `--par` lớn hơn (MacBook lag, chậm hơn).
 - Ý muốn của anh: `--win a|b` (bên trái/phải thắng), `--close 0.25` (thắng còn ≤25% máu). Đã có seed ưng → `--seed N` (bỏ qua chạy thử).
