@@ -86,8 +86,8 @@ Quy trình mỗi trận: `sim.js` đo sức (≥8 seed) → lọc seed CÓ đi�
 | 7 | Yuki vs Boxing Cat | Boxing Cat đấm mạnh dần, Yuki phản 40% → tự đấm mình gục | Yuki (0-1) | Grass |
 | 8 | Evil Larry vs Snooze Cat | nghi lễ vạch sao hoàn tất ĐÚNG lúc Larry sắp chết → giết đối thủ | Evil Larry (0-3) | Volcano |
 | 9 | Infinity Doge vs Chonky Dog | Infinity Doge tách đôi như slime ra cả đàn ↔ Chonky Dog phình to đổ sập đè cả đàn | Infinity Doge (0-2) | Beach |
-| 10 | Troll Face vs Mewing Cat (thay Depressed Cat — anh bỏ mọi trận có Depressed Cat) | Troll Face nuốt chửng (jumpscare) ↔ Hollow Purple xoá sổ của Mewing Cat | Troll Face | Christmas |
-⚠️ Chưa sim: #6–#10 là cặp đoán theo skill — sim ra một chiều / không có điểm nhấn thì đổi. Boxing Cat đã đăng dày (anh lưu ý) → #7 xếp xa trận Boxing gần nhất.
+| 10 | (CHƯA CHỌN — anh bỏ mọi trận có Depressed Cat; Troll Face vs Mewing Cat bị loại vì Hollow Purple CHỈ có trong cutscene Lore, trận thường Mewing chỉ gọi tượng đá) | | | |
+⚠️ (anh 26/11: "phải có logic") Điểm nhấn + con thắng PHẢI kiểm bằng code skill + sim trước khi đưa anh — #5–#9 hiện là cặp ĐOÁN theo mô tả skill — sim ra một chiều / không có điểm nhấn thì đổi. Boxing Cat đã đăng dày (anh lưu ý) → #7 xếp xa trận Boxing gần nhất.
 
 ## VPN · đăng 1 hay 2 video/ngày · từ khoá (trả lời anh chiều 26/11, phiên Mac)
 - **VPN: đừng tắt.** YouTube không chọn người xem theo IP người đăng; video hẹn giờ do máy chủ YouTube tự công bố. Tỉ lệ nước gần như giữ nguyên (VN ~14% → ~13%, US ~10% → ~9%).
