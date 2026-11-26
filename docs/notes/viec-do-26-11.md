@@ -9,8 +9,7 @@
 - ❗ CẦN LÀM NỐT:
   1. **Cân bằng**: máu đang 3000 (anh đặt 1000; em nâng để bớt thua). Thắng Doge 3/10 ở 2600 máu, chưa đo lại ở 3000. Đo bù nhìn 25s: 761 dame (Doge 791).
      → chốt theo chuẩn mới của anh (1000–1200 dame / 25s, xem dưới) rồi hạ máu về cho hợp.
-  2. **Soát hình lúc BÊ NGANG + dốc đầu cắm sàn** (sửa cuối phiên, CHƯA chụp kiểm) — `rotation` của địch trong draw khi `_gkHeld` (xoay 90° → 180° theo `_gkSpin`).
-  3. Ảnh duyệt cũ trong `out/review/gigachadcat/` (máy Windows) — trên Mac chụp lại bằng skill chay-thu.
+  2. ✅ (Mac 26/11 đã chụp kiểm: bê ngang qua đầu → ngả ra sau → địch cắm đầu xuống sàn → choáng — đúng) **Soát hình lúc BÊ NGANG + dốc đầu cắm sàn** — `rotation` của địch trong draw khi `_gkHeld` (xoay 90° → 180° theo `_gkSpin`).
   4. Nghe lại 3 tiếng (`gk_meow` / `gk_meow_big` / `gk_meow_long`, myinstants) — em không nghe được, chọn theo tên + độ dài.
   5. Câu info ngắn đang là "Meows in bass. Lifts the floor." — đưa anh chọn thêm.
 
@@ -23,6 +22,7 @@
 ## 🤸 Luật mới: meme tương tác thì thân phải chuyển động tương ứng (anh 26/11, CLAUDE.md)
 - Cần rà TẤT CẢ meme cũ: con nào ném / nhổ / tóm / đập mà ảnh đứng im → ghi tên vào đây rồi làm dần. CHƯA rà.
 
-## 🐱 Battle Cat — ✅ Ver 759 (Mac): rơi xuống lỗ giờ teo CẢ CỤM (thân + vũ khí + thanh máu) — `draw()` bọc `_drawBody()`.
+## 🐱 Battle Cat + 💻 Cat.exe — ✅ Ver 759–760 (Mac): RƠI MẤT (lỗ Cat God / Cat.exe rơi vào vũ trụ) = teo CẢ CỤM (thân + vũ khí + thanh máu)
+  về gần 0, cuối pha mờ hẳn, chết thì BIẾN MẤT không vỡ mảnh (anh 26/11) — `draw()` bọc `_drawBody()`, cờ `_fellAway` chặn `_fighterDeathFx`.
 
 ## 🏟️ Sân (Ver 755–756) — xong; chờ anh xem sân Biển có làm sóng trắng khó thấy không (sàn sáng hơn sân khác).

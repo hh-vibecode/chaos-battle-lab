@@ -3946,6 +3946,7 @@ function _shardCellHasInk(cv,cx,cy,cw,ch){
 //    Các meme khác vẫn vỡ mảnh như cũ (xem _fighterDeathFx).
 let mwKitkat=[];
 function _fighterDeathFx(f){
+  if(f._fellAway) return;   // 🕳️ rơi xuống lỗ (Cat God) / rơi vào vũ trụ (Cat.exe): đã nhỏ dần tới mất hút → biến mất êm, KHÔNG vỡ mảnh (anh 26/11)
   const L=f._lastSprite;
   if(_FR_LOOK.has(f.type) && L && L.img && (L.img.naturalWidth||L.img.width)){ _frShatter(f,L); return; }   // 🐈‍⬛ Friend: vỡ thành mảnh to nằm lại trên sàn
   if(f.type==='mewingcat' && L && L.img && (L.img.naturalWidth||L.img.width)){ _mwKitKat(f,L); return; }
@@ -12237,7 +12238,7 @@ function _cxFallStart(f){ const C=f._cx; if(C.fall || f.dead) return;
 }
 function _cxFallTick(f){ const C=f._cx; f.vx=0; f.vy=0; C.fall++;
   f.x+=C.fvx*0.5; f.y+=C.fvy*0.5+0.15;
-  if(C.fall>=CX_FALL_T){ C.fall=CX_FALL_T; _susEject(f, f.enemy||null); }
+  if(C.fall>=CX_FALL_T){ C.fall=CX_FALL_T; f._fellAway=true; _susEject(f, f.enemy||null); }
 }
 // 🧠 +RAM mỗi va chạm (địch / tường) — đầy 100% thì sập (đang ở ngoài sân thì rơi luôn)
 function _cxRam(f){ const C=_cxS(f); if(f.dead || C.nr>0 || C.fall || C.ramCD>0) return;
@@ -12546,7 +12547,7 @@ function _btcGodFall(G,ms){ const k=Math.max(0,Math.min(1,(ms-BTC_GOD_HIT_MS-120
   for(const v of (G.victims||[])){ const o=v.o; if(o.dead) continue; o._btcFallK=e; o.x=v.x0+(btcHole.x-v.x0)*e*0.6; o.y=v.y0+(btcHole.y-v.y0)*e*0.6; o.vx=0; o.vy=0; } }
 function _btcGodKill(G){ const f=G.f;
   for(const v of (G.victims||[])){ const o=v.o; if(o.dead || (o.hp!==undefined && o.hp<=0)) continue;
-    o._btcFallK=0; if(fighters.includes(o)) _susEject(o,f); else o.takeDamage(Math.max(9999,(o.hp||0)*10), f); }
+    o._btcFallK=0; o._fellAway=true; if(fighters.includes(o)) _susEject(o,f); else o.takeDamage(Math.max(9999,(o.hp||0)*10), f); }
   if(btcHole) btcHole.close=performance.now()+300;   // lỗ liền lại ngay sau đó (1.2s)
   addShake(8,14);
 }
@@ -25085,12 +25086,14 @@ class Fighter {
     }
   }
 
-  // 🐱🕳️ bị Cat God chưởng rơi xuống lỗ: teo CẢ CỤM quanh tâm meme (thân + vũ khí + thanh máu + mọi thứ vẽ kèm), không chỉ ảnh thân
+  // 🕳️ RƠI MẤT (anh 26/11): bị Cat God chưởng xuống lỗ / Cat.exe rơi vào vũ trụ → teo CẢ CỤM quanh tâm meme
+  //    (thân + vũ khí + thanh máu + mọi thứ vẽ kèm) về gần 0, cuối pha mờ hẳn → chết thì biến mất êm (_fellAway, không vỡ mảnh)
   draw(){
-    const _fk=this._btcFallK||0;
+    const _fk=(this._btcFallK>0) ? this._btcFallK : (this.type==='catexe' && this._cx && this._cx.fall) ? Math.pow(this._cx.fall/CX_FALL_T,2) : 0;
     if(!(_fk>0)) return this._drawBody();
-    const z=Math.max(0.05,1-_fk*0.95);
+    const z=Math.max(0.01,1-_fk*0.99);
     ctx.save(); ctx.translate(this.x,this.y); ctx.scale(z,z); ctx.translate(-this.x,-this.y);
+    if(_fk>0.6) ctx.globalAlpha*=Math.max(0,(1-_fk)/0.4);   // nhỏ dần rồi mờ hẳn → mất hút
     try{ this._drawBody(); } finally { ctx.restore(); }
   }
   _drawBody(){
@@ -25120,7 +25123,7 @@ class Fighter {
     if(this._gkHeld && this._gkHeld._gk){ const _hd=this._gkHeld._gk.dir||1, _k=this._gkSpin||0; rotation+=_hd*(Math.PI/2+Math.PI*0.5*_k*_k); }   // 😼 bị BÊ NGANG trên đầu → lúc quật xoay DỐC ĐẦU cắm xuống sàn (anh 26/11)
     if(this.type==='gigachadcat'){ const _gp=_gkPose(this); if(_gp){ scaleX*=_gp[0]; scaleY*=_gp[1]; offX+=_gp[2]; offY+=_gp[3]; rotation+=_gp[4]; } }   // 😼 động tác thân khi nhổ sàn / tóm / ném / gầm
     if(this.type==='battlecat' && this._btc && this._btc.sq>0){ const _bq=_btcSquash(this); scaleX*=_bq[0]; scaleY*=_bq[1]; }   // 🐱 nhún khi meow / cắn / gồng tung sóng
-    if(this.type==='catexe' && this._cx && this._cx.fall){ const k=this._cx.fall/CX_FALL_T, z=Math.max(0.04,1-k*k*0.96); scaleX*=z; scaleY*=z; rotation+=k*k*5; }   // 💻 rơi xuống vũ trụ: nhỏ dần + xoay
+    if(this.type==='catexe' && this._cx && this._cx.fall){ const k=this._cx.fall/CX_FALL_T; rotation+=k*k*5; }   // 💻 rơi xuống vũ trụ: xoay thân (teo + mờ cả cụm làm ở draw())
     if(this._cxSqT!==undefined){ const a=tick-this._cxSqT; if(a>=0 && a<12){ const k=Math.sin(a/12*Math.PI)*(1-a/12); scaleX*=1+0.16*k; scaleY*=1-0.13*k; } }   // 🥊 cú húc làm bẹp mặt 1 nhịp   // 🍞 đang bị hút vào tâm xoáy: nhỏ dần
     // 😏 đang bị Troll Face ngậm → thu nhỏ lại còn 45%, nhìn như đang nằm gọn trong bụng nó
     // 😏 Troll Face đang ngậm địch: phình to thêm 30% (chỉ phần HÌNH, hitbox giữ nguyên). Riêng 0.5–0.7s ĐẦU
