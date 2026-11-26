@@ -102,6 +102,7 @@ Chi tiết từng meme: `docs/notes/memes.md` · từng phim + cine-kit: `docs/n
 ## 🏆 Leaderboard "Memes in the Multiverse" (anh chốt 18/11)
 - ⛔ (anh 20/11) Quay xong KHÔNG ghi vào leaderboard — `render-match` / `render-duo` chỉ ghi LỊCH SỬ `tools/leaderboard/history.json`. `make.js` thấy Short đã lên kênh mới đưa lần quay mới nhất cùng tên vào `results.json` (khoá theo mã video). Trận quay ngoài 2 công cụ đó → `record.js` `record()` (cũng chỉ vào lịch sử).
 - `node tools/leaderboard/make.js` → 2 ảnh 9:16 vào `~/Desktop/Meme Battles/0. Leaderboard/`: chỉ Short ĐÃ ĐĂNG (đọc tiêu đề kênh), từ 01/11/2026, bỏ tiêu đề "lore", mọi meme (chưa đấu = mờ cuối bảng), 2vs2 cả đội +1. Short chưa có kết quả → "Thieu ket qua.txt".
+- ⚖️ (anh 26/11) Lên kế hoạch trận quay → CÂN LEADERBOARD: tính W-L từng meme (results.json + trận đã quay chờ đăng), chọn con THẮNG từng trận (lọc seed, không can thiệp) để kéo con thua liền lên, không để vài con toàn thắng. Ghi cột "THẮNG" trong kế hoạch.
 - ⚠️ (anh 23/11 bắt lỗi) "Friend" trong tiêu đề = Friend THƯỜNG; Giant Friend phải ghi `teams` trong results.json. AI THẮNG (anh 23/11): ① anh BẢO trận nào con nào thắng → ghi đúng thế (ưu tiên nhất) · ② trận quay random → kết quả lần quay CUỐI · ③ trận nào không chắc (quay nhiều lần ra người thắng khác nhau, anh chưa nói) → HỎI anh, không tự đoán. KHÔNG dò lần quay theo độ dài video (anh luôn RÚT GỌN video trước khi đăng). 23/11 đã soát đủ 41 video (`chk`).
 - Mac tự chạy 6h30 sáng thứ 2 (launchd `com.memeautobattler.leaderboard`, log `~/Library/Logs/meme-leaderboard.log`).
 
