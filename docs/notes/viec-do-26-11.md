@@ -13,7 +13,7 @@
   4. 🔊 (Ver 761) THÊM: `gk_theme` = Can You Feel My Heart (Gigachad theme, myinstants, 5.2s) vang lên khi to xong hẳn · `gk_bell` = chuông WWE ding ding ding lúc suplex cắm sàn ·
      `gk_meow_long` nâng +21 dB (cũ -41.6 LUFS, game chỉ bù ×8 nên vẫn nhỏ). Cú quật giờ đi CUNG TRÒN quanh hông + 30% đầu giữ dáng bê → địch luôn bám tay.
      ❗ Anh nghe lại 5 tiếng `gk_*` (em không nghe được, chọn theo tên + phổ).
-  5. Câu info ngắn đang là "Meows in bass. Lifts the floor." — đưa anh chọn thêm.
+  5. ✅ Câu info: "Jawline first. Sigma second." (anh chọn 26/11).
 
 ## ⚖️ Chuẩn cân bằng mới (anh 26/11): dame gây ra trong 22–25s ≈ 1000–1200
 - Công cụ: `tools/x/sim.js <meme> --dps --n 4` (bù nhìn bất tử, đi lại như meme thường, đánh lại 40/0.8s để kích chiêu phản).
