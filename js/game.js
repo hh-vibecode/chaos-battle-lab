@@ -779,7 +779,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     loadingcat: { key:'loadingcat', defaultName:'Loading Cat', emoji:'⏳', color:'#90a4ae', hp:1000, speed:5, size:47, skill:'Có 1 mũi tên Yaka (kiểu Yondu) vĩnh viễn. Xen kẽ ngẫu nhiên: Loading 3-7s (đứng yên, vòng loading xoay giữa trán, điều khiển mũi tên bay theo quán tính lượn vòng đâm xuyên địch — mỗi lượt xuyên qua 80 dame + thủng 1 lỗ nhỏ, phải lượn vòng lại mới đâm tiếp) rồi Di chuyển 3-5s (mũi tên cắm im vào tường, đi lang thang bình thường).' },
     capybara: { key:'capybara', emoji:'🐹', color:'#8d6e63', hp:1000, speed:5, size:52, defaultName:'Capybara', skill:'Vào trận đã ở DẠNG DUNG HỢP (2 con cưỡi nhau) 1000 máu, CHỈ có đúng 1 chiêu: cứ 2.5s lại đứng yên tích lực 1s rồi lao húc về phía địch — trúng thì 150 dmg và đẩy văng rất mạnh (chỉ đẩy văng, không có dame đập tường). Không có đòn cận chiến nào ở dạng này. Khi ăn đòn chí mạng, thay vì chết thì BẬT VĂNG ra làm 2 con — con dùng AVATAR CHÍNH 300 máu (không đánh, chỉ lạch bạch đi qua đi lại), con CẦM DAO (ô ảnh phụ) 200 máu và còn đánh cận chiến 45 dmg. Sống sót qua 5s ở dạng tách thì 2 con hợp lại làm 1 với 500 máu (rồi lại tụt xuống 0 là tách tiếp, lặp vô hạn); mất 1 con trong 5s đó thì không hợp lại được nữa.' },
     catexe: { key:'catexe', defaultName:'Cat.exe', emoji:'💻', color:'#2f6fe0', hp:1000, speed:5, size:46, skill:'Không đánh thường — chỉ HÚC (55 dame / cú). Mỗi lần va chạm địch hoặc tường +20% RAM (thanh dưới chân), lúc thường đi mượt. RAM 100% → NOT RESPONDING 10s: mặt ngáo phát sáng, RỚT KHUNG HÌNH — lao thẳng nhưng cứ 0.3s mới giật cóc tới chỗ mới 1 lần, có lúc giật LÙI, sát tường có lúc lag văng ra ngoài sân rồi giật về (hết 10s mà đang ở ngoài là rơi xuống vũ trụ, thua luôn); địch húc vào nó lúc này bị MÉO MẶT, mỗi cú lõm thêm 1 chỗ + bầm đỏ; cứ 0.6s để lại 1 bản sao treo hình (giữ 3 bản, húc vào bị nảy như tường + 45 dame), mọi cú húc KHÔNG gây dame ngay mà treo Loading… trên đầu địch (65 / cú); hết 10s nổ dồn toàn bộ + 20% sát thương chuẩn rồi về mặt nghiêm túc, RAM về 0.' },
-    battlecat: { key:'battlecat', defaultName:'Battle Cat', emoji:'🐱', color:'#f5f5f5', hp:1000, speed:5, size:44, facing:'left', skill:'Con mèo của game The Battle Cats. 1000 máu. Cứ 10s kêu "meow". Không đánh thường — CHẠM địch là CẮN 75 dame (hồi 0.7s). Máu tụt qua mốc 500 / 200 / 50 → SÓNG XUNG KÍCH kiểu boss (hất văng mọi địch quanh nó, bất tử 1s) rồi gọi 1 con mèo: Wall Cat 49% (500 máu, chỉ ăn 75% dame, địch ưu tiên đánh nó, chạm 10 dame) · Crazed Macho Cat 49% (100 máu, cắn 125) · CAT GOD 2% (cả trận đứng hình, thần hạ xuống, meow → giết sạch mọi địch).' },
+    battlecat: { key:'battlecat', defaultName:'Battle Cat', emoji:'🐱', color:'#f5f5f5', hp:1000, speed:5, size:44, facing:'left', skill:'Con mèo của game The Battle Cats. 1000 máu. Cứ 10s kêu "meow". Không đánh thường — CHẠM địch là CẮN 75 dame (hồi 0.7s). Máu tụt qua mốc 500 / 200 / 50 → SÓNG XUNG KÍCH kiểu boss (hất văng mọi địch quanh nó, bất tử 1s) rồi gọi 1 con mèo: Wall Cat 49% (500 máu, chỉ ăn 75% dame, địch ưu tiên đánh nó, chạm 10 dame) · Crazed Macho Cat 49% (100 máu, cắn 125) · CAT GOD 2% (cả trận đứng hình, thần hạ xuống, meow rồi CHƯỞNG THỦNG 1 lỗ tròn lớn giữa sân: meme nào đứng trên lỗ — CẢ PHE MÌNH, kể cả Battle Cat — rơi thẳng vào vũ trụ; đứng ngoài thì sống → có thể hoà / tự hại đội).' },
     sans: { key:'sans', defaultName:'Sans - The Unknown', emoji:'💀', color:'#5b8fd6', hp:1, speed:5, size:46, skill:'Không có đòn đánh thường. CHỈ CÓ 1 MÁU nhưng có 25 LẦN NÉ (MISS): mọi dạng dame — cận chiến, đạn thường, đạn dò đường, tia, nổ, AOE, aura, cháy, độc — đều MISS và trừ 1 lần né (dame liên tục cùng 1 nguồn tính tối đa 1 lần / 0.5s); hết 25 lần né thì dính 1 đòn là gục. Vào trận cả sân là THẾ GIỚI UNDERTALE (nền đen, khung trắng, thanh máu vàng/đỏ) và Sans ở dạng pixel. Mỗi 4s gọi đầu rồng Gaster Blaster ngoài mép sàn, mỗi lần thêm 1 đầu (4s: 1 đầu, 8s: 2 đầu, 12s: 3 đầu…); mỗi đầu chốt vị trí địch lúc hiện, tích tụ 1s rồi bắn tia plasma trắng khổng lồ 100 dmg (chạy khỏi chỗ đã chốt là né được); trúng tia thì bị LỬA XANH thiêu như cháy của Adolf (10 dame mỗi 0.5s trong 4s). Vào trận 8s: màn hình Undertale vỡ tan, sàn thường hiện lại, Sans thoát ra thế giới thật và thổi kèn Megalovania — Electric Guitar Cat và Bongo Cat hiện ra chơi cùng; Địch thua Sans cháy thành tro.' },
     fanchar: { key:'fanchar', defaultName:'Fan', emoji:'🧑', color:'#8ab4ff', hp:1000, speed:5, size:48, skill:'Nhân vật của người bình luận — skill riêng do chính họ nghĩ ra (xem FAN_SKILLS).' },
     yuki: { key:'yuki', defaultName:'Yuki - The Round One', emoji:'🦭', color:'#90caf9', hp:1000, speed:5, size:48, skill:'Hải cẩu tròn béo, KHÔNG có đòn đánh nào. Có đúng 2 chiêu. (1) VA ĐẬP: chạm vào ai là gây 50 sát thương, lúc nào cũng vậy. (2) PHẢN ĐÒN: mọi đòn đánh trúng nó gom thành 40% sát thương PHẢN, nhưng dame đó không nổ ngay mà bay theo nó — húc trúng ai mới giao tận nơi, bay hết đà không chạm được ai thì mất trắng. Trong lúc đang bay nó cứng người hơn, chịu ít hơn 25% sát thương. Cú đánh đồng thời hất chính nó bay VĂNG RA XA kẻ vừa đánh như quả bóng bi-a — đòn càng nặng bay càng nhanh và càng lâu — rồi nó cứ thế nảy tưng tưng dội hết tường này sang tường khác, đường bay hoàn toàn tuỳ vào góc dội chứ nó KHÔNG tự lái về phía ai. Ai xui nằm đúng đường nảy thì ăn trọn. Cú va đập SAU KHI đã dội tường mới hất văng được đối thủ, và mỗi lần hất văng thì từ chính con địch đó BẮN RA 1 con cá bay vòng cung rồi nằm lại — Yuki nhặt cá thì hồi 50 máu. Đòn càng nặng thì nó bay càng xa và rung như thạch càng dữ.' },
@@ -12416,8 +12416,8 @@ function cxPendSummons(){ const out=[]; for(const a of _hpSummonArrays()) for(co
 //   xong gọi 1 con mèo (1 cú dame lố qua 2 mốc thì gọi 2 con): Wall Cat 49% · Crazed Macho Cat 49% · CAT GOD 2%.
 //   – Wall Cat: 500 máu (fan), chỉ ăn 75% dame, địch ƯU TIÊN nhắm nó (khiêu khích), chạm địch 10 dame.
 //   – Crazed Macho Cat: 100 máu (fan 75), chạm địch CẮN 125 dame / 1s.
-//   – Cat God: cả trận ĐỨNG HÌNH, sân tối, nhạc boss u ám, thần hạ xuống từ trời thật chậm, kêu "meow" rồi 1 đòn GIẾT SẠCH
-//     mọi địch (meme + quân triệu hồi của địch). Battle Cat + đồng đội không sao.
+//   – Cat God: cả trận ĐỨNG HÌNH, sân tối, nhạc boss u ám, thần hạ xuống từ trời thật chậm, kêu "meow" rồi CHƯỞNG THỦNG 1 lỗ tròn
+//     lớn giữa sân (anh 26/11): AI đứng trên lỗ (cả phe mình, kể cả Battle Cat) rơi vào vũ trụ; đứng ngoài thì sống.
 const BTC_TPS=60*GAME_SPEED*TIME_SCALE;
 const BTC_BITE_DMG=75, BTC_BITE_CD=Math.round(0.7*BTC_TPS), BTC_MEOW_T=Math.round(10*BTC_TPS);
 const BTC_MARKS=[500,200,50], BTC_SHOCK_T=Math.round(1.0*BTC_TPS), BTC_SHOCK_R=270, BTC_SHOCK_KB=[16,9];
@@ -12519,29 +12519,57 @@ function _btcGodTick(){
   if(ms<BTC_GOD_KILL_MS) battleFreezeTimer=Math.max(battleFreezeTimer,2);
   if(!G.meow && ms>=BTC_GOD_MEOW_MS){ G.meow=true; playSample('btc_meow',1.0,null,0.7); addShake(7,24); }   // "meow" trầm của thần
   if(!G.hit && ms>=BTC_GOD_HIT_MS){ G.hit=true; _btcGodSmite(G); }
+  if(G.hit && !G.killed) _btcGodFall(G,ms);   // nạn nhân rơi xoáy xuống lỗ
   if(!G.killed && ms>=BTC_GOD_KILL_MS){ G.killed=true; _btcGodKill(G); }
   if(_btcGodBgm && ms>BTC_GOD_KILL_MS-1000){ try{ _btcGodBgm.volume=Math.max(0,Math.min(1,(BTC_GOD_END_MS-ms)/(BTC_GOD_END_MS-BTC_GOD_KILL_MS+1000))); }catch(e){} }
   if(ms>=BTC_GOD_END_MS){ if(_btcGodBgm){ _stopLoopAudio(_btcGodBgm); _btcGodBgm=null; } btcGod=null; }
 }
-// ⚡ đòn: cột sáng giáng xuống từng địch (địch loé trắng, đứng chết trân) — gục thật ở _btcGodKill khi thần đã đi
-function _btcGodSmite(G){ const f=G.f;
-  playSample('btc_crit',1.0); playSample('btc_savage',1.0,null,0.8); addShake(14,30);
-  G.foes=_btcFoes(f.team); G.kills=G.foes.map(o=>({o,x:o.x,y:o.y,s:o.size||20}));
-  for(const o of G.foes) o.flash=Math.max(o.flash||0,40);
-  floatTexts.push({x:W/2,y:H*0.18,text:'CAT GOD',color:'#ffffff',life:90,huge:true});
+// ⚡ đòn (anh 26/11): KHÔNG còn giết sạch — thần CHƯỞNG THỦNG 1 LỖ TRÒN LỚN giữa sân. Ai đứng trên lỗ (CẢ PHE MÌNH, kể cả Battle Cat)
+//    bị chưởng rơi thẳng vào vũ trụ qua lỗ (_susEject = thua thẳng). Đứng ngoài lỗ thì sống → có thể hoà, hoặc tự hại cả đội.
+const BTC_HOLE_K=0.27;   // bán kính lỗ = 27% cạnh ngắn của sân
+let btcHole=null;        // {x,y,r,t0 (ms), close (ms bắt đầu liền lại)} — vẽ DƯỚI meme
+function _btcGodSmite(G){ const f=G.f, now=performance.now();
+  playSample('btc_crit',1.0); playSample('btc_savage',1.0,null,0.8); addShake(16,34);
+  const hx=W/2, hy=H/2, hr=Math.min(W,H)*BTC_HOLE_K; btcHole={x:hx,y:hy,r:hr,t0:now,close:0};
+  G.victims=[];
+  for(const o of fighters){ if(o.dead || o.hp<=0 || _sdGone(o)) continue; if(Math.hypot(o.x-hx,o.y-hy)<hr){ G.victims.push({o,x0:o.x,y0:o.y}); } }
+  for(const a of _hpSummonArrays()) for(const o of a){ if(!o || o.dead || o.hp<=0) continue; if(Math.hypot(o.x-hx,o.y-hy)<hr) G.victims.push({o,x0:o.x,y0:o.y}); }
+  floatTexts.push({x:W/2,y:H*0.14,text:'CAT GOD',color:'#ffffff',life:90,huge:true});
 }
+// trong lúc thần bay đi: nạn nhân bị hút xoáy rơi xuống lỗ (nhỏ dần + xoay) — gọi mỗi khung từ _btcGodTick
+function _btcGodFall(G,ms){ const k=Math.max(0,Math.min(1,(ms-BTC_GOD_HIT_MS-120)/(BTC_GOD_KILL_MS-BTC_GOD_HIT_MS-120))), e=k*k;
+  for(const v of (G.victims||[])){ const o=v.o; if(o.dead) continue; o._btcFallK=e; o.x=v.x0+(btcHole.x-v.x0)*e*0.6; o.y=v.y0+(btcHole.y-v.y0)*e*0.6; o.vx=0; o.vy=0; } }
 function _btcGodKill(G){ const f=G.f;
-  for(const o of (G.foes||[])){ if(o.dead || (o.hp!==undefined && o.hp<=0)) continue; if(fighters.includes(o)) _forceKill(o,f); else o.takeDamage(Math.max(9999,(o.hp||0)*10), f); }
+  for(const v of (G.victims||[])){ const o=v.o; if(o.dead || (o.hp!==undefined && o.hp<=0)) continue;
+    o._btcFallK=0; if(fighters.includes(o)) _susEject(o,f); else o.takeDamage(Math.max(9999,(o.hp||0)*10), f); }
+  if(btcHole) btcHole.close=performance.now()+300;   // lỗ liền lại ngay sau đó (1.2s)
   addShake(8,14);
 }
-function _btcStopAll(){ if(_btcGodBgm){ _stopLoopAudio(_btcGodBgm); _btcGodBgm=null; } btcGod=null; }
+function _btcStopAll(){ if(_btcGodBgm){ _stopLoopAudio(_btcGodBgm); _btcGodBgm=null; } btcGod=null; btcHole=null; }
+// 🕳️ lỗ thủng nhìn xuống VŨ TRỤ (trời sao của nền) + vành sàn vỡ + mép loé vàng lúc vừa thủng — DƯỚI meme
+function _btcDrawUnder(){ const Ho=btcHole; if(!Ho) return; const now=performance.now(), t=now-Ho.t0;
+  let k=Math.min(1,1-Math.pow(1-Math.min(1,t/180),3));                                  // mở toang trong 0.18s
+  if(Ho.close){ const c=(now-Ho.close)/1200; if(c>=1){ btcHole=null; return; } if(c>0) k*=1-c*c; }   // liền lại 1.2s
+  const r=Ho.r*k; if(r<2) return; const N=28, J=(i)=>1+(_btcH(i*13.1)-0.5)*0.12;
+  const path=()=>{ ctx.beginPath(); for(let i=0;i<=N;i++){ const a=i/N*Math.PI*2, rr=r*J(i%N); const x=Ho.x+Math.cos(a)*rr, y=Ho.y+Math.sin(a)*rr; i?ctx.lineTo(x,y):ctx.moveTo(x,y); } ctx.closePath(); };
+  _skyRepaint(path);                                                                     // lòng lỗ = bầu trời sao quanh sàn
+  ctx.save(); path(); ctx.clip();
+  const g=ctx.createRadialGradient(Ho.x,Ho.y,r*0.55,Ho.x,Ho.y,r); g.addColorStop(0,'rgba(0,0,0,0)'); g.addColorStop(1,'rgba(0,0,0,0.75)'); ctx.fillStyle=g; ctx.fillRect(Ho.x-r,Ho.y-r,r*2,r*2);   // mép tối dần vào trong (chiều sâu)
+  ctx.restore();
+  ctx.save(); ctx.lineJoin='round'; path(); ctx.lineWidth=Math.max(3,r*0.05); ctx.strokeStyle='#2a2320'; ctx.stroke();   // vành sàn vỡ
+  for(let i=0;i<10;i++){ const a=i/10*Math.PI*2+_btcH(i)*0.5, r0=r*1.0, r1=r*(1.15+0.25*_btcH(i+40));                   // vết nứt toả ra ngoài
+    ctx.beginPath(); ctx.moveTo(Ho.x+Math.cos(a)*r0,Ho.y+Math.sin(a)*r0); ctx.lineTo(Ho.x+Math.cos(a+0.05)*(r0+r1)/2,Ho.y+Math.sin(a+0.05)*(r0+r1)/2); ctx.lineTo(Ho.x+Math.cos(a-0.03)*r1,Ho.y+Math.sin(a-0.03)*r1);
+    ctx.lineWidth=Math.max(1.5,r*0.018); ctx.stroke(); }
+  if(t<900){ ctx.globalCompositeOperation='lighter'; path(); ctx.lineWidth=Math.max(2,r*0.03); ctx.strokeStyle=`rgba(255,214,120,${0.9*(1-t/900)})`; ctx.stroke(); }   // mép loé vàng nóng lúc vừa thủng
+  ctx.restore();
+}
 // ── VẼ ──
 // mèo triệu hồi (gọi cùng chỗ vẽ quân triệu hồi khác, TRÊN sàn)
 function _btcDrawCats(){
   for(const c of btcCats){ const im=c.kind==='wall'?BTC_WALL_IMG:BTC_MACHO_IMG;
     ctx.save(); if(c.flash>0 && !_lowTier(c)) ctx.filter='brightness(2.2)';
     _drawUnitHpBar(c);
-    const pop=Math.min(1,c.born/10), sq=c.sq>0?Math.sin(c.sq/12*Math.PI)*0.12:0, bob=Math.abs(Math.sin((tick+c.x)*0.18))*0.04;
+    const pop=Math.min(1,c.born/10)*Math.max(0.05,1-(c._btcFallK||0)*0.95), sq=c.sq>0?Math.sin(c.sq/12*Math.PI)*0.12:0, bob=Math.abs(Math.sin((tick+c.x)*0.18))*0.04;
     const h=c.size*(c.kind==='wall'?2.3:2.0), foot=h/2;   // ảnh căn giữa thân (đúng tâm va chạm), chân ở y+h/2
     ctx.save(); ctx.translate(c.x,c.y+foot); ctx.scale((c._facingRight?-1:1)*pop*(1+sq),pop*(1-sq*0.8-bob)); ctx.translate(0,-foot);   // nhún quanh CHÂN
     ctx.fillStyle='rgba(0,0,0,0.22)'; ctx.beginPath(); ctx.ellipse(0,foot,c.size*0.75,c.size*0.16,0,0,Math.PI*2); ctx.fill();   // bóng tiếp đất
@@ -12555,6 +12583,7 @@ function _btcDrawCats(){
 }
 // cú cắn (2 hàm răng khép lại) + sóng xung kích + cảnh Cat God — TRÊN meme
 
+let _btcWaveTmp=null;
 function _btcDrawOver(){
   for(const q of btcFx){
     if(q.k==='bite'){ const u=q.t/q.T, close=Math.min(1,u/0.45), al=u<0.6?1:1-(u-0.6)/0.4, x=q.o&&!q.o.dead?q.o.x:q.x, y=q.o&&!q.o.dead?q.o.y:q.y, s=q.s;
@@ -12564,20 +12593,19 @@ function _btcDrawOver(){
         ctx.fillStyle='#ffffff'; ctx.fill(); ctx.lineWidth=2.2; ctx.strokeStyle='#111'; ctx.stroke(); }
       ctx.restore(); }
   }
-  // 🌊 sóng xung kích RIÊNG của Battle Cat (anh 26/11: mỗi meme 1 VFX, không xài shader chung): đúng chất hoạt hình phẳng của
-  //    The Battle Cats — 1 VÀNH SÓNG TRẮNG mép gợn răng cưa, viền MỰC ĐEN dày, ép dẹt theo sàn, lan ra rồi mỏng dần
-  //    + 12 nét mực đen toả ra lúc bung (kiểu nét tốc độ truyện tranh) + bụi trắng chỗ mép sóng quét qua.
-  for(const q of btcFx){ if(q.k!=='shock') continue; const u=q.t/q.T, cy=q.y+q.f.size*0.6;
-    const R=BTC_SHOCK_R*(1-Math.pow(1-u,2.4)), band=Math.max(2,(BTC_SHOCK_R*0.16)*(1-u)), al=u<0.75?1:1-(u-0.75)/0.25, N=36;
-    const ring=(r,j)=>{ for(let k=0;k<=N;k++){ const a=k/N*Math.PI*2, w=r+(k%2?j:-j*0.4)+Math.sin(a*5+q.t*0.4)*j*0.3; const x=q.x+Math.cos(a)*w, y=cy+Math.sin(a)*w*0.5; k?ctx.lineTo(x,y):ctx.moveTo(x,y); } ctx.closePath(); };
-    ctx.save(); ctx.globalAlpha=al; ctx.lineJoin='round';
-    ctx.beginPath(); ring(R+band,band*0.55); ring(Math.max(1,R-band*0.2),band*0.2);   // 2 mép CÙNG 1 path → tô vành bằng evenodd
-    ctx.fillStyle='#ffffff'; ctx.fill('evenodd'); ctx.lineWidth=Math.max(1.5,3.2*(1-u)+1); ctx.strokeStyle='#141414'; ctx.stroke();
-    if(u<0.35){ const k=u/0.35; ctx.strokeStyle='#141414'; ctx.lineCap='round';   // nét mực toả ra lúc bung
-      for(let i=0;i<12;i++){ const a=i/12*Math.PI*2+_btcH(i+q.x)*0.4, r0=q.f.size*(0.9+1.6*k), r1=r0+q.f.size*(0.7+0.5*_btcH(i*3+q.y))*(1-k);
-        ctx.lineWidth=(3.5-2.5*k)*(0.7+0.6*_btcH(i*7)); ctx.beginPath(); ctx.moveTo(q.x+Math.cos(a)*r0,cy+Math.sin(a)*r0*0.5-q.f.size*0.4); ctx.lineTo(q.x+Math.cos(a)*r1,cy+Math.sin(a)*r1*0.5-q.f.size*0.4); ctx.stroke(); } }
-    ctx.restore();
-    if(q.t%3===0 && u<0.7){ for(let k=0;k<5;k++){ const a=_btcH(q.t*7+k)*Math.PI*2; spawnParticles(q.x+Math.cos(a)*R,cy+Math.sin(a)*R*0.5,'#ffffff',1,false,false); } }
+  // 🌊 sóng xung kích: bóp méo không gian từ tâm (shader) + mép sóng trắng mảnh + bụi
+  for(const q of btcFx){ if(q.k!=='shock') continue; const u=q.t/q.T;
+    if(window.VfxGL && VfxGL.fx){ const cv=ctx.canvas, T=ctx.getTransform(), sc=Math.hypot(T.a,T.b)||1, p=T.transformPoint(new DOMPoint(q.x,q.y)), RR=Math.round(BTC_SHOCK_R*1.15*sc),
+        x0=Math.max(0,Math.round(p.x-RR)), y0=Math.max(0,Math.round(p.y-RR)), w=Math.min(cv.width-x0,RR*2), h=Math.min(cv.height-y0,RR*2);
+      if(w>8 && h>8){ const c=_btcWaveTmp||(_btcWaveTmp=document.createElement('canvas')); if(c.width!==w||c.height!==h){ c.width=w; c.height=h; } const g=c.getContext('2d'); g.clearRect(0,0,w,h); g.drawImage(cv,x0,y0,w,h,0,0,w,h);
+        const o=VfxGL.fx.shockwave(c,{x:p.x-x0,y:p.y-y0,time:u*0.75,speed:BTC_SHOCK_R*1.4*sc,amplitude:BTC_SHOCK_R*0.1*sc*(1-u),wavelength:BTC_SHOCK_R*0.45*sc,brightness:1.08});
+        if(o){ g.clearRect(0,0,w,h); g.drawImage(o,0,0); const gr=g.createRadialGradient(p.x-x0,p.y-y0,RR*0.75,p.x-x0,p.y-y0,RR); gr.addColorStop(0,'rgba(0,0,0,1)'); gr.addColorStop(1,'rgba(0,0,0,0)');
+          g.globalCompositeOperation='destination-in'; g.fillStyle=gr; g.fillRect(0,0,w,h); g.globalCompositeOperation='source-over';
+          ctx.save(); ctx.setTransform(1,0,0,1,0,0); ctx.drawImage(c,x0,y0); ctx.restore(); } } }
+    const R=BTC_SHOCK_R*(1-Math.pow(1-u,2.2)), al=(1-u);
+    ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.strokeStyle=`rgba(255,255,255,${0.55*al})`; ctx.lineWidth=3+5*(1-u);
+    ctx.beginPath(); ctx.ellipse(q.x,q.y+q.f.size*0.6,R,R*0.55,0,0,Math.PI*2); ctx.stroke(); ctx.restore();   // mép sóng ép dẹt theo mặt sàn
+    if(q.t%3===0 && u<0.7){ for(let k=0;k<6;k++){ const a=_btcH(q.t*7+k)*Math.PI*2; spawnParticles(q.x+Math.cos(a)*R,q.y+q.f.size*0.6+Math.sin(a)*R*0.55,'#d7ccc8',1,false,false); } }
   }
   if(btcGod) _btcDrawGod();
 }
@@ -12600,17 +12628,17 @@ function _btcDrawGod(){ const G=btcGod, ms=performance.now()-G.t0, im=BTC_GOD_IM
     const halo=ctx.createRadialGradient(0,-h*0.2,0,0,-h*0.2,h*0.7); halo.addColorStop(0,`rgba(255,236,180,${0.45+0.4*meowK})`); halo.addColorStop(1,'rgba(255,236,180,0)');
     ctx.globalCompositeOperation='lighter'; ctx.fillStyle=halo; ctx.fillRect(-h*0.8,-h,h*1.6,h*1.6); ctx.globalCompositeOperation='source-over';   // hào quang sau lưng thần
     ctx.drawImage(im,-w/2,-h/2,w,h); ctx.restore(); }
-  // ⚡ đòn của thần: cột sáng trắng giáng thẳng xuống từng địch + loé trắng cả sân
-  if(G.hit){ const t=ms-BTC_GOD_HIT_MS, span=BTC_GOD_KILL_MS-BTC_GOD_HIT_MS, k=Math.max(0,1-t/span), fl=0.85+0.15*Math.sin(t*0.06);
-    if(k>0){ ctx.globalCompositeOperation='lighter';
-      for(const p of G.kills){ const x=p.o&&!p.o.dead?p.o.x:p.x, y=(p.o&&!p.o.dead?p.o.y:p.y)+p.s, bw=Math.min(70,p.s)*(0.8+0.7*Math.min(1,t/120));   // cột sáng mép mềm, bung rộng rồi mờ dần tới lúc gục (meme to như Gigachad cũng không loang quá)
-        const g=ctx.createLinearGradient(x-bw,0,x+bw,0); g.addColorStop(0,'rgba(255,220,150,0)'); g.addColorStop(0.35,`rgba(255,230,170,${0.45*k*fl})`); g.addColorStop(0.5,`rgba(255,255,245,${0.95*k*fl})`); g.addColorStop(0.65,`rgba(255,230,170,${0.45*k*fl})`); g.addColorStop(1,'rgba(255,220,150,0)');
-        ctx.fillStyle=g; ctx.fillRect(x-bw,0,bw*2,y);
-        const pool=ctx.createRadialGradient(x,y,0,x,y,bw); pool.addColorStop(0,`rgba(255,250,230,${0.6*k})`); pool.addColorStop(1,'rgba(255,250,230,0)');
-        ctx.fillStyle=pool; ctx.beginPath(); ctx.ellipse(x,y,bw,bw*0.3,0,0,Math.PI*2); ctx.fill(); }   // vũng sáng chỗ cột chạm sàn
+  ctx.restore(); ctx.save();   // từ đây vẽ KHÔNG bó trong sân: cột sáng + loé phủ cả màn hình
+  // ⚡ đòn của thần (anh 26/11): CỘT SÁNG THẦN THÁNH xuyên DỌC cả màn hình — từ mép trên, qua giữa sân, xuống tận đáy màn — rộng đúng lỗ + impact frame + loé trắng
+  if(G.hit && btcHole){ const t=ms-BTC_GOD_HIT_MS, span=BTC_GOD_KILL_MS-BTC_GOD_HIT_MS, k=Math.max(0,1-t/span), fl=0.85+0.15*Math.sin(t*0.06), Ho=btcHole;
+    if(k>0){ const bw=Ho.r*(0.75+0.3*Math.min(1,t/100)); ctx.globalCompositeOperation='lighter';
+      const g=ctx.createLinearGradient(Ho.x-bw,0,Ho.x+bw,0); g.addColorStop(0,'rgba(255,220,150,0)'); g.addColorStop(0.3,`rgba(255,230,170,${0.5*k*fl})`); g.addColorStop(0.5,`rgba(255,255,245,${0.95*k*fl})`); g.addColorStop(0.7,`rgba(255,230,170,${0.5*k*fl})`); g.addColorStop(1,'rgba(255,220,150,0)');
+      ctx.fillStyle=g; ctx.fillRect(Ho.x-bw,-H*3,bw*2,H*7);   // cột sáng xuyên dọc hết màn hình
+      const pool=ctx.createRadialGradient(Ho.x,Ho.y,0,Ho.x,Ho.y,Ho.r*1.15); pool.addColorStop(0,`rgba(255,250,230,${0.75*k})`); pool.addColorStop(0.7,`rgba(255,220,150,${0.35*k})`); pool.addColorStop(1,'rgba(255,220,150,0)');
+      ctx.fillStyle=pool; ctx.beginPath(); ctx.arc(Ho.x,Ho.y,Ho.r*1.15,0,Math.PI*2); ctx.fill();   // quầng chưởng phủ cả lỗ
       ctx.globalCompositeOperation='source-over';
-      if(t<110){ ctx.fillStyle=t<55?'#ffffff':'#000000'; ctx.fillRect(0,0,W,H); }   // impact frame: trắng → đen 1 nhịp
-      else if(t<500){ ctx.fillStyle=`rgba(255,255,255,${0.6*(1-(t-110)/390)})`; ctx.fillRect(0,0,W,H); } } }
+      if(t<110){ ctx.fillStyle=t<55?'#ffffff':'#000000'; ctx.fillRect(-W*3,-H*3,W*7,H*7); }   // impact frame: trắng → đen 1 nhịp (cả màn hình)
+      else if(t<500){ ctx.fillStyle=`rgba(255,255,255,${0.6*(1-(t-110)/390)})`; ctx.fillRect(-W*3,-H*3,W*7,H*7); } } }
   ctx.restore();
 }
 // 🔍 bóp méo / nhún thân Battle Cat (gọi trong draw của Fighter)
@@ -14499,7 +14527,7 @@ const CHAR_FACTS = {
 };
 // giới thiệu ngắn 2-3 dòng cho màn chờ (tiếng Anh, game full English) — viết tay dựa trên cơ chế thật, không tự động cắt câu
 const CHAR_BLURB = {
-  battlecat: "1000 HP. Meows every 10s. No attacks: it bites anything it touches (75). At 500, 200 and 50 HP it releases a boss shockwave that throws every enemy back (immune for 1s), then calls a cat: Wall Cat (49%: 500 HP, takes 75% damage, enemies target it first) · Crazed Macho Cat (49%: 100 HP, bites for 125) · Cat God (2%: time stops, he descends, meows and wipes out every enemy).",
+  battlecat: "1000 HP. Meows every 10s. No attacks: it bites anything it touches (75). At 500, 200 and 50 HP it releases a boss shockwave that throws every enemy back (immune for 1s), then calls a cat: Wall Cat (49%: 500 HP, takes 75% damage, enemies target it first) · Crazed Macho Cat (49%: 100 HP, bites for 125) · Cat God (2%: time stops, he descends, meows and blasts a huge round hole in the middle of the arena; every meme standing on it, friend or foe, Battle Cat included, falls into space).",
   catexe: "No attacks, only body slams. Every bump fills its RAM. At 100% it stops responding for 10s: it lags across the arena in jerks (sometimes right off it), frozen copies block like walls and every hit gets stuck Loading..., then it all lands at once +20%.",
   boxingcat: "Shadow-boxes to warm up — every jab adds to the damage counter over its head and the fire around it grows. The first two times you step in, it blinks away to keep charging; then the bell rings, and the third time you get everything stored in one punch.",
   breadcat: "No basic attack. Every 3s a slice of buttered toast falls from heaven onto a random spot. Picking one up heals 100 HP and starts the Buttered Cat Paradox: it spins for 5s, getting more terrifying each second. Hit it 3 times to break the spin; if it survives, lightning tears the arena apart, everything is pulled into its vortex and the Big Bang erases every enemy.",
@@ -24788,6 +24816,7 @@ class Fighter {
     const s=this.size*((this.type==='boxingcat')?1.22:(this.type==='poordog')?1.3:(this.type==='chonkydog')?1.1:(this.type==='vampirecat'&&this._vampBatForm)?1.2:(this.type==='doge'&&this.dogeBuffed)?1.1:(this.type==='feuerkatze'&&(this._fkSaluteNow||0)>0)?1.1:(this.type==='germancat'&&this.germanSpeechTimer>0)?1.4:(this.type==='evillarry'&&this.actionState==='attack')?1.2:(this.type==='grumpycat'&&this._rageActive)?1.3:(this.type==='maxwell'&&(this._mwPhase==='spin'||this._mwPhase==='reveal'))?1.2:(this.type==='uiacat'&&this.oiiaSpinTimer>0)?1.265:(this.type==='capybara'&&this._cbFused)?0.9:(this.type==='capybara'&&!this._cbFused&&!this._cbIsKnife)?0.8:1)*(1-(this._rbShrinkFrac||0)); // bị Rubik Cat hút vào hố đen thì thu nhỏ dần về 0 thay vì vỡ mảnh vụn
     let scaleX=1,scaleY=1,offX=0,offY=0,rotation=0;
     if(this._bcSuckK){ const z=Math.max(0.03,1-this._bcSuckK); scaleX*=z; scaleY*=z; }
+    if(this._btcFallK>0){ const z=Math.max(0.05,1-this._btcFallK*0.95); scaleX*=z; scaleY*=z; rotation+=this._btcFallK*this._btcFallK*6; }   // 🐱🕳️ bị Cat God chưởng rơi xuống lỗ
     if(this.type==='battlecat' && this._btc && this._btc.sq>0){ const _bq=_btcSquash(this); scaleX*=_bq[0]; scaleY*=_bq[1]; }   // 🐱 nhún khi meow / cắn / gồng tung sóng
     if(this.type==='catexe' && this._cx && this._cx.fall){ const k=this._cx.fall/CX_FALL_T, z=Math.max(0.04,1-k*k*0.96); scaleX*=z; scaleY*=z; rotation+=k*k*5; }   // 💻 rơi xuống vũ trụ: nhỏ dần + xoay
     if(this._cxSqT!==undefined){ const a=tick-this._cxSqT; if(a>=0 && a<12){ const k=Math.sin(a/12*Math.PI)*(1-a/12); scaleX*=1+0.16*k; scaleY*=1-0.13*k; } }   // 🥊 cú húc làm bẹp mặt 1 nhịp   // 🍞 đang bị hút vào tâm xoáy: nhỏ dần
@@ -29406,6 +29435,7 @@ function loop(){
   _cnDrawUnder();      // 🍳 chảo khổng lồ + lửa + đồ ăn — nằm DƯỚI con bị nấu
   _fkDrawValves();// 🔧 2 van khí độc gắn giữa tường trái/phải
   _sdDrawSky();   // 🌙 lớp tối ban đêm + trăng/mặt trời của Sus Dog — vẽ TRƯỚC meme nên meme vẫn rõ
+  _btcDrawUnder(); // 🐱🕳️ lỗ thủng do Cat God chưởng (dưới meme)
   _cxDrawUnder(); // 💻 vệt kéo cửa sổ XP + loé sáng sau đầu + bản sao treo hình (dưới meme)
   _cmDrawUnder(); // 🎖️ sàn sepia + tối sầm + chớp lửa hắt sàn + vết cháy / vùng lửa (Commander hồi tưởng) — DƯỚI meme
   if(hitStopFrames > 0){
