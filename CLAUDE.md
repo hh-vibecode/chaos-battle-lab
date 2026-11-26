@@ -27,6 +27,13 @@ Chi tiết từng meme: `docs/notes/memes.md` · từng phim + cine-kit: `docs/n
 - Đừng tự thêm tính năng / hiệu ứng anh không yêu cầu.
 - 🎯 (anh 26/11) MỌI việc nhắm tối ưu cho YOUTUBE (giữ chân người xem, khác biệt, không lặp).
 - ✨ (anh 26/11) MỖI MEME VFX RIÊNG — không dùng lại VFX / shader / kiểu hiệu ứng của meme khác (YouTube chấm thấp nội dung lặp). Sáng tạo theo đúng nguồn gốc meme.
+- 🔊 (anh 26/11) Người xem rất thích meme CÓ NHẠC / SOUND đi kèm → ưu tiên tìm sound VIRAL, độ nhận diện cao, sound meme nổi tiếng cho từng meme.
+  Ưu tiên CUTSCENE / tương tác đặc biệt (kiểu Adolf Catler, Pain, Gojo). Làm xong meme → ghi ý tưởng nâng chất lượng (giữ chân + tạo thảo luận) vào docs/notes/memes.md để bàn với anh.
+  Cần thứ NGƯỜI KHÁC KHÔNG SAO CHÉP ĐƯỢC (nhiều kênh dùng AI chép content) — cơ chế / cutscene / tương tác riêng, không làm kiểu dễ chép.
+- 🖼️ (anh 26/11) Làm xong nhân vật → chụp các KHUNG VFX chính (`shotclip` vùng sân) vào `out/review/<key>/` rồi CHÈN ẢNH thẳng vào tin nhắn (`![](out/review/<key>/x.png)`) để anh duyệt trong phiên — không cần xuất video.
+- 🏟️ (anh 26/11) 5 SÂN: Space (gốc) · Beach · Christmas · Grass Field · Volcano — `ARENA_THEMES` trong js/game.js (cùng khối sân, chỉ đổi màu + nền + chuyển động riêng; vỡ sàn / lỗ thủng tự ăn theo).
+  Đổi: nút 🏟️ ở màn đấu · URL `?arena=<key>` · render-match / render-duo `--arena <key>`. Sân mới → thêm 1 mục vào ARENA_THEMES + nhánh trong `_atSkyExtra/_atSkyAnim/_atFloorExtra`.
+- ⏱️ (anh 26/11) Trận đấu nên 20–26s (trừ khi có effect đặc biệt đáng xem).
 - ⚖️ (anh 26/11) Cân bằng: meme mới đánh SÁT với Doge (~40–60%, ≥8 seed) là đạt — đo bằng skill `test-nhanh` (`tools/x/sim.js`, trận 40s chạy ~2s).
 - Commenter Battle: cân skill commenter CHỈ bằng dame + tầm, giữ nguyên cơ chế họ viết (anh 25/11).
 
@@ -83,6 +90,8 @@ Chi tiết từng meme: `docs/notes/memes.md` · từng phim + cine-kit: `docs/n
 - 📂 (anh 21/11) Video xuất xong (phim lẫn trận) + thumbnail → để vào `~/Desktop/Meme Battles/` (thumbnail: thư mục con `<Tên> thumbnail/`). Quay ở `out/` trong repo (gitignore, không phải iCloud), xong mới chuyển file cuối sang; đoạn quay `*.chunks` giữ ở `out/` tới khi anh duyệt rồi xoá.
 - Mọi video 50fps. Phim 4K (16:9 3840×2160, 9:16 2160×3840). Trận đấu giả lập: 9:16 dọc 3K 1620×2880.
 - Phim chạy `render-cine … --cache --chunk 5` (chia đợt, tắt máy chạy lại đúng lệnh là tiếp). 🐢 (anh 24/11) ƯU TIÊN SỐ 1 = MÁY ANH VẬN HÀNH BÌNH THƯỜNG — việc nặng (xuất phim, tách nền, quét…) luôn NHƯỜNG máy. XUẤT TỪ TỪ, KHÔNG CẦN NHANH: Mac xuất TỪNG TẬP riêng, `--jobs 1` + `caffeinate -i taskpolicy -b` (ưu tiên nền, máy anh không lag) + `tools/x/canh-ram.sh <PID>` (trần nửa RAM, máy căng tự tạm dừng); không hạ độ phân giải / bỏ hiệu ứng cho kịp. render-match `--par` ≤2. ⚡ (anh 25/11) TRẬN ĐẤU thì quay nhanh 5–10 phút/trận: `nice -n 5` + `--par 2`, KHÔNG `taskpolicy -b` (skill xuat-video).
+- 🎬 (anh 26/11, giữ chân Shorts) Edit video trận: đưa 1–2s CĂNG NHẤT lên MỞ ĐẦU (vd Punching Cat đấm mạnh, cận biểu cảm / chiêu bất ngờ) → transition kéo màn TỐI vào trận;
+  phần trận bắt đầu ở chỗ CHỈ CÒN 0.3–0.5s là 2 bên chạm nhau / ra skill (cắt hết đoạn đi bộ đầu) — tối ưu tối đa thời gian. Luân phiên SÂN (màu / map) giữa các Short để kênh không "cùng 1 khung hình".
 - Trận giả lập phải TỰ NHIÊN, không can thiệp diễn biến (chỉ lọc seed). Ưu tiên thắng sát, 1vs1 ≤30s, trận đông ≤35s (`--want 3 --pdur 20-30`). Tên video: CHỈ "A vs B" (2vs2 "A & B vs C & D"), KHÔNG thêm " - Meme Battle" (anh 25/11).
 - Skill `xuat-video` / `xem-video` / `video-sang-sprite` chỉ chạy trên Mac.
 

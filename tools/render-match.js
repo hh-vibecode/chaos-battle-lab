@@ -51,7 +51,7 @@ async function openMatch(br, PORT, seed, cw) {
   const pg = await br.newPage({ viewport: { width: 1920, height: 1080 }, deviceScaleFactor: dpr });
   pg.on('pageerror', e => console.log('⚠️', e.message.slice(0, 160)));
   if (MC_SAID != null) await pg.addInitScript(s => { try { localStorage.setItem('cbs_mc_said', s); } catch (e) {} }, MC_SAID);
-  await pg.goto(`http://127.0.0.1:${PORT}/`);
+  await pg.goto(`http://127.0.0.1:${PORT}/${process.argv.includes("--arena") ? "?arena=" + process.argv[process.argv.indexOf("--arena") + 1] : ""}`);   // 🏟️ --arena space|beach|xmas|grass|volcano (anh 26/11: luân phiên sân giữa các Short)
   await pg.waitForFunction(() => !document.getElementById('bootScreen'), null, { timeout: 300000 });
   await pg.evaluate(({ A, B, cw, DUO, TA, TB, FFA }) => { const n = k => roster.findIndex(c => c.charKey === k);
     ARENA_NORMAL.ss = (cw + 0.4) / (ARENA_NORMAL.w * (1 + 30 / 480));   // canvas cam-mode Solo rộng đúng cw pixel

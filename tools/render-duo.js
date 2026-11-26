@@ -19,7 +19,7 @@ const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css
 async function openMatch(br, PORT, seed) {
   const pg = await br.newPage({ viewport: { width: 720, height: 1280 } });
   pg.on('pageerror', e => console.log('⚠️', e.message.slice(0, 160)));
-  await pg.goto(`http://127.0.0.1:${PORT}/`);
+  await pg.goto(`http://127.0.0.1:${PORT}/${process.argv.includes("--arena") ? "?arena=" + process.argv[process.argv.indexOf("--arena") + 1] : ""}`);   // 🏟️ --arena space|beach|xmas|grass|volcano (anh 26/11: luân phiên sân giữa các Short)
   await pg.waitForFunction(() => !document.getElementById('bootScreen'), null, { timeout: 300000 });
   // nạp trước ảnh/tiếng của 4 meme (asset theo nhân vật tải lười) rồi mới bắt đầu thật — 2 lần chạy cùng seed phải y hệt nhau
   await pg.evaluate(({ A, B, VW }) => { const n = k => roster.findIndex(c => c.charKey === k); window.__idx = [...A, ...B].map(n);
