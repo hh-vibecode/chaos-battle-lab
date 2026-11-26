@@ -67,7 +67,7 @@ Anh đã lên lịch sẵn tới 30/11; đổi 2 trận yếu: 27/11 Doge vs Ang
 | Ngày | 8:00 | 19:00 |
 |---|---|---|
 | T3 1/12 | Giant Friend vs Evil Gary (Giant Friend thắng còn 76 máu — anh muốn Giant Friend thắng, đổi đối thủ) | Loooong Cat vs Yuki (Loooong thắng 200) |
-| T4 2/12 | LeSunshine vs Smart Guy (quay lại với skill HUSS + đập bóng Ver 749, LeSunshine thắng còn 84 máu) | Azel vs Scared Hamster (Hamster thắng 150) |
+| T4 2/12 | LeSunshine vs Smart Guy (Ver 750: chỉ còn đập bóng HUSS, loé 8s/lần · lọc seed: crit IQ 200 (400) của Smart Guy ép LeSunshine hoá Mặt Trời → thắng ngược còn 2/3 mặt trời; `--inject` quan sát `_lbDamage` + `--dirok 'sun=dmg4..'`, ~1/13 trận) | Azel vs Scared Hamster (Hamster thắng 150) |
 | T5 3/12 | Crunchy Cat vs Chill Guy (Chill Guy SONG PHI kết liễu, còn 1 máu — lọc seed bằng `--inject` quan sát + `--dirok 'cg=kick'`) | Friend vs Clapping Cat (Friend thắng 140) |
 | T6 4/12 | Snooze Cat vs Fine Dog (Snooze thắng 113) | Adolf Catler vs Evil Larry (Adolf còn 1 máu đúng lúc nghi lễ xong) |
 Chọn cặp bằng `render-match --sim 4` (đọc skill trước, bỏ cặp một chiều). Cặp đã thử mà BỎ: Sans vs Azel (Azel thắng 11s nguyên máu), Scream Cat vs Friend (Scream thắng y hệt mọi seed), LeSunshine vs Scared Dog (LeSunshine không mất máu), Azel vs Evil Larry (luôn hoà — nghi lễ giết cả 2), Azel vs Poor Dog / Adolf vs Poor Dog (Poor Dog thắng còn 300–600), Giant Friend vs Gigachad / Spider Cat (Giant Friend thua cả 4), Yuki vs Evil Larry (Yuki không gây dame khi Larry không đánh).
