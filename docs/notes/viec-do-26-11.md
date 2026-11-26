@@ -1,6 +1,6 @@
 # Việc dở 26/11/2026 (phiên Windows → anh làm tiếp trên Mac)
 
-## 😼 Gigachad Cat (`gigachadcat`, Ver 757) — ĐÃ CÓ trong game, CHƯA DUYỆT XONG
+## 😼 Gigacat (tên cũ Gigachad Cat, anh đổi 26/11; key vẫn `gigachadcat`, Ver 757) — ĐÃ CÓ trong game, CHƯA DUYỆT XONG
 - Code: khối `GK_*` / `_gk*` trong js/game.js (ngay trước khối Commander Cat). Ảnh: `assets/avatars/gigachadcat/` (mèo meme gốc vẽ lại phông xanh),
   `assets/img/gigachadcat/GK_STAND|LIFT|THROW|CARRY|SUPLEX.webp` (thân Gigachad KHỔNG LỒ do GPT vẽ dáng, nhuộm màu lông + ĐẦU MÈO MEME GỐC ghép bằng code — mặt không bị AI vẽ lại).
   Công cụ ghép: `tools/x/_ref/gk/pose.js` (gitignore — chỉ có trên máy Windows; muốn sửa ảnh trên Mac thì làm lại từ ảnh trong assets).
@@ -29,7 +29,7 @@
     · **Cornelius**: phi chảo mỗi 1.5s: ảnh chạy y nguyên → cần giật người ném.
     · **Slap Cat**: đứng khựng lại vả (tay thò qua cổng): ảnh mèo ngồi y nguyên → cần ngả người vung tay.
   ✅ Đã có chuyển động: Crunchy Cat (nhai), Cough Cat (khung ho), Kermit (nhiều dáng), Mechanic Cat (khung lắp), Dam Dam Didi (lắc đầu), Bread Cat (xoay),
-     Gigachad Cat, Cat.exe, Battle Cat, Doorbell Chud, Capybara, Alotta Dame Guy, Samurai Cheems.
+     Gigacat, Cat.exe, Battle Cat, Doorbell Chud, Capybara, Alotta Dame Guy, Samurai Cheems.
   ❔ Chưa thấy được: Angry Cat (trong 5s chụp không phóng xích lần nào) — soát lại khi ép chiêu.
   Ghi chú: mọi đòn có đặt `attackAvatarTimer` đều tự có cú lao người chung (`_atkPop` trong updateJelly) — làm cho 4 con trên có thể bắt đầu bằng cách đặt cờ này lúc ném / vả.
 

@@ -4,7 +4,7 @@ Chi tiết từng meme: `docs/notes/memes.md` · từng phim + cine-kit: `docs/n
 Đọc file đó KHI làm đúng phần đó (không cần đọc hết mỗi phiên).
 📉 (26/11) Kênh sụt view: phân tích vidIQ + chuẩn "ở lại xem ≥72%" khi chọn trận đăng → `docs/notes/phan-tich-kenh-sut-view.md`.
 🎬 (anh 21/11) Rạp phim trong app CHỈ còn Final Part 1; phim cũ gỡ khỏi app, code để học ở `docs/mau-phim/` (README ở đó).
-⏸️ (26/11) VIỆC DỞ phiên Windows: Gigachad Cat (cân bằng + soát dáng bê ngang / dốc đầu), chuẩn dame 25s bằng bù nhìn, rà động tác thân mọi meme → `docs/notes/viec-do-26-11.md`.
+⏸️ (26/11) VIỆC DỞ phiên Windows: Gigacat (tên cũ Gigachad Cat; cân bằng + soát dáng bê ngang / dốc đầu), chuẩn dame 25s bằng bù nhìn, rà động tác thân mọi meme → `docs/notes/viec-do-26-11.md`.
 ⏸️ Final Part 1: cảnh kết `fin1c7` BẢN 4 ĐÃ DỰNG 23/11 (58s, lớp 2D kiểu anime: nền GPT `FIN_C7_PL_*` + trời / mây code, quỷ mới `FIN_C7_DM_*`, Friend cỡ thành phố, xác Gojo nằm đôi) — CHỜ ANH XEM; chi tiết `docs/notes/viec-do-fin1.md`.
 ⏸️ **Angry Cat (17/11, CHƯA phát hành)**: bộ skill thanh tức giận + hòm đồ 10 vũ khí + bom nguyên tử nằm trong `git stash` trên MAC ("WIP Angry Cat 17/11") — anh bảo để giao cho 1 con khác, chờ anh nói con nào. Ảnh vũ khí GPT dùng lại được; ảnh mèo + 3 ảnh VFX GPT phải làm lại.
 ⚠️ Anh chê 16/11 "làm nhanh xong toàn làm sai" → làm KỸ từng shot, soát từng shot rồi mới sang shot sau. Cách làm phim / VFX / edit nằm trong skill (`dung-phim`, `edit-video`, `viet-kich-ban`, `ve-anh-gpt`…).

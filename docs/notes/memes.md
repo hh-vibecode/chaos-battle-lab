@@ -234,7 +234,7 @@
   ② Cat God 2% quá hiếm cho video → khi quay lọc seed có Cat God, tiêu đề kiểu "2% chance" kích thảo luận ("có thật 2% không?") · ③ thêm Cat dạng tiến hoá (Titan Cat / Jamiera) khi đủ 3 lần gọi → cao trào cuối trận ·
   ④ lỗ thủng Cat God nuốt CẢ Battle Cat = cảnh "tự hại" rất dễ viral nếu đúng lúc sắp thắng → lọc seed chọn cảnh này.
 
-## 😼 Gigachad Cat (`gigachadcat`, 26/11/2026) — khối `GK_*` / `_gk*` trong js/game.js — việc dở: docs/notes/viec-do-26-11.md
+## 😼 Gigacat (tên cũ Gigachad Cat, anh đổi 26/11; key vẫn `gigachadcat`, 26/11/2026) — khối `GK_*` / `_gk*` trong js/game.js — việc dở: docs/notes/viec-do-26-11.md
 - Ảnh mèo = ảnh anh gửi (157px) → GPT vẽ lại phông xanh. Dạng khổng lồ: GPT vẽ 5 DÁNG thân Gigachad khổng lồ (đen trắng, cùng tấm → cùng tỉ lệ), nhuộm màu lông kem,
   ĐẦU MÈO MEME GỐC ghép bằng code (mặt nạ bầu dục + cổ mờ dần + bóng dưới cằm, dáng suplex xoay đầu quanh cằm). Anh chê bản GPT vẽ cả thân + đầu ("không tự nhiên, AI").
 - Tiếng: gk_meow (DEEP MEOW!!!) sóng âm · gk_meow_big (Deep meow 2) trước chiêu · gk_meow_long (cat has a crazy deep meow, rate 0.82) lúc hoá.
