@@ -73,7 +73,7 @@ Anh đã lên lịch sẵn tới 30/11; đổi 2 trận yếu: 27/11 Doge vs Ang
 Chọn cặp bằng `render-match --sim 4` (đọc skill trước, bỏ cặp một chiều). Cặp đã thử mà BỎ: Sans vs Azel (Azel thắng 11s nguyên máu), Scream Cat vs Friend (Scream thắng y hệt mọi seed), LeSunshine vs Scared Dog (LeSunshine không mất máu), Azel vs Evil Larry (luôn hoà — nghi lễ giết cả 2), Azel vs Poor Dog / Adolf vs Poor Dog (Poor Dog thắng còn 300–600), Giant Friend vs Gigachad / Spider Cat (Giant Friend thua cả 4), Yuki vs Evil Larry (Yuki không gây dame khi Larry không đánh).
 
 ### 📝 KẾ HOẠCH QUAY 10 TRẬN — BẢN 2 (26/11 tối, CHƯA quay, chờ anh duyệt)
-Anh xem lịch: 8/10 trận quay 26/11 bị bỏ (lỗi / chán) → MỖI TRẬN PHẢI CÓ ĐIỂM NHẤN (CLAUDE.md). Anh tự xếp ngày. Bỏ Loooong vs Yuki, Hamster vs Duolingo, Evil Gary vs Scared Dog, Evil Larry vs Poor Dog (sai sức), Azel vs Gigacat.
+Anh xem lịch: 8/10 trận quay 26/11 bị bỏ (lỗi / chán) → MỖI TRẬN PHẢI CÓ ĐIỂM NHẤN (CLAUDE.md). Anh tự xếp ngày. Bỏ mọi trận có Depressed Cat (anh 26/11), Loooong vs Yuki, Hamster vs Duolingo, Evil Gary vs Scared Dog, Evil Larry vs Poor Dog (sai sức), Azel vs Gigacat.
 Quy trình mỗi trận: `sim.js` đo sức (≥8 seed) → lọc seed CÓ điểm nhấn + đúng con thắng → quay → xem khung quanh điểm nhấn + soát lỗi → đưa anh.
 | # | Trận | ĐIỂM NHẤN | THẮNG | Sân |
 |---|---|---|---|---|
@@ -86,7 +86,7 @@ Quy trình mỗi trận: `sim.js` đo sức (≥8 seed) → lọc seed CÓ đi�
 | 7 | Yuki vs Boxing Cat | Boxing Cat đấm mạnh dần, Yuki phản 40% → tự đấm mình gục | Yuki (0-1) | Grass |
 | 8 | Evil Larry vs Snooze Cat | nghi lễ vạch sao hoàn tất ĐÚNG lúc Larry sắp chết → giết đối thủ | Evil Larry (0-3) | Volcano |
 | 9 | Infinity Doge vs Chonky Dog | Infinity Doge tách đôi như slime ra cả đàn ↔ Chonky Dog phình to đổ sập đè cả đàn | Infinity Doge (0-2) | Beach |
-| 10 | Depressed Cat vs Troll Face | Troll Face nuốt chửng (jumpscare) ↔ chiêu Kamui / Shinra Tensei của Depressed Cat | Troll Face | Christmas |
+| 10 | Troll Face vs Mewing Cat (thay Depressed Cat — anh bỏ mọi trận có Depressed Cat) | Troll Face nuốt chửng (jumpscare) ↔ Hollow Purple xoá sổ của Mewing Cat | Troll Face | Christmas |
 ⚠️ Chưa sim: #6–#10 là cặp đoán theo skill — sim ra một chiều / không có điểm nhấn thì đổi. Boxing Cat đã đăng dày (anh lưu ý) → #7 xếp xa trận Boxing gần nhất.
 
 ## VPN · đăng 1 hay 2 video/ngày · từ khoá (trả lời anh chiều 26/11, phiên Mac)
