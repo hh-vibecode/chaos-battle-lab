@@ -1,5 +1,15 @@
 // Tự sinh bởi tools/split_assets.py — đường dẫn file → nhóm tải ("critical" = tải trước khi vào game; tên nhân vật = tải khi nhân vật đó vào trận / tải ngầm)
 window.ASSET_GROUP={
+"assets/avatars/battlecat/avatarUrl.webp": "battlecat",
+"assets/avatars/battlecat/thumb.webp": "critical",
+"assets/img/battlecat/BTC_WALL.webp": "battlecat",
+"assets/img/battlecat/BTC_MACHO.webp": "battlecat",
+"assets/img/battlecat/BTC_GOD.webp": "battlecat",
+"assets/audio/btc_meow.mp3": "battlecat",
+"assets/audio/btc_bite.mp3": "battlecat",
+"assets/audio/btc_crit.mp3": "battlecat",
+"assets/audio/btc_savage.mp3": "battlecat",
+"assets/audio/btc_god_bgm.mp3": "battlecat",
 "assets/avatars/catexe/avatarUrl.webp": "catexe",
 "assets/avatars/catexe/thumb.webp": "critical",
 "assets/img/catexe/CX_RUN.webp": "catexe",
@@ -1222,6 +1232,7 @@ window.ASSET_GROUP={
 "assets/vfxlib/vfx_slash3_color5.webp": "critical"
 };
 window.AVATAR_THUMB={
+"assets/avatars/battlecat/avatarUrl.webp": "assets/avatars/battlecat/thumb.webp",
 "assets/avatars/catexe/avatarUrl.webp": "assets/avatars/catexe/thumb.webp",
 "assets/avatars/sans/avatarUrl.webp": "assets/avatars/sans/thumb.webp",
 "assets/avatars/huhcat/avatarUrl.webp": "assets/avatars/huhcat/thumb.webp",

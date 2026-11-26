@@ -217,3 +217,15 @@
 - Méo mặt (video Facebook anh gửi 23/11 — filter đấm méo mặt): ai va vào nó lúc đang ngáo (cả bản sao) → `_cxDent` thêm 1 vết (tối đa 10), `_cxDented` bẻ điểm ảnh của chính ảnh meme đó (đẩy theo hướng cú húc + co về tâm vết) + bầm hồng, mỗi tư thế dựng 1 lần rồi chỉ bẻ thêm vết mới. Cú húc làm bẹp mặt 1 nhịp (`_cxSqT`).
 - RAM 100% → NOT RESPONDING 10s (`CX_NR_T`; mô tả anh ghi lúc 10s lúc 4s → em chọn 10s): ảnh ngáo, tiếng XP Error, loé sáng sau đầu, nhiễu RGB, thanh máu xanh BSOD, lao thẳng nhanh nhưng giật lag (dội tường bẻ về phía địch), mỗi cú giật để lại 1 bản in kiểu kéo cửa sổ XP, cứ 0.6s 1 bản sao treo hình (giữ 3) chặn địch như tường + 45 treo. Mọi cú húc treo `Loading… N` trên đầu địch (65 / cú); hết giờ (hoặc Cat.exe chết / rơi) nổ dồn + 20% sát thương chuẩn (`_cxRecover`, tiếng XP Critical Error).
 - Số dame / xác suất đều em tự đặt (đo vài trận 23/11: thua sát Ricardo, Commander; rơi khỏi sân 1/6 trận).
+
+## 🐱 Battle Cat (`battlecat`, 26/11/2026) — khối `BTC_*` / `_btc*` trong js/game.js (ngay sau khối Cat.exe)
+- Ý tưởng fan "Meme idea number 2" anh dán 26/11, anh giao: thêm vào game + cân chỉ số, VFX / hình / tiếng em tự lo.
+- Ảnh: lấy ảnh gốc trên Battle Cats Wiki (fandom: `000_1` Cat, `001_2` Wall Cat = Tank Cat dạng 2, `091_2` Crazed Macho Cat = Crazed Cat dạng 2, `E_367` The Cat God bay nằm + `E_419` Cat God đứng)
+  → GPT vẽ lại y nguyên lên phông xanh (skill ve-anh-gpt) → `gkey.js` → webp. Cat God bản gốc trần truồng bị GPT chặn (safety) → vẽ lại kèm KHĂN QUẤN HÔNG trắng y bản Cat God đứng (`E_419`), giữ nguyên tư thế bay.
+  Ảnh: `assets/avatars/battlecat/`, `assets/img/battlecat/BTC_WALL|BTC_MACHO|BTC_GOD.webp`.
+- Tiếng (myinstants, trọn file): `btc_meow` (kêu 10s/lần; thần kêu trầm rate 0.7), `btc_bite` (lặng 0.34s đầu → phát từ 0.3s), `btc_crit` + `btc_savage` (sóng xung kích / đòn thần), `btc_god_bgm` (Battle Cats UL final boss theme 59s, chỉ phát lúc thần hiện, tắt dần).
+- Cơ chế: 1000 máu (fan 800), không đánh thường, CHẠM địch = CẮN 75 / 0.7s (fan 50). Meow 10s (fan). Số fan đề thua 7/7 trận thật (26/11: Cheems, Doge, Gigachad, Cat.exe, Crying Cat, Ricardo, Grumpy — địch còn ~500 máu) → buff; lần 2 (cắn 60/0.8s) thắng 1/8, địch còn 70–770 → buff tiếp lên 75/0.7s. CHƯA đo lại sau lần buff cuối.
+  Mốc 500 / 200 / 50 máu (fan) → SÓNG XUNG KÍCH (`_btcShock`): hất văng địch trong 270 (16 → 9 tốc), bất tử 1s (`_btcImmune`, hiện IMMUNE), xong gọi mèo (1 đòn lố qua 2 mốc → 2 con).
+  Wall Cat 49%: 500 máu (fan), ăn 75% dame, khiêu khích (`_btcTauntK`: địch thấy nó gần gấp 2.5), chạm 10 / 0.8s, đi chậm 0.6×.
+  Crazed Macho Cat 49%: 100 máu (fan 75), cắn 125 (fan) / 1s (em đặt), đi nhanh 1.15×.
+  Cat God 2%: `_btcGodStart` → chạy theo thời gian THẬT ở tầng loop như cảnh Evil Gary: đứng hình cả trận, sân tối + cột sáng trời, thần hạ xuống 4.2s, meow 4.5s, 5.3s ĐÒN: cột sáng trắng giáng xuống từng địch + impact frame trắng→đen → `_forceKill` mọi meme địch, quân triệu hồi địch ăn 9999. Battle Cat + đồng đội + mèo của nó không sao.
