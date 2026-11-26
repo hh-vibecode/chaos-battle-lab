@@ -69,12 +69,25 @@ Anh đã lên lịch sẵn tới 30/11; đổi 2 trận yếu: 27/11 Doge vs Ang
 | T3 1/12 | Giant Friend vs Evil Gary (Giant Friend thắng còn 76 máu — anh muốn Giant Friend thắng, đổi đối thủ) | Loooong Cat vs Yuki (Loooong thắng 200) |
 | T4 2/12 | LeSunshine vs Smart Guy (Ver 750: chỉ còn đập bóng HUSS, loé 8s/lần · lọc seed: crit IQ 200 (400) của Smart Guy ép LeSunshine hoá Mặt Trời → thắng ngược còn 2/3 mặt trời; `--inject` quan sát `_lbDamage` + `--dirok 'sun=dmg4..'`, ~1/13 trận) | Azel vs Scared Hamster (Hamster thắng 150) |
 | T5 3/12 | Crunchy Cat vs Chill Guy (Chill Guy SONG PHI kết liễu, còn 1 máu — lọc seed bằng `--inject` quan sát + `--dirok 'cg=kick'`) | Friend vs Clapping Cat (Friend thắng 140) |
-| T6 4/12 | Snooze Cat vs Fine Dog (Snooze thắng 113) | Adolf Catler vs Evil Larry (Adolf còn 1 máu đúng lúc nghi lễ xong) |
+| T6 4/12 | ~~Snooze Cat vs Fine Dog~~ (anh BỎ 26/11) → Depressed Cat vs Troll Face (chưa quay) | Adolf Catler vs Evil Larry (Adolf còn 1 máu đúng lúc nghi lễ xong) |
 Chọn cặp bằng `render-match --sim 4` (đọc skill trước, bỏ cặp một chiều). Cặp đã thử mà BỎ: Sans vs Azel (Azel thắng 11s nguyên máu), Scream Cat vs Friend (Scream thắng y hệt mọi seed), LeSunshine vs Scared Dog (LeSunshine không mất máu), Azel vs Evil Larry (luôn hoà — nghi lễ giết cả 2), Azel vs Poor Dog / Adolf vs Poor Dog (Poor Dog thắng còn 300–600), Giant Friend vs Gigachad / Spider Cat (Giant Friend thua cả 4), Yuki vs Evil Larry (Yuki không gây dame khi Larry không đánh).
 
-### 📝 Trận CHUẨN BỊ quay cho đợt tới (từ 5/12)
-- **Cat.exe GẦN THẮNG thì LAG RƠI XUỐNG VỰC** (anh 26/11): Cat.exe dồn địch còn ít máu, rồi RAM đầy / lag văng ra ngoài sân → rơi vào vũ trụ thua ngược (Ver 760: rơi thì nhỏ dần rồi biến mất).
-  Lọc seed: Cat.exe RƠI (`_cx.fall`) lúc địch còn ≤ ~150 máu. Đối thủ chọn con mạnh / đối màu với Cat.exe (xanh dương) — tránh sân Space (tím xanh). Video ≤ 30s, vào thẳng lúc 2 con sắp chạm.
+### 📝 KẾ HOẠCH QUAY 10 TRẬN (lên 26/11 tối, CHƯA quay) — anh BỎ Snooze Cat vs Fine Dog (4/12 8:00)
+Luật: trận tự nhiên (chỉ lọc seed), ≤30s, thắng sát · sân ĐỐI MÀU cả 2 meme · luân phiên sân · video vào thẳng lúc 2 con sắp chạm · mỗi cặp `render-match --sim 4` trước, một chiều thì đổi đối thủ.
+**Quay lại (meme đã đổi sau khi quay 26/11 trưa):**
+1. 1/12 19:00 **Loooong Cat vs Yuki** — quay trước Ver 753 (cổng 4 góc, đi lang thang, đầu rắn 50 dame, ảnh toàn thân mới) · sân Volcano.
+2. 2/12 8:00 **LeSunshine vs Smart Guy** — quay ở Ver 750, giờ có SLAM DUNK (Ver 766) + chài rõ (765) · giữ kịch bản cũ (crit IQ 200 ép hoá Mặt Trời) + phải có ≥1 cú slam dunk · sân Space.
+**Thay chỗ Snooze vs Fine Dog:**
+3. 4/12 8:00 **Depressed Cat vs Troll Face** (74% + 78%) · sân Grass.
+**Trận mới (từ 5/12):**
+4. 5/12 8:00 **Cat.exe vs Ricardo** — ý anh: Cat.exe GẦN THẮNG thì LAG RƠI XUỐNG VỰC (lọc seed: `_cx.fall` lúc Ricardo ≤ ~150 máu) · sân Volcano (Cat.exe xanh dương — tránh Space).
+5. 5/12 19:00 **Gigacat vs Friend** — meme mới + Friend 76%, phải thấy hoá khổng lồ + nhạc Gigachad · sân Grass (Gigacat kem ✗ Beach, Friend đen ✗ Space/Volcano).
+6. 6/12 8:00 **Battle Cat vs A Lotta Dame Guy** (79%) — lọc seed CÓ Cat God 2% (≈6%/trận → chạy nhiều seed), tiêu đề kiểu "2% chance" · sân Space.
+7. 6/12 19:00 **Scared Hamster vs Duolingo** (77% + 71%) · sân Christmas (chưa dùng lần nào).
+8. 7/12 8:00 **Adolf Catler vs Scared Dog** (70% kéo nhiều lần hiện + 74%) · sân Grass.
+9. 7/12 19:00 **Evil Larry vs Poor Dog** (73% + 76%) — Poor Dog hay thắng đậm → sim kỹ, một chiều thì đổi sang Evil Larry vs Ricardo · sân Beach.
+10. 8/12 8:00 **Azel vs Gigacat** · sân Volcano (Gigacat kem nổi trên nền tối).
+Dự phòng nếu cặp nào một chiều: Troll Face vs Mewing Cat · Friend vs Battle Cat · A Lotta Dame Guy vs Chill Guy.
 
 ## VPN · đăng 1 hay 2 video/ngày · từ khoá (trả lời anh chiều 26/11, phiên Mac)
 - **VPN: đừng tắt.** YouTube không chọn người xem theo IP người đăng; video hẹn giờ do máy chủ YouTube tự công bố. Tỉ lệ nước gần như giữ nguyên (VN ~14% → ~13%, US ~10% → ~9%).
