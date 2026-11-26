@@ -62,17 +62,12 @@ Giữa (70–72): Azel, Violin Mosquito, Gigachad, Evil Gary, Stalin, Adolf Catl
 Thấp (<68): Violin Bumblebee 68 · Doge 68 · Wet Cat 67 · Arabic 66 · Beluga 65 · Berserk 65 · Grumpy 63 · Ninja 63 · Catvader 60 · Jonin Cheems 60 · Bat Cat 59.
 Chỉ là gợi ý: mỗi video có 2 meme, nhiều meme mới có 1–2 video.
 
-## Lịch đăng tuần 30/11–4/12 (10 video, 8:00 + 19:00 giờ VN) — meme mới / rework luôn ghép với 1 meme ≥73%
-| Ngày | Giờ | Trận | Ghi chú |
-|---|---|---|---|
-| T2 30/11 | 8:00 | Cat.exe vs A Lotta Dame Guy | 🆕 Cat.exe chưa đăng |
-| T2 30/11 | 19:00 | Friend vs Troll Face | 2 meme mạnh, chưa gặp nhau |
-| T3 1/12 | 8:00 | LeSunshine vs Scared Hamster | 🆕 LeSunshine chưa đăng |
-| T3 1/12 | 19:00 | Nyan Cat vs Ricardo Milos | 🔧 Nyan rework, đã quay sẵn |
-| T4 2/12 | 8:00 | Giant Friend vs Depressed Cat | 🆕 gợi lại hit 2,28M; ghi `teams` Giant Friend vào leaderboard |
-| T4 2/12 | 19:00 | Sans vs Poor Dog | 🔧 Sans rework 24/11 |
-| T5 3/12 | 8:00 | Loooong Cat vs Scared Dog | 🔧 Snake rework (lần đầu 74%) |
-| T5 3/12 | 19:00 | Crunchy Cat vs Chill Guy | 🆕 lần trước gặp Bat Cat (yếu nhất) → 64% chưa công bằng |
-| T6 4/12 | 8:00 | Snooze Cat vs Fine Dog | 🔧 Snooze nhanh hơn 20% từ 24/11 |
-| T6 4/12 | 19:00 | Evil Larry vs Yuki | 2 meme mạnh, nghỉ lâu |
-Không xếp: Commander Cat (rework còn dở), Angry Cat (chưa phát hành), Violin ×2, Beluga, Drooling, Jonin Cheems, Bat Cat (nghỉ 2–3 tuần).
+## Lịch đăng (chốt 26/11, đã quay xong 10 trận → ~/Desktop/Meme Battles/)
+Anh đã lên lịch sẵn tới 30/11; đổi 2 trận yếu: 27/11 Doge vs Angry Cat → **Angry Cat vs Troll Face** (anh chọn seed 2, Troll Face thắng) · 30/11 Snooze Cat vs Nyan Cat → **Cat.exe vs A Lotta Dame Guy** (Doge 3 video gần nhất 54–58%; Snooze + Nyan đều <66% và Nyan đã đăng 29/11).
+| Ngày | 8:00 | 19:00 |
+|---|---|---|
+| T3 1/12 | Giant Friend vs Depressed Cat (Depressed thắng 200 máu, Shinra Tensei) | Loooong Cat vs Yuki (Loooong thắng 200) |
+| T4 2/12 | LeSunshine vs Smart Guy (thắng ở dạng Mặt Trời, 41s) | Azel vs Scared Hamster (Hamster thắng 150) |
+| T5 3/12 | Crunchy Cat vs Chill Guy (Chill Guy thắng còn 1 máu) | Friend vs Clapping Cat (Friend thắng 140) |
+| T6 4/12 | Snooze Cat vs Fine Dog (Snooze thắng 113) | Adolf Catler vs Evil Larry (Adolf còn 1 máu đúng lúc nghi lễ xong) |
+Chọn cặp bằng `render-match --sim 4` (đọc skill trước, bỏ cặp một chiều). Cặp đã thử mà BỎ: Sans vs Azel (Azel thắng 11s nguyên máu), Scream Cat vs Friend (Scream thắng y hệt mọi seed), LeSunshine vs Scared Dog (LeSunshine không mất máu), Azel vs Evil Larry (luôn hoà — nghi lễ giết cả 2), Azel vs Poor Dog / Adolf vs Poor Dog (Poor Dog thắng còn 300–600), Yuki vs Evil Larry (Yuki không gây dame khi Larry không đánh).
