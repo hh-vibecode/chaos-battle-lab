@@ -55,3 +55,24 @@ Adolf Catler & Stalin vs Evil Gary & Larry chỉ 64% dù toàn meme mạnh (đo�
 - `vidiq_channel_analytics` (day / traffic_sources / audience_geography / top_videos / revenue_report).
 - `vidiq_channel_analytics_extended` report `shorts_stayed_to_watch` (startDate + endDate, `pageOffset` 50 cho trang 2) — cần Chrome đang mở, tiện ích vidIQ đăng nhập đúng tài khoản.
 - Cả lần phân tích này tốn ~60 credit vidIQ.
+
+## Ở lại xem trung bình theo meme (27/09–24/11, tính theo lần hiện)
+Cao: A Lotta Dame Guy 79 · Troll Face 78 · Scared Hamster 77 · Poor Dog 76 · Friend 76 · Depressed Cat 74 · Yuki 74 · Ricardo 74 · Scared Dog 74 · Fine Dog 74 · Clapping Cat 73 · Chill Guy 73 · Evil Larry 73.
+Giữa (70–72): Azel, Violin Mosquito, Gigachad, Evil Gary, Stalin, Adolf Catler (70 — kéo lần hiện nhiều nhưng tỉ lệ ở lại chỉ trung bình), Mewing, Duolingo.
+Thấp (<68): Violin Bumblebee 68 · Doge 68 · Wet Cat 67 · Arabic 66 · Beluga 65 · Berserk 65 · Grumpy 63 · Ninja 63 · Catvader 60 · Jonin Cheems 60 · Bat Cat 59.
+Chỉ là gợi ý: mỗi video có 2 meme, nhiều meme mới có 1–2 video.
+
+## Lịch đăng tuần 30/11–4/12 (10 video, 8:00 + 19:00 giờ VN) — meme mới / rework luôn ghép với 1 meme ≥73%
+| Ngày | Giờ | Trận | Ghi chú |
+|---|---|---|---|
+| T2 30/11 | 8:00 | Cat.exe vs A Lotta Dame Guy | 🆕 Cat.exe chưa đăng |
+| T2 30/11 | 19:00 | Friend vs Troll Face | 2 meme mạnh, chưa gặp nhau |
+| T3 1/12 | 8:00 | LeSunshine vs Scared Hamster | 🆕 LeSunshine chưa đăng |
+| T3 1/12 | 19:00 | Nyan Cat vs Ricardo Milos | 🔧 Nyan rework, đã quay sẵn |
+| T4 2/12 | 8:00 | Giant Friend vs Depressed Cat | 🆕 gợi lại hit 2,28M; ghi `teams` Giant Friend vào leaderboard |
+| T4 2/12 | 19:00 | Sans vs Poor Dog | 🔧 Sans rework 24/11 |
+| T5 3/12 | 8:00 | Loooong Cat vs Scared Dog | 🔧 Snake rework (lần đầu 74%) |
+| T5 3/12 | 19:00 | Crunchy Cat vs Chill Guy | 🆕 lần trước gặp Bat Cat (yếu nhất) → 64% chưa công bằng |
+| T6 4/12 | 8:00 | Snooze Cat vs Fine Dog | 🔧 Snooze nhanh hơn 20% từ 24/11 |
+| T6 4/12 | 19:00 | Evil Larry vs Yuki | 2 meme mạnh, nghỉ lâu |
+Không xếp: Commander Cat (rework còn dở), Angry Cat (chưa phát hành), Violin ×2, Beluga, Drooling, Jonin Cheems, Bat Cat (nghỉ 2–3 tuần).
