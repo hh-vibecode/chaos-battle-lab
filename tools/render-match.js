@@ -51,7 +51,9 @@ async function openMatch(br, PORT, seed, cw) {
   const pg = await br.newPage({ viewport: { width: 1920, height: 1080 }, deviceScaleFactor: dpr });
   pg.on('pageerror', e => console.log('⚠️', e.message.slice(0, 160)));
   if (MC_SAID != null) await pg.addInitScript(s => { try { localStorage.setItem('cbs_mc_said', s); } catch (e) {} }, MC_SAID);
-  await pg.goto(`http://127.0.0.1:${PORT}/${process.argv.includes("--arena") ? "?arena=" + process.argv[process.argv.indexOf("--arena") + 1] : ""}`);   // 🏟️ --arena space|beach|xmas|grass|volcano (anh 26/11: luân phiên sân giữa các Short)
+  const _url = `http://127.0.0.1:${PORT}/${process.argv.includes("--arena") ? "?arena=" + process.argv[process.argv.indexOf("--arena") + 1] : ""}`;   // 🏟️ --arena space|beach|xmas|grass|volcano (anh 26/11: luân phiên sân giữa các Short)
+  // ⏳ (26/11 tối) máy nặng (chạy thử song song nhiều trận) → trang tải >30s là cả lô dừng giữa chừng: chờ tới 3 phút, quá hạn thì tải lại 1 lần
+  try { await pg.goto(_url, { timeout: 180000 }); } catch (e) { console.log('⚠️ tải trang chậm, tải lại:', e.message.slice(0, 80)); await pg.goto(_url, { timeout: 180000 }); }
   await pg.waitForFunction(() => !document.getElementById('bootScreen'), null, { timeout: 300000 });
   await pg.evaluate(({ A, B, cw, DUO, TA, TB, FFA }) => { const n = k => roster.findIndex(c => c.charKey === k);
     ARENA_NORMAL.ss = (cw + 0.4) / (ARENA_NORMAL.w * (1 + 30 / 480));   // canvas cam-mode Solo rộng đúng cw pixel

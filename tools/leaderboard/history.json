@@ -1013,6 +1013,61 @@
    "t": 32.2,
    "src": "render",
    "at": "2026-11-26T06:12:23.648Z"
+  },
+  {
+   "title": "LeSunshine vs Smart Guy",
+   "k": "lesunshine vs smart guy",
+   "win": [
+    "lebronsunshine"
+   ],
+   "seed": 408859978,
+   "t": 34.4,
+   "src": "render",
+   "at": "2026-11-26T15:02:55.388Z"
+  },
+  {
+   "title": "Gigacat vs Gigachad",
+   "k": "gigacat vs gigachad",
+   "win": [
+    "gigachadcat"
+   ],
+   "seed": 409199659,
+   "t": 42.7,
+   "src": "render",
+   "at": "2026-11-26T15:09:43.311Z"
+  },
+  {
+   "title": "Evil Gary vs Gary",
+   "k": "evil gary vs gary",
+   "win": [
+    "evilgary"
+   ],
+   "seed": 409454510,
+   "t": 27.1,
+   "src": "render",
+   "at": "2026-11-26T15:12:32.740Z"
+  },
+  {
+   "title": "A Lotta Dame Guy vs Stalin Cat",
+   "k": "a lotta dame guy vs stalin cat",
+   "win": [
+    "alottadameguy"
+   ],
+   "seed": 409655537,
+   "t": 25,
+   "src": "render",
+   "at": "2026-11-26T15:15:14.868Z"
+  },
+  {
+   "title": "Infinity Doge vs Chonky Dog",
+   "k": "infinity doge vs chonky dog",
+   "win": [
+    "chonkydog"
+   ],
+   "seed": 409809698,
+   "t": 33.3,
+   "src": "render",
+   "at": "2026-11-26T15:18:28.565Z"
   }
  ]
 }

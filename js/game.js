@@ -31815,7 +31815,8 @@ function loop(){
     // hết 2s mới thực sự nổ (xem _slChargeTick()/_slExplode()). Chạy mỗi tick, KHÔNG phụ thuộc có đang trúng ai không.
     // ⚠️ CHỈ MỞ ĐƯỢC 1 LẦN MỖI TRẬN (_slDomainUsed): sau lần đầu, búa với liềm có lỡ chạm nhau bao nhiêu lần
     // nữa cũng KHÔNG kích hoạt gì — không nạp sáng, không đóng băng, không nhạc, búa cũng không tự về tay.
-    if(ap._stalinSickle && ap.owner && !ap.owner._slCharging && !ap.owner._slDomainUsed && (ap.owner._slHammerState==='dropped'||ap.owner._slHammerState==='flying'||ap.owner._slHammerState==='returning')){
+    if(ap._stalinSickle && ap.owner && !ap.owner.dead && !ap.owner._slCharging && !ap.owner._slDomainUsed &&   /* (26/11) Stalin đã chết thì búa + liềm chạm nhau KHÔNG mở domain nữa */
+       (ap.owner._slHammerState==='dropped'||ap.owner._slHammerState==='flying'||ap.owner._slHammerState==='returning')){
       const _hOwn=ap.owner;
       if(Math.hypot(ap.x-_hOwn._slHammerX, ap.y-_hOwn._slHammerY) < ap.size+22){
         _hOwn._slDomainUsed=true;
