@@ -25,6 +25,9 @@ Chi tiết từng meme: `docs/notes/memes.md` · từng phim + cine-kit: `docs/n
 - Sound KHÔNG quá đà (anh 17/11): tiếng va chạm / đập tường hết cú va là NGẮT (`playSample(key,vol,giây)`), không để vang đuôi dài; đòn lặp liên tục thì nhỏ lại.
 - TWIST (`VfxGL.fx.twist`) là hiệu ứng độc quyền của Kamui. Ý tưởng chờ: 1 meme mới dùng twist (xoáy, hố đen, thôi miên).
 - Đừng tự thêm tính năng / hiệu ứng anh không yêu cầu.
+- 🎯 (anh 26/11) MỌI việc nhắm tối ưu cho YOUTUBE (giữ chân người xem, khác biệt, không lặp).
+- ✨ (anh 26/11) MỖI MEME VFX RIÊNG — không dùng lại VFX / shader / kiểu hiệu ứng của meme khác (YouTube chấm thấp nội dung lặp). Sáng tạo theo đúng nguồn gốc meme.
+- ⚖️ (anh 26/11) Cân bằng: meme mới đánh SÁT với Doge (~40–60%, ≥8 seed) là đạt — đo bằng skill `test-nhanh` (`tools/x/sim.js`, trận 40s chạy ~2s).
 - Commenter Battle: cân skill commenter CHỈ bằng dame + tầm, giữ nguyên cơ chế họ viết (anh 25/11).
 
 ## Ảnh / VFX
