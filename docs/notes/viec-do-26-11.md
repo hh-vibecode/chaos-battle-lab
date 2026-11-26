@@ -22,7 +22,16 @@
 - Battle Cat 471 → theo chuẩn mới là YẾU (thắng Doge ~55% nhờ triệu hồi + Cat God) — bàn với anh.
 
 ## 🤸 Luật mới: meme tương tác thì thân phải chuyển động tương ứng (anh 26/11, CLAUDE.md)
-- Cần rà TẤT CẢ meme cũ: con nào ném / nhổ / tóm / đập mà ảnh đứng im → ghi tên vào đây rồi làm dần. CHƯA rà.
+- ✅ ĐÃ RÀ (Mac 26/11): đọc mô tả skill 71 meme → 11 con nghi, chụp 16 khung / 0.3s mỗi con khi đấu Doge để xem tận mắt.
+  ❗ THÂN ĐỨNG IM lúc tương tác → CẦN LÀM chuyển động (chờ anh chọn thứ tự):
+    · **Stalin Cat**: quăng búa / nhặt búa: ảnh y nguyên, chỉ cái búa đổi góc → cần vung tay ném + cúi nhặt.
+    · **LeSunshine**: chài bóng qua 2 tay + bật nhảy đập: ảnh y nguyên (bóng tự nảy) → cần nhún theo nhịp chài, bật người lên lúc đập.
+    · **Cornelius**: phi chảo mỗi 1.5s: ảnh chạy y nguyên → cần giật người ném.
+    · **Slap Cat**: đứng khựng lại vả (tay thò qua cổng): ảnh mèo ngồi y nguyên → cần ngả người vung tay.
+  ✅ Đã có chuyển động: Crunchy Cat (nhai), Cough Cat (khung ho), Kermit (nhiều dáng), Mechanic Cat (khung lắp), Dam Dam Didi (lắc đầu), Bread Cat (xoay),
+     Gigachad Cat, Cat.exe, Battle Cat, Doorbell Chud, Capybara, Alotta Dame Guy, Samurai Cheems.
+  ❔ Chưa thấy được: Angry Cat (trong 5s chụp không phóng xích lần nào) — soát lại khi ép chiêu.
+  Ghi chú: mọi đòn có đặt `attackAvatarTimer` đều tự có cú lao người chung (`_atkPop` trong updateJelly) — làm cho 4 con trên có thể bắt đầu bằng cách đặt cờ này lúc ném / vả.
 
 ## 🐱 Battle Cat + 💻 Cat.exe — ✅ Ver 759–760 (Mac): RƠI MẤT (lỗ Cat God / Cat.exe rơi vào vũ trụ) = teo CẢ CỤM (thân + vũ khí + thanh máu)
   về gần 0, cuối pha mờ hẳn, chết thì BIẾN MẤT không vỡ mảnh (anh 26/11) — `draw()` bọc `_drawBody()`, cờ `_fellAway` chặn `_fighterDeathFx`.
