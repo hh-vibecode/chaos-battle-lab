@@ -1,5 +1,5 @@
 # Chaos Battle Lab — luật làm việc (bản gọn 16/11/2026)
-Chi tiết từng meme: `docs/notes/memes.md` · từng phim + cine-kit: `docs/notes/films.md` · mẫu comment YouTube: `docs/notes/youtube-comment.md` · câu đố / dad joke cho mô tả video: `docs/notes/youtube-cau-do-mo-ta.md` · luật gốc đầy đủ (ví dụ, lời anh dặn): `docs/notes/rules-full.md`.
+Chi tiết từng meme: `docs/notes/memes.md` · từng phim + cine-kit: `docs/notes/films.md` · mẫu comment YouTube: `docs/notes/youtube-comment.md` · funny tips từng meme cho mô tả video: `docs/notes/youtube-funny-tips.md` · luật gốc đầy đủ (ví dụ, lời anh dặn): `docs/notes/rules-full.md`.
 🍎 **Mac chưa cài luồng làm phim** (từ khi làm phim trên PC, Mac chỉ update game + nhân vật): phiên Mac đọc `docs/notes/luong-phim-blender.md` mục 2 rồi cài TRƯỚC khi làm phim. VFX nổ / khói / lửa lớn = mô phỏng Blender (`tools/blender/`, cùng file đó mục 4).
 Đọc file đó KHI làm đúng phần đó (không cần đọc hết mỗi phiên).
 📉 (26/11) Kênh sụt view: phân tích vidIQ + chuẩn "ở lại xem ≥72%" khi chọn trận đăng → `docs/notes/phan-tich-kenh-sut-view.md`.
