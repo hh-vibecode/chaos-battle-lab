@@ -39002,6 +39002,7 @@ const FAN_SKILLS = {
   //  Lao móc + dây xích bay ở toạ độ thế giới thật → vẽ trong loop() (khối "tanphamnhat969"), không dùng draw(f,s).
   //  ⚖️ (anh 25/11 chê "vừa yếu vừa chậm": số gốc 60/120 mỗi 5s chỉ ~12 dame/s, trận thử cả 24s gây đúng 300) → nhân số như các commenter khác:
   //     CHỈ đổi dame (anh 25/11: giữ nguyên skill commenter, chỉ cân dame / range): lao móc 150 · lao đâm 300 · nhịp 5s đúng comment.
+  //  ⏱️ (anh 26/11: "5s lâu quá") nhịp ra chiêu 5s → 3s, cân lại dame: lao móc 150 → 100 · lao đâm 300 → 200 (dame/giây ≈ bản cũ, đánh dày hơn).
   // ⚠️ CHỈ dùng cho Commenter Battle (FAN_SKILLS) — KHÔNG đụng vào roster 56 con chính.
   // ————————————————————————————————————————————————————————————————
   tanphamnhat969: {
@@ -39009,7 +39010,7 @@ const FAN_SKILLS = {
     name: 'tanphamnhat969',
     avatar: 'assets/avatars/fan/tanphamnhat969.jpg',               // 👈 CHỜ ẢNH: lưu ảnh đại diện vào thư mục game rồi báo tôi, tôi nhúng vào đây
     hp: 1000, size: 48, speed: 5,
-    desc: "Fires a chained harpoon every 5s — get too close and it lunges to skewer you instead. Below half HP its left eye burns red and every hit doubles.",
+    desc: "Fires a chained harpoon every 3s — get too close and it lunges to skewer you instead. Below half HP its left eye burns red and every hit doubles.",
     init(f){ const tps=60*GAME_SPEED*TIME_SCALE; f._tsCD=Math.round(2.5*tps); f._tsHarpoons=[]; f._tsLunge=null; f._tsMorale=false; f._tsMoraleT=0; },
     tick(f, e, dist, cham){
       const tps=60*GAME_SPEED*TIME_SCALE;
@@ -39032,7 +39033,7 @@ const FAN_SKILLS = {
         h.x+=h.vx; h.y+=h.vy; h.life--;
         let hit=null; for(const u of foes()) if(Math.hypot(u.x-h.x,u.y-h.y)<(u.size||20)+6){ hit=u; break; }
         if(hit){
-          hit.takeDamage(150*h.mul, f);
+          hit.takeDamage(100*h.mul, f);
           playSample('hit_mid',0.45); addShake(4,7);
           _hitParticles(hit.x,hit.y,h.mul>1?'#ff1744':'#cfd8dc',8,false,true);
           h.stuck=hit; h.ox=h.x-hit.x; h.oy=h.y-hit.y; h.t=0; h.stickT=Math.round(0.35*tps);
@@ -39044,7 +39045,7 @@ const FAN_SKILLS = {
         f.x+=L.vx; f.y+=L.vy; f.vx=0; f.vy=0;
         f.x=Math.max(f.size, Math.min(W-f.size, f.x)); f.y=Math.max(f.size, Math.min(H-f.size, f.y));
         if(!L.hit){ for(const u of foes()) if(Math.hypot(u.x-f.x,u.y-f.y)<f.size+(u.size||20)+MELEE_REACH){
-          L.hit=true; u.takeDamage(300*L.mul, f);
+          L.hit=true; u.takeDamage(200*L.mul, f);
           playSample('hit_heavy',0.5); addShake(7,10);
           _hitParticles(u.x,u.y,L.mul>1?'#ff1744':'#eceff1',12,false,true);
           L.t=Math.min(L.t,4); break; } }
@@ -39065,7 +39066,7 @@ const FAN_SKILLS = {
           life:Math.round(1.6*tps), mul });
         playSample('wg_blade_throw',0.6);
       }
-      f._tsCD=Math.round(5*tps);
+      f._tsCD=Math.round(3*tps);
     },
     draw(f, s){
       // 🔴 PEAK MORALE: mắt TRÁI đỏ rực (vẽ trong toạ độ của ảnh nên quay mặt nào mắt vẫn bám đúng chỗ)
