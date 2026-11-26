@@ -72,6 +72,10 @@ Anh đã lên lịch sẵn tới 30/11; đổi 2 trận yếu: 27/11 Doge vs Ang
 | T6 4/12 | Snooze Cat vs Fine Dog (Snooze thắng 113) | Adolf Catler vs Evil Larry (Adolf còn 1 máu đúng lúc nghi lễ xong) |
 Chọn cặp bằng `render-match --sim 4` (đọc skill trước, bỏ cặp một chiều). Cặp đã thử mà BỎ: Sans vs Azel (Azel thắng 11s nguyên máu), Scream Cat vs Friend (Scream thắng y hệt mọi seed), LeSunshine vs Scared Dog (LeSunshine không mất máu), Azel vs Evil Larry (luôn hoà — nghi lễ giết cả 2), Azel vs Poor Dog / Adolf vs Poor Dog (Poor Dog thắng còn 300–600), Giant Friend vs Gigachad / Spider Cat (Giant Friend thua cả 4), Yuki vs Evil Larry (Yuki không gây dame khi Larry không đánh).
 
+### 📝 Trận CHUẨN BỊ quay cho đợt tới (từ 5/12)
+- **Cat.exe GẦN THẮNG thì LAG RƠI XUỐNG VỰC** (anh 26/11): Cat.exe dồn địch còn ít máu, rồi RAM đầy / lag văng ra ngoài sân → rơi vào vũ trụ thua ngược (Ver 760: rơi thì nhỏ dần rồi biến mất).
+  Lọc seed: Cat.exe RƠI (`_cx.fall`) lúc địch còn ≤ ~150 máu. Đối thủ chọn con mạnh / đối màu với Cat.exe (xanh dương) — tránh sân Space (tím xanh). Video ≤ 30s, vào thẳng lúc 2 con sắp chạm.
+
 ## VPN · đăng 1 hay 2 video/ngày · từ khoá (trả lời anh chiều 26/11, phiên Mac)
 - **VPN: đừng tắt.** YouTube không chọn người xem theo IP người đăng; video hẹn giờ do máy chủ YouTube tự công bố. Tỉ lệ nước gần như giữ nguyên (VN ~14% → ~13%, US ~10% → ~9%).
   Anh nghi bật kiếm tiền (24/10) + VPN bị "để ý" → chưa xác nhận cũng chưa loại được. Bật thì dùng 1 nước CỐ ĐỊNH (vd luôn US).
