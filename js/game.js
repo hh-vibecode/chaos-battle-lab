@@ -17189,22 +17189,22 @@ const ARENA_THEMES={
     crys:['#efe9ff','#a38bff','#4e6bff'], crysGlow:'rgba(150,130,255,0.9)', crysHalo:'170,140,255', block:['#3c3474','#5a4fa0','#221c46','#30285e'], side:['#3e3577','#17132e'], ledge:'#2f2860', ledgeHi:'rgba(215,205,255,0.5)',
     peb:['#4f4492','#211a42','rgba(165,180,255,0.55)'] },
   beach:{ ring:['#3b2614','#fff1d6','#9a6c3c','rgba(120,230,240,0.9)','rgba(80,210,230,0.8)'], name:'Beach', sky:['#3f9fd6','#7cc6ea','#bfe6f3'], neb:[], stars:0,
-    floor:['#c79a5e','#bb8d52','#a37743'], tileHi:'255,245,220', tileLo:'90,55,20', grid:'rgba(110,70,30,0.07)', edge:['rgba(80,215,225,0.30)','rgba(80,215,225,0.10)','rgba(80,215,225,0)'], inner:'rgba(255,240,205,0.45)',
+    floor:['#9d9384','#958b7c','#82796c'], tileHi:'255,250,240', tileLo:'50,42,32', grid:'rgba(60,50,40,0.05)', edge:['rgba(150,205,210,0.18)','rgba(150,205,210,0.06)','rgba(150,205,210,0)'], inner:'rgba(240,232,220,0.30)',
     glow:['rgba(40,200,220,0.30)','rgba(40,170,210,0.12)','rgba(40,170,210,0)'], rockD:'#3b2614', rockL:'#d8a865', rimLight:['rgba(120,230,240,0.7)','rgba(150,235,245,0.55)'],
     crys:['#fff1ea','#ff9b8a','#ff5a6e'], crysGlow:'rgba(255,140,130,0.8)', crysHalo:'255,150,140', block:['#9a6c3c','#b98754','#5c3c1f','#71492a'], side:['#8a5f34','#3e2814'], ledge:'#7a5530', ledgeHi:'rgba(255,236,200,0.6)',
     peb:['#b48452','#5c3c1f','rgba(140,230,240,0.55)'] },
   xmas:{ ring:['#0e1a2e','#ffffff','#c0392b','rgba(255,255,255,0.9)','rgba(160,220,255,0.9)'], name:'Christmas', sky:['#0c1a36','#132a52','#1d3a66'], neb:[['70,200,150',0.10],['90,150,230',0.10]], stars:1, twinkle:1,
-    floor:['#8fa6bf','#8199b4','#6a84a3'], tileHi:'255,255,255', tileLo:'20,40,70', grid:'rgba(255,255,255,0.06)', edge:['rgba(255,255,255,0.28)','rgba(200,225,255,0.10)','rgba(200,225,255,0)'], inner:'rgba(240,248,255,0.5)',
+    floor:['#868e97','#7d858e','#6c737c'], tileHi:'255,255,255', tileLo:'25,30,40', grid:'rgba(255,255,255,0.04)', edge:['rgba(230,238,248,0.18)','rgba(230,238,248,0.06)','rgba(230,238,248,0)'], inner:'rgba(235,242,250,0.30)',
     glow:['rgba(120,200,255,0.30)','rgba(90,160,230,0.12)','rgba(90,160,230,0)'], rockD:'#0e1a2e', rockL:'#7f9fc4', rimLight:['rgba(200,230,255,0.8)','rgba(220,238,255,0.6)'],
     crys:['#ffffff','#bfe6ff','#5fb2ff'], crysGlow:'rgba(170,220,255,0.9)', crysHalo:'180,225,255', block:['#5d7697','#7a93b3','#2c3d57','#3a4f6d'], side:['#5a7393','#1c2a40'], ledge:'#e6eef7', ledgeHi:'rgba(255,255,255,0.8)',
     peb:['#6f8db0','#24354f','rgba(220,238,255,0.6)'] },
   grass:{ ring:['#2c1d10','#fffbe0','#4f9a3c','rgba(255,240,140,0.9)','rgba(255,230,120,0.8)'], name:'Grass Field', sky:['#5ab4ea','#8fd0f2','#cdeefb'], neb:[], stars:0,
-    floor:['#5cab47','#529c3f','#447f35'], tileHi:'235,255,200', tileLo:'20,60,10', grid:'rgba(30,80,20,0.06)', edge:['rgba(255,255,220,0.22)','rgba(255,255,220,0.06)','rgba(255,255,220,0)'], inner:'rgba(255,255,255,0.55)',
+    floor:['#6c7a64','#64725c','#56634f'], tileHi:'240,250,230', tileLo:'20,30,15', grid:'rgba(20,30,15,0.04)', edge:['rgba(235,245,220,0.14)','rgba(235,245,220,0.05)','rgba(235,245,220,0)'], inner:'rgba(240,248,235,0.30)',
     glow:['rgba(120,230,120,0.22)','rgba(120,230,120,0.08)','rgba(120,230,120,0)'], rockD:'#2c1d10', rockL:'#a7804f', rimLight:['rgba(150,240,130,0.6)','rgba(170,240,150,0.5)'],
     crys:['#fffbe0','#ffe066','#ffb020'], crysGlow:'rgba(255,220,90,0.8)', crysHalo:'255,225,110', block:['#7a5a36','#956f45','#4a3320','#5c4129'], side:['#6c4f2f','#2c1d10'], ledge:'#5aa845', ledgeHi:'rgba(210,255,170,0.6)',
     peb:['#8a6a40','#3e2a18','rgba(170,240,150,0.5)'] },
   volcano:{ ring:['#0c0807','#ffcf8a','#3a2420','rgba(255,130,50,0.95)','rgba(255,90,20,0.9)'], name:'Volcano', sky:['#1a0a0c','#2e0f0e','#4a1810'], neb:[['255,90,30',0.16],['200,40,30',0.14],['255,150,60',0.08]], stars:0,
-    floor:['#2b2524','#332b29','#46322b'], tileHi:'255,200,160', tileLo:'0,0,0', grid:'rgba(255,120,60,0.05)', edge:['rgba(255,110,40,0.30)','rgba(255,70,30,0.10)','rgba(255,70,30,0)'], inner:'rgba(255,150,90,0.4)',
+    floor:['#2f2c2b','#353130','#3e3836'], tileHi:'255,235,220', tileLo:'0,0,0', grid:'rgba(255,200,170,0.03)', edge:['rgba(255,130,70,0.16)','rgba(255,100,50,0.05)','rgba(255,100,50,0)'], inner:'rgba(255,190,150,0.22)',
     glow:['rgba(255,100,30,0.40)','rgba(255,60,20,0.15)','rgba(255,60,20,0)'], rockD:'#0c0807', rockL:'#5a463e', rimLight:['rgba(255,120,40,0.9)','rgba(255,140,60,0.7)'],
     crys:['#fff1c8','#ff9a3c','#e0341c'], crysGlow:'rgba(255,110,40,0.9)', crysHalo:'255,120,50', block:['#3a2e2a','#4c3c35','#1a1312','#241a18'], side:['#3b2f2b','#120d0c'], ledge:'#2a201e', ledgeHi:'rgba(255,150,80,0.55)',
     peb:['#3e322e','#120d0c','rgba(255,130,60,0.6)'] },
@@ -17254,17 +17254,8 @@ function _atSkyAnim(vw,vh){ const k=ARENA_THEME, t=tick;
     ctx.restore(); }
 }
 // hoạ tiết riêng mặt sân (bake cùng mặt sân) — toạ độ WORLD
-function _atFloorExtra(g){ const k=ARENA_THEME, u=W/480;
-  if(k==='grass'){   // ⚾ sân cỏ: sọc cắt cỏ đậm nhạt xen kẽ + vạch trắng giữa sân + vòng tròn giữa (kiểu sân đấu cỏ)
-    const S=48*u; for(let i=0;i*S<W;i++){ if(i%2) continue; g.fillStyle='rgba(255,255,220,0.06)'; g.fillRect(i*S,0,S,H); }
-    g.strokeStyle='rgba(255,255,255,0.32)'; g.lineWidth=2.2*u; g.beginPath(); g.moveTo(0,H/2); g.lineTo(W,H/2); g.stroke(); g.beginPath(); g.arc(W/2,H/2,Math.min(W,H)*0.16,0,Math.PI*2); g.stroke();
-    for(let i=0;i<500;i++){ const x=W*_skH(i+5000), y=H*_skH(i+5100); g.fillStyle=_skH(i+5200)<0.5?'rgba(30,90,20,0.25)':'rgba(190,240,140,0.18)'; g.fillRect(x,y,1*u,3*u); } }   // cọng cỏ
-  else if(k==='beach'){ for(let i=0;i<1400;i++){ const x=W*_skH(i+5300), y=H*_skH(i+5400), q=_skH(i+5500); g.fillStyle=q<0.5?'rgba(120,80,40,0.22)':'rgba(255,240,210,0.25)'; g.fillRect(x,y,1.1*u,1.1*u); }   // hạt cát
-    for(let i=0;i<7;i++){ const x=W*_skH(i+5600), y=H*_skH(i+5700), r=(5+5*_skH(i+5800))*u; g.fillStyle='rgba(255,230,215,0.55)'; g.beginPath(); g.ellipse(x,y,r,r*0.75,_skH(i)*3,0,Math.PI*2); g.fill(); g.strokeStyle='rgba(170,110,80,0.4)'; g.lineWidth=0.8*u; g.stroke(); } }   // vỏ sò nhỏ
-  else if(k==='xmas'){ for(let i=0;i<900;i++){ const x=W*_skH(i+7000), y=H*_skH(i+8000), q=_skH(i+9000); g.fillStyle=q<0.75?`rgba(255,255,255,${(0.3+0.5*q).toFixed(3)})`:'rgba(40,70,110,0.2)'; g.fillRect(x,y,(q<0.08?1.6:0.9)*u,(q<0.08?1.6:0.9)*u); } }   // hạt tuyết lấp lánh
-  else if(k==='volcano'){ g.save(); g.lineCap='round';   // 🌋 vết nứt dung nham phát sáng trên đá bazan
-    for(let c=0;c<7;c++){ let x=W*_skH(c+6000), y=H*_skH(c+6100), a=_skH(c+6200)*Math.PI*2; g.beginPath(); g.moveTo(x,y); for(let j=0;j<6;j++){ a+=(_skH(c*10+j+6300)-0.5)*1.2; x+=Math.cos(a)*22*u; y+=Math.sin(a)*22*u; g.lineTo(x,y); }
-      g.strokeStyle='rgba(255,90,20,0.35)'; g.lineWidth=5*u; g.stroke(); g.strokeStyle='rgba(255,190,80,0.8)'; g.lineWidth=1.6*u; g.stroke(); } g.restore(); }
+function _atFloorExtra(g){ const u=W/480;   // (anh 26/11: sân TRƠN, ít chi tiết — chỉ giữ sọc cắt cỏ rất nhạt cho sân cỏ)
+  if(ARENA_THEME==='grass'){ const S=48*u; for(let i=0;i*S<W;i++){ if(i%2) continue; g.fillStyle='rgba(255,255,240,0.025)'; g.fillRect(i*S,0,S,H); } }
 }
 // trang trí động quanh sân (mỗi khung) — toạ độ WORLD
 function _atFloorAnim(){ if(ARENA_THEME!=='xmas') return; const u=W/480, y=H+14*u;   // 🎄 dây đèn Noel nhấp nháy dọc gờ trước của sân
@@ -17325,8 +17316,8 @@ function _paintFloorTop(g){ const u=W/480;
   g.save(); g.beginPath(); if(g.roundRect) g.roundRect(0,0,W,H,FLOOR_R*u); else g.rect(0,0,W,H); g.clip();   // bo góc sân
   const AT=_AT(); let gr=g.createRadialGradient(W/2,H/2,Math.min(W,H)*0.12,W/2,H/2,Math.hypot(W,H)*0.58); gr.addColorStop(0,AT.floor[0]); gr.addColorStop(0.6,AT.floor[1]); gr.addColorStop(1,AT.floor[2]); g.fillStyle=gr; g.fillRect(0,0,W,H);
   const T=60*u, nx=Math.ceil(W/T), ny=Math.ceil(H/T);   // ô đá rất mờ
-  for(let i=0;i<nx;i++) for(let j=0;j<ny;j++){ const k=_skH(i*31+j*17+500); g.fillStyle=k<0.5?`rgba(${AT.tileHi},${0.018*k})`:`rgba(${AT.tileLo},${0.05*(k-0.5)})`; g.fillRect(i*T,j*T,T,T); }
-  g.strokeStyle=AT.grid; g.lineWidth=1*u; g.beginPath(); for(let i=1;i<nx;i++){ g.moveTo(i*T,0); g.lineTo(i*T,H); } for(let j=1;j<ny;j++){ g.moveTo(0,j*T); g.lineTo(W,j*T); } g.stroke();
+  for(let i=0;i<nx;i++) for(let j=0;j<ny;j++){ const k=_skH(i*31+j*17+500); g.fillStyle=k<0.5?`rgba(${AT.tileHi},${0.008*k})`:`rgba(${AT.tileLo},${0.022*(k-0.5)})`; g.fillRect(i*T,j*T,T,T); }
+  // (anh 26/11) bỏ vạch kẻ lưới — sân trơn để meme + VFX nổi
   for(const [x0,y0,x1,y1,w] of [[0,0,0,1,W],[0,H,0,-1,W],[0,0,1,0,H],[W,0,-1,0,H]]){ const L=70*u, lg=g.createLinearGradient(x0,y0,x0+x1*L,y0+y1*L); lg.addColorStop(0,AT.edge[0]); lg.addColorStop(0.4,AT.edge[1]); lg.addColorStop(1,AT.edge[2]);   // mép sân sáng (màu theo sân)
     g.fillStyle=lg; if(x1===0) g.fillRect(0,Math.min(y0,y0+y1*L),W,L); else g.fillRect(Math.min(x0,x0+x1*L),0,L,H); }
   _atFloorExtra(g);
