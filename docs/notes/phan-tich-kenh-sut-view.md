@@ -82,7 +82,7 @@ Anh xem lịch: 8/10 trận quay 26/11 bị bỏ (lỗi / chán) → mỗi trậ
 | 1 | LeSunshine vs Smart Guy (quay lại) | chỉ crit IQ 200 (400) mới ép LeSunshine hoá Mặt Trời → thắng ngược + có SLAM DUNK | LeSunshine (seed hiếm ~1/13) | Space |
 | 2 | Cat.exe vs Ricardo | Not Responding sát tường lag văng ra ngoài, hết 10s còn ngoài → rơi vũ trụ lúc Ricardo sắp chết | Ricardo | Grass |
 | 3 | Battle Cat vs Friend | Cat God 2% chưởng lỗ giữa sân, cả 2 rơi | Hoà | Beach |
-| 4 | Gigacat vs Gigachad (anh chọn) | sóng âm phản dame của Gigacat tính là đòn → Gigachad +2% cỡ, Gigacat −2%; Gigachad >150% miễn đẩy lùi → khổng lồ vs khổng lồ + suplex | sim quyết | Volcano |
+| 4 | Gigacat vs Gigachad (anh chọn) | sóng âm phản dame của Gigacat tính là đòn → Gigachad +2% cỡ, Gigacat −2%; Gigachad >150% miễn đẩy lùi → khổng lồ vs khổng lồ + suplex | **Gigacat** (anh chốt) | Volcano |
 | 5 | Evil Gary vs Gary | Trái Đất hút 5% máu tối đa / lần chạm ↔ linh hồn gieo độc cộng dồn | sim quyết (sợ dài) | Christmas |
 | 6 | A Lotta Dame Guy vs Boxing Cat | 1 cú đấm tích ≥250 → A Lotta lôi cưa ngay; Boxing dịch chuyển né 2 lần, cưa đuổi | ưu tiên A Lotta (0-1) | Space |
 | 7 | Infinity Doge vs Chonky Dog | mỗi cú đổ sập: 350 cho thân bị đè + 100 cho TỪNG thân → đàn slime vơi dần; Chonky lúc to chịu 50% | ưu tiên Infinity (0-2) | Beach |
