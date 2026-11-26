@@ -859,6 +859,116 @@
    "t": 38.8,
    "src": "render",
    "at": "2026-11-25T03:50:32.549Z"
+  },
+  {
+   "title": "Angry Cat vs Troll Face",
+   "k": "angry cat vs troll face",
+   "win": [
+    "trollface"
+   ],
+   "seed": 370663153,
+   "t": 34.3,
+   "src": "render",
+   "at": "2026-11-26T04:31:20.267Z"
+  },
+  {
+   "title": "Cat.exe vs A Lotta Dame Guy",
+   "k": "cat exe vs a lotta dame guy",
+   "win": [
+    "catexe"
+   ],
+   "seed": 370750257,
+   "t": 37.3,
+   "src": "render",
+   "at": "2026-11-26T04:34:09.202Z"
+  },
+  {
+   "title": "Giant Friend vs Depressed Cat",
+   "k": "giant friend vs depressed cat",
+   "win": [
+    "depressedcat"
+   ],
+   "seed": 371122118,
+   "t": 33.4,
+   "src": "render",
+   "at": "2026-11-26T04:39:12.946Z"
+  },
+  {
+   "title": "Friend vs Clapping Cat",
+   "k": "friend vs clapping cat",
+   "win": [
+    "friend"
+   ],
+   "seed": 371287983,
+   "t": 21.7,
+   "src": "render",
+   "at": "2026-11-26T04:41:12.762Z"
+  },
+  {
+   "title": "Loooong Cat vs Yuki",
+   "k": "loooong cat vs yuki",
+   "win": [
+    "loooongcat"
+   ],
+   "seed": 371380529,
+   "t": 23.6,
+   "src": "render",
+   "at": "2026-11-26T04:43:16.456Z"
+  },
+  {
+   "title": "Crunchy Cat vs Chill Guy",
+   "k": "crunchy cat vs chill guy",
+   "win": [
+    "chillguy"
+   ],
+   "seed": 371480044,
+   "t": 32,
+   "src": "render",
+   "at": "2026-11-26T04:45:46.075Z"
+  },
+  {
+   "title": "Snooze Cat vs Fine Dog",
+   "k": "snooze cat vs fine dog",
+   "win": [
+    "snoozecat"
+   ],
+   "seed": 371767071,
+   "t": 23.3,
+   "src": "render",
+   "at": "2026-11-26T04:48:34.736Z"
+  },
+  {
+   "title": "Azel vs Scared Hamster",
+   "k": "azel vs scared hamster",
+   "win": [
+    "scaredhamster"
+   ],
+   "seed": 371987598,
+   "t": 33.1,
+   "src": "render",
+   "at": "2026-11-26T04:52:24.999Z"
+  },
+  {
+   "title": "LeSunshine vs Smart Guy",
+   "k": "lesunshine vs smart guy",
+   "win": [
+    "lebronsunshine"
+   ],
+   "seed": 372261513,
+   "t": 40.6,
+   "src": "render",
+   "at": "2026-11-26T04:55:54.514Z"
+  },
+  {
+   "title": "Adolf Catler vs Evil Larry",
+   "k": "adolf catler vs evil larry",
+   "win": [
+    "feuerkatze"
+   ],
+   "seed": 372395006,
+   "t": 30.5,
+   "src": "render",
+   "at": "2026-11-26T04:58:22.118Z"
   }
  ]
 }
