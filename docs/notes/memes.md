@@ -124,6 +124,8 @@
 ## ☀️ LeSunshine (`lebronsunshine`, 12/11/2026) — khối `LB_*` / `_lb*` trong js/game.js
 - Thường: nửa người cầu thủ ném bóng (ảnh GPT `LB_THROW`, hoạt cảnh lấy đà/bật tới bằng code) · bóng trúng 3 lần → mặt meme (`LB_FACE`) gom sáng 0.9s → loé trắng (`LB_FLARE` nền đen, cộng sáng) → địch loá 2.5s, CHỈ có tiếng hiệu ứng
   · về 0 máu (`_lbDamage` ở đầu _takeDamageCore) → lướt ra giữa sân thành mặt trời (`LB_SUN`), phát `lb_song` (cả bài, lặp), thiêu 100/s, còn 3 vạch (mỗi đòn 1 vạch, cháy/độc không tính).
+- (anh 27/11) BỎ chiêu loé sáng làm địch choáng (8s/lần) · mặt trời còn 2 VẠCH (đòn 1 → 500, đòn 2 thua) · sửa lỗi bóng đập MẤT (đứng sát mép trên → bóng tung quá mép, chạm tường bị xoá, không dame; giờ bóng đập bám mặt địch không xét tường — giả lập 9/24 trận lệch → 0/24) · info: "Everybody goes out partying. He dunks on you."
+  ⚠️ Sau khi bỏ loé: giả lập thắng Smart Guy 8/8 nhưng thua Doge 0/8, Cheems 0/8 → YẾU, chờ anh quyết có buff không.
 - ⚠️ GPT CHẶN vẽ tư thế mới của NGƯỜI NỔI TIẾNG (nhận ra từ ảnh mẫu, kể cả ảnh GPT tự vẽ) — vẽ được 1 ảnh ném bóng rồi bị chặn hết. Cần thêm tư thế → anh tự vẽ ChatGPT, hoặc làm chuyển động bằng code từ ảnh có sẵn.
 - `lb_sing` / `lb_ult` (bản đầu) không còn dùng.
 
