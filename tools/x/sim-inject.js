@@ -43,9 +43,12 @@
     // 🎯 BÙ NHÌN đo dame (anh 26/11): đối thủ bất tử, KHÔNG skill, đi lại như meme thường, chạm vào thì đánh 40 / 0.8s (để meme có chiêu phản / chiêu khi bị đánh vẫn kích)
     if (o.dummy) { const d = fighters.find(f => f.slotIdx === 1); if (d) { d.type = '__dummy__'; d.maxHp = d.hp = 1e7; d._dmCD = 30;
       d.doAbility = function () { if (--this._dmCD > 0) return; const e = this.enemy; if (e && !e.dead && Math.hypot(e.x - this.x, e.y - this.y) < this.size + (e.size || 20) + MELEE_REACH) { e.takeDamage(40, this); this._dmCD = 48; } }; } }
+    // ♾️ CẢ 2 BẤT TỬ (anh 27/11): meme đấu đối thủ THẬT (đủ skill), cả 2 vô hạn máu, đánh đủ --max giây → đếm dame meme gây ra (~1000 / 22–26s = đạt)
+    const _imm = () => { for (const f of fighters) { if (f.maxHp < 1e6) { f.maxHp = 1e7; f.hp = 1e7; } else if (f.hp < 5e6) f.hp = 1e7; } };
+    if (o.immortal) _imm();
     const t0 = RT.now(), v0 = __vt, max = o.max || 90; let koAt = null;
     while (__vt - v0 < max) {
-      step(120); await yieldReal(0);
+      step(o.immortal ? 6 : 120); if (o.immortal) _imm(); await yieldReal(0);
       const dead = fighters.some(f => f.dead);
       if (dead && koAt == null) koAt = __vt - v0;
       if (!o.dummy && koAt != null && __vt - v0 > koAt + 0.2) break;

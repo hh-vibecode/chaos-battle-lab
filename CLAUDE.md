@@ -38,7 +38,9 @@ Chi tiết từng meme: `docs/notes/memes.md` · từng phim + cine-kit: `docs/n
   Nhìn màu chủ đạo của meme so với sàn + nền sân: Space tím than · Beach cát xám be + biển xanh ngọc · Christmas xám lạnh + tuyết trắng · Grass xanh lá xám · Volcano bazan tối + đỏ cam. Phân vân → chụp 1 khung thử 2 sân rồi chọn sân meme NỔI hơn.
 - 🤸 (anh 26/11) Meme TƯƠNG TÁC với môi trường / đối thủ thì THÂN phải có CHUYỂN ĐỘNG tương ứng (cúi xuống nhổ sàn, vươn người nhấc, ngả người lấy đà rồi lao tới khi ném, giật lùi khi trúng…) — không để ảnh đứng im mà đồ vật tự bay. Áp cho MỌI meme (cũ chưa có → ghi vào docs/notes/memes.md mục "Cần thêm động tác" rồi làm dần).
 - ⏱️ (anh 26/11) Trận đấu nên 20–26s (trừ khi có effect đặc biệt đáng xem).
-- ⚖️ (anh 26/11) Cân bằng: meme mới đánh SÁT với Doge (~40–60%, ≥8 seed) là đạt — đo bằng skill `test-nhanh` (`tools/x/sim.js`, trận 40s chạy ~2s).
+- ⚖️ (anh 27/11) ĐO CÂN BẰNG: cho meme đấu POPCAT, CẢ 2 VÔ HẠN MÁU, đánh 25s → đếm dame meme gây ra. ~1000 dame trong 22–26s = khoẻ / đạt.
+  Lệnh: `node tools/x/sim.js <key> --vs popcat --immortal --n 6` (in "dame X trong 25s").
+  Cần thử thắng-thua thật thì dùng Huh Cat (`huhcat` — con cân nhất game, thay Doge) — đo bằng skill `test-nhanh` (`tools/x/sim.js`, trận 40s chạy ~2s).
 - Commenter Battle: cân skill commenter CHỈ bằng dame + tầm, giữ nguyên cơ chế họ viết (anh 25/11).
 
 ## Ảnh / VFX

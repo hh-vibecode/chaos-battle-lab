@@ -11,7 +11,7 @@
 const fs = require('fs'), path = require('path'), os = require('os'), { spawn, execFileSync } = require('child_process');
 const args = process.argv.slice(2), opt = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; }, has = k => args.includes(k);
 const ME = args[0]; if (!ME || ME.startsWith('--')) { console.log('usage: sim.js <meme> --vs a,b|all [--n 3] [--seed 1] [--max 90] [--slow]'); process.exit(2); }
-const DPS = has('--dps'), N = +opt('--n', 3), SEED = +opt('--seed', 1), MAX = +opt('--max', DPS ? 25 : 90), PORT = 9455, ROOT = path.resolve(__dirname, '..', '..');
+const IMM = has('--immortal'), DPS = has('--dps') || IMM, N = +opt('--n', 3), SEED = +opt('--seed', 1), MAX = +opt('--max', DPS ? 25 : 90), PORT = 9455, ROOT = path.resolve(__dirname, '..', '..');
 const TMP = (process.platform === 'win32' && fs.existsSync('D:/tools')) ? 'D:/tools/tmp' : os.tmpdir(); fs.mkdirSync(TMP, { recursive: true });
 const NODE = process.execPath, sleep = ms => new Promise(r => setTimeout(r, ms));
 const up = async (u) => { try { const r = await fetch(u, { signal: AbortSignal.timeout(1500) }); return r.ok; } catch (e) { return false; } };
@@ -19,7 +19,7 @@ const up = async (u) => { try { const r = await fetch(u, { signal: AbortSignal.t
   if (!(await up('http://127.0.0.1:8765/index.html'))) { spawn(NODE, [path.join(__dirname, 'serve.js')], { cwd: ROOT, detached: true, stdio: 'ignore', env: process.env }).unref(); for (let i = 0; i < 40 && !(await up('http://127.0.0.1:8765/index.html')); i++) await sleep(250); }
   const launch = !(await up(`http://127.0.0.1:${PORT}/json/version`));
   const vsArg = opt('--vs', DPS ? 'cheems' : '');
-  const cfg = { dummy: DPS, me: ME, vs: vsArg, n: N, seed: SEED, max: MAX, fast: !has('--slow'), force: opt('--force', ''), extra: opt('--extra', '') };
+  const cfg = { dummy: DPS && !IMM, immortal: IMM, me: ME, vs: vsArg, n: N, seed: SEED, max: MAX, fast: !has('--slow'), force: opt('--force', ''), extra: opt('--extra', '') };
   const steps = [
     'goto index.html', 'reload',
     "eval (async()=>{ (0,eval)(await (await fetch('/tools/x/sim-inject.js?'+Date.now())).text()); return 'sim ok'; })()",
@@ -27,7 +27,7 @@ const up = async (u) => { try { const r = await fetch(u, { signal: AbortSignal.t
     `eval window.__cfg=${JSON.stringify(cfg)}; window.__list=(__cfg.vs==='all'?roster.map(c=>c.charKey).filter(k=>k&&k!==__cfg.me&&k!=='trainingdummy'&&k!=='fanchar'):__cfg.vs.split(',').filter(Boolean)); window.__jobs=[]; for(const o of __list) for(let i=0;i<__cfg.n;i++) __jobs.push([o,__cfg.seed+i]); window.__res=[]; __jobs.length+' trận'`,
   ];
   const jobs = vsArg === 'all' ? 400 : vsArg.split(',').filter(Boolean).length * N;
-  for (let k = 0; k < jobs; k++) steps.push(`eval (async()=>{ const j=__jobs[${k}]; if(!j) return 'END'; const r=await __sim.run(__cfg.me,j[0],{seed:j[1],max:__cfg.max,fast:__cfg.fast,dummy:__cfg.dummy,force:__cfg.force||null,extra:__cfg.extra||null}); __res.push(r); return 'R '+JSON.stringify(r); })()`);
+  for (let k = 0; k < jobs; k++) steps.push(`eval (async()=>{ const j=__jobs[${k}]; if(!j) return 'END'; const r=await __sim.run(__cfg.me,j[0],{seed:j[1],max:__cfg.max,fast:__cfg.fast,dummy:__cfg.dummy,immortal:__cfg.immortal,force:__cfg.force||null,extra:__cfg.extra||null}); __res.push(r); return 'R '+JSON.stringify(r); })()`);
   const sf = path.join(TMP, 'cbl-sim-steps.txt'); fs.writeFileSync(sf, steps.join('\n'));
   const t0 = Date.now();
   const ch = spawn(NODE, [path.join(__dirname, 'cdp.js'), '--steps', sf, '--out', TMP, '--port', String(PORT), ...(launch ? ['--launch'] : [])], { cwd: ROOT, env: process.env });
