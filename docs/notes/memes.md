@@ -255,3 +255,13 @@
   Doge Quỷ Cáo (đầu húc / đầu há mõm / chân) GPT vẽ từ ảnh Doge gốc của game: giữ mặt liếc đểu, mõm dài kiểu cáo, cổ tan khói (khói ám xanh đã đổi sang xám).
 - Số em tự đặt: hồi chém 1s, đẩy lùi chém 3, gọi lần đầu 2.5s, chặn 0.4s. Đo kiểu mới (Popcat, cả 2 bất tử, 25s): TB 1190 dame.
 - Ảnh duyệt: out/review/bibilabu/ (sign, paw, slash, head, block, flesh, swallow1, swallow2).
+
+## 🥋 Bruce Lee Cat (`bruceleecat`, 27/11/2026) — khối `KF_*` / `_kf*` trong js/game.js (ngay trước khối Bibilabu) — anh gửi clip TikTok @igreenscreenthings/video/7634326359820586270
+- Clip phông xanh sẵn (1080×1920, 7.75s) → tách xanh bằng numpy (không cần rembg), 15fps = 116 khung `assets/img/bruceleecat/KF_V_001..116.webp` (cắt chung 1 hộp, cao 420,
+  mép dưới clip cắt ngang thân → MỜ DẦN 9% cuối khung). Tiếng = nguyên tiếng clip `kf_clip` (hô kiểu Bruce Lee), phát khớp khung như Azel (lặp, có máy canh tắt tiếng).
+- Đòn: 7 cú / vòng clip ở giây `KF_HITS` [0.33,1.33,1.73,2.40,3.07,4.50,4.97] (đo khung tay vươn ra + tiếng hô). Mỗi cú: địch trong 3× tầm → cả thân LAO tới
+  (dời thẳng vị trí 22px/tick, tối đa 10 tick, chạy ở `_kfWorldTick` vì doAbility không gọi đều mỗi tick; vận tốc bị moveLogic ghì nên không dùng vx/vy) → chạm = trúng.
+  COMBO: cú thứ n trúng trong vòng = 22 + 13×(số cú đã trúng) · cú cuối vòng WATAAA! (khựng 8, hất 16). Gồng cuối clip (5.3→7.7s) đứng yên + hồi 3×60.
+- VFX riêng tông VÀNG–ĐEN (bộ đồ Game of Death): sao nổ răng cưa vàng viền đen + vạch lực theo hướng đấm, số combo x2/x3… cú cuối "N HIT COMBO", vệt lao người vàng viền đen, khí vàng bốc lên lúc gồng.
+- Đo kiểu mới (Popcat, 2 bên bất tử, 25s): TB 1157 dame. Huh Cat 2/4. ⚠️ KF_VIS (phóng khung clip) = 1.2 — để 2.05 mèo to gấp 3 meme khác.
+- Ảnh duyệt: out/review/bruceleecat/.

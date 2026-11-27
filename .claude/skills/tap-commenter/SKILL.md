@@ -93,6 +93,10 @@ nice -n 10 python3 tools/x/fan-edit.py out/fan/<key>.edit.json      # out = ~/De
   · `shocked-surprised.gif` = mèo sốc · `speed.gif` · `images.jpeg` = sói cô đơn (ảnh có viền trắng → crop `387:315:0:100`)
   · PHÔNG XANH 2334×1166 có tiếng (dưới đáy dính nhãn "Tạm dừng" → crop `iw:ih*0.9:0:0`): `crying black guy.mov`, `uuuuuuu.mov` = Moistcr1tikal, `hâhhahaa.mov` = anh mũ xanh cười, `WTF.mov`
   · tiếng lẻ: `vine-boom.mp3`, `annnouce.mp3`, `annouce dota.mp3`, `tf_nemesis.mp3`, `fahhhhhh.mp3`, `canon-event.mp3`, `dexter-meme.mp3`, `among-us-role-reveal-sound.mp3`, `what-bottom-text…mp3`, `discord ping.mp3`, `happy/*.mp3`.
+- 🆕 (27/11, anh: "kéo thêm meme nổi tiếng có sẵn tiếng, chủ yếu cho m dùng") `~/Desktop/#memesource/them-27-11/` — mỗi meme 1 video + 1 mp3 cùng tên:
+  `emotional damage (green)` (Steven He — sốc / cười) · `the rock eyebrow (green)` (nghi ngờ, sus) · `john cena are you sure (green)` · `sad hamster violin (green)` (buồn, xui)
+  · `laughing cat hehe (green)` (cười đểu) · `bruh (green)` (0.8s) · `chipi chipi cat` (clip gốc, KHÔNG phông xanh → chèn full) · `owen wilson wow (green)` (ngạc nhiên)
+  · `mr incredible uncanny (green)` (từ vui → u ám, hợp lúc buff đối thủ tăng dần) · `oh hell nah grandpa (green)` (phản đối / sợ). Bản 360p (YouTube chỉ cho client android tải: `--extractor-args youtube:player_client=android`).
 - **Tiếng đi với meme** (dò 25/11 bằng tương quan chéo tiếng 3 tập với kho): mở đầu P1 `vine-boom` (lúc hiện comment) + `annnouce` (lúc hiện nhãn) · P3 `annouce dota` ·
   Anchorman = tiếng của chính clip ("let the game begin") · burger = tiếng clip `i mean alright` (P1 + P2) · sói lone wolf = `tf_nemesis.mp3` (P2) ·
   Moist = tiếng clip `uuuuuuu` · mặt người khóc = tiếng clip `crying black guy` · skeleton = `berserk-skeleton-meme.mp3`.
@@ -102,3 +106,6 @@ nice -n 10 python3 tools/x/fan-edit.py out/fan/<key>.edit.json      # out = ~/De
 - **Dựng dự án CapCut tự động**: mở rộng `tools/x/capcut-draft.py` (đang dựng track video + mỗi tiếng 1 clip) thêm track meme chèn (ảnh / video
   + thời điểm + kiểu a/b/c + chữ), để anh mở ra chỉnh tay. CapCut PHẢI TẮT khi chạy.
 - Soạn bảng chèn (giây · kết quả bánh · meme · chữ · sound) đưa anh duyệt TRƯỚC khi dựng.
+- ✂️→CapCut (27/11, anh: "đẩy lên capcut mai t sửa"): `python3 tools/x/fan-edit.py <spec> --segs out/fan/<x>_segs` (giữ từng đoạn mp4 + segs.json) →
+  `python3 tools/x/capcut-fan.py out/fan/<x>_segs --name "<tên dự án>"` (CapCut PHẢI TẮT) → dự án mới: track chính = các đoạn nối nhau (mỗi MEME CHÈN là 1 clip riêng
+  để xoá / Replace / kéo dài), tiếng mở đầu = clip tiếng riêng, âm lượng = hệ số −14 LUFS của bản cuối. Media hard-link vào thư mục dự án.

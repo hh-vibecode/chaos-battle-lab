@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # ✂️ EDIT 1 tập Commenter vs 3 Random Memes theo kiểu anh (skill tap-commenter mục 3) — chỉ ffmpeg + Pillow, không cần CapCut.
-#   python3 tools/x/fan-edit.py spec.json
+#   python3 tools/x/fan-edit.py spec.json [--segs <thư mục>]
+#   --segs: GIỮ từng đoạn (mở đầu · bản quay · từng meme chèn) thành mp4 riêng + segs.json → dựng dự án CapCut (tools/x/capcut-fan.py) để anh sửa từng meme
 # spec.json:
 # { "rec": "out/fan/x.mp4",               # bản quay render-fan.js (bánh quay + trận, có tiếng game)
 #   "comment": "assets/fan-comments/<key>.png", "taunt": "can bro solo my 3 random memes", "taunt_style": "red" | "black",
@@ -99,7 +100,7 @@ def main():
     RD = dur_of(rec)
     VENC = ['-threads', '2', '-c:v', 'libx264', '-preset', 'medium', '-crf', '17', '-pix_fmt', 'yuv420p', '-r', str(FPS)]
     AENC = ['-c:a', 'pcm_s16le', '-ar', str(SR), '-ac', '2']
-    segs = []
+    segs = []; LAB = {}   # nhãn từng đoạn (cho --segs)
     # ---------- 1. MỞ ĐẦU: màn đen + dải comment trắng ngang màn + nhãn khiêu khích ----------
     IN = float(S.get('intro', 3.5)); LA = float(S.get('label_at', 1.0))
     com = Image.open(os.path.join(ROOT, S['comment'])).convert('RGB')
@@ -111,9 +112,9 @@ def main():
     base.save(os.path.join(tmp, 'intro0.png'))
     # 🏷️ nhãn khiêu khích XUẤT HIỆN có chuyển động (học tập 1 của anh): thẻ trắng trượt vào từ PHẢI rất nhanh (~0.22s),
     #    vượt quá một chút rồi dừng (easeOutBack), chữ hiện dần theo sau. Vẽ từng khung bằng Pillow → ffmpeg.
-    tx = S.get('taunt', 'can bro solo my 3 random memes'); st = S.get('taunt_style', 'red'); rt = float(S.get('taunt_rot', 5))
-    lp = os.path.join(tmp, 'label.png'); lw, lh = label_png(tx, lp, st, rt, 62, 760)
-    bp = os.path.join(tmp, 'labelbox.png'); label_png(tx, bp, st, rt, 62, 760, draw_text=False)
+    tx = S.get('taunt', 'can bro solo my 3 random memes'); tsty = S.get('taunt_style', 'red'); rt = float(S.get('taunt_rot', 5))
+    lp = os.path.join(tmp, 'label.png'); lw, lh = label_png(tx, lp, tsty, rt, 62, 760)
+    bp = os.path.join(tmp, 'labelbox.png'); label_png(tx, bp, tsty, rt, 62, 760, draw_text=False)
     LF, LB = Image.open(lp).convert('RGBA'), Image.open(bp).convert('RGBA')
     lx, ly = (W - lw) // 2 - 120, max(10, band_y - lh + 30)
     TR = float(S.get('taunt_in', 0.22)); SL = float(S.get('taunt_slide', 300))
@@ -133,7 +134,7 @@ def main():
         ff.stdin.write(fr.tobytes())
     ff.stdin.close(); ff.wait()
     if ff.returncode: print('lỗi dựng mở đầu'); sys.exit(1)
-    segs.append(os.path.join(tmp, 'seg_intro.mkv'))
+    segs.append(os.path.join(tmp, 'seg_intro.mkv')); LAB[segs[-1]] = 'mở đầu (comment + nhãn)'
     sfx = S.get('intro_sfx', [])   # 🔊 tiếng mở đầu trộn ở BƯỚC CUỐI theo giây tuyệt đối → chạy HẾT, tràn sang phần máy bốc (anh 25/11)
     st(phase='dán sticker', step=1)
     # ---------- 2. BẢN QUAY + CHÈN MEME ----------
@@ -161,7 +162,7 @@ def main():
     for k, s in enumerate(fulls):
         at = s['at']; st(phase='chèn meme %d/%d: %s' % (k + 1, len(fulls), os.path.basename(X(s['media']))), step=2 + k)
         if at > cut + 0.02:
-            p = os.path.join(tmp, 'seg_r%02d.mkv' % k); run(['ffmpeg', '-y', '-loglevel', 'error', '-ss', '%.3f' % cut, '-to', '%.3f' % at, '-i', rec2] + VENC + AENC + [p]); segs.append(p)
+            p = os.path.join(tmp, 'seg_r%02d.mkv' % k); run(['ffmpeg', '-y', '-loglevel', 'error', '-ss', '%.3f' % cut, '-to', '%.3f' % at, '-i', rec2] + VENC + AENC + [p]); segs.append(p); LAB[p] = 'bản quay %.1f→%.1fs' % (cut, at)
         cut = at
         m = X(s['media']); d = float(s['dur']); ext = m.lower().rsplit('.', 1)[-1]
         cmd = ['ffmpeg', '-y', '-loglevel', 'error']
@@ -183,9 +184,9 @@ def main():
         elif snd and snd != 'self': cmd += ['-i', X(snd)]; ai = '%d:a' % (cmd.count('-i') - 1)
         af = ('[%s]aresample=%d,aformat=channel_layouts=stereo,volume=%s,apad,atrim=0:%s[a]' % (ai, SR, s.get('svol', 1.0), d)) if ai \
             else 'anullsrc=r=%d:cl=stereo,atrim=0:%s[a]' % (SR, d)
-        p = os.path.join(tmp, 'seg_m%02d.mkv' % k); run(cmd + ['-filter_complex', vf + ';' + af, '-map', '[v]', '-map', '[a]', '-t', str(d)] + VENC + AENC + [p]); segs.append(p)
+        p = os.path.join(tmp, 'seg_m%02d.mkv' % k); run(cmd + ['-filter_complex', vf + ';' + af, '-map', '[v]', '-map', '[a]', '-t', str(d)] + VENC + AENC + [p]); segs.append(p); LAB[p] = 'MEME ' + os.path.basename(m).rsplit('.', 1)[0] + ((' · ' + s['caption']) if s.get('caption') else '')
     tail_end = S.get('rec_end', RD)
-    p = os.path.join(tmp, 'seg_rz.mkv'); run(['ffmpeg', '-y', '-loglevel', 'error', '-ss', '%.3f' % cut, '-to', '%.3f' % tail_end, '-i', rec2] + VENC + AENC + [p]); segs.append(p)
+    p = os.path.join(tmp, 'seg_rz.mkv'); run(['ffmpeg', '-y', '-loglevel', 'error', '-ss', '%.3f' % cut, '-to', '%.3f' % tail_end, '-i', rec2] + VENC + AENC + [p]); segs.append(p); LAB[p] = 'bản quay %.1fs→hết (trận)' % cut
     st(phase='nối + cân độ to', step=_ST['steps'] - 1)
     # ---------- 3. NỐI + CÂN ĐỘ TO −14 LUFS ----------
     lst = os.path.join(tmp, 'list.txt'); open(lst, 'w').write(''.join("file '%s'\n" % s for s in segs))
@@ -200,6 +201,13 @@ def main():
     mm = re.findall(r'I:\s+(-?[\d.]+) LUFS', r.stderr); g = max(-20, min(10, -14 - float(mm[-1]))) if mm else 0
     out = X(S['out']); os.makedirs(os.path.dirname(out), exist_ok=True)
     run(['ffmpeg', '-y', '-loglevel', 'error', '-i', cat, '-c:v', 'copy', '-af', 'volume=%.2fdB,alimiter=limit=0.89' % g, '-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', out])
+    if '--segs' in sys.argv:   # ✂️ giữ từng đoạn cho CapCut (cùng độ to: mỗi đoạn nhân đúng hệ số g của bản cuối)
+        SD = X(sys.argv[sys.argv.index('--segs') + 1]); os.makedirs(SD, exist_ok=True); L = []
+        for i, sp in enumerate(segs):
+            o = os.path.join(SD, '%02d_%s.mp4' % (i, re.sub(r'[^a-z0-9]+', '_', LAB.get(sp, 'seg').lower()).strip('_')[:40]))
+            run(['ffmpeg', '-y', '-loglevel', 'error', '-i', sp, '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', o]); L.append({'file': o, 'label': LAB.get(sp, ''), 'dur': dur_of(o)})
+        json.dump({'segs': L, 'sfx': [[X(f), t, v] for f, t, v in sfx], 'gain_db': g, 'out': out}, open(os.path.join(SD, 'segs.json'), 'w'), ensure_ascii=False, indent=1)
+        print('✂️ %d đoạn → %s' % (len(L), SD))
     shutil.rmtree(tmp)
     st(phase='xong', step=_ST['steps'], done=out)
     print('✅ %s  (%.1fs, độ to %+.1f dB → −14 LUFS)' % (out, dur_of(out), g))
