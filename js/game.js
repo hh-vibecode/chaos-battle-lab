@@ -779,8 +779,8 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     loadingcat: { key:'loadingcat', defaultName:'Loading Cat', emoji:'⏳', color:'#90a4ae', hp:1000, speed:5, size:47, skill:'Có 1 mũi tên Yaka (kiểu Yondu) vĩnh viễn. Xen kẽ ngẫu nhiên: Loading 3-7s (đứng yên, vòng loading xoay giữa trán, điều khiển mũi tên bay theo quán tính lượn vòng đâm xuyên địch — mỗi lượt xuyên qua 80 dame + thủng 1 lỗ nhỏ, phải lượn vòng lại mới đâm tiếp) rồi Di chuyển 3-5s (mũi tên cắm im vào tường, đi lang thang bình thường).' },
     capybara: { key:'capybara', emoji:'🐹', color:'#8d6e63', hp:1000, speed:5, size:52, defaultName:'Capybara', skill:'Vào trận đã ở DẠNG DUNG HỢP (2 con cưỡi nhau) 1000 máu, CHỈ có đúng 1 chiêu: cứ 2.5s lại đứng yên tích lực 1s rồi lao húc về phía địch — trúng thì 150 dmg và đẩy văng rất mạnh (chỉ đẩy văng, không có dame đập tường). Không có đòn cận chiến nào ở dạng này. Khi ăn đòn chí mạng, thay vì chết thì BẬT VĂNG ra làm 2 con — con dùng AVATAR CHÍNH 300 máu (không đánh, chỉ lạch bạch đi qua đi lại), con CẦM DAO (ô ảnh phụ) 200 máu và còn đánh cận chiến 45 dmg. Sống sót qua 5s ở dạng tách thì 2 con hợp lại làm 1 với 500 máu (rồi lại tụt xuống 0 là tách tiếp, lặp vô hạn); mất 1 con trong 5s đó thì không hợp lại được nữa.' },
     catexe: { key:'catexe', defaultName:'Cat.exe', emoji:'💻', color:'#2f6fe0', hp:1000, speed:5, size:46, skill:'Không đánh thường — chỉ HÚC (55 dame / cú). Mỗi lần va chạm địch hoặc tường +20% RAM (thanh dưới chân), lúc thường đi mượt. RAM 100% → NOT RESPONDING 10s: mặt ngáo phát sáng, RỚT KHUNG HÌNH — lao thẳng nhưng cứ 0.3s mới giật cóc tới chỗ mới 1 lần, có lúc giật LÙI, sát tường có lúc lag văng ra ngoài sân rồi giật về (hết 10s mà đang ở ngoài là rơi xuống vũ trụ, thua luôn); địch húc vào nó lúc này bị MÉO MẶT, mỗi cú lõm thêm 1 chỗ + bầm đỏ; cứ 0.6s để lại 1 bản sao treo hình (giữ 3 bản, húc vào bị nảy như tường + 45 dame), mọi cú húc KHÔNG gây dame ngay mà treo Loading… trên đầu địch (65 / cú); hết 10s nổ dồn toàn bộ + 20% sát thương chuẩn rồi về mặt nghiêm túc, RAM về 0.' },
-    gigachadcat: { key:'gigachadcat', defaultName:'Gigacat', emoji:'😼', color:'#e8ddd0', hp:2400, speed:5, size:46, skill:'Mèo mặt người cằm vuông. DẠNG MÈO: không đánh thường — mỗi lần ăn đòn kêu MEOW GIỌNG TRẦM, toả SÓNG ÂM đẩy lùi mọi địch quanh nó + gây dame = 50% dame vừa nhận. Còn 40% máu: hồi 25% máu, HOÁ GIGACHAD (thân Gigachad, đầu mèo) to gấp đôi. DẠNG GIGACHAD (hồi chiêu 3s, meow to trước mỗi chiêu): địch đang sát bên → TÓM, BÊ qua đầu rồi ĐỔ NGƯỜI RA SAU quật cắm xuống sàn kiểu WWE suplex (280 dame, nứt sàn); không ai sát → cắm tay xuống NHỔ 1 MẢNH SÀN (chỉ lớp mặt, để lại hố lõi đất đá) ném vào địch (210 dame vùng).' },
-    battlecat: { key:'battlecat', defaultName:'Battle Cat', emoji:'🐱', color:'#f5f5f5', hp:1000, speed:5, size:44, facing:'left', skill:'Con mèo của game The Battle Cats. 1000 máu. Cứ 10s kêu "meow". Không đánh thường — CHẠM địch là CẮN 75 dame (hồi 0.7s). Máu tụt qua mốc 800 / 400 / 200 → SÓNG XUNG KÍCH kiểu boss (hất văng mọi địch quanh nó, bất tử 1s) rồi gọi 1 con mèo — mốc 800 và 400 lần lượt ra Wall Cat (500 máu, chỉ ăn 75% dame, địch ưu tiên đánh nó, chạm 10 dame) và Crazed Macho Cat (100 máu, cắn 125), con nào trước thì ngẫu nhiên · mốc 200 KHÔNG hất văng mà gọi thẳng CAT GOD (cả trận đứng hình, thần hạ xuống, meow rồi CHƯỞNG THỦNG 1 lỗ tròn lớn giữa sân: meme nào đứng trên lỗ — CẢ PHE MÌNH, kể cả Battle Cat — rơi thẳng vào vũ trụ; đứng ngoài thì sống → có thể hoà / tự hại đội).' },
+    gigachadcat: { key:'gigachadcat', defaultName:'Gigacat', emoji:'😼', color:'#e8ddd0', hp:1000, speed:5, size:46, skill:'Mèo mặt người cằm vuông. DẠNG MÈO: không đánh thường — mỗi lần ăn đòn kêu MEOW GIỌNG TRẦM, toả SÓNG ÂM đẩy lùi mọi địch quanh nó + gây dame = 50% dame vừa nhận. Còn 40% máu: hồi 25% máu, HOÁ GIGACHAD (thân Gigachad, đầu mèo) to gấp đôi. DẠNG GIGACHAD (hồi chiêu 3s, meow to trước mỗi chiêu): địch đang sát bên → TÓM, BÊ qua đầu rồi ĐỔ NGƯỜI RA SAU quật cắm xuống sàn kiểu WWE suplex (400 dame, nứt sàn); không ai sát → cắm tay xuống NHỔ 1 MẢNH SÀN (chỉ lớp mặt, để lại hố lõi đất đá) ném vào địch (300 dame vùng).' },
+    battlecat: { key:'battlecat', defaultName:'Battle Cat', emoji:'🐱', color:'#f5f5f5', hp:1000, speed:5, size:44, facing:'left', skill:'Con mèo của game The Battle Cats. 1000 máu. Cứ 10s kêu "meow". Không đánh thường — CHẠM địch là CẮN 75 dame (hồi 0.7s). Máu tụt qua mốc 800 / 400 / 200 → SÓNG XUNG KÍCH kiểu boss (hất văng mọi địch quanh nó, bất tử 1s) rồi gọi 1 con mèo — mốc 800 và 400 lần lượt ra Wall Cat (500 máu, chỉ ăn 75% dame, địch ưu tiên đánh nó, chạm 10 dame) và Crazed Macho Cat (100 máu, lao vào địch gần nhất, mỗi 2s HUÝCH combo 2 cú trái–phải 63 + đẩy lùi), con nào trước thì ngẫu nhiên · mốc 200 KHÔNG hất văng mà gọi thẳng CAT GOD (cả trận đứng hình, thần hạ xuống, meow rồi CHƯỞNG THỦNG 1 lỗ tròn lớn giữa sân: meme nào đứng trên lỗ — CẢ PHE MÌNH, kể cả Battle Cat — rơi thẳng vào vũ trụ; đứng ngoài thì sống → có thể hoà / tự hại đội).' },
     sans: { key:'sans', defaultName:'Sans - The Unknown', emoji:'💀', color:'#5b8fd6', hp:1, speed:5, size:46, skill:'Không có đòn đánh thường. CHỈ CÓ 1 MÁU nhưng có 25 LẦN NÉ (MISS): mọi dạng dame — cận chiến, đạn thường, đạn dò đường, tia, nổ, AOE, aura, cháy, độc — đều MISS và trừ 1 lần né (dame liên tục cùng 1 nguồn tính tối đa 1 lần / 0.5s); hết 25 lần né thì dính 1 đòn là gục. Vào trận cả sân là THẾ GIỚI UNDERTALE (nền đen, khung trắng, thanh máu vàng/đỏ) và Sans ở dạng pixel. Mỗi 4s gọi đầu rồng Gaster Blaster ngoài mép sàn, mỗi lần thêm 1 đầu (4s: 1 đầu, 8s: 2 đầu, 12s: 3 đầu…); mỗi đầu chốt vị trí địch lúc hiện, tích tụ 1s rồi bắn tia plasma trắng khổng lồ 100 dmg (chạy khỏi chỗ đã chốt là né được); trúng tia thì bị LỬA XANH thiêu như cháy của Adolf (10 dame mỗi 0.5s trong 4s). Vào trận 8s: màn hình Undertale vỡ tan, sàn thường hiện lại, Sans thoát ra thế giới thật và thổi kèn Megalovania — Electric Guitar Cat và Bongo Cat hiện ra chơi cùng; Địch thua Sans cháy thành tro.' },
     fanchar: { key:'fanchar', defaultName:'Fan', emoji:'🧑', color:'#8ab4ff', hp:1000, speed:5, size:48, skill:'Nhân vật của người bình luận — skill riêng do chính họ nghĩ ra (xem FAN_SKILLS).' },
     yuki: { key:'yuki', defaultName:'Yuki - The Round One', emoji:'🦭', color:'#90caf9', hp:1000, speed:5, size:48, skill:'Hải cẩu tròn béo, KHÔNG có đòn đánh nào. Có đúng 2 chiêu. (1) VA ĐẬP: chạm vào ai là gây 50 sát thương, lúc nào cũng vậy. (2) PHẢN ĐÒN: mọi đòn đánh trúng nó gom thành 40% sát thương PHẢN, nhưng dame đó không nổ ngay mà bay theo nó — húc trúng ai mới giao tận nơi, bay hết đà không chạm được ai thì mất trắng. Trong lúc đang bay nó cứng người hơn, chịu ít hơn 25% sát thương. Cú đánh đồng thời hất chính nó bay VĂNG RA XA kẻ vừa đánh như quả bóng bi-a — đòn càng nặng bay càng nhanh và càng lâu — rồi nó cứ thế nảy tưng tưng dội hết tường này sang tường khác, đường bay hoàn toàn tuỳ vào góc dội chứ nó KHÔNG tự lái về phía ai. Ai xui nằm đúng đường nảy thì ăn trọn. Cú va đập SAU KHI đã dội tường mới hất văng được đối thủ, và mỗi lần hất văng thì từ chính con địch đó BẮN RA 1 con cá bay vòng cung rồi nằm lại — Yuki nhặt cá thì hồi 50 máu. Đòn càng nặng thì nó bay càng xa và rung như thạch càng dữ.' },
@@ -12494,14 +12494,16 @@ function cxPendSummons(){ const out=[]; for(const a of _hpSummonArrays()) for(co
 // • Máu tụt qua mốc 800 / 400 / 200 (anh 27/11) → SÓNG XUNG KÍCH kiểu boss Battle Cats: hất văng mọi địch quanh nó, BẤT TỬ suốt 1s tung sóng,
 //   xong gọi 1 con mèo (1 cú dame lố qua 2 mốc thì gọi 2 con): mốc 800 + 400 = Wall Cat & Crazed Macho Cat lần lượt (loại ra trước ngẫu nhiên) · mốc 200 = CAT GOD (mốc này KHÔNG sóng / hất văng).
 //   – Wall Cat: 500 máu (fan), chỉ ăn 75% dame, địch ƯU TIÊN nhắm nó (khiêu khích), chạm địch 10 dame.
-//   – Crazed Macho Cat: 100 máu (fan 75), chạm địch CẮN 125 dame / 1s.
+//   – Crazed Macho Cat: 100 máu (fan 75), LAO vào địch gần nhất, mỗi 2s HUÝCH combo 2 cú trái–phải (63 + đẩy lùi) — anh 27/11 (trước: cắn 125 / 1s, đi lang thang).
 //   – Cat God: cả trận ĐỨNG HÌNH, sân tối, nhạc boss u ám, thần hạ xuống từ trời thật chậm, kêu "meow" rồi CHƯỞNG THỦNG 1 lỗ tròn
 //     lớn giữa sân (anh 26/11): AI đứng trên lỗ (cả phe mình, kể cả Battle Cat) rơi vào vũ trụ; đứng ngoài thì sống.
 const BTC_TPS=60*GAME_SPEED*TIME_SCALE;
 const BTC_BITE_DMG=75, BTC_BITE_CD=Math.round(0.7*BTC_TPS), BTC_MEOW_T=Math.round(10*BTC_TPS);
 const BTC_MARKS=[800,400,200], BTC_SHOCK_T=Math.round(1.0*BTC_TPS), BTC_SHOCK_R=270, BTC_SHOCK_KB=[16,9];
 const BTC_WALL_HP=500, BTC_WALL_TAKE=0.75, BTC_WALL_DMG=10, BTC_WALL_CD=Math.round(0.8*BTC_TPS), BTC_TAUNT=0.4;   // BTC_TAUNT: địch "thấy" Wall Cat gần gấp 2.5 lần thật
-const BTC_MACHO_HP=100, BTC_MACHO_DMG=125, BTC_MACHO_CD=Math.round(1.0*BTC_TPS);
+const BTC_MACHO_HP=100, BTC_MACHO_DMG=125, BTC_MACHO_CD=Math.round(2.0*BTC_TPS);
+// 💪 (anh 27/11: "nó có 2 tay", "đấm bằng cách huých mạnh vào địch") Crazed Macho Cat: mỗi lượt COMBO 2 cú trái–phải, mỗi cú cả người HUÝCH lao vào địch (63 + đẩy lùi, cú 2 đẩy mạnh hơn)
+const BTC_PUNCH_DMG=Math.round(BTC_MACHO_DMG/2), BTC_PUNCH_GAP=Math.round(0.16*BTC_TPS), BTC_PUNCH_T=Math.round(0.13*BTC_TPS), BTC_PUNCH_KB=[1.5,3.5];
 // (anh 27/11) bỏ tỉ lệ 49/49/2: mốc 800 + 400 = Wall Cat + Crazed Macho Cat LẦN LƯỢT (mỗi loại 1 con, con nào trước thì ngẫu nhiên), mốc 200 = CAT GOD chắc chắn, KHÔNG hất văng (mốc thấp hơn thì Friend cắn 1 phát chết luôn, không kịp gọi)
 const BTC_GOD_DESC_MS=4200, BTC_GOD_MEOW_MS=4500, BTC_GOD_HIT_MS=5300, BTC_GOD_KILL_MS=6300, BTC_GOD_END_MS=6600;   // hạ xuống 4.2s → meow → đòn (cột sáng) → thần bay lên tan vào sáng → địch mới gục (camera kết trận không cắt ngang thần)
 const _btcImg=n=>{ const im=new Image(); im._noMask=true; im.onload=()=>{ im._crop={sx:0,sy:0,sw:im.naturalWidth,sh:im.naturalHeight}; }; im.src='assets/img/battlecat/'+n+'.webp'; return im; };
@@ -12551,6 +12553,16 @@ function _btcSummon(f){ const B=_btcS(f), n=B.sumN++;
   floatTexts.push({x, y:y-sz-26, text:wall?'WALL CAT':'CRAZED MACHO CAT', color:wall?'#ffffff':'#ff5252', life:55, big:true});
   playSample('btc_meow',0.55,null,wall?0.85:1.2);
 }
+// 💪 combo huých 2 cú: t=0 cú trái, t=GAP cú phải — mỗi cú thân lao vào địch (vẽ ở _btcDrawCats theo c.lg), trúng thì dame + đẩy lùi + tia va chạm
+function _btcPunchTick(c){ const P=c.pn, o=P.o;
+  if(P.t===0 || P.t===BTC_PUNCH_GAP){ const n=P.t?1:0, side=n?-1:1, a=o?Math.atan2(o.y-c.y,o.x-c.x):c._lastAngle;
+    c.lg={t:0,a,side}; c.vx+=Math.cos(a)*3; c.vy+=Math.sin(a)*3; playSample('se_whoosh_fast',0.25,0.2);
+    if(o && !o.dead && o.hp>0 && Math.hypot(o.x-c.x,o.y-c.y) < (c.size+(o.size||20)+MELEE_REACH)*1.6){
+      _btcHit(o,BTC_PUNCH_DMG,{team:c.team,x:c.x,y:c.y}); const kb=BTC_PUNCH_KB[n]; o.vx=Math.cos(a)*kb; o.vy=Math.sin(a)*kb;
+      const cx=o.x-Math.cos(a)*(o.size||20)*0.8, cy=o.y-Math.sin(a)*(o.size||20)*0.8; btcFx.push({k:'shove',x:cx,y:cy,a,side,n,t:0,T:16,s:c.size});
+      playSample('se_punch_heavy',n?0.75:0.6,0.3); addShake(n?3:2,n?6:4); } }
+  if(c.lg && ++c.lg.t>BTC_PUNCH_T) c.lg=null;
+  if(++P.t>BTC_PUNCH_GAP+BTC_PUNCH_T) c.pn=null; }
 // 🧱 Wall Cat được ƯU TIÊN nhắm: khoảng cách tới nó tính ×BTC_TAUNT (gọi trong get enemy() + _findClosestEnemy)
 function _btcTauntK(u){ return (u && u.type==='btcwall') ? BTC_TAUNT : 1; }
 // 🌍 mèo triệu hồi: đi lang thang như meme thường, chạm địch là đánh
@@ -12574,10 +12586,14 @@ function _btcWorldTick(){
       if(v<top*0.55){ c.vx=Math.cos(c._lastAngle)*top*0.5; c.vy=Math.sin(c._lastAngle)*top*0.5; }
       if(v>top){ c.vx=c.vx/v*top; c.vy=c.vy/v*top; }
       const en=_findClosestEnemy(c.team,c.x,c.y); if(en) c._facingRight=en.x>c.x;
-      if(c._atkCD<=0){ let hit=false;
+      if(en && c.kind==='macho'){ const a=Math.atan2(en.y-c.y,en.x-c.x); c.vx+=(Math.cos(a)*top-c.vx)*0.12; c.vy+=(Math.sin(a)*top-c.vy)*0.12; }   // 💪 (anh 27/11: "con mèo này không tác dụng gì") Crazed Macho Cat LAO THẲNG vào địch gần nhất — trước đi lang thang nảy tường, 1vs1 gần như không bao giờ chạm địch
+      if(c.kind==='macho'){ if(c.pn) _btcPunchTick(c);
+        else if(c._atkCD<=0){ let o=null, bd=1e9; for(const u of _btcFoes(c.team)){ const d=Math.hypot(u.x-c.x,u.y-c.y); if(d<c.size+(u.size||20)+MELEE_REACH && d<bd){ bd=d; o=u; } }
+          if(o){ c.pn={t:0,o}; c._atkCD=BTC_MACHO_CD; _btcPunchTick(c); } } }
+      else if(c._atkCD<=0){ let hit=false;
         for(const o of _btcFoes(c.team)){ if(o===c || Math.hypot(o.x-c.x,o.y-c.y) >= c.size+(o.size||20)+MELEE_REACH) continue;
-          _btcHit(o, c.kind==='wall'?BTC_WALL_DMG:BTC_MACHO_DMG, {team:c.team,x:c.x,y:c.y}); if(c.kind==='macho') _btcBiteFx(o,c); hit=true; }
-        if(hit){ c._atkCD=c.kind==='wall'?BTC_WALL_CD:BTC_MACHO_CD; c.sq=12; if(c.kind==='macho'){ _btcBiteSnd(0.85); addShake(5,8); } else playSample('hit_light',0.2); } }
+          _btcHit(o, BTC_WALL_DMG, {team:c.team,x:c.x,y:c.y}); hit=true; }
+        if(hit){ c._atkCD=BTC_WALL_CD; c.sq=12; playSample('hit_light',0.2); } }
     }
     c.x+=c.vx; c.y+=c.vy; const D=0.85, vert=Math.abs(c.vx)<Math.abs(c.vy)*0.6;
     if(c.x-c.size<0){ c.x=c.size; c.vx=Math.abs(c.vx)*D; c._vertBounceCount=0; c._lastAngle=Math.atan2(c.vy,c.vx); }
@@ -12651,7 +12667,8 @@ function _btcDrawCats(){
     _drawUnitHpBar(c);
     const pop=Math.min(1,c.born/10)*Math.max(0.05,1-(c._btcFallK||0)*0.95), sq=c.sq>0?Math.sin(c.sq/12*Math.PI)*0.12:0, bob=Math.abs(Math.sin((tick+c.x)*0.18))*0.04;
     const h=c.size*(c.kind==='wall'?2.3:2.0), foot=h/2;   // ảnh căn giữa thân (đúng tâm va chạm), chân ở y+h/2
-    ctx.save(); ctx.translate(c.x,c.y+foot); ctx.scale((c._facingRight?-1:1)*pop*(1+sq),pop*(1-sq*0.8-bob)); ctx.translate(0,-foot);   // nhún quanh CHÂN
+    let lx=0, ly=0, lr=0; if(c.lg){ const k=Math.sin(Math.min(1,c.lg.t/BTC_PUNCH_T)*Math.PI); lx=Math.cos(c.lg.a)*c.size*0.4*k; ly=Math.sin(c.lg.a)*c.size*0.25*k; lr=c.lg.side*0.22*k+Math.cos(c.lg.a)*0.12*k; }   // 💪 huých: cả thân lao vào địch, nghiêng vai trái / phải
+    ctx.save(); ctx.translate(c.x+lx,c.y+ly+foot); ctx.rotate(lr); ctx.scale((c._facingRight?-1:1)*pop*(1+sq),pop*(1-sq*0.8-bob)); ctx.translate(0,-foot);   // nhún quanh CHÂN
     ctx.fillStyle='rgba(0,0,0,0.22)'; ctx.beginPath(); ctx.ellipse(0,foot,c.size*0.75,c.size*0.16,0,0,Math.PI*2); ctx.fill();   // bóng tiếp đất
     if(im._crop){ const w=h*im.naturalWidth/im.naturalHeight, tc=_teamColor(c.team);
       _drawStickerOutline(im,0,0,im.naturalWidth,im.naturalHeight,w,h,Math.max(1.2,c.size*0.036)*((duoCtx||ffa3Ctx)?2.4:1),tc);   // viền màu team như mọi meme
@@ -12666,6 +12683,12 @@ function _btcDrawCats(){
 let _btcWaveTmp=null;
 function _btcDrawOver(){
   for(const q of btcFx){
+    if(q.k==='shove'){ const u=q.t/q.T, al=1-u, R=q.s*(0.35+0.9*Math.sqrt(u)), ca=Math.cos(q.a), sa=Math.sin(q.a);   // 💪 cú huých: lõi trắng chát + vạch lực bắn THEO HƯỚNG huých (nửa trước), cú 2 to hơn
+      ctx.save(); ctx.translate(q.x,q.y); ctx.globalCompositeOperation='lighter'; const big=q.n?1.3:1;
+      if(u<0.35){ ctx.fillStyle=`rgba(255,255,255,${1-u/0.35})`; ctx.beginPath(); ctx.arc(0,0,q.s*0.32*big*(1+u),0,Math.PI*2); ctx.fill(); }
+      ctx.strokeStyle=`rgba(255,236,190,${al})`; ctx.lineCap='round';
+      for(let j=0;j<7;j++){ const aa=q.a+(j-3)*0.32+q.side*0.1, r0=R*0.35*big, r1=R*(0.8+0.35*((j*37)%5)/5)*big; ctx.lineWidth=Math.max(1.5,q.s*0.09*(1-u)); ctx.beginPath(); ctx.moveTo(Math.cos(aa)*r0,Math.sin(aa)*r0); ctx.lineTo(Math.cos(aa)*r1,Math.sin(aa)*r1); ctx.stroke(); }
+      ctx.restore(); continue; }
     if(q.k==='bite'){ const u=q.t/q.T, close=Math.min(1,u/0.45), al=u<0.6?1:1-(u-0.6)/0.4, x=q.o&&!q.o.dead?q.o.x:q.x, y=q.o&&!q.o.dead?q.o.y:q.y, s=q.s;
       ctx.save(); ctx.translate(x,y); ctx.rotate(q.a); ctx.globalAlpha=al; ctx.lineJoin='round';
       for(const sg of [-1,1]){ const oy=sg*s*(0.75-0.62*close);   // hàm trên / hàm dưới khép vào
@@ -12734,7 +12757,7 @@ function _btcSquash(f){ const B=f._btc; if(!B || !(B.sq>0)) return [1,1]; const 
 const GK_TPS=60*GAME_SPEED*TIME_SCALE;
 const GK_WAVE_K=0.5, GK_WAVE_R=190, GK_WAVE_KB=[13,7];
 const GK_GIGA_AT=0.4, GK_HEAL=0.25, GK_GROW_T=Math.round(0.7*GK_TPS);
-const GK_CD=Math.round(3*GK_TPS), GK_GRAB_DMG=280, GK_GRAB_RANGE=30, GK_SLAB_DMG=210,   /* ⚖️ (Mac 26/11) máu 3000→2400 + dame 200/150→280/210: trận 22–46s như meme cũ, thắng Doge 6/10 · Ricardo 4/10 · Cheems 9/10 (sim.js) */ GK_SLAB_R=70;
+const GK_CD=Math.round(3*GK_TPS), GK_GRAB_DMG=400, GK_GRAB_RANGE=30, GK_SLAB_DMG=300,   /* ⚖️ (anh 27/11) máu về 1000 (anh: "1k máu thôi") + dame 280/210→400/300: thắng 5/24 (Doge 2/6 · Gigachad 3/6 · Cheems 0 · Ricardo 0) — YẾU, chờ anh quyết · (Mac 26/11) máu 3000→2400 + dame 200/150→280/210: trận 22–46s như meme cũ, thắng Doge 6/10 · Ricardo 4/10 · Cheems 9/10 (sim.js) */ GK_SLAB_R=70;
 const GK_SLAM_T=Math.round(0.3*GK_TPS), GK_CROUCH_T=Math.round(0.45*GK_TPS), GK_RIP_T=Math.round(0.35*GK_TPS), GK_HOLD_T=Math.round(0.25*GK_TPS), GK_FLY_T=Math.round(0.55*GK_TPS), GK_THROW_SPD=24;
 const GK_FR=['GK_STAND','GK_LIFT','GK_THROW','GK_CARRY','GK_SUPLEX'].map(n=>{ const im=new Image(); im._noMask=true; im.onload=()=>{ im._crop={sx:0,sy:0,sw:im.naturalWidth,sh:im.naturalHeight}; }; im.src='assets/img/gigachadcat/'+n+'.webp'; return im; });
 let gkPits=[], gkSlabs=[], gkFx=[];
@@ -14799,8 +14822,8 @@ const CHAR_FACTS = {
 };
 // giới thiệu ngắn 2-3 dòng cho màn chờ (tiếng Anh, game full English) — viết tay dựa trên cơ chế thật, không tự động cắt câu
 const CHAR_BLURB = {
-  gigachadcat: "Cat form: no attacks; every hit it takes makes it let out a deep MEOW sound wave that throws enemies back and deals 50% of the damage it just took. At 40% HP it heals 25% and turns into GIGACHAD CAT, twice as big. Every 3s it meows loud: an enemy right next to it gets grabbed, lifted overhead and suplexed backwards into the floor, WWE style (280); otherwise it rips a slab out of the floor (only the top layer, leaving a hole down to the rock core) and throws it (210 area).",
-  battlecat: "1000 HP. Meows every 10s. No attacks: it bites anything it touches (75). At 800, 400 and 200 HP it releases a boss shockwave that throws every enemy back (immune for 1s), then calls a cat. At 800 and 400 it calls Wall Cat (500 HP, takes 75% damage, enemies target it first) and Crazed Macho Cat (100 HP, bites for 125), one each in random order. At 200 there is no shockwave: the Cat God comes straight away (time stops, he descends, meows and blasts a huge round hole in the middle of the arena; every meme standing on it, friend or foe, Battle Cat included, falls into space).",
+  gigachadcat: "Cat form: no attacks; every hit it takes makes it let out a deep MEOW sound wave that throws enemies back and deals 50% of the damage it just took. At 40% HP it heals 25% and turns into GIGACHAD CAT, twice as big. Every 3s it meows loud: an enemy right next to it gets grabbed, lifted overhead and suplexed backwards into the floor, WWE style (400); otherwise it rips a slab out of the floor (only the top layer, leaving a hole down to the rock core) and throws it (300 area).",
+  battlecat: "1000 HP. Meows every 10s. No attacks: it bites anything it touches (75). At 800, 400 and 200 HP it releases a boss shockwave that throws every enemy back (immune for 1s), then calls a cat. At 800 and 400 it calls Wall Cat (500 HP, takes 75% damage, enemies target it first) and Crazed Macho Cat (100 HP, charges the nearest enemy and every 2s shoves it twice, left then right, 63 each with knockback), one each in random order. At 200 there is no shockwave: the Cat God comes straight away (time stops, he descends, meows and blasts a huge round hole in the middle of the arena; every meme standing on it, friend or foe, Battle Cat included, falls into space).",
   catexe: "No attacks, only body slams. Every bump fills its RAM. At 100% it stops responding for 10s: it lags across the arena in jerks (sometimes right off it), frozen copies block like walls and every hit gets stuck Loading..., then it all lands at once +20%.",
   boxingcat: "Shadow-boxes to warm up — every jab adds to the damage counter over its head and the fire around it grows. The first two times you step in, it blinks away to keep charging; then the bell rings, and the third time you get everything stored in one punch.",
   breadcat: "No basic attack. Every 3s a slice of buttered toast falls from heaven onto a random spot. Picking one up heals 100 HP and starts the Buttered Cat Paradox: it spins for 5s, getting more terrifying each second. Hit it 3 times to break the spin; if it survives, lightning tears the arena apart, everything is pulled into its vortex and the Big Bang erases every enemy.",

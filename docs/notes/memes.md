@@ -231,6 +231,7 @@
   (cũ) Mốc 500 / 200 / 50 máu (fan) → SÓNG XUNG KÍCH (`_btcShock`): hất văng địch trong 270 (16 → 9 tốc), bất tử 1s (`_btcImmune`, hiện IMMUNE), xong gọi mèo (1 đòn lố qua 2 mốc → 2 con).
   Wall Cat 49%: 500 máu (fan), ăn 75% dame, khiêu khích (`_btcTauntK`: địch thấy nó gần gấp 2.5), chạm 10 / 0.8s, đi chậm 0.6×.
   Crazed Macho Cat 49%: 100 máu (fan 75), cắn 125 (fan) / 1s (em đặt), đi nhanh 1.15×.
+  → (anh 27/11) Macho LAO THẲNG vào địch gần nhất (trước đi lang thang, 1vs1 không bao giờ chạm → "không tác dụng gì") + đổi CẮN thành HUÝCH: mỗi 2s combo 2 cú trái–phải, mỗi cú cả thân lao vào địch, 63 + đẩy lùi NHẸ 1.5 / 3.5 (anh: "huých nhẹ thôi"), tia va chạm `shove` riêng. Giả lập (bản cắn 2s): vs Friend 4/10, Doge 6/10, Cat God vẫn ra 12/12.
   Cat God 2%: `_btcGodStart` → chạy theo thời gian THẬT ở tầng loop như cảnh Evil Gary: đứng hình cả trận, sân tối + cột sáng trời, thần hạ xuống 4.2s, meow 4.5s, 5.3s ĐÒN (anh đổi 26/11, bỏ giết sạch): CỘT SÁNG xuyên dọc CẢ MÀN HÌNH + impact frame → CHƯỞNG THỦNG 1 LỖ TRÒN giữa sân (bán kính 27% cạnh ngắn, `btcHole`, nhìn xuống trời sao, vành nứt) → ai đứng trên lỗ (CẢ PHE MÌNH, kể cả Battle Cat, cả quân triệu hồi) rơi xoáy xuống lỗ 1s rồi `_susEject` (thua thẳng). Đứng ngoài thì sống → có thể hoà / tự hại đội. Lỗ liền lại 1.2s.
 - Sóng xung kích: anh xem bản vành trắng viền mực (Ver 753) → bảo dùng lại bản cũ (shader bóp méo + vành sáng mảnh) — "cái đấy đẹp".
 - 💡 Ý tưởng nâng chất lượng Battle Cat (để bàn với anh, CHƯA làm): ① mỗi lần gọi mèo hiện thanh "cat food" + tiếng ví tiền kiểu game gốc (người chơi Battle Cats nhận ra ngay → comment) ·
@@ -238,6 +239,7 @@
   ④ lỗ thủng Cat God nuốt CẢ Battle Cat = cảnh "tự hại" rất dễ viral nếu đúng lúc sắp thắng → lọc seed chọn cảnh này.
 
 ## 😼 Gigacat (tên cũ Gigachad Cat, anh đổi 26/11; key vẫn `gigachadcat`, 26/11/2026) — khối `GK_*` / `_gk*` trong js/game.js — việc dở: docs/notes/viec-do-26-11.md
+- ⚠️ (anh 27/11) MÁU 1000 (anh: "1k máu thôi" — phiên Mac 26/11 tự nâng 2400 là SAI). Dame bê quật 400 / ném sàn 300, hồi 3s: thắng 5/24 (Doge 2/6 · Gigachad 3/6 · Cheems 0/6 · Ricardo 0/6). Thử 520/400 → 8/24 (chỉ thắng Gigachad); hồi 2s không đỡ. Cần anh quyết hướng cân.
 - Ảnh mèo = ảnh anh gửi (157px) → GPT vẽ lại phông xanh. Dạng khổng lồ: GPT vẽ 5 DÁNG thân Gigachad khổng lồ (đen trắng, cùng tấm → cùng tỉ lệ), nhuộm màu lông kem,
   ĐẦU MÈO MEME GỐC ghép bằng code (mặt nạ bầu dục + cổ mờ dần + bóng dưới cằm, dáng suplex xoay đầu quanh cằm). Anh chê bản GPT vẽ cả thân + đầu ("không tự nhiên, AI").
 - Tiếng: gk_meow (DEEP MEOW!!!) sóng âm · gk_meow_big (Deep meow 2) trước chiêu · gk_meow_long (cat has a crazy deep meow, rate 0.82) lúc hoá.
