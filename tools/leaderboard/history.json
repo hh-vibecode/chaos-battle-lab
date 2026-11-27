@@ -1112,6 +1112,15 @@
    "t": 25,
    "src": "render",
    "at": "2026-11-26T15:35:12.199Z"
+  },
+  {
+   "title": "Battle Cat vs Friend",
+   "k": "battle cat vs friend",
+   "win": [],
+   "seed": 452743840,
+   "t": 27.9,
+   "src": "render",
+   "at": "2026-11-27T03:14:15.888Z"
   }
  ]
 }

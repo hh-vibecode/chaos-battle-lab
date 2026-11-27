@@ -93,7 +93,7 @@ Anh xem lịch: 8/10 trận quay 26/11 bị bỏ (lỗi / chán) → mỗi trậ
 |---|---|---|---|
 | LeSunshine vs Smart Guy (Space) | 408859978 | 34s | 2 cú SLAM DUNK (~9s, ~20s), loé trắng sân, cuối hoá MẶT TRỜI thắng ngược còn 2/3 vạch |
 | Cat.exe vs Scared Dog (Volcano) | 410328355 | 20.5s | Not Responding dồn Scared Dog còn 62 máu → lag văng ra mép trên, nhỏ dần rơi mất → Scared Dog thắng (đổi từ Ricardo: Ricardo thắng 5/5, Cat.exe không áp sát được) |
-| Battle Cat vs Friend (Beach) | 410609764 | 29s | CAT GOD (thử 22 lần) chưởng lỗ, Friend rơi, Battle Cat đứng ngoài → BATTLE CAT THẮNG còn 200 (không phải hoà) · Guitar Cat góc dưới = cameo nhạc Friend (cố ý) |
+| Battle Cat vs Friend (Beach) — QUAY LẠI 27/11 | 452743840 | 27.9s | ✅ HOÀ đúng kế hoạch (bản cũ seed 410609764 Battle Cat thắng = SAI, anh bắt lỗi). Ver 769–770: mốc 800/400/200, mốc 200 chắc chắn Cat God + KHÔNG hất văng → ~21s thần hạ, ~23s chưởng lỗ, Battle Cat + Friend đứng sát cùng rơi · ~24.5s trở đi sân trống (hoà, không ăn mừng) → cắt khi edit · Guitar Cat góc dưới = cameo nhạc Friend (cố ý) |
 | Gigacat vs Gigachad (Volcano) | 409199659 | 43s | Gigachad to dần ~22s, Gigacat hoá khổng lồ ~29s, suplex con to hơn mình → Gigacat thắng 301/2400 · ~20s đầu chỉ đi lại → anh cắt từ ~19s |
 | Evil Gary vs Gary (Space — ghi nhầm `christmas`, mã đúng là `xmas`) | 409454510 | 27s | Trái Đất to dần, 5 cánh sao → cõi linh hồn, Gary trúng độc → Evil Gary thắng |
 | A Lotta Dame Guy vs Stalin Cat (Space) | 409655537 | 25s | 2 lần cưa máy, A Lotta thắng còn 50 · quay lại 2 lần sau khi sửa lỗi (Ver 767: domain mở sau khi Stalin chết · Ver 768: liềm bay lởn vởn sau khi chết) |
