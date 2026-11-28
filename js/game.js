@@ -15001,7 +15001,8 @@ function _forceKill(u, src){
   if(!u || u.dead) return;
   if(typeof _rfImmune==='function' && _rfImmune(u)){ u.takeDamage(_rfKillDmg(u), src||null); return; }   // 👁️ Friend Raid: chiêu giết ngay → đổi ra dame thẳng (anh dặn)
   _killSilent=true;
-  try{ for(let i=0;i<14 && !u.dead;i++) u.takeDamage(Math.max(1, (u.hp||1)), src||null, false, false, '', null, false, true); }   // 🐕 đòn chết thẳng: lặp tới khi chết thật (Poor Dog nằm chỉ nhận 80%, Troll ác mộng 75%, Gigachad to 65% → 1 lần là sống sót rồi bị tường kéo về sân)
+  const _l0=u._fanLives;   // 💚 (anh 28/11) Commenter còn mạng: đòn giết ngay chỉ lấy ĐÚNG 1 mạng (trước lặp tiếp → kết liễu của Joninn Cheems xoá sạch cả 2 mạng)
+  try{ for(let i=0;i<14 && !u.dead && u._fanLives===_l0;i++) u.takeDamage(Math.max(1, (u.hp||1)), src||null, false, false, '', null, false, true); }   // 🐕 đòn chết thẳng: lặp tới khi chết thật (Poor Dog nằm chỉ nhận 80%, Troll ác mộng 75%, Gigachad to 65% → 1 lần là sống sót rồi bị tường kéo về sân)
   finally{ _killSilent=false; }
 }
 let _ykReflecting=false;   // 🦭 đang trong lúc Yuki phản đòn → không cho phản tiếp, tránh 2 bên phản qua lại vô tận
