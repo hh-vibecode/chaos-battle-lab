@@ -107,9 +107,10 @@ nice -n 10 python3 tools/x/fan-edit.py out/fan/<key>.edit.json      # out = ~/De
 - **Edit bằng ffmpeg (anh 25/11: CapCut hay ffmpeg tuỳ, cái nào tiện)**: `python3 tools/x/fan-edit.py <spec.json>` (mẫu: `docs/mau-edit/commenter-tanphamnhat969.edit.json`, giải thích
   đầu file) — mở đầu màn đen + dải comment trắng + nhãn đỏ nghiêng, meme `full` = CẮT CHEN (bản quay dừng, meme full màn viền đen + thẻ chữ, rồi quay tiếp → không che
   kết quả bánh), `sticker` = dán đè góc (phông xanh tự tách nền + khử ám xanh), cân −14 LUFS. Font Montserrat ExtraBold `tools/x/fonts/`, emoji màu Apple.
-- **Dựng dự án CapCut tự động**: mở rộng `tools/x/capcut-draft.py` (đang dựng track video + mỗi tiếng 1 clip) thêm track meme chèn (ảnh / video
+- (không làm nữa — anh 28/11) **Dựng dự án CapCut tự động**: mở rộng `tools/x/capcut-draft.py` (đang dựng track video + mỗi tiếng 1 clip) thêm track meme chèn (ảnh / video
   + thời điểm + kiểu a/b/c + chữ), để anh mở ra chỉnh tay. CapCut PHẢI TẮT khi chạy.
 - Soạn bảng chèn (giây · kết quả bánh · meme · chữ · sound) đưa anh duyệt TRƯỚC khi dựng.
-- ✂️→CapCut (27/11, anh: "đẩy lên capcut mai t sửa"): `python3 tools/x/fan-edit.py <spec> --segs out/fan/<x>_segs` (giữ từng đoạn mp4 + segs.json) →
+- ⛔ (anh 28/11: "không cần tạo dự án capcut nữa, m edit ổn rồi") MẶC ĐỊNH chỉ xuất bản edit hoàn chỉnh bằng fan-edit.py (KHÔNG `--segs`, KHÔNG capcut-fan.py). Chỉ dựng CapCut khi anh bảo.
+- (cũ, chỉ khi anh bảo) ✂️→CapCut (27/11, anh: "đẩy lên capcut mai t sửa"): `python3 tools/x/fan-edit.py <spec> --segs out/fan/<x>_segs` (giữ từng đoạn mp4 + segs.json) →
   `python3 tools/x/capcut-fan.py out/fan/<x>_segs --name "<tên dự án>"` (CapCut PHẢI TẮT) → dự án mới: track chính = các đoạn nối nhau (mỗi MEME CHÈN là 1 clip riêng
   để xoá / Replace / kéo dài), tiếng mở đầu = clip tiếng riêng, âm lượng = hệ số −14 LUFS của bản cuối. Media hard-link vào thư mục dự án.
