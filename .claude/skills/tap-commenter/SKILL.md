@@ -56,6 +56,9 @@ nice -n 10 node tools/render-fan.js out/fan/<key>.mp4 --fan <key> --foes friend,
 #    muốn quay lại đúng trận đã chọn: --seed <S> --bseed <B>
 # ③ soạn spec edit theo marks.json (mẫu docs/mau-edit/commenter-tanphamnhat969.edit.json): mỗi kết quả đáng phản ứng 1 meme, chèn ~0.5s sau "result"
 nice -n 10 python3 tools/x/fan-edit.py out/fan/<key>.edit.json      # out = ~/Desktop/Meme Battles/Commenter vs 3 Random Memes - Part N (A x B x C).mp4
+#    📛 (anh 28/11) TÊN = TẬP KẾ TIẾP của series, đúng mẫu các tập trước: "Commenter vs 3 Random Memes - Part N (A x B x C)" — N = số Part lớn nhất đã đăng + 1
+#       (xem kênh: ~/Library/Python/3.9/bin/yt-dlp --flat-playlist --print "%(title)s" https://www.youtube.com/@meme-autobattler/videos | grep Commenter),
+#       A/B/C = defaultName trong CHAR_DEFS theo thứ tự đối thủ 1–3 (vd Friend x Adolf Catler x Joninn Cheems).
 # ④ soát: khung 1s/lần + cận từng mốc chèn (ffmpeg -ss <giây> … -frames:v 1)
 # ⑤ DỌN (anh 25/11 "cái gì không dùng nữa clear đi cho đỡ nặng máy"): xoá out/fan/* (bản quay gốc, sim.json, marks), out/fanedit_*,
 #    bản edit cũ / bản thử trên Desktop khi đã có bản mới; giữ spec .edit.json mẫu trong docs/mau-edit/ nếu có điểm mới
