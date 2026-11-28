@@ -8413,6 +8413,8 @@ function _frBloody(img,lv){
   if(img._crop) c._crop=img._crop; if(img._noMask) c._noMask=img._noMask;
   return img[key]=c;
 }
+// 🩹 (anh 28/11) hồi sinh → trả lại ngoại hình nguyên vẹn: xoá mọi vết khoét (_biteHoles) + bản ảnh khuyết đã dựng sẵn
+function _restoreLook(u){ if(!u) return; u._biteHoles=[]; if(u._biteCache) u._biteCache.clear(); }
 function _frAddBite(u){
   if(!u || u.dead) return;
   const n=(u._biteHoles||(u._biteHoles=[])).length;
@@ -8484,7 +8486,7 @@ function _frSeqTick(){
     if(!q.target.dead) _frAddBite(q.target);   // 🦷 khoét 1 miếng vào thân (mép sau lưng)
     { const o=q.owner, h0=o.hp; o.hp=Math.min(o.maxHp, o.hp+FR_BITE_HEAL); _matchStats[o.team].healed+=Math.max(0,o.hp-h0);   // 🦷 cắn xong hồi 50 máu
       _healFloat(o.x,o.y,o.size,FR_BITE_HEAL,o);
-      o._frBites=(o._frBites||0)+1; o._frNightCD=Math.max(FR_NIGHT_MIN, FR_NIGHT_CD-o._frBites*FR_BITE_CDR); }   // ⏱️ mỗi cú cắn: lần sau sớm hơn 1s (5s→4s→3s… sàn 1s)
+      o._frBites=(o._frBites||0)+1; o._frNightCD=fanCtx ? FR_NIGHT_CD : Math.max(FR_NIGHT_MIN, FR_NIGHT_CD-o._frBites*FR_BITE_CDR); }   // 🗣️ (anh 28/11) Commenter Battle (máu nhiều, trận dài): KHÔNG cộng dồn — cắn đều 5s/lần, không spam   // ⏱️ mỗi cú cắn: lần sau sớm hơn 1s (5s→4s→3s… sàn 1s)
     addShake(14,18);
     // 🥚 ngoạm CHẾT địch (chỉ ở Solo 1vs1) → vào thẳng cảnh chân thân, bóng tối giữ nguyên không tan
     if(q.target.dead && !fanCtx && !bossCtx && !tbBattleCtx && !rtBattleCtx && !ffa3Ctx && !duoCtx){
@@ -25277,6 +25279,7 @@ class Fighter {
       //    (Các buff khác — máu tối đa, %dame, %tốc — vốn là chỉ số cố định nên đã theo sang mạng mới sẵn.)
       this._fanInvLeft = (fanBuff && fanBuff.invTicks) || 0;
       this.stun=0; this.burn=0; this.poisonStacks=0; this.poisonTimer=0;   // đứng dậy là sạch mọi hiệu ứng
+      _restoreLook(this);   // 🦷 (anh 28/11) hồi sinh = PHỤC HỒI NGOẠI HÌNH: xoá vết Friend cắn / miếng thịt bị khoét
       this.flash=20;
       addShake(14,20);
       spawnParticles(this.x,this.y,'#69f0ae',26,false,true);
