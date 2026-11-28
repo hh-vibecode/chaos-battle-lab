@@ -764,7 +764,7 @@ huhcat:     { key:'huhcat',     defaultName:'Huh Cat',      emoji:'🐱', color:
     pianocat:   { key:'pianocat',   defaultName:'Piano Cat',     emoji:'🎹', color:'#8e24aa', hp:1000, speed:5, size:43, skill:'Chơi piano — bắn nốt nhạc theo NHỊP & CAO ĐỘ thật của bài (màu theo nốt), mỗi nốt trúng địch gây 15 sát thương. Nốt tự bám mục tiêu gần nhất (kể cả quân triệu hồi) nên không bao giờ trượt. Tự đổi sang bài khác mỗi 8s.' },
     grumpycat:  { key:'grumpycat',  defaultName:'Grumpy Cat',    emoji:'😾', color:'#607d8b', hp:1000, speed:5, size:43, skill:'Slap cận chiến hất văng. Mỗi đòn +12 nộ, ăn đòn +6 nộ. Đủ 100 nộ → RAGE: +50% tốc đánh, +35% tốc chạy, +30% size & tầm đánh, miễn khống chế cứng, slap x2 đẩy lùi, avatar nhấp nháy đỏ, đánh trúng phóng VFX Chidori.' },
     catvader:   { key:'catvader',   defaultName:'Catvader',     emoji:'⚔️', color:'#d32f2f', hp:1000, speed:5, size:43, skill:'Vào trận rút lightsaber luôn. Địch ở gần chém melee 80 dame, địch ở xa kiếm tự bay tới chém 60 dame, 40% gây cháy 20 dame/giây trong 4s. Mỗi 5s hồi 1 lượt Force: đạn địch bay vào gần → mở vùng aura đỏ 1s (Catvader đứng yên), MỌI loại đạn địch trong vùng đứng yên giữa không trung, hết 1s đẩy hết ngược về phía địch (đúng dame gốc của từng viên).' },
-    bibilabu:   { key:'bibilabu',   defaultName:'Bibilabu',     emoji:'🐕', color:'#a0522d', hp:1000, speed:5, size:55, skill:'Doge cầm dao + khiên, ký HỢP ĐỒNG QUỶ CÁO (kiểu Aki – Chainsaw Man). Còn dao: chém 60 / 1s. Còn khiên: 25% giơ khiên CHẶN đòn (keng). Mỗi 5s (hiến xong khiên + dao thì 3.5s) đứng lại, bàn tay làm DẤU CÁO vẽ 1 vòng quanh địch thành LỖ TRIỆU HỒI, hô "KON!" → bộ phận DOGE KHỔNG LỒ đánh 200: lần 1 + 2 là CHÂN Doge đập xuống, phải hiến KHIÊN rồi tới DAO (mất luôn chặn / chém); từ lần 3 ĐẦU Doge lao ra HÚC, mỗi lần hiến 1 MIẾNG THỊT + 50 máu. Địch còn dưới 200 máu → đầu Doge há mõm trồi lên từ lỗ NUỐT CHỬNG địch (biến mất luôn).' },
+    bibilabu:   { key:'bibilabu',   defaultName:'Bibilabu',     emoji:'🐕', color:'#a0522d', hp:1000, speed:5, size:55, skill:'Doge cầm dao + khiên, ký HỢP ĐỒNG QUỶ CÁO (kiểu Aki – Chainsaw Man). Chém dao 45 / 1s (giữ dao cả trận). Còn khiên: 25% giơ khiên CHẶN đòn (keng). Mỗi 5s đứng lại, bàn tay làm DẤU CÁO vẽ 1 vòng quanh địch thành LỖ TRIỆU HỒI, hô "KON!" → bộ phận DOGE KHỔNG LỒ đánh 200: mỗi lần hiến 1 MIẾNG THỊT + 50 máu; lần 1 + 2 là CHÂN Doge đập xuống, từ lần 3 ĐẦU Doge lao ra HÚC. Địch còn dưới 200 máu → CHIÊU CUỐI hiến KHIÊN: đầu Doge há mõm trồi lên từ lỗ NUỐT CHỬNG địch (biến mất luôn).' },
     applecat:   { key:'applecat',   defaultName:'Apple Cat',    emoji:'🍎', color:'#e53935', hp:1000, speed:5, size:43, skill:'Ngay khi vào trận và mỗi 4s, thả 1 quả táo nảy khắp sân — va trúng đối thủ gây 70 dame rồi bật ngược lại như va tường, không đẩy lùi đối thủ.' },
     cheems:     { key:'cheems',     defaultName:'Cheems',      emoji:'🔨', color:'#c9a86a', hp:1000, speed:5, size:47, skill:'Cận chiến, gõ chày: dame gốc 20, tốc đánh 3, 15% tỉ lệ gây choáng 0.75s mỗi đòn. Mỗi lần gõ trúng: dame +3.5 cộng dồn (làm tròn xuống số nguyên khi gây dame thật), chày to thêm 3.5% (tầm đánh cũng tăng theo), tối đa 15 lần cộng dồn (dame tối đa 72). Càng đánh càng mạnh, tới khi đạt giới hạn.' },
     // ── 3 con mới ──
@@ -12600,14 +12600,14 @@ function _kfDrawOver(){
       for(let j=0;j<6;j++){ const x=f.x+(j-2.5)*s*0.38, y0=f.y+s*0.6-u*s*1.2, L=s*(0.6+0.4*_skH(j*9+q.n)); ctx.beginPath(); ctx.moveTo(x,y0); ctx.quadraticCurveTo(x+Math.sin(j+u*6)*6,y0-L*0.5,x,y0-L); ctx.stroke(); }
       ctx.restore(); continue; } } }
 // ===================== 🐕🦊 BIBILABU — làm lại 27/11 (anh): HỢP ĐỒNG QUỶ CÁO kiểu Aki Hayakawa (Chainsaw Man), hô "KON!" =====================
-// • Cận chiến: còn DAO thì chém 60 / 0.6s (vệt chém dao phay vẽ bằng code). Còn KHIÊN thì 25% CHẶN đòn: giật lùi + tiếng keng + tia lửa ở khiên (ảnh gốc).
-// • Mỗi 5s (hiến xong khiên + dao thì 3.5s): ĐỨNG LẠI, bàn tay làm DẤU CÁO hiện ở chỗ địch, vẽ 1 vòng quanh nó → LỖ TRIỆU HỒI, hô "KON!" → bộ phận DOGE KHỔNG LỒ (vẽ kiểu Quỷ Cáo) đánh 200.
-//   Trả giá (đúng nguyên tác: Quỷ Cáo đòi 1 phần cơ thể): lần 1 hiến KHIÊN (mất chặn) · lần 2 hiến DAO (mất chém) — 2 lần này là CHÂN Doge đập xuống.
-//   Từ lần 3: mỗi lần hiến 1 MIẾNG THỊT (khoét trên người, _biteHoles) + 50 máu, và ĐẦU Doge lao ra HÚC.
+// • Cận chiến: chém DAO 45 / 1s (giữ dao cả trận) (vệt chém dao phay vẽ bằng code). Còn KHIÊN thì 25% CHẶN đòn: giật lùi + tiếng keng + tia lửa ở khiên (ảnh gốc).
+// • Mỗi 5s: ĐỨNG LẠI, bàn tay làm DẤU CÁO hiện ở chỗ địch, vẽ 1 vòng quanh nó → LỖ TRIỆU HỒI, hô "KON!" → bộ phận DOGE KHỔNG LỒ (vẽ kiểu Quỷ Cáo) đánh 200.
+//   Trả giá (đúng nguyên tác: Quỷ Cáo đòi 1 phần cơ thể; anh đổi 28/11): mỗi lần hiến 1 MIẾNG THỊT (khoét trên người, _biteHoles) + 50 máu — giữ DAO cả trận.
+//   Lần 1–2 là CHÂN Doge đập xuống, từ lần 3 ĐẦU Doge lao ra HÚC. Chiêu cuối (nuốt chửng) mới hiến KHIÊN.
 //   Địch < 200 máu lúc gọi → ĐẦU Doge HÁ MÕM trồi lên từ lỗ, ngoạm NUỐT CHỬNG địch (biến mất luôn, _susEject).
 const BB_TPS=60*GAME_SPEED*TIME_SCALE;
-const BB_MELEE_DMG=60, BB_MELEE_CD=Math.round(1.0*BB_TPS), BB_BLOCK_P=0.25, BB_BLOCK_T=Math.round(0.4*BB_TPS), BB_MELEE_KB=3;
-const BB_SUM_CD=Math.round(5*BB_TPS), BB_SUM_CD2=Math.round(3.5*BB_TPS), BB_SUM_FIRST=Math.round(2.5*BB_TPS), BB_SUM_DMG=200, BB_SWALLOW_HP=200, BB_FLESH_HP=50;
+const BB_MELEE_DMG=45, BB_MELEE_CD=Math.round(1.0*BB_TPS), BB_BLOCK_P=0.25, BB_BLOCK_T=Math.round(0.4*BB_TPS), BB_MELEE_KB=3;
+const BB_SUM_CD=Math.round(5*BB_TPS), BB_VOICE_AT=Math.round(2*BB_TPS), BB_SUM_FIRST=Math.round(2.5*BB_TPS), BB_SUM_DMG=200, BB_SWALLOW_HP=200, BB_FLESH_HP=50;
 const BB_SIGN_T=Math.round(0.9*BB_TPS), BB_KON_T=Math.round(0.5*BB_TPS), BB_PAY_T=Math.round(0.45*BB_TPS);
 const BB_PAW_T=Math.round(0.9*BB_TPS), BB_PAW_HIT=Math.round(0.28*BB_TPS), BB_HEAD_T=Math.round(0.9*BB_TPS), BB_HEAD_IN=Math.round(0.22*BB_TPS), BB_HEAD_HIT=Math.round(0.42*BB_TPS),
       BB_SW_T=Math.round(1.4*BB_TPS), BB_SW_RISE=Math.round(0.35*BB_TPS), BB_SW_CLOSE=Math.round(0.5*BB_TPS);
@@ -12623,11 +12623,12 @@ function _bbTick(f){ const B=_bbS(f); if(f.dead) return;
   if(B.blk>0) B.blk--; if(B.mcd>0) B.mcd--;
   if(B.cast) return;   // đang làm dấu cáo: đứng yên (khoá ở moveLogic), không chém
   if(B.cd>0) B.cd--;
+  if(B.cd===BB_VOICE_AT) playSample('bibilabu_sound',0.9);   // 🔊 (anh 28/11) hô "bibilabu" ở mốc cố định giữa 2 lần KON (~3.4s sau KON trước, 2.5s trước KON sau) → không đè chữ KON
   if(B.cd<=0 && !f._isHardCC()){ const e=_bbTarget(f); if(e) _bbCastStart(f,B,e); } }
 function _bbCastStart(f,B,e){ B.n++;
   const kind = e.hp<BB_SWALLOW_HP ? 'swallow' : (B.n<=2 ? 'paw' : 'head');
-  const pay = B.shield ? 'shield' : (B.knife ? 'knife' : 'flesh');
-  B.cd = pay==='shield' ? BB_SUM_CD : BB_SUM_CD2;   // (anh 27/11) hiến xong khiên + dao → gọi KON mỗi 3.5s (trước đó 5s)
+  const pay = (kind==='swallow' && B.shield) ? 'shield' : 'flesh';   // (anh 28/11) không hiến dao nữa: lần nào cũng hiến MIẾNG THỊT, chỉ chiêu cuối (nuốt chửng) mới hiến KHIÊN
+  B.cd = BB_SUM_CD;
   const S={f, e, kind, pay, ph:'sign', t:0, x:e.x, y:e.y, r:Math.max(34,(e.size||40)*(kind==='swallow'?1.6:1.25)), dir:(e.x>=f.x?1:-1)};
   bbSum.push(S); B.cast=S; f.vx=0; f.vy=0; f._lastFacingLeft=e.x<f.x; }
 // 💸 trả giá lúc hô KON: khiên / dao bay vào lỗ · hoặc 1 miếng thịt + 50 máu
@@ -15038,7 +15039,7 @@ const CHAR_FACTS = {
   pianocat:[ "Piano Cat learned Rush E before it learned its own name.", "Piano Cat's neighbors moved away. The piano stayed. So did the noise complaints.", "Piano Cat's show sold out completely. Nobody wanted to go. Everyone showed up anyway.", "Piano Cat turned music theory into an actual weapon. Beethoven is reportedly taking notes, nervously.", "Piano Cat's refund policy is simple: no refunds, only encores." ],
   grumpycat:[ "Grumpy Cat's everyday scowl doubles as its battle face. Efficient.", "Grumpy Cat maxed out its rage bar just because someone said \"smile more\".", "Grumpy Cat is immune to stun — its spirit gave up before the match even started.", "Grumpy Cat's reviews are all one star. It agrees with every single one.", "Grumpy Cat's therapist bills by the dirty look. Extremely lucrative." ],
   catvader:[ "Catvader's breathing is entirely on purpose. It's a whole lifestyle now.", "Catvader's lightsaber is redder than its last performance review.", "Catvader's dating profile just says \"still searching\". Searching for what, unclear.", "Catvader's only cardio is heavy breathing. Doctors are both confused and impressed." ],
-  bibilabu:[ "In Chainsaw Man, Aki makes the fox hand sign and says Kon to call the Fox Devil.", "The Fox Devil only shows its head to people it finds good-looking. This Doge qualified.", "Every summon has a price. Bibilabu paid with a shield, a knife and some of itself.", "Kon is the sound a fox makes in Japanese.", "The giant head is just Doge. Bigger, hungrier, same side-eye." ],
+  bibilabu:[ "In Chainsaw Man, Aki makes the fox hand sign and says Kon to call the Fox Devil.", "The Fox Devil only shows its head to people it finds good-looking. This Doge qualified.", "Every summon has a price. Bibilabu paid in chunks of itself, and the shield for the final bite.", "Kon is the sound a fox makes in Japanese.", "The giant head is just Doge. Bigger, hungrier, same side-eye." ],
   applecat:[ "An apple a day keeps the doctor away. Apple Cat throws about twelve a minute.", "Apple Cat's apples are perfectly ripe and extremely dangerous.", "Apple Cat never eats them. Just throws. Always throws.", "Apple Cat's aim is a rumor. The bounce physics do all the work." ],
   cheems:[ "Cheems' real name was Balltze, a Shiba Inu from Hong Kong who, in real life, never once swung a baseball bat.", "The bat-swinging 'bonk' bit wasn't even originally his — it was lifted from a totally unrelated dog video in 2019. Cheems just kept it going.", "Official job title: Horny Jail Enforcer. No union, no overtime, just bonks.", "Cheems cannot spell 'hamburger' correctly. It has always been, and will always be, 'cheemsburger.'" ],
   maxwell:[ "Maxwell's dance career started as a home video of a cat on a treadmill. He never asked for any of this.", "Maxwell once got sped up, slowed down, and remixed to three different songs in the same week. He remembers none of it.", "Between rounds, Maxwell mains creative mode. During rounds, he clearly does not know what he picked up.", "Maxwell has never once successfully mined a diamond. He just finds the sword already crafted, somehow." ],
@@ -15146,7 +15147,7 @@ const CHAR_BLURB = {
   pianocat: "Plays piano and fires a homing musical note on every beat of the song (locks onto the nearest target, including summons, and never misses), switching tracks as it goes.",
   grumpycat: "Builds rage from every hit dealt and taken; a full bar unlocks a far stronger rage form.",
   catvader: "Ignites a lightsaber and either fights up close or throws it and calls it back. Every 5s it stands still and opens a red Force aura for 1s: every enemy projectile inside freezes in mid-air, then gets hurled back at the enemy.",
-  bibilabu: "A Doge with a knife and a shield and a Fox Devil contract. While it has the knife it slashes for 60 every second; while it has the shield it blocks 25% of hits. Every 5s (every 3.5s once the shield and knife are gone) it stops, a fox hand sign draws a summoning circle around the enemy, it shouts KON! and a GIANT DOGE part strikes for 200. The devil wants payment: the shield first, then the knife (losing the block and the slash), then a chunk of its own flesh and 50 HP every time. The first two summons are a giant paw slamming down, after that the giant Doge head rams the enemy. If the enemy is under 200 HP, the head rises from the hole with its jaws open and swallows them whole.",
+  bibilabu: "A Doge with a knife and a shield and a Fox Devil contract. It slashes for 45 every second, and while it has the shield it blocks 25% of hits. Every 5s it stops, a fox hand sign draws a summoning circle around the enemy, it shouts KON! and a GIANT DOGE part strikes for 200. The devil wants payment: a chunk of its own flesh and 50 HP every time. The first two summons are a giant paw slamming down, after that the giant Doge head rams the enemy. If the enemy is under 200 HP, the final summon costs the shield instead: the head rises from the hole with its jaws open and swallows them whole.",
   applecat: "Keeps an apple bouncing around the arena that damages anyone it collides with.",
   cheems: "Every bonk makes its bat larger, hitting harder and reaching further.",
   maxwell: "Spins a wheel of items and uses whatever it lands on, from a sword to a stick of TNT.",
@@ -23270,8 +23271,6 @@ class Fighter {
 
     // ===== 🐕 BIBILABU (làm lại 27/11): còn dao thì chém 60 / 1s — dấu cáo + chặn khiên ở _bbTick / _bbBlock =====
     if(this.type==='bibilabu' && !this.dead){
-      if(this._bbSoundCD===undefined) this._bbSoundCD=300+Math.random()*300;   // 🔊 tiếng đặc trưng ~5-10s/lần
-      if(--this._bbSoundCD<=0){ playSample('bibilabu_sound', 0.8); this._bbSoundCD=300+Math.random()*300; }
       if(e && !e.dead && e.hp>0) _bbMelee(this,e,dist);
     }
 

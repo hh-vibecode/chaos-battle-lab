@@ -248,12 +248,13 @@
 ## 🐕🦊 Bibilabu — LÀM LẠI 27/11 (anh): Hợp đồng Quỷ Cáo kiểu Aki (Chainsaw Man) — khối `BB_*` / `_bb*` trong js/game.js (ngay trước khối Battle Cat)
 - Còn DAO: chém 60 / 1s (vệt dao phay vẽ code, bỏ 'Sonic Wind Slash'). Còn KHIÊN: 25% chặn (`_bbBlock` đầu takeDamage): ẢNH GỐC nghiêng ngửa lên + KHIÊN TO VFX code (viền vàng, sao giữa) + tia lửa + `bb_keng` + giật lùi.
   ⛔ Anh bỏ ảnh GPT "giơ khiên" (mặt méo, lỗi AI) → giơ khiên = nghiêng ảnh gốc + khiên VFX (anh dặn).
-- Mỗi 5s (hiến xong khiên + dao → 3.5s, anh dặn): đứng yên, tay dấu cáo (`BB_HAND`) vẽ vòng cam quanh địch thành lỗ, 0.5s hô KON (`bb_kon` = giọng Aki trên myinstants) + trả giá:
-  lần 1 KHIÊN bay vào lỗ, lần 2 DAO, từ lần 3 MIẾNG THỊT (khoét `_biteHoles` ở LƯNG — đặt ở mặt trông như kính bơi) + 50 máu. Lần 1–2 = CHÂN Doge (`BB_PAW`) giáng xuống, từ lần 3 = ĐẦU Doge (`BB_HEAD`) lao từ sau Bibilabu HÚC. Mỗi đòn 200.
+- Mỗi 5s: đứng yên, tay dấu cáo (`BB_HAND`) vẽ vòng cam quanh địch thành lỗ, 0.5s hô KON (`bb_kon` = giọng Aki trên myinstants) + trả giá:
+  (anh đổi 28/11) KHÔNG hiến dao nữa (giữ dao cả trận, chém hạ 60 → 45 cho cân): lần nào cũng hiến MIẾNG THỊT (khoét `_biteHoles` ở LƯNG — đặt ở mặt trông như kính bơi) + 50 máu; CHỈ chiêu cuối (nuốt chửng) mới hiến KHIÊN. Lần 1–2 = CHÂN Doge (`BB_PAW`) giáng xuống, từ lần 3 = ĐẦU Doge (`BB_HEAD`) lao từ sau Bibilabu HÚC. Mỗi đòn 200.
+  🔊 (anh 28/11 "không thấy nó nói bibilabu nữa") tiếng `bibilabu_sound` giờ phát ở MỐC CỐ ĐỊNH: còn 2s tới lần gọi KON (~3.4s sau KON trước, 2.5s trước KON sau; lần đầu ở giây 0.5) → không đè chữ KON (trước phát ngẫu nhiên 5–10s nên hay trùng / bị át).
   Địch < 200 máu lúc gọi → `BB_HEAD_OPEN` há mõm trồi lên từ lỗ (vẽ DƯỚI địch → địch nằm giữa hàm), 0.5s ngậm (`BB_HEAD` vẽ TRÊN) → `_susEject` + `_fellAway` (biến mất êm), chữ GULP.
 - Ảnh: GPT vẽ (ref ảnh gốc) mất khiên / mất cả dao khiên / chém mất khiên — DÙNG CHUNG khung cắt với ảnh gốc (`_bbFrame` gán `_crop` của avatar gốc) → đổi ảnh không nhảy cỡ.
   Doge Quỷ Cáo (đầu húc / đầu há mõm / chân) GPT vẽ từ ảnh Doge gốc của game: giữ mặt liếc đểu, mõm dài kiểu cáo, cổ tan khói (khói ám xanh đã đổi sang xám).
-- Số em tự đặt: hồi chém 1s, đẩy lùi chém 3, gọi lần đầu 2.5s, chặn 0.4s. Đo kiểu mới (Popcat, cả 2 bất tử, 25s): TB 1190 dame.
+- Số em tự đặt: hồi chém 1s, đẩy lùi chém 3, gọi lần đầu 2.5s, chặn 0.4s. Đo kiểu mới (Popcat, cả 2 bất tử, 25s): TB 1190 dame. 28/11 (giữ dao, chém 45): TB 1190 dame, thắng Huh Cat 6/10.
 - Ảnh duyệt: out/review/bibilabu/ (sign, paw, slash, head, block, flesh, swallow1, swallow2).
 
 ## 🥋 Bruce Lee Cat (`bruceleecat`, 27/11/2026) — khối `KF_*` / `_kf*` trong js/game.js (ngay trước khối Bibilabu) — anh gửi clip TikTok @igreenscreenthings/video/7634326359820586270
