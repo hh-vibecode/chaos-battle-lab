@@ -39293,12 +39293,22 @@ function _fwStartSlot(){
     }, 1300+i*800);
   });
 }
+// 🖼️ màn LOTO (= thumbnail mọi tập): khối commenter bên trái (avatar tròn TO + @tên) + ảnh comment thật bên dưới
+function _fwPaintMe(){
+  const S=FAN_SKILLS[_fanPickKey]||{}, me=document.getElementById('fwMe'), cm=document.getElementById('fwCmt');
+  const av=_fanAvatar(_fanPickKey), nm=S.name||'Commenter';
+  if(me) me.innerHTML=`<div class="fw-tag blue">COMMENTER</div>`
+    +`<div class="fw-meav">${av?`<img src="${av}">`:'<span>🧑</span>'}</div>`
+    +`<div class="fw-menm">@${nm.replace(/^@/,'')}</div>`;
+  if(cm){ cm.innerHTML=S.cmt?`<img src="${S.cmt}">`:''; cm.style.display=S.cmt?'':'none'; }
+}
 function openFanWheel(){
   fanBuff = { hpAdd:0, dmgMul:1, spdMul:1, recruit:0, lives:1, invTicks:0 };
   _fwSpun = 0; _fwRot = 0; _fwBusy = false; _fwPhase='slot'; _fwUsed = new Set(); _fwSlotDone=false;
   // 🔀 quay lại giai đoạn LOTO: 3 ô về CHÍNH GIỮA, bố cục xếp dọc
   document.getElementById('fanWheelOverlay').classList.add('slotphase');
-  document.getElementById('fwColMid').appendChild(document.getElementById('fwReels'));
+  document.getElementById('fwReelHome').appendChild(document.getElementById('fwReels'));
+  _fwPaintMe();
   const wheel = document.getElementById('fwWheel');
   wheel.style.transition = 'none';
   wheel.style.transform = 'rotate(0deg)';

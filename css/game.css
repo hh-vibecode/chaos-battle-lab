@@ -1318,6 +1318,65 @@ canvas { display:block; }
 /* giai đoạn loto chưa có gì để hiện bên phải → giấu hẳn 2 HUD, tránh 2 khung rỗng có tiêu đề */
 #fanWheelOverlay.slotphase .fw-col-right{ display:none; }
 
+/* ── 🖼️ MÀN LOTO = THUMBNAIL MỌI TẬP (anh 28/11: "làm to hẳn lên, bắt mắt, nổi bật ý chính") ──
+   nền ĐẶC (không lộ menu phía sau) · nửa trái ánh XANH = phe commenter · nửa phải ánh ĐỎ = phe 3 meme · tia manga toả từ chữ VS.
+   Bố cục: câu hỏi TO trên cùng → [COMMENTER avatar tròn + @tên]  VS  [3 RANDOM MEMES: 3 ô to] → ảnh comment thật dưới cùng. */
+#fanWheelOverlay.slotphase{ background:
+  repeating-conic-gradient(from 0deg at 33% 50%, rgba(255,255,255,.045) 0deg 2.2deg, transparent 2.2deg 7.5deg),
+  radial-gradient(ellipse 34% 58% at 17% 50%, rgba(79,195,255,.34), transparent 72%),
+  radial-gradient(ellipse 46% 62% at 68% 50%, rgba(255,45,45,.30), transparent 72%),
+  linear-gradient(180deg,#0c0c1c 0%,#05050d 100%); }
+#fanWheelOverlay.slotphase .fw-cols{ gap:30px; }
+#fanWheelOverlay.slotphase .fw-sub{ font-family:'Montserrat',sans-serif; font-weight:900; font-style:italic;
+  font-size:clamp(1.6rem,3.3vw,3.6rem); text-transform:uppercase; letter-spacing:0.5px; color:#fff;
+  -webkit-text-stroke:2px #000; paint-order:stroke fill;
+  text-shadow:0 0 22px rgba(255,214,64,.55), 0 5px 0 #000, 0 8px 18px rgba(0,0,0,.8); }
+#fanWheelOverlay.slotphase .fw-now{ display:none; }
+#fanWheelOverlay:not(.slotphase) .fw-vsrow,
+#fanWheelOverlay:not(.slotphase) .fw-cmt{ display:none; }
+#fanWheelOverlay.slotphase .fw-back,
+#fanWheelOverlay.slotphase .fw-action-corner{ opacity:.35; transition:opacity .2s; }   /* thumbnail sạch: nút mờ đi, rê chuột vào mới rõ */
+#fanWheelOverlay.slotphase .fw-back:hover,
+#fanWheelOverlay.slotphase .fw-action-corner:hover{ opacity:1; }
+.fw-vsrow{ display:flex; align-items:center; justify-content:center; gap:min(44px,2.4vw); }
+.fw-tag{ font-family:'Montserrat',sans-serif; font-weight:900; font-style:italic; font-size:clamp(1rem,1.55vw,1.75rem);
+  letter-spacing:1px; color:#fff; padding:7px 22px 8px; border-radius:10px; transform:skewX(-8deg);
+  box-shadow:0 5px 0 rgba(0,0,0,.55); white-space:nowrap; -webkit-text-stroke:1px rgba(0,0,0,.35); }
+.fw-tag.blue{ background:linear-gradient(180deg,#4fc3ff,#1565c0); }
+.fw-tag.red{ background:linear-gradient(180deg,#ff5252,#b71c1c); }
+.fw-me{ display:flex; flex-direction:column; align-items:center; gap:18px; width:min(440px,24vw); }
+.fw-meav{ width:min(330px,19vw); aspect-ratio:1/1; border-radius:50%; overflow:hidden; background:#0d1a26;
+  border:9px solid #4fc3ff; box-shadow:0 0 0 5px #06121c, 0 0 46px rgba(79,195,255,.75), 0 14px 30px rgba(0,0,0,.7);
+  display:flex; align-items:center; justify-content:center; font-size:8rem; }
+.fw-meav img{ width:100%; height:100%; object-fit:cover; }
+.fw-menm{ font-family:'Montserrat',sans-serif; font-weight:900; font-size:clamp(1.2rem,2.1vw,2.4rem); color:#4fc3ff;
+  max-width:100%; overflow-wrap:anywhere; text-align:center; line-height:1.1;
+  -webkit-text-stroke:2px #000; paint-order:stroke fill; text-shadow:0 4px 0 #000, 0 0 20px rgba(79,195,255,.5); }
+.fw-vs{ font-family:'Montserrat',sans-serif; font-weight:900; font-style:italic; font-size:clamp(3.5rem,8.2vw,9.5rem);
+  line-height:1; color:#ffd740; transform:rotate(-8deg); padding:0 8px;
+  -webkit-text-stroke:6px #2a0000; paint-order:stroke fill;
+  text-shadow:0 0 30px rgba(255,170,0,.85), 6px 8px 0 #c62828, 10px 14px 18px rgba(0,0,0,.8);
+  animation:fwVs 1.6s ease-in-out infinite; }
+@keyframes fwVs{ 0%,100%{ transform:rotate(-8deg) scale(1); } 50%{ transform:rotate(-8deg) scale(1.06); } }
+.fw-foes{ display:flex; flex-direction:column; align-items:center; gap:18px; }
+#fanWheelOverlay.slotphase .fw-reels{ gap:min(22px,1.2vw); flex-wrap:nowrap; }
+#fanWheelOverlay.slotphase .fw-reel{ width:min(290px,16vw); height:min(370px,20.4vw); border-radius:24px; border-width:7px;
+  background:linear-gradient(180deg,#1b1b2e,#0e0e18); gap:14px; }
+#fanWheelOverlay.slotphase .fw-reel img{ width:84%; height:58%; object-fit:contain; }   /* khung ảnh CỐ ĐỊNH → tên 3 con thẳng hàng */
+#fanWheelOverlay.slotphase .fw-reel .fw-em{ font-size:min(7.5rem,7vw); }
+#fanWheelOverlay.slotphase .fw-reel .fw-rn{ font-family:'Montserrat',sans-serif; font-weight:900; text-transform:uppercase;
+  font-size:clamp(0.9rem,1.45vw,1.65rem); color:#fff; -webkit-text-stroke:1.5px #000; paint-order:stroke fill;
+  text-shadow:0 3px 0 #000; }
+#fanWheelOverlay.slotphase .fw-reel.locked{ border-color:#ff3d3d;
+  box-shadow:0 0 0 4px #2a0505, 0 0 40px rgba(255,50,50,.7), 0 14px 30px rgba(0,0,0,.7); }
+/* 💬 comment thật của họ: thẻ trắng + đuôi bong bóng chĩa lên phía commenter */
+.fw-cmt{ position:relative; background:#fff; border-radius:18px; padding:10px 16px;
+  box-shadow:0 0 0 5px #4fc3ff, 0 12px 34px rgba(0,0,0,.7); max-width:min(1150px,62vw); align-self:center; }
+.fw-cmt::after,.fw-cmt::before{ content:''; position:absolute; width:0; height:0; border-style:solid; border-color:transparent; border-top:0; }
+.fw-cmt::after{ left:34px; top:-40px; border-width:0 26px 40px; border-bottom-color:#4fc3ff; }   /* viền xanh của đuôi */
+.fw-cmt::before{ left:42px; top:-27px; border-width:0 18px 30px; border-bottom-color:#fff; z-index:1; }   /* ruột trắng, đè lên viền thẻ → liền một khối */
+.fw-cmt img{ display:block; max-width:100%; max-height:min(275px,25vh); width:auto; height:auto; }
+
 /* ── 2 HUD cột phải: ép CÙNG bề ngang / CÙNG padding / CÙNG kiểu viền để không bao giờ lệch nhau ── */
 .fw-hud{
   width:100%; box-sizing:border-box;

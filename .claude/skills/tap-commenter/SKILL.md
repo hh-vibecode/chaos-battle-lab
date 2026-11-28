@@ -114,3 +114,5 @@ nice -n 10 python3 tools/x/fan-edit.py out/fan/<key>.edit.json      # out = ~/De
 - (cũ, chỉ khi anh bảo) ✂️→CapCut (27/11, anh: "đẩy lên capcut mai t sửa"): `python3 tools/x/fan-edit.py <spec> --segs out/fan/<x>_segs` (giữ từng đoạn mp4 + segs.json) →
   `python3 tools/x/capcut-fan.py out/fan/<x>_segs --name "<tên dự án>"` (CapCut PHẢI TẮT) → dự án mới: track chính = các đoạn nối nhau (mỗi MEME CHÈN là 1 clip riêng
   để xoá / Replace / kéo dài), tiếng mở đầu = clip tiếng riêng, âm lượng = hệ số −14 LUFS của bản cuối. Media hard-link vào thư mục dự án.
+
+- 🖼️ (anh 28/11) Màn LOTO "Bro is up against these three." = THUMBNAIL mọi tập: commenter (avatar tròn + @tên) · VS · 3 ô meme to · ảnh comment thật (`FAN_SKILLS[key].cmt`) bên dưới. Commenter mới phải có `cmt` + `avatar` thì màn này mới đủ. Chụp thumbnail = khung lúc 3 ô vừa chốt (mốc `foes` trong marks.json).
