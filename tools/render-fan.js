@@ -21,6 +21,7 @@ const FOES = opt('--foes', null) ? opt('--foes').split(',') : null;   // --foes 
 const BUFF = opt('--buff', null) ? opt('--buff').split(',') : null;   // --buff spd[,hp…]: ép các lượt ĐẦU của bánh BUFF ra đúng ô (k của FAN_WHEELS.buff: none dmg spd hp inv all), lượt sau random
 const BSEED = opt('--bseed', null) == null ? null : +opt('--bseed');   // --bseed N: seed RIÊNG cho TRẬN (đặt lại random lúc bấm START) → bánh quay giữ nguyên theo --seed, chỉ trận đổi
 const BSIM = +opt('--bsim', 0);   // --bsim 5: giữ bánh quay của --seed, chạy thử 5 seed TRẬN (bseed = seed+1…+5) → lấy trận căng nhất rồi QUAY 1 lần (anh 25/11)
+const PROBE = opt('--probe', null);   // --probe file.js: chạy thêm JS đo đạc trong trang lúc CHẠY THỬ (sau khi mở trang); in window.__probeOut sau mỗi trận thử
 const SIMW = +opt('--simw', 0) || null;   // chạy thử ở bề rộng nào (mặc định = đúng bề rộng lúc quay → hạn chế lệch kết quả thử ↔ quay, xem skill tap-commenter)   // độ dài trận ưu tiên khi tự chọn seed
 let SEED = opt('--seed', null) == null ? null : +opt('--seed');
 const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.gif': 'image/gif', '.mp3': 'audio/mpeg', '.ogg': 'audio/ogg', '.wav': 'audio/wav', '.svg': 'image/svg+xml', '.woff2': 'font/woff2', '.ttf': 'font/ttf' };
@@ -159,8 +160,9 @@ const fmt = r => `${(r.foes || []).join(' x ')} · ${r.res.join(' | ')} · ${r.w
   const br = await chromium.launch({ args: GPU });
   const T0 = Date.now(), base = Date.now();
   const simulate = async (sd, bs) => { const pg = await openFan(br, PORT, sd, SIMW || VW, bs);
+    if (PROBE) await pg.evaluate(fs.readFileSync(path.resolve(PROBE), 'utf8'));
     for (;;) { const r = await pg.evaluate(STEP, { n: 240, FPS, HOLD: 0.5 }); if (r === true) break; if (r === 'wait') { await pg.waitForTimeout(15); continue; } if ((await pg.evaluate(() => __vt)) >= MAXSEC) break; }
-    const r = await pg.evaluate(RESULT); await pg.close(); return r; };
+    const r = await pg.evaluate(RESULT); if (PROBE) console.log('🔎 probe:', JSON.stringify(await pg.evaluate(() => window.__probeOut || null))); await pg.close(); return r; };
   let BS = BSEED;
   if (BSIM) {   // 🎡 bánh quay cố định (--seed), thử BSIM seed trận
     if (SEED == null) { console.log('❌ --bsim cần --seed (seed bánh quay)'); process.exit(1); }

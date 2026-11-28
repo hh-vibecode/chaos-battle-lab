@@ -8482,7 +8482,10 @@ function _frSeqTick(){
     // 🦷 tiếng cắn riêng đúng khung ngoạm — tắt tiếng hit mặc định của cú này cho khỏi 2 tiếng chồng nhau
     playSample('fr_bite',1.0);
     _frBiteSilent=true;
-    try{ if(!q.target.dead) q.target.takeDamage(FR_NIGHT_DMG, q.owner); } finally { _frBiteSilent=false; }
+    { const _t=q.target, _h0=_t.hp, _l0=_t._fanLives;
+      try{ if(!_t.dead) _t.takeDamage(FR_NIGHT_DMG, q.owner); } finally { _frBiteSilent=false; }
+      // 🔢 (anh 28/11 "cắn mà không thấy gây dame") số dame thật của cú cắn — vẽ ĐÈ lên màn đen trong _frDrawNight (số dame thường bị màn đen che)
+      q.bitLost = (_t._fanLives!==_l0 || _t.dead) ? Math.round(_h0) : Math.max(0, Math.round(_h0-_t.hp)); q.bitT0=q.t; }
     if(!q.target.dead) _frAddBite(q.target);   // 🦷 khoét 1 miếng vào thân (mép sau lưng)
     { const o=q.owner, h0=o.hp; o.hp=Math.min(o.maxHp, o.hp+FR_BITE_HEAL); _matchStats[o.team].healed+=Math.max(0,o.hp-h0);   // 🦷 cắn xong hồi 50 máu
       _healFloat(o.x,o.y,o.size,FR_BITE_HEAL,o);
@@ -8702,6 +8705,11 @@ function _frDrawNight(){
   if(!front) drawFriend();              // đang nấp / đang lùi: nằm SAU con mồi
   if(!t.dead){ ctx.save(); ctx.globalAlpha=Math.max(0.001,dark); t.draw(); ctx.restore(); }   // con mồi vẫn hiện, đứng im trong bóng tối
   if(front) drawFriend();               // lúc ngoạm: chồm ra TRƯỚC, đè lên vai con mồi
+  // 🔢 số dame cú cắn: cùng kiểu số dame của game (Press Start 2P, viền đen), to hơn, nảy lên rồi mờ dần theo màn đen
+  if(q.bit && q.bitLost>0){ const k=(q.bitT0-q.t), rise=Math.min(26, k*1.6), fs=Math.round(14*1.6), al=Math.min(1,k/4)*dark;
+    ctx.save(); ctx.globalAlpha=Math.max(0,Math.min(1,al)); ctx.font=`bold ${fs}px "Press Start 2P",monospace`; ctx.textAlign='center';
+    ctx.lineWidth=5; ctx.strokeStyle='#000'; ctx.fillStyle='#ff1744'; const tx=t.x, ty=t.y-t.size-18-rise, s1=(k<6)?1+0.35*(1-k/6):1;
+    ctx.translate(tx,ty); ctx.scale(s1,s1); ctx.strokeText('-'+q.bitLost,0,0); ctx.fillText('-'+q.bitLost,0,0); ctx.restore(); }
 }
 
 // ==================== 🐶🗼 CHONKY DOG ====================
