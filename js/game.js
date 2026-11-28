@@ -3971,7 +3971,7 @@ const FR_REC={open:600, reach:1500, gather:2300, grab:2550, pull:3700, close0:38
 function _frShatter(f,L,bx,by,pow){   // bx,by,pow: (tuỳ chọn) tâm vụ nổ đẩy mảnh văng ra xa (Shinra Tensei)
   const S2=2, dw=L.dw, dh=L.dh, c=document.createElement('canvas'); c.width=Math.max(4,Math.round(dw*S2)); c.height=Math.max(4,Math.round(dh*S2));
   const x=c.getContext('2d'); x.save(); if(L.fl||L.flip){ x.translate(c.width,0); x.scale(-1,1); }
-  try{ x.drawImage(L.img,L.sx,L.sy,L.sw,L.sh,0,0,c.width,c.height); }catch(e){} x.restore();
+  try{ x.drawImage(L.img._noMask ? L.img : _stickerMask(L.img),L.sx,L.sy,L.sw,L.sh,0,0,c.width,c.height); }catch(e){} x.restore();   // (anh 28/11) cắt mảnh từ ảnh ĐÃ tách nền như lúc vẽ — trước dùng ảnh gốc nên mỗi mảnh dính ô nền xám
   let alpha=null; try{ alpha=x.getImageData(0,0,c.width,c.height).data; }catch(e){}
   const cols=4, rows=5, cw=c.width/cols, ch=c.height/rows, V=[];
   for(let j=0;j<=rows;j++){ V.push([]); for(let i=0;i<=cols;i++){ const edge=(i===0||j===0||i===cols||j===rows); V[j].push([i*cw+(edge?0:(Math.random()-0.5)*cw*0.6), j*ch+(edge?0:(Math.random()-0.5)*ch*0.6)]); } }
@@ -3983,7 +3983,8 @@ function _frShatter(f,L,bx,by,pow){   // bx,by,pow: (tuỳ chọn) tâm vụ n�
     let vx=lx/d*sp+(Math.random()-0.5), vy=ly/d*sp+(Math.random()-0.5);
     if(pow){ const ax=f.x+lx-bx, ay=f.y+ly-by, ad=Math.hypot(ax,ay)||1, bp=pow*(0.7+Math.random()*0.6); vx+=ax/ad*bp; vy+=ay/ad*bp; }   // bị sóng nổ thổi văng
     pieces.push({poly, ox, oy, x:f.x+lx, y:f.y+ly, vx, vy, rot:0, vr:(Math.random()-0.5)*(pow?0.5:0.25), s:1, a:1}); }
-  frRem={cv:c, S2, pieces, x:f.x, y:f.y, size:f.size, rec:null, done:false};
+  const sh=document.createElement('canvas'); sh.width=c.width; sh.height=c.height; { const g=sh.getContext('2d'); g.drawImage(c,0,0); g.globalCompositeOperation='source-in'; g.fillStyle='rgba(0,0,0,0.25)'; g.fillRect(0,0,sh.width,sh.height); }   // bóng đổ theo ĐÚNG hình (không theo ô cắt)
+  frRem={cv:c, sh, S2, pieces, x:f.x, y:f.y, size:f.size, rec:null, done:false};
 }
 function _frRemTick(){
   const R=frRem; if(!R) return;
@@ -4033,9 +4034,8 @@ function _frRemDraw(){
   for(const p of R.pieces){ if(p.s<=0.06) continue; const S2=R.S2;
     ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.scale(p.s/S2,p.s/S2);
     ctx.beginPath(); p.poly.forEach((q,i)=>i?ctx.lineTo(q[0]-p.ox,q[1]-p.oy):ctx.moveTo(q[0]-p.ox,q[1]-p.oy)); ctx.closePath();
-    ctx.save(); ctx.translate(4,6); ctx.fillStyle='rgba(0,0,0,0.25)'; ctx.fill(); ctx.restore();   // bóng đổ
-    ctx.save(); ctx.clip(); ctx.drawImage(R.cv,-p.ox,-p.oy); ctx.restore();
-    ctx.lineWidth=2; ctx.strokeStyle='rgba(20,10,25,0.55)'; ctx.stroke(); ctx.restore(); }
+    ctx.save(); ctx.clip(); if(R.sh) ctx.drawImage(R.sh,-p.ox+4,-p.oy+6); ctx.drawImage(R.cv,-p.ox,-p.oy); ctx.restore();   // bóng đổ + mảnh: theo ĐÚNG hình Friend (anh 28/11: trước tô cả ô đa giác + viền → thành ô vuông xám trên sàn sáng)
+    ctx.restore(); }
   };
   if(!(R.rec && ms>=FR_REC.grab)) _drawPieces();   // 🧩 mảnh vỡ nằm trên sàn (lúc bị 2 tay kẹp thì vẽ đè lên tay cho thấy rõ)
   // 🖐️ 2 cánh tay bóng tối (tay phải lật gương) — gốc tay chìm trong lòng cổng
