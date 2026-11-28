@@ -31,8 +31,9 @@ Hàng chờ + yêu cầu từng người: bảng anh đã duyệt 25/11 (ảnh t
 2. **Chọn 3 meme đối thủ**: anh với Claude bàn, chốt 3 con → đặt vào 🎛️ SETUP ROLL (ô Đối thủ 1–3), các bánh buff / recruit / lives để Random.
 3. **Phần bánh quay + trận** (anh 25/11: Claude quay LUÔN cả bánh quay, không chờ anh): `tools/render-fan.js` (Mac, cần
    `NODE_PATH=$(dirname $(find ~/.npm/_npx -maxdepth 3 -type d -name playwright | head -1))`) quay TRỌN từ màn "Who are you up against, bro?"
-   → máy loto → 3 bánh → PRESS TO START → trận → bảng kết quả (giữ 5s), 1920×1080 50fps, tự bấm nút nhịp người thật (dừng ~1.25s sau mỗi kết quả),
+   → máy loto → 3 bánh → PRESS TO START → trận → bảng kết quả (giữ 5s), ⛔ (anh 28/11) LUÔN 4K: `--w 3840` (3840×2160) 50fps, tự bấm nút nhịp người thật (dừng ~1.25s sau mỗi kết quả),
    tiếng game trộn + −14 LUFS. Bánh quay = CSS transition → công cụ tua mọi `document.getAnimations()` theo đồng hồ ảo.
+   - 🦷 (anh 28/11) Commenter = QUẢ BÓNG avatar tròn: Friend cắn → bóng KHUYẾT miếng (vết `_biteHoles` khoét trên canvas riêng `_fanBiteCv`, viền thịt đỏ) như meme thường.
    - `--sim 16 --max 150` chạy thử 16 seed (~40s/seed) in đối thủ + kết quả bánh + ai thắng + máu còn → `--seed N` quay (~4–5 phút).
    - Ra kèm `<out>.marks.json`: mốc giây (theo bản quay) của foes / từng spin / từng result / fight / result_screen → làm bảng chèn meme.
    - ✅ (25/11) Lệch THỬ ↔ QUAY đã sửa: ảnh trận tải theo giờ thật làm đồng hồ ảo lệch → giờ đồng hồ ảo ĐỨNG CHỜ khi còn ảnh đang tải (đếm qua
@@ -50,7 +51,7 @@ cd ~/Projects/chaos-battle-lab && git fetch && git pull --ff-only
 export NODE_PATH=$(dirname $(find ~/.npm/_npx -maxdepth 3 -type d -name playwright | head -1))
 # ① SETUP xong hết rồi mới chạy (anh 25/11): đối thủ = --foes, buff ép = --buff, bánh quay CỐ ĐỊNH theo --seed (quay 1 lần là xong, không đổi),
 #    TRẬN thử 5 seed riêng (--bsim 5 → bseed = seed+1…+5, đặt lại random lúc bấm START) → tự lấy trận căng nhất (sát nút) → QUAY 1 lần (~10–15 phút cả cụm)
-nice -n 10 node tools/render-fan.js out/fan/<key>.mp4 --fan <key> --foes friend,feuerkatze,samuraicheems --buff spd --seed 20261125 --bsim 5 --max 150
+nice -n 10 node tools/render-fan.js out/fan/<key>.mp4 --fan <key> --foes friend,feuerkatze,samuraicheems --buff spd --seed 20261125 --bsim 5 --max 150 --w 3840   # 4K (anh 28/11) — fan-edit.py tự dựng đúng cỡ bản quay (chữ / lề phóng theo)
 #    ra <out>.marks.json (giây từng kết quả bánh) · căng nhất = đội thắng còn ÍT máu nhất (không xét độ dài trận)
 #    muốn quay lại đúng trận đã chọn: --seed <S> --bseed <B>
 # ③ soạn spec edit theo marks.json (mẫu docs/mau-edit/commenter-tanphamnhat969.edit.json): mỗi kết quả đáng phản ứng 1 meme, chèn ~0.5s sau "result"

@@ -20,7 +20,8 @@ from PIL import Image, ImageDraw, ImageFont
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 FONT = os.path.join(os.path.dirname(__file__), 'fonts', 'Montserrat.ttf')
-W, H, FPS, SR = 1920, 1080, 50, 48000
+W, H, FPS, SR = 1920, 1080, 50, 48000   # W/H đổi theo cỡ BẢN QUAY (quay --w 3840 → dựng 4K); K = hệ số phóng mọi cỡ chữ / lề so với bản 1920
+K = 1.0
 X = lambda p: os.path.expanduser(p) if p else p
 
 # 📊 trạng thái cho trang theo dõi (tools/x/fan-studio.js) — cùng file với render-fan.js
@@ -98,26 +99,32 @@ def main():
     tmp = tempfile.mkdtemp(prefix='fanedit_', dir=os.path.join(ROOT, 'out'))
     rec = os.path.join(ROOT, S['rec']) if not os.path.isabs(X(S['rec'])) else X(S['rec'])
     RD = dur_of(rec)
+    global W, H, K   # 🖥️ (anh 28/11 "vid cmt 4k") dựng ĐÚNG cỡ bản quay: quay 3840×2160 → video cuối 4K, chữ / lề phóng theo
+    try:
+        W, H = [int(v) for v in subprocess.run(['ffprobe', '-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=width,height', '-of', 'csv=p=0', rec], capture_output=True, text=True).stdout.strip().split(',')[:2]]
+    except Exception: pass
+    K = W / 1920.0; P = lambda v: int(round(v * K))
     VENC = ['-threads', '2', '-c:v', 'libx264', '-preset', 'medium', '-crf', '17', '-pix_fmt', 'yuv420p', '-r', str(FPS)]
     AENC = ['-c:a', 'pcm_s16le', '-ar', str(SR), '-ac', '2']
     segs = []; LAB = {}   # nhãn từng đoạn (cho --segs)
     # ---------- 1. MỞ ĐẦU: màn đen + dải comment trắng ngang màn + nhãn khiêu khích ----------
     IN = float(S.get('intro', 3.5)); LA = float(S.get('label_at', 1.0))
     com = Image.open(os.path.join(ROOT, S['comment'])).convert('RGB')
-    cw = min(1760, com.width); ch = round(com.height * cw / com.width)
+    cw = P(min(1760, com.width))   # cùng tỉ lệ màn với bản 1920 (4K: ảnh comment phóng ×2)
+    ch = round(com.height * cw / com.width)
     com = com.resize((cw, ch), Image.LANCZOS)
-    band_h = ch + 40; band_y = round(H * 0.47 - band_h / 2)
+    band_h = ch + P(40); band_y = round(H * 0.47 - band_h / 2)
     base = Image.new('RGB', (W, H), (0, 0, 0)); ImageDraw.Draw(base).rectangle([0, band_y, W, band_y + band_h], fill=(255, 255, 255))
-    base.paste(com, ((W - cw) // 2, band_y + 20))
+    base.paste(com, ((W - cw) // 2, band_y + P(20)))
     base.save(os.path.join(tmp, 'intro0.png'))
     # 🏷️ nhãn khiêu khích XUẤT HIỆN có chuyển động (học tập 1 của anh): thẻ trắng trượt vào từ PHẢI rất nhanh (~0.22s),
     #    vượt quá một chút rồi dừng (easeOutBack), chữ hiện dần theo sau. Vẽ từng khung bằng Pillow → ffmpeg.
     tx = S.get('taunt', 'can bro solo my 3 random memes'); tsty = S.get('taunt_style', 'red'); rt = float(S.get('taunt_rot', 5))
-    lp = os.path.join(tmp, 'label.png'); lw, lh = label_png(tx, lp, tsty, rt, 62, 760)
-    bp = os.path.join(tmp, 'labelbox.png'); label_png(tx, bp, tsty, rt, 62, 760, draw_text=False)
+    lp = os.path.join(tmp, 'label.png'); lw, lh = label_png(tx, lp, tsty, rt, P(62), P(760))
+    bp = os.path.join(tmp, 'labelbox.png'); label_png(tx, bp, tsty, rt, P(62), P(760), draw_text=False)
     LF, LB = Image.open(lp).convert('RGBA'), Image.open(bp).convert('RGBA')
-    lx, ly = (W - lw) // 2 - 120, max(10, band_y - lh + 30)
-    TR = float(S.get('taunt_in', 0.22)); SL = float(S.get('taunt_slide', 300))
+    lx, ly = (W - lw) // 2 - P(120), max(P(10), band_y - lh + P(30))
+    TR = float(S.get('taunt_in', 0.22)); SL = float(S.get('taunt_slide', 300)) * K
     def ease_back(u, k=1.9): u -= 1; return 1 + (k + 1) * u ** 3 + k * u ** 2
     def with_alpha(im, a):
         if a >= 1: return im
@@ -148,7 +155,7 @@ def main():
             m = X(s['media']); cmd += ['-ss', str(s.get('ss', 0)), '-t', str(s['dur']), '-i', m]
             hh = int(H * s.get('h', 0.42)); idx = k + 1
             fc += '[%d:v]fps=%d,%sscale=-2:%d,%sformat=yuva420p,setpts=PTS-STARTPTS+%s/TB[st%d];' % (idx, FPS, ('crop=%s,' % s['crop']) if s.get('crop') else '', hh, 'colorkey=0x00FF00:0.36:0.10,despill=type=green:mix=0.6:expand=0.2,' if s.get('key', True) else '', s['at'], k)
-            pos = s.get('pos', 'br'); xx = {'br': 'W-w-40', 'bl': '40', 'r': 'W-w-40'}.get(pos, 'W-w-40'); yy = 'H-h' if pos in ('br', 'bl') else '(H-h)/2'
+            pos = s.get('pos', 'br'); M40 = P(40); xx = {'br': 'W-w-%d' % M40, 'bl': str(M40), 'r': 'W-w-%d' % M40}.get(pos, 'W-w-%d' % M40); yy = 'H-h' if pos in ('br', 'bl') else '(H-h)/2'
             fc += '%s[st%d]overlay=%s:%s:eof_action=pass:enable=\'between(t,%s,%s)\'[v%d];' % (vlast, k, xx, yy, s['at'], s['at'] + s['dur'], k); vlast = '[v%d]' % k
             snd = s.get('sound', 'self')
             if snd:
@@ -176,7 +183,7 @@ def main():
         else:
             vf = '[0:v]fps=%d,%sscale=%d:%d:force_original_aspect_ratio=decrease,pad=%d:%d:(ow-iw)/2:(oh-ih)/2:black,format=yuv420p,setsar=1' % (FPS, crop, boxw, boxh, W, H)
         if s.get('caption'):
-            cp = os.path.join(tmp, 'cap%02d.png' % k); cwid, chei = label_png(s['caption'], cp, 'black', 0, 50, 1100)
+            cp = os.path.join(tmp, 'cap%02d.png' % k); cwid, chei = label_png(s['caption'], cp, 'black', 0, P(50), P(1100))
             cmd += ['-i', cp]; vf += '[mv];[mv][1:v]overlay=(W-w)/2:%s' % s.get('cap_y', 'H*0.80-h/2')
         vf += '[v]'
         ai = None; snd = s.get('sound', 'self')

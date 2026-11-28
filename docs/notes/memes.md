@@ -256,6 +256,7 @@
   Doge Quỷ Cáo (đầu húc / đầu há mõm / chân) GPT vẽ từ ảnh Doge gốc của game: giữ mặt liếc đểu, mõm dài kiểu cáo, cổ tan khói (khói ám xanh đã đổi sang xám).
 - Số em tự đặt: hồi chém 1s, đẩy lùi chém 3, gọi lần đầu 2.5s, chặn 0.4s. Đo kiểu mới (Popcat, cả 2 bất tử, 25s): TB 1190 dame. 28/11 (giữ dao, chém 45): TB 1190 dame, thắng Huh Cat 6/10.
 - Ảnh duyệt: out/review/bibilabu/ (sign, paw, slash, head, block, flesh, swallow1, swallow2).
+- (anh 28/11) ĐẦU Doge (húc + há mõm + ngậm) to thêm 25%: `BB_HEAD_SC=1.25` — chỉ phần NHÌN, vùng trúng giữ nguyên; miệng vẫn neo đúng chỗ địch.
 
 ## 🥋 Bruce Lee Cat (`bruceleecat`, 27/11/2026) — khối `KF_*` / `_kf*` trong js/game.js (ngay trước khối Bibilabu) — anh gửi clip TikTok @igreenscreenthings/video/7634326359820586270
 - Clip phông xanh sẵn (1080×1920, 7.75s) → tách xanh bằng numpy (không cần rembg), 15fps = 116 khung `assets/img/bruceleecat/KF_V_001..116.webp` (cắt chung 1 hộp, cao 420,

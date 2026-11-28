@@ -12611,6 +12611,7 @@ const BB_SUM_CD=Math.round(5*BB_TPS), BB_VOICE_AT=Math.round(2*BB_TPS), BB_SUM_F
 const BB_SIGN_T=Math.round(0.9*BB_TPS), BB_KON_T=Math.round(0.5*BB_TPS), BB_PAY_T=Math.round(0.45*BB_TPS);
 const BB_PAW_T=Math.round(0.9*BB_TPS), BB_PAW_HIT=Math.round(0.28*BB_TPS), BB_HEAD_T=Math.round(0.9*BB_TPS), BB_HEAD_IN=Math.round(0.22*BB_TPS), BB_HEAD_HIT=Math.round(0.42*BB_TPS),
       BB_SW_T=Math.round(1.4*BB_TPS), BB_SW_RISE=Math.round(0.35*BB_TPS), BB_SW_CLOSE=Math.round(0.5*BB_TPS);
+const BB_HEAD_SC=1.25;   // (anh 28/11) đầu Doge to thêm 25% (chỉ phần NHÌN: đầu húc + đầu há mõm / ngậm)
 const BB_IMG={}; for(const n of ['NOSHIELD','NOWEAPON','ATK_NOSHIELD','HEAD','HEAD_OPEN','PAW','HAND','SHIELD','KNIFE']){ const im=new Image(); im._noMask=true; im.onload=()=>{ im._full={sx:0,sy:0,sw:im.naturalWidth,sh:im.naturalHeight}; }; im.src='assets/img/bibilabu/BB_'+n+'.webp'; BB_IMG[n]=im; }
 const _bbOk=im=>!!(im && im.complete && im.naturalWidth>0);
 let bbSum=[], bbFx=[];
@@ -12716,7 +12717,7 @@ function _bbDrawUnder(){
     if(S.kind==='swallow'){ const close=t>=BB_SW_CLOSE, op=close?Math.max(0,1-(t-BB_SW_CLOSE)/(BB_SW_T-BB_SW_CLOSE)):1; _bbHole(S.x,S.y,S.r,op,Math.PI*2*op);
       if(!close && _bbOk(BB_IMG.HEAD_OPEN)){ const k=Math.min(1,t/BB_SW_RISE), e2=1-Math.pow(1-k,3), H=S.r*2.6, W=H*BB_IMG.HEAD_OPEN.naturalWidth/BB_IMG.HEAD_OPEN.naturalHeight;
         // miệng (~0.3w, 0.6h trong ảnh) trùm đúng chỗ địch; trồi lên từ lỗ (to dần, nhô lên)
-        const sc=0.35+0.65*e2, fl=S.dir<0, mx=(fl?-1:1)*(0.30-0.5)*W*sc, my=(0.60-0.5)*H*sc;
+        const sc=(0.35+0.65*e2)*BB_HEAD_SC, fl=S.dir<0, mx=(fl?-1:1)*(0.30-0.5)*W*sc, my=(0.60-0.5)*H*sc;
         _bbImg(BB_IMG.HEAD_OPEN,S.x-mx,S.y-my+(1-e2)*S.r*0.5,W*sc,H*sc,fl,Math.min(1,k*2),0); } } } }
 // TRÊN meme: tay dấu cáo · chân Doge · đầu húc · đầu ngậm miệng · khiên/dao/thịt bay vào lỗ · chém · chặn
 function _bbDrawOver(){
@@ -12731,14 +12732,14 @@ function _bbDrawOver(){
       _bbImg(im,S.x,y,W*(1+sq),H*(1-sq),S.dir<0,al,0);
       if(al>0.2){ ctx.save(); ctx.globalAlpha=0.35*al; ctx.fillStyle='#2b2530'; for(let j=0;j<5;j++){ const sx=S.x+(_skH(j*31+S.x)-0.5)*W*0.7, sy=y-H*0.5+_skH(j*17+t)*H*0.12; ctx.beginPath(); ctx.arc(sx,sy,W*0.18*(0.6+_skH(j+9)),0,Math.PI*2); ctx.fill(); } ctx.restore(); }   // khói ở đầu chân
       continue; }
-    if(S.kind==='head' && _bbOk(BB_IMG.HEAD)){ const im=BB_IMG.HEAD, H=S.hh||90, W=H*im.naturalWidth/im.naturalHeight, d=S.dir, tx=(S.tx!=null?S.tx:S.x), ty=(S.ty!=null?S.ty:S.y);
+    if(S.kind==='head' && _bbOk(BB_IMG.HEAD)){ const im=BB_IMG.HEAD, H=(S.hh||90)*BB_HEAD_SC, W=H*im.naturalWidth/im.naturalHeight, d=S.dir, tx=(S.tx!=null?S.tx:S.x), ty=(S.ty!=null?S.ty:S.y);
       const xHit=tx-d*W*0.30; let cx, al=1, sc=1;
       if(t<BB_HEAD_IN){ const k=t/BB_HEAD_IN; cx=S.hx0; al=k; sc=0.8+0.2*k; }
       else if(t<BB_HEAD_HIT){ const k=(t-BB_HEAD_IN)/(BB_HEAD_HIT-BB_HEAD_IN); cx=S.hx0+(xHit-S.hx0)*k*k; }
       else { const u=(t-BB_HEAD_HIT)/(BB_HEAD_T-BB_HEAD_HIT); cx=xHit+d*W*0.25*Math.sqrt(u); al=1-u*u; sc=1+0.1*u; }
       if(t>=BB_HEAD_IN && t<BB_HEAD_HIT){ ctx.save(); ctx.globalAlpha=0.5; ctx.strokeStyle='rgba(255,236,200,0.8)'; ctx.lineWidth=2; for(let j=0;j<6;j++){ const yy=ty-H*0.4+j*H*0.16, L=W*(0.5+_skH(j*13+t)*0.5); ctx.beginPath(); ctx.moveTo(cx-d*W*0.35,yy); ctx.lineTo(cx-d*(W*0.35+L),yy); ctx.stroke(); } ctx.restore(); }   // vạch tốc độ sau gáy
-      _bbImg(im,cx,ty-(S.hh||90)*0.05,W*sc,H*sc,d>0,al,0); continue; }
-    if(S.kind==='swallow' && t>=BB_SW_CLOSE && _bbOk(BB_IMG.HEAD)){ const im=BB_IMG.HEAD, u=(t-BB_SW_CLOSE)/(BB_SW_T-BB_SW_CLOSE), H=S.r*2.4, W=H*im.naturalWidth/im.naturalHeight, fl=S.dir<0;
+      _bbImg(im,cx,ty-H*0.05,W*sc,H*sc,d>0,al,0); continue; }
+    if(S.kind==='swallow' && t>=BB_SW_CLOSE && _bbOk(BB_IMG.HEAD)){ const im=BB_IMG.HEAD, u=(t-BB_SW_CLOSE)/(BB_SW_T-BB_SW_CLOSE), H=S.r*2.4*BB_HEAD_SC, W=H*im.naturalWidth/im.naturalHeight, fl=S.dir<0;
       const sc=1-0.65*u*u, mx=(fl?-1:1)*(0.15-0.5)*W*sc, my=(0.62-0.5)*H*sc, bob=t<BB_SW_CLOSE+6?Math.sin((t-BB_SW_CLOSE)/6*Math.PI)*S.r*0.12:0;   // ngậm miệng (nhai 1 cái) rồi chìm xuống lỗ
       _bbImg(im,S.x-mx,S.y-my+u*S.r*0.6-bob,W*sc,H*sc,fl,1-u*u,0); } }
   for(const q of bbFx){ const u=q.t/q.T;
@@ -26365,31 +26366,50 @@ class Fighter {
         ctx.globalAlpha=0.22; ctx.fillStyle='#000';
         ctx.beginPath(); ctx.ellipse(0, _R*0.92, _R*0.78, _R*0.20, 0, 0, Math.PI*2); ctx.fill();
         ctx.globalAlpha=1;
+        // 🦷 (anh 28/11) bị Friend cắn → quả bóng KHUYẾT miếng (như bánh quy bị gặm): dựng bóng lên 1 canvas riêng (dùng lại, không tạo mỗi khung)
+        //    rồi khoét đúng các vết _biteHoles (toạ độ 0..1 trên khung ảnh = trên đường kính bóng) + viền thịt đỏ thẫm, giống _biteMask của meme thường.
+        const _ball=(g)=>{
         // ruột bóng = ảnh đại diện, cắt tròn theo kiểu PHỦ KÍN (cover) nên không méo dù ảnh không vuông
-        ctx.save();
-        ctx.beginPath(); ctx.arc(0,0,_R,0,Math.PI*2); ctx.clip();
-        ctx.fillStyle='#12121f'; ctx.fillRect(-_R,-_R,_R*2,_R*2);
+        g.save();
+        g.beginPath(); g.arc(0,0,_R,0,Math.PI*2); g.clip();
+        g.fillStyle='#12121f'; g.fillRect(-_R,-_R,_R*2,_R*2);
         // 🌀 skill nào cần QUAY thì đặt f._fsSpin — chỉ ruột bóng xoay, vành và ánh sáng đứng yên
-        if(this._fsSpin) ctx.rotate(this._fsSpin);
+        if(this._fsSpin) g.rotate(this._fsSpin);
         // Ảnh gần VUÔNG (đúng dạng avatar YouTube) → PHỦ KÍN vòng tròn, sát mép, y như ảnh đại diện trên YouTube.
         // Ảnh dài/cao hẳn (lỡ dùng ảnh nhân vật nguyên thân) → cho lọt trọn vào trong, khỏi bị cắt mất đầu.
         { const _ar=_sw/_sh, _vuong=(_ar>0.75 && _ar<1.34);
           let _cw,_ch;
           if(_vuong){ if(_ar>=1){ _ch=_R*2; _cw=_ch*_ar; } else { _cw=_R*2; _ch=_cw/_ar; } }
           else { const _D=_R*1.92; if(_ar>=1){ _cw=_D; _ch=_D/_ar; } else { _ch=_D; _cw=_D*_ar; } }
-          ctx.drawImage(img, _sx,_sy,_sw,_sh, -_cw/2,-_ch/2, _cw,_ch); }
+          g.drawImage(img, _sx,_sy,_sw,_sh, -_cw/2,-_ch/2, _cw,_ch); }
         // khối cầu: tối dần về mép dưới-phải + đốm sáng trên-trái
-        { const _g=ctx.createRadialGradient(-_R*0.35,-_R*0.4,_R*0.1, 0,0,_R*1.15);
+        { const _g=g.createRadialGradient(-_R*0.35,-_R*0.4,_R*0.1, 0,0,_R*1.15);
           _g.addColorStop(0,'rgba(255,255,255,0.30)');
           _g.addColorStop(0.45,'rgba(255,255,255,0)');
           _g.addColorStop(1,'rgba(0,0,0,0.45)');
-          ctx.fillStyle=_g; ctx.beginPath(); ctx.arc(0,0,_R,0,Math.PI*2); ctx.fill(); }
-        ctx.restore();
+          g.fillStyle=_g; g.beginPath(); g.arc(0,0,_R,0,Math.PI*2); g.fill(); }
+        g.restore();
         // viền bóng: 1 nét đậm màu đội + 1 nét sáng mảnh bên trong
-        ctx.lineWidth=Math.max(2, _R*0.10); ctx.strokeStyle=FFA_TEAM_COLORS[0];
-        ctx.beginPath(); ctx.arc(0,0,_R,0,Math.PI*2); ctx.stroke();
-        ctx.lineWidth=Math.max(1, _R*0.04); ctx.strokeStyle='rgba(255,255,255,0.55)';
-        ctx.beginPath(); ctx.arc(0,0,_R*0.90,-2.5,-0.9); ctx.stroke();
+        g.lineWidth=Math.max(2, _R*0.10); g.strokeStyle=FFA_TEAM_COLORS[0];
+        g.beginPath(); g.arc(0,0,_R,0,Math.PI*2); g.stroke();
+        g.lineWidth=Math.max(1, _R*0.04); g.strokeStyle='rgba(255,255,255,0.55)';
+        g.beginPath(); g.arc(0,0,_R*0.90,-2.5,-0.9); g.stroke();
+        };
+        const _bh=this._biteHoles;
+        if(_bh && _bh.length){
+          const _m=ctx.getTransform(), _k=Math.max(1,Math.hypot(_m.a,_m.b)), _P=Math.ceil(_R*1.12*_k), _N=_P*2;
+          const cv=this._fanBiteCv||(this._fanBiteCv=document.createElement('canvas'));
+          if(cv.width!==_N || cv.height!==_N){ cv.width=_N; cv.height=_N; }
+          const g=cv.getContext('2d'); g.setTransform(1,0,0,1,0,0); g.clearRect(0,0,_N,_N); g.setTransform(_k,0,0,_k,_P,_P);
+          g.save(); _ball(g); g.restore();
+          for(const h of _bh){ const cx=(h.x-0.5)*2*_R, cy=(h.y-0.5)*2*_R, Rr=h.r*2*_R;
+            g.save(); g.globalCompositeOperation='destination-out'; _bitePath(g,cx,cy,Rr,h.sd); g.fill();
+            g.globalCompositeOperation='source-atop';
+            g.lineWidth=Rr*0.2; g.strokeStyle='rgba(110,10,14,0.85)'; _bitePath(g,cx,cy,Rr*1.04,h.sd); g.stroke();
+            g.lineWidth=Rr*0.07; g.strokeStyle='rgba(200,40,40,0.7)'; _bitePath(g,cx,cy,Rr*1.01,h.sd); g.stroke();
+            g.restore(); }
+          ctx.drawImage(cv, -_P/_k, -_P/_k, _N/_k, _N/_k);
+        } else _ball(ctx);
         ctx.restore();
       }
       else if(!_lcRibbon){ if(this.type==='boxingcat') _bxAuraDraw(this,img,_sx,_sy,_sw,_sh,dw,dh); else if(this.type==='angrycat') _acAuraDraw(this,img,_sx,_sy,_sw,_sh,dw,dh);   // 🥊🔥 hào quang lửa lúc tích dame (sau lưng thân)
